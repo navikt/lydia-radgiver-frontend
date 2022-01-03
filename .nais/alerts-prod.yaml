@@ -8,7 +8,7 @@ metadata:
 spec:
   receivers:
     slack:
-      channel: "pia-alerts-prod"
+      channel: "team-pia-alerts-prod"
       prependText: "<!here> | "
   alerts:
   - alert: "lydia-radgiver-frontend er nede"
