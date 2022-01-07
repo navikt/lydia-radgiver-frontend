@@ -7,14 +7,14 @@ COPY client client
 COPY server server
 
 WORKDIR /app/client
-RUN npm install
-RUN npm run build
+RUN yarn install
+RUN yarn run build
 
 WORKDIR /app/server
-RUN npm install
+RUN yarn install
 
 # set right permissions for non-root user
 RUN chown node:node -R .
 
 USER node
-CMD ["npm", "start"]
+CMD ["yarn", "start"]
