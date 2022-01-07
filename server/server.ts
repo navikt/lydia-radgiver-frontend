@@ -1,19 +1,19 @@
 const express = require("express");
 const path = require("path");
 const basePath = "/lydia-radgiver";
-// const buildPath = path.resolve(__dirname, "../dist");
+const buildPath = path.resolve(__dirname, "../../client/dist");
 const server = express();
+const port = 7162;
 
-// server.use(cors({ origin: "http://localhost:3000" }));
-
-// server.use(basePath, express.static(buildPath));
+server.use(basePath, express.static(buildPath));
+server.use("/assets", express.static(`${buildPath}/assets`));
 
 server.get(`${basePath}/internal/isAlive`, (req, res) => {
-  res.sendStatus(200);
+    res.sendStatus(200);
 });
 
 server.get(`${basePath}/internal/isReady`, (req, res) => {
-  res.sendStatus(200);
+    res.sendStatus(200);
 });
 
-server.listen(7100, () => console.log("Server listening on port 7100"));
+server.listen(port, () => console.log(`Server listening on port ${port}`));
