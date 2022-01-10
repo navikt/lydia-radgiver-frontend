@@ -14,9 +14,6 @@ services:
     command: sh -c "yarn run dev"
 
   frontend:
-    environment:
-      - HELLO=hi
-
     build:
       context: ./client
       target: base
