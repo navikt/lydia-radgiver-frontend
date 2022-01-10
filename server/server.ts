@@ -1,5 +1,5 @@
-const express = require("express");
-const path = require("path");
+import express from "express"
+import path from "path"
 const basePath = "/lydia-radgiver";
 const buildPath = path.resolve(__dirname, "../../client/dist");
 const server = express();
