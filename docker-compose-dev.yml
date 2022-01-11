@@ -7,7 +7,7 @@ services:
       dockerfile: server/Dockerfile
       args:
         NODE_ENV: development
-    volumes:
+    volumes: # For hot reloading av server-ressurser
       - ./server:/home/node/app/server/
     expose:
       - 8080
@@ -25,7 +25,7 @@ services:
       - 3000
     ports:
       - "3000:3000"
-    volumes:
+    volumes: # For hot reloading av klient-ressurser
       - ./client:/home/node/app/client
       - /home/node/app/client/node_modules
 

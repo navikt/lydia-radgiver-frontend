@@ -8,8 +8,11 @@ services:
       args:
         NODE_ENV: production
     expose:
-      - 8080
+      - 80
+      - 443
     ports:
-      - "8080:8080"
+      - "80:80"
+      - "443:443"
+    restart: always
 
 
