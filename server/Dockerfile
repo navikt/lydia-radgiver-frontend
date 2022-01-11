@@ -1,14 +1,31 @@
 FROM node:16-alpine as base
 
-WORKDIR /home/node/app/server
+ARG NODE_ENV
+ENV NODE_ENV $NODE_ENV
 
-COPY package*.json ./
-COPY yarn.lock ./
+WORKDIR /home/node/app
+
+COPY server server
+COPY client client
+
+WORKDIR /home/node/app/server
 
 RUN yarn install
 
-COPY . .
-
 FROM base as production
 
+WORKDIR /home/node/app/client
+
+RUN yarn install
+
 RUN yarn run build
+
+WORKDIR /home/node/app/server
+
+RUN yarn run build
+
+ENTRYPOINT ["yarn", "run", "start"]
+
+FROM base as dev
+
+CMD ["yarn", "run", "dev"]

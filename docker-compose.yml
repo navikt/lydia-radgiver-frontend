@@ -2,30 +2,14 @@ version: "3.9"
 services:
   backend:
     build:
-      context: ./server
-      target: base
-    volumes:
-      - ./server:/home/node/app/server/
-      - ./server/nodemon.json:/home/node/app/server/nodemon.json
+      context: .
+      target: production
+      dockerfile: ./server/Dockerfile
+      args:
+        NODE_ENV: production
     expose:
       - 8080
     ports:
       - "8080:8080"
-    command: sh -c "yarn run dev"
-
-  frontend:
-    build:
-      context: ./client
-      target: base
-    depends_on:
-      - backend
-    command: sh -c "yarn run dev"
-    expose:
-      - 3000
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./client:/home/node/app/client
-      - /home/node/app/client/node_modules
 
 
