@@ -3,7 +3,7 @@ import path from "path"
 const basePath = "/lydia-radgiver";
 const buildPath = path.resolve(__dirname, "../../client/dist");
 const server = express();
-const port = 7162;
+const port = process.env.PORT || 8080;
 
 server.use(basePath, express.static(buildPath));
 server.use("/assets", express.static(`${buildPath}/assets`));
