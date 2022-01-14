@@ -1,6 +1,7 @@
 version: "3.9"
 services:
   backend:
+    image: ${IMAGE}
     build:
       context: .
       target: production
