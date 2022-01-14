@@ -28,19 +28,19 @@ jobs:
       working-directory: server
       run: "yarn install --immutable"
 
-    - name: "Lint client"
-      uses: "wearerequired/lint-action@v1"
-      with:
-        eslint: true
-        eslint_dir: client/
-        eslint_extensions: js,jsx,ts,tsx
+#    - name: "Lint client"
+#      uses: "wearerequired/lint-action@v1"
+#      with:
+#        eslint: true
+#        eslint_dir: client/
+#        eslint_extensions: js,jsx,ts,tsx
 
     - name: "Lint server"
       uses: "wearerequired/lint-action@v1"
       with:
         eslint: true
         eslint_dir: server/
-        eslint_extensions: js,jsx,ts,tsx
+        eslint_extensions: js,ts
 
 #    - name: "Run tests"
 #      run: "yarn test"
