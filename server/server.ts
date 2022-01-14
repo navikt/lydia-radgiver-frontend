@@ -5,8 +5,6 @@ const buildPath = path.resolve(__dirname, "../../client/dist");
 const server = express();
 const port = process.env.PORT || 8080;
 
-let blabla = 0
-
 server.use(basePath, express.static(buildPath));
 server.use("/assets", express.static(`${buildPath}/assets`));
 
