@@ -20,7 +20,12 @@ jobs:
       with:
         node_version: '16'
 
-    - name: "Install deps"
+    - name: "Install deps client"
+      working-directory: client
+      run: "yarn install --immutable"
+
+    - name: "Install deps server"
+      working-directory: server
       run: "yarn install --immutable"
 
     - name: "Lint client"
