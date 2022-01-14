@@ -8,11 +8,11 @@ const port = process.env.PORT || 8080;
 server.use(basePath, express.static(buildPath));
 server.use("/assets", express.static(`${buildPath}/assets`));
 
-server.get(`${basePath}/internal/isAlive`, (req, res) => {
+server.get(`/internal/isAlive`, (req, res) => {
     res.sendStatus(200);
 });
 
-server.get(`${basePath}/internal/isReady`, (req, res) => {
+server.get(`/internal/isReady`, (req, res) => {
     res.sendStatus(200);
 });
 
