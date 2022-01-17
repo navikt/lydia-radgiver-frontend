@@ -1,5 +1,5 @@
 import {Checkbox, Table} from "@navikt/ds-react";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {virksomhetsSykefravær} from "./types";
 import "./PrioriteringsTabell.css"
 
