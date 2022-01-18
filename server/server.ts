@@ -19,6 +19,6 @@ server.get(`/internal/isReady`, (req, res) => {
 });
 
 // Proxy må ligge under healthcheck endepunktene for at de skal nås
-server.use(proxy)
+server.use("/api", proxy)
 
 server.listen(port, () => console.log(`Server listening on port ${port}`));
