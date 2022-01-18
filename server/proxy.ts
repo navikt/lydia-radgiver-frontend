@@ -1,11 +1,14 @@
 import { createProxyMiddleware } from "http-proxy-middleware"
+import { isNais } from "./env";
 
-// FIXME: Bytt ut dette når serveren er oppe
+// Service name discovery: https://doc.nais.io/clusters/service-discovery/#service-discovery-in-kubernetes
+const targetURI = isNais ? "http://lydia-api" : "http://localhost:8080"
+
 const options = {
-    target: 'https://jsonplaceholder.typicode.com', // Api host
+    target: targetURI,
     changeOrigin: true,
     pathRewrite: {
-        '^/api': '/posts/1' // Api sin endpoint
+        '^/api': '/isAlive' // TODO: skriv denne om til en funksjon
     },
 };
 

@@ -20,6 +20,4 @@ server.get(`/internal/isReady`, (req, res) => {
     res.sendStatus(200);
 });
 
-
-
 server.listen(port, () => console.log(`Server listening on port ${port}`));
