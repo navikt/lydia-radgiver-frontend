@@ -1,5 +1,23 @@
 version: "3.9"
 services:
+  postgres:
+    image: postgres:12-alpine
+    environment:
+      POSTGRES_USER: "lydia-user"
+      POSTGRES_PASSWORD: "lydia-password"
+      POSTGRES_DB: "lydia-password"
+  api:
+    image: lydia-api:latest # TODO: bruk riktig image fra GHCR. Nå brukes et lokalt bygget image
+    ports:
+      - "3333:8080"
+    depends_on:
+      - postgres
+    environment:
+      NAIS_DATABASE_LYDIA_API_LYDIA_API_DB_USERNAME: "lydia-user"
+      NAIS_DATABASE_LYDIA_API_LYDIA_API_DB_PASSWORD: "lydia-password"
+      NAIS_DATABASE_LYDIA_API_LYDIA_API_DB_DATABASE: "lydia-db"
+      NAIS_DATABASE_LYDIA_API_LYDIA_API_DB_HOST: localhost
+      NAIS_DATABASE_LYDIA_API_LYDIA_API_DB_PORT: 5432
   frackend:
     build:
       context: .
@@ -13,7 +31,6 @@ services:
       - 8080
     ports:
       - "8080:8080"
-
   frontend:
     build:
       context: .
@@ -28,5 +45,3 @@ services:
     volumes: # For hot reloading av klient-ressurser
       - ./client:/home/node/app/client
       - /home/node/app/client/node_modules
-
-

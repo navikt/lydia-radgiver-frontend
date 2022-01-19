@@ -5,7 +5,7 @@ import { isNais } from "./env";
 const basePath = "/api"
 
 // Service name discovery: https://doc.nais.io/clusters/service-discovery/#service-discovery-in-kubernetes
-const targetURI = isNais ? "http://lydia-api" : "http://localhost:8080"
+const targetURI = isNais ? "http://lydia-api" : "http://localhost:3333"
 
 const options = {
     target: targetURI,
