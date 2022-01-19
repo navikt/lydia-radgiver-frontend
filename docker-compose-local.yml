@@ -3,7 +3,7 @@ services:
   frackend:
     build:
       context: .
-      target: dev
+      target: local
       dockerfile: server/Dockerfile
       args:
         NODE_ENV: development
@@ -17,7 +17,7 @@ services:
   frontend:
     build:
       context: .
-      target: dev
+      target: local
       dockerfile: client/Dockerfile
       args:
         NODE_ENV: development

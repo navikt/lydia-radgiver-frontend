@@ -15,6 +15,6 @@ FROM base as production
 
 RUN yarn run build
 
-FROM base as dev
+FROM base as local
 
 CMD ["yarn", "run", "dev"]

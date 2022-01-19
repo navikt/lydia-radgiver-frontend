@@ -26,6 +26,6 @@ RUN yarn run build
 
 ENTRYPOINT ["yarn", "run", "start"]
 
-FROM base as dev
+FROM base as local
 
 CMD ["yarn", "run", "dev"]
