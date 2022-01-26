@@ -1,8 +1,6 @@
 import axios from "axios";
 import { Request, Response, NextFunction } from "express";
 import {URLSearchParams} from "url";
-import { naisCluster, naisNamespace } from "./env";
-
 
 // OBO flyt som beskrevet her:
 // https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow#first-case-access-token-request-with-a-shared-secret
@@ -22,7 +20,6 @@ export const onBehalfOfTokenMiddleWare = (scope : string) => (req : Request, res
     if (!requestHarBearerToken(req)) return next();
     const bearerToken = req.headers.authorization.substring("Bearer ".length);
     if (!bearerToken) return next()
- 
     const onBehalfOfToken = hentOnBehalfOfToken(scope, bearerToken)
     req.headers["Authorization"] = `Bearer ${onBehalfOfToken}`
     return next()
