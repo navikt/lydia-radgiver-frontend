@@ -1,6 +1,8 @@
 import { Request } from "express";
 import { createProxyMiddleware } from "http-proxy-middleware"
 import { isNais } from "./env";
+import {hentOnBehalfOfToken} from "./onBehalfOf";
+import http from "http";
 
 const basePath = "/api"
 
@@ -15,7 +17,15 @@ const options = {
         console.log(`Proxy fra '${req.path}' til '${targetURI + nyPath}'`);
         return nyPath;
     },
-
+    onProxyReq: (proxyReq: http.ClientRequest, req: http.IncomingMessage, res: http.ServerResponse) => {
+        hentOnBehalfOfToken(req.headers.authorization.substring("Bearer ".length))
+            .then(onBehalfOfToken => {
+                proxyReq.setHeader("Authorization", `Bearer ${onBehalfOfToken}`)
+            })
+            .catch(exception => {
+                console.log("Feil i OnBehalfOf flow", exception)
+            })
+    }
 };
 
 export default createProxyMiddleware(options);
