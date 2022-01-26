@@ -35,6 +35,7 @@ spec:
         - application: lydia-api
   azure:
     application:
+      tenant: nav.no
       enabled: true
       claims:
         extra:
