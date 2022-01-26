@@ -1,7 +1,9 @@
-import express from "express"
+import express, { NextFunction, Request, Response } from "express"
 import path from "path"
-import proxy from "./proxy";
+import { lydiaApiProxy } from "./proxy";
 import http from 'http'
+import { onBehalfOfTokenMiddleWare } from "./onBehalfOf";
+import { naisCluster, naisNamespace } from "./env";
 
 const basePath = "/lydia-radgiver";
 const buildPath = path.resolve(__dirname, "../../client/dist");
@@ -19,8 +21,14 @@ app.get(`/internal/isReady`, (req, res) => {
     res.sendStatus(200);
 });
 
+
+const lydiaApiScope = `api://${naisCluster}.${naisNamespace}.lydia-api/.default`
+
 // Proxy må ligge under healthcheck endepunktene for at de skal nås
-app.use("/api", proxy)
+app.use("/api",
+    onBehalfOfTokenMiddleWare(lydiaApiScope),
+    lydiaApiProxy
+)
 
 const server = http.createServer(app);
 
