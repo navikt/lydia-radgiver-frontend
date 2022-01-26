@@ -17,14 +17,9 @@ const options = {
         console.log(`Proxy fra '${req.path}' til '${targetURI + nyPath}'`);
         return nyPath;
     },
-    onProxyReq: (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
-        hentOnBehalfOfToken(req.headers.authorization.substring("Bearer ".length))
-            .then(onBehalfOfToken => {
-                proxyReq.setHeader("Authorization", `Bearer ${onBehalfOfToken}`)
-            })
-            .catch(exception => {
-                console.log("Feil i OnBehalfOf flow", exception)
-            })
+    onProxyReq: async (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
+        const token = await hentOnBehalfOfToken(req.headers.authorization.substring("Bearer ".length))
+        proxyReq.setHeader("Authorization", `Bearer ${token}`);
     }
 };
 
