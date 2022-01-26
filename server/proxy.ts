@@ -17,7 +17,7 @@ const options = {
         console.log(`Proxy fra '${req.path}' til '${targetURI + nyPath}'`);
         return nyPath;
     },
-    onProxyReq: (proxyReq: http.ClientRequest, req: http.IncomingMessage, res: http.ServerResponse) => {
+    onProxyReq: (proxyReq: http.ClientRequest, req: http.IncomingMessage) => {
         hentOnBehalfOfToken(req.headers.authorization.substring("Bearer ".length))
             .then(onBehalfOfToken => {
                 proxyReq.setHeader("Authorization", `Bearer ${onBehalfOfToken}`)
