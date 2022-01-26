@@ -1,5 +1,6 @@
 import axios from "axios";
 import {URLSearchParams} from "url";
+import { naisCluster, naisNamespace } from "./env";
 
 
 // OBO flyt som beskrevet her:
@@ -10,7 +11,7 @@ const config = {
     clientId: process.env.AZURE_APP_CLIENT_ID,
     tokenEndpoint: process.env.AZURE_OPENID_CONFIG_TOKEN_ENDPOINT,
     clientSecret: process.env.AZURE_APP_CLIENT_SECRET,
-    lydiaApiScope: "api://lydia-api/.default"
+    lydiaApiScope: `api://${naisCluster}.${naisNamespace}.lydia-api/.default`
 }
 
 
