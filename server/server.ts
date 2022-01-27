@@ -5,17 +5,15 @@ import http from 'http'
 import {AuthError, onBehalfOfTokenMiddleWare} from "./onBehalfOf";
 import { naisCluster, naisNamespace } from "./env";
 
-// For å legge på custom properties med typing på request-modellen
-declare module 'express' {
-    interface Request {
-        azure_obo_token?: string;
-    }
-}
-
 const basePath = "/lydia-radgiver";
 const buildPath = path.resolve(__dirname, "../../client/dist");
 const app = express();
 const port = process.env.PORT || 8081;
+
+// For å legge på egne verdier i requesten som shared state
+export interface CustomRequest extends Request {
+    azure_obo_token?: string
+}
 
 app.use(basePath, express.static(buildPath));
 app.use("/assets", express.static(`${buildPath}/assets`));

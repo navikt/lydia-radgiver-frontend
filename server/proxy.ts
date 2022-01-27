@@ -1,6 +1,7 @@
 import { Request } from "express";
 import {createProxyMiddleware, Options} from "http-proxy-middleware"
 import { isNais } from "./env";
+import {CustomRequest} from "./server";
 
 const basePath = "/api"
 
@@ -16,7 +17,8 @@ const options: Options = {
         return nyPath;
     },
     router: req => {
-        req.headers["authorization"] = `Bearer ${req.azure_obo_token}`
+        const customRequest = req as CustomRequest
+        customRequest.headers["authorization"] = `Bearer ${customRequest.azure_obo_token}`
         return undefined
     }
 };

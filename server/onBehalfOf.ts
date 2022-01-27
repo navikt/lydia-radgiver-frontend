@@ -1,6 +1,7 @@
 import axios from "axios";
 import {NextFunction, Request, Response} from "express";
 import {URLSearchParams} from "url";
+import {CustomRequest} from "./server";
 
 // OBO flyt som beskrevet her:
 // https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow#first-case-access-token-request-with-a-shared-secret
@@ -16,7 +17,7 @@ export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Reques
     const bearerToken = req.headers?.authorization?.substring("Bearer ".length);
     if (!bearerToken) return next(new AuthError("Mangler token i auth header"))
     try {
-        req.azure_obo_token = await hentOnBehalfOfToken(scope, bearerToken)
+        (req as CustomRequest).azure_obo_token = await hentOnBehalfOfToken(scope, bearerToken)
         return next()
     } catch (e) {
         return next(e)
