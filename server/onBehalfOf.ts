@@ -17,11 +17,11 @@ export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Reques
     if (!bearerToken) return next(new AuthError("Mangler token i auth header"))
     try {
         console.log("--- Access token ----")
-        loggInformasjonOmToken(bearerToken)
+        loggInformasjonOmToken(bearerToken, "access")
         console.log("--- Access token ----")
         const onBehalfOfToken = await hentOnBehalfOfToken(scope, bearerToken)
         console.log("--- Obo token ----")
-        loggInformasjonOmToken(onBehalfOfToken)
+        loggInformasjonOmToken(onBehalfOfToken, "obo")
         console.log("--- Obo token ----")
         req.headers["Authorization"] = `Bearer ${onBehalfOfToken}`
         return next()
@@ -30,10 +30,12 @@ export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Reques
     }
 }
 
-const loggInformasjonOmToken = (token: string) => {
+type TokenType = 'obo' | 'access'
+
+const loggInformasjonOmToken = (token: string, type: TokenType) => {
     const payload = Buffer.from(token.split(".")[1], "base64").toString();
     const json = JSON.parse(payload);
-    const copy = {...json, sub: 'redacted', NAVident: 'redacted', preferred_username: 'redacted'}
+    const copy = {...json, sub: 'redacted', NAVident: 'redacted', preferred_username: 'redacted', token_type: type}
     console.log(JSON.stringify(copy))
 }
 
