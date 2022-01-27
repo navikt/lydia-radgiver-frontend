@@ -30,9 +30,9 @@ export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Reques
     }
 }
 
-type TokenType = 'obo' | 'access'
+type TokenType = 'obo' | 'access' | 'unknown'
 
-const loggInformasjonOmToken = (token: string, type: TokenType) => {
+export const loggInformasjonOmToken = (token: string, type: TokenType) => {
     const payload = Buffer.from(token.split(".")[1], "base64").toString();
     const json = JSON.parse(payload);
     const copy = {...json, sub: 'redacted', NAVident: 'redacted', preferred_username: 'redacted', token_type: type}

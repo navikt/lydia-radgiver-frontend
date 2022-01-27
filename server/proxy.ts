@@ -1,6 +1,7 @@
 import { Request } from "express";
 import {createProxyMiddleware, Options} from "http-proxy-middleware"
 import { isNais } from "./env";
+import {loggInformasjonOmToken} from "./onBehalfOf";
 
 const basePath = "/api"
 
@@ -14,6 +15,12 @@ const options: Options = {
         const nyPath = path.replace((basePath), '');
         console.log(`Proxy fra '${req.path}' til '${targetURI + nyPath}'`);
         return nyPath;
+    },
+    onProxyReq: proxyReq => {
+        const authHeader = proxyReq.getHeader("Authorization");
+        if (typeof authHeader === "string") {
+            loggInformasjonOmToken(authHeader, "unknown")
+        }
     }
 };
 
