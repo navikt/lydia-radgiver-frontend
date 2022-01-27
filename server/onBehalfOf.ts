@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Request, Response, NextFunction } from "express";
+import {NextFunction, Request, Response} from "express";
 import {URLSearchParams} from "url";
 
 // OBO flyt som beskrevet her:
@@ -16,27 +16,11 @@ export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Reques
     const bearerToken = req.headers?.authorization?.substring("Bearer ".length);
     if (!bearerToken) return next(new AuthError("Mangler token i auth header"))
     try {
-        console.log("--- Access token ----")
-        loggInformasjonOmToken(bearerToken, "access")
-        console.log("--- Access token ----")
-        const onBehalfOfToken = await hentOnBehalfOfToken(scope, bearerToken)
-        console.log("--- Obo token ----")
-        loggInformasjonOmToken(onBehalfOfToken, "obo")
-        console.log("--- Obo token ----")
-        req.headers["Authorization"] = `Bearer ${onBehalfOfToken}`
+        req.azure_obo_token = await hentOnBehalfOfToken(scope, bearerToken)
         return next()
     } catch (e) {
         return next(e)
     }
-}
-
-type TokenType = 'obo' | 'access' | 'unknown'
-
-export const loggInformasjonOmToken = (token: string, type: TokenType) => {
-    const payload = Buffer.from(token.split(".")[1], "base64").toString();
-    const json = JSON.parse(payload);
-    const copy = {...json, sub: 'redacted', NAVident: 'redacted', preferred_username: 'redacted', token_type: type}
-    console.log(JSON.stringify(copy))
 }
 
 export const hentOnBehalfOfToken = async (scope : string, accessToken: string): Promise<string> => {
