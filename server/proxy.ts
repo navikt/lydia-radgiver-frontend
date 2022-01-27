@@ -1,7 +1,7 @@
 import { Request } from "express";
 import {createProxyMiddleware, Options} from "http-proxy-middleware"
 import { isNais } from "./env";
-import {CustomRequest} from "./server";
+import {hentAccessToken, hentOnBehalfOfToken, lydiaApiScope} from "./onBehalfOf";
 
 const basePath = "/api"
 
@@ -16,9 +16,9 @@ const options: Options = {
         console.log(`Proxy fra '${req.path}' til '${targetURI + nyPath}'`);
         return nyPath;
     },
-    router: req => {
-        const customRequest = req as CustomRequest
-        customRequest.headers["authorization"] = `Bearer ${customRequest.azure_obo_token}`
+    router: async req => {
+        const accessToken = hentAccessToken(req)
+        req.headers["authorization"] = `Bearer ${await hentOnBehalfOfToken(lydiaApiScope, accessToken)}`
         return undefined
     }
 };

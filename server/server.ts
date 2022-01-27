@@ -2,18 +2,12 @@ import express, {NextFunction, Request, Response} from "express"
 import path from "path"
 import { lydiaApiProxy } from "./proxy";
 import http from 'http'
-import {AuthError, onBehalfOfTokenMiddleWare} from "./onBehalfOf";
-import { naisCluster, naisNamespace } from "./env";
+import {AuthError, preAuthSjekk} from "./onBehalfOf";
 
 const basePath = "/lydia-radgiver";
 const buildPath = path.resolve(__dirname, "../../client/dist");
 const app = express();
 const port = process.env.PORT || 8081;
-
-// For å legge på egne verdier i requesten som shared state
-export interface CustomRequest extends Request {
-    azure_obo_token?: string
-}
 
 app.use(basePath, express.static(buildPath));
 app.use("/assets", express.static(`${buildPath}/assets`));
@@ -27,11 +21,10 @@ app.get(`/internal/isReady`, (req, res) => {
 });
 
 
-const lydiaApiScope = `api://${naisCluster}.${naisNamespace}.lydia-api/.default`
 
 // Proxy må ligge under healthcheck endepunktene for at de skal nås
 app.use("/api",
-    onBehalfOfTokenMiddleWare(lydiaApiScope),
+    preAuthSjekk,
     lydiaApiProxy
 )
 

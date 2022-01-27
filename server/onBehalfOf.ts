@@ -1,11 +1,12 @@
 import axios from "axios";
 import {NextFunction, Request, Response} from "express";
 import {URLSearchParams} from "url";
-import {CustomRequest} from "./server";
+import {naisCluster, naisNamespace} from "./env";
 
 // OBO flyt som beskrevet her:
 // https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow#first-case-access-token-request-with-a-shared-secret
 
+export const lydiaApiScope = `api://${naisCluster}.${naisNamespace}.lydia-api/.default`
 
 const config = {
     clientId: process.env.AZURE_APP_CLIENT_ID,
@@ -13,15 +14,14 @@ const config = {
     clientSecret: process.env.AZURE_APP_CLIENT_SECRET,
 }
 
-export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Request, res : Response, next : NextFunction) => {
-    const bearerToken = req.headers?.authorization?.substring("Bearer ".length);
+export function hentAccessToken(req: Request) {
+    return req.headers?.authorization?.substring("Bearer ".length);
+}
+
+export const preAuthSjekk = async (req : Request, res : Response, next : NextFunction) => {
+    const bearerToken = hentAccessToken(req);
     if (!bearerToken) return next(new AuthError("Mangler token i auth header"))
-    try {
-        (req as CustomRequest).azure_obo_token = await hentOnBehalfOfToken(scope, bearerToken)
-        return next()
-    } catch (e) {
-        return next(e)
-    }
+    return next()
 }
 
 export const hentOnBehalfOfToken = async (scope : string, accessToken: string): Promise<string> => {
