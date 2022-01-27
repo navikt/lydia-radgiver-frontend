@@ -17,11 +17,18 @@ export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Reques
     if (!bearerToken) return next(new AuthError("Mangler token i auth header"))
     try {
         const onBehalfOfToken = await hentOnBehalfOfToken(scope, bearerToken)
+        loggInformasjonOmToken(onBehalfOfToken)
         req.headers["Authorization"] = `Bearer ${onBehalfOfToken}`
         return next()
     } catch (e) {
         return next(e)
     }
+}
+
+const loggInformasjonOmToken = (token: string) => {
+    const payload = token.split(".")[1];
+    const { aud, azp, iss}: AzureAdAccessToken = JSON.parse(payload);
+    console.log(`audience: ${aud} - azp ${azp} - issuer ${iss}`)
 }
 
 export const hentOnBehalfOfToken = async (scope : string, accessToken: string): Promise<string> => {
@@ -47,6 +54,28 @@ export interface AzureTokenResponse {
     ext_expires_in: number;
     access_token: string;
     refresh_token: string;
+}
+
+export interface AzureAdAccessToken {
+    aud: string;
+    iss: string;
+    iat: number;
+    nbf: number;
+    exp: number;
+    aio: string;
+    azp: string;
+    azpacr: string;
+    groups: string[];
+    name: string;
+    oid: string;
+    preferred_username: string;
+    rh: string;
+    scp: string;
+    sub: string;
+    tid: string;
+    uti: string;
+    ver: string;
+    NAVident: string;
 }
 
 export class AuthError extends Error {
