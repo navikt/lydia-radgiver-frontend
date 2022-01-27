@@ -30,7 +30,7 @@ app.use("/api",
 
 app.use((error: Error, req: Request, res: Response, _: NextFunction) => {
     if (error instanceof AuthError) {
-        return res.status(401).send("Autentiseringsfeil " + error.message)
+        return res.status(401).send(error.message)
     }
     console.error(error)
     return res.status(500).send("Intern server-feil")

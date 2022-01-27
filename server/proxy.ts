@@ -18,6 +18,7 @@ const options: Options = {
     },
     router: async req => {
         const accessToken = hentAccessToken(req)
+        // @ts-ignore
         req.headers["authorization"] = `Bearer ${await hentOnBehalfOfToken(lydiaApiScope, accessToken)}`
         return undefined
     }

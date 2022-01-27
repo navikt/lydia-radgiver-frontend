@@ -33,11 +33,14 @@ export const hentOnBehalfOfToken = async (scope : string, accessToken: string): 
     params.append("scope", scope)
     params.append("requested_token_use", "on_behalf_of")
 
-    const result = await axios.post<AzureTokenResponse>(config.tokenEndpoint, params, {headers: {"content-type": "application/x-www-form-urlencoded"}})
-        .catch(error => {
-            throw new AuthError(`Feil under uthenting av OBO token: ${error.message}`);
-        })
-    return result.data.access_token;
+    try {
+        const result = await axios.post<AzureTokenResponse>(config.tokenEndpoint, params, {headers: {"content-type": "application/x-www-form-urlencoded"}})
+        return result.data.access_token;
+    } catch (error) {
+        if (error instanceof Error) {
+            throw new AuthError(`Feil under uthenting av OBO token: ${error.message}`)
+        }
+    }
 }
 
 export interface AzureTokenResponse {
