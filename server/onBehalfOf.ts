@@ -12,17 +12,16 @@ const config = {
     clientSecret: process.env.AZURE_APP_CLIENT_SECRET,
 }
 
-const requestHarBearerToken = (req : Request) => {
-    return req.headers.authorization && req.headers.authorization.startsWith("Bearer ");
-}
-
 export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Request, res : Response, next : NextFunction) => {
-    if (!requestHarBearerToken(req)) return next();
-    const bearerToken = req.headers.authorization.substring("Bearer ".length);
-    if (!bearerToken) return next()
-    const onBehalfOfToken = await hentOnBehalfOfToken(scope, bearerToken)
-    req.headers["Authorization"] = `Bearer ${onBehalfOfToken}`
-    return next()
+    const bearerToken = req.headers?.authorization?.substring("Bearer ".length);
+    if (!bearerToken) return next(new AuthError("Mangler token i auth header"))
+    try {
+        const onBehalfOfToken = await hentOnBehalfOfToken(scope, bearerToken)
+        req.headers["Authorization"] = `Bearer ${onBehalfOfToken}`
+        return next()
+    } catch (e) {
+        return next(e)
+    }
 }
 
 export const hentOnBehalfOfToken = async (scope : string, accessToken: string): Promise<string> => {
@@ -34,10 +33,23 @@ export const hentOnBehalfOfToken = async (scope : string, accessToken: string): 
     params.append("scope", scope)
     params.append("requested_token_use", "on_behalf_of")
 
-    const result = await axios.post(config.tokenEndpoint, params, {headers: {"content-type": "application/x-www-form-urlencoded"}})
+    const result = await axios.post<AzureTokenResponse>(config.tokenEndpoint, params, {headers: {"content-type": "application/x-www-form-urlencoded"}})
         .catch(error => {
-            console.error("Feil under uthenting av OBO token", error);
-            throw error;
+            throw new AuthError(`Feil under uthenting av OBO token: ${error.message}`);
         })
+    console.log("Assertion:´", accessToken)
+    console.log("Result of obo call:", result.data)
     return result.data.access_token;
+}
+
+export interface AzureTokenResponse {
+    token_type: string;
+    scope: string;
+    expires_in: number;
+    ext_expires_in: number;
+    access_token: string;
+    refresh_token: string;
+}
+
+export class AuthError extends Error {
 }

@@ -1,8 +1,8 @@
-import express from "express"
+import express, {NextFunction, Request, Response} from "express"
 import path from "path"
 import { lydiaApiProxy } from "./proxy";
 import http from 'http'
-import { onBehalfOfTokenMiddleWare } from "./onBehalfOf";
+import {AuthError, onBehalfOfTokenMiddleWare} from "./onBehalfOf";
 import { naisCluster, naisNamespace } from "./env";
 
 const basePath = "/lydia-radgiver";
@@ -29,6 +29,14 @@ app.use("/api",
     onBehalfOfTokenMiddleWare(lydiaApiScope),
     lydiaApiProxy
 )
+
+app.use((error: Error, req: Request, res: Response, _: NextFunction) => {
+    if (error instanceof AuthError) {
+        return res.status(401).send("Autentiseringsfeil " + error.message)
+    }
+    console.error(error)
+    return res.status(500).send("Intern server-feil")
+})
 
 const server = http.createServer(app);
 
