@@ -26,7 +26,7 @@ export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Reques
 }
 
 const loggInformasjonOmToken = (token: string) => {
-    const payload = token.split(".")[1];
+    const payload = Buffer.from(token.split(".")[1], "base64").toString();
     const { aud, azp, iss}: AzureAdAccessToken = JSON.parse(payload);
     console.log(`audience: ${aud} - azp ${azp} - issuer ${iss}`)
 }
