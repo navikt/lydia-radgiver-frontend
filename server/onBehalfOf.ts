@@ -16,8 +16,13 @@ export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Reques
     const bearerToken = req.headers?.authorization?.substring("Bearer ".length);
     if (!bearerToken) return next(new AuthError("Mangler token i auth header"))
     try {
+        console.log("--- Access token ----")
+        loggInformasjonOmToken(bearerToken)
+        console.log("--- Access token ----")
         const onBehalfOfToken = await hentOnBehalfOfToken(scope, bearerToken)
+        console.log("--- Obo token ----")
         loggInformasjonOmToken(onBehalfOfToken)
+        console.log("--- Obo token ----")
         req.headers["Authorization"] = `Bearer ${onBehalfOfToken}`
         return next()
     } catch (e) {
@@ -27,8 +32,9 @@ export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Reques
 
 const loggInformasjonOmToken = (token: string) => {
     const payload = Buffer.from(token.split(".")[1], "base64").toString();
-    const { aud, azp, iss}: AzureAdAccessToken = JSON.parse(payload);
-    console.log(`audience: ${aud} - azp ${azp} - issuer ${iss}`)
+    const json = JSON.parse(payload);
+    const copy = {...json, sub: 'redacted', NAVident: 'redacted', preferred_username: 'redacted'}
+    console.log(JSON.stringify(copy))
 }
 
 export const hentOnBehalfOfToken = async (scope : string, accessToken: string): Promise<string> => {
