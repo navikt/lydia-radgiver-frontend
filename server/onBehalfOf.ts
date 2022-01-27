@@ -37,8 +37,6 @@ export const hentOnBehalfOfToken = async (scope : string, accessToken: string): 
         .catch(error => {
             throw new AuthError(`Feil under uthenting av OBO token: ${error.message}`);
         })
-    console.log("Assertion:´", accessToken)
-    console.log("Result of obo call:", result.data)
     return result.data.access_token;
 }
 
