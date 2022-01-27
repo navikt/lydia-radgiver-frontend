@@ -16,11 +16,11 @@ const requestHarBearerToken = (req : Request) => {
     return req.headers.authorization && req.headers.authorization.startsWith("Bearer ");
 }
 
-export const onBehalfOfTokenMiddleWare = (scope : string) => (req : Request, res : Response, next : NextFunction) => {
+export const onBehalfOfTokenMiddleWare = (scope : string) => async (req : Request, res : Response, next : NextFunction) => {
     if (!requestHarBearerToken(req)) return next();
     const bearerToken = req.headers.authorization.substring("Bearer ".length);
     if (!bearerToken) return next()
-    const onBehalfOfToken = hentOnBehalfOfToken(scope, bearerToken)
+    const onBehalfOfToken = await hentOnBehalfOfToken(scope, bearerToken)
     req.headers["Authorization"] = `Bearer ${onBehalfOfToken}`
     return next()
 }
@@ -34,10 +34,10 @@ export const hentOnBehalfOfToken = async (scope : string, accessToken: string): 
     params.append("scope", scope)
     params.append("requested_token_use", "on_behalf_of")
 
-    return await axios.post(config.tokenEndpoint, params, {headers: {"content-type": "application/x-www-form-urlencoded"}})
-        .then(response => response.data.access_token)
+    const result = await axios.post(config.tokenEndpoint, params, {headers: {"content-type": "application/x-www-form-urlencoded"}})
         .catch(error => {
             console.error("Feil under uthenting av OBO token", error);
             throw error;
         })
+    return result.data.access_token;
 }
