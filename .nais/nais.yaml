@@ -33,6 +33,16 @@ spec:
     outbound:
       rules:
         - application: lydia-api
+  azure:
+    application:
+      enabled: true
+      claims:
+        extra:
+          - "NAVident"
+      allowAllUsers: true
+    sidecar:
+      enabled: true
+      autoLogin: true
   ingresses: 
   {{#each ingresses as |url|}}
     - {{url}}

@@ -4,7 +4,9 @@ export enum NaisEnvironment {
     LOCAL = "local",
 }
 
-export const isProd = process.env.NAIS_CLUSTER_NAME === NaisEnvironment.PROD
-export const isDev = process.env.NAIS_CLUSTER_NAME === NaisEnvironment.DEV
+export const naisCluster = process.env.NAIS_CLUSTER_NAME
+export const naisNamespace = process.env.NAIS_NAMESPACE
+export const isProd = naisCluster === NaisEnvironment.PROD
+export const isDev = naisCluster === NaisEnvironment.DEV
 export const isNais = isProd || isDev
 export const isLocal = !isNais

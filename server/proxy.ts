@@ -11,11 +11,10 @@ const options = {
     target: targetURI,
     changeOrigin: true,
     pathRewrite: (path : string, req : Request) => {
-        const nyPath = path.replace(basePath, '');
+        const nyPath = path.replace((basePath), '');
         console.log(`Proxy fra '${req.path}' til '${targetURI + nyPath}'`);
         return nyPath;
-    },
-
+    }
 };
 
-export default createProxyMiddleware(options);
+export const lydiaApiProxy = createProxyMiddleware(options);
