@@ -19,8 +19,6 @@ app.get(`/internal/isReady`, (req, res) => {
     res.sendStatus(200);
 });
 
-
-
 // Proxy må ligge under healthcheck endepunktene for at de skal nås
 app.use("/api",
     preAuthSjekk,
