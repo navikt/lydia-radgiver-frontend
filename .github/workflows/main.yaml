@@ -14,37 +14,37 @@ jobs:
     runs-on: "ubuntu-latest"
     steps:
       - uses: "actions/checkout@v2"
-
       - name: "Setup node"
         uses: "actions/setup-node@v2"
         with:
           node-version: '16'
-
-      - name: "Install deps client"
-        working-directory: client
-        run: "yarn install --immutable"
-
       - name: "Install deps server"
         working-directory: server
         run: "yarn install --immutable"
-
+      - name: "Run server tests"
+        working-directory: server
+        run: "yarn test"
+      - name: "Install deps client"
+        working-directory: client
+        run: "yarn install --immutable"
       - name: "Lint client"
         uses: "wearerequired/lint-action@v1"
         with:
           eslint: true
           eslint_dir: client/
           eslint_extensions: js,jsx,ts,tsx
-
       #    - name: "Lint server"
       #      uses: "wearerequired/lint-action@v1"
       #      with:
       #        eslint: true
       #        eslint_dir: server/
       #        eslint_extensions: js,ts
-
-      - name: "Run tests"
+      - name: "Build frontend"
+        working-directory: client
+        run: "yarn build"
+      - name: "Build frackend"
         working-directory: server
-        run: "yarn test"
+        run: "yarn build"
       - name: "Login to GitHub Docker Registry"
         uses: "docker/login-action@v1"
         with:
