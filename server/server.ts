@@ -7,7 +7,7 @@ import {AuthError, preAuthSjekk} from "./onBehalfOf";
 const basePath = "/lydia-radgiver";
 const buildPath = path.resolve(__dirname, "../../client/dist");
 const app = express();
-const port = process.env.PORT || 8081;
+const port = process.env.PORT || 8080;
 
 app.use(basePath, express.static(buildPath));
 app.use("/assets", express.static(`${buildPath}/assets`));
