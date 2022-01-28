@@ -13,6 +13,6 @@ RUN chown -R node /home/node/app
 USER node
 
 COPY server/package*.json .
-RUN npm ci
+RUN npm ci --production
 
 CMD ["node", "build/server.js"]
