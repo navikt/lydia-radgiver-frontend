@@ -5,7 +5,7 @@
   "scripts": {
     "dev": "nodemon server.ts",
     "start": "node build/server.js",
-    "build": "tsc -p .",
+    "build": "tsc -p tsconfig.build.json",
     "lint": "eslint .",
     "test": "jest"
   },

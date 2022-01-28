@@ -6,6 +6,6 @@ ENV NODE_ENV $NODE_ENV
 WORKDIR /home/node/app
 
 COPY ./server/build build
-COPY ./client/dist dist
+COPY ./client/dist client/dist
 
 CMD ["node", "build/server.js"]
