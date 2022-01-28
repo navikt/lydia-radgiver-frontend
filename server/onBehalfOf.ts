@@ -52,27 +52,5 @@ export interface AzureTokenResponse {
     refresh_token: string;
 }
 
-export interface AzureAdAccessToken {
-    aud: string;
-    iss: string;
-    iat: number;
-    nbf: number;
-    exp: number;
-    aio: string;
-    azp: string;
-    azpacr: string;
-    groups: string[];
-    name: string;
-    oid: string;
-    preferred_username: string;
-    rh: string;
-    scp: string;
-    sub: string;
-    tid: string;
-    uti: string;
-    ver: string;
-    NAVident: string;
-}
-
 export class AuthError extends Error {
 }
