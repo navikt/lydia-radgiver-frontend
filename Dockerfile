@@ -5,8 +5,8 @@ ENV NODE_ENV $NODE_ENV
 
 WORKDIR /home/node/app
 
-COPY server/build build
-COPY client/dist client/dist
+COPY ./server/build build
+COPY ./client/dist client/dist
 
 # gi node-bruker riktige rettigheter 
 RUN chown -R node /home/node/app

@@ -60,6 +60,7 @@ jobs:
         with:
           push: true
           tags: ghcr.io/${{ github.repository }}:latest,${{ env.IMAGE }}
+          context: .
 
   deployAppToDev:
     name: Deploy app to dev
