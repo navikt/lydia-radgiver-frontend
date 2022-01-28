@@ -1,5 +1,5 @@
 import request from "supertest"
-import app from "./app"
+import app from "../app"
 
 describe("Tester liveness og readiness", () => {
     test("Appen skal respondere på liveness", done => {

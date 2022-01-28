@@ -5,7 +5,7 @@ import { lydiaApiProxy } from "./proxy";
 import {AuthError, preAuthSjekk} from "./onBehalfOf";
 
 const basePath = "/lydia-radgiver";
-const buildPath = path.resolve(__dirname, "../../client/dist");
+const buildPath = path.resolve(__dirname, "../client/dist");
 const app = express();
 
 app.use(basePath, express.static(buildPath));
