@@ -7,7 +7,7 @@ Frontend for IA rådgivere
 
 Kjør `run.sh` for å bygge et lokalt Docker-image med frackend og frontend.
 
-`client` og `server` kan også startes hver for seg ved å bruke `npm run dev` i de respektive mappene. Dette gir blant hot reloading.
+`client` og `server` kan også startes hver for seg ved å skrive `npm run dev` i de respektive mappene. Dette gir blant annet hot reloading.
 
 ---
 
