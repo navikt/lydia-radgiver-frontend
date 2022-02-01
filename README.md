@@ -5,9 +5,16 @@ Frontend for IA rådgivere
 
 # Komme i gang
 
-Kjør `run.sh` for å bygge et lokalt Docker-image med frackend og frontend.
+## Sette opp utviklingmiljø
+1. Installere avhengigheter: Kjør `npm install` i `client` og `server`-mappene
+2. Starte frackend: Kjør `npm run dev` i `server`-mappen
+3. Starte frontend: Kjør `npm run dev` i `client`-mappen
 
-`client` og `server` kan også startes hver for seg ved å skrive `npm run dev` i de respektive mappene. Dette gir blant annet hot reloading.
+`npm run dev` gir blant annet hot reloading.
+
+## Bygge og kjøre som lokalt docker-image
+
+Kjør `run.sh` for å bygge et lokalt Docker-image med frackend og frontend.
 
 ---
 
