@@ -8,7 +8,7 @@ export class LydiaApiProxy {
     options : Options
     constructor(config: Config) {
         // Service name discovery: https://doc.nais.io/clusters/service-discovery/#service-discovery-in-kubernetes
-        const targetURI = config.isNais ? "http://lydia-api" : "http://localhost:8080"
+        const targetURI = config.lydiaApi.uri
         this.options = {
             target: targetURI,
             changeOrigin: true,

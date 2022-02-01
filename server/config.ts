@@ -1,48 +1,38 @@
 export class Config {
-    runtimeEnvironment : NaisEnvironment | LocalEnvironment
-    azure : Azure
-    server : Server
-    isNais : boolean
-    isLocal : boolean
+    azure: Azure
+    server: Server
+    lydiaApi: LydiaApi
+
     constructor(
-        runtimeEnvironment : NaisEnvironment | LocalEnvironment = new NaisEnvironment(),
-        azure = new Azure(), 
-        server = new Server()
+        azure = new Azure(),
+        server = new Server(),
+        lydiaApi = new LydiaApi()
     ) {
-        this.runtimeEnvironment = runtimeEnvironment
         this.azure = azure
         this.server = server
-
-        this.isNais = this.runtimeEnvironment instanceof NaisEnvironment;
-        this.isLocal = this.runtimeEnvironment instanceof LocalEnvironment;
+        this.lydiaApi = lydiaApi
     }
 }
 
-export class NaisEnvironment {
-    cluster : string;
-    namespace : string
-    constructor() {
-        this.cluster = getEnvVar("NAIS_CLUSTER_NAME");
-        this.namespace = getEnvVar("NAIS_NAMESPACE");        
-    }
-    isProd = () => this.cluster.startsWith("prod");
-    isDev = () => this.cluster.startsWith("dev");
-
-    isNais: () => true;
-}
-
-export class LocalEnvironment {
-    isNais: () => false;
+export const envVars = {
+    azureAppClientId: "AZURE_APP_CLIENT_ID",
+    azureOpenidConfigTokenEndpoint: "AZURE_OPENID_CONFIG_TOKEN_ENDPOINT",
+    azureAppClientSecret: "AZURE_APP_CLIENT_SECRET",
+    port: "PORT",
+    lydiaApiUri: "LYDIA_API_URI",
+    clusterName: "NAIS_CLUSTER_NAME",
+    nameSpace: "NAIS_NAMESPACE"
 }
 
 export class Azure {
-    clientId : string;
-    tokenEndpoint : string;
-    clientSecret : string;
+    clientId: string;
+    tokenEndpoint: string;
+    clientSecret: string;
+
     constructor(
-        clientId : string = getEnvVar("AZURE_APP_CLIENT_ID"),
-        tokenEndpoint : string = getEnvVar("AZURE_OPENID_CONFIG_TOKEN_ENDPOINT"),
-        clientSecret : string = getEnvVar("AZURE_APP_CLIENT_SECRET")
+        clientId: string = getEnvVar(envVars.azureAppClientId),
+        tokenEndpoint: string = getEnvVar(envVars.azureOpenidConfigTokenEndpoint),
+        clientSecret: string = getEnvVar(envVars.azureAppClientSecret)
     ) {
         this.clientId = clientId;
         this.tokenEndpoint = tokenEndpoint;
@@ -50,35 +40,48 @@ export class Azure {
     }
 }
 
-class Server {
-    port : number
-    constructor(port : number = 8080) {
-        ifEnvVarExists("PORT")
+export class Server {
+    port: number
+
+    constructor(port = 8080) {
+        ifEnvVarExists(envVars.port)
             .then(port => this.port = parseInt(port))
             .catch(() => this.port = port)
     }
 }
 
-const ifEnvVarExists = (variabelNavn : string) => exists(getOptionalEnvVar(variabelNavn)) ?
+export class LydiaApi {
+    uri: string;
+    scope: string;
+
+    constructor(
+        uri = getEnvVar(envVars.lydiaApiUri),
+    ) {
+        this.uri = uri
+        this.scope = this.scope = `api://${getEnvVar(envVars.clusterName)}.${getEnvVar(envVars.nameSpace)}.lydia-api/.default`
+    }
+}
+
+const ifEnvVarExists = (variabelNavn: string) => exists(getOptionalEnvVar(variabelNavn)) ?
     Promise.resolve(getOptionalEnvVar(variabelNavn)) :
     Promise.reject(`Miljøvariabelen ${variabelNavn} finnes ikke`);
 
-const ifTheseEnvVarExists = (variabelNavn : string[]) => allExists(variabelNavn.map(navn => getOptionalEnvVar(navn))) ?
+const ifTheseEnvVarExists = (variabelNavn: string[]) => allExists(variabelNavn.map(navn => getOptionalEnvVar(navn))) ?
     Promise.resolve(variabelNavn.map(navn => getOptionalEnvVar(navn))) :
     Promise.reject(`Enkelte av variablene ${variabelNavn} finnes ikke`);
 
-const getEnvVar = (name : string) => {
+const getEnvVar = (name: string) => {
     if (!process.env[name]) throw new Error(`Missing required variable ${name}`);
     return process.env[name];
 }
-const getOptionalEnvVar = (name : string) => process.env[name]
+const getOptionalEnvVar = (name: string) => process.env[name]
 
 const exists = (value: any) => value != null;
 const allExists = (values: any[]) => values.every(value => exists(value))
 const ifExists = (value: any) => exists(value) ?
     Promise.resolve(value) :
-    Promise.reject(`Invalid value: ${ value }`);
+    Promise.reject(`Invalid value: ${value}`);
 
 const ifAllExists = (values: any[]) => allExists(values) ?
     Promise.resolve(values) :
-    Promise.reject(`Invalid values: ${ values }`);
+    Promise.reject(`Invalid values: ${values}`);
