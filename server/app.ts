@@ -7,7 +7,7 @@ import { Config } from "./config";
 
 export default class Application {
     expressApp: express.Express
-    constructor(config : Config){        
+    constructor(config : Config = new Config()){
         const basePath = "/lydia-radgiver";
         const buildPath = path.resolve(__dirname, "../client/dist");
         this.expressApp = express();

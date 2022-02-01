@@ -1,17 +1,12 @@
 import axios from "axios";
 import {NextFunction, Request, Response} from "express";
 import {URLSearchParams} from "url";
-import { Azure, Config, NaisEnvironment } from "./config";
+import {Config} from "./config";
 
 // OBO flyt som beskrevet her:
 // https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow#first-case-access-token-request-with-a-shared-secret
 
-const getScopeForLydiaApi = (config : Config) => {
-    if (!config.isNais)
-        return "api://lydia-api/.default"
-    const naisEnv = config.runtimeEnvironment as NaisEnvironment
-    return `api://${naisEnv.cluster}.${naisEnv.namespace}.lydia-api/.default`
-}
+
 
 export function hentAccessToken(req: Request) {
     return req.headers?.authorization?.substring("Bearer ".length);
@@ -24,7 +19,7 @@ export const preAuthSjekk = async (req : Request, res : Response, next : NextFun
 }
 
 export const hentOnBehalfOfToken = async (accessToken: string, config : Config): Promise<string> => {
-    const scope = getScopeForLydiaApi(config)
+    const scope = config.lydiaApi.scope
     const params = new URLSearchParams()
     params.append("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer")
     params.append("client_id", config.azure.clientId)
