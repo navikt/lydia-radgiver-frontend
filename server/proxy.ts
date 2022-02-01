@@ -25,7 +25,9 @@ export class LydiaApiProxy {
             }
         }
     }
-    createExpressMiddleWare = () => createProxyMiddleware(this.options)
+    createExpressMiddleWare() {
+        return createProxyMiddleware(this.options)
+    } 
 }
 
 

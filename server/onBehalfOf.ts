@@ -18,7 +18,7 @@ export const preAuthSjekk = async (req : Request, res : Response, next : NextFun
     return next()
 }
 
-export const hentOnBehalfOfToken = async (accessToken: string, config : Config): Promise<string> => {
+export const hentOnBehalfOfToken = async (accessToken: string, config : Config) : Promise<string> => {
     const scope = config.lydiaApi.scope
     const params = new URLSearchParams()
     params.append("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer")
@@ -37,6 +37,7 @@ export const hentOnBehalfOfToken = async (accessToken: string, config : Config):
         }
     }
 }
+
 
 export interface AzureTokenResponse {
     token_type: string;
