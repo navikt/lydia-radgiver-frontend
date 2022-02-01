@@ -1,9 +1,11 @@
 import http from 'http'
-import app from './app';
+import Application from './app';
+import { Config } from './config';
 
 const main = () => {
-    const port = process.env.PORT || 8080;
-    const server = http.createServer(app);
+    const config = new Config()
+    const application = new Application(config)
+    const server = http.createServer(application.expressApp);
 
     const gracefulClose = () => {
         server.close(() => {
@@ -12,8 +14,8 @@ const main = () => {
         })
     }
 
-    server.listen(port, () => {
-        console.log(`Server listening on port ${port}`);
+    server.listen(config.server.port, () => {
+        console.log(`Server listening on port ${config.server.port}`);
     });
     
     process.on("SIGTERM", gracefulClose)
