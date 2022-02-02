@@ -58,7 +58,7 @@ export class LydiaApi {
         uri = getEnvVar(envVars.lydiaApiUri),
     ) {
         this.uri = uri
-        this.scope = this.scope = `api://${getEnvVar(envVars.clusterName)}.${getEnvVar(envVars.nameSpace)}.lydia-api/.default`
+        this.scope = `api://${getEnvVar(envVars.clusterName)}.${getEnvVar(envVars.nameSpace)}.lydia-api/.default`
     }
 }
 

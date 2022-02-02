@@ -43,6 +43,9 @@ spec:
     sidecar:
       enabled: true
       autoLogin: true
+  env:
+  - name: LYDIA_API_URI
+    value: http://lydia-api
   ingresses: 
   {{#each ingresses as |url|}}
     - {{url}}

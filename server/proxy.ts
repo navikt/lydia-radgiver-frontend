@@ -7,7 +7,6 @@ import {hentAccessToken, hentOnBehalfOfToken } from "./onBehalfOf";
 export class LydiaApiProxy {
     options : Options
     constructor(config: Config) {
-        // Service name discovery: https://doc.nais.io/clusters/service-discovery/#service-discovery-in-kubernetes
         const targetURI = config.lydiaApi.uri
         this.options = {
             target: targetURI,
