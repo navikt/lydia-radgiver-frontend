@@ -2,9 +2,10 @@ import express, {NextFunction, Request, Response} from "express"
 import path from "path"
 
 import { LydiaApiProxy } from "./proxy";
-import {AuthError, validerTokenFraWonderwall} from "./onBehalfOf";
+import {validerTokenFraWonderwall} from "./onBehalfOf";
 import { Config } from "./config";
 import logger from "./logging"
+import { AuthError } from "./error";
 
 export default class Application {
     expressApp: express.Express
@@ -27,7 +28,7 @@ export default class Application {
         const lydiaApiProxy = new LydiaApiProxy(config);
         // Proxy må ligge under healthcheck endepunktene for at de skal nås
         this.expressApp.use("/api",
-            validerTokenFraWonderwall,
+            validerTokenFraWonderwall(config.azure),
             lydiaApiProxy.createExpressMiddleWare()
         )
         

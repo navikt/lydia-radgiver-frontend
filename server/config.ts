@@ -18,6 +18,7 @@ export const envVars = {
     azureAppClientId: "AZURE_APP_CLIENT_ID",
     azureOpenidConfigTokenEndpoint: "AZURE_OPENID_CONFIG_TOKEN_ENDPOINT",
     azureAppClientSecret: "AZURE_APP_CLIENT_SECRET",
+    azureOpenidConfigIssuer : "AZURE_OPENID_CONFIG_ISSUER",
     serverPort: "SERVER_PORT",
     lydiaApiUri: "LYDIA_API_URI",
     clusterName: "NAIS_CLUSTER_NAME",
@@ -28,15 +29,18 @@ export class Azure {
     clientId: string;
     tokenEndpoint: string;
     clientSecret: string;
+    issuer: string;
 
     constructor(
         clientId: string = getEnvVar(envVars.azureAppClientId),
         tokenEndpoint: string = getEnvVar(envVars.azureOpenidConfigTokenEndpoint),
-        clientSecret: string = getEnvVar(envVars.azureAppClientSecret)
+        clientSecret: string = getEnvVar(envVars.azureAppClientSecret),
+        issuer: string = getEnvVar(envVars.azureAppClientSecret)
     ) {
         this.clientId = clientId;
         this.tokenEndpoint = tokenEndpoint;
         this.clientSecret = clientSecret;
+        this.issuer = issuer;
     }
 }
 
