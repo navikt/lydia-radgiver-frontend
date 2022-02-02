@@ -2,6 +2,7 @@ import { Request } from "express";
 import {createProxyMiddleware, Options} from "http-proxy-middleware"
 import { Config } from "./config";
 import {hentAccessToken, hentOnBehalfOfToken } from "./onBehalfOf";
+import logger from "./logging"
 
 
 export class LydiaApiProxy {
@@ -13,7 +14,7 @@ export class LydiaApiProxy {
             changeOrigin: true,
             pathRewrite: (path : string, req : Request) => {
                 const nyPath = path.replace("/api", '');
-                console.log(`Proxy fra '${req.path}' til '${targetURI + nyPath}'`);
+                logger.info(`Proxy fra '${req.path}' til '${targetURI + nyPath}'`);
                 return nyPath;
             },
             router: async req => {

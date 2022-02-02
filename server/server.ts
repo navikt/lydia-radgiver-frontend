@@ -1,6 +1,7 @@
 import http from 'http'
 import Application from './app';
 import { Config } from './config';
+import logger from "./logging"
 
 const main = () => {
     const config = new Config()
@@ -9,13 +10,13 @@ const main = () => {
 
     const gracefulClose = () => {
         server.close(() => {
-            console.log("App shutting down...")
+            logger.info("App shutting down...")
             process.exit(0)
         })
     }
 
     server.listen(config.server.port, () => {
-        console.log(`Server listening on port ${config.server.port}`);
+        logger.info(`Server listening on port ${config.server.port}`);
     });
     
     process.on("SIGTERM", gracefulClose)

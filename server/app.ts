@@ -1,9 +1,10 @@
 import express, {NextFunction, Request, Response} from "express"
 import path from "path"
-import { LydiaApiProxy } from "./proxy";
 
+import { LydiaApiProxy } from "./proxy";
 import {AuthError, preAuthSjekk} from "./onBehalfOf";
 import { Config } from "./config";
+import logger from "./logging"
 
 export default class Application {
     expressApp: express.Express
@@ -34,7 +35,7 @@ export default class Application {
             if (error instanceof AuthError) {
                 return res.status(401).send(error.message)
             }
-            console.error(error)
+            logger.error(error.message)
             return res.status(500).send("Intern server-feil")
         })
     }
