@@ -3,7 +3,8 @@
 
 echo "Bygger prosjektet lokalt"
 
-PORT=9876
+ENV_FILE=env.local
+LOCAL_PORT=9876
 
 cd client
 npm install
@@ -13,5 +14,5 @@ npm install
 npm run build
 cd ..
 docker build -t lydia-radgiver-frontend:latest .
-docker run -p $PORT:8080 -d lydia-radgiver-frontend:latest
-echo "lydia-radgiver-frontend kjører på port $PORT"
+docker run -p $LOCAL_PORT:8080 --env-file $ENV_FILE -d lydia-radgiver-frontend:latest
+echo "lydia-radgiver-frontend er tilgjengelig på port http://localhost:$LOCAL_PORT/lydia-radgiver"

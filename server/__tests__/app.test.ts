@@ -17,7 +17,7 @@ const mockEnv = () => {
     process.env[envVars.azureAppClientId] = 'azureAppClientId';
     process.env[envVars.azureOpenidConfigTokenEndpoint] = azureOpenidConfigTokenEndpoint;
     process.env[envVars.azureAppClientSecret] = 'azureAppClientSecret';
-    process.env[envVars.port] = '8080';
+    process.env[envVars.serverPort] = '8080';
     process.env[envVars.lydiaApiUri] = lydiaApiUri;
 }
 

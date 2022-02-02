@@ -18,7 +18,7 @@ export const envVars = {
     azureAppClientId: "AZURE_APP_CLIENT_ID",
     azureOpenidConfigTokenEndpoint: "AZURE_OPENID_CONFIG_TOKEN_ENDPOINT",
     azureAppClientSecret: "AZURE_APP_CLIENT_SECRET",
-    port: "PORT",
+    serverPort: "SERVER_PORT",
     lydiaApiUri: "LYDIA_API_URI",
     clusterName: "NAIS_CLUSTER_NAME",
     nameSpace: "NAIS_NAMESPACE"
@@ -42,11 +42,9 @@ export class Azure {
 
 export class Server {
     port: number
-
     constructor(port = 8080) {
-        ifEnvVarExists(envVars.port)
-            .then(port => this.port = parseInt(port))
-            .catch(() => this.port = port)
+        const specifiedPort = getOptionalEnvVar(envVars.serverPort)
+        this.port = specifiedPort ? parseInt(specifiedPort) : port
     }
 }
 
