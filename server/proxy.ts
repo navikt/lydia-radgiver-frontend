@@ -1,7 +1,7 @@
 import { Request } from "express";
 import {createProxyMiddleware, Options} from "http-proxy-middleware"
 import { Config } from "./config";
-import {hentAccessToken, hentOnBehalfOfToken } from "./onBehalfOf";
+import {getBearerToken, hentOnBehalfOfToken } from "./onBehalfOf";
 import logger from "./logging"
 
 
@@ -18,9 +18,9 @@ export class LydiaApiProxy {
                 return nyPath;
             },
             router: async req => {
-                const accessToken = hentAccessToken(req)
+                const accessToken = getBearerToken(req)
                 // @ts-ignore
-                req.headers["authorization"] = `Bearer ${await hentOnBehalfOfToken(accessToken, config)}`
+                req.headers["Authorization"] = `Bearer ${await hentOnBehalfOfToken(accessToken, config)}`
                 return undefined
             }
         }

@@ -8,12 +8,12 @@ import {Config} from "./config";
 
 
 
-export function hentAccessToken(req: Request) {
+export function getBearerToken(req: Request) {
     return req.headers?.authorization?.substring("Bearer ".length);
 }
 
-export const preAuthSjekk = async (req : Request, res : Response, next : NextFunction) => {
-    const bearerToken = hentAccessToken(req);
+export const validerTokenFraWonderwall = async (req : Request, res : Response, next : NextFunction) => {
+    const bearerToken = getBearerToken(req);
     if (!bearerToken) return next(new AuthError("Mangler token i auth header"))
     return next()
 }
