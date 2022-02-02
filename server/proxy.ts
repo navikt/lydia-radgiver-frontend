@@ -1,4 +1,4 @@
-import { Request } from "express";
+import {Request, Response} from "express";
 import {createProxyMiddleware, Options} from "http-proxy-middleware"
 
 import { Config } from "./config";
@@ -17,11 +17,15 @@ export class LydiaApiProxy {
                 logger.info(`Proxy fra '${req.path}' til '${targetURI + nyPath}'`);
                 return nyPath;
             },
-            router: async req => {
+            onProxyReq: async (proxyReq, req: Request, res: Response) => {
                 const accessToken = getBearerToken(req)
-                const oboToken = await hentOnBehalfOfToken(accessToken, config)
-                req.headers["Authorization"] = `Bearer ${oboToken}`
-                return undefined
+                try {
+                    const oboToken = await hentOnBehalfOfToken(accessToken, config)
+                    req.headers["Authorization"] = `Bearer ${oboToken}`
+                    return undefined
+                } catch (e) {
+                    res.status(418).send("Teapot")
+                }
             }
         }
     }

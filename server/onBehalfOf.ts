@@ -51,9 +51,13 @@ export function getBearerToken(req: Request) {
 
 export const validerTokenFraWonderwall = (azure : Azure) => async (req : Request, res : Response, next : NextFunction) => {
     const bearerToken = getBearerToken(req);
-    validerAccessToken(bearerToken, azure)
     if (!bearerToken) return next(new AuthError("Mangler token i auth header"))
-    return next()
+    try {
+        validerAccessToken(bearerToken, azure)
+        return next()
+    } catch (e) {
+        return next(e)
+    }
 }
 
 export const hentOnBehalfOfToken = async (accessToken: string, config : Config) : Promise<string> => {
