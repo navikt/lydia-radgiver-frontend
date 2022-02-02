@@ -2,7 +2,7 @@ import express, {NextFunction, Request, Response} from "express"
 import path from "path"
 
 import { LydiaApiProxy } from "./proxy";
-import {AuthError, preAuthSjekk} from "./onBehalfOf";
+import {AuthError, validerTokenFraWonderwall} from "./onBehalfOf";
 import { Config } from "./config";
 import logger from "./logging"
 
@@ -27,7 +27,7 @@ export default class Application {
         const lydiaApiProxy = new LydiaApiProxy(config);
         // Proxy må ligge under healthcheck endepunktene for at de skal nås
         this.expressApp.use("/api",
-            preAuthSjekk,
+            validerTokenFraWonderwall,
             lydiaApiProxy.createExpressMiddleWare()
         )
         

@@ -1,5 +1,3 @@
-import exp from "constants"
-import { env } from "process"
 import { Config, envVars } from "../config"
 
 const setEnvVar = (name : string, value : string) : void => {

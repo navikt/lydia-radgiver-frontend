@@ -3,7 +3,6 @@ import { Express } from "express"
 import {envVars} from "../config";
 import Application from "../app";
 import nock from "nock"
-import { AzureTokenResponse } from "../onBehalfOf";
 
 
 const azureOpenidConfigTokenUri = "http://azure.com"
