@@ -11,7 +11,9 @@ const settOppNødvendigEnvVariabler = () => {
         envVars.azureAppClientSecret,
         envVars.clusterName,
         envVars.nameSpace,
-        envVars.lydiaApiUri
+        envVars.lydiaApiUri,
+        envVars.azureOpenidConfigIssuer,
+        envVars.jwkUri
     ]
     nødvedigeMiljøVariabler.forEach(name => setEnvVar(name, "verdi"))
 }

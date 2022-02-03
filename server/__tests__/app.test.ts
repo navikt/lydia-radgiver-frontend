@@ -1,96 +1,116 @@
 import request from "supertest"
-import { Express } from "express"
-import {envVars} from "../config";
+import {Express} from "express"
+import {Config, envVars} from "../config";
 import Application from "../app";
 import nock from "nock"
+import {generateLocalKeys, setupLocalJwkSet} from "../jwks";
+import {KeyLike} from "jose/dist/types/types";
+import {SignJWT} from "jose";
 
 
 const azureOpenidConfigTokenUri = "http://azure.com"
 const azureOpenidConfigTokenPath = "/azure-openid-config/token"
 const azureOpenidConfigTokenEndpoint = `${azureOpenidConfigTokenUri}${azureOpenidConfigTokenPath}`
 const lydiaApiUri = 'http://lydia-api.lokal'
+const azureClientId = 'azureAppClientId';
+
+
+let privateKey: KeyLike
 
 const mockEnv = () => {
     process.env[envVars.clusterName] = 'local';
     process.env[envVars.nameSpace] = 'pia';
-    process.env[envVars.azureAppClientId] = 'azureAppClientId';
+    process.env[envVars.azureAppClientId] = azureClientId;
+    process.env[envVars.azureOpenidConfigIssuer] = 'azure';
     process.env[envVars.azureOpenidConfigTokenEndpoint] = azureOpenidConfigTokenEndpoint;
     process.env[envVars.azureAppClientSecret] = 'azureAppClientSecret';
     process.env[envVars.serverPort] = '8080';
     process.env[envVars.lydiaApiUri] = lydiaApiUri;
+    process.env[envVars.jwkUri] = "hei123"
 }
 
-const init = () => {
+async function createMockToken() {
+    const jwtSigner = new SignJWT({
+        azp: "hei1234",
+        name: "Testuser Testuser",
+        sub: "1"
+    })
+        .setIssuedAt()
+        .setProtectedHeader({alg: 'RS256'})
+        .setIssuer('azure')
+        .setAudience(azureClientId)
+        .setExpirationTime('2h')
+        .setNotBefore(Math.round((Date.now() / 1000) - 5000));
+    return jwtSigner.sign(privateKey)
+}
+
+async function setupJwkSet() {
+    const keys = await generateLocalKeys();
+    privateKey = keys.privateKey
+    return setupLocalJwkSet(keys.publicJwkKeys);
+
+}
+
+const init = async () => {
     mockEnv()
-    return new Application().expressApp
+    const jwkSet = await setupJwkSet();
+    return new Application(new Config({jwkSet})).expressApp
 }
 
 describe("Tester liveness og readiness", () => {
-    let expressApp : Express
-    beforeAll(() => {
-        expressApp = init()
+    let expressApp: Express
+    beforeAll(async () => {
+        expressApp = await init()
     })
-    
-    test("Appen skal respondere på liveness", done => {
-        request(expressApp)
-        .get("/internal/isAlive")
-        .then(response => {
-            expect(response.statusCode).toBeLessThan(400);
-            done();
-        });
-    });
-    test("Appen skal respondere på readiness", done => {
-        request(expressApp)
-        .get("/internal/isReady")
-        .then(response => {
-            expect(response.statusCode).toBeLessThan(400);
-            done();
-        });
+
+    test("Appen skal respondere på readiness", async () => {
+        const superTest = request(expressApp);
+        const responses = await Promise.all([superTest.get("/internal/isAlive"), superTest.get("/internal/isReady")])
+        const livenessReadynesPassed = responses.every(res => res.statusCode === 200)
+        expect(livenessReadynesPassed).toBeTruthy()
     });
 });
 
 describe("Tester proxy mot lydia-api", () => {
-    let expressApp : Express
-    beforeAll(() => {
-        expressApp = init()
+    let expressApp: Express
+    beforeAll(async () => {
+        expressApp = await init()
     })
     test("Kall som ikke går til /api skal ikke ta i bruk proxy", done => {
         request(expressApp)
-        .get("/internal/isAlive")
-        .then(response => {
-            expect(response.statusCode).toBeLessThan(400);
-            done();
-        })
+            .get("/internal/isAlive")
+            .then(response => {
+                expect(response.statusCode).toBeLessThan(400);
+                done();
+            })
     });
     test("Kall til /api/{endepunkt} uten Bearer token skal returnere 401 før de treffer proxy", done => {
         request(expressApp)
-        .get("/api/test")
-        .then(response => {
-            expect(response.statusCode).toBe(401);
-            done()
-        })
+            .get("/api/test")
+            .then(response => {
+                expect(response.statusCode).toBe(401);
+                done()
+            })
     });
-    test("Kall til /api/{endepunkt} uten gyldig Bearer token skal få 401", done => {
+    test("Kall til /api/{endepunkt} uten gyldig Bearer token skal få 401", async () => {
         const ugyldigTokenFraWonderwall = "ugyldig"
-        nock(azureOpenidConfigTokenUri, {
+        const azureNockScope = nock(azureOpenidConfigTokenUri, {
             reqheaders: {
                 authorization: `Bearer ${ugyldigTokenFraWonderwall}`,
             },
         })
-        .post(azureOpenidConfigTokenPath)
-        .reply(401)
-        
-        request(expressApp)
-        .get("/api/test")
-        .set("Authorization", `Bearer ${ugyldigTokenFraWonderwall}`)
-        .then(response => {
-            expect(response.statusCode).toBe(401);
-            done();
-        })
+            .post(azureOpenidConfigTokenPath)
+            .reply(401);
+
+        const res = await request(expressApp)
+            .get("/api/test")
+            .set("Authorization", `Bearer ${ugyldigTokenFraWonderwall}`)
+        expect(res.statusCode).toBe(401)
+        expect(azureNockScope.isDone()).toBeFalsy()
     });
-    
-    test("Kall til /api/{endepunkt} med gyldig Bearer token skal gi 200", done => {
-        const gyldigTokenFraWonderwall = "gyldig"
+
+    test("Kall til /api/{endepunkt} med gyldig Bearer token skal gi 200", async () => {
+        const gyldigTokenFraWonderwall = await createMockToken()
         const mockOBOToken = {
             "token_type": "Bearer",
             "scope": "https://graph.microsoft.com/user.read",
@@ -101,21 +121,18 @@ describe("Tester proxy mot lydia-api", () => {
         }
 
         const azureNockScope = nock(azureOpenidConfigTokenUri)
-        .post(azureOpenidConfigTokenPath)
-        .reply(200, mockOBOToken)
-        
-        const lydiaApiNockScope = nock(lydiaApiUri)
-        .get('/test')
-        .reply(200)
+            .post(azureOpenidConfigTokenPath)
+            .reply(200, mockOBOToken)
 
-        request(expressApp)
+        const lydiaApiNockScope = nock(lydiaApiUri)
+            .get('/test')
+            .reply(200)
+
+        const res = await request(expressApp)
             .get("/api/test")
-            .set("Authorization", `Bearer ${gyldigTokenFraWonderwall}`)
-            .then(response => {
-                azureNockScope.done()
-                lydiaApiNockScope.done()
-                expect(response.statusCode).toBe(200);
-                done();
-            })
+            .set("Authorization", `Bearer ${gyldigTokenFraWonderwall}`);
+        expect(azureNockScope.isDone())
+        expect(lydiaApiNockScope.isDone())
+        expect(res.statusCode).toBe(200)
     });
 });

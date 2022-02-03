@@ -9,11 +9,12 @@ import { AuthError } from "./error";
 
 export default class Application {
     expressApp: express.Express
+
     constructor(config : Config = new Config()){
         const basePath = "/lydia-radgiver";
         const buildPath = path.resolve(__dirname, "../client/dist");
         this.expressApp = express();
-        
+
         this.expressApp.use(basePath, express.static(buildPath));
         this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
         
@@ -28,7 +29,7 @@ export default class Application {
         const lydiaApiProxy = new LydiaApiProxy(config);
         // Proxy må ligge under healthcheck endepunktene for at de skal nås
         this.expressApp.use("/api",
-            validerTokenFraWonderwall(config.azure),
+            validerTokenFraWonderwall(config.azure, config._jwkSet),
             lydiaApiProxy.createExpressMiddleWare()
         )
         

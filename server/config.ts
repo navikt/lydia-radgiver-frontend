@@ -1,16 +1,31 @@
+import {JWKSetRetriever} from "./jwks";
+
+
+interface ConfigOptions {
+    azure?: Azure
+    server?: Server
+    lydiaApi?: LydiaApi
+    jwkSet?: JWKSetRetriever
+}
+
 export class Config {
     azure: Azure
     server: Server
     lydiaApi: LydiaApi
+    _jwkSet: JWKSetRetriever
 
     constructor(
-        azure = new Azure(),
-        server = new Server(),
-        lydiaApi = new LydiaApi()
+        {
+            azure = new Azure(),
+            server = new Server(),
+            lydiaApi = new LydiaApi(),
+            jwkSet
+        }: ConfigOptions = {}
     ) {
         this.azure = azure
         this.server = server
         this.lydiaApi = lydiaApi
+        this._jwkSet = jwkSet
     }
 }
 
@@ -22,7 +37,8 @@ export const envVars = {
     serverPort: "SERVER_PORT",
     lydiaApiUri: "LYDIA_API_URI",
     clusterName: "NAIS_CLUSTER_NAME",
-    nameSpace: "NAIS_NAMESPACE"
+    nameSpace: "NAIS_NAMESPACE",
+    jwkUri: "AZURE_OPENID_CONFIG_JWKS_URI"
 }
 
 export class Azure {
@@ -30,17 +46,20 @@ export class Azure {
     tokenEndpoint: string;
     clientSecret: string;
     issuer: string;
+    jwkUri: string
 
     constructor(
         clientId: string = getEnvVar(envVars.azureAppClientId),
         tokenEndpoint: string = getEnvVar(envVars.azureOpenidConfigTokenEndpoint),
         clientSecret: string = getEnvVar(envVars.azureAppClientSecret),
-        issuer: string = getEnvVar(envVars.azureAppClientSecret)
+        issuer: string = getEnvVar(envVars.azureOpenidConfigIssuer),
+        jwkUri: string = getEnvVar(envVars.jwkUri)
     ) {
         this.clientId = clientId;
         this.tokenEndpoint = tokenEndpoint;
         this.clientSecret = clientSecret;
         this.issuer = issuer;
+        this.jwkUri = jwkUri
     }
 }
 
