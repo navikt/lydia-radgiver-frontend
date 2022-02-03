@@ -21,8 +21,7 @@ export class LydiaApiProxy {
                 const accessToken = getBearerToken(req)
                 try {
                     const oboToken = await hentOnBehalfOfToken(accessToken, config)
-                    req.headers["Authorization"] = `Bearer ${oboToken}`
-                    return undefined
+                    proxyReq.setHeader('Authorization', `Bearer ${oboToken}`)
                 } catch (e) {
                     res.status(418).send("Teapot")
                 }
