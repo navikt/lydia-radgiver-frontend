@@ -1,63 +1,48 @@
 import axios from "axios";
 import {NextFunction, Request, Response} from "express";
-import jwt, { JwtPayload, NotBeforeError, TokenExpiredError, VerifyErrors } from "jsonwebtoken"
 import {URLSearchParams} from "url";
 import {Azure, Config} from "./config";
 import { AuthError } from "./error";
 import logger from "./logging"
+import {JWKSetRetriever} from "./jwks";
+import { jwtVerify, errors } from "jose"
 
 
-export const validerAccessToken = (accessToken: string, azure : Azure) : void => {
-    const options : jwt.VerifyOptions = {
+export const validerAccessToken = (accessToken: string, azure: Azure, jwkSet: JWKSetRetriever): Promise<void> => {
+    const options = {
         algorithms: ["RS256"],
         audience: azure.clientId,
         issuer: azure.issuer,
-        ignoreExpiration: false,
-        ignoreNotBefore: false,
-    }
-
-    jwt.verify(accessToken, azure.clientSecret, options, (error : VerifyErrors, dekodetToken : JwtPayload) => {
-        if (!error){
-            const secondsSinceEpoch = Math.round(new Date().getTime() / 1000)
-            const tokenHarGyldigIssuedAt = dekodetToken.iat < secondsSinceEpoch
-            
-            // const tokenErUtløpt = dekodetToken.exp < secondsSinceEpoch
-            // const tokenHarGyldigIssuedAt = dekodetToken.iat < secondsSinceEpoch
-            // const tokenHarGyldigIssuer = dekodetToken.iss === azure.issuer
-            // const tokenHarGyldigAudience = dekodetToken.aud === azure.clientId
-            if (!tokenHarGyldigIssuedAt) {
-                throw new AuthError("Token har ikke gyldig issuedAt")
+    };
+    return jwtVerify(accessToken, jwkSet, options)
+        .then(() => Promise.resolve())
+        .catch(error => {
+            let feilmelding: string
+            if (error instanceof errors.JWTExpired) {
+                feilmelding = "Token har utløpt"
+            } else if (error instanceof errors.JWTInvalid) {
+                feilmelding = "Payload i tokenet må være gyldig JSON!"
+            } else if (error instanceof errors.JWTClaimValidationFailed) {
+                logger.error(`Received error: ${error.message} with claim ${error.claim} and reason ${error.reason}`)
+                feilmelding = `Token mottatt har ugyldig claim ${error.claim}`
+            } else {
+                feilmelding = "Tokenet er ikke gyldig"
+                logger.error("Ukjent feil: " + error.message)
             }
-            return
-        } 
-        let feilmelding : string;
-        if (error instanceof TokenExpiredError) {
-            feilmelding = "Tokenet er utløpt"
-        }
-        else if (error instanceof NotBeforeError) {
-            feilmelding = "Tokenet er ikke gyldig enda"
-        }
-        else {
-            feilmelding = "Tokenet er ikke gyldig"
-            logger.error("Ukjent feil: " + error.message)
-        }
-        throw new AuthError(feilmelding)
-    })
+            return Promise.reject(new AuthError(feilmelding))
+        })
 }
 
 export function getBearerToken(req: Request) {
     return req.headers?.authorization?.substring("Bearer ".length);
 }
 
-export const validerTokenFraWonderwall = (azure : Azure) => async (req : Request, res : Response, next : NextFunction) => {
+export const validerTokenFraWonderwall = (azure: Azure, jwkSet: JWKSetRetriever) => async (req : Request, res : Response, next : NextFunction) => {
     const bearerToken = getBearerToken(req);
     if (!bearerToken) return next(new AuthError("Mangler token i auth header"))
-    try {
-        validerAccessToken(bearerToken, azure)
-        return next()
-    } catch (e) {
-        return next(e)
-    }
+    validerAccessToken(bearerToken, azure, jwkSet)
+        .then(() => next())
+        .catch(e => next(e))
 }
 
 export const hentOnBehalfOfToken = async (accessToken: string, config : Config) : Promise<string> => {

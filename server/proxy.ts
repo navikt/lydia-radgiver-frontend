@@ -2,7 +2,7 @@ import {Request, Response} from "express";
 import {createProxyMiddleware, Options} from "http-proxy-middleware"
 
 import { Config } from "./config";
-import {getBearerToken, hentOnBehalfOfToken, validerAccessToken } from "./onBehalfOf";
+import {getBearerToken, hentOnBehalfOfToken } from "./onBehalfOf";
 import logger from "./logging"
 
 export class LydiaApiProxy {
