@@ -1,8 +1,8 @@
 import {Request, Response} from "express";
+import { ClientRequest } from "http";
 import {createProxyMiddleware, Options} from "http-proxy-middleware"
 
 import { Config } from "./config";
-import {getBearerToken, hentOnBehalfOfToken } from "./onBehalfOf";
 import logger from "./logging"
 
 export class LydiaApiProxy {
@@ -17,14 +17,8 @@ export class LydiaApiProxy {
                 logger.info(`Proxy fra '${req.path}' til '${targetURI + nyPath}'`);
                 return nyPath;
             },
-            onProxyReq: async (proxyReq, req: Request, res: Response) => {
-                const accessToken = getBearerToken(req)
-                try {
-                    const oboToken = await hentOnBehalfOfToken(accessToken, config)
-                    proxyReq.setHeader('Authorization', `Bearer ${oboToken}`)
-                } catch (e) {
-                    res.status(418).send("Teapot")
-                }
+            onProxyReq: (proxyReq : ClientRequest, req: Request, res: Response) => {
+                proxyReq.setHeader('Authorization', `Bearer ${res.locals.on_behalf_of_token}`)
             }
         }
     }

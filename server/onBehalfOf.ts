@@ -8,6 +8,17 @@ import {JWKSetRetriever} from "./jwks";
 import { jwtVerify, errors } from "jose"
 
 
+export const onBehalfOfTokenMiddleware = (config : Config) => async (req : Request, res : Response, next : NextFunction) => { 
+    const bearerToken = getBearerToken(req);
+    if (!bearerToken) return next(new AuthError("Mangler token i auth header"))
+    hentOnBehalfOfToken(bearerToken, config)
+        .then(oboToken => {
+            res.locals.on_behalf_of_token = oboToken
+            return next()
+        })
+        .catch(error => next(error))
+}
+
 export const validerAccessToken = (accessToken: string, azure: Azure, jwkSet: JWKSetRetriever): Promise<void> => {
     const options = {
         algorithms: ["RS256"],
