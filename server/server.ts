@@ -3,8 +3,11 @@ import Application from './app';
 import { Config } from './config';
 import logger from "./logging"
 import { setupRemoteJwkSet } from "./jwks";
+import dotenv from "dotenv" 
+
 
 const main = () => {
+    dotenv.config({ path: "../env.local"})
     setupRemoteJwkSet()
         .then(jwkSet => {
             const config = new Config({jwkSet})
