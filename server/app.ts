@@ -2,7 +2,7 @@ import express, {NextFunction, Request, Response} from "express"
 import path from "path"
 
 import { LydiaApiProxy } from "./proxy";
-import {onBehalfOfTokenMiddleware, validerTokenFraWonderwall} from "./onBehalfOf";
+import {onBehalfOfTokenMiddleware, validerTokenFraFakedings, validerTokenFraWonderwall} from "./onBehalfOf";
 import { Config } from "./config";
 import logger from "./logging"
 import { AuthError } from "./error";
@@ -29,8 +29,8 @@ export default class Application {
         const lydiaApiProxy = new LydiaApiProxy(config);
         // Proxy må ligge under healthcheck endepunktene for at de skal nås
         this.expressApp.use("/api",
-            validerTokenFraWonderwall(config.azure, config._jwkSet),
-            onBehalfOfTokenMiddleware(config),
+            process.env.NAIS_CLUSTER_NAME === "lokal" ? validerTokenFraFakedings(config.azure, config._jwkSet) : validerTokenFraWonderwall(config.azure, config._jwkSet),
+            process.env.NAIS_CLUSTER_NAME === "lokal" ? (req, res, next) => { return next()} : onBehalfOfTokenMiddleware(config),
             lydiaApiProxy.createExpressMiddleWare()
         )
         

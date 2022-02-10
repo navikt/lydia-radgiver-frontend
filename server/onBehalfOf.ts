@@ -56,7 +56,9 @@ export const validerTokenFraWonderwall = (azure: Azure, jwkSet: JWKSetRetriever)
         .catch(e => next(e))
 }
 
-export const validerTokenFraFakedings = async (req : Request, res : Response, next : NextFunction) => {
+export const validerTokenFraFakedings = (azure: Azure, jwkSet: JWKSetRetriever) => async (req : Request, res : Response, next : NextFunction) => {
+    const { data: bearerToken } = await axios.get(azure.tokenEndpoint);
+    res.locals.on_behalf_of_token = bearerToken
     return next()
 }
 
