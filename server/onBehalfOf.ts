@@ -56,6 +56,10 @@ export const validerTokenFraWonderwall = (azure: Azure, jwkSet: JWKSetRetriever)
         .catch(e => next(e))
 }
 
+export const validerTokenFraFakedings = async (req : Request, res : Response, next : NextFunction) => {
+    return next()
+}
+
 export const hentOnBehalfOfToken = async (accessToken: string, config : Config) : Promise<string> => {
     // OBO flyt som beskrevet her:
     // https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow#first-case-access-token-request-with-a-shared-secret

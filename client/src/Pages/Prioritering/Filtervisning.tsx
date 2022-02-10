@@ -2,8 +2,8 @@ import { Filterverdier } from "../../domenetyper";
 
 const Filtervisning = ({ fylker, kommuner} : Filterverdier ) => {
     return <div>
-        {fylker.forEach(fylke => <p>{fylke.navn}</p>)}
-        {kommuner.forEach(kommune => <p>{kommune.navn}</p>)}
+        {fylker.map(fylke => <p>{fylke.navn}</p>)}
+        {kommuner.map(kommune => <p>{kommune.navn}</p>)}
     </div>
 }
 

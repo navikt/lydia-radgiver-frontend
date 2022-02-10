@@ -35,6 +35,7 @@ export default class Application {
         )
         
         this.expressApp.use((error: Error, req: Request, res: Response, _: NextFunction) => {
+            console.log(error, error)
             if (error instanceof AuthError) {
                 return res.status(401).send(error.message)
             }

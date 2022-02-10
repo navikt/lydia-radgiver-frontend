@@ -1,27 +1,18 @@
-import { useState } from "react";
-import { useEffect } from "react";
-import { hentFilterverdier } from "../../api/lydia-api";
-import { Filterverdier } from "../../domenetyper";
 import Filtervisning from "./Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
+import {useFilterverdier} from "../../api/lydia-api";
 
 const Prioriteringsside = () => {
-    const [filterverdier, setFilterverdier] = useState<Filterverdier>({
-        fylker: [],
-        kommuner : []
-    });
+    const { filterverdier, loading, error } = useFilterverdier();
+    if (loading) {
+        return <div>Loading</div>
+    }
+    if (error) {
+        return <p>Error</p>
+    }
 
-    useEffect(() => {
-        hentFilterverdier()
-        .then(response => {
-            if (response.isOk()){
-                setFilterverdier(response.hentData() as Filterverdier)
-            }
-        })
-    }, [])
-    
     return <>
-        <Filtervisning {...filterverdier} />
+        {filterverdier && <Filtervisning {...filterverdier} />}
         <PrioriteringsTabell/>
     </>
 }
