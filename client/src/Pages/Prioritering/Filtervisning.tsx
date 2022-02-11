@@ -1,10 +1,18 @@
 import { Filterverdier } from "../../domenetyper";
 
-const Filtervisning = ({ fylker, kommuner} : Filterverdier ) => {
-    return <div>
-        {fylker.map(fylke => <p>{fylke.navn}</p>)}
-        {kommuner.map(kommune => <p>{kommune.navn}</p>)}
-    </div>
+const Filtervisning = ({ fylker } : Filterverdier ) => {
+    return (
+        <div>
+            {fylker.map(fylke => {
+                return (
+                    <div>
+                        <h1>{fylke.fylke.navn}</h1>
+                        {fylke.kommuner.map(kommune => <p>{kommune.navn}</p>)}
+                    </div>
+                )
+            })}
+        </div>
+    )
 }
 
-export default Filtervisning
+export default Filtervisning;

@@ -1,6 +1,5 @@
 export type Filterverdier = {
-    fylker: Fylke[];
-    kommuner: Kommune[];
+    fylker: FylkerMedKommuner[];
 }
 
 export type Fylke = {
@@ -12,4 +11,9 @@ export type Fylke = {
 export type Kommune = {
     navn: string;
     nummer: string;
+}
+
+export type FylkerMedKommuner = {
+    fylke : Fylke;
+    kommuner: Kommune[];   
 }
