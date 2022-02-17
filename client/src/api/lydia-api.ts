@@ -1,5 +1,5 @@
 import { defaultFetcher } from "./nettverkskall";
-import { Filterverdier, SykefraversstatistikkVirksomhet } from "../domenetyper";
+import { Filterverdier, Fylke, Kommune, SykefraversstatistikkVirksomhet } from "../domenetyper";
 import useSWR from "swr";
 
 const basePath = "/api";
@@ -17,17 +17,22 @@ const useSwrTemplate = <T>(path: string) => {
 
 export const useFilterverdier = () => useSwrTemplate<Filterverdier>(filterverdierPath);
 export const useSykefraværsstatistikk = (søkeverdier?: Søkeverdier) => {
-    const sykefraværurl = new URL(sykefraværsstatistikkPath);
+    let sykefraværUrl = sykefraværsstatistikkPath
     if (søkeverdier) {
-        Object.entries(søkeverdier).forEach(([key, value]) => {
-            sykefraværurl.searchParams.append(key, value);
-        });
+        sykefraværUrl += `?${søkeverdierTilUrlSearchParams(søkeverdier).toString()}`;
     }
-    const path = sykefraværurl.toString();
-    return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(path);
+    return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(sykefraværUrl);
 };
 
-interface Søkeverdier {
-    kommuner?: string;
-    fylker?: string;
+export interface Søkeverdier {
+    kommuner?: Kommune[];
+    fylker?: Fylke[];
+}
+
+
+const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
+    const params = new URLSearchParams();
+    params.append("kommuner", søkeverdier.kommuner?.map(kommune => kommune.nummer).join(",") ?? "");
+    params.append("fylker", søkeverdier.fylker?.map(fylke => fylke.nummer).join(",") ?? "");
+    return params;
 }
