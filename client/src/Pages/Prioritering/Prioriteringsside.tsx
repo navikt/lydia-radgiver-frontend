@@ -1,15 +1,13 @@
 import Filtervisning from "./Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import {useFilterverdier, useSykefraværsstatistikk} from "../../api/lydia-api";
-import { Sykefraværsstatistikk } from "../../domenetyper";
+import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
 
 
 const randomHeltall = () => Math.floor(Math.random() * 100);
 const randomProsent = () => parseFloat((Math.random() * 100).toFixed(2));
 
-const sykefraværStatistikkMock: Sykefraværsstatistikk = {
-    sykefraværsstatistikkVirksomheter : 
-    [
+const sykefraværStatistikkMock: SykefraversstatistikkVirksomhet[] = [
         {
             orgnr: '987654321',
             virksomhetsnavn: 'Generasjonsbaren',
@@ -48,7 +46,6 @@ const sykefraværStatistikkMock: Sykefraværsstatistikk = {
             muligeDagsverk: randomHeltall(),
         }
     ]
-}
 
 const Prioriteringsside = () => {
     const { data : filterverdier, loading: loadingFilterverdier, error: errorFilterverdier } = useFilterverdier();
@@ -56,19 +53,14 @@ const Prioriteringsside = () => {
 
     const isLoading = loadingFilterverdier || loadingSykefraværsstatistikk;
     const isError = errorFilterverdier || errorSykefraværsstatistikk;
-    if (isLoading) {
-        return <div>Loading</div>
-    }
-    
-    if (isError) {
-        return <p>Error</p>
-    }
 
     return (
         <>
             {filterverdier && <Filtervisning {...filterverdier} />}
             {/* TODO: erstatt mock med verdien fra useSykefraværsstatistikk */}
-            {sykefraværStatistikkMock && <PrioriteringsTabell {...sykefraværStatistikkMock}/>}
+            {sykefraværStatistikkMock && <PrioriteringsTabell sykefraværsstatistikk={sykefraværStatistikkMock}/>}
+            {isLoading && <p>Loading</p>}
+            {isError && <p>Error</p>}
         </>
     )
 }

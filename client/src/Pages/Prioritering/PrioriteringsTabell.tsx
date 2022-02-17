@@ -1,6 +1,6 @@
 import {Table} from "@navikt/ds-react";
 import "./PrioriteringsTabell.css"
-import { Sykefraværsstatistikk } from "../../domenetyper";
+import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
 
 
 const kolonneNavn = [
@@ -11,7 +11,12 @@ const kolonneNavn = [
     'Mulige dagsverk',
 ]
 
-export const PrioriteringsTabell = ({ sykefraværsstatistikkVirksomheter } : Sykefraværsstatistikk) => {
+
+interface Props {
+    sykefraværsstatistikk : SykefraversstatistikkVirksomhet[]
+}
+
+export const PrioriteringsTabell = ({ sykefraværsstatistikk } : Props) => {
     return (
         <div className="prioriteringstabell--tabell">
             <Table zebraStripes>
@@ -25,7 +30,7 @@ export const PrioriteringsTabell = ({ sykefraværsstatistikkVirksomheter } : Syk
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {sykefraværsstatistikkVirksomheter.map((sykefraværStatistikkVirksomhet) => (
+                    {sykefraværsstatistikk.map((sykefraværStatistikkVirksomhet) => (
                         <Table.Row
                         key={sykefraværStatistikkVirksomhet.virksomhetsnavn}
                         >

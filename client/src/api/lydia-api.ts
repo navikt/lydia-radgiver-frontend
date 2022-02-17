@@ -1,5 +1,5 @@
 import {defaultFetcher} from './nettverkskall'
-import { Filterverdier, Sykefraværsstatistikk } from '../domenetyper'
+import { Filterverdier, SykefraversstatistikkVirksomhet } from '../domenetyper'
 import useSWR from "swr";
 
 const basePath = "/api"
@@ -15,6 +15,4 @@ const useSwrTemplate = <T>(path : string) => {
 }
 
 export const useFilterverdier = () => useSwrTemplate<Filterverdier>(filterverdierPath)
-export const useSykefraværsstatistikk = () => useSwrTemplate<Sykefraværsstatistikk>(sykefraværsstatistikkPath)
-
-
+export const useSykefraværsstatistikk = () => useSwrTemplate<SykefraversstatistikkVirksomhet[]>(sykefraværsstatistikkPath)

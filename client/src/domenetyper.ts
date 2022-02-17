@@ -15,10 +15,6 @@ export type SykefraversstatistikkVirksomhet = {
     tapteDagsverk: number;
 }
 
-export type Sykefraværsstatistikk = {
-    sykefraværsstatistikkVirksomheter: SykefraversstatistikkVirksomhet[];
-}
-
 export type Virksomhet = {
     organisasjonsnummer: string;
     navn: string;
