@@ -34,18 +34,11 @@ const Kommunedropdown = ({
     kommuner,
     valgtKommune,
     endreKommune,
-    valgtFylke,
 }: {
     kommuner: Kommune[];
     valgtKommune?: Kommune;
     endreKommune: stateUpdater;
-    valgtFylke?: Fylke;
-}) => {
-    const filtrerteKommuner = valgtFylke
-        ? kommuner.filter((ko) => ko.nummer.startsWith(valgtFylke.nummer))
-        : kommuner;
-
-    return (
+}) => (
         <Select
             label="Kommune"
             value={valgtKommune?.nummer ?? ""}
@@ -56,14 +49,13 @@ const Kommunedropdown = ({
             <option value={""} key={"emptykommune"}>
                 Velg kommune
             </option>
-            {filtrerteKommuner.map((kommune) => (
+            {kommuner.map((kommune) => (
                 <option value={kommune.nummer} key={kommune.nummer}>
                     {kommune.navn}
                 </option>
             ))}
         </Select>
     );
-};
 
 interface FiltervisningProps {
     filterverdier: Filterverdier;
@@ -111,7 +103,6 @@ const Filtervisning = ({ filterverdier, oppdaterSøkeverdier }: FiltervisningPro
                 kommuner={filterverdier.fylker.flatMap(({ kommuner }) => kommuner)}
                 valgtKommune={valgtKommune}
                 endreKommune={endreKommune}
-                valgtFylke={valgtFylke}
             />
         </div>
     );
