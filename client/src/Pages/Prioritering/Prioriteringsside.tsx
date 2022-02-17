@@ -1,7 +1,7 @@
 import Filtervisning from "./Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import {useFilterverdier, useSykefraværsstatistikk} from "../../api/lydia-api";
-import { SykefraversstatistikkVirksomhet, Sykefraværsstatistikk } from "../../domenetyper";
+import { Sykefraværsstatistikk } from "../../domenetyper";
 
 
 const randomHeltall = () => Math.floor(Math.random() * 100);

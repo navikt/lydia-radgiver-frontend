@@ -1,5 +1,5 @@
 import "@navikt/ds-css";
-import Prioriteringsside from "./Pages/Prioritering/Prioteringsside";
+import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
 
 
 function App() {
