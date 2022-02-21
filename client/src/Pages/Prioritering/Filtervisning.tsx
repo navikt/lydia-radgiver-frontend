@@ -1,8 +1,10 @@
 import { Søkeverdier, Filterverdier, Fylke, FylkerMedKommuner, Kommune, Næringsgruppe } from "../../domenetyper";
 import { Select } from "@navikt/ds-react";
 import { useState } from "react";
+import ReactSelect from "react-select"
 
 type stateUpdater = (value: string) => void;
+type listStateUpdater = (value: string[]) => void;
 
 const Fylkedropdown = ({
     fylkerOgKommuner,
@@ -56,22 +58,19 @@ const Kommunedropdown = ({
         </Select>
     );
 
-const Næringsgruppedropdown = ({ næringsgrupper, valgtNæringsgruppe, endreNæringsgruppe} : { næringsgrupper : Næringsgruppe[], valgtNæringsgruppe? : Næringsgruppe, endreNæringsgruppe : stateUpdater }) => (
-    <Select
-        label="Næringsgruppe"
-        value={valgtNæringsgruppe?.kode ?? ""}
-        onChange={(e) => endreNæringsgruppe(e.target.value)}
-    >
-        <option value={""} key={"emptynæringsgruppe"}>
-            Velg næringsgruppe
-        </option>
-        {næringsgrupper.map((næringsgruppe) => (
-            <option value={næringsgruppe.kode} key={næringsgruppe.kode}>
-                {næringsgruppe.navn}
-            </option>
-        ))}
-    </Select>
-);
+function mapnæringsGruppeTilReactSelectOptions(gruppe: Næringsgruppe) {
+    return {
+        label: gruppe.navn,
+        value: gruppe.kode
+    };
+}
+
+const Næringsgruppedropdown = ({ næringsgrupper, valgtNæringsgruppe, endreNæringsgrupper} : { næringsgrupper : Næringsgruppe[], valgtNæringsgruppe : Næringsgruppe[], endreNæringsgrupper : listStateUpdater }) => {
+    const options = næringsgrupper.map(mapnæringsGruppeTilReactSelectOptions)
+    return <ReactSelect noOptionsMessage={() => "Ingen næringsgrupper"} options={options} defaultValue={valgtNæringsgruppe.map(mapnæringsGruppeTilReactSelectOptions)} placeholder={"Velg næringsgruppe"} isMulti onChange={(verdier) => {
+        endreNæringsgrupper(verdier.map(({value: næringsgruppe}) => næringsgruppe))
+    }} />
+}
 
 interface FiltervisningProps {
     filterverdier: Filterverdier;
@@ -81,14 +80,14 @@ interface FiltervisningProps {
 const fylkesnummerTilFylke = (fylkenummer: string, fylkerMedKommuner : FylkerMedKommuner[]) => {
     return fylkerMedKommuner.find(({ fylke }) => fylke.nummer === fylkenummer)?.fylke;
 }
-const kommunenummerTilKommune = (kommunenummer: string, fylkerMedKommuner : FylkerMedKommuner[]) => 
+const kommunenummerTilKommune = (kommunenummer: string, fylkerMedKommuner : FylkerMedKommuner[]) =>
     fylkerMedKommuner.find(({ fylke }) => fylke.nummer === kommunenummer.substring(0, 2))
         ?.kommuner.find(({ nummer }) => nummer === kommunenummer);
 
-const næringsgruppeKodeTilNæringsgruppe = (næringsgruppeKode: string, næringsgrupper : Næringsgruppe[]) => 
-    næringsgrupper.find(({ kode }) => kode === næringsgruppeKode);
+const næringsgruppeKoderTilNæringsgrupper = (næringsgruppeKoder: string[], næringsgrupper : Næringsgruppe[]) =>
+    næringsgrupper.filter(({ kode }) => næringsgruppeKoder.includes(kode));
 
-const filtrerKommunerPåValgtFylke = (fylke: Fylke, kommuner: Kommune[]) => 
+const filtrerKommunerPåValgtFylke = (fylke: Fylke, kommuner: Kommune[]) =>
     fylke
         ? kommuner.filter((kommune) => kommune.nummer.startsWith(fylke.nummer))
         : kommuner;
@@ -96,9 +95,9 @@ const filtrerKommunerPåValgtFylke = (fylke: Fylke, kommuner: Kommune[]) =>
 const Filtervisning = ({ filterverdier, oppdaterSøkeverdier }: FiltervisningProps) => {
     const [valgtFylke, setValgtFylke] = useState<Fylke>();
     const [valgtKommune, setValgtKommune] = useState<Kommune>();
-    const [valgtNæringsgruppe, setValgtNæringsgruppe] = useState<Næringsgruppe>();
+    const [næringsGrupper, setNæringsGrupper] = useState<Næringsgruppe[]>([]);
     const endreFylke = (fylkenummer: string) => {
-        if (fylkenummer === valgtFylke?.nummer) 
+        if (fylkenummer === valgtFylke?.nummer)
             return
         const endretFylke = fylkesnummerTilFylke(fylkenummer, filterverdier.fylker)
         if (!endretFylke)
@@ -120,23 +119,21 @@ const Filtervisning = ({ filterverdier, oppdaterSøkeverdier }: FiltervisningPro
             kommuner: [endretKommune],
         });
     };
-    const endreNæringsgruppe = (næringsgruppeNavn: string) => {
-        const endretNæringsgruppe = næringsgruppeKodeTilNæringsgruppe(næringsgruppeNavn, filterverdier.næringsgrupper)
-        if (!endretNæringsgruppe)
-            return
-        setValgtNæringsgruppe(endretNæringsgruppe);
+    const endreNæringsgruppe = (næringsgruppeKoder: string[]) => {
+        const endretNæringsgrupper = næringsgruppeKoderTilNæringsgrupper(næringsgruppeKoder, filterverdier.næringsgrupper)
+        setNæringsGrupper(endretNæringsgrupper);
         oppdaterSøkeverdier({
-            næringsgrupper: [endretNæringsgruppe],
+            næringsgrupper: endretNæringsgrupper,
         });
     };
     const alleKommuner = filterverdier.fylker.flatMap(({ kommuner }) => kommuner)
-    const relevanteKommuner = valgtFylke? filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner) : alleKommuner;
+    const relevanteKommuner = valgtFylke ? filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner) : alleKommuner;
     return (
         <div>
-            <Næringsgruppedropdown 
-                næringsgrupper={filterverdier.næringsgrupper} 
-                valgtNæringsgruppe={valgtNæringsgruppe}
-                endreNæringsgruppe={endreNæringsgruppe}
+            <Næringsgruppedropdown
+                næringsgrupper={filterverdier.næringsgrupper}
+                valgtNæringsgruppe={næringsGrupper}
+                endreNæringsgrupper={endreNæringsgruppe}
             />
             <Fylkedropdown
                 fylkerOgKommuner={filterverdier.fylker}
