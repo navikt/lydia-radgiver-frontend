@@ -2,8 +2,7 @@ import Filtervisning from "./Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import { Søkeverdier, useFilterverdier, useSykefraværsstatistikk } from "../../api/lydia-api";
 import { useState } from "react";
-import { Filterverdier } from "../../domenetyper";
-import { filterverdierMock } from "./filterverdierMock";
+import { Filterverdier, SykefraversstatistikkVirksomhet } from "../../domenetyper";
 
 const Prioriteringsside = () => {
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>();
@@ -25,11 +24,12 @@ const Prioriteringsside = () => {
         setSøkeverdier({...søkeverdier, ...nyeSøkeverdier});
     }
     const tommeFilterverdier : Filterverdier  = { fylker : [] }
+    const tomSykefraværsstatistikk : SykefraversstatistikkVirksomhet[] = []
 
     return (
         <>
             <Filtervisning filterverdier={filterverdier ?? tommeFilterverdier} oppdaterSøkeverdier={gjørNyttSøk} />
-            <PrioriteringsTabell sykefraværsstatistikk={sykefraversstatistikk ?? []} />
+            <PrioriteringsTabell sykefraværsstatistikk={sykefraversstatistikk ?? tomSykefraværsstatistikk} />
             {isLoading && <p>Loading</p>}
             {isError && <p>Error</p>}
         </>

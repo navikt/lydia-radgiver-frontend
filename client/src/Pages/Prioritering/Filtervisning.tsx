@@ -78,6 +78,8 @@ const Filtervisning = ({ filterverdier, oppdaterSøkeverdier }: FiltervisningPro
     const [valgtFylke, setValgtFylke] = useState<Fylke>();
     const [valgtKommune, setValgtKommune] = useState<Kommune>();
     const endreFylke = (fylkenummer: string) => {
+        if (fylkenummer === valgtFylke?.nummer) 
+            return
         const endretFylke = fylkesnummerTilFylke(fylkenummer, filterverdier.fylker)
         if (!endretFylke)
             return
@@ -86,6 +88,7 @@ const Filtervisning = ({ filterverdier, oppdaterSøkeverdier }: FiltervisningPro
             setValgtKommune(undefined);
         oppdaterSøkeverdier({
             fylker: [endretFylke],
+            kommuner: [],
         });
     };
     const endreKommune = (kommunenummer: string) => {
