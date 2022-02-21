@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, {AxiosError} from "axios";
 import {NextFunction, Request, Response} from "express";
 import {URLSearchParams} from "url";
 import {Azure, Config} from "./config";
@@ -79,7 +79,11 @@ export const hentOnBehalfOfToken = async (accessToken: string, config : Config) 
         return result.data.access_token;
     } catch (error) {
         if (error instanceof Error) {
-            throw new AuthError(`Feil under uthenting av OBO token: ${error.message}`)
+            if (axios.isAxiosError(error)) {
+                throw new AuthError(`Feil under uthenting av OBO token: ${error.response?.data}`)
+            } else {
+                throw new AuthError("Ukjent feil: " + error.message)
+            }
         }
     }
 }
