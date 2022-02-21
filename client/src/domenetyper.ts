@@ -1,5 +1,17 @@
 export type Filterverdier = {
     fylker: FylkerMedKommuner[];
+    næringsgrupper: Næringsgruppe[];
+}
+
+export interface Søkeverdier {
+    kommuner?: Kommune[];
+    fylker?: Fylke[];
+    næringsgrupper?: Næringsgruppe[];
+}
+
+export type Næringsgruppe = {
+    navn: string;
+    kode: string;
 }
 
 export type SykefraversstatistikkVirksomhet = {

@@ -34,5 +34,15 @@ export const filterverdierMock: Filterverdier = {
                 },
             ],
         },
+    ],
+    næringsgrupper: [
+        {
+            kode : "01",
+            navn : "A - Jordbruk og tjenester tilknyttet jordbruk, jakt og viltstell",
+        },
+        {
+            kode : "02",
+            navn: "B - Skogbruk og tjenester tilknyttet skogbruk"
+        }
     ]
 }

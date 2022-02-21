@@ -1,5 +1,5 @@
 import { defaultFetcher } from "./nettverkskall";
-import { Filterverdier, Fylke, Kommune, SykefraversstatistikkVirksomhet } from "../domenetyper";
+import { Filterverdier, SykefraversstatistikkVirksomhet, Søkeverdier } from "../domenetyper";
 import useSWR from "swr";
 
 const basePath = "/api";
@@ -24,15 +24,10 @@ export const useSykefraværsstatistikk = (søkeverdier?: Søkeverdier) => {
     return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(sykefraværUrl);
 };
 
-export interface Søkeverdier {
-    kommuner?: Kommune[];
-    fylker?: Fylke[];
-}
-
-
 const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     const params = new URLSearchParams();
     params.append("kommuner", søkeverdier.kommuner?.map(kommune => kommune.nummer).join(",") ?? "");
     params.append("fylker", søkeverdier.fylker?.map(fylke => fylke.nummer).join(",") ?? "");
+    params.append("neringsgrupper", søkeverdier.næringsgrupper?.map(næringsgruppe => næringsgruppe.kode).join(",") ?? "");
     return params;
 }
