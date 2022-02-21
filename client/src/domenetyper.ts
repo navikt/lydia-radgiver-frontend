@@ -51,6 +51,8 @@ export interface Søkeverdier {
     kommuner?: Kommune[];
     fylker?: Fylke[];
     næringsgrupper?: Næringsgruppe[];
+    sykefraværsprosentFra?: number;
+    sykefraværsprosentTil?: number;
 }
 
 export type Virksomhet = {
