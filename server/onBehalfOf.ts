@@ -80,7 +80,7 @@ export const hentOnBehalfOfToken = async (accessToken: string, config : Config) 
     } catch (error) {
         if (error instanceof Error) {
             if (axios.isAxiosError(error)) {
-                throw new AuthError(`Feil under uthenting av OBO token: ${error.response?.data}`)
+                throw new AuthError(`Feil under uthenting av OBO token: ${JSON.stringify(error.response?.data)}`)
             } else {
                 throw new AuthError("Ukjent feil: " + error.message)
             }
