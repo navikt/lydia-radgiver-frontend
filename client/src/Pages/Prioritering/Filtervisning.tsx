@@ -1,7 +1,6 @@
-import { Filterverdier, Fylke, FylkerMedKommuner, Kommune, Næringsgruppe } from "../../domenetyper";
+import { Søkeverdier, Filterverdier, Fylke, FylkerMedKommuner, Kommune, Næringsgruppe } from "../../domenetyper";
 import { Select } from "@navikt/ds-react";
 import { useState } from "react";
-import { Søkeverdier } from "../../domenetyper";
 
 type stateUpdater = (value: string) => void;
 

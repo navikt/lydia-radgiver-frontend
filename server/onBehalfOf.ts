@@ -1,4 +1,4 @@
-import axios, {AxiosError} from "axios";
+import axios from "axios";
 import {NextFunction, Request, Response} from "express";
 import {URLSearchParams} from "url";
 import {Azure, Config} from "./config";
