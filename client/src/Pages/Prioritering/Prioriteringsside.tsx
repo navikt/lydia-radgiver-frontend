@@ -3,6 +3,7 @@ import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import { Søkeverdier, useFilterverdier, useSykefraværsstatistikk } from "../../api/lydia-api";
 import { useState } from "react";
 import { Filterverdier } from "../../domenetyper";
+import { filterverdierMock } from "./filterverdierMock";
 
 const Prioriteringsside = () => {
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>();
@@ -28,7 +29,6 @@ const Prioriteringsside = () => {
     return (
         <>
             <Filtervisning filterverdier={filterverdier ?? tommeFilterverdier} oppdaterSøkeverdier={gjørNyttSøk} />
-            {/* TODO: erstatt mock med verdien fra useSykefraværsstatistikk */}
             <PrioriteringsTabell sykefraværsstatistikk={sykefraversstatistikk ?? []} />
             {isLoading && <p>Loading</p>}
             {isError && <p>Error</p>}

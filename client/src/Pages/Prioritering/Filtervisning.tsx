@@ -69,6 +69,11 @@ const kommunenummerTilKommune = (kommunenummer: string, fylkerMedKommuner : Fylk
     fylkerMedKommuner.find(({ fylke }) => fylke.nummer === kommunenummer.substring(0, 2))
         ?.kommuner.find(({ nummer }) => nummer === kommunenummer);
 
+const filtrerKommunerPåValgtFylke = (fylke: Fylke, kommuner: Kommune[]) => 
+    fylke
+        ? kommuner.filter((kommune) => kommune.nummer.startsWith(fylke.nummer))
+        : kommuner;
+
 const Filtervisning = ({ filterverdier, oppdaterSøkeverdier }: FiltervisningProps) => {
     const [valgtFylke, setValgtFylke] = useState<Fylke>();
     const [valgtKommune, setValgtKommune] = useState<Kommune>();
@@ -92,6 +97,8 @@ const Filtervisning = ({ filterverdier, oppdaterSøkeverdier }: FiltervisningPro
             kommuner: [endretKommune],
         });
     };
+    const alleKommuner = filterverdier.fylker.flatMap(({ kommuner }) => kommuner)
+    const relevanteKommuner = valgtFylke? filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner) : alleKommuner;
     return (
         <div>
             <Fylkedropdown
@@ -100,7 +107,7 @@ const Filtervisning = ({ filterverdier, oppdaterSøkeverdier }: FiltervisningPro
                 endreFylke={endreFylke}
             />
             <Kommunedropdown
-                kommuner={filterverdier.fylker.flatMap(({ kommuner }) => kommuner)}
+                kommuner={relevanteKommuner}
                 valgtKommune={valgtKommune}
                 endreKommune={endreKommune}
             />
