@@ -20,9 +20,22 @@ export const filterverdierSchema = z.object({
     næringsgrupper: z.array(næringsgrupperSchema),
 });
 
+// val orgnr: String,
+// val virksomhetsnavn: String,
+// val kommune: Kommune,
+// val sektor: String,
+// val neringsgruppe: String,
+// val arstall: String,
+// val kvartal: String,
+// val sykefraversprosent: String,
+// val antallPersoner: String,
+// val muligeDagsverk: String,
+// val tapteDagsverk: String
+
 export const sykefraversstatistikkVirksomhetSchema = z.object({
     orgnr: z.string(),
     virksomhetsnavn: z.string(),
+    kommune: fylkeOgKommuneSchema,
     sektor: z.string(),
     neringsgruppe: z.string(),
     arstall: z.number(),
