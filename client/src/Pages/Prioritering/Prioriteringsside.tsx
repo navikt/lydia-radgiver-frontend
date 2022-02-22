@@ -32,7 +32,6 @@ const Prioriteringsside = () => {
     };
     const tommeFilterverdier: Filterverdier = {
         fylker: [],
-        næringsgrupper: [],
     };
     const tomSykefraværsstatistikk: SykefraversstatistikkVirksomhet[] = [];
 

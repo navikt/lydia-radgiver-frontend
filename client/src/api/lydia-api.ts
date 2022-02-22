@@ -31,6 +31,10 @@ const useSwrTemplate = <T>(path: string, schema: ZodType<T>) => {
     }
     const safeParseResultat = schema.safeParse(data);
     if (!safeParseResultat.success) {
+        console.error(
+            "Feil i parsing av data fra server",
+            safeParseResultat.error
+        );
         return {
             data: undefined,
             error: safeParseResultat.error,
