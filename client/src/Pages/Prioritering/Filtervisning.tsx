@@ -124,7 +124,7 @@ const validerSykefraværsprosent = (inputVerdi: string): Validering => {
     }
     const verdi = Number(inputVerdi);
     if (isNaN(verdi) || verdi < 0.0 || verdi > 100.0) {
-        return feil("Ugyldig verdi");
+        return feil("Ugyldig verdi. Tallet må være mellom 0.00 og 100.00");
     }
     return riktig();
 };
