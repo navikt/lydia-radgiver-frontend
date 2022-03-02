@@ -23,6 +23,7 @@ export const filterverdierSchema = z.object({
 export const sykefraversstatistikkVirksomhetSchema = z.object({
     orgnr: z.string(),
     virksomhetsnavn: z.string(),
+    kommune: fylkeOgKommuneSchema,
     sektor: z.string(),
     neringsgruppe: z.string(),
     arstall: z.number(),

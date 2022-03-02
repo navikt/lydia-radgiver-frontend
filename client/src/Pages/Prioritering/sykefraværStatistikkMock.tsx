@@ -11,7 +11,10 @@ export const sykefraværStatistikkMock: SykefraversstatistikkVirksomhet[] = [
         neringsgruppe: "Kontortjenester",
         arstall: 2022,
         kvartal: 1,
-
+        kommune: {
+            nummer: "0301",
+            navn: "Oslo",
+        },
         sykefraversprosent: randomProsent(),
         antallPersoner: randomHeltall(),
         muligeDagsverk: randomHeltall(),
@@ -24,6 +27,10 @@ export const sykefraværStatistikkMock: SykefraversstatistikkVirksomhet[] = [
         neringsgruppe: "Kontortjenester",
         arstall: 2022,
         kvartal: 1,
+        kommune: {
+            nummer: "0301",
+            navn: "Oslo",
+        },
         sykefraversprosent: randomProsent(),
         antallPersoner: randomHeltall(),
         tapteDagsverk: randomHeltall(),
@@ -36,6 +43,10 @@ export const sykefraværStatistikkMock: SykefraversstatistikkVirksomhet[] = [
         neringsgruppe: "Kontortjenester",
         arstall: 2022,
         kvartal: 1,
+        kommune: {
+            nummer: "0301",
+            navn: "Oslo",
+        },
         sykefraversprosent: randomProsent(),
         antallPersoner: randomHeltall(),
         tapteDagsverk: randomHeltall(),

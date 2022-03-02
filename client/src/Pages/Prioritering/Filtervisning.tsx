@@ -13,6 +13,9 @@ import ReactSelect from "react-select";
 type stateUpdater = (value: string) => void;
 type listStateUpdater = (value: string[]) => void;
 
+const sorterAlfabetisk = (a: string, b: string) =>
+    a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase());
+
 const Fylkedropdown = ({
     fylkerOgKommuner,
     valgtFylke,
@@ -29,11 +32,13 @@ const Fylkedropdown = ({
             onChange={(e) => endreFylke(e.target.value)}
         >
             <option value="">Velg fylke</option>
-            {fylkerOgKommuner.map(({ fylke }) => (
-                <option value={fylke.nummer} key={fylke.nummer}>
-                    {fylke.navn}
-                </option>
-            ))}
+            {fylkerOgKommuner
+                .sort((a, b) => sorterAlfabetisk(a.fylke.navn, b.fylke.navn))
+                .map(({ fylke }) => (
+                    <option value={fylke.nummer} key={fylke.nummer}>
+                        {fylke.navn}
+                    </option>
+                ))}
         </Select>
     );
 };
@@ -57,11 +62,13 @@ const Kommunedropdown = ({
         <option value={""} key={"emptykommune"}>
             Velg kommune
         </option>
-        {kommuner.map((kommune) => (
-            <option value={kommune.nummer} key={kommune.nummer}>
-                {kommune.navn}
-            </option>
-        ))}
+        {kommuner
+            .sort((a, b) => sorterAlfabetisk(a.navn, b.navn))
+            .map((kommune) => (
+                <option value={kommune.nummer} key={kommune.nummer}>
+                    {kommune.navn}
+                </option>
+            ))}
     </Select>
 );
 
