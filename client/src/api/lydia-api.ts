@@ -2,6 +2,8 @@ import { defaultFetcher } from "./nettverkskall";
 import {
     Filterverdier,
     filterverdierSchema,
+    NavAnsatt,
+    navAnsattSchema,
     SykefraversstatistikkVirksomhet,
     sykefraversstatistikkVirksomhetListeSchema,
     Søkeverdier,
@@ -12,6 +14,7 @@ import { ZodType } from "zod";
 const basePath = "/api";
 const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
 const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
+const innloggetAnsattPath = `/innloggetAnsatt`;
 
 const useSwrTemplate = <T>(path: string, schema: ZodType<T>) => {
     const { data, error: fetchError } = useSWR<T>(path, defaultFetcher);
@@ -50,6 +53,7 @@ const useSwrTemplate = <T>(path: string, schema: ZodType<T>) => {
 
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);
+
 export const useSykefraværsstatistikk = (søkeverdier?: Søkeverdier) => {
     let sykefraværUrl = sykefraværsstatistikkPath;
     if (søkeverdier) {
@@ -62,6 +66,9 @@ export const useSykefraværsstatistikk = (søkeverdier?: Søkeverdier) => {
         sykefraversstatistikkVirksomhetListeSchema
     );
 };
+
+export const useHentBrukerinformasjon = () =>
+    useSwrTemplate<NavAnsatt>(innloggetAnsattPath, navAnsattSchema);
 
 const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     const params = new URLSearchParams();

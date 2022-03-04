@@ -69,5 +69,12 @@ export type Beliggenhetsadresse = {
     kommunenummer: string;
 };
 
+export const navAnsattSchema = z.object({
+    navn: z.string(),
+    ident: z.string(),
+    epost: z.string(),
+});
+export type NavAnsatt = z.infer<typeof navAnsattSchema>;
+
 export type Fylke = z.infer<typeof fylkeOgKommuneSchema>;
 export type Kommune = z.infer<typeof fylkeOgKommuneSchema>;
