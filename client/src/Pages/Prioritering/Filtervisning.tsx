@@ -12,10 +12,10 @@ import ReactSelect from "react-select";
 import { SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
 import { Range } from "./SykefraværsprosentVelger";
 
-const sorteringsverdier = {
+export const sorteringsverdier = {
   tapte_dagsverk: "Tapte dagsverk",
   sykefraversprosent: "Sykefraværsprosent",
-};
+} as const;
 
 type stateUpdater = (value: string) => void;
 type listStateUpdater = (value: string[]) => void;
@@ -151,13 +151,15 @@ const Sorteringsmuligheter = ({
 }: {
   valgtSortering: string;
   sorteringsMuligheter: string[];
-  endreSortering: (e: string) => void;
+  endreSortering: (sortering: keyof typeof sorteringsverdier) => void;
 }) => {
   return (
     <Select
       label="Sortering"
       value={valgtSortering}
-      onChange={(e) => endreSortering(e.target.value)}
+      onChange={(e) =>
+        endreSortering(e.target.value as keyof typeof sorteringsverdier)
+      }
     >
       {sorteringsMuligheter
         .filter((sorteringsMulighet) => sorteringsMulighet in sorteringsverdier)
@@ -254,7 +256,12 @@ const Filtervisning = ({
       <Sorteringsmuligheter
         valgtSortering={sorteringsverdi}
         sorteringsMuligheter={filterverdier.sorteringsnøkler}
-        endreSortering={(e: string) => setSorteringsverdi(e)}
+        endreSortering={(sortering: keyof typeof sorteringsverdier) => {
+          setSorteringsverdi(sortering);
+          oppdaterSøkeverdier({
+            sorteringsnøkkel: sortering,
+          });
+        }}
       />
     </div>
   );
