@@ -19,6 +19,7 @@ export const næringsgrupperSchema = z.object({
 export const filterverdierSchema = z.object({
     fylker: z.array(fylkerMedKommunerSchema),
     næringsgrupper: z.array(næringsgrupperSchema),
+    sorteringsnøkler: z.string().array()
 });
 
 export const sykefraversstatistikkVirksomhetSchema = z.object({
