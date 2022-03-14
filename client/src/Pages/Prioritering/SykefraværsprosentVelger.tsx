@@ -1,102 +1,106 @@
-import { ChangeEvent, useState } from "react";
+import { useState } from "react";
 import { TextField } from "@navikt/ds-react";
 
 type Validering = {
-  suksess: boolean;
-  feilmelding?: string;
+    suksess: boolean;
+    feilmelding: string[];
 };
 
 const feil = (feilmelding: string): Validering => {
-  return {
-    suksess: false,
-    feilmelding: feilmelding,
-  };
+    return {
+        suksess: false,
+        feilmelding: [feilmelding],
+    };
 };
 
 const riktig = (): Validering => {
-  return {
-    suksess: true,
-  };
+    return {
+        suksess: true,
+        feilmelding: [],
+    };
 };
 
 export interface Range {
-  fra: number;
-  til: number;
+    fra: number;
+    til: number;
 }
 
 const validerSykefraværsprosent = (inputVerdi: string): Validering => {
-  if (inputVerdi === "") {
-    return feil("Du må velge en verdi");
-  }
-  const verdi = Number(inputVerdi);
-  if (isNaN(verdi) || verdi < 0.0 || verdi > 100.0) {
-    return feil("Ugyldig verdi. Tallet må være mellom 0.00 og 100.00");
-  }
-  return riktig();
+    if (inputVerdi === "") {
+        return feil("Du må velge en verdi");
+    }
+    const verdi = Number(inputVerdi);
+    if (isNaN(verdi) || verdi < 0.0 || verdi > 100.0) {
+        return feil("Ugyldig verdi. Tallet må være mellom 0.00 og 100.00");
+    }
+    return riktig();
 };
 
-function SykefraværsprosentInput(props: {
-  value: number;
-  valideringsfeil: string[];
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
+type EndreSykefraværsprosentRange = (verdi: Range) => void;
+type EndreSykefraværsprosent = (verdi: number) => void;
+
+function SykefraværsprosentInput({
+    value,
+    label,
+    onChange,
+}: {
+    value: number;
+    label: string;
+    onChange: EndreSykefraværsprosent;
 }) {
-  return (
-    <TextField
-      label={"Sykefraværsprosent fra"}
-      value={props.value}
-      error={
-        props.valideringsfeil.length > 0 ? props.valideringsfeil : undefined
-      }
-      onChange={props.onChange}
-    />
-  );
+    const [sykefraværsprosentInput, setSykefraværsprosentInput] =
+        useState<string>(value.toString());
+    const [valideringsfeil, setValideringsfeil] = useState<string[]>([]);
+    return (
+        <TextField
+            label={label}
+            value={sykefraværsprosentInput}
+            error={valideringsfeil.length > 0 ? valideringsfeil : undefined}
+            onChange={(e) => {
+                setSykefraværsprosentInput(e.target.value);
+                const validering = validerSykefraværsprosent(e.target.value);
+                if (!validering.suksess) {
+                    setValideringsfeil(validering.feilmelding);
+                } else {
+                    setValideringsfeil([]);
+                    onChange(+e.target.value);
+                }
+            }}
+        />
+    );
 }
 
 interface SykefraværsProsentProps {
-  sykefraværsprosentRange: Range;
-  endre: (verdi: Range) => void;
+    sykefraværsprosentRange: Range;
+    endre: EndreSykefraværsprosentRange;
 }
 
 export const SykefraværsprosentVelger = ({
-  sykefraværsprosentRange,
-  endre,
+    sykefraværsprosentRange,
+    endre,
 }: SykefraværsProsentProps) => {
-  const [valideringsfeilFra, setValideringsfeilFra] = useState<string[]>([]);
-  const [valideringsfeilTil, setValideringsfeilTil] = useState<string[]>([]);
-  return (
-    <div>
-      <SykefraværsprosentInput
-        value={sykefraværsprosentRange.fra}
-        valideringsfeil={valideringsfeilFra}
-        onChange={(e) => {
-          const validering = validerSykefraværsprosent(e.target.value);
-          setSykefraværsprosent({
-            ...sykefraværsProsent,
-            fra: e.target.value,
-          });
-          if (!validering.suksess) {
-            setValideringsfeilFra([validering.feilmelding!]);
-          } else {
-            setValideringsfeilFra([]);
-            endre(sykefraværsprosentRange);
-          }
-        }}
-      />
-      <TextField
-        label={"Sykefraværsprosent til"}
-        value={sykefraværsProsent.til}
-        error={valideringsfeilTil.length > 0 ? valideringsfeilTil : undefined}
-        onChange={(e) => {
-          const validering = validerSykefraværsprosent(e.target.value);
-          setSykefraværsprosentTilInput(e.target.value);
-          if (!validering.suksess) {
-            setValideringsfeilTil([validering.feilmelding!]);
-          } else {
-            setValideringsfeilTil([]);
-            endreSykefraværsprosentTil(Number(e.target.value));
-          }
-        }}
-      />
-    </div>
-  );
+    return (
+        <div>
+            <SykefraværsprosentInput
+                value={sykefraværsprosentRange.fra}
+                label="Sykefraværsprosent fra"
+                onChange={(prosentVerdi: number) =>
+                    endre({
+                        fra: prosentVerdi,
+                        til: sykefraværsprosentRange.til,
+                    })
+                }
+            />
+            <SykefraværsprosentInput
+                value={sykefraværsprosentRange.til}
+                label="Sykefraværsprosent til"
+                onChange={(prosentVerdi: number) =>
+                    endre({
+                        fra: sykefraværsprosentRange.fra,
+                        til: prosentVerdi,
+                    })
+                }
+            />
+        </div>
+    );
 };

@@ -81,11 +81,11 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     );
     params.append(
         "sykefraversprosentFra",
-        søkeverdier.sykefraværsprosentFra?.toFixed(2) ?? ""
+        søkeverdier.sykefraværsprosentRange?.fra.toFixed(2) ?? ""
     );
     params.append(
         "sykefraversprosentTil",
-        søkeverdier.sykefraværsprosentTil?.toFixed(2) ?? ""
+        søkeverdier.sykefraværsprosentRange?.til.toFixed(2) ?? ""
     );
     return params;
 };
