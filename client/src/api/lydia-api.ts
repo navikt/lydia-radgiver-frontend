@@ -86,5 +86,13 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
             ?.map((næringsgruppe) => næringsgruppe.kode)
             .join(",") ?? ""
     );
+    params.append(
+        "sykefraversprosentFra",
+        søkeverdier.sykefraværsprosentRange?.fra.toFixed(2) ?? ""
+    );
+    params.append(
+        "sykefraversprosentTil",
+        søkeverdier.sykefraværsprosentRange?.til.toFixed(2) ?? ""
+    );
     return params;
 };

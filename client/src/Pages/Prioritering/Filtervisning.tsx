@@ -1,14 +1,16 @@
 import {
-    Søkeverdier,
     Filterverdier,
     Fylke,
     FylkerMedKommuner,
     Kommune,
     Næringsgruppe,
+    Søkeverdier,
 } from "../../domenetyper";
 import { Select } from "@navikt/ds-react";
 import { useState } from "react";
 import ReactSelect from "react-select";
+import { SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
+import { Range } from "./SykefraværsprosentVelger";
 
 type stateUpdater = (value: string) => void;
 type listStateUpdater = (value: string[]) => void;
@@ -144,6 +146,11 @@ const Filtervisning = ({
     const [valgtFylke, setValgtFylke] = useState<Fylke>();
     const [valgtKommune, setValgtKommune] = useState<Kommune>();
     const [næringsGrupper, setNæringsGrupper] = useState<Næringsgruppe[]>([]);
+    const [sykefraværsProsent, setSykefraværsprosent] = useState<Range>({
+        fra: 0,
+        til: 100,
+    });
+
     const endreFylke = (fylkenummer: string) => {
         if (fylkenummer === valgtFylke?.nummer) return;
         const endretFylke = fylkesnummerTilFylke(
@@ -180,6 +187,13 @@ const Filtervisning = ({
             næringsgrupper: endretNæringsgrupper,
         });
     };
+
+    const oppdaterSykefraværsprosent = (sykefraværsprosentRange: Range) => {
+        setSykefraværsprosent(sykefraværsprosentRange);
+        oppdaterSøkeverdier({
+            sykefraværsprosentRange,
+        });
+    };
     const alleKommuner = filterverdier.fylker.flatMap(
         ({ kommuner }) => kommuner
     );
@@ -202,6 +216,12 @@ const Filtervisning = ({
                 kommuner={relevanteKommuner}
                 valgtKommune={valgtKommune}
                 endreKommune={endreKommune}
+            />
+            <SykefraværsprosentVelger
+                sykefraværsprosentRange={sykefraværsProsent}
+                endre={(nySykefraværsprosentRange: Range) =>
+                    oppdaterSykefraværsprosent(nySykefraværsprosentRange)
+                }
             />
         </div>
     );
