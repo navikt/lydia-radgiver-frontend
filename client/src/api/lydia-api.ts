@@ -94,5 +94,6 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
         "sykefraversprosentTil",
         søkeverdier.sykefraværsprosentRange?.til.toFixed(2) ?? ""
     );
+    params.append("sorteringsnokkel", søkeverdier.sorteringsnøkkel ?? "")
     return params;
 };

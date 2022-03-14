@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { sorteringsverdier } from "./Pages/Prioritering/Filtervisning"
 import { Range } from "./Pages/Prioritering/SykefraværsprosentVelger";
 
 export const fylkeOgKommuneSchema = z.object({
@@ -55,6 +56,7 @@ export interface Søkeverdier {
     fylker?: Fylke[];
     næringsgrupper?: Næringsgruppe[];
     sykefraværsprosentRange?: Range;
+    sorteringsnøkkel?: keyof typeof sorteringsverdier
 }
 
 export type Virksomhet = {
