@@ -1,14 +1,16 @@
 import {
-    Søkeverdier,
     Filterverdier,
     Fylke,
     FylkerMedKommuner,
     Kommune,
     Næringsgruppe,
+    Søkeverdier,
 } from "../../domenetyper";
-import { Select, TextField } from "@navikt/ds-react";
+import { Select } from "@navikt/ds-react";
 import { useState } from "react";
 import ReactSelect from "react-select";
+import { SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
+import { Range } from "./SykefraværsprosentVelger";
 
 type stateUpdater = (value: string) => void;
 type listStateUpdater = (value: string[]) => void;
@@ -107,100 +109,6 @@ const Næringsgruppedropdown = ({
     );
 };
 
-type Validering = {
-    suksess: boolean;
-    feilmelding?: string;
-};
-
-const feil = (feilmelding: string): Validering => {
-    return {
-        suksess: false,
-        feilmelding: feilmelding,
-    };
-};
-
-const riktig = (): Validering => {
-    return {
-        suksess: true,
-    };
-};
-
-const validerSykefraværsprosent = (inputVerdi: string): Validering => {
-    if (inputVerdi === "") {
-        return feil("Du må velge en verdi");
-    }
-    const verdi = Number(inputVerdi);
-    if (isNaN(verdi) || verdi < 0.0 || verdi > 100.0) {
-        return feil("Ugyldig verdi. Tallet må være mellom 0.00 og 100.00");
-    }
-    return riktig();
-};
-
-const SykefraværsprosentVelger = ({
-    sykefraværsprosentFra,
-    sykefraværsprosentTil,
-    endreSykefraværsprosentFra,
-    endreSykefraværsprosentTil,
-}: {
-    sykefraværsprosentFra: number;
-    sykefraværsprosentTil: number;
-    endreSykefraværsprosentFra: (prosentVerdi: number) => void;
-    endreSykefraværsprosentTil: (prosentVerdi: number) => void;
-}) => {
-    const [sykefraværsprosentFraInput, setSykefraværsprosentFraInput] =
-        useState<string>(sykefraværsprosentFra.toFixed(2));
-    const [sykefraværsprosentTilInput, setSykefraværsprosentTilInput] =
-        useState<string>(sykefraværsprosentTil.toFixed(2));
-    const [valideringsfeilFra, setValideringsfeilFra] = useState<string[]>([]);
-    const [valideringsfeilTil, setValideringsfeilTil] = useState<string[]>([]);
-    return (
-        <div>
-            <TextField
-                label={"Sykefraværsprosent fra"}
-                value={sykefraværsprosentFraInput}
-                error={
-                    valideringsfeilFra.length > 0
-                        ? valideringsfeilFra
-                        : undefined
-                }
-                onChange={(e) => {
-                    const validering = validerSykefraværsprosent(
-                        e.target.value
-                    );
-                    setSykefraværsprosentFraInput(e.target.value);
-                    if (!validering.suksess) {
-                        setValideringsfeilFra([validering.feilmelding!]);
-                    } else {
-                        setValideringsfeilFra([]);
-                        endreSykefraværsprosentFra(Number(e.target.value));
-                    }
-                }}
-            />
-            <TextField
-                label={"Sykefraværsprosent til"}
-                value={sykefraværsprosentTilInput}
-                error={
-                    valideringsfeilTil.length > 0
-                        ? valideringsfeilTil
-                        : undefined
-                }
-                onChange={(e) => {
-                    const validering = validerSykefraværsprosent(
-                        e.target.value
-                    );
-                    setSykefraværsprosentTilInput(e.target.value);
-                    if (!validering.suksess) {
-                        setValideringsfeilTil([validering.feilmelding!]);
-                    } else {
-                        setValideringsfeilTil([]);
-                        endreSykefraværsprosentTil(Number(e.target.value));
-                    }
-                }}
-            />
-        </div>
-    );
-};
-
 interface FiltervisningProps {
     filterverdier: Filterverdier;
     oppdaterSøkeverdier: (søkeverdier: Søkeverdier) => void;
@@ -238,10 +146,10 @@ const Filtervisning = ({
     const [valgtFylke, setValgtFylke] = useState<Fylke>();
     const [valgtKommune, setValgtKommune] = useState<Kommune>();
     const [næringsGrupper, setNæringsGrupper] = useState<Næringsgruppe[]>([]);
-    const [sykefraværsprosentFra, setSykefraværsprosentFra] =
-        useState<number>(0.0);
-    const [sykefraværsprosentTil, setSykefraværsprosentTil] =
-        useState<number>(100.0);
+    const [sykefraværsProsent, setSykefraværsprosent] = useState<Range>({
+        fra: 0,
+        til: 100,
+    });
 
     const endreFylke = (fylkenummer: string) => {
         if (fylkenummer === valgtFylke?.nummer) return;
@@ -279,18 +187,11 @@ const Filtervisning = ({
             næringsgrupper: endretNæringsgrupper,
         });
     };
-    const endreSykefraværsprosent = ({
-        sykefraværsprosentFra,
-        sykefraværsprosentTil,
-    }: {
-        sykefraværsprosentFra: number;
-        sykefraværsprosentTil: number;
-    }) => {
-        setSykefraværsprosentFra(sykefraværsprosentFra);
-        setSykefraværsprosentTil(sykefraværsprosentTil);
+
+    const oppdaterSykefraværsprosent = (sykefraværsprosentRange: Range) => {
+        setSykefraværsprosent(sykefraværsprosentRange);
         oppdaterSøkeverdier({
-            sykefraværsprosentFra,
-            sykefraværsprosentTil,
+            sykefraværsprosentRange,
         });
     };
     const alleKommuner = filterverdier.fylker.flatMap(
@@ -317,19 +218,9 @@ const Filtervisning = ({
                 endreKommune={endreKommune}
             />
             <SykefraværsprosentVelger
-                sykefraværsprosentFra={sykefraværsprosentFra}
-                sykefraværsprosentTil={sykefraværsprosentTil}
-                endreSykefraværsprosentFra={(fra: number) =>
-                    endreSykefraværsprosent({
-                        sykefraværsprosentFra: fra,
-                        sykefraværsprosentTil: sykefraværsprosentTil,
-                    })
-                }
-                endreSykefraværsprosentTil={(til: number) =>
-                    endreSykefraværsprosent({
-                        sykefraværsprosentFra: sykefraværsprosentFra,
-                        sykefraværsprosentTil: til,
-                    })
+                sykefraværsprosentRange={sykefraværsProsent}
+                endre={(nySykefraværsprosentRange: Range) =>
+                    oppdaterSykefraværsprosent(nySykefraværsprosentRange)
                 }
             />
         </div>
