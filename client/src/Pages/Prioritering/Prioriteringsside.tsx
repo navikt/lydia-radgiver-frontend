@@ -4,7 +4,7 @@ import {
   useFilterverdier,
   useSykefraværsstatistikk,
 } from "../../api/lydia-api";
-import { useState } from "react";
+import {useEffect, useState} from "react";
 import {
   Søkeverdier,
   Filterverdier,
@@ -13,6 +13,7 @@ import {
 
 const Prioriteringsside = () => {
   const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>();
+  const [skalSøke, setSkalSøke] = useState(false)
   const {
     data: filterverdier,
     loading: loadingFilterverdier,
@@ -22,7 +23,13 @@ const Prioriteringsside = () => {
     data: sykefraversstatistikk,
     loading: loadingSykefraværsstatistikk,
     error: errorSykefraværsstatistikk,
-  } = useSykefraværsstatistikk(søkeverdier);
+  } = useSykefraværsstatistikk({ søkeverdier, initierSøk: skalSøke });
+
+  useEffect(() => {
+    if (skalSøke) {
+      setSkalSøke(false)
+    }
+  }, [skalSøke])
 
   const isLoading = loadingFilterverdier || loadingSykefraværsstatistikk;
   const isError = errorFilterverdier || errorSykefraværsstatistikk;
@@ -48,6 +55,7 @@ const Prioriteringsside = () => {
           sykefraversstatistikk ?? tomSykefraværsstatistikk
         }
       />
+      <button onClick={() => {setSkalSøke(true)}}>Søk</button>
       {isLoading && <p>Loading</p>}
       {isError && <p>Error</p>}
     </>

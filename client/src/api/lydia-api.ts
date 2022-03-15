@@ -16,7 +16,7 @@ const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
 const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
 const innloggetAnsattPath = `/innloggetAnsatt`;
 
-const useSwrTemplate = <T>(path: string, schema: ZodType<T>) => {
+const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>) => {
     const { data, error: fetchError } = useSWR<T>(path, defaultFetcher);
     if (!data && !fetchError) {
         return {
@@ -54,7 +54,10 @@ const useSwrTemplate = <T>(path: string, schema: ZodType<T>) => {
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);
 
-export const useSykefraværsstatistikk = (søkeverdier?: Søkeverdier) => {
+export const useSykefraværsstatistikk = ({søkeverdier, initierSøk = true}: {
+    søkeverdier?: Søkeverdier,
+    initierSøk?: boolean
+}) => {
     let sykefraværUrl = sykefraværsstatistikkPath;
     if (søkeverdier) {
         sykefraværUrl += `?${søkeverdierTilUrlSearchParams(
@@ -62,7 +65,7 @@ export const useSykefraværsstatistikk = (søkeverdier?: Søkeverdier) => {
         ).toString()}`;
     }
     return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(
-        sykefraværUrl,
+        initierSøk ? sykefraværUrl : null,
         sykefraversstatistikkVirksomhetListeSchema
     );
 };
