@@ -6,11 +6,10 @@ import {
 } from "../../api/lydia-api";
 import {useEffect, useState} from "react";
 import {
-  Søkeverdier,
-  Filterverdier,
-  SykefraversstatistikkVirksomhet,
+    Søkeverdier,
+    Filterverdier,
+    SykefraversstatistikkVirksomhet,
 } from "../../domenetyper";
-import { Button } from "@navikt/ds-react";
 
 const Prioriteringsside = () => {
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>();
@@ -35,9 +34,6 @@ const Prioriteringsside = () => {
     const isLoading = loadingFilterverdier || loadingSykefraværsstatistikk;
     const isError = errorFilterverdier || errorSykefraværsstatistikk;
 
-    const gjørNyttSøk = (nyeSøkeverdier: Søkeverdier) => {
-        setSøkeverdier({ ...søkeverdier, ...nyeSøkeverdier });
-    };
     const tommeFilterverdier: Filterverdier = {
         fylker: [],
         neringsgrupper: [],
@@ -49,16 +45,12 @@ const Prioriteringsside = () => {
         <>
             <Filtervisning
                 filterverdier={filterverdier ?? tommeFilterverdier}
-                oppdaterSøkeverdier={gjørNyttSøk}
-            />
-            <Button
-                size="small"
-                onClick={() => {
-                    setSkalSøke(true);
+                oppdaterSøkeverdier={(nyeSøkeverdier: Søkeverdier) => {
+                    setSøkeverdier({ ...søkeverdier, ...nyeSøkeverdier });
                 }}
-            >
-                Søk
-            </Button>
+                søkPåNytt={() => setSkalSøke(true)}
+            />
+            <br />
             <PrioriteringsTabell
                 sykefraværsstatistikk={
                     sykefraversstatistikk ?? tomSykefraværsstatistikk

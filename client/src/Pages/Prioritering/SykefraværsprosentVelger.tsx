@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { TextField } from "@navikt/ds-react";
+import { HorizontalFlexboxDiv } from "./HorizontalFlexboxDiv";
 
 type Validering = {
     suksess: boolean;
@@ -80,7 +81,7 @@ export const SykefraværsprosentVelger = ({
     endre,
 }: SykefraværsProsentProps) => {
     return (
-        <div>
+        <HorizontalFlexboxDiv>
             <SykefraværsprosentInput
                 value={sykefraværsprosentRange.fra}
                 label="Sykefraværsprosent fra"
@@ -101,6 +102,6 @@ export const SykefraværsprosentVelger = ({
                     })
                 }
             />
-        </div>
+        </HorizontalFlexboxDiv>
     );
 };
