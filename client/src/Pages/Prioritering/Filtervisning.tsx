@@ -8,10 +8,10 @@ import {
 } from "../../domenetyper";
 import { Button, Select } from "@navikt/ds-react";
 import { useState } from "react";
-import ReactSelect from "react-select";
 import { SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
 import { Range } from "./SykefraværsprosentVelger";
 import { HorizontalFlexboxDiv } from "./HorizontalFlexboxDiv";
+import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -19,7 +19,6 @@ export const sorteringsverdier = {
 } as const;
 
 type stateUpdater = (value: string) => void;
-type listStateUpdater = (value: string[]) => void;
 
 const sorterAlfabetisk = (a: string, b: string) =>
     a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase());
@@ -79,41 +78,6 @@ const Kommunedropdown = ({
             ))}
     </Select>
 );
-
-function mapnæringsGruppeTilReactSelectOptions(gruppe: Næringsgruppe) {
-    return {
-        label: gruppe.navn,
-        value: gruppe.kode,
-    };
-}
-
-const Næringsgruppedropdown = ({
-    næringsgrupper,
-    valgtNæringsgruppe,
-    endreNæringsgrupper,
-}: {
-    næringsgrupper: Næringsgruppe[];
-    valgtNæringsgruppe: Næringsgruppe[];
-    endreNæringsgrupper: listStateUpdater;
-}) => {
-    const options = næringsgrupper.map(mapnæringsGruppeTilReactSelectOptions);
-    return (
-        <ReactSelect
-            noOptionsMessage={() => "Ingen næringsgrupper"}
-            options={options}
-            defaultValue={valgtNæringsgruppe.map(
-                mapnæringsGruppeTilReactSelectOptions
-            )}
-            placeholder={"Velg næringsgruppe"}
-            isMulti
-            onChange={(verdier) => {
-                endreNæringsgrupper(
-                    verdier.map(({ value: næringsgruppe }) => næringsgruppe)
-                );
-            }}
-        />
-    );
-};
 
 interface FiltervisningProps {
     filterverdier: Filterverdier;
