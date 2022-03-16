@@ -85,18 +85,18 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     );
     params.append(
         "neringsgrupper",
-        søkeverdier.næringsgrupper
+        søkeverdier.neringsgrupper
             ?.map((næringsgruppe) => næringsgruppe.kode)
             .join(",") ?? ""
     );
     params.append(
         "sykefraversprosentFra",
-        søkeverdier.sykefraværsprosentRange?.fra.toFixed(2) ?? ""
+        søkeverdier.sykefraversprosentRange?.fra.toFixed(2) ?? ""
     );
     params.append(
         "sykefraversprosentTil",
-        søkeverdier.sykefraværsprosentRange?.til.toFixed(2) ?? ""
+        søkeverdier.sykefraversprosentRange?.til.toFixed(2) ?? ""
     );
-    params.append("sorteringsnokkel", søkeverdier.sorteringsnøkkel ?? "")
+    params.append("sorteringsnokkel", søkeverdier.sorteringsnokkel ?? "");
     return params;
 };

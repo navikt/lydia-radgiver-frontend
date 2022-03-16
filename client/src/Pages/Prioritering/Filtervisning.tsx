@@ -210,60 +210,60 @@ const Filtervisning = ({
     });
   };
   const endreNæringsgruppe = (næringsgruppeKoder: string[]) => {
-    const endretNæringsgrupper = næringsgruppeKoderTilNæringsgrupper(
-      næringsgruppeKoder,
-      filterverdier.næringsgrupper
-    );
-    setNæringsGrupper(endretNæringsgrupper);
-    oppdaterSøkeverdier({
-      næringsgrupper: endretNæringsgrupper,
-    });
+      const endretNæringsgrupper = næringsgruppeKoderTilNæringsgrupper(
+          næringsgruppeKoder,
+          filterverdier.neringsgrupper
+      );
+      setNæringsGrupper(endretNæringsgrupper);
+      oppdaterSøkeverdier({
+          neringsgrupper: endretNæringsgrupper,
+      });
   };
 
   const oppdaterSykefraværsprosent = (sykefraværsprosentRange: Range) => {
-    setSykefraværsprosent(sykefraværsprosentRange);
-    oppdaterSøkeverdier({
-      sykefraværsprosentRange,
-    });
+      setSykefraværsprosent(sykefraværsprosentRange);
+      oppdaterSøkeverdier({
+          sykefraversprosentRange: sykefraværsprosentRange,
+      });
   };
   const alleKommuner = filterverdier.fylker.flatMap(({ kommuner }) => kommuner);
   const relevanteKommuner = valgtFylke
-    ? filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner)
-    : alleKommuner;
+      ? filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner)
+      : alleKommuner;
   return (
-    <div>
-      <Næringsgruppedropdown
-        næringsgrupper={filterverdier.næringsgrupper}
-        valgtNæringsgruppe={næringsGrupper}
-        endreNæringsgrupper={endreNæringsgruppe}
-      />
-      <Fylkedropdown
-        fylkerOgKommuner={filterverdier.fylker}
-        valgtFylke={valgtFylke}
-        endreFylke={endreFylke}
-      />
-      <Kommunedropdown
-        kommuner={relevanteKommuner}
-        valgtKommune={valgtKommune}
-        endreKommune={endreKommune}
-      />
-      <SykefraværsprosentVelger
-        sykefraværsprosentRange={sykefraværsProsent}
-        endre={(nySykefraværsprosentRange: Range) =>
-          oppdaterSykefraværsprosent(nySykefraværsprosentRange)
-        }
-      />
-      <Sorteringsmuligheter
-        valgtSortering={sorteringsverdi}
-        sorteringsMuligheter={filterverdier.sorteringsnøkler}
-        endreSortering={(sortering: keyof typeof sorteringsverdier) => {
-          setSorteringsverdi(sortering);
-          oppdaterSøkeverdier({
-            sorteringsnøkkel: sortering,
-          });
-        }}
-      />
-    </div>
+      <div>
+          <Næringsgruppedropdown
+              næringsgrupper={filterverdier.neringsgrupper}
+              valgtNæringsgruppe={næringsGrupper}
+              endreNæringsgrupper={endreNæringsgruppe}
+          />
+          <Fylkedropdown
+              fylkerOgKommuner={filterverdier.fylker}
+              valgtFylke={valgtFylke}
+              endreFylke={endreFylke}
+          />
+          <Kommunedropdown
+              kommuner={relevanteKommuner}
+              valgtKommune={valgtKommune}
+              endreKommune={endreKommune}
+          />
+          <SykefraværsprosentVelger
+              sykefraværsprosentRange={sykefraværsProsent}
+              endre={(nySykefraværsprosentRange: Range) =>
+                  oppdaterSykefraværsprosent(nySykefraværsprosentRange)
+              }
+          />
+          <Sorteringsmuligheter
+              valgtSortering={sorteringsverdi}
+              sorteringsMuligheter={filterverdier.sorteringsnokler}
+              endreSortering={(sortering: keyof typeof sorteringsverdier) => {
+                  setSorteringsverdi(sortering);
+                  oppdaterSøkeverdier({
+                      sorteringsnokkel: sortering,
+                  });
+              }}
+          />
+      </div>
   );
 };
 

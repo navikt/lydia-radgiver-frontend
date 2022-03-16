@@ -38,9 +38,9 @@ const Prioriteringsside = () => {
     setSøkeverdier({ ...søkeverdier, ...nyeSøkeverdier });
   };
   const tommeFilterverdier: Filterverdier = {
-    fylker: [],
-    næringsgrupper: [],
-    sorteringsnøkler: [],
+      fylker: [],
+      neringsgrupper: [],
+      sorteringsnokler: [],
   };
   const tomSykefraværsstatistikk: SykefraversstatistikkVirksomhet[] = [];
 
