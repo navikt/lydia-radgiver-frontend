@@ -35,6 +35,16 @@ export const sykefraversstatistikkVirksomhetSchema = z.object({
     antallPersoner: z.number(),
     muligeDagsverk: z.number(),
     tapteDagsverk: z.number(),
+    status: z.enum([
+        "NY",
+        "PRIORITERT",
+        "TAKKET_NEI",
+        "KARTLEGGING",
+        "GJENNOMFORING",
+        "EVALUERING",
+        "AVSLUTTET",
+        "IKKE_AKTIV"
+    ])
 });
 
 export const sykefraversstatistikkVirksomhetListeSchema = z.array(
