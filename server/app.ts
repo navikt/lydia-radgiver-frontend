@@ -18,10 +18,14 @@ export default class Application {
     constructor(config: Config = new Config()) {
         const basePath = "/lydia-radgiver";
         const buildPath = path.resolve(__dirname, "../client/dist");
+        const storybookPath = path.resolve(__dirname, "../client/storybook-static")
         this.expressApp = express();
 
         this.expressApp.use(basePath, express.static(buildPath));
         this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
+
+        this.expressApp.use("/internal/storybook", express.static(storybookPath))
+        this.expressApp.use("/storybook-static/assets", express.static(`${storybookPath}/assets`));
 
         this.expressApp.get(`/internal/isAlive`, (req, res) => {
             res.sendStatus(200);
@@ -30,7 +34,6 @@ export default class Application {
         this.expressApp.get(`/internal/isReady`, (req, res) => {
             res.sendStatus(200);
         });
-
         const lydiaApiProxy = new LydiaApiProxy(
             config
         ).createExpressMiddleWare();

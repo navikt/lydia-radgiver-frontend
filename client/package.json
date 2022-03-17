@@ -8,7 +8,8 @@
     "preview": "vite preview",
     "lint": "eslint .",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook"
+    "build-storybook": "BASE_URL=/storybook-static/ build-storybook",
+    "deploy-storybook": "npm run build-storybook && storybook-to-ghpages -e=storybook-static --source-branch=main --ci"
   },
   "dependencies": {
     "@navikt/ds-css": "0.12.11-next.0",
