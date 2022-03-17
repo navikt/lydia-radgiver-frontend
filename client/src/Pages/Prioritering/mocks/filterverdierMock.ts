@@ -1,4 +1,4 @@
-import { Filterverdier } from "../../domenetyper";
+import { Filterverdier } from "../../../domenetyper";
 
 export const filterverdierMock: Filterverdier = {
     fylker: [

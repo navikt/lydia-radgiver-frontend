@@ -1,6 +1,6 @@
 import {ComponentMeta} from "@storybook/react";
 import Filtervisning from "./Filtervisning";
-import {filterverdierMock} from "./filterverdierMock";
+import {filterverdierMock} from "./mocks/filterverdierMock";
 import "@navikt/ds-css";
 
 export default {
