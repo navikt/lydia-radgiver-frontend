@@ -23,6 +23,20 @@ export const filterverdierSchema = z.object({
     sorteringsnokler: z.string().array(),
 });
 
+const statusEnum =  z.enum([
+    "NY",
+    "PRIORITERT",
+    "TAKKET_NEI",
+    "KARTLEGGING",
+    "GJENNOMFORING",
+    "EVALUERING",
+    "AVSLUTTET",
+    "IKKE_AKTIV",
+    "AVSLATT_AV_NALS"
+])
+
+export type IAProsessStatus = z.infer<typeof statusEnum>
+
 export const sykefraversstatistikkVirksomhetSchema = z.object({
     orgnr: z.string(),
     virksomhetsnavn: z.string(),
@@ -35,16 +49,7 @@ export const sykefraversstatistikkVirksomhetSchema = z.object({
     antallPersoner: z.number(),
     muligeDagsverk: z.number(),
     tapteDagsverk: z.number(),
-    status: z.enum([
-        "NY",
-        "PRIORITERT",
-        "TAKKET_NEI",
-        "KARTLEGGING",
-        "GJENNOMFORING",
-        "EVALUERING",
-        "AVSLUTTET",
-        "IKKE_AKTIV"
-    ])
+    status: statusEnum
 });
 
 export const sykefraversstatistikkVirksomhetListeSchema = z.array(
