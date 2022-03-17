@@ -109,4 +109,4 @@ dist
 .idea
 
 # Storybook build output
-.storybook-static/
+storybook-static/
