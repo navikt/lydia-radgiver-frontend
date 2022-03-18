@@ -23,12 +23,6 @@ const Prioriteringsside = () => {
         error: errorSykefraværsstatistikk,
     } = useSykefraværsstatistikk({ søkeverdier, initierSøk: skalSøke });
 
-    useEffect(() => {
-        if (skalSøke) {
-            setSkalSøke(false);
-        }
-    }, [skalSøke]);
-
     const isLoading = loadingSykefraværsstatistikk;
     const isError = errorSykefraværsstatistikk;
 
