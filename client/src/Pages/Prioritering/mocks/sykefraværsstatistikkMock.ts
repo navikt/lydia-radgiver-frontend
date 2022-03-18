@@ -2,7 +2,7 @@ import {SykefraversstatistikkVirksomhet} from "../../../domenetyper";
 
 export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "orgnr": "995428563",
-    "virksomhetsnavn": "FORSVARET",
+    "virksomhetsnavn": "SUSHISHAPPA PÅ HJØRNET",
     "kommune": {"navn": "OSLO", "nummer": "0301"},
     "sektor": "",
     "neringsgruppe": "",
@@ -15,7 +15,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974557746",
-    "virksomhetsnavn": "HELSE BERGEN HF HAUKELAND UNIVERSITETSSJUKEHUS",
+    "virksomhetsnavn": "MUJAFAS BMW",
     "kommune": {"navn": "BERGEN", "nummer": "4601"},
     "sektor": "",
     "neringsgruppe": "",
@@ -28,7 +28,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974706490",
-    "virksomhetsnavn": "AHUS NORDBYHAGEN SOMATIKK",
+    "virksomhetsnavn": "HERMETISKE TOMATER",
     "kommune": {"navn": "LØRENSKOG", "nummer": "3029"},
     "sektor": "",
     "neringsgruppe": "",
@@ -41,7 +41,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974589095",
-    "virksomhetsnavn": "OSLO UNIVERSITETSSYKEHUS HF ULLEVÅL - SOMATIKK",
+    "virksomhetsnavn": "RUNE RUDBERGS RÅNEHJØRNE",
     "kommune": {"navn": "OSLO", "nummer": "0301"},
     "sektor": "",
     "neringsgruppe": "",
@@ -54,7 +54,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "973861778",
-    "virksomhetsnavn": "EQUINOR ASA AVD STATOIL SOKKELVIRKSOMHET",
+    "virksomhetsnavn": "ANANAS RINGER",
     "kommune": {"navn": "SOKKELEN SØR FOR 62 GRADER", "nummer": "2311"},
     "sektor": "",
     "neringsgruppe": "",
@@ -67,7 +67,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "874716782",
-    "virksomhetsnavn": "OSLO UNIVERSITETSSYKEHUS HF RIKSHOSPITALET - SOMATIKK",
+    "virksomhetsnavn": "PARADIS PIZZA",
     "kommune": {"navn": "OSLO", "nummer": "0301"},
     "sektor": "",
     "neringsgruppe": "",
@@ -80,7 +80,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974749025",
-    "virksomhetsnavn": "ST OLAVS HOSPITAL HF UNIVERSITETSSYKEHUSET I TRONDHEIM",
+    "virksomhetsnavn": "KONG OLAV DEN HELLIGE",
     "kommune": {"navn": "TRONDHEIM", "nummer": "5001"},
     "sektor": "",
     "neringsgruppe": "",
@@ -93,7 +93,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974703300",
-    "virksomhetsnavn": "STAVANGER UNIVERSITETSSJUKEHUS SOMATIKK VÅLAND",
+    "virksomhetsnavn": "JALLA BEDRIFT",
     "kommune": {"navn": "STAVANGER", "nummer": "1103"},
     "sektor": "",
     "neringsgruppe": "",
@@ -106,7 +106,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974633752",
-    "virksomhetsnavn": "SYKEHUSET ØSTFOLD HF KALNES - SOMATIKK",
+    "virksomhetsnavn": "SKATTEFENGSELET",
     "kommune": {"navn": "SARPSBORG", "nummer": "3003"},
     "sektor": "",
     "neringsgruppe": "",
@@ -119,7 +119,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974795787",
-    "virksomhetsnavn": "UNIVERSITETSSYKEHUSET NORD-NORGE HF TROMSØ - SOMATIKK",
+    "virksomhetsnavn": "VIRKSOMHET AS",
     "kommune": {"navn": "TROMSØ", "nummer": "5401"},
     "sektor": "",
     "neringsgruppe": "",
@@ -132,7 +132,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "985674744",
-    "virksomhetsnavn": "UNIBUSS AS",
+    "virksomhetsnavn": "SAMMA GAMLA VANLIGA",
     "kommune": {"navn": "OSLO", "nummer": "0301"},
     "sektor": "",
     "neringsgruppe": "",
@@ -145,7 +145,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974631326",
-    "virksomhetsnavn": "VESTRE VIKEN HF DRAMMEN SYKEHUS - SOMATIKK",
+    "virksomhetsnavn": "NORTHUG",
     "kommune": {"navn": "DRAMMEN", "nummer": "3005"},
     "sektor": "",
     "neringsgruppe": "",
@@ -158,7 +158,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974757486",
-    "virksomhetsnavn": "UNIVERSITETET I TROMSØ - NORGES ARKTISKE UNIVERSITET UIT CAMPUS TROMSØ",
+    "virksomhetsnavn": "VINDRUER AS",
     "kommune": {"navn": "TROMSØ", "nummer": "5401"},
     "sektor": "",
     "neringsgruppe": "",
@@ -171,7 +171,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "998801389",
-    "virksomhetsnavn": "DNB BANK ASA AVD BJØRVIKA",
+    "virksomhetsnavn": "BARCLAYS",
     "kommune": {"navn": "OSLO", "nummer": "0301"},
     "sektor": "",
     "neringsgruppe": "",
@@ -184,7 +184,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "973851713",
-    "virksomhetsnavn": "ULOBA - INDEPENDENT LIVING NORGE SA",
+    "virksomhetsnavn": "CHELSEA FC",
     "kommune": {"navn": "DRAMMEN", "nummer": "3005"},
     "sektor": "",
     "neringsgruppe": "",
@@ -197,7 +197,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974733013",
-    "virksomhetsnavn": "SØRLANDET SYKEHUS HF SOMATIKK KRISTIANSAND",
+    "virksomhetsnavn": "GODSET FRA DRAMMEN",
     "kommune": {"navn": "KRISTIANSAND", "nummer": "4204"},
     "sektor": "",
     "neringsgruppe": "",
@@ -210,7 +210,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "980054756",
-    "virksomhetsnavn": "TRANSOCEAN NORWAY OPERATIONS AS",
+    "virksomhetsnavn": "STATSMINISTERENS KONTOR",
     "kommune": {"navn": "STAVANGER", "nummer": "1103"},
     "sektor": "",
     "neringsgruppe": "",
@@ -223,7 +223,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974633574",
-    "virksomhetsnavn": "SYKEHUSET I VESTFOLD HF, SOMATIKK, TØNSBERG",
+    "virksomhetsnavn": "JØRGEN HATTEMAKER",
     "kommune": {"navn": "TØNSBERG", "nummer": "3803"},
     "sektor": "",
     "neringsgruppe": "",
@@ -236,7 +236,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974633191",
-    "virksomhetsnavn": "SYKEHUSET TELEMARK HF SKIEN - SOMATIKK",
+    "virksomhetsnavn": "KRITTBUTIKKEN",
     "kommune": {"navn": "SKIEN", "nummer": "3807"},
     "sektor": "",
     "neringsgruppe": "",
@@ -249,7 +249,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "status": "IKKE_AKTIV"
 }, {
     "orgnr": "974747138",
-    "virksomhetsnavn": "HELSE MØRE OG ROMSDAL HF ÅLESUND SJUKEHUS - SOMATIKK",
+    "virksomhetsnavn": "NEI AS",
     "kommune": {"navn": "ÅLESUND", "nummer": "1507"},
     "sektor": "",
     "neringsgruppe": "",
@@ -259,5 +259,5 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "antallPersoner": 1885.0,
     "muligeDagsverk": 96553.5,
     "tapteDagsverk": 5900.5,
-    "status": "IKKE_AKTIV"
+    "status": 'AVSLATT_AV_NALS'
 }]

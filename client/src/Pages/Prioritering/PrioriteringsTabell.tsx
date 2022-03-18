@@ -1,9 +1,11 @@
 import {Table} from "@navikt/ds-react";
 import "./PrioriteringsTabell.css"
 import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
+import {StatusBadge} from "./StatusBadge";
 
 
 const kolonneNavn = [
+    'Status',
     'Bedriftsnavn',
     'Sykefravær i %',
     'Antall arbeidsforhold',
@@ -34,6 +36,7 @@ export const PrioriteringsTabell = ({ sykefraværsstatistikk } : Props) => {
                         <Table.Row
                         key={sykefraværStatistikkVirksomhet.virksomhetsnavn}
                         >
+                            <Table.DataCell><StatusBadge status={sykefraværStatistikkVirksomhet.status} /></Table.DataCell>
                             <Table.HeaderCell scope="row">
                                 <span id={sykefraværStatistikkVirksomhet.virksomhetsnavn}>{sykefraværStatistikkVirksomhet.virksomhetsnavn}</span>
                             </Table.HeaderCell>
