@@ -31,7 +31,7 @@ const Prioriteringsside = () => {
         }
     }, [skalSøke]);
 
-    const isLoading = loadingFilterverdier || loadingSykefraværsstatistikk;
+    const isLoading = loadingFilterverdier && !errorFilterverdier || loadingSykefraværsstatistikk && !errorSykefraværsstatistikk;
     const isError = errorFilterverdier || errorSykefraværsstatistikk;
 
     const tommeFilterverdier: Filterverdier = {
