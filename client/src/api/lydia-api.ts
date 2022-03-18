@@ -8,7 +8,7 @@ import {
     sykefraversstatistikkVirksomhetListeSchema,
     Søkeverdier,
 } from "../domenetyper";
-import useSWR from "swr";
+import useSWR, {SWRConfiguration} from "swr";
 import { ZodType } from "zod";
 
 const basePath = "/api";
@@ -16,10 +16,15 @@ const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
 const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
 const innloggetAnsattPath = `/innloggetAnsatt`;
 
-const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>) => {
+const defaultSwrConfiguration: SWRConfiguration = {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false
+}
+
+const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>, config: SWRConfiguration = defaultSwrConfiguration) => {
     const { data, error: fetchError } = useSWR<T>(path, defaultFetcher, {
-        revalidateOnFocus: false,
-        revalidateOnReconnect: false
+        ...defaultSwrConfiguration,
+        ...config
     });
     if (!data && !fetchError) {
         console.log("Nå får vi loading")
@@ -50,7 +55,7 @@ const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>) => {
             loading: false,
         };
     }
-    console.log("Nå får vi et resultat med lengde", [...safeParseResultat.data].length)
+    console.log("Nå får vi et resultat")
     return {
         data: safeParseResultat.data,
         error: undefined,
