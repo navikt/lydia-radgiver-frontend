@@ -10,14 +10,14 @@ import { breakpoints, forBetween, forLargerThan } from "./style-breakpoints";
 
 function App() {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    return brukerInformasjon && (
+    return brukerInformasjon ? (
         <>
             <Dekoratør navAnsatt={brukerInformasjon} />
             <AppRamme>
                 <Prioriteringsside />
             </AppRamme>
         </>
-    );
+    ) : null;
 }
 
 const AppRamme = styled.div`
