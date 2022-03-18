@@ -34,6 +34,7 @@ const Prioriteringsside = () => {
     useEffect(() => {
         if (sfStatistikkFraApi) {
             setSykefraværsstatistikk(sfStatistikkFraApi)
+            setSkalSøke(false)
         }
     }, [sfStatistikkFraApi])
 
