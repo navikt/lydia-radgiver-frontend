@@ -11,6 +11,14 @@ import {
     SykefraversstatistikkVirksomhet,
 } from "../../domenetyper";
 
+const tommeFilterverdier: Filterverdier = {
+    fylker: [],
+    neringsgrupper: [],
+    sorteringsnokler: [],
+};
+const tomSykefraværsstatistikk: SykefraversstatistikkVirksomhet[] = [];
+
+
 const Prioriteringsside = () => {
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>();
     const [skalSøke, setSkalSøke] = useState(false);
@@ -19,19 +27,10 @@ const Prioriteringsside = () => {
     } = useFilterverdier();
     const {
         data: sykefraversstatistikk,
-        loading: loadingSykefraværsstatistikk,
-        error: errorSykefraværsstatistikk,
+        loading,
+        error,
     } = useSykefraværsstatistikk({ søkeverdier, initierSøk: skalSøke });
 
-    const isLoading = loadingSykefraværsstatistikk;
-    const isError = errorSykefraværsstatistikk;
-
-    const tommeFilterverdier: Filterverdier = {
-        fylker: [],
-        neringsgrupper: [],
-        sorteringsnokler: [],
-    };
-    const tomSykefraværsstatistikk: SykefraversstatistikkVirksomhet[] = [];
 
     return (
         <>
@@ -39,6 +38,7 @@ const Prioriteringsside = () => {
                 filterverdier={filterverdier ?? tommeFilterverdier}
                 oppdaterSøkeverdier={(nyeSøkeverdier: Søkeverdier) => {
                     setSøkeverdier({ ...søkeverdier, ...nyeSøkeverdier });
+                    setSkalSøke(false)
                 }}
                 søkPåNytt={() => setSkalSøke(true)}
             />
@@ -48,8 +48,8 @@ const Prioriteringsside = () => {
                     sykefraversstatistikk
                 }
             />}
-            {isLoading && <p>Loading</p>}
-            {isError && <p>Error</p>}
+            {loading && <p>Loading</p>}
+            {error && <p>Error</p>}
         </>
     );
 };
