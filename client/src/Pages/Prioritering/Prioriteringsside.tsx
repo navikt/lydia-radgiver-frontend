@@ -16,8 +16,6 @@ const Prioriteringsside = () => {
     const [skalSøke, setSkalSøke] = useState(false);
     const {
         data: filterverdier,
-        loading: loadingFilterverdier,
-        error: errorFilterverdier,
     } = useFilterverdier();
     const {
         data: sykefraversstatistikk,
@@ -31,8 +29,8 @@ const Prioriteringsside = () => {
         }
     }, [skalSøke]);
 
-    const isLoading = loadingFilterverdier || loadingSykefraværsstatistikk;
-    const isError = errorFilterverdier || errorSykefraværsstatistikk;
+    const isLoading = loadingSykefraværsstatistikk;
+    const isError = errorSykefraværsstatistikk;
 
     const tommeFilterverdier: Filterverdier = {
         fylker: [],
@@ -51,11 +49,11 @@ const Prioriteringsside = () => {
                 søkPåNytt={() => setSkalSøke(true)}
             />
             <br />
-            <PrioriteringsTabell
+            {sykefraversstatistikk && <PrioriteringsTabell
                 sykefraværsstatistikk={
-                    sykefraversstatistikk ?? tomSykefraværsstatistikk
+                    sykefraversstatistikk
                 }
-            />
+            />}
             {isLoading && <p>Loading</p>}
             {isError && <p>Error</p>}
         </>
