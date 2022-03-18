@@ -28,7 +28,6 @@ const Prioriteringsside = () => {
     } = useFilterverdier();
     const {
         data: sfStatistikkFraApi,
-        loading,
         error,
     } = useSykefraværsstatistikk({ søkeverdier, initierSøk: skalSøke });
     useEffect(() => {
@@ -54,7 +53,7 @@ const Prioriteringsside = () => {
                     sykefraværsstatistikk
                 }
             />}
-            {loading && <p>Loading</p>}
+            {skalSøke && <p>Loading...</p>}
             {error && <p>Error</p>}
         </>
     );
