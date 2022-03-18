@@ -17,7 +17,10 @@ const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
 const innloggetAnsattPath = `/innloggetAnsatt`;
 
 const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>) => {
-    const { data, error: fetchError } = useSWR<T>(path, defaultFetcher);
+    const { data, error: fetchError } = useSWR<T>(path, defaultFetcher, {
+        revalidateOnFocus: false,
+        revalidateOnReconnect: false
+    });
     if (!data && !fetchError) {
         return {
             data: undefined,

@@ -10,7 +10,7 @@ import { breakpoints, forBetween, forLargerThan } from "./style-breakpoints";
 
 function App() {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    return (
+    return brukerInformasjon && (
         <>
             <Dekoratør navAnsatt={brukerInformasjon} />
             <AppRamme>
