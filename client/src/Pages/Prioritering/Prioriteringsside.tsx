@@ -23,6 +23,8 @@ const Prioriteringsside = () => {
     const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState(tomSykefraværsstatistikk)
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>();
     const [skalSøke, setSkalSøke] = useState(false);
+    const skalViseTabell = sykefraværsstatistikk && !skalSøke;
+
     const {
         data: filterverdier,
     } = useFilterverdier();
@@ -48,7 +50,7 @@ const Prioriteringsside = () => {
                 søkPåNytt={() => setSkalSøke(true)}
             />
             <br />
-            {sykefraværsstatistikk && <PrioriteringsTabell
+            {skalViseTabell && <PrioriteringsTabell
                 sykefraværsstatistikk={
                     sykefraværsstatistikk
                 }
