@@ -50,7 +50,7 @@ const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>) => {
     return {
         data: safeParseResultat.data,
         error: undefined,
-        loading: !safeParseResultat.data && !fetchError,
+        loading: false,
     };
 };
 
