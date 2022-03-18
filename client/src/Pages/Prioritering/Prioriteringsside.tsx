@@ -20,17 +20,22 @@ const tomSykefraværsstatistikk: SykefraversstatistikkVirksomhet[] = [];
 
 
 const Prioriteringsside = () => {
+    const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState(tomSykefraværsstatistikk)
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>();
     const [skalSøke, setSkalSøke] = useState(false);
     const {
         data: filterverdier,
     } = useFilterverdier();
     const {
-        data: sykefraversstatistikk,
+        data: sfStatistikkFraApi,
         loading,
         error,
     } = useSykefraværsstatistikk({ søkeverdier, initierSøk: skalSøke });
-
+    useEffect(() => {
+        if (sfStatistikkFraApi) {
+            setSykefraværsstatistikk(sfStatistikkFraApi)
+        }
+    }, [sfStatistikkFraApi])
 
     return (
         <>
@@ -43,9 +48,9 @@ const Prioriteringsside = () => {
                 søkPåNytt={() => setSkalSøke(true)}
             />
             <br />
-            {sykefraversstatistikk && <PrioriteringsTabell
+            {sykefraværsstatistikk && <PrioriteringsTabell
                 sykefraværsstatistikk={
-                    sykefraversstatistikk
+                    sykefraværsstatistikk
                 }
             />}
             {loading && <p>Loading</p>}

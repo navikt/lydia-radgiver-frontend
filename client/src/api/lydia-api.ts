@@ -65,16 +65,11 @@ const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>, config: SWRC
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);
 
-export const useSykefraværsstatistikk = ({søkeverdier, initierSøk = true}: {
+export const useSykefraværsstatistikk = ({søkeverdier = {}, initierSøk = true}: {
     søkeverdier?: Søkeverdier,
     initierSøk?: boolean
 }) => {
-    let sykefraværUrl = sykefraværsstatistikkPath;
-    if (søkeverdier) {
-        sykefraværUrl += `?${søkeverdierTilUrlSearchParams(
-            søkeverdier
-        ).toString()}`;
-    }
+    const sykefraværUrl = `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(søkeverdier).toString()}`;
     return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(
         initierSøk ? sykefraværUrl : null,
         sykefraversstatistikkVirksomhetListeSchema
