@@ -8,8 +8,7 @@ import {
 } from "../../domenetyper";
 import { Button, Select } from "@navikt/ds-react";
 import { useState } from "react";
-import { SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
-import { Range } from "./SykefraværsprosentVelger";
+import { SykefraværsprosentVelger, Range } from "./SykefraværsprosentVelger";
 import { HorizontalFlexboxDiv } from "./HorizontalFlexboxDiv";
 import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
 
@@ -29,7 +28,7 @@ const Fylkedropdown = ({
     endreFylke,
 }: {
     fylkerOgKommuner: FylkerMedKommuner[];
-    valgtFylke?: Fylke;
+    valgtFylke: Fylke | undefined;
     endreFylke: stateUpdater;
 }) => {
     return (
@@ -56,7 +55,7 @@ const Kommunedropdown = ({
     endreKommune,
 }: {
     kommuner: Kommune[];
-    valgtKommune?: Kommune;
+    valgtKommune: Kommune | undefined;
     endreKommune: stateUpdater;
 }) => (
     <Select
@@ -166,7 +165,13 @@ const Filtervisning = ({
             fylkenummer,
             filterverdier.fylker
         );
-        if (!endretFylke) return;
+        if (!endretFylke) {
+            setValgtFylke(undefined)
+            oppdaterSøkeverdier({
+                fylker: []
+            })
+            return;
+        }
         setValgtFylke(endretFylke);
         if (!valgtKommune?.nummer.startsWith(endretFylke.nummer))
             setValgtKommune(undefined);
@@ -180,7 +185,7 @@ const Filtervisning = ({
             kommunenummer,
             filterverdier.fylker
         );
-        if (!endretKommune) return;
+        if (!endretKommune && kommunenummer.length > 0) return;
         setValgtKommune(endretKommune);
         oppdaterSøkeverdier({
             kommuner: [endretKommune],
