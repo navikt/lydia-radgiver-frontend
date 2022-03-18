@@ -1,103 +1,28 @@
-import {
-  Filterverdier,
-  Fylke,
-  FylkerMedKommuner,
-  Kommune,
-  Næringsgruppe,
-  Søkeverdier,
-} from "../../domenetyper";
-import { Button, Select } from "@navikt/ds-react";
-import { useState } from "react";
-import { SykefraværsprosentVelger, Range } from "./SykefraværsprosentVelger";
-import { HorizontalFlexboxDiv } from "./HorizontalFlexboxDiv";
-import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
+import {Filterverdier, Fylke, Kommune, Næringsgruppe, Søkeverdier,} from "../../domenetyper";
+import {Button} from "@navikt/ds-react";
+import {useState} from "react";
+import {Range, SykefraværsprosentVelger} from "./SykefraværsprosentVelger";
+import {HorizontalFlexboxDiv} from "./HorizontalFlexboxDiv";
+import {Næringsgruppedropdown} from "./NæringsgruppeDropdown";
+import {Fylkedropdown, fylkesnummerTilFylke, kommunenummerTilKommune} from "./Fylkedropdown";
+import {Kommunedropdown} from "./Kommunedropdown";
+import {Sorteringsmuligheter} from "./Sorteringsmuligheter";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
     sykefraversprosent: "Sykefraværsprosent",
 } as const;
 
-type stateUpdater = (value: string) => void;
+export type stateUpdater = (value: string) => void;
 
-const sorterAlfabetisk = (a: string, b: string) =>
+export const sorterAlfabetisk = (a: string, b: string) =>
     a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase());
-
-const Fylkedropdown = ({
-    fylkerOgKommuner,
-    valgtFylke,
-    endreFylke,
-}: {
-    fylkerOgKommuner: FylkerMedKommuner[];
-    valgtFylke: Fylke | undefined;
-    endreFylke: stateUpdater;
-}) => {
-    return (
-        <Select
-            label="Fylke"
-            value={valgtFylke?.nummer ?? ""}
-            onChange={(e) => endreFylke(e.target.value)}
-        >
-            <option value="">Velg fylke</option>
-            {fylkerOgKommuner
-                .sort((a, b) => sorterAlfabetisk(a.fylke.navn, b.fylke.navn))
-                .map(({ fylke }) => (
-                    <option value={fylke.nummer} key={fylke.nummer}>
-                        {fylke.navn}
-                    </option>
-                ))}
-        </Select>
-    );
-};
-
-const Kommunedropdown = ({
-    kommuner,
-    valgtKommune,
-    endreKommune,
-}: {
-    kommuner: Kommune[];
-    valgtKommune: Kommune | undefined;
-    endreKommune: stateUpdater;
-}) => (
-    <Select
-        label="Kommune"
-        value={valgtKommune?.nummer ?? ""}
-        onChange={(e) => {
-            endreKommune(e.target.value);
-        }}
-    >
-        <option value={""} key={"emptykommune"}>
-            Velg kommune
-        </option>
-        {kommuner
-            .sort((a, b) => sorterAlfabetisk(a.navn, b.navn))
-            .map((kommune) => (
-                <option value={kommune.nummer} key={kommune.nummer}>
-                    {kommune.navn}
-                </option>
-            ))}
-    </Select>
-);
 
 interface FiltervisningProps {
     filterverdier: Filterverdier;
     oppdaterSøkeverdier: (søkeverdier: Søkeverdier) => void;
     søkPåNytt: () => void;
 }
-
-const fylkesnummerTilFylke = (
-    fylkenummer: string,
-    fylkerMedKommuner: FylkerMedKommuner[]
-) => {
-    return fylkerMedKommuner.find(({ fylke }) => fylke.nummer === fylkenummer)
-        ?.fylke;
-};
-const kommunenummerTilKommune = (
-    kommunenummer: string,
-    fylkerMedKommuner: FylkerMedKommuner[]
-) =>
-    fylkerMedKommuner
-        .find(({ fylke }) => fylke.nummer === kommunenummer.substring(0, 2))
-        ?.kommuner.find(({ nummer }) => nummer === kommunenummer);
 
 const næringsgruppeKoderTilNæringsgrupper = (
     næringsgruppeKoder: string[],
@@ -108,41 +33,6 @@ const filtrerKommunerPåValgtFylke = (fylke: Fylke, kommuner: Kommune[]) =>
     fylke
         ? kommuner.filter((kommune) => kommune.nummer.startsWith(fylke.nummer))
         : kommuner;
-
-const Sorteringsmuligheter = ({
-    valgtSortering,
-    sorteringsMuligheter,
-    endreSortering,
-}: {
-    valgtSortering: string;
-    sorteringsMuligheter: string[];
-    endreSortering: (sortering: keyof typeof sorteringsverdier) => void;
-}) => {
-    return (
-        <Select
-            label="Sortering"
-            value={valgtSortering}
-            onChange={(e) =>
-                endreSortering(e.target.value as keyof typeof sorteringsverdier)
-            }
-        >
-            {sorteringsMuligheter
-                .filter(
-                    (sorteringsMulighet) =>
-                        sorteringsMulighet in sorteringsverdier
-                )
-                .map((sortering) => (
-                    <option key={sortering} value={sortering}>
-                        {
-                            sorteringsverdier[
-                                sortering as keyof typeof sorteringsverdier
-                            ]
-                        }
-                    </option>
-                ))}
-        </Select>
-    );
-};
 
 const Filtervisning = ({
     filterverdier,
@@ -188,7 +78,7 @@ const Filtervisning = ({
         if (!endretKommune && kommunenummer.length > 0) return;
         setValgtKommune(endretKommune);
         oppdaterSøkeverdier({
-            kommuner: [endretKommune],
+            kommuner: endretKommune ? [endretKommune] : [],
         });
     };
     const endreNæringsgruppe = (næringsgruppeKoder: string[]) => {

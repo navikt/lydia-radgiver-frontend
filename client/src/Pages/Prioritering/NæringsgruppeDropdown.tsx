@@ -3,7 +3,12 @@ import ReactSelect, { StylesConfig } from "react-select";
 import styled from "styled-components";
 import { Næringsgruppe } from "../../domenetyper";
 
-function mapnæringsGruppeTilReactSelectOptions(gruppe: Næringsgruppe) {
+interface ReactSelectOptions {
+    label: string,
+    value: string
+}
+
+function mapnæringsGruppeTilReactSelectOptions(gruppe: Næringsgruppe): ReactSelectOptions {
     return {
         label: gruppe.navn,
         value: gruppe.kode,
@@ -69,7 +74,7 @@ export const Næringsgruppedropdown = ({
                 styles={reactSelectStyle()}
                 onChange={(verdier) => {
                     endreNæringsgrupper(
-                        verdier.map(({ value: næringsgruppe }) => næringsgruppe)
+                        (verdier as ReactSelectOptions[]).map(({ value: næringsgruppe }) => næringsgruppe)
                     );
                 }}
             />
