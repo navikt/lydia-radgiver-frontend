@@ -1,6 +1,6 @@
-import {Table} from "@navikt/ds-react";
+import {Link, Table} from "@navikt/ds-react";
 import "./PrioriteringsTabell.css"
-import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
+import {SykefraversstatistikkVirksomhet} from "../../domenetyper";
 import {StatusBadge} from "./StatusBadge";
 
 
@@ -15,10 +15,10 @@ const kolonneNavn = [
 
 
 interface Props {
-    sykefraværsstatistikk : SykefraversstatistikkVirksomhet[]
+    sykefraværsstatistikk: SykefraversstatistikkVirksomhet[]
 }
 
-export const PrioriteringsTabell = ({ sykefraværsstatistikk } : Props) => {
+export const PrioriteringsTabell = ({sykefraværsstatistikk}: Props) => {
     return (
         <div className="prioriteringstabell--tabell">
             <Table zebraStripes>
@@ -34,11 +34,12 @@ export const PrioriteringsTabell = ({ sykefraværsstatistikk } : Props) => {
                 <Table.Body>
                     {sykefraværsstatistikk.map((sykefraværStatistikkVirksomhet) => (
                         <Table.Row
-                        key={sykefraværStatistikkVirksomhet.virksomhetsnavn}
+                            key={sykefraværStatistikkVirksomhet.virksomhetsnavn}
                         >
-                            <Table.DataCell><StatusBadge status={sykefraværStatistikkVirksomhet.status} /></Table.DataCell>
+                            <Table.DataCell><StatusBadge
+                                status={sykefraværStatistikkVirksomhet.status}/></Table.DataCell>
                             <Table.HeaderCell scope="row">
-                                <span id={sykefraværStatistikkVirksomhet.virksomhetsnavn}>{sykefraværStatistikkVirksomhet.virksomhetsnavn}</span>
+                                <Link href="#">{sykefraværStatistikkVirksomhet.virksomhetsnavn}</Link>
                             </Table.HeaderCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.sykefraversprosent}</Table.DataCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.antallPersoner}</Table.DataCell>
