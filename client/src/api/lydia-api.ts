@@ -27,7 +27,7 @@ const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>, config: SWRC
         ...config
     });
     if (!data && !fetchError) {
-        console.log("Nå får vi loading")
+        console.log("Nå får vi loading fra", path)
         return {
             data: undefined,
             error: undefined,
@@ -35,7 +35,7 @@ const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>, config: SWRC
         };
     }
     if (fetchError) {
-        console.log("Nå får vi feil under fetch")
+        console.log("Nå får vi feil under fetch fra", path)
         return {
             data: undefined,
             error: fetchError,
@@ -44,7 +44,6 @@ const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>, config: SWRC
     }
     const safeParseResultat = schema.safeParse(data);
     if (!safeParseResultat.success) {
-        console.log("Nå får vi feil under parsing")
         console.error(
             "Feil i parsing av data fra server",
             safeParseResultat.error
@@ -55,7 +54,7 @@ const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>, config: SWRC
             loading: false,
         };
     }
-    console.log("Nå får vi et resultat")
+    console.log("Nå får vi et resultat fra", path)
     return {
         data: safeParseResultat.data,
         error: undefined,
