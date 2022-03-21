@@ -12,6 +12,7 @@ jobs:
           SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
         with:
           args: |
+            --all-projects
             --sarif-file-output=snyk.sarif
             --severity-threshold=high
             --org=team-pia
