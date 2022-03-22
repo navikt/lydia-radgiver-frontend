@@ -11,6 +11,7 @@ import { Config } from "./config";
 import logger from "./logging";
 import { AuthError } from "./error";
 import { hentInnloggetAnsattMiddleware } from "./brukerinfo";
+import {memorySessionManager, redisSessionManager} from "./RedisStore";
 
 export default class Application {
     expressApp: express.Express;
@@ -20,6 +21,8 @@ export default class Application {
         const buildPath = path.resolve(__dirname, "../client/dist");
         const storybookPath = path.resolve(__dirname, "../client/storybook-static")
         this.expressApp = express();
+
+        this.expressApp.use(process.env.NAIS_CLUSTER_NAME === 'lokal' ? memorySessionManager : redisSessionManager)
 
         this.expressApp.use(basePath, express.static(buildPath));
         this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
