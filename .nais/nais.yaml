@@ -33,6 +33,7 @@ spec:
     outbound:
       rules:
         - application: lydia-api
+        - applicatiion: fia-radgiver-frontend-redis
   azure:
     application:
       enabled: true
@@ -44,9 +45,11 @@ spec:
       enabled: true
       autoLogin: true
   env:
-  - name: LYDIA_API_URI
-    value: http://lydia-api
-  ingresses: 
+    - name: LYDIA_API_URI
+      value: http://lydia-api
+    - name: REDIS_HOST
+      value: fia-radgiver-frontend-redis.pia.svc.cluster.local
+  ingresses:
   {{#each ingresses as |url|}}
-    - {{url}}
+     - {{url } }
   {{/each}}
