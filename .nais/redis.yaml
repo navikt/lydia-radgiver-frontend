@@ -1,0 +1,30 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  labels:
+    team: pia
+  annotations:
+    nais.io/read-only-file-system: "false"
+    nais.io/run-as-user: "999"
+  name: fia-radgiver-frontend-redis
+  namespace: pia
+spec:
+  image: redis:6.2.6 # or a custom Redis-image
+  port: 6379
+  replicas: # A single Redis-app doesn't scale
+    min: 1
+    max: 1 # More replicas doesn't sync
+  resources:
+    limits:
+      cpu: 100m
+      memory: 128Mi
+    requests:
+      cpu: 100m
+      memory: 128Mi
+  service:
+    port: 6379
+    protocol: redis
+  accessPolicy: # for GCP
+    inbound:
+      rules:
+        - application: lydia-radgiver-frontend
