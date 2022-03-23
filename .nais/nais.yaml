@@ -53,5 +53,5 @@ spec:
     - secret: fia-redis
   ingresses:
   {{#each ingresses as |url|}}
-     - {{url } }
+     - {{url}}
   {{/each}}
