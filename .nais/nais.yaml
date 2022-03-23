@@ -49,6 +49,8 @@ spec:
       value: http://lydia-api
     - name: REDIS_HOST
       value: fia-radgiver-frontend-redis.pia.svc.cluster.local
+  envFrom:
+    - secret: fia-redis
   ingresses:
   {{#each ingresses as |url|}}
      - {{url } }
