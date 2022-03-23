@@ -118,11 +118,19 @@ describe("Tester proxy mot lydia-api", () => {
 
         const lydiaApiNockScope = nock(lydiaApiUri).get("/test").reply(200);
 
-        const res = await request(expressApp)
+        const responseForTestEndpoint = await request(expressApp)
             .get("/api/test")
             .set("Authorization", `Bearer ${gyldigTokenFraWonderwall}`);
+        expect(responseForTestEndpoint.statusCode).toBe(200);
+
+        const responseForInnloggetAnsatt = await request(expressApp)
+            .get("/innloggetAnsatt")
+            .set("Authorization", `Bearer ${gyldigTokenFraWonderwall}`);
+
+        expect(responseForInnloggetAnsatt.body.ident).toBe("hei123");
+        expect(responseForInnloggetAnsatt.body.navn).toBe("Testuser Testuser");
+
         expect(azureNockScope.isDone());
         expect(lydiaApiNockScope.isDone());
-        expect(res.statusCode).toBe(200);
     });
 });
