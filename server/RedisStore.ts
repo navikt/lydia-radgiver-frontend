@@ -1,17 +1,17 @@
-import { createClient } from "redis"
-import session from "express-session"
-import connectRedis from "connect-redis"
+import { createClient } from "redis";
+import session from "express-session";
+import connectRedis from "connect-redis";
 
-export const redisSessionManager = async () => {
-    const redisStore = connectRedis(session)
+export const redisSessionManager = () => {
+    const redisStore = connectRedis(session);
     const client = createClient({
         socket: {
             host: process.env.REDIS_HOST,
-            port: +process.env.REDIS_PORT
+            port: +process.env.REDIS_PORT,
         },
-        password: process.env.REDIS_PASSWORD
-    })
-    await client.connect()
+        password: process.env.REDIS_PASSWORD,
+    });
+    client.connect();
     return session({
         store: new redisStore({
             client,
@@ -21,24 +21,19 @@ export const redisSessionManager = async () => {
         saveUninitialized: false,
         resave: false,
         cookie: {
-            sameSite: 'strict',
+            sameSite: "strict",
             secure: true,
             httpOnly: true,
-            maxAge: Date.now() + 3600000 // 1 time levetid på session cookie
-        }
-    })
-}
+            maxAge: Date.now() + 3600000, // 1 time levetid på session cookie
+        },
+    });
+};
 
 export const memorySessionManager = () => {
     return session({
         saveUninitialized: false,
         resave: false,
-        secret: 'lovely cat',
-        cookie: {
-            sameSite: 'strict',
-            secure: true,
-            httpOnly: true,
-            maxAge: Date.now() + 3600000 // 1 time levetid på session cookie
-        }
-    })
-}
+        secret: "lovely cat",
+        cookie: {},
+    });
+};

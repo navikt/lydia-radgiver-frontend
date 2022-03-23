@@ -21,11 +21,6 @@ export default class Application {
         const buildPath = path.resolve(__dirname, "../client/dist");
         const storybookPath = path.resolve(__dirname, "../client/storybook-static");
         this.expressApp = express();
-        this.expressApp.use(
-            !process.env.NAIS_CLUSTER_NAME || process.env.NAIS_CLUSTER_NAME === "lokal"
-                ? memorySessionManager
-                : redisSessionManager
-        );
 
         this.expressApp.use(basePath, express.static(buildPath));
         this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
@@ -43,8 +38,13 @@ export default class Application {
         this.expressApp.get(`/internal/isReady`, (req, res) => {
             res.sendStatus(200);
         });
-        const lydiaApiProxy = new LydiaApiProxy(config).createExpressMiddleWare();
 
+        this.expressApp.use(
+            ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
+                ? memorySessionManager()
+                : redisSessionManager()
+        );
+        const lydiaApiProxy = new LydiaApiProxy(config).createExpressMiddleWare();
         const tokenValidator =
             process.env.NAIS_CLUSTER_NAME === "lokal"
                 ? validerTokenFraFakedings(config.azure, config._jwkSet)
