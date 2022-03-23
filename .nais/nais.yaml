@@ -33,7 +33,7 @@ spec:
     outbound:
       rules:
         - application: lydia-api
-        - applicatiion: fia-radgiver-frontend-redis
+        - application: fia-radgiver-frontend-redis
   azure:
     application:
       enabled: true
