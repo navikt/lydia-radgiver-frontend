@@ -12,7 +12,7 @@ import logger from "./logging";
 import { AuthError } from "./error";
 import { hentInnloggetAnsattMiddleware } from "./brukerinfo";
 import { memorySessionManager, redisSessionManager } from "./RedisStore";
-import { konfigurerMetrikker } from "./metrikker";
+import {customPrometheusMetrics} from "./metrikker";
 
 export default class Application {
     expressApp: express.Express;
@@ -40,49 +40,50 @@ export default class Application {
             res.sendStatus(200);
         });
 
-        const register = konfigurerMetrikker()
-        this.expressApp.get("/metrics", async  (req, res) => {
-            res.set('Content-Type', register.contentType);
-            res.end(await register.metrics());
-        })
+        this.expressApp.use(customPrometheusMetrics())
 
         this.expressApp.use(
-            ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
-                ? memorySessionManager()
-                : redisSessionManager()
-        );
-        const lydiaApiProxy = new LydiaApiProxy(config).createExpressMiddleWare();
-        const tokenValidator =
-            process.env.NAIS_CLUSTER_NAME === "lokal"
-                ? validerTokenFraFakedings(config.azure, config._jwkSet)
-                : validerTokenFraWonderwall(config.azure, config._jwkSet);
-
-        // Proxy må ligge under healthcheck endepunktene for at de skal nås
-        this.expressApp.use(
-            "/api",
-            tokenValidator,
-            process.env.NAIS_CLUSTER_NAME === "lokal"
-                ? (req, res, next) => {
-                      return next();
-                  }
-                : onBehalfOfTokenMiddleware(config),
-            lydiaApiProxy
-        );
-
-        this.expressApp.use(
-            "/innloggetAnsatt",
-            tokenValidator,
-            hentInnloggetAnsattMiddleware
-        );
-
-        this.expressApp.use(
-            (error: Error, req: Request, res: Response, _: NextFunction) => {
-                if (error instanceof AuthError) {
-                    return res.status(401).send(error.message);
-                }
-                logger.error(error.message);
-                return res.status(500).send("Intern server-feil");
+            (req: Request, res: Response, _: NextFunction) => {
+                res.send("Good")
             }
         );
+        // this.expressApp.use(
+        //     ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
+        //         ? memorySessionManager()
+        //         : redisSessionManager()
+        // );
+        // const lydiaApiProxy = new LydiaApiProxy(config).createExpressMiddleWare();
+        // const tokenValidator =
+        //     process.env.NAIS_CLUSTER_NAME === "lokal"
+        //         ? validerTokenFraFakedings(config.azure, config._jwkSet)
+        //         : validerTokenFraWonderwall(config.azure, config._jwkSet);
+        //
+        // // Proxy må ligge under healthcheck endepunktene for at de skal nås
+        // this.expressApp.use(
+        //     "/api",
+        //     tokenValidator,
+        //     process.env.NAIS_CLUSTER_NAME === "lokal"
+        //         ? (req, res, next) => {
+        //               return next();
+        //           }
+        //         : onBehalfOfTokenMiddleware(config),
+        //     lydiaApiProxy
+        // );
+        //
+        // this.expressApp.use(
+        //     "/innloggetAnsatt",
+        //     tokenValidator,
+        //     hentInnloggetAnsattMiddleware
+        // );
+        //
+        // this.expressApp.use(
+        //     (error: Error, req: Request, res: Response, _: NextFunction) => {
+        //         if (error instanceof AuthError) {
+        //             return res.status(401).send(error.message);
+        //         }
+        //         logger.error(error.message);
+        //         return res.status(500).send("Intern server-feil");
+        //     }
+        // );
     }
 }
