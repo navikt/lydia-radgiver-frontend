@@ -41,49 +41,44 @@ export default class Application {
         });
 
         this.expressApp.use(customPrometheusMetrics())
+        
+        this.expressApp.use(
+            ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
+                ? memorySessionManager()
+                : redisSessionManager()
+        );
+        const lydiaApiProxy = new LydiaApiProxy(config).createExpressMiddleWare();
+        const tokenValidator =
+            process.env.NAIS_CLUSTER_NAME === "lokal"
+                ? validerTokenFraFakedings(config.azure, config._jwkSet)
+                : validerTokenFraWonderwall(config.azure, config._jwkSet);
+
+        // Proxy må ligge under healthcheck endepunktene for at de skal nås
+        this.expressApp.use(
+            "/api",
+            tokenValidator,
+            process.env.NAIS_CLUSTER_NAME === "lokal"
+                ? (req, res, next) => {
+                      return next();
+                  }
+                : onBehalfOfTokenMiddleware(config),
+            lydiaApiProxy
+        );
 
         this.expressApp.use(
-            (req: Request, res: Response, _: NextFunction) => {
-                res.send("Good")
+            "/innloggetAnsatt",
+            tokenValidator,
+            hentInnloggetAnsattMiddleware
+        );
+
+        this.expressApp.use(
+            (error: Error, req: Request, res: Response, _: NextFunction) => {
+                if (error instanceof AuthError) {
+                    return res.status(401).send(error.message);
+                }
+                logger.error(error.message);
+                return res.status(500).send("Intern server-feil");
             }
         );
-        // this.expressApp.use(
-        //     ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
-        //         ? memorySessionManager()
-        //         : redisSessionManager()
-        // );
-        // const lydiaApiProxy = new LydiaApiProxy(config).createExpressMiddleWare();
-        // const tokenValidator =
-        //     process.env.NAIS_CLUSTER_NAME === "lokal"
-        //         ? validerTokenFraFakedings(config.azure, config._jwkSet)
-        //         : validerTokenFraWonderwall(config.azure, config._jwkSet);
-        //
-        // // Proxy må ligge under healthcheck endepunktene for at de skal nås
-        // this.expressApp.use(
-        //     "/api",
-        //     tokenValidator,
-        //     process.env.NAIS_CLUSTER_NAME === "lokal"
-        //         ? (req, res, next) => {
-        //               return next();
-        //           }
-        //         : onBehalfOfTokenMiddleware(config),
-        //     lydiaApiProxy
-        // );
-        //
-        // this.expressApp.use(
-        //     "/innloggetAnsatt",
-        //     tokenValidator,
-        //     hentInnloggetAnsattMiddleware
-        // );
-        //
-        // this.expressApp.use(
-        //     (error: Error, req: Request, res: Response, _: NextFunction) => {
-        //         if (error instanceof AuthError) {
-        //             return res.status(401).send(error.message);
-        //         }
-        //         logger.error(error.message);
-        //         return res.status(500).send("Intern server-feil");
-        //     }
-        // );
     }
 }
