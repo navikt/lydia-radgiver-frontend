@@ -13,7 +13,7 @@
   "dependencies": {
     "@navikt/ds-css": "0.15.12",
     "@navikt/ds-css-internal": "0.7.1",
-    "@navikt/ds-react": "0.14.10-next.0",
+    "@navikt/ds-react": "0.16.20",
     "@navikt/ds-react-internal": "0.11.20",
     "react": "17.0.2",
     "react-dom": "17.0.2",
