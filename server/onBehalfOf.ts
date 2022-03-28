@@ -7,6 +7,7 @@ import logger from "./logging";
 import {JWKSetRetriever} from "./jwks";
 import {jwtVerify, errors, decodeJwt, JWTPayload} from "jose";
 import {decrypt, encrypt} from "./crypto";
+import {redisCacheHitCounter} from "./metrikker";
 
 const EXPIRY_THRESHOLD_SECONDS = 5;
 
@@ -122,6 +123,7 @@ export const hentOnBehalfOfToken = async (
 
     if (encryptedObo) {
         logger.info("Hentet ut token fra Redis")
+        redisCacheHitCounter.inc()
         const oboToken = await decrypt(encryptedObo)
         return isValid(decodeJwt(oboToken)) ? oboToken : await fetchOboToken()
     } else {
