@@ -24,6 +24,10 @@ export default class Application {
         const storybookPath = path.resolve(__dirname, "../client/storybook-static");
         this.expressApp = express();
 
+        this.expressApp.get(["/internal/isAlive", "/internal/isReady"], (req, res) => {
+            res.sendStatus(200);
+        });
+
         this.expressApp.use(apiMetrics())
 
         this.expressApp.use(basePath, express.static(buildPath));
@@ -35,13 +39,6 @@ export default class Application {
             express.static(`${storybookPath}/assets`)
         );
 
-        this.expressApp.get(`/internal/isAlive`, (req, res) => {
-            res.sendStatus(200);
-        });
-
-        this.expressApp.get(`/internal/isReady`, (req, res) => {
-            res.sendStatus(200);
-        });
 
 
         this.expressApp.use(
