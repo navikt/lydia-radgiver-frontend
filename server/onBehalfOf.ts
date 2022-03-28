@@ -106,6 +106,7 @@ export const hentOnBehalfOfToken = async (
             );
             logger.info(`Session : ${JSON.stringify(req.session)}`)
             req.session[navIdent] = encrypt(result.data.access_token)
+            logger.info(`Session etter insert: ${JSON.stringify(req.session)}`)
             return result.data.access_token;
         } catch (error) {
             if (error instanceof Error) {
