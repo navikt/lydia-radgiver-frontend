@@ -19,7 +19,6 @@
     "ioredis": "5.0.1",
     "jose": "4.5.1",
     "prometheus-api-metrics": "3.2.1",
-    "redis": "4.0.4",
     "winston": "3.6.0"
   },
   "devDependencies": {
