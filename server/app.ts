@@ -23,6 +23,7 @@ export default class Application {
         const buildPath = path.resolve(__dirname, "../client/dist");
         const storybookPath = path.resolve(__dirname, "../client/storybook-static");
         this.expressApp = express();
+        this.expressApp.set("trust proxy", 1)
 
         this.expressApp.use(apiMetrics())
 
