@@ -125,7 +125,7 @@ export const hentOnBehalfOfToken = async (
 
     if (encryptedObo) {
         logger.info("Hentet ut token fra Redis")
-        logger.info(`Encrypted OBO ${encryptedObo.toString()} ${typeof encryptedObo}`)
+        logger.info(`Encrypted OBO ${JSON.stringify(encryptedObo)} ${typeof encryptedObo}`)
         redisCacheHitCounter.inc()
         const oboToken = await decrypt(encryptedObo)
         return isValid(decodeJwt(oboToken)) ? oboToken : await fetchOboToken()
