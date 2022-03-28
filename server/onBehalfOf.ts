@@ -121,6 +121,7 @@ export const hentOnBehalfOfToken = async (
     }
 
     if (encryptedObo) {
+        logger.info("Hentet ut token fra Redis")
         const oboToken = await decrypt(encryptedObo)
         return isValid(decodeJwt(oboToken)) ? oboToken : await fetchOboToken()
     } else {
