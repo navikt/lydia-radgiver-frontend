@@ -1,29 +1,27 @@
 import axios from "axios";
-import {NextFunction, Request, Response} from "express";
-import {URLSearchParams} from "url";
-import {Azure, Config} from "./config";
-import {AuthError} from "./error";
+import { NextFunction, Request, Response } from "express";
+import { URLSearchParams } from "url";
+import { Azure, Config } from "./config";
+import { AuthError } from "./error";
 import logger from "./logging";
-import {JWKSetRetriever} from "./jwks";
-import {jwtVerify, errors, decodeJwt, JWTPayload} from "jose";
-import {decrypt, encrypt} from "./crypto";
-import {redisCacheHitCounter} from "./metrikker";
+import { JWKSetRetriever } from "./jwks";
+import { jwtVerify, errors, decodeJwt, JWTPayload } from "jose";
+import { decrypt, encrypt } from "./crypto";
+import { redisCacheHitCounter } from "./metrikker";
 
 const EXPIRY_THRESHOLD_SECONDS = 5;
 
 export const onBehalfOfTokenMiddleware =
-    (config: Config) =>
-        async (req: Request, res: Response, next: NextFunction) => {
-            const bearerToken = getBearerToken(req);
-            if (!bearerToken)
-                return next(new AuthError("Mangler token i auth header"));
-            hentOnBehalfOfToken(bearerToken, config, req)
-                .then((oboToken) => {
-                    res.locals.on_behalf_of_token = oboToken;
-                    return next();
-                })
-                .catch((error) => next(error));
-        };
+    (config: Config) => async (req: Request, res: Response, next: NextFunction) => {
+        const bearerToken = getBearerToken(req);
+        if (!bearerToken) return next(new AuthError("Mangler token i auth header"));
+        hentOnBehalfOfToken(bearerToken, config, req)
+            .then((oboToken) => {
+                res.locals.on_behalf_of_token = oboToken;
+                return next();
+            })
+            .catch((error) => next(error));
+    };
 
 export const validerAccessToken = (
     accessToken: string,
@@ -62,30 +60,29 @@ export function getBearerToken(req: Request) {
 
 export const validerTokenFraWonderwall =
     (azure: Azure, jwkSet: JWKSetRetriever) =>
-        async (req: Request, res: Response, next: NextFunction) => {
-            const bearerToken = getBearerToken(req);
-            if (!bearerToken)
-                return next(new AuthError("Mangler token i auth header"));
-            validerAccessToken(bearerToken, azure, jwkSet)
-                .then(() => next())
-                .catch((e) => next(e));
-        };
+    async (req: Request, res: Response, next: NextFunction) => {
+        const bearerToken = getBearerToken(req);
+        if (!bearerToken) return next(new AuthError("Mangler token i auth header"));
+        validerAccessToken(bearerToken, azure, jwkSet)
+            .then(() => next())
+            .catch((e) => next(e));
+    };
 
 export const validerTokenFraFakedings =
     (azure: Azure, jwkSet: JWKSetRetriever) =>
-        async (req: Request, res: Response, next: NextFunction) => {
-            const {data: bearerToken} = await axios.get(azure.tokenEndpoint);
-            res.locals.on_behalf_of_token = bearerToken;
-            return next();
-        };
+    async (req: Request, res: Response, next: NextFunction) => {
+        const { data: bearerToken } = await axios.get(azure.tokenEndpoint);
+        res.locals.on_behalf_of_token = bearerToken;
+        return next();
+    };
 
 export const hentOnBehalfOfToken = async (
     accessToken: string,
     config: Config,
     req: Request
 ): Promise<string> => {
-    const navIdent: string = decodeJwt(accessToken).NAVident as string
-    const encryptedObo = req.session[navIdent]
+    const navIdent: string = decodeJwt(accessToken).NAVident as string;
+    const encryptedObo = req.session[navIdent];
 
     async function fetchOboToken() {
         // OBO flyt som beskrevet her:
@@ -102,11 +99,11 @@ export const hentOnBehalfOfToken = async (
             const result = await axios.post<AzureTokenResponse>(
                 config.azure.tokenEndpoint,
                 params,
-                {headers: {"content-type": "application/x-www-form-urlencoded"}}
+                { headers: { "content-type": "application/x-www-form-urlencoded" } }
             );
-            logger.info(`Session : ${JSON.stringify(req.session)}`)
-            req.session[navIdent] = encrypt(result.data.access_token)
-            logger.info(`Session etter insert: ${JSON.stringify(req.session)}`)
+            logger.info(`Session : ${JSON.stringify(req.session)}`);
+            req.session[navIdent] = encrypt(result.data.access_token);
+            logger.info(`Session etter insert: ${JSON.stringify(req.session)}`);
             return result.data.access_token;
         } catch (error) {
             if (error instanceof Error) {
@@ -124,19 +121,21 @@ export const hentOnBehalfOfToken = async (
     }
 
     if (encryptedObo) {
-        logger.info("Hentet ut token fra Redis")
-        logger.info(`Encrypted OBO ${JSON.stringify(encryptedObo)} ${typeof encryptedObo}`)
-        redisCacheHitCounter.inc()
-        const oboToken = await decrypt(encryptedObo)
-        return isValid(decodeJwt(oboToken)) ? oboToken : await fetchOboToken()
+        logger.info("Hentet ut token fra Redis");
+        logger.info(
+            `Encrypted OBO ${JSON.stringify(encryptedObo)} ${typeof encryptedObo}`
+        );
+        redisCacheHitCounter.inc();
+        const oboToken = await decrypt(encryptedObo);
+        return isValid(decodeJwt(oboToken)) ? oboToken : await fetchOboToken();
     } else {
         return await fetchOboToken();
     }
 };
 
-function isValid({exp: expireTime}: JWTPayload) {
-    const timeCheck = Math.floor(Date.now() / 1000) + EXPIRY_THRESHOLD_SECONDS
-    return timeCheck < expireTime
+function isValid({ exp: expireTime }: JWTPayload) {
+    const timeCheck = Math.floor(Date.now() / 1000) + EXPIRY_THRESHOLD_SECONDS;
+    return timeCheck < expireTime;
 }
 
 export interface AzureTokenResponse {
