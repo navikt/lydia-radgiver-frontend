@@ -1,6 +1,6 @@
 import {ComponentMeta} from "@storybook/react";
 import {StatusBadge} from "./StatusBadge";
-import {IAProsessStatus} from "../../domenetyper";
+import {IAProsessStatusType} from "../../domenetyper";
 
 export default {
     title: "StatusBadge",
@@ -21,7 +21,7 @@ export const Hovedstory = () => (
     ]
 );
 
-const Story = ({ status }: { status: IAProsessStatus}) => (<div>
+const Story = ({ status }: { status: IAProsessStatusType}) => (<div>
     <p>{`${status}: `}</p>
     <StatusBadge status={status} />
 </div>)

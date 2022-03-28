@@ -23,7 +23,7 @@ export const filterverdierSchema = z.object({
     sorteringsnokler: z.string().array(),
 });
 
-const statusEnum =  z.enum([
+const IA_PROSESS_STATUSER = [
     "NY",
     "PRIORITERT",
     "TAKKET_NEI",
@@ -33,9 +33,10 @@ const statusEnum =  z.enum([
     "AVSLUTTET",
     "IKKE_AKTIV",
     "AVSLATT_AV_NALS"
-])
+] as const
 
-export type IAProsessStatus = z.infer<typeof statusEnum>
+export const IAProsessStatusEnum =  z.enum(IA_PROSESS_STATUSER)
+export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>
 
 export const sykefraversstatistikkVirksomhetSchema = z.object({
     orgnr: z.string(),
@@ -49,7 +50,7 @@ export const sykefraversstatistikkVirksomhetSchema = z.object({
     antallPersoner: z.number(),
     muligeDagsverk: z.number(),
     tapteDagsverk: z.number(),
-    status: statusEnum
+    status: IAProsessStatusEnum
 });
 
 export const sykefraversstatistikkVirksomhetListeSchema = z.array(

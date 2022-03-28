@@ -1,7 +1,7 @@
-import {IAProsessStatus} from "../../domenetyper";
+import {IAProsessStatusType} from "../../domenetyper";
 import "@navikt/ds-css";
 
-interface Props { status: IAProsessStatus }
+interface Props { status: IAProsessStatusType }
 
 export const StatusBadge = ({status}: Props) => {
     const {text, backgroundColor, color} = hentBadgeFraStatus(status)
@@ -30,7 +30,7 @@ interface BadgeData {
     backgroundColor: string
 }
 
-function hentBadgeFraStatus(status: IAProsessStatus): BadgeData {
+export function hentBadgeFraStatus(status: IAProsessStatusType): BadgeData {
     switch (status) {
         case "TAKKET_NEI": {
             return {
