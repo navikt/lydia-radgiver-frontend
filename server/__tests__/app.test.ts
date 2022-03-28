@@ -1,12 +1,12 @@
 import request from "supertest";
-import { Express } from "express";
-import { Config, envVars } from "../config";
+import {Express} from "express";
+import {Config, envVars} from "../config";
 import Application from "../app";
 import nock from "nock";
-import { generateLocalKeys, setupLocalJwkSet } from "../jwks";
-import { KeyLike } from "jose/dist/types/types";
-import { SignJWT } from "jose";
-import { register } from "prom-client";
+import {generateLocalKeys, setupLocalJwkSet} from "../jwks";
+import {KeyLike} from "jose/dist/types/types";
+import {SignJWT} from "jose";
+import {register} from "prom-client";
 
 const azureOpenidConfigTokenUri = "http://azure.com";
 const azureOpenidConfigTokenPath = "/azure-openid-config/token";
@@ -37,7 +37,7 @@ async function createMockToken() {
         NAVident: "hei123",
     })
         .setIssuedAt()
-        .setProtectedHeader({ alg: "RS256" })
+        .setProtectedHeader({alg: "RS256"})
         .setIssuer("azure")
         .setAudience(azureClientId)
         .setExpirationTime("2h")
@@ -55,7 +55,7 @@ const init = async () => {
     mockEnv();
     const jwkSet = await setupJwkSet();
     register.clear();
-    return new Application(new Config({ jwkSet })).expressApp;
+    return new Application(new Config({jwkSet})).expressApp;
 };
 
 describe("Tester liveness og readiness", () => {
@@ -134,5 +134,26 @@ describe("Tester proxy mot lydia-api", () => {
 
         expect(azureNockScope.isDone());
         expect(lydiaApiNockScope.isDone());
+    });
+});
+
+describe("Tester uthenting av metrikker", () => {
+    let expressApp: Express;
+    beforeAll(async () => {
+        expressApp = await init();
+    });
+
+    test("Appen skal hente metrics om HTTP kall", async () => {
+        const superTest = request(expressApp);
+        const livenessCheck = await superTest.get("/internal/isAlive")
+        expect(livenessCheck.statusCode).toBe(200)
+        const metricsCollection = await superTest.get("/metrics")
+        expect(metricsCollection.text).toContain("process_cpu_user_seconds_total")
+        expect(metricsCollection.text).toContain("http_request_size_bytes_bucket")
+        expect(metricsCollection.text).toContain("http_response_size_bytes_bucket")
+        expect(metricsCollection.text).toContain("http_response_size_bytes_bucket")
+        expect(metricsCollection.text).toContain("http_request_duration_seconds_sum")
+        expect(metricsCollection.text).toContain("http_request_duration_seconds_count")
+        expect(metricsCollection.text).toContain("http_request_duration_seconds_count{method=\"GET\",route=\"/internal/isAlive\",code=\"200\"}")
     });
 });
