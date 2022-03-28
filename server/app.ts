@@ -24,11 +24,12 @@ export default class Application {
         const storybookPath = path.resolve(__dirname, "../client/storybook-static");
         this.expressApp = express();
 
+        this.expressApp.use(apiMetrics())
+
         this.expressApp.get(["/internal/isAlive", "/internal/isReady"], (req, res) => {
             res.sendStatus(200);
         });
 
-        this.expressApp.use(apiMetrics())
 
         this.expressApp.use(basePath, express.static(buildPath));
         this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
@@ -38,8 +39,6 @@ export default class Application {
             "/storybook-static/assets",
             express.static(`${storybookPath}/assets`)
         );
-
-
 
         this.expressApp.use(
             ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
