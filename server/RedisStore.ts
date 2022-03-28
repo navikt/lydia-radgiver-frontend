@@ -4,12 +4,10 @@ import connectRedis from "connect-redis";
 
 export const redisSessionManager = () => {
     const redisStore = connectRedis(session);
-    const client = new Redis.Cluster([
-        {
-            host: process.env.REDIS_HOST,
-            port: +process.env.REDIS_PORT,
-        },
-    ]);
+    const client = new Redis(
+        +process.env.REDIS_PORT,
+        process.env.REDIS_HOST,
+    );
     return session({
         store: new redisStore({
             client,
