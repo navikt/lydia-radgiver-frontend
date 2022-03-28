@@ -1,16 +1,15 @@
-import { createClient } from "redis";
+import Redis from "ioredis";
 import session from "express-session";
 import connectRedis from "connect-redis";
 
 export const redisSessionManager = () => {
     const redisStore = connectRedis(session);
-    const client = createClient({
-        socket: {
+    const client = new Redis.Cluster([
+        {
             host: process.env.REDIS_HOST,
             port: +process.env.REDIS_PORT,
         },
-    });
-    client.connect();
+    ]);
     return session({
         store: new redisStore({
             client,
