@@ -6,6 +6,7 @@ import nock from "nock";
 import { generateLocalKeys, setupLocalJwkSet } from "../jwks";
 import { KeyLike } from "jose/dist/types/types";
 import { SignJWT } from "jose";
+import { register } from "prom-client";
 
 const azureOpenidConfigTokenUri = "http://azure.com";
 const azureOpenidConfigTokenPath = "/azure-openid-config/token";
@@ -53,6 +54,7 @@ async function setupJwkSet() {
 const init = async () => {
     mockEnv();
     const jwkSet = await setupJwkSet();
+    register.clear();
     return new Application(new Config({ jwkSet })).expressApp;
 };
 
