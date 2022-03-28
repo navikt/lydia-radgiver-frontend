@@ -104,6 +104,7 @@ export const hentOnBehalfOfToken = async (
                 params,
                 {headers: {"content-type": "application/x-www-form-urlencoded"}}
             );
+            logger.info(`Session : ${JSON.stringify(req.session)}`)
             req.session[navIdent] = encrypt(result.data.access_token)
             return result.data.access_token;
         } catch (error) {
