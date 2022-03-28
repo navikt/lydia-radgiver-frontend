@@ -100,9 +100,7 @@ export const hentOnBehalfOfToken = async (
                 params,
                 { headers: { "content-type": "application/x-www-form-urlencoded" } }
             );
-            logger.info(`Session : ${JSON.stringify(req.session)}`);
             req.session.azureOboToken = await encrypt(result.data.access_token);
-            logger.info(`Session etter insert: ${JSON.stringify(req.session)}`);
             return result.data.access_token;
         } catch (error) {
             if (error instanceof Error) {
@@ -120,10 +118,6 @@ export const hentOnBehalfOfToken = async (
     }
 
     if (encryptedObo) {
-        logger.info("Hentet ut token fra Redis");
-        logger.info(
-            `Encrypted OBO ${JSON.stringify(encryptedObo)} ${typeof encryptedObo}`
-        );
         redisCacheHitCounter.inc();
         const oboToken = await decrypt(encryptedObo);
         return isValid(decodeJwt(oboToken)) ? oboToken : await fetchOboToken();
