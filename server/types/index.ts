@@ -1,7 +1,7 @@
 import { Session } from "express-session";
 
 declare module "express-session" {
-    interface Session {
+    export interface Session {
         azureOboToken: string;
     }
 }

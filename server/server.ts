@@ -3,7 +3,9 @@ import Application from './app';
 import { Config } from './config';
 import logger from "./logging"
 import { setupRemoteJwkSet } from "./jwks";
-import dotenv from "dotenv" 
+import dotenv from "dotenv"
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import * as types from "./types"; // nødvendig for at ts-node skal skjønne at disse typene eksisterer
 
 
 const main = () => {
