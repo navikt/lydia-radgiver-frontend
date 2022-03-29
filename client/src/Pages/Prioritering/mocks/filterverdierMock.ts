@@ -35,6 +35,7 @@ export const filterverdierMock: Filterverdier = {
             ],
         },
     ],
+    statuser: ["NY", "PRIORITERT", "TAKKET_NEI", "AVSLATT_AV_NALS", "AVSLUTTET", "EVALUERING", "KARTLEGGING", "GJENNOMFORING", "IKKE_AKTIV"],
     neringsgrupper: [
         {
             kode: "01",

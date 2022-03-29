@@ -1,4 +1,4 @@
-import {Filterverdier, Fylke, Kommune, Næringsgruppe, Søkeverdier,} from "../../domenetyper";
+import {Filterverdier, Fylke, IAProsessStatusType, Kommune, Næringsgruppe, Søkeverdier,} from "../../domenetyper";
 import {Button} from "@navikt/ds-react";
 import {useState} from "react";
 import {Range, SykefraværsprosentVelger} from "./SykefraværsprosentVelger";
@@ -7,6 +7,7 @@ import {Næringsgruppedropdown} from "./NæringsgruppeDropdown";
 import {Fylkedropdown, fylkesnummerTilFylke, kommunenummerTilKommune} from "./Fylkedropdown";
 import {Kommunedropdown} from "./Kommunedropdown";
 import {Sorteringsmuligheter} from "./Sorteringsmuligheter";
+import {IAStatusDropdown} from "./IAStatusDropdown";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -46,6 +47,7 @@ const Filtervisning = ({
         fra: 0,
         til: 100,
     });
+    const [IAStatus, setIAStatus] = useState<IAProsessStatusType>()
     const [sorteringsverdi, setSorteringsverdi] =
         useState<string>("tapte_dagsverk");
 
@@ -144,6 +146,11 @@ const Filtervisning = ({
                             sorteringsnokkel: sortering,
                         });
                     }}
+                />
+                <IAStatusDropdown
+                    endreStatus={setIAStatus}
+                    IAstatuser={filterverdier.statuser}
+                    valgtStatus={IAStatus}
                 />
                 <Button
                     size="small"

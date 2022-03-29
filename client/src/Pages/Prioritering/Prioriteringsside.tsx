@@ -15,6 +15,7 @@ const tommeFilterverdier: Filterverdier = {
     fylker: [],
     neringsgrupper: [],
     sorteringsnokler: [],
+    statuser: []
 };
 const tomSykefraværsstatistikk: SykefraversstatistikkVirksomhet[] = [];
 
