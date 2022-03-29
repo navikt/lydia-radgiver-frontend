@@ -1,7 +1,8 @@
 import {Link, Table} from "@navikt/ds-react";
-import "./PrioriteringsTabell.css"
 import {SykefraversstatistikkVirksomhet} from "../../domenetyper";
 import {StatusBadge} from "./StatusBadge";
+import styled from "styled-components";
+import {hvitRammeMedBoxShadow} from "../../styling/containere";
 
 
 const kolonneNavn = [
@@ -15,14 +16,15 @@ const kolonneNavn = [
 
 
 interface Props {
-    sykefraværsstatistikk: SykefraversstatistikkVirksomhet[]
+    sykefraværsstatistikk: SykefraversstatistikkVirksomhet[];
+    className? : string;
 }
 
-export const PrioriteringsTabell = ({sykefraværsstatistikk}: Props) => {
+const PrioriteringsTabell = ({sykefraværsstatistikk, className}: Props) => {
     return (
-        <div className="prioriteringstabell--tabell">
+        <div className={className}>
             <Table zebraStripes>
-                <Table.Header>
+                <Table.Header className={"table-header"}>
                     <Table.Row>
                         {kolonneNavn.map((navn) => (
                             <Table.HeaderCell scope="col" key={navn}>
@@ -52,3 +54,7 @@ export const PrioriteringsTabell = ({sykefraværsstatistikk}: Props) => {
         </div>
     )
 }
+
+export const StyledPrioriteringsTabell = styled(PrioriteringsTabell)`
+    ${hvitRammeMedBoxShadow}
+`

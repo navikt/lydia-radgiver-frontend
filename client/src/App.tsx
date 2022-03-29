@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { useHentBrukerinformasjon } from "./api/lydia-api";
 import { NavAnsatt } from "./domenetyper";
 import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
-import { breakpoints, forBetween, forLargerThan } from "./style-breakpoints";
+import { breakpoints, forBetween, forLargerThan } from "./styling/breakpoints";
 
 function App() {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
@@ -23,7 +23,7 @@ function App() {
 const AppRamme = styled.div`
     display: flex;
     flex-direction: column;
-    margin: 3rem 0;
+    margin: 1rem 0;
     ${forLargerThan(breakpoints.largestPhone)} {
         padding: 0 5rem;
     }

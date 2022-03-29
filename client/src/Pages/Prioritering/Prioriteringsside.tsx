@@ -1,5 +1,5 @@
-import Filtervisning, { StyledFiltervisning } from "./Filtervisning";
-import { PrioriteringsTabell } from "./PrioriteringsTabell";
+import { StyledFiltervisning } from "./Filtervisning";
+import { StyledPrioriteringsTabell} from "./PrioriteringsTabell";
 import {
   useFilterverdier,
   useSykefraværsstatistikk,
@@ -40,7 +40,7 @@ const Prioriteringsside = () => {
     }, [sfStatistikkFraApi])
 
     return (
-        <>fo
+        <>
             <StyledFiltervisning
                 filterverdier={filterverdier ?? tommeFilterverdier}
                 oppdaterSøkeverdier={(nyeSøkeverdier: Søkeverdier) => {
@@ -50,7 +50,7 @@ const Prioriteringsside = () => {
                 søkPåNytt={() => setSkalSøke(true)}
             />
             <br />
-            {skalViseTabell && <PrioriteringsTabell
+            {skalViseTabell && <StyledPrioriteringsTabell
                 sykefraværsstatistikk={
                     sykefraværsstatistikk
                 }
