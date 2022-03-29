@@ -2,20 +2,27 @@ import "@navikt/ds-css";
 import "@navikt/ds-css-internal";
 import { Header } from "@navikt/ds-react-internal";
 import styled from "styled-components";
+import {BrowserRouter, Route, Routes} from "react-router-dom";
 
 import { useHentBrukerinformasjon } from "./api/lydia-api";
 import { NavAnsatt } from "./domenetyper";
 import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
 import { breakpoints, forBetween, forLargerThan } from "./styling/breakpoints";
+import Virksomhetsside from "./Pages/Virksomhet/Virsomhetsside";
 
 function App() {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     return brukerInformasjon ? (
         <>
             <Dekoratør navAnsatt={brukerInformasjon} />
-            <AppRamme>
-                <Prioriteringsside />
-            </AppRamme>
+            <BrowserRouter>
+                <AppRamme>
+                    <Routes>
+                        <Route path="/" element={<Prioriteringsside/>}/>
+                        <Route path="/virksomhet/:orgnummer" element={<Virksomhetsside/>}/>
+                    </Routes>
+                </AppRamme>
+            </BrowserRouter>
         </>
     ) : null;
 }

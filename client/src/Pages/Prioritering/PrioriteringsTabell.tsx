@@ -17,10 +17,11 @@ const kolonneNavn = [
 
 interface Props {
     sykefraværsstatistikk: SykefraversstatistikkVirksomhet[];
-    className? : string;
+    className?: string;
 }
 
 const PrioriteringsTabell = ({sykefraværsstatistikk, className}: Props) => {
+
     return (
         <div className={className}>
             <Table zebraStripes>
@@ -41,7 +42,10 @@ const PrioriteringsTabell = ({sykefraværsstatistikk, className}: Props) => {
                             <Table.DataCell><StatusBadge
                                 status={sykefraværStatistikkVirksomhet.status}/></Table.DataCell>
                             <Table.HeaderCell scope="row">
-                                <Link href="#">{sykefraværStatistikkVirksomhet.virksomhetsnavn}</Link>
+                                <Link
+                                    href={`virksomhet/${sykefraværStatistikkVirksomhet.orgnr}`}>
+                                    {sykefraværStatistikkVirksomhet.virksomhetsnavn}
+                                </Link>
                             </Table.HeaderCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.sykefraversprosent}</Table.DataCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.antallPersoner}</Table.DataCell>
