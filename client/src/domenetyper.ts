@@ -75,6 +75,7 @@ export interface Søkeverdier {
     neringsgrupper?: Næringsgruppe[];
     sykefraversprosentRange?: Range;
     sorteringsnokkel?: keyof typeof sorteringsverdier;
+    iastatus?: IAProsessStatusType
 }
 
 export type Virksomhet = {

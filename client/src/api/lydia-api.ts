@@ -101,5 +101,6 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
         søkeverdier.sykefraversprosentRange?.til.toFixed(2) ?? ""
     );
     params.append("sorteringsnokkel", søkeverdier.sorteringsnokkel ?? "");
+    params.append("iaStatus", søkeverdier.iastatus ?? "")
     return params;
 };

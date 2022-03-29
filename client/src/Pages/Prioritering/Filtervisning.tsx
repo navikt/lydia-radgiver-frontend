@@ -148,8 +148,13 @@ const Filtervisning = ({
                     }}
                 />
                 <IAStatusDropdown
-                    endreStatus={setIAStatus}
-                    IAstatuser={filterverdier.statuser}
+                    endreStatus={(iastatus) => {
+                        setIAStatus(iastatus)
+                        oppdaterSøkeverdier({
+                            iastatus
+                        })
+                    }}
+                    statuser={filterverdier.statuser}
                     valgtStatus={IAStatus}
                 />
                 <Button

@@ -3,8 +3,8 @@ import {IAProsessStatusType} from "../../domenetyper";
 
 interface Props {
     valgtStatus?: IAProsessStatusType
-    endreStatus: (status: IAProsessStatusType) => void
-    IAstatuser: IAProsessStatusType[]
+    endreStatus: (status?: IAProsessStatusType) => void
+    statuser: IAProsessStatusType[]
 }
 
 const penskrivIaStatus = (status: IAProsessStatusType) => {
@@ -32,11 +32,11 @@ const penskrivIaStatus = (status: IAProsessStatusType) => {
     }
 }
 
-export const IAStatusDropdown = ({ valgtStatus, endreStatus, IAstatuser }: Props) => (<Select label="IA-status" value={valgtStatus} onChange={event => {
-    endreStatus(event.target.value as IAProsessStatusType)
+export const IAStatusDropdown = ({ valgtStatus, endreStatus, statuser }: Props) => (<Select label="IA-status" value={valgtStatus} onChange={event => {
+    endreStatus((!!event.target.value && event.target.value as IAProsessStatusType) || undefined)
 }}>
     <option key="empty-status" value={""}>Ikke valgt</option>
-    {IAstatuser
+    {statuser
         .map((status) => (<option key={status} value={status}>{penskrivIaStatus(status)}</option>))
     }
 </Select>)
