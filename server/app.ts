@@ -32,7 +32,7 @@ export default class Application {
         });
 
 
-        this.expressApp.use(basePath, express.static(buildPath));
+        this.expressApp.use(`${basePath}/*`, express.static(buildPath));
         this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
 
         this.expressApp.use("/internal/storybook", express.static(storybookPath));
