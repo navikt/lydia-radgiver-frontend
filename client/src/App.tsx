@@ -10,6 +10,8 @@ import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
 import { breakpoints, forBetween, forLargerThan } from "./styling/breakpoints";
 import Virksomhetsside from "./Pages/Virksomhet/Virsomhetsside";
 
+const LYDIA_BASEPATH = "lydia-radgiver"
+
 function App() {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     return brukerInformasjon ? (
@@ -18,8 +20,8 @@ function App() {
             <BrowserRouter>
                 <AppRamme>
                     <Routes>
-                        <Route path="/" element={<Prioriteringsside/>}/>
-                        <Route path="/virksomhet/:orgnummer" element={<Virksomhetsside/>}/>
+                        <Route path={`${LYDIA_BASEPATH}/`} element={<Prioriteringsside/>}/>
+                        <Route path={`${LYDIA_BASEPATH}/virksomhet/:orgnummer`} element={<Virksomhetsside/>}/>
                     </Routes>
                 </AppRamme>
             </BrowserRouter>
