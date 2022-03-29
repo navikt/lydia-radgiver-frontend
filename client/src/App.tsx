@@ -30,9 +30,6 @@ const AppRamme = styled.div`
     ${forBetween(breakpoints.largestTablet, breakpoints.largestLaptop)} {
         padding: 0 10rem;
     }
-    ${forLargerThan(breakpoints.smallestDesktop)} {
-        padding: 0 25rem;
-    }
 `;
 
 const Dekoratør = ({ navAnsatt }: { navAnsatt?: NavAnsatt }) => (
