@@ -1,12 +1,12 @@
 import {ComponentMeta} from "@storybook/react";
-import {PrioriteringsTabell} from "./PrioriteringsTabell";
+import {StyledPrioriteringsTabell} from "./PrioriteringsTabell";
 import {sykefraværsstatistikkMock} from "./mocks/sykefraværsstatistikkMock";
 
 export default {
     title: "Prioriteringstabell",
-    component: PrioriteringsTabell,
-} as ComponentMeta<typeof PrioriteringsTabell>;
+    component: StyledPrioriteringsTabell,
+} as ComponentMeta<typeof StyledPrioriteringsTabell>;
 
 export const Hovedstory = () => (
-    <PrioriteringsTabell sykefraværsstatistikk={sykefraværsstatistikkMock}/>
+    <StyledPrioriteringsTabell sykefraværsstatistikk={sykefraværsstatistikkMock}/>
 );

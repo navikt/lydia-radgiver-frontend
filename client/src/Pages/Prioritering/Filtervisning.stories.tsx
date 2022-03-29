@@ -1,15 +1,15 @@
 import {ComponentMeta} from "@storybook/react";
-import Filtervisning from "./Filtervisning";
+import { StyledFiltervisning } from "./Filtervisning";
 import {filterverdierMock} from "./mocks/filterverdierMock";
 import "@navikt/ds-css";
 
 export default {
     title: "Filtervisning",
-    component: Filtervisning,
-} as ComponentMeta<typeof Filtervisning>;
+    component: StyledFiltervisning,
+} as ComponentMeta<typeof StyledFiltervisning>;
 
 export const Hovedstory = () => (
-    <Filtervisning
+    <StyledFiltervisning
         // eslint-disable-next-line @typescript-eslint/no-empty-function
         søkPåNytt={() => {}}
         filterverdier={filterverdierMock}
