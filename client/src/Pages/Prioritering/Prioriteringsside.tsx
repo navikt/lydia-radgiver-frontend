@@ -19,7 +19,6 @@ const tommeFilterverdier: Filterverdier = {
 };
 const tomSykefraværsstatistikk: SykefraversstatistikkVirksomhet[] = [];
 
-
 const Prioriteringsside = () => {
     const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState(tomSykefraværsstatistikk)
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>();
