@@ -28,6 +28,10 @@ interface FiltervisningProps {
     className?: string;
 }
 
+const Søkeknapp = styled(Button)`
+    width: 10rem;
+`
+
 const næringsgruppeKoderTilNæringsgrupper = (
     næringsgruppeKoder: string[],
     næringsgrupper: Næringsgruppe[]
@@ -161,14 +165,14 @@ const Filtervisning = ({
                     statuser={filterverdier.statuser}
                     valgtStatus={IAStatus}
                 />
-                <Button
-                    size="small"
+                <Søkeknapp
+                    size="medium"
                     onClick={() => {
                         søkPåNytt();
                     }}
                 >
                     Søk
-                </Button>
+                </Søkeknapp>
             </HorizontalFlexboxDiv>
         </div>
     );

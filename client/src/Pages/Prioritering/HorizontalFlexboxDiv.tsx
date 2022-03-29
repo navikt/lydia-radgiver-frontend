@@ -4,4 +4,5 @@ export const HorizontalFlexboxDiv = styled.div`
     display: flex;
     gap: 3rem;
     flex-direction: row;
+    align-items: end;
 `;
