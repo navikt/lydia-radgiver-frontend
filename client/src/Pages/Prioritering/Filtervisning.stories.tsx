@@ -10,10 +10,10 @@ export default {
 
 export const Hovedstory = () => (
     <Filtervisning
+        // eslint-disable-next-line @typescript-eslint/no-empty-function
         søkPåNytt={() => {}}
         filterverdier={filterverdierMock}
         // eslint-disable-next-line @typescript-eslint/no-empty-function
-        oppdaterSøkeverdier={() => {
-        }}
+        oppdaterSøkeverdier={() => {}}
     />
 );

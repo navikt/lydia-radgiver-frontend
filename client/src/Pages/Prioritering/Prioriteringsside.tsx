@@ -1,4 +1,4 @@
-import Filtervisning from "./Filtervisning";
+import Filtervisning, { StyledFiltervisning } from "./Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import {
   useFilterverdier,
@@ -40,8 +40,8 @@ const Prioriteringsside = () => {
     }, [sfStatistikkFraApi])
 
     return (
-        <>
-            <Filtervisning
+        <>fo
+            <StyledFiltervisning
                 filterverdier={filterverdier ?? tommeFilterverdier}
                 oppdaterSøkeverdier={(nyeSøkeverdier: Søkeverdier) => {
                     setSøkeverdier({ ...søkeverdier, ...nyeSøkeverdier });

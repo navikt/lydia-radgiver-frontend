@@ -8,6 +8,7 @@ import {Fylkedropdown, fylkesnummerTilFylke, kommunenummerTilKommune} from "./Fy
 import {Kommunedropdown} from "./Kommunedropdown";
 import {Sorteringsmuligheter} from "./Sorteringsmuligheter";
 import {IAStatusDropdown} from "./IAStatusDropdown";
+import styled from "styled-components";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -23,6 +24,7 @@ interface FiltervisningProps {
     filterverdier: Filterverdier;
     oppdaterSøkeverdier: (søkeverdier: Søkeverdier) => void;
     søkPåNytt: () => void;
+    className?: string;
 }
 
 const næringsgruppeKoderTilNæringsgrupper = (
@@ -39,6 +41,7 @@ const Filtervisning = ({
     filterverdier,
     oppdaterSøkeverdier,
     søkPåNytt,
+    className
 }: FiltervisningProps) => {
     const [valgtFylke, setValgtFylke] = useState<Fylke>();
     const [valgtKommune, setValgtKommune] = useState<Kommune>();
@@ -107,7 +110,7 @@ const Filtervisning = ({
         ? filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner)
         : alleKommuner;
     return (
-        <div>
+        <div className={className}>
             <HorizontalFlexboxDiv>
                 <Fylkedropdown
                     fylkerOgKommuner={filterverdier.fylker}
@@ -169,5 +172,12 @@ const Filtervisning = ({
         </div>
     );
 };
+
+export const StyledFiltervisning = styled(Filtervisning)`
+    background-color: white;
+    padding: 1rem;
+    border-radius: 4px;
+    box-shadow: 0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(38, 38, 38, 0.12), 0px 1px 3px rgba(38, 38, 38, 0.2);
+`
 
 export default Filtervisning;
