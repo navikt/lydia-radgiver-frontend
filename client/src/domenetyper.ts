@@ -17,12 +17,6 @@ export const næringsgrupperSchema = z.object({
     kode: z.string(),
 });
 
-export const filterverdierSchema = z.object({
-    fylker: z.array(fylkerMedKommunerSchema),
-    neringsgrupper: z.array(næringsgrupperSchema),
-    sorteringsnokler: z.string().array(),
-});
-
 const IA_PROSESS_STATUSER = [
     "NY",
     "PRIORITERT",
@@ -36,6 +30,14 @@ const IA_PROSESS_STATUSER = [
 ] as const
 
 export const IAProsessStatusEnum =  z.enum(IA_PROSESS_STATUSER)
+
+export const filterverdierSchema = z.object({
+    fylker: z.array(fylkerMedKommunerSchema),
+    neringsgrupper: z.array(næringsgrupperSchema),
+    sorteringsnokler: z.string().array(),
+    statuser: IAProsessStatusEnum.array()
+});
+
 export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>
 
 export const sykefraversstatistikkVirksomhetSchema = z.object({
