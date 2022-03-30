@@ -1,20 +1,15 @@
 import {IAProsessStatusType} from "../../domenetyper";
 import "@navikt/ds-css";
+import {Badge} from "../../components/Badge/Badge";
 
-interface Props { status: IAProsessStatusType }
+interface StatusBadgeProps {
+    status: IAProsessStatusType
+}
 
-export const StatusBadge = ({status}: Props) => {
+export const StatusBadge = ({status}: StatusBadgeProps) => {
     const {text, backgroundColor, color} = hentBadgeFraStatus(status)
 
-    return (<div style={{
-        color,
-        backgroundColor,
-        width: "10rem",
-        padding: "0 1rem",
-        borderRadius: "4px",
-        textAlign: "center",
-        whiteSpace: "nowrap"
-    }}>{text}</div>)
+    return (<Badge color={color} backgroundColor={backgroundColor} text={text}/>)
 }
 
 
