@@ -4,7 +4,8 @@ import {
     filterverdierSchema,
     NavAnsatt,
     navAnsattSchema,
-    sykefraversstatistikkVirksomhetListeSchema, sykefraværListeResponsSchema, SykefraværsstatistikkVirksomhetRespons,
+    sykefraværListeResponsSchema,
+    SykefraværsstatistikkVirksomhetRespons,
     Søkeverdier,
 } from "../domenetyper";
 import useSWR, {SWRConfiguration} from "swr";
