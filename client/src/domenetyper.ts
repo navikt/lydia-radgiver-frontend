@@ -31,15 +31,6 @@ const IA_PROSESS_STATUSER = [
 
 export const IAProsessStatusEnum =  z.enum(IA_PROSESS_STATUSER)
 
-export const filterverdierSchema = z.object({
-    fylker: z.array(fylkerMedKommunerSchema),
-    neringsgrupper: z.array(næringsgrupperSchema),
-    sorteringsnokler: z.string().array(),
-    statuser: IAProsessStatusEnum.array()
-});
-
-export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>
-
 export const sykefraversstatistikkVirksomhetSchema = z.object({
     orgnr: z.string(),
     virksomhetsnavn: z.string(),
@@ -59,6 +50,20 @@ export const sykefraversstatistikkVirksomhetListeSchema = z.array(
     sykefraversstatistikkVirksomhetSchema
 );
 
+export const sykefraværListeResponsSchema = z.object({
+    data: sykefraversstatistikkVirksomhetListeSchema,
+    total: z.number()
+})
+
+export const filterverdierSchema = z.object({
+    fylker: z.array(fylkerMedKommunerSchema),
+    neringsgrupper: z.array(næringsgrupperSchema),
+    sorteringsnokler: z.string().array(),
+    statuser: IAProsessStatusEnum.array()
+});
+
+export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>
+
 export type FylkerMedKommuner = z.infer<typeof fylkerMedKommunerSchema>;
 
 export type Filterverdier = z.infer<typeof filterverdierSchema>;
@@ -68,6 +73,8 @@ export type Næringsgruppe = z.infer<typeof næringsgrupperSchema>;
 export type SykefraversstatistikkVirksomhet = z.infer<
     typeof sykefraversstatistikkVirksomhetSchema
 >;
+
+export type SykefraværsstatistikkVirksomhetRespons = z.infer<typeof sykefraværListeResponsSchema>
 
 export interface Søkeverdier {
     kommuner?: Kommune[];

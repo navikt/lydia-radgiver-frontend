@@ -4,8 +4,7 @@ import {
     filterverdierSchema,
     NavAnsatt,
     navAnsattSchema,
-    SykefraversstatistikkVirksomhet,
-    sykefraversstatistikkVirksomhetListeSchema,
+    sykefraversstatistikkVirksomhetListeSchema, sykefraværListeResponsSchema, SykefraværsstatistikkVirksomhetRespons,
     Søkeverdier,
 } from "../domenetyper";
 import useSWR, {SWRConfiguration} from "swr";
@@ -67,9 +66,9 @@ export const useSykefraværsstatistikk = ({søkeverdier = {}, initierSøk = true
     initierSøk?: boolean
 }) => {
     const sykefraværUrl = `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(søkeverdier).toString()}`;
-    return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(
+    return useSwrTemplate<SykefraværsstatistikkVirksomhetRespons>(
         initierSøk ? sykefraværUrl : null,
-        sykefraversstatistikkVirksomhetListeSchema
+        sykefraværListeResponsSchema
     );
 };
 
