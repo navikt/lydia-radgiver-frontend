@@ -118,6 +118,9 @@ const Filtervisning = ({
         if (valgtFylke) {
             return filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner)
         }
+        console.log('valgtfylke')
+        console.log('filterverdier', filterverdier)
+        console.log('allekommuner', alleKommuner)
         return alleKommuner
     }, [valgtFylke])
     return (
