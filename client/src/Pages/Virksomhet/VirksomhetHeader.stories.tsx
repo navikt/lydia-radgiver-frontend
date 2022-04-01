@@ -9,12 +9,18 @@ export default {
 
 const virksomhet: Virksomhet = {
     orgnr: "999123456",
-    adresse: ["c/o Haugenstua", "Stedet mitt", "0977 Livet min"],
+    adresse: ["c/o Haugenstua", "Stedet mitt"],
+    postnummer: "0977",
+    poststed: "Livet min",
     navn: "Ola Halvorsen",
     neringsgrupper: [
         {
             navn: "Offentlig administrasjon og forsvar, og trygdeordninger underlagt offentlig forvaltning",
             kode: "50.221"
+        },
+        {
+            navn: "En annen næring",
+            kode: "23.321"
         }
     ]
 }
