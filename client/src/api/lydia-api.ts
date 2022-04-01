@@ -76,7 +76,7 @@ export const useSykefraværsstatistikk = ({søkeverdier = {}, initierSøk = true
     );
 };
 
-export const useHentVirksomhetsinformasjon = (orgnummer?: String) => {
+export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
     return useSwrTemplate<Virksomhet>(
         orgnummer ? `${virksomhetsPath}/${orgnummer}` : null,
         virksomhetsSchema
