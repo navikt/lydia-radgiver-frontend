@@ -91,6 +91,8 @@ export const virksomhetsSchema = z.object({
     orgnr: z.string(),
     navn: z.string(),
     adresse: z.string().array(),
+    postnummer: z.string(),
+    poststed: z.string(),
     neringsgrupper: næringsgrupperSchema.array(),
 })
 
