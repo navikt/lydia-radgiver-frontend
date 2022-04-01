@@ -86,9 +86,9 @@ export interface Søkeverdier {
 }
 
 export const virksomhetsSchema = z.object({
-    organisasjonsnummer: z.string(),
+    orgnr: z.string(),
     navn: z.string(),
-    beliggenhetsadresse: z.string().array(),
+    adresse: z.string().array(),
     neringsgrupper: næringsgrupperSchema.array(),
 })
 

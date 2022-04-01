@@ -8,8 +8,8 @@ export default {
 } as ComponentMeta<typeof VirksomhetHeader>;
 
 const virksomhet: Virksomhet = {
-    organisasjonsnummer: "999123456",
-    beliggenhetsadresse: ["c/o Haugenstua", "Stedet mitt", "0977 Livet min"],
+    orgnr: "999123456",
+    adresse: ["c/o Haugenstua", "Stedet mitt", "0977 Livet min"],
     navn: "Ola Halvorsen",
     neringsgrupper: [
         {

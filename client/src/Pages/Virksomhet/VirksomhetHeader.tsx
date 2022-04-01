@@ -4,13 +4,13 @@ interface Props {
     virksomhet: Virksomhet
 }
 
-export const VirksomhetHeader = ({ virksomhet: { organisasjonsnummer, navn, neringsgrupper, beliggenhetsadresse }}: Props) => (
+export const VirksomhetHeader = ({ virksomhet: { orgnr, navn, neringsgrupper, adresse }}: Props) => (
     <div>
         <h1>{navn}</h1>
         <hr />
         <div>
             <h4>Orgnummer</h4>
-            <p>{organisasjonsnummer}</p>
+            <p>{orgnr}</p>
         </div>
 
         <div>
@@ -19,7 +19,7 @@ export const VirksomhetHeader = ({ virksomhet: { organisasjonsnummer, navn, neri
         </div>
         <div>
             <h4>Adresse</h4>
-            <p>{beliggenhetsadresse.join("\n")}</p>
+            <p>{adresse.join("\n")}</p>
         </div>
         <a href="#">Se hele organisasjonsstrukturen</a>
     </div>
