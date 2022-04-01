@@ -76,12 +76,14 @@ export type SykefraversstatistikkVirksomhet = z.infer<
 
 export type SykefraværsstatistikkVirksomhetRespons = z.infer<typeof sykefraværListeResponsSchema>
 
+export type Sorteringsverdi = keyof typeof sorteringsverdier
+
 export interface Søkeverdier {
     kommuner?: Kommune[];
     fylker?: Fylke[];
     neringsgrupper?: Næringsgruppe[];
     sykefraversprosentRange?: Range;
-    sorteringsnokkel?: keyof typeof sorteringsverdier;
+    sorteringsnokkel?: Sorteringsverdi;
     iastatus?: IAProsessStatusType
 }
 

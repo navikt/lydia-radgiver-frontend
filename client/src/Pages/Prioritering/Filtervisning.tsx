@@ -1,15 +1,23 @@
-import {Filterverdier, Fylke, IAProsessStatusType, Kommune, Næringsgruppe, Søkeverdier,} from "../../domenetyper";
+import {
+    Filterverdier,
+    Fylke,
+    IAProsessStatusType,
+    Kommune,
+    Næringsgruppe,
+    Sorteringsverdi,
+    Søkeverdier,
+} from "../../domenetyper";
 import {Button} from "@navikt/ds-react";
-import {useState} from "react";
+import {useMemo, useState} from "react";
 import {Range, SykefraværsprosentVelger} from "./SykefraværsprosentVelger";
 import {HorizontalFlexboxDiv} from "./HorizontalFlexboxDiv";
 import {Næringsgruppedropdown} from "./NæringsgruppeDropdown";
-import {Fylkedropdown, fylkesnummerTilFylke, kommunenummerTilKommune} from "./Fylkedropdown";
-import {Kommunedropdown} from "./Kommunedropdown";
+import {Fylkedropdown, fylkesnummerTilFylke} from "./Fylkedropdown";
 import {Sorteringsmuligheter} from "./Sorteringsmuligheter";
 import {IAStatusDropdown} from "./IAStatusDropdown";
 import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
+import {Kommunedropdown} from "./Kommunedropdown";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -49,7 +57,7 @@ const Filtervisning = ({
     className
 }: FiltervisningProps) => {
     const [valgtFylke, setValgtFylke] = useState<Fylke>();
-    const [valgtKommune, setValgtKommune] = useState<Kommune>();
+    const [valgtKommuner, setValgtKommuner] = useState<Kommune[]>([]);
     const [næringsGrupper, setNæringsGrupper] = useState<Næringsgruppe[]>([]);
     const [sykefraværsProsent, setSykefraværsprosent] = useState<Range>({
         fra: 0,
@@ -57,7 +65,7 @@ const Filtervisning = ({
     });
     const [IAStatus, setIAStatus] = useState<IAProsessStatusType>()
     const [sorteringsverdi, setSorteringsverdi] =
-        useState<string>("tapte_dagsverk");
+        useState<Sorteringsverdi>("tapte_dagsverk");
 
     const endreFylke = (fylkenummer: string) => {
         if (fylkenummer === valgtFylke?.nummer) return;
@@ -73,22 +81,17 @@ const Filtervisning = ({
             return;
         }
         setValgtFylke(endretFylke);
-        if (!valgtKommune?.nummer.startsWith(endretFylke.nummer))
-            setValgtKommune(undefined);
+        const kommuner = valgtKommuner.filter(k => k.nummer.startsWith(endretFylke.nummer))
+        setValgtKommuner(kommuner);
         oppdaterSøkeverdier({
             fylker: [endretFylke],
-            kommuner: [],
+            kommuner,
         });
     };
-    const endreKommune = (kommunenummer: string) => {
-        const endretKommune = kommunenummerTilKommune(
-            kommunenummer,
-            filterverdier.fylker
-        );
-        if (!endretKommune && kommunenummer.length > 0) return;
-        setValgtKommune(endretKommune);
+    const endreKommuner = (kommuner: Kommune[]) => {
+        setValgtKommuner(kommuner);
         oppdaterSøkeverdier({
-            kommuner: endretKommune ? [endretKommune] : [],
+            kommuner,
         });
     };
     const endreNæringsgruppe = (næringsgruppeKoder: string[]) => {
@@ -111,9 +114,12 @@ const Filtervisning = ({
     const alleKommuner = filterverdier.fylker.flatMap(
         ({ kommuner }) => kommuner
     );
-    const relevanteKommuner = valgtFylke
-        ? filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner)
-        : alleKommuner;
+    const relevanteKommuner = useMemo(() => {
+        if (valgtFylke) {
+            return filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner)
+        }
+        return alleKommuner
+    }, [valgtFylke])
     return (
         <div className={className}>
             <HorizontalFlexboxDiv>
@@ -122,12 +128,13 @@ const Filtervisning = ({
                     valgtFylke={valgtFylke}
                     endreFylke={endreFylke}
                 />
-                <Kommunedropdown
-                    kommuner={relevanteKommuner}
-                    valgtKommune={valgtKommune}
-                    endreKommune={endreKommune}
-                />
             </HorizontalFlexboxDiv>
+            <br />
+            <Kommunedropdown
+                kommuner={relevanteKommuner}
+                valgtKommuner={valgtKommuner}
+                endreKommuner={endreKommuner}
+            />
             <br />
             <Næringsgruppedropdown
                 næringsgrupper={filterverdier.neringsgrupper}
@@ -147,7 +154,7 @@ const Filtervisning = ({
                     valgtSortering={sorteringsverdi}
                     sorteringsMuligheter={filterverdier.sorteringsnokler}
                     endreSortering={(
-                        sortering: keyof typeof sorteringsverdier
+                        sortering
                     ) => {
                         setSorteringsverdi(sortering);
                         oppdaterSøkeverdier({

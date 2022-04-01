@@ -1,17 +1,18 @@
 import {Select} from "@navikt/ds-react";
 import {sorteringsverdier} from "./Filtervisning";
+import {Sorteringsverdi} from "../../domenetyper";
 
 export const Sorteringsmuligheter = ({valgtSortering, sorteringsMuligheter, endreSortering}: {
     valgtSortering: string;
     sorteringsMuligheter: string[];
-    endreSortering: (sortering: keyof typeof sorteringsverdier) => void;
+    endreSortering: (sortering: Sorteringsverdi) => void;
 }) => {
     return (
         <Select
             label="Sortering"
             value={valgtSortering}
             onChange={(e) =>
-                endreSortering(e.target.value as keyof typeof sorteringsverdier)
+                endreSortering(e.target.value as Sorteringsverdi)
             }
         >
             {sorteringsMuligheter
@@ -23,7 +24,7 @@ export const Sorteringsmuligheter = ({valgtSortering, sorteringsMuligheter, endr
                     <option key={sortering} value={sortering}>
                         {
                             sorteringsverdier[
-                                sortering as keyof typeof sorteringsverdier
+                                sortering as Sorteringsverdi
                                 ]
                         }
                     </option>
