@@ -1,4 +1,4 @@
-import { defaultFetcher } from "./nettverkskall";
+import {defaultFetcher} from "./nettverkskall";
 import {
     Filterverdier,
     filterverdierSchema,
@@ -7,13 +7,16 @@ import {
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
     Søkeverdier,
+    Virksomhet,
+    virksomhetsSchema,
 } from "../domenetyper";
 import useSWR, {SWRConfiguration} from "swr";
-import { ZodType } from "zod";
+import {ZodType} from "zod";
 
 const basePath = "/api";
 const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
 const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
+const virksomhetsPath = `${basePath}/virksomhet`
 const innloggetAnsattPath = `/innloggetAnsatt`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
@@ -72,6 +75,13 @@ export const useSykefraværsstatistikk = ({søkeverdier = {}, initierSøk = true
         sykefraværListeResponsSchema
     );
 };
+
+export const useHentVirksomhetsinformasjon = (orgnummer?: String) => {
+    return useSwrTemplate<Virksomhet>(
+        orgnummer ? `${virksomhetsPath}/${orgnummer}` : null,
+        virksomhetsSchema
+    );
+}
 
 export const useHentBrukerinformasjon = () =>
     useSwrTemplate<NavAnsatt>(innloggetAnsattPath, navAnsattSchema);

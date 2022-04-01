@@ -1,23 +1,16 @@
-import {Næringsgruppe} from "../../domenetyper";
-
-export interface Virksomhet {
-    orgnr: string,
-    navn: string,
-    adresse: string[],
-    neringsgrupper: Næringsgruppe[]
-}
+import {Virksomhet} from "../../domenetyper";
 
 interface Props {
     virksomhet: Virksomhet
 }
 
-export const VirksomhetHeader = ({ virksomhet: { orgnr, navn, neringsgrupper, adresse }}: Props) => (
+export const VirksomhetHeader = ({ virksomhet: { organisasjonsnummer, navn, neringsgrupper, beliggenhetsadresse }}: Props) => (
     <div>
         <h1>{navn}</h1>
         <hr />
         <div>
             <h4>Orgnummer</h4>
-            <p>{orgnr}</p>
+            <p>{organisasjonsnummer}</p>
         </div>
 
         <div>
@@ -26,7 +19,7 @@ export const VirksomhetHeader = ({ virksomhet: { orgnr, navn, neringsgrupper, ad
         </div>
         <div>
             <h4>Adresse</h4>
-            <p>{adresse.join("\n")}</p>
+            <p>{beliggenhetsadresse.join("\n")}</p>
         </div>
         <a href="#">Se hele organisasjonsstrukturen</a>
     </div>

@@ -1,5 +1,6 @@
 import {ComponentMeta} from "@storybook/react";
-import {Virksomhet, VirksomhetHeader} from "./VirksomhetHeader";
+import {VirksomhetHeader} from "./VirksomhetHeader";
+import {Virksomhet} from "../../domenetyper";
 
 export default {
     title: "VirksomhetHeader",
@@ -7,8 +8,8 @@ export default {
 } as ComponentMeta<typeof VirksomhetHeader>;
 
 const virksomhet: Virksomhet = {
-    orgnr: "999123456",
-    adresse: ["c/o Haugenstua", "Stedet mitt", "0977 Livet min"],
+    organisasjonsnummer: "999123456",
+    beliggenhetsadresse: ["c/o Haugenstua", "Stedet mitt", "0977 Livet min"],
     navn: "Ola Halvorsen",
     neringsgrupper: [
         {

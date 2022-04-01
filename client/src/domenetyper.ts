@@ -85,20 +85,14 @@ export interface Søkeverdier {
     iastatus?: IAProsessStatusType
 }
 
-export type Virksomhet = {
-    organisasjonsnummer: string;
-    navn: string;
-    beliggenhetsadresse: Beliggenhetsadresse;
-};
+export const virksomhetsSchema = z.object({
+    organisasjonsnummer: z.string(),
+    navn: z.string(),
+    beliggenhetsadresse: z.string().array(),
+    neringsgrupper: næringsgrupperSchema.array(),
+})
 
-export type Beliggenhetsadresse = {
-    land: string;
-    landkode: string;
-    postnummer: string;
-    poststed: string;
-    kommune: string;
-    kommunenummer: string;
-};
+export type Virksomhet = z.infer<typeof virksomhetsSchema>
 
 export const navAnsattSchema = z.object({
     navn: z.string(),
