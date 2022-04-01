@@ -114,11 +114,18 @@ const Filtervisning = ({
     const alleKommuner = filterverdier.fylker.flatMap(
         ({ kommuner }) => kommuner
     );
-    const relevanteKommuner = useMemo(() => {
+    const relevanteKommuner: GroupedKommune[] = useMemo(() => {
         if (valgtFylke) {
-            return filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner)
+            const kommunerFiltrertPåFylke = filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner);
+            return [{
+                label: valgtFylke.navn,
+                options: kommunerFiltrertPåFylke
+            }]
         }
-        return alleKommuner
+        return filterverdier.fylker.map(fylke => ({
+            label: fylke.fylke.navn,
+            options: fylke.kommuner
+        }))
     }, [valgtFylke, alleKommuner])
     return (
         <div className={className}>
@@ -131,7 +138,7 @@ const Filtervisning = ({
             </HorizontalFlexboxDiv>
             <br />
             <Kommunedropdown
-                kommuner={relevanteKommuner}
+                kommuneGroup={relevanteKommuner}
                 valgtKommuner={valgtKommuner}
                 endreKommuner={endreKommuner}
             />
@@ -184,6 +191,11 @@ const Filtervisning = ({
         </div>
     );
 };
+
+export interface GroupedKommune {
+    label: string,
+    options: Kommune[]
+}
 
 export const StyledFiltervisning = styled(Filtervisning)`
     ${hvitRammeMedBoxShadow}
