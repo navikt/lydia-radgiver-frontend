@@ -22,7 +22,6 @@ export const VirksomhetHeader = ({ virksomhet: { orgnr, navn, neringsgrupper, ad
             {adresse.map(x => (<p>{x}</p>))}
             <p>{postnummer} {poststed}</p>
         </div>
-        <a href="#">Se hele organisasjonsstrukturen</a>
     </div>
 )
 
