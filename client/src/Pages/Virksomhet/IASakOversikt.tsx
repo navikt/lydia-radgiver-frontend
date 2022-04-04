@@ -20,7 +20,6 @@ const IASakOversikt = ({ saksnummer, iaProsessStatus, innsatsteam, className } :
             <Select
                 label="Status"
                 value={iaProsessStatus}
-                onChange={() => {}}
             >
                 <option value={iaProsessStatus} key={iaProsessStatus}>
                     {hentBadgeFraStatus(iaProsessStatus).text}

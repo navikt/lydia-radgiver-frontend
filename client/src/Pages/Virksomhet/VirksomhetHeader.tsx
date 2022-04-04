@@ -15,11 +15,11 @@ export const VirksomhetHeader = ({ virksomhet: { orgnr, navn, neringsgrupper, ad
 
         <div>
             <h4>Bransje/næring</h4>
-            {neringsgrupper.map(({ navn}) => (<p>{navn}</p>))}
+            {neringsgrupper.map(({ navn}) => (<p key={navn}>{navn}</p>))}
         </div>
         <div>
             <h4>Adresse</h4>
-            {adresse.map(x => (<p>{x}</p>))}
+            {adresse.map(x => (<p key={`adresse-${x}`}>{x}</p>))}
             <p>{postnummer} {poststed}</p>
         </div>
     </div>
