@@ -7,7 +7,7 @@ import {BrowserRouter, Route, Routes} from "react-router-dom";
 import { useHentBrukerinformasjon } from "./api/lydia-api";
 import { NavAnsatt } from "./domenetyper";
 import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
-import { breakpoints, forBetween, forLargerThan } from "./styling/breakpoints";
+import { Breakpoint, forLargerThan } from "./styling/breakpoint";
 import Virksomhetsside from "./Pages/Virksomhet/Virsomhetsside";
 
 const LYDIA_BASEPATH = "lydia-radgiver"
@@ -33,10 +33,10 @@ const AppRamme = styled.div`
     display: flex;
     flex-direction: column;
     margin: 1rem 0;
-    ${forLargerThan(breakpoints.largestPhone)} {
+    ${forLargerThan(Breakpoint.Tablet)} {
         padding: 0 5rem;
     }
-    ${forBetween(breakpoints.largestTablet, breakpoints.largestLaptop)} {
+    ${forLargerThan(Breakpoint.Desktop)} {
         padding: 0 10rem;
     }
 `;
