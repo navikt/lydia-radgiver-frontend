@@ -64,11 +64,20 @@ export default class Application {
             lydiaApiProxy
         );
 
-        this.expressApp.use(
+        this.expressApp.get(
             "/innloggetAnsatt",
             tokenValidator,
             hentInnloggetAnsattMiddleware
         );
+
+        this.expressApp.get("/loggut", (req, res, next) => {
+            req.session.destroy((err) => {
+                if (err) {
+                    return next(err)
+                }
+            })
+            return res.redirect("/oauth2/logout?post_logout_redirect_uri=https://nav.no")
+        })
 
         this.expressApp.use(
             (error: Error, req: Request, res: Response, _: NextFunction) => {
