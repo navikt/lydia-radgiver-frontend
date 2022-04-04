@@ -10,6 +10,7 @@ import {
     Filterverdier,
     SykefraversstatistikkVirksomhet,
 } from "../../domenetyper";
+import {Loader} from "@navikt/ds-react";
 
 const tommeFilterverdier: Filterverdier = {
     fylker: [],
@@ -23,7 +24,7 @@ const Prioriteringsside = () => {
     const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState(tomSykefraværsstatistikk)
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>();
     const [skalSøke, setSkalSøke] = useState(false);
-    const skalViseTabell = sykefraværsstatistikk && !skalSøke;
+    const skalViseTabell = sykefraværsstatistikk && !skalSøke
 
     const {
         data: filterverdier,
@@ -55,8 +56,16 @@ const Prioriteringsside = () => {
                     sykefraværsstatistikk
                 }
             />}
-            {skalSøke && <p>Loading...</p>}
-            {error && <p>Error</p>}
+            <div style={{ textAlign : "center"}}>
+                {skalSøke &&
+                    <Loader
+                        title={"Henter sykefraværsstatistikk"}
+                        variant={"interaction"}
+                        size={"xlarge"}
+                    />
+                }
+                {error && <p>Feilet under uthenting av sykefraværsstatistikk</p>}
+            </div>
         </>
     );
 };
