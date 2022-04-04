@@ -31,7 +31,7 @@ jobs:
         uses: wearerequired/lint-action@v1
         with:
           eslint: true
-          eslint_dir: client/
+          eslint_dir: client/src/
           eslint_extensions: js,jsx,ts,tsx
       #    - name: Lint server
       #      uses: wearerequired/lint-action@v1
