@@ -1,4 +1,4 @@
-import {Link, Table} from "@navikt/ds-react";
+import {Link, Pagination, Table} from "@navikt/ds-react";
 import {SykefraversstatistikkVirksomhet} from "../../domenetyper";
 import {StatusBadge} from "./StatusBadge";
 import styled from "styled-components";
@@ -17,10 +17,13 @@ const kolonneNavn = [
 
 interface Props {
     sykefraværsstatistikk: SykefraversstatistikkVirksomhet[];
+    side: number,
+    endreSide: (side: number) => void
+    antallSider: number
     className?: string;
 }
 
-const PrioriteringsTabell = ({sykefraværsstatistikk, className}: Props) => {
+const PrioriteringsTabell = ({sykefraværsstatistikk, className, side, antallSider, endreSide}: Props) => {
 
     return (
         <div className={className}>
@@ -55,6 +58,15 @@ const PrioriteringsTabell = ({sykefraværsstatistikk, className}: Props) => {
                     ))}
                 </Table.Body>
             </Table>
+            {sykefraværsstatistikk.length
+                &&
+                <Pagination
+                    page={side}
+                    onPageChange={endreSide}
+                    count={antallSider}
+                    prevNextTexts
+                />
+            }
         </div>
     )
 }

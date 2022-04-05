@@ -22,7 +22,9 @@ const tomSykefraværsstatistikk: SykefraversstatistikkVirksomhet[] = [];
 
 const Prioriteringsside = () => {
     const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState(tomSykefraværsstatistikk)
-    const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>();
+    const [antallSider, setAntallSider] = useState(0)
+    const [side, setSide] = useState(1)
+    const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>({ side });
     const [skalSøke, setSkalSøke] = useState(false);
     const skalViseTabell = sykefraværsstatistikk && !skalSøke
 
@@ -36,6 +38,7 @@ const Prioriteringsside = () => {
     useEffect(() => {
         if (sfStatistikkFraApi) {
             setSykefraværsstatistikk(sfStatistikkFraApi.data)
+            setAntallSider(Math.round(sfStatistikkFraApi.total / 50))
             setSkalSøke(false)
         }
     }, [sfStatistikkFraApi])
@@ -55,6 +58,14 @@ const Prioriteringsside = () => {
                 sykefraværsstatistikk={
                     sykefraværsstatistikk
                 }
+                endreSide={(side) => {
+                    setSide(side)
+                    setSøkeverdier({
+                        ...søkeverdier, side
+                    })
+                }}
+                antallSider={antallSider}
+                side={side}
             />}
             <div style={{ textAlign : "center"}}>
                 {skalSøke &&
