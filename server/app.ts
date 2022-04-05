@@ -32,6 +32,7 @@ export default class Application {
         });
 
 
+        this.expressApp.use(`${basePath}`, express.static(buildPath));
         this.expressApp.use(`${basePath}/*`, express.static(buildPath));
         this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
 
