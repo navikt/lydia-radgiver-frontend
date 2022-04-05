@@ -75,7 +75,7 @@ const Prioriteringsside = () => {
                         size={"xlarge"}
                     />
                 }
-                {error && <p>Feilet under uthenting av sykefraværsstatistikk</p>}
+                {error && <p>Noe gikk galt under uthenting av sykefraværsstatistikk</p>}
             </div>
         </>
     );
