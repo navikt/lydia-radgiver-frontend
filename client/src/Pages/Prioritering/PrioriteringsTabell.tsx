@@ -58,8 +58,7 @@ const PrioriteringsTabell = ({sykefraværsstatistikk, className, side, antallSid
                     ))}
                 </Table.Body>
             </Table>
-            {sykefraværsstatistikk.length
-                &&
+            {!!sykefraværsstatistikk.length &&
                 <Pagination
                     page={side}
                     onPageChange={endreSide}
