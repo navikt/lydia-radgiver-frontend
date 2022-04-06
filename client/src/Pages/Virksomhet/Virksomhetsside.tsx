@@ -30,13 +30,13 @@ const Virksomhetsside = () => {
     }
 };
 
-const sorterPåÅrstallOgSåKvartal = (a: SykefraversstatistikkVirksomhet, b: SykefraversstatistikkVirksomhet) =>
-    a.arstall !== b.arstall ? a.arstall - b.arstall : a.kvartal - b.kvartal
+const sorterPåSisteÅrstallOgKvartal = (a: SykefraversstatistikkVirksomhet, b: SykefraversstatistikkVirksomhet) =>
+    a.arstall !== b.arstall ? b.arstall - a.arstall : b.kvartal - a.kvartal
 
 // TODO: bruk noe lignende et Either-pattern for å håndtere eventuell tomme lister her
 const filtrerPåSisteKvartal =
     (sykefraværsstatistikk: SykefraversstatistikkVirksomhet[]): SykefraversstatistikkVirksomhet =>
-    sykefraværsstatistikk.sort(sorterPåÅrstallOgSåKvartal)[0]
+    sykefraværsstatistikk.sort(sorterPåSisteÅrstallOgKvartal)[0]
 
 const LasterVirksomhet = () => <Loader
     title={"Laster inn virksomhet"}
