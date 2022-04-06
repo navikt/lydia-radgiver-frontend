@@ -2,7 +2,7 @@ import {
     Filterverdier,
     filterverdierSchema,
     NavAnsatt,
-    navAnsattSchema,
+    navAnsattSchema, SykefraversstatistikkVirksomhet, sykefraversstatistikkVirksomhetSchema,
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
     Søkeverdier,
@@ -77,6 +77,13 @@ export const useSykefraværsstatistikk = ({søkeverdier = {}, initierSøk = true
         sykefraværListeResponsSchema
     );
 };
+
+export const useHentSykefraværsstatistikkForVirksomhet = (orgnummer?: string) => {
+    return useSwrTemplate<SykefraversstatistikkVirksomhet>(
+        orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}` : null,
+        sykefraversstatistikkVirksomhetSchema
+    );
+}
 
 export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
     return useSwrTemplate<Virksomhet>(
