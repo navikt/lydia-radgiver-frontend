@@ -8,7 +8,7 @@ import { useHentBrukerinformasjon } from "./api/lydia-api";
 import { NavAnsatt } from "./domenetyper";
 import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
 import { Breakpoint, forLargerThan } from "./styling/breakpoint";
-import Virksomhetsside from "./Pages/Virksomhet/Virsomhetsside";
+import Virksomhetsside from "./Pages/Virksomhet/Virksomhetsside";
 
 const LYDIA_BASEPATH = "lydia-radgiver"
 
