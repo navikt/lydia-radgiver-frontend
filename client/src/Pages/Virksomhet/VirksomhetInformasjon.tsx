@@ -6,6 +6,7 @@ import {Detail} from "@navikt/ds-react";
 const VerticalFlexboxDiv = styled.div`
     display: flex;
     flex-direction: column;
+    
 `;
 const HorizontalFlexboxDiv = styled.div`
     display: flex;
@@ -15,27 +16,28 @@ const HorizontalFlexboxDiv = styled.div`
 
 
 interface Props {
-    virksomhet: Virksomhet
+    virksomhet: Virksomhet,
+    className? : string
 }
 
-export const VirksomhetInformasjon = ({ virksomhet }: Props) => (
-    <HorizontalFlexboxDiv>
+export const VirksomhetInformasjon = ({ virksomhet, className }: Props) => (
+    <HorizontalFlexboxDiv className={className}>
         <VerticalFlexboxDiv>
-            <h4>Orgnummer</h4>
+            <Detail>Orgnummer</Detail>
             <Detail size={"small"}>{virksomhet.orgnr}</Detail>
         </VerticalFlexboxDiv>
         <VerticalFlexboxDiv>
-            <h4>Bransje/næring</h4>
-            {virksomhet.neringsgrupper.map(({ navn}) => (
-                <Detail size={"small"} key={navn}>{navn}</Detail>
-            ))}
-        </VerticalFlexboxDiv>
-        <VerticalFlexboxDiv>
-            <h4>Adresse</h4>
+            <Detail>Adresse</Detail>
             {virksomhet.adresse.map(x => (
                 <Detail size={"small"} key={`adresse-${x}`}>{x}</Detail>
             ))}
             <Detail size={"small"}>{virksomhet.postnummer} {virksomhet.poststed}</Detail>
+        </VerticalFlexboxDiv>
+        <VerticalFlexboxDiv>
+            <Detail>Bransje/næring</Detail>
+            {virksomhet.neringsgrupper.map(({ navn}) => (
+                <Detail size={"small"} key={navn}>{navn}</Detail>
+            ))}
         </VerticalFlexboxDiv>
     </HorizontalFlexboxDiv>
 )

@@ -2,6 +2,7 @@ import {useParams} from "react-router-dom";
 import {useHentVirksomhetsinformasjon} from "../../api/lydia-api";
 import {Loader} from "@navikt/ds-react";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
+import {sykefraværsstatistikkMock} from "../Prioritering/mocks/sykefraværsstatistikkMock";
 
 const Virksomhetsside = () => {
     const params = useParams();
@@ -13,7 +14,9 @@ const Virksomhetsside = () => {
     if (lasterVirksomhet)
         return <LasterVirksomhet/>
     if (virksomhetsinformasjon)
-        return <VirksomhetOversikt virksomhet={virksomhetsinformasjon}/>
+        return <VirksomhetOversikt
+            virksomhet={virksomhetsinformasjon}
+            sykefraværsstatistikk={sykefraværsstatistikkMock[0]}/>
     else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>
     }

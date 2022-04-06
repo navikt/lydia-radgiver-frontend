@@ -2,17 +2,25 @@ import {IAProsessStatusEnum, SykefraversstatistikkVirksomhet, Virksomhet} from "
 import {VirksomhetInformasjon} from "./VirksomhetInformasjon";
 import {StyledIaSakOversikt} from "./IASakOversikt";
 import styled from "styled-components";
-import {StatistikkBoks} from "./StatistikkBoks";
+import {SykefraværsstatistikkVirksomhet} from "./SykefraværsstatistikkVirksomhet";
 
-const VerticalFlexboxDiv = styled.div`
+const VerticalFlex = styled.div`
     display: flex;
     flex-direction: column;
 `;
-const HorizontalFlexboxDiv = styled.div`
+
+const HorisontalFlex = styled.div`
     display: flex;
     flex-direction: row;
-    gap: 3rem;
+`
+
+const HorisontalFlexMedToppRamme = styled(HorisontalFlex)`
+    border-top: 1px solid black;    
 `;
+
+const StyledVirksomhetsInformasjon = styled(VirksomhetInformasjon)`
+    margin-top: 1rem;
+`
 
 interface VirksomhetOversiktProps {
     virksomhet: Virksomhet,
@@ -21,24 +29,19 @@ interface VirksomhetOversiktProps {
 
 export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk }: VirksomhetOversiktProps) => {
     return (
-        <VerticalFlexboxDiv>
+        <VerticalFlex>
             <h1>{virksomhet.navn}</h1>
-            <HorizontalFlexboxDiv>
-                <VerticalFlexboxDiv>
-                    <VirksomhetInformasjon virksomhet={virksomhet}/>
-                    <div style={{ display: "flex", flexDirection: "row", gap: "1rem" }}>
-                        <StatistikkBoks verdi={sykefraværsstatistikk.sykefraversprosent} tittel="Sykefravær" bakgrunnsfarge={"#D47B00"} type="percent" inheritColor/>
-                        <StatistikkBoks verdi={sykefraværsstatistikk.antallPersoner} tittel="Antall arbeidsforhold" bakgrunnsfarge={"#A0A0A0"} type="decimal" />
-                        <StatistikkBoks verdi={sykefraværsstatistikk.muligeDagsverk} tittel="Avtalte dagsverk" bakgrunnsfarge={"#A0A0A0"} type="decimal" />
-                        <StatistikkBoks verdi={sykefraværsstatistikk.tapteDagsverk} tittel="Tapte dagsverk" bakgrunnsfarge={"#A32A17"} type="decimal" inheritColor />
-                    </div>
-                </VerticalFlexboxDiv>
+            <HorisontalFlexMedToppRamme>
+                <VerticalFlex>
+                    <StyledVirksomhetsInformasjon virksomhet={virksomhet}/>
+                    <SykefraværsstatistikkVirksomhet sykefraværsstatistikk={sykefraværsstatistikk}/>
+                </VerticalFlex>
                 <StyledIaSakOversikt
                     saksnummer={"IA_123456789"}
                     iaProsessStatus={IAProsessStatusEnum.Values.KARTLEGGING}
                     innsatsteam={false}
                 />
-            </HorizontalFlexboxDiv>
-        </VerticalFlexboxDiv>
+            </HorisontalFlexMedToppRamme>
+        </VerticalFlex>
     )
 }
