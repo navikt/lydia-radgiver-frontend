@@ -2,7 +2,7 @@ import {ComponentMeta} from "@storybook/react";
 import {Kommunedropdown} from "./Kommunedropdown";
 
 export default {
-    title: "Kommune",
+    title: "Prioritering/Kommune",
     component: Kommunedropdown,
 } as ComponentMeta<typeof Kommunedropdown>;
 

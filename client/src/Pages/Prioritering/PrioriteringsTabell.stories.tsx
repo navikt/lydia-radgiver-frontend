@@ -4,7 +4,7 @@ import {sykefraværsstatistikkMock} from "./mocks/sykefraværsstatistikkMock";
 import {useState} from "react";
 
 export default {
-    title: "Prioriteringstabell",
+    title: "Prioritering/Prioriteringstabell",
     component: StyledPrioriteringsTabell,
 } as ComponentMeta<typeof StyledPrioriteringsTabell>;
 export const Hovedstory = () => {

@@ -4,7 +4,7 @@ import {StyledIaSakOversikt} from "./IASakOversikt";
 import {IAProsessStatusEnum} from "../../domenetyper";
 
 export default {
-    title: "Oversikt over IA-sak",
+    title: "Virksomhet/Oversikt over IA-sak",
     component: StyledIaSakOversikt,
 } as ComponentMeta<typeof StyledIaSakOversikt>;
 

@@ -4,7 +4,7 @@ import {VirksomhetOversikt} from "./VirksomhetOversikt";
 import {sykefraværsstatistikkMock} from "../Prioritering/mocks/sykefraværsstatistikkMock";
 
 export default {
-    title: "VirksomhetOversikt",
+    title: "Virksomhet/Oversikt over en virksomhet",
     component: VirksomhetOversikt,
 } as ComponentMeta<typeof VirksomhetOversikt>;
 

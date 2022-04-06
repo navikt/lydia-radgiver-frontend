@@ -3,7 +3,7 @@ import {sykefraværsstatistikkMock} from "../Prioritering/mocks/sykefraværsstat
 import {SykefraværsstatistikkVirksomhet} from "./SykefraværsstatistikkVirksomhet";
 
 export default {
-    title: "Sykefraværsstatistikk for en virksomhet",
+    title: "Virksomhet/Sykefraværsstatistikk for en virksomhet",
     component: SykefraværsstatistikkVirksomhet,
 } as ComponentMeta<typeof SykefraværsstatistikkVirksomhet>;
 

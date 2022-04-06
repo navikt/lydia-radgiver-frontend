@@ -3,7 +3,7 @@ import {StatusBadge} from "./StatusBadge";
 import {IAProsessStatusType} from "../../domenetyper";
 
 export default {
-    title: "StatusBadge",
+    title: "Prioritering/StatusBadge",
     component: StatusBadge,
 } as ComponentMeta<typeof StatusBadge>;
 
