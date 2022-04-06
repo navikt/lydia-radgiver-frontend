@@ -1,4 +1,3 @@
-import {defaultFetcher} from "./nettverkskall";
 import {
     Filterverdier,
     filterverdierSchema,
@@ -23,6 +22,9 @@ const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
     revalidateOnReconnect: false
 }
+
+const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
+    fetch(...args).then((res) => res.json());
 
 const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>, config: SWRConfiguration = defaultSwrConfiguration) => {
     const { data, error: fetchError } = useSWR<T>(path, defaultFetcher, {
