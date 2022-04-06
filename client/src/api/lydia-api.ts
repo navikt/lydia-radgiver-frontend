@@ -2,7 +2,9 @@ import {
     Filterverdier,
     filterverdierSchema,
     NavAnsatt,
-    navAnsattSchema, SykefraversstatistikkVirksomhet, sykefraversstatistikkVirksomhetSchema,
+    navAnsattSchema,
+    SykefraversstatistikkVirksomhet,
+    sykefraversstatistikkVirksomhetListeSchema,
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
     Søkeverdier,
@@ -79,9 +81,9 @@ export const useSykefraværsstatistikk = ({søkeverdier = {}, initierSøk = true
 };
 
 export const useHentSykefraværsstatistikkForVirksomhet = (orgnummer?: string) => {
-    return useSwrTemplate<SykefraversstatistikkVirksomhet>(
+    return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(
         orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}` : null,
-        sykefraversstatistikkVirksomhetSchema
+        sykefraversstatistikkVirksomhetListeSchema
     );
 }
 
