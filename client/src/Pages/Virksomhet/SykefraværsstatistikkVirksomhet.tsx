@@ -13,10 +13,12 @@ interface Props {
     sykefraværsstatistikk : SykefraversstatistikkVirksomhet
 }
 
+const prosentSomDesimal = (prosent: number) => prosent / 100
+
 export const SykefraværsstatistikkVirksomhet = ({ sykefraværsstatistikk } : Props ) => {
     return (
     <HorisontalFlexMedGap>
-        <StatistikkBoks verdi={sykefraværsstatistikk.sykefraversprosent} tittel="Sykefravær" bakgrunnsfarge={"#D47B00"} type="percent" inheritColor/>
+        <StatistikkBoks verdi={prosentSomDesimal(sykefraværsstatistikk.sykefraversprosent)} tittel="Sykefravær" bakgrunnsfarge={"#D47B00"} type="percent" inheritColor/>
         <StatistikkBoks verdi={sykefraværsstatistikk.antallPersoner} tittel="Antall arbeidsforhold" bakgrunnsfarge={"#A0A0A0"} type="decimal" />
         <StatistikkBoks verdi={sykefraværsstatistikk.muligeDagsverk} tittel="Avtalte dagsverk" bakgrunnsfarge={"#A0A0A0"} type="decimal" />
         <StatistikkBoks verdi={sykefraværsstatistikk.tapteDagsverk} tittel="Tapte dagsverk" bakgrunnsfarge={"#A32A17"} type="decimal" inheritColor />
