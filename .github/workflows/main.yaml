@@ -27,6 +27,9 @@ jobs:
       - name: Install deps client
         working-directory: client
         run: npm ci
+      - name: Run client tests
+        working-directory: client
+        run: npm run test
       - name: Lint client
         uses: wearerequired/lint-action@v1
         with:
