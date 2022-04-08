@@ -43,6 +43,14 @@ const Prioriteringsside = () => {
         }
     }, [sfStatistikkFraApi])
 
+    function oppdaterSide(side: number) {
+        setSide(side)
+        setSøkeverdier({
+            ...søkeverdier, side
+        })
+        setSkalSøke(true)
+    }
+
     return (
         <>
             <StyledFiltervisning
@@ -52,8 +60,7 @@ const Prioriteringsside = () => {
                     setSkalSøke(false)
                 }}
                 søkPåNytt={() => {
-                    setSide(1)
-                    setSkalSøke(true)
+                    oppdaterSide(1)
                 }}
             />
             <br />
@@ -62,11 +69,7 @@ const Prioriteringsside = () => {
                     sykefraværsstatistikk
                 }
                 endreSide={(side) => {
-                    setSide(side)
-                    setSøkeverdier({
-                        ...søkeverdier, side
-                    })
-                    setSkalSøke(true)
+                    oppdaterSide(side);
                 }}
                 antallSider={antallSider}
                 side={side}
