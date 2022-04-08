@@ -51,7 +51,10 @@ const Prioriteringsside = () => {
                     setSøkeverdier({ ...søkeverdier, ...nyeSøkeverdier });
                     setSkalSøke(false)
                 }}
-                søkPåNytt={() => setSkalSøke(true)}
+                søkPåNytt={() => {
+                    setSide(1)
+                    setSkalSøke(true)
+                }}
             />
             <br />
             {skalViseTabell && <StyledPrioriteringsTabell
