@@ -63,6 +63,7 @@ const Prioriteringsside = () => {
                     setSøkeverdier({
                         ...søkeverdier, side
                     })
+                    setSkalSøke(true)
                 }}
                 antallSider={antallSider}
                 side={side}
