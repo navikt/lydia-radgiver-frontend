@@ -55,6 +55,7 @@ function SykefraværsprosentInput({
     return (
         <TextField
             label={label}
+            type={"number"}
             value={sykefraværsprosentInput}
             error={valideringsfeil.length > 0 ? valideringsfeil : undefined}
             onChange={(e) => {
