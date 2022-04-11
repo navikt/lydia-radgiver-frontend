@@ -20,16 +20,17 @@ const IASakOversikt = ({ saksnummer, iaProsessStatus, innsatsteam, className } :
             <Select
                 label="Status"
                 value={iaProsessStatus}
+                onChange={(_) => {}}
             >
                 <option value={iaProsessStatus} key={iaProsessStatus}>
                     {hentBadgeFraStatus(iaProsessStatus).text}
                 </option>
             </Select>
-            <p hidden={true}>
+            <div hidden={true}>
                 <br/>
                 <Label>Innsatsteam</Label>
                 <p>{jaEllerNei(innsatsteam)}</p>
-            </p>
+            </div>
         </div>
     )
 }
@@ -37,5 +38,7 @@ const IASakOversikt = ({ saksnummer, iaProsessStatus, innsatsteam, className } :
 
 export const StyledIaSakOversikt = styled(IASakOversikt)`
     padding: 1rem;
+    width: 100%;
+    border-radius: 0px 0px 10px 10px;
     background-color: ${props => hentBadgeFraStatus(props.iaProsessStatus).backgroundColor};
 `

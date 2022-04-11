@@ -11,7 +11,9 @@ const VerticalFlex = styled.div`
 
 const HorisontalFlex = styled.div`
     display: flex;
+    gap: 2rem;
     flex-direction: row;
+    align-items: end;
 `
 
 const HorisontalFlexMedToppRamme = styled(HorisontalFlex)`
