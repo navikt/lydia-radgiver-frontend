@@ -18,15 +18,10 @@ export const næringsgrupperSchema = z.object({
 });
 
 const IA_PROSESS_STATUSER = [
-    "NY",
-    "PRIORITERT",
-    "TAKKET_NEI",
-    "KARTLEGGING",
-    "GJENNOMFORING",
-    "EVALUERING",
-    "AVSLUTTET",
     "IKKE_AKTIV",
-    "AVSLATT_AV_NALS"
+    "VURDERES",
+    "KONTAKTES",
+    "IKKE_AKTUELL"
 ] as const
 
 export const IAProsessStatusEnum =  z.enum(IA_PROSESS_STATUSER)

@@ -9,24 +9,14 @@ interface Props {
 
 const penskrivIaStatus = (status: IAProsessStatusType) => {
     switch (status) {
-        case "PRIORITERT":
-            return "Prioritert"
-        case "NY":
-            return "Ny"
-        case "KARTLEGGING":
-            return "Kartlegging"
-        case "GJENNOMFORING":
-            return "Gjennomføring"
-        case "AVSLUTTET":
-            return "Avsluttet"
+        case "VURDERES":
+            return "Vurderes"
+        case "KONTAKTES":
+            return "Kontaktes"
         case "IKKE_AKTIV":
             return "Ikke aktiv"
-        case "EVALUERING":
-            return "Evaluering"
-        case "TAKKET_NEI":
-            return "Takket nei"
-        case "AVSLATT_AV_NALS":
-            return "Avslått av NALS"
+        case "IKKE_AKTUELL":
+            return "Ikke aktuell"
         default:
             return "N/A"
     }

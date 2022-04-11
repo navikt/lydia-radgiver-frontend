@@ -10,26 +10,34 @@ export default {
 
 const saksnummer = "IA-01234567890"
 
-export const BrukerHarTakketNei = () => (
+export const IkkeAktiv = () => (
     <StyledIaSakOversikt
         saksnummer={saksnummer}
-        iaProsessStatus={IAProsessStatusEnum.enum.TAKKET_NEI}
+        iaProsessStatus={IAProsessStatusEnum.enum.IKKE_AKTIV}
         innsatsteam={false}
     />
 );
 
-export const Kartlegges = () => (
+export const Vurderes = () => (
     <StyledIaSakOversikt
         saksnummer={saksnummer}
-        iaProsessStatus={IAProsessStatusEnum.enum.KARTLEGGING}
+        iaProsessStatus={IAProsessStatusEnum.enum.VURDERES}
         innsatsteam={false}
     />
 );
 
-export const KartleggesMedInnsatsteam = () => (
+export const Kontaktes = () => (
     <StyledIaSakOversikt
         saksnummer={saksnummer}
-        iaProsessStatus={IAProsessStatusEnum.enum.KARTLEGGING}
-        innsatsteam={true}
+        iaProsessStatus={IAProsessStatusEnum.enum.KONTAKTES}
+        innsatsteam={false}
+    />
+);
+
+export const IkkeAktuell = () => (
+    <StyledIaSakOversikt
+        saksnummer={saksnummer}
+        iaProsessStatus={IAProsessStatusEnum.enum.IKKE_AKTUELL}
+        innsatsteam={false}
     />
 );

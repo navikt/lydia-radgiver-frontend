@@ -25,9 +25,11 @@ const IASakOversikt = ({ saksnummer, iaProsessStatus, innsatsteam, className } :
                     {hentBadgeFraStatus(iaProsessStatus).text}
                 </option>
             </Select>
-            <br/>
-            <Label>Innsatsteam</Label>
-            <p>{jaEllerNei(innsatsteam)}</p>
+            <p hidden={true}>
+                <br/>
+                <Label>Innsatsteam</Label>
+                <p>{jaEllerNei(innsatsteam)}</p>
+            </p>
         </div>
     )
 }

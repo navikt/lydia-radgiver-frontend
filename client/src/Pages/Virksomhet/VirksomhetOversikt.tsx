@@ -1,4 +1,4 @@
-import {IAProsessStatusEnum, SykefraversstatistikkVirksomhet, Virksomhet} from "../../domenetyper";
+import {SykefraversstatistikkVirksomhet, Virksomhet} from "../../domenetyper";
 import {VirksomhetInformasjon} from "./VirksomhetInformasjon";
 import {StyledIaSakOversikt} from "./IASakOversikt";
 import styled from "styled-components";
@@ -38,7 +38,7 @@ export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk }: Virkso
                 </VerticalFlex>
                 <StyledIaSakOversikt
                     saksnummer={"IA_123456789"}
-                    iaProsessStatus={IAProsessStatusEnum.Values.KARTLEGGING}
+                    iaProsessStatus={sykefraværsstatistikk.status}
                     innsatsteam={false}
                 />
             </HorisontalFlexMedToppRamme>

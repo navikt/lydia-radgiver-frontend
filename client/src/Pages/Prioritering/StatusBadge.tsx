@@ -27,49 +27,32 @@ interface BadgeData {
 
 export function hentBadgeFraStatus(status: IAProsessStatusType): BadgeData {
     switch (status) {
-        case "TAKKET_NEI": {
+        case "VURDERES": {
             return {
-                text: "Har takket nei",
-                color: textColors.white,
-                backgroundColor: "#E18071"
-            }
-        }
-        case "GJENNOMFORING":
-        case "EVALUERING": {
-            return {
-                text: "Vi bistår",
-                backgroundColor: "#99DEAD",
+                text: "Vurderes",
+                backgroundColor: "#D8F9FF",
                 color: textColors.black
             }
         }
-        case "PRIORITERT": {
-            return {
-                text: "Ta kontakt",
-                backgroundColor: "#CCE1FF",
-                color: textColors.black
-            }
-        }
-        case "AVSLUTTET":
-        case "IKKE_AKTIV":
-        case "NY": {
+        case "IKKE_AKTIV": {
             return {
                 text: "Ikke aktivt",
-                backgroundColor: "#A0A0A0",
+                backgroundColor: "#C9C9C9",
                 color: textColors.white
             }
         }
-        case "KARTLEGGING": {
+        case "KONTAKTES": {
             return {
-                text: "Kartlegges",
+                text: "Kontaktes",
                 color: textColors.black,
-                backgroundColor: "#FFD799"
+                backgroundColor: "#CCE1FF"
             }
         }
-        case "AVSLATT_AV_NALS": {
+        case "IKKE_AKTUELL": {
             return {
-                text: "Avslått av NALS",
+                text: "Ikke aktuell",
                 color: textColors.white,
-                backgroundColor: "#E18071"
+                backgroundColor: "#EFA89D"
             }
         }
         default: throw new Error("Ukjent prosess-status")
