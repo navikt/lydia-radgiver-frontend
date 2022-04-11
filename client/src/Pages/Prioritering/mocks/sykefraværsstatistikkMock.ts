@@ -259,5 +259,5 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "antallPersoner": 1885.0,
     "muligeDagsverk": 96553.5,
     "tapteDagsverk": 5900.5,
-    "status": 'AVSLATT_AV_NALS'
+    "status": "IKKE_AKTUELL"
 }]
