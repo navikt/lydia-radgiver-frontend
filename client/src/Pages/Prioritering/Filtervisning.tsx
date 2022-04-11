@@ -18,6 +18,7 @@ import {IAStatusDropdown} from "./IAStatusDropdown";
 import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {Kommunedropdown} from "./Kommunedropdown";
+import {AntallAnsatteVelger} from "./AntallAnsatteVelger";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -63,6 +64,10 @@ const Filtervisning = ({
         fra: 0,
         til: 100,
     });
+    const [antallAnsatte, setAntallAnsatte] = useState<Range>({
+        fra: NaN,
+        til: NaN
+    })
     const [IAStatus, setIAStatus] = useState<IAProsessStatusType>()
     const [sorteringsverdi, setSorteringsverdi] =
         useState<Sorteringsverdi>("tapte_dagsverk");
@@ -111,6 +116,14 @@ const Filtervisning = ({
             sykefraversprosentRange: sykefraværsprosentRange,
         });
     };
+
+    const endreAntallAnsatte = (antallAnsatte: Range) => {
+        setAntallAnsatte(antallAnsatte)
+        oppdaterSøkeverdier({
+            antallAnsatteRange: antallAnsatte,
+        });
+    };
+
     const alleKommuner = filterverdier.fylker.flatMap(
         ({ kommuner }) => kommuner
     );
@@ -127,6 +140,7 @@ const Filtervisning = ({
             options: fylke.kommuner
         }))
     }, [valgtFylke, alleKommuner])
+
     return (
         <div className={className}>
             <HorizontalFlexboxDiv>
@@ -149,12 +163,17 @@ const Filtervisning = ({
                 endreNæringsgrupper={endreNæringsgruppe}
             />
             <br />
-            <SykefraværsprosentVelger
-                sykefraværsprosentRange={sykefraværsProsent}
-                endre={(nySykefraværsprosentRange: Range) =>
-                    oppdaterSykefraværsprosent(nySykefraværsprosentRange)
-                }
-            />
+            <HorizontalFlexboxDiv>
+                <SykefraværsprosentVelger
+                    sykefraværsprosentRange={sykefraværsProsent}
+                    endre={(nySykefraværsprosentRange: Range) =>
+                        oppdaterSykefraværsprosent(nySykefraværsprosentRange)
+                    }
+                />
+                <AntallAnsatteVelger
+                    antallAnsatte={antallAnsatte}
+                    endreAntallAnsatte={endreAntallAnsatte}/>
+            </HorizontalFlexboxDiv>
             <br />
             <HorizontalFlexboxDiv>
                 <Sorteringsmuligheter

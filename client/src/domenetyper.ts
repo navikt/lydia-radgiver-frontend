@@ -78,6 +78,7 @@ export interface Søkeverdier {
     fylker?: Fylke[];
     neringsgrupper?: Næringsgruppe[];
     sykefraversprosentRange?: Range;
+    antallAnsatteRange?: Range;
     sorteringsnokkel?: Sorteringsverdi;
     iastatus?: IAProsessStatusType
     side?: number

@@ -121,6 +121,8 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
         "sykefraversprosentTil",
         søkeverdier.sykefraversprosentRange?.til.toFixed(2) ?? ""
     );
+    params.append("ansatteFra", `${søkeverdier.antallAnsatteRange?.fra || ""}`);
+    params.append("ansatteTil", `${søkeverdier.antallAnsatteRange?.til || ""}`);
     params.append("sorteringsnokkel", søkeverdier.sorteringsnokkel ?? "");
     params.append("iaStatus", søkeverdier.iastatus ?? "")
     params.append("side", `${søkeverdier.side}`)
