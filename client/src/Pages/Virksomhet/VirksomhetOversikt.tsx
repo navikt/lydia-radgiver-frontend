@@ -13,7 +13,6 @@ const HorisontalFlex = styled.div`
     display: flex;
     gap: 2rem;
     flex-direction: row;
-    align-items: end;
 `
 
 const HorisontalFlexMedToppRamme = styled(HorisontalFlex)`
@@ -22,6 +21,7 @@ const HorisontalFlexMedToppRamme = styled(HorisontalFlex)`
 
 const StyledVirksomhetsInformasjon = styled(VirksomhetInformasjon)`
     margin-top: 1rem;
+    margin-bottom: 1rem;
 `
 
 interface VirksomhetOversiktProps {
