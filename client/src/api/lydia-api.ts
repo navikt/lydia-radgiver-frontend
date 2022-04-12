@@ -1,6 +1,6 @@
 import {
     Filterverdier,
-    filterverdierSchema,
+    filterverdierSchema, IASak, iaSakSchema,
     NavAnsatt,
     navAnsattSchema,
     SykefraversstatistikkVirksomhet,
@@ -19,6 +19,7 @@ const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
 const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
 const virksomhetsPath = `${basePath}/virksomhet`
 const innloggetAnsattPath = `/innloggetAnsatt`;
+const iasakPath = `${basePath}/iasak/radgiver`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -96,6 +97,12 @@ export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
 
 export const useHentBrukerinformasjon = () =>
     useSwrTemplate<NavAnsatt>(innloggetAnsattPath, navAnsattSchema);
+
+export const useHentSakerForVirksomhet = (orgnummer: string) => {
+    const iasakUrl = `${iasakPath}/${orgnummer}`
+
+    return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array())
+}
 
 const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     const params = new URLSearchParams();

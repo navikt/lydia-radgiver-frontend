@@ -104,3 +104,23 @@ export type NavAnsatt = z.infer<typeof navAnsattSchema>;
 
 export type Fylke = z.infer<typeof fylkeOgKommuneSchema>;
 export type Kommune = z.infer<typeof fylkeOgKommuneSchema>;
+
+
+const IA_SAKS_TYPER = [
+    "NAV_STOTTER",
+    "SELVBETJENT"
+] as const
+export const IASaksType = z.enum(IA_SAKS_TYPER)
+
+export const iaSakSchema = z.object({
+    saksnummer: z.string(),
+    orgnr: z.string(),
+    type: IASaksType,
+    opprettet: z.date(),
+    opprettetAv: z.string(),
+    endret: z.date(),
+    endretAv: z.string(),
+    endretAvHendelseId: z.string(),
+    status: IAProsessStatusEnum,
+})
+export type IASak = z.infer<typeof iaSakSchema>;
