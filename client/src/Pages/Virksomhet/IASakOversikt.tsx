@@ -1,44 +1,43 @@
-import {Label, Select} from "@navikt/ds-react";
-import {IAProsessStatusType} from "../../domenetyper";
+import {Button} from "@navikt/ds-react";
+import {IASak} from "../../domenetyper";
 import styled from "styled-components";
 import {hentBadgeFraStatus} from "../Prioritering/StatusBadge";
+import {HorizontalFlexboxDiv} from "../Prioritering/HorizontalFlexboxDiv";
 
 export interface IASakOversiktProps {
-    saksnummer: string,
-    iaProsessStatus: IAProsessStatusType,
-    innsatsteam : boolean,
+    iaSak?: IASak,
     className? : string,
 }
 
-const jaEllerNei = (b : boolean) => b ? "Ja" : "Nei"
-
-const IASakOversikt = ({ saksnummer, iaProsessStatus, innsatsteam, className } : IASakOversiktProps) => {
+function IngenAktiveSaker({className}: {className?: string}) {
     return (
         <div className={className}>
-            <Label>Saksnummer</Label>
-            <p>{saksnummer}</p>
-            <Select
-                label="Status"
-                value={iaProsessStatus}
-                onChange={(_) => {}}
-            >
-                <option value={iaProsessStatus} key={iaProsessStatus}>
-                    {hentBadgeFraStatus(iaProsessStatus).text}
-                </option>
-            </Select>
-            <div hidden={true}>
-                <br/>
-                <Label>Innsatsteam</Label>
-                <p>{jaEllerNei(innsatsteam)}</p>
-            </div>
+            <p>Status: {hentBadgeFraStatus("IKKE_AKTIV").text}</p>
+            <p><Button>Vurderes</Button></p>
         </div>
     )
 }
 
+const IASakOversikt = ({ iaSak, className } : IASakOversiktProps) => {
+    if (!iaSak)
+        return (<IngenAktiveSaker className={className} />)
+
+    return (
+        <div className={className}>
+            <p><b>Saksnummer:</b> {iaSak.saksnummer}</p>
+            <p>Status: {hentBadgeFraStatus(iaSak.status).text}</p>
+            <p>Eier: {iaSak.endretAv}</p>
+            <HorizontalFlexboxDiv>
+                <Button variant={"danger"}>Avbryt</Button>
+                <Button>Neste steg</Button>
+            </HorizontalFlexboxDiv>
+        </div>
+    )
+}
 
 export const StyledIaSakOversikt = styled(IASakOversikt)`
     padding: 1rem;
     width: 100%;
     border-radius: 0px 0px 10px 10px;
-    background-color: ${props => hentBadgeFraStatus(props.iaProsessStatus).backgroundColor};
+    background-color: ${props => hentBadgeFraStatus(props.iaSak?.status || "IKKE_AKTIV").backgroundColor};
 `

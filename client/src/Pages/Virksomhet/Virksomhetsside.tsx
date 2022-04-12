@@ -1,8 +1,12 @@
 import {useParams} from "react-router-dom";
-import {useHentSykefraværsstatistikkForVirksomhet, useHentVirksomhetsinformasjon} from "../../api/lydia-api";
+import {
+    useHentSakerForVirksomhet,
+    useHentSykefraværsstatistikkForVirksomhet,
+    useHentVirksomhetsinformasjon
+} from "../../api/lydia-api";
 import {Loader} from "@navikt/ds-react";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
-import {SykefraversstatistikkVirksomhet} from "../../domenetyper";
+import {IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
 
 const Virksomhetsside = () => {
     const params = useParams();
@@ -17,18 +21,28 @@ const Virksomhetsside = () => {
         loading: lasterSykefraværsstatistikk
     } = useHentSykefraværsstatistikkForVirksomhet(orgnummer);
 
-    if (lasterVirksomhet || lasterSykefraværsstatistikk) {
+    const {
+        data: iaSaker,
+        loading: lasterIaSaker
+    } = useHentSakerForVirksomhet(orgnummer)
+
+    if (lasterVirksomhet || lasterSykefraværsstatistikk || lasterIaSaker) {
         return <LasterVirksomhet/>
     }
-    if (virksomhetsinformasjon && sykefraværsstatistikk && sykefraværsstatistikk.length > 0) {
+    if (virksomhetsinformasjon && sykefraværsstatistikk && sykefraværsstatistikk.length > 0 && iaSaker) {
         const statistikkForSisteKvartal = filtrerPåSisteKvartal(sykefraværsstatistikk)
+        const iaSak = aktivIaSak(iaSaker)
         return <VirksomhetOversikt
             virksomhet={virksomhetsinformasjon}
-            sykefraværsstatistikk={statistikkForSisteKvartal}/>
+            sykefraværsstatistikk={statistikkForSisteKvartal}
+            iaSak={iaSak}
+        />
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>
     }
 };
+
+const aktivIaSak = (iaSaker: IASak[]) => iaSaker.find((sak) => sak.status !== "IKKE_AKTIV")
 
 const sorterPåSisteÅrstallOgKvartal = (a: SykefraversstatistikkVirksomhet, b: SykefraversstatistikkVirksomhet) =>
     a.arstall !== b.arstall ? b.arstall - a.arstall : b.kvartal - a.kvartal

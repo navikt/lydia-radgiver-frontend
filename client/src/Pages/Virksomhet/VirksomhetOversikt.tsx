@@ -1,4 +1,4 @@
-import {SykefraversstatistikkVirksomhet, Virksomhet} from "../../domenetyper";
+import {IASak, SykefraversstatistikkVirksomhet, Virksomhet} from "../../domenetyper";
 import {VirksomhetInformasjon} from "./VirksomhetInformasjon";
 import {StyledIaSakOversikt} from "./IASakOversikt";
 import styled from "styled-components";
@@ -26,10 +26,11 @@ const StyledVirksomhetsInformasjon = styled(VirksomhetInformasjon)`
 
 interface VirksomhetOversiktProps {
     virksomhet: Virksomhet,
-    sykefraværsstatistikk : SykefraversstatistikkVirksomhet
+    sykefraværsstatistikk : SykefraversstatistikkVirksomhet,
+    iaSak?: IASak
 }
 
-export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk }: VirksomhetOversiktProps) => {
+export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk, iaSak }: VirksomhetOversiktProps) => {
     return (
         <VerticalFlex>
             <h1>{virksomhet.navn}</h1>
@@ -38,11 +39,7 @@ export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk }: Virkso
                     <StyledVirksomhetsInformasjon virksomhet={virksomhet}/>
                     <SykefraværsstatistikkVirksomhet sykefraværsstatistikk={sykefraværsstatistikk}/>
                 </VerticalFlex>
-                <StyledIaSakOversikt
-                    saksnummer={"IA_123456789"}
-                    iaProsessStatus={sykefraværsstatistikk.status}
-                    innsatsteam={false}
-                />
+                <StyledIaSakOversikt iaSak={iaSak}/>
             </HorisontalFlexMedToppRamme>
         </VerticalFlex>
     )

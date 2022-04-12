@@ -98,7 +98,7 @@ export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
 export const useHentBrukerinformasjon = () =>
     useSwrTemplate<NavAnsatt>(innloggetAnsattPath, navAnsattSchema);
 
-export const useHentSakerForVirksomhet = (orgnummer: string) => {
+export const useHentSakerForVirksomhet = (orgnummer?: string) => {
     const iasakUrl = `${iasakPath}/${orgnummer}`
 
     return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array())
