@@ -134,3 +134,26 @@ export const iaSakSchema = z.object({
     gyldigeNesteHendelser: z.array(SaksHendelseType),
 })
 export type IASak = z.infer<typeof iaSakSchema>;
+
+
+const IA_SAKSHENDELSE_TYPER = [
+    "OPPRETT_SAK_FOR_VIRKSOMHET",
+    "VIRKSOMHET_VURDERES",
+    "TA_EIERSKAP_I_SAK",
+    "VIRKSOMHET_SKAL_KONTAKTES",
+    "VIRKSOMHET_ER_IKKE_AKTUELL",
+] as const
+
+export const IASakshendelseTypeEnum = z.enum(IA_SAKSHENDELSE_TYPER)
+export type IASakshendelseType = z.infer<typeof IASakshendelseTypeEnum>
+
+export const iaSakshendelseSchema = z.object({
+    id: z.string(),
+    orgnummer: z.string(),
+    saksnummer: z.string(),
+    hendelsestype : IASakshendelseTypeEnum,
+    opprettetAv : z.string(),
+    opprettetTidspunkt: z.date(),
+})
+
+export type IASakshendelse = z.infer<typeof iaSakshendelseSchema>
