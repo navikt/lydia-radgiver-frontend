@@ -24,7 +24,7 @@ const IASakshendelserOversikt = ({sakshendelser, className}: IASakHendelserOvers
 }
 
 const IngenHendelserPåSak = () => {
-    return <Detail size="small" style={{ padding : "1rem 3rem"}}>Fant ingen hendelser på denne virksomheten</Detail>
+    return <Detail size="small" style={{ padding : "1rem 3rem"}}>Fant ingen samarbeidshistorikk på denne virksomheten</Detail>
 }
 
 const IASakshendelserTabell = ({sakshendelser}: { sakshendelser: IASakshendelse[] }) => {
