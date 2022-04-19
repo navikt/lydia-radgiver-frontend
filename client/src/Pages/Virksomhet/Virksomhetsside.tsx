@@ -7,6 +7,7 @@ import {
 import {Loader} from "@navikt/ds-react";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
 import {IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
+import {sakshendelserMock} from "./mocks/iaSakshendelserMock";
 
 const Virksomhetsside = () => {
     const params = useParams();
@@ -29,6 +30,7 @@ const Virksomhetsside = () => {
     if (lasterVirksomhet || lasterSykefraværsstatistikk || lasterIaSaker) {
         return <LasterVirksomhet/>
     }
+
     if (virksomhetsinformasjon && sykefraværsstatistikk && sykefraværsstatistikk.length > 0 && iaSaker) {
         const statistikkForSisteKvartal = filtrerPåSisteKvartal(sykefraværsstatistikk)
         const iaSak = aktivIaSak(iaSaker)
@@ -36,6 +38,7 @@ const Virksomhetsside = () => {
             virksomhet={virksomhetsinformasjon}
             sykefraværsstatistikk={statistikkForSisteKvartal}
             iaSak={iaSak}
+            sakshendelser={sakshendelserMock}
         />
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>
