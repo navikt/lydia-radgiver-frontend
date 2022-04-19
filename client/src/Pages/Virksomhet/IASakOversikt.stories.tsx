@@ -1,7 +1,7 @@
 import {ComponentMeta} from "@storybook/react";
 
 import {StyledIaSakOversikt} from "./IASakOversikt";
-import {iaSakIkkeAktuell, iaSakKontaktes, iaSakVurderes} from "./mocks/iaSakMock";
+import {iaSakIkkeAktuell, iaSakKontaktes, iaSakVurderesMedEier, iaSakVurderesUtenEier} from "./mocks/iaSakMock";
 
 export default {
     title: "Virksomhet/Oversikt over IA-sak",
@@ -12,8 +12,12 @@ export const IkkeAktiv = () => (
     <StyledIaSakOversikt />
 );
 
-export const Vurderes = () => (
-    <StyledIaSakOversikt iaSak={iaSakVurderes}/>
+export const VurderesUtenEier = () => (
+    <StyledIaSakOversikt iaSak={iaSakVurderesUtenEier}/>
+);
+
+export const VurderesMedEierEier = () => (
+    <StyledIaSakOversikt iaSak={iaSakVurderesMedEier}/>
 );
 
 export const Kontaktes = () => (
