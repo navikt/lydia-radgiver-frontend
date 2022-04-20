@@ -2,6 +2,7 @@
   "name": "client",
   "version": "0.0.0",
   "license": "MIT",
+  "homepage": "https://navikt.github.io/lydia-radgiver-frontend",
   "scripts": {
     "dev": "vite",
     "test": "jest",
@@ -9,7 +10,9 @@
     "preview": "vite preview",
     "lint": "eslint src/",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "BASE_URL=/storybook-static/ build-storybook"
+    "build-storybook": "BASE_URL=/storybook-static/ build-storybook",
+    "predeploy": "npm run build-storybook",    
+    "deploy-storybook": "gh-pages -d storybook-static"
   },
   "dependencies": {
     "@navikt/ds-css": "0.16.19",
