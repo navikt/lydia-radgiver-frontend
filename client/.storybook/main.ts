@@ -6,4 +6,13 @@ module.exports = {
         builder: "@storybook/builder-vite",
     },
     staticDirs: ["./public"],
+    async viteFinal(config, { configType }) {
+        if (configType === "PRODUCTION") {
+            return {
+                ...config,
+                base: "./lydia-radgiver-frontend",
+            };
+        }
+        return config;
+    },
 };
