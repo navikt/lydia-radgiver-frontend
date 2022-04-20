@@ -5,7 +5,7 @@ module.exports = {
     core: {
         builder: "@storybook/builder-vite",
     },
-    staticDirs: ["public"],
+    staticDirs: ["./public"],
     async viteFinal(config, { configType }) {
         return {
             ...config,
