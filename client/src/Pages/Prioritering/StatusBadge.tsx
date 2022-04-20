@@ -1,4 +1,4 @@
-import {IAProsessStatusType} from "../../domenetyper";
+import {IAProsessStatusEnum, IAProsessStatusType} from "../../domenetyper";
 import "@navikt/ds-css";
 import {Badge} from "../../components/Badge/Badge";
 
@@ -27,28 +27,28 @@ interface BadgeData {
 
 export function hentBadgeFraStatus(status: IAProsessStatusType): BadgeData {
     switch (status) {
-        case "VURDERES": {
+        case IAProsessStatusEnum.enum.VURDERES: {
             return {
                 text: "Vurderes",
                 backgroundColor: "#D8F9FF",
                 color: textColors.black
             }
         }
-        case "IKKE_AKTIV": {
+        case IAProsessStatusEnum.enum.IKKE_AKTIV: {
             return {
-                text: "Ikke aktivt",
+                text: "Ikke aktiv",
                 backgroundColor: "#C9C9C9",
                 color: textColors.white
             }
         }
-        case "KONTAKTES": {
+        case IAProsessStatusEnum.enum.KONTAKTES: {
             return {
                 text: "Kontaktes",
                 color: textColors.black,
                 backgroundColor: "#CCE1FF"
             }
         }
-        case "IKKE_AKTUELL": {
+        case IAProsessStatusEnum.enum.IKKE_AKTUELL: {
             return {
                 text: "Ikke aktuell",
                 color: textColors.white,

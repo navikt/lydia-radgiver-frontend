@@ -1,4 +1,4 @@
-import { Filterverdier } from "../../../domenetyper";
+import {Filterverdier, IAProsessStatusEnum} from "../../../domenetyper";
 
 export const filterverdierMock: Filterverdier = {
     fylker: [
@@ -35,7 +35,7 @@ export const filterverdierMock: Filterverdier = {
             ],
         },
     ],
-    statuser: ["IKKE_AKTIV", "VURDERES", "KONTAKTES", "IKKE_AKTUELL"],
+    statuser: [IAProsessStatusEnum.enum.IKKE_AKTIV, IAProsessStatusEnum.enum.VURDERES, IAProsessStatusEnum.enum.KONTAKTES, IAProsessStatusEnum.enum.IKKE_AKTUELL],
     neringsgrupper: [
         {
             kode: "01",

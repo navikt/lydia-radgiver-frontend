@@ -45,7 +45,7 @@ const Virksomhetsside = () => {
     }
 };
 
-const aktivIaSak = (iaSaker: IASak[]) => iaSaker.find((sak) => sak.status !== "IKKE_AKTIV")
+const aktivIaSak = (iaSaker: IASak[]) => iaSaker.find((sak) => sak.status !== IAProsessStatusEnum.enum.IKKE_AKTIV)
 
 const sorterPåSisteÅrstallOgKvartal = (a: SykefraversstatistikkVirksomhet, b: SykefraversstatistikkVirksomhet) =>
     a.arstall !== b.arstall ? b.arstall - a.arstall : b.kvartal - a.kvartal

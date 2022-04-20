@@ -1,6 +1,6 @@
 import {ComponentMeta} from "@storybook/react";
 import {StatusBadge} from "./StatusBadge";
-import {IAProsessStatusType} from "../../domenetyper";
+import {IAProsessStatusEnum, IAProsessStatusType} from "../../domenetyper";
 
 export default {
     title: "Prioritering/StatusBadge",
@@ -9,10 +9,10 @@ export default {
 
 export const Hovedstory = () => (
     [
-        <Story key={1} status={"IKKE_AKTIV"} />,
-        <Story key={2} status={"VURDERES"} />,
-        <Story key={3} status={"KONTAKTES"} />,
-        <Story key={4} status={"IKKE_AKTUELL"} />,
+        <Story key={1} status={IAProsessStatusEnum.enum.IKKE_AKTIV} />,
+        <Story key={2} status={IAProsessStatusEnum.enum.VURDERES} />,
+        <Story key={3} status={IAProsessStatusEnum.enum.KONTAKTES} />,
+        <Story key={4} status={IAProsessStatusEnum.enum.IKKE_AKTUELL} />,
     ]
 );
 

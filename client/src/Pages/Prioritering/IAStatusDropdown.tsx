@@ -1,5 +1,5 @@
 import {Select} from "@navikt/ds-react";
-import {IAProsessStatusType} from "../../domenetyper";
+import {IAProsessStatusEnum, IAProsessStatusType} from "../../domenetyper";
 
 interface Props {
     valgtStatus?: IAProsessStatusType
@@ -9,13 +9,13 @@ interface Props {
 
 const penskrivIaStatus = (status: IAProsessStatusType) => {
     switch (status) {
-        case "VURDERES":
+        case IAProsessStatusEnum.enum.VURDERES:
             return "Vurderes"
-        case "KONTAKTES":
+        case IAProsessStatusEnum.enum.KONTAKTES:
             return "Kontaktes"
-        case "IKKE_AKTIV":
+        case IAProsessStatusEnum.enum.IKKE_AKTIV:
             return "Ikke aktiv"
-        case "IKKE_AKTUELL":
+        case IAProsessStatusEnum.enum.IKKE_AKTUELL:
             return "Ikke aktuell"
         default:
             return "N/A"

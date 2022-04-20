@@ -1,5 +1,5 @@
-import {Button} from "@navikt/ds-react";
-import {IASak} from "../../domenetyper";
+import {BodyShort, Button} from "@navikt/ds-react";
+import {IAProsessStatusEnum, IASak} from "../../domenetyper";
 import styled from "styled-components";
 import {hentBadgeFraStatus} from "../Prioritering/StatusBadge";
 import {HorizontalFlexboxDiv} from "../Prioritering/HorizontalFlexboxDiv";
@@ -12,8 +12,11 @@ export interface IASakOversiktProps {
 function IngenAktiveSaker({className}: {className?: string}) {
     return (
         <div className={className}>
-            <p>Status: {hentBadgeFraStatus("IKKE_AKTIV").text}</p>
-            <p><Button>Vurderes</Button></p>
+            <BodyShort>
+                Status: {hentBadgeFraStatus(IAProsessStatusEnum.enum.IKKE_AKTIV).text}
+            </BodyShort>
+            <br />
+            <Button>Vurderes</Button>
         </div>
     )
 }
@@ -40,5 +43,5 @@ export const StyledIaSakOversikt = styled(IASakOversikt)`
     padding: 1rem;
     width: 100%;
     border-radius: 0px 0px 10px 10px;
-    background-color: ${props => hentBadgeFraStatus(props.iaSak?.status || "IKKE_AKTIV").backgroundColor};
+    background-color: ${props => hentBadgeFraStatus(props.iaSak?.status || IAProsessStatusEnum.enum.IKKE_AKTIV).backgroundColor};
 `

@@ -1,4 +1,4 @@
-import {IASak} from "../../../domenetyper";
+import {IAProsessStatusEnum, IASak} from "../../../domenetyper";
 import {ulid} from "ulid";
 
 
@@ -15,7 +15,7 @@ export const iaSakVurderesUtenEier: IASak = {
     endretAv: "NAV-54321",
     eidAv: undefined,
     endretAvHendelseId: endretAv,
-    status: "VURDERES",
+    status: IAProsessStatusEnum.enum.VURDERES,
     gyldigeNesteHendelser: ["VIRKSOMHET_ER_IKKE_AKTUELL", "TA_EIERSKAP_I_SAK"]
 }
 
@@ -29,7 +29,7 @@ export const iaSakVurderesMedEier: IASak = {
     endretAv: "NAV-54321",
     eidAv: "NAV-54321",
     endretAvHendelseId: endretAv,
-    status: "VURDERES",
+    status: IAProsessStatusEnum.enum.VURDERES,
     gyldigeNesteHendelser: ["VIRKSOMHET_ER_IKKE_AKTUELL", "VIRKSOMHET_SKAL_KONTAKTES"]
 }
 
@@ -43,7 +43,7 @@ export const iaSakKontaktes: IASak = {
     endretAv: "NAV-54321",
     eidAv: "NAV-54321",
     endretAvHendelseId: endretAv,
-    status: "KONTAKTES",
+    status: IAProsessStatusEnum.enum.KONTAKTES,
     gyldigeNesteHendelser: []
 }
 
@@ -57,6 +57,6 @@ export const iaSakIkkeAktuell: IASak = {
     endretAv: "NAV-54321",
     eidAv: "NAV-54321",
     endretAvHendelseId: endretAv,
-    status: "IKKE_AKTUELL",
+    status: IAProsessStatusEnum.enum.IKKE_AKTUELL,
     gyldigeNesteHendelser: []
 }
