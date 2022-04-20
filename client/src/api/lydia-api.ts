@@ -1,6 +1,8 @@
 import {
     Filterverdier,
-    filterverdierSchema, IASak, iaSakSchema,
+    filterverdierSchema,
+    IASak,
+    iaSakSchema,
     NavAnsatt,
     navAnsattSchema,
     SykefraversstatistikkVirksomhet,
@@ -19,7 +21,7 @@ const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
 const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
 const virksomhetsPath = `${basePath}/virksomhet`
 const innloggetAnsattPath = `/innloggetAnsatt`;
-const iasakPath = `${basePath}/iasak/radgiver`;
+export const iasakPath = `${basePath}/iasak/radgiver`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -135,3 +137,14 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     params.append("side", `${søkeverdier.side}`)
     return params;
 };
+
+export const opprettSak = (orgnummer: string): Promise<IASak> => {
+    return fetch(`${iasakPath}/${orgnummer}`, {
+      method: "POST"
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            const safeparsed = iaSakSchema.safeParse(data)
+            return safeparsed.success ? safeparsed.data : Promise.reject(safeparsed.error)
+        });
+}

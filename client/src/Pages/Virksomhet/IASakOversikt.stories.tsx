@@ -2,28 +2,44 @@ import {ComponentMeta} from "@storybook/react";
 
 import {StyledIaSakOversikt} from "./IASakOversikt";
 import {iaSakIkkeAktuell, iaSakKontaktes, iaSakVurderesMedEier, iaSakVurderesUtenEier} from "./mocks/iaSakMock";
+import {rest} from "msw";
+import {iasakPath} from "../../api/lydia-api";
 
 export default {
     title: "Virksomhet/Oversikt over IA-sak",
     component: StyledIaSakOversikt,
 } as ComponentMeta<typeof StyledIaSakOversikt>;
 
+const orgnummer = "987654321"
+
 export const IkkeAktiv = () => (
-    <StyledIaSakOversikt />
+    <StyledIaSakOversikt orgnummer={"987654321"}/>
 );
 
+IkkeAktiv.parameters = {
+    msw: {
+        handlers: [
+            rest.post(`${iasakPath}/:orgnummer`, (req, res, ctx) => {
+                return res(
+                    ctx.json(iaSakVurderesUtenEier)
+                )
+            }),
+        ]
+    },
+}
+
 export const VurderesUtenEier = () => (
-    <StyledIaSakOversikt iaSak={iaSakVurderesUtenEier}/>
+    <StyledIaSakOversikt iaSak={iaSakVurderesUtenEier} orgnummer={orgnummer}/>
 );
 
 export const VurderesMedEierEier = () => (
-    <StyledIaSakOversikt iaSak={iaSakVurderesMedEier}/>
+    <StyledIaSakOversikt iaSak={iaSakVurderesMedEier} orgnummer={"987654321"}/>
 );
 
 export const Kontaktes = () => (
-    <StyledIaSakOversikt iaSak={iaSakKontaktes}/>
+    <StyledIaSakOversikt iaSak={iaSakKontaktes} orgnummer={"987654321"}/>
 );
 
 export const IkkeAktuell = () => (
-    <StyledIaSakOversikt iaSak={iaSakIkkeAktuell}/>
+    <StyledIaSakOversikt iaSak={iaSakIkkeAktuell} orgnummer={"987654321"}/>
 );

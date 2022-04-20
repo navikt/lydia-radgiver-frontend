@@ -8,7 +8,7 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src/",
-    "storybook": "start-storybook -p 6006",
+    "storybook": "start-storybook -p 6006 -s public",
     "build-storybook": "BASE_URL=/storybook-static/ build-storybook"
   },
   "dependencies": {
@@ -45,9 +45,14 @@
     "eslint-plugin-react": "7.29.4",
     "eslint-plugin-storybook": "0.5.10",
     "jest": "27.5.1",
+    "msw": "0.39.2",
+    "msw-storybook-addon": "1.6.3",
     "ts-jest": "27.1.4",
     "typescript": "4.6.3",
     "ulid": "2.3.0",
     "vite": "2.9.5"
+  },
+  "msw": {
+    "workerDirectory": "public"
   }
 }

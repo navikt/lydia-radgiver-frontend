@@ -42,7 +42,7 @@ export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk, iaSak, s
                     <StyledVirksomhetsInformasjon virksomhet={virksomhet}/>
                     <SykefraværsstatistikkVirksomhet sykefraværsstatistikk={sykefraværsstatistikk}/>
                 </VerticalFlex>
-                <StyledIaSakOversikt iaSak={iaSak}/>
+                <StyledIaSakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr}/>
             </HorisontalFlexMedToppRamme>
             <br />
             <StyledIASakshendelserOversikt sakshendelser={sakshendelser}/>
