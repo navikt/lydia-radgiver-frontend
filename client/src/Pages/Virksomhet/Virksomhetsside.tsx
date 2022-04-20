@@ -29,10 +29,9 @@ const Virksomhetsside = () => {
 
     const {
         data: iaSakshendelser,
-        loading: lasterIaSakshendelser
     } = useHentSakshendelserPåSak(aktivIaSak(iaSaker))
 
-    if (lasterVirksomhet || lasterSykefraværsstatistikk || lasterIaSaker || lasterIaSakshendelser) {
+    if (lasterVirksomhet || lasterSykefraværsstatistikk || lasterIaSaker) {
         return <LasterVirksomhet/>
     }
 
