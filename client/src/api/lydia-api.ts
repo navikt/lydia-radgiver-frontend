@@ -2,7 +2,7 @@ import {
     Filterverdier,
     filterverdierSchema,
     IASak,
-    iaSakSchema,
+    iaSakSchema, IASakshendelse, iaSakshendelseSchema,
     NavAnsatt,
     navAnsattSchema,
     SykefraversstatistikkVirksomhet,
@@ -22,6 +22,7 @@ const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
 const virksomhetsPath = `${basePath}/virksomhet`
 const innloggetAnsattPath = `/innloggetAnsatt`;
 export const iasakPath = `${basePath}/iasak/radgiver`;
+export const iasakHentHendelserPath = `${iasakPath}/hendelser`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -30,6 +31,28 @@ const defaultSwrConfiguration: SWRConfiguration = {
 
 const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
     fetch(...args).then((res) => res.json());
+
+
+const get = <T>(url: string, schema: ZodType<T>) : Promise<T> =>
+    fetch(url, {
+        method: "GET"
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            const safeparsed = schema.safeParse(data)
+            return safeparsed.success ? safeparsed.data : Promise.reject(safeparsed.error)
+        });
+
+const post = <T>(url: string, schema: ZodType<T>, body? : any) : Promise<T> =>
+    fetch(url, {
+        method: "POST",
+        body: JSON.stringify(body)
+    })
+        .then((res) => res.json())
+        .then((data) => {
+            const safeparsed = schema.safeParse(data)
+            return safeparsed.success ? safeparsed.data : Promise.reject(safeparsed.error)
+        });
 
 const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>, config: SWRConfiguration = defaultSwrConfiguration) => {
     const { data, error: fetchError } = useSWR<T>(path, defaultFetcher, {
@@ -106,6 +129,12 @@ export const useHentSakerForVirksomhet = (orgnummer?: string) => {
     return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array())
 }
 
+export const opprettSak = (orgnummer: string): Promise<IASak> =>
+    post(`${iasakPath}/${orgnummer}`, iaSakSchema)
+
+export const hentSakshendelserForSak = (sak : IASak) : Promise<IASakshendelse[]> =>
+    get(`${iasakHentHendelserPath}/${sak.saksnummer}`, iaSakshendelseSchema.array())
+
 const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     const params = new URLSearchParams();
     params.append(
@@ -138,13 +167,4 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     return params;
 };
 
-export const opprettSak = (orgnummer: string): Promise<IASak> => {
-    return fetch(`${iasakPath}/${orgnummer}`, {
-      method: "POST"
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            const safeparsed = iaSakSchema.safeParse(data)
-            return safeparsed.success ? safeparsed.data : Promise.reject(safeparsed.error)
-        });
-}
+

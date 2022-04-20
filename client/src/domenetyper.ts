@@ -2,6 +2,10 @@ import { z } from "zod";
 import { sorteringsverdier } from "./Pages/Prioritering/Filtervisning";
 import { Range } from "./Pages/Prioritering/SykefraværsprosentVelger";
 
+export const datoSchema = z.preprocess((arg) => {
+    if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
+}, z.date());
+
 export const fylkeOgKommuneSchema = z.object({
     nummer: z.string(),
     navn: z.string(),
@@ -124,9 +128,9 @@ export const iaSakSchema = z.object({
     saksnummer: z.string(),
     orgnr: z.string(),
     type: IASaksType,
-    opprettet: z.string(),
+    opprettet: datoSchema,
     opprettetAv: z.string(),
-    endret: z.string(),
+    endret: datoSchema,
     endretAv: z.string(),
     endretAvHendelseId: z.string(),
     eidAv: z.string().optional(),
@@ -153,7 +157,7 @@ export const iaSakshendelseSchema = z.object({
     saksnummer: z.string(),
     hendelsestype : IASakshendelseTypeEnum,
     opprettetAv : z.string(),
-    opprettetTidspunkt: z.date(),
+    opprettetTidspunkt: datoSchema,
 })
 
 export type IASakshendelse = z.infer<typeof iaSakshendelseSchema>
