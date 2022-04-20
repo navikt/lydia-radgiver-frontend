@@ -6,7 +6,7 @@ import {
 } from "../../api/lydia-api";
 import {Loader} from "@navikt/ds-react";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
-import {IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
+import {IAProsessStatusEnum, IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
 import {sakshendelserMock} from "./mocks/iaSakshendelserMock";
 
 const Virksomhetsside = () => {
