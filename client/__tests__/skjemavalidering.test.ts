@@ -1,4 +1,4 @@
-import {datoSchema, iaSakshendelseSchema, IASakshendelseTypeEnum} from "../src/domenetyper";
+import {datoSchema, iaSakSchema, iaSakshendelseSchema, IASakshendelseTypeEnum} from "../src/domenetyper";
 
 describe("kan parse datoer", () => {
 
@@ -18,6 +18,26 @@ describe("kan parse datoer", () => {
         }
         const safeParseResultat = iaSakshendelseSchema.safeParse(iaSakshendelseMock)
         expect(safeParseResultat.success).toBeTruthy()
+    })
+
+    test('kan parse iasak med null felter', () => {
+        const iaSakMock = {
+            "saksnummer": "01G13JC25YFF9Y13KZBR171V0N",
+            "orgnr": "974623528",
+            "type": "NAV_STOTTER",
+            "status": "VURDERES",
+            "opprettetAv": "Z994139",
+            "opprettetTidspunkt": "2022-04-20T15:25:16.606882",
+            "endretTidspunkt": "2022-04-20T15:25:16.606882",
+            "endretAv": "Z994139",
+            "eidAv": null,
+            "endretAvHendelseId": "01G13JC26JDWNM1XZVZH2M1AB9",
+            "gyldigeNesteHendelser": ["VIRKSOMHET_ER_IKKE_AKTUELL", "TA_EIERSKAP_I_SAK"]
+        }
+
+        const safeparseResultat = iaSakSchema.safeParse(iaSakMock)
+        expect(safeparseResultat.success).toBeTruthy()
+        expect(safeparseResultat.success && safeparseResultat.data.eidAv === null).toBeTruthy()
     })
 })
 

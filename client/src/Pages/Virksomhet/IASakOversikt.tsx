@@ -32,7 +32,7 @@ const IASakOversikt = ({ orgnummer, iaSak, className } : IASakOversiktProps) => 
         <div className={className}>
             <p><b>Saksnummer:</b> {iaSak.saksnummer}</p>
             <p>Status: {hentBadgeFraStatus(iaSak.status).text}</p>
-            {iaSak.eidAv && <p>Eier: {iaSak.endretAv}</p>}
+            {iaSak.eidAv && <p>Eier: {iaSak.eidAv}</p>}
             <HorizontalFlexboxDiv>
                 {iaSak.gyldigeNesteHendelser.map(hendelse => {
                     return <Button key={hendelse}>{hendelse}</Button>
