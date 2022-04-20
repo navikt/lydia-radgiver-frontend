@@ -10,7 +10,7 @@
     "preview": "vite preview",
     "lint": "eslint src/",
     "storybook": "start-storybook -p 6006",
-    "build-storybook": "BASE_URL=/storybook-static/ build-storybook",
+    "build-storybook": "build-storybook",
     "deploy-storybook": "gh-pages -d storybook-static"
   },
   "dependencies": {
