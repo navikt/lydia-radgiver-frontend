@@ -54,7 +54,7 @@ const post = <T>(url: string, schema: ZodType<T>, body? : any) : Promise<T> =>
             return safeparsed.success ? safeparsed.data : Promise.reject(safeparsed.error)
         });
 
-const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>, config: SWRConfiguration = defaultSwrConfiguration) => {
+const useSwrTemplate = <T>(path: string | (() => string | null) | null, schema: ZodType<T>, config: SWRConfiguration = defaultSwrConfiguration) => {
     const { data, error: fetchError } = useSWR<T>(path, defaultFetcher, {
         ...defaultSwrConfiguration,
         ...config
@@ -125,15 +125,18 @@ export const useHentBrukerinformasjon = () =>
 
 export const useHentSakerForVirksomhet = (orgnummer?: string) => {
     const iasakUrl = `${iasakPath}/${orgnummer}`
-
     return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array())
+}
+
+export const useHentSakshendelserPåSak = (sak?: IASak) => {
+    return useSwrTemplate<IASakshendelse[]>(
+        () => sak? `${iasakHentHendelserPath}/${sak.saksnummer}` : null,
+        iaSakshendelseSchema.array()
+    )
 }
 
 export const opprettSak = (orgnummer: string): Promise<IASak> =>
     post(`${iasakPath}/${orgnummer}`, iaSakSchema)
-
-export const hentSakshendelserForSak = (sak : IASak) : Promise<IASakshendelse[]> =>
-    get(`${iasakHentHendelserPath}/${sak.saksnummer}`, iaSakshendelseSchema.array())
 
 const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     const params = new URLSearchParams();

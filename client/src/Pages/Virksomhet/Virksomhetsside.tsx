@@ -1,19 +1,16 @@
 import {useParams} from "react-router-dom";
 import {
-    hentSakshendelserForSak,
-    useHentSakerForVirksomhet,
+    useHentSakerForVirksomhet, useHentSakshendelserPåSak,
     useHentSykefraværsstatistikkForVirksomhet,
     useHentVirksomhetsinformasjon
 } from "../../api/lydia-api";
 import {Loader} from "@navikt/ds-react";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
-import {IAProsessStatusEnum, IASak, IASakshendelse, SykefraversstatistikkVirksomhet} from "../../domenetyper";
-import {useEffect, useState} from "react";
+import {IAProsessStatusEnum, IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
 
 const Virksomhetsside = () => {
     const params = useParams();
     const orgnummer = params.orgnummer
-    const [sakshendelser, setSakshendelser] = useState<IASakshendelse[]>([])
 
     const {
         data: virksomhetsinformasjon,
@@ -30,40 +27,36 @@ const Virksomhetsside = () => {
         loading: lasterIaSaker
     } = useHentSakerForVirksomhet(orgnummer)
 
-    useEffect(() => {
-        if (!iaSaker)
-            return
-        const aktivSak = aktivIaSak(iaSaker)
-        if (aktivSak){
-            hentSakshendelserForSak(aktivSak)
-                .then(hendelser => setSakshendelser(hendelser))
-                .catch(() => {
-                    // TODO: indiker at noe går galt
-                    setSakshendelser([])
-                })
-        }
-    }, [iaSaker])
+    const {
+        data: iaSakshendelser,
+        loading: lasterIaSakshendelser
+    } = useHentSakshendelserPåSak(aktivIaSak(iaSaker))
 
-    if (lasterVirksomhet || lasterSykefraværsstatistikk || lasterIaSaker) {
+    if (lasterVirksomhet || lasterSykefraværsstatistikk || lasterIaSaker || lasterIaSakshendelser) {
         return <LasterVirksomhet/>
     }
 
-    if (virksomhetsinformasjon && sykefraværsstatistikk && sykefraværsstatistikk.length > 0 && iaSaker) {
+    if (virksomhetsinformasjon &&
+        sykefraværsstatistikk &&
+        sykefraværsstatistikk.length > 0 &&
+        iaSaker &&
+        iaSakshendelser
+    ) {
         const statistikkForSisteKvartal = filtrerPåSisteKvartal(sykefraværsstatistikk)
         const iaSak = aktivIaSak(iaSaker)
         return <VirksomhetOversikt
             virksomhet={virksomhetsinformasjon}
             sykefraværsstatistikk={statistikkForSisteKvartal}
             iaSak={iaSak}
-            sakshendelser={sakshendelser}
+            sakshendelser={iaSakshendelser ?? []}
         />
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>
     }
 };
 
-const aktivIaSak = (iaSaker: IASak[]) : IASak | undefined =>
-    iaSaker.find((sak) => sak.status !== IAProsessStatusEnum.enum.IKKE_AKTIV)
+const aktivIaSak = (iaSaker?: IASak[]) : IASak | undefined =>
+    iaSaker?.find((sak) => sak.status !== IAProsessStatusEnum.enum.IKKE_AKTIV)
 
 const sorterPåSisteÅrstallOgKvartal = (a: SykefraversstatistikkVirksomhet, b: SykefraversstatistikkVirksomhet) =>
     a.arstall !== b.arstall ? b.arstall - a.arstall : b.kvartal - a.kvartal
