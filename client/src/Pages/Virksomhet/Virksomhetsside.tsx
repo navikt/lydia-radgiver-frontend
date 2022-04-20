@@ -38,8 +38,7 @@ const Virksomhetsside = () => {
     if (virksomhetsinformasjon &&
         sykefraværsstatistikk &&
         sykefraværsstatistikk.length > 0 &&
-        iaSaker &&
-        iaSakshendelser
+        iaSaker
     ) {
         const statistikkForSisteKvartal = filtrerPåSisteKvartal(sykefraværsstatistikk)
         const iaSak = aktivIaSak(iaSaker)
