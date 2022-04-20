@@ -1,6 +1,6 @@
 import express, { NextFunction, Request, Response } from "express";
 import path from "path";
-import apiMetrics from "prometheus-api-metrics"
+import apiMetrics from "prometheus-api-metrics";
 
 import { LydiaApiProxy } from "./proxy";
 import {
@@ -14,33 +14,24 @@ import { AuthError } from "./error";
 import { hentInnloggetAnsattMiddleware } from "./brukerinfo";
 import { memorySessionManager, redisSessionManager } from "./RedisStore";
 
-
 export default class Application {
     expressApp: express.Express;
 
     constructor(config: Config = new Config()) {
         const basePath = "/lydia-radgiver";
         const buildPath = path.resolve(__dirname, "../client/dist");
-        const storybookPath = path.resolve(__dirname, "../client/storybook-static");
         this.expressApp = express();
-        this.expressApp.set("trust proxy", 1)
+        this.expressApp.set("trust proxy", 1);
 
-        this.expressApp.use(apiMetrics())
+        this.expressApp.use(apiMetrics());
 
         this.expressApp.get(["/internal/isAlive", "/internal/isReady"], (req, res) => {
             res.sendStatus(200);
         });
 
-
         this.expressApp.use(`${basePath}`, express.static(buildPath));
         this.expressApp.use(`${basePath}/*`, express.static(buildPath));
         this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
-
-        this.expressApp.use("/internal/storybook", express.static(storybookPath));
-        this.expressApp.use(
-            "/storybook-static/assets",
-            express.static(`${storybookPath}/assets`)
-        );
 
         this.expressApp.use(
             ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
