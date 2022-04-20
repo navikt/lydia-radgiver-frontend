@@ -3,7 +3,7 @@ import {IAProsessStatusEnum, IASak} from "../../domenetyper";
 import styled from "styled-components";
 import {hentBadgeFraStatus} from "../Prioritering/StatusBadge";
 import {HorizontalFlexboxDiv} from "../Prioritering/HorizontalFlexboxDiv";
-import {opprettSak} from "../../api/lydia-api";
+import {nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
 
 export interface IASakOversiktProps {
     orgnummer: string,
@@ -35,7 +35,7 @@ const IASakOversikt = ({ orgnummer, iaSak, className } : IASakOversiktProps) => 
             {iaSak.eidAv && <p>Eier: {iaSak.eidAv}</p>}
             <HorizontalFlexboxDiv>
                 {iaSak.gyldigeNesteHendelser.map(hendelse => {
-                    return <Button key={hendelse}>{hendelse}</Button>
+                    return <Button key={hendelse} onClick={() => nyHendelsePåSak(iaSak, hendelse)}>{hendelse}</Button>
                 })}
             </HorizontalFlexboxDiv>
         </div>

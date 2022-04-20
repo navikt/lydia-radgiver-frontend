@@ -3,7 +3,7 @@ import {ComponentMeta} from "@storybook/react";
 import {StyledIaSakOversikt} from "./IASakOversikt";
 import {iaSakIkkeAktuell, iaSakKontaktes, iaSakVurderesMedEier, iaSakVurderesUtenEier} from "./mocks/iaSakMock";
 import {rest} from "msw";
-import {iasakPath} from "../../api/lydia-api";
+import {iaSakPath, iaSakPostNyHendelsePath} from "../../api/lydia-api";
 
 export default {
     title: "Virksomhet/Oversikt over IA-sak",
@@ -19,7 +19,7 @@ export const IkkeAktiv = () => (
 IkkeAktiv.parameters = {
     msw: {
         handlers: [
-            rest.post(`${iasakPath}/:orgnummer`, (req, res, ctx) => {
+            rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
                 return res(
                     ctx.json(iaSakVurderesUtenEier)
                 )
@@ -31,6 +31,18 @@ IkkeAktiv.parameters = {
 export const VurderesUtenEier = () => (
     <StyledIaSakOversikt iaSak={iaSakVurderesUtenEier} orgnummer={orgnummer}/>
 );
+
+VurderesUtenEier.parameters = {
+    msw: {
+        handlers: [
+            rest.post(`${iaSakPostNyHendelsePath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(iaSakVurderesMedEier)
+                )
+            }),
+        ]
+    },
+}
 
 export const VurderesMedEierEier = () => (
     <StyledIaSakOversikt iaSak={iaSakVurderesMedEier} orgnummer={"987654321"}/>

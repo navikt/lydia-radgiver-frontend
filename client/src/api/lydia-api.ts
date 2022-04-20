@@ -2,7 +2,7 @@ import {
     Filterverdier,
     filterverdierSchema,
     IASak,
-    iaSakSchema, IASakshendelse, iaSakshendelseSchema,
+    iaSakSchema, IASakshendelse, iaSakshendelseSchema, IASakshendelseType,
     NavAnsatt,
     navAnsattSchema,
     SykefraversstatistikkVirksomhet,
@@ -21,8 +21,9 @@ const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
 const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
 const virksomhetsPath = `${basePath}/virksomhet`
 const innloggetAnsattPath = `/innloggetAnsatt`;
-export const iasakPath = `${basePath}/iasak/radgiver`;
-export const iasakHentHendelserPath = `${iasakPath}/hendelser`;
+export const iaSakPath = `${basePath}/iasak/radgiver`;
+export const iaSakHentHendelserPath = `${iaSakPath}/hendelser`;
+export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -124,19 +125,37 @@ export const useHentBrukerinformasjon = () =>
     useSwrTemplate<NavAnsatt>(innloggetAnsattPath, navAnsattSchema);
 
 export const useHentSakerForVirksomhet = (orgnummer?: string) => {
-    const iasakUrl = `${iasakPath}/${orgnummer}`
+    const iasakUrl = `${iaSakPath}/${orgnummer}`
     return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array())
 }
 
 export const useHentSakshendelserPåSak = (sak?: IASak) => {
     return useSwrTemplate<IASakshendelse[]>(
-        () => sak? `${iasakHentHendelserPath}/${sak.saksnummer}` : null,
+        () => sak? `${iaSakHentHendelserPath}/${sak.saksnummer}` : null,
         iaSakshendelseSchema.array()
     )
 }
 
 export const opprettSak = (orgnummer: string): Promise<IASak> =>
-    post(`${iasakPath}/${orgnummer}`, iaSakSchema)
+    post(`${iaSakPath}/${orgnummer}`, iaSakSchema)
+
+
+interface IANySakshendelse {
+    orgnummer : string,
+    saksnummer : string,
+    hendelsesType : string,
+    endretAvHendelseId : string
+}
+
+export const nyHendelsePåSak = (sak: IASak, hendelsesType : IASakshendelseType): Promise<IASak> => {
+    const nyHendelseDto : IANySakshendelse = {
+        orgnummer : sak.orgnr,
+        saksnummer : sak.saksnummer,
+        hendelsesType : hendelsesType,
+        endretAvHendelseId : sak.endretAvHendelseId
+    }
+    return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto)
+}
 
 const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     const params = new URLSearchParams();
