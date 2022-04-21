@@ -46,6 +46,7 @@ const PrioriteringsTabell = ({sykefraværsstatistikk, className, side, antallSid
                                 status={sykefraværStatistikkVirksomhet.status}/></Table.DataCell>
                             <Table.HeaderCell scope="row">
                                 <Link
+                                    target="_blank"
                                     href={`virksomhet/${sykefraværStatistikkVirksomhet.orgnr}`}>
                                     {sykefraværStatistikkVirksomhet.virksomhetsnavn}
                                 </Link>
