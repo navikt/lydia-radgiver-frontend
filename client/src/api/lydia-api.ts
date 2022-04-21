@@ -47,7 +47,10 @@ const get = <T>(url: string, schema: ZodType<T>) : Promise<T> =>
 const post = <T>(url: string, schema: ZodType<T>, body? : any) : Promise<T> =>
     fetch(url, {
         method: "POST",
-        body: JSON.stringify(body)
+        body: JSON.stringify(body),
+        headers: {
+            'Content-Type': 'application/json'
+        },
     })
         .then((res) => res.json())
         .then((data) => {
