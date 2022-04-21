@@ -43,7 +43,7 @@ const AppRamme = styled.div`
 
 const Dekoratør = ({ navAnsatt }: { navAnsatt?: NavAnsatt }) => (
     <Header className="w-full">
-        <Header.Title as="h1">Lydia</Header.Title>
+        <Header.Title as="h1">Fia</Header.Title>
         {navAnsatt && (
             <Header.User
                 name={navAnsatt.navn}
