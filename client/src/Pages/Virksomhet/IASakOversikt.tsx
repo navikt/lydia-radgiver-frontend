@@ -1,42 +1,69 @@
-import {BodyShort, Button} from "@navikt/ds-react";
+import {Alert, BodyShort, Button} from "@navikt/ds-react";
 import {IAProsessStatusEnum, IASak} from "../../domenetyper";
 import styled from "styled-components";
 import {hentBadgeFraStatus} from "../Prioritering/StatusBadge";
 import {HorizontalFlexboxDiv} from "../Prioritering/HorizontalFlexboxDiv";
 import {nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
+import {useState} from "react";
 
 export interface IASakOversiktProps {
     orgnummer: string,
     iaSak?: IASak,
-    className? : string,
+    className?: string,
 }
 
-function IngenAktiveSaker({className, orgnummer}: {className?: string, orgnummer: string}) {
+interface IngenAktiveSakerProps {
+    className?: string,
+    orgnummer: string,
+    oppdaterSak: (iaSak: IASak) => void
+    oppdaterFeilmelding: (feilmelding: string) => void
+}
+
+
+function IngenAktiveSaker({className, orgnummer, oppdaterSak, oppdaterFeilmelding}: IngenAktiveSakerProps) {
 
     return (
         <div className={className}>
             <BodyShort>
                 Status: {hentBadgeFraStatus(IAProsessStatusEnum.enum.IKKE_AKTIV).text}
             </BodyShort>
-            <br />
-            <Button onClick={() => opprettSak(orgnummer)}>Vurderes</Button>
+            <br/>
+            <Button onClick={() =>
+                opprettSak(orgnummer)
+                    .then(sak => oppdaterSak(sak))
+                    .catch(() => oppdaterFeilmelding("Fikk ikke til å opprette IA-sak"))
+            }>Vurderes</Button>
         </div>
     )
 }
 
-const IASakOversikt = ({ orgnummer, iaSak, className } : IASakOversiktProps) => {
-    if (!iaSak)
-        return (<IngenAktiveSaker className={className} orgnummer={orgnummer} />)
+const IASakOversikt = ({orgnummer, iaSak, className}: IASakOversiktProps) => {
+    const [sak, setSak] = useState<IASak | undefined>(iaSak)
+    const [feilmelding, setFeilmelding] = useState<string>();
+
+    const oppdaterSak = (sak: IASak) => setSak(sak)
+    const oppdaterFeilmelding = (feilmelding: string) => setFeilmelding(feilmelding)
+
+    if (!sak)
+        return (<IngenAktiveSaker className={className} orgnummer={orgnummer} oppdaterSak={oppdaterSak}
+                                  oppdaterFeilmelding={oppdaterFeilmelding}/>)
+
 
     return (
         <div className={className}>
-            <p><b>Saksnummer:</b> {iaSak.saksnummer}</p>
-            <p>Status: {hentBadgeFraStatus(iaSak.status).text}</p>
-            {iaSak.eidAv && <p>Eier: {iaSak.eidAv}</p>}
+            <p><b>Saksnummer:</b> {sak.saksnummer}</p>
+            <p>Status: {hentBadgeFraStatus(sak.status).text}</p>
+            {sak.eidAv && <p>Eier: {sak.eidAv}</p>}
             <HorizontalFlexboxDiv>
-                {iaSak.gyldigeNesteHendelser.map(hendelse => {
-                    return <Button key={hendelse} onClick={() => nyHendelsePåSak(iaSak, hendelse)}>{hendelse}</Button>
+                {sak.gyldigeNesteHendelser.map(hendelse => {
+                    return <Button key={hendelse} onClick={() => {
+                        nyHendelsePåSak(sak, hendelse)
+                            .then(sak => oppdaterSak(sak))
+                            .catch(() => oppdaterFeilmelding("Fikk ikke til å oppdatere IA-saken"))
+                    }
+                    }>{hendelse}</Button>
                 })}
+                {feilmelding && <Alert variant={"error"}>{feilmelding}</Alert>}
             </HorizontalFlexboxDiv>
         </div>
     )

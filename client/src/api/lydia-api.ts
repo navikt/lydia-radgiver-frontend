@@ -34,16 +34,6 @@ const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
     fetch(...args).then((res) => res.json());
 
 
-const get = <T>(url: string, schema: ZodType<T>) : Promise<T> =>
-    fetch(url, {
-        method: "GET"
-    })
-        .then((res) => res.json())
-        .then((data) => {
-            const safeparsed = schema.safeParse(data)
-            return safeparsed.success ? safeparsed.data : Promise.reject(safeparsed.error)
-        });
-
 const post = <T>(url: string, schema: ZodType<T>, body? : any) : Promise<T> =>
     fetch(url, {
         method: "POST",
@@ -52,11 +42,12 @@ const post = <T>(url: string, schema: ZodType<T>, body? : any) : Promise<T> =>
             'Content-Type': 'application/json'
         },
     })
-        .then((res) => res.json())
-        .then((data) => {
+        .then(res => res.ok ? res : Promise.reject(res.statusText))
+        .then(res => res.json())
+        .then(data => {
             const safeparsed = schema.safeParse(data)
             return safeparsed.success ? safeparsed.data : Promise.reject(safeparsed.error)
-        });
+        })
 
 const useSwrTemplate = <T>(path: string | (() => string | null) | null, schema: ZodType<T>, config: SWRConfiguration = defaultSwrConfiguration) => {
     const { data, error: fetchError } = useSWR<T>(path, defaultFetcher, {

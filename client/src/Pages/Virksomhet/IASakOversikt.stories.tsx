@@ -44,6 +44,20 @@ VurderesUtenEier.parameters = {
     },
 }
 
+export const VurderesUtenEierMedFeilmelding = () => (
+    <StyledIaSakOversikt iaSak={iaSakVurderesUtenEier} orgnummer={orgnummer}/>
+);
+
+VurderesUtenEierMedFeilmelding.parameters = {
+    msw: {
+        handlers: [
+            rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
+                return res(ctx.status(415))
+            }),
+        ]
+    },
+}
+
 export const VurderesMedEierEier = () => (
     <StyledIaSakOversikt iaSak={iaSakVurderesMedEier} orgnummer={"987654321"}/>
 );
