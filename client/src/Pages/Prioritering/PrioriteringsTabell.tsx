@@ -28,7 +28,7 @@ const PrioriteringsTabell = ({sykefraværsstatistikk, className, side, antallSid
 
     return (
         <div className={className}>
-            <Table zebraStripes>
+            <Table zebraStripes size={"small"}>
                 <Table.Header className={"table-header"}>
                     <Table.Row>
                         {kolonneNavn.map((navn) => (
