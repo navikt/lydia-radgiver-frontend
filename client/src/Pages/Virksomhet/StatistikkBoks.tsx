@@ -30,15 +30,13 @@ interface Props {
     tittel: string
     bakgrunnsfarge: string
     type: FormatterType
-    inheritColor?: boolean
 }
 
-export const StatistikkBoks = ({ verdi, tittel, type, bakgrunnsfarge, inheritColor = false }: Props) => {
+export const StatistikkBoks = ({ verdi, tittel, type, bakgrunnsfarge }: Props) => {
     const formatter = getFormatter(type)
     return (<div style={{width: "12rem"}}>
         <Badge color="white" backgroundColor={bakgrunnsfarge} text={tittel} customStyles={{ width: "inherit"}} />
         <div style={{
-            color: inheritColor ? bakgrunnsfarge : "black",
             textAlign: "center"
         }}>
             <p style={{
