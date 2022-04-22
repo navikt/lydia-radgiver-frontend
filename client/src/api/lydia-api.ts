@@ -2,7 +2,10 @@ import {
     Filterverdier,
     filterverdierSchema,
     IASak,
-    iaSakSchema, IASakshendelse, iaSakshendelseSchema, IASakshendelseType,
+    iaSakSchema,
+    IASakshendelse,
+    iaSakshendelseSchema,
+    IASakshendelseType,
     NavAnsatt,
     navAnsattSchema,
     SykefraversstatistikkVirksomhet,
@@ -13,13 +16,13 @@ import {
     Virksomhet,
     virksomhetsSchema,
 } from "../domenetyper";
-import useSWR, {SWRConfiguration} from "swr";
-import {ZodType} from "zod";
+import useSWR, { SWRConfiguration } from "swr";
+import { ZodType } from "zod";
 
 const basePath = "/api";
-const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
-const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
-const virksomhetsPath = `${basePath}/virksomhet`
+export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
+export const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
+const virksomhetsPath = `${basePath}/virksomhet`;
 const innloggetAnsattPath = `/innloggetAnsatt`;
 export const iaSakPath = `${basePath}/iasak/radgiver`;
 export const iaSakHentHendelserPath = `${iaSakPath}/hendelser`;
@@ -27,32 +30,37 @@ export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
-    revalidateOnReconnect: false
-}
+    revalidateOnReconnect: false,
+};
 
 const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
     fetch(...args).then((res) => res.json());
 
-
-const post = <T>(url: string, schema: ZodType<T>, body? : any) : Promise<T> =>
+const post = <T>(url: string, schema: ZodType<T>, body?: any): Promise<T> =>
     fetch(url, {
         method: "POST",
         body: JSON.stringify(body),
         headers: {
-            'Content-Type': 'application/json'
+            "Content-Type": "application/json",
         },
     })
-        .then(res => res.ok ? res : Promise.reject(res.statusText))
-        .then(res => res.json())
-        .then(data => {
-            const safeparsed = schema.safeParse(data)
-            return safeparsed.success ? safeparsed.data : Promise.reject(safeparsed.error)
-        })
+        .then((res) => (res.ok ? res : Promise.reject(res.statusText)))
+        .then((res) => res.json())
+        .then((data) => {
+            const safeparsed = schema.safeParse(data);
+            return safeparsed.success
+                ? safeparsed.data
+                : Promise.reject(safeparsed.error);
+        });
 
-const useSwrTemplate = <T>(path: string | (() => string | null) | null, schema: ZodType<T>, config: SWRConfiguration = defaultSwrConfiguration) => {
+const useSwrTemplate = <T>(
+    path: string | (() => string | null) | null,
+    schema: ZodType<T>,
+    config: SWRConfiguration = defaultSwrConfiguration
+) => {
     const { data, error: fetchError } = useSWR<T>(path, defaultFetcher, {
         ...defaultSwrConfiguration,
-        ...config
+        ...config,
     });
     if (!data && !fetchError) {
         return {
@@ -90,66 +98,75 @@ const useSwrTemplate = <T>(path: string | (() => string | null) | null, schema: 
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);
 
-export const useSykefraværsstatistikk = ({søkeverdier = {}, initierSøk = true}: {
-    søkeverdier?: Søkeverdier,
-    initierSøk?: boolean
+export const useSykefraværsstatistikk = ({
+    søkeverdier = {},
+    initierSøk = true,
+}: {
+    søkeverdier?: Søkeverdier;
+    initierSøk?: boolean;
 }) => {
-    const sykefraværUrl = `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(søkeverdier).toString()}`;
+    const sykefraværUrl = `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(
+        søkeverdier
+    ).toString()}`;
     return useSwrTemplate<SykefraværsstatistikkVirksomhetRespons>(
         initierSøk ? sykefraværUrl : null,
         sykefraværListeResponsSchema
     );
 };
 
-export const useHentSykefraværsstatistikkForVirksomhet = (orgnummer?: string) => {
+export const useHentSykefraværsstatistikkForVirksomhet = (
+    orgnummer?: string
+) => {
     return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(
         orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}` : null,
         sykefraversstatistikkVirksomhetListeSchema
     );
-}
+};
 
 export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
     return useSwrTemplate<Virksomhet>(
         orgnummer ? `${virksomhetsPath}/${orgnummer}` : null,
         virksomhetsSchema
     );
-}
+};
 
 export const useHentBrukerinformasjon = () =>
     useSwrTemplate<NavAnsatt>(innloggetAnsattPath, navAnsattSchema);
 
 export const useHentSakerForVirksomhet = (orgnummer?: string) => {
-    const iasakUrl = `${iaSakPath}/${orgnummer}`
-    return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array())
-}
+    const iasakUrl = `${iaSakPath}/${orgnummer}`;
+    return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array());
+};
 
 export const useHentSakshendelserPåSak = (sak?: IASak) => {
     return useSwrTemplate<IASakshendelse[]>(
-        () => sak? `${iaSakHentHendelserPath}/${sak.saksnummer}` : null,
+        () => (sak ? `${iaSakHentHendelserPath}/${sak.saksnummer}` : null),
         iaSakshendelseSchema.array()
-    )
-}
+    );
+};
 
 export const opprettSak = (orgnummer: string): Promise<IASak> =>
-    post(`${iaSakPath}/${orgnummer}`, iaSakSchema)
-
+    post(`${iaSakPath}/${orgnummer}`, iaSakSchema);
 
 interface IANySakshendelse {
-    orgnummer : string,
-    saksnummer : string,
-    hendelsesType : string,
-    endretAvHendelseId : string
+    orgnummer: string;
+    saksnummer: string;
+    hendelsesType: string;
+    endretAvHendelseId: string;
 }
 
-export const nyHendelsePåSak = (sak: IASak, hendelsesType : IASakshendelseType): Promise<IASak> => {
-    const nyHendelseDto : IANySakshendelse = {
-        orgnummer : sak.orgnr,
-        saksnummer : sak.saksnummer,
-        hendelsesType : hendelsesType,
-        endretAvHendelseId : sak.endretAvHendelseId
-    }
-    return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto)
-}
+export const nyHendelsePåSak = (
+    sak: IASak,
+    hendelsesType: IASakshendelseType
+): Promise<IASak> => {
+    const nyHendelseDto: IANySakshendelse = {
+        orgnummer: sak.orgnr,
+        saksnummer: sak.saksnummer,
+        hendelsesType: hendelsesType,
+        endretAvHendelseId: sak.endretAvHendelseId,
+    };
+    return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
+};
 
 const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     const params = new URLSearchParams();
@@ -178,9 +195,7 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     params.append("ansatteFra", `${søkeverdier.antallAnsatteRange?.fra || ""}`);
     params.append("ansatteTil", `${søkeverdier.antallAnsatteRange?.til || ""}`);
     params.append("sorteringsnokkel", søkeverdier.sorteringsnokkel ?? "");
-    params.append("iaStatus", søkeverdier.iastatus ?? "")
-    params.append("side", `${søkeverdier.side}`)
+    params.append("iaStatus", søkeverdier.iastatus ?? "");
+    params.append("side", `${søkeverdier.side}`);
     return params;
 };
-
-
