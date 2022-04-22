@@ -16,7 +16,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": "X123456"
 }, {
     "orgnr": "974557746",
     "virksomhetsnavn": "MUJAFAS BMW",
@@ -26,7 +27,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "974706490",
     "virksomhetsnavn": "HERMETISKE TOMATER",
@@ -36,7 +38,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": "Z123456"
 }, {
     "orgnr": "974589095",
     "virksomhetsnavn": "RUNE RUDBERGS RÅNEHJØRNE",
@@ -46,7 +49,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "973861778",
     "virksomhetsnavn": "ANANAS RINGER",
@@ -56,7 +60,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": "A123456"
 }, {
     "orgnr": "874716782",
     "virksomhetsnavn": "PARADIS PIZZA",
@@ -66,7 +71,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "974749025",
     "virksomhetsnavn": "KONG OLAV DEN HELLIGE",
@@ -76,7 +82,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "974703300",
     "virksomhetsnavn": "JALLA BEDRIFT",
@@ -86,7 +93,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "974633752",
     "virksomhetsnavn": "SKATTEFENGSELET",
@@ -96,7 +104,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "974795787",
     "virksomhetsnavn": "VIRKSOMHET AS",
@@ -106,7 +115,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "985674744",
     "virksomhetsnavn": "SAMMA GAMLA VANLIGA",
@@ -116,7 +126,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "974631326",
     "virksomhetsnavn": "NORTHUG",
@@ -126,7 +137,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "974757486",
     "virksomhetsnavn": "VINDRUER AS",
@@ -136,7 +148,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "998801389",
     "virksomhetsnavn": "BARCLAYS",
@@ -146,7 +159,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "973851713",
     "virksomhetsnavn": "CHELSEA FC",
@@ -156,7 +170,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "974733013",
     "virksomhetsnavn": "GODSET FRA DRAMMEN",
@@ -166,7 +181,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "980054756",
     "virksomhetsnavn": "STATSMINISTERENS KONTOR",
@@ -176,7 +192,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "974633574",
     "virksomhetsnavn": "JØRGEN HATTEMAKER",
@@ -186,7 +203,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "974633191",
     "virksomhetsnavn": "KRITTBUTIKKEN",
@@ -196,7 +214,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": null
 }, {
     "orgnr": "974747138",
     "virksomhetsnavn": "NEI AS",
@@ -206,5 +225,6 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTUELL
+    "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
+    "eidAv": null
 }]

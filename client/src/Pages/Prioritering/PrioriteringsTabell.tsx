@@ -12,6 +12,7 @@ const kolonneNavn = [
     'Antall arbeidsforhold',
     'Tapte dagsverk',
     'Mulige dagsverk',
+    'Kontaktperson'
 ]
 
 
@@ -55,6 +56,7 @@ const PrioriteringsTabell = ({sykefraværsstatistikk, className, side, antallSid
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.antallPersoner}</Table.DataCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.tapteDagsverk}</Table.DataCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.muligeDagsverk}</Table.DataCell>
+                            <Table.DataCell>{sykefraværStatistikkVirksomhet.eidAv}</Table.DataCell>
                         </Table.Row>
                     ))}
                 </Table.Body>
