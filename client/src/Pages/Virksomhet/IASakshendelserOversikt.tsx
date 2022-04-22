@@ -41,7 +41,7 @@ const IASakshendelserTabell = ({sakshendelser}: { sakshendelser: IASakshendelse[
                 {sakshendelser.map((sakshendelse) => (
                     <Table.Row key={sakshendelse.id}>
                         <Table.DataCell>{sakshendelse.hendelsestype}</Table.DataCell>
-                        <Table.DataCell>{sakshendelse.opprettetTidspunkt.toLocaleDateString()}</Table.DataCell>
+                        <Table.DataCell>{sakshendelse.opprettetTidspunkt.toLocaleString()}</Table.DataCell>
                         <Table.DataCell>{sakshendelse.opprettetAv}</Table.DataCell>
                     </Table.Row>
                 ))}
