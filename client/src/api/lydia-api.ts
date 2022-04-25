@@ -118,7 +118,10 @@ export const useSykefraværsstatistikk = ({
     const sykefraværUrl = getSykefraværsstatistikkUrl(søkeverdier);
     return useSwrTemplate<SykefraværsstatistikkVirksomhetRespons>(
         initierSøk ? sykefraværUrl : null,
-        sykefraværListeResponsSchema
+        sykefraværListeResponsSchema,
+        {
+            revalidateOnMount: true,
+        }
     );
 };
 

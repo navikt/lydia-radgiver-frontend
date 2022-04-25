@@ -9,7 +9,6 @@ import { hentBadgeFraStatus } from "../Prioritering/StatusBadge";
 import { HorizontalFlexboxDiv } from "../Prioritering/HorizontalFlexboxDiv";
 import { nyHendelsePåSak, opprettSak } from "../../api/lydia-api";
 import { useState } from "react";
-import { useSWRConfig } from "swr";
 
 export interface IASakOversiktProps {
     orgnummer: string;
@@ -84,11 +83,7 @@ export const IASakOversikt = ({ orgnummer, iaSak }: IASakOversiktProps) => {
                             key={hendelse}
                             onClick={() => {
                                 nyHendelsePåSak(sak, hendelse)
-                                    .then((sak) => {
-                                        const { cache } = useSWRConfig();
-                                        console.log(cache.keys());
-                                        return oppdaterSak(sak);
-                                    })
+                                    .then((sak) => oppdaterSak(sak))
                                     .catch(() =>
                                         oppdaterFeilmelding(
                                             "Fikk ikke til å oppdatere IA-saken"
