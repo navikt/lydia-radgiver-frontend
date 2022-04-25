@@ -28,10 +28,14 @@ const Prioriteringsside = () => {
     const [side, setSide] = useState(1);
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>({ side });
     const [skalSøke, setSkalSøke] = useState(false);
-    const skalViseTabell = sykefraværsstatistikk && !skalSøke;
+    const skalViseTabell = !!sykefraværsstatistikk.length && !skalSøke;
 
     const { data: filterverdier } = useFilterverdier();
-    const { data: sfStatistikkFraApi, error } = useSykefraværsstatistikk({
+    const {
+        data: sfStatistikkFraApi,
+        error,
+        loading,
+    } = useSykefraværsstatistikk({
         søkeverdier,
         initierSøk: skalSøke,
     });
@@ -76,7 +80,7 @@ const Prioriteringsside = () => {
                 />
             )}
             <div style={{ textAlign: "center" }}>
-                {skalSøke && (
+                {loading && (
                     <Loader
                         title={"Henter sykefraværsstatistikk"}
                         variant={"interaction"}

@@ -18,6 +18,7 @@ import {
 } from "../domenetyper";
 import useSWR, { SWRConfiguration } from "swr";
 import { ZodType } from "zod";
+import { useEffect, useState } from "react";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -36,22 +37,29 @@ const defaultSwrConfiguration: SWRConfiguration = {
 const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
     fetch(...args).then((res) => res.json());
 
+const fetchNative =
+    (method: "GET" | "POST" | "DELETE" | "PUT") =>
+    <T>(url: string, schema: ZodType<T>, body?: any): Promise<T> =>
+        fetch(url, {
+            method,
+            body: body ? JSON.stringify(body) : undefined,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => (res.ok ? res : Promise.reject(res.statusText)))
+            .then((res) => res.json())
+            .then((data) => {
+                const safeparsed = schema.safeParse(data);
+                return safeparsed.success
+                    ? safeparsed.data
+                    : Promise.reject(safeparsed.error);
+            });
+
 const post = <T>(url: string, schema: ZodType<T>, body?: any): Promise<T> =>
-    fetch(url, {
-        method: "POST",
-        body: JSON.stringify(body),
-        headers: {
-            "Content-Type": "application/json",
-        },
-    })
-        .then((res) => (res.ok ? res : Promise.reject(res.statusText)))
-        .then((res) => res.json())
-        .then((data) => {
-            const safeparsed = schema.safeParse(data);
-            return safeparsed.success
-                ? safeparsed.data
-                : Promise.reject(safeparsed.error);
-        });
+    fetchNative("POST")(url, schema, body);
+const get = <T>(url: string, schema: ZodType<T>): Promise<T> =>
+    fetchNative("GET")(url, schema);
 
 const useSwrTemplate = <T>(
     path: string | (() => string | null) | null,
@@ -115,14 +123,32 @@ export const useSykefraværsstatistikk = ({
     søkeverdier?: Søkeverdier;
     initierSøk?: boolean;
 }) => {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [sykefravær, setSykefravær] =
+        useState<SykefraværsstatistikkVirksomhetRespons>();
+
     const sykefraværUrl = getSykefraværsstatistikkUrl(søkeverdier);
-    return useSwrTemplate<SykefraværsstatistikkVirksomhetRespons>(
-        initierSøk ? sykefraværUrl : null,
-        sykefraværListeResponsSchema,
-        {
-            revalidateOnMount: true,
+
+    useEffect(() => {
+        if (initierSøk) {
+            setLoading(true);
+
+            get(sykefraværUrl, sykefraværListeResponsSchema)
+                .then((response) => {
+                    setError("");
+                    setSykefravær(response);
+                })
+                .catch((e) => {
+                    setError(e.message);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
         }
-    );
+    }, [sykefraværUrl, initierSøk]);
+
+    return { error, loading, data: sykefravær };
 };
 
 export const useHentSykefraværsstatistikkForVirksomhet = (
