@@ -38,7 +38,13 @@ const Prioriteringsside = () => {
     } = useSykefraværsstatistikk({ søkeverdier, initierSøk: skalSøke });
     useEffect(() => {
         if (sfStatistikkFraApi) {
-            mutate?.();
+            mutate?.(sfStatistikkFraApi);
+            console.table(
+                sfStatistikkFraApi.data.map(({ orgnr, status }) => ({
+                    orgnr,
+                    status,
+                }))
+            );
             setSykefraværsstatistikk(sfStatistikkFraApi.data);
             setAntallSider(Math.round(sfStatistikkFraApi.total / 50));
             setSkalSøke(false);
