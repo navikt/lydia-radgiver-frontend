@@ -58,7 +58,11 @@ const useSwrTemplate = <T>(
     schema: ZodType<T>,
     config: SWRConfiguration = defaultSwrConfiguration
 ) => {
-    const { data, error: fetchError } = useSWR<T>(path, defaultFetcher, {
+    const {
+        data,
+        error: fetchError,
+        mutate,
+    } = useSWR<T>(path, defaultFetcher, {
         ...defaultSwrConfiguration,
         ...config,
     });
@@ -90,10 +94,16 @@ const useSwrTemplate = <T>(
     }
     return {
         data: safeParseResultat.data,
+        mutate,
         error: undefined,
         loading: false,
     };
 };
+
+const getSykefraværsstatistikkUrl = (søkeverdier: Søkeverdier) =>
+    `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(
+        søkeverdier
+    ).toString()}`;
 
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);
@@ -105,9 +115,7 @@ export const useSykefraværsstatistikk = ({
     søkeverdier?: Søkeverdier;
     initierSøk?: boolean;
 }) => {
-    const sykefraværUrl = `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(
-        søkeverdier
-    ).toString()}`;
+    const sykefraværUrl = getSykefraværsstatistikkUrl(søkeverdier);
     return useSwrTemplate<SykefraværsstatistikkVirksomhetRespons>(
         initierSøk ? sykefraværUrl : null,
         sykefraværListeResponsSchema
