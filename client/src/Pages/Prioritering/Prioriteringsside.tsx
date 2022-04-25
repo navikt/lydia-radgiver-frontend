@@ -38,7 +38,9 @@ const Prioriteringsside = () => {
     } = useSykefraværsstatistikk({ søkeverdier, initierSøk: skalSøke });
     useEffect(() => {
         if (sfStatistikkFraApi) {
-            mutate?.(sfStatistikkFraApi);
+            mutate?.(sfStatistikkFraApi, {
+                revalidate: true,
+            });
             console.table(
                 sfStatistikkFraApi.data.map(({ orgnr, status }) => ({
                     orgnr,
