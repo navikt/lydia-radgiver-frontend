@@ -1,19 +1,19 @@
 import {ComponentMeta} from "@storybook/react";
 
-import {StyledIaSakOversikt} from "./IASakOversikt";
+import {IASakOversikt} from "./IASakOversikt";
 import {iaSakIkkeAktuell, iaSakKontaktes, iaSakVurderesMedEier, iaSakVurderesUtenEier} from "./mocks/iaSakMock";
 import {rest} from "msw";
 import {iaSakPath, iaSakPostNyHendelsePath} from "../../api/lydia-api";
 
 export default {
     title: "Virksomhet/Oversikt over IA-sak",
-    component: StyledIaSakOversikt,
-} as ComponentMeta<typeof StyledIaSakOversikt>;
+    component: IASakOversikt,
+} as ComponentMeta<typeof IASakOversikt>;
 
 const orgnummer = "987654321"
 
 export const IkkeAktiv = () => (
-    <StyledIaSakOversikt orgnummer={"987654321"}/>
+    <IASakOversikt orgnummer={"987654321"}/>
 );
 
 IkkeAktiv.parameters = {
@@ -29,7 +29,7 @@ IkkeAktiv.parameters = {
 }
 
 export const VurderesUtenEier = () => (
-    <StyledIaSakOversikt iaSak={iaSakVurderesUtenEier} orgnummer={orgnummer}/>
+    <IASakOversikt iaSak={iaSakVurderesUtenEier} orgnummer={orgnummer}/>
 );
 
 VurderesUtenEier.parameters = {
@@ -45,7 +45,7 @@ VurderesUtenEier.parameters = {
 }
 
 export const VurderesUtenEierMedFeilmelding = () => (
-    <StyledIaSakOversikt iaSak={iaSakVurderesUtenEier} orgnummer={orgnummer}/>
+    <IASakOversikt iaSak={iaSakVurderesUtenEier} orgnummer={orgnummer}/>
 );
 
 VurderesUtenEierMedFeilmelding.parameters = {
@@ -59,13 +59,13 @@ VurderesUtenEierMedFeilmelding.parameters = {
 }
 
 export const VurderesMedEierEier = () => (
-    <StyledIaSakOversikt iaSak={iaSakVurderesMedEier} orgnummer={"987654321"}/>
+    <IASakOversikt iaSak={iaSakVurderesMedEier} orgnummer={"987654321"}/>
 );
 
 export const Kontaktes = () => (
-    <StyledIaSakOversikt iaSak={iaSakKontaktes} orgnummer={"987654321"}/>
+    <IASakOversikt iaSak={iaSakKontaktes} orgnummer={"987654321"}/>
 );
 
 export const IkkeAktuell = () => (
-    <StyledIaSakOversikt iaSak={iaSakIkkeAktuell} orgnummer={"987654321"}/>
+    <IASakOversikt iaSak={iaSakIkkeAktuell} orgnummer={"987654321"}/>
 );

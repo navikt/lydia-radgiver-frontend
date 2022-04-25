@@ -1,10 +1,9 @@
 import {IASak, IASakshendelse, SykefraversstatistikkVirksomhet, Virksomhet} from "../../domenetyper";
 import {VirksomhetInformasjon} from "./VirksomhetInformasjon";
-import {StyledIaSakOversikt} from "./IASakOversikt";
 import styled from "styled-components";
 import {SykefraværsstatistikkVirksomhet} from "./SykefraværsstatistikkVirksomhet";
 import {StyledIASakshendelserOversikt} from "./IASakshendelserOversikt";
-import {sakshendelserMock} from "./mocks/iaSakshendelserMock";
+import {IASakOversikt} from "./IASakOversikt";
 
 const VerticalFlex = styled.div`
     display: flex;
@@ -42,7 +41,7 @@ export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk, iaSak, s
                     <StyledVirksomhetsInformasjon virksomhet={virksomhet}/>
                     <SykefraværsstatistikkVirksomhet sykefraværsstatistikk={sykefraværsstatistikk}/>
                 </VerticalFlex>
-                <StyledIaSakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr}/>
+                <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr}/>
             </HorisontalFlexMedToppRamme>
             <br />
             <StyledIASakshendelserOversikt sakshendelser={sakshendelser}/>
