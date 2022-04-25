@@ -19,10 +19,13 @@ jobs:
               with:
                   node-version: "16"
             - name: Install deps
+              working-directory: client
               run: npm ci
             - name: Build storybook
+              working-directory: client
               run: npm run build-storybook
             - name: Deploy with gh-pages
+              working-directory: client
               run:
                   git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git
                   npm run deploy-storybook -- -u "github-actions-bot <support+actions@github.com>"
