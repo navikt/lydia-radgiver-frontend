@@ -1,4 +1,5 @@
 import express, { NextFunction, Request, Response } from "express";
+import helmet from "helmet";
 import path from "path";
 import apiMetrics from "prometheus-api-metrics";
 
@@ -24,10 +25,14 @@ export default class Application {
         this.expressApp.set("trust proxy", 1);
 
         this.expressApp.use(apiMetrics());
+        this.expressApp.use(helmet());
 
-        this.expressApp.get(["/internal/isAlive", "/internal/isReady"], (req, res) => {
-            res.sendStatus(200);
-        });
+        this.expressApp.get(
+            ["/internal/isAlive", "/internal/isReady"],
+            (req, res) => {
+                res.sendStatus(200);
+            }
+        );
 
         this.expressApp.use(`${basePath}`, express.static(buildPath));
         this.expressApp.use(`${basePath}/*`, express.static(buildPath));
@@ -38,7 +43,9 @@ export default class Application {
                 ? memorySessionManager()
                 : redisSessionManager()
         );
-        const lydiaApiProxy = new LydiaApiProxy(config).createExpressMiddleWare();
+        const lydiaApiProxy = new LydiaApiProxy(
+            config
+        ).createExpressMiddleWare();
         const tokenValidator =
             process.env.NAIS_CLUSTER_NAME === "lokal"
                 ? validerTokenFraFakedings(config.azure, config._jwkSet)
