@@ -213,7 +213,7 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     );
     params.append(
         "fylker",
-        søkeverdier.fylker?.map((fylke) => fylke.nummer).join(",") ?? ""
+        søkeverdier.fylker?.map((fylke) => fylke.nummer.replace(/\D/g, '')).join(",") ?? ""
     );
     params.append(
         "neringsgrupper",

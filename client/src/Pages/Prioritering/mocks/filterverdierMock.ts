@@ -1,4 +1,4 @@
-import {Filterverdier, IAProsessStatusEnum} from "../../../domenetyper";
+import { Filterverdier, IAProsessStatusEnum } from "../../../domenetyper";
 
 export const filterverdierMock: Filterverdier = {
     fylker: [
@@ -34,8 +34,45 @@ export const filterverdierMock: Filterverdier = {
                 },
             ],
         },
+        {
+            fylke: {
+                nummer: "V30",
+                navn: "Vest-Viken",
+            },
+            kommuner: [
+                {
+                    nummer: "3025",
+                    navn: "Asker",
+                },
+                {
+                    nummer: "3024",
+                    navn: "Bærum",
+                },
+            ],
+        },
+        {
+            fylke: {
+                nummer: "Ø30",
+                navn: "Øst-Viken",
+            },
+            kommuner: [
+                {
+                    nummer: "3026",
+                    navn: "Aurskog-Høland",
+                },
+                {
+                    nummer: "3036",
+                    navn: "Nannestad",
+                },
+            ],
+        },
     ],
-    statuser: [IAProsessStatusEnum.enum.IKKE_AKTIV, IAProsessStatusEnum.enum.VURDERES, IAProsessStatusEnum.enum.KONTAKTES, IAProsessStatusEnum.enum.IKKE_AKTUELL],
+    statuser: [
+        IAProsessStatusEnum.enum.IKKE_AKTIV,
+        IAProsessStatusEnum.enum.VURDERES,
+        IAProsessStatusEnum.enum.KONTAKTES,
+        IAProsessStatusEnum.enum.IKKE_AKTUELL,
+    ],
     neringsgrupper: [
         {
             kode: "01",
