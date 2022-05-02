@@ -17,8 +17,9 @@ import {
     virksomhetsSchema,
 } from "../domenetyper";
 import useSWR, { SWRConfiguration } from "swr";
-import { ZodType } from "zod";
+import { ZodError, ZodType } from "zod";
 import { useEffect, useState } from "react";
+import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -49,6 +50,15 @@ const fetchNative =
         })
             .then((res) => (res.ok ? res : Promise.reject(res.statusText)))
             .then((res) => res.json())
+            .catch((reason) => {
+                if (reason instanceof ZodError) {
+                    console.error(reason);
+                    return;
+                }
+                dispatchFeilmelding({
+                    feilmelding: reason?.message ?? JSON.stringify(reason),
+                });
+            })
             .then((data) => {
                 const safeparsed = schema.safeParse(data);
                 return safeparsed.success
@@ -82,6 +92,7 @@ const useSwrTemplate = <T>(
         };
     }
     if (fetchError) {
+        dispatchFeilmelding({ feilmelding: fetchError?.message });
         return {
             data: undefined,
             error: fetchError,
