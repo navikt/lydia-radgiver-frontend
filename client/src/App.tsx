@@ -2,26 +2,34 @@ import "@navikt/ds-css";
 import "@navikt/ds-css-internal";
 import { Header } from "@navikt/ds-react-internal";
 import styled from "styled-components";
-import {BrowserRouter, Route, Routes} from "react-router-dom";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
 import { useHentBrukerinformasjon } from "./api/lydia-api";
 import { NavAnsatt } from "./domenetyper";
 import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
 import { Breakpoint, forLargerThan } from "./styling/breakpoint";
 import Virksomhetsside from "./Pages/Virksomhet/Virksomhetsside";
+import { FeilmeldingBanner } from "./Pages/FeilmeldingBanner";
 
-const LYDIA_BASEPATH = "lydia-radgiver"
+const LYDIA_BASEPATH = "lydia-radgiver";
 
 function App() {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     return brukerInformasjon ? (
         <>
             <Dekoratør navAnsatt={brukerInformasjon} />
+            <FeilmeldingBanner />
             <BrowserRouter>
                 <AppRamme>
                     <Routes>
-                        <Route path={`${LYDIA_BASEPATH}/`} element={<Prioriteringsside/>}/>
-                        <Route path={`${LYDIA_BASEPATH}/virksomhet/:orgnummer`} element={<Virksomhetsside/>}/>
+                        <Route
+                            path={`${LYDIA_BASEPATH}/`}
+                            element={<Prioriteringsside />}
+                        />
+                        <Route
+                            path={`${LYDIA_BASEPATH}/virksomhet/:orgnummer`}
+                            element={<Virksomhetsside />}
+                        />
                     </Routes>
                 </AppRamme>
             </BrowserRouter>
