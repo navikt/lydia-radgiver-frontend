@@ -9,6 +9,7 @@ import { hentBadgeFraStatus } from "../Prioritering/StatusBadge";
 import { HorizontalFlexboxDiv } from "../Prioritering/HorizontalFlexboxDiv";
 import { nyHendelsePåSak, opprettSak } from "../../api/lydia-api";
 import { useState } from "react";
+import {oversettNavnPåSakshendelsestype} from "./IASakshendelserOversikt";
 
 export interface IASakOversiktProps {
     orgnummer: string;
@@ -59,17 +60,17 @@ export const IASakOversikt = ({ orgnummer, iaSak }: IASakOversiktProps) => {
             {sak.eidAv && <BodyShort>Eier: {sak.eidAv}</BodyShort>}
             <br />
             <HorizontalFlexboxDiv>
-                {sak.gyldigeNesteHendelser.map((hendelse) => {
+                {sak.gyldigeNesteHendelser.map((hendelsestype) => {
                     return (
                         <Button
-                            key={hendelse}
+                            key={hendelsestype}
                             onClick={() => {
-                                nyHendelsePåSak(sak, hendelse).then((sak) =>
+                                nyHendelsePåSak(sak, hendelsestype).then((sak) =>
                                     oppdaterSak(sak)
                                 );
                             }}
                         >
-                            {hendelse}
+                            {oversettNavnPåSakshendelsestype(hendelsestype)}
                         </Button>
                     );
                 })}

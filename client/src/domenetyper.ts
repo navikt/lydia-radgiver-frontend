@@ -110,14 +110,16 @@ export type NavAnsatt = z.infer<typeof navAnsattSchema>;
 export type Fylke = z.infer<typeof fylkeOgKommuneSchema>;
 export type Kommune = z.infer<typeof fylkeOgKommuneSchema>;
 
-const SAKS_HENDELSE_TYPE = [
+const IA_SAKSHENDELSE_TYPER = [
     "OPPRETT_SAK_FOR_VIRKSOMHET",
     "VIRKSOMHET_VURDERES",
     "TA_EIERSKAP_I_SAK",
     "VIRKSOMHET_SKAL_KONTAKTES",
     "VIRKSOMHET_ER_IKKE_AKTUELL",
 ] as const
-export const SaksHendelseType = z.enum(SAKS_HENDELSE_TYPE)
+
+export const IASakshendelseTypeEnum = z.enum(IA_SAKSHENDELSE_TYPER)
+export type IASakshendelseType = z.infer<typeof IASakshendelseTypeEnum>
 
 const IA_SAKS_TYPER = [
     "NAV_STOTTER",
@@ -136,21 +138,9 @@ export const iaSakSchema = z.object({
     endretAvHendelseId: z.string(),
     eidAv: z.string().nullable(),
     status: IAProsessStatusEnum,
-    gyldigeNesteHendelser: z.array(SaksHendelseType),
+    gyldigeNesteHendelser: z.array(IASakshendelseTypeEnum),
 })
 export type IASak = z.infer<typeof iaSakSchema>;
-
-
-const IA_SAKSHENDELSE_TYPER = [
-    "OPPRETT_SAK_FOR_VIRKSOMHET",
-    "VIRKSOMHET_VURDERES",
-    "TA_EIERSKAP_I_SAK",
-    "VIRKSOMHET_SKAL_KONTAKTES",
-    "VIRKSOMHET_ER_IKKE_AKTUELL",
-] as const
-
-export const IASakshendelseTypeEnum = z.enum(IA_SAKSHENDELSE_TYPER)
-export type IASakshendelseType = z.infer<typeof IASakshendelseTypeEnum>
 
 export const iaSakshendelseSchema = z.object({
     id: z.string(),
