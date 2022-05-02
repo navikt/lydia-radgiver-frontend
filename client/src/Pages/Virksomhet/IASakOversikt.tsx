@@ -1,4 +1,4 @@
-import { Alert, BodyShort, Button } from "@navikt/ds-react";
+import { BodyShort, Button } from "@navikt/ds-react";
 import {
     IAProsessStatusEnum,
     IAProsessStatusType,
@@ -18,14 +18,9 @@ export interface IASakOversiktProps {
 interface IngenAktiveSakerProps {
     orgnummer: string;
     oppdaterSak: (iaSak: IASak) => void;
-    oppdaterFeilmelding: (feilmelding: string) => void;
 }
 
-function IngenAktiveSaker({
-    orgnummer,
-    oppdaterSak,
-    oppdaterFeilmelding,
-}: IngenAktiveSakerProps) {
+function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
     return (
         <StyledIABakgrunn status={IAProsessStatusEnum.enum.IKKE_AKTIV}>
             <BodyShort>
@@ -35,13 +30,7 @@ function IngenAktiveSaker({
             <br />
             <Button
                 onClick={() =>
-                    opprettSak(orgnummer)
-                        .then((sak) => oppdaterSak(sak))
-                        .catch(() =>
-                            oppdaterFeilmelding(
-                                "Fikk ikke til å opprette IA-sak"
-                            )
-                        )
+                    opprettSak(orgnummer).then((sak) => oppdaterSak(sak))
                 }
             >
                 Vurderes
@@ -52,19 +41,12 @@ function IngenAktiveSaker({
 
 export const IASakOversikt = ({ orgnummer, iaSak }: IASakOversiktProps) => {
     const [sak, setSak] = useState<IASak | undefined>(iaSak);
-    const [feilmelding, setFeilmelding] = useState<string>();
 
     const oppdaterSak = (sak: IASak) => setSak(sak);
-    const oppdaterFeilmelding = (feilmelding: string) =>
-        setFeilmelding(feilmelding);
 
     if (!sak)
         return (
-            <IngenAktiveSaker
-                orgnummer={orgnummer}
-                oppdaterSak={oppdaterSak}
-                oppdaterFeilmelding={oppdaterFeilmelding}
-            />
+            <IngenAktiveSaker orgnummer={orgnummer} oppdaterSak={oppdaterSak} />
         );
 
     return (
@@ -82,20 +64,15 @@ export const IASakOversikt = ({ orgnummer, iaSak }: IASakOversiktProps) => {
                         <Button
                             key={hendelse}
                             onClick={() => {
-                                nyHendelsePåSak(sak, hendelse)
-                                    .then((sak) => oppdaterSak(sak))
-                                    .catch(() =>
-                                        oppdaterFeilmelding(
-                                            "Fikk ikke til å oppdatere IA-saken"
-                                        )
-                                    );
+                                nyHendelsePåSak(sak, hendelse).then((sak) =>
+                                    oppdaterSak(sak)
+                                );
                             }}
                         >
                             {hendelse}
                         </Button>
                     );
                 })}
-                {feilmelding && <Alert variant={"error"}>{feilmelding}</Alert>}
             </HorizontalFlexboxDiv>
         </StyledIABakgrunn>
     );
