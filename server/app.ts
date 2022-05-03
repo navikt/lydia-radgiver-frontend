@@ -32,8 +32,17 @@ export default class Application {
                 res.sendStatus(200);
             }
         );
-        this.expressApp.use("/", express.static(buildPath));
-        this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
+
+        const tokenValidator =
+            process.env.NAIS_CLUSTER_NAME === "lokal"
+                ? validerTokenFraFakedings(config.azure, config._jwkSet)
+                : validerTokenFraWonderwall(config.azure, config._jwkSet);
+
+        this.expressApp.use(
+            "/innloggetAnsatt",
+            tokenValidator,
+            hentInnloggetAnsattMiddleware
+        );
 
         this.expressApp.use(
             ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
@@ -43,10 +52,6 @@ export default class Application {
         const lydiaApiProxy = new LydiaApiProxy(
             config
         ).createExpressMiddleWare();
-        const tokenValidator =
-            process.env.NAIS_CLUSTER_NAME === "lokal"
-                ? validerTokenFraFakedings(config.azure, config._jwkSet)
-                : validerTokenFraWonderwall(config.azure, config._jwkSet);
 
         // Proxy må ligge under healthcheck endepunktene for at de skal nås
         this.expressApp.use(
@@ -60,11 +65,9 @@ export default class Application {
             lydiaApiProxy
         );
 
-        this.expressApp.use(
-            "/innloggetAnsatt",
-            tokenValidator,
-            hentInnloggetAnsattMiddleware
-        );
+        this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
+        this.expressApp.use("/", express.static(buildPath));
+        this.expressApp.use("/*", express.static(buildPath));
 
         this.expressApp.use(
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
