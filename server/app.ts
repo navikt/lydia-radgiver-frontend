@@ -1,4 +1,4 @@
-import express, { Request, Response } from "express";
+import express, {NextFunction, Request, Response} from "express";
 import helmet from "helmet";
 import path from "path";
 import apiMetrics from "prometheus-api-metrics";
@@ -32,9 +32,7 @@ export default class Application {
                 res.sendStatus(200);
             }
         );
-
         this.expressApp.use("/", express.static(buildPath));
-        this.expressApp.use("/*", express.static(buildPath));
         this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
 
         this.expressApp.use(
@@ -69,7 +67,8 @@ export default class Application {
         );
 
         this.expressApp.use(
-            (error: Error, req: Request, res: Response) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            (error: Error, req: Request, res: Response, _ : NextFunction) => {
                 if (error instanceof AuthError) {
                     return res.status(401).send(error.message);
                 }
