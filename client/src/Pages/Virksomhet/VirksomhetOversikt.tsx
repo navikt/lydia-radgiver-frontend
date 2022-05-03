@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {SykefraværsstatistikkVirksomhet} from "./SykefraværsstatistikkVirksomhet";
 import {StyledIASakshendelserOversikt} from "./IASakshendelserOversikt";
 import {IASakOversikt} from "./IASakOversikt";
+import {Heading} from "@navikt/ds-react";
 
 const VerticalFlex = styled.div`
     display: flex;
@@ -35,7 +36,7 @@ interface VirksomhetOversiktProps {
 export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk, iaSak, sakshendelser }: VirksomhetOversiktProps) => {
     return (
         <VerticalFlex>
-            <h1>{virksomhet.navn}</h1>
+            <Heading level={"2"} size={"large"}>{virksomhet.navn}</Heading>
             <HorisontalFlexMedToppRamme>
                 <VerticalFlex>
                     <StyledVirksomhetsInformasjon virksomhet={virksomhet}/>

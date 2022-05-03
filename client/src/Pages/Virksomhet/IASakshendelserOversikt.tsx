@@ -12,7 +12,7 @@ export interface IASakHendelserOversiktProps {
 const IASakshendelserOversikt = ({sakshendelser, className}: IASakHendelserOversiktProps) => {
     return (
         <div className={className}>
-            <Heading size="medium" style={{ padding : "1rem 3rem", borderBottom : "1px solid black"}}>
+            <Heading size="medium" level={"2"} style={{ padding : "1rem 3rem", borderBottom : "1px solid black"}}>
                 Samarbeidshistorikk
             </Heading>
             {sakshendelser.length > 0
