@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, { Request, Response } from "express";
 import helmet from "helmet";
 import path from "path";
 import apiMetrics from "prometheus-api-metrics";
@@ -19,7 +19,6 @@ export default class Application {
     expressApp: express.Express;
 
     constructor(config: Config = new Config()) {
-        const basePath = "/lydia-radgiver";
         const buildPath = path.resolve(__dirname, "../client/dist");
         this.expressApp = express();
         this.expressApp.set("trust proxy", 1);
@@ -34,8 +33,8 @@ export default class Application {
             }
         );
 
-        this.expressApp.use(`${basePath}`, express.static(buildPath));
-        this.expressApp.use(`${basePath}/*`, express.static(buildPath));
+        this.expressApp.use("/", express.static(buildPath));
+        this.expressApp.use("/*", express.static(buildPath));
         this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
 
         this.expressApp.use(
@@ -70,7 +69,7 @@ export default class Application {
         );
 
         this.expressApp.use(
-            (error: Error, req: Request, res: Response, _: NextFunction) => {
+            (error: Error, req: Request, res: Response) => {
                 if (error instanceof AuthError) {
                     return res.status(401).send(error.message);
                 }

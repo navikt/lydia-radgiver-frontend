@@ -11,8 +11,6 @@ import { Breakpoint, forLargerThan } from "./styling/breakpoint";
 import Virksomhetsside from "./Pages/Virksomhet/Virksomhetsside";
 import { FeilmeldingBanner } from "./Pages/FeilmeldingBanner";
 
-const LYDIA_BASEPATH = "lydia-radgiver";
-
 function App() {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     return brukerInformasjon ? (
@@ -23,11 +21,11 @@ function App() {
                 <AppRamme>
                     <Routes>
                         <Route
-                            path={`${LYDIA_BASEPATH}/`}
+                            path={"/"}
                             element={<Prioriteringsside />}
                         />
                         <Route
-                            path={`${LYDIA_BASEPATH}/virksomhet/:orgnummer`}
+                            path={"/virksomhet/:orgnummer"}
                             element={<Virksomhetsside />}
                         />
                     </Routes>

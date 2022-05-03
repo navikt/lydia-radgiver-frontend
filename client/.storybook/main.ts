@@ -14,7 +14,7 @@ module.exports = {
         if (configType === "PRODUCTION") {
             return {
                 ...config,
-                base: "/lydia-radgiver-frontend/",
+                base: "/fia/",
             };
         }
         return config;
