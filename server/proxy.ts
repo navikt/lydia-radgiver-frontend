@@ -14,7 +14,6 @@ export class LydiaApiProxy {
             changeOrigin: true,
             pathRewrite: (path : string, req : Request) => {
                 const nyPath = path.replace("/api", '');
-                logger.info(`Proxy fra '${req.path}' til '${targetURI + nyPath}'`);
                 return nyPath;
             },
             onProxyReq: (proxyReq : ClientRequest, req: Request, res: Response) => {
