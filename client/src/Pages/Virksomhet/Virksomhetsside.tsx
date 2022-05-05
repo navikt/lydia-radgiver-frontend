@@ -10,6 +10,7 @@ import {Loader} from "@navikt/ds-react";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
 import {IAProsessStatusEnum, IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
 import {mutate} from "swr";
+import {useCallback} from "react";
 
 const Virksomhetsside = () => {
     const params = useParams();
@@ -40,6 +41,10 @@ const Virksomhetsside = () => {
         return <LasterVirksomhet/>
     }
 
+    const muterState = useCallback(() => {
+        iaSak && mutate(`${iaSakHentHendelserPath}/${iaSak.saksnummer}`)
+    }, [iaSak])
+
     if (virksomhetsinformasjon &&
         sykefraværsstatistikk &&
         sykefraværsstatistikk.length > 0 &&
@@ -52,7 +57,7 @@ const Virksomhetsside = () => {
             sykefraværsstatistikk={statistikkForSisteKvartal}
             iaSak={iaSak}
             sakshendelser={iaSakshendelser ?? []}
-            muterState={() => iaSak && mutate(`${iaSakHentHendelserPath}/${iaSak.saksnummer}`)}
+            muterState={muterState}
         />
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>
