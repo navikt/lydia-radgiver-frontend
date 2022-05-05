@@ -7,13 +7,13 @@ import {
 import styled from "styled-components";
 import { hentBadgeFraStatus } from "../Prioritering/StatusBadge";
 import { HorizontalFlexboxDiv } from "../Prioritering/HorizontalFlexboxDiv";
-import { nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
-import {oversettNavnPåSakshendelsestype} from "./IASakshendelserOversikt";
+import { nyHendelsePåSak, opprettSak } from "../../api/lydia-api";
+import { oversettNavnPåSakshendelsestype } from "./IASakshendelserOversikt";
 
 export interface IASakOversiktProps {
     orgnummer: string;
     iaSak?: IASak;
-    muterState?: () => void
+    muterState?: () => void;
 }
 
 interface IngenAktiveSakerProps {
@@ -30,9 +30,7 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
             </BodyShort>
             <br />
             <Button
-                onClick={() =>
-                    opprettSak(orgnummer).then(() => oppdaterSak())
-                }
+                onClick={() => opprettSak(orgnummer).then(() => oppdaterSak())}
             >
                 Vurderes
             </Button>
@@ -40,10 +38,19 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
     );
 }
 
-export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversiktProps) => {
+export const IASakOversikt = ({
+    orgnummer,
+    iaSak: sak,
+    muterState,
+}: IASakOversiktProps) => {
     if (!sak)
         return (
-            <IngenAktiveSaker orgnummer={orgnummer} oppdaterSak={() => { muterState?.()}} />
+            <IngenAktiveSaker
+                orgnummer={orgnummer}
+                oppdaterSak={() => {
+                    muterState?.();
+                }}
+            />
         );
 
     return (
@@ -56,18 +63,19 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversi
             {sak.eidAv && <BodyShort>Kontaktperson: {sak.eidAv}</BodyShort>}
             <br />
             <HorizontalFlexboxDiv>
-                {sak.gyldigeNesteHendelser.map((hendelsestype) => {
+                {sak.gyldigeNesteHendelser.map((hendelse) => {
                     return (
                         <Button
-                            key={hendelsestype}
+                            key={hendelse.saksHendelsestype}
                             onClick={() => {
-                                nyHendelsePåSak(sak, hendelsestype).then(() => {
-                                        muterState?.()
-                                    }
+                                nyHendelsePåSak(sak, hendelse).then(() =>
+                                    muterState?.()
                                 );
                             }}
                         >
-                            {oversettNavnPåSakshendelsestype(hendelsestype)}
+                            {oversettNavnPåSakshendelsestype(
+                                hendelse.saksHendelsestype
+                            )}
                         </Button>
                     );
                 })}
