@@ -10,6 +10,8 @@ import {
 import { rest } from "msw";
 import { iaSakPath, iaSakPostNyHendelsePath } from "../../api/lydia-api";
 import { FeilmeldingBanner } from "../FeilmeldingBanner";
+import {IASak} from "../../domenetyper";
+import {useState} from "react";
 
 export default {
     title: "Virksomhet/Oversikt over IA-sak",
@@ -18,7 +20,13 @@ export default {
 
 const orgnummer = "987654321";
 
-export const IkkeAktiv = () => <IASakOversikt orgnummer={"987654321"} />;
+export const IkkeAktiv = () => {
+    const [sak, setSak] = useState<IASak>()
+    return <IASakOversikt orgnummer={"987654321"} iaSak={sak} muterState={() => {
+            setSak(iaSakVurderesUtenEier)
+        }
+    }/>;
+};
 
 IkkeAktiv.parameters = {
     msw: {

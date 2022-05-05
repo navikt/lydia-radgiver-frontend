@@ -8,7 +8,6 @@ import styled from "styled-components";
 import { hentBadgeFraStatus } from "../Prioritering/StatusBadge";
 import { HorizontalFlexboxDiv } from "../Prioritering/HorizontalFlexboxDiv";
 import { nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
-import { useState } from "react";
 import {oversettNavnPåSakshendelsestype} from "./IASakshendelserOversikt";
 
 export interface IASakOversiktProps {
@@ -19,7 +18,7 @@ export interface IASakOversiktProps {
 
 interface IngenAktiveSakerProps {
     orgnummer: string;
-    oppdaterSak: (iaSak: IASak) => void;
+    oppdaterSak: () => void;
 }
 
 function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
@@ -32,7 +31,7 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
             <br />
             <Button
                 onClick={() =>
-                    opprettSak(orgnummer).then((sak) => oppdaterSak(sak))
+                    opprettSak(orgnummer).then(() => oppdaterSak())
                 }
             >
                 Vurderes
@@ -41,17 +40,10 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
     );
 }
 
-export const IASakOversikt = ({ orgnummer, iaSak, muterState }: IASakOversiktProps) => {
-    const [sak, setSak] = useState<IASak | undefined>(iaSak);
-
-    const oppdaterSak = (sak: IASak) => {
-        setSak(sak);
-        muterState?.()
-    };
-
+export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversiktProps) => {
     if (!sak)
         return (
-            <IngenAktiveSaker orgnummer={orgnummer} oppdaterSak={oppdaterSak} />
+            <IngenAktiveSaker orgnummer={orgnummer} oppdaterSak={() => { muterState?.()}} />
         );
 
     return (
@@ -69,8 +61,8 @@ export const IASakOversikt = ({ orgnummer, iaSak, muterState }: IASakOversiktPro
                         <Button
                             key={hendelsestype}
                             onClick={() => {
-                                nyHendelsePåSak(sak, hendelsestype).then((sak) => {
-                                        oppdaterSak(sak);
+                                nyHendelsePåSak(sak, hendelsestype).then(() => {
+                                        muterState?.()
                                     }
                                 );
                             }}
