@@ -41,7 +41,7 @@ const Virksomhetsside = () => {
         sykefraværsstatistikk.length > 0 &&
         iaSaker
     ) {
-        useDocumentTitle("Fia - " + virksomhetsinformasjon.navn)
+        // useDocumentTitle("Fia - " + virksomhetsinformasjon.navn)
         const statistikkForSisteKvartal = filtrerPåSisteKvartal(sykefraværsstatistikk)
         const iaSak = aktivIaSak(iaSaker)
         return <VirksomhetOversikt
