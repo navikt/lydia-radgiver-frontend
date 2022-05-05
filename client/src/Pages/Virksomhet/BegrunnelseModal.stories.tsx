@@ -1,7 +1,8 @@
-import { ComponentMeta } from "@storybook/react";
+import {ComponentMeta} from "@storybook/react";
 
 import {BegrunnelseModal} from "./BegrunnelseModal";
 import {Modal} from "@navikt/ds-react";
+import {ikkeAktuellHendelseMock} from "./mocks/iaSakMock";
 
 Modal.setAppElement = () => null;
 
@@ -11,7 +12,7 @@ export default {
 } as ComponentMeta<typeof BegrunnelseModal>;
 
 export const BegrunnelseModalStory = () => (
-    <BegrunnelseModal/>
+    <BegrunnelseModal hendelse={ikkeAktuellHendelseMock}/>
 );
 
 

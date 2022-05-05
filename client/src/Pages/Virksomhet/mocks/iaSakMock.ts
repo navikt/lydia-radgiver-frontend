@@ -1,9 +1,40 @@
-import {IAProsessStatusEnum, IASak} from "../../../domenetyper";
+import {
+    GyldigNesteHendelse,
+    IAProsessStatusEnum,
+    IASak,
+    IASakshendelseType,
+    IASakshendelseTypeEnum
+} from "../../../domenetyper";
 import {ulid} from "ulid";
 
 
 const saksnummer = ulid()
 const endretAv = ulid()
+
+export const ikkeAktuellHendelseMock : GyldigNesteHendelse = {
+    saksHendelsestype : IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL,
+    gyldigeÅrsaker : [
+        {
+            navn: "Årsak 1",
+            begrunnelser: [
+                { navn: "Begrunnelse 1.1" }, { navn: "Begrunnelse 1.2" }
+            ]
+        },
+        {
+            navn: "Årsak 2",
+            begrunnelser: [
+                { navn: "Begrunnelse 2.1" }, { navn: "Begrunnelse 2.2" }
+            ]
+        }
+    ]
+}
+
+const hendelseUtenÅrsak = (saksHendelsetype : IASakshendelseType) => {
+    return {
+        saksHendelsestype : saksHendelsetype,
+        gyldigeÅrsaker: []
+    }
+}
 
 export const iaSakVurderesUtenEier: IASak = {
     saksnummer: saksnummer,
@@ -16,7 +47,7 @@ export const iaSakVurderesUtenEier: IASak = {
     eidAv: null,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.VURDERES,
-    gyldigeNesteHendelser: ["VIRKSOMHET_ER_IKKE_AKTUELL", "TA_EIERSKAP_I_SAK"]
+    gyldigeNesteHendelser: [ikkeAktuellHendelseMock, hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK)]
 }
 
 export const iaSakVurderesMedEier: IASak = {
@@ -30,7 +61,10 @@ export const iaSakVurderesMedEier: IASak = {
     eidAv: "NAV-54321",
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.VURDERES,
-    gyldigeNesteHendelser: ["VIRKSOMHET_ER_IKKE_AKTUELL", "VIRKSOMHET_SKAL_KONTAKTES"]
+    gyldigeNesteHendelser: [
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES)
+    ]
 }
 
 export const iaSakKontaktes: IASak = {
