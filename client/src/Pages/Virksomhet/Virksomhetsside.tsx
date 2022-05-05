@@ -50,7 +50,7 @@ const Virksomhetsside = () => {
             sykefraværsstatistikk={statistikkForSisteKvartal}
             iaSak={iaSak}
             sakshendelser={iaSakshendelser ?? []}
-            muterState={() => mutate?.()}
+            muterState={() => mutate()}
         />
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>
