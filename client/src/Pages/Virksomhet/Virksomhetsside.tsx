@@ -42,7 +42,9 @@ const Virksomhetsside = () => {
     }
 
     const muterState = useCallback(() => {
-        iaSak && mutate(`${iaSakHentHendelserPath}/${iaSak.saksnummer}`)
+        if (iaSak) {
+            mutate(`${iaSakHentHendelserPath}/${iaSak.saksnummer}`)
+        }
     }, [iaSak])
 
     if (virksomhetsinformasjon &&
