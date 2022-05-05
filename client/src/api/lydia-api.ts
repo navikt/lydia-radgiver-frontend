@@ -50,14 +50,16 @@ const fetchNative =
         })
             .then((res) => (res.ok ? res : Promise.reject(res.text())))
             .then((res) => res.json())
-            .catch((reason) => {
-                if (reason instanceof ZodError) {
-                    console.error(reason);
-                    return;
-                }
-                dispatchFeilmelding({
-                    feilmelding: reason?.message ?? JSON.stringify(reason),
-                });
+            .catch((e: Promise<string | ZodError>) => {
+                e.then(reason => {
+                    if (reason instanceof ZodError) {
+                        console.error(reason)
+                        return
+                    }
+                    dispatchFeilmelding({
+                        feilmelding: reason,
+                    });
+                })
             })
             .then((data) => {
                 const safeparsed = schema.safeParse(data);
