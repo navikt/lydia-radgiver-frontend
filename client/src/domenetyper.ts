@@ -127,6 +127,22 @@ const IA_SAKS_TYPER = [
 ] as const
 export const IASaksType = z.enum(IA_SAKS_TYPER)
 
+export const begrunnelseSchema = z.object({
+    navn: z.string(),
+})
+
+export const årsakTypeSchema = z.object({
+    navn: z.string(),
+    begrunnelser: z.array(begrunnelseSchema)
+})
+
+export const gyldigNesteHendelseSchema = z.object({
+    saksHendelsestype : IASakshendelseTypeEnum,
+    gyldigeÅrsaker : z.array(årsakTypeSchema)
+})
+
+export type GyldigNesteHendelse = z.infer<typeof gyldigNesteHendelseSchema>;
+
 export const iaSakSchema = z.object({
     saksnummer: z.string(),
     orgnr: z.string(),
@@ -138,7 +154,7 @@ export const iaSakSchema = z.object({
     endretAvHendelseId: z.string(),
     eidAv: z.string().nullable(),
     status: IAProsessStatusEnum,
-    gyldigeNesteHendelser: z.array(IASakshendelseTypeEnum),
+    gyldigeNesteHendelser: z.array(gyldigNesteHendelseSchema),
 })
 export type IASak = z.infer<typeof iaSakSchema>;
 

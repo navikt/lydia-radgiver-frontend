@@ -60,17 +60,17 @@ export const IASakOversikt = ({ orgnummer, iaSak }: IASakOversiktProps) => {
             {sak.eidAv && <BodyShort>Eier: {sak.eidAv}</BodyShort>}
             <br />
             <HorizontalFlexboxDiv>
-                {sak.gyldigeNesteHendelser.map((hendelsestype) => {
+                {sak.gyldigeNesteHendelser.map((hendelse) => {
                     return (
                         <Button
-                            key={hendelsestype}
+                            key={hendelse.saksHendelsestype}
                             onClick={() => {
-                                nyHendelsePåSak(sak, hendelsestype).then((sak) =>
+                                nyHendelsePåSak(sak, hendelse).then((sak) =>
                                     oppdaterSak(sak)
                                 );
                             }}
                         >
-                            {oversettNavnPåSakshendelsestype(hendelsestype)}
+                            {oversettNavnPåSakshendelsestype(hendelse.saksHendelsestype)}
                         </Button>
                     );
                 })}

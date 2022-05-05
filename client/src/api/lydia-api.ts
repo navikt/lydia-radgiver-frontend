@@ -1,6 +1,6 @@
 import {
     Filterverdier,
-    filterverdierSchema,
+    filterverdierSchema, GyldigNesteHendelse,
     IASak,
     iaSakSchema,
     IASakshendelse,
@@ -205,12 +205,12 @@ interface IANySakshendelse {
 
 export const nyHendelsePåSak = (
     sak: IASak,
-    hendelsesType: IASakshendelseType
+    hendelse: GyldigNesteHendelse
 ): Promise<IASak> => {
     const nyHendelseDto: IANySakshendelse = {
         orgnummer: sak.orgnr,
         saksnummer: sak.saksnummer,
-        hendelsesType: hendelsesType,
+        hendelsesType: hendelse.saksHendelsestype,
         endretAvHendelseId: sak.endretAvHendelseId,
     };
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
