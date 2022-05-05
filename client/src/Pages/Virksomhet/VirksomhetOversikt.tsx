@@ -31,7 +31,7 @@ interface VirksomhetOversiktProps {
     sykefraværsstatistikk : SykefraversstatistikkVirksomhet,
     iaSak?: IASak
     sakshendelser: IASakshendelse[]
-    muterState?: () => void
+    muterState?: () => Promise<void>
 }
 
 export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk, iaSak, sakshendelser, muterState }: VirksomhetOversiktProps) => {

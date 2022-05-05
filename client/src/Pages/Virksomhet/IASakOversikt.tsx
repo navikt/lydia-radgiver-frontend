@@ -19,7 +19,7 @@ export interface IASakOversiktProps {
 
 interface IngenAktiveSakerProps {
     orgnummer: string;
-    oppdaterSak: (iaSak: IASak) => void;
+    oppdaterSak: (iaSak: IASak) => Promise<void>;
 }
 
 function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
@@ -44,9 +44,9 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
 export const IASakOversikt = ({ orgnummer, iaSak, muterState }: IASakOversiktProps) => {
     const [sak, setSak] = useState<IASak | undefined>(iaSak);
 
-    const oppdaterSak = (sak: IASak) => {
+    const oppdaterSak = async (sak: IASak) => {
         setSak(sak);
-        muterState?.()
+        await muterState?.()
     };
 
     if (!sak)
