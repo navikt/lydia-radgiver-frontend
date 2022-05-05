@@ -7,14 +7,14 @@ import {
 import styled from "styled-components";
 import { hentBadgeFraStatus } from "../Prioritering/StatusBadge";
 import { HorizontalFlexboxDiv } from "../Prioritering/HorizontalFlexboxDiv";
-import {iaSakHentHendelserPath, nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
+import { nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
 import { useState } from "react";
 import {oversettNavnPåSakshendelsestype} from "./IASakshendelserOversikt";
-import {mutate} from "swr";
 
 export interface IASakOversiktProps {
     orgnummer: string;
     iaSak?: IASak;
+    muterState?: () => void
 }
 
 interface IngenAktiveSakerProps {
@@ -41,12 +41,12 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
     );
 }
 
-export const IASakOversikt = ({ orgnummer, iaSak }: IASakOversiktProps) => {
+export const IASakOversikt = ({ orgnummer, iaSak, muterState }: IASakOversiktProps) => {
     const [sak, setSak] = useState<IASak | undefined>(iaSak);
 
     const oppdaterSak = (sak: IASak) => {
         setSak(sak);
-        mutate(`${iaSakHentHendelserPath}/${sak.saksnummer}`)
+        muterState?.()
     };
 
     if (!sak)

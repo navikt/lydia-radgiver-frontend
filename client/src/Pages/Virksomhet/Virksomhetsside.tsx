@@ -1,5 +1,6 @@
 import {useParams} from "react-router-dom";
 import {
+    iaSakHentHendelserPath,
     useHentSakerForVirksomhet,
     useHentSakshendelserPåSak,
     useHentSykefraværsstatistikkForVirksomhet,
@@ -8,6 +9,7 @@ import {
 import {Loader} from "@navikt/ds-react";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
 import {IAProsessStatusEnum, IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
+import {mutate} from "swr";
 
 const Virksomhetsside = () => {
     const params = useParams();
@@ -28,9 +30,11 @@ const Virksomhetsside = () => {
         loading: lasterIaSaker
     } = useHentSakerForVirksomhet(orgnummer)
 
+    const iaSak = aktivIaSak(iaSaker)
+
     const {
         data: iaSakshendelser,
-    } = useHentSakshendelserPåSak(aktivIaSak(iaSaker))
+    } = useHentSakshendelserPåSak(iaSak)
 
     if (lasterVirksomhet || lasterSykefraværsstatistikk || lasterIaSaker) {
         return <LasterVirksomhet/>
@@ -43,12 +47,12 @@ const Virksomhetsside = () => {
     ) {
         document.title = `Fia - ${virksomhetsinformasjon.navn}`
         const statistikkForSisteKvartal = filtrerPåSisteKvartal(sykefraværsstatistikk)
-        const iaSak = aktivIaSak(iaSaker)
         return <VirksomhetOversikt
             virksomhet={virksomhetsinformasjon}
             sykefraværsstatistikk={statistikkForSisteKvartal}
             iaSak={iaSak}
             sakshendelser={iaSakshendelser ?? []}
+            muterState={() => iaSak && mutate(`${iaSakHentHendelserPath}/${iaSak.saksnummer}`)}
         />
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>
