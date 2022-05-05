@@ -1,6 +1,5 @@
 import {useParams} from "react-router-dom";
 import {
-    iaSakHentHendelserPath,
     useHentSakerForVirksomhet,
     useHentSakshendelserPåSak,
     useHentSykefraværsstatistikkForVirksomhet,
@@ -9,8 +8,6 @@ import {
 import {Loader} from "@navikt/ds-react";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
 import {IAProsessStatusEnum, IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
-import {mutate} from "swr";
-import {useCallback} from "react";
 
 const Virksomhetsside = () => {
     const params = useParams();
@@ -28,6 +25,7 @@ const Virksomhetsside = () => {
 
     const {
         data: iaSaker,
+        mutate: mutateHentSaker,
         loading: lasterIaSaker
     } = useHentSakerForVirksomhet(orgnummer)
 
@@ -35,17 +33,18 @@ const Virksomhetsside = () => {
 
     const {
         data: iaSakshendelser,
+        mutate: mutateHentSakshendelser
     } = useHentSakshendelserPåSak(iaSak)
 
     if (lasterVirksomhet || lasterSykefraværsstatistikk || lasterIaSaker) {
         return <LasterVirksomhet/>
     }
 
-    const muterState = useCallback(() => {
-        if (iaSak) {
-            mutate(`${iaSakHentHendelserPath}/${iaSak.saksnummer}`)
-        }
-    }, [iaSak])
+    const muterState = () => {
+        mutateHentSaker().then(() => {
+            mutateHentSakshendelser()
+        })
+    }
 
     if (virksomhetsinformasjon &&
         sykefraværsstatistikk &&
