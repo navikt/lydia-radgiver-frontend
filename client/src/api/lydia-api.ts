@@ -48,7 +48,7 @@ const fetchNative =
                 "Content-Type": "application/json",
             },
         })
-            .then((res) => (res.ok ? res : Promise.reject(res.statusText)))
+            .then((res) => (res.ok ? res : Promise.reject(res.text())))
             .then((res) => res.json())
             .catch((reason) => {
                 if (reason instanceof ZodError) {
