@@ -172,14 +172,20 @@ export const useHentSykefraværsstatistikkForVirksomhet = (
 ) => {
     return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(
         orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}` : null,
-        sykefraversstatistikkVirksomhetListeSchema
+        sykefraversstatistikkVirksomhetListeSchema,
+        {
+             revalidateOnFocus: true
+        }
     );
 };
 
 export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
     return useSwrTemplate<Virksomhet>(
         orgnummer ? `${virksomhetsPath}/${orgnummer}` : null,
-        virksomhetsSchema
+        virksomhetsSchema,
+        {
+            revalidateOnFocus: true
+        }
     );
 };
 
@@ -188,13 +194,18 @@ export const useHentBrukerinformasjon = () =>
 
 export const useHentSakerForVirksomhet = (orgnummer?: string) => {
     const iasakUrl = `${iaSakPath}/${orgnummer}`;
-    return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array());
+    return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array(), {
+        revalidateOnFocus: true
+    });
 };
 
 export const useHentSakshendelserPåSak = (sak?: IASak) => {
     return useSwrTemplate<IASakshendelse[]>(
         () => (sak ? `${iaSakHentHendelserPath}/${sak.saksnummer}` : null),
-        iaSakshendelseSchema.array()
+        iaSakshendelseSchema.array(),
+        {
+            revalidateOnFocus: true
+        }
     );
 };
 
