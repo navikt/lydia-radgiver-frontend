@@ -86,7 +86,7 @@ const useSwrTemplate = <T>(
     });
     if (!data && !fetchError) {
         return {
-            data: undefined,
+            data,
             mutate,
             error: undefined,
             loading: true,
@@ -95,7 +95,7 @@ const useSwrTemplate = <T>(
     if (fetchError) {
         dispatchFeilmelding({ feilmelding: fetchError?.message });
         return {
-            data: undefined,
+            data,
             mutate,
             error: fetchError,
             loading: false,
@@ -108,14 +108,14 @@ const useSwrTemplate = <T>(
             safeParseResultat.error
         );
         return {
-            data: undefined,
+            data,
             mutate,
             error: safeParseResultat.error,
             loading: false,
         };
     }
     return {
-        data: safeParseResultat.data,
+        data,
         mutate,
         error: undefined,
         loading: false,
