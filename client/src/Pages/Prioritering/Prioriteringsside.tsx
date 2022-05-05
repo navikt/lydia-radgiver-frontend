@@ -11,6 +11,7 @@ import {
     SykefraversstatistikkVirksomhet,
 } from "../../domenetyper";
 import { Loader } from "@navikt/ds-react";
+import {useDocumentTitle} from "../../App";
 
 const tommeFilterverdier: Filterverdier = {
     fylker: [],
@@ -55,6 +56,8 @@ const Prioriteringsside = () => {
         });
         setSkalSøke(true);
     }
+    
+    useDocumentTitle("Fia - Prioriteringsliste")
 
     return (
         <>

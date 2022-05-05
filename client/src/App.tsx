@@ -10,6 +10,7 @@ import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
 import { Breakpoint, forLargerThan } from "./styling/breakpoint";
 import Virksomhetsside from "./Pages/Virksomhet/Virksomhetsside";
 import { FeilmeldingBanner } from "./Pages/FeilmeldingBanner";
+import {useEffect} from "react";
 
 function App() {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
@@ -59,5 +60,11 @@ const Dekoratør = ({ navAnsatt }: { navAnsatt?: NavAnsatt }) => (
         )}
     </Header>
 );
+
+export const useDocumentTitle = (title: string) => {
+    useEffect(() => {
+        document.title = title
+    }, [ title])
+}
 
 export default App;
