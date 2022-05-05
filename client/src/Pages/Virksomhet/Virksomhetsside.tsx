@@ -1,13 +1,13 @@
 import {useParams} from "react-router-dom";
 import {
-    useHentSakerForVirksomhet, useHentSakshendelserPåSak,
+    useHentSakerForVirksomhet,
+    useHentSakshendelserPåSak,
     useHentSykefraværsstatistikkForVirksomhet,
     useHentVirksomhetsinformasjon
 } from "../../api/lydia-api";
 import {Loader} from "@navikt/ds-react";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
 import {IAProsessStatusEnum, IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
-import {useDocumentTitle} from "../../App";
 
 const Virksomhetsside = () => {
     const params = useParams();
@@ -41,7 +41,7 @@ const Virksomhetsside = () => {
         sykefraværsstatistikk.length > 0 &&
         iaSaker
     ) {
-        // useDocumentTitle("Fia - " + virksomhetsinformasjon.navn)
+        document.title = `Fia - ${virksomhetsinformasjon.navn}`
         const statistikkForSisteKvartal = filtrerPåSisteKvartal(sykefraværsstatistikk)
         const iaSak = aktivIaSak(iaSaker)
         return <VirksomhetOversikt

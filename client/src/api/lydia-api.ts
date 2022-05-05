@@ -24,7 +24,7 @@ import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
 export const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
-const virksomhetsPath = `${basePath}/virksomhet`;
+export const virksomhetsPath = `${basePath}/virksomhet`;
 const innloggetAnsattPath = `/innloggetAnsatt`;
 export const iaSakPath = `${basePath}/iasak/radgiver`;
 export const iaSakHentHendelserPath = `${iaSakPath}/hendelser`;

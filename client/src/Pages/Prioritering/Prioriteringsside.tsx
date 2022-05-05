@@ -1,17 +1,9 @@
-import { StyledFiltervisning } from "./Filtervisning";
-import { StyledPrioriteringsTabell } from "./PrioriteringsTabell";
-import {
-    useFilterverdier,
-    useSykefraværsstatistikk,
-} from "../../api/lydia-api";
-import { useEffect, useState } from "react";
-import {
-    Søkeverdier,
-    Filterverdier,
-    SykefraversstatistikkVirksomhet,
-} from "../../domenetyper";
-import { Loader } from "@navikt/ds-react";
-import {useDocumentTitle} from "../../App";
+import {StyledFiltervisning} from "./Filtervisning";
+import {StyledPrioriteringsTabell} from "./PrioriteringsTabell";
+import {useFilterverdier, useSykefraværsstatistikk,} from "../../api/lydia-api";
+import {useEffect, useState} from "react";
+import {Filterverdier, SykefraversstatistikkVirksomhet, Søkeverdier,} from "../../domenetyper";
+import {Loader} from "@navikt/ds-react";
 
 const tommeFilterverdier: Filterverdier = {
     fylker: [],
@@ -56,8 +48,6 @@ const Prioriteringsside = () => {
         });
         setSkalSøke(true);
     }
-    
-    useDocumentTitle("Fia - Prioriteringsliste")
 
     return (
         <>
