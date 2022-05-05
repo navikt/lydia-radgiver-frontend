@@ -14,6 +14,7 @@ import {oversettNavnPåSakshendelsestype} from "./IASakshendelserOversikt";
 export interface IASakOversiktProps {
     orgnummer: string;
     iaSak?: IASak;
+    muterState?: () => void
 }
 
 interface IngenAktiveSakerProps {
@@ -40,10 +41,13 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
     );
 }
 
-export const IASakOversikt = ({ orgnummer, iaSak }: IASakOversiktProps) => {
+export const IASakOversikt = ({ orgnummer, iaSak, muterState }: IASakOversiktProps) => {
     const [sak, setSak] = useState<IASak | undefined>(iaSak);
 
-    const oppdaterSak = (sak: IASak) => setSak(sak);
+    const oppdaterSak = (sak: IASak) => {
+        setSak(sak);
+        muterState?.()
+    };
 
     if (!sak)
         return (
@@ -65,8 +69,9 @@ export const IASakOversikt = ({ orgnummer, iaSak }: IASakOversiktProps) => {
                         <Button
                             key={hendelsestype}
                             onClick={() => {
-                                nyHendelsePåSak(sak, hendelsestype).then((sak) =>
-                                    oppdaterSak(sak)
+                                nyHendelsePåSak(sak, hendelsestype).then((sak) => {
+                                        oppdaterSak(sak);
+                                    }
                                 );
                             }}
                         >

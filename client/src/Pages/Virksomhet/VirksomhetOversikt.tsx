@@ -31,9 +31,10 @@ interface VirksomhetOversiktProps {
     sykefraværsstatistikk : SykefraversstatistikkVirksomhet,
     iaSak?: IASak
     sakshendelser: IASakshendelse[]
+    muterState?: () => void
 }
 
-export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk, iaSak, sakshendelser }: VirksomhetOversiktProps) => {
+export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk, iaSak, sakshendelser, muterState }: VirksomhetOversiktProps) => {
     return (
         <VerticalFlex>
             <Heading level={"2"} size={"large"}>{virksomhet.navn}</Heading>
@@ -42,7 +43,7 @@ export const VirksomhetOversikt = ({virksomhet, sykefraværsstatistikk, iaSak, s
                     <StyledVirksomhetsInformasjon virksomhet={virksomhet}/>
                     <SykefraværsstatistikkVirksomhet sykefraværsstatistikk={sykefraværsstatistikk}/>
                 </VerticalFlex>
-                <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr}/>
+                <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} muterState={muterState}/>
             </HorisontalFlexMedToppRamme>
             <br />
             <StyledIASakshendelserOversikt sakshendelser={sakshendelser}/>
