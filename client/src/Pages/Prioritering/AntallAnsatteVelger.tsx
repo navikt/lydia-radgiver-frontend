@@ -4,7 +4,7 @@ import {useState} from "react";
 import {Range} from "./SykefraværsprosentVelger";
 
 function AntallAnsatteInput({label, value, endreAntallAnsatte}: {label: string, value: number, endreAntallAnsatte: (verdi: number) => void}) {
-    const [ansatte, setAnsatte] = useState<string>(isNaN(value) ? "" : value.toString)
+    const [ansatte, setAnsatte] = useState<string>(isNaN(value) ? "" : value.toString())
     return (
         <TextField
             label={label}
