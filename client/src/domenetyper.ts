@@ -131,14 +131,18 @@ export const begrunnelseSchema = z.object({
     navn: z.string(),
 })
 
-export const årsakTypeSchema = z.object({
+export type Begrunnelse = z.infer<typeof begrunnelseSchema>
+
+export const årsakSchema = z.object({
     navn: z.string(),
     begrunnelser: z.array(begrunnelseSchema)
 })
 
+export type Årsak = z.infer<typeof årsakSchema>
+
 export const gyldigNesteHendelseSchema = z.object({
     saksHendelsestype : IASakshendelseTypeEnum,
-    gyldigeÅrsaker : z.array(årsakTypeSchema)
+    gyldigeÅrsaker : z.array(årsakSchema)
 })
 
 export type GyldigNesteHendelse = z.infer<typeof gyldigNesteHendelseSchema>;
