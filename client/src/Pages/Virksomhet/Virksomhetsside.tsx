@@ -30,7 +30,6 @@ const Virksomhetsside = () => {
 
     const {
         data: iaSakshendelser,
-        mutate
     } = useHentSakshendelserPåSak(aktivIaSak(iaSaker))
 
     if (lasterVirksomhet || lasterSykefraværsstatistikk || lasterIaSaker) {
@@ -50,7 +49,6 @@ const Virksomhetsside = () => {
             sykefraværsstatistikk={statistikkForSisteKvartal}
             iaSak={iaSak}
             sakshendelser={iaSakshendelser ?? []}
-            muterState={async () => await mutate()}
         />
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>

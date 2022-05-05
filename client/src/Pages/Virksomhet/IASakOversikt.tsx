@@ -7,19 +7,19 @@ import {
 import styled from "styled-components";
 import { hentBadgeFraStatus } from "../Prioritering/StatusBadge";
 import { HorizontalFlexboxDiv } from "../Prioritering/HorizontalFlexboxDiv";
-import { nyHendelsePåSak, opprettSak } from "../../api/lydia-api";
+import {iaSakHentHendelserPath, nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
 import { useState } from "react";
 import {oversettNavnPåSakshendelsestype} from "./IASakshendelserOversikt";
+import {mutate} from "swr";
 
 export interface IASakOversiktProps {
     orgnummer: string;
     iaSak?: IASak;
-    muterState?: () => void
 }
 
 interface IngenAktiveSakerProps {
     orgnummer: string;
-    oppdaterSak: (iaSak: IASak) => Promise<void>;
+    oppdaterSak: (iaSak: IASak) => void;
 }
 
 function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
@@ -41,12 +41,12 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
     );
 }
 
-export const IASakOversikt = ({ orgnummer, iaSak, muterState }: IASakOversiktProps) => {
+export const IASakOversikt = ({ orgnummer, iaSak }: IASakOversiktProps) => {
     const [sak, setSak] = useState<IASak | undefined>(iaSak);
 
-    const oppdaterSak = async (sak: IASak) => {
+    const oppdaterSak = (sak: IASak) => {
         setSak(sak);
-        await muterState?.()
+        mutate(`${iaSakHentHendelserPath}/${sak.saksnummer}`)
     };
 
     if (!sak)
