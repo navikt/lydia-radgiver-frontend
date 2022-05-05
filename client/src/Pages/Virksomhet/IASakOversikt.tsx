@@ -61,7 +61,7 @@ export const IASakOversikt = ({ orgnummer, iaSak, muterState }: IASakOversiktPro
             </BodyShort>
             <br />
             <BodyShort>Status: {hentBadgeFraStatus(sak.status).text}</BodyShort>
-            {sak.eidAv && <BodyShort>Eier: {sak.eidAv}</BodyShort>}
+            {sak.eidAv && <BodyShort>Kontaktperson: {sak.eidAv}</BodyShort>}
             <br />
             <HorizontalFlexboxDiv>
                 {sak.gyldigeNesteHendelser.map((hendelsestype) => {
