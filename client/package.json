@@ -2,7 +2,7 @@
   "name": "client",
   "version": "0.0.0",
   "license": "MIT",
-  "homepage": "https://navikt.github.io/lydia-radgiver-frontend",
+  "homepage": "https://navikt.github.io/fia",
   "scripts": {
     "dev": "vite",
     "test": "jest",
