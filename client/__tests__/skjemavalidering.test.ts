@@ -32,7 +32,29 @@ describe("kan parse datoer", () => {
             "endretAv": "Z994139",
             "eidAv": null,
             "endretAvHendelseId": "01G13JC26JDWNM1XZVZH2M1AB9",
-            "gyldigeNesteHendelser": ["VIRKSOMHET_ER_IKKE_AKTUELL", "TA_EIERSKAP_I_SAK"]
+            "gyldigeNesteHendelser": [
+                {
+                    saksHendelsestype: "VIRKSOMHET_ER_IKKE_AKTUELL",
+                    gyldigeÅrsaker: [{
+                        navn: "Årsak 1",
+                        begrunnelser: [
+                            {
+                                navn: "Begrunnelse 1.1"
+                            }
+                        ]
+                    },{
+                        navn: "Årsak 2",
+                        begrunnelser: [
+                            {
+                                navn: "Begrunnelse 2.1"
+                            }
+                        ]
+                    }]
+                },
+                {
+                    saksHendelsestype: "TA_EIERSKAP_I_SAK",
+                    gyldigeÅrsaker: []
+                }]
         }
 
         const safeparseResultat = iaSakSchema.safeParse(iaSakMock)
