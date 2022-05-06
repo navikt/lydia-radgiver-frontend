@@ -36,7 +36,7 @@ export const ModalInnhold = ({ hendelse }: Props & { lagre: () => void }) => {
                 value={valgtÅrsak?.navn}
             >
                 {hendelse.gyldigeÅrsaker.map((årsak) => (
-                    <option key={årsak.navn} value={årsak.navn}>
+                    <option key={årsak.type} value={årsak.navn}>
                         {årsak.navn}
                     </option>
                 ))}
@@ -50,7 +50,7 @@ export const ModalInnhold = ({ hendelse }: Props & { lagre: () => void }) => {
                 hideLegend
             >
                 {valgtÅrsak?.begrunnelser.map((begrunnelse) => (
-                    <Checkbox value={begrunnelse.navn} key={begrunnelse.navn}>
+                    <Checkbox value={begrunnelse.type} key={begrunnelse.navn}>
                         {begrunnelse.navn}
                     </Checkbox>
                 ))}

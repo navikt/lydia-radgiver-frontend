@@ -11,27 +11,42 @@ import {ulid} from "ulid";
 const saksnummer = ulid()
 const endretAv = ulid()
 
-export const ikkeAktuellHendelseMock : GyldigNesteHendelse = {
-    saksHendelsestype : IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL,
-    gyldigeÅrsaker : [
+export const ikkeAktuellHendelseMock: GyldigNesteHendelse = {
+    saksHendelsestype: IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL,
+    gyldigeÅrsaker: [
         {
+            type: "ÅRSAK_1",
             navn: "Årsak 1",
             begrunnelser: [
-                { navn: "Begrunnelse 1.1" }, { navn: "Begrunnelse 1.2" }
+                {
+                    type: "BEGRUNNELSE_1_1",
+                    navn: "Begrunnelse 1.1"
+                },
+                {
+                    type: "BEGRUNNELSE_1_2",
+                    navn: "Begrunnelse 1.2"
+                }
             ]
         },
         {
+            type: "ÅRSAK_2",
             navn: "Årsak 2",
             begrunnelser: [
-                { navn: "Begrunnelse 2.1" }, { navn: "Begrunnelse 2.2" }
+                {
+                    type: "BEGRUNNELSE_2_1",
+                    navn: "Begrunnelse 2.1"
+                }, {
+                    type: "BEGRUNNELSE_2_2",
+                    navn: "Begrunnelse 2.2"
+                }
             ]
         }
     ]
 }
 
-const hendelseUtenÅrsak = (saksHendelsetype : IASakshendelseType) => {
+const hendelseUtenÅrsak = (saksHendelsetype: IASakshendelseType) => {
     return {
-        saksHendelsestype : saksHendelsetype,
+        saksHendelsestype: saksHendelsetype,
         gyldigeÅrsaker: []
     }
 }
