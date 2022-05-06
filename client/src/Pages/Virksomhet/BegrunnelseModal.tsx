@@ -1,57 +1,86 @@
-import {Button, Checkbox, CheckboxGroup, Modal, Select} from "@navikt/ds-react";
-import {useState} from "react";
-import {Begrunnelse, GyldigNesteHendelse, Årsak} from "../../domenetyper";
+import {
+    Button,
+    Checkbox,
+    CheckboxGroup,
+    Modal,
+    Select,
+} from "@navikt/ds-react";
+import { useState } from "react";
+import { GyldigNesteHendelse, Årsak } from "../../domenetyper";
 
 interface Props {
-    hendelse: GyldigNesteHendelse
+    hendelse: GyldigNesteHendelse;
 }
 
-const førsteÅrsakOrNull = (hendelse: GyldigNesteHendelse): Årsak | null =>
-    hendelse.gyldigeÅrsaker.length > 0 ? hendelse.gyldigeÅrsaker[0] : null
+const hentÅrsakFraNavn = (
+    navn: string,
+    { gyldigeÅrsaker }: GyldigNesteHendelse
+) => gyldigeÅrsaker.find((årsak) => årsak.navn === navn);
 
-const årsakFraÅrsakNavn = (årsakNavn : string, hendelse: GyldigNesteHendelse): Årsak | undefined =>
-    hendelse.gyldigeÅrsaker.find(årsak => årsak.navn == årsakNavn)
-
-const ModalInnhold = ({hendelse}: Props) => {
-    const [valgtÅrsak, setValgtÅrsak] = useState<Årsak | null>(førsteÅrsakOrNull(hendelse))
-    const [valgteBegrunnelser, setValgteBegrunnelser] = useState<Begrunnelse[]>([])
+export const ModalInnhold = ({ hendelse }: Props & { lagre: () => void }) => {
+    const [valgtÅrsak, setValgtÅrsak] = useState<Årsak | undefined>(() => {
+        return hendelse.gyldigeÅrsaker.length
+            ? hendelse.gyldigeÅrsaker[0]
+            : undefined;
+    });
+    const [valgteBegrunnelser, setValgteBegrunnelser] = useState<string[]>([]);
 
     return (
         <>
             <Select
                 label="Begrunnelse for at samarbeidet ikke blir igangsatt"
-                onChange={(e) => console.log(e)}
+                onChange={(e) => {
+                    setValgtÅrsak(hentÅrsakFraNavn(e.target.value, hendelse));
+                    setValgteBegrunnelser([]);
+                }}
                 value={valgtÅrsak?.navn}
             >
-                {
-                    hendelse.gyldigeÅrsaker.map(årsak => (
-                            <option key={årsak.navn} value={årsak.navn}>{årsak.navn}</option>
-                        )
-                    )
-                }
+                {hendelse.gyldigeÅrsaker.map((årsak) => (
+                    <option key={årsak.navn} value={årsak.navn}>
+                        {årsak.navn}
+                    </option>
+                ))}
             </Select>
-            <br/>
-            <CheckboxGroup size="medium"
-                           legend="Velg en eller flere begrunnelser"
-                           hideLegend={true}
-                           value={valgteBegrunnelser}
-                           onChange={valg => console.log(valg)}>
-                {valgtÅrsak?.begrunnelser.map(begrunnelse => (
-                    <Checkbox key={begrunnelse.navn} value={begrunnelse.navn}>{begrunnelse.navn}</Checkbox>
-                ))
-                }
+            <br />
+            <CheckboxGroup
+                size="medium"
+                legend="Begrunnelse for at samarbeidet ikke blir igangsatt"
+                value={valgteBegrunnelser}
+                onChange={(v) => setValgteBegrunnelser(v)}
+                hideLegend
+            >
+                {valgtÅrsak?.begrunnelser.map((begrunnelse) => (
+                    <Checkbox value={begrunnelse.navn} key={begrunnelse.navn}>
+                        {begrunnelse.navn}
+                    </Checkbox>
+                ))}
             </CheckboxGroup>
-            <Button>Lagre</Button>
+            <Button
+                onClick={() => {
+                    console.table(valgteBegrunnelser);
+                }}
+            >
+                Lagre
+            </Button>
         </>
-    )
-}
+    );
+};
 
-export const BegrunnelseModal = ({hendelse}: Props) => {
+export const BegrunnelseModal = ({
+    hendelse,
+    åpen,
+    lukk,
+}: Props & { åpen: boolean; lukk: () => void }) => {
     return (
-        // <Modal open={true} onClose={() => null}>
-        //     <Modal.Content>
-        <ModalInnhold hendelse={hendelse}/>
-        // </Modal.Content>
-        // </Modal>
+        <Modal open={åpen} onClose={lukk}>
+            <Modal.Content>
+                <ModalInnhold
+                    hendelse={hendelse}
+                    lagre={() => {
+                        lukk();
+                    }}
+                />
+            </Modal.Content>
+        </Modal>
     );
 };
