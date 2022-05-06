@@ -13,7 +13,10 @@ export const parameters = {
 // Initialize MSW (mock service worker)
 initialize({
     serviceWorker: {
-        url: "./mockServiceWorker.js"
+        url:
+            process.env.NODE_ENV === "production"
+                ? "/lydia-radgiver-frontend/mockServiceWorker.js"
+                : "./mockServiceWorker.js",
     },
 });
 
