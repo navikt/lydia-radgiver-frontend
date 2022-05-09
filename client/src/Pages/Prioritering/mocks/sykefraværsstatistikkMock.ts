@@ -27,7 +27,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
     "eidAv": null
 }, {
     "orgnr": "974706490",
@@ -38,7 +38,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "status": IAProsessStatusEnum.enum.VURDERES,
     "eidAv": "Z123456"
 }, {
     "orgnr": "974589095",
@@ -49,7 +49,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "status": IAProsessStatusEnum.enum.KONTAKTES,
     "eidAv": null
 }, {
     "orgnr": "973861778",

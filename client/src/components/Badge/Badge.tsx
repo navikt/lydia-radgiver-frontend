@@ -16,18 +16,16 @@ interface BadgeProps {
     text: string;
     backgroundColor: Farge;
     textColor?: Farge;
-    styleAs?: "div" | "span";
 }
 
 export const Badge = ({
     text,
     backgroundColor,
     textColor = Farge.svart,
-    styleAs = "span"
 }: BadgeProps) => {
     return (
         <BodyShort
-            as={styleAs}
+            as={"span"}
             style={{
                 backgroundColor: backgroundColor,
                 color: textColor,
@@ -36,6 +34,7 @@ export const Badge = ({
                 borderRadius: "4px",
                 textAlign: "center",
                 whiteSpace: "nowrap",
+                display: "block"
             }}
             className={`navds-tag--medium`}
         >
