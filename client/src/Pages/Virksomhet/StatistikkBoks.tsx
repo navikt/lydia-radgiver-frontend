@@ -51,7 +51,6 @@ export const StatistikkBoks = ({
                 color="white"
                 backgroundColor={bakgrunnsfarge}
                 text={tittel}
-                customStyles={{ width: "16rem" }}
             />
             <div
                 style={{
