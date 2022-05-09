@@ -1,60 +1,37 @@
-import {IAProsessStatusEnum, IAProsessStatusType} from "../../domenetyper";
 import "@navikt/ds-css";
-import {Badge} from "../../components/Badge/Badge";
-
-interface StatusBadgeProps {
-    status: IAProsessStatusType
-}
-
-export const StatusBadge = ({status}: StatusBadgeProps) => {
-    const {text, backgroundColor, color} = hentBadgeFraStatus(status)
-
-    return (<Badge color={color} backgroundColor={backgroundColor} text={text}/>)
-}
+import React from "react";
+import {IAProsessStatusEnum, IAProsessStatusType} from "../../domenetyper";
+import {Badge, Farge} from "../../components/Badge/Badge";
 
 
-
-const textColors = {
-    black: "#000000",
-    white: "#FFFFFF"
-}
-
-interface BadgeData {
-    text: string,
-    color: string,
-    backgroundColor: string
-}
-
-export function hentBadgeFraStatus(status: IAProsessStatusType): BadgeData {
+export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): Farge => {
     switch (status) {
-        case IAProsessStatusEnum.enum.VURDERES: {
-            return {
-                text: "Vurderes",
-                backgroundColor: "#D8F9FF",
-                color: textColors.black
-            }
-        }
-        case IAProsessStatusEnum.enum.IKKE_AKTIV: {
-            return {
-                text: "Ikke aktiv",
-                backgroundColor: "#C9C9C9",
-                color: textColors.white
-            }
-        }
-        case IAProsessStatusEnum.enum.KONTAKTES: {
-            return {
-                text: "Kontaktes",
-                color: textColors.black,
-                backgroundColor: "#CCE1FF"
-            }
-        }
-        case IAProsessStatusEnum.enum.IKKE_AKTUELL: {
-            return {
-                text: "Ikke aktuell",
-                color: textColors.white,
-                backgroundColor: "#EFA89D"
-            }
-        }
-        default: throw new Error("Ukjent prosess-status")
+        case IAProsessStatusEnum.enum.VURDERES:
+            return Farge.lyseBlå
+        case IAProsessStatusEnum.enum.IKKE_AKTIV:
+            return Farge.hvit
+        case IAProsessStatusEnum.enum.KONTAKTES:
+            return Farge.mørkeBlå
+        case IAProsessStatusEnum.enum.IKKE_AKTUELL:
+            return Farge.rød
     }
 }
+
+export function penskrivIAStatus(status: IAProsessStatusType): string {
+    switch (status) {
+        case IAProsessStatusEnum.enum.VURDERES:
+            return "Vurderes"
+        case IAProsessStatusEnum.enum.IKKE_AKTIV:
+            return "Ikke aktiv"
+        case IAProsessStatusEnum.enum.KONTAKTES:
+            return "Kontaktes"
+        case IAProsessStatusEnum.enum.IKKE_AKTUELL:
+            return "Ikke aktuell"
+    }
+}
+
+export const StatusBadge = ({status}: { status: IAProsessStatusType }) =>
+    <Badge
+        text={penskrivIAStatus(status)}
+        backgroundColor={hentBakgrunnsFargeForIAStatus(status)}
+    />

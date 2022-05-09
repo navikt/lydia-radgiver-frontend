@@ -7,13 +7,17 @@ export default {
     component: StatusBadge,
 } as ComponentMeta<typeof StatusBadge>;
 
+const statuser = [
+    IAProsessStatusEnum.enum.IKKE_AKTIV,
+    IAProsessStatusEnum.enum.VURDERES,
+    IAProsessStatusEnum.enum.KONTAKTES,
+    IAProsessStatusEnum.enum.IKKE_AKTUELL
+]
+
 export const Hovedstory = () => (
-    [
-        <Story key={1} status={IAProsessStatusEnum.enum.IKKE_AKTIV} />,
-        <Story key={2} status={IAProsessStatusEnum.enum.VURDERES} />,
-        <Story key={3} status={IAProsessStatusEnum.enum.KONTAKTES} />,
-        <Story key={4} status={IAProsessStatusEnum.enum.IKKE_AKTUELL} />,
-    ]
+    statuser.map((status, idx) =>
+        <Story status={status} key={idx} />
+    )
 );
 
 const Story = ({ status }: { status: IAProsessStatusType}) => (<div>

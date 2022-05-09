@@ -25,25 +25,21 @@ export const SykefraværsstatistikkVirksomhet = ({
                     sykefraværsstatistikk.sykefraversprosent
                 )}
                 tittel="Sykefravær"
-                bakgrunnsfarge={"#A0A0A0"}
                 type="percent"
             />
             <StatistikkBoks
                 verdi={sykefraværsstatistikk.antallPersoner}
                 tittel="Antall arbeidsforhold"
-                bakgrunnsfarge={"#A0A0A0"}
                 type="decimal"
             />
             <StatistikkBoks
                 verdi={sykefraværsstatistikk.tapteDagsverk}
                 tittel="Tapte dagsverk"
-                bakgrunnsfarge={"#A0A0A0"}
                 type="decimal"
             />
             <StatistikkBoks
                 verdi={sykefraværsstatistikk.muligeDagsverk}
                 tittel="Mulige dagsverk"
-                bakgrunnsfarge={"#A0A0A0"}
                 type="decimal"
             />
         </HorisontalFlexMedGap>

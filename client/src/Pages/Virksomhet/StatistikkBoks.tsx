@@ -1,4 +1,4 @@
-import { Badge } from "../../components/Badge/Badge";
+import {Badge, Farge} from "../../components/Badge/Badge";
 
 const percentFormatter: Formatter = new Intl.NumberFormat("nb-NO", {
     maximumFractionDigits: 1,
@@ -34,39 +34,28 @@ interface Formatter {
 interface Props {
     verdi: number;
     tittel: string;
-    bakgrunnsfarge: string;
     type: FormatterType;
 }
 
-export const StatistikkBoks = ({
-    verdi,
-    tittel,
-    type,
-    bakgrunnsfarge,
-}: Props) => {
+export const StatistikkBoks = ({verdi, tittel, type }: Props) => {
     const formatter = getFormatter(type);
     return (
-        <div style={{flex: 1}}>
+        <div style={{flex: 1, textAlign: "center"}}>
             <Badge
-                color="white"
-                backgroundColor={bakgrunnsfarge}
+                backgroundColor={Farge.mørkeGrå}
                 text={tittel}
+                textColor={Farge.hvit}
+                styleAs={"div"}
             />
-            <div
+            <p
                 style={{
-                    textAlign: "center",
+                    fontWeight: "bold",
+                    fontSize: "3rem",
+                    margin: "auto",
                 }}
             >
-                <p
-                    style={{
-                        fontWeight: "bold",
-                        fontSize: "3rem",
-                        margin: "auto",
-                    }}
-                >
-                    {formatter.format(verdi)}
-                </p>
-            </div>
+                {formatter.format(verdi)}
+            </p>
         </div>
     );
 };

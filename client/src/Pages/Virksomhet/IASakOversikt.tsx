@@ -6,7 +6,7 @@ import {
     IASak,
 } from "../../domenetyper";
 import styled from "styled-components";
-import { hentBadgeFraStatus } from "../Prioritering/StatusBadge";
+import {hentBakgrunnsFargeForIAStatus, penskrivIAStatus} from "../Prioritering/StatusBadge";
 import { HorizontalFlexboxDiv } from "../Prioritering/HorizontalFlexboxDiv";
 import { nyHendelsePåSak, opprettSak } from "../../api/lydia-api";
 import { useState } from "react";
@@ -29,7 +29,7 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
         <StyledIABakgrunn status={IAProsessStatusEnum.enum.IKKE_AKTIV}>
             <BodyShort>
                 Status:{" "}
-                {hentBadgeFraStatus(IAProsessStatusEnum.enum.IKKE_AKTIV).text}
+                {penskrivIAStatus(IAProsessStatusEnum.enum.IKKE_AKTIV)}
             </BodyShort>
             <br />
             <Button
@@ -68,7 +68,7 @@ export const IASakOversikt = ({
                 <b>Saksnummer:</b> {sak.saksnummer}
             </BodyShort>
             <br />
-            <BodyShort>Status: {hentBadgeFraStatus(sak.status).text}</BodyShort>
+            <BodyShort>Status: {penskrivIAStatus(sak.status)}</BodyShort>
             {sak.eidAv && <BodyShort>Rådgiver: {sak.eidAv}</BodyShort>}
             <br />
             <HorizontalFlexboxDiv>
@@ -118,6 +118,5 @@ const StyledIABakgrunn = styled.div<IASakBakgrunnProps>`
     padding: 1rem;
     flex: 1;
     border-radius: 0px 0px 10px 10px;
-    background-color: ${(props) =>
-        hentBadgeFraStatus(props.status).backgroundColor};
+    background-color: ${(props) => hentBakgrunnsFargeForIAStatus(props.status)};
 `;
