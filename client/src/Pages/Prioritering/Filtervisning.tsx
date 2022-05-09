@@ -65,7 +65,7 @@ const Filtervisning = ({
         til: 100,
     });
     const [antallAnsatte, setAntallAnsatte] = useState<Range>({
-        fra: NaN,
+        fra: 5,
         til: NaN,
     });
     const [IAStatus, setIAStatus] = useState<IAProsessStatusType>();
