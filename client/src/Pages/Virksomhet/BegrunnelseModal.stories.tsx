@@ -10,17 +10,18 @@ export default {
     component: BegrunnelseModal,
 } as ComponentMeta<typeof BegrunnelseModal>;
 
-Modal.setAppElement?.(document.getElementById("root")!);
+Modal.setAppElement?.(document.body);
 
 export const BegrunnelseModalStory = () => {
     const [open, setOpen] = useState(false);
     return (
-        <div id="pokker">
+        <div>
             <button onClick={() => setOpen(true)}>{"Åpne"}</button>
             <BegrunnelseModal
                 hendelse={ikkeAktuellHendelseMock}
                 åpen={open}
-                lukk={() => setOpen(false)}
+                lagre={() => setOpen(false)}
+                onClose={() => setOpen(false)}
             />
         </div>
     );

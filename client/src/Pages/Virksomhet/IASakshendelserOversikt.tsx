@@ -32,6 +32,7 @@ export interface HendelseData {
     buttonVariant: "primary" | "secondary" | "tertiary" | "danger"
 }
 
+// TODO: splitt opp i to funksjoner og evt. returner hele knappen som en egen funksjon
 export const oversettNavnPåSakshendelsestype = (hendelsestype : IASakshendelseType): HendelseData => {
     switch(hendelsestype) {
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:

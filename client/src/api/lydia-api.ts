@@ -1,18 +1,17 @@
 import {
     Filterverdier,
-    filterverdierSchema, GyldigNesteHendelse,
+    filterverdierSchema, GyldigNesteHendelse, IANySakshendelseDto,
     IASak,
     iaSakSchema,
     IASakshendelse,
     iaSakshendelseSchema,
-    IASakshendelseType,
     NavAnsatt,
     navAnsattSchema,
     SykefraversstatistikkVirksomhet,
     sykefraversstatistikkVirksomhetListeSchema,
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
-    Søkeverdier,
+    Søkeverdier, ValgtÅrsakDto,
     Virksomhet,
     virksomhetsSchema,
 } from "../domenetyper";
@@ -212,22 +211,17 @@ export const useHentSakshendelserPåSak = (sak?: IASak) => {
 export const opprettSak = (orgnummer: string): Promise<IASak> =>
     post(`${iaSakPath}/${orgnummer}`, iaSakSchema);
 
-interface IANySakshendelse {
-    orgnummer: string;
-    saksnummer: string;
-    hendelsesType: string;
-    endretAvHendelseId: string;
-}
-
 export const nyHendelsePåSak = (
     sak: IASak,
-    hendelse: GyldigNesteHendelse
+    hendelse: GyldigNesteHendelse,
+    valgtÅrsak: ValgtÅrsakDto | null = null
 ): Promise<IASak> => {
-    const nyHendelseDto: IANySakshendelse = {
+    const nyHendelseDto: IANySakshendelseDto = {
         orgnummer: sak.orgnr,
         saksnummer: sak.saksnummer,
         hendelsesType: hendelse.saksHendelsestype,
         endretAvHendelseId: sak.endretAvHendelseId,
+        ...(valgtÅrsak && { payload: JSON.stringify(valgtÅrsak) })
     };
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
 };

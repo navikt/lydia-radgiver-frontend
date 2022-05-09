@@ -142,6 +142,11 @@ export const årsakSchema = z.object({
 
 export type Årsak = z.infer<typeof årsakSchema>
 
+export type ValgtÅrsakDto = {
+    type : string,
+    begrunnelser : string[]
+}
+
 export const gyldigNesteHendelseSchema = z.object({
     saksHendelsestype : IASakshendelseTypeEnum,
     gyldigeÅrsaker : z.array(årsakSchema)
@@ -174,3 +179,11 @@ export const iaSakshendelseSchema = z.object({
 })
 
 export type IASakshendelse = z.infer<typeof iaSakshendelseSchema>
+
+export interface IANySakshendelseDto {
+    orgnummer: string;
+    saksnummer: string;
+    hendelsesType: string;
+    endretAvHendelseId: string;
+    payload?: string
+}

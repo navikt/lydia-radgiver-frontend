@@ -6,7 +6,7 @@ import {
     Select,
 } from "@navikt/ds-react";
 import { useState } from "react";
-import { GyldigNesteHendelse, Årsak } from "../../domenetyper";
+import {GyldigNesteHendelse, ValgtÅrsakDto, Årsak} from "../../domenetyper";
 
 interface Props {
     hendelse: GyldigNesteHendelse;
@@ -17,7 +17,7 @@ const hentÅrsakFraÅrsakType = (
     { gyldigeÅrsaker }: GyldigNesteHendelse
 ) => gyldigeÅrsaker.find((årsak) => årsak.type === type);
 
-export const ModalInnhold = ({ hendelse }: Props & { lagre: () => void }) => {
+export const ModalInnhold = ({ hendelse, lagre }: Props & { lagre: (valgtÅrsak : ValgtÅrsakDto) => void }) => {
     const [valgtÅrsak, setValgtÅrsak] = useState<Årsak | undefined>(() => {
         return hendelse.gyldigeÅrsaker.length
             ? hendelse.gyldigeÅrsaker[0]
@@ -33,7 +33,7 @@ export const ModalInnhold = ({ hendelse }: Props & { lagre: () => void }) => {
                     setValgtÅrsak(hentÅrsakFraÅrsakType(e.target.value, hendelse));
                     setValgteBegrunnelser([]);
                 }}
-                value={valgtÅrsak?.navn}
+                value={valgtÅrsak?.type}
             >
                 {hendelse.gyldigeÅrsaker.map((årsak) => (
                     <option key={årsak.type} value={årsak.type}>
@@ -57,7 +57,15 @@ export const ModalInnhold = ({ hendelse }: Props & { lagre: () => void }) => {
             </CheckboxGroup>
             <Button
                 onClick={() => {
-                    console.table(valgteBegrunnelser);
+                    if (!valgtÅrsak || valgteBegrunnelser.length == 0) {
+                        console.error("Må velge en årsak")
+                        return
+                    }
+                    const valgtÅrsakDto : ValgtÅrsakDto = {
+                        type: valgtÅrsak.type,
+                        begrunnelser: valgteBegrunnelser
+                    }
+                    lagre(valgtÅrsakDto)
                 }}
             >
                 Lagre
@@ -69,16 +77,15 @@ export const ModalInnhold = ({ hendelse }: Props & { lagre: () => void }) => {
 export const BegrunnelseModal = ({
     hendelse,
     åpen,
-    lukk,
-}: Props & { åpen: boolean; lukk: () => void }) => {
+    onClose,
+    lagre,
+}: Props & { åpen: boolean; onClose : () => void, lagre: (valgtÅrsak : ValgtÅrsakDto) => void }) => {
     return (
-        <Modal open={åpen} onClose={lukk}>
+        <Modal parentSelector={() => document.getElementById("root")!} open={åpen} onClose={onClose}>
             <Modal.Content>
                 <ModalInnhold
                     hendelse={hendelse}
-                    lagre={() => {
-                        lukk();
-                    }}
+                    lagre={lagre}
                 />
             </Modal.Content>
         </Modal>
