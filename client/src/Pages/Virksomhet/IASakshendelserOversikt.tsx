@@ -27,18 +27,38 @@ const IngenHendelserPåSak = () => {
     return <Detail size="small" style={{ padding : "1rem 3rem"}}>Fant ingen samarbeidshistorikk på denne virksomheten</Detail>
 }
 
-export const oversettNavnPåSakshendelsestype = (hendelsestype : IASakshendelseType) => {
+export interface HendelseData {
+    text: string,
+    buttonVariant: "primary" | "secondary" | "tertiary" | "danger"
+}
+
+export const oversettNavnPåSakshendelsestype = (hendelsestype : IASakshendelseType): HendelseData => {
     switch(hendelsestype) {
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
-            return "Virksomhet vurderes"
+            return {
+                text: "Virksomhet vurderes",
+                buttonVariant: "primary"
+            }
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
-            return "Opprett sak for virksomhet"
+            return {
+                text: "Opprett sak for virksomhet",
+                buttonVariant: "primary"
+            }
         case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
-            return "Ta eierskap i sak"
+            return {
+                text: "Ta eierskap i sak",
+                buttonVariant: "primary"
+            }
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
-            return "Virksomhet skal kontaktes"
+            return {
+                text: "Virksomhet skal kontaktes",
+                buttonVariant: "primary"
+            }
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
-            return "Virksomhet er ikke aktuell"
+            return {
+                text: "Virksomhet er ikke aktuell",
+                buttonVariant: "danger"
+            }
     }
 }
 
@@ -55,7 +75,7 @@ const IASakshendelserTabell = ({sakshendelser}: { sakshendelser: IASakshendelse[
             <Table.Body>
                 {sakshendelser.map((sakshendelse) => (
                     <Table.Row key={sakshendelse.id}>
-                        <Table.DataCell>{oversettNavnPåSakshendelsestype(sakshendelse.hendelsestype)}</Table.DataCell>
+                        <Table.DataCell>{oversettNavnPåSakshendelsestype(sakshendelse.hendelsestype).text}</Table.DataCell>
                         <Table.DataCell>{sakshendelse.opprettetTidspunkt.toLocaleString()}</Table.DataCell>
                         <Table.DataCell>{sakshendelse.opprettetAv}</Table.DataCell>
                     </Table.Row>

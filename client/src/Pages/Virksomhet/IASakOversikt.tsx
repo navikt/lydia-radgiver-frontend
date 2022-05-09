@@ -72,10 +72,13 @@ export const IASakOversikt = ({
                                     muterState?.()
                                 );
                             }}
+                            variant={oversettNavnPåSakshendelsestype(
+                                hendelse.saksHendelsestype
+                            ).buttonVariant}
                         >
                             {oversettNavnPåSakshendelsestype(
                                 hendelse.saksHendelsestype
-                            )}
+                            ).text}
                         </Button>
                     );
                 })}
