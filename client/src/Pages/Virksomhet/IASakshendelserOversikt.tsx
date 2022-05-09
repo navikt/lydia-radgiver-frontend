@@ -1,11 +1,9 @@
-import {
-    IASakshendelse,
-} from "../../domenetyper";
+import { IASakshendelse } from "../../domenetyper";
 import styled from "styled-components";
 import { hvitRammeMedBoxShadow } from "../../styling/containere";
 import { Table, Heading, Detail } from "@navikt/ds-react";
 import { dato } from "../../util/DatoFormatter";
-import {oversettNavnPåSakshendelsestype} from "./IASakshendelseKnapp";
+import { oversettNavnPåSakshendelsestype } from "./IASakshendelseKnapp";
 
 export interface IASakHendelserOversiktProps {
     sakshendelser: IASakshendelse[];
@@ -29,7 +27,13 @@ const IASakshendelserOversikt = ({
                 Samarbeidshistorikk
             </Heading>
             {sakshendelser.length > 0 ? (
-                <IASakshendelserTabell sakshendelser={sakshendelser} />
+                <IASakshendelserTabell
+                    sakshendelser={sakshendelser.sort(
+                        (a, b) =>
+                            b.opprettetTidspunkt.getTime() -
+                            a.opprettetTidspunkt.getTime()
+                    )}
+                />
             ) : (
                 <IngenHendelserPåSak />
             )}
@@ -45,8 +49,12 @@ const IngenHendelserPåSak = () => {
     );
 };
 
-const IASakshendelserTabell = ({sakshendelser}: { sakshendelser: IASakshendelse[] }) => {
-    const kolonneNavn = ["Hendelse", "Tidspunkt", "Person"]
+const IASakshendelserTabell = ({
+    sakshendelser,
+}: {
+    sakshendelser: IASakshendelse[];
+}) => {
+    const kolonneNavn = ["Hendelse", "Tidspunkt", "Person"];
 
     return (
         <>
@@ -65,7 +73,9 @@ const IASakshendelserTabell = ({sakshendelser}: { sakshendelser: IASakshendelse[
                         return (
                             <Table.Row key={sakshendelse.id}>
                                 <Table.DataCell>
-                                    {oversettNavnPåSakshendelsestype(sakshendelse.hendelsestype)}
+                                    {oversettNavnPåSakshendelsestype(
+                                        sakshendelse.hendelsestype
+                                    )}
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     {dato(sakshendelse.opprettetTidspunkt)}
