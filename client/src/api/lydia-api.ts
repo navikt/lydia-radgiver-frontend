@@ -1,6 +1,8 @@
 import {
     Filterverdier,
-    filterverdierSchema, GyldigNesteHendelse, IANySakshendelseDto,
+    filterverdierSchema,
+    GyldigNesteHendelse,
+    IANySakshendelseDto,
     IASak,
     iaSakSchema,
     IASakshendelse,
@@ -11,7 +13,8 @@ import {
     sykefraversstatistikkVirksomhetListeSchema,
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
-    Søkeverdier, ValgtÅrsakDto,
+    Søkeverdier,
+    ValgtÅrsakDto,
     Virksomhet,
     virksomhetsSchema,
 } from "../domenetyper";
@@ -50,15 +53,15 @@ const fetchNative =
             .then((res) => (res.ok ? res : Promise.reject(res.text())))
             .then((res) => res.json())
             .catch((e: Promise<string | ZodError>) => {
-                e.then(reason => {
+                e.then((reason) => {
                     if (reason instanceof ZodError) {
-                        console.error(reason)
-                        return
+                        console.error(reason);
+                        return;
                     }
                     dispatchFeilmelding({
                         feilmelding: reason,
                     });
-                })
+                });
             })
             .then((data) => {
                 const safeparsed = schema.safeParse(data);
@@ -116,7 +119,7 @@ const useSwrTemplate = <T>(
         };
     }
     return {
-        data,
+        data: safeParseResultat.data,
         mutate,
         error: undefined,
         loading: false,
@@ -173,7 +176,7 @@ export const useHentSykefraværsstatistikkForVirksomhet = (
         orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}` : null,
         sykefraversstatistikkVirksomhetListeSchema,
         {
-             revalidateOnFocus: true
+            revalidateOnFocus: true,
         }
     );
 };
@@ -183,7 +186,7 @@ export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
         orgnummer ? `${virksomhetsPath}/${orgnummer}` : null,
         virksomhetsSchema,
         {
-            revalidateOnFocus: true
+            revalidateOnFocus: true,
         }
     );
 };
@@ -194,7 +197,7 @@ export const useHentBrukerinformasjon = () =>
 export const useHentSakerForVirksomhet = (orgnummer?: string) => {
     const iasakUrl = `${iaSakPath}/${orgnummer}`;
     return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array(), {
-        revalidateOnFocus: true
+        revalidateOnFocus: true,
     });
 };
 
@@ -203,7 +206,7 @@ export const useHentSakshendelserPåSak = (sak?: IASak) => {
         () => (sak ? `${iaSakHentHendelserPath}/${sak.saksnummer}` : null),
         iaSakshendelseSchema.array(),
         {
-            revalidateOnFocus: true
+            revalidateOnFocus: true,
         }
     );
 };
@@ -221,7 +224,7 @@ export const nyHendelsePåSak = (
         saksnummer: sak.saksnummer,
         hendelsesType: hendelse.saksHendelsestype,
         endretAvHendelseId: sak.endretAvHendelseId,
-        ...(valgtÅrsak && { payload: JSON.stringify(valgtÅrsak) })
+        ...(valgtÅrsak && { payload: JSON.stringify(valgtÅrsak) }),
     };
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
 };
