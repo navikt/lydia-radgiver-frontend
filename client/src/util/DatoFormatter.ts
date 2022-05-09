@@ -3,5 +3,4 @@ const dateFormat = new Intl.DateTimeFormat("nb-NO", {
     timeStyle: "medium",
 });
 
-export const dato = (input: string | Date) =>
-    dateFormat.format(new Date(input));
+export const dato = (input: Date) => dateFormat.format(new Date(input));
