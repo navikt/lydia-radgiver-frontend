@@ -1,12 +1,11 @@
 import {
     IASakshendelse,
-    IASakshendelseType,
-    IASakshendelseTypeEnum,
 } from "../../domenetyper";
 import styled from "styled-components";
 import { hvitRammeMedBoxShadow } from "../../styling/containere";
 import { Table, Heading, Detail } from "@navikt/ds-react";
 import { dato } from "../../util/DatoFormatter";
+import {oversettNavnPåSakshendelsestype} from "./IASakshendelseKnapp";
 
 export interface IASakHendelserOversiktProps {
     sakshendelser: IASakshendelse[];
@@ -46,50 +45,8 @@ const IngenHendelserPåSak = () => {
     );
 };
 
-export interface HendelseData {
-    text: string;
-    buttonVariant: "primary" | "secondary" | "tertiary" | "danger";
-}
-
-// TODO: splitt opp i to funksjoner og evt. returner hele knappen som en egen funksjon
-export const oversettNavnPåSakshendelsestype = (
-    hendelsestype: IASakshendelseType
-): HendelseData => {
-    switch (hendelsestype) {
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
-            return {
-                text: "Virksomhet vurderes",
-                buttonVariant: "primary",
-            };
-        case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
-            return {
-                text: "Opprett sak for virksomhet",
-                buttonVariant: "primary",
-            };
-        case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
-            return {
-                text: "Ta eierskap i sak",
-                buttonVariant: "primary",
-            };
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
-            return {
-                text: "Virksomhet skal kontaktes",
-                buttonVariant: "primary",
-            };
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
-            return {
-                text: "Virksomhet er ikke aktuell",
-                buttonVariant: "danger",
-            };
-    }
-};
-
-const IASakshendelserTabell = ({
-    sakshendelser,
-}: {
-    sakshendelser: IASakshendelse[];
-}) => {
-    const kolonneNavn = ["Hendelse", "Tidspunkt", "Person"];
+const IASakshendelserTabell = ({sakshendelser}: { sakshendelser: IASakshendelse[] }) => {
+    const kolonneNavn = ["Hendelse", "Tidspunkt", "Person"]
 
     return (
         <>
@@ -105,15 +62,10 @@ const IASakshendelserTabell = ({
                 </Table.Header>
                 <Table.Body>
                     {sakshendelser.map((sakshendelse) => {
-                        console.log(typeof sakshendelse.opprettetTidspunkt);
                         return (
                             <Table.Row key={sakshendelse.id}>
                                 <Table.DataCell>
-                                    {
-                                        oversettNavnPåSakshendelsestype(
-                                            sakshendelse.hendelsestype
-                                        ).text
-                                    }
+                                    {oversettNavnPåSakshendelsestype(sakshendelse.hendelsestype)}
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     {dato(sakshendelse.opprettetTidspunkt)}
