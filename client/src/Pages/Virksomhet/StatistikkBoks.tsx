@@ -46,7 +46,7 @@ export const StatistikkBoks = ({
 }: Props) => {
     const formatter = getFormatter(type);
     return (
-        <div>
+        <div style={{flex: 1}}>
             <Badge
                 color="white"
                 backgroundColor={bakgrunnsfarge}
