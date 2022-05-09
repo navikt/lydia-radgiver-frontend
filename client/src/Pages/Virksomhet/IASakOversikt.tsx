@@ -9,9 +9,9 @@ import styled from "styled-components";
 import {hentBadgeFraStatus} from "../Prioritering/StatusBadge";
 import {HorizontalFlexboxDiv} from "../Prioritering/HorizontalFlexboxDiv";
 import {nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
-import {oversettNavnPåSakshendelsestype} from "./IASakshendelserOversikt";
 import {useState} from "react";
 import {BegrunnelseModal} from "./BegrunnelseModal";
+import {knappeTypeFraSakshendelsesType, oversettNavnPåSakshendelsestype} from "./IASakshendelseKnapp";
 
 export interface IASakOversiktProps {
     orgnummer: string;
@@ -84,13 +84,11 @@ export const IASakOversikt = ({
 
                                 }
                             }}
-                            variant={oversettNavnPåSakshendelsestype(
-                                hendelse.saksHendelsestype
-                            ).buttonVariant}
+                            variant={knappeTypeFraSakshendelsesType(hendelse.saksHendelsestype)}
                         >
                             {oversettNavnPåSakshendelsestype(
                                 hendelse.saksHendelsestype
-                            ).text}
+                            )}
                         </Button>
                     );
                 })}
