@@ -82,7 +82,7 @@ export const BegrunnelseModal = ({
 }: Props & { åpen: boolean; onClose : () => void, lagre: (valgtÅrsak : ValgtÅrsakDto) => void }) => {
     return (
         <Modal parentSelector={() => document.getElementById("root")!} open={åpen} onClose={onClose}>
-            <Modal.Content>
+            <Modal.Content style={{ margin : "3rem"}}>
                 <ModalInnhold
                     hendelse={hendelse}
                     lagre={lagre}

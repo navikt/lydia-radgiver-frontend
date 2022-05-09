@@ -20,7 +20,13 @@ export const BegrunnelseModalStory = () => {
             <BegrunnelseModal
                 hendelse={ikkeAktuellHendelseMock}
                 åpen={open}
-                lagre={() => setOpen(false)}
+                lagre={(valgtÅrsak) => {
+                    alert(
+                        `Lagrer årsak ${valgtÅrsak.type} med begrunnelser
+                        ${valgtÅrsak.begrunnelser.join(", ")}`
+                    )
+                    setOpen(false)
+                }}
                 onClose={() => setOpen(false)}
             />
         </div>
