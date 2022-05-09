@@ -7,18 +7,18 @@ import {
     Sorteringsverdi,
     Søkeverdier,
 } from "../../domenetyper";
-import {Button} from "@navikt/ds-react";
-import {useMemo, useState} from "react";
-import {Range, SykefraværsprosentVelger} from "./SykefraværsprosentVelger";
-import {HorizontalFlexboxDiv} from "./HorizontalFlexboxDiv";
-import {Næringsgruppedropdown} from "./NæringsgruppeDropdown";
-import {Fylkedropdown, fylkesnummerTilFylke} from "./Fylkedropdown";
-import {Sorteringsmuligheter} from "./Sorteringsmuligheter";
-import {IAStatusDropdown} from "./IAStatusDropdown";
+import { Button } from "@navikt/ds-react";
+import { useMemo, useState } from "react";
+import { Range, SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
+import { HorizontalFlexboxDiv } from "./HorizontalFlexboxDiv";
+import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
+import { Fylkedropdown, fylkesnummerTilFylke } from "./Fylkedropdown";
+import { Sorteringsmuligheter } from "./Sorteringsmuligheter";
+import { IAStatusDropdown } from "./IAStatusDropdown";
 import styled from "styled-components";
-import {hvitRammeMedBoxShadow} from "../../styling/containere";
-import {Kommunedropdown} from "./Kommunedropdown";
-import {AntallAnsatteVelger} from "./AntallAnsatteVelger";
+import { hvitRammeMedBoxShadow } from "../../styling/containere";
+import { Kommunedropdown } from "./Kommunedropdown";
+import { AntallAnsatteVelger } from "./AntallAnsatteVelger";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -39,7 +39,7 @@ interface FiltervisningProps {
 
 const Søkeknapp = styled(Button)`
     width: 10rem;
-`
+`;
 
 const næringsgruppeKoderTilNæringsgrupper = (
     næringsgruppeKoder: string[],
@@ -55,7 +55,7 @@ const Filtervisning = ({
     filterverdier,
     oppdaterSøkeverdier,
     søkPåNytt,
-    className
+    className,
 }: FiltervisningProps) => {
     const [valgtFylke, setValgtFylke] = useState<Fylke>();
     const [valgtKommuner, setValgtKommuner] = useState<Kommune[]>([]);
@@ -66,9 +66,9 @@ const Filtervisning = ({
     });
     const [antallAnsatte, setAntallAnsatte] = useState<Range>({
         fra: NaN,
-        til: NaN
-    })
-    const [IAStatus, setIAStatus] = useState<IAProsessStatusType>()
+        til: NaN,
+    });
+    const [IAStatus, setIAStatus] = useState<IAProsessStatusType>();
     const [sorteringsverdi, setSorteringsverdi] =
         useState<Sorteringsverdi>("tapte_dagsverk");
 
@@ -79,14 +79,16 @@ const Filtervisning = ({
             filterverdier.fylker
         );
         if (!endretFylke) {
-            setValgtFylke(undefined)
+            setValgtFylke(undefined);
             oppdaterSøkeverdier({
-                fylker: []
-            })
+                fylker: [],
+            });
             return;
         }
         setValgtFylke(endretFylke);
-        const kommuner = valgtKommuner.filter(k => k.nummer.startsWith(endretFylke.nummer))
+        const kommuner = valgtKommuner.filter((k) =>
+            k.nummer.startsWith(endretFylke.nummer)
+        );
         setValgtKommuner(kommuner);
         oppdaterSøkeverdier({
             fylker: [endretFylke],
@@ -118,7 +120,7 @@ const Filtervisning = ({
     };
 
     const endreAntallAnsatte = (antallAnsatte: Range) => {
-        setAntallAnsatte(antallAnsatte)
+        setAntallAnsatte(antallAnsatte);
         oppdaterSøkeverdier({
             antallAnsatteRange: antallAnsatte,
         });
@@ -129,17 +131,22 @@ const Filtervisning = ({
     );
     const relevanteKommuner: GroupedKommune[] = useMemo(() => {
         if (valgtFylke) {
-            const kommunerFiltrertPåFylke = filtrerKommunerPåValgtFylke(valgtFylke, alleKommuner);
-            return [{
-                label: valgtFylke.navn,
-                options: kommunerFiltrertPåFylke
-            }]
+            const kommunerFiltrertPåFylke = filtrerKommunerPåValgtFylke(
+                valgtFylke,
+                alleKommuner
+            );
+            return [
+                {
+                    label: valgtFylke.navn,
+                    options: kommunerFiltrertPåFylke,
+                },
+            ];
         }
-        return filterverdier.fylker.map(fylke => ({
+        return filterverdier.fylker.map((fylke) => ({
             label: fylke.fylke.navn,
-            options: fylke.kommuner
-        }))
-    }, [valgtFylke, alleKommuner])
+            options: fylke.kommuner,
+        }));
+    }, [valgtFylke, alleKommuner]);
 
     return (
         <div className={className}>
@@ -172,16 +179,15 @@ const Filtervisning = ({
                 />
                 <AntallAnsatteVelger
                     antallAnsatte={antallAnsatte}
-                    endreAntallAnsatte={endreAntallAnsatte}/>
+                    endreAntallAnsatte={endreAntallAnsatte}
+                />
             </HorizontalFlexboxDiv>
             <br />
             <HorizontalFlexboxDiv>
                 <Sorteringsmuligheter
                     valgtSortering={sorteringsverdi}
                     sorteringsMuligheter={filterverdier.sorteringsnokler}
-                    endreSortering={(
-                        sortering
-                    ) => {
+                    endreSortering={(sortering) => {
                         setSorteringsverdi(sortering);
                         oppdaterSøkeverdier({
                             sorteringsnokkel: sortering,
@@ -190,10 +196,10 @@ const Filtervisning = ({
                 />
                 <IAStatusDropdown
                     endreStatus={(iastatus) => {
-                        setIAStatus(iastatus)
+                        setIAStatus(iastatus);
                         oppdaterSøkeverdier({
-                            iastatus
-                        })
+                            iastatus,
+                        });
                     }}
                     statuser={filterverdier.statuser}
                     valgtStatus={IAStatus}
@@ -212,11 +218,11 @@ const Filtervisning = ({
 };
 
 export interface GroupedKommune {
-    label: string,
-    options: Kommune[]
+    label: string;
+    options: Kommune[];
 }
 
 export const StyledFiltervisning = styled(Filtervisning)`
     ${hvitRammeMedBoxShadow}
     padding: 1rem;
-`
+`;
