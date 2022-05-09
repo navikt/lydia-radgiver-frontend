@@ -11,7 +11,9 @@ import {HorizontalFlexboxDiv} from "../Prioritering/HorizontalFlexboxDiv";
 import {nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
 import {useState} from "react";
 import {BegrunnelseModal} from "./BegrunnelseModal";
-import {knappeTypeFraSakshendelsesType, oversettNavnPåSakshendelsestype} from "./IASakshendelseKnapp";
+import {
+    IASakshendelseKnapp,
+} from "./IASakshendelseKnapp";
 
 export interface IASakOversiktProps {
     orgnummer: string;
@@ -59,6 +61,7 @@ export const IASakOversikt = ({
         );
 
     const skalRendreModal = !!valgtHendelseMedÅrsak;
+    const hendelseKreverBegrunnelse = (hendelse : GyldigNesteHendelse) => hendelse.gyldigeÅrsaker.length > 0
     return (
         <StyledIABakgrunn status={sak.status}>
             <BodyShort>
@@ -71,25 +74,11 @@ export const IASakOversikt = ({
             <HorizontalFlexboxDiv>
                 {sak.gyldigeNesteHendelser.map((hendelse) => {
                     return (
-                        <Button
-                            key={hendelse.saksHendelsestype}
-                            onClick={() => {
-                                if (hendelse.gyldigeÅrsaker.length > 0) {
-                                    // åpne modal med hendelse <hendelse>
-                                    setValgtHendelseMedÅrsak(hendelse)
-                                } else {
-                                    nyHendelsePåSak(sak, hendelse).then(() =>
-                                        muterState?.()
-                                    );
-
-                                }
-                            }}
-                            variant={knappeTypeFraSakshendelsesType(hendelse.saksHendelsestype)}
-                        >
-                            {oversettNavnPåSakshendelsestype(
-                                hendelse.saksHendelsestype
-                            )}
-                        </Button>
+                        <IASakshendelseKnapp key={hendelse.saksHendelsestype} hendelse={hendelse} onClick={() =>
+                            hendelseKreverBegrunnelse(hendelse)
+                                ? setValgtHendelseMedÅrsak(hendelse)
+                                : nyHendelsePåSak(sak, hendelse).then(() => muterState?.())
+                        }/>
                     );
                 })}
                 {valgtHendelseMedÅrsak &&

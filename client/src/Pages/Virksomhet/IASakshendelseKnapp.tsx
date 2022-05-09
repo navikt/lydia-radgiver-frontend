@@ -53,7 +53,7 @@ export const IASakshendelseKnapp = ({hendelse, onClick}: Props) => {
         <Button
             key={hendelse.saksHendelsestype}
             onClick={onClick}
-            variant={knappeTypeFraSakshendelsesType(hendelse)}
+            variant={knappeTypeFraSakshendelsesType(hendelse.saksHendelsestype)}
         >
             {oversettNavnPåSakshendelsestype(
                 hendelse.saksHendelsestype
