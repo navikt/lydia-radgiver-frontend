@@ -1,9 +1,16 @@
-import {StyledFiltervisning} from "./Filtervisning";
-import {StyledPrioriteringsTabell} from "./PrioriteringsTabell";
-import {useFilterverdier, useSykefraværsstatistikk,} from "../../api/lydia-api";
-import {useEffect, useState} from "react";
-import {Filterverdier, SykefraversstatistikkVirksomhet, Søkeverdier,} from "../../domenetyper";
-import {Loader} from "@navikt/ds-react";
+import { StyledFiltervisning } from "./Filtervisning";
+import { StyledPrioriteringsTabell } from "./PrioriteringsTabell";
+import {
+    useFilterverdier,
+    useSykefraværsstatistikk,
+} from "../../api/lydia-api";
+import { useEffect, useState } from "react";
+import {
+    Filterverdier,
+    SykefraversstatistikkVirksomhet,
+    Søkeverdier,
+} from "../../domenetyper";
+import { Loader } from "@navikt/ds-react";
 
 const tommeFilterverdier: Filterverdier = {
     fylker: [],
@@ -19,7 +26,13 @@ const Prioriteringsside = () => {
     );
     const [antallSider, setAntallSider] = useState(0);
     const [side, setSide] = useState(1);
-    const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>({ side });
+    const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>({
+        side,
+        antallAnsatteRange: {
+            fra: 5,
+            til: NaN,
+        },
+    });
     const [skalSøke, setSkalSøke] = useState(false);
     const skalViseTabell = !!sykefraværsstatistikk.length && !skalSøke;
 
