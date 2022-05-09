@@ -35,21 +35,34 @@ describe("kan parse datoer", () => {
             "gyldigeNesteHendelser": [
                 {
                     saksHendelsestype: "VIRKSOMHET_ER_IKKE_AKTUELL",
-                    gyldigeÅrsaker: [{
-                        navn: "Årsak 1",
-                        begrunnelser: [
-                            {
-                                navn: "Begrunnelse 1.1"
-                            }
-                        ]
-                    },{
-                        navn: "Årsak 2",
-                        begrunnelser: [
-                            {
-                                navn: "Begrunnelse 2.1"
-                            }
-                        ]
-                    }]
+                    gyldigeÅrsaker: [
+                        {
+                            type: "ÅRSAK_1",
+                            navn: "Årsak 1",
+                            begrunnelser: [
+                                {
+                                    type: "BEGRUNNELSE_1_1",
+                                    navn: "Begrunnelse 1.1"
+                                },
+                                {
+                                    type: "BEGRUNNELSE_1_2",
+                                    navn: "Begrunnelse 1.2"
+                                }
+                            ]
+                        },
+                        {
+                            type: "ÅRSAK_2",
+                            navn: "Årsak 2",
+                            begrunnelser: [
+                                {
+                                    type: "BEGRUNNELSE_2_1",
+                                    navn: "Begrunnelse 2.1"
+                                }, {
+                                    type: "BEGRUNNELSE_2_2",
+                                    navn: "Begrunnelse 2.2"
+                                }
+                            ]
+                        }]
                 },
                 {
                     saksHendelsestype: "TA_EIERSKAP_I_SAK",
