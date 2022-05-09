@@ -1,11 +1,11 @@
 import {
     Button,
     Checkbox,
-    CheckboxGroup,
+    CheckboxGroup, ErrorSummary,
     Modal,
     Select,
 } from "@navikt/ds-react";
-import { useState } from "react";
+import {useState} from "react";
 import {GyldigNesteHendelse, ValgtÅrsakDto, Årsak} from "../../domenetyper";
 
 interface Props {
@@ -14,16 +14,19 @@ interface Props {
 
 const hentÅrsakFraÅrsakType = (
     type: string,
-    { gyldigeÅrsaker }: GyldigNesteHendelse
+    {gyldigeÅrsaker}: GyldigNesteHendelse
 ) => gyldigeÅrsaker.find((årsak) => årsak.type === type);
 
-export const ModalInnhold = ({ hendelse, lagre }: Props & { lagre: (valgtÅrsak : ValgtÅrsakDto) => void }) => {
+export const ModalInnhold = ({hendelse, lagre}: Props & { lagre: (valgtÅrsak: ValgtÅrsakDto) => void }) => {
     const [valgtÅrsak, setValgtÅrsak] = useState<Årsak | undefined>(() => {
         return hendelse.gyldigeÅrsaker.length
             ? hendelse.gyldigeÅrsaker[0]
             : undefined;
     });
     const [valgteBegrunnelser, setValgteBegrunnelser] = useState<string[]>([]);
+    const [valideringsfeil, setValideringsfeil] = useState<string[]>([]);
+
+    const begrunnelserCheckboxId = "begrunnelser-checkbox"
 
     return (
         <>
@@ -41,12 +44,16 @@ export const ModalInnhold = ({ hendelse, lagre }: Props & { lagre: (valgtÅrsak 
                     </option>
                 ))}
             </Select>
-            <br />
+            <br/>
             <CheckboxGroup
                 size="medium"
+                id={begrunnelserCheckboxId}
                 legend="Begrunnelse for at samarbeidet ikke blir igangsatt"
                 value={valgteBegrunnelser}
-                onChange={(v) => setValgteBegrunnelser(v)}
+                onChange={(v) => {
+                    setValgteBegrunnelser(v)
+                    setValideringsfeil([])
+                }}
                 hideLegend
             >
                 {valgtÅrsak?.begrunnelser.map((begrunnelse) => (
@@ -58,31 +65,41 @@ export const ModalInnhold = ({ hendelse, lagre }: Props & { lagre: (valgtÅrsak 
             <Button
                 onClick={() => {
                     if (!valgtÅrsak || valgteBegrunnelser.length == 0) {
-                        console.error("Må velge en årsak")
+                        setValideringsfeil([...valideringsfeil, "Du må velge minst én begrunnelse"])
                         return
                     }
-                    const valgtÅrsakDto : ValgtÅrsakDto = {
+                    const valgtÅrsakDto: ValgtÅrsakDto = {
                         type: valgtÅrsak.type,
                         begrunnelser: valgteBegrunnelser
                     }
                     lagre(valgtÅrsakDto)
+                    setValideringsfeil([])
                 }}
             >
                 Lagre
             </Button>
+            {valideringsfeil.length > 0 && <ErrorSummary style={{ marginTop : "1rem"}}>
+                {valideringsfeil.map(feil =>
+                    (<ErrorSummary.Item key={feil} href={`#${begrunnelserCheckboxId}`}>
+                        {feil}
+                    </ErrorSummary.Item>)
+                )}
+
+            </ErrorSummary>
+            }
         </>
     );
 };
 
 export const BegrunnelseModal = ({
-    hendelse,
-    åpen,
-    onClose,
-    lagre,
-}: Props & { åpen: boolean; onClose : () => void, lagre: (valgtÅrsak : ValgtÅrsakDto) => void }) => {
+                                     hendelse,
+                                     åpen,
+                                     onClose,
+                                     lagre,
+                                 }: Props & { åpen: boolean; onClose: () => void, lagre: (valgtÅrsak: ValgtÅrsakDto) => void }) => {
     return (
         <Modal parentSelector={() => document.getElementById("root")!} open={åpen} onClose={onClose}>
-            <Modal.Content style={{ margin : "3rem"}}>
+            <Modal.Content style={{margin: "3rem"}}>
                 <ModalInnhold
                     hendelse={hendelse}
                     lagre={lagre}
