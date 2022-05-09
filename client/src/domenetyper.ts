@@ -128,12 +128,14 @@ const IA_SAKS_TYPER = [
 export const IASaksType = z.enum(IA_SAKS_TYPER)
 
 export const begrunnelseSchema = z.object({
+    type: z.string(),
     navn: z.string(),
 })
 
 export type Begrunnelse = z.infer<typeof begrunnelseSchema>
 
 export const årsakSchema = z.object({
+    type: z.string(),
     navn: z.string(),
     begrunnelser: z.array(begrunnelseSchema)
 })

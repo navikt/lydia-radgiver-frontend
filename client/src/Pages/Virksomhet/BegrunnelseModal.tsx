@@ -12,10 +12,10 @@ interface Props {
     hendelse: GyldigNesteHendelse;
 }
 
-const hentÅrsakFraNavn = (
-    navn: string,
+const hentÅrsakFraÅrsakType = (
+    type: string,
     { gyldigeÅrsaker }: GyldigNesteHendelse
-) => gyldigeÅrsaker.find((årsak) => årsak.navn === navn);
+) => gyldigeÅrsaker.find((årsak) => årsak.type === type);
 
 export const ModalInnhold = ({ hendelse }: Props & { lagre: () => void }) => {
     const [valgtÅrsak, setValgtÅrsak] = useState<Årsak | undefined>(() => {
@@ -30,13 +30,13 @@ export const ModalInnhold = ({ hendelse }: Props & { lagre: () => void }) => {
             <Select
                 label="Begrunnelse for at samarbeidet ikke blir igangsatt"
                 onChange={(e) => {
-                    setValgtÅrsak(hentÅrsakFraNavn(e.target.value, hendelse));
+                    setValgtÅrsak(hentÅrsakFraÅrsakType(e.target.value, hendelse));
                     setValgteBegrunnelser([]);
                 }}
                 value={valgtÅrsak?.navn}
             >
                 {hendelse.gyldigeÅrsaker.map((årsak) => (
-                    <option key={årsak.navn} value={årsak.navn}>
+                    <option key={årsak.type} value={årsak.type}>
                         {årsak.navn}
                     </option>
                 ))}
@@ -50,7 +50,7 @@ export const ModalInnhold = ({ hendelse }: Props & { lagre: () => void }) => {
                 hideLegend
             >
                 {valgtÅrsak?.begrunnelser.map((begrunnelse) => (
-                    <Checkbox value={begrunnelse.navn} key={begrunnelse.navn}>
+                    <Checkbox value={begrunnelse.type} key={begrunnelse.type}>
                         {begrunnelse.navn}
                     </Checkbox>
                 ))}
