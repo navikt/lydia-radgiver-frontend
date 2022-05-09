@@ -12,7 +12,7 @@ const kolonneNavn = [
     'Antall arbeidsforhold',
     'Tapte dagsverk',
     'Mulige dagsverk',
-    'Kontaktperson'
+    'Rådgiver'
 ]
 
 

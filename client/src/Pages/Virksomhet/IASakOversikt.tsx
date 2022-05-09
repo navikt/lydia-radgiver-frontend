@@ -69,7 +69,7 @@ export const IASakOversikt = ({
             </BodyShort>
             <br />
             <BodyShort>Status: {hentBadgeFraStatus(sak.status).text}</BodyShort>
-            {sak.eidAv && <BodyShort>Kontaktperson: {sak.eidAv}</BodyShort>}
+            {sak.eidAv && <BodyShort>Rådgiver: {sak.eidAv}</BodyShort>}
             <br />
             <HorizontalFlexboxDiv>
                 {sak.gyldigeNesteHendelser.map((hendelse) => {
