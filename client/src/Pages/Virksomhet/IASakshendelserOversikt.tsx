@@ -54,7 +54,7 @@ const IASakshendelserTabell = ({
 }: {
     sakshendelser: IASakshendelse[];
 }) => {
-    const kolonneNavn = ["Hendelse", "Tidspunkt", "Person"];
+    const kolonneNavn = ["Hendelse", "Tidspunkt", "Ansvarlig"];
 
     return (
         <>
