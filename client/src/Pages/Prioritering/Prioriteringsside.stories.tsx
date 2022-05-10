@@ -14,9 +14,31 @@ export default {
     component: Prioriteringsside,
 } as ComponentMeta<typeof Prioriteringsside>;
 
-export const PrioriteringssideMedData = () => <Prioriteringsside />;
+export const PrioriteringssideMedDataStory = () => (<Prioriteringsside />);
 
-PrioriteringssideMedData.parameters = {
+PrioriteringssideMedDataStory.parameters = {
+    msw: {
+        handlers: [
+            rest.get(filterverdierPath, (req, res, ctx) => {
+                return res(ctx.json(filterverdierMock));
+            }),
+            rest.get(sykefraværsstatistikkPath, (req, res, ctx) => {
+                return res (
+                    ctx.delay(2000),
+                    ctx.json({
+                        data: sykefraværsstatistikkMock,
+                        total: 500000,
+                    })
+                )
+            }),
+        ],
+    },
+};
+
+
+export const PrioriteringssideUtenResultaterFraSøkStory = () => (<Prioriteringsside />);
+
+PrioriteringssideUtenResultaterFraSøkStory.parameters = {
     msw: {
         handlers: [
             rest.get(filterverdierPath, (req, res, ctx) => {
@@ -25,8 +47,8 @@ PrioriteringssideMedData.parameters = {
             rest.get(sykefraværsstatistikkPath, (req, res, ctx) => {
                 return res(
                     ctx.json({
-                        data: sykefraværsstatistikkMock,
-                        total: 500000,
+                        data: [],
+                        total: 0,
                     })
                 );
             }),

@@ -18,12 +18,9 @@ const tommeFilterverdier: Filterverdier = {
     sorteringsnokler: [],
     statuser: [],
 };
-const tomSykefraværsstatistikk: SykefraversstatistikkVirksomhet[] = [];
 
 const Prioriteringsside = () => {
-    const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState(
-        tomSykefraværsstatistikk
-    );
+    const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState<SykefraversstatistikkVirksomhet[]>();
     const [antallSider, setAntallSider] = useState(0);
     const [side, setSide] = useState(1);
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>({
@@ -34,7 +31,9 @@ const Prioriteringsside = () => {
         },
     });
     const [skalSøke, setSkalSøke] = useState(false);
-    const skalViseTabell = !!sykefraværsstatistikk.length && !skalSøke;
+    const harSøktMinstEnGang = sykefraværsstatistikk !== undefined
+    const fantResultaterISøk = harSøktMinstEnGang && sykefraværsstatistikk.length > 0
+    const skalViseTabell = fantResultaterISøk && !skalSøke;
 
     const { data: filterverdier } = useFilterverdier();
     const {
@@ -75,7 +74,7 @@ const Prioriteringsside = () => {
                 }}
             />
             <br />
-            {skalViseTabell && (
+            {skalViseTabell ? (
                 <StyledPrioriteringsTabell
                     sykefraværsstatistikk={sykefraværsstatistikk}
                     endreSide={(side) => {
@@ -84,7 +83,7 @@ const Prioriteringsside = () => {
                     antallSider={antallSider}
                     side={side}
                 />
-            )}
+            ) : harSøktMinstEnGang && !loading && <SøketGaIngenResultater />}
             <div style={{ textAlign: "center" }}>
                 {loading && (
                     <Loader
@@ -93,14 +92,14 @@ const Prioriteringsside = () => {
                         size={"xlarge"}
                     />
                 )}
-                {error && (
-                    <p>
-                        Noe gikk galt under uthenting av sykefraværsstatistikk
-                    </p>
-                )}
+                {error && <p> Noe gikk galt under uthenting av sykefraværsstatistikk</p>}
             </div>
         </>
     );
 };
+
+const SøketGaIngenResultater = () => (
+    <p style={{ textAlign : "center"}}>Søket ga ingen resultater</p>
+)
 
 export default Prioriteringsside;

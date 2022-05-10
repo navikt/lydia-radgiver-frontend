@@ -7,6 +7,7 @@ export default {
     title: "Prioritering/Prioriteringstabell",
     component: StyledPrioriteringsTabell,
 } as ComponentMeta<typeof StyledPrioriteringsTabell>;
+
 export const Hovedstory = () => {
     const antallSider = 4
     const antalPerSide = 5
