@@ -17,7 +17,7 @@ function AntallAnsatteInput({label, value, endreAntallAnsatte}: {label: string, 
                     setAnsatte("")
                     endreAntallAnsatte(NaN)
                 } else {
-                    let nyAnsatte = Math.floor(Math.abs(e.target.valueAsNumber))
+                    const nyAnsatte = Math.floor(Math.abs(e.target.valueAsNumber))
                     setAnsatte(String(nyAnsatte))
                     endreAntallAnsatte(nyAnsatte)
                 }

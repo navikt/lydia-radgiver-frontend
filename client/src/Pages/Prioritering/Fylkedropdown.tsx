@@ -1,17 +1,20 @@
 import {Fylke, FylkerMedKommuner} from "../../domenetyper";
 import {Select} from "@navikt/ds-react";
 import {sorterAlfabetisk, stateUpdater} from "./Filtervisning";
+import {CSSProperties} from "react";
 
-export const Fylkedropdown = ({fylkerOgKommuner, valgtFylke, endreFylke}: {
+export const Fylkedropdown = ({fylkerOgKommuner, valgtFylke, endreFylke, style}: {
     fylkerOgKommuner: FylkerMedKommuner[];
     valgtFylke: Fylke | undefined;
     endreFylke: stateUpdater;
+    style?: CSSProperties;
 }) => {
     return (
         <Select
             label="Fylke"
             value={valgtFylke?.nummer ?? ""}
             onChange={(e) => endreFylke(e.target.value)}
+            style={style}
         >
             <option value="">Vis alle</option>
             {fylkerOgKommuner

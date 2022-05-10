@@ -155,14 +155,15 @@ const Filtervisning = ({
                     fylkerOgKommuner={filterverdier.fylker}
                     valgtFylke={valgtFylke}
                     endreFylke={endreFylke}
+                    style={{ flex: "1" }}
+                />
+                <Kommunedropdown
+                    kommuneGroup={relevanteKommuner}
+                    valgtKommuner={valgtKommuner}
+                    endreKommuner={endreKommuner}
+                    style={{ flex: "5" }}
                 />
             </HorizontalFlexboxDiv>
-            <br />
-            <Kommunedropdown
-                kommuneGroup={relevanteKommuner}
-                valgtKommuner={valgtKommuner}
-                endreKommuner={endreKommuner}
-            />
             <br />
             <Næringsgruppedropdown
                 næringsgrupper={filterverdier.neringsgrupper}

@@ -2,6 +2,7 @@ import {Label} from "@navikt/ds-react";
 import {Kommune} from "../../domenetyper";
 import {GroupedKommune, sorterAlfabetisk} from "./Filtervisning";
 import {StyledReactSelect, reactSelectStyle} from "../../components/ReactSelect/StyledReactSelect";
+import {CSSProperties} from "react";
 
 const kommuneDropdownId = "kommunedropdown"
 
@@ -9,15 +10,16 @@ interface Props {
     kommuneGroup: GroupedKommune[]
     valgtKommuner?: Kommune[]
     endreKommuner: (kommuner: Kommune[]) => void
+    style?: CSSProperties
 }
 
-export const Kommunedropdown = ({ kommuneGroup, endreKommuner, valgtKommuner = [] }: Props) => {
+export const Kommunedropdown = ({ kommuneGroup, endreKommuner, valgtKommuner = [], style }: Props) => {
     const sorterteKommuner = kommuneGroup.map(kg => ({
         label: kg.label,
         options: kg.options.sort((k1, k2) => sorterAlfabetisk(k1.navn, k2.navn))
     }))
     return (
-        <>
+        <div style={style}>
             <Label id={kommuneDropdownId}>Kommuner</Label>
             <StyledReactSelect
                 aria-labelledby={kommuneDropdownId}
@@ -34,6 +36,6 @@ export const Kommunedropdown = ({ kommuneGroup, endreKommuner, valgtKommuner = [
                     endreKommuner(verdier as Kommune[])
                 }}
             />
-        </>
+        </div>
     );
 }
