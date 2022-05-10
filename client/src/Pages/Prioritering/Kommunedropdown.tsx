@@ -29,7 +29,7 @@ export const Kommunedropdown = ({ kommuneGroup, endreKommuner, valgtKommuner = [
                 getOptionValue={(v) => (v as Kommune).nummer}
                 isMulti
                 styles={reactSelectStyle()}
-                placeholder="Velg kommune"
+                placeholder=""
                 onChange={(verdier) => {
                     endreKommuner(verdier as Kommune[])
                 }}

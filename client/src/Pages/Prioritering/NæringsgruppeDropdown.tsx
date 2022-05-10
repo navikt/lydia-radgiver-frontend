@@ -35,7 +35,7 @@ export const Næringsgruppedropdown = ({
                 defaultValue={valgtNæringsgruppe.map(
                     mapnæringsGruppeTilReactSelectOptions
                 )}
-                placeholder={"Velg næringsgruppe"}
+                placeholder={""}
                 isMulti
                 styles={reactSelectStyle()}
                 onChange={(verdier) => {

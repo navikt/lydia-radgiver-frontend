@@ -23,7 +23,6 @@ function AntallAnsatteInput({label, value, endreAntallAnsatte}: {label: string, 
                 }
 
             }}
-            placeholder={"antall ansatte"}
         />
     );
 }

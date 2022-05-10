@@ -13,7 +13,7 @@ export const Fylkedropdown = ({fylkerOgKommuner, valgtFylke, endreFylke}: {
             value={valgtFylke?.nummer ?? ""}
             onChange={(e) => endreFylke(e.target.value)}
         >
-            <option value="">Velg fylke</option>
+            <option value="">Vis alle</option>
             {fylkerOgKommuner
                 .sort((a, b) => sorterAlfabetisk(a.fylke.navn, b.fylke.navn))
                 .map(({fylke}) => (
