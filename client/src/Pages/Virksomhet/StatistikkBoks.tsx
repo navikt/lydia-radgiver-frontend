@@ -45,6 +45,7 @@ export const StatistikkBoks = ({verdi, tittel, type }: Props) => {
                 backgroundColor={Farge.mørkeGrå}
                 text={tittel}
                 textColor={Farge.hvit}
+                size={"medium"}
             />
             <p
                 style={{

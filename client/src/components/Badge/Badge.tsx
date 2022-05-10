@@ -1,5 +1,5 @@
 import React from "react";
-import {BodyShort} from "@navikt/ds-react/src";
+import {Detail, BodyShort} from "@navikt/ds-react";
 
 
 export enum Farge {
@@ -16,15 +16,19 @@ interface BadgeProps {
     text: string;
     backgroundColor: Farge;
     textColor?: Farge;
+    size?: "small" | "medium";
 }
 
 export const Badge = ({
     text,
     backgroundColor,
     textColor = Farge.svart,
+    size = "small",
 }: BadgeProps) => {
+    const TextComponent = size === "small" ? Detail : BodyShort
+
     return (
-        <BodyShort
+        <TextComponent
             as={"span"}
             style={{
                 backgroundColor: backgroundColor,
@@ -39,6 +43,6 @@ export const Badge = ({
             className={`navds-tag--medium`}
         >
             {text}
-        </BodyShort>
+        </TextComponent>
     );
 };
