@@ -100,12 +100,13 @@ export const virksomhetsSchema = z.object({
 
 export type Virksomhet = z.infer<typeof virksomhetsSchema>
 
-export const navAnsattSchema = z.object({
+export const brukerinfoSchema = z.object({
     navn: z.string(),
     ident: z.string(),
     epost: z.string(),
+    tokenUtløper: z.number()
 });
-export type NavAnsatt = z.infer<typeof navAnsattSchema>;
+export type Brukerinformasjon = z.infer<typeof brukerinfoSchema>;
 
 export type Fylke = z.infer<typeof fylkeOgKommuneSchema>;
 export type Kommune = z.infer<typeof fylkeOgKommuneSchema>;

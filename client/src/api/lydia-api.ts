@@ -7,8 +7,8 @@ import {
     iaSakSchema,
     IASakshendelse,
     iaSakshendelseSchema,
-    NavAnsatt,
-    navAnsattSchema,
+    Brukerinformasjon,
+    brukerinfoSchema,
     SykefraversstatistikkVirksomhet,
     sykefraversstatistikkVirksomhetListeSchema,
     sykefraværListeResponsSchema,
@@ -192,7 +192,7 @@ export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
 };
 
 export const useHentBrukerinformasjon = () =>
-    useSwrTemplate<NavAnsatt>(innloggetAnsattPath, navAnsattSchema);
+    useSwrTemplate<Brukerinformasjon>(innloggetAnsattPath, brukerinfoSchema);
 
 export const useHentSakerForVirksomhet = (orgnummer?: string) => {
     const iasakUrl = `${iaSakPath}/${orgnummer}`;
