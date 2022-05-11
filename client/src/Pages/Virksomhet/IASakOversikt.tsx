@@ -1,4 +1,4 @@
-import { BodyShort, Button } from "@navikt/ds-react";
+import { BodyShort } from "@navikt/ds-react";
 import {
     GyldigNesteHendelse,
     IAProsessStatusEnum,
@@ -11,7 +11,7 @@ import { HorizontalFlexboxDiv } from "../Prioritering/HorizontalFlexboxDiv";
 import { nyHendelsePåSak, opprettSak } from "../../api/lydia-api";
 import { useState } from "react";
 import { BegrunnelseModal } from "./BegrunnelseModal";
-import {IASakshendelseKnapp, oversettNavnPåSakshendelsestype} from "./IASakshendelseKnapp";
+import {IASakshendelseKnapp} from "./IASakshendelseKnapp";
 
 export interface IASakOversiktProps {
     orgnummer: string;
@@ -32,11 +32,12 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
                 {penskrivIAStatus(IAProsessStatusEnum.enum.IKKE_AKTIV)}
             </BodyShort>
             <br />
-            <Button
-                onClick={() => opprettSak(orgnummer).then(() => oppdaterSak())}
-            >
-                {oversettNavnPåSakshendelsestype(IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES)}
-            </Button>
+            <IASakshendelseKnapp
+                hendelsesType={IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES}
+                onClick={() =>
+                    opprettSak(orgnummer).then(() => oppdaterSak())
+                }
+            />
         </StyledIABakgrunn>
     );
 }
@@ -76,7 +77,7 @@ export const IASakOversikt = ({
                     return (
                         <IASakshendelseKnapp
                             key={hendelse.saksHendelsestype}
-                            hendelse={hendelse}
+                            hendelsesType={hendelse.saksHendelsestype}
                             onClick={() =>
                                 hendelseKreverBegrunnelse(hendelse)
                                     ? setValgtHendelseMedÅrsak(hendelse)

@@ -44,19 +44,20 @@ export const knappeTypeFraSakshendelsesType = (hendelsesType: IASakshendelseType
 }
 
 interface Props {
-    hendelse: GyldigNesteHendelse
+    hendelsesType: IASakshendelseType
     onClick: () => void
 }
 
-export const IASakshendelseKnapp = ({hendelse, onClick}: Props) => {
+export const IASakshendelseKnapp = ({hendelsesType, onClick}: Props) => {
     return (
         <Button
-            key={hendelse.saksHendelsestype}
+            key={hendelsesType}
             onClick={onClick}
-            variant={knappeTypeFraSakshendelsesType(hendelse.saksHendelsestype)}
+            variant={knappeTypeFraSakshendelsesType(hendelsesType)}
+            size={"small"}
         >
             {oversettNavnPåSakshendelsestype(
-                hendelse.saksHendelsestype
+                hendelsesType
             )}
         </Button>
     )
