@@ -9,7 +9,7 @@ export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): Farg
         case IAProsessStatusEnum.enum.VURDERES:
             return Farge.lyseBlå
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
-            return Farge.hvit
+            return Farge.grå
         case IAProsessStatusEnum.enum.KONTAKTES:
             return Farge.mørkeBlå
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
