@@ -27,7 +27,7 @@ export const Næringsgruppedropdown = ({
     const ariaLabelId = "næringsgruppe-aria-label";
     return (
         <>
-            <Label id={ariaLabelId}>Næringsgruppe</Label>
+            <Label id={ariaLabelId}>Næringsgrupper</Label>
             <StyledReactSelect
                 aria-labelledby={ariaLabelId}
                 noOptionsMessage={() => "Ingen næringsgrupper"}

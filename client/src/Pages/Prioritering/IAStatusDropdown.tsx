@@ -22,7 +22,7 @@ const penskrivIaStatus = (status: IAProsessStatusType) => {
     }
 }
 
-export const IAStatusDropdown = ({ valgtStatus, endreStatus, statuser }: Props) => (<Select label="IA-status" value={valgtStatus} onChange={event => {
+export const IAStatusDropdown = ({ valgtStatus, endreStatus, statuser }: Props) => (<Select label="Status" value={valgtStatus} onChange={event => {
     endreStatus((!!event.target.value && event.target.value as IAProsessStatusType) || undefined)
 }}>
     <option key="empty-status" value={""}>Vis alle</option>
