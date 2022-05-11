@@ -37,10 +37,14 @@ spec:
   azure:
     application:
       enabled: true
+      allowAllUsers: false
       claims:
+        groups:
+          - id: {{fiaSuperbrukerGroup}}
+          - id: {{fiaSaksbehandlerGroup}}
+          - id: {{fiaLesetilgangGroup}}
         extra:
           - "NAVident"
-      allowAllUsers: true
     sidecar:
       enabled: true
       autoLogin: true
