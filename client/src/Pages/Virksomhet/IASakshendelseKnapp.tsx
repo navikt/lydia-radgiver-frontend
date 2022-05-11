@@ -6,19 +6,19 @@ import {
 export const oversettNavnPåSakshendelsestype = (hendelsestype: IASakshendelseType): string => {
     switch (hendelsestype) {
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
-            return "Virksomhet vurderes"
+            return "Vurderes"
 
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
-            return "Opprett sak for virksomhet"
+            return "Opprett sak"
 
         case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
-            return "Ta eierskap i sak"
+            return "Ta eierskap"
 
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
-            return "Virksomhet skal kontaktes"
+            return "Kontaktes"
 
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
-            return "Virksomhet er ikke aktuell"
+            return "Ikke aktuell"
     }
 }
 

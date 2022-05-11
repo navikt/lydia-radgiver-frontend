@@ -3,7 +3,7 @@ import {
     GyldigNesteHendelse,
     IAProsessStatusEnum,
     IAProsessStatusType,
-    IASak,
+    IASak, IASakshendelseTypeEnum,
 } from "../../domenetyper";
 import styled from "styled-components";
 import {hentBakgrunnsFargeForIAStatus, penskrivIAStatus} from "../Prioritering/StatusBadge";
@@ -11,7 +11,7 @@ import { HorizontalFlexboxDiv } from "../Prioritering/HorizontalFlexboxDiv";
 import { nyHendelsePåSak, opprettSak } from "../../api/lydia-api";
 import { useState } from "react";
 import { BegrunnelseModal } from "./BegrunnelseModal";
-import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
+import {IASakshendelseKnapp, oversettNavnPåSakshendelsestype} from "./IASakshendelseKnapp";
 
 export interface IASakOversiktProps {
     orgnummer: string;
@@ -35,7 +35,7 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
             <Button
                 onClick={() => opprettSak(orgnummer).then(() => oppdaterSak())}
             >
-                Vurderes
+                {oversettNavnPåSakshendelsestype(IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES)}
             </Button>
         </StyledIABakgrunn>
     );
