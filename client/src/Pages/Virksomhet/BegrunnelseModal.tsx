@@ -31,7 +31,7 @@ export const ModalInnhold = ({hendelse, lagre}: Props & { lagre: (valgtÅrsak: V
     return (
         <>
             <Select
-                label="Begrunnelse for at samarbeidet ikke blir igangsatt"
+                label="Begrunnelse for at samarbeid ikke blir startet:"
                 onChange={(e) => {
                     setValgtÅrsak(hentÅrsakFraÅrsakType(e.target.value, hendelse));
                     setValgteBegrunnelser([]);
@@ -48,13 +48,13 @@ export const ModalInnhold = ({hendelse, lagre}: Props & { lagre: (valgtÅrsak: V
             <CheckboxGroup
                 size="medium"
                 id={begrunnelserCheckboxId}
-                legend="Begrunnelse for at samarbeidet ikke blir igangsatt"
+                legend="Velg en eller flere begrunnelser"
+                hideLegend
                 value={valgteBegrunnelser}
                 onChange={(v) => {
                     setValgteBegrunnelser(v)
                     setValideringsfeil([])
                 }}
-                hideLegend
             >
                 {valgtÅrsak?.begrunnelser.map((begrunnelse) => (
                     <Checkbox value={begrunnelse.type} key={begrunnelse.type}>
