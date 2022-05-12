@@ -1,4 +1,4 @@
-import { BodyShort } from "@navikt/ds-react";
+import {BodyShort} from "@navikt/ds-react";
 import {
     GyldigNesteHendelse,
     IAProsessStatusEnum,
@@ -7,11 +7,12 @@ import {
 } from "../../domenetyper";
 import styled from "styled-components";
 import {hentBakgrunnsFargeForIAStatus, penskrivIAStatus} from "../Prioritering/StatusBadge";
-import { HorizontalFlexboxDiv } from "../Prioritering/HorizontalFlexboxDiv";
-import { nyHendelsePåSak, opprettSak } from "../../api/lydia-api";
-import { useState } from "react";
-import { BegrunnelseModal } from "./BegrunnelseModal";
+import {HorizontalFlexboxDiv} from "../Prioritering/HorizontalFlexboxDiv";
+import {nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
+import {useState} from "react";
+import {BegrunnelseModal} from "./BegrunnelseModal";
 import {IASakshendelseKnapp} from "./IASakshendelseKnapp";
+import {sorterHendelserPåKnappeType} from "../../util/sortering";
 
 export interface IASakOversiktProps {
     orgnummer: string;
@@ -24,14 +25,14 @@ interface IngenAktiveSakerProps {
     oppdaterSak: () => void;
 }
 
-function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
+function IngenAktiveSaker({orgnummer, oppdaterSak}: IngenAktiveSakerProps) {
     return (
         <StyledIABakgrunn status={IAProsessStatusEnum.enum.IKKE_AKTIV}>
             <BodyShort>
                 Status:{" "}
                 {penskrivIAStatus(IAProsessStatusEnum.enum.IKKE_AKTIV)}
             </BodyShort>
-            <br />
+            <br/>
             <IASakshendelseKnapp
                 hendelsesType={IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES}
                 onClick={() =>
@@ -43,10 +44,10 @@ function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
 }
 
 export const IASakOversikt = ({
-    orgnummer,
-    iaSak: sak,
-    muterState,
-}: IASakOversiktProps) => {
+                                  orgnummer,
+                                  iaSak: sak,
+                                  muterState,
+                              }: IASakOversiktProps) => {
     const [valgtHendelseMedÅrsak, setValgtHendelseMedÅrsak] =
         useState<GyldigNesteHendelse>();
 
@@ -68,12 +69,14 @@ export const IASakOversikt = ({
             <BodyShort>
                 <b>Saksnummer:</b> {sak.saksnummer}
             </BodyShort>
-            <br />
+            <br/>
             <BodyShort>Status: {penskrivIAStatus(sak.status)}</BodyShort>
             {sak.eidAv && <BodyShort>Rådgiver: {sak.eidAv}</BodyShort>}
-            <br />
+            <br/>
             <HorizontalFlexboxDiv>
-                {sak.gyldigeNesteHendelser.map((hendelse) => {
+                {sak.gyldigeNesteHendelser
+                    .sort(sorterHendelserPåKnappeType)
+                    .map((hendelse) => {
                     return (
                         <IASakshendelseKnapp
                             key={hendelse.saksHendelsestype}
@@ -82,8 +85,8 @@ export const IASakOversikt = ({
                                 hendelseKreverBegrunnelse(hendelse)
                                     ? setValgtHendelseMedÅrsak(hendelse)
                                     : nyHendelsePåSak(sak, hendelse).then(() =>
-                                          muterState?.()
-                                      )
+                                        muterState?.()
+                                    )
                             }
                         />
                     );

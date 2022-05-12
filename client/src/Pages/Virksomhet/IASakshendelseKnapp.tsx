@@ -22,9 +22,16 @@ export const oversettNavnPåSakshendelsestype = (hendelsestype: IASakshendelseTy
     }
 }
 
-type ButtonVariant = "primary" | "secondary" | "tertiary" | "danger"
+export enum ButtonVariant {
+    "danger",
+    "primary",
+    "secondary",
+    "tertiary"
+}
 
-export const knappeTypeFraSakshendelsesType = (hendelsesType: IASakshendelseType): ButtonVariant => {
+type ButtonVariantType = keyof typeof ButtonVariant
+
+export const knappeTypeFraSakshendelsesType = (hendelsesType: IASakshendelseType): ButtonVariantType => {
     switch (hendelsesType) {
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
             return "primary"
