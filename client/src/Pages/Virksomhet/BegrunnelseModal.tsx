@@ -31,7 +31,7 @@ export const ModalInnhold = ({hendelse, lagre}: Props & { lagre: (valgtÅrsak: V
     return (
         <>
             <Select
-                label="Begrunnelse for at samarbeid ikke blir startet:"
+                label="Begrunnelse for at samarbeid ikke er aktuelt:"
                 onChange={(e) => {
                     setValgtÅrsak(hentÅrsakFraÅrsakType(e.target.value, hendelse));
                     setValgteBegrunnelser([]);
