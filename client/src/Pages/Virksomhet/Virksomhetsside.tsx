@@ -8,6 +8,7 @@ import {
 import {Loader} from "@navikt/ds-react";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
 import {IAProsessStatusEnum, IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
+import {sorterStatistikkPåSisteÅrstallOgKvartal} from "../../util/sortering";
 
 const Virksomhetsside = () => {
     const params = useParams();
@@ -68,13 +69,10 @@ const Virksomhetsside = () => {
 const aktivIaSak = (iaSaker?: IASak[]) : IASak | undefined =>
     iaSaker?.find((sak) => sak.status !== IAProsessStatusEnum.enum.IKKE_AKTIV)
 
-const sorterPåSisteÅrstallOgKvartal = (a: SykefraversstatistikkVirksomhet, b: SykefraversstatistikkVirksomhet) =>
-    a.arstall !== b.arstall ? b.arstall - a.arstall : b.kvartal - a.kvartal
-
 // TODO: bruk noe lignende et Either-pattern for å håndtere eventuell tomme lister her
 const filtrerPåSisteKvartal =
     (sykefraværsstatistikk: SykefraversstatistikkVirksomhet[]): SykefraversstatistikkVirksomhet =>
-    sykefraværsstatistikk.sort(sorterPåSisteÅrstallOgKvartal)[0]
+    sykefraværsstatistikk.sort(sorterStatistikkPåSisteÅrstallOgKvartal)[0]
 
 const LasterVirksomhet = () => <Loader
     title={"Laster inn virksomhet"}

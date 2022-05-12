@@ -1,8 +1,9 @@
 import {Label} from "@navikt/ds-react";
 import {Kommune} from "../../domenetyper";
-import {GroupedKommune, sorterAlfabetisk} from "./Filtervisning";
+import {GroupedKommune} from "./Filtervisning";
 import {StyledReactSelect, reactSelectStyle} from "../../components/ReactSelect/StyledReactSelect";
 import {CSSProperties} from "react";
+import {sorterAlfabetisk} from "../../util/sortering";
 
 const kommuneDropdownId = "kommunedropdown"
 

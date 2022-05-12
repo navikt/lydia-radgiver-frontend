@@ -1,13 +1,10 @@
 import {SykefraversstatistikkVirksomhet} from "../src/domenetyper";
 import {sykefraværsstatistikkMock} from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
+import {sorterStatistikkPåSisteÅrstallOgKvartal} from "../src/util/sortering";
 
-
-const sorterPåÅrstallOgSåKvartal = (a: SykefraversstatistikkVirksomhet, b: SykefraversstatistikkVirksomhet) =>
-    a.arstall !== b.arstall ? b.arstall - a.arstall : b.kvartal - a.kvartal
-
-export const filtrerPåSisteKvartal =
+const filtrerPåSisteKvartal =
     (sykefraværsstatistikk: SykefraversstatistikkVirksomhet[]): SykefraversstatistikkVirksomhet =>
-        sykefraværsstatistikk.sort(sorterPåÅrstallOgSåKvartal)[0]
+        sykefraværsstatistikk.sort(sorterStatistikkPåSisteÅrstallOgKvartal)[0]
 
 const årstall = [2022, 2021, 2020]
 const kvartal = [1, 2, 3, 4]

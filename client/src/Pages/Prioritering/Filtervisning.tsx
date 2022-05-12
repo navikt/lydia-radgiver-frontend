@@ -7,18 +7,18 @@ import {
     Sorteringsverdi,
     Søkeverdier,
 } from "../../domenetyper";
-import { Button } from "@navikt/ds-react";
-import { useMemo, useState } from "react";
-import { Range, SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
-import { HorizontalFlexboxDiv } from "./HorizontalFlexboxDiv";
-import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
-import { Fylkedropdown, fylkesnummerTilFylke } from "./Fylkedropdown";
-import { Sorteringsmuligheter } from "./Sorteringsmuligheter";
-import { IAStatusDropdown } from "./IAStatusDropdown";
+import {Button} from "@navikt/ds-react";
+import {useMemo, useState} from "react";
+import {Range, SykefraværsprosentVelger} from "./SykefraværsprosentVelger";
+import {HorizontalFlexboxDiv} from "./HorizontalFlexboxDiv";
+import {Næringsgruppedropdown} from "./NæringsgruppeDropdown";
+import {Fylkedropdown, fylkesnummerTilFylke} from "./Fylkedropdown";
+import {Sorteringsmuligheter} from "./Sorteringsmuligheter";
+import {IAStatusDropdown} from "./IAStatusDropdown";
 import styled from "styled-components";
-import { hvitRammeMedBoxShadow } from "../../styling/containere";
-import { Kommunedropdown } from "./Kommunedropdown";
-import { AntallAnsatteVelger } from "./AntallAnsatteVelger";
+import {hvitRammeMedBoxShadow} from "../../styling/containere";
+import {Kommunedropdown} from "./Kommunedropdown";
+import {AntallAnsatteVelger} from "./AntallAnsatteVelger";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -26,9 +26,6 @@ export const sorteringsverdier = {
 } as const;
 
 export type stateUpdater = (value: string) => void;
-
-export const sorterAlfabetisk = (a: string, b: string) =>
-    a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase());
 
 interface FiltervisningProps {
     filterverdier: Filterverdier;
