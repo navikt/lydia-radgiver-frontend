@@ -19,6 +19,18 @@ const tokenHolderPåÅLøpeUt = (brukerInformasjon: Brukerinformasjon) =>
     hentGjenværendeTidForBrukerMs(brukerInformasjon) < FEM_MINUTTER_SOM_MS
 
 export const Dekoratør = ({brukerInformasjon}: Props) => {
+    const [gjenværendeTidForBrukerMs, setGjenværendeTidForBrukerMs] = useState(
+        hentGjenværendeTidForBrukerMs(brukerInformasjon)
+    )
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setGjenværendeTidForBrukerMs(hentGjenværendeTidForBrukerMs(brukerInformasjon))
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return (
         <>
             <Header className="w-full">
@@ -32,24 +44,12 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
                 )}
             </Header>
             {tokenHolderPåÅLøpeUt(brukerInformasjon) &&
-                <RedirectKomponent brukerInformasjon={brukerInformasjon}/>}
+                <RedirectKomponent gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs}/>}
         </>
     )
 }
 
-const RedirectKomponent = ({brukerInformasjon}: Props) => {
-    const [gjenværendeTidForBrukerMs, setGjenværendeTidForBrukerMs] = useState(
-        hentGjenværendeTidForBrukerMs(brukerInformasjon)
-    )
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setGjenværendeTidForBrukerMs(hentGjenværendeTidForBrukerMs(brukerInformasjon))
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, []);
-
+const RedirectKomponent = ({gjenværendeTidForBrukerMs}: { gjenværendeTidForBrukerMs: number }) => {
     return gjenværendeTidForBrukerMs > 0
         ? <SesjonenHolderPåÅLøpeUt gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs}/>
         : <SesjonenErUtløpt/>
@@ -60,9 +60,8 @@ const SesjonenHolderPåÅLøpeUt = ({gjenværendeTidForBrukerMs}: { gjenværende
     return (
         <Alert variant="warning" style={{marginTop: "1rem"}}>
             <BodyShort>
-                Sesjonen din løper ut om {gjenværendeSekunder} sekunder. Vennligst trykk på <Link href={hentRedirectUrl()}>denne
-                lenken</Link> for å
-                logge inn på nytt
+                Sesjonen din løper ut om {gjenværendeSekunder} sekunder. Vennligst trykk på <Link
+                href={hentRedirectUrl()}>denne lenken</Link> for å logge inn på nytt
             </BodyShort>
         </Alert>
     )
@@ -71,8 +70,7 @@ const SesjonenHolderPåÅLøpeUt = ({gjenværendeTidForBrukerMs}: { gjenværende
 const SesjonenErUtløpt = () =>
     <Alert variant="error" style={{marginTop: "1rem"}}>
         <BodyShort>
-            Sesjonen din er utløpt. Vennligst trykk på <Link href={hentRedirectUrl()}>denne
-            lenken</Link> for å
-            logge inn på nytt
+            Sesjonen din er utløpt. Vennligst trykk på <Link href={hentRedirectUrl()}>denne lenken</Link> for å logge
+            inn på nytt
         </BodyShort>
     </Alert>
