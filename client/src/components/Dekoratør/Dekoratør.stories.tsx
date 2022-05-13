@@ -9,6 +9,7 @@ export default {
 
 
 const TRE_TIMER_MS = 1000 * 60 * 60 * 3
+const FEM_SEKUNDER_MS = 1000 * 5
 
 const brukerMedGyldigToken : Brukerinformasjon = {
     navn: "Gyldig Bruker",
@@ -17,13 +18,13 @@ const brukerMedGyldigToken : Brukerinformasjon = {
     tokenUtløper: Date.now() + TRE_TIMER_MS
 }
 
-const brukerMedUtgåttToken : Brukerinformasjon = {
+const brukerMedTokenSomHolderPåÅLøpeUt : Brukerinformasjon = {
     navn: "Utgått Bruker",
     ident: "X12345",
     epost: "a@b.com",
-    tokenUtløper: Date.now() - TRE_TIMER_MS
+    tokenUtløper: Date.now() + FEM_SEKUNDER_MS
 }
 
 export const Autentisert = () => <Dekoratør brukerInformasjon={brukerMedGyldigToken} />
 
-export const IkkeAutentisert = () => <Dekoratør brukerInformasjon={brukerMedUtgåttToken} />
+export const IkkeAutentisert = () => <Dekoratør brukerInformasjon={brukerMedTokenSomHolderPåÅLøpeUt} />
