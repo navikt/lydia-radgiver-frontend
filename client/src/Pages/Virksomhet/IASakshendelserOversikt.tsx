@@ -2,7 +2,7 @@ import { IASakshendelse } from "../../domenetyper";
 import styled from "styled-components";
 import { hvitRammeMedBoxShadow } from "../../styling/containere";
 import { Table, Heading, Detail } from "@navikt/ds-react";
-import { dato } from "../../util/DatoFormatter";
+import { lokalDato } from "../../util/DatoFormatter";
 import { oversettNavnPåSakshendelsestype } from "./IASakshendelseKnapp";
 
 export interface IASakHendelserOversiktProps {
@@ -78,7 +78,7 @@ const IASakshendelserTabell = ({
                                     )}
                                 </Table.DataCell>
                                 <Table.DataCell>
-                                    {dato(sakshendelse.opprettetTidspunkt)}
+                                    {lokalDato(sakshendelse.opprettetTidspunkt)}
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     {sakshendelse.opprettetAv}
