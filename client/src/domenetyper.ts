@@ -96,6 +96,7 @@ export const virksomhetsSchema = z.object({
     postnummer: z.string(),
     poststed: z.string(),
     neringsgrupper: næringsgrupperSchema.array(),
+    sektor: z.string().optional(),
 })
 
 export type Virksomhet = z.infer<typeof virksomhetsSchema>

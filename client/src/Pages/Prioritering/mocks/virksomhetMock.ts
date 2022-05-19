@@ -14,6 +14,11 @@ export const virksomhetMock: Virksomhet = {
         {
             navn: "En annen næring",
             kode: "23.321"
+        },
+        {
+            navn: "Produksjon av ikke-jernholdige metaller ellers",
+            kode: "24.450"
         }
-    ]
+    ],
+    sektor: "Privat og offentlig næringsvirksomhet"
 }

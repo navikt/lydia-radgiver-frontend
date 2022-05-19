@@ -9,7 +9,7 @@ import styled from "styled-components";
 import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
 import { StyledIASakshendelserOversikt } from "./IASakshendelserOversikt";
 import { IASakOversikt } from "./IASakOversikt";
-import { Heading } from "@navikt/ds-react";
+import {Detail, Heading} from "@navikt/ds-react";
 
 const VerticalFlex = styled.div`
     display: flex;
@@ -50,9 +50,18 @@ export const VirksomhetOversikt = ({
     return (
         <>
             <VerticalFlex>
-                <Heading level={"2"} size={"large"}>
-                    {virksomhet.navn}
-                </Heading>
+                <div style={{display:"flex", alignItems: "flex-end", flexDirection: "row"}}>
+                    <Heading level={"2"} size={"large"} style={{flex: "3"}}>
+                        {virksomhet.navn}
+                    </Heading>
+                    {
+                        virksomhet.sektor && (
+                        <Detail size={"medium"} style={{color: "#707070", flex: "1"}}>
+                            Sektor: {virksomhet.sektor}
+                        </Detail>)
+                    }
+
+                </div>
                 <HorisontalFlexMedToppRamme>
                     <VerticalFlex style={{ flex: 3 }}>
                         <StyledVirksomhetsInformasjon virksomhet={virksomhet} />
