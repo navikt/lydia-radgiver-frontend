@@ -12,12 +12,14 @@ import {TittelContext, TittelProvider} from "./Pages/Prioritering/TittelContext"
 import {useContext} from "react";
 
 const App = () =>
-    <TittelProvider>
-        <AppContent/>
-    </TittelProvider>
+    <BrowserRouter>
+        <TittelProvider>
+            <AppContent/>
+        </TittelProvider>
+    </BrowserRouter>
 
 const AppContent = () => {
-    const { tittel } = useContext(TittelContext)
+    const {tittel} = useContext(TittelContext)
     document.title = tittel
 
     const {data: brukerInformasjon} = useHentBrukerinformasjon();
@@ -25,20 +27,18 @@ const AppContent = () => {
         <>
             <Dekoratør brukerInformasjon={brukerInformasjon}/>
             <FeilmeldingBanner/>
-            <BrowserRouter>
-                <AppRamme>
-                    <Routes>
-                        <Route
-                            path={"/"}
-                            element={<Prioriteringsside/>}
-                        />
-                        <Route
-                            path={"/virksomhet/:orgnummer"}
-                            element={<Virksomhetsside/>}
-                        />
-                    </Routes>
-                </AppRamme>
-            </BrowserRouter>
+            <AppRamme>
+                <Routes>
+                    <Route
+                        path={"/"}
+                        element={<Prioriteringsside/>}
+                    />
+                    <Route
+                        path={"/virksomhet/:orgnummer"}
+                        element={<Virksomhetsside/>}
+                    />
+                </Routes>
+            </AppRamme>
         </>
     ) : null;
 }
