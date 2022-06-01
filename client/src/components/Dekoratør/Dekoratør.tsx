@@ -1,7 +1,8 @@
 import {Brukerinformasjon} from "../../domenetyper";
 import {Alert, BodyShort, Link} from "@navikt/ds-react";
 import {Header} from "@navikt/ds-react-internal";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
+import {TittelContext} from "../../Pages/Prioritering/TittelContext";
 
 interface Props {
     brukerInformasjon: Brukerinformasjon
@@ -19,6 +20,7 @@ const tokenHolderPåÅLøpeUt = (brukerInformasjon: Brukerinformasjon) =>
     hentGjenværendeTidForBrukerMs(brukerInformasjon) < FEM_MINUTTER_SOM_MS
 
 export const Dekoratør = ({brukerInformasjon}: Props) => {
+    const {tittel} = useContext(TittelContext)
     const [gjenværendeTidForBrukerMs, setGjenværendeTidForBrukerMs] = useState(
         hentGjenværendeTidForBrukerMs(brukerInformasjon)
     )
@@ -34,7 +36,7 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
     return (
         <>
             <Header className="w-full">
-                <Header.Title as="h1">Fia</Header.Title>
+                <Header.Title as="h1">{tittel}</Header.Title>
                 {brukerInformasjon && (
                     <Header.User
                         name={brukerInformasjon.navn}

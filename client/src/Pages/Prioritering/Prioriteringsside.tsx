@@ -4,13 +4,14 @@ import {
     useFilterverdier,
     useSykefraværsstatistikk,
 } from "../../api/lydia-api";
-import { useEffect, useState } from "react";
+import {useContext, useEffect, useState} from "react";
 import {
     Filterverdier,
     SykefraversstatistikkVirksomhet,
     Søkeverdier,
 } from "../../domenetyper";
 import { Loader } from "@navikt/ds-react";
+import {statiskeSidetitler, TittelContext} from "./TittelContext";
 
 const tommeFilterverdier: Filterverdier = {
     fylker: [],
@@ -20,6 +21,9 @@ const tommeFilterverdier: Filterverdier = {
 };
 
 const Prioriteringsside = () => {
+    const {oppdaterTittel} = useContext(TittelContext)
+    oppdaterTittel(statiskeSidetitler.prioriteringsside)
+
     const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState<SykefraversstatistikkVirksomhet[]>();
     const [antallSider, setAntallSider] = useState(0);
     const [side, setSide] = useState(1);

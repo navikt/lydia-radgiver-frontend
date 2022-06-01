@@ -9,8 +9,12 @@ import {Loader} from "@navikt/ds-react";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
 import {IAProsessStatusEnum, IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
 import {sorterStatistikkPåSisteÅrstallOgKvartal} from "../../util/sortering";
+import {useContext} from "react";
+import {statiskeSidetitler, TittelContext} from "../Prioritering/TittelContext";
 
 const Virksomhetsside = () => {
+    const {oppdaterTittel} = useContext(TittelContext)
+    oppdaterTittel(statiskeSidetitler.virksomhetsside)
     const params = useParams();
     const orgnummer = params.orgnummer
 
@@ -52,7 +56,7 @@ const Virksomhetsside = () => {
         sykefraværsstatistikk.length > 0 &&
         iaSaker
     ) {
-        document.title = `Fia - ${virksomhetsinformasjon.navn}`
+        oppdaterTittel(`Fia - ${virksomhetsinformasjon.navn}`)
         const statistikkForSisteKvartal = filtrerPåSisteKvartal(sykefraværsstatistikk)
         return <VirksomhetOversikt
             virksomhet={virksomhetsinformasjon}
@@ -66,13 +70,13 @@ const Virksomhetsside = () => {
     }
 };
 
-const aktivIaSak = (iaSaker?: IASak[]) : IASak | undefined =>
+const aktivIaSak = (iaSaker?: IASak[]): IASak | undefined =>
     iaSaker?.find((sak) => sak.status !== IAProsessStatusEnum.enum.IKKE_AKTIV)
 
 // TODO: bruk noe lignende et Either-pattern for å håndtere eventuell tomme lister her
 const filtrerPåSisteKvartal =
     (sykefraværsstatistikk: SykefraversstatistikkVirksomhet[]): SykefraversstatistikkVirksomhet =>
-    sykefraværsstatistikk.sort(sorterStatistikkPåSisteÅrstallOgKvartal)[0]
+        sykefraværsstatistikk.sort(sorterStatistikkPåSisteÅrstallOgKvartal)[0]
 
 const LasterVirksomhet = () => <Loader
     title={"Laster inn virksomhet"}

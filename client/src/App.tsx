@@ -8,8 +8,18 @@ import {Breakpoint, forLargerThan} from "./styling/breakpoint";
 import Virksomhetsside from "./Pages/Virksomhet/Virksomhetsside";
 import {FeilmeldingBanner} from "./Pages/FeilmeldingBanner";
 import {Dekoratør} from "./components/Dekoratør/Dekoratør";
+import {TittelContext, TittelProvider} from "./Pages/Prioritering/TittelContext";
+import {useContext} from "react";
 
-function App() {
+const App = () =>
+    <TittelProvider>
+        <AppContent/>
+    </TittelProvider>
+
+const AppContent = () => {
+    const { tittel } = useContext(TittelContext)
+    document.title = tittel
+
     const {data: brukerInformasjon} = useHentBrukerinformasjon();
     return brukerInformasjon ? (
         <>
@@ -20,22 +30,17 @@ function App() {
                     <Routes>
                         <Route
                             path={"/"}
-                            element={<Page title={"Fia - søk"} component={<Prioriteringsside/>}/>}
+                            element={<Prioriteringsside/>}
                         />
                         <Route
                             path={"/virksomhet/:orgnummer"}
-                            element={<Page title={"Fia - virksomhet"} component={<Virksomhetsside/>}/>}
+                            element={<Virksomhetsside/>}
                         />
                     </Routes>
                 </AppRamme>
             </BrowserRouter>
         </>
     ) : null;
-}
-
-export function Page({title, component}: { title: string, component: JSX.Element }) {
-    document.title = title
-    return component
 }
 
 const AppRamme = styled.div`
