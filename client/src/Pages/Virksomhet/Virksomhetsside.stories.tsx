@@ -7,7 +7,6 @@ import Virksomhetsside from "./Virksomhetsside";
 import {rest} from "msw";
 import {iaSakHentHendelserPath, iaSakPath, sykefraværsstatistikkPath, virksomhetsPath} from "../../api/lydia-api";
 import {MemoryRouter, Route, Routes} from "react-router-dom";
-import {Page} from "../../App";
 
 export default {
     title: "Virksomhet/Virksomhetside",
@@ -16,7 +15,7 @@ export default {
             <Routes>
                 <Route
                     path={"/virksomhet/:orgnummer"}
-                    element={<Page title={"Fia - virksomhet"} component={<Story/>}/>}
+                    element={<Story/>}
                 />
             </Routes>
         </MemoryRouter>]
