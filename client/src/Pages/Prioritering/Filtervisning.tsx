@@ -19,6 +19,7 @@ import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {Kommunedropdown} from "./Kommunedropdown";
 import {AntallAnsatteVelger} from "./AntallAnsatteVelger";
+import {KunMineVirksomheterToggle} from "./KunMineVirksomheterToggle";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -210,6 +211,9 @@ const Filtervisning = ({
                 >
                     Søk
                 </Søkeknapp>
+                <KunMineVirksomheterToggle onChangeCallback={(visKuneMineVirksomheter) =>
+                    oppdaterSøkeverdier({ kunMineVirksomheter : visKuneMineVirksomheter})
+                }/>
             </HorizontalFlexboxDiv>
         </div>
     );

@@ -85,8 +85,9 @@ export interface Søkeverdier {
     sykefraversprosentRange?: Range;
     antallAnsatteRange?: Range;
     sorteringsnokkel?: Sorteringsverdi;
-    iaStatus?: IAProsessStatusType
-    side?: number
+    iaStatus?: IAProsessStatusType;
+    side?: number;
+    kunMineVirksomheter?: boolean;
 }
 
 export const virksomhetsSchema = z.object({
