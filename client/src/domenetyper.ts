@@ -85,7 +85,7 @@ export interface Søkeverdier {
     sykefraversprosentRange?: Range;
     antallAnsatteRange?: Range;
     sorteringsnokkel?: Sorteringsverdi;
-    iastatus?: IAProsessStatusType
+    iaStatus?: IAProsessStatusType
     side?: number
 }
 

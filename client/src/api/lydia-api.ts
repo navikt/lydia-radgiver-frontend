@@ -274,7 +274,7 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
         }`
     );
     params.append("sorteringsnokkel", søkeverdier.sorteringsnokkel ?? "");
-    params.append("iaStatus", søkeverdier.iastatus ?? "");
+    params.append("iaStatus", søkeverdier.iaStatus ?? "");
     params.append("side", `${søkeverdier.side}`);
     return params;
 };
