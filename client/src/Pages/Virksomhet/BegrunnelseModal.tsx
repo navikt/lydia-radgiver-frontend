@@ -7,7 +7,6 @@ import {
 } from "@navikt/ds-react";
 import {useState} from "react";
 import {GyldigNesteHendelse, ValgtÅrsakDto, Årsak} from "../../domenetyper";
-import {rootHtmlElement} from "../../main";
 
 interface Props {
     hendelse: GyldigNesteHendelse;
@@ -98,6 +97,8 @@ export const BegrunnelseModal = ({
                                      onClose,
                                      lagre,
                                  }: Props & { åpen: boolean; onClose: () => void, lagre: (valgtÅrsak: ValgtÅrsakDto) => void }) => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const rootHtmlElement = document.getElementById("root")!
     return (
         <Modal parentSelector={() => rootHtmlElement} open={åpen} onClose={onClose}>
             <Modal.Content style={{margin: "3rem"}}>
