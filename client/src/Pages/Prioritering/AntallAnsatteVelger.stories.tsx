@@ -6,4 +6,5 @@ export default {
     component: AntallAnsatteVelger,
 } as ComponentMeta<typeof AntallAnsatteVelger>
 
+// eslint-disable-next-line @typescript-eslint/no-empty-function,@typescript-eslint/no-unused-vars
 export const Hovedstory = () => (<AntallAnsatteVelger  antallAnsatte={{fra:NaN, til:NaN}} endreAntallAnsatte={(_) => {}}/>)
