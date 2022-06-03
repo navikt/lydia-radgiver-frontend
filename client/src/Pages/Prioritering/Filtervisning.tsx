@@ -37,6 +37,7 @@ interface FiltervisningProps {
 
 const Søkeknapp = styled(Button)`
     width: 10rem;
+    margin-left: auto;
 `;
 
 const næringsgruppeKoderTilNæringsgrupper = (
@@ -203,6 +204,9 @@ const Filtervisning = ({
                     statuser={filterverdier.statuser}
                     valgtStatus={IAStatus}
                 />
+                <KunMineVirksomheterToggle onChangeCallback={(visKunMineVirksomheter) =>
+                    oppdaterSøkeverdier({ kunMineVirksomheter : visKunMineVirksomheter})
+                }/>
                 <Søkeknapp
                     size="medium"
                     onClick={() => {
@@ -211,9 +215,6 @@ const Filtervisning = ({
                 >
                     Søk
                 </Søkeknapp>
-                <KunMineVirksomheterToggle onChangeCallback={(visKuneMineVirksomheter) =>
-                    oppdaterSøkeverdier({ kunMineVirksomheter : visKuneMineVirksomheter})
-                }/>
             </HorizontalFlexboxDiv>
         </div>
     );

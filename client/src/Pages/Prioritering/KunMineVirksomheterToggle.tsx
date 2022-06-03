@@ -19,16 +19,14 @@ export const KunMineVirksomheterToggle = ({ onChangeCallback } : Props) => {
             setToggleVerdi(nyToggleVerdi)
             onChangeCallback(skalViseKunMineVirksomheter(nyToggleVerdi))
         }}
-        size="small"
+        size="medium"
         value={toggleVerdi}
     >
-        <ToggleGroup.Item value={toggleVerdier.visKunMineVirksomheter}>
-            Vis kun mine virksomheter
-        </ToggleGroup.Item>
         <ToggleGroup.Item value={toggleVerdier.visAlleVirksomheter}>
-            Vis alle virksomheter
+            Vis alle
+        </ToggleGroup.Item>
+        <ToggleGroup.Item value={toggleVerdier.visKunMineVirksomheter}>
+            Vis kun mine
         </ToggleGroup.Item>
     </ToggleGroup>
 }
-
-
