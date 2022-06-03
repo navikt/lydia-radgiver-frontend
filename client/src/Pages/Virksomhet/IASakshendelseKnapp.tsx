@@ -1,6 +1,6 @@
 import {Button} from "@navikt/ds-react";
 import {
-    GyldigNesteHendelse, IASakshendelseType, IASakshendelseTypeEnum,
+    IASakshendelseType, IASakshendelseTypeEnum,
 } from "../../domenetyper";
 
 export const oversettNavnPåSakshendelsestype = (hendelsestype: IASakshendelseType): string => {

@@ -42,7 +42,7 @@ const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
 
 const fetchNative =
     (method: "GET" | "POST" | "DELETE" | "PUT") =>
-    <T>(url: string, schema: ZodType<T>, body?: any): Promise<T> =>
+    <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
         fetch(url, {
             method,
             body: body ? JSON.stringify(body) : undefined,
@@ -70,7 +70,7 @@ const fetchNative =
                     : Promise.reject(safeparsed.error);
             });
 
-const post = <T>(url: string, schema: ZodType<T>, body?: any): Promise<T> =>
+const post = <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
     fetchNative("POST")(url, schema, body);
 const get = <T>(url: string, schema: ZodType<T>): Promise<T> =>
     fetchNative("GET")(url, schema);

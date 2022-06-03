@@ -97,8 +97,10 @@ export const BegrunnelseModal = ({
                                      onClose,
                                      lagre,
                                  }: Props & { åpen: boolean; onClose: () => void, lagre: (valgtÅrsak: ValgtÅrsakDto) => void }) => {
+    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+    const rootHtmlElement = document.getElementById("root")!
     return (
-        <Modal parentSelector={() => document.getElementById("root")!} open={åpen} onClose={onClose}>
+        <Modal parentSelector={() => rootHtmlElement} open={åpen} onClose={onClose}>
             <Modal.Content style={{margin: "3rem"}}>
                 <ModalInnhold
                     hendelse={hendelse}
