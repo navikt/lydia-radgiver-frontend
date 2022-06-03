@@ -10,7 +10,7 @@ import {
 import {Button} from "@navikt/ds-react";
 import {useMemo, useState} from "react";
 import {Range, SykefraværsprosentVelger} from "./SykefraværsprosentVelger";
-import {HorizontalFlexboxDiv} from "./HorizontalFlexboxDiv";
+import {HorizontalFlexboxDivGap3RemAlignItemsEnd} from "./HorizontalFlexboxDiv";
 import {Næringsgruppedropdown} from "./NæringsgruppeDropdown";
 import {Fylkedropdown, fylkesnummerTilFylke} from "./Fylkedropdown";
 import {Sorteringsmuligheter} from "./Sorteringsmuligheter";
@@ -147,7 +147,7 @@ const Filtervisning = ({
 
     return (
         <div className={className}>
-            <HorizontalFlexboxDiv>
+            <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <Fylkedropdown
                     fylkerOgKommuner={filterverdier.fylker}
                     valgtFylke={valgtFylke}
@@ -160,7 +160,7 @@ const Filtervisning = ({
                     endreKommuner={endreKommuner}
                     style={{ flex: "5" }}
                 />
-            </HorizontalFlexboxDiv>
+            </HorizontalFlexboxDivGap3RemAlignItemsEnd>
             <br />
             <Næringsgruppedropdown
                 næringsgrupper={filterverdier.neringsgrupper}
@@ -168,7 +168,7 @@ const Filtervisning = ({
                 endreNæringsgrupper={endreNæringsgruppe}
             />
             <br />
-            <HorizontalFlexboxDiv>
+            <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <SykefraværsprosentVelger
                     sykefraværsprosentRange={sykefraværsProsent}
                     endre={(nySykefraværsprosentRange: Range) =>
@@ -179,9 +179,9 @@ const Filtervisning = ({
                     antallAnsatte={antallAnsatte}
                     endreAntallAnsatte={endreAntallAnsatte}
                 />
-            </HorizontalFlexboxDiv>
+            </HorizontalFlexboxDivGap3RemAlignItemsEnd>
             <br />
-            <HorizontalFlexboxDiv>
+            <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <Sorteringsmuligheter
                     valgtSortering={sorteringsverdi}
                     sorteringsMuligheter={filterverdier.sorteringsnokler}
@@ -210,7 +210,7 @@ const Filtervisning = ({
                 >
                     Søk
                 </Søkeknapp>
-            </HorizontalFlexboxDiv>
+            </HorizontalFlexboxDivGap3RemAlignItemsEnd>
         </div>
     );
 };

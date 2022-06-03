@@ -1,6 +1,9 @@
 import { useState } from "react";
-import { TextField } from "@navikt/ds-react";
-import { HorizontalFlexboxDiv } from "./HorizontalFlexboxDiv";
+import {Label, TextField} from "@navikt/ds-react";
+import {HorizontalFlexboxDivGap1Rem, HorizontalFlexboxDivGap3RemAlignItemsEnd} from "./HorizontalFlexboxDiv";
+import styled from "styled-components";
+import {StyledNumericTextField} from "./StyledNumericTextField";
+import {VerticalFlexboxDiv} from "./VerticalFlexboxDiv";
 
 type Validering = {
     suksess: boolean;
@@ -53,7 +56,7 @@ function SykefraværsprosentInput({
         useState<string>(value.toString());
     const [valideringsfeil, setValideringsfeil] = useState<string[]>([]);
     return (
-        <TextField
+        <StyledNumericTextField
             label={label}
             type={"number"}
             value={sykefraværsprosentInput}
@@ -82,27 +85,32 @@ export const SykefraværsprosentVelger = ({
     endre,
 }: SykefraværsProsentProps) => {
     return (
-        <HorizontalFlexboxDiv>
-            <SykefraværsprosentInput
-                value={sykefraværsprosentRange.fra}
-                label="Sykefraværsprosent fra"
-                onChange={(prosentVerdi: number) =>
-                    endre({
-                        fra: prosentVerdi,
-                        til: sykefraværsprosentRange.til,
-                    })
-                }
-            />
-            <SykefraværsprosentInput
-                value={sykefraværsprosentRange.til}
-                label="Sykefraværsprosent til"
-                onChange={(prosentVerdi: number) =>
-                    endre({
-                        fra: sykefraværsprosentRange.fra,
-                        til: prosentVerdi,
-                    })
-                }
-            />
-        </HorizontalFlexboxDiv>
+        <>
+            <VerticalFlexboxDiv>
+                <Label>Sykefraværsprosent</Label>
+                <HorizontalFlexboxDivGap1Rem>
+                    <SykefraværsprosentInput
+                        value={sykefraværsprosentRange.fra}
+                        label="Fra"
+                        onChange={(prosentVerdi: number) =>
+                            endre({
+                                fra: prosentVerdi,
+                                til: sykefraværsprosentRange.til,
+                            })
+                        }
+                    />
+                    <SykefraværsprosentInput
+                        value={sykefraværsprosentRange.til}
+                        label="-"
+                        onChange={(prosentVerdi: number) =>
+                            endre({
+                                fra: sykefraværsprosentRange.fra,
+                                til: prosentVerdi,
+                            })
+                        }
+                    />
+                </HorizontalFlexboxDivGap1Rem>
+            </VerticalFlexboxDiv>
+        </>
     );
 };

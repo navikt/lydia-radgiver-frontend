@@ -1,12 +1,14 @@
-import {HorizontalFlexboxDiv} from "./HorizontalFlexboxDiv";
-import {TextField} from "@navikt/ds-react";
+import {HorizontalFlexboxDivGap1Rem, HorizontalFlexboxDivGap3RemAlignItemsEnd} from "./HorizontalFlexboxDiv";
 import {useState} from "react";
 import {Range} from "./SykefraværsprosentVelger";
+import {StyledNumericTextField} from "./StyledNumericTextField";
+import {Label} from "@navikt/ds-react";
+import {VerticalFlexboxDiv} from "./VerticalFlexboxDiv";
 
 function AntallAnsatteInput({label, value, endreAntallAnsatte}: {label: string, value: number, endreAntallAnsatte: (verdi: number) => void}) {
     const [ansatte, setAnsatte] = useState<string>(isNaN(value) ? "" : value.toString())
     return (
-        <TextField
+        <StyledNumericTextField
             label={label}
             type={"number"}
             min={"0"}
@@ -30,27 +32,32 @@ function AntallAnsatteInput({label, value, endreAntallAnsatte}: {label: string, 
 
 export const AntallAnsatteVelger = ({antallAnsatte, endreAntallAnsatte}: {antallAnsatte: Range, endreAntallAnsatte: (verdi: Range) => void}) => {
     return (
-        <HorizontalFlexboxDiv>
-            <AntallAnsatteInput
-                label={"Ansatte fra"}
-                value={antallAnsatte.fra}
-                endreAntallAnsatte={(ansatteFra: number) => {
-                    endreAntallAnsatte({
-                        fra: ansatteFra,
-                        til: antallAnsatte.til
-                    })
-                }}
-            />
-            <AntallAnsatteInput
-                label={"Ansatte til"}
-                value={antallAnsatte.til}
-                endreAntallAnsatte={(ansatteTil: number) => {
-                    endreAntallAnsatte({
-                        fra: antallAnsatte.fra,
-                        til: ansatteTil
-                    })
-                }}
-            />
-        </HorizontalFlexboxDiv>
+        <>
+            <VerticalFlexboxDiv>
+                <Label>Antall ansatte</Label>
+                <HorizontalFlexboxDivGap1Rem>
+                    <AntallAnsatteInput
+                        label={"Fra"}
+                        value={antallAnsatte.fra}
+                        endreAntallAnsatte={(ansatteFra: number) => {
+                            endreAntallAnsatte({
+                                fra: ansatteFra,
+                                til: antallAnsatte.til
+                            })
+                        }}
+                    />
+                    <AntallAnsatteInput
+                        label={"-"}
+                        value={antallAnsatte.til}
+                        endreAntallAnsatte={(ansatteTil: number) => {
+                            endreAntallAnsatte({
+                                fra: antallAnsatte.fra,
+                                til: ansatteTil
+                            })
+                        }}
+                    />
+                </HorizontalFlexboxDivGap1Rem>
+            </VerticalFlexboxDiv>
+        </>
     );
 };

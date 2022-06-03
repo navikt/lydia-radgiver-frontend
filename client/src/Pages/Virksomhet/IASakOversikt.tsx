@@ -7,7 +7,7 @@ import {
 } from "../../domenetyper";
 import styled from "styled-components";
 import {hentBakgrunnsFargeForIAStatus, penskrivIAStatus} from "../Prioritering/StatusBadge";
-import {HorizontalFlexboxDiv} from "../Prioritering/HorizontalFlexboxDiv";
+import {HorizontalFlexboxDivGap3RemAlignItemsEnd} from "../Prioritering/HorizontalFlexboxDiv";
 import {nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
 import {useState} from "react";
 import {BegrunnelseModal} from "./BegrunnelseModal";
@@ -73,7 +73,7 @@ export const IASakOversikt = ({
             <BodyShort>Status: {penskrivIAStatus(sak.status)}</BodyShort>
             {sak.eidAv && <BodyShort>Rådgiver: {sak.eidAv}</BodyShort>}
             <br/>
-            <HorizontalFlexboxDiv>
+            <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 {sak.gyldigeNesteHendelser
                     .sort(sorterHendelserPåKnappeType)
                     .map((hendelse) => {
@@ -109,7 +109,7 @@ export const IASakOversikt = ({
                         onClose={() => setValgtHendelseMedÅrsak(undefined)}
                     />
                 )}
-            </HorizontalFlexboxDiv>
+            </HorizontalFlexboxDivGap3RemAlignItemsEnd>
         </StyledIABakgrunn>
     );
 };
