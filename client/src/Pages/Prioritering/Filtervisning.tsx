@@ -179,9 +179,6 @@ const Filtervisning = ({
                     antallAnsatte={antallAnsatte}
                     endreAntallAnsatte={endreAntallAnsatte}
                 />
-            </HorizontalFlexboxDivGap3RemAlignItemsEnd>
-            <br />
-            <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <Sorteringsmuligheter
                     valgtSortering={sorteringsverdi}
                     sorteringsMuligheter={filterverdier.sorteringsnokler}

@@ -29,7 +29,6 @@ function AntallAnsatteInput({label, value, endreAntallAnsatte}: {label: string, 
     );
 }
 
-
 export const AntallAnsatteVelger = ({antallAnsatte, endreAntallAnsatte}: {antallAnsatte: Range, endreAntallAnsatte: (verdi: Range) => void}) => {
     return (
         <>

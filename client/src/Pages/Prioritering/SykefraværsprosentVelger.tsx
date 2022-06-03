@@ -101,7 +101,7 @@ export const SykefraværsprosentVelger = ({
                     />
                     <SykefraværsprosentInput
                         value={sykefraværsprosentRange.til}
-                        label="-"
+                        label={"-"}
                         onChange={(prosentVerdi: number) =>
                             endre({
                                 fra: sykefraværsprosentRange.fra,
