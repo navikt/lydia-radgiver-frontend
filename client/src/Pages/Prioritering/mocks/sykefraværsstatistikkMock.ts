@@ -227,4 +227,16 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
     "eidAv": null
-}]
+}, {
+        "orgnr": "974747132",
+        "virksomhetsnavn": "Nummer 21 AS",
+        "kommune": {"navn": "ÅLESUND", "nummer": "1507"},
+        "sektor": "",
+        "neringsgruppe": "",
+        "arstall": 2021,
+        "kvartal": 3,
+        ...sykefraværStatiskData,
+        "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
+        "eidAv": null
+    },
+]
