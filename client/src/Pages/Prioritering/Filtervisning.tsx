@@ -181,16 +181,6 @@ const Filtervisning = ({
                     antallAnsatte={antallAnsatte}
                     endreAntallAnsatte={endreAntallAnsatte}
                 />
-                <Sorteringsmuligheter
-                    valgtSortering={sorteringsverdi}
-                    sorteringsMuligheter={filterverdier.sorteringsnokler}
-                    endreSortering={(sortering) => {
-                        setSorteringsverdi(sortering);
-                        oppdaterSøkeverdier({
-                            sorteringsnokkel: sortering,
-                        });
-                    }}
-                />
                 <IAStatusDropdown
                     endreStatus={(iaStatus) => {
                         setIAStatus(iaStatus);
@@ -200,6 +190,16 @@ const Filtervisning = ({
                     }}
                     statuser={filterverdier.statuser}
                     valgtStatus={IAStatus}
+                />
+                <Sorteringsmuligheter
+                    valgtSortering={sorteringsverdi}
+                    sorteringsMuligheter={filterverdier.sorteringsnokler}
+                    endreSortering={(sortering) => {
+                        setSorteringsverdi(sortering);
+                        oppdaterSøkeverdier({
+                            sorteringsnokkel: sortering,
+                        });
+                    }}
                 />
                 <KunMineVirksomheterToggle onChangeCallback={(visKunMineVirksomheter) =>
                     oppdaterSøkeverdier({ kunMineVirksomheter : visKunMineVirksomheter})
