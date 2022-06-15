@@ -57,6 +57,8 @@ function SykefraværsprosentInput({
     const [valideringsfeil, setValideringsfeil] = useState<string[]>([]);
     return (
         <StyledNumericTextField
+            min={"0"}
+            max={"100"}
             label={label}
             type={"number"}
             value={sykefraværsprosentInput}
