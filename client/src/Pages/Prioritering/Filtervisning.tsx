@@ -19,6 +19,7 @@ import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {Kommunedropdown} from "./Kommunedropdown";
 import {AntallAnsatteVelger} from "./AntallAnsatteVelger";
+import {KunMineVirksomheterToggle} from "./KunMineVirksomheterToggle";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -36,6 +37,7 @@ interface FiltervisningProps {
 
 const Søkeknapp = styled(Button)`
     width: 10rem;
+    margin-left: auto;
 `;
 
 const næringsgruppeKoderTilNæringsgrupper = (
@@ -199,6 +201,9 @@ const Filtervisning = ({
                     statuser={filterverdier.statuser}
                     valgtStatus={IAStatus}
                 />
+                <KunMineVirksomheterToggle onChangeCallback={(visKunMineVirksomheter) =>
+                    oppdaterSøkeverdier({ kunMineVirksomheter : visKunMineVirksomheter})
+                }/>
                 <Søkeknapp
                     size="medium"
                     onClick={() => {

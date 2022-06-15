@@ -20,12 +20,17 @@ const tommeFilterverdier: Filterverdier = {
     statuser: [],
 };
 
+export const ANTALL_RESULTATER_PER_SIDE = 50;
+
+export const totaltAntallResultaterTilAntallSider = (totaltAntallResultater: number, antallResultaterPerSide = ANTALL_RESULTATER_PER_SIDE) =>
+    Math.ceil(totaltAntallResultater / antallResultaterPerSide)
+
 const Prioriteringsside = () => {
     const {oppdaterTittel} = useContext(TittelContext)
     oppdaterTittel(statiskeSidetitler.prioriteringsside)
 
     const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState<SykefraversstatistikkVirksomhet[]>();
-    const [antallSider, setAntallSider] = useState(0);
+    const [totaltAntallResultaterISøk, setTotaltAntallResultaterISøk] = useState(0);
     const [side, setSide] = useState(1);
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>({
         side,
@@ -51,7 +56,7 @@ const Prioriteringsside = () => {
     useEffect(() => {
         if (sfStatistikkFraApi) {
             setSykefraværsstatistikk(sfStatistikkFraApi.data);
-            setAntallSider(Math.round(sfStatistikkFraApi.total / 50));
+            setTotaltAntallResultaterISøk(sfStatistikkFraApi.total)
             setSkalSøke(false);
         }
     }, [sfStatistikkFraApi]);
@@ -84,7 +89,7 @@ const Prioriteringsside = () => {
                     endreSide={(side) => {
                         oppdaterSide(side);
                     }}
-                    antallSider={antallSider}
+                    totaltAntallResultaterISøk={totaltAntallResultaterISøk}
                     side={side}
                 />
             ) : harSøktMinstEnGang && !loading && <SøketGaIngenResultater />}

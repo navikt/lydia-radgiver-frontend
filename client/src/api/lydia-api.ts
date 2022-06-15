@@ -276,5 +276,6 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     params.append("sorteringsnokkel", søkeverdier.sorteringsnokkel ?? "");
     params.append("iaStatus", søkeverdier.iaStatus ?? "");
     params.append("side", `${søkeverdier.side}`);
+    params.append("kunMineVirksomheter", søkeverdier.kunMineVirksomheter?.toString() ?? "")
     return params;
 };
