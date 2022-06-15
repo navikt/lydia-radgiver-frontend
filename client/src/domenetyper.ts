@@ -125,12 +125,6 @@ const IA_SAKSHENDELSE_TYPER = [
 export const IASakshendelseTypeEnum = z.enum(IA_SAKSHENDELSE_TYPER)
 export type IASakshendelseType = z.infer<typeof IASakshendelseTypeEnum>
 
-const IA_SAKS_TYPER = [
-    "NAV_STOTTER",
-    "SELVBETJENT"
-] as const
-export const IASaksType = z.enum(IA_SAKS_TYPER)
-
 export const begrunnelseSchema = z.object({
     type: z.string(),
     navn: z.string(),
@@ -161,7 +155,6 @@ export type GyldigNesteHendelse = z.infer<typeof gyldigNesteHendelseSchema>;
 export const iaSakSchema = z.object({
     saksnummer: z.string(),
     orgnr: z.string(),
-    type: IASaksType,
     opprettetTidspunkt: datoSchema,
     opprettetAv: z.string(),
     endretTidspunkt: datoSchema.nullable(),

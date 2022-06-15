@@ -54,7 +54,6 @@ const hendelseUtenÅrsak = (saksHendelsetype: IASakshendelseType) => {
 export const iaSakVurderesUtenEier: IASak = {
     saksnummer: saksnummer,
     orgnr: "987654321",
-    type: "NAV_STOTTER",
     opprettetTidspunkt: new Date(),
     opprettetAv: "NAV-12345",
     endretTidspunkt: new Date(),
@@ -68,7 +67,6 @@ export const iaSakVurderesUtenEier: IASak = {
 export const iaSakVurderesMedEier: IASak = {
     saksnummer: saksnummer,
     orgnr: "987654321",
-    type: "NAV_STOTTER",
     opprettetTidspunkt: new Date(),
     opprettetAv: "NAV-12345",
     endretTidspunkt: new Date(),
@@ -85,7 +83,6 @@ export const iaSakVurderesMedEier: IASak = {
 export const iaSakKontaktes: IASak = {
     saksnummer: saksnummer,
     orgnr: "987654321",
-    type: "NAV_STOTTER",
     opprettetTidspunkt: new Date(),
     opprettetAv: "NAV-12345",
     endretTidspunkt: new Date(),
@@ -103,7 +100,6 @@ export const iaSakKontaktes: IASak = {
 export const iaSakIkkeAktuell: IASak = {
     saksnummer: saksnummer,
     orgnr: "987654321",
-    type: "NAV_STOTTER",
     opprettetTidspunkt: new Date(),
     opprettetAv: "NAV-12345",
     endretTidspunkt: new Date(),

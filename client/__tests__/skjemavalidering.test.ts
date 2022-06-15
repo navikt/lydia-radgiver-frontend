@@ -24,7 +24,6 @@ describe("kan parse datoer", () => {
         const iaSakMock = {
             "saksnummer": "01G13JC25YFF9Y13KZBR171V0N",
             "orgnr": "974623528",
-            "type": "NAV_STOTTER",
             "status": "VURDERES",
             "opprettetAv": "Z994139",
             "opprettetTidspunkt": "2022-04-20T15:25:16.606882",
