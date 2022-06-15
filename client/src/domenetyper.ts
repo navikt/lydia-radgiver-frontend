@@ -119,6 +119,7 @@ const IA_SAKSHENDELSE_TYPER = [
     "TA_EIERSKAP_I_SAK",
     "VIRKSOMHET_SKAL_KONTAKTES",
     "VIRKSOMHET_ER_IKKE_AKTUELL",
+    "TILBAKE"
 ] as const
 
 export const IASakshendelseTypeEnum = z.enum(IA_SAKSHENDELSE_TYPER)

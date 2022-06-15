@@ -19,13 +19,16 @@ export const oversettNavnPåSakshendelsestype = (hendelsestype: IASakshendelseTy
 
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
             return "Ikke aktuell"
+
+        case IASakshendelseTypeEnum.enum.TILBAKE:
+            return "Tilbake"
     }
 }
 
 export enum ButtonVariant {
     "danger",
-    "primary",
     "secondary",
+    "primary",
     "tertiary"
 }
 
@@ -47,6 +50,9 @@ export const knappeTypeFraSakshendelsesType = (hendelsesType: IASakshendelseType
 
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
             return "danger"
+
+        case IASakshendelseTypeEnum.enum.TILBAKE:
+            return "secondary"
     }
 }
 
