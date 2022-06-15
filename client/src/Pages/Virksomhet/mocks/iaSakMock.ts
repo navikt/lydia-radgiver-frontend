@@ -93,7 +93,11 @@ export const iaSakKontaktes: IASak = {
     eidAv: "NAV-54321",
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.KONTAKTES,
-    gyldigeNesteHendelser: []
+    gyldigeNesteHendelser: [
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK),
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
+    ]
 }
 
 export const iaSakIkkeAktuell: IASak = {
