@@ -60,7 +60,7 @@ const RedirectKomponent = ({gjenværendeTidForBrukerMs}: { gjenværendeTidForBru
 const SesjonenHolderPåÅLøpeUt = ({gjenværendeTidForBrukerMs}: { gjenværendeTidForBrukerMs: number }) => {
     const gjenværendeSekunder = Math.round(gjenværendeTidForBrukerMs / 1000)
     return (
-        <Alert variant="warning" style={{marginTop: "1rem"}}>
+        <Alert variant="warning" style={{margin: "1rem"}}>
             <BodyShort>
                 Sesjonen din løper ut om {gjenværendeSekunder} sekunder. Vennligst trykk på <Link
                 href={hentRedirectUrl()}>denne lenken</Link> for å logge inn på nytt
@@ -70,7 +70,7 @@ const SesjonenHolderPåÅLøpeUt = ({gjenværendeTidForBrukerMs}: { gjenværende
 }
 
 const SesjonenErUtløpt = () =>
-    <Alert variant="error" style={{marginTop: "1rem"}}>
+    <Alert variant="error" style={{margin: "1rem"}}>
         <BodyShort>
             Sesjonen din er utløpt. Vennligst trykk på <Link href={hentRedirectUrl()}>denne lenken</Link> for å logge
             inn på nytt
