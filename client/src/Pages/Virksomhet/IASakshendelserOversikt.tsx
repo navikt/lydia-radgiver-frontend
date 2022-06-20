@@ -54,7 +54,7 @@ const SakshistorikkTabell = ({
                                }: {
     sakshistorikk: Sakshistorikk;
 }) => {
-    const kolonneNavn = ["Status", "Hendelse", "Tidspunkt", "Begrunnelse", "Ansvarlig"];
+    const kolonneNavn = ["Status", "Tidspunkt", "Begrunnelse", "Ansvarlig"];
 
     return (
         <>
@@ -78,11 +78,6 @@ const SakshistorikkTabell = ({
                             <Table.Row key={index}>
                                 <Table.DataCell>
                                     <StatusBadge status={sakSnapshot.status}/>
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {oversettNavnPåSakshendelsestype(
-                                        sakSnapshot.hendelsestype
-                                    )}
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     {lokalDato(sakSnapshot.tidspunktForSnapshot)}
