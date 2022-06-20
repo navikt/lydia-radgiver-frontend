@@ -3,7 +3,7 @@ import {virksomhetMock} from "../Prioritering/mocks/virksomhetMock";
 import {VirksomhetOversikt} from "./VirksomhetOversikt";
 import {sykefraværsstatistikkMock} from "../Prioritering/mocks/sykefraværsstatistikkMock";
 import {iaSakKontaktes} from "./mocks/iaSakMock";
-import {sakshendelserMock} from "./mocks/iaSakshendelserMock";
+import {samarbeidshistorikkMock} from "./mocks/iaSakHistorikkMock";
 
 export default {
     title: "Virksomhet/Oversikt over en virksomhet",
@@ -15,6 +15,6 @@ export const Header = () => (
         virksomhet={virksomhetMock}
         sykefraværsstatistikk={sykefraværsstatistikkMock[0]}
         iaSak={iaSakKontaktes}
-        sakshendelser={sakshendelserMock}
+        samarbeidshistorikk={samarbeidshistorikkMock}
     />
 );

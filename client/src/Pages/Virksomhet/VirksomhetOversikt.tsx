@@ -1,13 +1,13 @@
 import {
     IASak,
-    IASakshendelse,
+    Sakshistorikk,
     SykefraversstatistikkVirksomhet,
     Virksomhet,
 } from "../../domenetyper";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import styled from "styled-components";
 import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
-import { StyledIASakshendelserOversikt } from "./IASakshendelserOversikt";
+import { StyledSamarbeidshistorikk } from "./IASakshendelserOversikt";
 import { IASakOversikt } from "./IASakOversikt";
 import {Detail, Heading} from "@navikt/ds-react";
 
@@ -36,7 +36,7 @@ interface VirksomhetOversiktProps {
     virksomhet: Virksomhet;
     sykefraværsstatistikk: SykefraversstatistikkVirksomhet;
     iaSak?: IASak;
-    sakshendelser: IASakshendelse[];
+    samarbeidshistorikk: Sakshistorikk[];
     muterState?: () => void;
 }
 
@@ -44,7 +44,7 @@ export const VirksomhetOversikt = ({
     virksomhet,
     sykefraværsstatistikk,
     iaSak,
-    sakshendelser,
+    samarbeidshistorikk,
     muterState,
 }: VirksomhetOversiktProps) => {
     return (
@@ -77,7 +77,7 @@ export const VirksomhetOversikt = ({
                 </HorisontalFlexMedToppRamme>
             </VerticalFlex>
             <br />
-            <StyledIASakshendelserOversikt sakshendelser={sakshendelser} />
+            <StyledSamarbeidshistorikk samarbeidshistorikk={samarbeidshistorikk} />
         </>
     );
 };

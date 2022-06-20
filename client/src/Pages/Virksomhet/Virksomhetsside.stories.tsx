@@ -2,11 +2,16 @@ import {ComponentMeta} from "@storybook/react";
 import {virksomhetMock} from "../Prioritering/mocks/virksomhetMock";
 import {sykefraværsstatistikkMock} from "../Prioritering/mocks/sykefraværsstatistikkMock";
 import {iaSakKontaktes} from "./mocks/iaSakMock";
-import {sakshendelserMock} from "./mocks/iaSakshendelserMock";
 import Virksomhetsside from "./Virksomhetsside";
 import {rest} from "msw";
-import {iaSakHentHendelserPath, iaSakPath, sykefraværsstatistikkPath, virksomhetsPath} from "../../api/lydia-api";
+import {
+    iaSakHistorikkPath,
+    iaSakPath,
+    sykefraværsstatistikkPath,
+    virksomhetsPath
+} from "../../api/lydia-api";
 import {MemoryRouter, Route, Routes} from "react-router-dom";
+import {samarbeidshistorikkMock} from "./mocks/iaSakHistorikkMock";
 
 export default {
     title: "Virksomhet/Virksomhetside",
@@ -41,9 +46,9 @@ VirksomhetssideStory.parameters = {
                     ctx.json([iaSakKontaktes])
                 );
             }),
-            rest.get(`${iaSakHentHendelserPath}/:saksnummer`, (req, res, ctx) => {
+            rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
                 return res(
-                    ctx.json(sakshendelserMock)
+                    ctx.json(samarbeidshistorikkMock)
                 );
             }),
         ],

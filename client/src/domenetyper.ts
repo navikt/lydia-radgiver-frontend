@@ -174,8 +174,24 @@ export const iaSakshendelseSchema = z.object({
     opprettetAv : z.string(),
     opprettetTidspunkt: datoSchema,
 })
-
 export type IASakshendelse = z.infer<typeof iaSakshendelseSchema>
+
+
+export const sakSnapshotSchema = z.object({
+    status: IAProsessStatusEnum,
+    hendelsestype: IASakshendelseTypeEnum,
+    tidspunktForSnapshot: datoSchema,
+    begrunnelser: z.string().array(),
+    eier: z.string().nullable()
+})
+
+export const sakshistorikkSchema = z.object({
+    saksnummer: z.string(),
+    opprettet: datoSchema,
+    sakshendelser: sakSnapshotSchema.array()
+})
+
+export type Sakshistorikk = z.infer<typeof sakshistorikkSchema>
 
 export interface IANySakshendelseDto {
     orgnummer: string;

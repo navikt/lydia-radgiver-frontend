@@ -1,7 +1,7 @@
 import {useParams} from "react-router-dom";
 import {
     useHentSakerForVirksomhet,
-    useHentSakshendelserPåSak,
+    useHentSamarbeidshistorikk,
     useHentSykefraværsstatistikkForVirksomhet,
     useHentVirksomhetsinformasjon
 } from "../../api/lydia-api";
@@ -37,9 +37,9 @@ const Virksomhetsside = () => {
     const iaSak = aktivIaSak(iaSaker)
 
     const {
-        data: iaSakshendelser,
-        mutate: mutateHentSakshendelser
-    } = useHentSakshendelserPåSak(iaSak)
+        data: samarbeidshistorik,
+        mutate: mutateHentSamarbeidshistorikk
+    } = useHentSamarbeidshistorikk(orgnummer)
 
     if (lasterVirksomhet || lasterSykefraværsstatistikk || lasterIaSaker) {
         return <LasterVirksomhet/>
@@ -47,7 +47,7 @@ const Virksomhetsside = () => {
 
     const muterState = () => {
         mutateHentSaker().then(() => {
-            mutateHentSakshendelser()
+            mutateHentSamarbeidshistorikk()
         })
     }
 
@@ -62,7 +62,7 @@ const Virksomhetsside = () => {
             virksomhet={virksomhetsinformasjon}
             sykefraværsstatistikk={statistikkForSisteKvartal}
             iaSak={iaSak}
-            sakshendelser={iaSakshendelser ?? []}
+            samarbeidshistorikk={samarbeidshistorik ?? []}
             muterState={muterState}
         />
     } else {

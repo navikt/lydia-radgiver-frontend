@@ -16,7 +16,7 @@ import {
     Søkeverdier,
     ValgtÅrsakDto,
     Virksomhet,
-    virksomhetsSchema,
+    virksomhetsSchema, Sakshistorikk, sakshistorikkSchema,
 } from "../domenetyper";
 import useSWR, { SWRConfiguration } from "swr";
 import { ZodError, ZodType } from "zod";
@@ -31,6 +31,7 @@ const innloggetAnsattPath = `/innloggetAnsatt`;
 export const iaSakPath = `${basePath}/iasak/radgiver`;
 export const iaSakHentHendelserPath = `${iaSakPath}/hendelser`;
 export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
+export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -205,6 +206,16 @@ export const useHentSakshendelserPåSak = (sak?: IASak) => {
     return useSwrTemplate<IASakshendelse[]>(
         () => (sak ? `${iaSakHentHendelserPath}/${sak.saksnummer}` : null),
         iaSakshendelseSchema.array(),
+        {
+            revalidateOnFocus: true,
+        }
+    );
+};
+
+export const useHentSamarbeidshistorikk = (orgnummer?: string) => {
+    return useSwrTemplate<Sakshistorikk[]>(
+        () => (orgnummer ? `${iaSakHistorikkPath}/${orgnummer}` : null),
+        sakshistorikkSchema.array(),
         {
             revalidateOnFocus: true,
         }

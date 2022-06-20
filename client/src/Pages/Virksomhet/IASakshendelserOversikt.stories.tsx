@@ -1,18 +1,18 @@
 import {ComponentMeta} from "@storybook/react";
 
-import {StyledIASakshendelserOversikt} from "./IASakshendelserOversikt";
-import {sakshendelserMock} from "./mocks/iaSakshendelserMock";
+import {StyledSamarbeidshistorikk} from "./IASakshendelserOversikt";
+import {samarbeidshistorikkMock} from "./mocks/iaSakHistorikkMock";
 
 export default {
     title: "Virksomhet/Oversikt over hendelser på en IA-sak",
-    component: StyledIASakshendelserOversikt,
-} as ComponentMeta<typeof StyledIASakshendelserOversikt>;
+    component: StyledSamarbeidshistorikk,
+} as ComponentMeta<typeof StyledSamarbeidshistorikk>;
 
 export const FlereHendelser = () => (
-    <StyledIASakshendelserOversikt sakshendelser={sakshendelserMock}/>
+    <StyledSamarbeidshistorikk samarbeidshistorikk={samarbeidshistorikkMock}/>
 );
 
 
 export const IngenHendelser = () => (
-    <StyledIASakshendelserOversikt sakshendelser={[]}/>
+    <StyledSamarbeidshistorikk samarbeidshistorikk={[]}/>
 );

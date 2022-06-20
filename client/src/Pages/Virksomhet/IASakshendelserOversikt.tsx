@@ -1,19 +1,20 @@
-import { IASakshendelse } from "../../domenetyper";
+import {Sakshistorikk} from "../../domenetyper";
 import styled from "styled-components";
-import { hvitRammeMedBoxShadow } from "../../styling/containere";
-import { Table, Heading, Detail } from "@navikt/ds-react";
-import { lokalDato } from "../../util/DatoFormatter";
-import { oversettNavnPåSakshendelsestype } from "./IASakshendelseKnapp";
+import {hvitRammeMedBoxShadow} from "../../styling/containere";
+import {Table, Heading, Detail} from "@navikt/ds-react";
+import {lokalDato} from "../../util/DatoFormatter";
+import {oversettNavnPåSakshendelsestype} from "./IASakshendelseKnapp";
+import {StatusBadge} from "../Prioritering/StatusBadge";
 
 export interface IASakHendelserOversiktProps {
-    sakshendelser: IASakshendelse[];
+    samarbeidshistorikk: Sakshistorikk[];
     className?: string;
 }
 
-const IASakshendelserOversikt = ({
-    sakshendelser,
-    className,
-}: IASakHendelserOversiktProps) => {
+const Samarbeidshistorikk = ({
+                                     samarbeidshistorikk,
+                                     className,
+                                 }: IASakHendelserOversiktProps) => {
     return (
         <div className={className}>
             <Heading
@@ -26,16 +27,15 @@ const IASakshendelserOversikt = ({
             >
                 Samarbeidshistorikk
             </Heading>
-            {sakshendelser.length > 0 ? (
-                <IASakshendelserTabell
-                    sakshendelser={sakshendelser.sort(
-                        (a, b) =>
-                            b.opprettetTidspunkt.getTime() -
-                            a.opprettetTidspunkt.getTime()
-                    )}
-                />
+            {samarbeidshistorikk.length > 0 ? (
+                samarbeidshistorikk.map(sakshistorikk =>
+                    <SakshistorikkTabell
+                        key={sakshistorikk.saksnummer}
+                        sakshistorikk={sakshistorikk}
+                    />
+                )
             ) : (
-                <IngenHendelserPåSak />
+                <IngenHendelserPåSak/>
             )}
         </div>
     );
@@ -43,18 +43,18 @@ const IASakshendelserOversikt = ({
 
 const IngenHendelserPåSak = () => {
     return (
-        <Detail size="small" style={{ padding: "1rem 3rem" }}>
+        <Detail size="small" style={{padding: "1rem 3rem"}}>
             Fant ingen samarbeidshistorikk på denne virksomheten
         </Detail>
     );
 };
 
-const IASakshendelserTabell = ({
-    sakshendelser,
-}: {
-    sakshendelser: IASakshendelse[];
+const SakshistorikkTabell = ({
+                                   sakshistorikk
+                               }: {
+    sakshistorikk: Sakshistorikk;
 }) => {
-    const kolonneNavn = ["Hendelse", "Tidspunkt", "Ansvarlig"];
+    const kolonneNavn = ["Status", "Hendelse", "Tidspunkt", "Begrunnelse", "Ansvarlig"];
 
     return (
         <>
@@ -69,19 +69,33 @@ const IASakshendelserTabell = ({
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {sakshendelser.map((sakshendelse) => {
+                    {sakshistorikk.sakshendelser.sort(
+                        (a, b) =>
+                            b.tidspunktForSnapshot.getTime() -
+                            a.tidspunktForSnapshot.getTime()
+                    ).map((sakSnapshot, index) => {
                         return (
-                            <Table.Row key={sakshendelse.id}>
+                            <Table.Row key={index}>
+                                <Table.DataCell>
+                                    <StatusBadge status={sakSnapshot.status}/>
+                                </Table.DataCell>
                                 <Table.DataCell>
                                     {oversettNavnPåSakshendelsestype(
-                                        sakshendelse.hendelsestype
+                                        sakSnapshot.hendelsestype
                                     )}
                                 </Table.DataCell>
                                 <Table.DataCell>
-                                    {lokalDato(sakshendelse.opprettetTidspunkt)}
+                                    {lokalDato(sakSnapshot.tidspunktForSnapshot)}
                                 </Table.DataCell>
                                 <Table.DataCell>
-                                    {sakshendelse.opprettetAv}
+                                    <ul>
+                                        {sakSnapshot.begrunnelser.map(begrunnelse =>
+                                            (<li key={begrunnelse}>{begrunnelse}</li>)
+                                        )}
+                                    </ul>
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    {sakSnapshot.eier ?? ""}
                                 </Table.DataCell>
                             </Table.Row>
                         );
@@ -92,6 +106,6 @@ const IASakshendelserTabell = ({
     );
 };
 
-export const StyledIASakshendelserOversikt = styled(IASakshendelserOversikt)`
+export const StyledSamarbeidshistorikk = styled(Samarbeidshistorikk)`
     ${hvitRammeMedBoxShadow}
 `;
