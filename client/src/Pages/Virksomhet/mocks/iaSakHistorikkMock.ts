@@ -30,6 +30,7 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [{
             begrunnelser: [
                 "Begrunnelse 1",
                 "Begrunnelse 2",
+                "En kjeeeee eeee eeeee eeee eeeee eeee eeeee eeee eeeee eeee eeeee eeee mpe lang begrunnelse",
             ],
             eier: eier
         }

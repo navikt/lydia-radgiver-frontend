@@ -5,8 +5,6 @@ import {
     IANySakshendelseDto,
     IASak,
     iaSakSchema,
-    IASakshendelse,
-    iaSakshendelseSchema,
     Brukerinformasjon,
     brukerinfoSchema,
     SykefraversstatistikkVirksomhet,
@@ -200,16 +198,6 @@ export const useHentSakerForVirksomhet = (orgnummer?: string) => {
     return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array(), {
         revalidateOnFocus: true,
     });
-};
-
-export const useHentSakshendelserPåSak = (sak?: IASak) => {
-    return useSwrTemplate<IASakshendelse[]>(
-        () => (sak ? `${iaSakHentHendelserPath}/${sak.saksnummer}` : null),
-        iaSakshendelseSchema.array(),
-        {
-            revalidateOnFocus: true,
-        }
-    );
 };
 
 export const useHentSamarbeidshistorikk = (orgnummer?: string) => {
