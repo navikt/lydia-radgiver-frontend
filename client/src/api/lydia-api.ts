@@ -27,7 +27,6 @@ export const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
 export const virksomhetsPath = `${basePath}/virksomhet`;
 const innloggetAnsattPath = `/innloggetAnsatt`;
 export const iaSakPath = `${basePath}/iasak/radgiver`;
-export const iaSakHentHendelserPath = `${iaSakPath}/hendelser`;
 export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
 export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 
