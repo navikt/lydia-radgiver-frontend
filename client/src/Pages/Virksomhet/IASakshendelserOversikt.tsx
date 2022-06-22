@@ -12,9 +12,9 @@ export interface IASakHendelserOversiktProps {
 }
 
 const Samarbeidshistorikk = ({
-                                     samarbeidshistorikk,
-                                     className,
-                                 }: IASakHendelserOversiktProps) => {
+                                 samarbeidshistorikk,
+                                 className,
+                             }: IASakHendelserOversiktProps) => {
     return (
         <div className={className}>
             <Heading
@@ -50,8 +50,8 @@ const IngenHendelserPåSak = () => {
 };
 
 const SakshistorikkTabell = ({
-                                   sakshistorikk
-                               }: {
+                                 sakshistorikk
+                             }: {
     sakshistorikk: Sakshistorikk;
 }) => {
     const kolonneNavn = ["Status", "Tidspunkt", "Begrunnelse", "Ansvarlig"];
@@ -83,9 +83,11 @@ const SakshistorikkTabell = ({
                                     {lokalDato(sakSnapshot.tidspunktForSnapshot)}
                                 </Table.DataCell>
                                 <Table.DataCell>
-                                    <ul>
+                                    <ul style={{margin: "0"}}>
                                         {sakSnapshot.begrunnelser.map(begrunnelse =>
-                                            (<li key={begrunnelse}>{begrunnelse}</li>)
+                                            (<li key={begrunnelse}>
+                                                <Detail size={"small"}>{begrunnelse}</Detail>
+                                            </li>)
                                         )}
                                     </ul>
                                 </Table.DataCell>
