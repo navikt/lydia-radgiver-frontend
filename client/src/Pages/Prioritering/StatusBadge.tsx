@@ -6,6 +6,8 @@ import {Badge, Farge} from "../../components/Badge/Badge";
 
 export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): Farge => {
     switch (status) {
+        case IAProsessStatusEnum.enum.NY:
+            return Farge.hvit
         case IAProsessStatusEnum.enum.VURDERES:
             return Farge.lyseBlå
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
@@ -19,6 +21,8 @@ export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): Farg
 
 export function penskrivIAStatus(status: IAProsessStatusType): string {
     switch (status) {
+        case IAProsessStatusEnum.enum.NY:
+            return "Sak opprettet"
         case IAProsessStatusEnum.enum.VURDERES:
             return "Vurderes"
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
@@ -27,6 +31,8 @@ export function penskrivIAStatus(status: IAProsessStatusType): string {
             return "Kontaktes"
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
             return "Ikke aktuell"
+        default:
+            return "N/A"
     }
 }
 

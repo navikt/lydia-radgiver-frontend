@@ -1,5 +1,6 @@
 import {Select} from "@navikt/ds-react";
-import {IAProsessStatusEnum, IAProsessStatusType} from "../../domenetyper";
+import {IAProsessStatusType} from "../../domenetyper";
+import {penskrivIAStatus} from "./StatusBadge";
 
 interface Props {
     valgtStatus?: IAProsessStatusType
@@ -7,26 +8,11 @@ interface Props {
     statuser: IAProsessStatusType[]
 }
 
-const penskrivIaStatus = (status: IAProsessStatusType) => {
-    switch (status) {
-        case IAProsessStatusEnum.enum.VURDERES:
-            return "Vurderes"
-        case IAProsessStatusEnum.enum.KONTAKTES:
-            return "Kontaktes"
-        case IAProsessStatusEnum.enum.IKKE_AKTIV:
-            return "Ikke aktiv"
-        case IAProsessStatusEnum.enum.IKKE_AKTUELL:
-            return "Ikke aktuell"
-        default:
-            return "N/A"
-    }
-}
-
 export const IAStatusDropdown = ({ valgtStatus, endreStatus, statuser }: Props) => (<Select label="Status" value={valgtStatus} onChange={event => {
     endreStatus((!!event.target.value && event.target.value as IAProsessStatusType) || undefined)
 }}>
     <option key="empty-status" value={""}>Vis alle</option>
     {statuser
-        .map((status) => (<option key={status} value={status}>{penskrivIaStatus(status)}</option>))
+        .map((status) => (<option key={status} value={status}>{penskrivIAStatus(status)}</option>))
     }
 </Select>)

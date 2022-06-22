@@ -8,6 +8,7 @@ export default {
 } as ComponentMeta<typeof StatusBadge>;
 
 const statuser = [
+    IAProsessStatusEnum.enum.NY,
     IAProsessStatusEnum.enum.IKKE_AKTIV,
     IAProsessStatusEnum.enum.VURDERES,
     IAProsessStatusEnum.enum.KONTAKTES,

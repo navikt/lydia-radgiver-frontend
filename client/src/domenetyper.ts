@@ -22,6 +22,7 @@ export const næringsgrupperSchema = z.object({
 });
 
 const IA_PROSESS_STATUSER = [
+    "NY",
     "IKKE_AKTIV",
     "VURDERES",
     "KONTAKTES",

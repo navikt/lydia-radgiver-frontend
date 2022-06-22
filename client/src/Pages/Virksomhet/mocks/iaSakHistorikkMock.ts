@@ -10,9 +10,16 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [{
     opprettet: new Date(),
     sakshendelser: [
         {
+            status: IAProsessStatusEnum.enum.NY,
+            hendelsestype: IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET,
+            tidspunktForSnapshot: new Date(nå),
+            begrunnelser: [],
+            eier: null
+        },
+        {
             status: IAProsessStatusEnum.enum.VURDERES,
             hendelsestype: IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES,
-            tidspunktForSnapshot: new Date(nå),
+            tidspunktForSnapshot: new Date(nå + 5000),
             begrunnelser: [],
             eier: null
         },
