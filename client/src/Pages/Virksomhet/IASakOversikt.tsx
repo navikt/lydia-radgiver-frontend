@@ -1,39 +1,126 @@
-import {Label, Select} from "@navikt/ds-react";
-import {IAProsessStatusType} from "../../domenetyper";
+import {BodyShort} from "@navikt/ds-react";
+import {
+    GyldigNesteHendelse,
+    IAProsessStatusEnum,
+    IAProsessStatusType,
+    IASak, IASakshendelseTypeEnum,
+} from "../../domenetyper";
 import styled from "styled-components";
-import {hentBadgeFraStatus} from "../Prioritering/StatusBadge";
+import {hentBakgrunnsFargeForIAStatus, penskrivIAStatus} from "../Prioritering/StatusBadge";
+import {HorizontalFlexboxDivGap3RemAlignItemsEnd} from "../Prioritering/HorizontalFlexboxDiv";
+import {nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
+import {useState} from "react";
+import {BegrunnelseModal} from "./BegrunnelseModal";
+import {IASakshendelseKnapp} from "./IASakshendelseKnapp";
+import {sorterHendelserPåKnappeType} from "../../util/sortering";
 
 export interface IASakOversiktProps {
-    saksnummer: string,
-    iaProsessStatus: IAProsessStatusType,
-    innsatsteam : boolean,
-    className? : string,
+    orgnummer: string;
+    iaSak?: IASak;
+    muterState?: () => void;
 }
 
-const jaEllerNei = (b : boolean) => b ? "Ja" : "Nei"
+interface IngenAktiveSakerProps {
+    orgnummer: string;
+    oppdaterSak: () => void;
+}
 
-const IASakOversikt = ({ saksnummer, iaProsessStatus, innsatsteam, className } : IASakOversiktProps) => {
+function IngenAktiveSaker({orgnummer, oppdaterSak}: IngenAktiveSakerProps) {
     return (
-        <div className={className}>
-            <Label>Saksnummer</Label>
-            <p>{saksnummer}</p>
-            <Select
-                label="Status"
-                value={iaProsessStatus}
-            >
-                <option value={iaProsessStatus} key={iaProsessStatus}>
-                    {hentBadgeFraStatus(iaProsessStatus).text}
-                </option>
-            </Select>
+        <StyledIABakgrunn status={IAProsessStatusEnum.enum.IKKE_AKTIV}>
+            <BodyShort>
+                Status:{" "}
+                {penskrivIAStatus(IAProsessStatusEnum.enum.IKKE_AKTIV)}
+            </BodyShort>
             <br/>
-            <Label>Innsatsteam</Label>
-            <p>{jaEllerNei(innsatsteam)}</p>
-        </div>
-    )
+            <IASakshendelseKnapp
+                hendelsesType={IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES}
+                onClick={() =>
+                    opprettSak(orgnummer).then(() => oppdaterSak())
+                }
+            />
+        </StyledIABakgrunn>
+    );
 }
 
+export const IASakOversikt = ({
+                                  orgnummer,
+                                  iaSak: sak,
+                                  muterState,
+                              }: IASakOversiktProps) => {
+    const [valgtHendelseMedÅrsak, setValgtHendelseMedÅrsak] =
+        useState<GyldigNesteHendelse>();
 
-export const StyledIaSakOversikt = styled(IASakOversikt)`
+    if (!sak)
+        return (
+            <IngenAktiveSaker
+                orgnummer={orgnummer}
+                oppdaterSak={() => {
+                    muterState?.();
+                }}
+            />
+        );
+
+    const skalRendreModal = !!valgtHendelseMedÅrsak;
+    const hendelseKreverBegrunnelse = (hendelse: GyldigNesteHendelse) =>
+        hendelse.gyldigeÅrsaker.length > 0;
+    return (
+        <StyledIABakgrunn status={sak.status}>
+            <BodyShort>
+                <b>Saksnummer:</b> {sak.saksnummer}
+            </BodyShort>
+            <br/>
+            <BodyShort>Status: {penskrivIAStatus(sak.status)}</BodyShort>
+            {sak.eidAv && <BodyShort>Rådgiver: {sak.eidAv}</BodyShort>}
+            <br/>
+            <HorizontalFlexboxDivGap3RemAlignItemsEnd>
+                {sak.gyldigeNesteHendelser
+                    .sort(sorterHendelserPåKnappeType)
+                    .map((hendelse) => {
+                    return (
+                        <IASakshendelseKnapp
+                            key={hendelse.saksHendelsestype}
+                            hendelsesType={hendelse.saksHendelsestype}
+                            onClick={() =>
+                                hendelseKreverBegrunnelse(hendelse)
+                                    ? setValgtHendelseMedÅrsak(hendelse)
+                                    : nyHendelsePåSak(sak, hendelse).then(() =>
+                                        muterState?.()
+                                    )
+                            }
+                        />
+                    );
+                })}
+                {valgtHendelseMedÅrsak && (
+                    <BegrunnelseModal
+                        hendelse={valgtHendelseMedÅrsak}
+                        åpen={skalRendreModal}
+                        lagre={(valgtÅrsak) =>
+                            nyHendelsePåSak(
+                                sak,
+                                valgtHendelseMedÅrsak,
+                                valgtÅrsak
+                            )
+                                .then(() => muterState?.())
+                                .finally(() =>
+                                    setValgtHendelseMedÅrsak(undefined)
+                                )
+                        }
+                        onClose={() => setValgtHendelseMedÅrsak(undefined)}
+                    />
+                )}
+            </HorizontalFlexboxDivGap3RemAlignItemsEnd>
+        </StyledIABakgrunn>
+    );
+};
+
+interface IASakBakgrunnProps {
+    status: IAProsessStatusType;
+}
+
+const StyledIABakgrunn = styled.div<IASakBakgrunnProps>`
     padding: 1rem;
-    background-color: ${props => hentBadgeFraStatus(props.iaProsessStatus).backgroundColor};
-`
+    flex: 1;
+    border-radius: 0px 0px 10px 10px;
+    background-color: ${(props) => hentBakgrunnsFargeForIAStatus(props.status)};
+`;

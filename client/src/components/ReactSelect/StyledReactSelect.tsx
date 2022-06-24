@@ -8,13 +8,13 @@ export const StyledReactSelect = styled(ReactSelect)`
 export const reactSelectStyle = (): StylesConfig => ({
     control: (provided, state) => ({
         ...provided,
-        border: "2px solid var(--navds-text-field-color-border)",
+        border: "1px solid var(--navds-text-field-color-border)",
         borderRadius: "4px",
         boxShadow: state.isFocused
             ? `0 0 0 3px var(--navds-semantic-color-focus);`
             : "",
         ":hover": {
-            border: `2px solid var(--navds-semantic-color-link)`,
+            border: `1px solid var(--navds-semantic-color-link)`,
         },
     }),
     placeholder: (provided) => ({

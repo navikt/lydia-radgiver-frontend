@@ -7,7 +7,6 @@ WORKDIR /home/node/app
 
 COPY ./server/build build
 COPY ./client/dist client/dist
-COPY ./client/storybook-static client/storybook-static
 
 # gi node-bruker riktige rettigheter 
 RUN chown -R node /home/node/app

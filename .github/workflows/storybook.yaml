@@ -1,0 +1,33 @@
+name: Deploy Storybook
+
+on:
+    push:
+        branches:
+            - main
+        paths:
+            - "client/**" # Deploy storybook ved endringer i client-mappen
+    workflow_dispatch:
+
+jobs:
+    deploy-storybook:
+        name: Deploy Storybook til Github Pages
+        runs-on: ubuntu-latest
+        steps:
+            - uses: actions/checkout@v2
+            - name: Setup node
+              uses: actions/setup-node@v2
+              with:
+                  node-version: "16"
+            - name: Install deps
+              working-directory: client
+              run: npm ci
+            - name: Build storybook
+              working-directory: client
+              run: npm run build-storybook
+            - name: Deploy with gh-pages
+              working-directory: client
+              run:
+                  git remote set-url origin https://git:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git &&
+                  npm run deploy-storybook -- -u "github-actions-bot <support+actions@github.com>"
+              env:
+                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}

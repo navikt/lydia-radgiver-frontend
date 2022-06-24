@@ -1,30 +1,44 @@
 import "@navikt/ds-css";
 import "@navikt/ds-css-internal";
-import { Header } from "@navikt/ds-react-internal";
 import styled from "styled-components";
 import {BrowserRouter, Route, Routes} from "react-router-dom";
-
-import { useHentBrukerinformasjon } from "./api/lydia-api";
-import { NavAnsatt } from "./domenetyper";
+import {useHentBrukerinformasjon} from "./api/lydia-api";
 import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
-import { breakpoints, forBetween, forLargerThan } from "./styling/breakpoints";
-import Virksomhetsside from "./Pages/Virksomhet/Virsomhetsside";
+import {Breakpoint, forLargerThan} from "./styling/breakpoint";
+import Virksomhetsside from "./Pages/Virksomhet/Virksomhetsside";
+import {FeilmeldingBanner} from "./Pages/FeilmeldingBanner";
+import {Dekoratør} from "./components/Dekoratør/Dekoratør";
+import {TittelContext, TittelProvider} from "./Pages/Prioritering/TittelContext";
+import {useContext} from "react";
 
-const LYDIA_BASEPATH = "lydia-radgiver"
+const App = () =>
+    <BrowserRouter>
+        <TittelProvider>
+            <AppContent/>
+        </TittelProvider>
+    </BrowserRouter>
 
-function App() {
-    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+const AppContent = () => {
+    const {tittel} = useContext(TittelContext)
+    document.title = tittel
+
+    const {data: brukerInformasjon} = useHentBrukerinformasjon();
     return brukerInformasjon ? (
         <>
-            <Dekoratør navAnsatt={brukerInformasjon} />
-            <BrowserRouter>
-                <AppRamme>
-                    <Routes>
-                        <Route path={`${LYDIA_BASEPATH}/`} element={<Prioriteringsside/>}/>
-                        <Route path={`${LYDIA_BASEPATH}/virksomhet/:orgnummer`} element={<Virksomhetsside/>}/>
-                    </Routes>
-                </AppRamme>
-            </BrowserRouter>
+            <Dekoratør brukerInformasjon={brukerInformasjon}/>
+            <FeilmeldingBanner/>
+            <AppRamme>
+                <Routes>
+                    <Route
+                        path={"/"}
+                        element={<Prioriteringsside/>}
+                    />
+                    <Route
+                        path={"/virksomhet/:orgnummer"}
+                        element={<Virksomhetsside/>}
+                    />
+                </Routes>
+            </AppRamme>
         </>
     ) : null;
 }
@@ -33,25 +47,13 @@ const AppRamme = styled.div`
     display: flex;
     flex-direction: column;
     margin: 1rem 0;
-    ${forLargerThan(breakpoints.largestPhone)} {
+    ${forLargerThan(Breakpoint.Tablet)} {
         padding: 0 5rem;
     }
-    ${forBetween(breakpoints.largestTablet, breakpoints.largestLaptop)} {
+    ${forLargerThan(Breakpoint.Desktop)} {
         padding: 0 10rem;
     }
 `;
 
-const Dekoratør = ({ navAnsatt }: { navAnsatt?: NavAnsatt }) => (
-    <Header className="w-full">
-        <Header.Title as="h1">Lydia</Header.Title>
-        {navAnsatt && (
-            <Header.User
-                name={navAnsatt.navn}
-                description={navAnsatt.ident}
-                style={{ marginLeft: "auto" }}
-            />
-        )}
-    </Header>
-);
 
 export default App;

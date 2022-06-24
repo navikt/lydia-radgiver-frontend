@@ -1,11 +1,13 @@
 import React from "react";
-import ReactDOM from "react-dom";
+import { createRoot } from 'react-dom/client';
 import "./index.css";
 import App from "./App";
 
-ReactDOM.render(
+// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+const rootHtmlElement = document.getElementById("root")!
+const reactDomRoot = createRoot(rootHtmlElement)
+reactDomRoot.render(
     <React.StrictMode>
-            <App />
+        <App/>
     </React.StrictMode>,
-    document.getElementById("root")
 );

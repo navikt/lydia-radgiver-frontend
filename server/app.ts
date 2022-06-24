@@ -1,6 +1,7 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, {NextFunction, Request, Response} from "express";
+import helmet from "helmet";
 import path from "path";
-import apiMetrics from "prometheus-api-metrics"
+import apiMetrics from "prometheus-api-metrics";
 
 import { LydiaApiProxy } from "./proxy";
 import {
@@ -14,31 +15,33 @@ import { AuthError } from "./error";
 import { hentInnloggetAnsattMiddleware } from "./brukerinfo";
 import { memorySessionManager, redisSessionManager } from "./RedisStore";
 
-
 export default class Application {
     expressApp: express.Express;
 
     constructor(config: Config = new Config()) {
-        const basePath = "/lydia-radgiver";
         const buildPath = path.resolve(__dirname, "../client/dist");
-        const storybookPath = path.resolve(__dirname, "../client/storybook-static");
         this.expressApp = express();
-        this.expressApp.set("trust proxy", 1)
+        this.expressApp.set("trust proxy", 1);
 
-        this.expressApp.use(apiMetrics())
+        this.expressApp.use(apiMetrics());
+        this.expressApp.use(helmet());
 
-        this.expressApp.get(["/internal/isAlive", "/internal/isReady"], (req, res) => {
-            res.sendStatus(200);
-        });
+        this.expressApp.get(
+            ["/internal/isAlive", "/internal/isReady"],
+            (req, res) => {
+                res.sendStatus(200);
+            }
+        );
 
+        const tokenValidator =
+            process.env.NAIS_CLUSTER_NAME === "lokal"
+                ? validerTokenFraFakedings(config.azure, config._jwkSet)
+                : validerTokenFraWonderwall(config.azure, config._jwkSet);
 
-        this.expressApp.use(`${basePath}/*`, express.static(buildPath));
-        this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
-
-        this.expressApp.use("/internal/storybook", express.static(storybookPath));
         this.expressApp.use(
-            "/storybook-static/assets",
-            express.static(`${storybookPath}/assets`)
+            "/innloggetAnsatt",
+            tokenValidator,
+            hentInnloggetAnsattMiddleware
         );
 
         this.expressApp.use(
@@ -46,11 +49,9 @@ export default class Application {
                 ? memorySessionManager()
                 : redisSessionManager()
         );
-        const lydiaApiProxy = new LydiaApiProxy(config).createExpressMiddleWare();
-        const tokenValidator =
-            process.env.NAIS_CLUSTER_NAME === "lokal"
-                ? validerTokenFraFakedings(config.azure, config._jwkSet)
-                : validerTokenFraWonderwall(config.azure, config._jwkSet);
+        const lydiaApiProxy = new LydiaApiProxy(
+            config
+        ).createExpressMiddleWare();
 
         // Proxy må ligge under healthcheck endepunktene for at de skal nås
         this.expressApp.use(
@@ -64,11 +65,9 @@ export default class Application {
             lydiaApiProxy
         );
 
-        this.expressApp.get(
-            "/innloggetAnsatt",
-            tokenValidator,
-            hentInnloggetAnsattMiddleware
-        );
+        this.expressApp.get("/assets", express.static(`${buildPath}/assets`));
+        this.expressApp.use("/", express.static(buildPath));
+        this.expressApp.use("/*", express.static(buildPath));
 
         this.expressApp.get("/loggut", (req, res, next) => {
             req.session.destroy((err) => {
@@ -80,7 +79,8 @@ export default class Application {
         })
 
         this.expressApp.use(
-            (error: Error, req: Request, res: Response, _: NextFunction) => {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            (error: Error, req: Request, res: Response, _ : NextFunction) => {
                 if (error instanceof AuthError) {
                     return res.status(401).send(error.message);
                 }

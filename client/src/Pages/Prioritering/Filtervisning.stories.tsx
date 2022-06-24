@@ -4,7 +4,7 @@ import {filterverdierMock} from "./mocks/filterverdierMock";
 import "@navikt/ds-css";
 
 export default {
-    title: "Filtervisning",
+    title: "Prioritering/Filtervisning",
     component: StyledFiltervisning,
 } as ComponentMeta<typeof StyledFiltervisning>;
 

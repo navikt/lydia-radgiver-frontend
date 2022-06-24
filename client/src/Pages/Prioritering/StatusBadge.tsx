@@ -1,77 +1,43 @@
-import {IAProsessStatusType} from "../../domenetyper";
 import "@navikt/ds-css";
-import {Badge} from "../../components/Badge/Badge";
-
-interface StatusBadgeProps {
-    status: IAProsessStatusType
-}
-
-export const StatusBadge = ({status}: StatusBadgeProps) => {
-    const {text, backgroundColor, color} = hentBadgeFraStatus(status)
-
-    return (<Badge color={color} backgroundColor={backgroundColor} text={text}/>)
-}
+import React from "react";
+import {IAProsessStatusEnum, IAProsessStatusType} from "../../domenetyper";
+import {Badge, Farge} from "../../components/Badge/Badge";
 
 
-
-const textColors = {
-    black: "#000000",
-    white: "#FFFFFF"
-}
-
-interface BadgeData {
-    text: string,
-    color: string,
-    backgroundColor: string
-}
-
-export function hentBadgeFraStatus(status: IAProsessStatusType): BadgeData {
+export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): Farge => {
     switch (status) {
-        case "TAKKET_NEI": {
-            return {
-                text: "Har takket nei",
-                color: textColors.white,
-                backgroundColor: "#E18071"
-            }
-        }
-        case "GJENNOMFORING":
-        case "EVALUERING": {
-            return {
-                text: "Vi bistår",
-                backgroundColor: "#99DEAD",
-                color: textColors.black
-            }
-        }
-        case "PRIORITERT": {
-            return {
-                text: "Ta kontakt",
-                backgroundColor: "#CCE1FF",
-                color: textColors.black
-            }
-        }
-        case "AVSLUTTET":
-        case "IKKE_AKTIV":
-        case "NY": {
-            return {
-                text: "Ikke aktivt",
-                backgroundColor: "#A0A0A0",
-                color: textColors.white
-            }
-        }
-        case "KARTLEGGING": {
-            return {
-                text: "Kartlegges",
-                color: textColors.black,
-                backgroundColor: "#FFD799"
-            }
-        }
-        case "AVSLATT_AV_NALS": {
-            return {
-                text: "Avslått av NALS",
-                color: textColors.white,
-                backgroundColor: "#E18071"
-            }
-        }
-        default: throw new Error("Ukjent prosess-status")
+        case IAProsessStatusEnum.enum.NY:
+            return Farge.hvit
+        case IAProsessStatusEnum.enum.VURDERES:
+            return Farge.lyseBlå
+        case IAProsessStatusEnum.enum.IKKE_AKTIV:
+            return Farge.grå
+        case IAProsessStatusEnum.enum.KONTAKTES:
+            return Farge.mørkeBlå
+        case IAProsessStatusEnum.enum.IKKE_AKTUELL:
+            return Farge.rød
     }
 }
+
+export function penskrivIAStatus(status: IAProsessStatusType): string {
+    switch (status) {
+        case IAProsessStatusEnum.enum.NY:
+            return "Sak opprettet"
+        case IAProsessStatusEnum.enum.VURDERES:
+            return "Vurderes"
+        case IAProsessStatusEnum.enum.IKKE_AKTIV:
+            return "Ikke aktiv"
+        case IAProsessStatusEnum.enum.KONTAKTES:
+            return "Kontaktes"
+        case IAProsessStatusEnum.enum.IKKE_AKTUELL:
+            return "Ikke aktuell"
+        default:
+            return "N/A"
+    }
+}
+
+export const StatusBadge = ({status}: { status: IAProsessStatusType }) =>
+    <Badge
+        text={penskrivIAStatus(status)}
+        backgroundColor={hentBakgrunnsFargeForIAStatus(status)}
+    />

@@ -1,43 +1,74 @@
 import { StyledFiltervisning } from "./Filtervisning";
-import { StyledPrioriteringsTabell} from "./PrioriteringsTabell";
+import { StyledPrioriteringsTabell } from "./PrioriteringsTabell";
 import {
-  useFilterverdier,
-  useSykefraværsstatistikk,
+    useFilterverdier,
+    useSykefraværsstatistikk,
 } from "../../api/lydia-api";
-import {useEffect, useState} from "react";
+import {useContext, useEffect, useState} from "react";
 import {
-    Søkeverdier,
     Filterverdier,
     SykefraversstatistikkVirksomhet,
+    Søkeverdier,
 } from "../../domenetyper";
+import { Loader } from "@navikt/ds-react";
+import {statiskeSidetitler, TittelContext} from "./TittelContext";
 
 const tommeFilterverdier: Filterverdier = {
     fylker: [],
     neringsgrupper: [],
     sorteringsnokler: [],
-    statuser: []
+    statuser: [],
 };
-const tomSykefraværsstatistikk: SykefraversstatistikkVirksomhet[] = [];
+
+export const ANTALL_RESULTATER_PER_SIDE = 50;
+
+export const totaltAntallResultaterTilAntallSider = (totaltAntallResultater: number, antallResultaterPerSide = ANTALL_RESULTATER_PER_SIDE) =>
+    Math.ceil(totaltAntallResultater / antallResultaterPerSide)
 
 const Prioriteringsside = () => {
-    const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState(tomSykefraværsstatistikk)
-    const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>();
-    const [skalSøke, setSkalSøke] = useState(false);
-    const skalViseTabell = sykefraværsstatistikk && !skalSøke;
+    const {oppdaterTittel} = useContext(TittelContext)
+    oppdaterTittel(statiskeSidetitler.prioriteringsside)
 
-    const {
-        data: filterverdier,
-    } = useFilterverdier();
+    const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState<SykefraversstatistikkVirksomhet[]>();
+    const [totaltAntallResultaterISøk, setTotaltAntallResultaterISøk] = useState(0);
+    const [side, setSide] = useState(1);
+    const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>({
+        side,
+        antallAnsatteRange: {
+            fra: 5,
+            til: NaN,
+        },
+    });
+    const [skalSøke, setSkalSøke] = useState(false);
+    const harSøktMinstEnGang = sykefraværsstatistikk !== undefined
+    const fantResultaterISøk = harSøktMinstEnGang && sykefraværsstatistikk.length > 0
+    const skalViseTabell = fantResultaterISøk && !skalSøke;
+
+    const { data: filterverdier } = useFilterverdier();
     const {
         data: sfStatistikkFraApi,
         error,
-    } = useSykefraværsstatistikk({ søkeverdier, initierSøk: skalSøke });
+        loading,
+    } = useSykefraværsstatistikk({
+        søkeverdier,
+        initierSøk: skalSøke,
+    });
     useEffect(() => {
         if (sfStatistikkFraApi) {
-            setSykefraværsstatistikk(sfStatistikkFraApi.data)
-            setSkalSøke(false)
+            setSykefraværsstatistikk(sfStatistikkFraApi.data);
+            setTotaltAntallResultaterISøk(sfStatistikkFraApi.total)
+            setSkalSøke(false);
         }
-    }, [sfStatistikkFraApi])
+    }, [sfStatistikkFraApi]);
+
+    function oppdaterSide(side: number) {
+        setSide(side);
+        setSøkeverdier({
+            ...søkeverdier,
+            side,
+        });
+        setSkalSøke(true);
+    }
 
     return (
         <>
@@ -45,20 +76,39 @@ const Prioriteringsside = () => {
                 filterverdier={filterverdier ?? tommeFilterverdier}
                 oppdaterSøkeverdier={(nyeSøkeverdier: Søkeverdier) => {
                     setSøkeverdier({ ...søkeverdier, ...nyeSøkeverdier });
-                    setSkalSøke(false)
+                    setSkalSøke(false);
                 }}
-                søkPåNytt={() => setSkalSøke(true)}
+                søkPåNytt={() => {
+                    oppdaterSide(1);
+                }}
             />
             <br />
-            {skalViseTabell && <StyledPrioriteringsTabell
-                sykefraværsstatistikk={
-                    sykefraværsstatistikk
-                }
-            />}
-            {skalSøke && <p>Loading...</p>}
-            {error && <p>Error</p>}
+            {skalViseTabell ? (
+                <StyledPrioriteringsTabell
+                    sykefraværsstatistikk={sykefraværsstatistikk}
+                    endreSide={(side) => {
+                        oppdaterSide(side);
+                    }}
+                    totaltAntallResultaterISøk={totaltAntallResultaterISøk}
+                    side={side}
+                />
+            ) : harSøktMinstEnGang && !loading && <SøketGaIngenResultater />}
+            <div style={{ textAlign: "center" }}>
+                {loading && (
+                    <Loader
+                        title={"Henter sykefraværsstatistikk"}
+                        variant={"interaction"}
+                        size={"xlarge"}
+                    />
+                )}
+                {error && <p> Noe gikk galt under uthenting av sykefraværsstatistikk</p>}
+            </div>
         </>
     );
 };
+
+const SøketGaIngenResultater = () => (
+    <p style={{ textAlign : "center"}}>Søket ga ingen resultater</p>
+)
 
 export default Prioriteringsside;

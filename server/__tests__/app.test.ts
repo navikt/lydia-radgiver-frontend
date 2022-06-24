@@ -5,8 +5,9 @@ import Application from "../app";
 import nock from "nock";
 import {generateLocalKeys, setupLocalJwkSet} from "../jwks";
 import {KeyLike} from "jose/dist/types/types";
-import {SignJWT} from "jose";
+import {decodeJwt, SignJWT} from "jose";
 import {register} from "prom-client";
+import {hentBrukerinfoFraToken} from "../brukerinfo";
 
 const azureOpenidConfigTokenUri = "http://azure.com";
 const azureOpenidConfigTokenPath = "/azure-openid-config/token";
@@ -29,7 +30,7 @@ const mockEnv = () => {
     process.env[envVars.jwkUri] = "hei123";
 };
 
-async function createMockToken() {
+export async function createMockToken() {
     const jwtSigner = new SignJWT({
         azp: "hei1234",
         name: "Testuser Testuser",
@@ -135,7 +136,18 @@ describe("Tester proxy mot lydia-api", () => {
         expect(azureNockScope.isDone());
         expect(lydiaApiNockScope.isDone());
     });
+
+    test("skal kunne si hvor lenge brukeren har et gyldig token", async () => {
+        const token = await createMockToken()
+        const jwtPayload = decodeJwt(token)
+        const brukerinfo = hentBrukerinfoFraToken(jwtPayload)
+        const nå = Date.now()
+        expect(brukerinfo.tokenUtløper < nå).toBeFalsy();
+        const treTimer = 1000 * 60 * 60 * 3
+        expect(brukerinfo.tokenUtløper < nå + treTimer).toBeTruthy();
+    });
 });
+
 
 describe("Tester uthenting av metrikker", () => {
     let expressApp: Express;

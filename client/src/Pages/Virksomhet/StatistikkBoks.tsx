@@ -1,51 +1,61 @@
-import {Badge} from "../../components/Badge/Badge";
+import {Badge, Farge} from "../../components/Badge/Badge";
 
-const percentFormatter: Formatter = new Intl.NumberFormat('nb-NO', { maximumFractionDigits: 1, style: 'percent' })
-const decimalFormatter: Formatter = new Intl.NumberFormat('nb-NO', { maximumFractionDigits: 0, style: 'decimal' })
+const percentFormatter: Formatter = new Intl.NumberFormat("nb-NO", {
+    maximumFractionDigits: 1,
+    style: "percent",
+});
+const decimalFormatter: Formatter = new Intl.NumberFormat("nb-NO", {
+    maximumFractionDigits: 0,
+    style: "decimal",
+});
 const stringFormatter: Formatter = {
     format(value: number): string {
-        return value.toString()
-    }
-}
+        return value.toString();
+    },
+};
 
-type FormatterType = 'percent' | 'decimal'
+type FormatterType = "percent" | "decimal";
 
 function getFormatter(type: FormatterType) {
     switch (type) {
         case "decimal":
-            return decimalFormatter
+            return decimalFormatter;
         case "percent":
-            return percentFormatter
+            return percentFormatter;
         default:
-            return stringFormatter
+            return stringFormatter;
     }
 }
 
 interface Formatter {
-    format(value: number): string
+    format(value: number): string;
 }
 
 interface Props {
-    verdi: number
-    tittel: string
-    bakgrunnsfarge: string
-    type: FormatterType
-    inheritColor?: boolean
+    verdi: number;
+    tittel: string;
+    type: FormatterType;
 }
 
-export const StatistikkBoks = ({ verdi, tittel, type, bakgrunnsfarge, inheritColor = false }: Props) => {
-    const formatter = getFormatter(type)
-    return (<div style={{width: "12rem"}}>
-        <Badge color="white" backgroundColor={bakgrunnsfarge} text={tittel} customStyles={{ width: "inherit"}} />
-        <div style={{
-            color: inheritColor ? bakgrunnsfarge : "black",
-            textAlign: "center"
-        }}>
-            <p style={{
-                fontWeight: "bold",
-                fontSize: "3rem",
-                margin: "auto"
-            }}>{formatter.format(verdi)}</p>
+export const StatistikkBoks = ({verdi, tittel, type }: Props) => {
+    const formatter = getFormatter(type);
+    return (
+        <div style={{flex: 1, textAlign: "center"}}>
+            <Badge
+                backgroundColor={Farge.mørkeGrå}
+                text={tittel}
+                textColor={Farge.hvit}
+                size={"medium"}
+            />
+            <p
+                style={{
+                    fontWeight: "bold",
+                    fontSize: "3rem",
+                    margin: "auto",
+                }}
+            >
+                {formatter.format(verdi)}
+            </p>
         </div>
-    </div>);
-}
+    );
+};

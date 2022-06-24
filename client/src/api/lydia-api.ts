@@ -1,44 +1,104 @@
-import {defaultFetcher} from "./nettverkskall";
 import {
     Filterverdier,
     filterverdierSchema,
-    NavAnsatt,
-    navAnsattSchema,
+    GyldigNesteHendelse,
+    IANySakshendelseDto,
+    IASak,
+    iaSakSchema,
+    Brukerinformasjon,
+    brukerinfoSchema,
+    SykefraversstatistikkVirksomhet,
+    sykefraversstatistikkVirksomhetListeSchema,
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
     Søkeverdier,
+    ValgtÅrsakDto,
     Virksomhet,
-    virksomhetsSchema,
+    virksomhetsSchema, Sakshistorikk, sakshistorikkSchema,
 } from "../domenetyper";
-import useSWR, {SWRConfiguration} from "swr";
-import {ZodType} from "zod";
+import useSWR, { SWRConfiguration } from "swr";
+import { ZodError, ZodType } from "zod";
+import { useEffect, useState } from "react";
+import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
 
 const basePath = "/api";
-const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
-const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
-const virksomhetsPath = `${basePath}/virksomhet`
+export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
+export const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
+export const virksomhetsPath = `${basePath}/virksomhet`;
 const innloggetAnsattPath = `/innloggetAnsatt`;
+export const iaSakPath = `${basePath}/iasak/radgiver`;
+export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
+export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
-    revalidateOnReconnect: false
-}
+    revalidateOnReconnect: false,
+};
 
-const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>, config: SWRConfiguration = defaultSwrConfiguration) => {
-    const { data, error: fetchError } = useSWR<T>(path, defaultFetcher, {
+const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
+    fetch(...args).then((res) => res.json());
+
+const fetchNative =
+    (method: "GET" | "POST" | "DELETE" | "PUT") =>
+    <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
+        fetch(url, {
+            method,
+            body: body ? JSON.stringify(body) : undefined,
+            headers: {
+                "Content-Type": "application/json",
+            },
+        })
+            .then((res) => (res.ok ? res : Promise.reject(res.text())))
+            .then((res) => res.json())
+            .catch((e: Promise<string | ZodError>) => {
+                e.then((reason) => {
+                    if (reason instanceof ZodError) {
+                        console.error(reason);
+                        return;
+                    }
+                    dispatchFeilmelding({
+                        feilmelding: reason,
+                    });
+                });
+            })
+            .then((data) => {
+                const safeparsed = schema.safeParse(data);
+                return safeparsed.success
+                    ? safeparsed.data
+                    : Promise.reject(safeparsed.error);
+            });
+
+const post = <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
+    fetchNative("POST")(url, schema, body);
+const get = <T>(url: string, schema: ZodType<T>): Promise<T> =>
+    fetchNative("GET")(url, schema);
+
+const useSwrTemplate = <T>(
+    path: string | (() => string | null) | null,
+    schema: ZodType<T>,
+    config: SWRConfiguration = defaultSwrConfiguration
+) => {
+    const {
+        data,
+        error: fetchError,
+        mutate,
+    } = useSWR<T>(path, defaultFetcher, {
         ...defaultSwrConfiguration,
-        ...config
+        ...config,
     });
     if (!data && !fetchError) {
         return {
-            data: undefined,
+            data,
+            mutate,
             error: undefined,
             loading: true,
         };
     }
     if (fetchError) {
+        dispatchFeilmelding({ feilmelding: fetchError?.message });
         return {
-            data: undefined,
+            data,
+            mutate,
             error: fetchError,
             loading: false,
         };
@@ -50,51 +110,136 @@ const useSwrTemplate = <T>(path: string | null, schema: ZodType<T>, config: SWRC
             safeParseResultat.error
         );
         return {
-            data: undefined,
+            data,
+            mutate,
             error: safeParseResultat.error,
             loading: false,
         };
     }
     return {
         data: safeParseResultat.data,
+        mutate,
         error: undefined,
         loading: false,
     };
 };
 
+const getSykefraværsstatistikkUrl = (søkeverdier: Søkeverdier) =>
+    `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(
+        søkeverdier
+    ).toString()}`;
+
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);
 
-export const useSykefraværsstatistikk = ({søkeverdier = {}, initierSøk = true}: {
-    søkeverdier?: Søkeverdier,
-    initierSøk?: boolean
+export const useSykefraværsstatistikk = ({
+    søkeverdier = {},
+    initierSøk = true,
+}: {
+    søkeverdier?: Søkeverdier;
+    initierSøk?: boolean;
 }) => {
-    const sykefraværUrl = `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(søkeverdier).toString()}`;
-    return useSwrTemplate<SykefraværsstatistikkVirksomhetRespons>(
-        initierSøk ? sykefraværUrl : null,
-        sykefraværListeResponsSchema
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [sykefravær, setSykefravær] =
+        useState<SykefraværsstatistikkVirksomhetRespons>();
+
+    const sykefraværUrl = getSykefraværsstatistikkUrl(søkeverdier);
+
+    useEffect(() => {
+        if (initierSøk) {
+            setLoading(true);
+
+            get(sykefraværUrl, sykefraværListeResponsSchema)
+                .then((response) => {
+                    setError("");
+                    setSykefravær(response);
+                })
+                .catch((e) => {
+                    setError(e.message);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    }, [sykefraværUrl, initierSøk]);
+
+    return { error, loading, data: sykefravær };
+};
+
+export const useHentSykefraværsstatistikkForVirksomhet = (
+    orgnummer?: string
+) => {
+    return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(
+        orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}` : null,
+        sykefraversstatistikkVirksomhetListeSchema,
+        {
+            revalidateOnFocus: true,
+        }
     );
 };
 
 export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
     return useSwrTemplate<Virksomhet>(
         orgnummer ? `${virksomhetsPath}/${orgnummer}` : null,
-        virksomhetsSchema
+        virksomhetsSchema,
+        {
+            revalidateOnFocus: true,
+        }
     );
-}
+};
 
 export const useHentBrukerinformasjon = () =>
-    useSwrTemplate<NavAnsatt>(innloggetAnsattPath, navAnsattSchema);
+    useSwrTemplate<Brukerinformasjon>(innloggetAnsattPath, brukerinfoSchema);
+
+export const useHentSakerForVirksomhet = (orgnummer?: string) => {
+    const iasakUrl = `${iaSakPath}/${orgnummer}`;
+    return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array(), {
+        revalidateOnFocus: true,
+    });
+};
+
+export const useHentSamarbeidshistorikk = (orgnummer?: string) => {
+    return useSwrTemplate<Sakshistorikk[]>(
+        () => (orgnummer ? `${iaSakHistorikkPath}/${orgnummer}` : null),
+        sakshistorikkSchema.array(),
+        {
+            revalidateOnFocus: true,
+        }
+    );
+};
+
+export const opprettSak = (orgnummer: string): Promise<IASak> =>
+    post(`${iaSakPath}/${orgnummer}`, iaSakSchema);
+
+export const nyHendelsePåSak = (
+    sak: IASak,
+    hendelse: GyldigNesteHendelse,
+    valgtÅrsak: ValgtÅrsakDto | null = null
+): Promise<IASak> => {
+    const nyHendelseDto: IANySakshendelseDto = {
+        orgnummer: sak.orgnr,
+        saksnummer: sak.saksnummer,
+        hendelsesType: hendelse.saksHendelsestype,
+        endretAvHendelseId: sak.endretAvHendelseId,
+        ...(valgtÅrsak && { payload: JSON.stringify(valgtÅrsak) }),
+    };
+    return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
+};
 
 const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     const params = new URLSearchParams();
     params.append(
         "kommuner",
-        søkeverdier.kommuner?.map((kommune) => kommune.nummer).join(",") ?? ""
+        søkeverdier.kommuner
+            ?.map((kommune) => kommune.nummer.replace(/\D/g, ""))
+            .join(",") ?? ""
     );
     params.append(
         "fylker",
-        søkeverdier.fylker?.map((fylke) => fylke.nummer).join(",") ?? ""
+        søkeverdier.fylker
+            ?.map((fylke) => fylke.nummer.replace(/\D/g, ""))
+            .join(",") ?? ""
     );
     params.append(
         "neringsgrupper",
@@ -110,7 +255,25 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
         "sykefraversprosentTil",
         søkeverdier.sykefraversprosentRange?.til.toFixed(2) ?? ""
     );
+    params.append(
+        "ansatteFra",
+        `${
+            Number.isNaN(søkeverdier.antallAnsatteRange?.fra)
+                ? ""
+                : søkeverdier.antallAnsatteRange?.fra || ""
+        }`
+    );
+    params.append(
+        "ansatteTil",
+        `${
+            Number.isNaN(søkeverdier.antallAnsatteRange?.til)
+                ? ""
+                : søkeverdier.antallAnsatteRange?.til || ""
+        }`
+    );
     params.append("sorteringsnokkel", søkeverdier.sorteringsnokkel ?? "");
-    params.append("iaStatus", søkeverdier.iastatus ?? "")
+    params.append("iaStatus", søkeverdier.iaStatus ?? "");
+    params.append("side", `${søkeverdier.side}`);
+    params.append("kunMineVirksomheter", søkeverdier.kunMineVirksomheter?.toString() ?? "")
     return params;
 };
