@@ -38,22 +38,31 @@ export default class Application {
                 ? validerTokenFraFakedings(config.azure, config._jwkSet)
                 : validerTokenFraWonderwall(config.azure, config._jwkSet);
 
+        this.expressApp.get("/loggut", (req, res, next) => {
+            req.session.destroy((err) => {
+                if (err) {
+                    return next(err)
+                }
+            })
+            return res.redirect("/oauth2/logout?post_logout_redirect_uri=https://nav.no")
+        })
+
         this.expressApp.use(
             "/innloggetAnsatt",
             tokenValidator,
             hentInnloggetAnsattMiddleware
         );
-
         this.expressApp.use(
             ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
                 ? memorySessionManager()
                 : redisSessionManager()
         );
+
         const lydiaApiProxy = new LydiaApiProxy(
             config
         ).createExpressMiddleWare();
-
         // Proxy må ligge under healthcheck endepunktene for at de skal nås
+
         this.expressApp.use(
             "/api",
             tokenValidator,
@@ -64,19 +73,10 @@ export default class Application {
                 : onBehalfOfTokenMiddleware(config),
             lydiaApiProxy
         );
-
         this.expressApp.get("/assets", express.static(`${buildPath}/assets`));
         this.expressApp.use("/", express.static(buildPath));
-        this.expressApp.use("/*", express.static(buildPath));
 
-        this.expressApp.get("/loggut", (req, res, next) => {
-            req.session.destroy((err) => {
-                if (err) {
-                    return next(err)
-                }
-            })
-            return res.redirect("/oauth2/logout?post_logout_redirect_uri=https://nav.no")
-        })
+        this.expressApp.use("/*", express.static(buildPath));
 
         this.expressApp.use(
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
