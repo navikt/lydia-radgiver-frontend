@@ -24,7 +24,7 @@ import {KunMineVirksomheterToggle} from "./KunMineVirksomheterToggle";
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
     mulige_dagsverk: "Mulige dagsverk",
-    antall_personer: "Antall personer",
+    antall_personer: "Antall arbeidsforhold",
     sykefraversprosent: "Sykefraværsprosent",
     navn: "Alfabetisk på navn",
 } as const;
