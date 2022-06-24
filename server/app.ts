@@ -65,9 +65,18 @@ export default class Application {
             lydiaApiProxy
         );
 
-        this.expressApp.use("/assets", express.static(`${buildPath}/assets`));
+        this.expressApp.get("/assets", express.static(`${buildPath}/assets`));
         this.expressApp.use("/", express.static(buildPath));
         this.expressApp.use("/*", express.static(buildPath));
+
+        this.expressApp.get("/loggut", (req, res, next) => {
+            req.session.destroy((err) => {
+                if (err) {
+                    return next(err)
+                }
+            })
+            return res.redirect("/oauth2/logout?post_logout_redirect_uri=https://nav.no")
+        })
 
         this.expressApp.use(
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
