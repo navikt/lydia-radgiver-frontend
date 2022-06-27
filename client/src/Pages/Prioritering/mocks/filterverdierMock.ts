@@ -255,5 +255,11 @@ export const filterverdierMock: Filterverdier = {
             navn: "B - Skogbruk og tjenester tilknyttet skogbruk",
         },
     ],
-    sorteringsnokler: ["tapte_dagsverk", "sykefraversprosent"],
+    sorteringsnokler: [
+        "tapte_dagsverk",
+        "mulige_dagsverk",
+        "antall_personer",
+        "sykefraversprosent",
+        "navn"
+    ],
 };

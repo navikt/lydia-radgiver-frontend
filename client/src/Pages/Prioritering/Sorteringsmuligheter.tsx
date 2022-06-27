@@ -25,7 +25,7 @@ export const Sorteringsmuligheter = ({valgtSortering, sorteringsMuligheter, endr
                         {
                             sorteringsverdier[
                                 sortering as Sorteringsverdi
-                                ]
+                            ]
                         }
                     </option>
                 ))}
