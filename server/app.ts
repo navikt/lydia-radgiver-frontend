@@ -33,13 +33,23 @@ export default class Application {
             }
         );
 
+        this.expressApp.use(
+            ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
+                ? memorySessionManager()
+                : redisSessionManager()
+        );
+
         const tokenValidator =
             process.env.NAIS_CLUSTER_NAME === "lokal"
                 ? validerTokenFraFakedings(config.azure, config._jwkSet)
                 : validerTokenFraWonderwall(config.azure, config._jwkSet);
 
         this.expressApp.get("/loggut", (req, res, next) => {
-            console.log("keys", Object.keys(req.session))
+            req.session.destroy((err) => {
+                if (err) {
+                    next(err)
+                }
+            })
             return res.redirect("/oauth2/logout?post_logout_redirect_uri=https://nav.no")
         })
 
@@ -47,11 +57,6 @@ export default class Application {
             "/innloggetAnsatt",
             tokenValidator,
             hentInnloggetAnsattMiddleware
-        );
-        this.expressApp.use(
-            ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
-                ? memorySessionManager()
-                : redisSessionManager()
         );
 
         const lydiaApiProxy = new LydiaApiProxy(
