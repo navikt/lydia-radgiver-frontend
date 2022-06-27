@@ -3,26 +3,26 @@ import {
     IASakshendelseType, IASakshendelseTypeEnum,
 } from "../../domenetyper";
 
-export const oversettNavnPåSakshendelsestype = (hendelsestype: IASakshendelseType): string => {
+export const penskrivIASakshendelsestype = (hendelsestype: IASakshendelseType): string => {
     switch (hendelsestype) {
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
             return "Vurderes"
-
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
             return "Opprett sak"
-
         case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
             return "Ta eierskap"
-
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
             return "Kontaktes"
-
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
             return "Ikke aktuell"
-
         case IASakshendelseTypeEnum.enum.TILBAKE:
             return "Tilbake"
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
+            return "Kartlegges"
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
+            return "Vi bistår"
     }
+
 }
 
 export enum ButtonVariant {
@@ -38,19 +38,18 @@ export const knappeTypeFraSakshendelsesType = (hendelsesType: IASakshendelseType
     switch (hendelsesType) {
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
             return "primary"
-
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
             return "primary"
-
         case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
             return "primary"
-
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
             return "primary"
-
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
+            return "primary"
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
+            return "primary"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
             return "danger"
-
         case IASakshendelseTypeEnum.enum.TILBAKE:
             return "secondary"
     }
@@ -69,7 +68,7 @@ export const IASakshendelseKnapp = ({hendelsesType, onClick}: Props) => {
             variant={knappeTypeFraSakshendelsesType(hendelsesType)}
             size={"small"}
         >
-            {oversettNavnPåSakshendelsestype(
+            {penskrivIASakshendelsestype(
                 hendelsesType
             )}
         </Button>
