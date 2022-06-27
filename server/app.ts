@@ -39,11 +39,7 @@ export default class Application {
                 : validerTokenFraWonderwall(config.azure, config._jwkSet);
 
         this.expressApp.get("/loggut", (req, res, next) => {
-            req.session.destroy((err) => {
-                if (err) {
-                    return next(err)
-                }
-            })
+            delete req.session
             return res.redirect("/oauth2/logout?post_logout_redirect_uri=https://nav.no")
         })
 
