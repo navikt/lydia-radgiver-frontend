@@ -9,7 +9,9 @@ export enum Farge {
     rød = "#EFA89D",
     grå = "#C9C9C9",
     svart = "#000000",
-    mørkeGrå = "#A0A0A0"
+    mørkeGrå = "#A0A0A0",
+    grønn = "#99DEAD",
+    gul = "#FFD799"
 }
 
 interface BadgeProps {

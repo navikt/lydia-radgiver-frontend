@@ -3,7 +3,7 @@ import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {Table, Heading, Detail} from "@navikt/ds-react";
 import {lokalDato} from "../../util/DatoFormatter";
-import {oversettNavnPåSakshendelsestype} from "./IASakshendelseKnapp";
+import {penskrivIASakshendelsestype} from "./IASakshendelseKnapp";
 import {StatusBadge} from "../Prioritering/StatusBadge";
 
 export interface IASakHendelserOversiktProps {

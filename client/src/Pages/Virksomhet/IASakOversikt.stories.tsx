@@ -2,8 +2,8 @@ import { ComponentMeta } from "@storybook/react";
 
 import { IASakOversikt } from "./IASakOversikt";
 import {
-    iaSakIkkeAktuell,
-    iaSakKontaktes,
+    iaSakIkkeAktuell, iaSakKartlegges,
+    iaSakKontaktes, iaSakViBistår,
     iaSakVurderesMedEier,
     iaSakVurderesUtenEier,
 } from "./mocks/iaSakMock";
@@ -79,4 +79,13 @@ export const Kontaktes = () => (
 
 export const IkkeAktuell = () => (
     <IASakOversikt iaSak={iaSakIkkeAktuell} orgnummer={"987654321"} />
+);
+
+
+export const Kartlegges = () => (
+    <IASakOversikt iaSak={iaSakKartlegges} orgnummer={"987654321"} />
+);
+
+export const ViBistar = () => (
+    <IASakOversikt iaSak={iaSakViBistår} orgnummer={"987654321"} />
 );
