@@ -23,7 +23,9 @@ export const Næringsgruppedropdown = ({
     valgtNæringsgruppe: Næringsgruppe[];
     endreNæringsgrupper: (value: string[]) => void;
 }) => {
-    const options = næringsgrupper.map(mapnæringsGruppeTilReactSelectOptions);
+    const options = næringsgrupper
+        .sort((a, b) => +a.kode - +b.kode)
+        .map(mapnæringsGruppeTilReactSelectOptions);
     const ariaLabelId = "næringsgruppe-aria-label";
     return (
         <>

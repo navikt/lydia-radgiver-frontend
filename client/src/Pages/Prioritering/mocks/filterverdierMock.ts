@@ -247,12 +247,16 @@ export const filterverdierMock: Filterverdier = {
     ],
     neringsgrupper: [
         {
-            kode: "01",
-            navn: "Jordbruk og tjenester tilknyttet jordbruk, jakt og viltstell",
-        },
-        {
             kode: "02",
             navn: "Skogbruk og tjenester tilknyttet skogbruk",
+        },
+        {
+            kode: "99",
+            navn: "Internasjonale organisasjoner og organer",
+        },
+        {
+            kode: "01",
+            navn: "Jordbruk og tjenester tilknyttet jordbruk, jakt og viltstell",
         },
     ],
     sorteringsnokler: [
