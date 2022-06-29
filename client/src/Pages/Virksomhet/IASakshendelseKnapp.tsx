@@ -1,5 +1,6 @@
 import {Button} from "@navikt/ds-react";
 import {
+    GyldigNesteHendelse,
     IASakshendelseType, IASakshendelseTypeEnum,
 } from "../../domenetyper";
 
@@ -37,15 +38,10 @@ type ButtonVariantType = keyof typeof ButtonVariant
 export const knappeTypeFraSakshendelsesType = (hendelsesType: IASakshendelseType): ButtonVariantType => {
     switch (hendelsesType) {
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
-            return "primary"
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
-            return "primary"
         case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
-            return "primary"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
-            return "primary"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
-            return "primary"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
             return "primary"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
@@ -59,6 +55,13 @@ interface Props {
     hendelsesType: IASakshendelseType
     onClick: () => void
 }
+
+export const erHendelsenDestruktiv = (hendelsesType: IASakshendelseType) =>
+    knappeTypeFraSakshendelsesType(hendelsesType) === "danger"
+
+export const sorterHendelserPåKnappeType = (a: GyldigNesteHendelse, b: GyldigNesteHendelse) =>
+    ButtonVariant[knappeTypeFraSakshendelsesType(a.saksHendelsestype)].valueOf()
+    - ButtonVariant[knappeTypeFraSakshendelsesType(b.saksHendelsestype)].valueOf()
 
 export const IASakshendelseKnapp = ({hendelsesType, onClick}: Props) => {
     return (

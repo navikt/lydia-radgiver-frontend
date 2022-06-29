@@ -3,16 +3,16 @@ import {
     GyldigNesteHendelse,
     IAProsessStatusEnum,
     IAProsessStatusType,
-    IASak, IASakshendelseTypeEnum,
+    IASak,
+    IASakshendelseTypeEnum,
 } from "../../domenetyper";
 import styled from "styled-components";
 import {hentBakgrunnsFargeForIAStatus, penskrivIAStatus} from "../Prioritering/StatusBadge";
-import {HorizontalFlexboxDivGap3RemAlignItemsEnd} from "../Prioritering/HorizontalFlexboxDiv";
 import {nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
 import {useState} from "react";
 import {BegrunnelseModal} from "./BegrunnelseModal";
 import {IASakshendelseKnapp} from "./IASakshendelseKnapp";
-import {sorterHendelserPåKnappeType} from "../../util/sortering";
+import {SakshendelsesKnapper} from "./SakshendelsesKnapper";
 
 export interface IASakOversiktProps {
     orgnummer: string;
@@ -73,43 +73,32 @@ export const IASakOversikt = ({
             <BodyShort>Status: {penskrivIAStatus(sak.status)}</BodyShort>
             {sak.eidAv && <BodyShort>Rådgiver: {sak.eidAv}</BodyShort>}
             <br/>
-            <HorizontalFlexboxDivGap3RemAlignItemsEnd>
-                {sak.gyldigeNesteHendelser
-                    .sort(sorterHendelserPåKnappeType)
-                    .map((hendelse) => {
-                    return (
-                        <IASakshendelseKnapp
-                            key={hendelse.saksHendelsestype}
-                            hendelsesType={hendelse.saksHendelsestype}
-                            onClick={() =>
-                                hendelseKreverBegrunnelse(hendelse)
-                                    ? setValgtHendelseMedÅrsak(hendelse)
-                                    : nyHendelsePåSak(sak, hendelse).then(() =>
-                                        muterState?.()
-                                    )
-                            }
-                        />
-                    );
-                })}
-                {valgtHendelseMedÅrsak && (
-                    <BegrunnelseModal
-                        hendelse={valgtHendelseMedÅrsak}
-                        åpen={skalRendreModal}
-                        lagre={(valgtÅrsak) =>
-                            nyHendelsePåSak(
-                                sak,
-                                valgtHendelseMedÅrsak,
-                                valgtÅrsak
+            <SakshendelsesKnapper
+                hendelser={sak.gyldigeNesteHendelser}
+                onNyHendelseHandler={(hendelse) => hendelseKreverBegrunnelse(hendelse)
+                    ? setValgtHendelseMedÅrsak(hendelse)
+                    : nyHendelsePåSak(sak, hendelse).then(() =>
+                        muterState?.()
+                    )}
+            />
+            {valgtHendelseMedÅrsak && (
+                <BegrunnelseModal
+                    hendelse={valgtHendelseMedÅrsak}
+                    åpen={skalRendreModal}
+                    lagre={(valgtÅrsak) =>
+                        nyHendelsePåSak(
+                            sak,
+                            valgtHendelseMedÅrsak,
+                            valgtÅrsak
+                        )
+                            .then(() => muterState?.())
+                            .finally(() =>
+                                setValgtHendelseMedÅrsak(undefined)
                             )
-                                .then(() => muterState?.())
-                                .finally(() =>
-                                    setValgtHendelseMedÅrsak(undefined)
-                                )
-                        }
-                        onClose={() => setValgtHendelseMedÅrsak(undefined)}
-                    />
-                )}
-            </HorizontalFlexboxDivGap3RemAlignItemsEnd>
+                    }
+                    onClose={() => setValgtHendelseMedÅrsak(undefined)}
+                />
+            )}
         </StyledIABakgrunn>
     );
 };
