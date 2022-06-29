@@ -9,7 +9,7 @@ interface ReactSelectOptions {
 
 function mapnæringsGruppeTilReactSelectOptions(gruppe: Næringsgruppe): ReactSelectOptions {
     return {
-        label: gruppe.navn,
+        label: `${gruppe.kode} - ${gruppe.navn}`,
         value: gruppe.kode,
     };
 }

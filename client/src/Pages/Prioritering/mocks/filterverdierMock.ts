@@ -248,11 +248,11 @@ export const filterverdierMock: Filterverdier = {
     neringsgrupper: [
         {
             kode: "01",
-            navn: "A - Jordbruk og tjenester tilknyttet jordbruk, jakt og viltstell",
+            navn: "Jordbruk og tjenester tilknyttet jordbruk, jakt og viltstell",
         },
         {
             kode: "02",
-            navn: "B - Skogbruk og tjenester tilknyttet skogbruk",
+            navn: "Skogbruk og tjenester tilknyttet skogbruk",
         },
     ],
     sorteringsnokler: [
