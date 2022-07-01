@@ -50,7 +50,7 @@ const AppRamme = styled.div`
     ${forLargerThan(Breakpoint.Tablet)} {
         padding: 0 5rem;
     }
-    ${forLargerThan(Breakpoint.Desktop)} {
+    ${forLargerThan(Breakpoint.LargeDesktop)} {
         padding: 0 10rem;
     }
 `;
