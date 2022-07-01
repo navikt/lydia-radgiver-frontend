@@ -1,7 +1,6 @@
-import { useState } from "react";
-import {Label, TextField} from "@navikt/ds-react";
-import {HorizontalFlexboxDivGap1Rem, HorizontalFlexboxDivGap3RemAlignItemsEnd} from "./HorizontalFlexboxDiv";
-import styled from "styled-components";
+import {useState} from "react";
+import {Label} from "@navikt/ds-react";
+import {HorizontalFlexboxDivGap1Rem} from "./HorizontalFlexboxDiv";
 import {StyledNumericTextField} from "./StyledNumericTextField";
 import {VerticalFlexboxDiv} from "./VerticalFlexboxDiv";
 

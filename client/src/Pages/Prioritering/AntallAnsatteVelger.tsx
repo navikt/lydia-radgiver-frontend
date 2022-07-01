@@ -1,4 +1,4 @@
-import {HorizontalFlexboxDivGap1Rem, HorizontalFlexboxDivGap3RemAlignItemsEnd} from "./HorizontalFlexboxDiv";
+import {HorizontalFlexboxDivGap1Rem} from "./HorizontalFlexboxDiv";
 import {useState} from "react";
 import {Range} from "./SykefraværsprosentVelger";
 import {StyledNumericTextField} from "./StyledNumericTextField";
