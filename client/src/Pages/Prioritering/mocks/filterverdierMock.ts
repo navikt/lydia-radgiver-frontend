@@ -213,11 +213,11 @@ export const filterverdierMock: Filterverdier = {
             },
             kommuner: [
                 {
-                    nummer: "V3025",
+                    nummer: "3025",
                     navn: "Asker",
                 },
                 {
-                    nummer: "V3024",
+                    nummer: "3024",
                     navn: "Bærum",
                 },
             ],
@@ -229,11 +229,11 @@ export const filterverdierMock: Filterverdier = {
             },
             kommuner: [
                 {
-                    nummer: "Ø3026",
+                    nummer: "3026",
                     navn: "Aurskog-Høland",
                 },
                 {
-                    nummer: "Ø3036",
+                    nummer: "3036",
                     navn: "Nannestad",
                 },
             ],

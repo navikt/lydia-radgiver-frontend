@@ -1,13 +1,12 @@
-import {Fylke, FylkerMedKommuner} from "../../domenetyper";
+import {Fylke, FylkeMedKommuner} from "../../domenetyper";
 import {Select} from "@navikt/ds-react";
-import {stateUpdater} from "./Filtervisning";
 import {CSSProperties} from "react";
 import {sorterAlfabetisk} from "../../util/sortering";
 
 export const Fylkedropdown = ({fylkerOgKommuner, valgtFylke, endreFylke, style}: {
-    fylkerOgKommuner: FylkerMedKommuner[];
+    fylkerOgKommuner: FylkeMedKommuner[];
     valgtFylke: Fylke | undefined;
-    endreFylke: stateUpdater;
+    endreFylke: (fylkesnummer: string) => void;
     style?: CSSProperties;
 }) => {
     return (
@@ -28,16 +27,10 @@ export const Fylkedropdown = ({fylkerOgKommuner, valgtFylke, endreFylke, style}:
         </Select>
     );
 };
-export const fylkesnummerTilFylke = (
-    fylkenummer: string,
-    fylkerMedKommuner: FylkerMedKommuner[]
-) => {
-    return fylkerMedKommuner.find(({fylke}) => fylke.nummer === fylkenummer)
-        ?.fylke;
-};
+
 export const kommunenummerTilKommune = (
     kommunenummer: string,
-    fylkerMedKommuner: FylkerMedKommuner[]
+    fylkerMedKommuner: FylkeMedKommuner[]
 ) =>
     fylkerMedKommuner
         .find(({fylke}) => fylke.nummer === kommunenummer.substring(0, 2))

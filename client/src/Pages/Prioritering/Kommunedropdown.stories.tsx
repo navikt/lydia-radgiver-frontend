@@ -6,7 +6,7 @@ export default {
     component: Kommunedropdown,
 } as ComponentMeta<typeof Kommunedropdown>;
 
-export const Hovedstory = () => (<Kommunedropdown kommuneGroup={[
+export const Hovedstory = () => (<Kommunedropdown relevanteFylkerMedKommuner={[
     {
         label: 'Viken',
         options: [

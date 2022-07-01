@@ -11,7 +11,7 @@ export const fylkeOgKommuneSchema = z.object({
     navn: z.string(),
 });
 
-export const fylkerMedKommunerSchema = z.object({
+export const fylkeMedKommunerSchema = z.object({
     fylke: fylkeOgKommuneSchema,
     kommuner: z.array(fylkeOgKommuneSchema),
 });
@@ -59,7 +59,7 @@ export const sykefraværListeResponsSchema = z.object({
 })
 
 export const filterverdierSchema = z.object({
-    fylker: z.array(fylkerMedKommunerSchema),
+    fylker: z.array(fylkeMedKommunerSchema),
     neringsgrupper: z.array(næringsgrupperSchema),
     sorteringsnokler: z.string().array(),
     statuser: IAProsessStatusEnum.array()
@@ -67,7 +67,7 @@ export const filterverdierSchema = z.object({
 
 export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>
 
-export type FylkerMedKommuner = z.infer<typeof fylkerMedKommunerSchema>;
+export type FylkeMedKommuner = z.infer<typeof fylkeMedKommunerSchema>;
 
 export type Filterverdier = z.infer<typeof filterverdierSchema>;
 

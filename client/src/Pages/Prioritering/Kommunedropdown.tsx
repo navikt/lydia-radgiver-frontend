@@ -1,6 +1,5 @@
 import {Label} from "@navikt/ds-react";
-import {Kommune} from "../../domenetyper";
-import {GroupedKommune} from "./Filtervisning";
+import {FylkeMedKommuner, Kommune} from "../../domenetyper";
 import {StyledReactSelect, reactSelectStyle} from "../../components/ReactSelect/StyledReactSelect";
 import {CSSProperties} from "react";
 import {sorterAlfabetisk} from "../../util/sortering";
@@ -8,24 +7,25 @@ import {sorterAlfabetisk} from "../../util/sortering";
 const kommuneDropdownId = "kommunedropdown"
 
 interface Props {
-    kommuneGroup: GroupedKommune[]
-    valgtKommuner?: Kommune[]
+    relevanteFylkerMedKommuner: FylkeMedKommuner[]
+    valgteKommuner?: Kommune[]
     endreKommuner: (kommuner: Kommune[]) => void
     style?: CSSProperties
 }
 
-export const Kommunedropdown = ({ kommuneGroup, endreKommuner, valgtKommuner = [], style }: Props) => {
-    const sorterteKommuner = kommuneGroup.map(kg => ({
-        label: kg.label,
-        options: kg.options.sort((k1, k2) => sorterAlfabetisk(k1.navn, k2.navn))
+export const Kommunedropdown = ({ relevanteFylkerMedKommuner, endreKommuner, valgteKommuner = [], style }: Props) => {
+    const sorterteKommuner = relevanteFylkerMedKommuner.map(fylkeMedKommuner => ({
+        label: fylkeMedKommuner.fylke.navn,
+        options: fylkeMedKommuner.kommuner.sort((k1, k2) => sorterAlfabetisk(k1.navn, k2.navn))
     }))
+
     return (
         <div style={style}>
             <Label id={kommuneDropdownId}>Kommuner</Label>
             <StyledReactSelect
                 aria-labelledby={kommuneDropdownId}
-                defaultValue={valgtKommuner}
-                value={valgtKommuner}
+                defaultValue={valgteKommuner}
+                value={valgteKommuner}
                 noOptionsMessage={() => "Ingen kommuner å velge"}
                 options={sorterteKommuner}
                 getOptionLabel={(v) => (v as Kommune).navn}

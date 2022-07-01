@@ -1,6 +1,6 @@
 import {
     Filterverdier,
-    Fylke,
+    FylkeMedKommuner,
     IAProsessStatusType,
     Kommune,
     Næringsgruppe,
@@ -8,11 +8,11 @@ import {
     Søkeverdier,
 } from "../../domenetyper";
 import {Button} from "@navikt/ds-react";
-import {useMemo, useState} from "react";
+import {useState} from "react";
 import {Range, SykefraværsprosentVelger} from "./SykefraværsprosentVelger";
 import {HorizontalFlexboxDivGap3RemAlignItemsEnd} from "./HorizontalFlexboxDiv";
 import {Næringsgruppedropdown} from "./NæringsgruppeDropdown";
-import {Fylkedropdown, fylkesnummerTilFylke} from "./Fylkedropdown";
+import {Fylkedropdown} from "./Fylkedropdown";
 import {Sorteringsmuligheter} from "./Sorteringsmuligheter";
 import {IAStatusDropdown} from "./IAStatusDropdown";
 import styled from "styled-components";
@@ -28,8 +28,6 @@ export const sorteringsverdier = {
     sykefraversprosent: "Sykefraværsprosent",
     navn: "Alfabetisk på navn",
 } as const;
-
-export type stateUpdater = (value: string) => void;
 
 interface FiltervisningProps {
     filterverdier: Filterverdier;
@@ -48,19 +46,14 @@ const næringsgruppeKoderTilNæringsgrupper = (
     næringsgrupper: Næringsgruppe[]
 ) => næringsgrupper.filter(({ kode }) => næringsgruppeKoder.includes(kode));
 
-const filtrerKommunerPåValgtFylke = (fylke: Fylke, kommuner: Kommune[]) =>
-    fylke
-        ? kommuner.filter((kommune) => kommune.nummer.startsWith(fylke.nummer))
-        : kommuner;
-
 const Filtervisning = ({
     filterverdier,
     oppdaterSøkeverdier,
     søkPåNytt,
     className,
 }: FiltervisningProps) => {
-    const [valgtFylke, setValgtFylke] = useState<Fylke>();
-    const [valgtKommuner, setValgtKommuner] = useState<Kommune[]>([]);
+    const [valgtFylke, setValgtFylke] = useState<FylkeMedKommuner>();
+    const [valgteKommuner, setValgteKommuner] = useState<Kommune[]>([]);
     const [næringsGrupper, setNæringsGrupper] = useState<Næringsgruppe[]>([]);
     const [sykefraværsProsent, setSykefraværsprosent] = useState<Range>({
         fra: 0,
@@ -74,31 +67,28 @@ const Filtervisning = ({
     const [sorteringsverdi, setSorteringsverdi] =
         useState<Sorteringsverdi>("tapte_dagsverk");
 
-    const endreFylke = (fylkenummer: string) => {
-        if (fylkenummer === valgtFylke?.nummer) return;
-        const endretFylke = fylkesnummerTilFylke(
-            fylkenummer,
-            filterverdier.fylker
-        );
-        if (!endretFylke) {
+    const endreFylke = (fylkesnummer: string) => {
+        if (fylkesnummer === valgtFylke?.fylke.nummer) return;
+        const endretFylkeMedKommuner = filterverdier.fylker.find(({fylke}) => fylke.nummer === fylkesnummer)
+        if (!endretFylkeMedKommuner) {
             setValgtFylke(undefined);
             oppdaterSøkeverdier({
                 fylker: [],
             });
             return;
         }
-        setValgtFylke(endretFylke);
-        const kommuner = valgtKommuner.filter((k) =>
-            k.nummer.startsWith(endretFylke.nummer)
+        setValgtFylke(endretFylkeMedKommuner);
+        const kommuner = valgteKommuner.filter((kommune) =>
+            endretFylkeMedKommuner.kommuner.includes(kommune)
         );
-        setValgtKommuner(kommuner);
+        setValgteKommuner(kommuner);
         oppdaterSøkeverdier({
-            fylker: [endretFylke],
+            fylker: [endretFylkeMedKommuner.fylke],
             kommuner,
         });
     };
     const endreKommuner = (kommuner: Kommune[]) => {
-        setValgtKommuner(kommuner);
+        setValgteKommuner(kommuner);
         oppdaterSøkeverdier({
             kommuner,
         });
@@ -128,40 +118,18 @@ const Filtervisning = ({
         });
     };
 
-    const alleKommuner = filterverdier.fylker.flatMap(
-        ({ kommuner }) => kommuner
-    );
-    const relevanteKommuner: GroupedKommune[] = useMemo(() => {
-        if (valgtFylke) {
-            const kommunerFiltrertPåFylke = filtrerKommunerPåValgtFylke(
-                valgtFylke,
-                alleKommuner
-            );
-            return [
-                {
-                    label: valgtFylke.navn,
-                    options: kommunerFiltrertPåFylke,
-                },
-            ];
-        }
-        return filterverdier.fylker.map((fylke) => ({
-            label: fylke.fylke.navn,
-            options: fylke.kommuner,
-        }));
-    }, [valgtFylke, alleKommuner]);
-
     return (
         <div className={className}>
             <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <Fylkedropdown
                     fylkerOgKommuner={filterverdier.fylker}
-                    valgtFylke={valgtFylke}
+                    valgtFylke={valgtFylke?.fylke}
                     endreFylke={endreFylke}
                     style={{ flex: "1" }}
                 />
                 <Kommunedropdown
-                    kommuneGroup={relevanteKommuner}
-                    valgtKommuner={valgtKommuner}
+                    relevanteFylkerMedKommuner={valgtFylke ? [valgtFylke] : filterverdier.fylker}
+                    valgteKommuner={valgteKommuner}
                     endreKommuner={endreKommuner}
                     style={{ flex: "5" }}
                 />
