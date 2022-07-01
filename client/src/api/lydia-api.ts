@@ -231,11 +231,11 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     const params = new URLSearchParams();
     params.append(
         "kommuner",
-        søkeverdier.kommuner?.join(",") ?? ""
+        søkeverdier.kommuner?.map(kommune => kommune.nummer).join(",") ?? ""
     );
     params.append(
         "fylker",
-        søkeverdier.fylker?.join(",") ?? ""
+        søkeverdier.fylker?.map(fylke => fylke.nummer).join(",") ?? ""
     );
     params.append(
         "neringsgrupper",
