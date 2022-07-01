@@ -227,7 +227,7 @@ export const nyHendelsePåSak = (
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
 };
 
-const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
+export const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     const params = new URLSearchParams();
     params.append(
         "kommuner",
@@ -269,7 +269,7 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     );
     params.append("sorteringsnokkel", søkeverdier.sorteringsnokkel ?? "");
     params.append("iaStatus", søkeverdier.iaStatus ?? "");
-    params.append("side", `${søkeverdier.side}`);
+    params.append("side", søkeverdier.side?.toString() ?? "");
     params.append("kunMineVirksomheter", søkeverdier.kunMineVirksomheter?.toString() ?? "")
     return params;
 };
