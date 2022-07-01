@@ -18,7 +18,7 @@ import {IAStatusDropdown} from "./IAStatusDropdown";
 import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {Kommunedropdown} from "./Kommunedropdown";
-import {AntallAnsatteVelger} from "./AntallAnsatteVelger";
+import {AntallArbeidsforholdVelger} from "./AntallArbeidsforholdVelger";
 import {KunMineVirksomheterToggle} from "./KunMineVirksomheterToggle";
 
 export const sorteringsverdier = {
@@ -59,7 +59,7 @@ const Filtervisning = ({
         fra: 0,
         til: 100,
     });
-    const [antallAnsatte, setAntallAnsatte] = useState<Range>({
+    const [antallArbeidsforhold, setAntallArbeidsforhold] = useState<Range>({
         fra: 5,
         til: NaN,
     });
@@ -111,10 +111,10 @@ const Filtervisning = ({
         });
     };
 
-    const endreAntallAnsatte = (antallAnsatte: Range) => {
-        setAntallAnsatte(antallAnsatte);
+    const endreAntallArbeidsforhold = (antallArbeidsforhold: Range) => {
+        setAntallArbeidsforhold(antallArbeidsforhold);
         oppdaterSøkeverdier({
-            antallAnsatteRange: antallAnsatte,
+            antallArbeidsforholdRange: antallArbeidsforhold,
         });
     };
 
@@ -148,9 +148,9 @@ const Filtervisning = ({
                         oppdaterSykefraværsprosent(nySykefraværsprosentRange)
                     }
                 />
-                <AntallAnsatteVelger
-                    antallAnsatte={antallAnsatte}
-                    endreAntallAnsatte={endreAntallAnsatte}
+                <AntallArbeidsforholdVelger
+                    antallArbeidsforhold={antallArbeidsforhold}
+                    endreAntallArbeidsforhold={endreAntallArbeidsforhold}
                 />
             </HorizontalFlexboxDivGap3RemAlignItemsEnd>
             <br />

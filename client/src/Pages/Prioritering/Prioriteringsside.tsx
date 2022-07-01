@@ -34,7 +34,7 @@ const Prioriteringsside = () => {
     const [side, setSide] = useState(1);
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>({
         side,
-        antallAnsatteRange: {
+        antallArbeidsforholdRange: {
             fra: 5,
             til: NaN,
         },

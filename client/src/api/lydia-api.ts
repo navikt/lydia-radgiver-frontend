@@ -254,17 +254,17 @@ const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     params.append(
         "ansatteFra",
         `${
-            Number.isNaN(søkeverdier.antallAnsatteRange?.fra)
+            Number.isNaN(søkeverdier.antallArbeidsforholdRange?.fra)
                 ? ""
-                : søkeverdier.antallAnsatteRange?.fra || ""
+                : søkeverdier.antallArbeidsforholdRange?.fra || ""
         }`
     );
     params.append(
         "ansatteTil",
         `${
-            Number.isNaN(søkeverdier.antallAnsatteRange?.til)
+            Number.isNaN(søkeverdier.antallArbeidsforholdRange?.til)
                 ? ""
-                : søkeverdier.antallAnsatteRange?.til || ""
+                : søkeverdier.antallArbeidsforholdRange?.til || ""
         }`
     );
     params.append("sorteringsnokkel", søkeverdier.sorteringsnokkel ?? "");
