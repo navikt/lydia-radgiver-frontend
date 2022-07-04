@@ -98,11 +98,11 @@ const Filtervisning = ({
             næringsgruppeKoder,
             filterverdier.neringsgrupper
         );
-        const bransjeProgram = næringsgruppeKoder.filter(v => isNaN(+v))
+        const bransjeprogram = næringsgruppeKoder.filter(v => isNaN(+v))
         setNæringsGrupper(endretNæringsgrupper);
         oppdaterSøkeverdier({
             neringsgrupper: endretNæringsgrupper,
-            bransjeProgram
+            bransjeprogram
         });
     };
 

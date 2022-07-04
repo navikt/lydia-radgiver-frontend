@@ -91,7 +91,7 @@ export interface Søkeverdier {
     sorteringsnokkel?: Sorteringsverdi;
     iaStatus?: IAProsessStatusType;
     side?: number;
-    bransjeProgram?: string[]
+    bransjeprogram?: string[]
     kunMineVirksomheter?: boolean;
 }
 
