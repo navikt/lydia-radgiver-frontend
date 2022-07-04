@@ -63,7 +63,7 @@ export const filterverdierSchema = z.object({
     neringsgrupper: z.array(næringsgrupperSchema),
     sorteringsnokler: z.string().array(),
     statuser: IAProsessStatusEnum.array(),
-    bransjeProgram: z.string().array()
+    bransjeprogram: z.string().array()
 });
 
 export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>

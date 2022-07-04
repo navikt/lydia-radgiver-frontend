@@ -138,7 +138,7 @@ const Filtervisning = ({
             </HorizontalFlexboxDivGap3RemAlignItemsEnd>
             <br />
             <Næringsgruppedropdown
-                bransjeProgram={filterverdier.bransjeProgram}
+                bransjeprogram={filterverdier.bransjeprogram}
                 næringsgrupper={filterverdier.neringsgrupper}
                 valgtNæringsgruppe={næringsGrupper}
                 endreNæringsgrupper={endreNæringsgruppe}

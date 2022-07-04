@@ -21,17 +21,17 @@ export const Næringsgruppedropdown = ({
     næringsgrupper,
     valgtNæringsgruppe,
     endreNæringsgrupper,
-    bransjeProgram
+    bransjeprogram
 }: {
     næringsgrupper: Næringsgruppe[];
-    bransjeProgram: string[]
+    bransjeprogram: string[]
     valgtNæringsgruppe: Næringsgruppe[];
     endreNæringsgrupper: (value: string[]) => void;
 }) => {
     const næringsgruppeOptions = næringsgrupper
         .sort((a, b) => +a.kode - +b.kode)
         .map(mapnæringsGruppeTilReactSelectOptions);
-    const næringOgBransjeprogramOptions = [{label: "Bransjeprogram", options: bransjeProgram?.map(bp => ({ label: penskriv(bp), value: bp }))}, {label: "Næringsgrupper", options: næringsgruppeOptions}]
+    const næringOgbransjeprogramOptions = [{label: "Bransjeprogram", options: bransjeprogram?.map(bp => ({ label: penskriv(bp), value: bp }))}, {label: "Næringsgrupper", options: næringsgruppeOptions}]
     const ariaLabelId = "næringsgruppe-aria-label";
     return (
         <>
@@ -39,7 +39,7 @@ export const Næringsgruppedropdown = ({
             <StyledReactSelect
                 aria-labelledby={ariaLabelId}
                 noOptionsMessage={() => "Ingen næringsgrupper"}
-                options={næringOgBransjeprogramOptions}
+                options={næringOgbransjeprogramOptions}
                 defaultValue={valgtNæringsgruppe.map(
                     mapnæringsGruppeTilReactSelectOptions
                 )}

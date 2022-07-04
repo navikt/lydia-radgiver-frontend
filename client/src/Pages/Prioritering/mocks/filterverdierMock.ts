@@ -266,7 +266,7 @@ export const filterverdierMock: Filterverdier = {
         "sykefraversprosent",
         "navn"
     ],
-    bransjeProgram: [
+    bransjeprogram: [
         "BARNEHAGER",
         "NÆRINGSMIDDELINDUSTRI",
         "SYKEHUS",
