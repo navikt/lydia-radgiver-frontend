@@ -14,26 +14,32 @@ function mapnæringsGruppeTilReactSelectOptions(gruppe: Næringsgruppe): ReactSe
     };
 }
 
+const penskriv = (s: string) =>`${s.charAt(0).toUpperCase()}${s.slice(1).toLowerCase()}`
+
+
 export const Næringsgruppedropdown = ({
     næringsgrupper,
     valgtNæringsgruppe,
     endreNæringsgrupper,
+    bransjeProgram
 }: {
     næringsgrupper: Næringsgruppe[];
+    bransjeProgram: string[]
     valgtNæringsgruppe: Næringsgruppe[];
     endreNæringsgrupper: (value: string[]) => void;
 }) => {
-    const options = næringsgrupper
+    const næringsgruppeOptions = næringsgrupper
         .sort((a, b) => +a.kode - +b.kode)
         .map(mapnæringsGruppeTilReactSelectOptions);
+    const næringOgBransjeprogramOptions = [{label: "Bransjeprogram", options: bransjeProgram?.map(bp => ({ label: penskriv(bp), value: bp }))}, {label: "Næringsgrupper", options: næringsgruppeOptions}]
     const ariaLabelId = "næringsgruppe-aria-label";
     return (
         <>
-            <Label id={ariaLabelId}>Næringsgrupper</Label>
+            <Label id={ariaLabelId}>Bransje/Næringsgrupper</Label>
             <StyledReactSelect
                 aria-labelledby={ariaLabelId}
                 noOptionsMessage={() => "Ingen næringsgrupper"}
-                options={options}
+                options={næringOgBransjeprogramOptions}
                 defaultValue={valgtNæringsgruppe.map(
                     mapnæringsGruppeTilReactSelectOptions
                 )}

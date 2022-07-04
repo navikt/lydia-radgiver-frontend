@@ -8,8 +8,11 @@ export default {
 
 export const Hovedstory = () => (<Kommunedropdown relevanteFylkerMedKommuner={[
     {
-        label: 'Viken',
-        options: [
+        fylke: {
+            navn: "Viken",
+            nummer: "03"
+        },
+        kommuner: [
             {
                 navn: "Haugenstua",
                 nummer: "0195",
@@ -25,8 +28,11 @@ export const Hovedstory = () => (<Kommunedropdown relevanteFylkerMedKommuner={[
         ],
     },
     {
-        label: 'Innlandet',
-        options: [
+        fylke: {
+            navn: "Innlandet",
+            nummer: "05"
+        },
+        kommuner: [
             {
                 navn: "Gjøvik",
                 nummer: "1111",

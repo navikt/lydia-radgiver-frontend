@@ -62,7 +62,8 @@ export const filterverdierSchema = z.object({
     fylker: z.array(fylkeMedKommunerSchema),
     neringsgrupper: z.array(næringsgrupperSchema),
     sorteringsnokler: z.string().array(),
-    statuser: IAProsessStatusEnum.array()
+    statuser: IAProsessStatusEnum.array(),
+    bransjeProgram: z.string().array()
 });
 
 export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>
@@ -90,6 +91,7 @@ export interface Søkeverdier {
     sorteringsnokkel?: Sorteringsverdi;
     iaStatus?: IAProsessStatusType;
     side?: number;
+    bransjeProgram?: string[]
     kunMineVirksomheter?: boolean;
 }
 

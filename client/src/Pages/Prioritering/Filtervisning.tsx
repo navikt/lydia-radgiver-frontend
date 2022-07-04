@@ -98,9 +98,11 @@ const Filtervisning = ({
             næringsgruppeKoder,
             filterverdier.neringsgrupper
         );
+        const bransjeProgram = næringsgruppeKoder.filter(v => isNaN(+v))
         setNæringsGrupper(endretNæringsgrupper);
         oppdaterSøkeverdier({
             neringsgrupper: endretNæringsgrupper,
+            bransjeProgram
         });
     };
 
@@ -136,6 +138,7 @@ const Filtervisning = ({
             </HorizontalFlexboxDivGap3RemAlignItemsEnd>
             <br />
             <Næringsgruppedropdown
+                bransjeProgram={filterverdier.bransjeProgram}
                 næringsgrupper={filterverdier.neringsgrupper}
                 valgtNæringsgruppe={næringsGrupper}
                 endreNæringsgrupper={endreNæringsgruppe}

@@ -266,4 +266,13 @@ export const filterverdierMock: Filterverdier = {
         "sykefraversprosent",
         "navn"
     ],
+    bransjeProgram: [
+        "BARNEHAGER",
+        "NÆRINGSMIDDELINDUSTRI",
+        "SYKEHUS",
+        "SYKEHJEM",
+        "TRANSPORT",
+        "BYGG",
+        "ANLEGG"
+    ]
 };
