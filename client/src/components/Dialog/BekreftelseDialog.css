@@ -1,0 +1,13 @@
+.bekreftelse-dialog-innhold {
+    padding-top: 0.5rem;
+    padding-right: 3rem;
+}
+
+.bekreftelse-dialog-knapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+bekreftelse-dialog-overskrift {
+    margin-bottom: 2rem;
+}

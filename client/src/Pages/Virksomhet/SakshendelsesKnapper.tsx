@@ -1,6 +1,7 @@
 import {GyldigNesteHendelse} from "../../domenetyper";
 import {erHendelsenDestruktiv, IASakshendelseKnapp, sorterHendelserPåKnappeType} from "./IASakshendelseKnapp";
-import {CSSProperties} from "react";
+import {CSSProperties, useState} from "react";
+import {BekreftelseDialog} from "../../components/Dialog/BekreftelseDialog";
 
 const horisontalKnappeStyling: CSSProperties = {
     display: "flex",
@@ -13,6 +14,8 @@ export const SakshendelsesKnapper = ({
                                          hendelser,
                                          onNyHendelseHandler
                                      }: { hendelser: GyldigNesteHendelse[], onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void }) => {
+    const [åpenModalForBekreftelse, setÅpenModalForBekreftelse] = useState(false)
+
     const destruktiveHendelser = hendelser
         .filter(hendelse => erHendelsenDestruktiv(hendelse.saksHendelsestype))
     const ikkeDestruktiveHendelser = hendelser
@@ -42,12 +45,32 @@ export const SakshendelsesKnapper = ({
                             <IASakshendelseKnapp
                                 key={hendelse.saksHendelsestype}
                                 hendelsesType={hendelse.saksHendelsestype}
-                                onClick={() => onNyHendelseHandler(hendelse)}
+                                onClick={() => {
+                                    if (hendelse.saksHendelsestype === "TILBAKE") {
+                                        setÅpenModalForBekreftelse(true)
+                                    } else {
+                                        onNyHendelseHandler(hendelse);
+                                    }
+                                }}
                             />
                         );
                     })
                 }
             </div>
+            <BekreftelseDialog
+                onConfirm={() => {
+                    setÅpenModalForBekreftelse(false)
+                    onNyHendelseHandler({
+                        saksHendelsestype: "TILBAKE",
+                        gyldigeÅrsaker: []
+                    })
+                }}
+                onCancel={() => {
+                    setÅpenModalForBekreftelse(false)
+                }}
+                åpen={åpenModalForBekreftelse}
+                description={"Ønsker du å gå tilbake?"}
+            />
         </div>
     )
 }
