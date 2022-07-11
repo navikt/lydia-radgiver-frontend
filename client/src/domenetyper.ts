@@ -55,7 +55,7 @@ export const sykefraversstatistikkVirksomhetListeSchema = z.array(
 
 export const sykefraværListeResponsSchema = z.object({
     data: sykefraversstatistikkVirksomhetListeSchema,
-    total: z.number()
+    total: z.number().optional()
 })
 
 export const filterverdierSchema = z.object({
@@ -93,6 +93,7 @@ export interface Søkeverdier {
     side?: number;
     bransjeprogram?: string[]
     kunMineVirksomheter?: boolean;
+    skalInkludereTotaltAntall?: boolean
 }
 
 export const virksomhetsSchema = z.object({

@@ -18,6 +18,7 @@ const tommeFilterverdier: Filterverdier = {
     neringsgrupper: [],
     sorteringsnokler: [],
     statuser: [],
+    bransjeprogram: []
 };
 
 export const ANTALL_RESULTATER_PER_SIDE = 50;
@@ -40,6 +41,7 @@ const Prioriteringsside = () => {
         },
     });
     const [skalSøke, setSkalSøke] = useState(false);
+    const [triggetNyttSøk, setTriggetNyttSøk] = useState(false)
     const harSøktMinstEnGang = sykefraværsstatistikk !== undefined
     const fantResultaterISøk = harSøktMinstEnGang && sykefraværsstatistikk.length > 0
     const skalViseTabell = fantResultaterISøk && !skalSøke;
@@ -56,7 +58,9 @@ const Prioriteringsside = () => {
     useEffect(() => {
         if (sfStatistikkFraApi) {
             setSykefraværsstatistikk(sfStatistikkFraApi.data);
-            setTotaltAntallResultaterISøk(sfStatistikkFraApi.total)
+            if (triggetNyttSøk && sfStatistikkFraApi.total) {
+                setTotaltAntallResultaterISøk(sfStatistikkFraApi.total)
+            }
             setSkalSøke(false);
         }
     }, [sfStatistikkFraApi]);
@@ -70,6 +74,18 @@ const Prioriteringsside = () => {
         setSkalSøke(true);
     }
 
+    /**
+     * Henter bare totalt antall når vi faktisk gjør et nytt søk
+     *
+     * */
+    function inkluderTotaltAntall(triggetNyttSøk: boolean) {
+        setTriggetNyttSøk(triggetNyttSøk)
+        setSøkeverdier({
+            ...søkeverdier,
+            skalInkludereTotaltAntall: triggetNyttSøk
+        })
+    }
+
     return (
         <>
             <StyledFiltervisning
@@ -79,6 +95,7 @@ const Prioriteringsside = () => {
                     setSkalSøke(false);
                 }}
                 søkPåNytt={() => {
+                    inkluderTotaltAntall(true)
                     oppdaterSide(1);
                 }}
             />
@@ -87,6 +104,7 @@ const Prioriteringsside = () => {
                 <StyledPrioriteringsTabell
                     sykefraværsstatistikk={sykefraværsstatistikk}
                     endreSide={(side) => {
+                        inkluderTotaltAntall(false)
                         oppdaterSide(side);
                     }}
                     totaltAntallResultaterISøk={totaltAntallResultaterISøk}
