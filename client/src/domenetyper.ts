@@ -55,7 +55,7 @@ export const sykefraversstatistikkVirksomhetListeSchema = z.array(
 
 export const sykefraværListeResponsSchema = z.object({
     data: sykefraversstatistikkVirksomhetListeSchema,
-    total: z.number().optional()
+    total: z.number().nullable()
 })
 
 export const filterverdierSchema = z.object({
