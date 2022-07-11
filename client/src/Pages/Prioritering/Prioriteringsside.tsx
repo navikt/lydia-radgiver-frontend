@@ -64,27 +64,17 @@ const Prioriteringsside = () => {
             }
             setSkalSøke(false);
         }
-    }, [sfStatistikkFraApi, triggetNyttSøk]);
+    }, [sfStatistikkFraApi]);
 
-    function oppdaterSide(side: number) {
+    function oppdaterSide(side: number, triggetNyttSøk: boolean) {
         setSide(side);
-        setSøkeverdier({
-            ...søkeverdier,
-            side,
-        });
-        setSkalSøke(true);
-    }
-
-    /**
-     * Henter bare totalt antall når vi faktisk gjør et nytt søk
-     *
-     * */
-    function inkluderTotaltAntall(triggetNyttSøk: boolean) {
         setTriggetNyttSøk(triggetNyttSøk)
         setSøkeverdier({
             ...søkeverdier,
+            side,
             skalInkludereTotaltAntall: triggetNyttSøk
-        })
+        });
+        setSkalSøke(true);
     }
 
     return (
@@ -96,8 +86,7 @@ const Prioriteringsside = () => {
                     setSkalSøke(false);
                 }}
                 søkPåNytt={() => {
-                    inkluderTotaltAntall(true)
-                    oppdaterSide(1);
+                    oppdaterSide(1, true);
                 }}
             />
             <br />
@@ -105,8 +94,7 @@ const Prioriteringsside = () => {
                 <StyledPrioriteringsTabell
                     sykefraværsstatistikk={sykefraværsstatistikk}
                     endreSide={(side) => {
-                        inkluderTotaltAntall(false)
-                        oppdaterSide(side);
+                        oppdaterSide(side, false);
                     }}
                     totaltAntallResultaterISøk={totaltAntallResultaterISøk}
                     side={side}
