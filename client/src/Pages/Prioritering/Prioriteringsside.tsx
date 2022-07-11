@@ -39,6 +39,7 @@ const Prioriteringsside = () => {
             fra: 5,
             til: NaN,
         },
+        skalInkludereTotaltAntall: true
     });
     const [skalSøke, setSkalSøke] = useState(false);
     const [triggetNyttSøk, setTriggetNyttSøk] = useState(false)
@@ -79,12 +80,11 @@ const Prioriteringsside = () => {
      *
      * */
     function inkluderTotaltAntall(triggetNyttSøk: boolean) {
-        console.log('nå skal det legges ved totalt antall til', triggetNyttSøk)
         setTriggetNyttSøk(triggetNyttSøk)
-        setSøkeverdier(prev => ({
-            ...prev,
+        setSøkeverdier({
+            ...søkeverdier,
             skalInkludereTotaltAntall: triggetNyttSøk
-        }))
+        })
     }
 
     return (

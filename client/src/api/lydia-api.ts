@@ -273,6 +273,5 @@ export const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     params.append("bransjeprogram", søkeverdier.bransjeprogram?.join() ?? "")
     params.append("kunMineVirksomheter", søkeverdier.kunMineVirksomheter?.toString() ?? "")
     params.append("skalInkludereTotaltAntall", `${søkeverdier.skalInkludereTotaltAntall ?? false}`)
-    console.log('søkeverdier', søkeverdier)
     return params;
 };
