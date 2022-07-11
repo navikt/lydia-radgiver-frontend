@@ -79,6 +79,7 @@ const Prioriteringsside = () => {
      *
      * */
     function inkluderTotaltAntall(triggetNyttSøk: boolean) {
+        console.log('nå skal det legges ved totalt antall til', triggetNyttSøk)
         setTriggetNyttSøk(triggetNyttSøk)
         setSøkeverdier({
             ...søkeverdier,
