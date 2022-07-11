@@ -64,7 +64,7 @@ const Prioriteringsside = () => {
             }
             setSkalSøke(false);
         }
-    }, [sfStatistikkFraApi]);
+    }, [sfStatistikkFraApi, triggetNyttSøk]);
 
     function oppdaterSide(side: number) {
         setSide(side);
