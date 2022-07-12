@@ -52,7 +52,7 @@ export const Søkefelt = ({ darkmode, style }: Props) => {
                             setFirmaer([])
                         }}
                     >
-                        {firma.navn}
+                        {`${firma.navn} (${firma.orgnr})`}
                     </Link>
                 ))}
             </Popover.Content>}
