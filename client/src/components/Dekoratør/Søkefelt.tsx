@@ -1,9 +1,9 @@
 import {Link, Popover, Search} from "@navikt/ds-react";
 import {CSSProperties, useEffect, useRef, useState} from "react";
-import {VirksomhetSøkeresultat} from "../../domenetyper";
 import {useDebounce} from "../../util/useDebounce";
 import {virksomhetAutocompletePath} from "../../api/lydia-api";
 import { Link as RouterLink } from "react-router-dom";
+import {VirksomhetSøkeresultat} from "../../domenetyper";
 
 interface Props {
     darkmode?: boolean,
@@ -47,6 +47,10 @@ export const Søkefelt = ({ darkmode, style }: Props) => {
                         style={{display: "block"}}
                         as={RouterLink}
                         to={`/virksomhet/${firma.orgnr}`}
+                        onClick={() => {
+                            setSøkestreng("")
+                            setFirmaer([])
+                        }}
                     >
                         {firma.navn}
                     </Link>
