@@ -1,14 +1,17 @@
 import {Brukerinformasjon} from "../../domenetyper";
-import {Alert, BodyShort, Link} from "@navikt/ds-react";
+import {Alert, BodyShort, Link, Popover, Search} from "@navikt/ds-react";
 import {Header} from "@navikt/ds-react-internal";
-import {useContext, useEffect, useState} from "react";
+import {useContext, useEffect, useRef, useState} from "react";
 import {TittelContext} from "../../Pages/Prioritering/TittelContext";
+import {sykefraværsstatistikkMock} from "../../Pages/Prioritering/mocks/sykefraværsstatistikkMock";
 
 interface Props {
     brukerInformasjon: Brukerinformasjon
 }
 
 const FEM_MINUTTER_SOM_MS = 1000 * 60 * 5
+
+const testfirmaer = sykefraværsstatistikkMock
 
 const hentRedirectUrl = () =>
     `${document.location.origin}/oauth2/login?redirect=${document.location.href}`
@@ -21,6 +24,8 @@ const tokenHolderPåÅLøpeUt = (brukerInformasjon: Brukerinformasjon) =>
 
 export const Dekoratør = ({brukerInformasjon}: Props) => {
     const {tittel} = useContext(TittelContext)
+    const [søkestreng, setSøkestreng] = useState("")
+    const searchRef = useRef<HTMLDivElement | null>(null)
     const [gjenværendeTidForBrukerMs, setGjenværendeTidForBrukerMs] = useState(
         hentGjenværendeTidForBrukerMs(brukerInformasjon)
     )
@@ -37,6 +42,28 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
         <>
             <Header className="w-full">
                 <Header.Title as="h1">{tittel}</Header.Title>
+                <div data-theme="dark">
+                    <Search
+                        ref={searchRef}
+                        label="Søk etter virksomhet"
+                        variant="primary"
+                        onChange={(innhold) => setSøkestreng(innhold)}
+                        onClear={() => setSøkestreng("")}
+                    />
+                    <Popover
+                        anchorEl={searchRef.current}
+                        open={søkestreng !== ""}
+                        onClose={() => null}
+                        placement="bottom-start"
+                        arrow={false}
+                    >
+                        <Popover.Content style={{ color: 'black'}}>
+                            {testfirmaer.map(firma => (
+                                <p key={firma.orgnr}>{firma.virksomhetsnavn}</p>
+                            ))}
+                        </Popover.Content>
+                    </Popover>
+                </div>
                 {brukerInformasjon && (
                     <Header.User
                         name={brukerInformasjon.navn}
