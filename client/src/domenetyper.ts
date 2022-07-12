@@ -108,6 +108,11 @@ export const virksomhetsSchema = z.object({
 
 export type Virksomhet = z.infer<typeof virksomhetsSchema>
 
+export type VirksomhetSøkeresultat = {
+    orgnr: string
+    navn: string
+}
+
 export const brukerinfoSchema = z.object({
     navn: z.string(),
     ident: z.string(),

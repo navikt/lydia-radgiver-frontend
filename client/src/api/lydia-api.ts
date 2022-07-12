@@ -29,6 +29,7 @@ const innloggetAnsattPath = `/innloggetAnsatt`;
 export const iaSakPath = `${basePath}/iasak/radgiver`;
 export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
 export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
+export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,

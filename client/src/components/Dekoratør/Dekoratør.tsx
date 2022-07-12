@@ -1,9 +1,11 @@
-import {Brukerinformasjon} from "../../domenetyper";
+import {Brukerinformasjon, SykefraversstatistikkVirksomhet, VirksomhetSøkeresultat} from "../../domenetyper";
 import {Alert, BodyShort, Link, Popover, Search} from "@navikt/ds-react";
 import {Header} from "@navikt/ds-react-internal";
 import {useContext, useEffect, useRef, useState} from "react";
 import {TittelContext} from "../../Pages/Prioritering/TittelContext";
 import {sykefraværsstatistikkMock} from "../../Pages/Prioritering/mocks/sykefraværsstatistikkMock";
+import {useDebounce} from "../../util/useDebounce";
+import {virksomhetAutocompletePath, virksomhetsPath} from "../../api/lydia-api";
 
 interface Props {
     brukerInformasjon: Brukerinformasjon
@@ -25,10 +27,20 @@ const tokenHolderPåÅLøpeUt = (brukerInformasjon: Brukerinformasjon) =>
 export const Dekoratør = ({brukerInformasjon}: Props) => {
     const {tittel} = useContext(TittelContext)
     const [søkestreng, setSøkestreng] = useState("")
+    const [firmaer, setFirmaer] = useState<VirksomhetSøkeresultat[]>([])
     const searchRef = useRef<HTMLDivElement | null>(null)
     const [gjenværendeTidForBrukerMs, setGjenværendeTidForBrukerMs] = useState(
         hentGjenværendeTidForBrukerMs(brukerInformasjon)
     )
+    const faktiskSøkestreng = useDebounce(søkestreng, 300)
+
+    useEffect(() => {
+        if (faktiskSøkestreng.length) {
+            fetch(`${virksomhetAutocompletePath}?q=${faktiskSøkestreng}`)
+                .then(res => res.json())
+                .then((data: VirksomhetSøkeresultat[]) => setFirmaer(data))
+        }
+    }, [faktiskSøkestreng])
 
     useEffect(() => {
         const interval = setInterval(() => {
@@ -57,11 +69,11 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
                         placement="bottom-start"
                         arrow={false}
                     >
-                        <Popover.Content style={{ color: 'black'}}>
-                            {testfirmaer.map(firma => (
-                                <p key={firma.orgnr}>{firma.virksomhetsnavn}</p>
+                        {!!firmaer.length && <Popover.Content style={{ color: 'black'}}>
+                            {firmaer.map(firma => (
+                                <p key={firma.orgnr}>{firma.navn}</p>
                             ))}
-                        </Popover.Content>
+                        </Popover.Content>}
                     </Popover>
                 </div>
                 {brukerInformasjon && (
