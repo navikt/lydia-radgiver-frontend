@@ -3,6 +3,7 @@ import {CSSProperties, useEffect, useRef, useState} from "react";
 import {VirksomhetSøkeresultat} from "../../domenetyper";
 import {useDebounce} from "../../util/useDebounce";
 import {virksomhetAutocompletePath} from "../../api/lydia-api";
+import { Link as RouterLink } from "react-router-dom";
 
 interface Props {
     darkmode?: boolean,
@@ -41,9 +42,12 @@ export const Søkefelt = ({ darkmode, style }: Props) => {
         >
             {!!firmaer.length && <Popover.Content style={{color: `${darkmode ? 'black' : 'white'}`}}>
                 {firmaer.map(firma => (
-                    <Link style={{display: "block"}}
-                          key={firma.orgnr}
-                          href={`virksomhet/${firma.orgnr}`}>
+                    <Link
+                        key={firma.orgnr}
+                        style={{display: "block"}}
+                        as={RouterLink}
+                        to={`/virksomhet/${firma.orgnr}`}
+                    >
                         {firma.navn}
                     </Link>
                 ))}
