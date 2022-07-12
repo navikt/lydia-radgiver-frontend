@@ -1,4 +1,4 @@
-import {Virksomhet} from "../../../domenetyper";
+import {Virksomhet, VirksomhetSøkeresultat} from "../../../domenetyper";
 
 export const virksomhetMock: Virksomhet = {
     orgnr: "999123456",
@@ -22,3 +22,26 @@ export const virksomhetMock: Virksomhet = {
     ],
     sektor: "Privat og offentlig næringsvirksomhet"
 }
+
+export const virksomhetAutocompleteMock: VirksomhetSøkeresultat[] = [
+    {
+        navn: "Kebabbiten",
+        orgnr: "123123123"
+    },
+    {
+        navn: "NAV",
+        orgnr: "333333333"
+    },
+    {
+        navn: "Polizen",
+        orgnr: "666666666"
+    },
+    {
+        navn: "Kongens undersotter",
+        orgnr: "232323232"
+    },
+    {
+        navn: "Haugenstua Kro",
+        orgnr: "999999999"
+    }
+]
