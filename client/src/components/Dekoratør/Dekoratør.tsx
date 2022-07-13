@@ -38,7 +38,9 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
             <Header className="w-full">
                 <Header.Title as="h1">{tittel}</Header.Title>
                 <Søkefelt style={{
-                    marginLeft: "40%" //TODO dette kan sikkert fikses bedre
+                    marginLeft: "auto",
+                    minWidth: "16rem",
+                    width: "25%"
                 }}/>
                 {brukerInformasjon && (
                     <Header.User
