@@ -34,8 +34,8 @@ export const VirksomhetInformasjon = ({ virksomhet, className }: Props) => (
         </VerticalFlexboxDiv>
         <VerticalFlexboxDiv>
             <Label>Bransje/næring</Label>
-            {virksomhet.neringsgrupper.map(({ navn }) => (
-                <BodyShort key={navn}>{navn}</BodyShort>
+            {virksomhet.neringsgrupper.map(({ navn, kode }) => (
+                <BodyShort key={navn}>{navn} ({kode})</BodyShort>
             ))}
         </VerticalFlexboxDiv>
     </HorizontalFlexboxDiv>
