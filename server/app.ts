@@ -3,17 +3,22 @@ import helmet from "helmet";
 import path from "path";
 import apiMetrics from "prometheus-api-metrics";
 
-import { LydiaApiProxy } from "./proxy";
+import {LydiaApiProxy} from "./proxy";
 import {
     onBehalfOfTokenMiddleware,
     validerTokenFraFakedings,
     validerTokenFraWonderwall,
 } from "./onBehalfOf";
-import { Config } from "./config";
+import {Config} from "./config";
 import logger from "./logging";
-import { AuthError } from "./error";
-import { hentInnloggetAnsattMiddleware } from "./brukerinfo";
-import { memorySessionManager, redisSessionManager } from "./RedisStore";
+import {AuthError} from "./error";
+import {hentInnloggetAnsattMiddleware} from "./brukerinfo";
+import {memorySessionManager, redisSessionManager} from "./RedisStore";
+
+export const inCloudMode = () => process.env.NAIS_CLUSTER_NAME === "dev-gcp" || process.env.NAIS_CLUSTER_NAME === "prod-gcp"
+
+export const inLocalMode = () => process.env.NAIS_CLUSTER_NAME === "lokal"
+
 
 export default class Application {
     expressApp: express.Express;
@@ -34,13 +39,13 @@ export default class Application {
         );
 
         this.expressApp.use(
-            ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME)
+            ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME) // Treffer både lokal og testkjøring
                 ? memorySessionManager()
                 : redisSessionManager()
         );
 
         const tokenValidator =
-            process.env.NAIS_CLUSTER_NAME === "lokal"
+            inLocalMode()
                 ? validerTokenFraFakedings(config.azure, config._jwkSet)
                 : validerTokenFraWonderwall(config.azure, config._jwkSet);
 
@@ -67,10 +72,10 @@ export default class Application {
         this.expressApp.use(
             "/api",
             tokenValidator,
-            process.env.NAIS_CLUSTER_NAME === "lokal"
+            inLocalMode()
                 ? (req, res, next) => {
-                      return next();
-                  }
+                    return next();
+                }
                 : onBehalfOfTokenMiddleware(config),
             lydiaApiProxy
         );
@@ -81,7 +86,7 @@ export default class Application {
 
         this.expressApp.use(
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
-            (error: Error, req: Request, res: Response, _ : NextFunction) => {
+            (error: Error, req: Request, res: Response, _: NextFunction) => {
                 if (error instanceof AuthError) {
                     return res.status(401).send(error.message);
                 }

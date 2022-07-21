@@ -1,6 +1,7 @@
 import Redis, {RedisOptions} from "ioredis";
 import session from "express-session";
 import connectRedis from "connect-redis";
+import {inCloudMode} from "./app";
 
 export const redisSessionManager = () => {
     const redisStore = connectRedis(session);
@@ -19,7 +20,7 @@ export const redisSessionManager = () => {
         resave: false,
         cookie: {
             sameSite: "lax",
-            secure: true,
+            secure: inCloudMode(),
             httpOnly: true,
             maxAge: 60 * 60 * 1000, // 1 time levetid på session cookie
         },
