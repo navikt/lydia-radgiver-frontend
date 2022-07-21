@@ -18,7 +18,7 @@ export const redisSessionManager = () => {
         saveUninitialized: false,
         resave: false,
         cookie: {
-            sameSite: "strict",
+            sameSite: "lax",
             secure: true,
             httpOnly: true,
             maxAge: Date.now() + 3600000, // 1 time levetid på session cookie
