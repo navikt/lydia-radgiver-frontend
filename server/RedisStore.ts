@@ -1,13 +1,14 @@
-import Redis from "ioredis";
+import Redis, {RedisOptions} from "ioredis";
 import session from "express-session";
 import connectRedis from "connect-redis";
 
 export const redisSessionManager = () => {
     const redisStore = connectRedis(session);
-    const client = new Redis(
-        +process.env.REDIS_PORT,
-        process.env.REDIS_HOST,
-    );
+    const redisConfig: RedisOptions = {
+        host: process.env.REDIS_HOST || 'redis',
+        port: +process.env.REDIS_PORT
+    }
+    const client = new Redis(redisConfig);
     return session({
         store: new redisStore({
             client,
