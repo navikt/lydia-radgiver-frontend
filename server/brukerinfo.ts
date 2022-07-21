@@ -2,6 +2,7 @@ import {NextFunction, Request, Response} from "express";
 import {decodeJwt, JWTPayload} from "jose";
 import {AuthError} from "./error";
 import {getBearerToken} from "./onBehalfOf";
+import {inLocalMode} from "./app";
 
 export type Brukerinformasjon = {
     navn: string;
@@ -35,7 +36,7 @@ export const hentInnloggetAnsattMiddleware = (
     res: Response,
     next: NextFunction
 ) => {
-    if (process.env.NAIS_CLUSTER_NAME === "lokal") {
+    if (inLocalMode()) {
         res.send(lokalMockBruker);
     } else {
         const bearerToken = getBearerToken(req);
