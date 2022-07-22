@@ -1,4 +1,4 @@
-import { StyledFiltervisning } from "./Filtervisning";
+import {sorteringsverdier, StyledFiltervisning} from "./Filtervisning";
 import { StyledPrioriteringsTabell } from "./PrioriteringsTabell";
 import {
     useFilterverdier,
@@ -6,11 +6,11 @@ import {
 } from "../../api/lydia-api";
 import {useContext, useEffect, useState} from "react";
 import {
-    Filterverdier,
+    Filterverdier, Sorteringsverdi,
     SykefraversstatistikkVirksomhet,
     Søkeverdier,
 } from "../../domenetyper";
-import { Loader } from "@navikt/ds-react";
+import {Loader, SortState} from "@navikt/ds-react";
 import {statiskeSidetitler, TittelContext} from "./TittelContext";
 
 const tommeFilterverdier: Filterverdier = {
@@ -21,6 +21,15 @@ const tommeFilterverdier: Filterverdier = {
     bransjeprogram: []
 };
 
+const tilSorteringsretning = (direction: "ascending" | "descending" = "descending") => {
+    switch (direction) {
+        case "ascending":
+            return "asc";
+        case "descending":
+            return "desc";
+    }
+}
+
 export const ANTALL_RESULTATER_PER_SIDE = 50;
 
 export const totaltAntallResultaterTilAntallSider = (totaltAntallResultater: number, antallResultaterPerSide = ANTALL_RESULTATER_PER_SIDE) =>
@@ -30,6 +39,7 @@ const Prioriteringsside = () => {
     const {oppdaterTittel} = useContext(TittelContext)
     oppdaterTittel(statiskeSidetitler.prioriteringsside)
 
+    const [sortering, setSortering] = useState<SortState>({ direction: "descending", orderBy: "tapte_dagsverk" })
     const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState<SykefraversstatistikkVirksomhet[]>();
     const [totaltAntallResultaterISøk, setTotaltAntallResultaterISøk] = useState(0);
     const [side, setSide] = useState(1);
@@ -66,13 +76,15 @@ const Prioriteringsside = () => {
         }
     }, [sfStatistikkFraApi]);
 
-    function oppdaterSide(side: number, triggetNyttSøk: boolean) {
+    function oppdaterSide(side: number, triggetNyttSøk: boolean, sortering?: SortState) {
         setSide(side);
         setTriggetNyttSøk(triggetNyttSøk)
         setSøkeverdier({
             ...søkeverdier,
             side,
-            skalInkludereTotaltAntall: triggetNyttSøk
+            skalInkludereTotaltAntall: triggetNyttSøk,
+            sorteringsnokkel: sortering?.orderBy as Sorteringsverdi,
+            sorteringsretning: tilSorteringsretning(sortering?.direction)
         });
         setSkalSøke(true);
     }
@@ -96,6 +108,11 @@ const Prioriteringsside = () => {
                     endreSide={(side) => {
                         oppdaterSide(side, false);
                     }}
+                    sortering={sortering}
+                    endreSortering={(sortering => {
+                        setSortering(sortering)
+                        oppdaterSide(1, true, sortering)
+                    })}
                     totaltAntallResultaterISøk={totaltAntallResultaterISøk}
                     side={side}
                 />

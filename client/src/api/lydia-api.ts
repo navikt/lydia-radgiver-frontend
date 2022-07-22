@@ -269,6 +269,7 @@ export const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
         }`
     );
     params.append("sorteringsnokkel", søkeverdier.sorteringsnokkel ?? "");
+    params.append("sorteringsretning", søkeverdier.sorteringsretning ?? "desc");
     params.append("iaStatus", søkeverdier.iaStatus ?? "");
     params.append("side", søkeverdier.side?.toString() ?? "");
     params.append("bransjeprogram", søkeverdier.bransjeprogram?.join() ?? "")

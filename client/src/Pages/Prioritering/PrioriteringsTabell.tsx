@@ -1,26 +1,58 @@
-import {Detail, Link, Pagination, Table} from "@navikt/ds-react";
+import {Detail, Link, Pagination, SortState, Table} from "@navikt/ds-react";
 import {SykefraversstatistikkVirksomhet} from "../../domenetyper";
 import {StatusBadge} from "./StatusBadge";
 import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterTilAntallSider} from "./Prioriteringsside";
 
+interface Kolonne {
+    key: string,
+    sortable?: boolean,
+    name: string
+}
 
-const kolonneNavn = [
-    'Status',
-    'Bedriftsnavn',
-    'Sykefravær i %',
-    'Antall arbeidsforhold',
-    'Tapte dagsverk',
-    'Mulige dagsverk',
-    'Rådgiver'
+const kolonner: Kolonne[] = [
+    {
+        key: "status",
+        name: "Status"
+    },
+    {
+        key: "navn",
+        name: "Bedriftsnavn",
+        sortable: true
+    },
+    {
+        key: "sykefraversprosent",
+        name: "Sykefravær i %",
+        sortable: true
+    },
+    {
+        key: "antall_personer",
+        name: "Antall arbeidsforhold",
+        sortable: true
+    },
+    {
+        key: "tapte_dagsverk",
+        name: "Tapte dagsverk",
+        sortable: true
+    },
+    {
+        key: "mulige_dagsverk",
+        name: "Mulige dagsverk",
+        sortable: true
+    },
+    {
+        key: "rådgiver",
+        name: "Rådgiver"
+    },
 ]
-
 
 interface Props {
     sykefraværsstatistikk: SykefraversstatistikkVirksomhet[];
     side: number;
     endreSide: (side: number) => void;
+    sortering: SortState
+    endreSortering: (sortering: SortState) => void
     totaltAntallResultaterISøk: number;
     className?: string;
 }
@@ -29,18 +61,29 @@ const PrioriteringsTabell = ({
                                  sykefraværsstatistikk,
                                  className,
                                  side,
+                                 sortering,
+                                 endreSortering,
                                  endreSide,
                                  totaltAntallResultaterISøk
                              }: Props) => {
     return (
         <div className={className}>
-            <Table zebraStripes size={"small"}>
+            <Table
+                zebraStripes size={"small"}
+                sort={sortering}
+                onSortChange={sortKey => {
+                    endreSortering({
+                        orderBy: sortKey ?? "tapte_dagsverk",
+                        direction: sortering.direction === "descending" ? "ascending" : "descending"
+                    })
+                }}
+            >
                 <Table.Header className={"table-header"}>
                     <Table.Row>
-                        {kolonneNavn.map((navn) => (
-                            <Table.HeaderCell scope="col" key={navn}>
-                                {navn}
-                            </Table.HeaderCell>
+                        {kolonner.map(({ sortable = false, name, key}) => (
+                            <Table.ColumnHeader scope="col" key={key} sortable={sortable} sortKey={key}>
+                                {name}
+                            </Table.ColumnHeader>
                         ))}
                     </Table.Row>
                 </Table.Header>

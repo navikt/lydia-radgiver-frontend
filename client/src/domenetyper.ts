@@ -89,6 +89,7 @@ export interface Søkeverdier {
     sykefraversprosentRange?: Range;
     antallArbeidsforholdRange?: Range;
     sorteringsnokkel?: Sorteringsverdi;
+    sorteringsretning?: "asc" | "desc"
     iaStatus?: IAProsessStatusType;
     side?: number;
     bransjeprogram?: string[]
