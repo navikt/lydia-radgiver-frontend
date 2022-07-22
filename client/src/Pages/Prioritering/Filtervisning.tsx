@@ -4,7 +4,6 @@ import {
     IAProsessStatusType,
     Kommune,
     Næringsgruppe,
-    Sorteringsverdi,
     Søkeverdier,
 } from "../../domenetyper";
 import {Button} from "@navikt/ds-react";
