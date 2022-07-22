@@ -21,7 +21,8 @@ const tommeFilterverdier: Filterverdier = {
     bransjeprogram: []
 };
 
-const tilSorteringsretning = (direction: "ascending" | "descending" = "descending") => {
+const tilSorteringsretning = (direction: SortState["direction"] = "descending") => {
+
     switch (direction) {
         case "ascending":
             return "asc";
