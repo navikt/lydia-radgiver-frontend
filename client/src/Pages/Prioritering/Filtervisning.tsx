@@ -13,7 +13,6 @@ import {Range, SykefraværsprosentVelger} from "./SykefraværsprosentVelger";
 import {HorizontalFlexboxDivGap3RemAlignItemsEnd} from "./HorizontalFlexboxDiv";
 import {Næringsgruppedropdown} from "./NæringsgruppeDropdown";
 import {Fylkedropdown} from "./Fylkedropdown";
-import {Sorteringsmuligheter} from "./Sorteringsmuligheter";
 import {IAStatusDropdown} from "./IAStatusDropdown";
 import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
@@ -64,8 +63,6 @@ const Filtervisning = ({
         til: NaN,
     });
     const [IAStatus, setIAStatus] = useState<IAProsessStatusType>();
-    const [sorteringsverdi, setSorteringsverdi] =
-        useState<Sorteringsverdi>("tapte_dagsverk");
 
     const endreFylke = (fylkesnummer: string) => {
         if (fylkesnummer === valgtFylke?.fylke.nummer) return;
@@ -167,16 +164,6 @@ const Filtervisning = ({
                     }}
                     statuser={filterverdier.statuser}
                     valgtStatus={IAStatus}
-                />
-                <Sorteringsmuligheter
-                    valgtSortering={sorteringsverdi}
-                    sorteringsMuligheter={filterverdier.sorteringsnokler}
-                    endreSortering={(sortering) => {
-                        setSorteringsverdi(sortering);
-                        oppdaterSøkeverdier({
-                            sorteringsnokkel: sortering,
-                        });
-                    }}
                 />
                 <KunMineVirksomheterToggle onChangeCallback={(visKunMineVirksomheter) =>
                     oppdaterSøkeverdier({ kunMineVirksomheter : visKunMineVirksomheter})
