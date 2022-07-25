@@ -28,7 +28,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "kvartal": 3,
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
-    "eidAv": null
+    "eidAv": null,
+    "sistEndretIAStatusTidspunkt": new Date()
 }, {
     "orgnr": "974706490",
     "virksomhetsnavn": "HERMETISKE TOMATER",
@@ -39,7 +40,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "kvartal": 3,
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.VURDERES,
-    "eidAv": "Z123456"
+    "eidAv": "Z123456",
+    "sistEndretIAStatusTidspunkt": new Date()
 }, {
     "orgnr": "974589095",
     "virksomhetsnavn": "RUNE RUDBERGS RÅNEHJØRNE",
@@ -50,7 +52,8 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "kvartal": 3,
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.KONTAKTES,
-    "eidAv": null
+    "eidAv": null,
+    "sistEndretIAStatusTidspunkt": new Date()
 }, {
     "orgnr": "973861778",
     "virksomhetsnavn": "ANANAS RINGER",

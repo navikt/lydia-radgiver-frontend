@@ -4,6 +4,7 @@ import {StatusBadge} from "./StatusBadge";
 import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterTilAntallSider} from "./Prioriteringsside";
+import {lokalDato} from "../../util/DatoFormatter";
 
 interface Kolonne {
     key: string,
@@ -44,6 +45,10 @@ const kolonner: Kolonne[] = [
     {
         key: "rådgiver",
         name: "Rådgiver"
+    },
+    {
+        key: "sist_endret",
+        name: "Siste statusendring"
     },
 ]
 
@@ -106,6 +111,7 @@ const PrioriteringsTabell = ({
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.tapteDagsverk}</Table.DataCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.muligeDagsverk}</Table.DataCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.eidAv}</Table.DataCell>
+                            <Table.DataCell>{sykefraværStatistikkVirksomhet.sistEndretIAStatusTidspunkt ? lokalDato(sykefraværStatistikkVirksomhet.sistEndretIAStatusTidspunkt) : ""}</Table.DataCell>
                         </Table.Row>
                     ))}
                 </Table.Body>
