@@ -4,6 +4,7 @@ import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {Table, Heading, Detail} from "@navikt/ds-react";
 import {lokalDato} from "../../util/DatoFormatter";
 import {StatusBadge} from "../Prioritering/StatusBadge";
+import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
 
 export interface IASakHendelserOversiktProps {
     samarbeidshistorikk: Sakshistorikk[];
@@ -91,7 +92,7 @@ const SakshistorikkTabell = ({
                                     </ul>
                                 </Table.DataCell>
                                 <Table.DataCell>
-                                    {sakSnapshot.eier ?? ""}
+                                    <NavIdentMedLenke navIdent={sakSnapshot.eier}/>
                                 </Table.DataCell>
                             </Table.Row>
                         );
