@@ -13,6 +13,7 @@ import {useState} from "react";
 import {BegrunnelseModal} from "./BegrunnelseModal";
 import {IASakshendelseKnapp} from "./IASakshendelseKnapp";
 import {SakshendelsesKnapper} from "./SakshendelsesKnapper";
+import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
 
 export interface IASakOversiktProps {
     orgnummer: string;
@@ -71,7 +72,7 @@ export const IASakOversikt = ({
             </BodyShort>
             <br/>
             <BodyShort>Status: {penskrivIAStatus(sak.status)}</BodyShort>
-            {sak.eidAv && <BodyShort>Rådgiver: {sak.eidAv}</BodyShort>}
+            {sak.eidAv && <BodyShort>Rådgiver: <NavIdentMedLenke navIdent={sak.eidAv}/></BodyShort>}
             <br/>
             <SakshendelsesKnapper
                 hendelser={sak.gyldigeNesteHendelser}

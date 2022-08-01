@@ -4,6 +4,7 @@ import {StatusBadge} from "./StatusBadge";
 import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterTilAntallSider} from "./Prioriteringsside";
+import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
 
 interface Kolonne {
     key: string,
@@ -80,7 +81,7 @@ const PrioriteringsTabell = ({
             >
                 <Table.Header className={"table-header"}>
                     <Table.Row>
-                        {kolonner.map(({ sortable = false, name, key}) => (
+                        {kolonner.map(({sortable = false, name, key}) => (
                             <Table.ColumnHeader scope="col" key={key} sortable={sortable} sortKey={key}>
                                 {name}
                             </Table.ColumnHeader>
@@ -105,7 +106,9 @@ const PrioriteringsTabell = ({
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.antallPersoner}</Table.DataCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.tapteDagsverk}</Table.DataCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.muligeDagsverk}</Table.DataCell>
-                            <Table.DataCell>{sykefraværStatistikkVirksomhet.eidAv}</Table.DataCell>
+                            <Table.DataCell>
+                                <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv}/>
+                            </Table.DataCell>
                         </Table.Row>
                     ))}
                 </Table.Body>
@@ -119,7 +122,8 @@ const PrioriteringsTabell = ({
                         prevNextTexts
                     />
                     <Detail size={"small"} style={{alignSelf: "center"}}>
-                        Viser {(side - 1) * ANTALL_RESULTATER_PER_SIDE + 1}-{Math.min(side * ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterISøk)} av totalt {totaltAntallResultaterISøk} søkeresultater.
+                        Viser {(side - 1) * ANTALL_RESULTATER_PER_SIDE + 1}-{Math.min(side * ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterISøk)} av
+                        totalt {totaltAntallResultaterISøk} søkeresultater.
                         Tallene viser offisiell sykefraværsstatistikk for første kvartal 2022.
                     </Detail>
                 </div>
