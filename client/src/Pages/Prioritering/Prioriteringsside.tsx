@@ -84,8 +84,11 @@ const Prioriteringsside = () => {
             ...søkeverdier,
             side,
             skalInkludereTotaltAntall: triggetNyttSøk,
-            sorteringsnokkel: sortering?.orderBy as Sorteringsverdi,
-            sorteringsretning: tilSorteringsretning(sortering?.direction)
+            ...(sortering && {
+                sorteringsnokkel: sortering.orderBy as Sorteringsverdi,
+                sorteringsretning: tilSorteringsretning(sortering.direction)
+            })
+
         });
         setSkalSøke(true);
     }
