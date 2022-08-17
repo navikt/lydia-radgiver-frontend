@@ -138,5 +138,19 @@ export const iaSakViBistår: IASak = {
     status: IAProsessStatusEnum.enum.VI_BISTÅR,
     gyldigeNesteHendelser: [
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.FULLFØR_BISTAND),
     ]
+}
+
+export const iaSakFullført: IASak = {
+    saksnummer: saksnummer,
+    orgnr: "987654321",
+    opprettetTidspunkt: new Date(),
+    opprettetAv: "NAV-12345",
+    endretTidspunkt: new Date(),
+    endretAv: "NAV-54321",
+    eidAv: "NAV-54321",
+    endretAvHendelseId: endretAv,
+    status: IAProsessStatusEnum.enum.FULLFØRT,
+    gyldigeNesteHendelser: []
 }
