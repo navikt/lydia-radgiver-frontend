@@ -1,5 +1,10 @@
-import {GyldigNesteHendelse} from "../../domenetyper";
-import {erHendelsenDestruktiv, IASakshendelseKnapp, sorterHendelserPåKnappeType} from "./IASakshendelseKnapp";
+import {GyldigNesteHendelse, IASakshendelseType, IASakshendelseTypeEnum} from "../../domenetyper";
+import {
+    erHendelsenDestruktiv,
+    IASakshendelseKnapp,
+    penskrivIASakshendelsestype,
+    sorterHendelserPåKnappeType
+} from "./IASakshendelseKnapp";
 import {CSSProperties, useState} from "react";
 import {BekreftelseDialog} from "../../components/Dialog/BekreftelseDialog";
 
@@ -10,11 +15,16 @@ const horisontalKnappeStyling: CSSProperties = {
     gap: "0.5rem"
 };
 
+const hendelsesTyperSomMåBekreftes: IASakshendelseType[] = [
+    IASakshendelseTypeEnum.enum.TILBAKE,
+    IASakshendelseTypeEnum.enum.FULLFØR_BISTAND
+]
+
 export const SakshendelsesKnapper = ({
                                          hendelser,
                                          onNyHendelseHandler
                                      }: { hendelser: GyldigNesteHendelse[], onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void }) => {
-    const [åpenModalForBekreftelse, setÅpenModalForBekreftelse] = useState(false)
+    const [hendelseSomMåBekreftes, setHendelseSomMåBekreftes] = useState<GyldigNesteHendelse | null>(null)
 
     const destruktiveHendelser = hendelser
         .filter(hendelse => erHendelsenDestruktiv(hendelse.saksHendelsestype))
@@ -25,7 +35,8 @@ export const SakshendelsesKnapper = ({
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
             {
                 [destruktiveHendelser, ikkeDestruktiveHendelser].map((hendelser) => {
-                    return <div style={horisontalKnappeStyling} key={hendelser.map(hendelse => hendelse.saksHendelsestype).join("-")}>
+                    return <div style={horisontalKnappeStyling}
+                                key={hendelser.map(hendelse => hendelse.saksHendelsestype).join("-")}>
                         {hendelser
                             .sort(sorterHendelserPåKnappeType)
                             .map((hendelse) => {
@@ -34,11 +45,9 @@ export const SakshendelsesKnapper = ({
                                         key={hendelse.saksHendelsestype}
                                         hendelsesType={hendelse.saksHendelsestype}
                                         onClick={() => {
-                                            if (hendelse.saksHendelsestype === "TILBAKE") {
-                                                setÅpenModalForBekreftelse(true)
-                                            } else {
-                                                onNyHendelseHandler(hendelse);
-                                            }
+                                            hendelsesTyperSomMåBekreftes.includes(hendelse.saksHendelsestype)
+                                                ? setHendelseSomMåBekreftes(hendelse)
+                                                : onNyHendelseHandler(hendelse)
                                         }}
                                     />
                                 );
@@ -49,17 +58,16 @@ export const SakshendelsesKnapper = ({
             }
             <BekreftelseDialog
                 onConfirm={() => {
-                    setÅpenModalForBekreftelse(false)
-                    onNyHendelseHandler({
-                        saksHendelsestype: "TILBAKE",
-                        gyldigeÅrsaker: []
-                    })
+                    setHendelseSomMåBekreftes(null)
+                    hendelseSomMåBekreftes && onNyHendelseHandler(hendelseSomMåBekreftes)
                 }}
                 onCancel={() => {
-                    setÅpenModalForBekreftelse(false)
+                    setHendelseSomMåBekreftes(null)
                 }}
-                åpen={åpenModalForBekreftelse}
-                description={"Ønsker du å gå tilbake?"}
+                åpen={hendelseSomMåBekreftes != null}
+                description={`Du har valgt hendelsen ${hendelseSomMåBekreftes
+                    ? `"${penskrivIASakshendelsestype(hendelseSomMåBekreftes.saksHendelsestype)}"`
+                    : ""}`}
             />
         </div>
     )

@@ -1,20 +1,23 @@
-import {Button, Heading, Modal} from "@navikt/ds-react";
+import {BodyLong, Button, Heading, Modal} from "@navikt/ds-react";
 import "./BekreftelseDialog.css"
 
 
 interface Props {
     onConfirm: () => void
     onCancel: () => void
-    åpen: boolean
-    description: string
+    åpen: boolean,
+    title?: string,
+    description?: string
 }
 
 
-export const BekreftelseDialog = ({onConfirm, onCancel, åpen, description}: Props) => {
+export const BekreftelseDialog = ({onConfirm, onCancel, åpen, title = "Vennligst bekreft valget ditt", description }: Props) => {
     return (
         <Modal className="bekreftelse-dialog-innhold" parentSelector={() => document.getElementById('root')!} open={åpen} onClose={onCancel}>
             <Modal.Content>
-                <Heading size="medium" spacing className="bekreftelse-dialog-overskrift">{description}</Heading>
+                <Heading size="medium" spacing className="bekreftelse-dialog-overskrift">{title}</Heading>
+                {description && <BodyLong>{description}</BodyLong>}
+                <br/>
                 <div className="bekreftelse-dialog-knapper">
                     <Button onClick={onConfirm}>Bekreft</Button>
                     <Button variant="secondary" onClick={onCancel}>Angre</Button>
