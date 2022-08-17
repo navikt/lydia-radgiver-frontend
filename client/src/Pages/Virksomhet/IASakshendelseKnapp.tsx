@@ -22,6 +22,8 @@ export const penskrivIASakshendelsestype = (hendelsestype: IASakshendelseType): 
             return "Kartlegges"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
             return "Vi bistår"
+        case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
+            return "Fullfør"
     }
 
 }
@@ -43,6 +45,7 @@ export const knappeTypeFraSakshendelsesType = (hendelsesType: IASakshendelseType
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
+        case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
             return "primary"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
             return "danger"

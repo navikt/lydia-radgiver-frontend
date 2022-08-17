@@ -28,6 +28,7 @@ const IA_PROSESS_STATUSER = [
     "KONTAKTES",
     "KARTLEGGES",
     "VI_BISTÅR",
+    "FULLFØRT",
     "IKKE_AKTUELL"
 ] as const
 
@@ -133,6 +134,7 @@ const IA_SAKSHENDELSE_TYPER = [
     "VIRKSOMHET_ER_IKKE_AKTUELL",
     "VIRKSOMHET_KARTLEGGES",
     "VIRKSOMHET_SKAL_BISTÅS",
+    "FULLFØR_BISTAND",
     "TILBAKE"
 ] as const
 

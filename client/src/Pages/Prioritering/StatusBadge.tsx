@@ -11,6 +11,7 @@ export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): Farg
         case IAProsessStatusEnum.enum.VURDERES:
             return Farge.lyseBlå
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
+        case IAProsessStatusEnum.enum.FULLFØRT:
             return Farge.grå
         case IAProsessStatusEnum.enum.KONTAKTES:
             return Farge.mørkeBlå
@@ -39,6 +40,8 @@ export function penskrivIAStatus(status: IAProsessStatusType): string {
             return "Kartlegges"
         case IAProsessStatusEnum.enum.VI_BISTÅR:
             return "Vi bistår"
+        case IAProsessStatusEnum.enum.FULLFØRT:
+            return "Fullført"
     }
 }
 
