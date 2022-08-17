@@ -23,40 +23,30 @@ export const SakshendelsesKnapper = ({
 
     return (
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-            <div style={horisontalKnappeStyling}>
-                {destruktiveHendelser
-                    .sort(sorterHendelserPåKnappeType)
-                    .map((hendelse) => {
-                        return (
-                            <IASakshendelseKnapp
-                                key={hendelse.saksHendelsestype}
-                                hendelsesType={hendelse.saksHendelsestype}
-                                onClick={() => onNyHendelseHandler(hendelse)}
-                            />
-                        );
-                    })
-                }
-            </div>
-            <div style={horisontalKnappeStyling}>
-                {ikkeDestruktiveHendelser
-                    .sort(sorterHendelserPåKnappeType)
-                    .map((hendelse) => {
-                        return (
-                            <IASakshendelseKnapp
-                                key={hendelse.saksHendelsestype}
-                                hendelsesType={hendelse.saksHendelsestype}
-                                onClick={() => {
-                                    if (hendelse.saksHendelsestype === "TILBAKE") {
-                                        setÅpenModalForBekreftelse(true)
-                                    } else {
-                                        onNyHendelseHandler(hendelse);
-                                    }
-                                }}
-                            />
-                        );
-                    })
-                }
-            </div>
+            {
+                [destruktiveHendelser, ikkeDestruktiveHendelser].map((hendelser) => {
+                    return <div style={horisontalKnappeStyling} key={hendelser.map(hendelse => hendelse.saksHendelsestype).join("-")}>
+                        {hendelser
+                            .sort(sorterHendelserPåKnappeType)
+                            .map((hendelse) => {
+                                return (
+                                    <IASakshendelseKnapp
+                                        key={hendelse.saksHendelsestype}
+                                        hendelsesType={hendelse.saksHendelsestype}
+                                        onClick={() => {
+                                            if (hendelse.saksHendelsestype === "TILBAKE") {
+                                                setÅpenModalForBekreftelse(true)
+                                            } else {
+                                                onNyHendelseHandler(hendelse);
+                                            }
+                                        }}
+                                    />
+                                );
+                            })
+                        }
+                    </div>
+                })
+            }
             <BekreftelseDialog
                 onConfirm={() => {
                     setÅpenModalForBekreftelse(false)
