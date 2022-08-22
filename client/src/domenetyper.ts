@@ -47,7 +47,8 @@ export const sykefraversstatistikkVirksomhetSchema = z.object({
     muligeDagsverk: z.number(),
     tapteDagsverk: z.number(),
     status: IAProsessStatusEnum,
-    eidAv: z.string().nullable()
+    eidAv: z.string().nullable(),
+    endret: datoSchema.nullable()
 });
 
 export const sykefraversstatistikkVirksomhetListeSchema = z.array(

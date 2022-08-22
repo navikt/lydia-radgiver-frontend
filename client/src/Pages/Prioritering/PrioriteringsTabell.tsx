@@ -5,6 +5,7 @@ import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterTilAntallSider} from "./Prioriteringsside";
 import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
+import {lokalDato} from "../../util/DatoFormatter";
 
 interface Kolonne {
     key: string,
@@ -16,6 +17,10 @@ const kolonner: Kolonne[] = [
     {
         key: "status",
         name: "Status"
+    },
+    {
+        key: "endret",
+        name: "Endret"
     },
     {
         key: "navn",
@@ -95,6 +100,7 @@ const PrioriteringsTabell = ({
                         >
                             <Table.DataCell><StatusBadge
                                 status={sykefraværStatistikkVirksomhet.status}/></Table.DataCell>
+                            <Table.DataCell>{sykefraværStatistikkVirksomhet.endret ? lokalDato(sykefraværStatistikkVirksomhet.endret) : ""}</Table.DataCell>
                             <Table.HeaderCell scope="row">
                                 <Link
                                     target={`${sykefraværStatistikkVirksomhet.orgnr}`}

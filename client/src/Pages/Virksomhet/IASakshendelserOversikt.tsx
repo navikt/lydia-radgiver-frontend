@@ -2,7 +2,7 @@ import {Sakshistorikk} from "../../domenetyper";
 import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {Table, Heading, Detail} from "@navikt/ds-react";
-import {lokalDato} from "../../util/DatoFormatter";
+import {lokalDatoMedTid} from "../../util/DatoFormatter";
 import {StatusBadge} from "../Prioritering/StatusBadge";
 import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
 
@@ -80,7 +80,7 @@ const SakshistorikkTabell = ({
                                     <StatusBadge status={sakSnapshot.status}/>
                                 </Table.DataCell>
                                 <Table.DataCell>
-                                    {lokalDato(sakSnapshot.tidspunktForSnapshot)}
+                                    {lokalDatoMedTid(sakSnapshot.tidspunktForSnapshot)}
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     <ul style={{margin: "0"}}>
