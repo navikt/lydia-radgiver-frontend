@@ -100,7 +100,7 @@ const PrioriteringsTabell = ({
                         >
                             <Table.DataCell><StatusBadge
                                 status={sykefraværStatistikkVirksomhet.status}/></Table.DataCell>
-                            <Table.DataCell>{sykefraværStatistikkVirksomhet.endret ? lokalDato(sykefraværStatistikkVirksomhet.endret) : ""}</Table.DataCell>
+                            <Table.DataCell>{sykefraværStatistikkVirksomhet.sistEndret ? lokalDato(sykefraværStatistikkVirksomhet.sistEndret) : ""}</Table.DataCell>
                             <Table.HeaderCell scope="row">
                                 <Link
                                     target={`${sykefraværStatistikkVirksomhet.orgnr}`}

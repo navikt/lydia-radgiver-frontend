@@ -20,7 +20,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": "X123456",
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "974557746",
     "virksomhetsnavn": "MUJAFAS BMW",
@@ -32,7 +32,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
     "eidAv": null,
-    "endret": endretDato
+    "sistEndret": endretDato
 }, {
     "orgnr": "974706490",
     "virksomhetsnavn": "HERMETISKE TOMATER",
@@ -44,7 +44,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.VURDERES,
     "eidAv": "Z123456",
-    "endret": endretDato
+    "sistEndret": endretDato
 }, {
     "orgnr": "974589095",
     "virksomhetsnavn": "RUNE RUDBERGS RÅNEHJØRNE",
@@ -56,7 +56,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.KONTAKTES,
     "eidAv": null,
-    "endret": endretDato
+    "sistEndret": endretDato
 }, {
     "orgnr": "973861778",
     "virksomhetsnavn": "ANANAS RINGER",
@@ -68,7 +68,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": "A123456",
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "874716782",
     "virksomhetsnavn": "PARADIS PIZZA",
@@ -80,7 +80,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "974749025",
     "virksomhetsnavn": "KONG OLAV DEN HELLIGE",
@@ -92,7 +92,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "974703300",
     "virksomhetsnavn": "JALLA BEDRIFT",
@@ -104,7 +104,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "974633752",
     "virksomhetsnavn": "SKATTEFENGSELET",
@@ -116,7 +116,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "974795787",
     "virksomhetsnavn": "VIRKSOMHET AS",
@@ -128,7 +128,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "985674744",
     "virksomhetsnavn": "SAMMA GAMLA VANLIGA",
@@ -140,7 +140,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "974631326",
     "virksomhetsnavn": "NORTHUG",
@@ -152,7 +152,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "974757486",
     "virksomhetsnavn": "VINDRUER AS",
@@ -164,7 +164,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "998801389",
     "virksomhetsnavn": "BARCLAYS",
@@ -176,7 +176,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "973851713",
     "virksomhetsnavn": "CHELSEA FC",
@@ -188,7 +188,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "974733013",
     "virksomhetsnavn": "GODSET FRA DRAMMEN",
@@ -200,7 +200,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "980054756",
     "virksomhetsnavn": "STATSMINISTERENS KONTOR",
@@ -212,7 +212,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "974633574",
     "virksomhetsnavn": "JØRGEN HATTEMAKER",
@@ -224,7 +224,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "974633191",
     "virksomhetsnavn": "KRITTBUTIKKEN",
@@ -236,7 +236,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
-    "endret": null
+    "sistEndret": null
 }, {
     "orgnr": "974747138",
     "virksomhetsnavn": "NEI AS",
@@ -248,7 +248,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     ...sykefraværStatiskData,
     "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
     "eidAv": null,
-    "endret": endretDato
+    "sistEndret": endretDato
 }, {
         "orgnr": "974747132",
         "virksomhetsnavn": "Nummer 21 AS",
@@ -260,6 +260,6 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
         ...sykefraværStatiskData,
         "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
         "eidAv": null,
-        "endret": endretDato
+        "sistEndret": endretDato
     },
 ]
