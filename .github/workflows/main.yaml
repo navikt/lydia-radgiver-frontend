@@ -9,21 +9,27 @@ on:
 env:
     IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
 jobs:
-    endToEndTests:
+    e2e:
       name: "e2e"
       runs-on: ubuntu-latest
       steps:
         - name: Checkout
           uses: actions/checkout@v3
+        - name: Install dependencies
+          working-directory: client
+          run: npm install
+        - name: Start Storybook server
+          working-directory: client
+          run: npm run storybook
         - name: Cypress run
           uses: cypress-io/github-action@v4
           with:
             project: ./e2e
-            start: cd client && npm install && npm run storybook
             wait-on: 'http://localhost:6006'
     build:
         name: Build, lint, test and push docker image
         runs-on: ubuntu-latest
+        needs: e2e
         steps:
             - uses: actions/checkout@v3
             - name: Setup node
