@@ -20,7 +20,7 @@ jobs:
           run: npm install
         - name: Start Storybook server
           working-directory: client
-          run: npm run storybook
+          run: npm run storybook &
         - name: Cypress run
           uses: cypress-io/github-action@v4
           with:
