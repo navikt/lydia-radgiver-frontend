@@ -9,8 +9,8 @@
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src/",
-    "storybook": "start-storybook -p 6006",
-    "build-storybook": "build-storybook",
+    "storybook": "start-storybook -p 6006 --disable-telemetry",
+    "build-storybook": "build-storybook --disable-telemetry",
     "deploy-storybook": "gh-pages -d storybook-static"
   },
   "dependencies": {
