@@ -9,11 +9,23 @@ on:
 env:
     IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
 jobs:
+    endToEndTests:
+      name: "e2e"
+      runs-on: ubuntu-latest
+      steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Cypress run
+          uses: cypress-io/github-action@v4
+          with:
+            project: ./e2e
+            start: cd client && npm install && npm run storybook
+            wait-on: 'http://localhost:6006'
     build:
         name: Build, lint, test and push docker image
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - name: Setup node
               uses: actions/setup-node@v2
               with:
@@ -70,7 +82,7 @@ jobs:
         needs: build
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - name: Deploy to DEV
               uses: nais/deploy/actions/deploy@v1
               env:
@@ -83,7 +95,7 @@ jobs:
         needs: deployAppToDev
         runs-on: ubuntu-latest
         steps:
-            - uses: actions/checkout@v2
+            - uses: actions/checkout@v3
             - name: Deploy to PROD
               uses: nais/deploy/actions/deploy@v1
               env:
@@ -96,7 +108,7 @@ jobs:
     #   needs: build
     #   runs-on: ubuntu-latest
     #   steps:
-    #   - uses: actions/checkout@v2
+    #   - uses: actions/checkout@v3
     #   - name: Deploy alerts to DEV
     #     uses: nais/deploy/actions/deploy@v1
     #     env:
@@ -109,7 +121,7 @@ jobs:
     #   needs: build
     #   runs-on: ubuntu-latest
     #   steps:
-    #   - uses: actions/checkout@v2
+    #   - uses: actions/checkout@v3
     #   - name: Deploy alerts to PROD
     #     uses: nais/deploy/actions/deploy@v1
     #     env:
