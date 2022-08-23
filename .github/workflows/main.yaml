@@ -24,7 +24,7 @@ jobs:
         - name: Cypress run
           uses: cypress-io/github-action@v4
           with:
-            project: ./e2e
+            working-directory: e2e
             wait-on: 'http://localhost:6006'
     build:
         name: Build, lint, test and push docker image
