@@ -1,5 +1,5 @@
 {
-  "name": "forebyggingsplan-frontend-e2e",
+  "name": "lydia-radgiver-frontend-e2e",
   "scripts": {
     "cypress": "CYPRESS_BASE_URL=http://localhost:6006/ cypress open",
     "start": "cypress run"
