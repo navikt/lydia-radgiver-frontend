@@ -23,6 +23,8 @@ jobs:
           run: npm run storybook &
         - name: Cypress run
           uses: cypress-io/github-action@v4
+          env:
+            CYPRESS_BASE_URL: http://localhost:6006/
           with:
             working-directory: e2e
             wait-on: 'http://localhost:6006'
