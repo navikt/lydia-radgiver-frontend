@@ -5,7 +5,8 @@
     "start": "cypress run"
   },
   "devDependencies": {
-    "typescript": "4.7.4",
-    "cypress": "^10.4.0"
+    "@testing-library/cypress": "^8.0.3",
+    "cypress": "^10.6.0",
+    "typescript": "4.7.4"
   }
 }

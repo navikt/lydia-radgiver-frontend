@@ -107,7 +107,7 @@ export const iaSakIkkeAktuell: IASak = {
     eidAv: "NAV-54321",
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.IKKE_AKTUELL,
-    gyldigeNesteHendelser: []
+    gyldigeNesteHendelser: [hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)]
 }
 
 export const iaSakKartlegges: IASak = {
@@ -122,7 +122,8 @@ export const iaSakKartlegges: IASak = {
     status: IAProsessStatusEnum.enum.KARTLEGGES,
     gyldigeNesteHendelser: [
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS),
-        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL)
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
     ]
 }
 
@@ -139,6 +140,7 @@ export const iaSakViBistår: IASak = {
     gyldigeNesteHendelser: [
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.FULLFØR_BISTAND),
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
     ]
 }
 
