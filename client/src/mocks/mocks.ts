@@ -1,9 +1,21 @@
 import {
-    Brukerinformasjon, Næringsgruppe,
+    Brukerinformasjon,
+    IASakshendelseType,
+    Næringsgruppe,
+    SykefraversstatistikkVirksomhet,
     SykefraværsstatistikkVirksomhetRespons,
     Virksomhet
 } from "../domenetyper";
 import {sykefraværsstatistikkMock} from "../Pages/Prioritering/mocks/sykefraværsstatistikkMock";
+import {
+    iaSakFullført,
+    iaSakIkkeAktuell,
+    iaSakKartlegges,
+    iaSakKontaktes,
+    iaSakViBistår,
+    iaSakVurderesMedEier,
+    iaSakVurderesUtenEier
+} from "../Pages/Virksomhet/mocks/iaSakMock";
 
 export const brukerMedGyldigToken: Brukerinformasjon = {
     navn: "Navn Navnesen",
@@ -222,3 +234,45 @@ export const virksomheterMock: Virksomhet[] = [
         "sektor": "Privat og offentlig næringsvirksomhet",
     },
 ]
+
+export const iaSakFraHendelse = (hendelsesType: IASakshendelseType) => {
+    switch (hendelsesType) {
+        case "OPPRETT_SAK_FOR_VIRKSOMHET":
+        case "VIRKSOMHET_VURDERES":
+            return iaSakVurderesUtenEier
+        case "TA_EIERSKAP_I_SAK":
+            return iaSakVurderesMedEier
+        case "VIRKSOMHET_SKAL_KONTAKTES":
+            return iaSakKontaktes
+        case "VIRKSOMHET_ER_IKKE_AKTUELL":
+            return iaSakIkkeAktuell
+        case "VIRKSOMHET_KARTLEGGES":
+            return iaSakKartlegges
+        case "VIRKSOMHET_SKAL_BISTÅS":
+            return iaSakViBistår
+        case "FULLFØR_BISTAND":
+            return iaSakFullført
+        case "TILBAKE":
+            return iaSakViBistår
+    }
+}
+
+export const iaSakFraStatistikk = (statistikk: SykefraversstatistikkVirksomhet) => {
+    switch (statistikk.status) {
+        case "NY":
+        case "VURDERES":
+            return [statistikk.eidAv ? iaSakVurderesMedEier : iaSakVurderesUtenEier]
+        case "IKKE_AKTIV":
+            return []
+        case "KONTAKTES":
+            return [iaSakKontaktes]
+        case "KARTLEGGES":
+            return [iaSakKartlegges]
+        case "VI_BISTÅR":
+            return [iaSakViBistår]
+        case "FULLFØRT":
+            return [iaSakFullført]
+        case "IKKE_AKTUELL":
+            return [iaSakIkkeAktuell]
+    }
+}

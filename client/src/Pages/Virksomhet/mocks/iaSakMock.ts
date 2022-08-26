@@ -55,9 +55,9 @@ export const iaSakVurderesUtenEier: IASak = {
     saksnummer: saksnummer,
     orgnr: "987654321",
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: "X123456",
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
+    endretAv: "X123456",
     eidAv: null,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.VURDERES,
@@ -68,14 +68,14 @@ export const iaSakVurderesMedEier: IASak = {
     saksnummer: saksnummer,
     orgnr: "987654321",
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: "X123456",
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: "X123456",
+    eidAv: "X123456",
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.VURDERES,
     gyldigeNesteHendelser: [
-        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
+        ikkeAktuellHendelseMock,
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES)
     ]
 }
@@ -84,15 +84,15 @@ export const iaSakKontaktes: IASak = {
     saksnummer: saksnummer,
     orgnr: "987654321",
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: "X123456",
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: "X123456",
+    eidAv: "X123456",
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.KONTAKTES,
     gyldigeNesteHendelser: [
+        ikkeAktuellHendelseMock,
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK),
-        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
     ]
 }
@@ -101,10 +101,10 @@ export const iaSakIkkeAktuell: IASak = {
     saksnummer: saksnummer,
     orgnr: "987654321",
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: "X123456",
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: "X123456",
+    eidAv: "X123456",
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.IKKE_AKTUELL,
     gyldigeNesteHendelser: [hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)]
@@ -114,15 +114,15 @@ export const iaSakKartlegges: IASak = {
     saksnummer: saksnummer,
     orgnr: "987654321",
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: "X123456",
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: "X123456",
+    eidAv: "X123456",
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.KARTLEGGES,
     gyldigeNesteHendelser: [
+        ikkeAktuellHendelseMock,
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS),
-        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
     ]
 }
@@ -131,14 +131,14 @@ export const iaSakViBistår: IASak = {
     saksnummer: saksnummer,
     orgnr: "987654321",
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: "X123456",
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: "X123456",
+    eidAv: "X123456",
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.VI_BISTÅR,
     gyldigeNesteHendelser: [
-        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
+        ikkeAktuellHendelseMock,
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.FULLFØR_BISTAND),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
     ]
@@ -148,10 +148,10 @@ export const iaSakFullført: IASak = {
     saksnummer: saksnummer,
     orgnr: "987654321",
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: "X123456",
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: "X123456",
+    eidAv: "X123456",
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.FULLFØRT,
     gyldigeNesteHendelser: []

@@ -213,7 +213,7 @@ export type Sakshistorikk = z.infer<typeof sakshistorikkSchema>
 export interface IANySakshendelseDto {
     orgnummer: string;
     saksnummer: string;
-    hendelsesType: string;
+    hendelsesType: IASakshendelseType;
     endretAvHendelseId: string;
     payload?: string
 }
