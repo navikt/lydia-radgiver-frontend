@@ -1,0 +1,33 @@
+FROM node:16-alpine AS builder
+
+WORKDIR /app
+
+COPY client /app/client
+COPY server /app/server
+
+ENV VITE_USE_MSW=true
+
+WORKDIR /app/client
+RUN npm ci
+RUN npm run build
+
+WORKDIR /app/server
+RUN npm ci
+RUN npm run build
+
+FROM node:16-alpine AS runner
+
+WORKDIR /app
+
+COPY --from=builder ./app/server/build /app/build
+COPY --from=builder ./app/client/dist /app/client/dist
+
+# gi node-bruker riktige rettigheter
+RUN chown -R node /app
+USER node
+
+# TRENGER VI EGENTLIG DETTE?
+COPY server/package*.json .
+RUN npm ci --omit=dev
+
+CMD ["node", "build/server.js"]

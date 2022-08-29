@@ -1,0 +1,21 @@
+apiVersion: "nais.io/v1alpha1"
+kind: "Application"
+metadata:
+  name: "lydia-radgiver-frontend"
+  namespace: "pia"
+  labels:
+    "team": "pia"
+spec:
+  image: {{image}}
+  liveness:
+    path: "/internal/isAlive"
+    port: 8080
+    initialDelay: 20
+    timeout: 60
+  readiness:
+    path: "/internal/isReady"
+    port: 8080
+    initialDelay: 20
+    timeout: 60
+  ingresses:
+    - "https://fia.labs.nais.io"
