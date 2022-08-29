@@ -1,6 +1,6 @@
 import http from 'http'
 import Application from './app';
-import {Config, Server} from './config';
+import {Config, ServerConfig} from './config';
 import logger from "./logging"
 import { setupRemoteJwkSet } from "./jwks";
 import dotenv from "dotenv"
@@ -9,18 +9,18 @@ import {labsApplication} from "./labsApplication";
 
 interface AppProvider {
     application: Express,
-    serverConfig: Server
+    serverConfig: ServerConfig
 }
 
 const appProvider = async (): Promise<AppProvider> => {
     if (process.env.NAIS_CLUSTER_NAME === "labs-gcp") {
-        return Promise.resolve({application : labsApplication(), serverConfig: new Server()})
+        return Promise.resolve({application : labsApplication(), serverConfig: new ServerConfig()})
     } else {
         return setupRemoteJwkSet()
             .then(jwkSet => {
                 const config = new Config({jwkSet})
                 const application = new Application(config)
-                return {application: application.expressApp, serverConfig: config.server}
+                return {application: application.expressApp, serverConfig: config.serverConfig}
             })
     }
 }

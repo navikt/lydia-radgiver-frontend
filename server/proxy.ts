@@ -8,7 +8,7 @@ import logger from "./logging"
 export class LydiaApiProxy {
     options : Options
     constructor(config: Config) {
-        const targetURI = config.lydiaApi.uri
+        const targetURI = config.lydiaApiConfig.uri
         this.options = {
             target: targetURI,
             changeOrigin: true,

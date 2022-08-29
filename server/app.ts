@@ -46,8 +46,8 @@ export default class Application {
 
         const tokenValidator =
             inLocalMode()
-                ? validerTokenFraFakedings(config.azure, config._jwkSet)
-                : validerTokenFraWonderwall(config.azure, config._jwkSet);
+                ? validerTokenFraFakedings(config.azureConfig, config._jwkSet)
+                : validerTokenFraWonderwall(config.azureConfig, config._jwkSet);
 
         this.expressApp.get("/loggut", (req, res, next) => {
             req.session.destroy((err) => {

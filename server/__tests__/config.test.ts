@@ -26,14 +26,14 @@ describe("Tester konfigurasjon", () => {
         settOppNødvendigEnvVariabler()
         expect(() => new Config()).not.toThrow()
         const config = new Config()
-        expect(config.server.port).toBeDefined()
+        expect(config.serverConfig.port).toBeDefined()
     })
     test("Det er mulig å spesifisere port for server hvis man ønsker", () => {
         settOppNødvendigEnvVariabler()
         const serverPort = 12345
         setEnvVar(envVars.serverPort, serverPort.toString())
         const config = new Config()
-        expect(config.server.port).toBe(serverPort)
+        expect(config.serverConfig.port).toBe(serverPort)
     })
 
 })

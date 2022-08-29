@@ -2,29 +2,29 @@ import {JWKSetRetriever} from "./jwks";
 
 
 interface ConfigOptions {
-    azure?: Azure
-    server?: Server
-    lydiaApi?: LydiaApi
+    azureConfig?: AzureConfig
+    serverConfig?: ServerConfig
+    lydiaApiConfig?: LydiaApiConfig
     jwkSet?: JWKSetRetriever
 }
 
 export class Config {
-    azure: Azure
-    server: Server
-    lydiaApi: LydiaApi
+    azureConfig: AzureConfig
+    serverConfig: ServerConfig
+    lydiaApiConfig: LydiaApiConfig
     _jwkSet: JWKSetRetriever
 
     constructor(
         {
-            azure = new Azure(),
-            server = new Server(),
-            lydiaApi = new LydiaApi(),
+            azureConfig = new AzureConfig(),
+            serverConfig = new ServerConfig(),
+            lydiaApiConfig = new LydiaApiConfig(),
             jwkSet
         }: ConfigOptions = {}
     ) {
-        this.azure = azure
-        this.server = server
-        this.lydiaApi = lydiaApi
+        this.azureConfig = azureConfig
+        this.serverConfig = serverConfig
+        this.lydiaApiConfig = lydiaApiConfig
         this._jwkSet = jwkSet
     }
 }
@@ -41,7 +41,7 @@ export const envVars = {
     jwkUri: "AZURE_OPENID_CONFIG_JWKS_URI"
 }
 
-export class Azure {
+export class AzureConfig {
     clientId: string;
     tokenEndpoint: string;
     clientSecret: string;
@@ -63,7 +63,7 @@ export class Azure {
     }
 }
 
-export class Server {
+export class ServerConfig {
     port: number
     constructor(port = 8080) {
         const specifiedPort = getOptionalEnvVar(envVars.serverPort)
@@ -71,7 +71,7 @@ export class Server {
     }
 }
 
-export class LydiaApi {
+export class LydiaApiConfig {
     uri: string;
     scope: string;
 
