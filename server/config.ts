@@ -83,26 +83,8 @@ export class LydiaApiConfig {
     }
 }
 
-const ifEnvVarExists = (variabelNavn: string) => exists(getOptionalEnvVar(variabelNavn)) ?
-    Promise.resolve(getOptionalEnvVar(variabelNavn)) :
-    Promise.reject(`Miljøvariabelen ${variabelNavn} finnes ikke`);
-
-const ifTheseEnvVarExists = (variabelNavn: string[]) => allExists(variabelNavn.map(navn => getOptionalEnvVar(navn))) ?
-    Promise.resolve(variabelNavn.map(navn => getOptionalEnvVar(navn))) :
-    Promise.reject(`Enkelte av variablene ${variabelNavn} finnes ikke`);
-
 const getEnvVar = (name: string) => {
     if (!process.env[name]) throw new Error(`Missing required variable ${name}`);
     return process.env[name];
 }
 const getOptionalEnvVar = (name: string) => process.env[name]
-
-const exists = (value: any) => value != null;
-const allExists = (values: any[]) => values.every(value => exists(value))
-const ifExists = (value: any) => exists(value) ?
-    Promise.resolve(value) :
-    Promise.reject(`Invalid value: ${value}`);
-
-const ifAllExists = (values: any[]) => allExists(values) ?
-    Promise.resolve(values) :
-    Promise.reject(`Invalid values: ${values}`);
