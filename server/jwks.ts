@@ -8,7 +8,7 @@ export let _remoteJwkSet: GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput>
 
 export async function setupRemoteJwkSet(): Promise<JWKSetRetriever> {
     if (!_remoteJwkSet) {
-        _remoteJwkSet = createRemoteJWKSet(new URL(envVars.jwkUri), {
+        _remoteJwkSet = createRemoteJWKSet(new URL(process.env[envVars.jwkUri]), {
             cooldownDuration: 1000 * 60 * 60 // 1 time caching av jwks
         })
     }

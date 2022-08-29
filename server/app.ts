@@ -34,7 +34,7 @@ export default class Application {
         );
 
         this.expressApp.use(
-            isInLocalMode()
+            ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME) // Treffer både lokal og testkjøring
                 ? memorySessionManager()
                 : redisSessionManager()
         );

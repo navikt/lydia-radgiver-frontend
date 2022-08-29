@@ -1,7 +1,7 @@
 import Redis, {RedisOptions} from "ioredis";
 import session from "express-session";
 import connectRedis from "connect-redis";
-import {isInProdOrDevMode} from "./config";
+import {isInDevOrProdMode} from "./config";
 
 export const redisSessionManager = () => {
     const redisStore = connectRedis(session);
@@ -20,7 +20,7 @@ export const redisSessionManager = () => {
         resave: false,
         cookie: {
             sameSite: "lax",
-            secure: isInProdOrDevMode(),
+            secure: isInDevOrProdMode(),
             httpOnly: true,
             maxAge: 60 * 60 * 1000, // 1 time levetid på session cookie
         },

@@ -2,7 +2,7 @@ import http from 'http'
 import Application from './app';
 import {Config, isInLabsMode, ServerConfig} from './config';
 import logger from "./logging"
-import {setupRemoteJwkSet} from "./jwks";
+import { setupRemoteJwkSet } from "./jwks";
 import dotenv from "dotenv"
 import {Express} from "express";
 import {labsApplication} from "./labsApplication";
@@ -26,26 +26,27 @@ const appProvider = async (): Promise<AppProvider> => {
 }
 
 const main = () => {
-    dotenv.config({path: "../env.local"})
-    appProvider()
-        .then(appProvider => {
-            const server = http.createServer(appProvider.application);
+    dotenv.config({ path: "../env.local"})
+    appProvider().then(appProvider => {
+        const server = http.createServer(appProvider.application);
 
-            const gracefulClose = () => {
-                server.close(() => {
-                    logger.info("App shutting down...")
-                    process.exit(0)
-                })
-            }
+        const gracefulClose = () => {
+            server.close(() => {
+                logger.info("App shutting down...")
+                process.exit(0)
+            })
+        }
 
-            server.listen(appProvider.serverConfig.port, () => {
-                logger.info(`Server listening on port ${appProvider.serverConfig.port}`);
-            });
+        server.listen(appProvider.serverConfig.port, () => {
+            logger.info(`Server listening on port ${appProvider.serverConfig.port}`);
+        });
 
-            process.on("SIGTERM", gracefulClose)
-            process.on("SIGINT", gracefulClose)
-        })
-        .catch(reason => logger.error("Noe gikk galt under oppsettet av applikasjonen:", reason))
+        process.on("SIGTERM", gracefulClose)
+        process.on("SIGINT", gracefulClose)
+    })
+
+
+
 }
 
 main()
