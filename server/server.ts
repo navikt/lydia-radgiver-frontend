@@ -4,30 +4,17 @@ import {Config, Server} from './config';
 import logger from "./logging"
 import { setupRemoteJwkSet } from "./jwks";
 import dotenv from "dotenv"
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-import express, {Express} from "express";
-import path from "path"; // nødvendig for at ts-node skal skjønne at disse typene eksisterer
+import {Express} from "express";
+import {labsApplication} from "./labsApplication";
 
 interface AppProvider {
     application: Express,
     serverConfig: Server
 }
 
-
 const appProvider = async (): Promise<AppProvider> => {
     if (process.env.NAIS_CLUSTER_NAME === "labs-gcp") {
-        const application = express()
-        application.get(
-            ["/internal/isAlive", "/internal/isReady"],
-            (req, res) => {
-                res.sendStatus(200);
-            }
-        );
-        const buildPath = path.resolve(__dirname, "../client/dist");
-        application.get("/assets", express.static(`${buildPath}/assets`));
-        application.use("/", express.static(buildPath));
-        application.use("/*", express.static(buildPath));
-        return Promise.resolve({application, serverConfig: new Server()})
+        return Promise.resolve({application : labsApplication(), serverConfig: new Server()})
     } else {
         return setupRemoteJwkSet()
             .then(jwkSet => {
