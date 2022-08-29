@@ -4,8 +4,8 @@ import "./index.css";
 import App from "./App";
 import {worker} from "./mocks/browser";
 
-if (process.env.NODE_ENV === "development") {
-    await worker.start()
+if (import.meta.env.VITE_USE_MSW) {
+    worker.start()
 }
 
 // eslint-disable-next-line @typescript-eslint/no-non-null-assertion

@@ -29,26 +29,26 @@ export const sykefraværRespons: SykefraværsstatistikkVirksomhetRespons = {
 }
 
 const neringsgrupper: Næringsgruppe[] = [
-        {
-            navn: "Offentlig administrasjon og forsvar, og trygdeordninger underlagt offentlig forvaltning",
-            kode: "50.221"
-        },
-        {
-            navn: "En annen næring",
-            kode: "23.321"
-        },
-        {
-            navn: "Produksjon av ikke-jernholdige metaller ellers",
-            kode: "24.450"
-        }
-    ]
+    {
+        navn: "Offentlig administrasjon og forsvar, og trygdeordninger underlagt offentlig forvaltning",
+        kode: "50.221"
+    },
+    {
+        navn: "En annen næring",
+        kode: "23.321"
+    },
+    {
+        navn: "Produksjon av ikke-jernholdige metaller ellers",
+        kode: "24.450"
+    }
+]
 
 export const virksomheterMock: Virksomhet[] = [
     {
         "orgnr": "995428563",
         "navn": "SUSHISHAPPA PÅ HJØRNET",
         "adresse": [],
-    "poststed": "OSLO",
+        "poststed": "OSLO",
         "postnummer": "0301",
         "neringsgrupper": neringsgrupper,
         "sektor": "Privat og offentlig næringsvirksomhet",
