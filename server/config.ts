@@ -38,7 +38,8 @@ export const envVars = {
     lydiaApiUri: "LYDIA_API_URI",
     clusterName: "NAIS_CLUSTER_NAME",
     nameSpace: "NAIS_NAMESPACE",
-    jwkUri: "AZURE_OPENID_CONFIG_JWKS_URI"
+    jwkUri: "AZURE_OPENID_CONFIG_JWKS_URI",
+    naisClusterName: "NAIS_CLUSTER_NAME"
 }
 
 export class AzureConfig {
@@ -82,6 +83,17 @@ export class LydiaApiConfig {
         this.scope = `api://${getEnvVar(envVars.clusterName)}.${getEnvVar(envVars.nameSpace)}.lydia-api/.default`
     }
 }
+
+export const isInProdOrDevMode = () : boolean => {
+    const naisClusterName = getOptionalEnvVar(envVars.naisClusterName)
+    return naisClusterName == "dev-gcp" || naisClusterName === "prod-gcp"
+}
+export const isInLocalMode = () : boolean => {
+    const naisClusterName = getOptionalEnvVar(envVars.naisClusterName)
+    return naisClusterName == "local" || naisClusterName === "lokal"
+}
+
+export const isInLabsMode = () : boolean => getOptionalEnvVar(envVars.naisClusterName) === "labs-gcp"
 
 const getEnvVar = (name: string) => {
     if (!process.env[name]) throw new Error(`Missing required variable ${name}`);

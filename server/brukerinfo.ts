@@ -2,7 +2,7 @@ import {NextFunction, Request, Response} from "express";
 import {decodeJwt, JWTPayload} from "jose";
 import {AuthError} from "./error";
 import {getBearerToken} from "./onBehalfOf";
-import {inLocalMode} from "./app";
+import {isInLocalMode} from "./config";
 
 export type Brukerinformasjon = {
     navn: string;
@@ -36,7 +36,7 @@ export const hentInnloggetAnsattMiddleware = (
     res: Response,
     next: NextFunction
 ) => {
-    if (inLocalMode()) {
+    if (isInLocalMode()) {
         res.send(lokalMockBruker);
     } else {
         const bearerToken = getBearerToken(req);

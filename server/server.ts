@@ -1,6 +1,6 @@
 import http from 'http'
 import Application from './app';
-import {Config, ServerConfig} from './config';
+import {Config, isInLabsMode, ServerConfig} from './config';
 import logger from "./logging"
 import { setupRemoteJwkSet } from "./jwks";
 import dotenv from "dotenv"
@@ -13,7 +13,7 @@ interface AppProvider {
 }
 
 const appProvider = async (): Promise<AppProvider> => {
-    if (process.env.NAIS_CLUSTER_NAME === "labs-gcp") {
+    if (isInLabsMode()) {
         return Promise.resolve({application : labsApplication(), serverConfig: new ServerConfig()})
     } else {
         return setupRemoteJwkSet()

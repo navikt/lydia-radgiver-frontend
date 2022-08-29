@@ -9,16 +9,11 @@ import {
     validerTokenFraFakedings,
     validerTokenFraWonderwall,
 } from "./onBehalfOf";
-import {Config} from "./config";
+import {Config, isInLocalMode} from "./config";
 import logger from "./logging";
 import {AuthError} from "./error";
 import {hentInnloggetAnsattMiddleware} from "./brukerinfo";
 import {memorySessionManager, redisSessionManager} from "./RedisStore";
-
-export const inCloudMode = () => process.env.NAIS_CLUSTER_NAME === "dev-gcp" || process.env.NAIS_CLUSTER_NAME === "prod-gcp"
-
-export const inLocalMode = () => process.env.NAIS_CLUSTER_NAME === "lokal"
-
 
 export default class Application {
     expressApp: express.Express;
@@ -39,13 +34,13 @@ export default class Application {
         );
 
         this.expressApp.use(
-            ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME) // Treffer både lokal og testkjøring
+            isInLocalMode()
                 ? memorySessionManager()
                 : redisSessionManager()
         );
 
         const tokenValidator =
-            inLocalMode()
+            isInLocalMode()
                 ? validerTokenFraFakedings(config.azureConfig, config._jwkSet)
                 : validerTokenFraWonderwall(config.azureConfig, config._jwkSet);
 
@@ -72,7 +67,7 @@ export default class Application {
         this.expressApp.use(
             "/api",
             tokenValidator,
-            inLocalMode()
+            isInLocalMode()
                 ? (req, res, next) => {
                     return next();
                 }
