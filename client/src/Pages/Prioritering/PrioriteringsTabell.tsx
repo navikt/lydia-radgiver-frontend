@@ -130,7 +130,7 @@ const PrioriteringsTabell = ({
                     <Detail size={"small"} style={{alignSelf: "center"}}>
                         Viser {(side - 1) * ANTALL_RESULTATER_PER_SIDE + 1}-{Math.min(side * ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterISøk)} av
                         totalt {totaltAntallResultaterISøk} søkeresultater.
-                        Tallene viser offisiell sykefraværsstatistikk for første kvartal 2022.
+                        Tallene viser offisiell sykefraværsstatistikk for andre kvartal 2022.
                     </Detail>
                 </div>
             }
