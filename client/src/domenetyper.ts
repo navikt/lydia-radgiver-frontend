@@ -99,6 +99,9 @@ export interface Søkeverdier {
     skalInkludereTotaltAntall?: boolean
 }
 
+const VIRKSOMHET_STATUS = ["AKTIV", "FJERNET", "SLETTET"] as const
+export const VirksomhetStatusEnum = z.enum(VIRKSOMHET_STATUS)
+export type VirksomhetStatusType = z.infer<typeof VirksomhetStatusEnum>
 export const virksomhetsSchema = z.object({
     orgnr: z.string(),
     navn: z.string(),
@@ -107,8 +110,8 @@ export const virksomhetsSchema = z.object({
     poststed: z.string(),
     neringsgrupper: næringsgrupperSchema.array(),
     sektor: z.string().optional(),
+    status: VirksomhetStatusEnum
 })
-
 export type Virksomhet = z.infer<typeof virksomhetsSchema>
 
 export type VirksomhetSøkeresultat = {

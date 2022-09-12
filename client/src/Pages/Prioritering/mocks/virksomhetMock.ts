@@ -1,4 +1,4 @@
-import {Virksomhet, VirksomhetSøkeresultat} from "../../../domenetyper";
+import {Virksomhet, VirksomhetStatusEnum, VirksomhetSøkeresultat} from "../../../domenetyper";
 
 export const virksomhetMock: Virksomhet = {
     orgnr: "999123456",
@@ -20,7 +20,8 @@ export const virksomhetMock: Virksomhet = {
             kode: "24.450"
         }
     ],
-    sektor: "Privat og offentlig næringsvirksomhet"
+    sektor: "Privat og offentlig næringsvirksomhet",
+    status: "AKTIV",
 }
 
 export const virksomhetAutocompleteMock: VirksomhetSøkeresultat[] = [
@@ -45,3 +46,13 @@ export const virksomhetAutocompleteMock: VirksomhetSøkeresultat[] = [
         orgnr: "999999999"
     }
 ]
+
+export const slettetVirksomhetMock: Virksomhet = {
+    ...virksomhetMock,
+    status: VirksomhetStatusEnum.enum.SLETTET
+}
+
+export const fjernetVirksomhetMock: Virksomhet = {
+    ...virksomhetMock,
+    status: VirksomhetStatusEnum.enum.FJERNET
+}
