@@ -2,6 +2,7 @@ import {ComponentMeta} from "@storybook/react";
 import {StyledPrioriteringsTabell} from "./PrioriteringsTabell";
 import {sykefraværsstatistikkMock} from "./mocks/sykefraværsstatistikkMock";
 import {useState} from "react";
+import {SortState} from "@navikt/ds-react";
 
 export default {
     title: "Prioritering/Prioriteringstabell",
@@ -17,6 +18,8 @@ export const Hovedstory = () => {
     const antallPerSide = 5
     const totaltAntallResultaterISøk = sykefraværsstatistikk.length
     const [side, setSide] = useState(1)
+    const [sortering, setSortering] = useState<SortState>({ direction: "descending", orderBy: "tapte_dagsverk" })
+
     return (
         <StyledPrioriteringsTabell
             sykefraværsstatistikk={sykefraværsstatistikk.slice((side - 1) * antallPerSide, side * antallPerSide)}
@@ -24,6 +27,11 @@ export const Hovedstory = () => {
                 setSide(side)
             }}
             side={side}
+            sortering={sortering}
+            endreSortering={(sortering => {
+                setSortering(sortering)
+                setSide(1)
+            })}
             totaltAntallResultaterISøk={totaltAntallResultaterISøk}
         />
     );
