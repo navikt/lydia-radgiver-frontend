@@ -6,7 +6,7 @@ import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterTilAntallSider} from "./Prioriteringsside";
 import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
 import {lokalDato} from "../../util/datoFormatering";
-import {formaterSomHeltall, formatterMedEnDesimal} from "../../util/tallFormatering";
+import {formaterSomProsentMedEnDesimal, formaterMedEnDesimal} from "../../util/tallFormatering";
 
 interface Kolonne {
     key: string,
@@ -109,10 +109,10 @@ const PrioriteringsTabell = ({
                                     {sykefraværStatistikkVirksomhet.virksomhetsnavn}
                                 </Link>
                             </Table.HeaderCell>
-                            <Table.DataCell>{formatterMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}</Table.DataCell>
-                            <Table.DataCell>{formaterSomHeltall(sykefraværStatistikkVirksomhet.antallPersoner)}</Table.DataCell>
-                            <Table.DataCell>{formaterSomHeltall(sykefraværStatistikkVirksomhet.tapteDagsverk)}</Table.DataCell>
-                            <Table.DataCell>{formaterSomHeltall(sykefraværStatistikkVirksomhet.muligeDagsverk)}</Table.DataCell>
+                            <Table.DataCell>{formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}</Table.DataCell>
+                            <Table.DataCell>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.antallPersoner)}</Table.DataCell>
+                            <Table.DataCell>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.tapteDagsverk)}</Table.DataCell>
+                            <Table.DataCell>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.muligeDagsverk)}</Table.DataCell>
                             <Table.DataCell>
                                 <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv}/>
                             </Table.DataCell>
