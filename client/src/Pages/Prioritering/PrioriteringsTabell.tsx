@@ -82,17 +82,27 @@ const PrioriteringsTabell = ({
                                  endreSide,
                                  totaltAntallResultaterISøk
                              }: Props) => {
+    const onSortChange = (sortKey: string | undefined) => {
+        if (sortKey == sortering.orderBy) {
+            endreSortering({
+                orderBy: sortKey ?? "tapte_dagsverk",
+                direction: sortering.direction === "descending" ? "ascending" : "descending"
+            })
+            return;
+        }
+        endreSortering({
+            orderBy: sortKey ?? "tapte_dagsverk",
+            direction: "descending"
+        })
+    }
+
+
     return (
         <div className={className}>
             <Table
                 zebraStripes size={"small"}
                 sort={sortering}
-                onSortChange={sortKey => {
-                    endreSortering({
-                        orderBy: sortKey ?? "tapte_dagsverk",
-                        direction: sortering.direction === "descending" ? "ascending" : "descending"
-                    })
-                }}
+                onSortChange={onSortChange}
             >
                 <Table.Header className={"table-header"}>
                     <Table.Row>
