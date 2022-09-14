@@ -10,47 +10,56 @@ import {formaterSomProsentMedEnDesimal, formaterMedEnDesimal} from "../../util/t
 
 interface Kolonne {
     key: string,
+    name: string,
     sortable?: boolean,
-    name: string
+    textAlignment: "left" | "right"
 }
 
 const kolonner: Kolonne[] = [
     {
         key: "status",
-        name: "Status"
+        name: "Status",
+        textAlignment: "left"
     },
     {
         key: "endret",
-        name: "Endret"
+        name: "Endret",
+        textAlignment: "left"
     },
     {
         key: "navn",
         name: "Bedriftsnavn",
-        sortable: true
+        sortable: true,
+        textAlignment: "left"
     },
     {
         key: "sykefraversprosent",
         name: "Sykefravær i %",
-        sortable: true
+        sortable: true,
+        textAlignment: "right"
     },
     {
         key: "antall_personer",
         name: "Antall arbeidsforhold",
-        sortable: true
+        sortable: true,
+        textAlignment: "right"
     },
     {
         key: "tapte_dagsverk",
         name: "Tapte dagsverk",
-        sortable: true
+        sortable: true,
+        textAlignment: "right"
     },
     {
         key: "mulige_dagsverk",
         name: "Mulige dagsverk",
-        sortable: true
+        sortable: true,
+        textAlignment: "right"
     },
     {
         key: "rådgiver",
-        name: "Rådgiver"
+        name: "Rådgiver",
+        textAlignment: "left"
     },
 ]
 
@@ -87,8 +96,8 @@ const PrioriteringsTabell = ({
             >
                 <Table.Header className={"table-header"}>
                     <Table.Row>
-                        {kolonner.map(({sortable = false, name, key}) => (
-                            <Table.ColumnHeader scope="col" key={key} sortable={sortable} sortKey={key}>
+                        {kolonner.map(({sortable = false, name, key, textAlignment}) => (
+                            <Table.ColumnHeader scope="col" key={key} sortable={sortable} sortKey={key} align={textAlignment}>
                                 {name}
                             </Table.ColumnHeader>
                         ))}
@@ -109,10 +118,10 @@ const PrioriteringsTabell = ({
                                     {sykefraværStatistikkVirksomhet.virksomhetsnavn}
                                 </Link>
                             </Table.HeaderCell>
-                            <Table.DataCell>{formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}</Table.DataCell>
-                            <Table.DataCell>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.antallPersoner)}</Table.DataCell>
-                            <Table.DataCell>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.tapteDagsverk)}</Table.DataCell>
-                            <Table.DataCell>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.muligeDagsverk)}</Table.DataCell>
+                            <Table.DataCell style={{textAlign: "right"}}>{formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}</Table.DataCell>
+                            <Table.DataCell style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.antallPersoner)}</Table.DataCell>
+                            <Table.DataCell style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.tapteDagsverk)}</Table.DataCell>
+                            <Table.DataCell style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.muligeDagsverk)}</Table.DataCell>
                             <Table.DataCell>
                                 <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv}/>
                             </Table.DataCell>
