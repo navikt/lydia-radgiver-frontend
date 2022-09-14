@@ -2,7 +2,7 @@ import {Sakshistorikk} from "../../domenetyper";
 import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {Table, Heading, Detail} from "@navikt/ds-react";
-import {lokalDatoMedTid} from "../../util/DatoFormatter";
+import {lokalDatoMedTid} from "../../util/datoFormatering";
 import {StatusBadge} from "../Prioritering/StatusBadge";
 import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
 

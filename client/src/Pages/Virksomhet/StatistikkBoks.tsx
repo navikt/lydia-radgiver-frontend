@@ -1,44 +1,11 @@
 import {Badge, Farge} from "../../components/Badge/Badge";
 
-const percentFormatter: Formatter = new Intl.NumberFormat("nb-NO", {
-    maximumFractionDigits: 1,
-    style: "percent",
-});
-const decimalFormatter: Formatter = new Intl.NumberFormat("nb-NO", {
-    maximumFractionDigits: 0,
-    style: "decimal",
-});
-const stringFormatter: Formatter = {
-    format(value: number): string {
-        return value.toString();
-    },
-};
-
-type FormatterType = "percent" | "decimal";
-
-function getFormatter(type: FormatterType) {
-    switch (type) {
-        case "decimal":
-            return decimalFormatter;
-        case "percent":
-            return percentFormatter;
-        default:
-            return stringFormatter;
-    }
-}
-
-interface Formatter {
-    format(value: number): string;
-}
-
 interface Props {
-    verdi: number;
+    verdi: string;
     tittel: string;
-    type: FormatterType;
 }
 
-export const StatistikkBoks = ({verdi, tittel, type }: Props) => {
-    const formatter = getFormatter(type);
+export const StatistikkBoks = ({verdi, tittel }: Props) => {
     return (
         <div style={{flex: 1, textAlign: "center"}}>
             <Badge
@@ -54,7 +21,7 @@ export const StatistikkBoks = ({verdi, tittel, type }: Props) => {
                     margin: "auto",
                 }}
             >
-                {formatter.format(verdi)}
+                {verdi}
             </p>
         </div>
     );

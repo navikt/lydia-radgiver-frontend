@@ -1,6 +1,7 @@
-import { StatistikkBoks } from "./StatistikkBoks";
+import {StatistikkBoks} from "./StatistikkBoks";
 import styled from "styled-components";
 import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
+import {formaterSomHeltall, formaterSomProsentMedEnDesimal} from "../../util/tallFormatering";
 
 const HorisontalFlexMedGap = styled.div`
     display: flex;
@@ -13,7 +14,6 @@ interface Props {
     sykefraværsstatistikk: SykefraversstatistikkVirksomhet;
 }
 
-const prosentSomDesimal = (prosent: number) => prosent / 100;
 
 export const SykefraværsstatistikkVirksomhet = ({
     sykefraværsstatistikk,
@@ -21,26 +21,20 @@ export const SykefraværsstatistikkVirksomhet = ({
     return (
         <HorisontalFlexMedGap>
             <StatistikkBoks
-                verdi={prosentSomDesimal(
-                    sykefraværsstatistikk.sykefraversprosent
-                )}
+                verdi={formaterSomProsentMedEnDesimal(sykefraværsstatistikk.sykefraversprosent)}
                 tittel="Sykefravær"
-                type="percent"
             />
             <StatistikkBoks
-                verdi={sykefraværsstatistikk.antallPersoner}
+                verdi={formaterSomHeltall(sykefraværsstatistikk.antallPersoner)}
                 tittel="Antall arbeidsforhold"
-                type="decimal"
             />
             <StatistikkBoks
-                verdi={sykefraværsstatistikk.tapteDagsverk}
+                verdi={formaterSomHeltall(sykefraværsstatistikk.tapteDagsverk)}
                 tittel="Tapte dagsverk"
-                type="decimal"
             />
             <StatistikkBoks
-                verdi={sykefraværsstatistikk.muligeDagsverk}
+                verdi={formaterSomHeltall(sykefraværsstatistikk.muligeDagsverk)}
                 tittel="Mulige dagsverk"
-                type="decimal"
             />
         </HorisontalFlexMedGap>
     );

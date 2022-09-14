@@ -1,10 +1,10 @@
 import {IAProsessStatusEnum, SykefraversstatistikkVirksomhet} from "../../../domenetyper";
 
 const sykefraværStatiskData: Pick<SykefraversstatistikkVirksomhet, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
-    antallPersoner: 69,
-    muligeDagsverk: 555,
-    tapteDagsverk: 222,
-    sykefraversprosent: 1.5
+    antallPersoner: 69.4123,
+    muligeDagsverk: 555.123123,
+    tapteDagsverk: 222.22222,
+    sykefraversprosent: 1.513
 }
 
 const endretDato = new Date(2022,7,22)
