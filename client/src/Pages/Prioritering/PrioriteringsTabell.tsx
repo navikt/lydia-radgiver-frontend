@@ -1,4 +1,4 @@
-import {Detail, Link, Pagination, SortState, Table} from "@navikt/ds-react";
+import {Detail, Pagination, SortState, Table} from "@navikt/ds-react";
 import {SykefraversstatistikkVirksomhet} from "../../domenetyper";
 import {StatusBadge} from "./StatusBadge";
 import styled from "styled-components";
@@ -6,7 +6,8 @@ import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterTilAntallSider} from "./Prioriteringsside";
 import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
 import {lokalDato} from "../../util/datoFormatering";
-import {formaterSomProsentMedEnDesimal, formaterMedEnDesimal} from "../../util/tallFormatering";
+import {formaterMedEnDesimal, formaterSomProsentMedEnDesimal} from "../../util/tallFormatering";
+import {EksternLenke} from "../../components/EksternLenke";
 
 interface Kolonne {
     key: string,
@@ -73,6 +74,7 @@ interface Props {
     className?: string;
 }
 
+
 const PrioriteringsTabell = ({
                                  sykefraværsstatistikk,
                                  className,
@@ -122,11 +124,12 @@ const PrioriteringsTabell = ({
                                 status={sykefraværStatistikkVirksomhet.status}/></Table.DataCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.sistEndret ? lokalDato(sykefraværStatistikkVirksomhet.sistEndret) : ""}</Table.DataCell>
                             <Table.HeaderCell scope="row">
-                                <Link
+                                <EksternLenke
                                     target={`${sykefraværStatistikkVirksomhet.orgnr}`}
-                                    href={`virksomhet/${sykefraværStatistikkVirksomhet.orgnr}`}>
-                                    {sykefraværStatistikkVirksomhet.virksomhetsnavn}
-                                </Link>
+                                    href={`virksomhet/${sykefraværStatistikkVirksomhet.orgnr}`}
+                                >
+                                        {sykefraværStatistikkVirksomhet.virksomhetsnavn}
+                                </EksternLenke>
                             </Table.HeaderCell>
                             <Table.DataCell style={{textAlign: "right"}}>{formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}</Table.DataCell>
                             <Table.DataCell style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.antallPersoner)}</Table.DataCell>
