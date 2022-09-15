@@ -6,7 +6,7 @@ import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterTilAntallSider} from "./Prioriteringsside";
 import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
 import {lokalDato} from "../../util/datoFormatering";
-import {formaterMedEnDesimal, formaterSomProsentMedEnDesimal} from "../../util/tallFormatering";
+import {formaterMedEnDesimal, formaterSomHeltall, formaterSomProsentMedEnDesimal} from "../../util/tallFormatering";
 import {EksternLenke} from "../../components/EksternLenke";
 
 interface Kolonne {
@@ -76,14 +76,14 @@ interface Props {
 
 
 const PrioriteringsTabell = ({
-                                 sykefraværsstatistikk,
-                                 className,
-                                 side,
-                                 sortering,
-                                 endreSortering,
-                                 endreSide,
-                                 totaltAntallResultaterISøk
-                             }: Props) => {
+    sykefraværsstatistikk,
+    className,
+    side,
+    sortering,
+    endreSortering,
+    endreSide,
+    totaltAntallResultaterISøk
+}: Props) => {
     const onSortChange = (sortKey: string | undefined) => {
         if (sortKey == sortering.orderBy) {
             endreSortering({
@@ -109,7 +109,8 @@ const PrioriteringsTabell = ({
                 <Table.Header className={"table-header"}>
                     <Table.Row>
                         {kolonner.map(({sortable = false, name, key, textAlignment}) => (
-                            <Table.ColumnHeader scope="col" key={key} sortable={sortable} sortKey={key} align={textAlignment}>
+                            <Table.ColumnHeader scope="col" key={key} sortable={sortable} sortKey={key}
+                                                align={textAlignment}>
                                 {name}
                             </Table.ColumnHeader>
                         ))}
@@ -121,22 +122,26 @@ const PrioriteringsTabell = ({
                             key={sykefraværStatistikkVirksomhet.virksomhetsnavn}
                         >
                             <Table.DataCell><StatusBadge
-                                status={sykefraværStatistikkVirksomhet.status}/></Table.DataCell>
+                                status={sykefraværStatistikkVirksomhet.status} /></Table.DataCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.sistEndret ? lokalDato(sykefraværStatistikkVirksomhet.sistEndret) : ""}</Table.DataCell>
                             <Table.HeaderCell scope="row">
                                 <EksternLenke
                                     target={`${sykefraværStatistikkVirksomhet.orgnr}`}
                                     href={`virksomhet/${sykefraværStatistikkVirksomhet.orgnr}`}
                                 >
-                                        {sykefraværStatistikkVirksomhet.virksomhetsnavn}
+                                    {sykefraværStatistikkVirksomhet.virksomhetsnavn}
                                 </EksternLenke>
                             </Table.HeaderCell>
-                            <Table.DataCell style={{textAlign: "right"}}>{formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}</Table.DataCell>
-                            <Table.DataCell style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.antallPersoner)}</Table.DataCell>
-                            <Table.DataCell style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.tapteDagsverk)}</Table.DataCell>
-                            <Table.DataCell style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.muligeDagsverk)}</Table.DataCell>
+                            <Table.DataCell
+                                style={{textAlign: "right"}}>{formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}</Table.DataCell>
+                            <Table.DataCell
+                                style={{textAlign: "right"}}>{formaterSomHeltall(sykefraværStatistikkVirksomhet.antallPersoner)}</Table.DataCell>
+                            <Table.DataCell
+                                style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.tapteDagsverk)}</Table.DataCell>
+                            <Table.DataCell
+                                style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.muligeDagsverk)}</Table.DataCell>
                             <Table.DataCell>
-                                <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv}/>
+                                <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv} />
                             </Table.DataCell>
                         </Table.Row>
                     ))}

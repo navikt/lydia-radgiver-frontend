@@ -1,7 +1,7 @@
 import {StatistikkBoks} from "./StatistikkBoks";
 import styled from "styled-components";
-import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
-import {formaterSomProsentMedEnDesimal, formaterMedEnDesimal} from "../../util/tallFormatering";
+import {SykefraversstatistikkVirksomhet} from "../../domenetyper";
+import {formaterMedEnDesimal, formaterSomHeltall, formaterSomProsentMedEnDesimal} from "../../util/tallFormatering";
 
 const HorisontalFlexMedGap = styled.div`
     display: flex;
@@ -25,7 +25,7 @@ export const SykefraværsstatistikkVirksomhet = ({
                 tittel="Sykefravær"
             />
             <StatistikkBoks
-                verdi={formaterMedEnDesimal(sykefraværsstatistikk.antallPersoner)}
+                verdi={formaterSomHeltall(sykefraværsstatistikk.antallPersoner)}
                 tittel="Antall arbeidsforhold"
             />
             <StatistikkBoks

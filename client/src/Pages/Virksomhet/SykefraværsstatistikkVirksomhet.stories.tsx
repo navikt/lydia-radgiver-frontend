@@ -8,4 +8,7 @@ export default {
 } as ComponentMeta<typeof SykefraværsstatistikkVirksomhet>;
 
 export const Hovedstory = () =>
-    <SykefraværsstatistikkVirksomhet sykefraværsstatistikk={sykefraværsstatistikkMock[0]}/>
+    <SykefraværsstatistikkVirksomhet sykefraværsstatistikk={sykefraværsstatistikkMock[0]} />
+
+export const StatistikkUtenDesimaler = () =>
+    <SykefraværsstatistikkVirksomhet sykefraværsstatistikk={sykefraværsstatistikkMock[1]} />
