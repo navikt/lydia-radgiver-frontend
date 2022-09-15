@@ -7,6 +7,13 @@ const sykefraværStatiskData: Pick<SykefraversstatistikkVirksomhet, 'antallPerso
     sykefraversprosent: 1.513
 }
 
+const sykefraværStatiskDataUtenDesimaler: Pick<SykefraversstatistikkVirksomhet, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
+    antallPersoner: 69,
+    muligeDagsverk: 555,
+    tapteDagsverk: 222,
+    sykefraversprosent: 1
+}
+
 const endretDato = new Date(2022,7,22)
 
 export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
@@ -29,7 +36,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "neringsgruppe": "",
     "arstall": 2021,
     "kvartal": 3,
-    ...sykefraværStatiskData,
+    ...sykefraværStatiskDataUtenDesimaler,
     "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
     "eidAv": null,
     "sistEndret": endretDato
@@ -77,7 +84,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "neringsgruppe": "",
     "arstall": 2021,
     "kvartal": 3,
-    ...sykefraværStatiskData,
+    ...sykefraværStatiskDataUtenDesimaler,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
     "sistEndret": null
@@ -113,7 +120,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "neringsgruppe": "",
     "arstall": 2021,
     "kvartal": 3,
-    ...sykefraværStatiskData,
+    ...sykefraværStatiskDataUtenDesimaler,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
     "sistEndret": null
@@ -137,7 +144,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "neringsgruppe": "",
     "arstall": 2021,
     "kvartal": 3,
-    ...sykefraværStatiskData,
+    ...sykefraværStatiskDataUtenDesimaler,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
     "sistEndret": null
@@ -197,7 +204,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "neringsgruppe": "",
     "arstall": 2021,
     "kvartal": 3,
-    ...sykefraværStatiskData,
+    ...sykefraværStatiskDataUtenDesimaler,
     "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
     "eidAv": null,
     "sistEndret": null
@@ -245,7 +252,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "neringsgruppe": "",
     "arstall": 2021,
     "kvartal": 3,
-    ...sykefraværStatiskData,
+    ...sykefraværStatiskDataUtenDesimaler,
     "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
     "eidAv": null,
     "sistEndret": endretDato
