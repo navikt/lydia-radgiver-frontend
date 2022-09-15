@@ -16,7 +16,7 @@ export const Fylkedropdown = ({fylkerOgKommuner, valgtFylke, endreFylke, style}:
             onChange={(e) => endreFylke(e.target.value)}
             style={style}
         >
-            <option value="">Vis alle</option>
+            <option value="">Alle</option>
             {fylkerOgKommuner
                 .sort((a, b) => sorterAlfabetisk(a.fylke.navn, b.fylke.navn))
                 .map(({fylke}) => (

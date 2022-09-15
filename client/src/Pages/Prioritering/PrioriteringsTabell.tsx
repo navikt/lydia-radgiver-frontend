@@ -34,13 +34,13 @@ const kolonner: Kolonne[] = [
     },
     {
         key: "sykefraversprosent",
-        name: "Sykefravær i %",
+        name: "Sykefravær",
         sortable: true,
         textAlignment: "right"
     },
     {
         key: "antall_personer",
-        name: "Antall arbeidsforhold",
+        name: "Arbeidsforhold",
         sortable: true,
         textAlignment: "right"
     },

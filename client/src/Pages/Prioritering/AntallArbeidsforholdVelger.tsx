@@ -32,7 +32,7 @@ function AntallArbeidsforholdInput({label, value, endreAntallArbeidsforhold}: {l
 export const AntallArbeidsforholdVelger = ({antallArbeidsforhold, endreAntallArbeidsforhold}: {antallArbeidsforhold: Range, endreAntallArbeidsforhold: (verdi: Range) => void}) => {
     return (
         <>
-            <VerticalFlexboxDiv>
+            <VerticalFlexboxDiv className="navds-form-field">
                 <Label>Antall arbeidsforhold</Label>
                 <HorizontalFlexboxDivGap1Rem>
                     <AntallArbeidsforholdInput

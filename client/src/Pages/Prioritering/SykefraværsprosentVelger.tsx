@@ -87,8 +87,8 @@ export const SykefraværsprosentVelger = ({
 }: SykefraværsProsentProps) => {
     return (
         <>
-            <VerticalFlexboxDiv>
-                <Label>Sykefraværsprosent</Label>
+            <VerticalFlexboxDiv className="navds-form-field">
+                <Label>Sykefravær (%)</Label>
                 <HorizontalFlexboxDivGap1Rem>
                     <SykefraværsprosentInput
                         value={sykefraværsprosentRange.fra}
