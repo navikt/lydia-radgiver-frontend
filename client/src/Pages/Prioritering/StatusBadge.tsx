@@ -11,7 +11,6 @@ export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): Farg
         case IAProsessStatusEnum.enum.VURDERES:
             return Farge.lyseBlå
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
-        case IAProsessStatusEnum.enum.FULLFØRT:
             return Farge.grå
         case IAProsessStatusEnum.enum.KONTAKTES:
             return Farge.mørkeBlå
