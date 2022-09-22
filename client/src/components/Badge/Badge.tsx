@@ -40,7 +40,9 @@ export const Badge = ({
                 borderRadius: "4px",
                 textAlign: "center",
                 whiteSpace: "nowrap",
-                display: "block"
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center"
             }}
             className={`navds-tag--medium`}
         >

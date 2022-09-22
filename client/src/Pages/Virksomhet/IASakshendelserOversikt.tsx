@@ -1,8 +1,7 @@
 import {Sakshistorikk} from "../../domenetyper";
 import styled from "styled-components";
-import {hvitRammeMedBoxShadow} from "../../styling/containere";
-import {Table, Heading, Detail} from "@navikt/ds-react";
-import {lokalDatoMedTid} from "../../util/datoFormatering";
+import {Table, Heading, Detail, Accordion} from "@navikt/ds-react";
+import {lokalDato, lokalDatoMedTid} from "../../util/datoFormatering";
 import {StatusBadge} from "../Prioritering/StatusBadge";
 import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
 
@@ -11,10 +10,21 @@ export interface IASakHendelserOversiktProps {
     className?: string;
 }
 
+const bakgrunnsRamme = {
+    backgroundColor: "white",
+    borderRadius: "4px",
+    boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(38, 38, 38, 0.12), 0px 1px 3px rgba(38, 38, 38, 0.2)"
+};
+
 const Samarbeidshistorikk = ({
                                  samarbeidshistorikk,
                                  className,
                              }: IASakHendelserOversiktProps) => {
+    const sortertHistorikk: Sakshistorikk[] = samarbeidshistorikk.map((historikk) => ({
+        saksnummer: historikk.saksnummer,
+        opprettet: historikk.opprettet,
+        sakshendelser: sorterSakshistorikkPåTid(historikk)
+    }))
     return (
         <div className={className}>
             <Heading
@@ -23,16 +33,33 @@ const Samarbeidshistorikk = ({
                 style={{
                     padding: "1rem 3rem",
                     borderBottom: "1px solid black",
+                    ...bakgrunnsRamme
                 }}
             >
                 Samarbeidshistorikk
             </Heading>
-            {samarbeidshistorikk.length > 0 ? (
-                samarbeidshistorikk.map(sakshistorikk =>
-                    <SakshistorikkTabell
-                        key={sakshistorikk.saksnummer}
-                        sakshistorikk={sakshistorikk}
-                    />
+            {sortertHistorikk.length > 0 ? (
+                sortertHistorikk.map(sakshistorikk =>
+                    <Accordion key={sakshistorikk.saksnummer}>
+                        <Accordion.Item>
+                            <Accordion.Header>
+                                <div style={{
+                                    display: "inline-flex",
+                                    gap: "2rem",
+                                    padding: "0 1rem"
+                                }}>
+                                    <StatusBadge status={sakshistorikk.sakshendelser[0].status} /> Sist oppdatert: {lokalDato(sakshistorikk.sakshendelser[0].tidspunktForSnapshot)} - Saksnummer: {sakshistorikk.saksnummer}
+                                </div>
+                            </Accordion.Header>
+                            <Accordion.Content>
+                                <SakshistorikkTabell
+                                    key={sakshistorikk.saksnummer}
+                                    sakshistorikk={sakshistorikk}
+                                />
+                            </Accordion.Content>
+                        </Accordion.Item>
+
+                    </Accordion>
                 )
             ) : (
                 <IngenHendelserPåSak/>
@@ -58,7 +85,7 @@ const SakshistorikkTabell = ({
 
     return (
         <>
-            <Table zebraStripes>
+            <Table zebraStripes style={bakgrunnsRamme}>
                 <Table.Header>
                     <Table.Row>
                         {kolonneNavn.map((navn) => (
@@ -69,11 +96,7 @@ const SakshistorikkTabell = ({
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {sakshistorikk.sakshendelser.sort(
-                        (a, b) =>
-                            b.tidspunktForSnapshot.getTime() -
-                            a.tidspunktForSnapshot.getTime()
-                    ).map((sakSnapshot, index) => {
+                    {sakshistorikk.sakshendelser.map((sakSnapshot, index) => {
                         return (
                             <Table.Row key={index}>
                                 <Table.DataCell>
@@ -104,5 +127,14 @@ const SakshistorikkTabell = ({
 };
 
 export const StyledSamarbeidshistorikk = styled(Samarbeidshistorikk)`
-    ${hvitRammeMedBoxShadow}
+    display: grid;
+    grid-gap: 2rem;
 `;
+
+function sorterSakshistorikkPåTid({ sakshendelser }: Sakshistorikk) {
+    return sakshendelser.sort(
+        (a, b) =>
+            b.tidspunktForSnapshot.getTime() -
+            a.tidspunktForSnapshot.getTime()
+    )
+}

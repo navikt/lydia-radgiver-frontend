@@ -1,12 +1,30 @@
 import {IAProsessStatusEnum, IASakshendelseTypeEnum, Sakshistorikk} from "../../../domenetyper";
 import {ulid} from "ulid";
 
-const saksnummer = ulid()
 const eier = "X12345"
 const nå = Date.now()
 
 export const samarbeidshistorikkMock: Sakshistorikk[] = [{
-    saksnummer: saksnummer,
+    saksnummer: ulid(),
+    opprettet: new Date(),
+    sakshendelser: [
+        {
+            status: IAProsessStatusEnum.enum.NY,
+            hendelsestype: IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET,
+            tidspunktForSnapshot: new Date(nå),
+            begrunnelser: [],
+            eier: null
+        },
+        {
+            status: IAProsessStatusEnum.enum.VURDERES,
+            hendelsestype: IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES,
+            tidspunktForSnapshot: new Date(nå + 5000),
+            begrunnelser: [],
+            eier: null
+        },
+    ]
+}, {
+    saksnummer: ulid(),
     opprettet: new Date(),
     sakshendelser: [
         {
