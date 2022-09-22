@@ -20,6 +20,7 @@ export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): Farg
         case IAProsessStatusEnum.enum.KARTLEGGES:
             return Farge.gul
         case IAProsessStatusEnum.enum.VI_BISTÅR:
+        case IAProsessStatusEnum.enum.FULLFØRT:
             return Farge.grønn
     }
 }

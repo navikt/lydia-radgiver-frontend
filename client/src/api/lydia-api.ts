@@ -14,7 +14,7 @@ import {
     Søkeverdier,
     ValgtÅrsakDto,
     Virksomhet,
-    virksomhetsSchema, Sakshistorikk, sakshistorikkSchema,
+    virksomhetsSchema, Sakshistorikk, sakshistorikkSchema, IASakshendelseTypeEnum,
 } from "../domenetyper";
 import useSWR, { SWRConfiguration } from "swr";
 import { ZodError, ZodType } from "zod";
@@ -225,6 +225,9 @@ export const nyHendelsePåSak = (
         endretAvHendelseId: sak.endretAvHendelseId,
         ...(valgtÅrsak && { payload: JSON.stringify(valgtÅrsak) }),
     };
+    if (hendelse.saksHendelsestype === IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET) {
+        return opprettSak(sak.orgnr)
+    }
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
 };
 

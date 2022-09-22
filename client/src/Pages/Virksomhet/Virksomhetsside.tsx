@@ -34,7 +34,7 @@ const Virksomhetsside = () => {
         loading: lasterIaSaker
     } = useHentSakerForVirksomhet(orgnummer)
 
-    const iaSak = aktivIaSak(iaSaker)
+    const iaSak = nyesteSak(iaSaker)
 
     const {
         data: samarbeidshistorik,
@@ -70,8 +70,7 @@ const Virksomhetsside = () => {
     }
 };
 
-const aktivIaSak = (iaSaker?: IASak[]): IASak | undefined =>
-    iaSaker?.find((sak) => sak.status !== IAProsessStatusEnum.enum.IKKE_AKTIV)
+const nyesteSak = (iaSaker?: IASak[]): IASak | undefined => !iaSaker || iaSaker.length === 0 ? undefined : iaSaker[0]
 
 // TODO: bruk noe lignende et Either-pattern for å håndtere eventuell tomme lister her
 const filtrerPåSisteKvartal =

@@ -28,8 +28,8 @@ const IA_PROSESS_STATUSER = [
     "KONTAKTES",
     "KARTLEGGES",
     "VI_BISTÅR",
-    "FULLFØRT",
-    "IKKE_AKTUELL"
+    "IKKE_AKTUELL",
+    "FULLFØRT"
 ] as const
 
 export const IAProsessStatusEnum =  z.enum(IA_PROSESS_STATUSER)
