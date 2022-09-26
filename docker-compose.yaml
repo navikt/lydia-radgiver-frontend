@@ -29,6 +29,7 @@ services:
     environment:
       ZOOKEEPER_CLIENT_PORT: 2181
       ZOOKEEPER_TICK_TIME: 2000
+      ZOOKEEPER_LOG4J_ROOT_LOGLEVEL: ERROR
     healthcheck:
       test: [ "CMD", "curl", "-f", "http://zookeeper:2181" ]
       interval: 30s
@@ -77,7 +78,7 @@ services:
     image: ghcr.io/navikt/lydia-api:latest
     depends_on:
       - postgres
-#      - kafka
+      - kafka
       - authserver
     ports:
       - 8080:8080
