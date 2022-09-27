@@ -4,9 +4,7 @@ WORKDIR /home/node/app
 COPY package.json .
 RUN npm install
 
-COPY types ./types
-COPY *.ts .
-COPY *.json .
+COPY . .
 
 EXPOSE 3000
 
