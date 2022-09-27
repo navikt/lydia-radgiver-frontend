@@ -45,8 +45,8 @@ const Samarbeidshistorikk = ({samarbeidshistorikk, className}: Samarbeidshistori
                                     gap: "2rem",
                                     padding: "0 1rem"
                                 }}>
-                                    <StatusBadge status={sakshistorikk.sakshendelser[0].status} /> Sist
-                                    oppdatert: {lokalDato(sakshistorikk.sakshendelser[0].tidspunktForSnapshot)} -
+                                    <StatusBadge status={sakshistorikk.sakshendelser[0].status} />
+                                    Sist oppdatert: {lokalDato(sakshistorikk.sakshendelser[0].tidspunktForSnapshot)} -
                                     Saksnummer: {sakshistorikk.saksnummer}
                                 </div>
                             </Accordion.Header>
@@ -57,7 +57,6 @@ const Samarbeidshistorikk = ({samarbeidshistorikk, className}: Samarbeidshistori
                                 />
                             </Accordion.Content>
                         </Accordion.Item>
-
                     </Accordion>
                 )
             ) : (
