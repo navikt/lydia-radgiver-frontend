@@ -5,7 +5,7 @@ import {
     IASakshendelseType,
     IASakshendelseTypeEnum
 } from "../../../domenetyper";
-import {ulid} from "ulid";
+import { ulid } from "ulid";
 
 
 const saksnummer = ulid()

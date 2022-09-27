@@ -33,7 +33,7 @@ const IA_PROSESS_STATUSER = [
     "SLETTET"
 ] as const
 
-export const IAProsessStatusEnum =  z.enum(IA_PROSESS_STATUSER)
+export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER)
 
 export const sykefraversstatistikkVirksomhetSchema = z.object({
     orgnr: z.string(),
@@ -77,9 +77,7 @@ export type Filterverdier = z.infer<typeof filterverdierSchema>;
 
 export type Næringsgruppe = z.infer<typeof næringsgrupperSchema>;
 
-export type SykefraversstatistikkVirksomhet = z.infer<
-    typeof sykefraversstatistikkVirksomhetSchema
->;
+export type SykefraversstatistikkVirksomhet = z.infer<typeof sykefraversstatistikkVirksomhetSchema>;
 
 export type SykefraværsstatistikkVirksomhetRespons = z.infer<typeof sykefraværListeResponsSchema>
 
@@ -166,13 +164,13 @@ export const årsakSchema = z.object({
 export type Årsak = z.infer<typeof årsakSchema>
 
 export type ValgtÅrsakDto = {
-    type : string,
-    begrunnelser : string[]
+    type: string,
+    begrunnelser: string[]
 }
 
 export const gyldigNesteHendelseSchema = z.object({
-    saksHendelsestype : IASakshendelseTypeEnum,
-    gyldigeÅrsaker : z.array(årsakSchema)
+    saksHendelsestype: IASakshendelseTypeEnum,
+    gyldigeÅrsaker: z.array(årsakSchema)
 })
 
 export type GyldigNesteHendelse = z.infer<typeof gyldigNesteHendelseSchema>;
@@ -195,8 +193,8 @@ export const iaSakshendelseSchema = z.object({
     id: z.string(),
     orgnummer: z.string(),
     saksnummer: z.string(),
-    hendelsestype : IASakshendelseTypeEnum,
-    opprettetAv : z.string(),
+    hendelsestype: IASakshendelseTypeEnum,
+    opprettetAv: z.string(),
     opprettetTidspunkt: datoSchema,
 })
 export type IASakshendelse = z.infer<typeof iaSakshendelseSchema>

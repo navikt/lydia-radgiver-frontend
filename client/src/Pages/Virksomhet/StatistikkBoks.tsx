@@ -1,11 +1,11 @@
-import {Badge, Farge} from "../../components/Badge/Badge";
+import { Badge, Farge } from "../../components/Badge/Badge";
 
 interface Props {
     verdi: string;
     tittel: string;
 }
 
-export const StatistikkBoks = ({verdi, tittel }: Props) => {
+export const StatistikkBoks = ({verdi, tittel}: Props) => {
     return (
         <div style={{flex: 1, textAlign: "center"}}>
             <Badge

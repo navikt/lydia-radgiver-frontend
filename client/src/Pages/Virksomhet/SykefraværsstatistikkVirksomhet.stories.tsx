@@ -1,6 +1,6 @@
-import {ComponentMeta} from "@storybook/react";
-import {sykefraværsstatistikkMock} from "../Prioritering/mocks/sykefraværsstatistikkMock";
-import {SykefraværsstatistikkVirksomhet} from "./SykefraværsstatistikkVirksomhet";
+import { ComponentMeta } from "@storybook/react";
+import { sykefraværsstatistikkMock } from "../Prioritering/mocks/sykefraværsstatistikkMock";
+import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
 
 export default {
     title: "Virksomhet/Sykefraværsstatistikk for en virksomhet",

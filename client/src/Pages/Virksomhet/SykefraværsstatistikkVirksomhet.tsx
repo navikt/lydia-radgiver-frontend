@@ -1,13 +1,13 @@
-import {StatistikkBoks} from "./StatistikkBoks";
+import { StatistikkBoks } from "./StatistikkBoks";
 import styled from "styled-components";
-import {SykefraversstatistikkVirksomhet} from "../../domenetyper";
-import {formaterMedEnDesimal, formaterSomHeltall, formaterSomProsentMedEnDesimal} from "../../util/tallFormatering";
+import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
+import { formaterMedEnDesimal, formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
 
 const HorisontalFlexMedGap = styled.div`
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 1rem;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: 1rem;
 `;
 
 interface Props {
@@ -15,9 +15,7 @@ interface Props {
 }
 
 
-export const SykefraværsstatistikkVirksomhet = ({
-    sykefraværsstatistikk,
-}: Props) => {
+export const SykefraværsstatistikkVirksomhet = ({sykefraværsstatistikk}: Props) => {
     return (
         <HorisontalFlexMedGap>
             <StatistikkBoks

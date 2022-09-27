@@ -12,7 +12,7 @@ export const Story = () => (
         <FeilmeldingBanner />
         <Button
             onClick={() => {
-                dispatchFeilmelding({ feilmelding: "Det har skjedd en feil" });
+                dispatchFeilmelding({feilmelding: "Det har skjedd en feil"});
             }}
         >
             Trigg feilmelding

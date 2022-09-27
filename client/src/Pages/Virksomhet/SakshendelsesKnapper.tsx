@@ -1,12 +1,12 @@
-import {GyldigNesteHendelse, IASakshendelseType, IASakshendelseTypeEnum} from "../../domenetyper";
+import { GyldigNesteHendelse, IASakshendelseType, IASakshendelseTypeEnum } from "../../domenetyper";
 import {
     erHendelsenDestruktiv,
     IASakshendelseKnapp,
     penskrivIASakshendelsestype,
     sorterHendelserPåKnappeType
 } from "./IASakshendelseKnapp";
-import {CSSProperties, useState} from "react";
-import {BekreftelseDialog} from "../../components/Dialog/BekreftelseDialog";
+import { CSSProperties, useState } from "react";
+import { BekreftelseDialog } from "../../components/Dialog/BekreftelseDialog";
 
 const horisontalKnappeStyling: CSSProperties = {
     display: "flex",
@@ -20,10 +20,12 @@ const hendelsesTyperSomMåBekreftes: IASakshendelseType[] = [
     IASakshendelseTypeEnum.enum.FULLFØR_BISTAND
 ]
 
-export const SakshendelsesKnapper = ({
-                                         hendelser,
-                                         onNyHendelseHandler
-                                     }: { hendelser: GyldigNesteHendelse[], onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void }) => {
+interface Props {
+    hendelser: GyldigNesteHendelse[],
+    onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void
+}
+
+export const SakshendelsesKnapper = ({hendelser, onNyHendelseHandler}: Props) => {
     const [hendelseSomMåBekreftes, setHendelseSomMåBekreftes] = useState<GyldigNesteHendelse | null>(null)
 
     const destruktiveHendelser = hendelser

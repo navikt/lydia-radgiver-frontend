@@ -1,4 +1,4 @@
-import {Button} from "@navikt/ds-react";
+import { Button } from "@navikt/ds-react";
 import {
     GyldigNesteHendelse,
     IASakshendelseType, IASakshendelseTypeEnum,
