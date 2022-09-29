@@ -51,6 +51,12 @@ spec:
       value: fia-radgiver-frontend-redis.pia.svc.cluster.local
     - name: REDIS_PORT
       value: "6379"
+    - name: FIA_SUPERBRUKER_GROUP_ID
+      value: {{fiaSuperbrukerGroup}}
+    - name: FIA_SAKSBEHANDLER_GROUP_ID
+      value: {{fiaSaksbehandlerGroup}}
+    - name: FIA_LESETILGANG_GROUP_ID
+      value: {{fiaLesetilgangGroup}}
   envFrom:
     - secret: fia-redis
   ingresses:

@@ -120,11 +120,14 @@ export type VirksomhetSøkeresultat = {
     navn: string
 }
 
+const ROLLE = ["Superbruker", "Saksbehandler", "Lesetilgang"] as const
+export const RolleEnum = z.enum(ROLLE)
 export const brukerinfoSchema = z.object({
     navn: z.string(),
     ident: z.string(),
     epost: z.string(),
-    tokenUtløper: z.number()
+    tokenUtløper: z.number(),
+    rolle: RolleEnum,
 });
 export type Brukerinformasjon = z.infer<typeof brukerinfoSchema>;
 

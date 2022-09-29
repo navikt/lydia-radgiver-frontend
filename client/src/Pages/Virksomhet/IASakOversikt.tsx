@@ -4,11 +4,11 @@ import {
     IAProsessStatusEnum,
     IAProsessStatusType,
     IASak,
-    IASakshendelseTypeEnum,
+    IASakshendelseTypeEnum, RolleEnum,
 } from "../../domenetyper";
 import styled from "styled-components";
 import {hentBakgrunnsFargeForIAStatus, penskrivIAStatus} from "../Prioritering/StatusBadge";
-import {nyHendelsePåSak, opprettSak} from "../../api/lydia-api";
+import {nyHendelsePåSak, opprettSak, useHentBrukerinformasjon} from "../../api/lydia-api";
 import {useState} from "react";
 import {BegrunnelseModal} from "./BegrunnelseModal";
 import {IASakshendelseKnapp} from "./IASakshendelseKnapp";
@@ -27,6 +27,7 @@ interface IngenAktiveSakerProps {
 }
 
 function IngenAktiveSaker({orgnummer, oppdaterSak}: IngenAktiveSakerProps) {
+    const {data: brukerInformasjon} = useHentBrukerinformasjon();
     return (
         <StyledIABakgrunn status={IAProsessStatusEnum.enum.IKKE_AKTIV}>
             <BodyShort>
@@ -34,12 +35,14 @@ function IngenAktiveSaker({orgnummer, oppdaterSak}: IngenAktiveSakerProps) {
                 {penskrivIAStatus(IAProsessStatusEnum.enum.IKKE_AKTIV)}
             </BodyShort>
             <br/>
-            <IASakshendelseKnapp
-                hendelsesType={IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES}
-                onClick={() =>
-                    opprettSak(orgnummer).then(() => oppdaterSak())
-                }
-            />
+            {brukerInformasjon?.rolle === RolleEnum.enum.Superbruker ?
+                <IASakshendelseKnapp
+                    hendelsesType={IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES}
+                    onClick={() =>
+                        opprettSak(orgnummer).then(() => oppdaterSak())
+                    }
+                /> : null
+            }
         </StyledIABakgrunn>
     );
 }

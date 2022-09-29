@@ -8,26 +8,60 @@ export type Brukerinformasjon = {
     navn: string;
     ident: string;
     epost: string;
-    tokenUtløper: number
+    tokenUtløper: number;
+    rolle: string;
 };
 
 const lokalMockBruker: Brukerinformasjon = {
     navn: "Ansatt, Lokal",
     ident: "A123456",
     epost: "lokal.ansatt@nav.no",
-    tokenUtløper: Date.now() + 5000
+    tokenUtløper: Date.now() + 5000,
+    rolle: "Superbruker",
 };
+
+const enum Rolle {
+    SUPERBRUKER = "Superbruker",
+    SAKSBEHANDLER = "Saksbehandler",
+    LESETILGANG = "Lesetilgang"
+}
+
+const grupper = {
+    superbruker: {
+        gruppeId: process.env.FIA_SUPERBRUKER_GROUP_ID,
+    },
+    saksbehandler: {
+        gruppeId: process.env.FIA_SAKSBEHANDLER_GROUP_ID,
+    },
+    lesetilgang: {
+        gruppeId: process.env.FIA_LESETILGANG_GROUP_ID,
+    },
+}
+
+const hentRolleMedHøyestTilgang = (brukerGrupper: string[]): Rolle => {
+    if (brukerGrupper.includes(grupper.superbruker.gruppeId)) {
+        return Rolle.SUPERBRUKER;
+    } else if (brukerGrupper.includes(grupper.saksbehandler.gruppeId)) {
+        return Rolle.SAKSBEHANDLER;
+    } else if (brukerGrupper.includes(grupper.lesetilgang.gruppeId)) {
+        return Rolle.LESETILGANG;
+    } else {
+        throw new AuthError("Ikke riktig tilgang");
+    }
+}
 
 export const hentBrukerinfoFraToken = (jwtPayload : JWTPayload) : Brukerinformasjon => {
     const navn = jwtPayload["name"] as string;
     const ident = jwtPayload["NAVident"] as string;
-    const preferredUsername = jwtPayload["preferred_username"] as string;
+    const rolle = hentRolleMedHøyestTilgang(jwtPayload["groups"] as string[])
+    const epost = jwtPayload["preferred_username"] as string;
     const tokenUtløper = jwtPayload.exp * 1000 // konverterer fra sekunder til ms
     return {
-        navn: navn,
-        ident: ident,
-        epost: preferredUsername,
-        tokenUtløper: tokenUtløper
+        navn,
+        ident,
+        epost,
+        tokenUtløper,
+        rolle
     }
 }
 

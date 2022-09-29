@@ -16,7 +16,7 @@ services:
     environment:
       TZ: Europe/Oslo
       SERVER_PORT: 6969
-      JSON_CONFIG: "{\"interactiveLogin\":true,\"tokenCallbacks\":[{\"issuerId\":\"azure\",\"tokenExpiry\":3600,\"requestMappings\":[{\"requestParam\":\"grant_type\",\"claims\":{\"aud\":[\"lydia-api\"],\"NAVident\":\"Z123456\",\"groups\":[\"ensuperbrukerGroupId\"]}}]}]}"
+      JSON_CONFIG: "{\"interactiveLogin\":true,\"tokenCallbacks\":[{\"issuerId\":\"azure\",\"tokenExpiry\":3600,\"requestMappings\":[{\"requestParam\":\"grant_type\",\"claims\":{\"aud\":[\"lydia-api\"],\"NAVident\":\"Z123456\",\"preferred_username\":\"test.testesen@nav.no\",\"name\":\"Test Testesen\",\"groups\":[\"ensuperbrukerGroupId\"]}}]}]}"
     ports:
       - 6969:6969
 
@@ -164,6 +164,9 @@ services:
       AZURE_APP_CLIENT_SECRET: secret
       AZURE_OPENID_CONFIG_ISSUER: http://host.docker.internal:6969/azure
       AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: http://host.docker.internal:6969/azure/token
+      FIA_SUPERBRUKER_GROUP_ID: ensuperbrukerGroupId
+      FIA_SAKSBEHANDLER_GROUP_ID: ensaksbehandlerGroupId
+      FIA_LESETILGANG_GROUP_ID: enlesetilgangGroupId
     volumes:
       - ./server:/home/node/app
       - /home/node/app/node_modules
