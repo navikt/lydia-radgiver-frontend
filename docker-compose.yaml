@@ -8,10 +8,11 @@ services:
       POSTGRES_PASSWORD: test
     ports:
       - 5432:5432
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
 
   authserver:
-    image: ghcr.io/navikt/mock-oauth2-server:0.5.1
-    hostname: host.docker.internal
+    image: ghcr.io/navikt/mock-oauth2-server:0.5.4
     environment:
       TZ: Europe/Oslo
       SERVER_PORT: 6969
@@ -136,7 +137,7 @@ services:
       WONDERWALL_OPENID_WELL_KNOWN_URL: http://host.docker.internal:6969/azure/.well-known/openid-configuration
       WONDERWALL_INGRESS: http://localhost:2222
       WONDERWALL_BIND_ADDRESS: 0.0.0.0:2222
-      WONDERWALL_UPSTREAM_HOST: frontend:5173
+      WONDERWALL_UPSTREAM_HOST: host.docker.internal:5173
       WONDERWALL_AUTO_LOGIN: true
     restart: on-failure
 
@@ -167,12 +168,5 @@ services:
       - ./server:/home/node/app
       - /home/node/app/node_modules
 
-  frontend:
-    build:
-      context: client
-      dockerfile: Dockerfile.dev
-    ports:
-      - 5173:5173
-    volumes:
-      - ./client:/home/node/app
-      - /home/node/app/node_modules
+volumes:
+  postgres-data:

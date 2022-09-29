@@ -8,10 +8,10 @@ export default defineConfig({
         host: true,
         proxy: {
             "/api": {
-                target: "http://frackend:3000",
+                target: "http://localhost:3000",
                 changeOrigin: true,
             },
-            "/innloggetAnsatt": "http://frackend:3000",
+            "/innloggetAnsatt": "http://localhost:3000",
         },
     },
     build: {
