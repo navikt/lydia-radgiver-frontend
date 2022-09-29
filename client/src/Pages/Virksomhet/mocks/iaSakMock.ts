@@ -61,7 +61,7 @@ export const iaSakVurderesUtenEier: IASak = {
     eidAv: null,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.VURDERES,
-    gyldigeNesteHendelser: [ikkeAktuellHendelseMock, hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK)]
+    gyldigeNesteHendelser: [hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK)]
 }
 
 export const iaSakVurderesMedEier: IASak = {
@@ -154,5 +154,8 @@ export const iaSakFullført: IASak = {
     eidAv: "NAV-54321",
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.FULLFØRT,
-    gyldigeNesteHendelser: []
+    gyldigeNesteHendelser: [
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET),
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
+    ]
 }
