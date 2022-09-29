@@ -139,7 +139,8 @@ const IA_SAKSHENDELSE_TYPER = [
     "VIRKSOMHET_KARTLEGGES",
     "VIRKSOMHET_SKAL_BISTÅS",
     "FULLFØR_BISTAND",
-    "TILBAKE"
+    "TILBAKE",
+    "SLETT_SAK"
 ] as const
 
 export const IASakshendelseTypeEnum = z.enum(IA_SAKSHENDELSE_TYPER)

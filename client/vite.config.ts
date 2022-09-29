@@ -8,10 +8,10 @@ export default defineConfig({
         host: true,
         proxy: {
             "/api": {
-                target: "http://localhost:8080",
+                target: "http://localhost:3000",
                 changeOrigin: true,
             },
-            "/innloggetAnsatt": "http://localhost:8080",
+            "/innloggetAnsatt": "http://localhost:3000",
         },
     },
     build: {
