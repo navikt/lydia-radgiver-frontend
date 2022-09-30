@@ -9,7 +9,7 @@ export const penskrivIASakshendelsestype = (hendelsestype: IASakshendelseType): 
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
             return "Vurderes"
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
-            return "Opprett sak"
+            return "Start ny vurdering"
         case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
             return "Ta eierskap"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
