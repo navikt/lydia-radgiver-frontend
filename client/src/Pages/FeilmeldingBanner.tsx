@@ -30,7 +30,7 @@ export const FeilmeldingBanner = () => {
     }, [melding]);
     useEffect(() => {
         const handler = (({
-            detail: { feilmelding },
+            detail: {feilmelding},
         }: CustomEvent<EventData>) => {
             setMelding(feilmelding);
             setSynlig(true);

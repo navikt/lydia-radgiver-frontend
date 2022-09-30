@@ -11,8 +11,8 @@ import {
 import { rest } from "msw";
 import { iaSakPath, iaSakPostNyHendelsePath } from "../../api/lydia-api";
 import { FeilmeldingBanner } from "../FeilmeldingBanner";
-import {IASak} from "../../domenetyper";
-import {useState} from "react";
+import { IASak } from "../../domenetyper";
+import { useState } from "react";
 
 export default {
     title: "Virksomhet/Oversikt over IA-sak",

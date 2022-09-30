@@ -5,19 +5,20 @@ import {
     Modal,
     Select,
 } from "@navikt/ds-react";
-import {useState} from "react";
-import {GyldigNesteHendelse, ValgtÅrsakDto, Årsak} from "../../domenetyper";
-
-interface Props {
-    hendelse: GyldigNesteHendelse;
-}
+import { useState } from "react";
+import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../domenetyper";
 
 const hentÅrsakFraÅrsakType = (
     type: string,
     {gyldigeÅrsaker}: GyldigNesteHendelse
 ) => gyldigeÅrsaker.find((årsak) => årsak.type === type);
 
-export const ModalInnhold = ({hendelse, lagre}: Props & { lagre: (valgtÅrsak: ValgtÅrsakDto) => void }) => {
+interface ModalInnholdProps {
+    hendelse: GyldigNesteHendelse;
+    lagre: (valgtÅrsak: ValgtÅrsakDto) => void;
+}
+
+export const ModalInnhold = ({hendelse, lagre}: ModalInnholdProps) => {
     const [valgtÅrsak, setValgtÅrsak] = useState<Årsak | undefined>(() => {
         return hendelse.gyldigeÅrsaker.length
             ? hendelse.gyldigeÅrsaker[0]
@@ -44,7 +45,7 @@ export const ModalInnhold = ({hendelse, lagre}: Props & { lagre: (valgtÅrsak: V
                     </option>
                 ))}
             </Select>
-            <br/>
+            <br />
             <CheckboxGroup
                 size="medium"
                 id={begrunnelserCheckboxId}
@@ -78,7 +79,7 @@ export const ModalInnhold = ({hendelse, lagre}: Props & { lagre: (valgtÅrsak: V
             >
                 Lagre
             </Button>
-            {valideringsfeil.length > 0 && <ErrorSummary style={{ marginTop : "1rem"}}>
+            {valideringsfeil.length > 0 && <ErrorSummary style={{marginTop: "1rem"}}>
                 {valideringsfeil.map(feil =>
                     (<ErrorSummary.Item key={feil} href={`#${begrunnelserCheckboxId}`}>
                         {feil}
@@ -91,12 +92,12 @@ export const ModalInnhold = ({hendelse, lagre}: Props & { lagre: (valgtÅrsak: V
     );
 };
 
-export const BegrunnelseModal = ({
-                                     hendelse,
-                                     åpen,
-                                     onClose,
-                                     lagre,
-                                 }: Props & { åpen: boolean; onClose: () => void, lagre: (valgtÅrsak: ValgtÅrsakDto) => void }) => {
+interface BegrunnelseModalProps extends ModalInnholdProps {
+    åpen: boolean;
+    onClose: () => void
+}
+
+export const BegrunnelseModal = ({hendelse, åpen, onClose, lagre}: BegrunnelseModalProps) => {
     // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
     const rootHtmlElement = document.getElementById("root")!
     return (

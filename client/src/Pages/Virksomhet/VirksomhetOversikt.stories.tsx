@@ -1,9 +1,9 @@
-import {ComponentMeta} from "@storybook/react";
-import {fjernetVirksomhetMock, slettetVirksomhetMock, virksomhetMock} from "../Prioritering/mocks/virksomhetMock";
-import {VirksomhetOversikt} from "./VirksomhetOversikt";
-import {sykefraværsstatistikkMock} from "../Prioritering/mocks/sykefraværsstatistikkMock";
-import {iaSakKontaktes} from "./mocks/iaSakMock";
-import {samarbeidshistorikkMock, samarbeidshistorikkMockMedFlereSaker} from "./mocks/iaSakHistorikkMock";
+import { ComponentMeta } from "@storybook/react";
+import { fjernetVirksomhetMock, slettetVirksomhetMock, virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
+import { VirksomhetOversikt } from "./VirksomhetOversikt";
+import { sykefraværsstatistikkMock } from "../Prioritering/mocks/sykefraværsstatistikkMock";
+import { iaSakKontaktes } from "./mocks/iaSakMock";
+import { samarbeidshistorikkMock, samarbeidshistorikkMockMedFlereSaker } from "./mocks/iaSakHistorikkMock";
 
 export default {
     title: "Virksomhet/Oversikt over en virksomhet",

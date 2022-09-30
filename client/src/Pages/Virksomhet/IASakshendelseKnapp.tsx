@@ -1,4 +1,4 @@
-import {Button} from "@navikt/ds-react";
+import { Button } from "@navikt/ds-react";
 import {
     GyldigNesteHendelse,
     IASakshendelseType, IASakshendelseTypeEnum,
@@ -25,6 +25,8 @@ export const penskrivIASakshendelsestype = (hendelsestype: IASakshendelseType): 
             return "Vi bistår"
         case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
             return "Fullfør"
+        case IASakshendelseTypeEnum.enum.SLETT_SAK:
+            return "Tilbakestill"
     }
 
 }

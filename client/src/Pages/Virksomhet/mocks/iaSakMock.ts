@@ -5,7 +5,7 @@ import {
     IASakshendelseType,
     IASakshendelseTypeEnum
 } from "../../../domenetyper";
-import {ulid} from "ulid";
+import { ulid } from "ulid";
 
 
 const saksnummer = ulid()
@@ -61,7 +61,7 @@ export const iaSakVurderesUtenEier: IASak = {
     eidAv: null,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.VURDERES,
-    gyldigeNesteHendelser: [hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK)]
+    gyldigeNesteHendelser: [hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK), hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.SLETT_SAK)]
 }
 
 export const iaSakVurderesMedEier: IASak = {

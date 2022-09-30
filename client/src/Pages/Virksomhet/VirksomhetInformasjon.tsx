@@ -3,13 +3,13 @@ import styled from "styled-components";
 import { BodyShort, Label } from "@navikt/ds-react";
 
 const VerticalFlexboxDiv = styled.div`
-    display: flex;
-    flex-direction: column;
+  display: flex;
+  flex-direction: column;
 `;
 const HorizontalFlexboxDiv = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 3rem;
+  display: flex;
+  flex-direction: row;
+  gap: 3rem;
 `;
 
 interface Props {
@@ -17,7 +17,7 @@ interface Props {
     className?: string;
 }
 
-export const VirksomhetInformasjon = ({ virksomhet, className }: Props) => (
+export const VirksomhetInformasjon = ({virksomhet, className}: Props) => (
     <HorizontalFlexboxDiv className={className}>
         <VerticalFlexboxDiv>
             <Label>Orgnummer</Label>
@@ -34,7 +34,7 @@ export const VirksomhetInformasjon = ({ virksomhet, className }: Props) => (
         </VerticalFlexboxDiv>
         <VerticalFlexboxDiv>
             <Label>Bransje/næring</Label>
-            {virksomhet.neringsgrupper.map(({ navn, kode }) => (
+            {virksomhet.neringsgrupper.map(({navn, kode}) => (
                 <BodyShort key={navn}>{navn} ({kode})</BodyShort>
             ))}
         </VerticalFlexboxDiv>

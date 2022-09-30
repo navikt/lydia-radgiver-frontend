@@ -1,16 +1,16 @@
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
 import {
     useHentSakerForVirksomhet,
     useHentSamarbeidshistorikk,
     useHentSykefraværsstatistikkForVirksomhet,
     useHentVirksomhetsinformasjon
 } from "../../api/lydia-api";
-import {Loader} from "@navikt/ds-react";
-import {VirksomhetOversikt} from "./VirksomhetOversikt";
-import {IAProsessStatusEnum, IASak, SykefraversstatistikkVirksomhet} from "../../domenetyper";
-import {sorterStatistikkPåSisteÅrstallOgKvartal} from "../../util/sortering";
-import {useContext} from "react";
-import {statiskeSidetitler, TittelContext} from "../Prioritering/TittelContext";
+import { Loader } from "@navikt/ds-react";
+import { VirksomhetOversikt } from "./VirksomhetOversikt";
+import { IASak, SykefraversstatistikkVirksomhet } from "../../domenetyper";
+import { sorterStatistikkPåSisteÅrstallOgKvartal } from "../../util/sortering";
+import { useContext } from "react";
+import { statiskeSidetitler, TittelContext } from "../Prioritering/TittelContext";
 
 const Virksomhetsside = () => {
     const {oppdaterTittel} = useContext(TittelContext)
@@ -42,7 +42,7 @@ const Virksomhetsside = () => {
     } = useHentSamarbeidshistorikk(orgnummer)
 
     if (lasterVirksomhet || lasterSykefraværsstatistikk || lasterIaSaker) {
-        return <LasterVirksomhet/>
+        return <LasterVirksomhet />
     }
 
     const muterState = () => {

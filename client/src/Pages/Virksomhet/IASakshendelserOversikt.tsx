@@ -1,14 +1,9 @@
-import {Sakshistorikk} from "../../domenetyper";
+import { Sakshistorikk } from "../../domenetyper";
 import styled from "styled-components";
-import {Table, Heading, Detail, Accordion} from "@navikt/ds-react";
-import {lokalDato, lokalDatoMedTid} from "../../util/datoFormatering";
-import {StatusBadge} from "../Prioritering/StatusBadge";
-import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
-
-export interface IASakHendelserOversiktProps {
-    samarbeidshistorikk: Sakshistorikk[];
-    className?: string;
-}
+import { Table, Heading, Detail, Accordion } from "@navikt/ds-react";
+import { lokalDato, lokalDatoMedTid } from "../../util/datoFormatering";
+import { StatusBadge } from "../Prioritering/StatusBadge";
+import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 
 const bakgrunnsRamme = {
     backgroundColor: "white",
@@ -16,10 +11,12 @@ const bakgrunnsRamme = {
     boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(38, 38, 38, 0.12), 0px 1px 3px rgba(38, 38, 38, 0.2)"
 };
 
-const Samarbeidshistorikk = ({
-                                 samarbeidshistorikk,
-                                 className,
-                             }: IASakHendelserOversiktProps) => {
+interface SamarbeidshistorikkProps {
+    samarbeidshistorikk: Sakshistorikk[];
+    className?: string;
+}
+
+const Samarbeidshistorikk = ({samarbeidshistorikk, className}: SamarbeidshistorikkProps) => {
     const sortertHistorikk: Sakshistorikk[] = samarbeidshistorikk.map((historikk) => ({
         saksnummer: historikk.saksnummer,
         opprettet: historikk.opprettet,
@@ -48,7 +45,9 @@ const Samarbeidshistorikk = ({
                                     gap: "2rem",
                                     padding: "0 1rem"
                                 }}>
-                                    <StatusBadge status={sakshistorikk.sakshendelser[0].status} /> Sist oppdatert: {lokalDato(sakshistorikk.sakshendelser[0].tidspunktForSnapshot)} - Saksnummer: {sakshistorikk.saksnummer}
+                                    <StatusBadge status={sakshistorikk.sakshendelser[0].status} />
+                                    Sist oppdatert: {lokalDato(sakshistorikk.sakshendelser[0].tidspunktForSnapshot)} -
+                                    Saksnummer: {sakshistorikk.saksnummer}
                                 </div>
                             </Accordion.Header>
                             <Accordion.Content>
@@ -58,11 +57,10 @@ const Samarbeidshistorikk = ({
                                 />
                             </Accordion.Content>
                         </Accordion.Item>
-
                     </Accordion>
                 )
             ) : (
-                <IngenHendelserPåSak/>
+                <IngenHendelserPåSak />
             )}
         </div>
     );
@@ -76,62 +74,60 @@ const IngenHendelserPåSak = () => {
     );
 };
 
-const SakshistorikkTabell = ({
-                                 sakshistorikk
-                             }: {
+interface SakshistorikkTabellProps {
     sakshistorikk: Sakshistorikk;
-}) => {
+}
+
+const SakshistorikkTabell = ({sakshistorikk}: SakshistorikkTabellProps) => {
     const kolonneNavn = ["Status", "Tidspunkt", "Begrunnelse", "Ansvarlig"];
 
     return (
-        <>
-            <Table zebraStripes style={bakgrunnsRamme}>
-                <Table.Header>
-                    <Table.Row>
-                        {kolonneNavn.map((navn) => (
-                            <Table.HeaderCell scope="col" key={navn}>
-                                {navn}
-                            </Table.HeaderCell>
-                        ))}
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {sakshistorikk.sakshendelser.map((sakSnapshot, index) => {
-                        return (
-                            <Table.Row key={index}>
-                                <Table.DataCell>
-                                    <StatusBadge status={sakSnapshot.status}/>
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {lokalDatoMedTid(sakSnapshot.tidspunktForSnapshot)}
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    <ul style={{margin: "0"}}>
-                                        {sakSnapshot.begrunnelser.map(begrunnelse =>
-                                            (<li key={begrunnelse}>
-                                                <Detail size={"small"}>{begrunnelse}</Detail>
-                                            </li>)
-                                        )}
-                                    </ul>
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    <NavIdentMedLenke navIdent={sakSnapshot.eier}/>
-                                </Table.DataCell>
-                            </Table.Row>
-                        );
-                    })}
-                </Table.Body>
-            </Table>
-        </>
+        <Table zebraStripes style={bakgrunnsRamme}>
+            <Table.Header>
+                <Table.Row>
+                    {kolonneNavn.map((navn) => (
+                        <Table.HeaderCell scope="col" key={navn}>
+                            {navn}
+                        </Table.HeaderCell>
+                    ))}
+                </Table.Row>
+            </Table.Header>
+            <Table.Body>
+                {sakshistorikk.sakshendelser.map((sakSnapshot, index) => {
+                    return (
+                        <Table.Row key={index}>
+                            <Table.DataCell>
+                                <StatusBadge status={sakSnapshot.status} />
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {lokalDatoMedTid(sakSnapshot.tidspunktForSnapshot)}
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                <ul style={{margin: "0"}}>
+                                    {sakSnapshot.begrunnelser.map(begrunnelse =>
+                                        (<li key={begrunnelse}>
+                                            <Detail size={"small"}>{begrunnelse}</Detail>
+                                        </li>)
+                                    )}
+                                </ul>
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                <NavIdentMedLenke navIdent={sakSnapshot.eier} />
+                            </Table.DataCell>
+                        </Table.Row>
+                    );
+                })}
+            </Table.Body>
+        </Table>
     );
 };
 
 export const StyledSamarbeidshistorikk = styled(Samarbeidshistorikk)`
-    display: grid;
-    grid-gap: 2rem;
+  display: grid;
+  grid-gap: 2rem;
 `;
 
-function sorterSakshistorikkPåTid({ sakshendelser }: Sakshistorikk) {
+function sorterSakshistorikkPåTid({sakshendelser}: Sakshistorikk) {
     return sakshendelser.sort(
         (a, b) =>
             b.tidspunktForSnapshot.getTime() -
