@@ -26,24 +26,27 @@ const enum Rolle {
     LESETILGANG = "Lesetilgang"
 }
 
-const grupper = {
-    superbruker: {
-        gruppeId: process.env.FIA_SUPERBRUKER_GROUP_ID,
-    },
-    saksbehandler: {
-        gruppeId: process.env.FIA_SAKSBEHANDLER_GROUP_ID,
-    },
-    lesetilgang: {
-        gruppeId: process.env.FIA_LESETILGANG_GROUP_ID,
-    },
+function fiaRoller() {
+    return {
+        superbruker: {
+            gruppeId: process.env.FIA_SUPERBRUKER_GROUP_ID,
+        },
+        saksbehandler: {
+            gruppeId: process.env.FIA_SAKSBEHANDLER_GROUP_ID,
+        },
+        lesetilgang: {
+            gruppeId: process.env.FIA_LESETILGANG_GROUP_ID,
+        },
+    }
 }
 
 const hentRolleMedHøyestTilgang = (brukerGrupper: string[]): Rolle => {
-    if (brukerGrupper.includes(grupper.superbruker.gruppeId)) {
+    const fiaGrupper = fiaRoller()
+    if (brukerGrupper.includes(fiaGrupper.superbruker.gruppeId)) {
         return Rolle.SUPERBRUKER;
-    } else if (brukerGrupper.includes(grupper.saksbehandler.gruppeId)) {
+    } else if (brukerGrupper.includes(fiaGrupper.saksbehandler.gruppeId)) {
         return Rolle.SAKSBEHANDLER;
-    } else if (brukerGrupper.includes(grupper.lesetilgang.gruppeId)) {
+    } else if (brukerGrupper.includes(fiaGrupper.lesetilgang.gruppeId)) {
         return Rolle.LESETILGANG;
     } else {
         throw new AuthError("Ikke riktig tilgang");

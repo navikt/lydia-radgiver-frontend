@@ -28,6 +28,9 @@ const mockEnv = () => {
     process.env[envVars.serverPort] = "8080";
     process.env[envVars.lydiaApiUri] = lydiaApiUri;
     process.env[envVars.jwkUri] = "hei123";
+    process.env[envVars.fiaSuperbrukerGroupId] = "ensuperbrukerGroupId"
+    process.env[envVars.fiaSaksbehandlerGroupId] = "ensaksbehandlerGroupId"
+    process.env[envVars.fiaLesetilgangGroupId] = "enlesetilgangGroupId"
 };
 
 export async function createMockToken() {
@@ -36,6 +39,7 @@ export async function createMockToken() {
         name: "Testuser Testuser",
         sub: "1",
         NAVident: "hei123",
+        groups: ["ensuperbrukerGroupId"]
     })
         .setIssuedAt()
         .setProtectedHeader({alg: "RS256"})

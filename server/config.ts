@@ -38,7 +38,10 @@ export const envVars = {
     lydiaApiUri: "LYDIA_API_URI",
     clusterName: "NAIS_CLUSTER_NAME",
     nameSpace: "NAIS_NAMESPACE",
-    jwkUri: "AZURE_OPENID_CONFIG_JWKS_URI"
+    jwkUri: "AZURE_OPENID_CONFIG_JWKS_URI",
+    fiaSuperbrukerGroupId: "FIA_SUPERBRUKER_GROUP_ID",
+    fiaSaksbehandlerGroupId: "FIA_SAKSBEHANDLER_GROUP_ID",
+    fiaLesetilgangGroupId: "FIA_LESETILGANG_GROUP_ID",
 }
 
 export class Azure {
