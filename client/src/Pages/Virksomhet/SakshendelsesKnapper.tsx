@@ -24,7 +24,7 @@ const horisontalKnappeStyling: CSSProperties = {
 
 const hendelsesTyperSomMåBekreftes: IASakshendelseType[] = [
     IASakshendelseTypeEnum.enum.TILBAKE,
-    IASakshendelseTypeEnum.enum.FULLFØR_BISTAND
+    IASakshendelseTypeEnum.enum.FULLFØR_BISTAND,
 ]
 
 interface BekreftHendelseDialogProps {
@@ -63,6 +63,11 @@ const BekreftHendelseDialog = ({sak: {status: sakstatus}, hendelse, ...rest}: Be
 
 interface SakshendelsesKnapperProps {
     sak: IASak
+    hendelser: GyldigNesteHendelse[];
+    onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void;
+}
+
+interface SakshendelsesKnapperProps {
     hendelser: GyldigNesteHendelse[];
     onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void;
 }
