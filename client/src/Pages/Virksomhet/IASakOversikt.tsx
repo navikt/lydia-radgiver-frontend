@@ -78,6 +78,7 @@ export const IASakOversikt = ({
             {sak.eidAv && <BodyShort>Rådgiver: <NavIdentMedLenke navIdent={sak.eidAv}/></BodyShort>}
             <br/>
             <SakshendelsesKnapper
+                sak={sak}
                 hendelser={sak.gyldigeNesteHendelser}
                 onNyHendelseHandler={(hendelse) => hendelseKreverBegrunnelse(hendelse)
                     ? setValgtHendelseMedÅrsak(hendelse)

@@ -12,6 +12,7 @@ interface Props {
 
 
 export const BekreftelseDialog = ({onConfirm, onCancel, åpen, title = "Vennligst bekreft valget ditt", description }: Props) => {
+    Modal.setAppElement?.(document.body)
     return (
         <Modal className="bekreftelse-dialog-innhold" parentSelector={() => document.getElementById('root')!} open={åpen} onClose={onCancel}>
             <Modal.Content>

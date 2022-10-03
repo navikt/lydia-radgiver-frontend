@@ -1,12 +1,19 @@
-import { GyldigNesteHendelse, IASakshendelseType, IASakshendelseTypeEnum } from "../../domenetyper";
+import {
+    GyldigNesteHendelse, IAProsessStatusEnum,
+    IAProsessStatusType,
+    IASak,
+    IASakshendelseType,
+    IASakshendelseTypeEnum
+} from "../../domenetyper";
 import {
     erHendelsenDestruktiv,
     IASakshendelseKnapp,
     penskrivIASakshendelsestype,
     sorterHendelserPåKnappeType
 } from "./IASakshendelseKnapp";
-import { CSSProperties, useState } from "react";
-import { BekreftelseDialog } from "../../components/Dialog/BekreftelseDialog";
+import {CSSProperties, useState} from "react";
+import {BekreftelseDialog} from "../../components/Dialog/BekreftelseDialog";
+import {penskrivIAStatus} from "../Prioritering/StatusBadge";
 
 const horisontalKnappeStyling: CSSProperties = {
     display: "flex",
@@ -20,12 +27,47 @@ const hendelsesTyperSomMåBekreftes: IASakshendelseType[] = [
     IASakshendelseTypeEnum.enum.FULLFØR_BISTAND
 ]
 
-interface Props {
-    hendelser: GyldigNesteHendelse[],
-    onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void
+interface BekreftHendelseDialogProps {
+    sak: IASak
+    hendelse: GyldigNesteHendelse | null
+    onConfirm: () => void
+    onCancel: () => void
 }
 
-export const SakshendelsesKnapper = ({hendelser, onNyHendelseHandler}: Props) => {
+const beskrivelseForHendelse = ({hendelse, sakstatus}: {
+    hendelse: GyldigNesteHendelse | null,
+    sakstatus: IAProsessStatusType
+}) => {
+    if (!hendelse) return ""
+    const penskrevetHendelse = penskrivIASakshendelsestype(hendelse.saksHendelsestype)
+    switch (hendelse.saksHendelsestype) {
+        case "FULLFØR_BISTAND":
+            return `Du skal velge hendelsen "${penskrevetHendelse}" når IA-leveransen er ferdig utført.`
+        case "TILBAKE": {
+            if (sakstatus === IAProsessStatusEnum.enum.FULLFØRT) return `Hvis du velger "${penskrevetHendelse}" vil saken gjenåpnes og få status "${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)}."`
+            return `Du har valgt hendelsen "${penskrevetHendelse}"`;
+        }
+        default:
+            return ""
+
+    }
+}
+
+const BekreftHendelseDialog = ({sak: {status: sakstatus}, hendelse, ...rest}: BekreftHendelseDialogProps) => (
+    <BekreftelseDialog
+        {...rest}
+        åpen={hendelse !== null}
+        description={beskrivelseForHendelse({hendelse, sakstatus})}
+    />
+)
+
+interface SakshendelsesKnapperProps {
+    sak: IASak
+    hendelser: GyldigNesteHendelse[];
+    onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void;
+}
+
+export const SakshendelsesKnapper = ({sak, hendelser, onNyHendelseHandler}: SakshendelsesKnapperProps) => {
     const [hendelseSomMåBekreftes, setHendelseSomMåBekreftes] = useState<GyldigNesteHendelse | null>(null)
 
     const destruktiveHendelser = hendelser
@@ -58,18 +100,16 @@ export const SakshendelsesKnapper = ({hendelser, onNyHendelseHandler}: Props) =>
                     </div>
                 })
             }
-            <BekreftelseDialog
+            <BekreftHendelseDialog
+                sak={sak}
                 onConfirm={() => {
-                    setHendelseSomMåBekreftes(null)
                     hendelseSomMåBekreftes && onNyHendelseHandler(hendelseSomMåBekreftes)
+                    setHendelseSomMåBekreftes(null)
                 }}
                 onCancel={() => {
                     setHendelseSomMåBekreftes(null)
                 }}
-                åpen={hendelseSomMåBekreftes != null}
-                description={`Du har valgt hendelsen ${hendelseSomMåBekreftes
-                    ? `"${penskrivIASakshendelsestype(hendelseSomMåBekreftes.saksHendelsestype)}"`
-                    : ""}`}
+                hendelse={hendelseSomMåBekreftes}
             />
         </div>
     )
