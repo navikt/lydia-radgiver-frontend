@@ -1,6 +1,6 @@
-import {ComponentMeta} from "@storybook/react";
-import {StatusBadge} from "./StatusBadge";
-import {IAProsessStatusEnum, IAProsessStatusType} from "../../domenetyper";
+import { ComponentMeta } from "@storybook/react";
+import { StatusBadge } from "./StatusBadge";
+import { IAProsessStatusEnum, IAProsessStatusType } from "../../domenetyper";
 
 export default {
     title: "Prioritering/StatusBadge",
@@ -12,16 +12,24 @@ const statuser = [
     IAProsessStatusEnum.enum.IKKE_AKTIV,
     IAProsessStatusEnum.enum.VURDERES,
     IAProsessStatusEnum.enum.KONTAKTES,
-    IAProsessStatusEnum.enum.IKKE_AKTUELL
+    IAProsessStatusEnum.enum.KARTLEGGES,
+    IAProsessStatusEnum.enum.VI_BISTÅR,
+    IAProsessStatusEnum.enum.IKKE_AKTUELL,
+    IAProsessStatusEnum.enum.FULLFØRT,
+    IAProsessStatusEnum.enum.SLETTET,
 ]
 
 export const Hovedstory = () => (
-    statuser.map((status, idx) =>
-        <Story status={status} key={idx} />
+    statuser.map((status) =>
+        <Story status={status} key={status} />
     )
 );
 
-const Story = ({ status }: { status: IAProsessStatusType}) => (<div>
+interface Props {
+    status: IAProsessStatusType
+}
+
+const Story = ({status}: Props) => (<div>
     <p>{`${status}: `}</p>
     <StatusBadge status={status} />
 </div>)
