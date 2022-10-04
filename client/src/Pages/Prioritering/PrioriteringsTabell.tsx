@@ -5,7 +5,7 @@ import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterTilAntallSider} from "./Prioriteringsside";
 import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
-import {lokalDato} from "../../util/datoFormatering";
+import {lokalDato} from "../../util/dato";
 import {formaterMedEnDesimal, formaterSomHeltall, formaterSomProsentMedEnDesimal} from "../../util/tallFormatering";
 import {EksternLenke} from "../../components/EksternLenke";
 
