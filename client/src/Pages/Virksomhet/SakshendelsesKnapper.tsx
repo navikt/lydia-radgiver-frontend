@@ -40,9 +40,9 @@ const beskrivelseForHendelse = ({hendelse, sakstatus}: {
     const penskrevetHendelse = penskrivIASakshendelsestype(hendelse.saksHendelsestype)
     switch (hendelse.saksHendelsestype) {
         case "FULLFØR_BISTAND":
-            return `Du skal velge hendelsen "${penskrevetHendelse}" når IA-leveransen er ferdig utført.`
+            return `Du er i ferd med å fullføre den tidsbegrensede avtalen med denne virksomheten. Er dette riktig?`
         case "TILBAKE": {
-            if (sakstatus === IAProsessStatusEnum.enum.FULLFØRT) return `Hvis du velger "${penskrevetHendelse}" vil saken gjenåpnes og få status "${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)}."`
+            if (sakstatus === IAProsessStatusEnum.enum.FULLFØRT) return `Hvis du velger "${penskrevetHendelse}" vil saken gjenåpnes og få status "${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)}".`
             return `Du har valgt hendelsen "${penskrevetHendelse}"`;
         }
         default:
