@@ -2,7 +2,7 @@ import {BodyLong, Button, Heading, Modal} from "@navikt/ds-react";
 import "./BekreftelseDialog.css"
 
 
-interface Props {
+export interface Props {
     onConfirm: () => void
     onCancel: () => void
     åpen: boolean,

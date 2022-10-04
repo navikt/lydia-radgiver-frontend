@@ -12,7 +12,7 @@ import {
     sorterHendelserPåKnappeType
 } from "./IASakshendelseKnapp";
 import {CSSProperties, useState} from "react";
-import {BekreftelseDialog} from "../../components/Dialog/BekreftelseDialog";
+import {BekreftelseDialog, Props as BekreftelseDialogProps} from "../../components/Dialog/BekreftelseDialog";
 import {penskrivIAStatus} from "../Prioritering/StatusBadge";
 
 const horisontalKnappeStyling: CSSProperties = {
@@ -30,8 +30,6 @@ const hendelsesTyperSomMåBekreftes: IASakshendelseType[] = [
 interface BekreftHendelseDialogProps {
     sak: IASak
     hendelse: GyldigNesteHendelse | null
-    onConfirm: () => void
-    onCancel: () => void
 }
 
 const beskrivelseForHendelse = ({hendelse, sakstatus}: {
@@ -53,10 +51,9 @@ const beskrivelseForHendelse = ({hendelse, sakstatus}: {
     }
 }
 
-const BekreftHendelseDialog = ({sak: {status: sakstatus}, hendelse, ...rest}: BekreftHendelseDialogProps) => (
+const BekreftHendelseDialog = ({sak: {status: sakstatus}, hendelse, ...rest}: BekreftelseDialogProps & BekreftHendelseDialogProps) => (
     <BekreftelseDialog
         {...rest}
-        åpen={hendelse !== null}
         description={beskrivelseForHendelse({hendelse, sakstatus})}
     />
 )
@@ -107,6 +104,7 @@ export const SakshendelsesKnapper = ({sak, hendelser, onNyHendelseHandler}: Saks
             }
             <BekreftHendelseDialog
                 sak={sak}
+                åpen={hendelseSomMåBekreftes !== null}
                 onConfirm={() => {
                     hendelseSomMåBekreftes && onNyHendelseHandler(hendelseSomMåBekreftes)
                     setHendelseSomMåBekreftes(null)
