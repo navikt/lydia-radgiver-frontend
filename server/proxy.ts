@@ -17,7 +17,6 @@ export class LydiaApiProxy {
             },
             onProxyReq: (proxyReq : ClientRequest, req: Request, res: Response) => {
                 proxyReq.setHeader('Authorization', `Bearer ${res.locals.on_behalf_of_token}`)
-                console.log("Request id", res.locals.requestId)
                 proxyReq.setHeader("x-request-id", res.locals.requestId)
             }
         }
