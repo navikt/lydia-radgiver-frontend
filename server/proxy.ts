@@ -1,9 +1,8 @@
-import {Request, Response} from "express";
+import { Request, Response } from "express";
 import { ClientRequest } from "http";
-import {createProxyMiddleware, Options} from "http-proxy-middleware"
+import { createProxyMiddleware, Options } from "http-proxy-middleware"
 
 import { Config } from "./config";
-import logger from "./logging"
 
 export class LydiaApiProxy {
     options : Options
@@ -18,12 +17,13 @@ export class LydiaApiProxy {
             },
             onProxyReq: (proxyReq : ClientRequest, req: Request, res: Response) => {
                 proxyReq.setHeader('Authorization', `Bearer ${res.locals.on_behalf_of_token}`)
+                proxyReq.setHeader("x-request-id", res.locals.requestId)
             }
         }
     }
     createExpressMiddleWare() {
         return createProxyMiddleware(this.options)
-    } 
+    }
 }
 
 

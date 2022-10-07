@@ -14,6 +14,7 @@ import logger from "./logging";
 import {AuthError} from "./error";
 import {hentInnloggetAnsattMiddleware} from "./brukerinfo";
 import {memorySessionManager, redisSessionManager} from "./RedisStore";
+import {randomUUID} from "crypto";
 
 export const inCloudMode = () => process.env.NAIS_CLUSTER_NAME === "dev-gcp" || process.env.NAIS_CLUSTER_NAME === "prod-gcp"
 
@@ -30,6 +31,11 @@ export default class Application {
 
         this.expressApp.use(apiMetrics());
         this.expressApp.use(helmet());
+
+        this.expressApp.all("*", (req, res, next) => {
+            res.locals.requestId = randomUUID()
+            next()
+        })
 
         this.expressApp.get(
             ["/internal/isAlive", "/internal/isReady"],
