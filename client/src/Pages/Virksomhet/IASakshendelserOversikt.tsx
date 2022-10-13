@@ -1,7 +1,7 @@
 import { Sakshistorikk } from "../../domenetyper";
 import styled from "styled-components";
 import { Table, Heading, Detail, Accordion } from "@navikt/ds-react";
-import { lokalDato, lokalDatoMedTid } from "../../util/datoFormatering";
+import { lokalDato, lokalDatoMedTid } from "../../util/dato";
 import { StatusBadge } from "../Prioritering/StatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 
