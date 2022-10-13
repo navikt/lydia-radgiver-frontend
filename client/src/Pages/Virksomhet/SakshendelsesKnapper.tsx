@@ -1,12 +1,19 @@
-import { GyldigNesteHendelse, IASakshendelseType, IASakshendelseTypeEnum } from "../../domenetyper";
+import {
+    GyldigNesteHendelse, IAProsessStatusEnum,
+    IAProsessStatusType,
+    IASak,
+    IASakshendelseType,
+    IASakshendelseTypeEnum
+} from "../../domenetyper";
 import {
     erHendelsenDestruktiv,
     IASakshendelseKnapp,
     penskrivIASakshendelsestype,
     sorterHendelserPåKnappeType
 } from "./IASakshendelseKnapp";
-import { CSSProperties, useState } from "react";
-import { BekreftelseDialog } from "../../components/Dialog/BekreftelseDialog";
+import {CSSProperties, useState} from "react";
+import {BekreftelseDialog, Props as BekreftelseDialogProps} from "../../components/Dialog/BekreftelseDialog";
+import {penskrivIAStatus} from "../Prioritering/StatusBadge";
 
 const horisontalKnappeStyling: CSSProperties = {
     display: "flex",
@@ -17,15 +24,54 @@ const horisontalKnappeStyling: CSSProperties = {
 
 const hendelsesTyperSomMåBekreftes: IASakshendelseType[] = [
     IASakshendelseTypeEnum.enum.TILBAKE,
-    IASakshendelseTypeEnum.enum.FULLFØR_BISTAND
+    IASakshendelseTypeEnum.enum.FULLFØR_BISTAND,
 ]
 
-interface Props {
-    hendelser: GyldigNesteHendelse[],
-    onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void
+interface BekreftHendelseDialogProps {
+    sak: IASak
+    hendelse: GyldigNesteHendelse | null
 }
 
-export const SakshendelsesKnapper = ({hendelser, onNyHendelseHandler}: Props) => {
+const beskrivelseForHendelse = ({hendelse, sakstatus}: {
+    hendelse: GyldigNesteHendelse | null,
+    sakstatus: IAProsessStatusType
+}) => {
+    if (!hendelse) return ""
+    const penskrevetHendelse = penskrivIASakshendelsestype(hendelse.saksHendelsestype)
+    switch (hendelse.saksHendelsestype) {
+        case "FULLFØR_BISTAND":
+            return `Du har valgt hendelsen "Fullfør" – velges når avtalt IA-oppfølging er fullført. Saken lukkes.`
+        case "TILBAKE": {
+            let text = `Du har valgt hendelsen "${penskrevetHendelse}"`
+            if (sakstatus === IAProsessStatusEnum.enum.FULLFØRT) text += ` - velges når du vil gjenåpne saken og gå tilbake til status "${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)}".`
+            if (sakstatus === IAProsessStatusEnum.enum.IKKE_AKTUELL) text += ` - velges når du vil gjenåpne saken og gå tilbake til siste status.`
+            return text;
+        }
+        default:
+            return ""
+
+    }
+}
+
+const BekreftHendelseDialog = ({sak: {status: sakstatus}, hendelse, ...rest}: BekreftelseDialogProps & BekreftHendelseDialogProps) => (
+    <BekreftelseDialog
+        {...rest}
+        description={beskrivelseForHendelse({hendelse, sakstatus})}
+    />
+)
+
+interface SakshendelsesKnapperProps {
+    sak: IASak
+    hendelser: GyldigNesteHendelse[];
+    onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void;
+}
+
+interface SakshendelsesKnapperProps {
+    hendelser: GyldigNesteHendelse[];
+    onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void;
+}
+
+export const SakshendelsesKnapper = ({sak, hendelser, onNyHendelseHandler}: SakshendelsesKnapperProps) => {
     const [hendelseSomMåBekreftes, setHendelseSomMåBekreftes] = useState<GyldigNesteHendelse | null>(null)
 
     const destruktiveHendelser = hendelser
@@ -58,18 +104,17 @@ export const SakshendelsesKnapper = ({hendelser, onNyHendelseHandler}: Props) =>
                     </div>
                 })
             }
-            <BekreftelseDialog
+            <BekreftHendelseDialog
+                sak={sak}
+                åpen={hendelseSomMåBekreftes !== null}
                 onConfirm={() => {
-                    setHendelseSomMåBekreftes(null)
                     hendelseSomMåBekreftes && onNyHendelseHandler(hendelseSomMåBekreftes)
+                    setHendelseSomMåBekreftes(null)
                 }}
                 onCancel={() => {
                     setHendelseSomMåBekreftes(null)
                 }}
-                åpen={hendelseSomMåBekreftes != null}
-                description={`Du har valgt hendelsen ${hendelseSomMåBekreftes
-                    ? `"${penskrivIASakshendelsestype(hendelseSomMåBekreftes.saksHendelsestype)}"`
-                    : ""}`}
+                hendelse={hendelseSomMåBekreftes}
             />
         </div>
     )
