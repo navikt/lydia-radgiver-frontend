@@ -1,6 +1,6 @@
 import React from "react";
+import styled, { css } from "styled-components";
 import { BodyShort, Detail } from "@navikt/ds-react";
-
 
 export enum Farge {
     hvit = "#FFFFFF",
@@ -13,6 +13,28 @@ export enum Farge {
     grønn = "#99DEAD",
     gul = "#FFD799"
 }
+
+const badgeStyling = css<{ backgroundColor: string, textColor: string }>`
+  background-color: ${props => props.backgroundColor};
+  color: ${props => props.textColor};
+  padding: 0 1rem;
+  border: 1px solid ${Farge.grå};
+  border-radius: 4px;
+  text-align: center;
+  white-space: nowrap;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: fit-content;
+`;
+
+const StyledDetail = styled(Detail)<{ backgroundColor: string, textColor: string}>`
+  ${badgeStyling}
+`;
+
+const StyledBodyShort = styled(BodyShort)<{ backgroundColor: string, textColor: string}>`
+  ${badgeStyling}
+`;
 
 interface BadgeProps {
     text: string;
@@ -29,24 +51,13 @@ export const Badge = ({
     size = "small",
     className,
 }: BadgeProps) => {
-    const TextComponent = size === "small" ? Detail : BodyShort
+    const TextComponent = size === "small" ? StyledDetail : StyledBodyShort
 
     return (
         <TextComponent
             as={"span"}
-            style={{
-                backgroundColor: backgroundColor,
-                color: textColor,
-                padding: "0 1rem",
-                border: `1px solid ${Farge.grå}`,
-                borderRadius: "4px",
-                textAlign: "center",
-                whiteSpace: "nowrap",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                height: "fit-content",
-            }}
+            backgroundColor={backgroundColor}
+            textColor={textColor}
             className={`navds-tag--medium ${className}`}
         >
             {text}
