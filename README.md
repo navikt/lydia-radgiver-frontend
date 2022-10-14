@@ -28,7 +28,7 @@ Dette vert orkestrert av docker-compose.
 ### Før du startar
 Installer ein postgresql-klient, for eksempel ved å gjere  
 `brew install libpq`  
-Så legg du til psql i path. Du vil få instruksjonar på dette frå brew, og det ser litt sånn ut:  
+Legg så til psql i PATH. Du vil få instruksjonar på dette frå brew, og det ser litt sånn ut:  
 > If you need to have libpq first in your PATH, run:  
 > echo 'export PATH="/usr/local/opt/libpq/bin:$PATH"' >> ~/.zshrc
 
@@ -46,7 +46,7 @@ Sørg for at du har skrudd på administrator-rettar for brukaren din (privileges
 ### Køyr server og frontend med avhengigheter:  
 `./run.sh` i rotmappa
 
-Besøk deretter http://localhost:2222 i din favorittbrowser
+Besøk deretter http://localhost:2222 i din favorittbrowser.  
 Skjemaet som dukker opp her gjev deg høve til å endre kva rettar testbrukaren din har. I dei fleste tilfelle kan du skrive inn noko tilfeldig tekst og trykke "SIGN-IN".
 
 ### Rydd opp etter deg når du er ferdig med testinga:
