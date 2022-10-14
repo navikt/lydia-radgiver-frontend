@@ -1,5 +1,6 @@
 import "@navikt/ds-css";
 import React from "react";
+import styled from "styled-components";
 import {IAProsessStatusEnum, IAProsessStatusType} from "../../domenetyper";
 import {Badge, Farge} from "../../components/Badge/Badge";
 
@@ -47,8 +48,12 @@ export function penskrivIAStatus(status: IAProsessStatusType): string {
     }
 }
 
+const StyledBadge = styled(Badge)`
+  width: 8em;
+`;
+
 export const StatusBadge = ({status}: { status: IAProsessStatusType }) =>
-    <Badge
+    <StyledBadge
         text={penskrivIAStatus(status)}
         backgroundColor={hentBakgrunnsFargeForIAStatus(status)}
     />

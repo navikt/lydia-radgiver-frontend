@@ -1,5 +1,5 @@
 import React from "react";
-import {Detail, BodyShort} from "@navikt/ds-react";
+import { BodyShort, Detail } from "@navikt/ds-react";
 
 
 export enum Farge {
@@ -19,6 +19,7 @@ interface BadgeProps {
     backgroundColor: Farge;
     textColor?: Farge;
     size?: "small" | "medium";
+    className?: string;
 }
 
 export const Badge = ({
@@ -26,6 +27,7 @@ export const Badge = ({
     backgroundColor,
     textColor = Farge.svart,
     size = "small",
+    className,
 }: BadgeProps) => {
     const TextComponent = size === "small" ? Detail : BodyShort
 
@@ -44,7 +46,7 @@ export const Badge = ({
                 justifyContent: "center",
                 alignItems: "center"
             }}
-            className={`navds-tag--medium`}
+            className={`navds-tag--medium ${className}`}
         >
             {text}
         </TextComponent>
