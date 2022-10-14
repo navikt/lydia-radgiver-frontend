@@ -33,7 +33,9 @@ Legg så til psql i PATH. Du vil få instruksjonar på dette frå brew, og det s
 > echo 'export PATH="/usr/local/opt/libpq/bin:$PATH"' >> ~/.zshrc
 
 
-// TODO nevn colima/docker desktop
+// TODO nevn colima/docker desktop  
+
+
 Vi skal leggje til linja `127.0.0.1 host.docker.internal` i fila `/etc/hosts` i rota av datamaskina di.
 Da vil nettlesaren automatisk fange opp wonderwall og mock-oauth2-server, som da vil resolve det til localhost.
 
@@ -72,14 +74,14 @@ Då kan du nå Storybook i ein nettlesar på adressa [localhost:6006](http://loc
 
 
 ## Deploy til NAIS  
-// TODO skriv noko om 'frackend' og deploy til NAIS
+// TODO skriv noko om 'frackend' og deploy til NAIS  
 
 
 ## E2E-testing
 Vi bruker Cypress til ende-til-ende-testing (e2e-testing). 
 
-For å køyre desse gjer du 
-// TODO korleis køyre opp cypress-testar
+// TODO korleis køyre opp cypress-testar  
+For å køyre desse gjer du   
 `[kommando]` i `[mappe]` 
 
 
