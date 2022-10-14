@@ -21,7 +21,7 @@ export const BekreftelseDialog = ({onConfirm, onCancel, åpen, title = "Vennligs
                 <br/>
                 <div className="bekreftelse-dialog-knapper">
                     <Button onClick={onConfirm}>Bekreft</Button>
-                    <Button variant="secondary" onClick={onCancel}>Angre</Button>
+                    <Button variant="secondary" onClick={onCancel}>Avbryt</Button>
                 </div>
 
             </Modal.Content>
