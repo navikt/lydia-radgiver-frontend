@@ -1,12 +1,14 @@
 import {
+    Brukerinformasjon,
+    brukerinfoSchema,
     Filterverdier,
     filterverdierSchema,
     GyldigNesteHendelse,
     IANySakshendelseDto,
     IASak,
     iaSakSchema,
-    Brukerinformasjon,
-    brukerinfoSchema,
+    Sakshistorikk,
+    sakshistorikkSchema,
     SykefraversstatistikkVirksomhet,
     sykefraversstatistikkVirksomhetListeSchema,
     sykefraværListeResponsSchema,
@@ -14,12 +16,12 @@ import {
     Søkeverdier,
     ValgtÅrsakDto,
     Virksomhet,
-    virksomhetsSchema, Sakshistorikk, sakshistorikkSchema, IASakshendelseTypeEnum,
+    virksomhetsSchema,
 } from "../domenetyper";
-import useSWR, { SWRConfiguration } from "swr";
-import { ZodError, ZodType } from "zod";
-import { useEffect, useState } from "react";
-import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
+import useSWR, {SWRConfiguration} from "swr";
+import {ZodError, ZodType} from "zod";
+import {useEffect, useState} from "react";
+import {dispatchFeilmelding} from "../Pages/FeilmeldingBanner";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -225,9 +227,6 @@ export const nyHendelsePåSak = (
         endretAvHendelseId: sak.endretAvHendelseId,
         ...(valgtÅrsak && { payload: JSON.stringify(valgtÅrsak) }),
     };
-    if (hendelse.saksHendelsestype === IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET) {
-        return opprettSak(sak.orgnr)
-    }
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
 };
 

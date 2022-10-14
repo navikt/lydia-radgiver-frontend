@@ -55,6 +55,12 @@ Skjemaet som dukker opp her gjev deg høve til å endre kva rettar testbrukaren 
 
 Om du ikkje gjer dette risikerer du trøbbel neste gong. Det betyr også: om ting ikkje funker neste gong - start med `docker-compose down` i alle repo ;)
 
+#### Tving nedlastning og bygging av nye images
+
+For å tvinge nedlastning av nye images (feks hvis det har kommet ett nytt backend image siden sist kjøring) kan man kjøre:
+
+`docker-compose down && docker-compose build --pull`
+
 ## Storybook
 For å raskt kunne teste at ein komponent ser ut som den skal har vi laga stories i Storybook. 
 Dette gjer det mogleg å sjå komponenten i ein nøytral eller bestemt kontekst.
