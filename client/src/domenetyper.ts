@@ -186,6 +186,7 @@ export const iaSakSchema = z.object({
     eidAv: z.string().nullable(),
     status: IAProsessStatusEnum,
     gyldigeNesteHendelser: z.array(gyldigNesteHendelseSchema),
+    lukket: z.boolean()
 })
 export type IASak = z.infer<typeof iaSakSchema>;
 

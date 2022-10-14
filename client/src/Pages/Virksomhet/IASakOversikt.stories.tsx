@@ -2,7 +2,7 @@ import { ComponentMeta } from "@storybook/react";
 
 import { IASakOversikt } from "./IASakOversikt";
 import {
-    iaSakFullført,
+    iaSakFullført, iaSakFullførtOgLukket,
     iaSakIkkeAktuell, iaSakKartlegges,
     iaSakKontaktes, iaSakViBistår,
     iaSakVurderesMedEier,
@@ -93,4 +93,8 @@ export const ViBistar = () => (
 
 export const Fullfort = () => (
     <IASakOversikt iaSak={iaSakFullført} orgnummer={"987654321"} />
+);
+
+export const FullfortOgLukket = () => (
+    <IASakOversikt iaSak={iaSakFullførtOgLukket} orgnummer={"987654321"} />
 );

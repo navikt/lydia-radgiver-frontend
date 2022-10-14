@@ -61,7 +61,8 @@ export const iaSakVurderesUtenEier: IASak = {
     eidAv: null,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.VURDERES,
-    gyldigeNesteHendelser: [hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK), hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.SLETT_SAK)]
+    gyldigeNesteHendelser: [hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK), hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.SLETT_SAK)],
+    lukket: false
 }
 
 export const iaSakVurderesMedEier: IASak = {
@@ -77,7 +78,8 @@ export const iaSakVurderesMedEier: IASak = {
     gyldigeNesteHendelser: [
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES)
-    ]
+    ],
+    lukket: false
 }
 
 export const iaSakKontaktes: IASak = {
@@ -94,7 +96,8 @@ export const iaSakKontaktes: IASak = {
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
-    ]
+    ],
+    lukket: false
 }
 
 export const iaSakIkkeAktuell: IASak = {
@@ -107,7 +110,8 @@ export const iaSakIkkeAktuell: IASak = {
     eidAv: "NAV-54321",
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.IKKE_AKTUELL,
-    gyldigeNesteHendelser: [hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)]
+    gyldigeNesteHendelser: [hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)],
+    lukket: false
 }
 
 export const iaSakKartlegges: IASak = {
@@ -124,7 +128,8 @@ export const iaSakKartlegges: IASak = {
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
-    ]
+    ],
+    lukket: false
 }
 
 export const iaSakViBistår: IASak = {
@@ -141,7 +146,8 @@ export const iaSakViBistår: IASak = {
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.FULLFØR_BISTAND),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
-    ]
+    ],
+    lukket: false
 }
 
 export const iaSakFullført: IASak = {
@@ -157,5 +163,20 @@ export const iaSakFullført: IASak = {
     gyldigeNesteHendelser: [
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET),
         hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
-    ]
+    ],
+    lukket: false
+}
+
+export const iaSakFullførtOgLukket: IASak = {
+    saksnummer: saksnummer,
+    orgnr: "987654321",
+    opprettetTidspunkt: new Date(),
+    opprettetAv: "NAV-12345",
+    endretTidspunkt: new Date(),
+    endretAv: "NAV-54321",
+    eidAv: "NAV-54321",
+    endretAvHendelseId: endretAv,
+    status: IAProsessStatusEnum.enum.FULLFØRT,
+    gyldigeNesteHendelser: [],
+    lukket: true
 }

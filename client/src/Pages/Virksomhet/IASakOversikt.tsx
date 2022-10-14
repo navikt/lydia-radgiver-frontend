@@ -14,7 +14,6 @@ import {BegrunnelseModal} from "./BegrunnelseModal";
 import {IASakshendelseKnapp} from "./IASakshendelseKnapp";
 import {SakshendelsesKnapper} from "./SakshendelsesKnapper";
 import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
-import {antallDagerMellomDatoer} from "../../util/dato";
 
 export interface IASakOversiktProps {
     orgnummer: string;
@@ -48,12 +47,6 @@ function IngenAktiveSaker({orgnummer, oppdaterSak}: IngenAktiveSakerProps) {
     );
 }
 
-const ANTALL_DAGER_FØR_VI_VISER_NY_STATUS = 100; // TODO Vi må bestemme oss for hvor lenge vi skal vente
-
-const skalViseSakSomIkkeAktiv = (sak: IASak) =>
-    (sak.status === IAProsessStatusEnum.enum.FULLFØRT || sak.status === IAProsessStatusEnum.enum.IKKE_AKTUELL)
-    && antallDagerMellomDatoer(new Date(), sak.endretTidspunkt ?? new Date()) >= ANTALL_DAGER_FØR_VI_VISER_NY_STATUS
-
 export const IASakOversikt = ({
                                   orgnummer,
                                   iaSak: sak,
@@ -62,7 +55,7 @@ export const IASakOversikt = ({
     const [valgtHendelseMedÅrsak, setValgtHendelseMedÅrsak] =
         useState<GyldigNesteHendelse>();
 
-    if (!sak || skalViseSakSomIkkeAktiv(sak))
+    if (!sak || sak.lukket)
         return (
             <IngenAktiveSaker
                 orgnummer={orgnummer}

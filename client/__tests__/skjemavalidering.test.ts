@@ -66,7 +66,8 @@ describe("kan parse datoer", () => {
                 {
                     saksHendelsestype: "TA_EIERSKAP_I_SAK",
                     gyldigeÅrsaker: []
-                }]
+                }],
+            lukket: false
         }
 
         const safeparseResultat = iaSakSchema.safeParse(iaSakMock)

@@ -2,7 +2,7 @@ import { ComponentMeta } from "@storybook/react";
 import { fjernetVirksomhetMock, slettetVirksomhetMock, virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
 import { VirksomhetOversikt } from "./VirksomhetOversikt";
 import { sykefraværsstatistikkMock } from "../Prioritering/mocks/sykefraværsstatistikkMock";
-import { iaSakKontaktes } from "./mocks/iaSakMock";
+import {iaSakFullførtOgLukket, iaSakKontaktes} from "./mocks/iaSakMock";
 import { samarbeidshistorikkMock, samarbeidshistorikkMockMedFlereSaker } from "./mocks/iaSakHistorikkMock";
 
 export default {
@@ -44,6 +44,15 @@ export const VirksomhetSomErFjernet = () => (
         virksomhet={fjernetVirksomhetMock}
         sykefraværsstatistikk={sykefraværsstatistikkMock[0]}
         iaSak={iaSakKontaktes}
+        samarbeidshistorikk={samarbeidshistorikkMock}
+    />
+);
+
+export const VirksomhetMedSakSomErLukket = () => (
+    <VirksomhetOversikt
+        virksomhet={virksomhetMock}
+        sykefraværsstatistikk={sykefraværsstatistikkMock[0]}
+        iaSak={iaSakFullførtOgLukket}
         samarbeidshistorikk={samarbeidshistorikkMock}
     />
 );
