@@ -43,7 +43,8 @@ const Samarbeidshistorikk = ({samarbeidshistorikk, className}: Samarbeidshistori
                                 <div style={{
                                     display: "inline-flex",
                                     gap: "2rem",
-                                    padding: "0 1rem"
+                                    padding: "0 1rem",
+                                    alignItems: "center",
                                 }}>
                                     <StatusBadge status={sakshistorikk.sakshendelser[0].status} />
                                     Sist oppdatert: {lokalDato(sakshistorikk.sakshendelser[0].tidspunktForSnapshot)} -

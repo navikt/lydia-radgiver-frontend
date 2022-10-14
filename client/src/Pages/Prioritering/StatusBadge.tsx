@@ -50,6 +50,7 @@ export function penskrivIAStatus(status: IAProsessStatusType): string {
 
 const StyledBadge = styled(Badge)`
   width: 8em;
+  flex-shrink: 0;
 `;
 
 export const StatusBadge = ({status}: { status: IAProsessStatusType }) =>
