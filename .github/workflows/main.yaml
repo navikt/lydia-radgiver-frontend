@@ -77,7 +77,7 @@ jobs:
   deployAppToDev:
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/kan-slette-saker-med-status-vurderes'
+    if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/endre-paginering'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
