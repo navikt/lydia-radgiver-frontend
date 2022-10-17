@@ -1,13 +1,14 @@
-import {Detail, Pagination, SortState, Table} from "@navikt/ds-react";
+import {SortState, Table} from "@navikt/ds-react";
 import {SykefraversstatistikkVirksomhet} from "../../domenetyper";
 import {StatusBadge} from "./StatusBadge";
 import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
-import {ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterTilAntallSider} from "./Prioriteringsside";
 import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
 import {lokalDato} from "../../util/dato";
 import {formaterMedEnDesimal, formaterSomHeltall, formaterSomProsentMedEnDesimal} from "../../util/tallFormatering";
 import {EksternLenke} from "../../components/EksternLenke";
+import React from "react";
+import {Paginering} from "./Paginering";
 
 interface Kolonne {
     key: string,
@@ -70,20 +71,18 @@ interface Props {
     endreSide: (side: number) => void;
     sortering: SortState
     endreSortering: (sortering: SortState) => void
-    totaltAntallResultaterISøk: number;
     className?: string;
 }
 
 
 const PrioriteringsTabell = ({
-    sykefraværsstatistikk,
-    className,
-    side,
-    sortering,
-    endreSortering,
-    endreSide,
-    totaltAntallResultaterISøk
-}: Props) => {
+                                 sykefraværsstatistikk,
+                                 className,
+                                 side,
+                                 sortering,
+                                 endreSortering,
+                                 endreSide,
+                             }: Props) => {
     const onSortChange = (sortKey: string | undefined) => {
         if (sortKey == sortering.orderBy) {
             endreSortering({
@@ -122,7 +121,7 @@ const PrioriteringsTabell = ({
                             key={sykefraværStatistikkVirksomhet.virksomhetsnavn}
                         >
                             <Table.DataCell><StatusBadge
-                                status={sykefraværStatistikkVirksomhet.status} /></Table.DataCell>
+                                status={sykefraværStatistikkVirksomhet.status}/></Table.DataCell>
                             <Table.DataCell>{sykefraværStatistikkVirksomhet.sistEndret ? lokalDato(sykefraværStatistikkVirksomhet.sistEndret) : ""}</Table.DataCell>
                             <Table.HeaderCell scope="row">
                                 <EksternLenke
@@ -141,26 +140,14 @@ const PrioriteringsTabell = ({
                             <Table.DataCell
                                 style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.muligeDagsverk)}</Table.DataCell>
                             <Table.DataCell>
-                                <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv} />
+                                <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv}/>
                             </Table.DataCell>
                         </Table.Row>
                     ))}
                 </Table.Body>
             </Table>
             {!!sykefraværsstatistikk.length &&
-                <div style={{display: "flex", flexDirection: "row", gap: "10rem"}}>
-                    <Pagination
-                        page={side}
-                        onPageChange={endreSide}
-                        count={totaltAntallResultaterTilAntallSider(totaltAntallResultaterISøk)}
-                        prevNextTexts
-                    />
-                    <Detail size={"small"} style={{alignSelf: "center"}}>
-                        Viser {(side - 1) * ANTALL_RESULTATER_PER_SIDE + 1}-{Math.min(side * ANTALL_RESULTATER_PER_SIDE, totaltAntallResultaterISøk)} av
-                        totalt {totaltAntallResultaterISøk} søkeresultater.
-                        Tallene viser offisiell sykefraværsstatistikk for andre kvartal 2022.
-                    </Detail>
-                </div>
+                <Paginering side={side} endreSide={endreSide} antallTreffPåSide={sykefraværsstatistikk.length} />
             }
         </div>
     )

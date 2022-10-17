@@ -1,4 +1,4 @@
-import {sorteringsverdier, StyledFiltervisning} from "./Filtervisning";
+import {StyledFiltervisning} from "./Filtervisning";
 import { StyledPrioriteringsTabell } from "./PrioriteringsTabell";
 import {
     useFilterverdier,
@@ -31,10 +31,7 @@ const tilSorteringsretning = (direction: SortState["direction"] = "descending") 
     }
 }
 
-export const ANTALL_RESULTATER_PER_SIDE = 50;
-
-export const totaltAntallResultaterTilAntallSider = (totaltAntallResultater: number, antallResultaterPerSide = ANTALL_RESULTATER_PER_SIDE) =>
-    Math.ceil(totaltAntallResultater / antallResultaterPerSide)
+export const ANTALL_RESULTATER_PER_SIDE = 100;
 
 const Prioriteringsside = () => {
     const {oppdaterTittel} = useContext(TittelContext)
@@ -42,7 +39,6 @@ const Prioriteringsside = () => {
 
     const [sortering, setSortering] = useState<SortState>({ direction: "descending", orderBy: "tapte_dagsverk" })
     const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState<SykefraversstatistikkVirksomhet[]>();
-    const [totaltAntallResultaterISøk, setTotaltAntallResultaterISøk] = useState(0);
     const [side, setSide] = useState(1);
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>({
         side,
@@ -53,7 +49,6 @@ const Prioriteringsside = () => {
         skalInkludereTotaltAntall: true
     });
     const [skalSøke, setSkalSøke] = useState(false);
-    const [triggetNyttSøk, setTriggetNyttSøk] = useState(false)
     const harSøktMinstEnGang = sykefraværsstatistikk !== undefined
     const fantResultaterISøk = harSøktMinstEnGang && sykefraværsstatistikk.length > 0
     const skalViseTabell = fantResultaterISøk && !skalSøke;
@@ -70,16 +65,12 @@ const Prioriteringsside = () => {
     useEffect(() => {
         if (sfStatistikkFraApi) {
             setSykefraværsstatistikk(sfStatistikkFraApi.data);
-            if (triggetNyttSøk && sfStatistikkFraApi.total) {
-                setTotaltAntallResultaterISøk(sfStatistikkFraApi.total)
-            }
             setSkalSøke(false);
         }
     }, [sfStatistikkFraApi]);
 
     function oppdaterSide(side: number, triggetNyttSøk: boolean, sortering?: SortState) {
         setSide(side);
-        setTriggetNyttSøk(triggetNyttSøk)
         setSøkeverdier({
             ...søkeverdier,
             side,
@@ -117,7 +108,6 @@ const Prioriteringsside = () => {
                         setSortering(sortering)
                         oppdaterSide(1, true, sortering)
                     })}
-                    totaltAntallResultaterISøk={totaltAntallResultaterISøk}
                     side={side}
                 />
             ) : harSøktMinstEnGang && !loading && <SøketGaIngenResultater />}
