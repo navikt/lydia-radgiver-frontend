@@ -10,7 +10,7 @@ export default {
 
 export const Hovedstory = () => {
     const [side, setSide] = useState(1);
-    const antallTreffPåSide = side === 5 ? 10 : ANTALL_RESULTATER_PER_SIDE;
+    const antallTreffPåSide = side === 10 ? 10 : ANTALL_RESULTATER_PER_SIDE;
 
     const endreSide = (side: number) => {
         setSide(side)
