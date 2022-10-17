@@ -5,13 +5,6 @@ Frontend for IA rådgivere
 
 # Komme i gang
 
-## Sette opp utviklingmiljø
-1. Installere avhengigheter: Kjør `npm install` i `client` og `server`-mappene
-2. Starte frackend: Kjør `npm run dev` i `server`-mappen
-3. Starte frontend: Kjør `npm run dev` i `client`-mappen
-
-`npm run dev` gir blant annet hot reloading.
-
 ## Kjøre opp lokalt
 Dette let deg køyre opp frontend lokalt med alt av avhengigheitene som trengst. 
 Dette vert orkestrert av docker-compose. 
@@ -46,7 +39,15 @@ Sørg for at du har skrudd på administrator-rettar for brukaren din (privileges
 
 
 ### Køyr server og frontend med avhengigheter:  
-`./run.sh` i rotmappa
+Pass på at du har ein køyrande docker-instans. 
+For Colima gjer du dette ved å køyre `colima status` og eventuelt `colima start`
+
+Om du bruker Colima treng du også å køyre denne for å få ting til å fungere. Hugs å gjer brukaren din admin-rettar først.  
+`sudo rm -rf /var/run/docker.sock && sudo ln -s /Users/$(whoami)/.colima/docker.sock /var/run/docker.sock
+`
+
+Når du har docker på plass kan du køyre   
+`./run.sh` i rotmappa. Dette startar server og frontend med sine avhengigheiter.
 
 Besøk deretter http://localhost:2222 i din favorittbrowser.  
 Skjemaet som dukker opp her gjev deg høve til å endre kva rettar testbrukaren din har. I dei fleste tilfelle kan du skrive inn noko tilfeldig tekst og trykke "SIGN-IN".
