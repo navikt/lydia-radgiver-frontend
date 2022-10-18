@@ -25,8 +25,9 @@ interface Props {
 }
 
 export const SøkeresultatFooter = ({side, antallTreffPåSide, endreSide}: Props) => {
-    const resultatFra = (side - 1) * ANTALL_RESULTATER_PER_SIDE + 1;
-    const resultatTil = Math.min(antallTreffPåSide, side * ANTALL_RESULTATER_PER_SIDE);
+    const sideOffset = (side - 1) * ANTALL_RESULTATER_PER_SIDE
+    const resultatFra = sideOffset + 1;
+    const resultatTil = Math.min(sideOffset + antallTreffPåSide, side * ANTALL_RESULTATER_PER_SIDE);
 
     return (
         <Container>
