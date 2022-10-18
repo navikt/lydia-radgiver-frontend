@@ -11,10 +11,12 @@ const Container = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
   gap: 1rem;
+  padding: 0.5rem 1rem;
 `;
 
-const Navigation = styled.nav`
+const Paginering = styled.nav`
   display: flex;
   align-items: center;
   gap: 0.75rem;
@@ -26,10 +28,10 @@ interface Props {
     antallTreffPåSide: number;
 }
 
-export const Paginering = ({side, antallTreffPåSide, endreSide}: Props) => {
+export const SøkeresultatFooter = ({side, antallTreffPåSide, endreSide}: Props) => {
     return (
         <Container>
-            <Navigation>
+            <Paginering>
                 <Item
                     className={cl("navds-pagination__prev-next", "navds-pagination--prev-next--with-text", {
                         "navds-pagination--invisible": side === 1
@@ -76,7 +78,7 @@ export const Paginering = ({side, antallTreffPåSide, endreSide}: Props) => {
                         Neste
                     </BodyShort>
                 </Item>
-            </Navigation>
+            </Paginering>
             <Detail size="small">
                 Tallene viser offisiell sykefraværsstatistikk for andre kvartal 2022.
             </Detail>

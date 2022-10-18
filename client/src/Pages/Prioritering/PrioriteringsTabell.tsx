@@ -8,7 +8,7 @@ import {lokalDato} from "../../util/dato";
 import {formaterMedEnDesimal, formaterSomHeltall, formaterSomProsentMedEnDesimal} from "../../util/tallFormatering";
 import {EksternLenke} from "../../components/EksternLenke";
 import React from "react";
-import {Paginering} from "./Paginering";
+import {SøkeresultatFooter} from "./SøkeresultatFooter";
 
 interface Kolonne {
     key: string,
@@ -147,7 +147,7 @@ const PrioriteringsTabell = ({
                 </Table.Body>
             </Table>
             {!!sykefraværsstatistikk.length &&
-                <Paginering side={side} endreSide={endreSide} antallTreffPåSide={sykefraværsstatistikk.length} />
+                <SøkeresultatFooter side={side} endreSide={endreSide} antallTreffPåSide={sykefraværsstatistikk.length} />
             }
         </div>
     )

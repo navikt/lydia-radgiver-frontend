@@ -1,12 +1,12 @@
 import { ComponentMeta } from "@storybook/react";
-import { Paginering } from "./Paginering";
+import { SøkeresultatFooter } from "./SøkeresultatFooter";
 import { useState } from "react";
 import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
 
 export default {
     title: "Prioritering/Paginering",
-    component: Paginering,
-} as ComponentMeta<typeof Paginering>;
+    component: SøkeresultatFooter,
+} as ComponentMeta<typeof SøkeresultatFooter>;
 
 export const Hovedstory = () => {
     const [side, setSide] = useState(1);
@@ -16,5 +16,5 @@ export const Hovedstory = () => {
         setSide(side)
     }
 
-    return <Paginering side={side} endreSide={endreSide} antallTreffPåSide={antallTreffPåSide} />
+    return <SøkeresultatFooter side={side} endreSide={endreSide} antallTreffPåSide={antallTreffPåSide} />
 }
