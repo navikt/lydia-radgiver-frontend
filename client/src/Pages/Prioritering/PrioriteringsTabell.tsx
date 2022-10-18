@@ -1,13 +1,13 @@
+import React from "react";
+import styled from "styled-components";
 import {SortState, Table} from "@navikt/ds-react";
 import {SykefraversstatistikkVirksomhet} from "../../domenetyper";
 import {StatusBadge} from "./StatusBadge";
-import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {NavIdentMedLenke} from "../../components/NavIdentMedLenke";
 import {lokalDato} from "../../util/dato";
 import {formaterMedEnDesimal, formaterSomHeltall, formaterSomProsentMedEnDesimal} from "../../util/tallFormatering";
 import {EksternLenke} from "../../components/EksternLenke";
-import React from "react";
 import {SøkeresultatFooter} from "./SøkeresultatFooter";
 
 interface Kolonne {

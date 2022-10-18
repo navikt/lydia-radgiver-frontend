@@ -1,17 +1,14 @@
-import {StyledFiltervisning} from "./Filtervisning";
+import { StyledFiltervisning } from "./Filtervisning";
 import { StyledPrioriteringsTabell } from "./PrioriteringsTabell";
-import {
-    useFilterverdier,
-    useSykefraværsstatistikk,
-} from "../../api/lydia-api";
-import {useContext, useEffect, useState} from "react";
+import { useFilterverdier, useSykefraværsstatistikk } from "../../api/lydia-api";
+import { useContext, useEffect, useState } from "react";
 import {
     Filterverdier, Sorteringsverdi,
     SykefraversstatistikkVirksomhet,
     Søkeverdier,
 } from "../../domenetyper";
-import {Loader, SortState} from "@navikt/ds-react";
-import {statiskeSidetitler, TittelContext} from "./TittelContext";
+import { Loader, SortState } from "@navikt/ds-react";
+import { statiskeSidetitler, TittelContext } from "./TittelContext";
 
 const tommeFilterverdier: Filterverdier = {
     fylker: [],
@@ -37,7 +34,7 @@ const Prioriteringsside = () => {
     const {oppdaterTittel} = useContext(TittelContext)
     oppdaterTittel(statiskeSidetitler.prioriteringsside)
 
-    const [sortering, setSortering] = useState<SortState>({ direction: "descending", orderBy: "tapte_dagsverk" })
+    const [sortering, setSortering] = useState<SortState>({direction: "descending", orderBy: "tapte_dagsverk"})
     const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState<SykefraversstatistikkVirksomhet[]>();
     const [side, setSide] = useState(1);
     const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>({
@@ -53,7 +50,7 @@ const Prioriteringsside = () => {
     const fantResultaterISøk = harSøktMinstEnGang && sykefraværsstatistikk.length > 0
     const skalViseTabell = fantResultaterISøk && !skalSøke;
 
-    const { data: filterverdier } = useFilterverdier();
+    const {data: filterverdier} = useFilterverdier();
     const {
         data: sfStatistikkFraApi,
         error,
@@ -89,7 +86,7 @@ const Prioriteringsside = () => {
             <StyledFiltervisning
                 filterverdier={filterverdier ?? tommeFilterverdier}
                 oppdaterSøkeverdier={(nyeSøkeverdier: Søkeverdier) => {
-                    setSøkeverdier({ ...søkeverdier, ...nyeSøkeverdier });
+                    setSøkeverdier({...søkeverdier, ...nyeSøkeverdier});
                     setSkalSøke(false);
                 }}
                 søkPåNytt={() => {
@@ -111,7 +108,7 @@ const Prioriteringsside = () => {
                     side={side}
                 />
             ) : harSøktMinstEnGang && !loading && <SøketGaIngenResultater />}
-            <div style={{ textAlign: "center" }}>
+            <div style={{textAlign: "center"}}>
                 {loading && (
                     <Loader
                         title={"Henter sykefraværsstatistikk"}
@@ -126,7 +123,7 @@ const Prioriteringsside = () => {
 };
 
 const SøketGaIngenResultater = () => (
-    <p style={{ textAlign : "center"}}>Søket ga ingen resultater</p>
+    <p style={{textAlign: "center"}}>Søket ga ingen resultater</p>
 )
 
 export default Prioriteringsside;
