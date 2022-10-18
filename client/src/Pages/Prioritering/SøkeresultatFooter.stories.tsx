@@ -4,7 +4,7 @@ import { useState } from "react";
 import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
 
 export default {
-    title: "Prioritering/Paginering",
+    title: "Prioritering/SøkeresultatFooter",
     component: SøkeresultatFooter,
 } as ComponentMeta<typeof SøkeresultatFooter>;
 
