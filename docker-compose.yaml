@@ -123,6 +123,7 @@ services:
       KAFKA_KEYSTORE_PATH: ""
       KAFKA_CREDSTORE_PASSWORD: ""
       STATISTIKK_TOPIC: arbeidsgiver.sykefravarsstatistikk-v1
+      STATISTIKK_LAND_TOPIC: arbeidsgiver.sykefravarsstatistikk-land-v1
       IA_SAK_HENDELSE_TOPIC: pia.ia-sak-hendelse-v1
       IA_SAK_TOPIC: pia.ia-sak-v1
       BRREG_OPPDATERING_TOPIC: pia.brreg-oppdatering
