@@ -31,7 +31,7 @@ const tilSorteringsretning = (direction: SortState["direction"] = "descending") 
     }
 }
 
-export const ANTALL_RESULTATER_PER_SIDE = 50;
+export const ANTALL_RESULTATER_PER_SIDE = 100;
 
 const Prioriteringsside = () => {
     const {oppdaterTittel} = useContext(TittelContext)
