@@ -4,10 +4,32 @@ import { IASak, SykefraversstatistikkVirksomhet, Virksomhet, VirksomhetStatusEnu
 import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
 import { IASakOversikt } from "./IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
+import { Breakpoint, forLargerThan } from "../../styling/breakpoint";
+import { contentSpacing } from "../../styling/contentSpacing";
 
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
+  background: white;
+
+  // Gjer at bakgrunnsgfargen dekkjer heile breidda/høgda av skjermen
+  margin-top: -${contentSpacing.mobileY};
+  padding-top: ${contentSpacing.mobileY};
+  padding-bottom: ${contentSpacing.mobileY};
+
+  ${forLargerThan(Breakpoint.Tablet)} {
+    margin-left: -${contentSpacing.tabletX};
+    margin-right: -${contentSpacing.tabletX};
+    padding-left: ${contentSpacing.tabletX};
+    padding-right: ${contentSpacing.tabletX};
+  }
+
+  ${forLargerThan(Breakpoint.LargeDesktop)} {
+    margin-left: -${contentSpacing.desktopX};
+    margin-right: -${contentSpacing.desktopX};
+    padding-left: ${contentSpacing.desktopX};
+    padding-right: ${contentSpacing.desktopX};
+  }
 `;
 
 const OverskriftContainer = styled.div`

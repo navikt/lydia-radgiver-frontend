@@ -5,7 +5,7 @@ import { VirksomhetHeader } from "./VirksomhetHeader";
 import { contentSpacing } from "../../styling/contentSpacing";
 
 const Container = styled.div`
-  padding: ${contentSpacing.mobileY} 0;
+  padding-top: ${contentSpacing.mobileY};
 `;
 
 interface VirksomhetOversiktProps {
