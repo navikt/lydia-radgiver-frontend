@@ -1,21 +1,45 @@
+import styled from "styled-components";
 import { Detail, Heading, Tag } from "@navikt/ds-react";
 import { IASak, SykefraversstatistikkVirksomhet, Virksomhet, VirksomhetStatusEnum } from "../../domenetyper";
 import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
 import { IASakOversikt } from "./IASakOversikt";
-import styled from "styled-components";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 
-const Container = styled.div`
+const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
 
-const HorisontalFlexMedToppRamme = styled.div`
+const OverskriftContainer = styled.div`
+  display: flex;
+  align-items: baseline;
+  gap: 1rem;
+`;
+
+const SektorInfo = styled(Detail)`
+  color: #707070;
+  margin-left: auto;
+`;
+
+const SlettetFjernetInfo = styled(Tag)`
+  align-self: center;
+  text-transform: lowercase;
+  background: #E5E5E5;
+  border-color: #8F8F8F;
+`;
+
+const InnholdContainer = styled.div`
   display: flex;
   gap: 2rem;
   flex-direction: row;
   border-top: 1px solid black;
 `;
+
+const VirksomhetsinfoContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex: 3;
+`
 
 const StyledVirksomhetsInformasjon = styled(VirksomhetInformasjon)`
   justify-content: space-between;
@@ -32,47 +56,38 @@ interface Props {
 
 export const VirksomhetHeader = ({virksomhet, sykefraværsstatistikk, iaSak, muterState}: Props) => {
     return (
-        <Container>
-            <div style={{display: "flex", alignItems: "flex-end", flexDirection: "row"}}>
-                    <span style={{flex: "3", display: "flex", flexDirection: "row"}}>
-                        <Heading level={"2"} size={"large"}>
-                            {virksomhet.navn}
-                        </Heading>
-                        {
-                            (virksomhet.status == VirksomhetStatusEnum.enum.FJERNET
-                                || virksomhet.status == VirksomhetStatusEnum.enum.SLETTET)
-                            && <Tag variant={"warning"}
-                                    size={"medium"}
-                                    style={{
-                                        marginLeft: "1rem", alignSelf: "center", textTransform: "lowercase",
-                                        background: "#E5E5E5",
-                                        borderColor: "#8F8F8F"
-                                    }}>
-                                {virksomhet.status}
-                            </Tag>
-                        }
-                    </span>
+        <HeaderContainer>
+            <OverskriftContainer>
+                <Heading level={"2"} size={"large"}>
+                    {virksomhet.navn}
+                </Heading>
+                {
+                    (virksomhet.status == VirksomhetStatusEnum.enum.FJERNET
+                        || virksomhet.status == VirksomhetStatusEnum.enum.SLETTET)
+                    && <SlettetFjernetInfo variant={"warning"} size={"medium"}>
+                        {virksomhet.status}
+                    </SlettetFjernetInfo>
+                }
                 {
                     virksomhet.sektor && (
-                        <Detail size={"medium"} style={{color: "#707070", flex: "1"}}>
+                        <SektorInfo size={"medium"}>
                             Sektor: {virksomhet.sektor}
-                        </Detail>)
+                        </SektorInfo>)
                 }
-
-            </div>
-            <HorisontalFlexMedToppRamme>
-                <Container style={{flex: 3}}>
+            </OverskriftContainer>
+            <InnholdContainer>
+                <VirksomhetsinfoContainer>
                     <StyledVirksomhetsInformasjon virksomhet={virksomhet} />
                     <SykefraværsstatistikkVirksomhet
                         sykefraværsstatistikk={sykefraværsstatistikk}
                     />
-                </Container>
+                </VirksomhetsinfoContainer>
                 <IASakOversikt
                     iaSak={iaSak}
                     orgnummer={virksomhet.orgnr}
                     muterState={muterState}
                 />
-            </HorisontalFlexMedToppRamme>
-        </Container>
+            </InnholdContainer>
+        </HeaderContainer>
     )
 }
