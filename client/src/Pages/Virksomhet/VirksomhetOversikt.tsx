@@ -1,6 +1,12 @@
+import styled from "styled-components";
 import { IASak, Sakshistorikk, SykefraversstatistikkVirksomhet, Virksomhet, } from "../../domenetyper";
 import { StyledSamarbeidshistorikk } from "./IASakshendelserOversikt";
 import { VirksomhetHeader } from "./VirksomhetHeader";
+import { contentSpacing } from "../../styling/contentSpacing";
+
+const Container = styled.div`
+  padding: ${contentSpacing.mobileY} 0;
+`;
 
 interface VirksomhetOversiktProps {
     virksomhet: Virksomhet;
@@ -18,7 +24,7 @@ export const VirksomhetOversikt = ({
     muterState,
 }: VirksomhetOversiktProps) => {
     return (
-        <>
+        <Container>
             <VirksomhetHeader
                 virksomhet={virksomhet}
                 sykefraværsstatistikk={sykefraværsstatistikk}
@@ -27,6 +33,6 @@ export const VirksomhetOversikt = ({
             />
             <br />
             <StyledSamarbeidshistorikk samarbeidshistorikk={samarbeidshistorikk} />
-        </>
+        </Container>
     );
 };

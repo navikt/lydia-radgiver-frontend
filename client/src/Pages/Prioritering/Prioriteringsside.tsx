@@ -1,14 +1,16 @@
+import { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
+import { Loader, SortState } from "@navikt/ds-react";
 import { StyledFiltervisning } from "./Filtervisning";
 import { StyledPrioriteringsTabell } from "./PrioriteringsTabell";
 import { useFilterverdier, useSykefraværsstatistikk } from "../../api/lydia-api";
-import { useContext, useEffect, useState } from "react";
-import {
-    Filterverdier, Sorteringsverdi,
-    SykefraversstatistikkVirksomhet,
-    Søkeverdier,
-} from "../../domenetyper";
-import { Loader, SortState } from "@navikt/ds-react";
+import { Filterverdier, Sorteringsverdi, SykefraversstatistikkVirksomhet, Søkeverdier } from "../../domenetyper";
 import { statiskeSidetitler, TittelContext } from "./TittelContext";
+import { contentSpacing } from "../../styling/contentSpacing";
+
+const Container = styled.div`
+  padding: ${contentSpacing.mobileY} 0;
+`;
 
 const tommeFilterverdier: Filterverdier = {
     fylker: [],
@@ -82,7 +84,7 @@ const Prioriteringsside = () => {
     }
 
     return (
-        <>
+        <Container>
             <StyledFiltervisning
                 filterverdier={filterverdier ?? tommeFilterverdier}
                 oppdaterSøkeverdier={(nyeSøkeverdier: Søkeverdier) => {
@@ -118,7 +120,7 @@ const Prioriteringsside = () => {
                 )}
                 {error && <p> Noe gikk galt under uthenting av sykefraværsstatistikk</p>}
             </div>
-        </>
+        </Container>
     );
 };
 
