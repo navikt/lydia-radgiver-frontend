@@ -28,11 +28,11 @@ const badgeStyling = css<{ backgroundColor: string, textColor: string }>`
   height: fit-content;
 `;
 
-const StyledDetail = styled(Detail)<{ backgroundColor: string, textColor: string}>`
+const StyledDetail = styled(Detail)<{ backgroundColor: string, textColor: string }>`
   ${badgeStyling}
 `;
 
-const StyledBodyShort = styled(BodyShort)<{ backgroundColor: string, textColor: string}>`
+const StyledBodyShort = styled(BodyShort)<{ backgroundColor: string, textColor: string }>`
   ${badgeStyling}
 `;
 

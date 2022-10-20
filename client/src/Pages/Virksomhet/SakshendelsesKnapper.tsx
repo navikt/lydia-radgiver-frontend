@@ -1,3 +1,4 @@
+import { CSSProperties, useState } from "react";
 import {
     GyldigNesteHendelse, IAProsessStatusEnum,
     IAProsessStatusType,
@@ -11,9 +12,8 @@ import {
     penskrivIASakshendelsestype,
     sorterHendelserPåKnappeType
 } from "./IASakshendelseKnapp";
-import {CSSProperties, useState} from "react";
-import {BekreftelseDialog, Props as BekreftelseDialogProps} from "../../components/Dialog/BekreftelseDialog";
-import {penskrivIAStatus} from "../Prioritering/StatusBadge";
+import { BekreftelseDialog, Props as BekreftelseDialogProps } from "../../components/Dialog/BekreftelseDialog";
+import { penskrivIAStatus } from "../../components/Badge/StatusBadge";
 
 const horisontalKnappeStyling: CSSProperties = {
     display: "flex",
@@ -53,7 +53,11 @@ const beskrivelseForHendelse = ({hendelse, sakstatus}: {
     }
 }
 
-const BekreftHendelseDialog = ({sak: {status: sakstatus}, hendelse, ...rest}: BekreftelseDialogProps & BekreftHendelseDialogProps) => (
+const BekreftHendelseDialog = ({
+    sak: {status: sakstatus},
+    hendelse,
+    ...rest
+}: BekreftelseDialogProps & BekreftHendelseDialogProps) => (
     <BekreftelseDialog
         {...rest}
         description={beskrivelseForHendelse({hendelse, sakstatus})}
