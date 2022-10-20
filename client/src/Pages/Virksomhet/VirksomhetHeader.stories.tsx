@@ -6,7 +6,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { VirksomhetHeader } from "./VirksomhetHeader";
 
 export default {
-    title: "Virksomhet/VirksomhetHeader",
+    title: "Virksomhet/Header på virksomhetssida",
     component: VirksomhetHeader,
     decorators: [(Story) => <MemoryRouter initialEntries={["/virksomhet/123456789"]}>
         <Routes>
@@ -18,7 +18,7 @@ export default {
     </MemoryRouter>]
 } as ComponentMeta<typeof VirksomhetHeader>;
 
-export const VirksomhetHeaderStory = () => {
+export const Hovedstory = () => {
     const doNothing = () => {
         return;
     }

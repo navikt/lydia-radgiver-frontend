@@ -1,18 +1,20 @@
 import { ComponentMeta } from "@storybook/react";
-
+import { useState } from "react";
+import { rest } from "msw";
 import { IASakOversikt } from "./IASakOversikt";
 import {
-    iaSakFullført, iaSakFullførtOgLukket,
-    iaSakIkkeAktuell, iaSakKartlegges,
-    iaSakKontaktes, iaSakViBistår,
+    iaSakFullført,
+    iaSakFullførtOgLukket,
+    iaSakIkkeAktuell,
+    iaSakKartlegges,
+    iaSakKontaktes,
+    iaSakViBistår,
     iaSakVurderesMedEier,
     iaSakVurderesUtenEier,
 } from "./mocks/iaSakMock";
-import { rest } from "msw";
 import { iaSakPath, iaSakPostNyHendelsePath } from "../../api/lydia-api";
 import { FeilmeldingBanner } from "../FeilmeldingBanner";
 import { IASak } from "../../domenetyper";
-import { useState } from "react";
 
 export default {
     title: "Virksomhet/Oversikt over IA-sak",
@@ -23,10 +25,10 @@ const orgnummer = "987654321";
 
 export const IkkeAktiv = () => {
     const [sak, setSak] = useState<IASak>()
-    return <IASakOversikt orgnummer={"987654321"} iaSak={sak} muterState={() => {
-            setSak(iaSakVurderesUtenEier)
-        }
-    }/>;
+    return <IASakOversikt orgnummer={orgnummer} iaSak={sak} muterState={() => {
+        setSak(iaSakVurderesUtenEier)
+    }
+    } />;
 };
 
 IkkeAktiv.parameters = {
@@ -71,30 +73,29 @@ VurderesUtenEierMedFeilmelding.parameters = {
 };
 
 export const VurderesMedEierEier = () => (
-    <IASakOversikt iaSak={iaSakVurderesMedEier} orgnummer={"987654321"} />
+    <IASakOversikt iaSak={iaSakVurderesMedEier} orgnummer={orgnummer} />
 );
 
 export const Kontaktes = () => (
-    <IASakOversikt iaSak={iaSakKontaktes} orgnummer={"987654321"} />
+    <IASakOversikt iaSak={iaSakKontaktes} orgnummer={orgnummer} />
 );
 
 export const IkkeAktuell = () => (
-    <IASakOversikt iaSak={iaSakIkkeAktuell} orgnummer={"987654321"} />
+    <IASakOversikt iaSak={iaSakIkkeAktuell} orgnummer={orgnummer} />
 );
 
-
 export const Kartlegges = () => (
-    <IASakOversikt iaSak={iaSakKartlegges} orgnummer={"987654321"} />
+    <IASakOversikt iaSak={iaSakKartlegges} orgnummer={orgnummer} />
 );
 
 export const ViBistar = () => (
-    <IASakOversikt iaSak={iaSakViBistår} orgnummer={"987654321"} />
+    <IASakOversikt iaSak={iaSakViBistår} orgnummer={orgnummer} />
 );
 
 export const Fullfort = () => (
-    <IASakOversikt iaSak={iaSakFullført} orgnummer={"987654321"} />
+    <IASakOversikt iaSak={iaSakFullført} orgnummer={orgnummer} />
 );
 
 export const FullfortOgLukket = () => (
-    <IASakOversikt iaSak={iaSakFullførtOgLukket} orgnummer={"987654321"} />
+    <IASakOversikt iaSak={iaSakFullførtOgLukket} orgnummer={orgnummer} />
 );
