@@ -12,7 +12,7 @@ services:
       - postgres-data:/var/lib/postgresql/data
 
   authserver:
-    image: ghcr.io/navikt/mock-oauth2-server:0.5.4
+    image: ghcr.io/navikt/mock-oauth2-server:0.5.5
     environment:
       TZ: Europe/Oslo
       SERVER_PORT: 6969
@@ -22,7 +22,7 @@ services:
 
   zookeeper:
     container_name: zookeeper
-    image: kymeric/cp-zookeeper
+    image: confluentinc/cp-zookeeper:7.2.2
     ports:
       - 2181:2181
     environment:
@@ -36,7 +36,7 @@ services:
       retries: 5
 
   kafka:
-    image: kymeric/cp-kafka
+    image: confluentinc/cp-kafka:7.2.2
     depends_on:
       - zookeeper
     restart: always
@@ -60,20 +60,7 @@ services:
       KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:9093,BROKER://kafka:9092
       TZ: Europe/Oslo
 
-#  control-center:
-#    container_name: control-center
-#    image: confluentinc/cp-enterprise-control-center:7.2.1
-#    depends_on:
-#      - kafka
-#    ports:
-#      - 9021:9021
-#    environment:
-#      CONTROL_CENTER_BOOTSTRAP_SERVERS: kafka:9092
-#      CONTROL_CENTER_REPLICATION_FACTOR: 1
-#      PORT: 9021
-
   backend:
-    platform: linux/amd64
     image: ghcr.io/navikt/lydia-api:latest
     depends_on:
       - postgres
