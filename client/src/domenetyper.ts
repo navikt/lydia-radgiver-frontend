@@ -94,7 +94,6 @@ export interface Søkeverdier {
     side?: number;
     bransjeprogram?: string[]
     eiere?: string[]
-    skalInkludereTotaltAntall?: boolean
 }
 
 const VIRKSOMHET_STATUS = ["AKTIV", "FJERNET", "SLETTET"] as const

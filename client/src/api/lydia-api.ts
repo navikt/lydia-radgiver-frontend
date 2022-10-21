@@ -281,6 +281,5 @@ export const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
         søkeverdier.eiere?.join(",") ?? ""
     );
 
-    params.append("skalInkludereTotaltAntall", `${søkeverdier.skalInkludereTotaltAntall ?? false}`)
     return params;
 };

@@ -44,8 +44,7 @@ const Prioriteringsside = () => {
         antallArbeidsforholdRange: {
             fra: 5,
             til: NaN,
-        },
-        skalInkludereTotaltAntall: true
+        }
     });
     const [skalSøke, setSkalSøke] = useState(false);
     const harSøktMinstEnGang = sykefraværsstatistikk !== undefined
@@ -68,12 +67,11 @@ const Prioriteringsside = () => {
         }
     }, [sfStatistikkFraApi]);
 
-    function oppdaterSide(side: number, triggetNyttSøk: boolean, sortering?: SortState) {
+    function oppdaterSide(side: number, sortering?: SortState) {
         setSide(side);
         setSøkeverdier({
             ...søkeverdier,
             side,
-            skalInkludereTotaltAntall: triggetNyttSøk,
             ...(sortering && {
                 sorteringsnokkel: sortering.orderBy as Sorteringsverdi,
                 sorteringsretning: tilSorteringsretning(sortering.direction)
@@ -92,7 +90,7 @@ const Prioriteringsside = () => {
                     setSkalSøke(false);
                 }}
                 søkPåNytt={() => {
-                    oppdaterSide(1, true);
+                    oppdaterSide(1);
                 }}
             />
             <br />
@@ -100,12 +98,12 @@ const Prioriteringsside = () => {
                 <StyledPrioriteringsTabell
                     sykefraværsstatistikk={sykefraværsstatistikk}
                     endreSide={(side) => {
-                        oppdaterSide(side, false);
+                        oppdaterSide(side);
                     }}
                     sortering={sortering}
                     endreSortering={(sortering => {
                         setSortering(sortering)
-                        oppdaterSide(1, true, sortering)
+                        oppdaterSide(1, sortering)
                     })}
                     side={side}
                 />
