@@ -100,6 +100,7 @@ export const hentOnBehalfOfToken = async (
                 params,
                 { headers: { "content-type": "application/x-www-form-urlencoded" } }
             );
+            req.session.accessToken = await encrypt(accessToken)
             req.session.azureOboToken = await encrypt(result.data.access_token);
             return result.data.access_token;
         } catch (error) {
@@ -117,7 +118,7 @@ export const hentOnBehalfOfToken = async (
         }
     }
 
-    if (encryptedObo) {
+    if (encryptedObo && await decrypt(req.session.accessToken) === accessToken) {
         redisCacheHitCounter.inc();
         const oboToken = await decrypt(encryptedObo);
         return isValid(decodeJwt(oboToken)) ? oboToken : await fetchOboToken();
