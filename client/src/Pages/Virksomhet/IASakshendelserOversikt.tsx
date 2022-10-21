@@ -80,7 +80,7 @@ interface SakshistorikkTabellProps {
 }
 
 const SakshistorikkTabell = ({sakshistorikk}: SakshistorikkTabellProps) => {
-    const kolonneNavn = ["Status", "Tidspunkt", "Begrunnelse", "Ansvarlig"];
+    const kolonneNavn = ["Status", "Tidspunkt", "Begrunnelse", "Eier"];
 
     return (
         <Table zebraStripes style={bakgrunnsRamme}>

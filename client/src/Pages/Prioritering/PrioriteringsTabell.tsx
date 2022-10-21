@@ -59,8 +59,8 @@ const kolonner: Kolonne[] = [
         textAlignment: "right"
     },
     {
-        key: "rådgiver",
-        name: "Rådgiver",
+        key: "eier",
+        name: "Eier",
         textAlignment: "left"
     },
 ]
