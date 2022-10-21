@@ -18,6 +18,7 @@ import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {Kommunedropdown} from "./Kommunedropdown";
 import {AntallArbeidsforholdVelger} from "./AntallArbeidsforholdVelger";
 import {KunMineVirksomheterToggle} from "./KunMineVirksomheterToggle";
+import {useHentBrukerinformasjon} from "../../api/lydia-api";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -62,6 +63,7 @@ const Filtervisning = ({
         til: NaN,
     });
     const [IAStatus, setIAStatus] = useState<IAProsessStatusType>();
+    const {data: brukerInformasjon} = useHentBrukerinformasjon();
 
     const endreFylke = (fylkesnummer: string) => {
         if (fylkesnummer === valgtFylke?.fylke.nummer) return;
@@ -165,7 +167,10 @@ const Filtervisning = ({
                     valgtStatus={IAStatus}
                 />
                 <KunMineVirksomheterToggle onChangeCallback={(visKunMineVirksomheter) =>
-                    oppdaterSøkeverdier({ kunMineVirksomheter : visKunMineVirksomheter})
+                        oppdaterSøkeverdier({
+                            eiere : (visKunMineVirksomheter && brukerInformasjon) ? [brukerInformasjon.ident] : undefined
+                        })
+
                 }/>
                 <Søkeknapp
                     size="medium"

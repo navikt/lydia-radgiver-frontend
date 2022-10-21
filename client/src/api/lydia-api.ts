@@ -275,7 +275,12 @@ export const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
     params.append("iaStatus", søkeverdier.iaStatus ?? "");
     params.append("side", søkeverdier.side?.toString() ?? "");
     params.append("bransjeprogram", søkeverdier.bransjeprogram?.join() ?? "")
-    params.append("kunMineVirksomheter", søkeverdier.kunMineVirksomheter?.toString() ?? "")
+
+    params.append(
+        "eiere",
+        søkeverdier.eiere?.join(",") ?? ""
+    );
+
     params.append("skalInkludereTotaltAntall", `${søkeverdier.skalInkludereTotaltAntall ?? false}`)
     return params;
 };

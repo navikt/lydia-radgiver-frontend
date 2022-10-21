@@ -8,7 +8,7 @@ describe("oversettelse fra søkeverdier til URL-parametre", () => {
         const searchParams = søkeverdierTilUrlSearchParams(søkeverdier).toString()
 
         expect(searchParams).toBe(
-            "kommuner=&fylker=&neringsgrupper=&sykefraversprosentFra=&sykefraversprosentTil=&ansatteFra=&ansatteTil=&sorteringsnokkel=&sorteringsretning=desc&iaStatus=&side=&bransjeprogram=&kunMineVirksomheter=&skalInkludereTotaltAntall=false"
+            "kommuner=&fylker=&neringsgrupper=&sykefraversprosentFra=&sykefraversprosentTil=&ansatteFra=&ansatteTil=&sorteringsnokkel=&sorteringsretning=desc&iaStatus=&side=&bransjeprogram=&eiere=&skalInkludereTotaltAntall=false"
         )
     })
 
@@ -19,7 +19,7 @@ describe("oversettelse fra søkeverdier til URL-parametre", () => {
         }
         const searchParams = søkeverdierTilUrlSearchParams(søkeverdier).toString()
         expect(searchParams).toBe(
-            `kommuner=0000%2C0001&fylker=03&neringsgrupper=&sykefraversprosentFra=&sykefraversprosentTil=&ansatteFra=&ansatteTil=&sorteringsnokkel=&sorteringsretning=desc&iaStatus=&side=&bransjeprogram=&kunMineVirksomheter=&skalInkludereTotaltAntall=false`
+            `kommuner=0000%2C0001&fylker=03&neringsgrupper=&sykefraversprosentFra=&sykefraversprosentTil=&ansatteFra=&ansatteTil=&sorteringsnokkel=&sorteringsretning=desc&iaStatus=&side=&bransjeprogram=&eiere=&skalInkludereTotaltAntall=false`
         )
 
     })
