@@ -38,4 +38,4 @@ const EIERE_MOCKS: Eier[] = [
     },
 ]
 
-export const Hovedstory = () => (<EierDropdown eierBytte={console.log} eiere={EIERE_MOCKS}/>)
+export const Hovedstory = () => (<EierDropdown eierBytte={console.log} søkbareEiere={EIERE_MOCKS}/>)
