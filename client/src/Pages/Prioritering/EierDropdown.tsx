@@ -1,4 +1,4 @@
-import {CSSProperties, useState} from "react";
+import {useState} from "react";
 import {Label} from "@navikt/ds-react";
 import {reactSelectStyle, StyledReactSelect} from "../../components/ReactSelect/StyledReactSelect";
 import {sorterAlfabetisk} from "../../util/sortering";
@@ -10,45 +10,37 @@ export type Eier = {
     id: string
 }
 
-const ALLE: Eier = {
-    navn: "Alle",
-    id: "alle"
-}
-const MINE: Eier = {
-    navn: "Mine",
-    id: "mine"
-}
-
 interface Props {
-    eierBytte: (eier: Eier) => void
-    style?: CSSProperties
-    søkbareEiere?: Eier[]
+    onEierBytteCallback: (eiere: Eier[]) => void
+    søkbareEiere: Eier[]
 }
 
-export const EierDropdown = ({eierBytte, style, søkbareEiere}: Props) => {
-    const [valgtEier, setValgtEier] = useState<Eier>(ALLE);
+export const EierDropdown = ({onEierBytteCallback, søkbareEiere}: Props) => {
+    const [valgteEiere, setValgteEiere] = useState<Eier[]>([]);
+    const options = søkbareEiere.sort((a, b) => sorterAlfabetisk(a.navn, b.navn))
 
-    const options = [ALLE, MINE].concat(
-        søkbareEiere?.sort((a, b) => sorterAlfabetisk(a.navn, b.navn)) ?? [])
-    
+    const håndterEierBytte = (nyEier: Eier | null) => {
+        const nyeEiere = nyEier !== null ? [nyEier] : []
+        onEierBytteCallback(nyeEiere)
+        setValgteEiere(nyeEiere)
+    }
+
     return (
-        <div style={style}>
+        <div style={{minWidth: "15rem"}}>
             <Label id={eierDropdownId}>Eier</Label>
             <StyledReactSelect
                 aria-labelledby={eierDropdownId}
-                defaultValue={ALLE.id}
-                value={valgtEier}
+                defaultValue={valgteEiere}
+                value={valgteEiere}
                 noOptionsMessage={() => "Ingen eiere å velge"}
                 options={options}
                 getOptionLabel={(eier) => (eier as Eier).navn}
                 getOptionValue={(eier) => (eier as Eier).id}
                 isMulti={false}
+                isClearable={true}
                 styles={reactSelectStyle()}
                 placeholder=""
-                onChange={(eier) => {
-                    eierBytte(eier as Eier)
-                    setValgtEier(eier as Eier)
-                }}
+                onChange={(eier) => håndterEierBytte(eier as Eier | null)}
             />
         </div>
     )

@@ -1,34 +1,19 @@
 import { ComponentMeta } from "@storybook/react";
 import { Dekoratør } from "./Dekoratør";
-import {Brukerinformasjon} from "../../domenetyper";
 import {rest} from "msw";
 import {
     virksomhetAutocompletePath,
 } from "../../api/lydia-api";
 import {virksomhetAutocompleteMock} from "../../Pages/Prioritering/mocks/virksomhetMock";
+import {
+    brukerMedGyldigToken,
+    brukerMedTokenSomHolderPåÅLøpeUt
+} from "../../Pages/Prioritering/mocks/innloggetAnsattMock";
 
 export default {
     title: "Dekoratør",
     component: Dekoratør,
 } as ComponentMeta<typeof Dekoratør>;
-
-
-const TRE_TIMER_MS = 1000 * 60 * 60 * 3
-const FEM_SEKUNDER_MS = 1000 * 5
-
-const brukerMedGyldigToken : Brukerinformasjon = {
-    navn: "Gyldig Bruker",
-    ident: "X12345",
-    epost: "a@b.com",
-    tokenUtløper: Date.now() + TRE_TIMER_MS
-}
-
-const brukerMedTokenSomHolderPåÅLøpeUt : Brukerinformasjon = {
-    navn: "Utgått Bruker",
-    ident: "X12345",
-    epost: "a@b.com",
-    tokenUtløper: Date.now() + FEM_SEKUNDER_MS
-}
 
 export const Autentisert = () => <div data-theme="dark"><Dekoratør brukerInformasjon={brukerMedGyldigToken} /></div>
 

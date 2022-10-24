@@ -166,7 +166,11 @@ const Filtervisning = ({
                     statuser={filterverdier.statuser}
                     valgtStatus={IAStatus}
                 />
-                <EierDropdown eierBytte={(eier) => { oppdaterSøkeverdier({ eiere: [eier] })}}/>
+                <EierDropdown
+                    søkbareEiere={brukerInformasjon ? [{ navn: brukerInformasjon.navn, id: brukerInformasjon.ident}] : []}
+                    onEierBytteCallback={(eiere) => {
+                        oppdaterSøkeverdier({eiere})
+                    }}/>
                 <Søkeknapp
                     size="medium"
                     onClick={() => {
