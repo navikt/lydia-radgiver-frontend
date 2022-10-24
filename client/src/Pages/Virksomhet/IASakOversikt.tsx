@@ -32,6 +32,7 @@ const Container = styled.div<IASakBakgrunnProps>`
 
   border-radius: 0 0 10px 10px;
   background-color: ${(props) => hentBakgrunnsFargeForIAStatus(props.status)};
+  border: ${(props) => props.status === "FULLFØRT" ? "solid 1px #8F8F8F" : "none"};
 `;
 
 const Saksinfo = styled.div`

@@ -8,6 +8,7 @@ import { IAProsessStatusEnum, IAProsessStatusType } from "../../domenetyper";
 export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): Farge => {
     switch (status) {
         case IAProsessStatusEnum.enum.NY:
+        case IAProsessStatusEnum.enum.FULLFØRT:
             return Farge.hvit
         case IAProsessStatusEnum.enum.VURDERES:
             return Farge.lyseBlå
@@ -21,7 +22,6 @@ export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): Farg
         case IAProsessStatusEnum.enum.KARTLEGGES:
             return Farge.gul
         case IAProsessStatusEnum.enum.VI_BISTÅR:
-        case IAProsessStatusEnum.enum.FULLFØRT:
             return Farge.grønn
     }
 }
