@@ -167,10 +167,9 @@ const Filtervisning = ({
                     valgtStatus={IAStatus}
                 />
                 <KunMineVirksomheterToggle onChangeCallback={(visKunMineVirksomheter) =>
-                        oppdaterSøkeverdier({
-                            eiere : (visKunMineVirksomheter && brukerInformasjon) ? [brukerInformasjon.ident] : undefined
-                        })
-
+                    oppdaterSøkeverdier({
+                        eiere: (visKunMineVirksomheter && brukerInformasjon) ? [{ navn: brukerInformasjon.navn, id: brukerInformasjon.ident }] : undefined
+                    })
                 }/>
                 <Søkeknapp
                     size="medium"

@@ -278,7 +278,7 @@ export const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
 
     params.append(
         "eiere",
-        søkeverdier.eiere?.join(",") ?? ""
+        søkeverdier.eiere?.map(eier => eier.id)?.join(",") ?? ""
     );
 
     return params;
