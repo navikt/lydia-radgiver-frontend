@@ -17,8 +17,8 @@ import styled from "styled-components";
 import {hvitRammeMedBoxShadow} from "../../styling/containere";
 import {Kommunedropdown} from "./Kommunedropdown";
 import {AntallArbeidsforholdVelger} from "./AntallArbeidsforholdVelger";
-import {KunMineVirksomheterToggle} from "./KunMineVirksomheterToggle";
 import {useHentBrukerinformasjon} from "../../api/lydia-api";
+import {EierDropdown} from "./EierDropdown";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -43,14 +43,14 @@ const Søkeknapp = styled(Button)`
 const næringsgruppeKoderTilNæringsgrupper = (
     næringsgruppeKoder: string[],
     næringsgrupper: Næringsgruppe[]
-) => næringsgrupper.filter(({ kode }) => næringsgruppeKoder.includes(kode));
+) => næringsgrupper.filter(({kode}) => næringsgruppeKoder.includes(kode));
 
 const Filtervisning = ({
-    filterverdier,
-    oppdaterSøkeverdier,
-    søkPåNytt,
-    className,
-}: FiltervisningProps) => {
+                           filterverdier,
+                           oppdaterSøkeverdier,
+                           søkPåNytt,
+                           className,
+                       }: FiltervisningProps) => {
     const [valgtFylke, setValgtFylke] = useState<FylkeMedKommuner>();
     const [valgteKommuner, setValgteKommuner] = useState<Kommune[]>([]);
     const [næringsGrupper, setNæringsGrupper] = useState<Næringsgruppe[]>([]);
@@ -125,23 +125,23 @@ const Filtervisning = ({
                     fylkerOgKommuner={filterverdier.fylker}
                     valgtFylke={valgtFylke?.fylke}
                     endreFylke={endreFylke}
-                    style={{ flex: "1" }}
+                    style={{flex: "1"}}
                 />
                 <Kommunedropdown
                     relevanteFylkerMedKommuner={valgtFylke ? [valgtFylke] : filterverdier.fylker}
                     valgteKommuner={valgteKommuner}
                     endreKommuner={endreKommuner}
-                    style={{ flex: "5" }}
+                    style={{flex: "5"}}
                 />
             </HorizontalFlexboxDivGap3RemAlignItemsEnd>
-            <br />
+            <br/>
             <Næringsgruppedropdown
                 bransjeprogram={filterverdier.bransjeprogram}
                 næringsgrupper={filterverdier.neringsgrupper}
                 valgtNæringsgruppe={næringsGrupper}
                 endreNæringsgrupper={endreNæringsgruppe}
             />
-            <br />
+            <br/>
             <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <SykefraværsprosentVelger
                     sykefraværsprosentRange={sykefraværsProsent}
@@ -154,7 +154,7 @@ const Filtervisning = ({
                     endreAntallArbeidsforhold={endreAntallArbeidsforhold}
                 />
             </HorizontalFlexboxDivGap3RemAlignItemsEnd>
-            <br />
+            <br/>
             <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <IAStatusDropdown
                     endreStatus={(iaStatus) => {
@@ -166,11 +166,7 @@ const Filtervisning = ({
                     statuser={filterverdier.statuser}
                     valgtStatus={IAStatus}
                 />
-                <KunMineVirksomheterToggle onChangeCallback={(visKunMineVirksomheter) =>
-                    oppdaterSøkeverdier({
-                        eiere: (visKunMineVirksomheter && brukerInformasjon) ? [{ navn: brukerInformasjon.navn, id: brukerInformasjon.ident }] : undefined
-                    })
-                }/>
+                <EierDropdown eierBytte={(eier) => { oppdaterSøkeverdier({ eiere: [eier] })}}/>
                 <Søkeknapp
                     size="medium"
                     onClick={() => {

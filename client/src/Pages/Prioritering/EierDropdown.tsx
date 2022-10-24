@@ -1,4 +1,4 @@
-import {CSSProperties} from "react";
+import {CSSProperties, useState} from "react";
 import {Label} from "@navikt/ds-react";
 import {reactSelectStyle, StyledReactSelect} from "../../components/ReactSelect/StyledReactSelect";
 import {sorterAlfabetisk} from "../../util/sortering";
@@ -20,15 +20,16 @@ const MINE: Eier = {
 }
 
 interface Props {
-    valgtEier?: Eier
     eierBytte: (eier: Eier) => void
     style?: CSSProperties
-    eiere?: Eier[]
+    søkbareEiere?: Eier[]
 }
 
-export const EierDropdown = ({eierBytte, style, eiere, valgtEier}: Props) => {
+export const EierDropdown = ({eierBytte, style, søkbareEiere}: Props) => {
+    const [valgtEier, setValgtEier] = useState<Eier>(ALLE);
+
     const options = [ALLE, MINE].concat(
-        eiere?.sort((a, b) => sorterAlfabetisk(a.navn, b.navn)) ?? [])
+        søkbareEiere?.sort((a, b) => sorterAlfabetisk(a.navn, b.navn)) ?? [])
     
     return (
         <div style={style}>
@@ -36,16 +37,17 @@ export const EierDropdown = ({eierBytte, style, eiere, valgtEier}: Props) => {
             <StyledReactSelect
                 aria-labelledby={eierDropdownId}
                 defaultValue={ALLE.id}
-                value={valgtEier ?? ALLE}
+                value={valgtEier}
                 noOptionsMessage={() => "Ingen eiere å velge"}
                 options={options}
-                getOptionLabel={(v) => (v as Eier).navn}
-                getOptionValue={(v) => (v as Eier).id}
+                getOptionLabel={(eier) => (eier as Eier).navn}
+                getOptionValue={(eier) => (eier as Eier).id}
                 isMulti={false}
                 styles={reactSelectStyle()}
                 placeholder=""
-                onChange={(verdi) => {
-                    eierBytte(verdi as Eier)
+                onChange={(eier) => {
+                    eierBytte(eier as Eier)
+                    setValgtEier(eier as Eier)
                 }}
             />
         </div>
