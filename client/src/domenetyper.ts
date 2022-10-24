@@ -1,6 +1,7 @@
 import { z } from "zod";
 import { sorteringsverdier } from "./Pages/Prioritering/Filtervisning";
 import { Range } from "./Pages/Prioritering/SykefraværsprosentVelger";
+import {Eier} from "./Pages/Prioritering/EierDropdown";
 
 export const datoSchema = z.preprocess((arg) => {
     if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
@@ -93,7 +94,7 @@ export interface Søkeverdier {
     iaStatus?: IAProsessStatusType;
     side?: number;
     bransjeprogram?: string[]
-    eiere?: string[]
+    eiere?: Eier[]
 }
 
 const VIRKSOMHET_STATUS = ["AKTIV", "FJERNET", "SLETTET"] as const
