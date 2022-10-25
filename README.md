@@ -64,6 +64,9 @@ For å tvinge nedlastning av nye images (feks hvis det har kommet ett nytt backe
 
 `docker-compose down && docker-compose build --pull`
 
+Nokre gonger vil ikkje lydia-api-imaget oppdatere seg. Dette kan du sjekke ved å gjere `docker images` og sjekke opprettingsdatoen for ghcr.io/navikt/lydia-api. For å slette imaget gjer du `docker rmi <IMAGE ID>`. IMAGE ID finn du i tabellen frå `docker images`.
+
+
 ## Storybook
 For å raskt kunne teste at ein komponent ser ut som den skal har vi laga stories i Storybook. 
 Dette gjer det mogleg å sjå komponenten i ein nøytral eller bestemt kontekst.
