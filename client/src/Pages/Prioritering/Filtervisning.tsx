@@ -6,19 +6,19 @@ import {
     Næringsgruppe,
     Søkeverdier,
 } from "../../domenetyper";
-import {Button} from "@navikt/ds-react";
-import {useState} from "react";
-import {Range, SykefraværsprosentVelger} from "./SykefraværsprosentVelger";
-import {HorizontalFlexboxDivGap3RemAlignItemsEnd} from "./HorizontalFlexboxDiv";
-import {Næringsgruppedropdown} from "./NæringsgruppeDropdown";
-import {Fylkedropdown} from "./Fylkedropdown";
-import {IAStatusDropdown} from "./IAStatusDropdown";
+import { Button } from "@navikt/ds-react";
+import { useState } from "react";
+import { Range, SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
+import { HorizontalFlexboxDivGap3RemAlignItemsEnd } from "./HorizontalFlexboxDiv";
+import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
+import { Fylkedropdown } from "./Fylkedropdown";
+import { IAStatusDropdown } from "./IAStatusDropdown";
 import styled from "styled-components";
-import {hvitRammeMedBoxShadow} from "../../styling/containere";
-import {Kommunedropdown} from "./Kommunedropdown";
-import {AntallArbeidsforholdVelger} from "./AntallArbeidsforholdVelger";
-import {useHentBrukerinformasjon} from "../../api/lydia-api";
-import {EierDropdown} from "./EierDropdown";
+import { hvitRammeMedBoxShadow } from "../../styling/containere";
+import { Kommunedropdown } from "./Kommunedropdown";
+import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
+import { useHentBrukerinformasjon } from "../../api/lydia-api";
+import { EierDropdown } from "./EierDropdown";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -36,8 +36,8 @@ interface FiltervisningProps {
 }
 
 const Søkeknapp = styled(Button)`
-    width: 10rem;
-    margin-left: auto;
+  width: 10rem;
+  margin-left: auto;
 `;
 
 const næringsgruppeKoderTilNæringsgrupper = (
@@ -46,11 +46,11 @@ const næringsgruppeKoderTilNæringsgrupper = (
 ) => næringsgrupper.filter(({kode}) => næringsgruppeKoder.includes(kode));
 
 const Filtervisning = ({
-                           filterverdier,
-                           oppdaterSøkeverdier,
-                           søkPåNytt,
-                           className,
-                       }: FiltervisningProps) => {
+    filterverdier,
+    oppdaterSøkeverdier,
+    søkPåNytt,
+    className,
+}: FiltervisningProps) => {
     const [valgtFylke, setValgtFylke] = useState<FylkeMedKommuner>();
     const [valgteKommuner, setValgteKommuner] = useState<Kommune[]>([]);
     const [næringsGrupper, setNæringsGrupper] = useState<Næringsgruppe[]>([]);
@@ -134,14 +134,14 @@ const Filtervisning = ({
                     style={{flex: "5"}}
                 />
             </HorizontalFlexboxDivGap3RemAlignItemsEnd>
-            <br/>
+            <br />
             <Næringsgruppedropdown
                 bransjeprogram={filterverdier.bransjeprogram}
                 næringsgrupper={filterverdier.neringsgrupper}
                 valgtNæringsgruppe={næringsGrupper}
                 endreNæringsgrupper={endreNæringsgruppe}
             />
-            <br/>
+            <br />
             <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <SykefraværsprosentVelger
                     sykefraværsprosentRange={sykefraværsProsent}
@@ -154,7 +154,7 @@ const Filtervisning = ({
                     endreAntallArbeidsforhold={endreAntallArbeidsforhold}
                 />
             </HorizontalFlexboxDivGap3RemAlignItemsEnd>
-            <br/>
+            <br />
             <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <IAStatusDropdown
                     endreStatus={(iaStatus) => {
@@ -167,10 +167,13 @@ const Filtervisning = ({
                     valgtStatus={IAStatus}
                 />
                 <EierDropdown
-                    søkbareEiere={brukerInformasjon ? [{ navn: brukerInformasjon.navn, id: brukerInformasjon.ident}] : []}
+                    filtrerbareEiere={brukerInformasjon ? [{
+                        navn: brukerInformasjon.navn,
+                        id: brukerInformasjon.ident
+                    }] : []}
                     onEierBytteCallback={(eiere) => {
                         oppdaterSøkeverdier({eiere})
-                    }}/>
+                    }} />
                 <Søkeknapp
                     size="medium"
                     onClick={() => {
@@ -184,12 +187,7 @@ const Filtervisning = ({
     );
 };
 
-export interface GroupedKommune {
-    label: string;
-    options: Kommune[];
-}
-
 export const StyledFiltervisning = styled(Filtervisning)`
-    ${hvitRammeMedBoxShadow}
-    padding: 1rem;
+  padding: 1rem;
+  ${hvitRammeMedBoxShadow}
 `;

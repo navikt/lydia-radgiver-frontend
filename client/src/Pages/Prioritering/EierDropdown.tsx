@@ -12,12 +12,12 @@ export type Eier = {
 
 interface Props {
     onEierBytteCallback: (eiere: Eier[]) => void
-    søkbareEiere: Eier[]
+    filtrerbareEiere: Eier[]
 }
 
-export const EierDropdown = ({onEierBytteCallback, søkbareEiere}: Props) => {
+export const EierDropdown = ({onEierBytteCallback, filtrerbareEiere}: Props) => {
     const [valgteEiere, setValgteEiere] = useState<Eier[]>([]);
-    const options = søkbareEiere.sort((a, b) => sorterAlfabetisk(a.navn, b.navn))
+    const options = filtrerbareEiere.sort((a, b) => sorterAlfabetisk(a.navn, b.navn))
 
     const håndterEierBytte = (nyEier: Eier | null) => {
         const nyeEiere = nyEier !== null ? [nyEier] : []
