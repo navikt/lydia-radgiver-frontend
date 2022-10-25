@@ -2,13 +2,9 @@ import {useState} from "react";
 import {Label} from "@navikt/ds-react";
 import {reactSelectStyle, StyledReactSelect} from "../../components/ReactSelect/StyledReactSelect";
 import {sorterAlfabetisk} from "../../util/sortering";
+import { Eier } from "../../domenetyper";
 
 const eierDropdownId = "EierDropdown"
-
-export type Eier = {
-    navn: string
-    id: string
-}
 
 interface Props {
     onEierBytteCallback: (eiere: Eier[]) => void
@@ -35,7 +31,7 @@ export const EierDropdown = ({onEierBytteCallback, filtrerbareEiere}: Props) => 
                 noOptionsMessage={() => "Ingen eiere å velge"}
                 options={options}
                 getOptionLabel={(eier) => (eier as Eier).navn}
-                getOptionValue={(eier) => (eier as Eier).id}
+                getOptionValue={(eier) => (eier as Eier).navIdent}
                 isMulti={false}
                 isClearable={true}
                 styles={reactSelectStyle()}

@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { sorteringsverdier } from "./Pages/Prioritering/Filtervisning";
 import { Range } from "./Pages/Prioritering/SykefraværsprosentVelger";
-import {Eier} from "./Pages/Prioritering/EierDropdown";
 
 export const datoSchema = z.preprocess((arg) => {
     if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
@@ -22,7 +21,7 @@ export const næringsgrupperSchema = z.object({
     kode: z.string(),
 });
 
-const eierSchema = z.object({
+export const eierSchema = z.object({
     navIdent: z.string(),
     navn: z.string(),
 })
@@ -82,6 +81,8 @@ export type FylkeMedKommuner = z.infer<typeof fylkeMedKommunerSchema>;
 export type Filterverdier = z.infer<typeof filterverdierSchema>;
 
 export type Næringsgruppe = z.infer<typeof næringsgrupperSchema>;
+
+export type Eier = z.infer<typeof eierSchema>;
 
 export type SykefraversstatistikkVirksomhet = z.infer<typeof sykefraversstatistikkVirksomhetSchema>;
 

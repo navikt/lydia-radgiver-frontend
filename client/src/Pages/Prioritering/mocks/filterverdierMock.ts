@@ -1,4 +1,47 @@
-import {Filterverdier, IAProsessStatusEnum} from "../../../domenetyper";
+import { Eier, Filterverdier, IAProsessStatusEnum } from "../../../domenetyper";
+
+export const EIERE_MOCKS: Eier[] = [
+    {
+        navn: "Donald Duck",
+        navIdent: "A12345"
+    },
+    {
+        navn: "Fetter Anton",
+        navIdent: "B12345"
+    },
+    {
+        navn: "Onkel Skrue",
+        navIdent: "C12345"
+    },
+    {
+        navn: "Klara Ku",
+        navIdent: "D12345"
+    },
+    {
+        navn: "Dolly Duck",
+        navIdent: "E12345"
+    },
+    {
+        navn: "Langbein",
+        navIdent: "F12345"
+    },
+    {
+        navn: "Mikke Mus",
+        navIdent: "G12345"
+    },
+    {
+        navn: "Albus Parsifal Ulfrik Brian Humlesnurr",
+        navIdent: "H12345"
+    },
+    {
+        navn: "Pippilotta Viktualia Rullgardina Krusmynte Efraimsdatter Langstrømpe",
+        navIdent: "I12345"
+    },
+    {
+        navn: "Jo Å",
+        navIdent: "J12345"
+    },
+]
 
 export const filterverdierMock: Filterverdier = {
     fylker: [
@@ -259,6 +302,7 @@ export const filterverdierMock: Filterverdier = {
             navn: "Jordbruk og tjenester tilknyttet jordbruk, jakt og viltstell",
         },
     ],
+    filtrerbareEiere: EIERE_MOCKS,
     sorteringsnokler: [
         "tapte_dagsverk",
         "mulige_dagsverk",

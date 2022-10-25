@@ -17,7 +17,6 @@ import styled from "styled-components";
 import { hvitRammeMedBoxShadow } from "../../styling/containere";
 import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
-import { useHentBrukerinformasjon } from "../../api/lydia-api";
 import { EierDropdown } from "./EierDropdown";
 
 export const sorteringsverdier = {
@@ -63,7 +62,6 @@ const Filtervisning = ({
         til: NaN,
     });
     const [IAStatus, setIAStatus] = useState<IAProsessStatusType>();
-    const {data: brukerInformasjon} = useHentBrukerinformasjon();
 
     const endreFylke = (fylkesnummer: string) => {
         if (fylkesnummer === valgtFylke?.fylke.nummer) return;
@@ -167,17 +165,14 @@ const Filtervisning = ({
                     valgtStatus={IAStatus}
                 />
                 <EierDropdown
-                    filtrerbareEiere={brukerInformasjon ? [{
-                        navn: brukerInformasjon.navn,
-                        id: brukerInformasjon.ident
-                    }] : []}
+                    filtrerbareEiere={filterverdier.filtrerbareEiere}
                     onEierBytteCallback={(eiere) => {
                         oppdaterSøkeverdier({eiere})
                     }} />
                 <Søkeknapp
                     size="medium"
                     onClick={() => {
-                        søkPåNytt();
+                        søkPåNytt()
                     }}
                 >
                     Søk
