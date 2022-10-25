@@ -22,6 +22,11 @@ export const næringsgrupperSchema = z.object({
     kode: z.string(),
 });
 
+const eierSchema = z.object({
+    navIdent: z.string(),
+    navn: z.string(),
+})
+
 const IA_PROSESS_STATUSER = [
     "NY",
     "IKKE_AKTIV",
@@ -66,7 +71,8 @@ export const filterverdierSchema = z.object({
     neringsgrupper: z.array(næringsgrupperSchema),
     sorteringsnokler: z.string().array(),
     statuser: IAProsessStatusEnum.array(),
-    bransjeprogram: z.string().array()
+    bransjeprogram: z.string().array(),
+    filtrerbareEiere: z.array(eierSchema),
 });
 
 export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>
