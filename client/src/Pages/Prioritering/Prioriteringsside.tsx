@@ -17,7 +17,8 @@ const tommeFilterverdier: Filterverdier = {
     neringsgrupper: [],
     sorteringsnokler: [],
     statuser: [],
-    bransjeprogram: []
+    bransjeprogram: [],
+    filtrerbareEiere: [],
 };
 
 const tilSorteringsretning = (direction: SortState["direction"] = "descending") => {
