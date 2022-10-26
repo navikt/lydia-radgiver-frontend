@@ -1,28 +1,29 @@
 import "@navikt/ds-css";
 import React from "react";
 import styled from "styled-components";
-import { Badge, Farge } from "./Badge";
+import { Badge } from "./Badge";
 import { IAProsessStatusEnum, IAProsessStatusType } from "../../domenetyper";
+import { FiaFarger } from "../../styling/farger";
 
 
-export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): Farge => {
+export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): FiaFarger => {
     switch (status) {
         case IAProsessStatusEnum.enum.NY:
         case IAProsessStatusEnum.enum.FULLFØRT:
-            return Farge.hvit
+            return FiaFarger.hvit
         case IAProsessStatusEnum.enum.VURDERES:
-            return Farge.lyseBlå
+            return FiaFarger.lyseBlå
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
         case IAProsessStatusEnum.enum.SLETTET:
-            return Farge.grå
+            return FiaFarger.grå
         case IAProsessStatusEnum.enum.KONTAKTES:
-            return Farge.mørkeBlå
+            return FiaFarger.mørkeBlå
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
-            return Farge.rød
+            return FiaFarger.rød
         case IAProsessStatusEnum.enum.KARTLEGGES:
-            return Farge.gul
+            return FiaFarger.gul
         case IAProsessStatusEnum.enum.VI_BISTÅR:
-            return Farge.grønn
+            return FiaFarger.grønn
     }
 }
 

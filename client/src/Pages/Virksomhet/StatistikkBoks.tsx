@@ -1,4 +1,5 @@
-import { Badge, Farge } from "../../components/Badge/Badge";
+import { Badge } from "../../components/Badge/Badge";
+import { FiaFarger } from "../../styling/farger";
 
 interface Props {
     verdi: string;
@@ -9,9 +10,9 @@ export const StatistikkBoks = ({verdi, tittel}: Props) => {
     return (
         <div style={{flex: 1, textAlign: "center"}}>
             <Badge
-                backgroundColor={Farge.mørkeGrå}
+                backgroundColor={FiaFarger.mørkeGrå}
                 text={tittel}
-                textColor={Farge.hvit}
+                textColor={FiaFarger.hvit}
                 size={"medium"}
             />
             <p
