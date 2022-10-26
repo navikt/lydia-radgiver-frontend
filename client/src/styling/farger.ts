@@ -36,9 +36,25 @@ export enum NavFarger {
     red800 = "var(--navds-global-color-red-800)",
     red900 = "var(--navds-global-color-red-900)",
 
+    blue50 = "var(--navds-global-color-blue-50)",
+    blue100 = "var(--navds-global-color-blue-100)",
+    blue200 = "var(--navds-global-color-blue-200)",
+    blue300 = "var(--navds-global-color-blue-300)",
+    blue400 = "var(--navds-global-color-blue-400)",
+    blue500 = "var(--navds-global-color-blue-500)",
+    blue600 = "var(--navds-global-color-blue-600)",
+    blue700 = "var(--navds-global-color-blue-700)",
+    blue800 = "var(--navds-global-color-blue-800)",
+    blue900 = "var(--navds-global-color-blue-900)",
+
     // Semantiske fargar
     text = gray900,
     textMuted = gray600,
     textInverted = white,
     feedbackDangerText = red500,
+    interactionPrimary = blue500,
+    border = gray600,
+    borderMuted = gray500,
+    link = blue500,
+    focus = blue800,
 }
