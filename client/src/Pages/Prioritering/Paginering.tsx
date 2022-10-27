@@ -3,7 +3,7 @@ import styled from "styled-components";
 import cl from "clsx";
 import Item from "@navikt/ds-react/esm/pagination/PaginationItem";
 import { Back, Next } from "@navikt/ds-icons";
-import { BodyShort } from "@navikt/ds-react/src";
+import { BodyShort } from "@navikt/ds-react";
 import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
 
 const Nav = styled.nav`
