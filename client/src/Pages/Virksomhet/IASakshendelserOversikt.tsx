@@ -1,14 +1,15 @@
 import styled from "styled-components";
-import { Table, Heading, Detail, Accordion } from "@navikt/ds-react";
+import { Accordion, Detail, Heading, Table } from "@navikt/ds-react";
 import { Sakshistorikk } from "../../domenetyper";
 import { lokalDato, lokalDatoMedTid } from "../../util/dato";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
+import { Skygger } from "../../styling/skygger";
 
 const bakgrunnsRamme = {
     backgroundColor: "white",
     borderRadius: "4px",
-    boxShadow: "0px 1px 1px rgba(0, 0, 0, 0.14), 0px 2px 1px rgba(38, 38, 38, 0.12), 0px 1px 3px rgba(38, 38, 38, 0.2)"
+    boxShadow: `${Skygger.small}`,
 };
 
 interface SamarbeidshistorikkProps {
@@ -29,7 +30,6 @@ const Samarbeidshistorikk = ({samarbeidshistorikk, className}: Samarbeidshistori
                 level={"2"}
                 style={{
                     padding: "1rem 3rem",
-                    borderBottom: "1px solid black",
                     ...bakgrunnsRamme
                 }}
             >

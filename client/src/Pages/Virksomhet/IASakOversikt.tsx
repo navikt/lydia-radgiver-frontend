@@ -15,6 +15,7 @@ import { BegrunnelseModal } from "./BegrunnelseModal";
 import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import { SakshendelsesKnapper } from "./SakshendelsesKnapper";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
+import { NavFarger } from "../../styling/farger";
 
 interface IASakBakgrunnProps {
     status: IAProsessStatusType;
@@ -32,7 +33,7 @@ const Container = styled.div<IASakBakgrunnProps>`
 
   border-radius: 0 0 10px 10px;
   background-color: ${(props) => hentBakgrunnsFargeForIAStatus(props.status)};
-  border: ${(props) => props.status === "FULLFØRT" ? "solid 1px #8F8F8F" : "none"};
+  border: ${(props) => props.status === "FULLFØRT" ? `solid 1px ${NavFarger.gray500}` : "none"};
 `;
 
 const Saksinfo = styled.div`
@@ -44,7 +45,7 @@ const Saksinfo = styled.div`
 
 const InfoTittel = styled(Detail)`
   font-weight: bold;
-  min-width: ${44/16}rem;
+  min-width: ${44 / 16}rem;
 `;
 
 const InfoData = styled(Detail)`

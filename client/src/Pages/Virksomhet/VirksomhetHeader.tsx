@@ -6,11 +6,12 @@ import { IASakOversikt } from "./IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import { Breakpoint, forLargerThan } from "../../styling/breakpoint";
 import { contentSpacing } from "../../styling/contentSpacing";
+import { NavFarger } from "../../styling/farger";
 
 const HeaderContainer = styled.div`
   display: flex;
   flex-direction: column;
-  background: var(--navds-global-color-white);
+  background: ${NavFarger.white};
 
   // Gjer at bakgrunnsgfargen dekkjer heile breidda/høgda av skjermen
   margin-top: -${contentSpacing.mobileY};
@@ -39,22 +40,22 @@ const OverskriftContainer = styled.div`
 `;
 
 const SektorInfo = styled(Detail)`
-  color: var(--navds-global-color-gray-600);
+  color: ${NavFarger.gray600};
   margin-left: auto;
 `;
 
 const SlettetFjernetInfo = styled(Tag)`
   align-self: center;
   text-transform: lowercase;
-  background: var(--navds-global-color-gray-200);
-  border-color: var(--navds-global-color-gray-500);
+  background: ${NavFarger.gray200};
+  border-color: ${NavFarger.gray500};
 `;
 
 const InnholdContainer = styled.div`
   display: flex;
   gap: 2rem;
   flex-direction: row;
-  border-top: 1px solid var(--navds-global-color-gray-300);
+  border-top: 1px solid ${NavFarger.gray300};
 `;
 
 const VirksomhetsinfoContainer = styled.div`
