@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import ReactSelect, {StylesConfig} from "react-select";
+import { NavFarger } from "../../styling/farger";
 
 export const StyledReactSelect = styled(ReactSelect)`
     margin-top: var(--navds-spacing-2);
@@ -8,13 +9,13 @@ export const StyledReactSelect = styled(ReactSelect)`
 export const reactSelectStyle = (): StylesConfig => ({
     control: (provided, state) => ({
         ...provided,
-        border: "1px solid var(--navds-text-field-color-border)",
+        border: `1px solid ${NavFarger.border}`,
         borderRadius: "4px",
         boxShadow: state.isFocused
-            ? `0 0 0 3px var(--navds-semantic-color-focus);`
+            ? `0 0 0 3px ${NavFarger.focus};`
             : "",
         ":hover": {
-            border: `1px solid var(--navds-semantic-color-link)`,
+            border: `1px solid ${NavFarger.interactionPrimary}`,
         },
     }),
     placeholder: (provided) => ({
