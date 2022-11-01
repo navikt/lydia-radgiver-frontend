@@ -65,6 +65,10 @@ const kolonner: Kolonne[] = [
     },
 ]
 
+const Container = styled.div`
+  ${hvitRammeMedBoxShadow}
+`;
+
 interface Props {
     sykefraværsstatistikk: SykefraversstatistikkVirksomhet[];
     side: number;
@@ -75,14 +79,14 @@ interface Props {
 }
 
 
-const PrioriteringsTabell = ({
-                                 sykefraværsstatistikk,
-                                 className,
-                                 side,
-                                 sortering,
-                                 endreSortering,
-                                 endreSide,
-                             }: Props) => {
+export const PrioriteringsTabell = ({
+    sykefraværsstatistikk,
+    className,
+    side,
+    sortering,
+    endreSortering,
+    endreSide,
+}: Props) => {
     const onSortChange = (sortKey: string | undefined) => {
         if (sortKey == sortering.orderBy) {
             endreSortering({
@@ -99,7 +103,7 @@ const PrioriteringsTabell = ({
 
 
     return (
-        <div className={className}>
+        <Container className={className}>
             <Table
                 zebraStripes size={"small"}
                 sort={sortering}
@@ -108,8 +112,13 @@ const PrioriteringsTabell = ({
                 <Table.Header className={"table-header"}>
                     <Table.Row>
                         {kolonner.map(({sortable = false, name, key, textAlignment}) => (
-                            <Table.ColumnHeader scope="col" key={key} sortable={sortable} sortKey={key}
-                                                align={textAlignment}>
+                            <Table.ColumnHeader
+                                scope="col"
+                                key={key}
+                                sortable={sortable}
+                                sortKey={key}
+                                align={textAlignment}
+                            >
                                 {name}
                             </Table.ColumnHeader>
                         ))}
@@ -117,12 +126,13 @@ const PrioriteringsTabell = ({
                 </Table.Header>
                 <Table.Body>
                     {sykefraværsstatistikk.map((sykefraværStatistikkVirksomhet) => (
-                        <Table.Row
-                            key={sykefraværStatistikkVirksomhet.virksomhetsnavn}
-                        >
-                            <Table.DataCell><StatusBadge
-                                status={sykefraværStatistikkVirksomhet.status}/></Table.DataCell>
-                            <Table.DataCell>{sykefraværStatistikkVirksomhet.sistEndret ? lokalDato(sykefraværStatistikkVirksomhet.sistEndret) : ""}</Table.DataCell>
+                        <Table.Row key={sykefraværStatistikkVirksomhet.virksomhetsnavn}>
+                            <Table.DataCell>
+                                <StatusBadge status={sykefraværStatistikkVirksomhet.status} />
+                            </Table.DataCell>
+                            <Table.DataCell>
+                                {sykefraværStatistikkVirksomhet.sistEndret ? lokalDato(sykefraværStatistikkVirksomhet.sistEndret) : ""}
+                            </Table.DataCell>
                             <Table.HeaderCell scope="row">
                                 <EksternLenke
                                     target={`${sykefraværStatistikkVirksomhet.orgnr}`}
@@ -131,28 +141,29 @@ const PrioriteringsTabell = ({
                                     {sykefraværStatistikkVirksomhet.virksomhetsnavn}
                                 </EksternLenke>
                             </Table.HeaderCell>
-                            <Table.DataCell
-                                style={{textAlign: "right"}}>{formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}</Table.DataCell>
-                            <Table.DataCell
-                                style={{textAlign: "right"}}>{formaterSomHeltall(sykefraværStatistikkVirksomhet.antallPersoner)}</Table.DataCell>
-                            <Table.DataCell
-                                style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.tapteDagsverk)}</Table.DataCell>
-                            <Table.DataCell
-                                style={{textAlign: "right"}}>{formaterMedEnDesimal(sykefraværStatistikkVirksomhet.muligeDagsverk)}</Table.DataCell>
+                            <Table.DataCell style={{textAlign: "right"}}>
+                                {formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}
+                            </Table.DataCell>
+                            <Table.DataCell style={{textAlign: "right"}}>
+                                {formaterSomHeltall(sykefraværStatistikkVirksomhet.antallPersoner)}
+                            </Table.DataCell>
+                            <Table.DataCell style={{textAlign: "right"}}>
+                                {formaterMedEnDesimal(sykefraværStatistikkVirksomhet.tapteDagsverk)}
+                            </Table.DataCell>
+                            <Table.DataCell style={{textAlign: "right"}}>
+                                {formaterMedEnDesimal(sykefraværStatistikkVirksomhet.muligeDagsverk)}
+                            </Table.DataCell>
                             <Table.DataCell>
-                                <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv}/>
+                                <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv} />
                             </Table.DataCell>
                         </Table.Row>
                     ))}
                 </Table.Body>
             </Table>
             {!!sykefraværsstatistikk.length &&
-                <SøkeresultatFooter side={side} endreSide={endreSide} antallTreffPåSide={sykefraværsstatistikk.length} />
+                <SøkeresultatFooter side={side} endreSide={endreSide}
+                                    antallTreffPåSide={sykefraværsstatistikk.length} />
             }
-        </div>
+        </Container>
     )
 }
-
-export const StyledPrioriteringsTabell = styled(PrioriteringsTabell)`
-    ${hvitRammeMedBoxShadow}
-`

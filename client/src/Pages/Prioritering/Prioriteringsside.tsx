@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Loader, SortState } from "@navikt/ds-react";
 import { StyledFiltervisning } from "./Filtervisning";
-import { StyledPrioriteringsTabell } from "./PrioriteringsTabell";
+import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import { useFilterverdier, useSykefraværsstatistikk } from "../../api/lydia-api";
 import { Filterverdier, Sorteringsverdi, SykefraversstatistikkVirksomhet, Søkeverdier } from "../../domenetyper";
 import { statiskeSidetitler, TittelContext } from "./TittelContext";
@@ -96,7 +96,7 @@ const Prioriteringsside = () => {
             />
             <br />
             {skalViseTabell ? (
-                <StyledPrioriteringsTabell
+                <PrioriteringsTabell
                     sykefraværsstatistikk={sykefraværsstatistikk}
                     endreSide={(side) => {
                         oppdaterSide(side);

@@ -1,13 +1,13 @@
 import { ComponentMeta } from "@storybook/react";
-import { StyledPrioriteringsTabell } from "./PrioriteringsTabell";
+import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import { sykefraværsstatistikkMock } from "./mocks/sykefraværsstatistikkMock";
 import { useState } from "react";
 import { SortState } from "@navikt/ds-react";
 
 export default {
     title: "Prioritering/Prioriteringstabell",
-    component: StyledPrioriteringsTabell,
-} as ComponentMeta<typeof StyledPrioriteringsTabell>;
+    component: PrioriteringsTabell,
+} as ComponentMeta<typeof PrioriteringsTabell>;
 
 function repeatArray<T>(arr: T[], repeats: number): T[] {
     return Array.from({length: repeats}, () => arr).flat();
@@ -20,7 +20,7 @@ export const Hovedstory = () => {
     const [sortering, setSortering] = useState<SortState>({direction: "descending", orderBy: "tapte_dagsverk"})
 
     return (
-        <StyledPrioriteringsTabell
+        <PrioriteringsTabell
             sykefraværsstatistikk={sykefraværsstatistikk.slice((side - 1) * antallPerSide, side * antallPerSide)}
             endreSide={(side) => {
                 setSide(side)
