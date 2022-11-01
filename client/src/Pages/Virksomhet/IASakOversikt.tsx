@@ -38,7 +38,8 @@ const Container = styled.div<IASakBakgrunnProps>`
 
 const Saksinfo = styled.div`
   display: grid;
-  grid-template: auto auto auto / auto 1fr;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: repeat(auto-fill, auto);
   row-gap: ${12 / 16}rem;
   column-gap: ${70 / 16}rem;
 `;
