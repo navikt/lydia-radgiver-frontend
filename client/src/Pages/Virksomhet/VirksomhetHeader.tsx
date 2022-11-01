@@ -48,20 +48,20 @@ const SlettetFjernetInfo = styled(Tag)`
   align-self: center;
   text-transform: lowercase;
   background: ${NavFarger.gray200};
-  border-color: ${NavFarger.gray500};
+  border-color: ${NavFarger.borderMuted};
 `;
 
 const InnholdContainer = styled.div`
   display: flex;
   gap: 2rem;
   flex-direction: row;
-  border-top: 1px solid ${NavFarger.gray300};
 `;
 
 const VirksomhetsinfoContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex: 3;
+  gap: 1rem;
 `
 
 interface Props {

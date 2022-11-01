@@ -1,6 +1,7 @@
 import { Virksomhet } from "../../domenetyper";
 import styled from "styled-components";
 import { BodyShort, Label } from "@navikt/ds-react";
+import { NavFarger } from "../../styling/farger";
 
 const VerticalFlexboxDiv = styled.div`
   display: flex;
@@ -13,8 +14,9 @@ const Container = styled.div`
   gap: 3rem;
   justify-content: space-between;
   
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
+  padding: 1.5rem;
+  border: 1px solid ${NavFarger.borderMuted};
+  border-radius: 4px;
 `;
 
 interface Props {
