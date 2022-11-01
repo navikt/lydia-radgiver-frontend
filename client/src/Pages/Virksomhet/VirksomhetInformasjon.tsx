@@ -5,7 +5,8 @@ import { NavFarger } from "../../styling/farger";
 
 const Container = styled.div`
   display: grid;
-  grid-template: auto auto auto / auto 1fr;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: repeat(auto-fill, auto);
   row-gap: 0.5rem;
   column-gap: 1.5rem;
 
@@ -41,6 +42,12 @@ export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
             </InfoData>
             <InfoTittel>Bransje/næring</InfoTittel>
             <InfoData>{næringsgrupper}</InfoData>
+            { virksomhet.sektor &&
+                (<>
+                    <InfoTittel>Sektor</InfoTittel>
+                    <InfoData>{virksomhet.sektor}</InfoData>
+                </>)
+            }
         </Container>
     );
 };

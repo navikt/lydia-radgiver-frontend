@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Detail, Heading, Tag } from "@navikt/ds-react";
+import { Heading, Tag } from "@navikt/ds-react";
 import { IASak, SykefraversstatistikkVirksomhet, Virksomhet, VirksomhetStatusEnum } from "../../domenetyper";
 import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
 import { IASakOversikt } from "./IASakOversikt";
@@ -37,11 +37,6 @@ const OverskriftContainer = styled.div`
   display: flex;
   align-items: baseline;
   gap: 1rem;
-`;
-
-const SektorInfo = styled(Detail)`
-  color: ${NavFarger.gray600};
-  margin-left: auto;
 `;
 
 const SlettetFjernetInfo = styled(Tag)`
@@ -84,12 +79,6 @@ export const VirksomhetHeader = ({virksomhet, sykefraværsstatistikk, iaSak, mut
                     && <SlettetFjernetInfo variant={"warning"} size={"medium"}>
                         {virksomhet.status}
                     </SlettetFjernetInfo>
-                }
-                {
-                    virksomhet.sektor && (
-                        <SektorInfo size={"medium"}>
-                            Sektor: {virksomhet.sektor}
-                        </SektorInfo>)
                 }
             </OverskriftContainer>
             <InnholdContainer>
