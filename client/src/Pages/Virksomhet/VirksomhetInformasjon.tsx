@@ -3,20 +3,23 @@ import styled from "styled-components";
 import { BodyShort, Label } from "@navikt/ds-react";
 import { NavFarger } from "../../styling/farger";
 
-const VerticalFlexboxDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
 const Container = styled.div`
-  display: flex;
-  flex-direction: row;
-  gap: 3rem;
-  justify-content: space-between;
-  
+  display: grid;
+  grid-template: auto auto auto / auto 1fr;
+  row-gap: 0.5rem;
+  column-gap: 1.5rem;
+
   padding: 1.5rem;
   border: 1px solid ${NavFarger.borderMuted};
   border-radius: 4px;
+`;
+
+const InfoTittel = styled(Label)`
+  font-weight: bold;
+`;
+
+const InfoData = styled(BodyShort)`
+  overflow-wrap: anywhere;
 `;
 
 interface Props {
@@ -24,26 +27,21 @@ interface Props {
     className?: string;
 }
 
-export const VirksomhetInformasjon = ({virksomhet, className}: Props) => (
-    <Container className={className}>
-        <VerticalFlexboxDiv>
-            <Label>Orgnummer</Label>
-            <BodyShort size={"medium"}>{virksomhet.orgnr}</BodyShort>
-        </VerticalFlexboxDiv>
-        <VerticalFlexboxDiv>
-            <Label>Adresse</Label>
-            {virksomhet.adresse.map((x) => (
-                <BodyShort key={`adresse-${x}`}>{x}</BodyShort>
-            ))}
-            <BodyShort>
-                {virksomhet.postnummer} {virksomhet.poststed}
-            </BodyShort>
-        </VerticalFlexboxDiv>
-        <VerticalFlexboxDiv>
-            <Label>Bransje/næring</Label>
-            {virksomhet.neringsgrupper.map(({navn, kode}) => (
-                <BodyShort key={navn}>{navn} ({kode})</BodyShort>
-            ))}
-        </VerticalFlexboxDiv>
-    </Container>
-);
+export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
+    const adresse = virksomhet.adresse.join(', ');
+    const næringsgrupper: string = virksomhet.neringsgrupper.map(({navn, kode}) => (`${navn} (${kode})`)).join(', ')
+
+    return (
+        <Container className={className}>
+            <InfoTittel>Orgnummer</InfoTittel>
+            <InfoData size={"medium"}>{virksomhet.orgnr}</InfoData>
+            <InfoTittel>Adresse</InfoTittel>
+            <InfoData>
+                {adresse}, {virksomhet.postnummer} {virksomhet.poststed}
+            </InfoData>
+            <InfoTittel>Bransje/næring</InfoTittel>
+            <InfoData>{næringsgrupper}</InfoData>
+        </Container>
+    );
+};
+
