@@ -64,12 +64,6 @@ const VirksomhetsinfoContainer = styled.div`
   flex: 3;
 `
 
-const StyledVirksomhetsInformasjon = styled(VirksomhetInformasjon)`
-  justify-content: space-between;
-  margin-top: 1rem;
-  margin-bottom: 1rem;
-`;
-
 interface Props {
     virksomhet: Virksomhet;
     sykefraværsstatistikk: SykefraversstatistikkVirksomhet;
@@ -100,7 +94,7 @@ export const VirksomhetHeader = ({virksomhet, sykefraværsstatistikk, iaSak, mut
             </OverskriftContainer>
             <InnholdContainer>
                 <VirksomhetsinfoContainer>
-                    <StyledVirksomhetsInformasjon virksomhet={virksomhet} />
+                    <VirksomhetInformasjon virksomhet={virksomhet} />
                     <SykefraværsstatistikkVirksomhet
                         sykefraværsstatistikk={sykefraværsstatistikk}
                     />

@@ -6,10 +6,15 @@ const VerticalFlexboxDiv = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const HorizontalFlexboxDiv = styled.div`
+
+const Container = styled.div`
   display: flex;
   flex-direction: row;
   gap: 3rem;
+  justify-content: space-between;
+  
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
 `;
 
 interface Props {
@@ -18,7 +23,7 @@ interface Props {
 }
 
 export const VirksomhetInformasjon = ({virksomhet, className}: Props) => (
-    <HorizontalFlexboxDiv className={className}>
+    <Container className={className}>
         <VerticalFlexboxDiv>
             <Label>Orgnummer</Label>
             <BodyShort size={"medium"}>{virksomhet.orgnr}</BodyShort>
@@ -38,5 +43,5 @@ export const VirksomhetInformasjon = ({virksomhet, className}: Props) => (
                 <BodyShort key={navn}>{navn} ({kode})</BodyShort>
             ))}
         </VerticalFlexboxDiv>
-    </HorizontalFlexboxDiv>
+    </Container>
 );
