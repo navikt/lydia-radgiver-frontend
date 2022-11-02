@@ -57,4 +57,5 @@ export enum NavFarger {
     borderMuted = gray500,
     link = blue500,
     focus = blue800,
+    canvasBackground = gray100,
 }
