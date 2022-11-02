@@ -1,5 +1,17 @@
 import { Badge } from "../../components/Badge/Badge";
 import { FiaFarger } from "../../styling/farger";
+import styled from "styled-components";
+
+const Container = styled.div`
+  flex: 1;
+  text-align: center;
+`;
+
+const Verdi = styled.div`
+  font-weight: bold;
+  font-size: 3rem;
+  margin: auto;
+`;
 
 interface Props {
     verdi: string;
@@ -8,22 +20,14 @@ interface Props {
 
 export const StatistikkBoks = ({verdi, tittel}: Props) => {
     return (
-        <div style={{flex: 1, textAlign: "center"}}>
+        <Container>
             <Badge
                 backgroundColor={FiaFarger.mørkeGrå}
                 text={tittel}
                 textColor={FiaFarger.hvit}
                 size={"medium"}
             />
-            <p
-                style={{
-                    fontWeight: "bold",
-                    fontSize: "3rem",
-                    margin: "auto",
-                }}
-            >
-                {verdi}
-            </p>
-        </div>
+            <Verdi>{verdi}</Verdi>
+        </Container>
     );
 };
