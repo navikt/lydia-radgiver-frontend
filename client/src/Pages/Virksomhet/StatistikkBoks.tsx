@@ -1,16 +1,24 @@
-import { Badge } from "../../components/Badge/Badge";
-import { FiaFarger } from "../../styling/farger";
 import styled from "styled-components";
+import { Label } from "@navikt/ds-react";
+import { NavFarger } from "../../styling/farger";
 
 const Container = styled.div`
   flex: 1;
-  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: wrap;
+
+  background: ${NavFarger.canvasBackground};
+  border-radius: 4px;
+  
+  padding: ${12 / 16}rem ${24 / 16}rem;
+  min-width: ${230 / 16}rem;
 `;
 
-const Verdi = styled.div`
-  font-weight: bold;
-  font-size: 3rem;
-  margin: auto;
+const Verdi = styled(Label)`
+  font-size: 2.5rem;
+  line-height: 1.3;
 `;
 
 interface Props {
@@ -21,12 +29,9 @@ interface Props {
 export const StatistikkBoks = ({verdi, tittel}: Props) => {
     return (
         <Container>
-            <Badge
-                backgroundColor={FiaFarger.mørkeGrå}
-                text={tittel}
-                textColor={FiaFarger.hvit}
-                size={"medium"}
-            />
+            <Label>
+                {tittel}
+            </Label>
             <Verdi>{verdi}</Verdi>
         </Container>
     );
