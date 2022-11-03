@@ -3,11 +3,17 @@ import { StatistikkBoks } from "./StatistikkBoks";
 import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
 import { formaterMedEnDesimal, formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
 
-const HorisontalFlexMedGap = styled.div`
+const Container = styled.div`
   display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   gap: 1rem;
+  flex-wrap: wrap;
+`;
+
+const SubContainerForPrettyWrap = styled.div`
+  flex: 1;
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
 `;
 
 interface Props {
@@ -16,23 +22,27 @@ interface Props {
 
 export const SykefraværsstatistikkVirksomhet = ({sykefraværsstatistikk}: Props) => {
     return (
-        <HorisontalFlexMedGap>
-            <StatistikkBoks
-                verdi={formaterSomProsentMedEnDesimal(sykefraværsstatistikk.sykefraversprosent)}
-                tittel="Sykefravær"
-            />
-            <StatistikkBoks
-                verdi={formaterSomHeltall(sykefraværsstatistikk.antallPersoner)}
-                tittel="Arbeidsforhold"
-            />
-            <StatistikkBoks
-                verdi={formaterMedEnDesimal(sykefraværsstatistikk.muligeDagsverk)}
-                tittel="Mulige dagsverk"
-            />
-            <StatistikkBoks
-                verdi={formaterMedEnDesimal(sykefraværsstatistikk.tapteDagsverk)}
-                tittel="Tapte dagsverk"
-            />
-        </HorisontalFlexMedGap>
+        <Container>
+            <SubContainerForPrettyWrap>
+                <StatistikkBoks
+                    verdi={formaterSomProsentMedEnDesimal(sykefraværsstatistikk.sykefraversprosent)}
+                    tittel="Sykefravær"
+                />
+                <StatistikkBoks
+                    verdi={formaterSomHeltall(sykefraværsstatistikk.antallPersoner)}
+                    tittel="Arbeidsforhold"
+                />
+            </SubContainerForPrettyWrap>
+            <SubContainerForPrettyWrap>
+                <StatistikkBoks
+                    verdi={formaterMedEnDesimal(sykefraværsstatistikk.muligeDagsverk)}
+                    tittel="Mulige dagsverk"
+                />
+                <StatistikkBoks
+                    verdi={formaterMedEnDesimal(sykefraværsstatistikk.tapteDagsverk)}
+                    tittel="Tapte dagsverk"
+                />
+            </SubContainerForPrettyWrap>
+        </Container>
     );
 };
