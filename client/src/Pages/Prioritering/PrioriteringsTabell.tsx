@@ -30,7 +30,7 @@ const kolonner: Kolonne[] = [
     },
     {
         key: "navn",
-        name: "Bedriftsnavn",
+        name: "Virksomhetsnavn",
         sortable: true,
         textAlignment: "left"
     },

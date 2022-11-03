@@ -102,7 +102,7 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "sistEndret": null
 }, {
     "orgnr": "974703300",
-    "virksomhetsnavn": "JALLA BEDRIFT",
+    "virksomhetsnavn": "JALLA VIRKSOMHET",
     "kommune": {"navn": "STAVANGER", "nummer": "1103"},
     "sektor": "",
     "neringsgruppe": "",
