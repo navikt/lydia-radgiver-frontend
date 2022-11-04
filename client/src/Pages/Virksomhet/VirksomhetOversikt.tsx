@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { IASak, Sakshistorikk, SykefraversstatistikkVirksomhet, Virksomhet, } from "../../domenetyper";
-import { StyledSamarbeidshistorikk } from "./IASakshendelserOversikt";
+import { Samarbeidshistorikk } from "./IASakshendelserOversikt";
 import { VirksomhetHeader } from "./VirksomhetHeader";
 import { contentSpacing } from "../../styling/contentSpacing";
 
@@ -32,7 +32,7 @@ export const VirksomhetOversikt = ({
                 muterState={muterState}
             />
             <br />
-            <StyledSamarbeidshistorikk samarbeidshistorikk={samarbeidshistorikk} />
+            <Samarbeidshistorikk samarbeidshistorikk={samarbeidshistorikk} />
         </Container>
     );
 };

@@ -12,19 +12,31 @@ const bakgrunnsRamme = {
     boxShadow: `${Skygger.small}`,
 };
 
+const Container = styled.div`
+  display: grid;
+  grid-gap: 2rem;
+`;
+
+const AccordionHeaderContent = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+`;
+
 interface SamarbeidshistorikkProps {
     samarbeidshistorikk: Sakshistorikk[];
     className?: string;
 }
 
-const Samarbeidshistorikk = ({samarbeidshistorikk, className}: SamarbeidshistorikkProps) => {
+export const Samarbeidshistorikk = ({samarbeidshistorikk, className}: SamarbeidshistorikkProps) => {
     const sortertHistorikk: Sakshistorikk[] = samarbeidshistorikk.map((historikk) => ({
         saksnummer: historikk.saksnummer,
         opprettet: historikk.opprettet,
         sakshendelser: sorterSakshistorikkPåTid(historikk)
     }))
+
     return (
-        <div className={className}>
+        <Container className={className}>
             <Heading
                 size="medium"
                 level={"2"}
@@ -40,16 +52,11 @@ const Samarbeidshistorikk = ({samarbeidshistorikk, className}: Samarbeidshistori
                     <Accordion key={sakshistorikk.saksnummer}>
                         <Accordion.Item>
                             <Accordion.Header>
-                                <div style={{
-                                    display: "inline-flex",
-                                    gap: "2rem",
-                                    padding: "0 1rem",
-                                    alignItems: "center",
-                                }}>
+                                <AccordionHeaderContent>
                                     <StatusBadge status={sakshistorikk.sakshendelser[0].status} />
                                     Sist oppdatert: {lokalDato(sakshistorikk.sakshendelser[0].tidspunktForSnapshot)} -
                                     Saksnummer: {sakshistorikk.saksnummer}
-                                </div>
+                                </AccordionHeaderContent>
                             </Accordion.Header>
                             <Accordion.Content>
                                 <SakshistorikkTabell
@@ -63,15 +70,7 @@ const Samarbeidshistorikk = ({samarbeidshistorikk, className}: Samarbeidshistori
             ) : (
                 <IngenHendelserPåSak />
             )}
-        </div>
-    );
-};
-
-const IngenHendelserPåSak = () => {
-    return (
-        <Detail size="small" style={{padding: "1rem 3rem"}}>
-            Fant ingen samarbeidshistorikk på denne virksomheten
-        </Detail>
+        </Container>
     );
 };
 
@@ -123,10 +122,17 @@ const SakshistorikkTabell = ({sakshistorikk}: SakshistorikkTabellProps) => {
     );
 };
 
-export const StyledSamarbeidshistorikk = styled(Samarbeidshistorikk)`
-  display: grid;
-  grid-gap: 2rem;
+const IngenHendelserDetail = styled(Detail)`
+  padding: 1rem 3rem;
 `;
+
+const IngenHendelserPåSak = () => {
+    return (
+        <IngenHendelserDetail size="small">
+            Fant ingen samarbeidshistorikk på denne virksomheten
+        </IngenHendelserDetail>
+    );
+};
 
 function sorterSakshistorikkPåTid({sakshendelser}: Sakshistorikk) {
     return sakshendelser.sort(

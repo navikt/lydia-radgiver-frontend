@@ -69,6 +69,10 @@ const Container = styled.div`
   ${hvitRammeMedBoxShadow}
 `;
 
+const RightAllignedDataCell = styled(Table.DataCell)`
+  text-align: right;
+`;
+
 interface Props {
     sykefraværsstatistikk: SykefraversstatistikkVirksomhet[];
     side: number;
@@ -78,7 +82,6 @@ interface Props {
     totaltAntallTreff?: number;
     className?: string;
 }
-
 
 export const PrioriteringsTabell = ({
     sykefraværsstatistikk,
@@ -103,14 +106,9 @@ export const PrioriteringsTabell = ({
         })
     }
 
-
     return (
         <Container className={className}>
-            <Table
-                zebraStripes size={"small"}
-                sort={sortering}
-                onSortChange={onSortChange}
-            >
+            <Table zebraStripes size={"small"} sort={sortering} onSortChange={onSortChange}>
                 <Table.Header className={"table-header"}>
                     <Table.Row>
                         {kolonner.map(({sortable = false, name, key, textAlignment}) => (
@@ -143,18 +141,18 @@ export const PrioriteringsTabell = ({
                                     {sykefraværStatistikkVirksomhet.virksomhetsnavn}
                                 </EksternLenke>
                             </Table.HeaderCell>
-                            <Table.DataCell style={{textAlign: "right"}}>
+                            <RightAllignedDataCell>
                                 {formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}
-                            </Table.DataCell>
-                            <Table.DataCell style={{textAlign: "right"}}>
+                            </RightAllignedDataCell>
+                            <RightAllignedDataCell>
                                 {formaterSomHeltall(sykefraværStatistikkVirksomhet.antallPersoner)}
-                            </Table.DataCell>
-                            <Table.DataCell style={{textAlign: "right"}}>
+                            </RightAllignedDataCell>
+                            <RightAllignedDataCell>
                                 {formaterMedEnDesimal(sykefraværStatistikkVirksomhet.tapteDagsverk)}
-                            </Table.DataCell>
-                            <Table.DataCell style={{textAlign: "right"}}>
+                            </RightAllignedDataCell>
+                            <RightAllignedDataCell>
                                 {formaterMedEnDesimal(sykefraværStatistikkVirksomhet.muligeDagsverk)}
-                            </Table.DataCell>
+                            </RightAllignedDataCell>
                             <Table.DataCell>
                                 <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv} />
                             </Table.DataCell>
@@ -165,7 +163,7 @@ export const PrioriteringsTabell = ({
             {!!sykefraværsstatistikk.length &&
                 <SøkeresultatFooter side={side} endreSide={endreSide}
                                     antallTreffPåSide={sykefraværsstatistikk.length}
-                                    totaltAntallTreff={totaltAntallTreff}/>
+                                    totaltAntallTreff={totaltAntallTreff} />
             }
         </Container>
     )
