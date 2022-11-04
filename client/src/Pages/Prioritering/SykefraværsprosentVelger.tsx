@@ -1,8 +1,7 @@
-import {useState} from "react";
-import {Label} from "@navikt/ds-react";
-import {HorizontalFlexboxDivGap1Rem} from "./HorizontalFlexboxDiv";
-import {StyledNumericTextField} from "./StyledNumericTextField";
-import {VerticalFlexboxDiv} from "./VerticalFlexboxDiv";
+import { useState } from "react";
+import { Fieldset, Label } from "@navikt/ds-react";
+import { StyledNumericTextField } from "./StyledNumericTextField";
+import styled from "styled-components";
 
 type Validering = {
     suksess: boolean;
@@ -42,23 +41,24 @@ const validerSykefraværsprosent = (inputVerdi: string): Validering => {
 type EndreSykefraværsprosentRange = (verdi: Range) => void;
 type EndreSykefraværsprosent = (verdi: number) => void;
 
-function SykefraværsprosentInput({
-    value,
-    label,
-    onChange,
-}: {
+interface Props {
     value: number;
     label: string;
+    hideLabel?: boolean;
     onChange: EndreSykefraværsprosent;
-}) {
+}
+
+function SykefraværsprosentInput({value, label, hideLabel = false, onChange}: Props) {
     const [sykefraværsprosentInput, setSykefraværsprosentInput] =
         useState<string>(value.toString());
     const [valideringsfeil, setValideringsfeil] = useState<string[]>([]);
+
     return (
         <StyledNumericTextField
             min={"0"}
             max={"100"}
             label={label}
+            hideLabel={hideLabel}
             type={"number"}
             value={sykefraværsprosentInput}
             error={valideringsfeil.length > 0 ? valideringsfeil : undefined}
@@ -76,42 +76,39 @@ function SykefraværsprosentInput({
     );
 }
 
+const StyledFieldset = styled(Fieldset)`
+  display: flex;
+  gap: 1rem;
+  align-items: center;
+`;
+
 interface SykefraværsProsentProps {
     sykefraværsprosentRange: Range;
     endre: EndreSykefraværsprosentRange;
 }
 
-export const SykefraværsprosentVelger = ({
-    sykefraværsprosentRange,
-    endre,
-}: SykefraværsProsentProps) => {
-    return (
-        <>
-            <VerticalFlexboxDiv className="navds-form-field">
-                <Label>Sykefravær (%)</Label>
-                <HorizontalFlexboxDivGap1Rem>
-                    <SykefraværsprosentInput
-                        value={sykefraværsprosentRange.fra}
-                        label="Fra"
-                        onChange={(prosentVerdi: number) =>
-                            endre({
-                                fra: prosentVerdi,
-                                til: sykefraværsprosentRange.til,
-                            })
-                        }
-                    />
-                    <SykefraværsprosentInput
-                        value={sykefraværsprosentRange.til}
-                        label={"-"}
-                        onChange={(prosentVerdi: number) =>
-                            endre({
-                                fra: sykefraværsprosentRange.fra,
-                                til: prosentVerdi,
-                            })
-                        }
-                    />
-                </HorizontalFlexboxDivGap1Rem>
-            </VerticalFlexboxDiv>
-        </>
-    );
-};
+export const SykefraværsprosentVelger = ({sykefraværsprosentRange, endre}: SykefraværsProsentProps) =>
+    <StyledFieldset legend="Sykefravær (%)">
+        <SykefraværsprosentInput
+            value={sykefraværsprosentRange.fra}
+            label="Fra"
+            onChange={(prosentVerdi: number) =>
+                endre({
+                    fra: prosentVerdi,
+                    til: sykefraværsprosentRange.til,
+                })
+            }
+        />
+        <Label>-</Label>
+        <SykefraværsprosentInput
+            value={sykefraværsprosentRange.til}
+            label={"Til"}
+            hideLabel
+            onChange={(prosentVerdi: number) =>
+                endre({
+                    fra: sykefraværsprosentRange.fra,
+                    til: prosentVerdi,
+                })
+            }
+        />
+    </StyledFieldset>;
