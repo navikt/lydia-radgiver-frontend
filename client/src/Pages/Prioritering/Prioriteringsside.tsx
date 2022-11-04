@@ -57,6 +57,7 @@ const Prioriteringsside = () => {
         data: sfStatistikkFraApi,
         error,
         loading,
+        antallTreff: totaltAntallTreff
     } = useSykefraværsstatistikk({
         søkeverdier,
         initierSøk: skalSøke,
@@ -107,6 +108,7 @@ const Prioriteringsside = () => {
                         oppdaterSide(1, sortering)
                     })}
                     side={side}
+                    totaltAntallTreff={totaltAntallTreff}
                 />
             ) : harSøktMinstEnGang && !loading && <SøketGaIngenResultater />}
             <div style={{textAlign: "center"}}>

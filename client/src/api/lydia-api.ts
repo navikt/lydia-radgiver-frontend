@@ -19,12 +19,13 @@ import {
     virksomhetsSchema,
 } from "../domenetyper";
 import useSWR, {SWRConfiguration} from "swr";
-import {ZodError, ZodType} from "zod";
+import {z, ZodError, ZodType} from "zod";
 import {useEffect, useState} from "react";
 import {dispatchFeilmelding} from "../Pages/FeilmeldingBanner";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
+export const sykefraværsstatistikkAntallTreffPath = `${sykefraværsstatistikkPath}/antallTreff`;
 export const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
 export const virksomhetsPath = `${basePath}/virksomhet`;
 export const innloggetAnsattPath = `/innloggetAnsatt`;
@@ -132,8 +133,33 @@ const getSykefraværsstatistikkUrl = (søkeverdier: Søkeverdier) =>
         søkeverdier
     ).toString()}`;
 
+const getSykefraværsstatistikkAntallTreffUrl = (søkeverdier: Søkeverdier) =>
+    `${sykefraværsstatistikkAntallTreffPath}?${søkeverdierTilUrlSearchParams(
+        søkeverdier
+    ).toString()}`;
+
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);
+
+function hentAntallTreff(søkeverdier: Søkeverdier, initierSøk: boolean, setError: (value: (((prevState: string) => string) | string)) => void) {
+    const [antallTreff, setAntallTreff] = useState<number>();
+    const antallTreffUrl = getSykefraværsstatistikkAntallTreffUrl(søkeverdier)
+
+    useEffect(() => {
+        if (søkeverdier.side === 1 && initierSøk) {
+            setAntallTreff(undefined);
+            get(antallTreffUrl, z.number())
+                .then((response) => {
+                    setError("");
+                    setAntallTreff(response);
+                })
+                .catch((e) => {
+                    setError(e.message);
+                });
+        }
+    }, [antallTreffUrl, initierSøk, søkeverdier.side]);
+    return antallTreff
+}
 
 export const useSykefraværsstatistikk = ({
     søkeverdier = {},
@@ -167,7 +193,9 @@ export const useSykefraværsstatistikk = ({
         }
     }, [sykefraværUrl, initierSøk]);
 
-    return { error, loading, data: sykefravær };
+    const antallTreff = hentAntallTreff(søkeverdier, initierSøk, setError);
+
+    return { error, loading, data: sykefravær, antallTreff };
 };
 
 export const useHentSykefraværsstatistikkForVirksomhet = (

@@ -22,9 +22,10 @@ interface Props {
     side: number;
     endreSide: (side: number) => void;
     antallTreffPåSide: number;
+    totaltAntallTreff?: number;
 }
 
-export const SøkeresultatFooter = ({side, antallTreffPåSide, endreSide}: Props) => {
+export const SøkeresultatFooter = ({side, antallTreffPåSide, endreSide, totaltAntallTreff}: Props) => {
     const sideOffset = (side - 1) * ANTALL_RESULTATER_PER_SIDE
     const resultatFra = sideOffset + 1;
     const resultatTil = Math.min(sideOffset + antallTreffPåSide, side * ANTALL_RESULTATER_PER_SIDE);
@@ -34,7 +35,7 @@ export const SøkeresultatFooter = ({side, antallTreffPåSide, endreSide}: Props
             <PagineringsContainer>
                 <Paginering side={side} endreSide={endreSide} antallTreffPåSide={antallTreffPåSide} />
                 <Detail size="small">
-                    Viser resultat {resultatFra} - {resultatTil}
+                    Viser resultat {resultatFra} - {resultatTil} av {totaltAntallTreff}
                 </Detail>
             </PagineringsContainer>
 

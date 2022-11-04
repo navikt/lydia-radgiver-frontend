@@ -75,6 +75,7 @@ interface Props {
     endreSide: (side: number) => void;
     sortering: SortState
     endreSortering: (sortering: SortState) => void
+    totaltAntallTreff?: number;
     className?: string;
 }
 
@@ -86,6 +87,7 @@ export const PrioriteringsTabell = ({
     sortering,
     endreSortering,
     endreSide,
+    totaltAntallTreff,
 }: Props) => {
     const onSortChange = (sortKey: string | undefined) => {
         if (sortKey == sortering.orderBy) {
@@ -162,7 +164,8 @@ export const PrioriteringsTabell = ({
             </Table>
             {!!sykefraværsstatistikk.length &&
                 <SøkeresultatFooter side={side} endreSide={endreSide}
-                                    antallTreffPåSide={sykefraværsstatistikk.length} />
+                                    antallTreffPåSide={sykefraværsstatistikk.length}
+                                    totaltAntallTreff={totaltAntallTreff}/>
             }
         </Container>
     )
