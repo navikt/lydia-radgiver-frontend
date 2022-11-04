@@ -1,13 +1,11 @@
-import {Brukerinformasjon} from "../../domenetyper";
-import {Alert, BodyShort, Link} from "@navikt/ds-react";
-import {Header} from "@navikt/ds-react-internal";
-import {useContext, useEffect, useState} from "react";
-import {TittelContext} from "../../Pages/Prioritering/TittelContext";
-import {Søkefelt} from "./Søkefelt";
-
-interface Props {
-    brukerInformasjon: Brukerinformasjon
-}
+import { useContext, useEffect, useState } from "react";
+import styled from "styled-components";
+import { Alert, BodyShort, Link } from "@navikt/ds-react";
+import { Header } from "@navikt/ds-react-internal";
+import { Brukerinformasjon } from "../../domenetyper";
+import { TittelContext } from "../../Pages/Prioritering/TittelContext";
+import { Søkefelt } from "./Søkefelt";
+import { NavFarger } from "../../styling/farger";
 
 const FEM_MINUTTER_SOM_MS = 1000 * 60 * 5
 
@@ -19,6 +17,17 @@ const hentGjenværendeTidForBrukerMs = (brukerInformasjon: Brukerinformasjon) =>
 
 const tokenHolderPåÅLøpeUt = (brukerInformasjon: Brukerinformasjon) =>
     hentGjenværendeTidForBrukerMs(brukerInformasjon) < FEM_MINUTTER_SOM_MS
+
+const DemoversjonTekst = styled(BodyShort)<{ erIProd: boolean }>`
+  display: ${(props) => props.erIProd ? "none" : "flex"};
+  align-items: center;
+  padding: 0 1.5rem;
+  background: ${NavFarger.red500};
+`;
+
+interface Props {
+    brukerInformasjon: Brukerinformasjon
+}
 
 export const Dekoratør = ({brukerInformasjon}: Props) => {
     const {tittel} = useContext(TittelContext)
@@ -36,12 +45,12 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
     return (
         <>
             <Header className="w-full">
-                <Header.Title as="h1">{tittel}</Header.Title>
+                <Header.Title as="h1" style={{marginRight: "auto"}}>{tittel}</Header.Title>
+                <DemoversjonTekst erIProd={false}>Demoutgave</DemoversjonTekst>
                 <Søkefelt style={{
-                    marginLeft: "auto",
                     minWidth: "16rem",
-                    width: "25%"
-                }}/>
+                    width: "25%",
+                }} />
                 {brukerInformasjon && (
                     <Header.User
                         name={brukerInformasjon.navn}
@@ -51,15 +60,15 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
                 )}
             </Header>
             {tokenHolderPåÅLøpeUt(brukerInformasjon) &&
-                <RedirectKomponent gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs}/>}
+                <RedirectKomponent gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs} />}
         </>
     )
 }
 
 const RedirectKomponent = ({gjenværendeTidForBrukerMs}: { gjenværendeTidForBrukerMs: number }) => {
     return gjenværendeTidForBrukerMs > 0
-        ? <SesjonenHolderPåÅLøpeUt gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs}/>
-        : <SesjonenErUtløpt/>
+        ? <SesjonenHolderPåÅLøpeUt gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs} />
+        : <SesjonenErUtløpt />
 }
 
 const SesjonenHolderPåÅLøpeUt = ({gjenværendeTidForBrukerMs}: { gjenværendeTidForBrukerMs: number }) => {
