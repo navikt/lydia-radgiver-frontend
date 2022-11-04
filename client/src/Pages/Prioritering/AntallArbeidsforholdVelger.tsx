@@ -1,18 +1,26 @@
-import {HorizontalFlexboxDivGap1Rem} from "./HorizontalFlexboxDiv";
-import {useState} from "react";
-import {Range} from "./SykefraværsprosentVelger";
-import {StyledNumericTextField} from "./StyledNumericTextField";
-import {Label} from "@navikt/ds-react";
-import {VerticalFlexboxDiv} from "./VerticalFlexboxDiv";
+import { useState } from "react";
+import { Label } from "@navikt/ds-react";
+import { Range } from "./SykefraværsprosentVelger";
+import { StyledNumericTextField } from "./StyledNumericTextField";
+import { RangeFieldset } from "./RangeFieldset";
 
-function AntallArbeidsforholdInput({label, value, endreAntallArbeidsforhold}: {label: string, value: number, endreAntallArbeidsforhold: (verdi: number) => void}) {
-    const [antallArbeidsforhold, setAntallArbeidsforhold] = useState<string>(isNaN(value) ? "" : value.toString())
+interface InputProps {
+    value: number;
+    label: string;
+    hideLabel?: boolean;
+    endreAntallArbeidsforhold: (verdi: number) => void;
+}
+
+function AntallArbeidsforholdInput({value, label, hideLabel = false, endreAntallArbeidsforhold}: InputProps) {
+    const [antallArbeidsforhold, setAntallArbeidsforhold] = useState(isNaN(value) ? "" : value.toString())
+
     return (
         <StyledNumericTextField
-            label={label}
             type={"number"}
             min={"0"}
             value={antallArbeidsforhold}
+            label={label}
+            hideLabel={hideLabel}
             onChange={(e) => {
                 // -- validering - må være et positivt heltall
                 if (isNaN(e.target.valueAsNumber)) {
@@ -29,34 +37,37 @@ function AntallArbeidsforholdInput({label, value, endreAntallArbeidsforhold}: {l
     );
 }
 
-export const AntallArbeidsforholdVelger = ({antallArbeidsforhold, endreAntallArbeidsforhold}: {antallArbeidsforhold: Range, endreAntallArbeidsforhold: (verdi: Range) => void}) => {
-    return (
-        <>
-            <VerticalFlexboxDiv className="navds-form-field">
-                <Label>Antall arbeidsforhold</Label>
-                <HorizontalFlexboxDivGap1Rem>
-                    <AntallArbeidsforholdInput
-                        label={"Fra"}
-                        value={antallArbeidsforhold.fra}
-                        endreAntallArbeidsforhold={(arbeidsforholdFra: number) => {
-                            endreAntallArbeidsforhold({
-                                fra: arbeidsforholdFra,
-                                til: antallArbeidsforhold.til
-                            })
-                        }}
-                    />
-                    <AntallArbeidsforholdInput
-                        label={"-"}
-                        value={antallArbeidsforhold.til}
-                        endreAntallArbeidsforhold={(arbeidsforholdTil: number) => {
-                            endreAntallArbeidsforhold({
-                                fra: antallArbeidsforhold.fra,
-                                til: arbeidsforholdTil
-                            })
-                        }}
-                    />
-                </HorizontalFlexboxDivGap1Rem>
-            </VerticalFlexboxDiv>
-        </>
-    );
-};
+interface ArbeidsforholdVelgerProps {
+    antallArbeidsforhold: Range;
+    endreAntallArbeidsforhold: (verdi: Range) => void;
+}
+
+export const AntallArbeidsforholdVelger = ({
+    antallArbeidsforhold,
+    endreAntallArbeidsforhold
+}: ArbeidsforholdVelgerProps) => (
+    <RangeFieldset legend={"Antall arbeidsforhold"}>
+        <AntallArbeidsforholdInput
+            label={"Fra"}
+            value={antallArbeidsforhold.fra}
+            endreAntallArbeidsforhold={(arbeidsforholdFra: number) => {
+                endreAntallArbeidsforhold({
+                    fra: arbeidsforholdFra,
+                    til: antallArbeidsforhold.til
+                })
+            }}
+        />
+        <Label>-</Label>
+        <AntallArbeidsforholdInput
+            label={"Til"}
+            hideLabel
+            value={antallArbeidsforhold.til}
+            endreAntallArbeidsforhold={(arbeidsforholdTil: number) => {
+                endreAntallArbeidsforhold({
+                    fra: antallArbeidsforhold.fra,
+                    til: arbeidsforholdTil
+                })
+            }}
+        />
+    </RangeFieldset>
+);
