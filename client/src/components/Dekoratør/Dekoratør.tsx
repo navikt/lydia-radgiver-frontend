@@ -46,7 +46,7 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
         <>
             <Header className="w-full">
                 <Header.Title as="h1" style={{marginRight: "auto"}}>{tittel}</Header.Title>
-                <DemoversjonTekst erIProd={false}>Demoutgave</DemoversjonTekst>
+                <DemoversjonTekst erIProd={true}>Demoutgave</DemoversjonTekst>
                 <Søkefelt style={{
                     minWidth: "16rem",
                     width: "25%",
