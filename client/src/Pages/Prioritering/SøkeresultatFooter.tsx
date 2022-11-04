@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { Detail } from "@navikt/ds-react";
-import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
-import { Paginering } from "./Paginering";
+import {Detail, Loader} from "@navikt/ds-react";
+import {ANTALL_RESULTATER_PER_SIDE} from "./Prioriteringsside";
+import {Paginering} from "./Paginering";
 
 const Container = styled.div`
   display: flex;
@@ -33,9 +33,10 @@ export const SøkeresultatFooter = ({side, antallTreffPåSide, endreSide, totalt
     return (
         <Container>
             <PagineringsContainer>
-                <Paginering side={side} endreSide={endreSide} antallTreffPåSide={antallTreffPåSide} />
+                <Paginering side={side} endreSide={endreSide} antallTreffPåSide={antallTreffPåSide}/>
                 <Detail size="small">
-                    Viser resultat {resultatFra} - {resultatTil} av {totaltAntallTreff}
+                    Viser resultat {resultatFra} - {resultatTil} av {totaltAntallTreff ??
+                    <Loader size="xsmall" title="henter antall treff"/>}
                 </Detail>
             </PagineringsContainer>
 
