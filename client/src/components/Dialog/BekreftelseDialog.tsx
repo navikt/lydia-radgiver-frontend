@@ -1,5 +1,6 @@
 import {BodyLong, Button, Heading, Modal} from "@navikt/ds-react";
 import "./BekreftelseDialog.css"
+import {getRootElement} from "../../main";
 
 
 export interface Props {
@@ -14,7 +15,7 @@ export interface Props {
 export const BekreftelseDialog = ({onConfirm, onCancel, åpen, title = "Vennligst bekreft valget ditt", description }: Props) => {
     Modal.setAppElement?.(document.body)
     return (
-        <Modal className="bekreftelse-dialog-innhold" parentSelector={() => document.getElementById('root')!} open={åpen} onClose={onCancel}>
+        <Modal className="bekreftelse-dialog-innhold" parentSelector={() => getRootElement()} open={åpen} onClose={onCancel}>
             <Modal.Content>
                 <Heading size="medium" spacing className="bekreftelse-dialog-overskrift">{title}</Heading>
                 {description && <BodyLong>{description}</BodyLong>}

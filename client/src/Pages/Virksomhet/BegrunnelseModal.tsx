@@ -7,6 +7,7 @@ import {
 } from "@navikt/ds-react";
 import { useState } from "react";
 import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../domenetyper";
+import {getRootElement} from "../../main";
 
 const hentÅrsakFraÅrsakType = (
     type: string,
@@ -98,10 +99,8 @@ interface BegrunnelseModalProps extends ModalInnholdProps {
 }
 
 export const BegrunnelseModal = ({hendelse, åpen, onClose, lagre}: BegrunnelseModalProps) => {
-    // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-    const rootHtmlElement = document.getElementById("root")!
     return (
-        <Modal parentSelector={() => rootHtmlElement} open={åpen} onClose={onClose}>
+        <Modal parentSelector={() => getRootElement()} open={åpen} onClose={onClose}>
             <Modal.Content style={{margin: "3rem"}}>
                 <ModalInnhold
                     hendelse={hendelse}
