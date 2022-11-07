@@ -1,10 +1,8 @@
 import "@navikt/ds-css";
 import React from "react";
-import styled from "styled-components";
 import { Badge } from "./Badge";
 import { IAProsessStatusEnum, IAProsessStatusType } from "../../domenetyper";
 import { FiaFarger } from "../../styling/farger";
-
 
 export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): FiaFarger => {
     switch (status) {
@@ -49,13 +47,5 @@ export function penskrivIAStatus(status: IAProsessStatusType): string {
     }
 }
 
-const StyledBadge = styled(Badge)`
-  width: 8em;
-  flex-shrink: 0;
-`;
-
 export const StatusBadge = ({status}: { status: IAProsessStatusType }) =>
-    <StyledBadge
-        text={penskrivIAStatus(status)}
-        backgroundColor={hentBakgrunnsFargeForIAStatus(status)}
-    />
+    <Badge backgroundColor={hentBakgrunnsFargeForIAStatus(status)}>{penskrivIAStatus(status)}</Badge>
