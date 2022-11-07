@@ -1,14 +1,21 @@
-import {ComponentMeta} from "@storybook/react";
-import {SøkeresultatFooter} from "./SøkeresultatFooter";
-import {useEffect, useState} from "react";
-import {ANTALL_RESULTATER_PER_SIDE} from "./Prioriteringsside";
+import { useEffect, useState } from "react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { SøkeresultatFooter } from "./SøkeresultatFooter";
+import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
 
 export default {
     title: "Prioritering/SøkeresultatFooter",
     component: SøkeresultatFooter,
 } as ComponentMeta<typeof SøkeresultatFooter>;
 
-export const Hovedstory = () => {
+interface Props {
+    side: number;
+    endreSide: (side: number) => void;
+    antallTreffPåSide: number;
+    totaltAntallTreff?: number;
+}
+
+const Template: ComponentStory<typeof SøkeresultatFooter> = ({totaltAntallTreff}: Props) => {
     const [side, setSide] = useState(1);
     const antallTreffPåSide = side === 10 ? 10 : ANTALL_RESULTATER_PER_SIDE;
 
@@ -17,19 +24,14 @@ export const Hovedstory = () => {
     }
 
     return <SøkeresultatFooter side={side} endreSide={endreSide} antallTreffPåSide={antallTreffPåSide}
-                               totaltAntallTreff={518}/>
+                               totaltAntallTreff={totaltAntallTreff} />
 }
 
-export const MedSpinner = () => {
-    const [side, setSide] = useState(1);
-    const antallTreffPåSide = side === 10 ? 10 : ANTALL_RESULTATER_PER_SIDE;
+export const Hovedstory = Template.bind({});
+Hovedstory.args = {totaltAntallTreff: 910};
 
-    const endreSide = (side: number) => {
-        setSide(side)
-    }
-
-    return <SøkeresultatFooter side={side} endreSide={endreSide} antallTreffPåSide={antallTreffPåSide} />
-}
+export const MedSpinner = Template.bind({});
+MedSpinner.args = {totaltAntallTreff: undefined}
 
 export const TreffKommerEtterHvert = () => {
     const [side, setSide] = useState(1);
@@ -41,7 +43,17 @@ export const TreffKommerEtterHvert = () => {
     }
 
     useEffect(() => {
-        setTimeout(() => {setAntallTreff(518)}, 3000)
+        setTimeout(() => {
+            setAntallTreff(910)
+        }, 3000)
     }, [])
-    return <SøkeresultatFooter side={side} endreSide={endreSide} antallTreffPåSide={antallTreffPåSide} totaltAntallTreff={antallTreff}/>
+
+    return (
+        <SøkeresultatFooter
+            side={side}
+            endreSide={endreSide}
+            antallTreffPåSide={antallTreffPåSide}
+            totaltAntallTreff={antallTreff}
+        />
+    )
 }
