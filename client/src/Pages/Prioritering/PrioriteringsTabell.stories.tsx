@@ -31,6 +31,7 @@ export const Hovedstory = () => {
                 setSortering(sortering)
                 setSide(1)
             })}
+            totaltAntallTreff={5}
         />
     );
 };
