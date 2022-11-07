@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite",
     "test": "jest",
-    "prebuild": "tsc",
+    "prebuild": "npm run lint && tsc",
     "build": "vite build",
     "preview": "vite preview",
     "lint": "eslint src/",
@@ -47,6 +47,7 @@
     "@vitejs/plugin-react": "2.0.0",
     "babel-loader": "8.2.5",
     "eslint": "8.20.0",
+    "eslint-plugin-jsx-a11y": "6.6.1",
     "eslint-plugin-react": "7.30.1",
     "eslint-plugin-storybook": "0.6.1",
     "gh-pages": "4.0.0",
