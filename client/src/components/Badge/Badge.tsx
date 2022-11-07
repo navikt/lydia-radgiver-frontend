@@ -1,7 +1,7 @@
 import React from "react";
 import styled, { css } from "styled-components";
 import { BodyShort, Detail } from "@navikt/ds-react";
-import { FiaFarger } from "../../styling/farger";
+import { FiaFarger, NavFarger } from "../../styling/farger";
 
 const badgeStyling = css<{ backgroundColor: string, textColor: string }>`
   background-color: ${props => props.backgroundColor};
@@ -28,7 +28,6 @@ const StyledBodyShort = styled(BodyShort)<{ backgroundColor: string, textColor: 
 interface BadgeProps {
     text: string;
     backgroundColor: FiaFarger;
-    textColor?: FiaFarger;
     size?: "small" | "medium";
     className?: string;
 }
@@ -36,7 +35,6 @@ interface BadgeProps {
 export const Badge = ({
     text,
     backgroundColor,
-    textColor = FiaFarger.svart,
     size = "small",
     className,
 }: BadgeProps) => {
@@ -46,7 +44,7 @@ export const Badge = ({
         <TextComponent
             as={"span"}
             backgroundColor={backgroundColor}
-            textColor={textColor}
+            textColor={NavFarger.text}
             className={`navds-tag--medium ${className}`}
         >
             {text}
