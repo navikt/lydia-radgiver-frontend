@@ -45,13 +45,7 @@ jobs:
       - name: Run client tests
         working-directory: client
         run: npm run test
-      - name: Lint client
-        uses: wearerequired/lint-action@v1
-        with:
-          eslint: true
-          eslint_dir: client/src/
-          eslint_extensions: js,jsx,ts,tsx
-      - name: Build frontend
+      - name: Lint and build frontend
         working-directory: client
         run: npm run build
       - name: Build frackend
