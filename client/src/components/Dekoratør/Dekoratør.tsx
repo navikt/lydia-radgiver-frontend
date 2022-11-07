@@ -18,8 +18,8 @@ const hentGjenværendeTidForBrukerMs = (brukerInformasjon: Brukerinformasjon) =>
 const tokenHolderPåÅLøpeUt = (brukerInformasjon: Brukerinformasjon) =>
     hentGjenværendeTidForBrukerMs(brukerInformasjon) < FEM_MINUTTER_SOM_MS
 
-const DemoversjonTekst = styled(BodyShort)<{ erIProd: boolean }>`
-  display: ${(props) => props.erIProd ? "none" : "flex"};
+const DemoversjonTekst = styled(BodyShort)<{ hidden: boolean }>`
+  display: ${(props) => props.hidden ? "none" : "flex"};
   align-items: center;
   padding: 0 1.5rem;
   background: ${NavFarger.red500};
@@ -31,9 +31,11 @@ interface Props {
 
 export const Dekoratør = ({brukerInformasjon}: Props) => {
     const {tittel} = useContext(TittelContext)
+    const erIDev = ["localhost", "fia.dev.intern.nav.no"].includes(window.location.hostname)
     const [gjenværendeTidForBrukerMs, setGjenværendeTidForBrukerMs] = useState(
         hentGjenværendeTidForBrukerMs(brukerInformasjon)
     )
+
     useEffect(() => {
         const interval = setInterval(() => {
             setGjenværendeTidForBrukerMs(hentGjenværendeTidForBrukerMs(brukerInformasjon))
@@ -46,7 +48,7 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
         <>
             <Header className="w-full">
                 <Header.Title as="h1" style={{marginRight: "auto"}}>{tittel}</Header.Title>
-                <DemoversjonTekst erIProd={true}>Demoutgave</DemoversjonTekst>
+                <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
                 <Søkefelt style={{
                     minWidth: "16rem",
                     width: "25%",
