@@ -16,6 +16,7 @@ import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import { SakshendelsesKnapper } from "./SakshendelsesKnapper";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { NavFarger } from "../../styling/farger";
+import { BorderRadius } from "../../styling/borderRadius";
 
 interface IASakBakgrunnProps {
     status: IAProsessStatusType;
@@ -31,7 +32,7 @@ const Container = styled.div<IASakBakgrunnProps>`
   min-width: ${300 / 16}rem;
   padding: ${24 / 16}rem;
 
-  border-radius: 0 0 10px 10px;
+  border-radius: ${BorderRadius.medium};
   background-color: ${(props) => hentBakgrunnsFargeForIAStatus(props.status)};
   border: ${(props) => props.status === "FULLFØRT" ? `solid 1px ${NavFarger.gray500}` : "none"};
 `;
