@@ -2,6 +2,7 @@ import { Virksomhet } from "../../domenetyper";
 import styled from "styled-components";
 import { BodyShort, Label } from "@navikt/ds-react";
 import { NavFarger } from "../../styling/farger";
+import { BorderRadius } from "../../styling/borderRadius";
 
 const Container = styled.div`
   display: grid;
@@ -12,7 +13,7 @@ const Container = styled.div`
 
   padding: 1.5rem;
   border: 1px solid ${NavFarger.borderMuted};
-  border-radius: 4px;
+  border-radius: ${BorderRadius.medium};
 `;
 
 const InfoTittel = styled(Label)`

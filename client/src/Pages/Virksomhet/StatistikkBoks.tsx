@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { Label } from "@navikt/ds-react";
 import { NavFarger } from "../../styling/farger";
+import { BorderRadius } from "../../styling/borderRadius";
 
 const Container = styled.div`
   flex: 1;
@@ -10,7 +11,7 @@ const Container = styled.div`
   flex-wrap: wrap;
 
   background: ${NavFarger.canvasBackground};
-  border-radius: 4px;
+  border-radius: ${BorderRadius.medium};
   
   padding: ${12 / 16}rem ${24 / 16}rem;
   min-width: ${230 / 16}rem;

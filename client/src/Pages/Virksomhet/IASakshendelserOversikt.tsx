@@ -6,11 +6,12 @@ import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { Skygger } from "../../styling/skygger";
 import { NavFarger } from "../../styling/farger";
+import { BorderRadius } from "../../styling/borderRadius";
 
 const bakgrunnsRamme = {
     backgroundColor: `${NavFarger.white}`,
     boxShadow: `${Skygger.small}`,
-    borderRadius: "4px",
+    borderRadius: `${BorderRadius.medium}`,
 };
 
 const Container = styled.div`

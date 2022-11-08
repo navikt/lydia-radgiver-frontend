@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { Detail } from "@navikt/ds-react";
 import { FiaFarger, NavFarger } from "../../styling/farger";
+import { BorderRadius } from "../../styling/borderRadius";
 
 const StyledDetail = styled(Detail)<{ backgroundColor: string }>`
   flex-shrink: 0;
@@ -18,7 +19,7 @@ const StyledDetail = styled(Detail)<{ backgroundColor: string }>`
   background-color: ${props => props.backgroundColor};
   color: ${NavFarger.text};
   border: 1px solid ${FiaFarger.grå};
-  border-radius: 4px;
+  border-radius: ${BorderRadius.medium};
 `;
 
 interface BadgeProps {
