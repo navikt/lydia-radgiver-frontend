@@ -286,7 +286,10 @@ export const filterverdierMock: Filterverdier = {
         IAProsessStatusEnum.enum.IKKE_AKTIV,
         IAProsessStatusEnum.enum.VURDERES,
         IAProsessStatusEnum.enum.KONTAKTES,
+        IAProsessStatusEnum.enum.KARTLEGGES,
+        IAProsessStatusEnum.enum.VI_BISTÅR,
         IAProsessStatusEnum.enum.IKKE_AKTUELL,
+        IAProsessStatusEnum.enum.FULLFØRT,
     ],
     neringsgrupper: [
         {
