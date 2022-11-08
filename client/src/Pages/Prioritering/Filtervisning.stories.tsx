@@ -1,23 +1,20 @@
-import {ComponentMeta} from "@storybook/react";
-import { StyledFiltervisning } from "./Filtervisning";
-import {filterverdierMock} from "./mocks/filterverdierMock";
-import "@navikt/ds-css";
-import {rest} from "msw";
-import {innloggetAnsattPath} from "../../api/lydia-api";
-import {brukerMedVeldigLangtNavn} from "./mocks/innloggetAnsattMock";
+import { ComponentMeta } from "@storybook/react";
+import { rest } from "msw";
+import { Filtervisning } from "./Filtervisning";
+import { filterverdierMock } from "./mocks/filterverdierMock";
+import { brukerMedVeldigLangtNavn } from "./mocks/innloggetAnsattMock";
+import { innloggetAnsattPath } from "../../api/lydia-api";
 
 export default {
     title: "Prioritering/Filtervisning",
-    component: StyledFiltervisning,
-} as ComponentMeta<typeof StyledFiltervisning>;
+    component: Filtervisning,
+} as ComponentMeta<typeof Filtervisning>;
 
 export const Hovedstory = () => (
-    <StyledFiltervisning
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        søkPåNytt={() => {}}
+    <Filtervisning
+        søkPåNytt={() => {return}}
         filterverdier={filterverdierMock}
-        // eslint-disable-next-line @typescript-eslint/no-empty-function
-        oppdaterSøkeverdier={() => {}}
+        oppdaterSøkeverdier={() => {return}}
     />
 );
 

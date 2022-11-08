@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Loader, SortState } from "@navikt/ds-react";
-import { StyledFiltervisning } from "./Filtervisning";
+import { Filtervisning } from "./Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import { useFilterverdier, useSykefraværsstatistikk } from "../../api/lydia-api";
 import { Filterverdier, Sorteringsverdi, SykefraversstatistikkVirksomhet, Søkeverdier } from "../../domenetyper";
@@ -85,7 +85,7 @@ const Prioriteringsside = () => {
 
     return (
         <Container>
-            <StyledFiltervisning
+            <Filtervisning
                 filterverdier={filterverdier ?? tommeFilterverdier}
                 oppdaterSøkeverdier={(nyeSøkeverdier: Søkeverdier) => {
                     setSøkeverdier({...søkeverdier, ...nyeSøkeverdier});
