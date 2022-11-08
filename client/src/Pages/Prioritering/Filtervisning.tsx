@@ -6,10 +6,10 @@ import { HorizontalFlexboxDivGap3RemAlignItemsEnd } from "./HorizontalFlexboxDiv
 import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
 import { Fylkedropdown } from "./Fylkedropdown";
 import { IAStatusDropdown } from "./IAStatusDropdown";
-import { hvitRammeMedBoxShadow } from "../../styling/containere";
 import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
+import { hvitBoksMedSkygge } from "../../styling/containere";
 import {
     Filterverdier,
     FylkeMedKommuner,
@@ -29,7 +29,7 @@ export const sorteringsverdier = {
 
 const Container = styled.div`
   padding: 1rem;
-  ${hvitRammeMedBoxShadow}
+  ${hvitBoksMedSkygge}
 `;
 
 const Søkeknapp = styled(Button)`

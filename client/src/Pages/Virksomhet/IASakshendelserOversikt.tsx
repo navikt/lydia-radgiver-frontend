@@ -5,11 +5,12 @@ import { lokalDato, lokalDatoMedTid } from "../../util/dato";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { Skygger } from "../../styling/skygger";
+import { NavFarger } from "../../styling/farger";
 
 const bakgrunnsRamme = {
-    backgroundColor: "white",
-    borderRadius: "4px",
+    backgroundColor: `${NavFarger.white}`,
     boxShadow: `${Skygger.small}`,
+    borderRadius: "4px",
 };
 
 const Container = styled.div`
