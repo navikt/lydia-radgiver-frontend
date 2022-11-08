@@ -1,6 +1,7 @@
 import { CSSProperties, useState } from "react";
 import {
-    GyldigNesteHendelse, IAProsessStatusEnum,
+    GyldigNesteHendelse,
+    IAProsessStatusEnum,
     IAProsessStatusType,
     IASak,
     IASakshendelseType,

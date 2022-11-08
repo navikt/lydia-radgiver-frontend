@@ -1,8 +1,5 @@
 import { Button } from "@navikt/ds-react";
-import {
-    GyldigNesteHendelse,
-    IASakshendelseType, IASakshendelseTypeEnum,
-} from "../../domenetyper";
+import { GyldigNesteHendelse, IASakshendelseType, IASakshendelseTypeEnum } from "../../domenetyper";
 
 export const penskrivIASakshendelsestype = (hendelsestype: IASakshendelseType): string => {
     switch (hendelsestype) {
@@ -27,7 +24,6 @@ export const penskrivIASakshendelsestype = (hendelsestype: IASakshendelseType): 
         case IASakshendelseTypeEnum.enum.SLETT_SAK:
             return "Tilbakestill"
     }
-
 }
 
 export enum ButtonVariant {
@@ -77,9 +73,7 @@ export const IASakshendelseKnapp = ({hendelsesType, onClick}: Props) => {
             variant={knappeTypeFraSakshendelsesType(hendelsesType)}
             size={"small"}
         >
-            {penskrivIASakshendelsestype(
-                hendelsesType
-            )}
+            {penskrivIASakshendelsestype(hendelsesType)}
         </Button>
     )
 }

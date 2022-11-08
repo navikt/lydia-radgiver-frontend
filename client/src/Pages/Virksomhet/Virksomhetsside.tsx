@@ -77,10 +77,6 @@ const filtrerPåSisteKvartal =
     (sykefraværsstatistikk: SykefraversstatistikkVirksomhet[]): SykefraversstatistikkVirksomhet =>
         sykefraværsstatistikk.sort(sorterStatistikkPåSisteÅrstallOgKvartal)[0]
 
-const LasterVirksomhet = () => <Loader
-    title={"Laster inn virksomhet"}
-    variant={"interaction"}
-    size={"xlarge"}
-/>
+const LasterVirksomhet = () => <Loader title={"Laster inn virksomhet"} variant={"interaction"} size={"xlarge"} />
 
 export default Virksomhetsside;

@@ -16,6 +16,7 @@ export const dispatchFeilmelding = (data: EventData) => {
 export const FeilmeldingBanner = () => {
     const [melding, setMelding] = useState("");
     const [synlig, setSynlig] = useState(false);
+
     useEffect(() => {
         if (!melding) {
             return;
@@ -28,6 +29,7 @@ export const FeilmeldingBanner = () => {
             clearTimeout(timer);
         };
     }, [melding]);
+
     useEffect(() => {
         const handler = (({
             detail: {feilmelding},

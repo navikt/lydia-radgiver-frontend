@@ -66,34 +66,24 @@ interface Props {
     muterState?: () => void;
 }
 
-export const VirksomhetHeader = ({virksomhet, sykefraværsstatistikk, iaSak, muterState}: Props) => {
-    return (
-        <HeaderContainer>
-            <OverskriftContainer>
-                <Heading level={"2"} size={"large"}>
-                    {virksomhet.navn}
-                </Heading>
-                {
-                    (virksomhet.status == VirksomhetStatusEnum.enum.FJERNET
-                        || virksomhet.status == VirksomhetStatusEnum.enum.SLETTET)
-                    && <SlettetFjernetInfo variant={"warning"} size={"medium"}>
-                        {virksomhet.status}
-                    </SlettetFjernetInfo>
-                }
-            </OverskriftContainer>
-            <InnholdContainer>
-                <VirksomhetsinfoContainer>
-                    <VirksomhetInformasjon virksomhet={virksomhet} />
-                    <SykefraværsstatistikkVirksomhet
-                        sykefraværsstatistikk={sykefraværsstatistikk}
-                    />
-                </VirksomhetsinfoContainer>
-                <IASakOversikt
-                    iaSak={iaSak}
-                    orgnummer={virksomhet.orgnr}
-                    muterState={muterState}
-                />
-            </InnholdContainer>
-        </HeaderContainer>
-    )
-}
+export const VirksomhetHeader = ({virksomhet, sykefraværsstatistikk, iaSak, muterState}: Props) => (
+    <HeaderContainer>
+        <OverskriftContainer>
+            <Heading level={"2"} size={"large"}>{virksomhet.navn}</Heading>
+            {
+                (virksomhet.status == VirksomhetStatusEnum.enum.FJERNET
+                    || virksomhet.status == VirksomhetStatusEnum.enum.SLETTET)
+                && <SlettetFjernetInfo variant={"warning"} size={"medium"}>
+                    {virksomhet.status}
+                </SlettetFjernetInfo>
+            }
+        </OverskriftContainer>
+        <InnholdContainer>
+            <VirksomhetsinfoContainer>
+                <VirksomhetInformasjon virksomhet={virksomhet} />
+                <SykefraværsstatistikkVirksomhet sykefraværsstatistikk={sykefraværsstatistikk} />
+            </VirksomhetsinfoContainer>
+            <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} muterState={muterState} />
+        </InnholdContainer>
+    </HeaderContainer>
+)

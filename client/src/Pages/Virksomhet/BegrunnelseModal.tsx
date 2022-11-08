@@ -1,13 +1,7 @@
-import {
-    Button,
-    Checkbox,
-    CheckboxGroup, ErrorSummary,
-    Modal,
-    Select,
-} from "@navikt/ds-react";
 import { useState } from "react";
+import { Button, Checkbox, CheckboxGroup, ErrorSummary, Modal, Select } from "@navikt/ds-react";
 import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../domenetyper";
-import {getRootElement} from "../../main";
+import { getRootElement } from "../../main";
 
 const hentÅrsakFraÅrsakType = (
     type: string,

@@ -20,29 +20,27 @@ interface Props {
     sykefraværsstatistikk: SykefraversstatistikkVirksomhet;
 }
 
-export const SykefraværsstatistikkVirksomhet = ({sykefraværsstatistikk}: Props) => {
-    return (
-        <Container>
-            <SubContainerForPrettyWrap>
-                <StatistikkBoks
-                    verdi={formaterSomProsentMedEnDesimal(sykefraværsstatistikk.sykefraversprosent)}
-                    tittel="Sykefravær"
-                />
-                <StatistikkBoks
-                    verdi={formaterSomHeltall(sykefraværsstatistikk.antallPersoner)}
-                    tittel="Arbeidsforhold"
-                />
-            </SubContainerForPrettyWrap>
-            <SubContainerForPrettyWrap>
-                <StatistikkBoks
-                    verdi={formaterMedEnDesimal(sykefraværsstatistikk.muligeDagsverk)}
-                    tittel="Mulige dagsverk"
-                />
-                <StatistikkBoks
-                    verdi={formaterMedEnDesimal(sykefraværsstatistikk.tapteDagsverk)}
-                    tittel="Tapte dagsverk"
-                />
-            </SubContainerForPrettyWrap>
-        </Container>
-    );
-};
+export const SykefraværsstatistikkVirksomhet = ({sykefraværsstatistikk}: Props) => (
+    <Container>
+        <SubContainerForPrettyWrap>
+            <StatistikkBoks
+                verdi={formaterSomProsentMedEnDesimal(sykefraværsstatistikk.sykefraversprosent)}
+                tittel="Sykefravær"
+            />
+            <StatistikkBoks
+                verdi={formaterSomHeltall(sykefraværsstatistikk.antallPersoner)}
+                tittel="Arbeidsforhold"
+            />
+        </SubContainerForPrettyWrap>
+        <SubContainerForPrettyWrap>
+            <StatistikkBoks
+                verdi={formaterMedEnDesimal(sykefraværsstatistikk.muligeDagsverk)}
+                tittel="Mulige dagsverk"
+            />
+            <StatistikkBoks
+                verdi={formaterMedEnDesimal(sykefraværsstatistikk.tapteDagsverk)}
+                tittel="Tapte dagsverk"
+            />
+        </SubContainerForPrettyWrap>
+    </Container>
+);

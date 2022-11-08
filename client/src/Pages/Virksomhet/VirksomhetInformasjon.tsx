@@ -37,12 +37,10 @@ export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
             <InfoTittel>Orgnummer</InfoTittel>
             <InfoData size={"medium"}>{virksomhet.orgnr}</InfoData>
             <InfoTittel>Adresse</InfoTittel>
-            <InfoData>
-                {adresse}, {virksomhet.postnummer} {virksomhet.poststed}
-            </InfoData>
+            <InfoData>{adresse}, {virksomhet.postnummer} {virksomhet.poststed}</InfoData>
             <InfoTittel>Bransje/næring</InfoTittel>
             <InfoData>{næringsgrupper}</InfoData>
-            { virksomhet.sektor &&
+            {virksomhet.sektor &&
                 (<>
                     <InfoTittel>Sektor</InfoTittel>
                     <InfoData>{virksomhet.sektor}</InfoData>
