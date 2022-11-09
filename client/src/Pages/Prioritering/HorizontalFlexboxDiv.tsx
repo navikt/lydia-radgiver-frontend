@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Breakpoint, forLargerThan } from "../../styling/breakpoint";
+import { tabletAndUp } from "../../styling/breakpoint";
 
 export const HorizontalFlexboxDivGap3RemAlignItemsEnd = styled.div`
   display: flex;
@@ -8,7 +8,7 @@ export const HorizontalFlexboxDivGap3RemAlignItemsEnd = styled.div`
   flex-direction: column;
   flex-wrap: wrap;
 
-  ${forLargerThan(Breakpoint.Tablet)} {
+  ${tabletAndUp} {
     flex-direction: row;
     align-items: end;
   }

@@ -4,7 +4,7 @@ import { IASak, SykefraversstatistikkVirksomhet, Virksomhet, VirksomhetStatusEnu
 import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
 import { IASakOversikt } from "./IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
-import { Breakpoint, forLargerThan } from "../../styling/breakpoint";
+import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoint";
 import { contentSpacing } from "../../styling/contentSpacing";
 import { NavFarger } from "../../styling/farger";
 
@@ -22,15 +22,15 @@ const HeaderContainer = styled.div`
   margin-right: -${contentSpacing.mobileX};
   padding-left: ${contentSpacing.mobileX};
   padding-right: ${contentSpacing.mobileX};
-  
-  ${forLargerThan(Breakpoint.Desktop)} {
+
+  ${desktopAndUp} {
     margin-left: -${contentSpacing.desktopX};
     margin-right: -${contentSpacing.desktopX};
     padding-left: ${contentSpacing.desktopX};
     padding-right: ${contentSpacing.desktopX};
   }
 
-  ${forLargerThan(Breakpoint.LargeDesktop)} {
+  ${largeDesktopAndUp} {
     margin-left: -${contentSpacing.largeDesktopX};
     margin-right: -${contentSpacing.largeDesktopX};
     padding-left: ${contentSpacing.largeDesktopX};

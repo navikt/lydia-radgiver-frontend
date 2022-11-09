@@ -4,7 +4,7 @@ import styled from "styled-components";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useHentBrukerinformasjon } from "./api/lydia-api";
 import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
-import { Breakpoint, forLargerThan } from "./styling/breakpoint";
+import { desktopAndUp, tabletAndUp } from "./styling/breakpoint";
 import Virksomhetsside from "./Pages/Virksomhet/Virksomhetsside";
 import { FeilmeldingBanner } from "./Pages/FeilmeldingBanner";
 import { Dekoratør } from "./components/Dekoratør/Dekoratør";
@@ -49,11 +49,11 @@ const AppRamme = styled.div`
   flex-direction: column;
   padding: 0 ${contentSpacing.mobileX};
 
-  ${forLargerThan(Breakpoint.Tablet)} {
+  ${tabletAndUp} {
     padding: 0 ${contentSpacing.desktopX};
   }
 
-  ${forLargerThan(Breakpoint.Desktop)} {
+  ${desktopAndUp} {
     padding: 0 ${contentSpacing.largeDesktopX};
   }
 `;
