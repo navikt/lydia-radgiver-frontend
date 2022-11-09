@@ -49,11 +49,11 @@ const AppRamme = styled.div`
   flex-direction: column;
   padding: 0 ${contentSpacing.mobileX};
 
-  ${forLargerThan(Breakpoint.Desktop)} {
+  ${forLargerThan(Breakpoint.Tablet)} {
     padding: 0 ${contentSpacing.desktopX};
   }
 
-  ${forLargerThan(Breakpoint.LargeDesktop)} {
+  ${forLargerThan(Breakpoint.Desktop)} {
     padding: 0 ${contentSpacing.largeDesktopX};
   }
 `;
