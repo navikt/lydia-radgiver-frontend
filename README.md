@@ -80,15 +80,6 @@ Då kan du nå Storybook i ein nettlesar på adressa [localhost:6006](http://loc
 ## Deploy til NAIS  
 // TODO skriv noko om 'frackend' og deploy til NAIS  
 
-
-## E2E-testing
-Vi bruker Cypress til ende-til-ende-testing (e2e-testing). 
-
-// TODO korleis køyre opp cypress-testar  
-For å køyre desse gjer du   
-`[kommando]` i `[mappe]` 
-
-
 ---
 
 # Henvendelser
