@@ -18,18 +18,23 @@ const HeaderContainer = styled.div`
   padding-top: ${contentSpacing.mobileY};
   padding-bottom: ${contentSpacing.mobileY};
 
-  ${forLargerThan(Breakpoint.Tablet)} {
-    margin-left: -${contentSpacing.tabletX};
-    margin-right: -${contentSpacing.tabletX};
-    padding-left: ${contentSpacing.tabletX};
-    padding-right: ${contentSpacing.tabletX};
-  }
-
-  ${forLargerThan(Breakpoint.LargeDesktop)} {
+  margin-left: -${contentSpacing.mobileX};
+  margin-right: -${contentSpacing.mobileX};
+  padding-left: ${contentSpacing.mobileX};
+  padding-right: ${contentSpacing.mobileX};
+  
+  ${forLargerThan(Breakpoint.Desktop)} {
     margin-left: -${contentSpacing.desktopX};
     margin-right: -${contentSpacing.desktopX};
     padding-left: ${contentSpacing.desktopX};
     padding-right: ${contentSpacing.desktopX};
+  }
+
+  ${forLargerThan(Breakpoint.LargeDesktop)} {
+    margin-left: -${contentSpacing.largeDesktopX};
+    margin-right: -${contentSpacing.largeDesktopX};
+    padding-left: ${contentSpacing.largeDesktopX};
+    padding-right: ${contentSpacing.largeDesktopX};
   }
 `;
 

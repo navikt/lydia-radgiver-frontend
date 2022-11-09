@@ -47,13 +47,14 @@ const AppContent = () => {
 const AppRamme = styled.div`
   display: flex;
   flex-direction: column;
+  padding: 0 ${contentSpacing.mobileX};
 
-  ${forLargerThan(Breakpoint.Tablet)} {
-    padding: 0 ${contentSpacing.tabletX};
+  ${forLargerThan(Breakpoint.Desktop)} {
+    padding: 0 ${contentSpacing.desktopX};
   }
 
   ${forLargerThan(Breakpoint.LargeDesktop)} {
-    padding: 0 ${contentSpacing.desktopX};
+    padding: 0 ${contentSpacing.largeDesktopX};
   }
 `;
 

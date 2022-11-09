@@ -1,6 +1,6 @@
 export const contentSpacing =  {
-    mobileX: '0',
+    mobileX: '8px',
     mobileY: `${24/16}rem`,
-    tabletX: '5rem',
-    desktopX: '10rem',
+    desktopX: '5rem',
+    largeDesktopX: '10rem',
 }
