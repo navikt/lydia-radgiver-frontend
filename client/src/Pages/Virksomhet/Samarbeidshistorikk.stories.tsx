@@ -1,10 +1,10 @@
 import { ComponentMeta } from "@storybook/react";
 
-import { Samarbeidshistorikk } from "./IASakshendelserOversikt";
+import { Samarbeidshistorikk } from "./Samarbeidshistorikk";
 import { samarbeidshistorikkMock } from "./mocks/iaSakHistorikkMock";
 
 export default {
-    title: "Virksomhet/Oversikt over hendelser på en IA-sak",
+    title: "Virksomhet/Samarbeidshistorikk for en IA-sak",
     component: Samarbeidshistorikk,
 } as ComponentMeta<typeof Samarbeidshistorikk>;
 
