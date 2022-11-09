@@ -17,6 +17,8 @@ interface Kolonne {
     textAlignment: "left" | "right"
 }
 
+// \u00AD-tegnet setter et punkt der et ord kan deles om det ikke får plass
+// Om ordet blir delt vil det automatisk få en bindestrek på delingspunktet
 const kolonner: Kolonne[] = [
     {
         key: "status",
@@ -30,19 +32,19 @@ const kolonner: Kolonne[] = [
     },
     {
         key: "navn",
-        name: "Virksomhetsnavn",
+        name: "Virksomhets\u00ADnavn",
         sortable: true,
         textAlignment: "left"
     },
     {
         key: "sykefraversprosent",
-        name: "Sykefravær",
+        name: "Syke\u00ADfravær",
         sortable: true,
         textAlignment: "right"
     },
     {
         key: "antall_personer",
-        name: "Arbeidsforhold",
+        name: "Arbeids\u00ADforhold",
         sortable: true,
         textAlignment: "right"
     },
@@ -66,6 +68,7 @@ const kolonner: Kolonne[] = [
 ]
 
 const Container = styled.div`
+  width: fit-content;
   ${hvitBoksMedSkygge}
 `;
 
