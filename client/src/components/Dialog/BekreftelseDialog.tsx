@@ -1,7 +1,16 @@
-import {BodyLong, Button, Heading, Modal} from "@navikt/ds-react";
-import "./BekreftelseDialog.css"
-import {getRootElement} from "../../main";
+import styled from "styled-components";
+import { BodyLong, Button, Heading, Modal } from "@navikt/ds-react";
+import { getRootElement } from "../../main";
 
+const Knapper = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const StyledModal = styled(Modal)`
+  padding-top: 0.5rem;
+  padding-right: 3rem;
+`;
 
 export interface Props {
     onConfirm: () => void
@@ -11,21 +20,27 @@ export interface Props {
     description?: string
 }
 
-
-export const BekreftelseDialog = ({onConfirm, onCancel, åpen, title = "Vennligst bekreft valget ditt", description }: Props) => {
+export const BekreftelseDialog = ({
+    onConfirm,
+    onCancel,
+    åpen,
+    title = "Vennligst bekreft valget ditt",
+    description
+}: Props) => {
     Modal.setAppElement?.(document.body)
     return (
-        <Modal className="bekreftelse-dialog-innhold" parentSelector={() => getRootElement()} open={åpen} onClose={onCancel}>
+        <StyledModal parentSelector={() => getRootElement()}
+                     open={åpen}
+                     onClose={onCancel}>
             <Modal.Content>
-                <Heading size="medium" spacing className="bekreftelse-dialog-overskrift">{title}</Heading>
+                <Heading size="medium" spacing>{title}</Heading>
                 {description && <BodyLong>{description}</BodyLong>}
-                <br/>
-                <div className="bekreftelse-dialog-knapper">
+                <br />
+                <Knapper>
                     <Button onClick={onConfirm}>Bekreft</Button>
                     <Button variant="secondary" onClick={onCancel}>Avbryt</Button>
-                </div>
-
+                </Knapper>
             </Modal.Content>
-        </Modal>
+        </StyledModal>
     );
 }

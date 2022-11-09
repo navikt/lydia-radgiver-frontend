@@ -2,7 +2,6 @@ import {ComponentMeta} from "@storybook/react";
 import {BekreftelseDialog} from "./BekreftelseDialog";
 import {useState} from "react";
 
-
 export default {
     title: "BekreftelseDialog",
     component: BekreftelseDialog,
@@ -11,8 +10,8 @@ export default {
 export const ModalStory = () => {
     const [open, setOpen] = useState(false)
     return (
-        <>
-            <button onClick={() => { setOpen(true)}}>Bekreft</button>
+        <div>
+            <button onClick={() => { setOpen(true)}}>Åpne modal</button>
             <BekreftelseDialog onConfirm={() => {
                 setOpen(false)
                 console.log('Confirmed')
@@ -20,7 +19,7 @@ export const ModalStory = () => {
                 setOpen(false)
                 console.log('Canceled')
             }} åpen={open} description={"Ønsker du å gå tilbake?"} />
-        </>
+        </div>
 
     );
 }
