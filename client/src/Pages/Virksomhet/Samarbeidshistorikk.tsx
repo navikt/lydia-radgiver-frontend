@@ -39,7 +39,7 @@ export const Samarbeidshistorikk = ({samarbeidshistorikk, className}: Samarbeids
 
     return (
         <Container className={className}>
-            <Heading size="medium" level={"2"} style={{padding: "1rem 3rem", ...bakgrunnsRamme}}>
+            <Heading size="medium" level={"3"} style={{padding: "1rem 3rem", ...bakgrunnsRamme}}>
                 Samarbeidshistorikk
             </Heading>
             {sortertHistorikk.length > 0 ? (
