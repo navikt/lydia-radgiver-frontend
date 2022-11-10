@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Label } from "@navikt/ds-react";
 import { Range } from "./SykefraværsprosentVelger";
 import { StyledNumericTextField } from "./StyledNumericTextField";
 import { RangeFieldset } from "./RangeFieldset";
@@ -57,7 +56,7 @@ export const AntallArbeidsforholdVelger = ({
                 })
             }}
         />
-        <Label>-</Label>
+        <p className="navds-label">-</p>
         <AntallArbeidsforholdInput
             label={"Til"}
             hideLabel

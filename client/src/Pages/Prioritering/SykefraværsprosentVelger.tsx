@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Label } from "@navikt/ds-react";
 import { StyledNumericTextField } from "./StyledNumericTextField";
 import { RangeFieldset } from "./RangeFieldset";
 
@@ -93,7 +92,7 @@ export const SykefraværsprosentVelger = ({sykefraværsprosentRange, endre}: Syk
                 })
             }
         />
-        <Label>-</Label>
+        <p className="navds-label">-</p>
         <SykefraværsprosentInput
             value={sykefraværsprosentRange.til}
             label={"Til"}
