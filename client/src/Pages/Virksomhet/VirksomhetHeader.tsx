@@ -53,8 +53,8 @@ const SlettetFjernetInfo = styled(Tag)`
 
 const InnholdContainer = styled.div`
   display: flex;
+  flex-wrap: wrap;
   gap: 2rem;
-  flex-direction: row;
 `;
 
 const VirksomhetsinfoContainer = styled.div`
@@ -62,6 +62,7 @@ const VirksomhetsinfoContainer = styled.div`
   flex-direction: column;
   flex: 3;
   gap: 1rem;
+  min-width: 20rem;
 `
 
 interface Props {
