@@ -33,8 +33,11 @@ const Container = styled.div`
 `;
 
 const Søkeknapp = styled(Button)`
-  width: 10rem;
+  align-self: end;
   margin-left: auto;
+  
+  width: 10rem;
+  height: fit-content;
 `;
 
 const næringsgruppeKoderTilNæringsgrupper = (

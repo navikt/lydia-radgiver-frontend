@@ -10,6 +10,5 @@ export const HorizontalFlexboxDivGap3RemAlignItemsEnd = styled.div`
 
   ${tabletAndUp} {
     flex-direction: row;
-    align-items: end;
   }
 `;
