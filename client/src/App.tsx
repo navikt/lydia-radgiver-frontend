@@ -44,7 +44,7 @@ const AppContent = () => {
     ) : null;
 }
 
-const AppRamme = styled.div`
+const AppRamme = styled.main`
   display: flex;
   flex-direction: column;
   padding: 0 ${contentSpacing.mobileX};
