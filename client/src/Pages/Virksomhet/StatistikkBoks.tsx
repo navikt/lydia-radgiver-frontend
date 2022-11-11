@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Label } from "@navikt/ds-react";
+import { BodyShort } from "@navikt/ds-react";
 import { NavFarger } from "../../styling/farger";
 import { BorderRadius } from "../../styling/borderRadius";
 
@@ -12,12 +12,16 @@ const Container = styled.div`
 
   background: ${NavFarger.canvasBackground};
   border-radius: ${BorderRadius.medium};
-  
+
   padding: ${12 / 16}rem ${24 / 16}rem;
   min-width: ${230 / 16}rem;
 `;
 
-const Verdi = styled(Label)`
+const Tittel = styled(BodyShort)`
+  font-weight: bold;
+`;
+
+const Verdi = styled(BodyShort)`
   font-size: 2.5rem;
   line-height: 1.3;
 `;
@@ -30,9 +34,9 @@ interface Props {
 export const StatistikkBoks = ({verdi, tittel}: Props) => {
     return (
         <Container>
-            <Label>
+            <Tittel>
                 {tittel}
-            </Label>
+            </Tittel>
             <Verdi>{verdi}</Verdi>
         </Container>
     );

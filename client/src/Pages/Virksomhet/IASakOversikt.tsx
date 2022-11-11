@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import { Detail } from "@navikt/ds-react";
+import { BodyShort } from "@navikt/ds-react";
 import {
     GyldigNesteHendelse,
     IAProsessStatusEnum,
@@ -45,12 +45,12 @@ const Saksinfo = styled.div`
   column-gap: ${70 / 16}rem;
 `;
 
-const InfoTittel = styled(Detail)`
+const InfoTittel = styled(BodyShort)`
   font-weight: bold;
   min-width: ${44 / 16}rem;
 `;
 
-const InfoData = styled(Detail)`
+const InfoData = styled(BodyShort)`
   overflow-wrap: anywhere;
 `;
 

@@ -1,6 +1,6 @@
 import { Virksomhet } from "../../domenetyper";
 import styled from "styled-components";
-import { BodyShort, Label } from "@navikt/ds-react";
+import { BodyShort } from "@navikt/ds-react";
 import { NavFarger } from "../../styling/farger";
 import { BorderRadius } from "../../styling/borderRadius";
 
@@ -16,7 +16,7 @@ const Container = styled.div`
   border-radius: ${BorderRadius.medium};
 `;
 
-const InfoTittel = styled(Label)`
+const InfoTittel = styled(BodyShort)`
   font-weight: bold;
 `;
 
@@ -36,7 +36,7 @@ export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
     return (
         <Container className={className}>
             <InfoTittel>Orgnummer</InfoTittel>
-            <InfoData size={"medium"}>{virksomhet.orgnr}</InfoData>
+            <InfoData>{virksomhet.orgnr}</InfoData>
             <InfoTittel>Adresse</InfoTittel>
             <InfoData>{adresse}, {virksomhet.postnummer} {virksomhet.poststed}</InfoData>
             <InfoTittel>Bransje/næring</InfoTittel>

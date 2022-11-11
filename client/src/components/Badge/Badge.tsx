@@ -20,6 +20,9 @@ const StyledDetail = styled(Detail)<{ backgroundColor: string }>`
   color: ${NavFarger.text};
   border: 1px solid ${FiaFarger.grå};
   border-radius: ${BorderRadius.medium};
+
+  font-size: var(--navds-font-size-medium);
+  font-weight: normal;
 `;
 
 interface BadgeProps {
@@ -28,7 +31,8 @@ interface BadgeProps {
     className?: string;
 }
 
-export const Badge = ({backgroundColor, children, className}: BadgeProps) =>
-    <StyledDetail as={"span"} backgroundColor={backgroundColor} className={`navds-tag--medium ${className}`}>
+export const Badge = ({backgroundColor, children, className}: BadgeProps) => (
+    <StyledDetail as={"span"} backgroundColor={backgroundColor} className={className}>
         {children}
-    </StyledDetail>;
+    </StyledDetail>
+);
