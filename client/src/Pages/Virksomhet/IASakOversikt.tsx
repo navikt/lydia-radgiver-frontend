@@ -1,15 +1,8 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { BodyShort } from "@navikt/ds-react";
-import {
-    GyldigNesteHendelse,
-    IAProsessStatusEnum,
-    IAProsessStatusType,
-    IASak,
-    IASakshendelseTypeEnum,
-    RolleEnum
-} from "../../domenetyper";
-import { hentBakgrunnsFargeForIAStatus, penskrivIAStatus } from "../../components/Badge/StatusBadge";
+import { GyldigNesteHendelse, IAProsessStatusEnum, IASak, IASakshendelseTypeEnum, RolleEnum } from "../../domenetyper";
+import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { nyHendelsePåSak, opprettSak, useHentBrukerinformasjon } from "../../api/lydia-api";
 import { BegrunnelseModal } from "./BegrunnelseModal";
 import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
@@ -18,11 +11,7 @@ import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { NavFarger } from "../../styling/farger";
 import { BorderRadius } from "../../styling/borderRadius";
 
-interface IASakBakgrunnProps {
-    status: IAProsessStatusType;
-}
-
-const Container = styled.div<IASakBakgrunnProps>`
+const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${24 / 16}rem;
@@ -33,8 +22,7 @@ const Container = styled.div<IASakBakgrunnProps>`
   padding: ${24 / 16}rem;
 
   border-radius: ${BorderRadius.medium};
-  background-color: ${(props) => hentBakgrunnsFargeForIAStatus(props.status)};
-  border: ${(props) => props.status === "FULLFØRT" ? `solid 1px ${NavFarger.gray500}` : "none"};
+  background-color: ${NavFarger.canvasBackground};
 `;
 
 const Saksinfo = styled.div`
@@ -62,10 +50,10 @@ interface IngenAktiveSakerProps {
 function IngenAktiveSaker({orgnummer, oppdaterSak}: IngenAktiveSakerProps) {
     const {data: brukerInformasjon} = useHentBrukerinformasjon();
     return (
-        <Container status={IAProsessStatusEnum.enum.IKKE_AKTIV}>
+        <Container>
             <Saksinfo>
                 <InfoTittel>Status</InfoTittel>
-                <InfoData>{penskrivIAStatus(IAProsessStatusEnum.enum.IKKE_AKTIV)}</InfoData>
+                <StatusBadge status={IAProsessStatusEnum.enum.IKKE_AKTIV} />
             </Saksinfo>
             {brukerInformasjon?.rolle === RolleEnum.enum.Superbruker ?
                 <IASakshendelseKnapp
@@ -103,10 +91,10 @@ export const IASakOversikt = ({orgnummer, iaSak: sak, muterState}: IASakOversikt
     const hendelseKreverBegrunnelse = (hendelse: GyldigNesteHendelse) =>
         hendelse.gyldigeÅrsaker.length > 0;
     return (
-        <Container status={sak.status}>
+        <Container>
             <Saksinfo>
                 <InfoTittel>Status</InfoTittel>
-                <InfoData>{penskrivIAStatus(sak.status)}</InfoData>
+                <StatusBadge status={sak.status} />
                 {sak.eidAv &&
                     <>
                         <InfoTittel>Eier</InfoTittel>

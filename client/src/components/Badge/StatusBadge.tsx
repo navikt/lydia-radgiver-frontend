@@ -28,7 +28,7 @@ export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): FiaF
 export function penskrivIAStatus(status: IAProsessStatusType): string {
     switch (status) {
         case IAProsessStatusEnum.enum.NY:
-            return "Sak opprettet"
+            return "Opprettet"
         case IAProsessStatusEnum.enum.VURDERES:
             return "Vurderes"
         case IAProsessStatusEnum.enum.IKKE_AKTIV:

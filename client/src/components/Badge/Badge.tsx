@@ -11,7 +11,7 @@ const StyledDetail = styled(Detail)<{ backgroundColor: string }>`
   align-items: center;
   white-space: nowrap;
 
-  min-width: 8em;
+  min-width: 7em;
   width: fit-content;
   height: fit-content;
   padding: 0 1rem;
