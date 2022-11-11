@@ -18,7 +18,7 @@ const Container = styled.div`
 
   height: fit-content;
   width: ${300 / 16}rem;
-  min-width: ${300 / 16}rem;
+  min-width: ${300 / 16}em;
   padding: ${24 / 16}rem;
 
   border-radius: ${BorderRadius.medium};
@@ -30,7 +30,7 @@ const Saksinfo = styled.div`
   grid-template-columns: auto 1fr;
   grid-template-rows: repeat(auto-fill, auto);
   row-gap: ${12 / 16}rem;
-  column-gap: ${70 / 16}rem;
+  column-gap: 3rem;
 `;
 
 const InfoTittel = styled(BodyShort)`
