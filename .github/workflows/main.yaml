@@ -51,7 +51,7 @@ jobs:
     strategy:
       matrix:
         cluster: [dev, prod]
-    name: Deploy app to dev
+    name: Deploy app to ${{ matrix.cluster }}
     needs: build
     if: github.ref == 'refs/heads/main' || github.ref == 'refs/heads/endre-paginering'
     runs-on: ubuntu-latest
