@@ -1,6 +1,5 @@
 import { z } from "zod";
 import { sorteringsverdier } from "./Pages/Prioritering/Filtervisning";
-import { Range } from "./Pages/Prioritering/SykefraværsprosentVelger";
 
 export const datoSchema = z.preprocess((arg) => {
     if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
@@ -24,7 +23,7 @@ export const næringsgrupperSchema = z.object({
 export const eierSchema = z.object({
     navIdent: z.string(),
     navn: z.string(),
-})
+});
 
 const IA_PROSESS_STATUSER = [
     "NY",
@@ -35,10 +34,10 @@ const IA_PROSESS_STATUSER = [
     "VI_BISTÅR",
     "IKKE_AKTUELL",
     "FULLFØRT",
-    "SLETTET"
-] as const
+    "SLETTET",
+] as const;
 
-export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER)
+export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER);
 
 export const sykefraversstatistikkVirksomhetSchema = z.object({
     orgnr: z.string(),
@@ -54,7 +53,7 @@ export const sykefraversstatistikkVirksomhetSchema = z.object({
     tapteDagsverk: z.number(),
     status: IAProsessStatusEnum,
     eidAv: z.string().nullable(),
-    sistEndret: datoSchema.nullable()
+    sistEndret: datoSchema.nullable(),
 });
 
 export const sykefraversstatistikkVirksomhetListeSchema = z.array(
@@ -63,7 +62,7 @@ export const sykefraversstatistikkVirksomhetListeSchema = z.array(
 
 export const sykefraværListeResponsSchema = z.object({
     data: sykefraversstatistikkVirksomhetListeSchema,
-})
+});
 
 export const filterverdierSchema = z.object({
     fylker: z.array(fylkeMedKommunerSchema),
@@ -74,7 +73,7 @@ export const filterverdierSchema = z.object({
     filtrerbareEiere: z.array(eierSchema),
 });
 
-export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>
+export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>;
 
 export type FylkeMedKommuner = z.infer<typeof fylkeMedKommunerSchema>;
 
@@ -84,28 +83,18 @@ export type Næringsgruppe = z.infer<typeof næringsgrupperSchema>;
 
 export type Eier = z.infer<typeof eierSchema>;
 
-export type SykefraversstatistikkVirksomhet = z.infer<typeof sykefraversstatistikkVirksomhetSchema>;
+export type SykefraversstatistikkVirksomhet = z.infer<
+    typeof sykefraversstatistikkVirksomhetSchema
+>;
 
-export type SykefraværsstatistikkVirksomhetRespons = z.infer<typeof sykefraværListeResponsSchema>
+export type SykefraværsstatistikkVirksomhetRespons = z.infer<
+    typeof sykefraværListeResponsSchema
+>;
 
-export type Sorteringsverdi = keyof typeof sorteringsverdier
+export type Sorteringsverdi = keyof typeof sorteringsverdier;
 
-export interface Søkeverdier {
-    kommuner?: Kommune[];
-    fylker?: Fylke[];
-    neringsgrupper?: Næringsgruppe[];
-    sykefraversprosentRange?: Range;
-    antallArbeidsforholdRange?: Range;
-    sorteringsnokkel?: Sorteringsverdi;
-    sorteringsretning?: "asc" | "desc"
-    iaStatus?: IAProsessStatusType;
-    side?: number;
-    bransjeprogram?: string[]
-    eiere?: Eier[]
-}
-
-const VIRKSOMHET_STATUS = ["AKTIV", "FJERNET", "SLETTET"] as const
-export const VirksomhetStatusEnum = z.enum(VIRKSOMHET_STATUS)
+const VIRKSOMHET_STATUS = ["AKTIV", "FJERNET", "SLETTET"] as const;
+export const VirksomhetStatusEnum = z.enum(VIRKSOMHET_STATUS);
 export const virksomhetsSchema = z.object({
     orgnr: z.string(),
     navn: z.string(),
@@ -114,17 +103,17 @@ export const virksomhetsSchema = z.object({
     poststed: z.string(),
     neringsgrupper: næringsgrupperSchema.array(),
     sektor: z.string().optional(),
-    status: VirksomhetStatusEnum
-})
-export type Virksomhet = z.infer<typeof virksomhetsSchema>
+    status: VirksomhetStatusEnum,
+});
+export type Virksomhet = z.infer<typeof virksomhetsSchema>;
 
 export type VirksomhetSøkeresultat = {
-    orgnr: string
-    navn: string
-}
+    orgnr: string;
+    navn: string;
+};
 
-const ROLLE = ["Superbruker", "Saksbehandler", "Lesetilgang"] as const
-export const RolleEnum = z.enum(ROLLE)
+const ROLLE = ["Superbruker", "Saksbehandler", "Lesetilgang"] as const;
+export const RolleEnum = z.enum(ROLLE);
 export const brukerinfoSchema = z.object({
     navn: z.string(),
     ident: z.string(),
@@ -147,36 +136,36 @@ const IA_SAKSHENDELSE_TYPER = [
     "VIRKSOMHET_SKAL_BISTÅS",
     "FULLFØR_BISTAND",
     "TILBAKE",
-    "SLETT_SAK"
-] as const
+    "SLETT_SAK",
+] as const;
 
-export const IASakshendelseTypeEnum = z.enum(IA_SAKSHENDELSE_TYPER)
-export type IASakshendelseType = z.infer<typeof IASakshendelseTypeEnum>
+export const IASakshendelseTypeEnum = z.enum(IA_SAKSHENDELSE_TYPER);
+export type IASakshendelseType = z.infer<typeof IASakshendelseTypeEnum>;
 
 export const begrunnelseSchema = z.object({
     type: z.string(),
     navn: z.string(),
-})
+});
 
-export type Begrunnelse = z.infer<typeof begrunnelseSchema>
+export type Begrunnelse = z.infer<typeof begrunnelseSchema>;
 
 export const årsakSchema = z.object({
     type: z.string(),
     navn: z.string(),
-    begrunnelser: z.array(begrunnelseSchema)
-})
+    begrunnelser: z.array(begrunnelseSchema),
+});
 
-export type Årsak = z.infer<typeof årsakSchema>
+export type Årsak = z.infer<typeof årsakSchema>;
 
 export type ValgtÅrsakDto = {
-    type: string,
-    begrunnelser: string[]
-}
+    type: string;
+    begrunnelser: string[];
+};
 
 export const gyldigNesteHendelseSchema = z.object({
     saksHendelsestype: IASakshendelseTypeEnum,
-    gyldigeÅrsaker: z.array(årsakSchema)
-})
+    gyldigeÅrsaker: z.array(årsakSchema),
+});
 
 export type GyldigNesteHendelse = z.infer<typeof gyldigNesteHendelseSchema>;
 
@@ -191,8 +180,8 @@ export const iaSakSchema = z.object({
     eidAv: z.string().nullable(),
     status: IAProsessStatusEnum,
     gyldigeNesteHendelser: z.array(gyldigNesteHendelseSchema),
-    lukket: z.boolean()
-})
+    lukket: z.boolean(),
+});
 export type IASak = z.infer<typeof iaSakSchema>;
 
 export const iaSakshendelseSchema = z.object({
@@ -202,30 +191,29 @@ export const iaSakshendelseSchema = z.object({
     hendelsestype: IASakshendelseTypeEnum,
     opprettetAv: z.string(),
     opprettetTidspunkt: datoSchema,
-})
-export type IASakshendelse = z.infer<typeof iaSakshendelseSchema>
-
+});
+export type IASakshendelse = z.infer<typeof iaSakshendelseSchema>;
 
 export const sakSnapshotSchema = z.object({
     status: IAProsessStatusEnum,
     hendelsestype: IASakshendelseTypeEnum,
     tidspunktForSnapshot: datoSchema,
     begrunnelser: z.string().array(),
-    eier: z.string().nullable()
-})
+    eier: z.string().nullable(),
+});
 
 export const sakshistorikkSchema = z.object({
     saksnummer: z.string(),
     opprettet: datoSchema,
-    sakshendelser: sakSnapshotSchema.array()
-})
+    sakshendelser: sakSnapshotSchema.array(),
+});
 
-export type Sakshistorikk = z.infer<typeof sakshistorikkSchema>
+export type Sakshistorikk = z.infer<typeof sakshistorikkSchema>;
 
 export interface IANySakshendelseDto {
     orgnummer: string;
     saksnummer: string;
     hendelsesType: string;
     endretAvHendelseId: string;
-    payload?: string
+    payload?: string;
 }

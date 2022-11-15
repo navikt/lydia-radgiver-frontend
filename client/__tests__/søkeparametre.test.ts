@@ -1,4 +1,4 @@
-import { Kommune, Søkeverdier } from "../src/domenetyper";
+import { Kommune } from "../src/domenetyper";
 import { søkeverdierTilUrlSearchParams } from "../src/api/lydia-api";
 import { FiltervisningState } from "../src/Pages/Virksomhet/filtervisning-reducer";
 
