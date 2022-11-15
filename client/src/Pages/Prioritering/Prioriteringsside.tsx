@@ -37,7 +37,7 @@ const Prioriteringsside = () => {
     const skalViseTabell = fantResultaterISøk && !skalSøke;
 
     const { data: filterverdier } = useFilterverdier();
-    const filtervisning = useFiltervisningState({ filterverdier });
+    const filtervisning = useFiltervisningState();
     const {
         data: sfStatistikkFraApi,
         error,

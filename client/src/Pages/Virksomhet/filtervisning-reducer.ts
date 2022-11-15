@@ -60,9 +60,6 @@ type EndreIAStatusAction = {
 };
 type TilbakestillAction = {
     type: "TILBAKESTILL";
-    payload: {
-        filterverdier: Filterverdier;
-    };
 };
 type OppdaterSideAction = {
     type: "OPPDATER_SIDE";
@@ -264,20 +261,7 @@ const reducer = (state: FiltervisningState, action: Action) => {
     }
 };
 
-const tommeFilterverdier: Filterverdier = {
-    fylker: [],
-    neringsgrupper: [],
-    sorteringsnokler: [],
-    statuser: [],
-    bransjeprogram: [],
-    filtrerbareEiere: [],
-};
-
-export const useFiltervisningState = ({
-    filterverdier = tommeFilterverdier,
-}: {
-    filterverdier?: Filterverdier;
-}) => {
+export const useFiltervisningState = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     const kommuner = useCallback((payload: EndreKommuneAction["payload"]) => {
@@ -334,9 +318,6 @@ export const useFiltervisningState = ({
     const tilbakestill = useCallback(() => {
         dispatch({
             type: "TILBAKESTILL",
-            payload: {
-                filterverdier,
-            },
         });
     }, []);
 

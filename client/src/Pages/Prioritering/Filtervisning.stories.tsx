@@ -5,6 +5,7 @@ import { filterverdierMock } from "./mocks/filterverdierMock";
 import { brukerMedVeldigLangtNavn } from "./mocks/innloggetAnsattMock";
 import { innloggetAnsattPath } from "../../api/lydia-api";
 import { useFiltervisningState } from "../Virksomhet/filtervisning-reducer";
+import { useEffect } from "react";
 
 export default {
     title: "Prioritering/Filtervisning",
@@ -12,9 +13,12 @@ export default {
 } as ComponentMeta<typeof Filtervisning>;
 
 export const Hovedstory = () => {
-    const filtervisning = useFiltervisningState({
-        filterverdier: filterverdierMock,
-    });
+    const filtervisning = useFiltervisningState();
+    useEffect(() => {
+        filtervisning.lastData({
+            filterverdier: filterverdierMock,
+        });
+    }, []);
     return (
         <Filtervisning
             søkPåNytt={() => {

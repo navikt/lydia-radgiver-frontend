@@ -33,8 +33,13 @@ const Søkeknapp = styled(Button)`
     height: fit-content;
 `;
 
+type Filtervisning = Omit<
+    ReturnType<typeof useFiltervisningState>,
+    "lastData" | "oppdaterSide" // Disse funksjonene er ikke relevante for denne komponenten, derfor fjernes de fra typen.
+>;
+
 interface FiltervisningProps {
-    filtervisning: ReturnType<typeof useFiltervisningState>;
+    filtervisning: Filtervisning;
     søkPåNytt: () => void;
     className?: string;
 }
