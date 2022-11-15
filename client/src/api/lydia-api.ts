@@ -13,15 +13,15 @@ import {
     sykefraversstatistikkVirksomhetListeSchema,
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
-    Søkeverdier,
     ValgtÅrsakDto,
     Virksomhet,
     virksomhetsSchema,
 } from "../domenetyper";
-import useSWR, {SWRConfiguration} from "swr";
-import {z, ZodError, ZodType} from "zod";
-import {useEffect, useState} from "react";
-import {dispatchFeilmelding} from "../Pages/FeilmeldingBanner";
+import useSWR, { SWRConfiguration } from "swr";
+import { z, ZodError, ZodType } from "zod";
+import { useEffect, useState } from "react";
+import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
+import { FiltervisningState } from "../Pages/Virksomhet/filtervisning-reducer";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -32,7 +32,7 @@ export const innloggetAnsattPath = `/innloggetAnsatt`;
 export const iaSakPath = `${basePath}/iasak/radgiver`;
 export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
 export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
-export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`
+export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -128,12 +128,14 @@ const useSwrTemplate = <T>(
     };
 };
 
-const getSykefraværsstatistikkUrl = (søkeverdier: Søkeverdier) =>
+const getSykefraværsstatistikkUrl = (søkeverdier: FiltervisningState) =>
     `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(
         søkeverdier
     ).toString()}`;
 
-const getSykefraværsstatistikkAntallTreffUrl = (søkeverdier: Søkeverdier) =>
+const getSykefraværsstatistikkAntallTreffUrl = (
+    søkeverdier: FiltervisningState
+) =>
     `${sykefraværsstatistikkAntallTreffPath}?${søkeverdierTilUrlSearchParams(
         søkeverdier
     ).toString()}`;
@@ -141,9 +143,13 @@ const getSykefraværsstatistikkAntallTreffUrl = (søkeverdier: Søkeverdier) =>
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);
 
-function hentAntallTreff(søkeverdier: Søkeverdier, initierSøk: boolean, setError: (value: (((prevState: string) => string) | string)) => void) {
+function hentAntallTreff(
+    søkeverdier: FiltervisningState,
+    initierSøk: boolean,
+    setError: (value: ((prevState: string) => string) | string) => void
+) {
     const [antallTreff, setAntallTreff] = useState<number>();
-    const antallTreffUrl = getSykefraværsstatistikkAntallTreffUrl(søkeverdier)
+    const antallTreffUrl = getSykefraværsstatistikkAntallTreffUrl(søkeverdier);
 
     useEffect(() => {
         if (søkeverdier.side === 1 && initierSøk) {
@@ -158,14 +164,14 @@ function hentAntallTreff(søkeverdier: Søkeverdier, initierSøk: boolean, setEr
                 });
         }
     }, [antallTreffUrl, initierSøk, søkeverdier.side]);
-    return antallTreff
+    return antallTreff;
 }
 
 export const useSykefraværsstatistikk = ({
-    søkeverdier = {},
+    filterstate,
     initierSøk = true,
 }: {
-    søkeverdier?: Søkeverdier;
+    filterstate: FiltervisningState;
     initierSøk?: boolean;
 }) => {
     const [loading, setLoading] = useState(false);
@@ -173,7 +179,7 @@ export const useSykefraværsstatistikk = ({
     const [sykefravær, setSykefravær] =
         useState<SykefraværsstatistikkVirksomhetRespons>();
 
-    const sykefraværUrl = getSykefraværsstatistikkUrl(søkeverdier);
+    const sykefraværUrl = getSykefraværsstatistikkUrl(filterstate);
 
     useEffect(() => {
         if (initierSøk) {
@@ -193,7 +199,7 @@ export const useSykefraværsstatistikk = ({
         }
     }, [sykefraværUrl, initierSøk]);
 
-    const antallTreff = hentAntallTreff(søkeverdier, initierSøk, setError);
+    const antallTreff = hentAntallTreff(filterstate, initierSøk, setError);
 
     return { error, loading, data: sykefravær, antallTreff };
 };
@@ -258,55 +264,63 @@ export const nyHendelsePåSak = (
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
 };
 
-export const søkeverdierTilUrlSearchParams = (søkeverdier: Søkeverdier) => {
+export const søkeverdierTilUrlSearchParams = ({
+    kommuner,
+    valgtFylke: fylkeMedKommune,
+    næringsgrupper,
+    sykefraværsprosent,
+    antallArbeidsforhold,
+    sorteringsretning,
+    sorteringsnokkel,
+    iaStatus,
+    side,
+    bransjeprogram,
+    eiere,
+}: FiltervisningState) => {
     const params = new URLSearchParams();
     params.append(
         "kommuner",
-        søkeverdier.kommuner?.map(kommune => kommune.nummer).join(",") ?? ""
+        kommuner?.map((kommune) => kommune.nummer).join(",") ?? ""
     );
-    params.append(
-        "fylker",
-        søkeverdier.fylker?.map(fylke => fylke.nummer).join(",") ?? ""
-    );
+    params.append("fylker", fylkeMedKommune?.fylke.nummer ?? "");
     params.append(
         "neringsgrupper",
-        søkeverdier.neringsgrupper
-            ?.map((næringsgruppe) => næringsgruppe.kode)
-            .join(",") ?? ""
+        næringsgrupper?.map((næringsgruppe) => næringsgruppe.kode).join(",") ??
+            ""
     );
     params.append(
         "sykefraversprosentFra",
-        søkeverdier.sykefraversprosentRange?.fra.toFixed(2) ?? ""
+        sykefraværsprosent?.fra.toFixed(2) ?? ""
     );
     params.append(
         "sykefraversprosentTil",
-        søkeverdier.sykefraversprosentRange?.til.toFixed(2) ?? ""
+        sykefraværsprosent?.til.toFixed(2) ?? ""
     );
     params.append(
         "ansatteFra",
         `${
-            Number.isNaN(søkeverdier.antallArbeidsforholdRange?.fra)
+            Number.isNaN(antallArbeidsforhold?.fra)
                 ? ""
-                : søkeverdier.antallArbeidsforholdRange?.fra || ""
+                : antallArbeidsforhold?.fra || ""
         }`
     );
     params.append(
         "ansatteTil",
         `${
-            Number.isNaN(søkeverdier.antallArbeidsforholdRange?.til)
+            Number.isNaN(antallArbeidsforhold?.til)
                 ? ""
-                : søkeverdier.antallArbeidsforholdRange?.til || ""
+                : antallArbeidsforhold?.til || ""
         }`
     );
-    params.append("sorteringsnokkel", søkeverdier.sorteringsnokkel ?? "");
-    params.append("sorteringsretning", søkeverdier.sorteringsretning ?? "desc");
-    params.append("iaStatus", søkeverdier.iaStatus ?? "");
-    params.append("side", søkeverdier.side?.toString() ?? "");
-    params.append("bransjeprogram", søkeverdier.bransjeprogram?.join() ?? "")
+    params.append("sorteringsnokkel", sorteringsnokkel ?? "");
+    params.append("sorteringsretning", sorteringsretning ?? "desc");
+    params.append("iaStatus", iaStatus ?? "");
+    params.append("side", side?.toString() ?? "");
+    params.append("bransjeprogram", bransjeprogram?.join() ?? "");
 
     params.append(
         "eiere",
-        søkeverdier.eiere?.map(eier => eier.navIdent)?.join(",") ?? ""
+        eiere?.map((eier) => eier.navIdent)?.join(",") ?? ""
     );
 
     return params;

@@ -3,64 +3,55 @@ import styled from "styled-components";
 import { Loader, SortState } from "@navikt/ds-react";
 import { Filtervisning } from "./Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
-import { useFilterverdier, useSykefraværsstatistikk } from "../../api/lydia-api";
-import { Filterverdier, Sorteringsverdi, SykefraversstatistikkVirksomhet, Søkeverdier } from "../../domenetyper";
+import {
+    useFilterverdier,
+    useSykefraværsstatistikk,
+} from "../../api/lydia-api";
+import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
 import { statiskeSidetitler, TittelContext } from "./TittelContext";
 import { contentSpacing } from "../../styling/contentSpacing";
+import { useFiltervisningState } from "../Virksomhet/filtervisning-reducer";
 
 const Container = styled.div`
-  padding: ${contentSpacing.mobileY} 0;
+    padding: ${contentSpacing.mobileY} 0;
 `;
-
-const tommeFilterverdier: Filterverdier = {
-    fylker: [],
-    neringsgrupper: [],
-    sorteringsnokler: [],
-    statuser: [],
-    bransjeprogram: [],
-    filtrerbareEiere: [],
-};
-
-const tilSorteringsretning = (direction: SortState["direction"] = "descending") => {
-
-    switch (direction) {
-        case "ascending":
-            return "asc";
-        case "descending":
-            return "desc";
-    }
-}
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 
 const Prioriteringsside = () => {
-    const {oppdaterTittel} = useContext(TittelContext)
-    oppdaterTittel(statiskeSidetitler.prioriteringsside)
+    const { oppdaterTittel } = useContext(TittelContext);
+    oppdaterTittel(statiskeSidetitler.prioriteringsside);
 
-    const [sortering, setSortering] = useState<SortState>({direction: "descending", orderBy: "tapte_dagsverk"})
-    const [sykefraværsstatistikk, setSykefraværsstatistikk] = useState<SykefraversstatistikkVirksomhet[]>();
-    const [side, setSide] = useState(1);
-    const [søkeverdier, setSøkeverdier] = useState<Søkeverdier>({
-        side,
-        antallArbeidsforholdRange: {
-            fra: 5,
-            til: NaN,
-        }
+    const [sortering, setSortering] = useState<SortState>({
+        direction: "descending",
+        orderBy: "tapte_dagsverk",
     });
+
+    const [sykefraværsstatistikk, setSykefraværsstatistikk] =
+        useState<SykefraversstatistikkVirksomhet[]>();
     const [skalSøke, setSkalSøke] = useState(false);
-    const harSøktMinstEnGang = sykefraværsstatistikk !== undefined
-    const fantResultaterISøk = harSøktMinstEnGang && sykefraværsstatistikk.length > 0
+    const [filtervisningLoaded, setFiltervisningLoaded] = useState(false);
+    const harSøktMinstEnGang = sykefraværsstatistikk !== undefined;
+    const fantResultaterISøk =
+        harSøktMinstEnGang && sykefraværsstatistikk.length > 0;
     const skalViseTabell = fantResultaterISøk && !skalSøke;
 
-    const {data: filterverdier} = useFilterverdier();
+    const { data: filterverdier } = useFilterverdier();
+    const filtervisning = useFiltervisningState({ filterverdier });
     const {
         data: sfStatistikkFraApi,
         error,
         loading,
-        antallTreff: totaltAntallTreff
+        antallTreff: totaltAntallTreff,
     } = useSykefraværsstatistikk({
-        søkeverdier,
+        filterstate: filtervisning.state,
         initierSøk: skalSøke,
+    });
+    useEffect(() => {
+        if (filterverdier && !filtervisningLoaded) {
+            filtervisning.lastData({ filterverdier });
+            setFiltervisningLoaded(true);
+        }
     });
     useEffect(() => {
         if (sfStatistikkFraApi) {
@@ -70,15 +61,9 @@ const Prioriteringsside = () => {
     }, [sfStatistikkFraApi]);
 
     function oppdaterSide(side: number, sortering?: SortState) {
-        setSide(side);
-        setSøkeverdier({
-            ...søkeverdier,
+        filtervisning.oppdaterSide({
             side,
-            ...(sortering && {
-                sorteringsnokkel: sortering.orderBy as Sorteringsverdi,
-                sorteringsretning: tilSorteringsretning(sortering.direction)
-            })
-
+            sortering,
         });
         setSkalSøke(true);
     }
@@ -86,11 +71,7 @@ const Prioriteringsside = () => {
     return (
         <Container>
             <Filtervisning
-                filterverdier={filterverdier ?? tommeFilterverdier}
-                oppdaterSøkeverdier={(nyeSøkeverdier: Søkeverdier) => {
-                    setSøkeverdier({...søkeverdier, ...nyeSøkeverdier});
-                    setSkalSøke(false);
-                }}
+                filtervisning={filtervisning}
                 søkPåNytt={() => {
                     oppdaterSide(1);
                 }}
@@ -103,15 +84,17 @@ const Prioriteringsside = () => {
                         oppdaterSide(side);
                     }}
                     sortering={sortering}
-                    endreSortering={(sortering => {
-                        setSortering(sortering)
-                        oppdaterSide(1, sortering)
-                    })}
-                    side={side}
+                    endreSortering={(sortering) => {
+                        setSortering(sortering);
+                        oppdaterSide(1, sortering);
+                    }}
+                    side={filtervisning.state.side}
                     totaltAntallTreff={totaltAntallTreff}
                 />
-            ) : harSøktMinstEnGang && !loading && <SøketGaIngenResultater />}
-            <div style={{textAlign: "center"}}>
+            ) : (
+                harSøktMinstEnGang && !loading && <SøketGaIngenResultater />
+            )}
+            <div style={{ textAlign: "center" }}>
                 {loading && (
                     <Loader
                         title={"Henter sykefraværsstatistikk"}
@@ -119,14 +102,19 @@ const Prioriteringsside = () => {
                         size={"xlarge"}
                     />
                 )}
-                {error && <p> Noe gikk galt under uthenting av sykefraværsstatistikk</p>}
+                {error && (
+                    <p>
+                        {" "}
+                        Noe gikk galt under uthenting av sykefraværsstatistikk
+                    </p>
+                )}
             </div>
         </Container>
     );
 };
 
 const SøketGaIngenResultater = () => (
-    <p style={{textAlign: "center"}}>Søket ga ingen resultater</p>
-)
+    <p style={{ textAlign: "center" }}>Søket ga ingen resultater</p>
+);
 
 export default Prioriteringsside;

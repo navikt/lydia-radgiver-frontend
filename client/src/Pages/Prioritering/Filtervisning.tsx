@@ -1,4 +1,3 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { Button } from "@navikt/ds-react";
 import { Range, SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
@@ -10,14 +9,8 @@ import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
 import { hvitBoksMedSkygge } from "../../styling/containere";
-import {
-    Filterverdier,
-    FylkeMedKommuner,
-    IAProsessStatusType,
-    Kommune,
-    Næringsgruppe,
-    Søkeverdier,
-} from "../../domenetyper";
+import { Eier, IAProsessStatusType, Kommune } from "../../domenetyper";
+import { useFiltervisningState } from "../Virksomhet/filtervisning-reducer";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -28,125 +21,124 @@ export const sorteringsverdier = {
 } as const;
 
 const Container = styled.div`
-  padding: 1rem;
-  ${hvitBoksMedSkygge}
+    padding: 1rem;
+    ${hvitBoksMedSkygge}
 `;
 
 const Søkeknapp = styled(Button)`
-  align-self: end;
-  margin-left: auto;
-  
-  width: 10rem;
-  height: fit-content;
+    align-self: end;
+    margin-left: auto;
+
+    width: 10rem;
+    height: fit-content;
 `;
 
-const næringsgruppeKoderTilNæringsgrupper = (
-    næringsgruppeKoder: string[],
-    næringsgrupper: Næringsgruppe[]
-) => næringsgrupper.filter(({kode}) => næringsgruppeKoder.includes(kode));
-
 interface FiltervisningProps {
-    filterverdier: Filterverdier;
-    oppdaterSøkeverdier: (søkeverdier: Søkeverdier) => void;
+    filtervisning: ReturnType<typeof useFiltervisningState>;
     søkPåNytt: () => void;
     className?: string;
 }
 
-export const Filtervisning = ({filterverdier, oppdaterSøkeverdier, søkPåNytt, className}: FiltervisningProps) => {
-    const [valgtFylke, setValgtFylke] = useState<FylkeMedKommuner>();
-    const [valgteKommuner, setValgteKommuner] = useState<Kommune[]>([]);
-    const [næringsGrupper, setNæringsGrupper] = useState<Næringsgruppe[]>([]);
-    const [sykefraværsProsent, setSykefraværsprosent] = useState<Range>({fra: 0, til: 100,});
-    const [antallArbeidsforhold, setAntallArbeidsforhold] = useState<Range>({fra: 5, til: NaN,});
-    const [IAStatus, setIAStatus] = useState<IAProsessStatusType>();
+export const Filtervisning = ({
+    filtervisning,
+    søkPåNytt,
+    className,
+}: FiltervisningProps) => {
+    const {
+        iastatus,
+        antallArbeidsforhold: updateAntallArbeidsforhold,
+        sykefraværsprosent,
+        fylke,
+        state,
+        næringsgruppe,
+        kommuner: updateKommuner,
+        oppdaterEiere,
+    } = filtervisning;
 
     const endreFylke = (fylkesnummer: string) => {
-        if (fylkesnummer === valgtFylke?.fylke.nummer) return;
-        const endretFylkeMedKommuner = filterverdier.fylker.find(({fylke}) => fylke.nummer === fylkesnummer)
-        if (!endretFylkeMedKommuner) {
-            setValgtFylke(undefined);
-            oppdaterSøkeverdier({fylker: [],});
-            return;
-        }
-        setValgtFylke(endretFylkeMedKommuner);
-        const kommuner = valgteKommuner.filter((kommune) =>
-            endretFylkeMedKommuner.kommuner.includes(kommune)
-        );
-        setValgteKommuner(kommuner);
-        oppdaterSøkeverdier({fylker: [endretFylkeMedKommuner.fylke], kommuner,});
+        fylke({ fylkesnummer });
     };
 
     const endreKommuner = (kommuner: Kommune[]) => {
-        setValgteKommuner(kommuner);
-        oppdaterSøkeverdier({kommuner,});
+        updateKommuner({ kommuner });
     };
 
     const endreNæringsgruppe = (næringsgruppeKoder: string[]) => {
-        const endretNæringsgrupper = næringsgruppeKoderTilNæringsgrupper(næringsgruppeKoder, filterverdier.neringsgrupper);
-        const bransjeprogram = næringsgruppeKoder.filter(v => isNaN(+v))
-        setNæringsGrupper(endretNæringsgrupper);
-        oppdaterSøkeverdier({neringsgrupper: endretNæringsgrupper, bransjeprogram});
+        næringsgruppe({ næringsgrupper: næringsgruppeKoder });
     };
 
     const oppdaterSykefraværsprosent = (sykefraværsprosentRange: Range) => {
-        setSykefraværsprosent(sykefraværsprosentRange);
-        oppdaterSøkeverdier({sykefraversprosentRange: sykefraværsprosentRange,});
+        sykefraværsprosent({ sykefraværsprosent: sykefraværsprosentRange });
     };
 
     const endreAntallArbeidsforhold = (antallArbeidsforhold: Range) => {
-        setAntallArbeidsforhold(antallArbeidsforhold);
-        oppdaterSøkeverdier({antallArbeidsforholdRange: antallArbeidsforhold,});
+        updateAntallArbeidsforhold({ arbeidsforhold: antallArbeidsforhold });
+    };
+
+    const endreStatus = (iaStatus?: IAProsessStatusType) => {
+        iastatus({ iastatus: iaStatus });
+    };
+
+    const endreEiere = (eiere?: Eier[]) => {
+        oppdaterEiere({ eiere });
     };
 
     return (
         <Container className={className}>
             <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <Fylkedropdown
-                    fylkerOgKommuner={filterverdier.fylker}
-                    valgtFylke={valgtFylke?.fylke}
+                    fylkerOgKommuner={state.filterverdier?.fylker ?? []}
+                    valgtFylke={state.valgtFylke?.fylke}
                     endreFylke={endreFylke}
-                    style={{flex: "1"}}
+                    style={{ flex: "1" }}
                 />
                 <Kommunedropdown
-                    relevanteFylkerMedKommuner={valgtFylke ? [valgtFylke] : filterverdier.fylker}
-                    valgteKommuner={valgteKommuner}
+                    relevanteFylkerMedKommuner={
+                        state.valgtFylke
+                            ? [state.valgtFylke]
+                            : state.filterverdier?.fylker ?? []
+                    }
+                    valgteKommuner={state.kommuner}
                     endreKommuner={endreKommuner}
-                    style={{flex: "5"}}
+                    style={{ flex: "5" }}
                 />
             </HorizontalFlexboxDivGap3RemAlignItemsEnd>
             <br />
             <Næringsgruppedropdown
-                bransjeprogram={filterverdier.bransjeprogram}
-                næringsgrupper={filterverdier.neringsgrupper}
-                valgtNæringsgruppe={næringsGrupper}
+                bransjeprogram={state.filterverdier?.bransjeprogram ?? []}
+                næringsgrupper={state.filterverdier?.neringsgrupper ?? []}
+                valgtNæringsgruppe={state.næringsgrupper}
                 endreNæringsgrupper={endreNæringsgruppe}
             />
             <br />
             <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <SykefraværsprosentVelger
-                    sykefraværsprosentRange={sykefraværsProsent}
-                    endre={(nySykefraværsprosentRange: Range) => oppdaterSykefraværsprosent(nySykefraværsprosentRange)}
+                    sykefraværsprosentRange={state.sykefraværsprosent}
+                    endre={oppdaterSykefraværsprosent}
                 />
                 <AntallArbeidsforholdVelger
-                    antallArbeidsforhold={antallArbeidsforhold}
+                    antallArbeidsforhold={state.antallArbeidsforhold}
                     endreAntallArbeidsforhold={endreAntallArbeidsforhold}
                 />
             </HorizontalFlexboxDivGap3RemAlignItemsEnd>
             <br />
             <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <IAStatusDropdown
-                    endreStatus={(iaStatus) => {
-                        setIAStatus(iaStatus);
-                        oppdaterSøkeverdier({iaStatus: iaStatus,});
-                    }}
-                    statuser={filterverdier.statuser}
-                    valgtStatus={IAStatus}
+                    endreStatus={endreStatus}
+                    statuser={state.filterverdier?.statuser ?? []}
+                    valgtStatus={state.iaStatus}
                 />
                 <EierDropdown
-                    filtrerbareEiere={filterverdier.filtrerbareEiere}
-                    onEierBytteCallback={(eiere) => {oppdaterSøkeverdier({eiere})}}
+                    filtrerbareEiere={
+                        state.filterverdier?.filtrerbareEiere ?? []
+                    }
+                    onEierBytteCallback={(eiere) => {
+                        endreEiere(eiere);
+                    }}
                 />
-                <Søkeknapp size="medium" onClick={søkPåNytt}>Søk</Søkeknapp>
+                <Søkeknapp size="medium" onClick={søkPåNytt}>
+                    Søk
+                </Søkeknapp>
             </HorizontalFlexboxDivGap3RemAlignItemsEnd>
         </Container>
     );
