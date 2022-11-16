@@ -50,38 +50,40 @@ export const Filtervisning = ({
     className,
 }: FiltervisningProps) => {
     const {
-        iastatus,
-        antallArbeidsforhold: updateAntallArbeidsforhold,
-        sykefraværsprosent,
-        fylke,
-        state,
-        næringsgruppe,
-        kommuner: updateKommuner,
+        oppdaterAntallArbeidsforhold,
+        oppdaterIastatus,
         oppdaterEiere,
+        oppdaterFylke,
+        state,
+        oppdaterKommuner,
+        oppdaterSykefraværsprosent,
+        oppdaterNæringsgruppe,
     } = filtervisning;
 
     const endreFylke = (fylkesnummer: string) => {
-        fylke({ fylkesnummer });
+        oppdaterFylke({ fylkesnummer });
     };
 
     const endreKommuner = (kommuner: Kommune[]) => {
-        updateKommuner({ kommuner });
+        oppdaterKommuner({ kommuner });
     };
 
     const endreNæringsgruppe = (næringsgruppeKoder: string[]) => {
-        næringsgruppe({ næringsgrupper: næringsgruppeKoder });
+        oppdaterNæringsgruppe({ næringsgrupper: næringsgruppeKoder });
     };
 
-    const oppdaterSykefraværsprosent = (sykefraværsprosentRange: Range) => {
-        sykefraværsprosent({ sykefraværsprosent: sykefraværsprosentRange });
+    const endreSykefraværsprosent = (sykefraværsprosentRange: Range) => {
+        oppdaterSykefraværsprosent({
+            sykefraværsprosent: sykefraværsprosentRange,
+        });
     };
 
     const endreAntallArbeidsforhold = (antallArbeidsforhold: Range) => {
-        updateAntallArbeidsforhold({ arbeidsforhold: antallArbeidsforhold });
+        oppdaterAntallArbeidsforhold({ arbeidsforhold: antallArbeidsforhold });
     };
 
     const endreStatus = (iaStatus?: IAProsessStatusType) => {
-        iastatus({ iastatus: iaStatus });
+        oppdaterIastatus({ iastatus: iaStatus });
     };
 
     const endreEiere = (eiere?: Eier[]) => {
@@ -119,7 +121,7 @@ export const Filtervisning = ({
             <HorizontalFlexboxDivGap3RemAlignItemsEnd>
                 <SykefraværsprosentVelger
                     sykefraværsprosentRange={state.sykefraværsprosent}
-                    endre={oppdaterSykefraværsprosent}
+                    endre={endreSykefraværsprosent}
                 />
                 <AntallArbeidsforholdVelger
                     antallArbeidsforhold={state.antallArbeidsforhold}
@@ -137,9 +139,7 @@ export const Filtervisning = ({
                     filtrerbareEiere={
                         state.filterverdier?.filtrerbareEiere ?? []
                     }
-                    onEierBytteCallback={(eiere) => {
-                        endreEiere(eiere);
-                    }}
+                    onEierBytteCallback={endreEiere}
                 />
                 <Søkeknapp size="medium" onClick={søkPåNytt}>
                     Søk

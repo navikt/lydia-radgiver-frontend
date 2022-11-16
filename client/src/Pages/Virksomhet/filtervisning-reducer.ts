@@ -195,7 +195,7 @@ const initialState: FiltervisningState = {
     side: 1,
 };
 
-const oppdaterSide = (
+const endreSide = (
     state: FiltervisningState,
     action: OppdaterSideAction
 ): FiltervisningState => {
@@ -223,7 +223,7 @@ const oppdaterSide = (
     };
 };
 
-const oppdaterEiere = (
+const endreEiere = (
     state: FiltervisningState,
     action: OppdaterEiereAction
 ): FiltervisningState => ({ ...state, eiere: action.payload.eiere });
@@ -241,9 +241,9 @@ const reducer = (state: FiltervisningState, action: Action) => {
         case "SETT_INN_FILTERVERDIER":
             return settInnFilterverdier(state, action);
         case "OPPDATER_EIERE":
-            return oppdaterEiere(state, action);
+            return endreEiere(state, action);
         case "OPPDATER_SIDE":
-            return oppdaterSide(state, action);
+            return endreSide(state, action);
         case "ENDRE_FYLKE":
             return endreFylke(state, action);
         case "ENDRE_KOMMUNE":
@@ -264,21 +264,27 @@ const reducer = (state: FiltervisningState, action: Action) => {
 export const useFiltervisningState = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
-    const kommuner = useCallback((payload: EndreKommuneAction["payload"]) => {
-        dispatch({
-            type: "ENDRE_KOMMUNE",
-            payload,
-        });
-    }, []);
+    const oppdaterKommuner = useCallback(
+        (payload: EndreKommuneAction["payload"]) => {
+            dispatch({
+                type: "ENDRE_KOMMUNE",
+                payload,
+            });
+        },
+        []
+    );
 
-    const fylke = useCallback((payload: EndreFylkeAction["payload"]) => {
-        dispatch({
-            type: "ENDRE_FYLKE",
-            payload,
-        });
-    }, []);
+    const oppdaterFylke = useCallback(
+        (payload: EndreFylkeAction["payload"]) => {
+            dispatch({
+                type: "ENDRE_FYLKE",
+                payload,
+            });
+        },
+        []
+    );
 
-    const næringsgruppe = useCallback(
+    const oppdaterNæringsgruppe = useCallback(
         (payload: EndreNæringsgruppeAction["payload"]) => {
             dispatch({
                 type: "ENDRE_NÆRINGSGRUPPE",
@@ -288,7 +294,7 @@ export const useFiltervisningState = () => {
         []
     );
 
-    const sykefraværsprosent = useCallback(
+    const oppdaterSykefraværsprosent = useCallback(
         (payload: EndreSykefraværsprosentAction["payload"]) => {
             dispatch({
                 type: "ENDRE_SYKEFRAVÆRSPROSENT",
@@ -298,7 +304,7 @@ export const useFiltervisningState = () => {
         []
     );
 
-    const antallArbeidsforhold = useCallback(
+    const oppdaterAntallArbeidsforhold = useCallback(
         (payload: EndreAntallArbeidsforholdAction["payload"]) => {
             dispatch({
                 type: "ENDRE_ARBEIDSFORHOLD",
@@ -308,12 +314,15 @@ export const useFiltervisningState = () => {
         []
     );
 
-    const iastatus = useCallback((payload: EndreIAStatusAction["payload"]) => {
-        dispatch({
-            type: "ENDRE_IASTATUS",
-            payload,
-        });
-    }, []);
+    const oppdaterIastatus = useCallback(
+        (payload: EndreIAStatusAction["payload"]) => {
+            dispatch({
+                type: "ENDRE_IASTATUS",
+                payload,
+            });
+        },
+        []
+    );
 
     const tilbakestill = useCallback(() => {
         dispatch({
@@ -353,12 +362,12 @@ export const useFiltervisningState = () => {
 
     return {
         state,
-        antallArbeidsforhold,
-        fylke,
-        kommuner,
-        iastatus,
-        næringsgruppe,
-        sykefraværsprosent,
+        oppdaterAntallArbeidsforhold,
+        oppdaterFylke,
+        oppdaterKommuner,
+        oppdaterIastatus,
+        oppdaterNæringsgruppe,
+        oppdaterSykefraværsprosent,
         tilbakestill,
         oppdaterSide,
         oppdaterEiere,
