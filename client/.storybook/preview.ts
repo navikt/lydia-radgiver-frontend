@@ -1,7 +1,38 @@
 import { initialize, mswDecorator } from "msw-storybook-addon";
+import { NavFarger } from "../src/styling/farger";
 
 export const parameters = {
-    actions: { argTypesRegex: "^on[A-Z].*" },
+    actions: {argTypesRegex: "^on[A-Z].*"},
+    backgrounds: {
+        default: 'canvasBackground',
+        values: [
+            {
+                name: 'canvasBackground',
+                value: NavFarger.canvasBackground,
+            },
+            {
+                name: 'white',
+                value: NavFarger.white,
+            },
+            {
+                name: 'limegreen-500',
+                value: '#A2AD00',
+            },
+            {
+                name: 'limegreen-50',
+                value: '#FDFFE6',
+            },
+            {
+                name: 'light',
+                value: '#F8F8F8',
+            },
+            {
+                name: 'dark',
+                value: '#333333',
+            },
+
+        ]
+    },
     controls: {
         matchers: {
             color: /(background|color)$/i,
