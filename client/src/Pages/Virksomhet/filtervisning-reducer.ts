@@ -258,6 +258,10 @@ const reducer = (state: FiltervisningState, action: Action) => {
             return endreIastatus(state, action);
         case "TILBAKESTILL":
             return { ...state, ...initialState };
+        default: {
+            const _exaustiveCheck: never = action;
+            return _exaustiveCheck;
+        }
     }
 };
 
