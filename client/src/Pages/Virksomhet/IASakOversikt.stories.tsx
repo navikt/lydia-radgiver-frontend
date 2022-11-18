@@ -99,3 +99,22 @@ export const Fullfort = () => (
 export const FullfortOgLukket = () => (
     <IASakOversikt iaSak={iaSakFullførtOgLukket} orgnummer={orgnummer} />
 );
+
+export const IkkeAktivSomSuperbruker = () => {
+    const [sak, setSak] = useState<IASak>()
+    return <IASakOversikt orgnummer={orgnummer} iaSak={sak} muterState={() => {
+        setSak(iaSakVurderesUtenEier)
+    }
+    } />;
+};
+
+IkkeAktivSomSuperbruker.parameters = {
+    msw: {
+        handlers: [
+            rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
+                return res(ctx.json(iaSakVurderesUtenEier));
+            }),
+        ],
+    },
+};
+

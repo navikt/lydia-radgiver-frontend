@@ -1,4 +1,4 @@
-import {IAProsessStatusEnum, SykefraversstatistikkVirksomhet} from "../../../domenetyper";
+import { IAProsessStatusEnum, SykefraversstatistikkVirksomhet } from "../../../domenetyper";
 
 const sykefraværStatiskData: Pick<SykefraversstatistikkVirksomhet, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
     antallPersoner: 69.4123,
@@ -14,7 +14,7 @@ const sykefraværStatiskDataUtenDesimaler: Pick<SykefraversstatistikkVirksomhet,
     sykefraversprosent: 1
 }
 
-const endretDato = new Date(2022,7,22)
+const endretDato = new Date(2022, 7, 22)
 
 export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "orgnr": "995428563",
@@ -257,16 +257,16 @@ export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "eidAv": null,
     "sistEndret": endretDato
 }, {
-        "orgnr": "974747132",
-        "virksomhetsnavn": "Nummer 21 AS",
-        "kommune": {"navn": "ÅLESUND", "nummer": "1507"},
-        "sektor": "",
-        "neringsgruppe": "",
-        "arstall": 2021,
-        "kvartal": 3,
-        ...sykefraværStatiskData,
-        "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
-        "eidAv": null,
-        "sistEndret": endretDato
-    },
+    "orgnr": "974747132",
+    "virksomhetsnavn": "Nummer 21 AS",
+    "kommune": {"navn": "ÅLESUND", "nummer": "1507"},
+    "sektor": "",
+    "neringsgruppe": "",
+    "arstall": 2021,
+    "kvartal": 3,
+    ...sykefraværStatiskData,
+    "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
+    "eidAv": null,
+    "sistEndret": endretDato
+},
 ]
