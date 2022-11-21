@@ -1,5 +1,5 @@
-import {IAProsessStatusEnum, IASakshendelseTypeEnum, Sakshistorikk} from "../../../domenetyper";
-import {ulid} from "ulid";
+import { IAProsessStatusEnum, IASakshendelseTypeEnum, Sakshistorikk } from "../../../domenetyper";
+import { ulid } from "ulid";
 
 const eier = "X12345"
 const nå = Date.now()
@@ -65,5 +65,5 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [{
 
 export const samarbeidshistorikkMockMedFlereSaker = [
     samarbeidshistorikkMock[0],
-    samarbeidshistorikkMock[0],
+    samarbeidshistorikkMock[1],
 ]
