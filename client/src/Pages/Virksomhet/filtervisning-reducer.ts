@@ -8,9 +8,10 @@ import {
     Sorteringsverdi,
 } from "../../domenetyper";
 import { Range } from "../Prioritering/SykefraværsprosentVelger";
-import { useCallback, useReducer } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import { SortState } from "@navikt/ds-react";
 import { useSearchParams } from "react-router-dom";
+import { søkeverdierTilUrlSearchParams } from "../../api/lydia-api";
 
 const næringsgruppeKoderTilNæringsgrupper = (
     næringsgruppeKoder: string[],
@@ -355,7 +356,15 @@ const reducer = (state: FiltervisningState, action: Action) => {
 
 export const useFiltervisningState = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
-    const [search] = useSearchParams();
+    const [search, setSearch] = useSearchParams();
+
+    useEffect(() => {
+        const searchParams = søkeverdierTilUrlSearchParams(state);
+        setSearch(searchParams, {
+            replace: true,
+        });
+    }, [state]);
+
     const filteredSearch: Søkeparametere = parametere.reduce((obj, key) => {
         const verdi = search.get(key);
         return {
