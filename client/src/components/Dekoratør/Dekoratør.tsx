@@ -28,10 +28,10 @@ const DemoversjonTekst = styled(BodyShort)<{ hidden: boolean }>`
 interface Props {
     brukerInformasjon: Brukerinformasjon
 }
+export const erIDev = ["localhost", "fia.dev.intern.nav.no"].includes(window.location.hostname)
 
 export const Dekoratør = ({brukerInformasjon}: Props) => {
     const {tittel} = useContext(TittelContext)
-    const erIDev = ["localhost", "fia.dev.intern.nav.no"].includes(window.location.hostname)
     const [gjenværendeTidForBrukerMs, setGjenværendeTidForBrukerMs] = useState(
         hentGjenværendeTidForBrukerMs(brukerInformasjon)
     )
