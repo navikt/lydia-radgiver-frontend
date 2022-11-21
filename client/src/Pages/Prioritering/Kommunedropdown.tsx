@@ -1,23 +1,35 @@
-import {Label} from "@navikt/ds-react";
-import {FylkeMedKommuner, Kommune} from "../../domenetyper";
-import {StyledReactSelect, reactSelectStyle} from "../../components/ReactSelect/StyledReactSelect";
-import {CSSProperties} from "react";
-import {sorterAlfabetisk} from "../../util/sortering";
+import { Label } from "@navikt/ds-react";
+import { FylkeMedKommuner, Kommune } from "../../domenetyper";
+import {
+    StyledReactSelect,
+    reactSelectStyle,
+} from "../../components/ReactSelect/StyledReactSelect";
+import { CSSProperties } from "react";
+import { sorterAlfabetisk } from "../../util/sortering";
 
-const kommuneDropdownId = "kommunedropdown"
+const kommuneDropdownId = "kommunedropdown";
 
 interface Props {
-    relevanteFylkerMedKommuner: FylkeMedKommuner[]
-    valgteKommuner?: Kommune[]
-    endreKommuner: (kommuner: Kommune[]) => void
-    style?: CSSProperties
+    relevanteFylkerMedKommuner: FylkeMedKommuner[];
+    valgteKommuner?: Kommune[];
+    endreKommuner: (kommuner: Kommune[]) => void;
+    style?: CSSProperties;
 }
 
-export const Kommunedropdown = ({ relevanteFylkerMedKommuner, endreKommuner, valgteKommuner = [], style }: Props) => {
-    const sorterteKommuner = relevanteFylkerMedKommuner.map(fylkeMedKommuner => ({
-        label: fylkeMedKommuner.fylke.navn,
-        options: fylkeMedKommuner.kommuner.sort((k1, k2) => sorterAlfabetisk(k1.navn, k2.navn))
-    }))
+export const Kommunedropdown = ({
+    relevanteFylkerMedKommuner,
+    endreKommuner,
+    valgteKommuner = [],
+    style,
+}: Props) => {
+    const sorterteKommuner = relevanteFylkerMedKommuner.map(
+        (fylkeMedKommuner) => ({
+            label: fylkeMedKommuner.fylke.navn,
+            options: fylkeMedKommuner.kommuner.sort((k1, k2) =>
+                sorterAlfabetisk(k1.navn, k2.navn)
+            ),
+        })
+    );
 
     return (
         <div style={style}>
@@ -34,9 +46,9 @@ export const Kommunedropdown = ({ relevanteFylkerMedKommuner, endreKommuner, val
                 styles={reactSelectStyle()}
                 placeholder=""
                 onChange={(verdier) => {
-                    endreKommuner(verdier as Kommune[])
+                    endreKommuner(verdier as Kommune[]);
                 }}
             />
         </div>
     );
-}
+};

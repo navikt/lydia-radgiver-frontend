@@ -1,33 +1,40 @@
-import {useState} from "react";
-import {Label} from "@navikt/ds-react";
-import {reactSelectStyle, StyledReactSelect} from "../../components/ReactSelect/StyledReactSelect";
-import {sorterAlfabetisk} from "../../util/sortering";
+import { Label } from "@navikt/ds-react";
+import {
+    reactSelectStyle,
+    StyledReactSelect,
+} from "../../components/ReactSelect/StyledReactSelect";
+import { sorterAlfabetisk } from "../../util/sortering";
 import { Eier } from "../../domenetyper";
 
-const eierDropdownId = "EierDropdown"
+const eierDropdownId = "EierDropdown";
 
 interface Props {
-    onEierBytteCallback: (eiere: Eier[]) => void
-    filtrerbareEiere: Eier[]
+    onEierBytteCallback: (eiere: Eier[]) => void;
+    filtrerbareEiere: Eier[];
+    eier?: Eier[];
 }
 
-export const EierDropdown = ({onEierBytteCallback, filtrerbareEiere}: Props) => {
-    const [valgteEiere, setValgteEiere] = useState<Eier[]>([]);
-    const options = filtrerbareEiere.sort((a, b) => sorterAlfabetisk(a.navn, b.navn))
+export const EierDropdown = ({
+    onEierBytteCallback,
+    filtrerbareEiere,
+    eier,
+}: Props) => {
+    const options = filtrerbareEiere.sort((a, b) =>
+        sorterAlfabetisk(a.navn, b.navn)
+    );
 
     const håndterEierBytte = (nyEier: Eier | null) => {
-        const nyeEiere = nyEier !== null ? [nyEier] : []
-        onEierBytteCallback(nyeEiere)
-        setValgteEiere(nyeEiere)
-    }
+        const nyeEiere = nyEier !== null ? [nyEier] : [];
+        onEierBytteCallback(nyeEiere);
+    };
 
     return (
-        <div style={{minWidth: "15rem"}}>
+        <div style={{ minWidth: "15rem" }}>
             <Label id={eierDropdownId}>Eier</Label>
             <StyledReactSelect
                 aria-labelledby={eierDropdownId}
-                defaultValue={valgteEiere}
-                value={valgteEiere}
+                defaultValue={eier}
+                value={eier}
                 noOptionsMessage={() => "Ingen eiere å velge"}
                 options={options}
                 getOptionLabel={(eier) => (eier as Eier).navn}
@@ -39,5 +46,5 @@ export const EierDropdown = ({onEierBytteCallback, filtrerbareEiere}: Props) => 
                 onChange={(eier) => håndterEierBytte(eier as Eier | null)}
             />
         </div>
-    )
-}
+    );
+};
