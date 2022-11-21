@@ -56,7 +56,7 @@ function hentKommunerFraParametere(
         .filter((kommune) => kommuneliste.includes(kommune.nummer));
 }
 
-const søkeParametere = (
+const søkeparametereTilFilterstate = (
     parametere: Søkeparametere,
     filterverdier: Filterverdier
 ): FiltervisningState => {
@@ -365,15 +365,18 @@ export const useFiltervisningState = () => {
         });
     }, [state]);
 
-    const filteredSearch: Søkeparametere = parametere.reduce((obj, key) => {
-        const verdi = search.get(key);
-        return {
-            ...obj,
-            ...(verdi && {
-                [key]: verdi,
-            }),
-        };
-    }, {});
+    const gyldigeSøkeparametereIUrlen: Søkeparametere = parametere.reduce(
+        (obj, key) => {
+            const verdi = search.get(key);
+            return {
+                ...obj,
+                ...(verdi && {
+                    [key]: verdi,
+                }),
+            };
+        },
+        {}
+    );
 
     const oppdaterKommuner = useCallback(
         (payload: EndreKommuneAction["payload"]) => {
@@ -463,8 +466,8 @@ export const useFiltervisningState = () => {
 
     const lastData = useCallback(
         (payload: { filterverdier: Filterverdier }) => {
-            const filterstate = søkeParametere(
-                filteredSearch,
+            const filterstate = søkeparametereTilFilterstate(
+                gyldigeSøkeparametereIUrlen,
                 payload.filterverdier
             );
             dispatch({
