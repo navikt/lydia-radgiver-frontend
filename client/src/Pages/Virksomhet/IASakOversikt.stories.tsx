@@ -1,7 +1,7 @@
-import { ComponentMeta } from "@storybook/react";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
 import { useState } from "react";
 import { rest } from "msw";
-import { IASakOversikt } from "./IASakOversikt";
+import { IASakOversikt, IASakOversiktProps } from "./IASakOversikt";
 import {
     iaSakFullført,
     iaSakFullførtOgLukket,
@@ -25,10 +25,13 @@ const orgnummer = "987654321";
 
 export const IkkeAktiv = () => {
     const [sak, setSak] = useState<IASak>()
-    return <IASakOversikt orgnummer={orgnummer} iaSak={sak} muterState={() => {
-        setSak(iaSakVurderesUtenEier)
-    }
-    } />;
+    return (
+        <IASakOversikt
+            orgnummer={orgnummer}
+            iaSak={sak}
+            muterState={() => {setSak(iaSakVurderesUtenEier)}}
+        />
+    );
 };
 
 IkkeAktiv.parameters = {
@@ -72,49 +75,39 @@ VurderesUtenEierMedFeilmelding.parameters = {
     },
 };
 
-export const VurderesMedEierEier = () => (
-    <IASakOversikt iaSak={iaSakVurderesMedEier} orgnummer={orgnummer} />
-);
+const Template: ComponentStory<typeof IASakOversikt> = ({iaSak}: IASakOversiktProps) => {
+    return <IASakOversikt iaSak={iaSak} orgnummer={orgnummer} />
+}
 
-export const Kontaktes = () => (
-    <IASakOversikt iaSak={iaSakKontaktes} orgnummer={orgnummer} />
-);
+export const VurderesMedEierEier = Template.bind({});
+VurderesMedEierEier.args = {iaSak: iaSakVurderesMedEier};
 
-export const IkkeAktuell = () => (
-    <IASakOversikt iaSak={iaSakIkkeAktuell} orgnummer={orgnummer} />
-);
+export const Kontaktes = Template.bind({});
+Kontaktes.args = {iaSak: iaSakKontaktes};
 
-export const Kartlegges = () => (
-    <IASakOversikt iaSak={iaSakKartlegges} orgnummer={orgnummer} />
-);
+export const IkkeAktuell = Template.bind({});
+IkkeAktuell.args = {iaSak: iaSakIkkeAktuell};
 
-export const ViBistar = () => (
-    <IASakOversikt iaSak={iaSakViBistår} orgnummer={orgnummer} />
-);
+export const Kartlegges = Template.bind({});
+Kartlegges.args = {iaSak: iaSakKartlegges};
 
-export const Fullfort = () => (
-    <IASakOversikt iaSak={iaSakFullført} orgnummer={orgnummer} />
-);
+export const ViBistar = Template.bind({});
+ViBistar.args = {iaSak: iaSakViBistår};
 
-export const FullfortOgLukket = () => (
-    <IASakOversikt iaSak={iaSakFullførtOgLukket} orgnummer={orgnummer} />
-);
+export const Fullfort = Template.bind({});
+Fullfort.args = {iaSak: iaSakFullført};
+
+export const FullfortOgLukket = Template.bind({});
+FullfortOgLukket.args = {iaSak: iaSakFullførtOgLukket};
+
 
 export const IkkeAktivSomSuperbruker = () => {
     const [sak, setSak] = useState<IASak>()
-    return <IASakOversikt orgnummer={orgnummer} iaSak={sak} muterState={() => {
-        setSak(iaSakVurderesUtenEier)
-    }
-    } />;
+    return (
+        <IASakOversikt
+            orgnummer={orgnummer}
+            iaSak={sak}
+            muterState={() => {setSak(iaSakVurderesUtenEier)}}
+        />
+    );
 };
-
-IkkeAktivSomSuperbruker.parameters = {
-    msw: {
-        handlers: [
-            rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
-                return res(ctx.json(iaSakVurderesUtenEier));
-            }),
-        ],
-    },
-};
-
