@@ -36,11 +36,13 @@ export const IkkeAktiv = () => {
 
 IkkeAktiv.parameters = {
     msw: {
-        handlers: [
-            rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
-                return res(ctx.json(iaSakVurderesUtenEier));
-            }),
-        ],
+        handlers: {
+            others: [
+                rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
+                    return res(ctx.json(iaSakVurderesUtenEier));
+                }),
+            ],
+        }
     },
 };
 
@@ -50,11 +52,13 @@ export const VurderesUtenEier = () => (
 
 VurderesUtenEier.parameters = {
     msw: {
-        handlers: [
-            rest.post(`${iaSakPostNyHendelsePath}`, (req, res, ctx) => {
-                return res(ctx.json(iaSakVurderesMedEier));
-            }),
-        ],
+        handlers: {
+            others: [
+                rest.post(`${iaSakPostNyHendelsePath}`, (req, res, ctx) => {
+                    return res(ctx.json(iaSakVurderesMedEier));
+                }),
+            ],
+        }
     },
 };
 
@@ -67,11 +71,13 @@ export const VurderesUtenEierMedFeilmelding = () => (
 
 VurderesUtenEierMedFeilmelding.parameters = {
     msw: {
-        handlers: [
-            rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
-                return res(ctx.status(415, "Dette er ikke lov........."));
-            }),
-        ],
+        handlers: {
+            others: [
+                rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
+                    return res(ctx.status(415, "Dette er ikke lov........."));
+                })
+            ],
+        }
     },
 };
 

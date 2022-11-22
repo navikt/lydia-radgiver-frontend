@@ -21,18 +21,20 @@ export const Autentisert = () => (
 
 Autentisert.parameters = {
     msw: {
-        handlers: [
-            rest.get(`${virksomhetAutocompletePath}`, (req, res, ctx) => {
-                const søketekst = req.url.searchParams.get("q")
-                return res(ctx.json(søketekst === null
-                    ? []
-                    : virksomhetAutocompleteMock
-                        .filter(virksomhet => virksomhet.navn.startsWith(søketekst)
-                            || virksomhet.orgnr.startsWith(søketekst)
-                        )
-                ));
-            }),
-        ],
+        handlers: {
+            others: [
+                rest.get(`${virksomhetAutocompletePath}`, (req, res, ctx) => {
+                    const søketekst = req.url.searchParams.get("q")
+                    return res(ctx.json(søketekst === null
+                        ? []
+                        : virksomhetAutocompleteMock
+                            .filter(virksomhet => virksomhet.navn.startsWith(søketekst)
+                                || virksomhet.orgnr.startsWith(søketekst)
+                            )
+                    ));
+                }),
+            ],
+        }
     },
 };
 
