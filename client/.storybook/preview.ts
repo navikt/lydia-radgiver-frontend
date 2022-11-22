@@ -45,7 +45,6 @@ export const parameters = {
         handlers: {
             innloggetAnsatt: [
                 rest.get('/innloggetAnsatt', (req, res, ctx) => {
-                    console.log("hentar innlogga ansatt fra preview");
                     return res(ctx.json(brukerMedVeldigLangtNavn));
                 }),
             ]
