@@ -1,5 +1,7 @@
 import { initialize, mswDecorator } from "msw-storybook-addon";
 import { NavFarger } from "../src/styling/farger";
+import { rest } from "msw";
+import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innloggetAnsattMock";
 
 export const parameters = {
     actions: {argTypesRegex: "^on[A-Z].*"},
@@ -39,6 +41,16 @@ export const parameters = {
             date: /Date$/,
         },
     },
+    msw: { // Handlers to be applied in every story, see https://github.com/mswjs/msw-storybook-addon/tree/d64eb49bf6bb190d25d7c86a2751386068dbda54#advanced-usage
+        handlers: {
+            innloggetAnsatt: [
+                rest.get('/innloggetAnsatt', (req, res, ctx) => {
+                    console.log("hentar innlogga ansatt fra preview");
+                    return res(ctx.json(brukerMedVeldigLangtNavn));
+                }),
+            ]
+        }
+    }
 };
 
 // Initialize MSW (mock service worker)
