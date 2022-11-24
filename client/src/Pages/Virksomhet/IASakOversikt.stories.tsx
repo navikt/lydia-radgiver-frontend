@@ -105,15 +105,3 @@ Fullfort.args = {iaSak: iaSakFullført};
 
 export const FullfortOgLukket = Template.bind({});
 FullfortOgLukket.args = {iaSak: iaSakFullførtOgLukket};
-
-
-export const IkkeAktivSomSuperbruker = () => {
-    const [sak, setSak] = useState<IASak>()
-    return (
-        <IASakOversikt
-            orgnummer={orgnummer}
-            iaSak={sak}
-            muterState={() => {setSak(iaSakVurderesUtenEier)}}
-        />
-    );
-};
