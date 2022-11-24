@@ -42,6 +42,11 @@ const InfoData = styled(BodyShort)`
   overflow-wrap: anywhere;
 `;
 
+const VurderesKnappContainer = styled.div`
+  display: flex;
+  justify-content: end;
+`;
+
 interface IngenAktiveSakerProps {
     orgnummer: string;
     oppdaterSak: () => void;
@@ -56,12 +61,15 @@ function IngenAktiveSaker({orgnummer, oppdaterSak}: IngenAktiveSakerProps) {
                 <StatusBadge status={IAProsessStatusEnum.enum.IKKE_AKTIV} />
             </Saksinfo>
             {brukerInformasjon?.rolle === RolleEnum.enum.Superbruker ?
-                <IASakshendelseKnapp
-                    hendelsesType={IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES}
-                    onClick={() =>
-                        opprettSak(orgnummer).then(() => oppdaterSak())
-                    }
-                /> : null
+                <VurderesKnappContainer>
+                    <IASakshendelseKnapp
+                        hendelsesType={IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES}
+                        onClick={() =>
+                            opprettSak(orgnummer).then(() => oppdaterSak())
+                        }
+                    />
+                </VurderesKnappContainer>
+                : null
             }
         </Container>
     );
