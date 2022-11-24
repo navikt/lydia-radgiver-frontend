@@ -4,7 +4,7 @@ import { NavFarger } from "../../styling/farger";
 import { BorderRadius } from "../../styling/borderRadius";
 
 export const StyledReactSelect = styled(ReactSelect)`
-  margin-top: var(--navds-spacing-2);
+  margin-top: var(--a-spacing-2);
 `;
 
 export const reactSelectStyle = (): StylesConfig => ({

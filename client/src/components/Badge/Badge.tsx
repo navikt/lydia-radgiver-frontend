@@ -21,7 +21,7 @@ const StyledDetail = styled(Detail)<{ backgroundColor: string }>`
   border: 1px solid ${FiaFarger.grå};
   border-radius: ${BorderRadius.medium};
 
-  font-size: var(--navds-font-size-medium);
+  font-size: var(--a-font-size-medium);
   font-weight: normal;
 `;
 
