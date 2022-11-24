@@ -21,34 +21,13 @@ export const ANTALL_RESULTATER_PER_SIDE = 100;
 
 
 function erEtterJegStikkerBuhu(): boolean {
-    const jegStikkerBuhu = new Date(2022, 10, 24);
+    const jegStikkerBuhu = new Date(2022, 10, 25);
     jegStikkerBuhu.setHours(0, 0, 0, 0);
     return new Date() > jegStikkerBuhu;
 }
 
 
 function enHilsenFraUlrik() {
-    const haDetBra = () => {
-        const tags: HTMLElement[] = Array.from(
-            document.querySelectorAll("p, button, label, a")
-        )
-        const sentences = tags.map(el => el.innerText)
-        const words = new Set<string>()
-        sentences.map((s) => s.split(" ").map((w) => words.add(w)))
-
-        const wordsArray = Array.from(words)
-            .map((a) => ({sort: Math.random(), value: a}))
-            .sort((a, b) => a.sort - b.sort)
-            .map((a) => a.value)
-
-        tags.forEach((p) => {
-            const n = Math.round(Math.random() * sentences.length / 10)
-            const m = Math.round(Math.random() * sentences.length - (n + 1))
-            p.innerText = wordsArray.slice(n, m).join(" ")
-        })
-        return words;
-    }
-
     const alleStemmer = window.speechSynthesis.getVoices();
     const voice = alleStemmer.find(voice => voice.lang == "nb-NO")
         ?? alleStemmer.find(voice => voice.lang == "sv-SE")
@@ -65,7 +44,6 @@ function enHilsenFraUlrik() {
     minLilleBeskjed.pitch = 0.1
     minLilleBeskjed.onend = () => {
         document.body.style.fontFamily = "Comic Sans MS";
-        haDetBra()
     }
     window.speechSynthesis.speak(minLilleBeskjed)
 }
