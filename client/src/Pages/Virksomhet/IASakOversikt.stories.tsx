@@ -19,6 +19,11 @@ import { IASak } from "../../domenetyper";
 export default {
     title: "Virksomhet/Oversikt over IA-sak",
     component: IASakOversikt,
+    parameters: {
+        backgrounds: {
+            default: 'white'
+        }
+    }
 } as ComponentMeta<typeof IASakOversikt>;
 
 const orgnummer = "987654321";
