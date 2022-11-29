@@ -264,6 +264,18 @@ export const nyHendelsePåSak = (
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
 };
 
+const appendIfPresent = <T>(
+    key: string,
+    value: T | undefined,
+    mapper: (value: T) => string,
+    params: URLSearchParams
+) => {
+    if (!value) return;
+    const valueToAdd = mapper(value);
+    if (valueToAdd.length === 0) return;
+    return params.append(key, valueToAdd);
+};
+
 export const søkeverdierTilUrlSearchParams = ({
     kommuner,
     valgtFylke: fylkeMedKommune,
@@ -278,50 +290,74 @@ export const søkeverdierTilUrlSearchParams = ({
     eiere,
 }: FiltervisningState) => {
     const params = new URLSearchParams();
-    params.append(
+    appendIfPresent(
         "kommuner",
-        kommuner?.map((kommune) => kommune.nummer).join(",") ?? ""
+        kommuner,
+        (k) => k.map(({ nummer }) => nummer).join(","),
+        params
     );
-    params.append("fylker", fylkeMedKommune?.fylke.nummer ?? "");
-    params.append(
+    appendIfPresent(
+        "fylker",
+        fylkeMedKommune,
+        ({ fylke: { nummer } }) => nummer,
+        params
+    );
+    appendIfPresent(
         "neringsgrupper",
-        næringsgrupper?.map((næringsgruppe) => næringsgruppe.kode).join(",") ??
-            ""
+        næringsgrupper,
+        (grupper) => grupper.map(({ kode }) => kode).join(","),
+        params
     );
-    params.append(
+    appendIfPresent(
         "sykefraversprosentFra",
-        sykefraværsprosent?.fra.toFixed(2) ?? ""
+        sykefraværsprosent,
+        ({ fra }) => fra.toFixed(2),
+        params
     );
-    params.append(
+    appendIfPresent(
         "sykefraversprosentTil",
-        sykefraværsprosent?.til.toFixed(2) ?? ""
+        sykefraværsprosent,
+        ({ til }) => til.toFixed(2),
+        params
     );
-    params.append(
+    appendIfPresent(
         "ansatteFra",
-        `${
-            Number.isNaN(antallArbeidsforhold?.fra)
-                ? ""
-                : antallArbeidsforhold?.fra || ""
-        }`
+        antallArbeidsforhold,
+        ({ fra }) => "" + fra,
+        params
     );
-    params.append(
+    appendIfPresent(
         "ansatteTil",
-        `${
-            Number.isNaN(antallArbeidsforhold?.til)
-                ? ""
-                : antallArbeidsforhold?.til || ""
-        }`
+        antallArbeidsforhold,
+        ({ til }) => "" + til,
+        params
     );
-    params.append("sorteringsnokkel", sorteringsnokkel ?? "");
-    params.append("sorteringsretning", sorteringsretning ?? "desc");
-    params.append("iaStatus", iaStatus ?? "");
-    params.append("side", side?.toString() ?? "");
-    params.append("bransjeprogram", bransjeprogram?.join() ?? "");
 
-    params.append(
+    appendIfPresent(
+        "bransjeprogram",
+        bransjeprogram,
+        (bp) => bp.join(","),
+        params
+    );
+    appendIfPresent(
         "eiere",
-        eiere?.map((eier) => eier.navIdent)?.join(",") ?? ""
+        eiere,
+        (e) => e.map(({ navIdent }) => navIdent).join(","),
+        params
     );
-
+    appendIfPresent("iaStatus", iaStatus, (status) => status, params);
+    appendIfPresent(
+        "sorteringsnokkel",
+        sorteringsnokkel,
+        (nøkkel) => nøkkel,
+        params
+    );
+    appendIfPresent(
+        "sorteringsretning",
+        sorteringsretning,
+        (retning) => retning,
+        params
+    );
+    appendIfPresent("side", side, (side) => "" + side, params);
     return params;
 };
