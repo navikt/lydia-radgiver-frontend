@@ -62,7 +62,8 @@
     "vite": "3.0.2"
   },
   "overrides": {
-    "glob-parent": "6.0.2"
+    "glob-parent": "6.0.2",
+    "loader-utils": "1.4.2"
   },
   "msw": {
     "workerDirectory": "public"
