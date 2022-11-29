@@ -24,12 +24,12 @@ export const SykefraværsstatistikkVirksomhet = ({sykefraværsstatistikk}: Props
     <Container>
         <SubContainerForPrettyWrap>
             <StatistikkBoks
-                verdi={formaterSomProsentMedEnDesimal(sykefraværsstatistikk.sykefraversprosent)}
-                tittel="Sykefravær"
-            />
-            <StatistikkBoks
                 verdi={formaterSomHeltall(sykefraværsstatistikk.antallPersoner)}
                 tittel="Arbeidsforhold"
+            />
+            <StatistikkBoks
+                verdi={formaterSomProsentMedEnDesimal(sykefraværsstatistikk.sykefraversprosent)}
+                tittel="Sykefravær"
             />
         </SubContainerForPrettyWrap>
         <SubContainerForPrettyWrap>
