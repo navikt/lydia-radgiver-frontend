@@ -37,14 +37,14 @@ const kolonner: Kolonne[] = [
         textAlignment: "left"
     },
     {
-        key: "sykefraversprosent",
-        name: "Syke\u00ADfravær",
+        key: "antall_personer",
+        name: "Arbeids\u00ADforhold",
         sortable: true,
         textAlignment: "right"
     },
     {
-        key: "antall_personer",
-        name: "Arbeids\u00ADforhold",
+        key: "sykefraversprosent",
+        name: "Syke\u00ADfravær",
         sortable: true,
         textAlignment: "right"
     },
