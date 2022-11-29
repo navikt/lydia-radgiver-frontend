@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Range } from "./SykefraværsprosentVelger";
 import { StyledNumericTextField } from "./StyledNumericTextField";
 import { RangeFieldset } from "./RangeFieldset";
@@ -10,27 +9,21 @@ interface InputProps {
     endreAntallArbeidsforhold: (verdi: number) => void;
 }
 
-function AntallArbeidsforholdInput({value, label, hideLabel = false, endreAntallArbeidsforhold}: InputProps) {
-    const [antallArbeidsforhold, setAntallArbeidsforhold] = useState(isNaN(value) ? "" : value.toString())
-
+function AntallArbeidsforholdInput({
+    value,
+    label,
+    hideLabel = false,
+    endreAntallArbeidsforhold,
+}: InputProps) {
     return (
         <StyledNumericTextField
             type={"number"}
             min={"0"}
-            value={antallArbeidsforhold}
+            value={`${value}`}
             label={label}
             hideLabel={hideLabel}
             onChange={(e) => {
-                // -- validering - må være et positivt heltall
-                if (isNaN(e.target.valueAsNumber)) {
-                    setAntallArbeidsforhold("")
-                    endreAntallArbeidsforhold(NaN)
-                } else {
-                    const endretAntallArbeidsforhold = Math.floor(Math.abs(e.target.valueAsNumber))
-                    setAntallArbeidsforhold(String(endretAntallArbeidsforhold))
-                    endreAntallArbeidsforhold(endretAntallArbeidsforhold)
-                }
-
+                endreAntallArbeidsforhold(e.target.valueAsNumber);
             }}
         />
     );
@@ -43,30 +36,32 @@ interface ArbeidsforholdVelgerProps {
 
 export const AntallArbeidsforholdVelger = ({
     antallArbeidsforhold,
-    endreAntallArbeidsforhold
-}: ArbeidsforholdVelgerProps) => (
-    <RangeFieldset legend={"Antall arbeidsforhold"}>
-        <AntallArbeidsforholdInput
-            label={"Fra"}
-            value={antallArbeidsforhold.fra}
-            endreAntallArbeidsforhold={(arbeidsforholdFra: number) => {
-                endreAntallArbeidsforhold({
-                    fra: arbeidsforholdFra,
-                    til: antallArbeidsforhold.til
-                })
-            }}
-        />
-        <p className="navds-label">-</p>
-        <AntallArbeidsforholdInput
-            label={"Til"}
-            hideLabel
-            value={antallArbeidsforhold.til}
-            endreAntallArbeidsforhold={(arbeidsforholdTil: number) => {
-                endreAntallArbeidsforhold({
-                    fra: antallArbeidsforhold.fra,
-                    til: arbeidsforholdTil
-                })
-            }}
-        />
-    </RangeFieldset>
-);
+    endreAntallArbeidsforhold,
+}: ArbeidsforholdVelgerProps) => {
+    return (
+        <RangeFieldset legend={"Antall arbeidsforhold"}>
+            <AntallArbeidsforholdInput
+                label={"Fra"}
+                value={antallArbeidsforhold.fra}
+                endreAntallArbeidsforhold={(arbeidsforholdFra: number) => {
+                    endreAntallArbeidsforhold({
+                        fra: arbeidsforholdFra,
+                        til: antallArbeidsforhold.til,
+                    });
+                }}
+            />
+            <p className="navds-label">-</p>
+            <AntallArbeidsforholdInput
+                label={"Til"}
+                hideLabel
+                value={antallArbeidsforhold.til}
+                endreAntallArbeidsforhold={(arbeidsforholdTil: number) => {
+                    endreAntallArbeidsforhold({
+                        fra: antallArbeidsforhold.fra,
+                        til: arbeidsforholdTil,
+                    });
+                }}
+            />
+        </RangeFieldset>
+    );
+};

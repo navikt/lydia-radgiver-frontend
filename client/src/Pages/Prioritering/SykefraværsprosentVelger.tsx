@@ -1,41 +1,10 @@
-import { useState } from "react";
 import { StyledNumericTextField } from "./StyledNumericTextField";
 import { RangeFieldset } from "./RangeFieldset";
-
-type Validering = {
-    suksess: boolean;
-    feilmelding: string[];
-};
-
-const feil = (feilmelding: string): Validering => {
-    return {
-        suksess: false,
-        feilmelding: [feilmelding],
-    };
-};
-
-const riktig = (): Validering => {
-    return {
-        suksess: true,
-        feilmelding: [],
-    };
-};
 
 export interface Range {
     fra: number;
     til: number;
 }
-
-const validerSykefraværsprosent = (inputVerdi: string): Validering => {
-    if (inputVerdi === "") {
-        return feil("Du må velge en verdi");
-    }
-    const verdi = Number(inputVerdi);
-    if (isNaN(verdi) || verdi < 0.0 || verdi > 100.0) {
-        return feil("Ugyldig verdi. Tallet må være mellom 0.00 og 100.00");
-    }
-    return riktig();
-};
 
 type EndreSykefraværsprosentRange = (verdi: Range) => void;
 type EndreSykefraværsprosent = (verdi: number) => void;
@@ -47,29 +16,22 @@ interface InputProps {
     onChange: EndreSykefraværsprosent;
 }
 
-function SykefraværsprosentInput({value, label, hideLabel = false, onChange}: InputProps) {
-    const [sykefraværsprosentInput, setSykefraværsprosentInput] =
-        useState<string>(value.toString());
-    const [valideringsfeil, setValideringsfeil] = useState<string[]>([]);
-
+function SykefraværsprosentInput({
+    value,
+    label,
+    hideLabel = false,
+    onChange,
+}: InputProps) {
     return (
         <StyledNumericTextField
             type={"number"}
             min={"0"}
             max={"100"}
-            value={sykefraværsprosentInput}
+            value={`${value}`}
             label={label}
             hideLabel={hideLabel}
-            error={valideringsfeil.length > 0 ? valideringsfeil : undefined}
             onChange={(e) => {
-                setSykefraværsprosentInput(e.target.value);
-                const validering = validerSykefraværsprosent(e.target.value);
-                if (!validering.suksess) {
-                    setValideringsfeil(validering.feilmelding);
-                } else {
-                    setValideringsfeil([]);
-                    onChange(+e.target.value);
-                }
+                onChange(e.target.valueAsNumber);
             }}
         />
     );
@@ -80,7 +42,10 @@ interface SykefraværsProsentProps {
     endre: EndreSykefraværsprosentRange;
 }
 
-export const SykefraværsprosentVelger = ({sykefraværsprosentRange, endre}: SykefraværsProsentProps) => (
+export const SykefraværsprosentVelger = ({
+    sykefraværsprosentRange,
+    endre,
+}: SykefraværsProsentProps) => (
     <RangeFieldset legend="Sykefravær (%)">
         <SykefraværsprosentInput
             value={sykefraværsprosentRange.fra}

@@ -1,25 +1,37 @@
 import { Label } from "@navikt/ds-react";
 import { Næringsgruppe } from "../../domenetyper";
-import { StyledReactSelect, reactSelectStyle } from "../../components/ReactSelect/StyledReactSelect";
+import {
+    StyledReactSelect,
+    reactSelectStyle,
+} from "../../components/ReactSelect/StyledReactSelect";
 
 interface ReactSelectOptions {
-    label: string,
-    value: string
+    label: string;
+    value: string;
 }
 
-function mapnæringsGruppeTilReactSelectOptions(gruppe: Næringsgruppe): ReactSelectOptions {
+const mapbransjeprogramTilReactSelect = (bransjeprogram: string) => ({
+    label: penskriv(bransjeprogram),
+    value: bransjeprogram.toUpperCase(),
+});
+
+function mapnæringsGruppeTilReactSelectOptions(
+    gruppe: Næringsgruppe
+): ReactSelectOptions {
     return {
         label: `${gruppe.kode} - ${gruppe.navn}`,
         value: gruppe.kode,
     };
 }
 
-const penskriv = (s: string) => `${s.charAt(0).toUpperCase()}${s.slice(1).toLowerCase()}`
+const penskriv = (s: string) =>
+    `${s.charAt(0).toUpperCase()}${s.slice(1).toLowerCase()}`;
 
 interface Props {
     næringsgrupper: Næringsgruppe[];
-    bransjeprogram: string[]
+    bransjeprogram: string[];
     valgtNæringsgruppe: Næringsgruppe[];
+    valgtBransjeprogram: string[];
     endreNæringsgrupper: (value: string[]) => void;
 }
 
@@ -27,15 +39,23 @@ export const Næringsgruppedropdown = ({
     næringsgrupper,
     valgtNæringsgruppe,
     endreNæringsgrupper,
-    bransjeprogram
+    valgtBransjeprogram,
+    bransjeprogram,
 }: Props) => {
     const næringsgruppeOptions = næringsgrupper
         .sort((a, b) => +a.kode - +b.kode)
         .map(mapnæringsGruppeTilReactSelectOptions);
-    const næringOgbransjeprogramOptions = [{
-        label: "Bransjeprogram",
-        options: bransjeprogram?.map(bp => ({label: penskriv(bp), value: bp}))
-    }, {label: "Næringsgrupper", options: næringsgruppeOptions}]
+    const næringOgbransjeprogramOptions = [
+        {
+            label: "Bransjeprogram",
+            options: bransjeprogram?.map(mapbransjeprogramTilReactSelect),
+        },
+        { label: "Næringsgrupper", options: næringsgruppeOptions },
+    ];
+    const valgteVerdier = [
+        ...valgtNæringsgruppe.map(mapnæringsGruppeTilReactSelectOptions),
+        ...valgtBransjeprogram.map(mapbransjeprogramTilReactSelect),
+    ];
     const ariaLabelId = "næringsgruppe-aria-label";
 
     return (
@@ -45,15 +65,15 @@ export const Næringsgruppedropdown = ({
                 aria-labelledby={ariaLabelId}
                 noOptionsMessage={() => "Ingen næringsgrupper"}
                 options={næringOgbransjeprogramOptions}
-                defaultValue={valgtNæringsgruppe.map(
-                    mapnæringsGruppeTilReactSelectOptions
-                )}
+                value={valgteVerdier}
                 placeholder={""}
                 isMulti
                 styles={reactSelectStyle()}
                 onChange={(verdier) => {
                     endreNæringsgrupper(
-                        (verdier as ReactSelectOptions[]).map(({value: næringsgruppe}) => næringsgruppe)
+                        (verdier as ReactSelectOptions[]).map(
+                            ({ value: næringsgruppe }) => næringsgruppe
+                        )
                     );
                 }}
             />

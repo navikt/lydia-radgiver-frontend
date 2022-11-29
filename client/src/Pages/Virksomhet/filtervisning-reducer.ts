@@ -8,13 +8,101 @@ import {
     Sorteringsverdi,
 } from "../../domenetyper";
 import { Range } from "../Prioritering/SykefraværsprosentVelger";
-import { useCallback, useReducer } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import { SortState } from "@navikt/ds-react";
+import { useSearchParams } from "react-router-dom";
+import { søkeverdierTilUrlSearchParams } from "../../api/lydia-api";
 
 const næringsgruppeKoderTilNæringsgrupper = (
     næringsgruppeKoder: string[],
     næringsgrupper: Næringsgruppe[]
 ) => næringsgrupper.filter(({ kode }) => næringsgruppeKoder.includes(kode));
+
+const finnBransjeprogram = (næringsgrupper: string[]) =>
+    næringsgrupper.filter((gruppe) => isNaN(+gruppe));
+
+const finnFylke = (filterverdier?: Filterverdier, fylkesnummer?: string) =>
+    filterverdier?.fylker.find(({ fylke }) => fylke.nummer === fylkesnummer);
+
+const finnKommunerIFylke = (kommuner: Kommune[], fylke: FylkeMedKommuner) =>
+    kommuner.filter((kommune) => fylke.kommuner.includes(kommune));
+
+const parametere = [
+    "kommuner",
+    "fylker",
+    "neringsgrupper",
+    "sykefraversprosentFra",
+    "sykefraversprosentTil",
+    "ansatteFra",
+    "ansatteTil",
+    "sorteringsnokkel",
+    "sorteringsretning",
+    "iaStatus",
+    "side",
+    "bransjeprogram",
+    "eiere",
+] as const;
+
+type Søkeparametere = Partial<Record<typeof parametere[number], string>>;
+
+function hentKommunerFraParametere(
+    kommuner: string,
+    filterverdier: Filterverdier
+): Kommune[] {
+    const kommuneliste = kommuner.split(",").filter((v) => v.trim().length);
+    return filterverdier.fylker
+        .map((fylke) => fylke.kommuner)
+        .flatMap((k) => k)
+        .filter((kommune) => kommuneliste.includes(kommune.nummer));
+}
+
+const søkeparametereTilFilterstate = (
+    parametere: Søkeparametere,
+    filterverdier: Filterverdier
+): FiltervisningState => {
+    return {
+        kommuner: hentKommunerFraParametere(
+            parametere?.kommuner ?? "",
+            filterverdier
+        ),
+        valgtFylke: finnFylke(filterverdier, parametere.fylker),
+
+        antallArbeidsforhold: {
+            fra: Number(
+                parametere.ansatteFra ?? initialState.antallArbeidsforhold.fra
+            ),
+            til: Number(
+                parametere.ansatteTil ?? initialState.antallArbeidsforhold.til
+            ),
+        },
+        sykefraværsprosent: {
+            fra: Number(
+                parametere.sykefraversprosentFra ??
+                    initialState.sykefraværsprosent.fra
+            ),
+            til: Number(
+                parametere.sykefraversprosentTil ??
+                    initialState.sykefraværsprosent.til
+            ),
+        },
+        eiere: filterverdier.filtrerbareEiere.filter((eier) =>
+            parametere.eiere?.includes(eier.navIdent)
+        ),
+
+        iaStatus: filterverdier.statuser.find(
+            (status) => status === parametere.iaStatus
+        ),
+        bransjeprogram: finnBransjeprogram(
+            parametere.bransjeprogram?.split(",") ?? []
+        ),
+
+        næringsgrupper: næringsgruppeKoderTilNæringsgrupper(
+            parametere?.neringsgrupper?.split(",") ?? [],
+            filterverdier.neringsgrupper
+        ),
+        side: initialState.side,
+    };
+};
 
 type EndreFylkeAction = {
     type: "ENDRE_FYLKE";
@@ -50,6 +138,7 @@ type SettInnFilterverdierAction = {
     type: "SETT_INN_FILTERVERDIER";
     payload: {
         filterverdier: Filterverdier;
+        filterstate: FiltervisningState;
     };
 };
 type EndreIAStatusAction = {
@@ -115,8 +204,9 @@ function endreFylke(
 ): FiltervisningState {
     if (action.payload.fylkesnummer === state.valgtFylke?.fylke.nummer)
         return state;
-    const endretFylkeMedKommuner = state.filterverdier?.fylker.find(
-        ({ fylke }) => fylke.nummer === action.payload.fylkesnummer
+    const endretFylkeMedKommuner = finnFylke(
+        state.filterverdier,
+        action.payload.fylkesnummer
     );
     if (!endretFylkeMedKommuner) {
         return {
@@ -124,9 +214,7 @@ function endreFylke(
             valgtFylke: undefined,
         };
     }
-    const kommuner = state.kommuner.filter((kommune) =>
-        endretFylkeMedKommuner.kommuner.includes(kommune)
-    );
+    const kommuner = finnKommunerIFylke(state.kommuner, endretFylkeMedKommuner);
     return {
         ...endreKommune(state, {
             type: "ENDRE_KOMMUNE",
@@ -146,9 +234,7 @@ const endreNæringsgruppe = (
         action.payload.næringsgrupper,
         state.filterverdier?.neringsgrupper ?? []
     );
-    const bransjeprogram = action.payload.næringsgrupper.filter((v) =>
-        isNaN(+v)
-    );
+    const bransjeprogram = finnBransjeprogram(action.payload.næringsgrupper);
     return {
         ...state,
         bransjeprogram,
@@ -231,10 +317,13 @@ const endreEiere = (
 const settInnFilterverdier = (
     state: FiltervisningState,
     action: SettInnFilterverdierAction
-): FiltervisningState => ({
-    ...state,
-    filterverdier: action.payload.filterverdier,
-});
+): FiltervisningState => {
+    return {
+        ...state,
+        ...action.payload.filterstate,
+        filterverdier: action.payload.filterverdier,
+    };
+};
 
 const reducer = (state: FiltervisningState, action: Action) => {
     switch (action.type) {
@@ -267,6 +356,27 @@ const reducer = (state: FiltervisningState, action: Action) => {
 
 export const useFiltervisningState = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
+    const [search, setSearch] = useSearchParams();
+
+    useEffect(() => {
+        const searchParams = søkeverdierTilUrlSearchParams(state);
+        setSearch(searchParams, {
+            replace: true,
+        });
+    }, [state]);
+
+    const gyldigeSøkeparametereIUrlen: Søkeparametere = parametere.reduce(
+        (obj, key) => {
+            const verdi = search.get(key);
+            return {
+                ...obj,
+                ...(verdi && {
+                    [key]: verdi,
+                }),
+            };
+        },
+        {}
+    );
 
     const oppdaterKommuner = useCallback(
         (payload: EndreKommuneAction["payload"]) => {
@@ -355,10 +465,17 @@ export const useFiltervisningState = () => {
     );
 
     const lastData = useCallback(
-        (payload: SettInnFilterverdierAction["payload"]) => {
+        (payload: { filterverdier: Filterverdier }) => {
+            const filterstate = søkeparametereTilFilterstate(
+                gyldigeSøkeparametereIUrlen,
+                payload.filterverdier
+            );
             dispatch({
                 type: "SETT_INN_FILTERVERDIER",
-                payload,
+                payload: {
+                    filterverdier: payload.filterverdier,
+                    filterstate,
+                },
             });
         },
         []

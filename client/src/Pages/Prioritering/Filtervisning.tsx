@@ -114,6 +114,7 @@ export const Filtervisning = ({
             <Næringsgruppedropdown
                 bransjeprogram={state.filterverdier?.bransjeprogram ?? []}
                 næringsgrupper={state.filterverdier?.neringsgrupper ?? []}
+                valgtBransjeprogram={state.bransjeprogram ?? []}
                 valgtNæringsgruppe={state.næringsgrupper}
                 endreNæringsgrupper={endreNæringsgruppe}
             />
@@ -139,6 +140,7 @@ export const Filtervisning = ({
                     filtrerbareEiere={
                         state.filterverdier?.filtrerbareEiere ?? []
                     }
+                    eier={state.eiere}
                     onEierBytteCallback={endreEiere}
                 />
                 <Søkeknapp size="medium" onClick={søkPåNytt}>

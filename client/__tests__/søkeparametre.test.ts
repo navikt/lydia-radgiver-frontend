@@ -22,7 +22,7 @@ describe("oversettelse fra søkeverdier til URL-parametre", () => {
             søkeverdierTilUrlSearchParams(søkeverdier).toString();
 
         expect(searchParams).toBe(
-            "kommuner=&fylker=&neringsgrupper=&sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&ansatteTil=&sorteringsnokkel=&sorteringsretning=desc&iaStatus=&side=1&bransjeprogram=&eiere="
+            "sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1"
         );
     });
 
@@ -55,7 +55,7 @@ describe("oversettelse fra søkeverdier til URL-parametre", () => {
         const searchParams =
             søkeverdierTilUrlSearchParams(søkeverdier).toString();
         expect(searchParams).toBe(
-            `kommuner=0000%2C0001&fylker=03&neringsgrupper=&sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&ansatteTil=&sorteringsnokkel=&sorteringsretning=desc&iaStatus=&side=1&bransjeprogram=&eiere=`
+            `kommuner=0000%2C0001&fylker=03&sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1`
         );
     });
 });
