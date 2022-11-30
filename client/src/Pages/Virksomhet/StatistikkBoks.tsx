@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BodyShort } from "@navikt/ds-react";
+import { BodyShort, Detail } from "@navikt/ds-react";
 import { NavFarger } from "../../styling/farger";
 import { BorderRadius } from "../../styling/borderRadius";
 
@@ -27,18 +27,26 @@ const Verdi = styled(BodyShort)`
   line-height: 1.3;
 `;
 
+const VerdiSisteKvartal = styled(Detail).attrs({size: 'small'})<{ hidden: boolean }>`
+  display: ${props => props.hidden ? 'none' : 'initial'};
+`;
+
 interface Props {
     verdi: string;
     tittel: string;
+    verdiSisteKvartal?: string;
 }
 
-export const StatistikkBoks = ({verdi, tittel}: Props) => {
+export const StatistikkBoks = ({verdi, tittel, verdiSisteKvartal}: Props) => {
     return (
         <Container>
             <Tittel>
                 {tittel}
             </Tittel>
             <Verdi>{verdi}</Verdi>
+            <VerdiSisteKvartal hidden={!verdiSisteKvartal}>
+                {`(${verdiSisteKvartal} siste kvartal)`}
+            </VerdiSisteKvartal>
         </Container>
     );
 };
