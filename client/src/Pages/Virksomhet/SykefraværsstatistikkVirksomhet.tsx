@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { StatistikkBoks } from "./StatistikkBoks";
 import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
-import { formaterMedEnDesimal, formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
+import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
 
 const Container = styled.div`
   display: flex;
@@ -34,11 +34,11 @@ export const SykefraværsstatistikkVirksomhet = ({sykefraværsstatistikk}: Props
         </SubContainerForPrettyWrap>
         <SubContainerForPrettyWrap>
             <StatistikkBoks
-                verdi={formaterMedEnDesimal(sykefraværsstatistikk.muligeDagsverk)}
+                verdi={formaterSomHeltall(sykefraværsstatistikk.muligeDagsverk)}
                 tittel="Mulige dagsverk"
             />
             <StatistikkBoks
-                verdi={formaterMedEnDesimal(sykefraværsstatistikk.tapteDagsverk)}
+                verdi={formaterSomHeltall(sykefraværsstatistikk.tapteDagsverk)}
                 tittel="Tapte dagsverk"
             />
         </SubContainerForPrettyWrap>

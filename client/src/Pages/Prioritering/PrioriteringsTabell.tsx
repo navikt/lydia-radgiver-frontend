@@ -5,7 +5,7 @@ import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { lokalDato } from "../../util/dato";
-import { formaterMedEnDesimal, formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
+import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
 import { EksternLenke } from "../../components/EksternLenke";
 import { SøkeresultatFooter } from "./SøkeresultatFooter";
 import { hvitBoksMedSkygge } from "../../styling/containere";
@@ -151,10 +151,10 @@ export const PrioriteringsTabell = ({
                                 {formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}
                             </RightAllignedDataCell>
                             <RightAllignedDataCell>
-                                {formaterMedEnDesimal(sykefraværStatistikkVirksomhet.tapteDagsverk)}
+                                {formaterSomHeltall(sykefraværStatistikkVirksomhet.tapteDagsverk)}
                             </RightAllignedDataCell>
                             <RightAllignedDataCell>
-                                {formaterMedEnDesimal(sykefraværStatistikkVirksomhet.muligeDagsverk)}
+                                {formaterSomHeltall(sykefraværStatistikkVirksomhet.muligeDagsverk)}
                             </RightAllignedDataCell>
                             <Table.DataCell>
                                 <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv} />

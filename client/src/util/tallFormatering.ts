@@ -9,6 +9,5 @@ const enDesimalFormatter = new Intl.NumberFormat("nb-NO", {
     style: "decimal",
 });
 
-export const formaterSomHeltall = (value: number) => `${integerFormatter.format(value)}`
-export const formaterMedEnDesimal = (value: number) => enDesimalFormatter.format(value)
+export const formaterSomHeltall = (value: number) => integerFormatter.format(value)
 export const formaterSomProsentMedEnDesimal = (value: number) => `${enDesimalFormatter.format(value)} %`
