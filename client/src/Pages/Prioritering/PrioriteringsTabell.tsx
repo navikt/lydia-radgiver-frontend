@@ -145,10 +145,10 @@ export const PrioriteringsTabell = ({
                                 </EksternLenke>
                             </Table.HeaderCell>
                             <RightAllignedDataCell>
-                                {formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}
+                                {formaterSomHeltall(sykefraværStatistikkVirksomhet.antallPersoner)}
                             </RightAllignedDataCell>
                             <RightAllignedDataCell>
-                                {formaterSomHeltall(sykefraværStatistikkVirksomhet.antallPersoner)}
+                                {formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}
                             </RightAllignedDataCell>
                             <RightAllignedDataCell>
                                 {formaterMedEnDesimal(sykefraværStatistikkVirksomhet.tapteDagsverk)}
