@@ -5,6 +5,11 @@ import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirkso
 export default {
     title: "Virksomhet/Sykefraværsstatistikk for en virksomhet",
     component: SykefraværsstatistikkVirksomhet,
+    parameters: {
+        backgrounds: {
+            default: 'white'
+        }
+    }
 } as ComponentMeta<typeof SykefraværsstatistikkVirksomhet>;
 
 export const Hovedstory = () =>
