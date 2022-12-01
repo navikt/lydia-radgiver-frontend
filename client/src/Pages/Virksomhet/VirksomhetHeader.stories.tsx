@@ -8,27 +8,23 @@ import { VirksomhetHeader } from "./VirksomhetHeader";
 export default {
     title: "Virksomhet/Header på virksomhetssida",
     component: VirksomhetHeader,
-    decorators: [(Story) => <MemoryRouter initialEntries={["/virksomhet/123456789"]}>
-        <Routes>
-            <Route
-                path={"/virksomhet/:orgnummer"}
-                element={<Story />}
-            />
-        </Routes>
-    </MemoryRouter>]
+    decorators: [(Story) => (
+        <MemoryRouter initialEntries={["/virksomhet/123456789"]}>
+            <Routes>
+                <Route
+                    path={"/virksomhet/:orgnummer"}
+                    element={<Story />}
+                />
+            </Routes>
+        </MemoryRouter>
+    )]
 } as ComponentMeta<typeof VirksomhetHeader>;
 
-export const Hovedstory = () => {
-    const doNothing = () => {
-        return;
-    }
-
-    return (
-        <VirksomhetHeader
-            virksomhet={virksomhetMock}
-            sykefraværsstatistikk={sykefraværsstatistikkMock[0]}
-            iaSak={iaSakKontaktes}
-            muterState={doNothing}
-        />
-    )
-}
+export const Hovedstory = () => (
+    <VirksomhetHeader
+        virksomhet={virksomhetMock}
+        sykefraværsstatistikk={sykefraværsstatistikkMock[0]}
+        iaSak={iaSakKontaktes}
+        muterState={() => {return}}
+    />
+)

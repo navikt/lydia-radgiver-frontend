@@ -16,14 +16,16 @@ import { samarbeidshistorikkMock } from "./mocks/iaSakHistorikkMock";
 export default {
     title: "Virksomhet/Virksomhetside",
     component: Virksomhetsside,
-    decorators: [(Story) => <MemoryRouter initialEntries={["/virksomhet/123456789"]}>
-        <Routes>
-            <Route
-                path={"/virksomhet/:orgnummer"}
-                element={<Story />}
-            />
-        </Routes>
-    </MemoryRouter>]
+    decorators: [(Story) => (
+        <MemoryRouter initialEntries={["/virksomhet/123456789"]}>
+            <Routes>
+                <Route
+                    path={"/virksomhet/:orgnummer"}
+                    element={<Story />}
+                />
+            </Routes>
+        </MemoryRouter>
+    )]
 } as ComponentMeta<typeof Virksomhetsside>;
 
 export const VirksomhetssideStory = () => (
