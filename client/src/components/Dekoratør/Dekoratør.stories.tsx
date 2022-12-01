@@ -14,7 +14,7 @@ export default {
 } as ComponentMeta<typeof Dekoratør>;
 
 export const Autentisert = () => (
-    <div data-theme="dark">
+    <div>
         <Dekoratør brukerInformasjon={brukerMedGyldigToken} />
     </div>
 )

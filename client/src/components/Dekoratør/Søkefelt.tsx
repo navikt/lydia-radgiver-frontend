@@ -6,11 +6,10 @@ import { VirksomhetSøkeresultat } from "../../domenetyper";
 import { EksternLenke } from "../EksternLenke";
 
 interface Props {
-    darkmode?: boolean,
     style?: CSSProperties
 }
 
-export const Søkefelt = ({ darkmode, style }: Props) => {
+export const Søkefelt = ({ style }: Props) => {
     const searchRef = useRef<HTMLDivElement | null>(null)
     const [firmaer, setFirmaer] = useState<VirksomhetSøkeresultat[]>([])
     const [søkestreng, setSøkestreng] = useState("")
@@ -24,7 +23,7 @@ export const Søkefelt = ({ darkmode, style }: Props) => {
     }, [faktiskSøkestreng])
 
     return (
-        <div data-theme={`${darkmode ? 'dark' : 'light'}`} style={style}>
+        <div style={style}>
             <Search
                 placeholder="Søk etter virksomhet"
                 ref={searchRef}
@@ -40,7 +39,7 @@ export const Søkefelt = ({ darkmode, style }: Props) => {
                 placement="bottom-start"
                 arrow={false}
             >
-                {!!firmaer.length && <Popover.Content style={{color: `${darkmode ? 'black' : 'white'}`}}>
+                {!!firmaer.length && <Popover.Content>
                     {firmaer.map(firma => (
                         <EksternLenke
                             key={firma.orgnr}

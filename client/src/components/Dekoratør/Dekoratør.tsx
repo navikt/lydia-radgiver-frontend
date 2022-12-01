@@ -22,6 +22,7 @@ const DemoversjonTekst = styled(BodyShort)<{ hidden: boolean }>`
   display: ${(props) => props.hidden ? "none" : "flex"};
   align-items: center;
   padding: 0 1.5rem;
+  color: ${NavFarger.white};
   background: ${NavFarger.red500};
 `;
 
@@ -46,7 +47,7 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
 
     return (
         <>
-            <Header className="w-full">
+            <Header className="w-full" data-theme="light">
                 <Header.Title as="h1" style={{marginRight: "auto"}}>{tittel}</Header.Title>
                 <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
                 <Søkefelt style={{
@@ -57,7 +58,7 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
                     <Header.User
                         name={brukerInformasjon.navn}
                         description={brukerInformasjon.ident}
-                        style={{marginLeft: "auto"}}
+                        style={{marginLeft: "auto", color: NavFarger.white}}
                     />
                 )}
             </Header>
