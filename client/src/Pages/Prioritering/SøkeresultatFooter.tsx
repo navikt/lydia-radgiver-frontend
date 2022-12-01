@@ -47,7 +47,7 @@ export const SøkeresultatFooter = ({side, antallTreffPåSide, endreSide, totalt
             </PagineringsContainer>
 
             <Detail size="small">
-                Tallene viser offisiell sykefraværsstatistikk for andre kvartal 2022.
+                Tallene viser offisiell sykefraværsstatistikk for tredje kvartal 2022.
             </Detail>
         </Container>
     )
