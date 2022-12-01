@@ -47,8 +47,6 @@ const OverskriftContainer = styled.div`
 const SlettetFjernetInfo = styled(Tag)`
   align-self: center;
   text-transform: lowercase;
-  background: ${NavFarger.gray200};
-  border-color: ${NavFarger.borderMuted};
 `;
 
 const InnholdContainer = styled.div`
@@ -79,7 +77,7 @@ export const VirksomhetHeader = ({virksomhet, sykefraværsstatistikk, iaSak, mut
             {
                 (virksomhet.status == VirksomhetStatusEnum.enum.FJERNET
                     || virksomhet.status == VirksomhetStatusEnum.enum.SLETTET)
-                && <SlettetFjernetInfo variant={"warning"} size={"medium"}>
+                && <SlettetFjernetInfo variant={"neutral"} size={"medium"}>
                     {virksomhet.status}
                 </SlettetFjernetInfo>
             }
