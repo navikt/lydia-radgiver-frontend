@@ -45,7 +45,7 @@ export const StatistikkBoks = ({verdi, tittel, verdiSisteKvartal}: Props) => {
             </Tittel>
             <Verdi>{verdi}</Verdi>
             <VerdiSisteKvartal hidden={!verdiSisteKvartal}>
-                {`(${verdiSisteKvartal} siste kvartal)`}
+                {`(${verdiSisteKvartal} i siste kvartal)`}
             </VerdiSisteKvartal>
         </Container>
     );

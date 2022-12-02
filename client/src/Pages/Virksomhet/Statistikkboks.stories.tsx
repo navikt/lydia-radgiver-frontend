@@ -19,12 +19,15 @@ export default {
     ],
 } as ComponentMeta<typeof SykefraværsstatistikkVirksomhet>;
 
-export const Sykefravarsprosent = () =>
-    <StatistikkBoks tittel="Sykefravær" verdi="14.0%" />
+export const Arbeidsforhold = () => <StatistikkBoks tittel="Arbeidsforhold" verdi="5001" />
+
+export const Sykefravarsprosent = () => <StatistikkBoks tittel="Sykefravær" verdi="14.0%" />
 
 export const SykefravarsprosentMedVerdiSisteKvartal = () =>
     <StatistikkBoks tittel="Sykefravær" verdi="14.0%" verdiSisteKvartal="13.4%" />
 
-
 export const TapteDagsverkMedVerdiSisteKvartal = () =>
-    <StatistikkBoks tittel="Tapte dagsverk" verdi="142" verdiSisteKvartal="3" />
+    <StatistikkBoks tittel="Tapte dagsverk" verdi="142" verdiSisteKvartal="11" />
+
+export const MuligeDagsverkMedVerdiSisteKvartal = () =>
+    <StatistikkBoks verdi="343" tittel="Mulige dagsverk" verdiSisteKvartal="345" />
