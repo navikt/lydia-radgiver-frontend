@@ -30,7 +30,7 @@ const Virksomhetsside = () => {
     const iaSak = nyesteSak(iaSaker)
 
     const {
-        data: samarbeidshistorik,
+        data: samarbeidshistorikk,
         mutate: mutateHentSamarbeidshistorikk
     } = useHentSamarbeidshistorikk(orgnummer)
 
@@ -49,7 +49,7 @@ const Virksomhetsside = () => {
         return <VirksomhetOversikt
             virksomhet={virksomhetsinformasjon}
             iaSak={iaSak}
-            samarbeidshistorikk={samarbeidshistorik ?? []}
+            samarbeidshistorikk={samarbeidshistorikk ?? []}
             muterState={muterState}
         />
     } else {
