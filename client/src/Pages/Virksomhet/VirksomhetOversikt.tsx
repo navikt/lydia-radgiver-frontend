@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IASak, Sakshistorikk, SykefraversstatistikkVirksomhet, Virksomhet, } from "../../domenetyper";
+import { IASak, Sakshistorikk, Virksomhet, } from "../../domenetyper";
 import { Samarbeidshistorikk } from "./Samarbeidshistorikk";
 import { VirksomhetHeader } from "./VirksomhetHeader";
 import { contentSpacing } from "../../styling/contentSpacing";
@@ -10,27 +10,15 @@ const Container = styled.div`
 
 interface VirksomhetOversiktProps {
     virksomhet: Virksomhet;
-    sykefraværsstatistikk: SykefraversstatistikkVirksomhet;
     iaSak?: IASak;
     samarbeidshistorikk: Sakshistorikk[];
     muterState?: () => void;
 }
 
-export const VirksomhetOversikt = ({
-    virksomhet,
-    sykefraværsstatistikk,
-    iaSak,
-    samarbeidshistorikk,
-    muterState,
-}: VirksomhetOversiktProps) => {
+export const VirksomhetOversikt = ({virksomhet, iaSak, samarbeidshistorikk, muterState}: VirksomhetOversiktProps) => {
     return (
         <Container>
-            <VirksomhetHeader
-                virksomhet={virksomhet}
-                sykefraværsstatistikk={sykefraværsstatistikk}
-                iaSak={iaSak}
-                muterState={muterState}
-            />
+            <VirksomhetHeader virksomhet={virksomhet} iaSak={iaSak} muterState={muterState} />
             <br />
             <Samarbeidshistorikk samarbeidshistorikk={samarbeidshistorikk} />
         </Container>

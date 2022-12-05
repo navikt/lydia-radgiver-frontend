@@ -1,8 +1,7 @@
 import { ComponentMeta } from "@storybook/react";
-import { virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
-import { sykefraværsstatistikkMock } from "../Prioritering/mocks/sykefraværsstatistikkMock";
-import { iaSakKontaktes } from "./mocks/iaSakMock";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
+import { iaSakKontaktes } from "./mocks/iaSakMock";
 import { VirksomhetHeader } from "./VirksomhetHeader";
 
 export default {
@@ -23,7 +22,6 @@ export default {
 export const Hovedstory = () => (
     <VirksomhetHeader
         virksomhet={virksomhetMock}
-        sykefraværsstatistikk={sykefraværsstatistikkMock[0]}
         iaSak={iaSakKontaktes}
         muterState={() => {return}}
     />

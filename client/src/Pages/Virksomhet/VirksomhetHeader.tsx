@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Heading, Tag } from "@navikt/ds-react";
-import { IASak, SykefraversstatistikkVirksomhet, Virksomhet, VirksomhetStatusEnum } from "../../domenetyper";
+import { IASak, Virksomhet, VirksomhetStatusEnum } from "../../domenetyper";
 import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
 import { IASakOversikt } from "./IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
@@ -65,12 +65,11 @@ const VirksomhetsinfoContainer = styled.div`
 
 interface Props {
     virksomhet: Virksomhet;
-    sykefraværsstatistikk: SykefraversstatistikkVirksomhet;
     iaSak?: IASak;
     muterState?: () => void;
 }
 
-export const VirksomhetHeader = ({virksomhet, sykefraværsstatistikk, iaSak, muterState}: Props) => (
+export const VirksomhetHeader = ({virksomhet, iaSak, muterState}: Props) => (
     <HeaderContainer>
         <OverskriftContainer>
             <Heading level={"2"} size={"large"}>{virksomhet.navn}</Heading>
@@ -85,7 +84,7 @@ export const VirksomhetHeader = ({virksomhet, sykefraværsstatistikk, iaSak, mut
         <InnholdContainer>
             <VirksomhetsinfoContainer>
                 <VirksomhetInformasjon virksomhet={virksomhet} />
-                <SykefraværsstatistikkVirksomhet sykefraværsstatistikk={sykefraværsstatistikk} />
+                <SykefraværsstatistikkVirksomhet orgnummer={virksomhet.orgnr} />
             </VirksomhetsinfoContainer>
             <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} muterState={muterState} />
         </InnholdContainer>
