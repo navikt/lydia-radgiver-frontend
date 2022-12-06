@@ -3,7 +3,10 @@ import { StatistikkBoks } from "./StatistikkBoks";
 import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
-import { useHentSykefraværsstatistikkForVirksomhet } from "../../api/lydia-api";
+import {
+    useHentSykefraværsstatistikkForVirksomhet,
+    useHentSykefraværsstatistikkForVirksomhetSisteKvartal
+} from "../../api/lydia-api";
 import { sorterStatistikkPåSisteÅrstallOgKvartal } from "../../util/sortering";
 
 const Container = styled.div`
@@ -29,7 +32,12 @@ export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
         loading: lasterSykefraværsstatistikkSisteFireKvartal
     } = useHentSykefraværsstatistikkForVirksomhet(orgnummer)
 
-    if (lasterSykefraværsstatistikkSisteFireKvartal) {
+    const {
+        data: sykefraværsstatistikkSisteKvartal,
+        loading: lasterSykefraværsstatistikkSisteKvartal
+    } = useHentSykefraværsstatistikkForVirksomhetSisteKvartal(orgnummer)
+
+    if (lasterSykefraværsstatistikkSisteFireKvartal || lasterSykefraværsstatistikkSisteKvartal) {
         return (
             <Loader title={"Laster inn statistikk for virksomhet"}
                     variant={"interaction"}
@@ -37,28 +45,37 @@ export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
             />
         )
     } else if (sykefraværsstatistikkSisteFireKvartal && sykefraværsstatistikkSisteFireKvartal.length > 0) {
-        const statistikkForSisteKvartal = filtrerPåSisteKvartal(sykefraværsstatistikkSisteFireKvartal)
+        const statistikkSisteFireKvartalNyesteUtgave = finnSisteUtgaveAvStatistikk(sykefraværsstatistikkSisteFireKvartal)
 
         return (
             <Container>
                 <SubContainerForPrettyWrap>
                     <StatistikkBoks
-                        verdi={formaterSomHeltall(statistikkForSisteKvartal.antallPersoner)}
                         tittel="Arbeidsforhold"
+                        verdi={formaterSomHeltall(statistikkSisteFireKvartalNyesteUtgave.antallPersoner)}
                     />
                     <StatistikkBoks
-                        verdi={formaterSomProsentMedEnDesimal(statistikkForSisteKvartal.sykefraversprosent)}
                         tittel="Sykefravær"
+                        verdi={formaterSomProsentMedEnDesimal(statistikkSisteFireKvartalNyesteUtgave.sykefraversprosent)}
+                        verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.sykefraversprosent
+                            ? formaterSomProsentMedEnDesimal(sykefraværsstatistikkSisteKvartal.sykefraversprosent)
+                            : undefined}
                     />
                 </SubContainerForPrettyWrap>
                 <SubContainerForPrettyWrap>
                     <StatistikkBoks
-                        verdi={formaterSomHeltall(statistikkForSisteKvartal.muligeDagsverk)}
                         tittel="Mulige dagsverk"
+                        verdi={formaterSomHeltall(statistikkSisteFireKvartalNyesteUtgave.muligeDagsverk)}
+                        verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.muligeDagsverk
+                            ? formaterSomHeltall(sykefraværsstatistikkSisteKvartal.muligeDagsverk)
+                            : undefined}
                     />
                     <StatistikkBoks
-                        verdi={formaterSomHeltall(statistikkForSisteKvartal.tapteDagsverk)}
                         tittel="Tapte dagsverk"
+                        verdi={formaterSomHeltall(statistikkSisteFireKvartalNyesteUtgave.tapteDagsverk)}
+                        verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.tapteDagsverk
+                            ? formaterSomHeltall(sykefraværsstatistikkSisteKvartal.tapteDagsverk)
+                            : undefined}
                     />
                 </SubContainerForPrettyWrap>
             </Container>
@@ -69,6 +86,6 @@ export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
 };
 
 // TODO: bruk noe lignende et Either-pattern for å håndtere eventuell tomme lister her
-const filtrerPåSisteKvartal =
+const finnSisteUtgaveAvStatistikk =
     (sykefraværsstatistikk: SykefraversstatistikkVirksomhet[]): SykefraversstatistikkVirksomhet =>
         sykefraværsstatistikk.sort(sorterStatistikkPåSisteÅrstallOgKvartal)[0]

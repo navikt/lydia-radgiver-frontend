@@ -10,7 +10,7 @@ import {
     Sakshistorikk,
     sakshistorikkSchema,
     SykefraversstatistikkVirksomhet,
-    sykefraversstatistikkVirksomhetListeSchema,
+    sykefraversstatistikkVirksomhetListeSchema, sykefraversstatistikkVirksomhetSchema,
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
     ValgtÅrsakDto,
@@ -210,6 +210,18 @@ export const useHentSykefraværsstatistikkForVirksomhet = (
     return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(
         orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}` : null,
         sykefraversstatistikkVirksomhetListeSchema,
+        {
+            revalidateOnFocus: true,
+        }
+    );
+};
+
+export const useHentSykefraværsstatistikkForVirksomhetSisteKvartal = (
+    orgnummer?: string
+) => {
+    return useSwrTemplate<SykefraversstatistikkVirksomhet>(
+        orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}/sistetilgjengeligekvartal` : null,
+        sykefraversstatistikkVirksomhetSchema,
         {
             revalidateOnFocus: true,
         }

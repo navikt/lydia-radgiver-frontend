@@ -32,12 +32,12 @@ const VerdiSisteKvartal = styled(Detail).attrs({size: 'small'})<{ hidden: boolea
 `;
 
 interface Props {
-    verdi: string;
     tittel: string;
+    verdi: string;
     verdiSisteKvartal?: string;
 }
 
-export const StatistikkBoks = ({verdi, tittel, verdiSisteKvartal}: Props) => {
+export const StatistikkBoks = ({ tittel, verdi, verdiSisteKvartal}: Props) => {
     return (
         <Container>
             <Tittel>
