@@ -1,7 +1,13 @@
 import styled from "styled-components";
-import { BodyShort, Detail } from "@navikt/ds-react";
+import { BodyShort, Detail, HelpText } from "@navikt/ds-react";
 import { NavFarger } from "../../styling/farger";
 import { BorderRadius } from "../../styling/borderRadius";
+
+const TittelMedHelpTextContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+`;
 
 const Container = styled.div`
   flex: 1;
@@ -19,6 +25,7 @@ const Container = styled.div`
 
 const Tittel = styled(BodyShort)`
   font-weight: bold;
+  padding: ${12 / 16}rem ${24 / 16}rem;
 `;
 
 const Verdi = styled(BodyShort)`
@@ -33,16 +40,23 @@ const VerdiSisteKvartal = styled(Detail).attrs({size: 'small'})<{ hidden: boolea
 
 interface Props {
     tittel: string;
+    helpTekst: string;
     verdi: string;
     verdiSisteKvartal?: string;
 }
 
-export const StatistikkBoks = ({ tittel, verdi, verdiSisteKvartal}: Props) => {
+export const StatistikkBoks = ({tittel, helpTekst, verdi, verdiSisteKvartal}: Props) => {
     return (
         <Container>
-            <Tittel>
-                {tittel}
-            </Tittel>
+            <TittelMedHelpTextContainer>
+                <Tittel>
+                    {tittel}
+                </Tittel>
+                <HelpText title="Hvor kommer dette fra?">
+                    {helpTekst}
+                </HelpText>
+            </TittelMedHelpTextContainer>
+
             <Verdi>{verdi}</Verdi>
             <VerdiSisteKvartal hidden={!verdiSisteKvartal}>
                 {`(${verdiSisteKvartal} i siste kvartal)`}

@@ -52,10 +52,12 @@ export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
                 <SubContainerForPrettyWrap>
                     <StatistikkBoks
                         tittel="Arbeidsforhold"
+                        helpTekst="Antall arbeidsforhold i siste kvartal"
                         verdi={formaterSomHeltall(statistikkSisteFireKvartalNyesteUtgave.antallPersoner)}
                     />
                     <StatistikkBoks
                         tittel="Sykefravær"
+                        helpTekst="Sykefraværsprosent siste 4 kvartal"
                         verdi={formaterSomProsentMedEnDesimal(statistikkSisteFireKvartalNyesteUtgave.sykefraversprosent)}
                         verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.sykefraversprosent
                             ? formaterSomProsentMedEnDesimal(sykefraværsstatistikkSisteKvartal.sykefraversprosent)
@@ -65,6 +67,7 @@ export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
                 <SubContainerForPrettyWrap>
                     <StatistikkBoks
                         tittel="Mulige dagsverk"
+                        helpTekst="Antall mulige dagsverk siste 4 kvartal"
                         verdi={formaterSomHeltall(statistikkSisteFireKvartalNyesteUtgave.muligeDagsverk)}
                         verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.muligeDagsverk
                             ? formaterSomHeltall(sykefraværsstatistikkSisteKvartal.muligeDagsverk)
@@ -72,6 +75,7 @@ export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
                     />
                     <StatistikkBoks
                         tittel="Tapte dagsverk"
+                        helpTekst="Antall tapte dagsverk siste 4 kvartal"
                         verdi={formaterSomHeltall(statistikkSisteFireKvartalNyesteUtgave.tapteDagsverk)}
                         verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.tapteDagsverk
                             ? formaterSomHeltall(sykefraværsstatistikkSisteKvartal.tapteDagsverk)
