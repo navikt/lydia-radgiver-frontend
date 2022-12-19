@@ -323,13 +323,13 @@ export const søkeverdierTilUrlSearchParams = ({
     appendIfPresent(
         "sykefraversprosentFra",
         sykefraværsprosent,
-        ({ fra }) => fra.toFixed(2),
+        ({ fra }) => isNaN(fra) ? "" : fra.toFixed(2),
         params
     );
     appendIfPresent(
         "sykefraversprosentTil",
         sykefraværsprosent,
-        ({ til }) => til.toFixed(2),
+        ({ til }) => isNaN(til) ? "" : til.toFixed(2),
         params
     );
     appendIfPresent(
