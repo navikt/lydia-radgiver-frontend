@@ -28,8 +28,11 @@ Legg så til psql i PATH. Du vil få instruksjonar på dette frå brew, og det s
 > If you need to have libpq first in your PATH, run:  
 > echo 'export PATH="/usr/local/opt/libpq/bin:$PATH"' >> ~/.zshrc
 
+Sjekk at du har colima `colima version`  
+Om du ikkje har colima, køyr `brew install colima`
 
-// TODO nevn colima/docker desktop  
+Sjekk at du har docker `docker -v`  
+Om du ikkje har docker, køyr `brew install docker`
 
 
 Vi skal leggje til linja `127.0.0.1 host.docker.internal` i fila `/etc/hosts` i rota av datamaskina di.
