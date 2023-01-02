@@ -19,6 +19,9 @@ Dette vert orkestrert av docker-compose.
 
 
 ### Før du startar
+Sjekk om du har postgresql-klient ved å køyre
+`psql --version`
+
 Installer ein postgresql-klient, for eksempel ved å gjere  
 `brew install libpq`  
 Legg så til psql i PATH. Du vil få instruksjonar på dette frå brew, og det ser litt sånn ut:  
