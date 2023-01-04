@@ -45,6 +45,17 @@ export enum NavFarger {
     blue800 = "var(--a-blue-800)",
     blue900 = "var(--a-blue-900)",
 
+    deepblue50 =  "var(--a-deepblue-50)",
+    deepblue100 = "var(--a-deepblue-100)",
+    deepblue200 = "var(--a-deepblue-200)",
+    deepblue300 = "var(--a-deepblue-300)",
+    deepblue400 = "var(--a-deepblue-400)",
+    deepblue500 = "var(--a-deepblue-500)",
+    deepblue600 = "var(--a-deepblue-600)",
+    deepblue700 = "var(--a-deepblue-700)",
+    deepblue800 = "var(--a-deepblue-800)",
+    deepblue900 = "var(--a-deepblue-900)",
+
     // Semantiske fargar
     text = gray900,
     textMuted = gray600,
