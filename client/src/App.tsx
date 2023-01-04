@@ -1,7 +1,8 @@
+import { useContext } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
+import styled from "styled-components";
 import "@navikt/ds-css";
 import "@navikt/ds-css-internal";
-import styled from "styled-components";
-import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useHentBrukerinformasjon } from "./api/lydia-api";
 import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
 import { desktopAndUp, largeDesktopAndUp } from "./styling/breakpoint";
@@ -9,8 +10,8 @@ import Virksomhetsside from "./Pages/Virksomhet/Virksomhetsside";
 import { FeilmeldingBanner } from "./Pages/FeilmeldingBanner";
 import { Dekoratør } from "./components/Dekoratør/Dekoratør";
 import { TittelContext, TittelProvider } from "./Pages/Prioritering/TittelContext";
-import { useContext } from "react";
 import { contentSpacing } from "./styling/contentSpacing";
+import { Footer } from "./components/Footer/Footer";
 
 const App = () =>
     <BrowserRouter>
@@ -20,10 +21,10 @@ const App = () =>
     </BrowserRouter>
 
 const AppContent = () => {
-    const {tittel} = useContext(TittelContext)
+    const { tittel } = useContext(TittelContext)
     document.title = tittel
 
-    const {data: brukerInformasjon} = useHentBrukerinformasjon();
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
     return brukerInformasjon ? (
         <>
             <Dekoratør brukerInformasjon={brukerInformasjon} />
@@ -39,6 +40,7 @@ const AppContent = () => {
                         element={<Virksomhetsside />}
                     />
                 </Routes>
+                <Footer />
             </AppRamme>
         </>
     ) : null;
@@ -57,6 +59,5 @@ const AppRamme = styled.main`
     padding: 0 ${contentSpacing.largeDesktopX};
   }
 `;
-
 
 export default App;
