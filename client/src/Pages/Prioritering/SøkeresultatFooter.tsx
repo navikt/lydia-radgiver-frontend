@@ -45,10 +45,6 @@ export const SøkeresultatFooter = ({side, antallTreffPåSide, endreSide, totalt
                     <Loader size="xsmall" title="henter antall treff" />}
                 </ResultatInfo>
             </PagineringsContainer>
-
-            <Detail size="small">
-                Tallene viser offisiell sykefraværsstatistikk for opptil fire av de siste kvartalene (4. kvartal 2021 - 3. kvartal 2022).
-            </Detail>
         </Container>
     )
 }
