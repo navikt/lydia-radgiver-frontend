@@ -16,10 +16,10 @@
     "prepare": "cd .. && husky install client/.husky"
   },
   "dependencies": {
-    "@navikt/ds-css": "2.0.5",
-    "@navikt/ds-css-internal": "2.0.5",
-    "@navikt/ds-react": "2.0.5",
-    "@navikt/ds-react-internal": "2.0.5",
+    "@navikt/ds-css": "2.0.11",
+    "@navikt/ds-css-internal": "2.0.11",
+    "@navikt/ds-react": "2.0.11",
+    "@navikt/ds-react-internal": "2.0.11",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-router-dom": "6.4.3",
