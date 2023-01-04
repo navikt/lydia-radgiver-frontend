@@ -40,13 +40,15 @@ const AppContent = () => {
                         element={<Virksomhetsside />}
                     />
                 </Routes>
-                <Footer />
             </AppRamme>
+            <Footer />
         </>
     ) : null;
 }
 
 const AppRamme = styled.main`
+  flex-grow: 1;
+
   display: flex;
   flex-direction: column;
   padding: 0 ${contentSpacing.mobileX};
