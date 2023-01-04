@@ -8,6 +8,10 @@ const StyledFooter = styled.footer`
   background-color: ${NavFarger.deepblue800};
   color: ${NavFarger.textInverted};
 
+  a {
+    color: ${NavFarger.textInverted};
+  }
+
   padding: 1.5rem ${contentSpacing.mobileX};
 
   ${desktopAndUp} {
