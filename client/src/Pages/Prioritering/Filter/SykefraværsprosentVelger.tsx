@@ -1,5 +1,5 @@
-import { StyledNumericTextField } from "./StyledNumericTextField";
-import { RangeFieldset } from "./RangeFieldset";
+import { TallInput } from "./TallInput";
+import { FraTilFieldset } from "./FraTilFieldset";
 
 export interface Range {
     fra: number;
@@ -23,7 +23,7 @@ function SykefraværsprosentInput({
     onChange,
 }: InputProps) {
     return (
-        <StyledNumericTextField
+        <TallInput
             type={"number"}
             min={"0"}
             max={"100"}
@@ -46,7 +46,7 @@ export const SykefraværsprosentVelger = ({
     sykefraværsprosentRange,
     endre,
 }: SykefraværsProsentProps) => (
-    <RangeFieldset legend="Sykefravær (%)">
+    <FraTilFieldset legend="Sykefravær (%)">
         <SykefraværsprosentInput
             value={sykefraværsprosentRange.fra}
             label="Fra"
@@ -69,5 +69,5 @@ export const SykefraværsprosentVelger = ({
                 })
             }
         />
-    </RangeFieldset>
+    </FraTilFieldset>
 );

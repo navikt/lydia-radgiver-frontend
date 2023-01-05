@@ -1,6 +1,6 @@
 import { Range } from "./SykefraværsprosentVelger";
-import { StyledNumericTextField } from "./StyledNumericTextField";
-import { RangeFieldset } from "./RangeFieldset";
+import { TallInput } from "./TallInput";
+import { FraTilFieldset } from "./FraTilFieldset";
 
 interface InputProps {
     value: number;
@@ -16,7 +16,7 @@ function AntallArbeidsforholdInput({
     endreAntallArbeidsforhold,
 }: InputProps) {
     return (
-        <StyledNumericTextField
+        <TallInput
             type={"number"}
             min={"0"}
             value={`${value}`}
@@ -39,7 +39,7 @@ export const AntallArbeidsforholdVelger = ({
     endreAntallArbeidsforhold,
 }: ArbeidsforholdVelgerProps) => {
     return (
-        <RangeFieldset legend={"Antall arbeidsforhold"}>
+        <FraTilFieldset legend={"Antall arbeidsforhold"}>
             <AntallArbeidsforholdInput
                 label={"Fra"}
                 value={antallArbeidsforhold.fra}
@@ -62,6 +62,6 @@ export const AntallArbeidsforholdVelger = ({
                     });
                 }}
             />
-        </RangeFieldset>
+        </FraTilFieldset>
     );
 };
