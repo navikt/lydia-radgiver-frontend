@@ -31,7 +31,7 @@ export const memorySessionManager = () => {
     return session({
         saveUninitialized: false,
         resave: false,
-        secret: "lovely cat",
+        secret: process.env.SESSION_SECRET,
         cookie: {},
     });
 };
