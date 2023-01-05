@@ -1,6 +1,13 @@
 import {datoSchema, iaSakSchema, iaSakshendelseSchema, IASakshendelseTypeEnum} from "../src/domenetyper";
 
-describe("kan parse datoer", () => {
+describe("dato parsing", () => {
+    test('ugyldige datoer skal ikke kunne parses', () => {
+        expect(datoSchema.safeParse(null).success).toBeFalsy()
+        expect(datoSchema.safeParse(undefined).success).toBeFalsy()
+        expect(datoSchema.safeParse(4919191919).success).toBeFalsy()
+        expect(datoSchema.safeParse("").success).toBeFalsy()
+        expect(datoSchema.safeParse("blabla").success).toBeFalsy()
+    })
 
     test('kan parse datoer fra en string', () => {
         expect(datoSchema.safeParse(new Date("1/12/22")).success).toBeTruthy();
@@ -19,7 +26,9 @@ describe("kan parse datoer", () => {
         const safeParseResultat = iaSakshendelseSchema.safeParse(iaSakshendelseMock)
         expect(safeParseResultat.success).toBeTruthy()
     })
+})
 
+describe('iasak parsing', () => {
     test('kan parse iasak med null felter', () => {
         const iaSakMock = {
             "saksnummer": "01G13JC25YFF9Y13KZBR171V0N",
@@ -75,4 +84,3 @@ describe("kan parse datoer", () => {
         expect(safeparseResultat.success && safeparseResultat.data.eidAv === null).toBeTruthy()
     })
 })
-

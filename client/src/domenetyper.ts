@@ -3,7 +3,7 @@ import { sorteringsverdier } from "./Pages/Prioritering/Filter/Filtervisning";
 
 export const datoSchema = z.preprocess((arg) => {
     if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
-}, z.date());
+}, z.date()) as z.ZodEffects<z.ZodDate, Date, Date>;
 
 export const fylkeOgKommuneSchema = z.object({
     nummer: z.string(),
