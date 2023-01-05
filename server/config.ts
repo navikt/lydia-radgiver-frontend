@@ -42,6 +42,7 @@ export const envVars = {
     fiaSuperbrukerGroupId: "FIA_SUPERBRUKER_GROUP_ID",
     fiaSaksbehandlerGroupId: "FIA_SAKSBEHANDLER_GROUP_ID",
     fiaLesetilgangGroupId: "FIA_LESETILGANG_GROUP_ID",
+    sessionSecret: "SESSION_SECRET",
 }
 
 export class Azure {
