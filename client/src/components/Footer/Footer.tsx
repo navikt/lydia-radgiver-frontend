@@ -12,9 +12,10 @@ const StyledFooter = styled.footer`
   a {
     color: ${NavFarger.textInverted};
   }
-  
+
   display: flex;
   flex-direction: column;
+  align-items: start;
   gap: 1rem;
 
   padding: 1.5rem ${contentSpacing.mobileX};
@@ -30,26 +31,20 @@ const StyledFooter = styled.footer`
   }
 `;
 
-const StyledEksternLenke = styled(EksternLenke)`
-  padding-left: 0.2rem;
-`;
-
 export const Footer = () => {
     return (
         <StyledFooter>
             <BodyShort>
-                Fia viser offisiell sykefraværsstatistikk for virksomheter basert på tilgjengelige tall fra de siste
+                Fia viser offisiell sykefraværsstatistikk fra de siste
                 fire kvartalene (4. kvartal
                 2021 - 3. kvartal 2022).
-                Tall for &quot;arbeidsforhold&quot; er hentet fra siste tilgjengelige kvartal for virksomheten.
+                Tall for &quot;arbeidsforhold&quot; er fra siste tilgjengelige kvartal.
+                Du finner flere detaljer om statistikk i bruksanvisningen.
             </BodyShort>
-            <BodyShort>
-                Du kan lese mer om dette i
-                <StyledEksternLenke
-                    href={"https://navno.sharepoint.com/sites/intranett-produktomrader-og-prosjekter/SitePages/FIA-brukerveiledning.aspx"}>
-                    bruksanvisningen til Fia på Sharepoint
-                </StyledEksternLenke>
-            </BodyShort>
+            <EksternLenke
+                href={"https://navno.sharepoint.com/sites/intranett-produktomrader-og-prosjekter/SitePages/FIA-brukerveiledning.aspx"}>
+                Bruksanvisningen til Fia på Sharepoint
+            </EksternLenke>
         </StyledFooter>
     )
 }
