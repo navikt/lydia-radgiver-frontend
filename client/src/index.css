@@ -12,3 +12,7 @@ html, body, #root {
   display: flex;
   flex-direction: column;
 }
+
+p {
+  max-width: 60em;
+}
