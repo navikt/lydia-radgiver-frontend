@@ -8,9 +8,9 @@ import { IAStatusDropdown } from "./IAStatusDropdown";
 import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
-import { hvitBoksMedSkygge } from "../../styling/containere";
-import { Eier, IAProsessStatusType, Kommune } from "../../domenetyper";
-import { useFiltervisningState } from "../Virksomhet/filtervisning-reducer";
+import { hvitBoksMedSkygge } from "../../../styling/containere";
+import { Eier, IAProsessStatusType, Kommune } from "../../../domenetyper";
+import { useFiltervisningState } from "../../Virksomhet/filtervisning-reducer";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",

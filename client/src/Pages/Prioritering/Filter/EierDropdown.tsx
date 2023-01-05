@@ -2,9 +2,9 @@ import { Label } from "@navikt/ds-react";
 import {
     reactSelectStyle,
     StyledReactSelect,
-} from "../../components/ReactSelect/StyledReactSelect";
-import { sorterAlfabetisk } from "../../util/sortering";
-import { Eier } from "../../domenetyper";
+} from "../../../components/ReactSelect/StyledReactSelect";
+import { sorterAlfabetisk } from "../../../util/sortering";
+import { Eier } from "../../../domenetyper";
 
 const eierDropdownId = "EierDropdown";
 

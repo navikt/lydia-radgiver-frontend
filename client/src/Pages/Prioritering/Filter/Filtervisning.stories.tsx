@@ -1,7 +1,7 @@
 import { ComponentMeta } from "@storybook/react";
 import { Filtervisning } from "./Filtervisning";
-import { filterverdierMock } from "./mocks/filterverdierMock";
-import { useFiltervisningState } from "../Virksomhet/filtervisning-reducer";
+import { filterverdierMock } from "../mocks/filterverdierMock";
+import { useFiltervisningState } from "../../Virksomhet/filtervisning-reducer";
 import { useEffect } from "react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 

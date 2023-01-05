@@ -1,6 +1,6 @@
 import { ComponentMeta } from "@storybook/react";
 import { EierDropdown } from "./EierDropdown";
-import { EIERE_MOCKS } from "./mocks/filterverdierMock";
+import { EIERE_MOCKS } from "../mocks/filterverdierMock";
 
 export default {
     title: "Prioritering/Eierdropdown",

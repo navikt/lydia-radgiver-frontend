@@ -7,7 +7,7 @@ import {
     Næringsgruppe,
     Sorteringsverdi,
 } from "../../domenetyper";
-import { Range } from "../Prioritering/SykefraværsprosentVelger";
+import { Range } from "../Prioritering/Filter/SykefraværsprosentVelger";
 import { useCallback, useEffect, useReducer } from "react";
 import { SortState } from "@navikt/ds-react";
 import { useSearchParams } from "react-router-dom";

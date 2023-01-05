@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { tabletAndUp } from "../../styling/breakpoint";
+import { tabletAndUp } from "../../../styling/breakpoint";
 
 export const HorizontalFlexboxDivGap3RemAlignItemsEnd = styled.div`
   display: flex;

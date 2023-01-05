@@ -1,7 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Loader, SortState } from "@navikt/ds-react";
-import { Filtervisning } from "./Filtervisning";
+import { Filtervisning } from "./Filter/Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import {
     useFilterverdier,

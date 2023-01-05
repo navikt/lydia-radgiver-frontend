@@ -1,9 +1,9 @@
 import { Label } from "@navikt/ds-react";
-import { Næringsgruppe } from "../../domenetyper";
+import { Næringsgruppe } from "../../../domenetyper";
 import {
     StyledReactSelect,
     reactSelectStyle,
-} from "../../components/ReactSelect/StyledReactSelect";
+} from "../../../components/ReactSelect/StyledReactSelect";
 
 interface ReactSelectOptions {
     label: string;
