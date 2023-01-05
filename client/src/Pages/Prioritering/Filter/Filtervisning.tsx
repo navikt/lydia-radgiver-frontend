@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Button } from "@navikt/ds-react";
 import { Range, SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
-import { HorizontalFlexboxDivGap3RemAlignItemsEnd } from "./HorizontalFlexboxDiv";
 import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
 import { Fylkedropdown } from "./Fylkedropdown";
 import { IAStatusDropdown } from "./IAStatusDropdown";
@@ -11,6 +10,7 @@ import { EierDropdown } from "./EierDropdown";
 import { hvitBoksMedSkygge } from "../../../styling/containere";
 import { Eier, IAProsessStatusType, Kommune } from "../../../domenetyper";
 import { useFiltervisningState } from "../../Virksomhet/filtervisning-reducer";
+import { tabletAndUp } from "../../../styling/breakpoint";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -21,16 +21,29 @@ export const sorteringsverdier = {
 } as const;
 
 const Container = styled.div`
-    padding: 1rem;
-    ${hvitBoksMedSkygge}
+  padding: 1rem;
+  ${hvitBoksMedSkygge}
 `;
 
-const Søkeknapp = styled(Button)`
-    align-self: end;
-    margin-left: auto;
+const Rad = styled.div`
+  display: flex;
+  column-gap: 3rem;
+  row-gap: ${24 / 16}rem;
+  flex-direction: column;
+  flex-wrap: wrap;
 
-    width: 10rem;
-    height: fit-content;
+  ${tabletAndUp} {
+    flex-direction: row;
+  }
+`;
+
+
+const Søkeknapp = styled(Button)`
+  align-self: end;
+  margin-left: auto;
+
+  width: 10rem;
+  height: fit-content;
 `;
 
 type Filtervisning = Omit<
@@ -44,11 +57,7 @@ interface FiltervisningProps {
     className?: string;
 }
 
-export const Filtervisning = ({
-    filtervisning,
-    søkPåNytt,
-    className,
-}: FiltervisningProps) => {
+export const Filtervisning = ({ filtervisning, søkPåNytt, className }: FiltervisningProps) => {
     const {
         oppdaterAntallArbeidsforhold,
         oppdaterIastatus,
@@ -92,7 +101,7 @@ export const Filtervisning = ({
 
     return (
         <Container className={className}>
-            <HorizontalFlexboxDivGap3RemAlignItemsEnd>
+            <Rad>
                 <Fylkedropdown
                     fylkerOgKommuner={state.filterverdier?.fylker ?? []}
                     valgtFylke={state.valgtFylke?.fylke}
@@ -109,7 +118,7 @@ export const Filtervisning = ({
                     endreKommuner={endreKommuner}
                     style={{ flex: "5" }}
                 />
-            </HorizontalFlexboxDivGap3RemAlignItemsEnd>
+            </Rad>
             <br />
             <Næringsgruppedropdown
                 bransjeprogram={state.filterverdier?.bransjeprogram ?? []}
@@ -119,7 +128,7 @@ export const Filtervisning = ({
                 endreNæringsgrupper={endreNæringsgruppe}
             />
             <br />
-            <HorizontalFlexboxDivGap3RemAlignItemsEnd>
+            <Rad>
                 <SykefraværsprosentVelger
                     sykefraværsprosentRange={state.sykefraværsprosent}
                     endre={endreSykefraværsprosent}
@@ -128,9 +137,9 @@ export const Filtervisning = ({
                     antallArbeidsforhold={state.antallArbeidsforhold}
                     endreAntallArbeidsforhold={endreAntallArbeidsforhold}
                 />
-            </HorizontalFlexboxDivGap3RemAlignItemsEnd>
+            </Rad>
             <br />
-            <HorizontalFlexboxDivGap3RemAlignItemsEnd>
+            <Rad>
                 <IAStatusDropdown
                     endreStatus={endreStatus}
                     statuser={state.filterverdier?.statuser ?? []}
@@ -146,7 +155,7 @@ export const Filtervisning = ({
                 <Søkeknapp size="medium" onClick={søkPåNytt}>
                     Søk
                 </Søkeknapp>
-            </HorizontalFlexboxDivGap3RemAlignItemsEnd>
+            </Rad>
         </Container>
     );
 };
