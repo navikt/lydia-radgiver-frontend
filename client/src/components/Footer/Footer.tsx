@@ -43,7 +43,7 @@ export const Footer = () => {
             </BodyShort>
             <EksternLenke
                 href={"https://navno.sharepoint.com/sites/intranett-produktomrader-og-prosjekter/SitePages/FIA-brukerveiledning.aspx"}>
-                Bruksanvisningen til Fia på Sharepoint
+                Bruksanvisningen til Fia på Navet
             </EksternLenke>
         </StyledFooter>
     )
