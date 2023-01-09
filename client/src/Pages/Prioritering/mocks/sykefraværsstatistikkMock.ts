@@ -16,6 +16,20 @@ const sykefraværStatiskDataUtenDesimaler: Pick<SykefraversstatistikkVirksomhet,
 
 const endretDato = new Date(2022, 7, 22)
 
+export const sykefraværsstatistikkSisteKvartalMock: SykefraversstatistikkVirksomhet[] = [{
+    "orgnr": "995428563",
+    "virksomhetsnavn": "SUSHISHAPPA PÅ HJØRNET",
+    "kommune": {"navn": "OSLO", "nummer": "0301"},
+    "sektor": "",
+    "neringsgruppe": "",
+    "arstall": 2021,
+    "kvartal": 3,
+    ...sykefraværStatiskData,
+    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
+    "eidAv": "X123456",
+    "sistEndret": null
+}];
+
 export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhet[] = [{
     "orgnr": "995428563",
     "virksomhetsnavn": "SUSHISHAPPA PÅ HJØRNET",

@@ -60,7 +60,11 @@ export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
                         helpTekst="Sykefraværsprosent siste 4 kvartal"
                         verdi={formaterSomProsentMedEnDesimal(statistikkSisteFireKvartalNyesteUtgave.sykefraversprosent)}
                         verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.sykefraversprosent
-                            ? formaterSomProsentMedEnDesimal(sykefraværsstatistikkSisteKvartal.sykefraversprosent)
+                            ? {
+                                verdi: formaterSomProsentMedEnDesimal(sykefraværsstatistikkSisteKvartal.sykefraversprosent),
+                                år: sykefraværsstatistikkSisteKvartal.arstall,
+                                kvartal: sykefraværsstatistikkSisteKvartal.kvartal
+                            }
                             : undefined}
                     />
                 </SubContainerForPrettyWrap>
@@ -70,7 +74,11 @@ export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
                         helpTekst="Antall mulige dagsverk siste 4 kvartal"
                         verdi={formaterSomHeltall(statistikkSisteFireKvartalNyesteUtgave.muligeDagsverk)}
                         verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.muligeDagsverk
-                            ? formaterSomHeltall(sykefraværsstatistikkSisteKvartal.muligeDagsverk)
+                            ? {
+                                verdi: formaterSomHeltall(sykefraværsstatistikkSisteKvartal.muligeDagsverk),
+                                år: sykefraværsstatistikkSisteKvartal.arstall,
+                                kvartal: sykefraværsstatistikkSisteKvartal.kvartal
+                            }
                             : undefined}
                     />
                     <StatistikkBoks
@@ -78,7 +86,11 @@ export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
                         helpTekst="Antall tapte dagsverk siste 4 kvartal"
                         verdi={formaterSomHeltall(statistikkSisteFireKvartalNyesteUtgave.tapteDagsverk)}
                         verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.tapteDagsverk
-                            ? formaterSomHeltall(sykefraværsstatistikkSisteKvartal.tapteDagsverk)
+                            ? {
+                                verdi: formaterSomHeltall(sykefraværsstatistikkSisteKvartal.tapteDagsverk),
+                                år: sykefraværsstatistikkSisteKvartal.arstall,
+                                kvartal: sykefraværsstatistikkSisteKvartal.kvartal
+                            }
                             : undefined}
                     />
                 </SubContainerForPrettyWrap>

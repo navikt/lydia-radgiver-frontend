@@ -2,6 +2,8 @@ import { initialize, mswDecorator } from "msw-storybook-addon";
 import { NavFarger } from "../src/styling/farger";
 import { rest } from "msw";
 import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innloggetAnsattMock";
+import { sykefraværsstatistikkPath } from "../src/api/lydia-api";
+import { sykefraværsstatistikkSisteKvartalMock } from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
 
 export const parameters = {
     actions: {argTypesRegex: "^on[A-Z].*"},
@@ -45,6 +47,13 @@ export const parameters = {
             innloggetAnsatt: [
                 rest.get('/innloggetAnsatt', (req, res, ctx) => {
                     return res(ctx.json(brukerMedVeldigLangtNavn));
+                }),
+            ],
+            sykefraværsstatistikkSisteKvartal: [
+                rest.get(`${sykefraværsstatistikkPath}/:orgnummer/sistetilgjengeligekvartal`, (req, res, ctx) => {
+                    return res(
+                        ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
+                    );
                 }),
             ]
         }

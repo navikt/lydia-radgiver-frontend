@@ -38,11 +38,17 @@ const VerdiSisteKvartal = styled(Detail).attrs({size: 'small'})<{ hidden: boolea
   display: ${props => props.hidden ? 'none' : 'initial'};
 `;
 
+interface VerdiSisteKvartal {
+    verdi: string;
+    år: number;
+    kvartal: number;
+}
+
 interface Props {
     tittel: string;
     helpTekst: string;
     verdi: string;
-    verdiSisteKvartal?: string;
+    verdiSisteKvartal?: VerdiSisteKvartal;
 }
 
 export const StatistikkBoks = ({tittel, helpTekst, verdi, verdiSisteKvartal}: Props) => {
@@ -59,7 +65,7 @@ export const StatistikkBoks = ({tittel, helpTekst, verdi, verdiSisteKvartal}: Pr
 
             <Verdi>{verdi}</Verdi>
             <VerdiSisteKvartal hidden={!verdiSisteKvartal}>
-                {`(${verdiSisteKvartal} i siste kvartal)`}
+                {`(${verdiSisteKvartal?.verdi} i ${verdiSisteKvartal?.kvartal}. kvartal ${verdiSisteKvartal?.år})`}
             </VerdiSisteKvartal>
         </Container>
     );
