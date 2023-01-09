@@ -52,7 +52,11 @@ export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
                 <SubContainerForPrettyWrap>
                     <StatistikkBoks
                         tittel="Arbeidsforhold"
-                        helpTekst="Antall arbeidsforhold i siste kvartal"
+                        helpTekst={
+                            sykefraværsstatistikkSisteKvartal
+                                ? `Antall arbeidsforhold per ${sykefraværsstatistikkSisteKvartal?.kvartal}. kvartal ${sykefraværsstatistikkSisteKvartal?.arstall}`
+                                : "Antall arbeidsforhold siste kvartal"
+                        }
                         verdi={formaterSomHeltall(statistikkSisteFireKvartalNyesteUtgave.antallPersoner)}
                     />
                     <StatistikkBoks
