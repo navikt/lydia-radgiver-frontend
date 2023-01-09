@@ -64,6 +64,24 @@ export const sykefraværListeResponsSchema = z.object({
     data: sykefraversstatistikkVirksomhetListeSchema,
 });
 
+export const kvartalSchema = z.object({
+    kvartal: z.number(),
+    årstall: z.number(),
+})
+
+export const kvartalerSchema = z.array(kvartalSchema)
+
+export const sykefraversstatistikkVirksomhetSiste4KvartalSchema = sykefraversstatistikkVirksomhetSchema.extend({
+    antallKvartaler: z.number(),
+    kvartaler: kvartalerSchema,
+})
+
+export const sykefraversstatistikkVirksomhetSiste4KvartalListeSchema = z.array(sykefraversstatistikkVirksomhetSiste4KvartalSchema)
+
+export const sykefraversstatistikkVirksomhetSiste4KvartalListeResponsSchema = z.object({
+    data: sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
+});
+
 export const filterverdierSchema = z.object({
     fylker: z.array(fylkeMedKommunerSchema),
     neringsgrupper: z.array(næringsgrupperSchema),
@@ -83,12 +101,26 @@ export type Næringsgruppe = z.infer<typeof næringsgrupperSchema>;
 
 export type Eier = z.infer<typeof eierSchema>;
 
+export type Kvartal = z.infer<typeof kvartalSchema>;
+
 export type SykefraversstatistikkVirksomhet = z.infer<
     typeof sykefraversstatistikkVirksomhetSchema
 >;
 
 export type SykefraværsstatistikkVirksomhetRespons = z.infer<
     typeof sykefraværListeResponsSchema
+>;
+
+export type SykefraversstatistikkVirksomhetSiste4Kvartal = z.infer<
+    typeof sykefraversstatistikkVirksomhetSiste4KvartalSchema
+>;
+
+export type SykefraværsstatistikkVirksomhetSiste4KvartalListe = z.infer<
+    typeof sykefraversstatistikkVirksomhetSiste4KvartalListeSchema
+>;
+
+export type SykefraværsstatistikkVirksomhetSiste4KvartalListeRespons = z.infer<
+    typeof sykefraversstatistikkVirksomhetSiste4KvartalListeResponsSchema
 >;
 
 export type Sorteringsverdi = keyof typeof sorteringsverdier;
