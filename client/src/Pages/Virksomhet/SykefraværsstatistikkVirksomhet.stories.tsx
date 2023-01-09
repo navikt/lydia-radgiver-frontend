@@ -40,11 +40,6 @@ StatistikkUtenDesimaler.parameters = {
     msw: {
         handlers: {
             others: [
-                rest.get(`${sykefraværsstatistikkPath}/:orgnummer`, (req, res, ctx) => {
-                    return res(
-                        ctx.json([sykefraværsstatistikkMock[1]])
-                    );
-                }),
             ],
         }
     },

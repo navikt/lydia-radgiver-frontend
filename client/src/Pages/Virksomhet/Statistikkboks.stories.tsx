@@ -26,13 +26,13 @@ export const Sykefravarsprosent = () => <StatistikkBoks tittel="Sykefravær" ver
                                                         helpTekst="Sykefraværsprosent siste 4 kvartal"/>
 
 export const SykefravarsprosentMedVerdiSisteKvartal = () =>
-    <StatistikkBoks tittel="Sykefravær" verdi="14.0%" verdiSisteKvartal="13.4%"
+    <StatistikkBoks tittel="Sykefravær" verdi="14.0%" verdiSisteKvartal={{verdi:"13.4%", år:2023, kvartal:1}}
                     helpTekst="Sykefraværsprosent siste 4 kvartal"/>
 
 export const TapteDagsverkMedVerdiSisteKvartal = () =>
-    <StatistikkBoks tittel="Tapte dagsverk" verdi="142" verdiSisteKvartal="11"
+    <StatistikkBoks tittel="Tapte dagsverk" verdi="142" verdiSisteKvartal={{verdi:"11", år:2023, kvartal:1}}
                     helpTekst="Antall tapte dagsverk siste 4 kvartal"/>
 
 export const MuligeDagsverkMedVerdiSisteKvartal = () =>
-    <StatistikkBoks verdi="343" tittel="Mulige dagsverk" verdiSisteKvartal="345"
+    <StatistikkBoks verdi="343" tittel="Mulige dagsverk" verdiSisteKvartal={{verdi:"345", år:2023, kvartal:1}}
                     helpTekst="Antall mulige dagsverk siste 4 kvartal"/>
