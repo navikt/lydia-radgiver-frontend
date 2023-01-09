@@ -10,7 +10,9 @@ import {
     Sakshistorikk,
     sakshistorikkSchema,
     SykefraversstatistikkVirksomhet,
-    sykefraversstatistikkVirksomhetListeSchema, sykefraversstatistikkVirksomhetSchema,
+    sykefraversstatistikkVirksomhetListeSchema,
+    sykefraversstatistikkVirksomhetSchema,
+    SykefraversstatistikkVirksomhetSiste4Kvartal, sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
     ValgtÅrsakDto,
@@ -33,6 +35,7 @@ export const iaSakPath = `${basePath}/iasak/radgiver`;
 export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
 export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
+export const siste4kvartalerPath = "siste4kvartaler";
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -210,6 +213,18 @@ export const useHentSykefraværsstatistikkForVirksomhet = (
     return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(
         orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}` : null,
         sykefraversstatistikkVirksomhetListeSchema,
+        {
+            revalidateOnFocus: true,
+        }
+    );
+};
+
+export const useHentSykefraværsstatistikkForVirksomhetSiste4Kvartal = (
+    orgnummer?: string
+) => {
+    return useSwrTemplate<SykefraversstatistikkVirksomhetSiste4Kvartal[]>(
+        orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}/${siste4kvartalerPath}` : null,
+        sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
         {
             revalidateOnFocus: true,
         }
