@@ -58,6 +58,7 @@ export const FeilmeldingBanner = () => {
 const AlertMelding = styled(Alert)`
   padding-right: 5rem;
   position: relative;
+  margin: 0.25rem;
 `;
 
 const Lukkeknapp = styled(Button).attrs({size: "small", variant: "secondary"})`
