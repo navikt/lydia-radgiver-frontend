@@ -20,7 +20,7 @@ export const sorteringsverdier = {
     navn: "Alfabetisk på navn",
 } as const;
 
-const Container = styled.div`
+const Skjema = styled.form`
   padding: 1rem;
   ${hvitBoksMedSkygge}
 `;
@@ -100,7 +100,7 @@ export const Filtervisning = ({ filtervisning, søkPåNytt, className }: Filterv
     };
 
     return (
-        <Container className={className}>
+        <Skjema className={className} onSubmit={(e) => e.preventDefault()}>
             <Rad>
                 <Fylkedropdown
                     fylkerOgKommuner={state.filterverdier?.fylker ?? []}
@@ -156,6 +156,6 @@ export const Filtervisning = ({ filtervisning, søkPåNytt, className }: Filterv
                     Søk
                 </Søkeknapp>
             </Rad>
-        </Container>
+        </Skjema>
     );
 };
