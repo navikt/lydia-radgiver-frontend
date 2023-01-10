@@ -1,5 +1,6 @@
-import { Alert } from "@navikt/ds-react";
+import { Alert, Button } from "@navikt/ds-react";
 import { useEffect, useState } from "react";
+import styled from "styled-components";
 
 interface EventData {
     feilmelding: string;
@@ -17,22 +18,24 @@ export const FeilmeldingBanner = () => {
     const [melding, setMelding] = useState("");
     const [synlig, setSynlig] = useState(false);
 
+    const nullstillBanner = () => {
+
+        setMelding("");
+        setSynlig(false);
+    }
+
     useEffect(() => {
         if (!melding) {
             return;
         }
-        const timer = setTimeout(() => {
-            setMelding("");
-            setSynlig(false);
-        }, 3000);
         return () => {
-            clearTimeout(timer);
+            nullstillBanner()
         };
     }, [melding]);
 
     useEffect(() => {
         const handler = (({
-            detail: {feilmelding},
+            detail: { feilmelding },
         }: CustomEvent<EventData>) => {
             setMelding(feilmelding);
             setSynlig(true);
@@ -42,5 +45,23 @@ export const FeilmeldingBanner = () => {
             document.removeEventListener("feilmeldingFraBackend", handler);
         };
     }, []);
-    return synlig ? <Alert variant="error">{melding}</Alert> : null;
+    return synlig
+        ? (
+            <AlertMelding variant="error">
+                {melding}
+                <Lukkeknapp onClick={nullstillBanner} size="small" variant="secondary">Lukk</Lukkeknapp>
+            </AlertMelding>
+        )
+        : null;
 };
+
+const AlertMelding = styled(Alert)`
+  padding-right: 5rem;
+  position: relative;
+`;
+
+const Lukkeknapp = styled(Button).attrs({size: "small", variant: "secondary"})`
+  position: absolute;
+  right: 0.5rem;
+  bottom: 0.5rem;
+`;
