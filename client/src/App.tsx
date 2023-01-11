@@ -51,14 +51,16 @@ const AppRamme = styled.main`
 
   display: flex;
   flex-direction: column;
-  padding: 0 ${contentSpacing.mobileX};
+  padding: 0 ${contentSpacing.mobileX} 1.5rem;
 
   ${desktopAndUp} {
-    padding: 0 ${contentSpacing.desktopX};
+    padding-left: ${contentSpacing.desktopX};
+    padding-right: ${contentSpacing.desktopX};
   }
 
   ${largeDesktopAndUp} {
-    padding: 0 ${contentSpacing.largeDesktopX};
+    padding-left: ${contentSpacing.largeDesktopX};
+    padding-right: ${contentSpacing.largeDesktopX};
   }
 `;
 
