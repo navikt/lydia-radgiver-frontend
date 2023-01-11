@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Accordion, Detail, Heading, Table } from "@navikt/ds-react";
 import { Sakshistorikk } from "../../domenetyper";
-import { lokalDato, lokalDatoMedTid } from "../../util/dato";
+import { lokalDato } from "../../util/dato";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { Skygger } from "../../styling/skygger";
@@ -95,7 +95,7 @@ const SakshistorikkTabell = ({sakshistorikk}: SakshistorikkTabellProps) => {
                                 <StatusBadge status={sakSnapshot.status} />
                             </Table.DataCell>
                             <Table.DataCell>
-                                {lokalDatoMedTid(sakSnapshot.tidspunktForSnapshot)}
+                                {lokalDato(sakSnapshot.tidspunktForSnapshot)}
                             </Table.DataCell>
                             <Table.DataCell>
                                 <ul style={{margin: "0"}}>
