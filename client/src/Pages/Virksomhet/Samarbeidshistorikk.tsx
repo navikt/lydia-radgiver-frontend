@@ -101,7 +101,7 @@ const SakshistorikkTabell = ({sakshistorikk}: SakshistorikkTabellProps) => {
                                 <ul style={{margin: "0"}}>
                                     {sakSnapshot.begrunnelser.map(begrunnelse =>
                                         (<li key={begrunnelse}>
-                                            <Detail size={"small"}>{begrunnelse}</Detail>
+                                            <Detail>{begrunnelse}</Detail>
                                         </li>)
                                     )}
                                 </ul>
@@ -123,7 +123,7 @@ const IngenHendelserDetail = styled(Detail)`
 
 const IngenHendelserPåSak = () => {
     return (
-        <IngenHendelserDetail size="small">
+        <IngenHendelserDetail>
             Fant ingen samarbeidshistorikk på denne virksomheten
         </IngenHendelserDetail>
     );
