@@ -115,14 +115,6 @@ export type SykefraversstatistikkVirksomhetSiste4Kvartal = z.infer<
     typeof sykefraversstatistikkVirksomhetSiste4KvartalSchema
 >;
 
-export type SykefraværsstatistikkVirksomhetSiste4KvartalListe = z.infer<
-    typeof sykefraversstatistikkVirksomhetSiste4KvartalListeSchema
->;
-
-export type SykefraværsstatistikkVirksomhetSiste4KvartalListeRespons = z.infer<
-    typeof sykefraversstatistikkVirksomhetSiste4KvartalListeResponsSchema
->;
-
 export type Sorteringsverdi = keyof typeof sorteringsverdier;
 
 const VIRKSOMHET_STATUS = ["AKTIV", "FJERNET", "SLETTET"] as const;
