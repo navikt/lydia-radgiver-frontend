@@ -10,9 +10,9 @@ import {
     Sakshistorikk,
     sakshistorikkSchema,
     SykefraversstatistikkVirksomhet,
-    sykefraversstatistikkVirksomhetListeSchema,
     sykefraversstatistikkVirksomhetSchema,
-    SykefraversstatistikkVirksomhetSiste4Kvartal, sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
+    SykefraversstatistikkVirksomhetSiste4Kvartal,
+    sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
     ValgtÅrsakDto,
@@ -205,18 +205,6 @@ export const useSykefraværsstatistikk = ({
     const antallTreff = hentAntallTreff(filterstate, initierSøk, setError);
 
     return { error, loading, data: sykefravær, antallTreff };
-};
-
-export const useHentSykefraværsstatistikkForVirksomhet = (
-    orgnummer?: string
-) => {
-    return useSwrTemplate<SykefraversstatistikkVirksomhet[]>(
-        orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}` : null,
-        sykefraversstatistikkVirksomhetListeSchema,
-        {
-            revalidateOnFocus: true,
-        }
-    );
 };
 
 export const useHentSykefraværsstatistikkForVirksomhetSiste4Kvartal = (

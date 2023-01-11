@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { StatistikkBoks } from "./StatistikkBoks";
-import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
+import { SykefraversstatistikkVirksomhetSiste4Kvartal } from "../../domenetyper";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {
-    useHentSykefraværsstatistikkForVirksomhet,
+    useHentSykefraværsstatistikkForVirksomhetSiste4Kvartal,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal
 } from "../../api/lydia-api";
 import { sorterStatistikkPåSisteÅrstallOgKvartal } from "../../util/sortering";
@@ -26,11 +26,11 @@ interface Props {
     orgnummer: string;
 }
 
-export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
+export const SykefraværsstatistikkVirksomhet = ({ orgnummer }: Props) => {
     const {
         data: sykefraværsstatistikkSisteFireKvartal,
         loading: lasterSykefraværsstatistikkSisteFireKvartal
-    } = useHentSykefraværsstatistikkForVirksomhet(orgnummer)
+    } = useHentSykefraværsstatistikkForVirksomhetSiste4Kvartal(orgnummer)
 
     const {
         data: sykefraværsstatistikkSisteKvartal,
@@ -107,5 +107,5 @@ export const SykefraværsstatistikkVirksomhet = ({orgnummer}: Props) => {
 
 // TODO: bruk noe lignende et Either-pattern for å håndtere eventuell tomme lister her
 const finnSisteUtgaveAvStatistikk =
-    (sykefraværsstatistikk: SykefraversstatistikkVirksomhet[]): SykefraversstatistikkVirksomhet =>
+    (sykefraværsstatistikk: SykefraversstatistikkVirksomhetSiste4Kvartal[]): SykefraversstatistikkVirksomhetSiste4Kvartal =>
         sykefraværsstatistikk.sort(sorterStatistikkPåSisteÅrstallOgKvartal)[0]
