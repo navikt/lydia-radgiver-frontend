@@ -14,7 +14,6 @@ const Container = styled.div`
   border-radius: ${BorderRadius.medium};
 
   padding: ${12 / 16}rem ${24 / 16}rem;
-  min-width: ${230 / 16}rem;
 `;
 
 const TittelMedHelpTextContainer = styled.div`

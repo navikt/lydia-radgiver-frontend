@@ -10,16 +10,9 @@ import {
 import { sorterKvartalStigende, sorterStatistikkPåSisteÅrstallOgKvartal } from "../../util/sortering";
 
 const Container = styled.div`
-  display: flex;
+  display: grid;
   gap: 1rem;
-  flex-wrap: wrap;
-`;
-
-const SubContainerForPrettyWrap = styled.div`
-  flex: 1;
-  display: flex;
-  gap: 1rem;
-  flex-wrap: wrap;
+  grid-template-columns: repeat(auto-fit, minmax(${230 / 16}rem, 1fr));
 `;
 
 interface Props {
@@ -51,55 +44,51 @@ export const SykefraværsstatistikkVirksomhet = ({ orgnummer }: Props) => {
 
         return (
             <Container>
-                <SubContainerForPrettyWrap>
-                    <StatistikkBoks
-                        tittel="Arbeidsforhold"
-                        helpTekst={
-                            sykefraværsstatistikkSisteKvartal
-                                ? `Antall arbeidsforhold per ${sykefraværsstatistikkSisteKvartal?.kvartal}. kvartal ${sykefraværsstatistikkSisteKvartal?.arstall}`
-                                : "Antall arbeidsforhold siste kvartal"
+                <StatistikkBoks
+                    tittel="Arbeidsforhold"
+                    helpTekst={
+                        sykefraværsstatistikkSisteKvartal
+                            ? `Antall arbeidsforhold per ${sykefraværsstatistikkSisteKvartal?.kvartal}. kvartal ${sykefraværsstatistikkSisteKvartal?.arstall}`
+                            : "Antall arbeidsforhold siste kvartal"
+                    }
+                    verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.antallPersoner)}
+                />
+                <StatistikkBoks
+                    tittel="Sykefravær"
+                    helpTekst={`Sykefraværsprosent ${sisteFireKvartalInfo}`}
+                    verdi={formaterSomProsentMedEnDesimal(statistikkSiste4KvartalNyesteUtgave.sykefraversprosent)}
+                    verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.sykefraversprosent
+                        ? {
+                            verdi: formaterSomProsentMedEnDesimal(sykefraværsstatistikkSisteKvartal.sykefraversprosent),
+                            år: sykefraværsstatistikkSisteKvartal.arstall,
+                            kvartal: sykefraværsstatistikkSisteKvartal.kvartal
                         }
-                        verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.antallPersoner)}
-                    />
-                    <StatistikkBoks
-                        tittel="Sykefravær"
-                        helpTekst={`Sykefraværsprosent ${sisteFireKvartalInfo}`}
-                        verdi={formaterSomProsentMedEnDesimal(statistikkSiste4KvartalNyesteUtgave.sykefraversprosent)}
-                        verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.sykefraversprosent
-                            ? {
-                                verdi: formaterSomProsentMedEnDesimal(sykefraværsstatistikkSisteKvartal.sykefraversprosent),
-                                år: sykefraværsstatistikkSisteKvartal.arstall,
-                                kvartal: sykefraværsstatistikkSisteKvartal.kvartal
-                            }
-                            : undefined}
-                    />
-                </SubContainerForPrettyWrap>
-                <SubContainerForPrettyWrap>
-                    <StatistikkBoks
-                        tittel="Mulige dagsverk"
-                        helpTekst={`Antall mulige dagsverk ${sisteFireKvartalInfo}`}
-                        verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.muligeDagsverk)}
-                        verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.muligeDagsverk
-                            ? {
-                                verdi: formaterSomHeltall(sykefraværsstatistikkSisteKvartal.muligeDagsverk),
-                                år: sykefraværsstatistikkSisteKvartal.arstall,
-                                kvartal: sykefraværsstatistikkSisteKvartal.kvartal
-                            }
-                            : undefined}
-                    />
-                    <StatistikkBoks
-                        tittel="Tapte dagsverk"
-                        helpTekst={`Antall tapte dagsverk ${sisteFireKvartalInfo}`}
-                        verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.tapteDagsverk)}
-                        verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.tapteDagsverk
-                            ? {
-                                verdi: formaterSomHeltall(sykefraværsstatistikkSisteKvartal.tapteDagsverk),
-                                år: sykefraværsstatistikkSisteKvartal.arstall,
-                                kvartal: sykefraværsstatistikkSisteKvartal.kvartal
-                            }
-                            : undefined}
-                    />
-                </SubContainerForPrettyWrap>
+                        : undefined}
+                />
+                <StatistikkBoks
+                    tittel="Mulige dagsverk"
+                    helpTekst={`Antall mulige dagsverk ${sisteFireKvartalInfo}`}
+                    verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.muligeDagsverk)}
+                    verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.muligeDagsverk
+                        ? {
+                            verdi: formaterSomHeltall(sykefraværsstatistikkSisteKvartal.muligeDagsverk),
+                            år: sykefraværsstatistikkSisteKvartal.arstall,
+                            kvartal: sykefraværsstatistikkSisteKvartal.kvartal
+                        }
+                        : undefined}
+                />
+                <StatistikkBoks
+                    tittel="Tapte dagsverk"
+                    helpTekst={`Antall tapte dagsverk ${sisteFireKvartalInfo}`}
+                    verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.tapteDagsverk)}
+                    verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.tapteDagsverk
+                        ? {
+                            verdi: formaterSomHeltall(sykefraværsstatistikkSisteKvartal.tapteDagsverk),
+                            år: sykefraværsstatistikkSisteKvartal.arstall,
+                            kvartal: sykefraværsstatistikkSisteKvartal.kvartal
+                        }
+                        : undefined}
+                />
             </Container>
         );
     } else {
