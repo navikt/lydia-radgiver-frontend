@@ -4,21 +4,21 @@ import { GyldigNesteHendelse, IASakshendelseType, IASakshendelseTypeEnum } from 
 export const penskrivIASakshendelsestype = (hendelsestype: IASakshendelseType): string => {
     switch (hendelsestype) {
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
-            return "Vurderes"
+            return "Vurder"
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
             return "Start ny vurdering"
         case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
             return "Ta eierskap"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
-            return "Kontaktes"
+            return "Ta kontakt"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
             return "Ikke aktuell"
         case IASakshendelseTypeEnum.enum.TILBAKE:
             return "Tilbake"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
-            return "Kartlegges"
+            return "Kartlegg"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
-            return "Vi bistår"
+            return "Bistå"
         case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
             return "Fullfør"
         case IASakshendelseTypeEnum.enum.SLETT_SAK:
