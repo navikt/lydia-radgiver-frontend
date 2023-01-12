@@ -2,11 +2,16 @@ import { useState } from "react";
 import { Button, Checkbox, CheckboxGroup, ErrorSummary, Modal, Select } from "@navikt/ds-react";
 import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../domenetyper";
 import { getRootElement } from "../../main";
+import styled from "styled-components";
 
 const hentÅrsakFraÅrsakType = (
     type: string,
     {gyldigeÅrsaker}: GyldigNesteHendelse
 ) => gyldigeÅrsaker.find((årsak) => årsak.type === type);
+
+const Lagreknapp = styled(Button)`
+  margin-top: 1.5rem;
+`;
 
 interface ModalInnholdProps {
     hendelse: GyldigNesteHendelse;
@@ -58,7 +63,7 @@ export const ModalInnhold = ({hendelse, lagre}: ModalInnholdProps) => {
                     </Checkbox>
                 ))}
             </CheckboxGroup>
-            <Button
+            <Lagreknapp
                 onClick={() => {
                     if (!valgtÅrsak || valgteBegrunnelser.length == 0) {
                         setValideringsfeil([...valideringsfeil, "Du må velge minst én begrunnelse"])
@@ -73,7 +78,7 @@ export const ModalInnhold = ({hendelse, lagre}: ModalInnholdProps) => {
                 }}
             >
                 Lagre
-            </Button>
+            </Lagreknapp>
             {valideringsfeil.length > 0 && <ErrorSummary style={{marginTop: "1rem"}}>
                 {valideringsfeil.map(feil =>
                     (<ErrorSummary.Item key={feil} href={`#${begrunnelserCheckboxId}`}>
