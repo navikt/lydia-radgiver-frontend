@@ -1,28 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { Detail } from "@navikt/ds-react";
-import { FiaFarger, NavFarger } from "../../styling/farger";
-import { BorderRadius } from "../../styling/borderRadius";
+import { Tag } from "@navikt/ds-react";
+import { FiaFarger } from "../../styling/farger";
 
-const StyledDetail = styled(Detail)<{ backgroundColor: string }>`
-  flex-shrink: 0;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  white-space: nowrap;
-
-  min-width: 7em;
-  width: fit-content;
-  height: fit-content;
-  padding: 0 1rem;
-
+const StyledTag = styled(Tag).attrs({variant: "neutral", size: "small"})<{ backgroundColor: string }>`
   background-color: ${props => props.backgroundColor};
-  color: ${NavFarger.text};
-  border: 1px solid ${FiaFarger.grå};
-  border-radius: ${BorderRadius.medium};
-
-  font-size: var(--a-font-size-medium);
-  font-weight: normal;
+  min-width: 6em;
+  width: fit-content;
 `;
 
 interface BadgeProps {
@@ -32,7 +16,7 @@ interface BadgeProps {
 }
 
 export const Badge = ({backgroundColor, children, className}: BadgeProps) => (
-    <StyledDetail as={"span"} backgroundColor={backgroundColor} className={className}>
+    <StyledTag backgroundColor={backgroundColor} className={className}>
         {children}
-    </StyledDetail>
+    </StyledTag>
 );
