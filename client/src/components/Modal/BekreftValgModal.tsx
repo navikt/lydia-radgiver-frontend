@@ -20,7 +20,7 @@ export interface Props {
     description?: string
 }
 
-export const BekreftelseDialog = ({
+export const BekreftValgModal = ({
     onConfirm,
     onCancel,
     åpen,

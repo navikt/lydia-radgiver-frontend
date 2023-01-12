@@ -1,24 +1,24 @@
 import {ComponentMeta} from "@storybook/react";
-import {BekreftelseDialog} from "./BekreftelseDialog";
 import {useState} from "react";
+import {BekreftValgModal} from "./BekreftValgModal";
 
 export default {
-    title: "BekreftelseDialog",
-    component: BekreftelseDialog,
-} as ComponentMeta<typeof BekreftelseDialog>;
+    title: "BekreftValgModal",
+    component: BekreftValgModal,
+} as ComponentMeta<typeof BekreftValgModal>;
 
 export const ModalStory = () => {
     const [open, setOpen] = useState(false)
     return (
         <div>
             <button onClick={() => { setOpen(true)}}>Åpne modal</button>
-            <BekreftelseDialog onConfirm={() => {
+            <BekreftValgModal onConfirm={() => {
                 setOpen(false)
                 console.log('Confirmed')
             }} onCancel={() => {
                 setOpen(false)
                 console.log('Canceled')
-            }} åpen={open} description={"Ønsker du å gå tilbake?"} />
+            }} åpen={open} description={"Vennligst bekreft valget ditt"} />
         </div>
 
     );
