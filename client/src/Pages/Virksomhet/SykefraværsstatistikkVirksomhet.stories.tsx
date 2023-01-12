@@ -2,7 +2,7 @@ import { ComponentMeta } from "@storybook/react";
 import { rest } from "msw";
 import { sykefraværsstatistikkMock } from "../Prioritering/mocks/sykefraværsstatistikkMock";
 import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
-import { sykefraværsstatistikkPath } from "../../api/lydia-api";
+import { siste4kvartalerPath, sykefraværsstatistikkPath } from "../../api/lydia-api";
 
 export default {
     title: "Virksomhet/Sykefraværsstatistikk for en virksomhet",
@@ -23,7 +23,7 @@ Hovedstory.parameters = {
     msw: {
         handlers: {
             others: [
-                rest.get(`${sykefraværsstatistikkPath}/:orgnummer`, (req, res, ctx) => {
+                rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
                     return res(
                         ctx.json([sykefraværsstatistikkMock[0]])
                     );
@@ -33,13 +33,20 @@ Hovedstory.parameters = {
     },
 };
 
-export const StatistikkUtenDesimaler = () =>
+export const MedStatistikkFraKunToKvartal = () =>
     <SykefraværsstatistikkVirksomhet orgnummer={orgnummer} />
 
-StatistikkUtenDesimaler.parameters = {
+MedStatistikkFraKunToKvartal.parameters = {
     msw: {
         handlers: {
             others: [
+                rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
+                    return res(
+                        ctx.json([
+                            sykefraværsstatistikkMock[2],
+                        ])
+                    );
+                }),
             ],
         }
     },
