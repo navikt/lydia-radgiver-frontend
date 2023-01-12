@@ -65,7 +65,7 @@ export const StatistikkBoks = ({tittel, helpTekst, verdi, verdiSisteKvartal}: Pr
 
             <Verdi>{verdi}</Verdi>
             <VerdiSisteKvartal hidden={!verdiSisteKvartal}>
-                {`(${verdiSisteKvartal?.verdi} i ${verdiSisteKvartal?.kvartal}. kvartal ${verdiSisteKvartal?.år})`}
+                {`${verdiSisteKvartal?.verdi} i ${verdiSisteKvartal?.kvartal}. kvartal ${verdiSisteKvartal?.år}`}
             </VerdiSisteKvartal>
         </Container>
     );
