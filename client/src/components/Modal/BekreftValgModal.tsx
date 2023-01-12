@@ -1,15 +1,11 @@
 import styled from "styled-components";
 import { BodyLong, Button, Heading, Modal } from "@navikt/ds-react";
 import { getRootElement } from "../../main";
+import { StyledModal } from "./StyledModal";
 
 const Knapper = styled.div`
   display: flex;
   justify-content: space-between;
-`;
-
-const StyledModal = styled(Modal)`
-  padding-top: 0.5rem;
-  padding-right: 3rem;
 `;
 
 export interface Props {

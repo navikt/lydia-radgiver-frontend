@@ -3,6 +3,7 @@ import { Button, Checkbox, CheckboxGroup, ErrorSummary, Modal, Select } from "@n
 import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../domenetyper";
 import { getRootElement } from "../../main";
 import styled from "styled-components";
+import { StyledModal } from "../../components/Modal/StyledModal";
 
 const hentÅrsakFraÅrsakType = (
     type: string,
@@ -99,13 +100,13 @@ interface BegrunnelseModalProps extends ModalInnholdProps {
 
 export const BegrunnelseModal = ({hendelse, åpen, onClose, lagre}: BegrunnelseModalProps) => {
     return (
-        <Modal parentSelector={() => getRootElement()} open={åpen} onClose={onClose}>
-            <Modal.Content style={{margin: "3rem"}}>
+        <StyledModal parentSelector={() => getRootElement()} open={åpen} onClose={onClose}>
+            <Modal.Content>
                 <ModalInnhold
                     hendelse={hendelse}
                     lagre={lagre}
                 />
             </Modal.Content>
-        </Modal>
+        </StyledModal>
     );
 };
