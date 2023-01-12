@@ -3,12 +3,6 @@ import { BodyShort, Detail, HelpText } from "@navikt/ds-react";
 import { NavFarger } from "../../styling/farger";
 import { BorderRadius } from "../../styling/borderRadius";
 
-const TittelMedHelpTextContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-`;
-
 const Container = styled.div`
   flex: 1;
   display: flex;
@@ -23,9 +17,18 @@ const Container = styled.div`
   min-width: ${230 / 16}rem;
 `;
 
+const TittelMedHelpTextContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
 const Tittel = styled(BodyShort)`
   font-weight: bold;
-  padding: ${12 / 16}rem ${24 / 16}rem;
+  padding-top: ${12 / 16}rem;
+  padding-bottom: ${12 / 16}rem;
+  padding-left: ${24 / 16}rem;
 `;
 
 const Verdi = styled(BodyShort)`
