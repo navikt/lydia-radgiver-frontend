@@ -5,7 +5,7 @@ import { contentSpacing } from "../../styling/contentSpacing";
 import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoint";
 import { BodyShort } from "@navikt/ds-react";
 import { useHentGjeldendePeriodeForVirksomhetSiste4Kvartal } from "../../api/lydia-api";
-import { KvartalFraTil } from "../../domenetyper";
+import { getGjeldendePeriodeTekst } from "../../util/gjeldendePeriodeSisteFireKvartal";
 
 const StyledFooter = styled.footer`
   background-color: ${NavFarger.deepblue800};
@@ -38,14 +38,7 @@ export const Footer = () => {
         data: gjeldendePeriodeSiste4Kvartal,
     } = useHentGjeldendePeriodeForVirksomhetSiste4Kvartal();
 
-    const getGjeldendePeriodeTekst = (gjeldendePeriode: KvartalFraTil | undefined) => {
-        if (gjeldendePeriode) {
-            return ` (${gjeldendePeriode.fra.kvartal}. kvartal ${gjeldendePeriode.fra.årstall} 
-                      – 
-                      ${gjeldendePeriode.til.kvartal}. kvartal ${gjeldendePeriode.til.årstall})`
-        }
-        return "";
-    }
+
 
     return (
         <StyledFooter>

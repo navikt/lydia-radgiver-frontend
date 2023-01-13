@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import { StatistikkBoks } from "./StatistikkBoks";
-import { Kvartal, SykefraversstatistikkVirksomhetSiste4Kvartal } from "../../domenetyper";
+import { Kvartal, KvartalFraTil, SykefraversstatistikkVirksomhetSiste4Kvartal } from "../../domenetyper";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {
+    useHentGjeldendePeriodeForVirksomhetSiste4Kvartal,
     useHentSykefraværsstatistikkForVirksomhetSiste4Kvartal,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal
 } from "../../api/lydia-api";
 import { sorterKvartalStigende, sorterStatistikkPåSisteÅrstallOgKvartal } from "../../util/sortering";
+import { getGjeldendePeriodeTekst } from "../../util/gjeldendePeriodeSisteFireKvartal";
 
 const Container = styled.div`
   display: grid;
@@ -22,14 +24,17 @@ interface Props {
 export const SykefraværsstatistikkVirksomhet = ({ orgnummer }: Props) => {
     const {
         data: sykefraværsstatistikkSiste4Kvartal,
-        loading: lasterSykefraværsstatistikkSiste4Kvartal
+        loading: lasterSykefraværsstatistikkSiste4Kvartal,
     } = useHentSykefraværsstatistikkForVirksomhetSiste4Kvartal(orgnummer)
 
     const {
-        data: sykefraværsstatistikkSisteKvartal,
-        loading: lasterSykefraværsstatistikkSisteKvartal
-    } = useHentSykefraværsstatistikkForVirksomhetSisteKvartal(orgnummer)
+        data: gjeldendePeriodeSisteFireKvartal,
+    } = useHentGjeldendePeriodeForVirksomhetSiste4Kvartal()
 
+    const {
+        data: sykefraværsstatistikkSisteKvartal,
+        loading: lasterSykefraværsstatistikkSisteKvartal,
+    } = useHentSykefraværsstatistikkForVirksomhetSisteKvartal(orgnummer)
 
     if (lasterSykefraværsstatistikkSiste4Kvartal || lasterSykefraværsstatistikkSisteKvartal) {
         return (
@@ -40,7 +45,7 @@ export const SykefraværsstatistikkVirksomhet = ({ orgnummer }: Props) => {
         )
     } else if (sykefraværsstatistikkSiste4Kvartal && sykefraværsstatistikkSiste4Kvartal.length > 0) {
         const statistikkSiste4KvartalNyesteUtgave = finnSisteUtgaveAvStatistikk(sykefraværsstatistikkSiste4Kvartal)
-        const sisteFireKvartalInfo = hvilkeKvartalHarVi(statistikkSiste4KvartalNyesteUtgave);
+        const sisteFireKvartalInfo = hvilkeKvartalHarVi(statistikkSiste4KvartalNyesteUtgave, gjeldendePeriodeSisteFireKvartal);
 
         return (
             <Container>
@@ -102,11 +107,11 @@ const finnSisteUtgaveAvStatistikk =
         sykefraværsstatistikk.sort(sorterStatistikkPåSisteÅrstallOgKvartal)[0]
 
 
-const hvilkeKvartalHarVi = (statistikk: SykefraversstatistikkVirksomhetSiste4Kvartal) => {
+const hvilkeKvartalHarVi = (statistikk: SykefraversstatistikkVirksomhetSiste4Kvartal, gjeldendePeriode: KvartalFraTil | undefined) => {
     let kvartalstrenger = "";
 
     if (statistikk.antallKvartaler === 4) {
-        kvartalstrenger = ` siste fire kvartaler (4. kvartal 2021 til 3. kvartal 2022)`
+        kvartalstrenger = ` siste fire kvartaler${getGjeldendePeriodeTekst(gjeldendePeriode)}`
     } else {
         kvartalstrenger += statistikk.kvartaler.sort(sorterKvartalStigende).map((kvartal: Kvartal) => {
             return ` ${kvartal.kvartal}. kvartal ${kvartal.årstall}`
