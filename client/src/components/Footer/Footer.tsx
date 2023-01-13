@@ -4,6 +4,8 @@ import { NavFarger } from "../../styling/farger";
 import { contentSpacing } from "../../styling/contentSpacing";
 import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoint";
 import { BodyShort } from "@navikt/ds-react";
+import { useHentGjeldendePeriodeForVirksomhetSiste4Kvartal } from "../../api/lydia-api";
+import { KvartalFraTil } from "../../domenetyper";
 
 const StyledFooter = styled.footer`
   background-color: ${NavFarger.deepblue800};
@@ -32,12 +34,24 @@ const StyledFooter = styled.footer`
 `;
 
 export const Footer = () => {
+    const {
+        data: gjeldendePeriodeSiste4Kvartal,
+    } = useHentGjeldendePeriodeForVirksomhetSiste4Kvartal();
+
+    const getGjeldendePeriodeTekst = (gjeldendePeriode: KvartalFraTil | undefined) => {
+        if (gjeldendePeriode) {
+            return ` (${gjeldendePeriode.fra.kvartal}. kvartal ${gjeldendePeriode.fra.årstall} 
+                      – 
+                      ${gjeldendePeriode.til.kvartal}. kvartal ${gjeldendePeriode.til.årstall})`
+        }
+        return "";
+    }
+
     return (
         <StyledFooter>
             <BodyShort>
                 Fia viser offisiell sykefraværsstatistikk fra de siste
-                fire kvartalene (4. kvartal
-                2021 - 3. kvartal 2022).
+                fire kvartalene{getGjeldendePeriodeTekst(gjeldendePeriodeSiste4Kvartal)}.
                 Tall for &quot;arbeidsforhold&quot; er fra siste tilgjengelige kvartal.
                 Du finner flere detaljer om statistikk i bruksanvisningen.
             </BodyShort>

@@ -69,6 +69,11 @@ export const kvartalSchema = z.object({
     årstall: z.number(),
 })
 
+export const kvartalFraTilSchema = z.object({
+    fra: kvartalSchema,
+    til: kvartalSchema,
+})
+
 export const kvartalerSchema = z.array(kvartalSchema)
 
 export const sykefraversstatistikkVirksomhetSiste4KvartalSchema = sykefraversstatistikkVirksomhetSchema.extend({
@@ -102,6 +107,8 @@ export type Næringsgruppe = z.infer<typeof næringsgrupperSchema>;
 export type Eier = z.infer<typeof eierSchema>;
 
 export type Kvartal = z.infer<typeof kvartalSchema>;
+
+export type KvartalFraTil = z.infer<typeof kvartalFraTilSchema>;
 
 export type SykefraversstatistikkVirksomhet = z.infer<
     typeof sykefraversstatistikkVirksomhetSchema

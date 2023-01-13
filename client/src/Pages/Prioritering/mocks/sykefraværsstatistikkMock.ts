@@ -1,5 +1,6 @@
 import {
     IAProsessStatusEnum,
+    KvartalFraTil,
     SykefraversstatistikkVirksomhet,
     SykefraversstatistikkVirksomhetSiste4Kvartal
 } from "../../../domenetyper";
@@ -33,6 +34,17 @@ export const sykefraværsstatistikkSisteKvartalMock: SykefraversstatistikkVirkso
     "eidAv": "X123456",
     "sistEndret": null,
 }];
+
+export const gjeldendePeriodeSiste4Kvartal: KvartalFraTil = {
+    fra: {
+        kvartal: 3,
+        årstall: 2020,
+    },
+    til: {
+        kvartal: 2,
+        årstall: 2021,
+    }
+}
 
 export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhetSiste4Kvartal[] = [{
     "orgnr": "995428563",

@@ -7,6 +7,8 @@ import {
     IANySakshendelseDto,
     IASak,
     iaSakSchema,
+    KvartalFraTil,
+    kvartalFraTilSchema,
     Sakshistorikk,
     sakshistorikkSchema,
     SykefraversstatistikkVirksomhet,
@@ -36,6 +38,7 @@ export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
 export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
+export const gjeldendePeriodePath = "gjeldendeperiodesiste4kvartaler"
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -47,33 +50,33 @@ const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
 
 const fetchNative =
     (method: "GET" | "POST" | "DELETE" | "PUT") =>
-    <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
-        fetch(url, {
-            method,
-            body: body ? JSON.stringify(body) : undefined,
-            headers: {
-                "Content-Type": "application/json",
-            },
-        })
-            .then((res) => (res.ok ? res : Promise.reject(res.text())))
-            .then((res) => res.json())
-            .catch((e: Promise<string | ZodError>) => {
-                e.then((reason) => {
-                    if (reason instanceof ZodError) {
-                        console.error(reason);
-                        return;
-                    }
-                    dispatchFeilmelding({
-                        feilmelding: reason,
-                    });
-                });
+        <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
+            fetch(url, {
+                method,
+                body: body ? JSON.stringify(body) : undefined,
+                headers: {
+                    "Content-Type": "application/json",
+                },
             })
-            .then((data) => {
-                const safeparsed = schema.safeParse(data);
-                return safeparsed.success
-                    ? safeparsed.data
-                    : Promise.reject(safeparsed.error);
-            });
+                .then((res) => (res.ok ? res : Promise.reject(res.text())))
+                .then((res) => res.json())
+                .catch((e: Promise<string | ZodError>) => {
+                    e.then((reason) => {
+                        if (reason instanceof ZodError) {
+                            console.error(reason);
+                            return;
+                        }
+                        dispatchFeilmelding({
+                            feilmelding: reason,
+                        });
+                    });
+                })
+                .then((data) => {
+                    const safeparsed = schema.safeParse(data);
+                    return safeparsed.success
+                        ? safeparsed.data
+                        : Promise.reject(safeparsed.error);
+                });
 
 const post = <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
     fetchNative("POST")(url, schema, body);
@@ -213,6 +216,16 @@ export const useHentSykefraværsstatistikkForVirksomhetSiste4Kvartal = (
     return useSwrTemplate<SykefraversstatistikkVirksomhetSiste4Kvartal[]>(
         orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}/${siste4kvartalerPath}` : null,
         sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
+        {
+            revalidateOnFocus: true,
+        }
+    );
+};
+
+export const useHentGjeldendePeriodeForVirksomhetSiste4Kvartal = () => {
+    return useSwrTemplate<KvartalFraTil>(
+        `${sykefraværsstatistikkPath}/${gjeldendePeriodePath}`,
+        kvartalFraTilSchema,
         {
             revalidateOnFocus: true,
         }
