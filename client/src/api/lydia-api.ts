@@ -316,6 +316,7 @@ export const søkeverdierTilUrlSearchParams = ({
     side,
     bransjeprogram,
     eiere,
+    sektor,
 }: FiltervisningState) => {
     const params = new URLSearchParams();
     appendIfPresent(
@@ -374,6 +375,7 @@ export const søkeverdierTilUrlSearchParams = ({
         params
     );
     appendIfPresent("iaStatus", iaStatus, (status) => status, params);
+    appendIfPresent("sektor", sektor, (sektor) => sektor, params);
     appendIfPresent(
         "sorteringsnokkel",
         sorteringsnokkel,

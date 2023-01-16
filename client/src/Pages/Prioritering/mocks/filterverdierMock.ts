@@ -44,6 +44,20 @@ export const EIERE_MOCKS: Eier[] = [
 ]
 
 export const filterverdierMock: Filterverdier = {
+    sektorer: [
+        {
+            kode: "1",
+            beskrivelse: "Kommunal forvaltning"
+        },
+        {
+            kode: "2",
+            beskrivelse: "Statlig forvaltning"
+        },
+        {
+            kode: "3",
+            beskrivelse: "Privat og offentlig næringsvirksomhet"
+        }
+    ],
     fylker: [
         {
             fylke: {

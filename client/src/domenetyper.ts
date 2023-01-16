@@ -25,6 +25,11 @@ export const eierSchema = z.object({
     navn: z.string(),
 });
 
+const sektorSchema = z.object({
+    kode: z.string(),
+    beskrivelse: z.string()
+})
+
 const IA_PROSESS_STATUSER = [
     "NY",
     "IKKE_AKTIV",
@@ -94,6 +99,7 @@ export const filterverdierSchema = z.object({
     statuser: IAProsessStatusEnum.array(),
     bransjeprogram: z.string().array(),
     filtrerbareEiere: z.array(eierSchema),
+    sektorer: z.array(sektorSchema)
 });
 
 export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>;
@@ -105,6 +111,8 @@ export type Filterverdier = z.infer<typeof filterverdierSchema>;
 export type Næringsgruppe = z.infer<typeof næringsgrupperSchema>;
 
 export type Eier = z.infer<typeof eierSchema>;
+
+export type Sektor = z.infer<typeof sektorSchema>;
 
 export type Kvartal = z.infer<typeof kvartalSchema>;
 
