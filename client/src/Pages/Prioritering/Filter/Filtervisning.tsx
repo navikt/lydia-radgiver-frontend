@@ -11,6 +11,7 @@ import { hvitBoksMedSkygge } from "../../../styling/containere";
 import { Eier, IAProsessStatusType, Kommune } from "../../../domenetyper";
 import { useFiltervisningState } from "../../Virksomhet/filtervisning-reducer";
 import { tabletAndUp } from "../../../styling/breakpoint";
+import { SektorDropdown } from "./SektorDropdown";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
@@ -67,7 +68,12 @@ export const Filtervisning = ({ filtervisning, søkPåNytt, className }: Filterv
         oppdaterKommuner,
         oppdaterSykefraværsprosent,
         oppdaterNæringsgruppe,
+        oppdaterSektorer
     } = filtervisning;
+
+    const endreSektor = (sektor: string) => {
+        oppdaterSektorer({ sektor })
+    }
 
     const endreFylke = (fylkesnummer: string) => {
         oppdaterFylke({ fylkesnummer });
@@ -137,6 +143,10 @@ export const Filtervisning = ({ filtervisning, søkPåNytt, className }: Filterv
                     antallArbeidsforhold={state.antallArbeidsforhold}
                     endreAntallArbeidsforhold={endreAntallArbeidsforhold}
                 />
+               <SektorDropdown
+                   endreSektor={endreSektor}
+                   sektorer={state.filterverdier?.sektorer ?? []}
+                   valgtSektor={state.sektor} />
             </Rad>
             <br />
             <Rad>

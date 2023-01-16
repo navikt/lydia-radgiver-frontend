@@ -38,6 +38,7 @@ const parametere = [
     "sorteringsnokkel",
     "sorteringsretning",
     "iaStatus",
+    "sektor",
     "side",
     "bransjeprogram",
     "eiere",
@@ -88,6 +89,8 @@ const søkeparametereTilFilterstate = (
         eiere: filterverdier.filtrerbareEiere.filter((eier) =>
             parametere.eiere?.includes(eier.navIdent)
         ),
+
+        sektor: parametere.sektor,
 
         iaStatus: filterverdier.statuser.find(
             (status) => status === parametere.iaStatus
@@ -147,6 +150,12 @@ type EndreIAStatusAction = {
         iastatus?: IAProsessStatusType;
     };
 };
+type EndreSektorAction = {
+    type: "ENDRE_SEKTOR";
+    payload: {
+        sektor: string;
+    };
+};
 type TilbakestillAction = {
     type: "TILBAKESTILL";
 };
@@ -170,6 +179,7 @@ type Action =
     | EndreSykefraværsprosentAction
     | EndreAntallArbeidsforholdAction
     | EndreIAStatusAction
+    | EndreSektorAction
     | TilbakestillAction
     | OppdaterSideAction
     | OppdaterEiereAction
@@ -182,6 +192,7 @@ export interface FiltervisningState {
     næringsgrupper: Næringsgruppe[];
     sykefraværsprosent: Range;
     antallArbeidsforhold: Range;
+    sektor?: string;
     iaStatus?: IAProsessStatusType;
     bransjeprogram: string[];
     sorteringsnokkel?: Sorteringsverdi;
@@ -266,6 +277,14 @@ const endreIastatus = (
     iaStatus: action.payload.iastatus,
 });
 
+const endreSektor = (
+    state: FiltervisningState,
+    action: EndreSektorAction
+): FiltervisningState => ({
+    ...state,
+    sektor: action.payload.sektor,
+});
+
 const initialState: FiltervisningState = {
     kommuner: [],
     næringsgrupper: [],
@@ -345,6 +364,8 @@ const reducer = (state: FiltervisningState, action: Action) => {
             return endreAntallArbeidsforhold(state, action);
         case "ENDRE_IASTATUS":
             return endreIastatus(state, action);
+        case "ENDRE_SEKTOR":
+            return endreSektor(state, action)
         case "TILBAKESTILL":
             return { ...state, ...initialState };
         default: {
@@ -438,6 +459,14 @@ export const useFiltervisningState = () => {
         []
     );
 
+    const oppdaterSektorer = useCallback(
+        (payload: EndreSektorAction["payload"]) => {
+        dispatch({
+            type: "ENDRE_SEKTOR",
+            payload
+        })
+    }, [])
+
     const tilbakestill = useCallback(() => {
         dispatch({
             type: "TILBAKESTILL",
@@ -487,6 +516,7 @@ export const useFiltervisningState = () => {
         oppdaterFylke,
         oppdaterKommuner,
         oppdaterIastatus,
+        oppdaterSektorer,
         oppdaterNæringsgruppe,
         oppdaterSykefraværsprosent,
         tilbakestill,
