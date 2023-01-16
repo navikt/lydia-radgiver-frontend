@@ -30,11 +30,12 @@ const Rad = styled.div`
   display: flex;
   column-gap: 3rem;
   row-gap: ${24 / 16}rem;
-  flex-direction: column;
   flex-wrap: wrap;
+  flex-direction: column;
 
   ${tabletAndUp} {
     flex-direction: row;
+    align-items: start;
   }
 `;
 
@@ -126,13 +127,20 @@ export const Filtervisning = ({ filtervisning, søkPåNytt, className }: Filterv
                 />
             </Rad>
             <br />
-            <Næringsgruppedropdown
-                bransjeprogram={state.filterverdier?.bransjeprogram ?? []}
-                næringsgrupper={state.filterverdier?.neringsgrupper ?? []}
-                valgtBransjeprogram={state.bransjeprogram ?? []}
-                valgtNæringsgruppe={state.næringsgrupper}
-                endreNæringsgrupper={endreNæringsgruppe}
-            />
+            <Rad>
+                <Næringsgruppedropdown
+                    bransjeprogram={state.filterverdier?.bransjeprogram ?? []}
+                    næringsgrupper={state.filterverdier?.neringsgrupper ?? []}
+                    valgtBransjeprogram={state.bransjeprogram ?? []}
+                    valgtNæringsgruppe={state.næringsgrupper}
+                    endreNæringsgrupper={endreNæringsgruppe}
+                />
+                <SektorDropdown
+                    endreSektor={endreSektor}
+                    sektorer={state.filterverdier?.sektorer ?? []}
+                    valgtSektor={state.sektor}
+                />
+            </Rad>
             <br />
             <Rad>
                 <SykefraværsprosentVelger
@@ -143,10 +151,6 @@ export const Filtervisning = ({ filtervisning, søkPåNytt, className }: Filterv
                     antallArbeidsforhold={state.antallArbeidsforhold}
                     endreAntallArbeidsforhold={endreAntallArbeidsforhold}
                 />
-               <SektorDropdown
-                   endreSektor={endreSektor}
-                   sektorer={state.filterverdier?.sektorer ?? []}
-                   valgtSektor={state.sektor} />
             </Rad>
             <br />
             <Rad>
