@@ -6,12 +6,12 @@ import {
     Kommune,
     Næringsgruppe,
     Sorteringsverdi,
-} from "../../domenetyper";
-import { Range } from "../Prioritering/Filter/SykefraværsprosentVelger";
+} from "../../../domenetyper";
+import { Range } from "./SykefraværsprosentVelger";
 import { useCallback, useEffect, useReducer } from "react";
 import { SortState } from "@navikt/ds-react";
 import { useSearchParams } from "react-router-dom";
-import { søkeverdierTilUrlSearchParams } from "../../api/lydia-api";
+import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
 
 const næringsgruppeKoderTilNæringsgrupper = (
     næringsgruppeKoder: string[],

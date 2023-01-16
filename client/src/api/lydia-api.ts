@@ -25,7 +25,7 @@ import useSWR, { SWRConfiguration } from "swr";
 import { z, ZodError, ZodType } from "zod";
 import { useEffect, useState } from "react";
 import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
-import { FiltervisningState } from "../Pages/Virksomhet/filtervisning-reducer";
+import { FiltervisningState } from "../Pages/Prioritering/Filter/filtervisning-reducer";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;

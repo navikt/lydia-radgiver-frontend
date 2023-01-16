@@ -10,7 +10,7 @@ import {
 import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
 import { statiskeSidetitler, TittelContext } from "./TittelContext";
 import { contentSpacing } from "../../styling/contentSpacing";
-import { useFiltervisningState } from "../Virksomhet/filtervisning-reducer";
+import { useFiltervisningState } from "./Filter/filtervisning-reducer";
 
 const Container = styled.div`
     padding: ${contentSpacing.mobileY} 0;

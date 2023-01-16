@@ -9,7 +9,7 @@ import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
 import { hvitBoksMedSkygge } from "../../../styling/containere";
 import { Eier, IAProsessStatusType, Kommune } from "../../../domenetyper";
-import { useFiltervisningState } from "../../Virksomhet/filtervisning-reducer";
+import { useFiltervisningState } from "./filtervisning-reducer";
 import { tabletAndUp } from "../../../styling/breakpoint";
 import { SektorDropdown } from "./SektorDropdown";
 
