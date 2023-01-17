@@ -1,16 +1,16 @@
 import { ComponentMeta } from "@storybook/react";
 import { fjernetVirksomhetMock, slettetVirksomhetMock, virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
-import { VirksomhetOversikt } from "./VirksomhetOversikt";
+import { VirksomhetsVisning } from "./VirksomhetsVisning";
 import { iaSakFullførtOgLukket, iaSakKontaktes } from "./mocks/iaSakMock";
 import { samarbeidshistorikkMock, samarbeidshistorikkMockMedFlereSaker } from "./mocks/iaSakHistorikkMock";
 
 export default {
-    title: "Virksomhet/Oversikt over en virksomhet",
-    component: VirksomhetOversikt,
-} as ComponentMeta<typeof VirksomhetOversikt>;
+    title: "Virksomhet/Visning av en virksomhet",
+    component: VirksomhetsVisning,
+} as ComponentMeta<typeof VirksomhetsVisning>;
 
 export const EnSak = () => (
-    <VirksomhetOversikt
+    <VirksomhetsVisning
         virksomhet={virksomhetMock}
         iaSak={iaSakKontaktes}
         samarbeidshistorikk={samarbeidshistorikkMock}
@@ -18,7 +18,7 @@ export const EnSak = () => (
 );
 
 export const FlereSaker = () => (
-    <VirksomhetOversikt
+    <VirksomhetsVisning
         virksomhet={virksomhetMock}
         iaSak={iaSakKontaktes}
         samarbeidshistorikk={
@@ -28,7 +28,7 @@ export const FlereSaker = () => (
 );
 
 export const VirksomhetSomErSlettet = () => (
-    <VirksomhetOversikt
+    <VirksomhetsVisning
         virksomhet={slettetVirksomhetMock}
         iaSak={iaSakKontaktes}
         samarbeidshistorikk={samarbeidshistorikkMock}
@@ -36,7 +36,7 @@ export const VirksomhetSomErSlettet = () => (
 );
 
 export const VirksomhetSomErFjernet = () => (
-    <VirksomhetOversikt
+    <VirksomhetsVisning
         virksomhet={fjernetVirksomhetMock}
         iaSak={iaSakKontaktes}
         samarbeidshistorikk={samarbeidshistorikkMock}
@@ -44,7 +44,7 @@ export const VirksomhetSomErFjernet = () => (
 );
 
 export const VirksomhetMedSakSomErLukket = () => (
-    <VirksomhetOversikt
+    <VirksomhetsVisning
         virksomhet={virksomhetMock}
         iaSak={iaSakFullførtOgLukket}
         samarbeidshistorikk={samarbeidshistorikkMock}

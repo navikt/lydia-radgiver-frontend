@@ -6,7 +6,7 @@ import {
     useHentSamarbeidshistorikk,
     useHentVirksomhetsinformasjon
 } from "../../api/lydia-api";
-import { VirksomhetOversikt } from "./VirksomhetOversikt";
+import { VirksomhetsVisning } from "./VirksomhetsVisning";
 import { IASak } from "../../domenetyper";
 import { statiskeSidetitler, TittelContext } from "../Prioritering/TittelContext";
 
@@ -46,7 +46,7 @@ const Virksomhetsside = () => {
 
     if (virksomhetsinformasjon && iaSaker) {
         oppdaterTittel(`Fia - ${virksomhetsinformasjon.navn}`)
-        return <VirksomhetOversikt
+        return <VirksomhetsVisning
             virksomhet={virksomhetsinformasjon}
             iaSak={iaSak}
             samarbeidshistorikk={samarbeidshistorikk ?? []}

@@ -8,14 +8,14 @@ const Container = styled.div`
   padding-top: ${contentSpacing.mobileY};
 `;
 
-interface VirksomhetOversiktProps {
+interface Props {
     virksomhet: Virksomhet;
     iaSak?: IASak;
     samarbeidshistorikk: Sakshistorikk[];
     muterState?: () => void;
 }
 
-export const VirksomhetOversikt = ({virksomhet, iaSak, samarbeidshistorikk, muterState}: VirksomhetOversiktProps) => {
+export const VirksomhetsVisning = ({virksomhet, iaSak, samarbeidshistorikk, muterState}: Props) => {
     return (
         <Container>
             <VirksomhetHeader virksomhet={virksomhet} iaSak={iaSak} muterState={muterState} />
