@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { IASak, Sakshistorikk, Virksomhet, } from "../../domenetyper";
-import { Samarbeidshistorikk } from "./Samarbeidshistorikk";
+import { Samarbeidshistorikk } from "./Samarbeidshistorikk/Samarbeidshistorikk";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt";
 import { contentSpacing } from "../../styling/contentSpacing";
 

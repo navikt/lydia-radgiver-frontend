@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { Accordion, Detail, Heading, Table } from "@navikt/ds-react";
-import { Sakshistorikk } from "../../domenetyper";
-import { lokalDato } from "../../util/dato";
-import { StatusBadge } from "../../components/Badge/StatusBadge";
-import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
-import { Skygger } from "../../styling/skygger";
-import { NavFarger } from "../../styling/farger";
-import { BorderRadius } from "../../styling/borderRadius";
+import { Accordion, Detail, Heading } from "@navikt/ds-react";
+import { Sakshistorikk } from "../../../domenetyper";
+import { lokalDato } from "../../../util/dato";
+import { StatusBadge } from "../../../components/Badge/StatusBadge";
+import { Skygger } from "../../../styling/skygger";
+import { NavFarger } from "../../../styling/farger";
+import { BorderRadius } from "../../../styling/borderRadius";
+import { SakshistorikkTabell } from "./SakshistorikkTabell";
 
 const bakgrunnsRamme = {
     backgroundColor: `${NavFarger.white}`,
@@ -66,54 +66,6 @@ export const Samarbeidshistorikk = ({samarbeidshistorikk, className}: Samarbeids
                 <IngenHendelserPåSak />
             )}
         </Container>
-    );
-};
-
-interface SakshistorikkTabellProps {
-    sakshistorikk: Sakshistorikk;
-}
-
-const SakshistorikkTabell = ({sakshistorikk}: SakshistorikkTabellProps) => {
-    const kolonneNavn = ["Status", "Tidspunkt", "Begrunnelse", "Eier"];
-
-    return (
-        <Table zebraStripes style={bakgrunnsRamme}>
-            <Table.Header>
-                <Table.Row>
-                    {kolonneNavn.map((navn) => (
-                        <Table.HeaderCell scope="col" key={navn}>
-                            {navn}
-                        </Table.HeaderCell>
-                    ))}
-                </Table.Row>
-            </Table.Header>
-            <Table.Body>
-                {sakshistorikk.sakshendelser.map((sakSnapshot, index) => {
-                    return (
-                        <Table.Row key={index}>
-                            <Table.DataCell>
-                                <StatusBadge status={sakSnapshot.status} />
-                            </Table.DataCell>
-                            <Table.DataCell>
-                                {lokalDato(sakSnapshot.tidspunktForSnapshot)}
-                            </Table.DataCell>
-                            <Table.DataCell>
-                                <ul style={{margin: "0"}}>
-                                    {sakSnapshot.begrunnelser.map(begrunnelse =>
-                                        (<li key={begrunnelse}>
-                                            <Detail>{begrunnelse}</Detail>
-                                        </li>)
-                                    )}
-                                </ul>
-                            </Table.DataCell>
-                            <Table.DataCell>
-                                <NavIdentMedLenke navIdent={sakSnapshot.eier} />
-                            </Table.DataCell>
-                        </Table.Row>
-                    );
-                })}
-            </Table.Body>
-        </Table>
     );
 };
 
