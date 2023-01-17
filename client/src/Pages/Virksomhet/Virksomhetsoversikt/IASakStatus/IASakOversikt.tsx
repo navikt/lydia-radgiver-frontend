@@ -1,15 +1,15 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { BodyShort } from "@navikt/ds-react";
-import { GyldigNesteHendelse, IAProsessStatusEnum, IASak, IASakshendelseTypeEnum, RolleEnum } from "../../../domenetyper";
-import { StatusBadge } from "../../../components/Badge/StatusBadge";
-import { nyHendelsePåSak, opprettSak, useHentBrukerinformasjon } from "../../../api/lydia-api";
+import { GyldigNesteHendelse, IAProsessStatusEnum, IASak, IASakshendelseTypeEnum, RolleEnum } from "../../../../domenetyper";
+import { StatusBadge } from "../../../../components/Badge/StatusBadge";
+import { nyHendelsePåSak, opprettSak, useHentBrukerinformasjon } from "../../../../api/lydia-api";
 import { BegrunnelseModal } from "./BegrunnelseModal";
 import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import { SakshendelsesKnapper } from "./SakshendelsesKnapper";
-import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
-import { NavFarger } from "../../../styling/farger";
-import { BorderRadius } from "../../../styling/borderRadius";
+import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
+import { NavFarger } from "../../../../styling/farger";
+import { BorderRadius } from "../../../../styling/borderRadius";
 
 const Container = styled.div`
   display: flex;

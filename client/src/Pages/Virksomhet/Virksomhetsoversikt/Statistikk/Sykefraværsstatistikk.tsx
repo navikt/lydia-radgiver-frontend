@@ -1,15 +1,15 @@
 import styled from "styled-components";
 import { Statistikkboks } from "./Statistikkboks";
-import { Kvartal, KvartalFraTil, SykefraversstatistikkVirksomhetSiste4Kvartal } from "../../domenetyper";
-import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
+import { Kvartal, KvartalFraTil, SykefraversstatistikkVirksomhetSiste4Kvartal } from "../../../../domenetyper";
+import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {
     useHentGjeldendePeriodeForVirksomhetSiste4Kvartal,
     useHentSykefraværsstatistikkForVirksomhetSiste4Kvartal,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal
-} from "../../api/lydia-api";
-import { sorterKvartalStigende, sorterStatistikkPåSisteÅrstallOgKvartal } from "../../util/sortering";
-import { getGjeldendePeriodeTekst } from "../../util/gjeldendePeriodeSisteFireKvartal";
+} from "../../../../api/lydia-api";
+import { sorterKvartalStigende, sorterStatistikkPåSisteÅrstallOgKvartal } from "../../../../util/sortering";
+import { getGjeldendePeriodeTekst } from "../../../../util/gjeldendePeriodeSisteFireKvartal";
 
 const Container = styled.div`
   display: grid;

@@ -1,8 +1,8 @@
-import { Virksomhet } from "../../domenetyper";
+import { Virksomhet } from "../../../domenetyper";
 import styled from "styled-components";
 import { BodyShort } from "@navikt/ds-react";
-import { NavFarger } from "../../styling/farger";
-import { BorderRadius } from "../../styling/borderRadius";
+import { NavFarger } from "../../../styling/farger";
+import { BorderRadius } from "../../../styling/borderRadius";
 
 const Container = styled.div`
   display: grid;

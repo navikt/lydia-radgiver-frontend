@@ -11,10 +11,10 @@ import {
     iaSakViBistår,
     iaSakVurderesMedEier,
     iaSakVurderesUtenEier,
-} from "../mocks/iaSakMock";
-import { iaSakPath, iaSakPostNyHendelsePath } from "../../../api/lydia-api";
-import { FeilmeldingBanner } from "../../FeilmeldingBanner";
-import { IASak } from "../../../domenetyper";
+} from "../../mocks/iaSakMock";
+import { iaSakPath, iaSakPostNyHendelsePath } from "../../../../api/lydia-api";
+import { FeilmeldingBanner } from "../../../FeilmeldingBanner";
+import { IASak } from "../../../../domenetyper";
 
 export default {
     title: "Virksomhet/Oversikt over IA-sak",

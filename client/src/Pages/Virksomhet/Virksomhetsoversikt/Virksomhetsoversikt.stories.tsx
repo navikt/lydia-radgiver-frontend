@@ -1,7 +1,7 @@
 import { ComponentMeta } from "@storybook/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
-import { iaSakKontaktes } from "./mocks/iaSakMock";
+import { virksomhetMock } from "../../Prioritering/mocks/virksomhetMock";
+import { iaSakKontaktes } from "../mocks/iaSakMock";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt";
 
 export default {

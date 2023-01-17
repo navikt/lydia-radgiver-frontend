@@ -1,12 +1,12 @@
 import styled from "styled-components";
 import { Heading, Tag } from "@navikt/ds-react";
-import { IASak, Virksomhet, VirksomhetStatusEnum } from "../../domenetyper";
-import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
-import { IASakOversikt } from "./IASak/IASakOversikt";
+import { IASak, Virksomhet, VirksomhetStatusEnum } from "../../../domenetyper";
+import { Sykefraværsstatistikk } from "./Statistikk/Sykefraværsstatistikk";
+import { IASakOversikt } from "./IASakStatus/IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
-import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoint";
-import { contentSpacing } from "../../styling/contentSpacing";
-import { NavFarger } from "../../styling/farger";
+import { desktopAndUp, largeDesktopAndUp } from "../../../styling/breakpoint";
+import { contentSpacing } from "../../../styling/contentSpacing";
+import { NavFarger } from "../../../styling/farger";
 
 const OversiktsContainer = styled.div`
   display: flex;

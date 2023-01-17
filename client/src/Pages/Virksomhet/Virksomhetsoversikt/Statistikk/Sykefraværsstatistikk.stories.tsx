@@ -3,9 +3,9 @@ import { rest } from "msw";
 import {
     gjeldendePeriodeSiste4Kvartal,
     sykefraværsstatistikkMock
-} from "../Prioritering/mocks/sykefraværsstatistikkMock";
+} from "../../../Prioritering/mocks/sykefraværsstatistikkMock";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
-import { gjeldendePeriodePath, siste4kvartalerPath, sykefraværsstatistikkPath } from "../../api/lydia-api";
+import { gjeldendePeriodePath, siste4kvartalerPath, sykefraværsstatistikkPath } from "../../../../api/lydia-api";
 
 export default {
     title: "Virksomhet/Sykefraværsstatistikk for en virksomhet",

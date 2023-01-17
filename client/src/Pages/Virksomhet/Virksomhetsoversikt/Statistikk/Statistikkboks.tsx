@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BodyShort, Detail, HelpText } from "@navikt/ds-react";
-import { NavFarger } from "../../styling/farger";
-import { BorderRadius } from "../../styling/borderRadius";
+import { NavFarger } from "../../../../styling/farger";
+import { BorderRadius } from "../../../../styling/borderRadius";
 
 const Container = styled.div`
   flex: 1;
