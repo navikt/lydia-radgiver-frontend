@@ -3,7 +3,7 @@ import {
     IASakshendelseType,
     IASakshendelseTypeEnum,
 } from "../src/domenetyper";
-import {sorterHendelserPåKnappeType} from "../src/Pages/Virksomhet/IASakshendelseKnapp";
+import {sorterHendelserPåKnappeType} from "../src/Pages/Virksomhet/IASak/IASakshendelseKnapp";
 
 const nyHendelse = (
     hendelsestype: IASakshendelseType,

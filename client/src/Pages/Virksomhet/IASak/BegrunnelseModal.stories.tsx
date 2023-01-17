@@ -2,7 +2,7 @@ import { ComponentMeta } from "@storybook/react";
 
 import { BegrunnelseModal, ModalInnhold } from "./BegrunnelseModal";
 import { Modal } from "@navikt/ds-react";
-import { ikkeAktuellHendelseMock } from "./mocks/iaSakMock";
+import { ikkeAktuellHendelseMock } from "../mocks/iaSakMock";
 import { useState } from "react";
 
 export default {

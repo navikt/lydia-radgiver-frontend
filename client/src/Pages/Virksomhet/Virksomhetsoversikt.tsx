@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { Heading, Tag } from "@navikt/ds-react";
 import { IASak, Virksomhet, VirksomhetStatusEnum } from "../../domenetyper";
 import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
-import { IASakOversikt } from "./IASakOversikt";
+import { IASakOversikt } from "./IASak/IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoint";
 import { contentSpacing } from "../../styling/contentSpacing";

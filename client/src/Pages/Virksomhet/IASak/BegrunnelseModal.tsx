@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { Button, Checkbox, CheckboxGroup, ErrorSummary, Modal, Select } from "@navikt/ds-react";
-import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../domenetyper";
-import { getRootElement } from "../../main";
+import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../../domenetyper";
+import { getRootElement } from "../../../main";
 import styled from "styled-components";
-import { StyledModal } from "../../components/Modal/StyledModal";
+import { StyledModal } from "../../../components/Modal/StyledModal";
 
 const hentÅrsakFraÅrsakType = (
     type: string,
