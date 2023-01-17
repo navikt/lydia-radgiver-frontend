@@ -4,23 +4,23 @@ import {
     gjeldendePeriodeSiste4Kvartal,
     sykefraværsstatistikkMock
 } from "../Prioritering/mocks/sykefraværsstatistikkMock";
-import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
+import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import { gjeldendePeriodePath, siste4kvartalerPath, sykefraværsstatistikkPath } from "../../api/lydia-api";
 
 export default {
     title: "Virksomhet/Sykefraværsstatistikk for en virksomhet",
-    component: SykefraværsstatistikkVirksomhet,
+    component: Sykefraværsstatistikk,
     parameters: {
         backgrounds: {
             default: 'white'
         }
     }
-} as ComponentMeta<typeof SykefraværsstatistikkVirksomhet>;
+} as ComponentMeta<typeof Sykefraværsstatistikk>;
 
 const orgnummer = "999123456"
 
 export const Hovedstory = () =>
-    <SykefraværsstatistikkVirksomhet orgnummer={orgnummer} />
+    <Sykefraværsstatistikk orgnummer={orgnummer} />
 
 Hovedstory.parameters = {
     msw: {
@@ -42,7 +42,7 @@ Hovedstory.parameters = {
 };
 
 export const MedStatistikkFraKunToKvartal = () =>
-    <SykefraværsstatistikkVirksomhet orgnummer={orgnummer} />
+    <Sykefraværsstatistikk orgnummer={orgnummer} />
 
 MedStatistikkFraKunToKvartal.parameters = {
     msw: {

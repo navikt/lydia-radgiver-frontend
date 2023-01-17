@@ -53,7 +53,7 @@ interface Props {
     verdiSisteKvartal?: VerdiSisteKvartal;
 }
 
-export const StatistikkBoks = ({tittel, helpTekst, verdi, verdiSisteKvartal}: Props) => {
+export const Statistikkboks = ({tittel, helpTekst, verdi, verdiSisteKvartal}: Props) => {
     return (
         <Container>
             <TittelMedHelpTextContainer>

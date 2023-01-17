@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { StatistikkBoks } from "./StatistikkBoks";
+import { Statistikkboks } from "./Statistikkboks";
 import { Kvartal, KvartalFraTil, SykefraversstatistikkVirksomhetSiste4Kvartal } from "../../domenetyper";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
@@ -21,7 +21,7 @@ interface Props {
     orgnummer: string;
 }
 
-export const SykefraværsstatistikkVirksomhet = ({ orgnummer }: Props) => {
+export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
     const {
         data: sykefraværsstatistikkSiste4Kvartal,
         loading: lasterSykefraværsstatistikkSiste4Kvartal,
@@ -49,7 +49,7 @@ export const SykefraværsstatistikkVirksomhet = ({ orgnummer }: Props) => {
 
         return (
             <Container>
-                <StatistikkBoks
+                <Statistikkboks
                     tittel="Arbeidsforhold"
                     helpTekst={
                         sykefraværsstatistikkSisteKvartal
@@ -58,7 +58,7 @@ export const SykefraværsstatistikkVirksomhet = ({ orgnummer }: Props) => {
                     }
                     verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.antallPersoner)}
                 />
-                <StatistikkBoks
+                <Statistikkboks
                     tittel="Sykefravær"
                     helpTekst={`Sykefraværsprosent ${sisteFireKvartalInfo}`}
                     verdi={formaterSomProsentMedEnDesimal(statistikkSiste4KvartalNyesteUtgave.sykefraversprosent)}
@@ -70,7 +70,7 @@ export const SykefraværsstatistikkVirksomhet = ({ orgnummer }: Props) => {
                         }
                         : undefined}
                 />
-                <StatistikkBoks
+                <Statistikkboks
                     tittel="Mulige dagsverk"
                     helpTekst={`Antall mulige dagsverk ${sisteFireKvartalInfo}`}
                     verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.muligeDagsverk)}
@@ -82,7 +82,7 @@ export const SykefraværsstatistikkVirksomhet = ({ orgnummer }: Props) => {
                         }
                         : undefined}
                 />
-                <StatistikkBoks
+                <Statistikkboks
                     tittel="Tapte dagsverk"
                     helpTekst={`Antall tapte dagsverk ${sisteFireKvartalInfo}`}
                     verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.tapteDagsverk)}

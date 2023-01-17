@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Heading, Tag } from "@navikt/ds-react";
 import { IASak, Virksomhet, VirksomhetStatusEnum } from "../../domenetyper";
-import { SykefraværsstatistikkVirksomhet } from "./SykefraværsstatistikkVirksomhet";
+import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import { IASakOversikt } from "./IASak/IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoint";
@@ -84,7 +84,7 @@ export const Virksomhetsoversikt = ({virksomhet, iaSak, muterState}: Props) => (
         <InnholdContainer>
             <VirksomhetsinfoContainer>
                 <VirksomhetInformasjon virksomhet={virksomhet} />
-                <SykefraværsstatistikkVirksomhet orgnummer={virksomhet.orgnr} />
+                <Sykefraværsstatistikk orgnummer={virksomhet.orgnr} />
             </VirksomhetsinfoContainer>
             <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} muterState={muterState} />
         </InnholdContainer>
