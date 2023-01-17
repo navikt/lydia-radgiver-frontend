@@ -8,7 +8,7 @@ import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoint";
 import { contentSpacing } from "../../styling/contentSpacing";
 import { NavFarger } from "../../styling/farger";
 
-const HeaderContainer = styled.div`
+const OversiktsContainer = styled.div`
   display: flex;
   flex-direction: column;
   background: ${NavFarger.white};
@@ -38,7 +38,7 @@ const HeaderContainer = styled.div`
   }
 `;
 
-const OverskriftContainer = styled.div`
+const VirksomhetsnavnContainer = styled.div`
   display: flex;
   align-items: baseline;
   gap: 1rem;
@@ -69,9 +69,9 @@ interface Props {
     muterState?: () => void;
 }
 
-export const VirksomhetHeader = ({virksomhet, iaSak, muterState}: Props) => (
-    <HeaderContainer>
-        <OverskriftContainer>
+export const Virksomhetsoversikt = ({virksomhet, iaSak, muterState}: Props) => (
+    <OversiktsContainer>
+        <VirksomhetsnavnContainer>
             <Heading level={"2"} size={"large"}>{virksomhet.navn}</Heading>
             {
                 (virksomhet.status == VirksomhetStatusEnum.enum.FJERNET
@@ -80,7 +80,7 @@ export const VirksomhetHeader = ({virksomhet, iaSak, muterState}: Props) => (
                     {virksomhet.status}
                 </SlettetFjernetInfo>
             }
-        </OverskriftContainer>
+        </VirksomhetsnavnContainer>
         <InnholdContainer>
             <VirksomhetsinfoContainer>
                 <VirksomhetInformasjon virksomhet={virksomhet} />
@@ -88,5 +88,5 @@ export const VirksomhetHeader = ({virksomhet, iaSak, muterState}: Props) => (
             </VirksomhetsinfoContainer>
             <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} muterState={muterState} />
         </InnholdContainer>
-    </HeaderContainer>
+    </OversiktsContainer>
 )

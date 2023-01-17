@@ -2,11 +2,11 @@ import { ComponentMeta } from "@storybook/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
 import { iaSakKontaktes } from "./mocks/iaSakMock";
-import { VirksomhetHeader } from "./VirksomhetHeader";
+import { Virksomhetsoversikt } from "./Virksomhetsoversikt";
 
 export default {
-    title: "Virksomhet/Header på virksomhetssida",
-    component: VirksomhetHeader,
+    title: "Virksomhet/Oversikt over virksomhet og sak",
+    component: Virksomhetsoversikt,
     decorators: [(Story) => (
         <MemoryRouter initialEntries={["/virksomhet/123456789"]}>
             <Routes>
@@ -17,10 +17,10 @@ export default {
             </Routes>
         </MemoryRouter>
     )]
-} as ComponentMeta<typeof VirksomhetHeader>;
+} as ComponentMeta<typeof Virksomhetsoversikt>;
 
 export const Hovedstory = () => (
-    <VirksomhetHeader
+    <Virksomhetsoversikt
         virksomhet={virksomhetMock}
         iaSak={iaSakKontaktes}
         muterState={() => {return}}

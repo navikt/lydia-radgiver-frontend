@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { IASak, Sakshistorikk, Virksomhet, } from "../../domenetyper";
 import { Samarbeidshistorikk } from "./Samarbeidshistorikk";
-import { VirksomhetHeader } from "./VirksomhetHeader";
+import { Virksomhetsoversikt } from "./Virksomhetsoversikt";
 import { contentSpacing } from "../../styling/contentSpacing";
 
 const Container = styled.div`
@@ -18,7 +18,7 @@ interface Props {
 export const VirksomhetsVisning = ({virksomhet, iaSak, samarbeidshistorikk, muterState}: Props) => {
     return (
         <Container>
-            <VirksomhetHeader virksomhet={virksomhet} iaSak={iaSak} muterState={muterState} />
+            <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} muterState={muterState} />
             <br />
             <Samarbeidshistorikk samarbeidshistorikk={samarbeidshistorikk} />
         </Container>
