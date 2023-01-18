@@ -1,12 +1,13 @@
 import styled from "styled-components";
-import { Heading, Tag } from "@navikt/ds-react";
-import { IASak, Virksomhet, VirksomhetStatusEnum } from "../../../domenetyper";
+import { Heading } from "@navikt/ds-react";
+import { IASak, Virksomhet } from "../../../domenetyper";
 import { Sykefraværsstatistikk } from "./Statistikk/Sykefraværsstatistikk";
 import { IASakOversikt } from "./IASakStatus/IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import { desktopAndUp, largeDesktopAndUp } from "../../../styling/breakpoint";
 import { contentSpacing } from "../../../styling/contentSpacing";
 import { NavFarger } from "../../../styling/farger";
+import { BrregStatus } from "./BrregStatus";
 
 const OversiktsContainer = styled.div`
   display: flex;
@@ -44,11 +45,6 @@ const VirksomhetsnavnContainer = styled.div`
   gap: 1rem;
 `;
 
-const SlettetFjernetInfo = styled(Tag)`
-  align-self: center;
-  text-transform: lowercase;
-`;
-
 const InnholdContainer = styled.div`
   display: flex;
   flex-wrap: wrap;
@@ -69,17 +65,11 @@ interface Props {
     muterState?: () => void;
 }
 
-export const Virksomhetsoversikt = ({virksomhet, iaSak, muterState}: Props) => (
+export const Virksomhetsoversikt = ({ virksomhet, iaSak, muterState }: Props) => (
     <OversiktsContainer>
         <VirksomhetsnavnContainer>
             <Heading level={"2"} size={"large"}>{virksomhet.navn}</Heading>
-            {
-                (virksomhet.status == VirksomhetStatusEnum.enum.FJERNET
-                    || virksomhet.status == VirksomhetStatusEnum.enum.SLETTET)
-                && <SlettetFjernetInfo variant={"neutral"} size={"medium"}>
-                    {virksomhet.status}
-                </SlettetFjernetInfo>
-            }
+            <BrregStatus status={virksomhet.status} />
         </VirksomhetsnavnContainer>
         <InnholdContainer>
             <VirksomhetsinfoContainer>

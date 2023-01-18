@@ -134,6 +134,8 @@ export type Sorteringsverdi = keyof typeof sorteringsverdier;
 
 const VIRKSOMHET_STATUS = ["AKTIV", "FJERNET", "SLETTET"] as const;
 export const VirksomhetStatusEnum = z.enum(VIRKSOMHET_STATUS);
+export type VirksomhetStatus = z.infer<typeof VirksomhetStatusEnum>;
+
 export const virksomhetsSchema = z.object({
     orgnr: z.string(),
     navn: z.string(),
