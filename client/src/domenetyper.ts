@@ -47,7 +47,7 @@ export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER);
 export const sykefraversstatistikkVirksomhetSchema = z.object({
     orgnr: z.string(),
     virksomhetsnavn: z.string(),
-    kommune: fylkeOgKommuneSchema,
+    kommune: fylkeOgKommuneSchema.optional(), // TODO: fjern senere
     sektor: z.string(),
     neringsgruppe: z.string(),
     arstall: z.number(),
