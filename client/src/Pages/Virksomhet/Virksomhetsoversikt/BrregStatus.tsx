@@ -1,4 +1,4 @@
-import { VirksomhetStatus, VirksomhetStatusEnum } from "../../../domenetyper";
+import { VirksomhetStatusBrreg, VirksomhetStatusBrregEnum } from "../../../domenetyper";
 import styled from "styled-components";
 import { Tag } from "@navikt/ds-react";
 
@@ -7,12 +7,11 @@ const BrregStatusTag = styled(Tag)`
 `;
 
 interface Props {
-    status: VirksomhetStatus;
+    status: VirksomhetStatusBrreg;
 }
 
 export const BrregStatus = ({ status }: Props) => {
-    /* Trenger ingen tag om virksomheten er aktiv hos Brønnøysundregistrene */
-    if (status === VirksomhetStatusEnum.enum.AKTIV) {
+    if (status === VirksomhetStatusBrregEnum.enum.AKTIV) {
         return null;
     }
 

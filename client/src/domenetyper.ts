@@ -132,9 +132,9 @@ export type SykefraversstatistikkVirksomhetSiste4Kvartal = z.infer<
 
 export type Sorteringsverdi = keyof typeof sorteringsverdier;
 
-const VIRKSOMHET_STATUS = ["AKTIV", "FJERNET", "SLETTET"] as const;
-export const VirksomhetStatusEnum = z.enum(VIRKSOMHET_STATUS);
-export type VirksomhetStatus = z.infer<typeof VirksomhetStatusEnum>;
+const VIRKSOMHET_STATUS_BRREG = ["AKTIV", "FJERNET", "SLETTET"] as const;
+export const VirksomhetStatusBrregEnum = z.enum(VIRKSOMHET_STATUS_BRREG);
+export type VirksomhetStatusBrreg = z.infer<typeof VirksomhetStatusBrregEnum>;
 
 export const virksomhetsSchema = z.object({
     orgnr: z.string(),
@@ -144,7 +144,7 @@ export const virksomhetsSchema = z.object({
     poststed: z.string(),
     neringsgrupper: næringsgrupperSchema.array(),
     sektor: z.string().optional(),
-    status: VirksomhetStatusEnum,
+    status: VirksomhetStatusBrregEnum,
 });
 export type Virksomhet = z.infer<typeof virksomhetsSchema>;
 
