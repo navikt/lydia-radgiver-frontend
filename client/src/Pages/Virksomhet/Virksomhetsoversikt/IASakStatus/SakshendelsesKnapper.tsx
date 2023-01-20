@@ -33,27 +33,36 @@ interface BekreftHendelseModalProps {
     hendelse: GyldigNesteHendelse | null
 }
 
-const beskrivelseForHendelse = ({hendelse, sakstatus}: {
+interface ModalTekst {
+    tittel?: string;
+    beskrivelse: string;
+}
+
+const modalTekstForHendelse = ({hendelse, sakstatus}: {
     hendelse: GyldigNesteHendelse | null,
     sakstatus: IAProsessStatusType
-}) => {
-    if (!hendelse) return ""
+}) : ModalTekst => {
+    if (!hendelse) return {beskrivelse: ""}
+
     const penskrevetHendelse = penskrivIASakshendelsestype(hendelse.saksHendelsestype)
     switch (hendelse.saksHendelsestype) {
         case "FULLFØR_BISTAND":
-            return `Du har valgt hendelsen "Fullfør" – velges når avtalt IA-oppfølging er fullført. Saken lukkes.`
+            return {
+                tittel: 'Er du sikker på at du vil fullføre saken?',
+                beskrivelse: 'Dette vil lukke saken og skal gjøres når avtalt IA-oppfølging er fullført.'
+            }
         case "TILBAKE": {
             const tekst = `Du har valgt hendelsen "${penskrevetHendelse}"`
             if (sakstatus === IAProsessStatusEnum.enum.FULLFØRT) {
-                return `${tekst} - velges når du vil gjenåpne saken og gå tilbake til status "${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)}".`
+                return {beskrivelse: `${tekst} - velges når du vil gjenåpne saken og gå tilbake til status "${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)}".`}
             }
             if (sakstatus === IAProsessStatusEnum.enum.IKKE_AKTUELL) {
-                return `${tekst} - velges når du vil gjenåpne saken og gå tilbake til forrige status.`
+                return {beskrivelse: `${tekst} - velges når du vil gjenåpne saken og gå tilbake til forrige status.`}
             }
-            return `${tekst} - dette tar deg tilbake til forrige status. `;
+            return {beskrivelse: `${tekst} - dette tar deg tilbake til forrige status. `};
         }
         default:
-            return ""
+            return {beskrivelse: ""}
 
     }
 }
@@ -62,12 +71,17 @@ const BekreftHendelseModal = ({
     sak: {status: sakstatus},
     hendelse,
     ...rest
-}: BekreftValgModalProps & BekreftHendelseModalProps) => (
-    <BekreftValgModal
-        {...rest}
-        description={beskrivelseForHendelse({hendelse, sakstatus})}
-    />
-)
+}: BekreftValgModalProps & BekreftHendelseModalProps) => {
+    const modalTekst = modalTekstForHendelse({hendelse, sakstatus});
+
+    return (
+        <BekreftValgModal
+            {...rest}
+            title={modalTekst.tittel}
+            description={modalTekst.beskrivelse}
+        />
+    );
+}
 
 interface SakshendelsesKnapperProps {
     sak: IASak
