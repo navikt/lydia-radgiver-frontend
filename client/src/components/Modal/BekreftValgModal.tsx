@@ -1,12 +1,7 @@
-import styled from "styled-components";
 import { BodyLong, Button, Heading, Modal } from "@navikt/ds-react";
 import { getRootElement } from "../../main";
 import { StyledModal } from "./StyledModal";
-
-const Knapper = styled.div`
-  display: flex;
-  justify-content: space-between;
-`;
+import { ModalKnapper } from "./ModalKnapper";
 
 export interface Props {
     onConfirm: () => void
@@ -20,7 +15,7 @@ export const BekreftValgModal = ({
     onConfirm,
     onCancel,
     åpen,
-    title = "Vennligst bekreft valget ditt",
+    title = "Er du sikker på at du vil gjøre dette?",
     description
 }: Props) => {
     Modal.setAppElement?.(document.body)
@@ -32,10 +27,10 @@ export const BekreftValgModal = ({
                 <Heading size="medium" spacing>{title}</Heading>
                 {description && <BodyLong>{description}</BodyLong>}
                 <br />
-                <Knapper>
-                    <Button onClick={onConfirm}>Bekreft</Button>
+                <ModalKnapper>
+                    <Button onClick={onConfirm}>Ja</Button>
                     <Button variant="secondary" onClick={onCancel}>Avbryt</Button>
-                </Knapper>
+                </ModalKnapper>
             </Modal.Content>
         </StyledModal>
     );

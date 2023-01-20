@@ -36,8 +36,7 @@ export const BegrunnelseModalStory = () => {
 export const BareInnhold = () => (
     <ModalInnhold
         hendelse={ikkeAktuellHendelseMock}
-        lagre={() => {
-            "Lagret";
-        }}
+        lagre={() => {return}}
+        onClose={() => {return}}
     />
 );

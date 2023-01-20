@@ -1,25 +1,22 @@
 import { useState } from "react";
-import { Button, Checkbox, CheckboxGroup, ErrorSummary, Modal, Select } from "@navikt/ds-react";
+import { Button, Checkbox, CheckboxGroup, ErrorSummary, Heading, Modal, Select } from "@navikt/ds-react";
 import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../../../domenetyper";
 import { getRootElement } from "../../../../main";
-import styled from "styled-components";
 import { StyledModal } from "../../../../components/Modal/StyledModal";
+import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
 
 const hentÅrsakFraÅrsakType = (
     type: string,
-    {gyldigeÅrsaker}: GyldigNesteHendelse
+    { gyldigeÅrsaker }: GyldigNesteHendelse
 ) => gyldigeÅrsaker.find((årsak) => årsak.type === type);
-
-const Lagreknapp = styled(Button)`
-  margin-top: 1.5rem;
-`;
 
 interface ModalInnholdProps {
     hendelse: GyldigNesteHendelse;
     lagre: (valgtÅrsak: ValgtÅrsakDto) => void;
+    onClose: () => void
 }
 
-export const ModalInnhold = ({hendelse, lagre}: ModalInnholdProps) => {
+export const ModalInnhold = ({ hendelse, lagre, onClose }: ModalInnholdProps) => {
     const [valgtÅrsak, setValgtÅrsak] = useState<Årsak | undefined>(() => {
         return hendelse.gyldigeÅrsaker.length
             ? hendelse.gyldigeÅrsaker[0]
@@ -32,6 +29,7 @@ export const ModalInnhold = ({hendelse, lagre}: ModalInnholdProps) => {
 
     return (
         <>
+            <Heading size="medium" spacing>Er du sikker på at du vil sette saken til Ikke aktuell?</Heading>
             <Select
                 label="Begrunnelse for at samarbeid ikke er aktuelt:"
                 onChange={(e) => {
@@ -64,29 +62,31 @@ export const ModalInnhold = ({hendelse, lagre}: ModalInnholdProps) => {
                     </Checkbox>
                 ))}
             </CheckboxGroup>
-            <Lagreknapp
-                onClick={() => {
-                    if (!valgtÅrsak || valgteBegrunnelser.length == 0) {
-                        setValideringsfeil([...valideringsfeil, "Du må velge minst én begrunnelse"])
-                        return
-                    }
-                    const valgtÅrsakDto: ValgtÅrsakDto = {
-                        type: valgtÅrsak.type,
-                        begrunnelser: valgteBegrunnelser
-                    }
-                    lagre(valgtÅrsakDto)
-                    setValideringsfeil([])
-                }}
-            >
-                Lagre
-            </Lagreknapp>
-            {valideringsfeil.length > 0 && <ErrorSummary style={{marginTop: "1rem"}}>
+            <ModalKnapper>
+                <Button
+                    onClick={() => {
+                        if (!valgtÅrsak || valgteBegrunnelser.length == 0) {
+                            setValideringsfeil([...valideringsfeil, "Du må velge minst én begrunnelse"])
+                            return
+                        }
+                        const valgtÅrsakDto: ValgtÅrsakDto = {
+                            type: valgtÅrsak.type,
+                            begrunnelser: valgteBegrunnelser
+                        }
+                        lagre(valgtÅrsakDto)
+                        setValideringsfeil([])
+                    }}
+                >
+                    Lagre
+                </Button>
+                <Button variant="secondary" onClick={onClose}>Avbryt</Button>
+            </ModalKnapper>
+            {valideringsfeil.length > 0 && <ErrorSummary style={{ marginTop: "1rem" }}>
                 {valideringsfeil.map(feil =>
                     (<ErrorSummary.Item key={feil} href={`#${begrunnelserCheckboxId}`}>
                         {feil}
                     </ErrorSummary.Item>)
                 )}
-
             </ErrorSummary>
             }
         </>
@@ -98,13 +98,14 @@ interface BegrunnelseModalProps extends ModalInnholdProps {
     onClose: () => void
 }
 
-export const BegrunnelseModal = ({hendelse, åpen, onClose, lagre}: BegrunnelseModalProps) => {
+export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: BegrunnelseModalProps) => {
     return (
         <StyledModal parentSelector={() => getRootElement()} open={åpen} onClose={onClose}>
             <Modal.Content>
                 <ModalInnhold
                     hendelse={hendelse}
                     lagre={lagre}
+                    onClose={onClose}
                 />
             </Modal.Content>
         </StyledModal>
