@@ -29,7 +29,7 @@ export const ModalInnhold = ({ hendelse, lagre, onClose }: ModalInnholdProps) =>
 
     return (
         <>
-            <Heading size="medium" spacing>Er du sikker på at du vil sette saken til Ikke aktuell?</Heading>
+            <Heading size="medium" spacing>{'Er du sikker på at du vil sette saken til "Ikke aktuell"?'}</Heading>
             <Select
                 label="Begrunnelse for at samarbeid ikke er aktuelt:"
                 onChange={(e) => {
