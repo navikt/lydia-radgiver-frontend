@@ -51,11 +51,7 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
             <Container>
                 <Statistikkboks
                     tittel="Arbeidsforhold"
-                    helpTekst={
-                        sykefraværsstatistikkSisteKvartal
-                            ? `Antall arbeidsforhold per ${sykefraværsstatistikkSisteKvartal?.kvartal}. kvartal ${sykefraværsstatistikkSisteKvartal?.arstall}`
-                            : "Antall arbeidsforhold siste kvartal"
-                    }
+                    helpTekst={helptextAntallArbeidsforhold(statistikkSiste4KvartalNyesteUtgave)}
                     verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.antallPersoner)}
                 />
                 <Statistikkboks
@@ -106,7 +102,6 @@ const finnSisteUtgaveAvStatistikk =
     (sykefraværsstatistikk: Virksomhetsdetaljer[]): Virksomhetsdetaljer =>
         sykefraværsstatistikk.sort(sorterStatistikkPåSisteÅrstallOgKvartal)[0]
 
-
 const hvilkeKvartalHarVi = (statistikk: Virksomhetsdetaljer, gjeldendePeriode: KvartalFraTil | undefined) => {
     let kvartalstrenger = "";
 
@@ -119,4 +114,13 @@ const hvilkeKvartalHarVi = (statistikk: Virksomhetsdetaljer, gjeldendePeriode: K
     }
 
     return "basert på" + kvartalstrenger;
+}
+
+function helptextAntallArbeidsforhold(statistikk: Virksomhetsdetaljer): string {
+    const nyesteKvartal: Kvartal | undefined = statistikk.kvartaler.sort(sorterKvartalStigende).pop();
+
+    if (nyesteKvartal) {
+        return `Antall arbeidsforhold per ${nyesteKvartal.kvartal}. kvartal ${nyesteKvartal.årstall}`
+    }
+    return "Antall arbeidsforhold siste kvartal";
 }
