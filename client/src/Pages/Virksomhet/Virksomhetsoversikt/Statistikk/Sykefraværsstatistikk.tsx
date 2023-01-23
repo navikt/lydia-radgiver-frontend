@@ -43,7 +43,7 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
                     size={"xlarge"}
             />
         )
-    } else if (sykefraværsstatistikkSiste4Kvartal && sykefraværsstatistikkSiste4Kvartal.length > 0) {
+    } else if (sykefraværsstatistikkSiste4Kvartal && sykefraværsstatistikkSiste4Kvartal.length > 0 && sykefraværsstatistikkSisteKvartal) {
         const statistikkSiste4KvartalNyesteUtgave = finnSisteUtgaveAvStatistikk(sykefraværsstatistikkSiste4Kvartal)
         const sisteFireKvartalInfo = hvilkeKvartalHarVi(statistikkSiste4KvartalNyesteUtgave, gjeldendePeriodeSisteFireKvartal);
 
@@ -51,8 +51,8 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
             <Container>
                 <Statistikkboks
                     tittel="Arbeidsforhold"
-                    helpTekst={helptextAntallArbeidsforhold(statistikkSiste4KvartalNyesteUtgave)}
-                    verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.antallPersoner)}
+                    helpTekst={`Antall arbeidsforhold per ${sykefraværsstatistikkSisteKvartal.kvartal}. kvartal ${sykefraværsstatistikkSisteKvartal.arstall}`}
+                    verdi={formaterSomHeltall(sykefraværsstatistikkSisteKvartal.antallPersoner)}
                 />
                 <Statistikkboks
                     tittel="Sykefravær"
@@ -114,13 +114,4 @@ const hvilkeKvartalHarVi = (statistikk: Virksomhetsdetaljer, gjeldendePeriode: K
     }
 
     return "basert på" + kvartalstrenger;
-}
-
-function helptextAntallArbeidsforhold(statistikk: Virksomhetsdetaljer): string {
-    const nyesteKvartal: Kvartal | undefined = statistikk.kvartaler.sort(sorterKvartalStigende).pop();
-
-    if (nyesteKvartal) {
-        return `Antall arbeidsforhold per ${nyesteKvartal.kvartal}. kvartal ${nyesteKvartal.årstall}`
-    }
-    return "Antall arbeidsforhold siste kvartal";
 }
