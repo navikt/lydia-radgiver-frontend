@@ -7,7 +7,7 @@ import {
     useFilterverdier,
     useSykefraværsstatistikk,
 } from "../../api/lydia-api";
-import { SykefraversstatistikkVirksomhet } from "../../domenetyper";
+import { Virksomhetsoversikt } from "../../domenetyper";
 import { statiskeSidetitler, TittelContext } from "./TittelContext";
 import { contentSpacing } from "../../styling/contentSpacing";
 import { useFiltervisningState } from "./Filter/filtervisning-reducer";
@@ -28,7 +28,7 @@ const Prioriteringsside = () => {
     });
 
     const [sykefraværsstatistikk, setSykefraværsstatistikk] =
-        useState<SykefraversstatistikkVirksomhet[]>();
+        useState<Virksomhetsoversikt[]>();
     const [skalSøke, setSkalSøke] = useState(false);
     const [filtervisningLoaded, setFiltervisningLoaded] = useState(false);
     const harSøktMinstEnGang = sykefraværsstatistikk !== undefined;

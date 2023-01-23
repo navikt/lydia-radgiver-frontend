@@ -1,18 +1,18 @@
 import {
     IAProsessStatusEnum,
     KvartalFraTil,
-    SykefraversstatistikkVirksomhet,
-    SykefraversstatistikkVirksomhetSiste4Kvartal
+    Virksomhetsoversikt,
+    Virksomhetsdetaljer
 } from "../../../domenetyper";
 
-const sykefraværStatiskData: Pick<SykefraversstatistikkVirksomhet, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
+const sykefraværStatiskData: Pick<Virksomhetsoversikt, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
     antallPersoner: 69.4123,
     muligeDagsverk: 555.123123,
     tapteDagsverk: 222.22222,
     sykefraversprosent: 1.513
 }
 
-const sykefraværStatiskDataUtenDesimaler: Pick<SykefraversstatistikkVirksomhet, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
+const sykefraværStatiskDataUtenDesimaler: Pick<Virksomhetsoversikt, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
     antallPersoner: 69,
     muligeDagsverk: 555,
     tapteDagsverk: 222,
@@ -21,10 +21,9 @@ const sykefraværStatiskDataUtenDesimaler: Pick<SykefraversstatistikkVirksomhet,
 
 const endretDato = new Date(2022, 7, 22)
 
-export const sykefraværsstatistikkSisteKvartalMock: SykefraversstatistikkVirksomhet[] = [{
+export const sykefraværsstatistikkSisteKvartalMock: Virksomhetsoversikt[] = [{
     "orgnr": "995428563",
     "virksomhetsnavn": "SUSHISHAPPA PÅ HJØRNET",
-    "kommune": { "navn": "OSLO", "nummer": "0301" },
     "sektor": "",
     "neringsgruppe": "",
     "arstall": 2021,
@@ -46,7 +45,7 @@ export const gjeldendePeriodeSiste4Kvartal: KvartalFraTil = {
     }
 }
 
-export const sykefraværsstatistikkMock: SykefraversstatistikkVirksomhetSiste4Kvartal[] = [{
+export const sykefraværsstatistikkMock: Virksomhetsdetaljer[] = [{
     "orgnr": "995428563",
     "virksomhetsnavn": "SUSHISHAPPA PÅ HJØRNET",
     "kommune": { "navn": "OSLO", "nummer": "0301" },

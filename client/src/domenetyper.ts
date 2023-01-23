@@ -44,14 +44,13 @@ const IA_PROSESS_STATUSER = [
 
 export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER);
 
-export const sykefraversstatistikkVirksomhetSchema = z.object({
+export const virksomhetsoversiktSchema = z.object({
     orgnr: z.string(),
     virksomhetsnavn: z.string(),
-    kommune: fylkeOgKommuneSchema.optional(), // TODO: fjern senere
-    sektor: z.string(),
-    neringsgruppe: z.string(),
-    arstall: z.number(),
-    kvartal: z.number(),
+    sektor: z.string().optional(),  //TODO: fjern senere
+    neringsgruppe: z.string().optional(),   //TODO: fjern senere
+    arstall: z.number().optional(), //TODO: fjern senere
+    kvartal: z.number().optional(), //TODO: fjern senere
     sykefraversprosent: z.number(),
     antallPersoner: z.number(),
     muligeDagsverk: z.number(),
@@ -61,12 +60,25 @@ export const sykefraversstatistikkVirksomhetSchema = z.object({
     sistEndret: datoSchema.nullable(),
 });
 
-export const sykefraversstatistikkVirksomhetListeSchema = z.array(
-    sykefraversstatistikkVirksomhetSchema
+export const virksomhetsstatistikkSisteKvartalSchema =z.object( {
+    orgnr: z.string(),
+    arstall: z.number(),
+    kvartal: z.number(),
+    antallPersoner: z.number(),
+    tapteDagsverk: z.number(),
+    muligeDagsverk: z.number(),
+    sykefraversprosent: z.number(),
+    maskert: z.boolean(),
+    });
+
+export type VirkomshetsstatistikkSisteKvartal = z.infer<typeof virksomhetsstatistikkSisteKvartalSchema>;
+
+export const virksomhetsoversiktListeSchema = z.array(
+    virksomhetsoversiktSchema
 );
 
 export const sykefraværListeResponsSchema = z.object({
-    data: sykefraversstatistikkVirksomhetListeSchema,
+    data: virksomhetsoversiktListeSchema,
 });
 
 export const kvartalSchema = z.object({
@@ -81,12 +93,26 @@ export const kvartalFraTilSchema = z.object({
 
 export const kvartalerSchema = z.array(kvartalSchema)
 
-export const sykefraversstatistikkVirksomhetSiste4KvartalSchema = sykefraversstatistikkVirksomhetSchema.extend({
+export const virksomhetsdetaljerSchema = z.object({
+    orgnr: z.string(),
+    virksomhetsnavn: z.string(),
+    kommune: fylkeOgKommuneSchema.optional(),
+    sektor: z.string(),
+    neringsgruppe: z.string(),
+    arstall: z.number(),
+    kvartal: z.number(),
+    sykefraversprosent: z.number(),
+    antallPersoner: z.number(),
+    muligeDagsverk: z.number(),
+    tapteDagsverk: z.number(),
+    status: IAProsessStatusEnum,
+    eidAv: z.string().nullable(),
+    sistEndret: datoSchema.nullable(),
     antallKvartaler: z.number(),
     kvartaler: kvartalerSchema,
 })
 
-export const sykefraversstatistikkVirksomhetSiste4KvartalListeSchema = z.array(sykefraversstatistikkVirksomhetSiste4KvartalSchema)
+export const sykefraversstatistikkVirksomhetSiste4KvartalListeSchema = z.array(virksomhetsdetaljerSchema)
 
 export const sykefraversstatistikkVirksomhetSiste4KvartalListeResponsSchema = z.object({
     data: sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
@@ -118,16 +144,16 @@ export type Kvartal = z.infer<typeof kvartalSchema>;
 
 export type KvartalFraTil = z.infer<typeof kvartalFraTilSchema>;
 
-export type SykefraversstatistikkVirksomhet = z.infer<
-    typeof sykefraversstatistikkVirksomhetSchema
+export type Virksomhetsoversikt = z.infer<
+    typeof virksomhetsoversiktSchema
 >;
 
 export type SykefraværsstatistikkVirksomhetRespons = z.infer<
     typeof sykefraværListeResponsSchema
 >;
 
-export type SykefraversstatistikkVirksomhetSiste4Kvartal = z.infer<
-    typeof sykefraversstatistikkVirksomhetSiste4KvartalSchema
+export type Virksomhetsdetaljer = z.infer<
+    typeof virksomhetsdetaljerSchema
 >;
 
 export type Sorteringsverdi = keyof typeof sorteringsverdier;

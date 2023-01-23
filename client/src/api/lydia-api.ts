@@ -11,15 +11,15 @@ import {
     kvartalFraTilSchema,
     Sakshistorikk,
     sakshistorikkSchema,
-    SykefraversstatistikkVirksomhet,
-    sykefraversstatistikkVirksomhetSchema,
-    SykefraversstatistikkVirksomhetSiste4Kvartal,
+    Virksomhetsoversikt,
+    virksomhetsoversiktSchema,
+    Virksomhetsdetaljer,
     sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
     ValgtÅrsakDto,
     Virksomhet,
-    virksomhetsSchema,
+    virksomhetsSchema, virksomhetsstatistikkSisteKvartalSchema, VirkomshetsstatistikkSisteKvartal,
 } from "../domenetyper";
 import useSWR, { SWRConfiguration } from "swr";
 import { z, ZodError, ZodType } from "zod";
@@ -210,10 +210,10 @@ export const useSykefraværsstatistikk = ({
     return { error, loading, data: sykefravær, antallTreff };
 };
 
-export const useHentSykefraværsstatistikkForVirksomhetSiste4Kvartal = (
+export const useHentVirksomhetsdetaljer = (
     orgnummer?: string
 ) => {
-    return useSwrTemplate<SykefraversstatistikkVirksomhetSiste4Kvartal[]>(
+    return useSwrTemplate<Virksomhetsdetaljer[]>(
         orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}/${siste4kvartalerPath}` : null,
         sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
         {
@@ -235,9 +235,9 @@ export const useHentGjeldendePeriodeForVirksomhetSiste4Kvartal = () => {
 export const useHentSykefraværsstatistikkForVirksomhetSisteKvartal = (
     orgnummer?: string
 ) => {
-    return useSwrTemplate<SykefraversstatistikkVirksomhet>(
+    return useSwrTemplate<VirkomshetsstatistikkSisteKvartal>(
         orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}/sistetilgjengeligekvartal` : null,
-        sykefraversstatistikkVirksomhetSchema,
+        virksomhetsstatistikkSisteKvartalSchema,
         {
             revalidateOnFocus: true,
         }

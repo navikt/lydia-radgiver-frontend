@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { Statistikkboks } from "./Statistikkboks";
-import { Kvartal, KvartalFraTil, SykefraversstatistikkVirksomhetSiste4Kvartal } from "../../../../domenetyper";
+import { Kvartal, KvartalFraTil, Virksomhetsdetaljer } from "../../../../domenetyper";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {
     useHentGjeldendePeriodeForVirksomhetSiste4Kvartal,
-    useHentSykefraværsstatistikkForVirksomhetSiste4Kvartal,
+    useHentVirksomhetsdetaljer,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal
 } from "../../../../api/lydia-api";
 import { sorterKvartalStigende, sorterStatistikkPåSisteÅrstallOgKvartal } from "../../../../util/sortering";
@@ -25,7 +25,7 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
     const {
         data: sykefraværsstatistikkSiste4Kvartal,
         loading: lasterSykefraværsstatistikkSiste4Kvartal,
-    } = useHentSykefraværsstatistikkForVirksomhetSiste4Kvartal(orgnummer)
+    } = useHentVirksomhetsdetaljer(orgnummer)
 
     const {
         data: gjeldendePeriodeSisteFireKvartal,
@@ -103,11 +103,11 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
 
 // TODO: bruk noe lignende et Either-pattern for å håndtere eventuell tomme lister her
 const finnSisteUtgaveAvStatistikk =
-    (sykefraværsstatistikk: SykefraversstatistikkVirksomhetSiste4Kvartal[]): SykefraversstatistikkVirksomhetSiste4Kvartal =>
+    (sykefraværsstatistikk: Virksomhetsdetaljer[]): Virksomhetsdetaljer =>
         sykefraværsstatistikk.sort(sorterStatistikkPåSisteÅrstallOgKvartal)[0]
 
 
-const hvilkeKvartalHarVi = (statistikk: SykefraversstatistikkVirksomhetSiste4Kvartal, gjeldendePeriode: KvartalFraTil | undefined) => {
+const hvilkeKvartalHarVi = (statistikk: Virksomhetsdetaljer, gjeldendePeriode: KvartalFraTil | undefined) => {
     let kvartalstrenger = "";
 
     if (statistikk.antallKvartaler === 4) {
