@@ -7,12 +7,7 @@ import {
     IASakshendelseType,
     IASakshendelseTypeEnum
 } from "../../../../domenetyper";
-import {
-    erHendelsenDestruktiv,
-    IASakshendelseKnapp,
-    penskrivIASakshendelsestype,
-    sorterHendelserPåKnappeType
-} from "./IASakshendelseKnapp";
+import { erHendelsenDestruktiv, IASakshendelseKnapp, sorterHendelserPåKnappeType } from "./IASakshendelseKnapp";
 import { BekreftValgModal, Props as BekreftValgModalProps } from "../../../../components/Modal/BekreftValgModal";
 import { penskrivIAStatus } from "../../../../components/Badge/StatusBadge";
 
@@ -38,13 +33,12 @@ interface ModalTekst {
     beskrivelse: string;
 }
 
-const modalTekstForHendelse = ({hendelse, sakstatus}: {
+const modalTekstForHendelse = ({ hendelse, sakstatus }: {
     hendelse: GyldigNesteHendelse | null,
     sakstatus: IAProsessStatusType
-}) : ModalTekst => {
-    if (!hendelse) return {beskrivelse: ""}
+}): ModalTekst => {
+    if (!hendelse) return { beskrivelse: "" }
 
-    const penskrevetHendelse = penskrivIASakshendelsestype(hendelse.saksHendelsestype)
     switch (hendelse.saksHendelsestype) {
         case "FULLFØR_BISTAND":
             return {
@@ -52,27 +46,34 @@ const modalTekstForHendelse = ({hendelse, sakstatus}: {
                 beskrivelse: 'Dette vil lukke saken og skal gjøres når avtalt IA-oppfølging er fullført.'
             }
         case "TILBAKE": {
-            const tekst = `Du har valgt hendelsen "${penskrevetHendelse}"`
             if (sakstatus === IAProsessStatusEnum.enum.FULLFØRT) {
-                return {beskrivelse: `${tekst} - velges når du vil gjenåpne saken og gå tilbake til status "${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)}".`}
+                return {
+                    tittel: 'Er du sikker på at du vil gjenåpne saken?',
+                    beskrivelse: `Dette setter saken tilbake til "${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)}"`,
+                }
             }
             if (sakstatus === IAProsessStatusEnum.enum.IKKE_AKTUELL) {
-                return {beskrivelse: `${tekst} - velges når du vil gjenåpne saken og gå tilbake til forrige status.`}
+                return {
+                    tittel: 'Er du sikker på at du vil gjenåpne saken?',
+                    beskrivelse: 'Dette setter saken tilbake til forrige status.'
+                }
             }
-            return {beskrivelse: `${tekst} - dette tar deg tilbake til forrige status. `};
+            return {
+                tittel: 'Er du sikker på at du vil gå tilbake?',
+                beskrivelse: 'Dette setter saken tilbake til forrige status.',
+            }
         }
         default:
-            return {beskrivelse: ""}
-
+            return { beskrivelse: "" }
     }
 }
 
 const BekreftHendelseModal = ({
-    sak: {status: sakstatus},
+    sak: { status: sakstatus },
     hendelse,
     ...rest
 }: BekreftValgModalProps & BekreftHendelseModalProps) => {
-    const modalTekst = modalTekstForHendelse({hendelse, sakstatus});
+    const modalTekst = modalTekstForHendelse({ hendelse, sakstatus });
 
     return (
         <BekreftValgModal
@@ -94,7 +95,7 @@ interface SakshendelsesKnapperProps {
     onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void;
 }
 
-export const SakshendelsesKnapper = ({sak, hendelser, onNyHendelseHandler}: SakshendelsesKnapperProps) => {
+export const SakshendelsesKnapper = ({ sak, hendelser, onNyHendelseHandler }: SakshendelsesKnapperProps) => {
     const [hendelseSomMåBekreftes, setHendelseSomMåBekreftes] = useState<GyldigNesteHendelse | null>(null)
 
     const destruktiveHendelser = hendelser
@@ -103,7 +104,7 @@ export const SakshendelsesKnapper = ({sak, hendelser, onNyHendelseHandler}: Saks
         .filter(hendelse => !erHendelsenDestruktiv(hendelse.saksHendelsestype))
 
     return (
-        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
+        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
             {
                 [destruktiveHendelser, ikkeDestruktiveHendelser].map((hendelser) => {
                     return <div style={horisontalKnappeStyling}
