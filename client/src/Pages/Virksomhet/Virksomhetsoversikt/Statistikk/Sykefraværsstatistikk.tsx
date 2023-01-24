@@ -1,14 +1,14 @@
 import styled from "styled-components";
 import { Statistikkboks } from "./Statistikkboks";
-import { Kvartal, KvartalFraTil, Virksomhetsdetaljer } from "../../../../domenetyper";
+import { Kvartal, KvartalFraTil, VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {
     useHentGjeldendePeriodeForVirksomhetSiste4Kvartal,
-    useHentVirksomhetsdetaljer,
-    useHentSykefraværsstatistikkForVirksomhetSisteKvartal
+    useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
+    useHentVirksomhetsstatistikkSiste4Kvartaler
 } from "../../../../api/lydia-api";
-import { sorterKvartalStigende, sorterStatistikkPåSisteÅrstallOgKvartal } from "../../../../util/sortering";
+import { sorterKvartalStigende } from "../../../../util/sortering";
 import { getGjeldendePeriodeTekst } from "../../../../util/gjeldendePeriodeSisteFireKvartal";
 
 const Container = styled.div`
@@ -23,9 +23,9 @@ interface Props {
 
 export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
     const {
-        data: sykefraværsstatistikkSiste4Kvartal,
+        data: virksomhetsstatistikkSiste4Kvartaler,
         loading: lasterSykefraværsstatistikkSiste4Kvartal,
-    } = useHentVirksomhetsdetaljer(orgnummer)
+    } = useHentVirksomhetsstatistikkSiste4Kvartaler(orgnummer)
 
     const {
         data: gjeldendePeriodeSisteFireKvartal,
@@ -43,9 +43,8 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
                     size={"xlarge"}
             />
         )
-    } else if (sykefraværsstatistikkSiste4Kvartal && sykefraværsstatistikkSiste4Kvartal.length > 0 && sykefraværsstatistikkSisteKvartal) {
-        const statistikkSiste4KvartalNyesteUtgave = finnSisteUtgaveAvStatistikk(sykefraværsstatistikkSiste4Kvartal)
-        const sisteFireKvartalInfo = hvilkeKvartalHarVi(statistikkSiste4KvartalNyesteUtgave, gjeldendePeriodeSisteFireKvartal);
+    } else if (virksomhetsstatistikkSiste4Kvartaler && sykefraværsstatistikkSisteKvartal) {
+        const sisteFireKvartalInfo = hvilkeKvartalHarVi(virksomhetsstatistikkSiste4Kvartaler, gjeldendePeriodeSisteFireKvartal);
 
         return (
             <Container>
@@ -57,7 +56,7 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
                 <Statistikkboks
                     tittel="Sykefravær"
                     helpTekst={`Sykefraværsprosent ${sisteFireKvartalInfo}`}
-                    verdi={formaterSomProsentMedEnDesimal(statistikkSiste4KvartalNyesteUtgave.sykefraversprosent)}
+                    verdi={formaterSomProsentMedEnDesimal(virksomhetsstatistikkSiste4Kvartaler.sykefraversprosent)}
                     verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.sykefraversprosent
                         ? {
                             verdi: formaterSomProsentMedEnDesimal(sykefraværsstatistikkSisteKvartal.sykefraversprosent),
@@ -69,7 +68,7 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
                 <Statistikkboks
                     tittel="Mulige dagsverk"
                     helpTekst={`Antall mulige dagsverk ${sisteFireKvartalInfo}`}
-                    verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.muligeDagsverk)}
+                    verdi={formaterSomHeltall(virksomhetsstatistikkSiste4Kvartaler.muligeDagsverk)}
                     verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.muligeDagsverk
                         ? {
                             verdi: formaterSomHeltall(sykefraværsstatistikkSisteKvartal.muligeDagsverk),
@@ -81,7 +80,7 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
                 <Statistikkboks
                     tittel="Tapte dagsverk"
                     helpTekst={`Antall tapte dagsverk ${sisteFireKvartalInfo}`}
-                    verdi={formaterSomHeltall(statistikkSiste4KvartalNyesteUtgave.tapteDagsverk)}
+                    verdi={formaterSomHeltall(virksomhetsstatistikkSiste4Kvartaler.tapteDagsverk)}
                     verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.tapteDagsverk
                         ? {
                             verdi: formaterSomHeltall(sykefraværsstatistikkSisteKvartal.tapteDagsverk),
@@ -97,12 +96,7 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
     }
 };
 
-// TODO: bruk noe lignende et Either-pattern for å håndtere eventuell tomme lister her
-const finnSisteUtgaveAvStatistikk =
-    (sykefraværsstatistikk: Virksomhetsdetaljer[]): Virksomhetsdetaljer =>
-        sykefraværsstatistikk.sort(sorterStatistikkPåSisteÅrstallOgKvartal)[0]
-
-const hvilkeKvartalHarVi = (statistikk: Virksomhetsdetaljer, gjeldendePeriode: KvartalFraTil | undefined) => {
+const hvilkeKvartalHarVi = (statistikk: VirksomhetsstatistikkSiste4Kvartaler, gjeldendePeriode: KvartalFraTil | undefined) => {
     let kvartalstrenger = "";
 
     if (statistikk.antallKvartaler === 4) {

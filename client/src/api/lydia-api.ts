@@ -11,15 +11,15 @@ import {
     kvartalFraTilSchema,
     Sakshistorikk,
     sakshistorikkSchema,
-    Virksomhetsoversikt,
-    virksomhetsoversiktSchema,
-    Virksomhetsdetaljer,
-    sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
     sykefraværListeResponsSchema,
     SykefraværsstatistikkVirksomhetRespons,
     ValgtÅrsakDto,
+    VirkomshetsstatistikkSisteKvartal,
     Virksomhet,
-    virksomhetsSchema, virksomhetsstatistikkSisteKvartalSchema, VirkomshetsstatistikkSisteKvartal,
+    virksomhetsSchema,
+    VirksomhetsstatistikkSiste4Kvartaler,
+    virksomhetsstatistikkSiste4KvartalerSchema,
+    virksomhetsstatistikkSisteKvartalSchema,
 } from "../domenetyper";
 import useSWR, { SWRConfiguration } from "swr";
 import { z, ZodError, ZodType } from "zod";
@@ -210,12 +210,12 @@ export const useSykefraværsstatistikk = ({
     return { error, loading, data: sykefravær, antallTreff };
 };
 
-export const useHentVirksomhetsdetaljer = (
+export const useHentVirksomhetsstatistikkSiste4Kvartaler = (
     orgnummer?: string
 ) => {
-    return useSwrTemplate<Virksomhetsdetaljer[]>(
+    return useSwrTemplate<VirksomhetsstatistikkSiste4Kvartaler>(
         orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}/${siste4kvartalerPath}` : null,
-        sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
+        virksomhetsstatistikkSiste4KvartalerSchema,
         {
             revalidateOnFocus: true,
         }

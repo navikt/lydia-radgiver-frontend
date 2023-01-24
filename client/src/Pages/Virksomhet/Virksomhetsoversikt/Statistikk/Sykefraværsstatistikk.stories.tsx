@@ -2,7 +2,7 @@ import { ComponentMeta } from "@storybook/react";
 import { rest } from "msw";
 import {
     gjeldendePeriodeSiste4Kvartal,
-    sykefraværsstatistikkMock
+    virksomhetsstatistikkSiste4KvartalerMock
 } from "../../../Prioritering/mocks/sykefraværsstatistikkMock";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import { gjeldendePeriodePath, siste4kvartalerPath, sykefraværsstatistikkPath } from "../../../../api/lydia-api";
@@ -28,7 +28,7 @@ Hovedstory.parameters = {
             others: [
                 rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
                     return res(
-                        ctx.json([sykefraværsstatistikkMock[0]])
+                        ctx.json(virksomhetsstatistikkSiste4KvartalerMock[0])
                     );
                 }),
                 rest.get(`${sykefraværsstatistikkPath}/${gjeldendePeriodePath}`, (req, res, ctx) => {
@@ -50,9 +50,9 @@ MedStatistikkFraKunToKvartal.parameters = {
             others: [
                 rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
                     return res(
-                        ctx.json([
-                            sykefraværsstatistikkMock[2],
-                        ])
+                        ctx.json(
+                            virksomhetsstatistikkSiste4KvartalerMock[2],
+                        )
                     );
                 }),
                 rest.get(`${sykefraværsstatistikkPath}/${gjeldendePeriodePath}`, (req, res, ctx) => {

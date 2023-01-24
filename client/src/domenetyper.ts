@@ -93,30 +93,15 @@ export const kvartalFraTilSchema = z.object({
 
 export const kvartalerSchema = z.array(kvartalSchema)
 
-export const virksomhetsdetaljerSchema = z.object({
+export const virksomhetsstatistikkSiste4KvartalerSchema = z.object({
     orgnr: z.string(),
-    virksomhetsnavn: z.string(),
-    kommune: fylkeOgKommuneSchema.optional(),
-    sektor: z.string(),
-    neringsgruppe: z.string(),
-    arstall: z.number(),
-    kvartal: z.number(),
     sykefraversprosent: z.number(),
     antallPersoner: z.number(),
     muligeDagsverk: z.number(),
     tapteDagsverk: z.number(),
-    status: IAProsessStatusEnum,
-    eidAv: z.string().nullable(),
-    sistEndret: datoSchema.nullable(),
     antallKvartaler: z.number(),
     kvartaler: kvartalerSchema,
 })
-
-export const sykefraversstatistikkVirksomhetSiste4KvartalListeSchema = z.array(virksomhetsdetaljerSchema)
-
-export const sykefraversstatistikkVirksomhetSiste4KvartalListeResponsSchema = z.object({
-    data: sykefraversstatistikkVirksomhetSiste4KvartalListeSchema,
-});
 
 export const filterverdierSchema = z.object({
     fylker: z.array(fylkeMedKommunerSchema),
@@ -152,8 +137,8 @@ export type SykefraværsstatistikkVirksomhetRespons = z.infer<
     typeof sykefraværListeResponsSchema
 >;
 
-export type Virksomhetsdetaljer = z.infer<
-    typeof virksomhetsdetaljerSchema
+export type VirksomhetsstatistikkSiste4Kvartaler = z.infer<
+    typeof virksomhetsstatistikkSiste4KvartalerSchema
 >;
 
 export type Sorteringsverdi = keyof typeof sorteringsverdier;
