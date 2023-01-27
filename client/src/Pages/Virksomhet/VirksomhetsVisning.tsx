@@ -8,7 +8,6 @@ import { NavFarger } from "../../styling/farger";
 
 const Container = styled.div`
   padding-top: ${contentSpacing.mobileY};
-  height: 100%;
 
   background-color: ${NavFarger.white};
   ${strekkBakgrunnenHeltUtTilKantenAvSida}
@@ -16,7 +15,6 @@ const Container = styled.div`
 
 const StyledPanel = styled(Tabs.Panel)`
   padding-top: 1.5rem;
-  height: 100%;
   
   background-color: ${NavFarger.gray100};
   ${strekkBakgrunnenHeltUtTilKantenAvSida}
@@ -34,7 +32,7 @@ export const VirksomhetsVisning = ({ virksomhet, iaSak, samarbeidshistorikk, mut
         <Container>
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} muterState={muterState} />
             <br />
-            <Tabs defaultValue="samarbeidshistorikk" style={{height: "100%"}}>
+            <Tabs defaultValue="samarbeidshistorikk">
                 <Tabs.List style={{width: "100%"}}>
                     <Tabs.Tab value="samarbeidshistorikk" label="Samarbeidshistorikk" />
                 </Tabs.List>
