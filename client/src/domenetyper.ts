@@ -96,7 +96,6 @@ export const kvartalerSchema = z.array(kvartalSchema)
 export const virksomhetsstatistikkSiste4KvartalerSchema = z.object({
     orgnr: z.string(),
     sykefraversprosent: z.number(),
-    antallPersoner: z.number(),
     muligeDagsverk: z.number(),
     tapteDagsverk: z.number(),
     antallKvartaler: z.number(),
