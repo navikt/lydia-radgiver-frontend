@@ -11,8 +11,8 @@ import {
     kvartalFraTilSchema,
     Sakshistorikk,
     sakshistorikkSchema,
-    sykefraværListeResponsSchema,
-    SykefraværsstatistikkVirksomhetRespons,
+    virksomhetsoversiktListeResponsSchema,
+    VirksomhetsoversiktListeRespons,
     ValgtÅrsakDto,
     VirkomshetsstatistikkSisteKvartal,
     Virksomhet,
@@ -173,7 +173,7 @@ function hentAntallTreff(
     return antallTreff;
 }
 
-export const useSykefraværsstatistikk = ({
+export const useHentVirksomhetsoversiktListe = ({
     filterstate,
     initierSøk = true,
 }: {
@@ -182,19 +182,19 @@ export const useSykefraværsstatistikk = ({
 }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [sykefravær, setSykefravær] =
-        useState<SykefraværsstatistikkVirksomhetRespons>();
+    const [virksomhetsoversiktListe, setVirksomhetsoversiktListe] =
+        useState<VirksomhetsoversiktListeRespons>();
 
-    const sykefraværUrl = getSykefraværsstatistikkUrl(filterstate);
+    const sykefraværUrl = getSykefraværsstatistikkUrl(filterstate); // Funfact: Endepunktet for virksomhetsoversikt heter "sykefravær"
 
     useEffect(() => {
         if (initierSøk) {
             setLoading(true);
 
-            get(sykefraværUrl, sykefraværListeResponsSchema)
+            get(sykefraværUrl, virksomhetsoversiktListeResponsSchema)
                 .then((response) => {
                     setError("");
-                    setSykefravær(response);
+                    setVirksomhetsoversiktListe(response);
                 })
                 .catch((e) => {
                     setError(e.message);
@@ -207,7 +207,7 @@ export const useSykefraværsstatistikk = ({
 
     const antallTreff = hentAntallTreff(filterstate, initierSøk, setError);
 
-    return { error, loading, data: sykefravær, antallTreff };
+    return { error, loading, data: virksomhetsoversiktListe, antallTreff };
 };
 
 export const useHentVirksomhetsstatistikkSiste4Kvartaler = (

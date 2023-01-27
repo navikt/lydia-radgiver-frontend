@@ -77,7 +77,7 @@ export const virksomhetsoversiktListeSchema = z.array(
     virksomhetsoversiktSchema
 );
 
-export const sykefraværListeResponsSchema = z.object({
+export const virksomhetsoversiktListeResponsSchema = z.object({
     data: virksomhetsoversiktListeSchema,
 });
 
@@ -132,8 +132,8 @@ export type Virksomhetsoversikt = z.infer<
     typeof virksomhetsoversiktSchema
 >;
 
-export type SykefraværsstatistikkVirksomhetRespons = z.infer<
-    typeof sykefraværListeResponsSchema
+export type VirksomhetsoversiktListeRespons = z.infer<
+    typeof virksomhetsoversiktListeResponsSchema
 >;
 
 export type VirksomhetsstatistikkSiste4Kvartaler = z.infer<

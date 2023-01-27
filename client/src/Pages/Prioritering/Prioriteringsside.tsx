@@ -3,17 +3,14 @@ import styled from "styled-components";
 import { Loader, SortState } from "@navikt/ds-react";
 import { Filtervisning } from "./Filter/Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
-import {
-    useFilterverdier,
-    useSykefraværsstatistikk,
-} from "../../api/lydia-api";
+import { useFilterverdier, useHentVirksomhetsoversiktListe, } from "../../api/lydia-api";
 import { Virksomhetsoversikt } from "../../domenetyper";
 import { statiskeSidetitler, TittelContext } from "./TittelContext";
 import { contentSpacing } from "../../styling/contentSpacing";
 import { useFiltervisningState } from "./Filter/filtervisning-reducer";
 
 const Container = styled.div`
-    padding: ${contentSpacing.mobileY} 0;
+  padding: ${contentSpacing.mobileY} 0;
 `;
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
@@ -43,16 +40,18 @@ const Prioriteringsside = () => {
         error,
         loading,
         antallTreff: totaltAntallTreff,
-    } = useSykefraværsstatistikk({
+    } = useHentVirksomhetsoversiktListe({
         filterstate: filtervisning.state,
         initierSøk: skalSøke,
     });
+
     useEffect(() => {
         if (filterverdier && !filtervisningLoaded) {
             filtervisning.lastData({ filterverdier });
             setFiltervisningLoaded(true);
         }
     });
+
     useEffect(() => {
         if (virksomhetsoversiktResultatFraApi) {
             setVirksomhetsoversiktListe(virksomhetsoversiktResultatFraApi.data);
