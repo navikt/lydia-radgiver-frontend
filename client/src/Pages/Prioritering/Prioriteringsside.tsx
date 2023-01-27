@@ -27,19 +27,19 @@ const Prioriteringsside = () => {
         orderBy: "tapte_dagsverk",
     });
 
-    const [sykefraværsstatistikk, setSykefraværsstatistikk] =
+    const [virksomhetsoversiktListe, setVirksomhetsoversiktListe] =
         useState<Virksomhetsoversikt[]>();
     const [skalSøke, setSkalSøke] = useState(false);
     const [filtervisningLoaded, setFiltervisningLoaded] = useState(false);
-    const harSøktMinstEnGang = sykefraværsstatistikk !== undefined;
+    const harSøktMinstEnGang = virksomhetsoversiktListe !== undefined;
     const fantResultaterISøk =
-        harSøktMinstEnGang && sykefraværsstatistikk.length > 0;
+        harSøktMinstEnGang && virksomhetsoversiktListe.length > 0;
     const skalViseTabell = fantResultaterISøk && !skalSøke;
 
     const { data: filterverdier } = useFilterverdier();
     const filtervisning = useFiltervisningState();
     const {
-        data: sfStatistikkFraApi,
+        data: virksomhetsoversiktResultatFraApi,
         error,
         loading,
         antallTreff: totaltAntallTreff,
@@ -54,11 +54,11 @@ const Prioriteringsside = () => {
         }
     });
     useEffect(() => {
-        if (sfStatistikkFraApi) {
-            setSykefraværsstatistikk(sfStatistikkFraApi.data);
+        if (virksomhetsoversiktResultatFraApi) {
+            setVirksomhetsoversiktListe(virksomhetsoversiktResultatFraApi.data);
             setSkalSøke(false);
         }
-    }, [sfStatistikkFraApi]);
+    }, [virksomhetsoversiktResultatFraApi]);
 
     function oppdaterSide(side: number, sortering?: SortState) {
         filtervisning.oppdaterSide({
@@ -79,7 +79,7 @@ const Prioriteringsside = () => {
             <br />
             {skalViseTabell ? (
                 <PrioriteringsTabell
-                    sykefraværsstatistikk={sykefraværsstatistikk}
+                    virksomhetsoversiktListe={virksomhetsoversiktListe}
                     endreSide={(side) => {
                         oppdaterSide(side);
                     }}

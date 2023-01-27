@@ -77,7 +77,7 @@ const RightAllignedDataCell = styled(Table.DataCell)`
 `;
 
 interface Props {
-    sykefraværsstatistikk: Virksomhetsoversikt[];
+    virksomhetsoversiktListe: Virksomhetsoversikt[];
     side: number;
     endreSide: (side: number) => void;
     sortering: SortState
@@ -87,7 +87,7 @@ interface Props {
 }
 
 export const PrioriteringsTabell = ({
-    sykefraværsstatistikk,
+    virksomhetsoversiktListe,
     className,
     side,
     sortering,
@@ -128,44 +128,44 @@ export const PrioriteringsTabell = ({
                     </Table.Row>
                 </Table.Header>
                 <Table.Body>
-                    {sykefraværsstatistikk.map((sykefraværStatistikkVirksomhet) => (
-                        <Table.Row key={sykefraværStatistikkVirksomhet.virksomhetsnavn}>
+                    {virksomhetsoversiktListe.map((virksomhetsoversikt) => (
+                        <Table.Row key={virksomhetsoversikt.virksomhetsnavn}>
                             <Table.DataCell>
-                                <StatusBadge status={sykefraværStatistikkVirksomhet.status} />
+                                <StatusBadge status={virksomhetsoversikt.status} />
                             </Table.DataCell>
                             <Table.DataCell>
-                                {sykefraværStatistikkVirksomhet.sistEndret ? lokalDato(sykefraværStatistikkVirksomhet.sistEndret) : ""}
+                                {virksomhetsoversikt.sistEndret ? lokalDato(virksomhetsoversikt.sistEndret) : ""}
                             </Table.DataCell>
                             <Table.HeaderCell scope="row">
                                 <EksternLenke
-                                    target={`${sykefraværStatistikkVirksomhet.orgnr}`}
-                                    href={`virksomhet/${sykefraværStatistikkVirksomhet.orgnr}`}
+                                    target={`${virksomhetsoversikt.orgnr}`}
+                                    href={`virksomhet/${virksomhetsoversikt.orgnr}`}
                                 >
-                                    {sykefraværStatistikkVirksomhet.virksomhetsnavn}
+                                    {virksomhetsoversikt.virksomhetsnavn}
                                 </EksternLenke>
                             </Table.HeaderCell>
                             <RightAllignedDataCell>
-                                {formaterSomHeltall(sykefraværStatistikkVirksomhet.antallPersoner)}
+                                {formaterSomHeltall(virksomhetsoversikt.antallPersoner)}
                             </RightAllignedDataCell>
                             <RightAllignedDataCell>
-                                {formaterSomProsentMedEnDesimal(sykefraværStatistikkVirksomhet.sykefraversprosent)}
+                                {formaterSomProsentMedEnDesimal(virksomhetsoversikt.sykefraversprosent)}
                             </RightAllignedDataCell>
                             <RightAllignedDataCell>
-                                {formaterSomHeltall(sykefraværStatistikkVirksomhet.tapteDagsverk)}
+                                {formaterSomHeltall(virksomhetsoversikt.tapteDagsverk)}
                             </RightAllignedDataCell>
                             <RightAllignedDataCell>
-                                {formaterSomHeltall(sykefraværStatistikkVirksomhet.muligeDagsverk)}
+                                {formaterSomHeltall(virksomhetsoversikt.muligeDagsverk)}
                             </RightAllignedDataCell>
                             <Table.DataCell>
-                                <NavIdentMedLenke navIdent={sykefraværStatistikkVirksomhet.eidAv} />
+                                <NavIdentMedLenke navIdent={virksomhetsoversikt.eidAv} />
                             </Table.DataCell>
                         </Table.Row>
                     ))}
                 </Table.Body>
             </Table>
-            {!!sykefraværsstatistikk.length &&
+            {!!virksomhetsoversiktListe.length &&
                 <SøkeresultatFooter side={side} endreSide={endreSide}
-                                    antallTreffPåSide={sykefraværsstatistikk.length}
+                                    antallTreffPåSide={virksomhetsoversiktListe.length}
                                     totaltAntallTreff={totaltAntallTreff} />
             }
         </Container>

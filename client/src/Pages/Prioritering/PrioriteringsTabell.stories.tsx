@@ -21,7 +21,7 @@ export const Hovedstory = () => {
 
     return (
         <PrioriteringsTabell
-            sykefraværsstatistikk={sykefraværsstatistikk.slice((side - 1) * antallPerSide, side * antallPerSide)}
+            virksomhetsoversiktListe={sykefraværsstatistikk.slice((side - 1) * antallPerSide, side * antallPerSide)}
             endreSide={(side) => {
                 setSide(side)
             }}
