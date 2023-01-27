@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Accordion, Detail } from "@navikt/ds-react";
+import { Accordion, BodyShort } from "@navikt/ds-react";
 import { Sakshistorikk } from "../../../domenetyper";
 import { lokalDato } from "../../../util/dato";
 import { StatusBadge } from "../../../components/Badge/StatusBadge";
@@ -57,8 +57,8 @@ export const Samarbeidshistorikk = ({ samarbeidshistorikk, className }: Samarbei
     );
 };
 
-const IngenHendelserDetail = styled(Detail)`
-  padding: 1rem 3rem;
+const IngenHendelserDetail = styled(BodyShort)`
+  padding: 1rem 1rem;
 `;
 
 const IngenHendelserPåSak = () => {
