@@ -1,5 +1,6 @@
-import { IAProsessStatusEnum, IASakshendelseTypeEnum, Sakshistorikk } from "../../../domenetyper/domenetyper";
+import { IAProsessStatusEnum, IASakshendelseTypeEnum } from "../../../domenetyper/domenetyper";
 import { ulid } from "ulid";
+import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 
 const eier = "X12345"
 const nå = Date.now()

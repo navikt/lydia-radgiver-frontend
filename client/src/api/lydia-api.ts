@@ -5,8 +5,6 @@ import {
     IANySakshendelseDto,
     IASak,
     iaSakSchema,
-    Sakshistorikk,
-    sakshistorikkSchema,
     virksomhetsoversiktListeResponsSchema,
     VirksomhetsoversiktListeRespons,
     ValgtÅrsakDto,
@@ -23,6 +21,7 @@ import { FiltervisningState } from "../Pages/Prioritering/Filter/filtervisning-r
 import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartalTyper";
 import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
 import { Brukerinformasjon, brukerinformasjonSchema } from "../domenetyper/brukerinformasjon";
+import { Sakshistorikk, sakshistorikkSchema } from "../domenetyper/sakshistorikk";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;

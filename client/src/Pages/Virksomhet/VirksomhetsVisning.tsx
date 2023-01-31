@@ -1,12 +1,13 @@
 import styled from "styled-components";
 import { Tabs } from "@navikt/ds-react";
-import { IASak, Sakshistorikk,  } from "../../domenetyper/domenetyper";
+import { IASak,   } from "../../domenetyper/domenetyper";
 import { Samarbeidshistorikk } from "./Samarbeidshistorikk/Samarbeidshistorikk";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
 import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../styling/contentSpacing";
 import { NavFarger } from "../../styling/farger";
 import { ViBistårTab } from "./ViBistårTab/ViBistårTab";
 import { Virksomhet } from "../../domenetyper/virksomhet";
+import { Sakshistorikk } from "../../domenetyper/sakshistorikk";
 
 const Container = styled.div`
   padding-top: ${contentSpacing.mobileY};

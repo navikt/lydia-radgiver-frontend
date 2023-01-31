@@ -1,5 +1,4 @@
 import { Detail, Table } from "@navikt/ds-react";
-import { Sakshistorikk } from "../../../domenetyper/domenetyper";
 import { StatusBadge } from "../../../components/Badge/StatusBadge";
 import { lokalDato } from "../../../util/dato";
 import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
@@ -7,6 +6,7 @@ import { NavFarger } from "../../../styling/farger";
 import { Skygger } from "../../../styling/skygger";
 import { BorderRadius } from "../../../styling/borderRadius";
 import styled from "styled-components";
+import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 
 const StyledTable = styled(Table)`
   background-color: ${NavFarger.white};
