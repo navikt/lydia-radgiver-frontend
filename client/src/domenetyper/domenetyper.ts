@@ -43,19 +43,6 @@ export const virksomhetsoversiktSchema = z.object({
     sistEndret: datoSchema.nullable(),
 });
 
-export const virksomhetsstatistikkSisteKvartalSchema =z.object( {
-    orgnr: z.string(),
-    arstall: z.number(),
-    kvartal: z.number(),
-    antallPersoner: z.number(),
-    tapteDagsverk: z.number(),
-    muligeDagsverk: z.number(),
-    sykefraversprosent: z.number(),
-    maskert: z.boolean(),
-    });
-
-export type VirkomshetsstatistikkSisteKvartal = z.infer<typeof virksomhetsstatistikkSisteKvartalSchema>;
-
 export const virksomhetsoversiktListeSchema = z.array(
     virksomhetsoversiktSchema
 );

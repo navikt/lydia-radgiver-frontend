@@ -5,13 +5,11 @@ import {
     IANySakshendelseDto,
     IASak,
     iaSakSchema,
-    virksomhetsoversiktListeResponsSchema,
-    VirksomhetsoversiktListeRespons,
     ValgtÅrsakDto,
-    VirkomshetsstatistikkSisteKvartal,
+    VirksomhetsoversiktListeRespons,
+    virksomhetsoversiktListeResponsSchema,
     VirksomhetsstatistikkSiste4Kvartaler,
     virksomhetsstatistikkSiste4KvartalerSchema,
-    virksomhetsstatistikkSisteKvartalSchema,
 } from "../domenetyper/domenetyper";
 import useSWR, { SWRConfiguration } from "swr";
 import { z, ZodError, ZodType } from "zod";
@@ -22,6 +20,10 @@ import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartalTyper"
 import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
 import { Brukerinformasjon, brukerinformasjonSchema } from "../domenetyper/brukerinformasjon";
 import { Sakshistorikk, sakshistorikkSchema } from "../domenetyper/sakshistorikk";
+import {
+    VirkomshetsstatistikkSisteKvartal,
+    virksomhetsstatistikkSisteKvartalSchema
+} from "../domenetyper/virksomhetsstatistikkSisteKvartal";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
