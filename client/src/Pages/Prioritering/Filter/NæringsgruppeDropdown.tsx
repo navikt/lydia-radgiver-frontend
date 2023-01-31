@@ -1,5 +1,5 @@
 import { Label } from "@navikt/ds-react";
-import { Næringsgruppe } from "../../../domenetyper";
+import { Næringsgruppe } from "../../../domenetyper/domenetyper";
 import {
     StyledReactSelect,
     reactSelectStyle,

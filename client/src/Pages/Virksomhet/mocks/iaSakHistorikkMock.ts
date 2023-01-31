@@ -1,4 +1,4 @@
-import { IAProsessStatusEnum, IASakshendelseTypeEnum, Sakshistorikk } from "../../../domenetyper";
+import { IAProsessStatusEnum, IASakshendelseTypeEnum, Sakshistorikk } from "../../../domenetyper/domenetyper";
 import { ulid } from "ulid";
 
 const eier = "X12345"

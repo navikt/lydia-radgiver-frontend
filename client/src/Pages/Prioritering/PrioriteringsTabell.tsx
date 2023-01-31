@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { SortState, Table } from "@navikt/ds-react";
-import { Virksomhetsoversikt } from "../../domenetyper";
+import { Virksomhetsoversikt } from "../../domenetyper/domenetyper";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { lokalDato } from "../../util/dato";

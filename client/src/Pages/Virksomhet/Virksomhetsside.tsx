@@ -7,7 +7,7 @@ import {
     useHentVirksomhetsinformasjon
 } from "../../api/lydia-api";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
-import { IASak } from "../../domenetyper";
+import { IASak } from "../../domenetyper/domenetyper";
 import { statiskeSidetitler, TittelContext } from "../Prioritering/TittelContext";
 
 const Virksomhetsside = () => {

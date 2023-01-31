@@ -1,6 +1,6 @@
 import { ComponentMeta } from "@storybook/react";
 import { StatusBadge } from "./StatusBadge";
-import { IAProsessStatusEnum, IAProsessStatusType } from "../../domenetyper";
+import { IAProsessStatusEnum, IAProsessStatusType } from "../../domenetyper/domenetyper";
 
 export default {
     title: "Prioritering/StatusBadge",

@@ -1,7 +1,7 @@
 import "@navikt/ds-css";
 import React from "react";
 import { Badge } from "./Badge";
-import { IAProsessStatusEnum, IAProsessStatusType } from "../../domenetyper";
+import { IAProsessStatusEnum, IAProsessStatusType } from "../../domenetyper/domenetyper";
 import { FiaFarger } from "../../styling/farger";
 
 export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): FiaFarger => {

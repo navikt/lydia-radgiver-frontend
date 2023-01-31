@@ -1,5 +1,5 @@
 import { Label } from "@navikt/ds-react";
-import { FylkeMedKommuner, Kommune } from "../../../domenetyper";
+import { FylkeMedKommuner, Kommune } from "../../../domenetyper/domenetyper";
 import {
     StyledReactSelect,
     reactSelectStyle,

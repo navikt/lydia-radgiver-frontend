@@ -1,5 +1,5 @@
 import { Select } from "@navikt/ds-react";
-import { IAProsessStatusType } from "../../../domenetyper";
+import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { penskrivIAStatus } from "../../../components/Badge/StatusBadge";
 
 interface Props {

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Tabs } from "@navikt/ds-react";
-import { IASak, Sakshistorikk, Virksomhet, } from "../../domenetyper";
+import { IASak, Sakshistorikk, Virksomhet, } from "../../domenetyper/domenetyper";
 import { Samarbeidshistorikk } from "./Samarbeidshistorikk/Samarbeidshistorikk";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
 import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../styling/contentSpacing";

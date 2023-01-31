@@ -4,7 +4,7 @@ import {
     IASak,
     IASakshendelseType,
     IASakshendelseTypeEnum
-} from "../../../domenetyper";
+} from "../../../domenetyper/domenetyper";
 import { ulid } from "ulid";
 
 

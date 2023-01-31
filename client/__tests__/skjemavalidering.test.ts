@@ -1,4 +1,4 @@
-import {datoSchema, iaSakSchema, iaSakshendelseSchema, IASakshendelseTypeEnum} from "../src/domenetyper";
+import {datoSchema, iaSakSchema, iaSakshendelseSchema, IASakshendelseTypeEnum} from "../src/domenetyper/domenetyper";
 
 describe("dato parsing", () => {
     test('ugyldige datoer skal ikke kunne parses', () => {

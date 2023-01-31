@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { sorteringsverdier } from "./Pages/Prioritering/Filter/Filtervisning";
+import { sorteringsverdier } from "../Pages/Prioritering/Filter/Filtervisning";
 
 export const datoSchema = z.preprocess((arg) => {
     if (typeof arg == "string" || arg instanceof Date) return new Date(arg);

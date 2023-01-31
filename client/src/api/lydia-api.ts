@@ -20,7 +20,7 @@ import {
     VirksomhetsstatistikkSiste4Kvartaler,
     virksomhetsstatistikkSiste4KvartalerSchema,
     virksomhetsstatistikkSisteKvartalSchema,
-} from "../domenetyper";
+} from "../domenetyper/domenetyper";
 import useSWR, { SWRConfiguration } from "swr";
 import { z, ZodError, ZodType } from "zod";
 import { useEffect, useState } from "react";

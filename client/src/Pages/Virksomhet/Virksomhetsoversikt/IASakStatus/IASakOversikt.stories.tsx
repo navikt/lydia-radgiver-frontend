@@ -14,7 +14,7 @@ import {
 } from "../../mocks/iaSakMock";
 import { iaSakPath, iaSakPostNyHendelsePath } from "../../../../api/lydia-api";
 import { FeilmeldingBanner } from "../../../FeilmeldingBanner";
-import { IASak } from "../../../../domenetyper";
+import { IASak } from "../../../../domenetyper/domenetyper";
 
 export default {
     title: "Virksomhet/Virksomhetsoversikt/IA-sak-oversikt (statusfelt)",

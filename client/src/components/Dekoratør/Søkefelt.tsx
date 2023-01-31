@@ -2,7 +2,7 @@ import { CSSProperties, useEffect, useRef, useState } from "react";
 import { Popover, Search } from "@navikt/ds-react";
 import { useDebounce } from "../../util/useDebounce";
 import { virksomhetAutocompletePath } from "../../api/lydia-api";
-import { VirksomhetSøkeresultat } from "../../domenetyper";
+import { VirksomhetSøkeresultat } from "../../domenetyper/domenetyper";
 import { EksternLenke } from "../EksternLenke";
 
 interface Props {

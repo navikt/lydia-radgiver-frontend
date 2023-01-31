@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Heading } from "@navikt/ds-react";
-import { IASak, Virksomhet } from "../../../domenetyper";
+import { IASak, Virksomhet } from "../../../domenetyper/domenetyper";
 import { Sykefraværsstatistikk } from "./Statistikk/Sykefraværsstatistikk";
 import { IASakOversikt } from "./IASakStatus/IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";

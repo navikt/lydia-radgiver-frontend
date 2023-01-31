@@ -6,7 +6,7 @@ import {
     Kommune,
     Næringsgruppe,
     Sorteringsverdi,
-} from "../../../domenetyper";
+} from "../../../domenetyper/domenetyper";
 import { Range } from "./SykefraværsprosentVelger";
 import { useCallback, useEffect, useReducer } from "react";
 import { SortState } from "@navikt/ds-react";

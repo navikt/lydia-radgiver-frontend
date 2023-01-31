@@ -2,7 +2,7 @@ import { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Alert, BodyShort, Link } from "@navikt/ds-react";
 import { Header } from "@navikt/ds-react-internal";
-import { Brukerinformasjon } from "../../domenetyper";
+import { Brukerinformasjon } from "../../domenetyper/domenetyper";
 import { TittelContext } from "../../Pages/Prioritering/TittelContext";
 import { Søkefelt } from "./Søkefelt";
 import { NavFarger } from "../../styling/farger";

@@ -1,4 +1,4 @@
-import { Virksomhet } from "../../../domenetyper";
+import { Virksomhet } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 import { BodyShort } from "@navikt/ds-react";
 import { NavFarger } from "../../../styling/farger";

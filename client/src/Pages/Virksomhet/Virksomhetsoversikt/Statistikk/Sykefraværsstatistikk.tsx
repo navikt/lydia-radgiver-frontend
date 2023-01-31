@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Statistikkboks } from "./Statistikkboks";
-import { Kvartal, KvartalFraTil, VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper";
+import { Kvartal, KvartalFraTil, VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/domenetyper";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {

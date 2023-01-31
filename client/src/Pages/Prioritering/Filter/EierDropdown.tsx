@@ -4,7 +4,7 @@ import {
     StyledReactSelect,
 } from "../../../components/ReactSelect/StyledReactSelect";
 import { sorterAlfabetisk } from "../../../util/sortering";
-import { Eier } from "../../../domenetyper";
+import { Eier } from "../../../domenetyper/domenetyper";
 
 const eierDropdownId = "EierDropdown";
 

@@ -1,4 +1,4 @@
-import {Fylke, FylkeMedKommuner} from "../../../domenetyper";
+import {Fylke, FylkeMedKommuner} from "../../../domenetyper/domenetyper";
 import {Select} from "@navikt/ds-react";
 import {CSSProperties} from "react";
 import {sorterAlfabetisk} from "../../../util/sortering";

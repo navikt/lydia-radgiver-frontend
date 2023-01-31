@@ -6,7 +6,7 @@ import {
     IASak,
     IASakshendelseType,
     IASakshendelseTypeEnum
-} from "../../../../domenetyper";
+} from "../../../../domenetyper/domenetyper";
 import { erHendelsenDestruktiv, IASakshendelseKnapp, sorterHendelserPåKnappeType } from "./IASakshendelseKnapp";
 import { BekreftValgModal, Props as BekreftValgModalProps } from "../../../../components/Modal/BekreftValgModal";
 import { penskrivIAStatus } from "../../../../components/Badge/StatusBadge";

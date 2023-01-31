@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Accordion, BodyShort } from "@navikt/ds-react";
-import { Sakshistorikk } from "../../../domenetyper";
+import { Sakshistorikk } from "../../../domenetyper/domenetyper";
 import { lokalDato } from "../../../util/dato";
 import { StatusBadge } from "../../../components/Badge/StatusBadge";
 import { SakshistorikkTabell } from "./SakshistorikkTabell";

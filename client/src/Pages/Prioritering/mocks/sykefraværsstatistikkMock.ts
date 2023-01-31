@@ -3,7 +3,7 @@ import {
     KvartalFraTil, VirkomshetsstatistikkSisteKvartal,
     Virksomhetsoversikt,
     VirksomhetsstatistikkSiste4Kvartaler
-} from "../../../domenetyper";
+} from "../../../domenetyper/domenetyper";
 
 const sykefraværStatiskData: Pick<Virksomhetsoversikt, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
     antallPersoner: 69.4123,

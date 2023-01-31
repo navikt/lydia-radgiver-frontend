@@ -1,5 +1,5 @@
 import { Detail, Table } from "@navikt/ds-react";
-import { Sakshistorikk } from "../../../domenetyper";
+import { Sakshistorikk } from "../../../domenetyper/domenetyper";
 import { StatusBadge } from "../../../components/Badge/StatusBadge";
 import { lokalDato } from "../../../util/dato";
 import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";

@@ -8,7 +8,7 @@ import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
 import { hvitBoksMedSkygge } from "../../../styling/containere";
-import { Eier, IAProsessStatusType, Kommune } from "../../../domenetyper";
+import { Eier, IAProsessStatusType, Kommune } from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
 import { tabletAndUp } from "../../../styling/breakpoint";
 import { SektorDropdown } from "./SektorDropdown";

@@ -2,7 +2,7 @@ import {
     GyldigNesteHendelse,
     IASakshendelseType,
     IASakshendelseTypeEnum,
-} from "../src/domenetyper";
+} from "../src/domenetyper/domenetyper";
 import {sorterHendelserPåKnappeType} from "../src/Pages/Virksomhet/Virksomhetsoversikt/IASakStatus/IASakshendelseKnapp";
 
 const nyHendelse = (

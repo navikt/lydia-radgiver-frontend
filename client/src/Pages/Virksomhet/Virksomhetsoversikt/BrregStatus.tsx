@@ -1,4 +1,4 @@
-import { VirksomhetStatusBrreg, VirksomhetStatusBrregEnum } from "../../../domenetyper";
+import { VirksomhetStatusBrreg, VirksomhetStatusBrregEnum } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 import { Tag } from "@navikt/ds-react";
 

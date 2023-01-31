@@ -1,5 +1,5 @@
 import {Select} from "@navikt/ds-react";
-import {Sektor} from "../../../domenetyper";
+import {Sektor} from "../../../domenetyper/domenetyper";
 
 interface Props {
     valgtSektor?: string
