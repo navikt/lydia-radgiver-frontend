@@ -3,7 +3,7 @@ import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import { virksomhetMock } from "../../Prioritering/mocks/virksomhetMock";
 
 export default {
-    title: "Virksomhet/Informasjon om en virksomhet",
+    title: "Virksomhet/Virksomhetsoversikt/Informasjon om en virksomhet",
     component: VirksomhetInformasjon,
 } as ComponentMeta<typeof VirksomhetInformasjon>;
 

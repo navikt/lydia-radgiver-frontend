@@ -3,7 +3,7 @@ import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import { Statistikkboks } from "./Statistikkboks";
 
 export default {
-    title: "Virksomhet/Statistikkboks",
+    title: "Virksomhet/Virksomhetsoversikt/Statistikkboks",
     component: Statistikkboks,
     parameters: {
         backgrounds: {

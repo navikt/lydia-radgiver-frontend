@@ -17,7 +17,7 @@ import { FeilmeldingBanner } from "../../../FeilmeldingBanner";
 import { IASak } from "../../../../domenetyper";
 
 export default {
-    title: "Virksomhet/Oversikt over IA-sak",
+    title: "Virksomhet/Virksomhetsoversikt/Oversikt over IA-sak",
     component: IASakOversikt,
     parameters: {
         backgrounds: {

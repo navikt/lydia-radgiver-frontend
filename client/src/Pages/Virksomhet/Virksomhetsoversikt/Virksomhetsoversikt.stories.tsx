@@ -5,7 +5,7 @@ import { iaSakKontaktes } from "../mocks/iaSakMock";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt";
 
 export default {
-    title: "Virksomhet/Oversikt over virksomhet og sak",
+    title: "Virksomhet/Virksomhetsoversikt/Oversikt over virksomhet og sak",
     component: Virksomhetsoversikt,
     decorators: [(Story) => (
         <MemoryRouter initialEntries={["/virksomhet/123456789"]}>

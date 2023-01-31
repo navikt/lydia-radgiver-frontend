@@ -6,7 +6,7 @@ import { ikkeAktuellHendelseMock } from "../../mocks/iaSakMock";
 import { useState } from "react";
 
 export default {
-    title: "Virksomhet/Begrunnelse for å velge 'Ikke aktuell'",
+    title: "Virksomhet/Virksomhetsoversikt/Begrunnelse for å velge 'Ikke aktuell'",
     component: BegrunnelseModal,
 } as ComponentMeta<typeof BegrunnelseModal>;
 

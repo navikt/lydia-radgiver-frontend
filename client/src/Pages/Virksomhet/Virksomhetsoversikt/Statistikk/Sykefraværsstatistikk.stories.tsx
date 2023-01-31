@@ -8,7 +8,7 @@ import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import { gjeldendePeriodePath, siste4kvartalerPath, sykefraværsstatistikkPath } from "../../../../api/lydia-api";
 
 export default {
-    title: "Virksomhet/Sykefraværsstatistikk for en virksomhet",
+    title: "Virksomhet/Virksomhetsoversikt/Sykefraværsstatistikk for en virksomhet",
     component: Sykefraværsstatistikk,
     parameters: {
         backgrounds: {
