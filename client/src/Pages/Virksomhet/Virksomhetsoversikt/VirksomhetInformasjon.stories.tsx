@@ -3,10 +3,10 @@ import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import { virksomhetMock } from "../../Prioritering/mocks/virksomhetMock";
 
 export default {
-    title: "Virksomhet/Virksomhetsoversikt/Informasjon om en virksomhet",
+    title: "Virksomhet/Virksomhetsoversikt/Virksomhetsinformasjon",
     component: VirksomhetInformasjon,
 } as ComponentMeta<typeof VirksomhetInformasjon>;
 
-export const Header = () => (
+export const Hovedstory = () => (
     <VirksomhetInformasjon virksomhet={virksomhetMock} />
 );

@@ -6,13 +6,13 @@ import { ikkeAktuellHendelseMock } from "../../mocks/iaSakMock";
 import { useState } from "react";
 
 export default {
-    title: "Virksomhet/Virksomhetsoversikt/Begrunnelse for å velge 'Ikke aktuell'",
+    title: "Virksomhet/Virksomhetsoversikt/Modal: begrunnelse for 'Ikke aktuell'",
     component: BegrunnelseModal,
 } as ComponentMeta<typeof BegrunnelseModal>;
 
 Modal.setAppElement?.(document.body);
 
-export const BegrunnelseModalStory = () => {
+export const Hovedstory = () => {
     const [open, setOpen] = useState(false);
     return (
         <div>
