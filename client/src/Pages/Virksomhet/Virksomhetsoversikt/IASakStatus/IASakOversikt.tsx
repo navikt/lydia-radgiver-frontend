@@ -1,7 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { BodyShort } from "@navikt/ds-react";
-import { GyldigNesteHendelse, IAProsessStatusEnum, IASak, IASakshendelseTypeEnum, RolleEnum } from "../../../../domenetyper/domenetyper";
+import { GyldigNesteHendelse, IAProsessStatusEnum, IASak, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
 import { StatusBadge } from "../../../../components/Badge/StatusBadge";
 import { nyHendelsePåSak, opprettSak, useHentBrukerinformasjon } from "../../../../api/lydia-api";
 import { BegrunnelseModal } from "./BegrunnelseModal";
@@ -10,6 +10,7 @@ import { SakshendelsesKnapper } from "./SakshendelsesKnapper";
 import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
 import { NavFarger } from "../../../../styling/farger";
 import { BorderRadius } from "../../../../styling/borderRadius";
+import { RolleEnum } from "../../../../domenetyper/brukerinformasjon";
 
 const Container = styled.div`
   display: flex;

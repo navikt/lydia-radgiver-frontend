@@ -1,4 +1,4 @@
-import {Brukerinformasjon} from "../../../domenetyper/domenetyper";
+import { Brukerinformasjon } from "../../../domenetyper/brukerinformasjon";
 
 const TRE_TIMER_MS = 1000 * 60 * 60 * 3
 const FEM_SEKUNDER_MS = 1000 * 5

@@ -1,6 +1,4 @@
 import {
-    Brukerinformasjon,
-    brukerinfoSchema,
     Filterverdier,
     filterverdierSchema,
     GyldigNesteHendelse,
@@ -24,6 +22,7 @@ import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
 import { FiltervisningState } from "../Pages/Prioritering/Filter/filtervisning-reducer";
 import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartalTyper";
 import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
+import { Brukerinformasjon, brukerinformasjonSchema } from "../domenetyper/brukerinformasjon";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -253,7 +252,7 @@ export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
 };
 
 export const useHentBrukerinformasjon = () =>
-    useSwrTemplate<Brukerinformasjon>(innloggetAnsattPath, brukerinfoSchema);
+    useSwrTemplate<Brukerinformasjon>(innloggetAnsattPath, brukerinformasjonSchema);
 
 export const useHentSakerForVirksomhet = (orgnummer?: string) => {
     const iasakUrl = `${iaSakPath}/${orgnummer}`;
