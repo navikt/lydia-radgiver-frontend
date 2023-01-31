@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { Heading } from "@navikt/ds-react";
-import { IASak, Virksomhet } from "../../../domenetyper/domenetyper";
+import { IASak } from "../../../domenetyper/domenetyper";
 import { Sykefraværsstatistikk } from "./Statistikk/Sykefraværsstatistikk";
 import { IASakOversikt } from "./IASakStatus/IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import { contentSpacing } from "../../../styling/contentSpacing";
 import { BrregStatus } from "./BrregStatus";
+import { Virksomhet } from "../../../domenetyper/virksomhet";
 
 const OversiktsContainer = styled.div`
   display: flex;

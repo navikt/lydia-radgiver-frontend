@@ -1,6 +1,6 @@
-import { VirksomhetStatusBrreg, VirksomhetStatusBrregEnum } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 import { Tag } from "@navikt/ds-react";
+import { VirksomhetStatusBrreg, VirksomhetStatusBrregEnum } from "../../../domenetyper/virksomhet";
 
 const BrregStatusTag = styled(Tag)`
   align-self: center;

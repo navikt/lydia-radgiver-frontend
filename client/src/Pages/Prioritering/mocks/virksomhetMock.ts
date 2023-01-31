@@ -1,4 +1,5 @@
-import {Virksomhet, VirksomhetStatusBrregEnum, VirksomhetSøkeresultat} from "../../../domenetyper/domenetyper";
+import {VirksomhetSøkeresultat} from "../../../domenetyper/domenetyper";
+import { Virksomhet, VirksomhetStatusBrregEnum } from "../../../domenetyper/virksomhet";
 
 export const virksomhetMock: Virksomhet = {
     orgnr: "999123456",

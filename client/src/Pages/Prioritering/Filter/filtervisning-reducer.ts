@@ -2,7 +2,6 @@ import {
     Eier,
     Filterverdier,
     IAProsessStatusType,
-    Næringsgruppe,
     Sorteringsverdi,
 } from "../../../domenetyper/domenetyper";
 import { Range } from "./SykefraværsprosentVelger";
@@ -11,6 +10,7 @@ import { SortState } from "@navikt/ds-react";
 import { useSearchParams } from "react-router-dom";
 import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommuneTyper";
+import { Næringsgruppe } from "../../../domenetyper/virksomhet";
 
 const næringsgruppeKoderTilNæringsgrupper = (
     næringsgruppeKoder: string[],

@@ -2,25 +2,16 @@ import { z } from "zod";
 import { sorteringsverdier } from "../Pages/Prioritering/Filter/Filtervisning";
 import { fylkeMedKommunerSchema } from "./fylkeOgKommuneTyper";
 import { kvartalSchema } from "./kvartalTyper";
+import { næringsgrupperSchema, sektorSchema } from "./virksomhet";
 
 export const datoSchema = z.preprocess((arg) => {
     if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
 }, z.date()) as z.ZodEffects<z.ZodDate, Date, Date>;
 
-export const næringsgrupperSchema = z.object({
-    navn: z.string(),
-    kode: z.string(),
-});
-
 export const eierSchema = z.object({
     navIdent: z.string(),
     navn: z.string(),
 });
-
-const sektorSchema = z.object({
-    kode: z.string(),
-    beskrivelse: z.string()
-})
 
 const IA_PROSESS_STATUSER = [
     "NY",
@@ -96,11 +87,7 @@ export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>;
 
 export type Filterverdier = z.infer<typeof filterverdierSchema>;
 
-export type Næringsgruppe = z.infer<typeof næringsgrupperSchema>;
-
 export type Eier = z.infer<typeof eierSchema>;
-
-export type Sektor = z.infer<typeof sektorSchema>;
 
 export type Virksomhetsoversikt = z.infer<
     typeof virksomhetsoversiktSchema
@@ -115,22 +102,6 @@ export type VirksomhetsstatistikkSiste4Kvartaler = z.infer<
 >;
 
 export type Sorteringsverdi = keyof typeof sorteringsverdier;
-
-const VIRKSOMHET_STATUS_BRREG = ["AKTIV", "FJERNET", "SLETTET"] as const;
-export const VirksomhetStatusBrregEnum = z.enum(VIRKSOMHET_STATUS_BRREG);
-export type VirksomhetStatusBrreg = z.infer<typeof VirksomhetStatusBrregEnum>;
-
-export const virksomhetsSchema = z.object({
-    orgnr: z.string(),
-    navn: z.string(),
-    adresse: z.string().array(),
-    postnummer: z.string(),
-    poststed: z.string(),
-    neringsgrupper: næringsgrupperSchema.array(),
-    sektor: z.string().optional(),
-    status: VirksomhetStatusBrregEnum,
-});
-export type Virksomhet = z.infer<typeof virksomhetsSchema>;
 
 export type VirksomhetSøkeresultat = {
     orgnr: string;
