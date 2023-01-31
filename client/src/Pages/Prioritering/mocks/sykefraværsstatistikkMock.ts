@@ -1,9 +1,10 @@
 import {
     IAProsessStatusEnum,
-    KvartalFraTil, VirkomshetsstatistikkSisteKvartal,
+    VirkomshetsstatistikkSisteKvartal,
     Virksomhetsoversikt,
     VirksomhetsstatistikkSiste4Kvartaler
 } from "../../../domenetyper/domenetyper";
+import { KvartalFraTil } from "../../../domenetyper/kvartalTyper";
 
 const sykefraværStatiskData: Pick<Virksomhetsoversikt, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
     antallPersoner: 69.4123,

@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Statistikkboks } from "./Statistikkboks";
-import { Kvartal, KvartalFraTil, VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/domenetyper";
+import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/domenetyper";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {
@@ -10,6 +10,7 @@ import {
 } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { getGjeldendePeriodeTekst } from "../../../../util/gjeldendePeriodeSisteFireKvartal";
+import { Kvartal, KvartalFraTil } from "../../../../domenetyper/kvartalTyper";
 
 const Container = styled.div`
   display: grid;

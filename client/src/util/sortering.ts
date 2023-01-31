@@ -1,4 +1,4 @@
-import { Kvartal } from "../domenetyper/domenetyper";
+import { Kvartal } from "../domenetyper/kvartalTyper";
 
 export const sorterAlfabetisk = (a: string, b: string) =>
     a.toLocaleLowerCase().localeCompare(b.toLocaleLowerCase(), "no");

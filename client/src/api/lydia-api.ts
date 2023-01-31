@@ -7,8 +7,6 @@ import {
     IANySakshendelseDto,
     IASak,
     iaSakSchema,
-    KvartalFraTil,
-    kvartalFraTilSchema,
     Sakshistorikk,
     sakshistorikkSchema,
     virksomhetsoversiktListeResponsSchema,
@@ -26,6 +24,7 @@ import { z, ZodError, ZodType } from "zod";
 import { useEffect, useState } from "react";
 import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
 import { FiltervisningState } from "../Pages/Prioritering/Filter/filtervisning-reducer";
+import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartalTyper";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
