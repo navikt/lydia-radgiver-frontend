@@ -1,6 +1,6 @@
 import {
     IAProsessStatusEnum,
-    KvartalFraTil,
+    KvartalFraTil, VirkomshetsstatistikkSisteKvartal,
     Virksomhetsoversikt,
     VirksomhetsstatistikkSiste4Kvartaler
 } from "../../../domenetyper";
@@ -21,17 +21,12 @@ const sykefraværStatiskDataUtenDesimaler: Pick<Virksomhetsoversikt, 'antallPers
 
 const endretDato = new Date(2022, 7, 22)
 
-export const sykefraværsstatistikkSisteKvartalMock: Virksomhetsoversikt[] = [{
+export const sykefraværsstatistikkSisteKvartalMock: VirkomshetsstatistikkSisteKvartal[] = [{
     "orgnr": "995428563",
-    "virksomhetsnavn": "SUSHISHAPPA PÅ HJØRNET",
-    "sektor": "",
-    "neringsgruppe": "",
     "arstall": 2021,
     "kvartal": 3,
     ...sykefraværStatiskData,
-    "status": IAProsessStatusEnum.enum.IKKE_AKTIV,
-    "eidAv": "X123456",
-    "sistEndret": null,
+    "maskert": false,
 }];
 
 export const gjeldendePeriodeSiste4Kvartal: KvartalFraTil = {
