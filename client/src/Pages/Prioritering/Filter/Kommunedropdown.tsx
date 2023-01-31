@@ -1,11 +1,11 @@
 import { Label } from "@navikt/ds-react";
-import { FylkeMedKommuner, Kommune } from "../../../domenetyper/domenetyper";
 import {
     StyledReactSelect,
     reactSelectStyle,
 } from "../../../components/ReactSelect/StyledReactSelect";
 import { CSSProperties } from "react";
 import { sorterAlfabetisk } from "../../../util/sortering";
+import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommuneTyper";
 
 const kommuneDropdownId = "kommunedropdown";
 

@@ -1,6 +1,6 @@
-import { Kommune } from "../src/domenetyper/domenetyper";
 import { søkeverdierTilUrlSearchParams } from "../src/api/lydia-api";
 import { FiltervisningState } from "../src/Pages/Prioritering/Filter/filtervisning-reducer";
+import { Kommune } from "../src/domenetyper/fylkeOgKommuneTyper";
 
 describe("oversettelse fra søkeverdier til URL-parametre", () => {
     test("tomme søkeverdier resulterer i søkeparametre uten noen verdier", () => {

@@ -8,10 +8,11 @@ import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
 import { hvitBoksMedSkygge } from "../../../styling/containere";
-import { Eier, IAProsessStatusType, Kommune } from "../../../domenetyper/domenetyper";
+import { Eier, IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
 import { tabletAndUp } from "../../../styling/breakpoint";
 import { SektorDropdown } from "./SektorDropdown";
+import { Kommune } from "../../../domenetyper/fylkeOgKommuneTyper";
 
 export const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",

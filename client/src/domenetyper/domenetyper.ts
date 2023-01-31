@@ -1,19 +1,10 @@
 import { z } from "zod";
 import { sorteringsverdier } from "../Pages/Prioritering/Filter/Filtervisning";
+import { fylkeMedKommunerSchema } from "./fylkeOgKommuneTyper";
 
 export const datoSchema = z.preprocess((arg) => {
     if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
 }, z.date()) as z.ZodEffects<z.ZodDate, Date, Date>;
-
-export const fylkeOgKommuneSchema = z.object({
-    nummer: z.string(),
-    navn: z.string(),
-});
-
-export const fylkeMedKommunerSchema = z.object({
-    fylke: fylkeOgKommuneSchema,
-    kommuner: z.array(fylkeOgKommuneSchema),
-});
 
 export const næringsgrupperSchema = z.object({
     navn: z.string(),
@@ -114,8 +105,6 @@ export const filterverdierSchema = z.object({
 
 export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>;
 
-export type FylkeMedKommuner = z.infer<typeof fylkeMedKommunerSchema>;
-
 export type Filterverdier = z.infer<typeof filterverdierSchema>;
 
 export type Næringsgruppe = z.infer<typeof næringsgrupperSchema>;
@@ -173,9 +162,6 @@ export const brukerinfoSchema = z.object({
     rolle: RolleEnum,
 });
 export type Brukerinformasjon = z.infer<typeof brukerinfoSchema>;
-
-export type Fylke = z.infer<typeof fylkeOgKommuneSchema>;
-export type Kommune = z.infer<typeof fylkeOgKommuneSchema>;
 
 const IA_SAKSHENDELSE_TYPER = [
     "OPPRETT_SAK_FOR_VIRKSOMHET",
