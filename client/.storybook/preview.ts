@@ -2,11 +2,15 @@ import { initialize, mswDecorator } from "msw-storybook-addon";
 import { NavFarger } from "../src/styling/farger";
 import { rest } from "msw";
 import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innloggetAnsattMock";
-import { sykefraværsstatistikkPath } from "../src/api/lydia-api";
-import { sykefraværsstatistikkSisteKvartalMock } from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
+import { gjeldendePeriodePath, siste4kvartalerPath, sykefraværsstatistikkPath } from "../src/api/lydia-api";
+import {
+    gjeldendePeriodeSiste4Kvartal,
+    sykefraværsstatistikkSisteKvartalMock,
+    virksomhetsstatistikkSiste4KvartalerMock
+} from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
 
 export const parameters = {
-    actions: {argTypesRegex: "^on[A-Z].*"},
+    actions: { argTypesRegex: "^on[A-Z].*" },
     backgrounds: {
         default: 'canvasBackground',
         values: [
@@ -55,7 +59,21 @@ export const parameters = {
                         ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
                     );
                 }),
-            ]
+            ],
+            sykefraværsstatistikkSiste4Kvartal: [
+                rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
+                    return res(
+                        ctx.json(virksomhetsstatistikkSiste4KvartalerMock[0])
+                    );
+                }),
+            ],
+            gjeldendePeriodeSiste4Kvartal: [
+                rest.get(`${sykefraværsstatistikkPath}/${gjeldendePeriodePath}`, (req, res, ctx) => {
+                    return res(
+                        ctx.json(gjeldendePeriodeSiste4Kvartal)
+                    );
+                }),
+            ],
         }
     }
 };
