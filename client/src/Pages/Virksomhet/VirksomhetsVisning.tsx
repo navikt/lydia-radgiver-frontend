@@ -5,6 +5,7 @@ import { Samarbeidshistorikk } from "./Samarbeidshistorikk/Samarbeidshistorikk";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
 import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../styling/contentSpacing";
 import { NavFarger } from "../../styling/farger";
+import { ViBistårTab } from "./ViBistårTab/ViBistårTab";
 
 const Container = styled.div`
   padding-top: ${contentSpacing.mobileY};
@@ -28,6 +29,9 @@ interface Props {
 }
 
 export const VirksomhetsVisning = ({ virksomhet, iaSak, samarbeidshistorikk, muterState }: Props) => {
+    // Dette er ein wannabe feature toggle
+    const visViBistårTab = false; // TODO: Dobbeltsjekk at verdien her er 'false' før du pusher
+
     return (
         <Container>
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} muterState={muterState} />
@@ -35,9 +39,13 @@ export const VirksomhetsVisning = ({ virksomhet, iaSak, samarbeidshistorikk, mut
             <Tabs defaultValue="samarbeidshistorikk">
                 <Tabs.List style={{width: "100%"}}>
                     <Tabs.Tab value="samarbeidshistorikk" label="Samarbeidshistorikk" />
+                    {visViBistårTab && <Tabs.Tab value="vi-bistår" label="Vi bistår" />}
                 </Tabs.List>
                 <StyledPanel value="samarbeidshistorikk">
                     <Samarbeidshistorikk samarbeidshistorikk={samarbeidshistorikk} />
+                </StyledPanel>
+                <StyledPanel value="vi-bistår">
+                    {visViBistårTab && <ViBistårTab />}
                 </StyledPanel>
             </Tabs>
         </Container>
