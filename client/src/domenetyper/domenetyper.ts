@@ -26,30 +26,6 @@ const IA_PROSESS_STATUSER = [
 
 export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER);
 
-export const virksomhetsoversiktSchema = z.object({
-    orgnr: z.string(),
-    virksomhetsnavn: z.string(),
-    sektor: z.string().optional(),  //TODO: fjern senere
-    neringsgruppe: z.string().optional(),   //TODO: fjern senere
-    arstall: z.number().optional(), //TODO: fjern senere
-    kvartal: z.number().optional(), //TODO: fjern senere
-    sykefraversprosent: z.number(),
-    antallPersoner: z.number(),
-    muligeDagsverk: z.number(),
-    tapteDagsverk: z.number(),
-    status: IAProsessStatusEnum,
-    eidAv: z.string().nullable(),
-    sistEndret: datoSchema.nullable(),
-});
-
-export const virksomhetsoversiktListeSchema = z.array(
-    virksomhetsoversiktSchema
-);
-
-export const virksomhetsoversiktListeResponsSchema = z.object({
-    data: virksomhetsoversiktListeSchema,
-});
-
 export const filterverdierSchema = z.object({
     fylker: z.array(fylkeMedKommunerSchema),
     neringsgrupper: z.array(næringsgrupperSchema),
@@ -65,14 +41,6 @@ export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>;
 export type Filterverdier = z.infer<typeof filterverdierSchema>;
 
 export type Eier = z.infer<typeof eierSchema>;
-
-export type Virksomhetsoversikt = z.infer<
-    typeof virksomhetsoversiktSchema
->;
-
-export type VirksomhetsoversiktListeRespons = z.infer<
-    typeof virksomhetsoversiktListeResponsSchema
->;
 
 export type Sorteringsverdi = keyof typeof sorteringsverdier;
 

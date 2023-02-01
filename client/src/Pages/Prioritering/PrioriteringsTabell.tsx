@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { SortState, Table } from "@navikt/ds-react";
-import { Virksomhetsoversikt } from "../../domenetyper/domenetyper";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { lokalDato } from "../../util/dato";
@@ -9,6 +8,7 @@ import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/t
 import { EksternLenke } from "../../components/EksternLenke";
 import { SøkeresultatFooter } from "./SøkeresultatFooter";
 import { hvitBoksMedSkygge } from "../../styling/containere";
+import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 
 interface Kolonne {
     key: string,

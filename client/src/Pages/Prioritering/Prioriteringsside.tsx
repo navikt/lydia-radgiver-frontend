@@ -4,10 +4,10 @@ import { Loader, SortState } from "@navikt/ds-react";
 import { Filtervisning } from "./Filter/Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import { useFilterverdier, useHentVirksomhetsoversiktListe, } from "../../api/lydia-api";
-import { Virksomhetsoversikt } from "../../domenetyper/domenetyper";
 import { statiskeSidetitler, TittelContext } from "./TittelContext";
 import { contentSpacing } from "../../styling/contentSpacing";
 import { useFiltervisningState } from "./Filter/filtervisning-reducer";
+import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 
 const Container = styled.div`
   padding: ${contentSpacing.mobileY} 0;

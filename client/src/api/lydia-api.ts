@@ -6,9 +6,6 @@ import {
     IASak,
     iaSakSchema,
     ValgtÅrsakDto,
-    VirksomhetsoversiktListeRespons,
-    virksomhetsoversiktListeResponsSchema,
-
 } from "../domenetyper/domenetyper";
 import useSWR, { SWRConfiguration } from "swr";
 import { z, ZodError, ZodType } from "zod";
@@ -27,6 +24,10 @@ import {
     VirksomhetsstatistikkSiste4Kvartaler,
     virksomhetsstatistikkSiste4KvartalerSchema
 } from "../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
+import {
+    VirksomhetsoversiktListeRespons,
+    virksomhetsoversiktListeResponsSchema
+} from "../domenetyper/virksomhetsoversikt";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
