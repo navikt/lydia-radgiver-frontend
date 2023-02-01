@@ -1,7 +1,6 @@
 import { z } from "zod";
 import { sorteringsverdier } from "../Pages/Prioritering/Filter/Filtervisning";
 import { fylkeMedKommunerSchema } from "./fylkeOgKommuneTyper";
-import { kvartalSchema } from "./kvartalTyper";
 import { næringsgrupperSchema, sektorSchema } from "./virksomhet";
 
 export const datoSchema = z.preprocess((arg) => {
@@ -51,15 +50,6 @@ export const virksomhetsoversiktListeResponsSchema = z.object({
     data: virksomhetsoversiktListeSchema,
 });
 
-export const virksomhetsstatistikkSiste4KvartalerSchema = z.object({
-    orgnr: z.string(),
-    sykefraversprosent: z.number(),
-    muligeDagsverk: z.number(),
-    tapteDagsverk: z.number(),
-    antallKvartaler: z.number(),
-    kvartaler: z.array(kvartalSchema),
-})
-
 export const filterverdierSchema = z.object({
     fylker: z.array(fylkeMedKommunerSchema),
     neringsgrupper: z.array(næringsgrupperSchema),
@@ -82,10 +72,6 @@ export type Virksomhetsoversikt = z.infer<
 
 export type VirksomhetsoversiktListeRespons = z.infer<
     typeof virksomhetsoversiktListeResponsSchema
->;
-
-export type VirksomhetsstatistikkSiste4Kvartaler = z.infer<
-    typeof virksomhetsstatistikkSiste4KvartalerSchema
 >;
 
 export type Sorteringsverdi = keyof typeof sorteringsverdier;

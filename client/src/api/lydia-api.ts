@@ -8,8 +8,7 @@ import {
     ValgtÅrsakDto,
     VirksomhetsoversiktListeRespons,
     virksomhetsoversiktListeResponsSchema,
-    VirksomhetsstatistikkSiste4Kvartaler,
-    virksomhetsstatistikkSiste4KvartalerSchema,
+
 } from "../domenetyper/domenetyper";
 import useSWR, { SWRConfiguration } from "swr";
 import { z, ZodError, ZodType } from "zod";
@@ -24,6 +23,10 @@ import {
     VirkomshetsstatistikkSisteKvartal,
     virksomhetsstatistikkSisteKvartalSchema
 } from "../domenetyper/virksomhetsstatistikkSisteKvartal";
+import {
+    VirksomhetsstatistikkSiste4Kvartaler,
+    virksomhetsstatistikkSiste4KvartalerSchema
+} from "../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;

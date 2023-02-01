@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Statistikkboks } from "./Statistikkboks";
-import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/domenetyper";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {
@@ -11,6 +10,7 @@ import {
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { getGjeldendePeriodeTekst } from "../../../../util/gjeldendePeriodeSisteFireKvartal";
 import { Kvartal, KvartalFraTil } from "../../../../domenetyper/kvartalTyper";
+import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 
 const Container = styled.div`
   display: grid;
