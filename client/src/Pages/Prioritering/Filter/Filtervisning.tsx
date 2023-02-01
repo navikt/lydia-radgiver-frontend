@@ -14,14 +14,6 @@ import { tabletAndUp } from "../../../styling/breakpoint";
 import { SektorDropdown } from "./SektorDropdown";
 import { Kommune } from "../../../domenetyper/fylkeOgKommuneTyper";
 
-export const sorteringsverdier = {
-    tapte_dagsverk: "Tapte dagsverk",
-    mulige_dagsverk: "Mulige dagsverk",
-    antall_personer: "Antall arbeidsforhold",
-    sykefraversprosent: "Sykefraværsprosent",
-    navn: "Alfabetisk på navn",
-} as const;
-
 const Skjema = styled.form`
   padding: 1rem;
   ${hvitBoksMedSkygge}

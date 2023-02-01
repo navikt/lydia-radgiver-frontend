@@ -1,9 +1,4 @@
-import {
-    Eier,
-    Filterverdier,
-    IAProsessStatusType,
-    Sorteringsverdi,
-} from "../../../domenetyper/domenetyper";
+import { Eier, IAProsessStatusType, } from "../../../domenetyper/domenetyper";
 import { Range } from "./SykefraværsprosentVelger";
 import { useCallback, useEffect, useReducer } from "react";
 import { SortState } from "@navikt/ds-react";
@@ -11,6 +6,7 @@ import { useSearchParams } from "react-router-dom";
 import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommuneTyper";
 import { Næringsgruppe } from "../../../domenetyper/virksomhet";
+import { Filterverdier, Sorteringsverdi } from "../../../domenetyper/filterverdier";
 
 const næringsgruppeKoderTilNæringsgrupper = (
     næringsgruppeKoder: string[],

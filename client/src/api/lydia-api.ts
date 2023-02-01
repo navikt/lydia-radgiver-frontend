@@ -1,6 +1,4 @@
 import {
-    Filterverdier,
-    filterverdierSchema,
     GyldigNesteHendelse,
     IANySakshendelseDto,
     IASak,
@@ -28,6 +26,7 @@ import {
     VirksomhetsoversiktListeRespons,
     virksomhetsoversiktListeResponsSchema
 } from "../domenetyper/virksomhetsoversikt";
+import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;

@@ -1,7 +1,4 @@
 import { z } from "zod";
-import { sorteringsverdier } from "../Pages/Prioritering/Filter/Filtervisning";
-import { fylkeMedKommunerSchema } from "./fylkeOgKommuneTyper";
-import { næringsgrupperSchema, sektorSchema } from "./virksomhet";
 
 export const datoSchema = z.preprocess((arg) => {
     if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
@@ -26,23 +23,9 @@ const IA_PROSESS_STATUSER = [
 
 export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER);
 
-export const filterverdierSchema = z.object({
-    fylker: z.array(fylkeMedKommunerSchema),
-    neringsgrupper: z.array(næringsgrupperSchema),
-    sorteringsnokler: z.string().array(),
-    statuser: IAProsessStatusEnum.array(),
-    bransjeprogram: z.string().array(),
-    filtrerbareEiere: z.array(eierSchema),
-    sektorer: z.array(sektorSchema)
-});
-
 export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>;
 
-export type Filterverdier = z.infer<typeof filterverdierSchema>;
-
 export type Eier = z.infer<typeof eierSchema>;
-
-export type Sorteringsverdi = keyof typeof sorteringsverdier;
 
 export type VirksomhetSøkeresultat = {
     orgnr: string;
