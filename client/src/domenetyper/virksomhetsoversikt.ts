@@ -4,10 +4,6 @@ import { datoSchema, IAProsessStatusEnum } from "./domenetyper";
 export const virksomhetsoversiktSchema = z.object({
     orgnr: z.string(),
     virksomhetsnavn: z.string(),
-    sektor: z.string().optional(),  //TODO: fjern senere
-    neringsgruppe: z.string().optional(),   //TODO: fjern senere
-    arstall: z.number().optional(), //TODO: fjern senere
-    kvartal: z.number().optional(), //TODO: fjern senere
     sykefraversprosent: z.number(),
     antallPersoner: z.number(),
     muligeDagsverk: z.number(),
