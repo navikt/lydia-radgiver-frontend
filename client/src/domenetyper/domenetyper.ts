@@ -9,6 +9,8 @@ export const eierSchema = z.object({
     navn: z.string(),
 });
 
+export type Eier = z.infer<typeof eierSchema>;
+
 const IA_PROSESS_STATUSER = [
     "NY",
     "IKKE_AKTIV",
@@ -24,8 +26,6 @@ const IA_PROSESS_STATUSER = [
 export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER);
 
 export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>;
-
-export type Eier = z.infer<typeof eierSchema>;
 
 export type VirksomhetSøkeresultat = {
     orgnr: string;
@@ -46,16 +46,18 @@ const IA_SAKSHENDELSE_TYPER = [
 ] as const;
 
 export const IASakshendelseTypeEnum = z.enum(IA_SAKSHENDELSE_TYPER);
+
 export type IASakshendelseType = z.infer<typeof IASakshendelseTypeEnum>;
 
-export const begrunnelseSchema = z.object({
+const begrunnelseSchema = z.object({
     type: z.string(),
     navn: z.string(),
 });
 
+// Er denne brukt nokon stad? 2023-02-02
 export type Begrunnelse = z.infer<typeof begrunnelseSchema>;
 
-export const årsakSchema = z.object({
+const årsakSchema = z.object({
     type: z.string(),
     navn: z.string(),
     begrunnelser: z.array(begrunnelseSchema),
@@ -68,7 +70,7 @@ export type ValgtÅrsakDto = {
     begrunnelser: string[];
 };
 
-export const gyldigNesteHendelseSchema = z.object({
+const gyldigNesteHendelseSchema = z.object({
     saksHendelsestype: IASakshendelseTypeEnum,
     gyldigeÅrsaker: z.array(årsakSchema),
 });
