@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { fylkeMedKommunerSchema } from "./fylkeOgKommuneTyper";
+import { fylkeMedKommunerSchema } from "./fylkeOgKommune";
 import { næringsgrupperSchema, sektorSchema } from "./virksomhet";
 import { eierSchema, IAProsessStatusEnum } from "./domenetyper";
 

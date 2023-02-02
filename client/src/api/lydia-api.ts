@@ -10,7 +10,7 @@ import { z, ZodError, ZodType } from "zod";
 import { useEffect, useState } from "react";
 import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
 import { FiltervisningState } from "../Pages/Prioritering/Filter/filtervisning-reducer";
-import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartalTyper";
+import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartal";
 import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
 import { Brukerinformasjon, brukerinformasjonSchema } from "../domenetyper/brukerinformasjon";
 import { Sakshistorikk, sakshistorikkSchema } from "../domenetyper/sakshistorikk";

@@ -1,7 +1,7 @@
 import {Select} from "@navikt/ds-react";
 import {CSSProperties} from "react";
 import {sorterAlfabetisk} from "../../../util/sortering";
-import { Fylke, FylkeMedKommuner } from "../../../domenetyper/fylkeOgKommuneTyper";
+import { Fylke, FylkeMedKommuner } from "../../../domenetyper/fylkeOgKommune";
 
 export const Fylkedropdown = ({fylkerOgKommuner, valgtFylke, endreFylke, style}: {
     fylkerOgKommuner: FylkeMedKommuner[];

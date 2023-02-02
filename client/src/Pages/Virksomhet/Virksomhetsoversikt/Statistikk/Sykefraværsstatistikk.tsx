@@ -9,7 +9,7 @@ import {
 } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { getGjeldendePeriodeTekst } from "../../../../util/gjeldendePeriodeSisteFireKvartal";
-import { Kvartal, KvartalFraTil } from "../../../../domenetyper/kvartalTyper";
+import { Kvartal, KvartalFraTil } from "../../../../domenetyper/kvartal";
 import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 
 const Container = styled.div`

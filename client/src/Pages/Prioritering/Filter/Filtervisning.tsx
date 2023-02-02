@@ -12,7 +12,7 @@ import { Eier, IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
 import { tabletAndUp } from "../../../styling/breakpoint";
 import { SektorDropdown } from "./SektorDropdown";
-import { Kommune } from "../../../domenetyper/fylkeOgKommuneTyper";
+import { Kommune } from "../../../domenetyper/fylkeOgKommune";
 
 const Skjema = styled.form`
   padding: 1rem;

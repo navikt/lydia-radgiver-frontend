@@ -5,7 +5,7 @@ import {
 } from "../../../components/ReactSelect/StyledReactSelect";
 import { CSSProperties } from "react";
 import { sorterAlfabetisk } from "../../../util/sortering";
-import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommuneTyper";
+import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 
 const kommuneDropdownId = "kommunedropdown";
 

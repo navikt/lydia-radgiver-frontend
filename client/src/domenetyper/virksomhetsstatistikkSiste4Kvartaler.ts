@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { kvartalSchema } from "./kvartalTyper";
+import { kvartalSchema } from "./kvartal";
 
 export const virksomhetsstatistikkSiste4KvartalerSchema = z.object({
     orgnr: z.string(),

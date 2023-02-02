@@ -1,4 +1,4 @@
-import { KvartalFraTil } from "../domenetyper/kvartalTyper";
+import { KvartalFraTil } from "../domenetyper/kvartal";
 
 export const getGjeldendePeriodeTekst = (gjeldendePeriode: KvartalFraTil | undefined) => {
     if (gjeldendePeriode) {

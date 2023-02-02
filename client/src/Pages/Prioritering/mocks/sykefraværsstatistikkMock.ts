@@ -1,5 +1,5 @@
 import { IAProsessStatusEnum } from "../../../domenetyper/domenetyper";
-import { KvartalFraTil } from "../../../domenetyper/kvartalTyper";
+import { KvartalFraTil } from "../../../domenetyper/kvartal";
 import { VirkomshetsstatistikkSisteKvartal } from "../../../domenetyper/virksomhetsstatistikkSisteKvartal";
 import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 import { Virksomhetsoversikt } from "../../../domenetyper/virksomhetsoversikt";

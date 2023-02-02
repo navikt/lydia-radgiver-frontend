@@ -4,7 +4,7 @@ import { useCallback, useEffect, useReducer } from "react";
 import { SortState } from "@navikt/ds-react";
 import { useSearchParams } from "react-router-dom";
 import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
-import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommuneTyper";
+import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { Næringsgruppe } from "../../../domenetyper/virksomhet";
 import { Filterverdier, Sorteringsverdi } from "../../../domenetyper/filterverdier";
 
