@@ -1,7 +1,4 @@
-interface IATjeneste {
-    id: number,
-    navn: string,
-}
+import { IATjeneste, IATjenesteModul } from "../../../domenetyper/iaLeveranse";
 
 export const IATjenester: IATjeneste[] = [
     {
@@ -15,12 +12,6 @@ export const IATjenester: IATjeneste[] = [
         navn: "HelseIArbeid",
     }
 ]
-
-interface IATjenesteModul {
-    id: number,
-    iaTjeneste: number,
-    navn: string,
-}
 
 export const IATjenesteModuler: IATjenesteModul[] = [
     // 1 - "Redusere sykefravær"
