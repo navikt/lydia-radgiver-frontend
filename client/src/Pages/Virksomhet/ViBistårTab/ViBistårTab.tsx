@@ -1,6 +1,7 @@
 import { Button, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt/ds-react";
 import { IATjenesteModuler, IATjenester } from "../mocks/iaSakLeveranseMock";
 import { useState } from "react";
+import { lokalDato } from "../../../util/dato";
 
 export const ViBistårTab = () => {
     const iaTjenester = IATjenester;
@@ -9,7 +10,7 @@ export const ViBistårTab = () => {
     const [valgtModul, setValgtModul] = useState("");
 
 
-    const { datepickerProps, inputProps } = UNSAFE_useDatepicker({
+    const { datepickerProps, inputProps, selectedDay } = UNSAFE_useDatepicker({
         fromDate: new Date("Aug 23 2019"),
         onDateChange: console.log,
     });
@@ -22,8 +23,16 @@ export const ViBistårTab = () => {
         setValgtModul(e.target.value);
     }
 
+    const leggTilLeveranse = () => {
+        alert(` Data ved "Legg til"
+        IATjeneste: ${valgtIATjeneste as unknown as number ? IATjenester[valgtIATjeneste as unknown as number - 1].navn : ("ikke valgt")}
+        modul: ${valgtModul as unknown as number ? IATjenesteModuler[valgtModul as unknown as number - 1].navn : ("ikke valgt")}
+        frist: ${ selectedDay ? lokalDato(selectedDay) : "ikke valgt"}            
+        `)
+    }
+
     return (
-        <div>
+        <form onSubmit={(e) => e.preventDefault()}>
             <Select label="Velg IA-tjeneste" value={valgtIATjeneste} onChange={endreValgtIATjeneste}>
                 <option value=""></option>
                 {iaTjenester.map((tjeneste) =>
@@ -40,12 +49,7 @@ export const ViBistårTab = () => {
             <UNSAFE_DatePicker {...datepickerProps}>
                 <UNSAFE_DatePicker.Input {...inputProps} label="Velg dato" />
             </UNSAFE_DatePicker>
-            <Button>Legg til</Button>
-
-            {/* TODO fjern preview for testing */}
-            <p>Preview av state</p>
-            <p>IA-tjeneste: {valgtIATjeneste as unknown as number ? IATjenester[valgtIATjeneste as unknown as number -1].navn : ("ikke valgt") }</p>
-            <p>Modul: {valgtModul as unknown as number ? IATjenesteModuler[valgtModul as unknown as number -1].navn : ("ikke valgt")}</p>
-        </div>
+            <Button onClick={leggTilLeveranse}>Legg til</Button>
+        </form>
     )
 }
