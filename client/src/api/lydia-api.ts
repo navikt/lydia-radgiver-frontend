@@ -27,6 +27,7 @@ import {
     virksomhetsoversiktListeResponsSchema
 } from "../domenetyper/virksomhetsoversikt";
 import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier";
+import { IASakLeveranse, iaSakLeveranseSchema, NyIASakLeveranseDTO } from "../domenetyper/iaLeveranse";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -40,6 +41,7 @@ export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
 export const gjeldendePeriodePath = "gjeldendeperiodesiste4kvartaler"
+export const iaSakPostNyLeveransePath = `${iaSakPath}/leveranse`
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -392,3 +394,16 @@ export const søkeverdierTilUrlSearchParams = ({
     appendIfPresent("side", side, (side) => "" + side, params);
     return params;
 };
+
+export const nyLeveransePåSak = (
+    saksnummer: string,
+    modulId: number,
+    frist: Date
+): Promise<IASakLeveranse> => {
+    const nyLeveranseDTO: NyIASakLeveranseDTO = {
+        saksnummer: saksnummer,
+        modulId: modulId,
+        frist: frist,
+    }
+    return post(iaSakPostNyLeveransePath, iaSakLeveranseSchema, nyLeveranseDTO)
+}
