@@ -3,7 +3,11 @@ import { IATjenesteModuler, IATjenester } from "../mocks/iaSakLeveranseMock";
 import { useState } from "react";
 import { lokalDato } from "../../../util/dato";
 
-export const ViBistårTab = () => {
+interface Props {
+    saksnummer?: string;
+}
+
+export const ViBistårTab = ({saksnummer}: Props) => {
     const iaTjenester = IATjenester;
     const moduler = IATjenesteModuler;
     const [valgtIATjeneste, setValgtIATjeneste] = useState("");

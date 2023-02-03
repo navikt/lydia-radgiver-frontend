@@ -47,7 +47,7 @@ export const VirksomhetsVisning = ({ virksomhet, iaSak, samarbeidshistorikk, mut
                     <Samarbeidshistorikk samarbeidshistorikk={samarbeidshistorikk} />
                 </StyledPanel>
                 <StyledPanel value="vi-bistår">
-                    {visViBistårTab && <ViBistårTab />}
+                    {visViBistårTab && <ViBistårTab saksnummer={iaSak?.saksnummer}/>}
                 </StyledPanel>
             </Tabs>
         </Container>
