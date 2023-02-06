@@ -3,13 +3,14 @@ import { IATjenesteModuler, IATjenester } from "../mocks/iaSakLeveranseMock";
 import { useState } from "react";
 import { lokalDato } from "../../../util/dato";
 import { nyLeveransePåSak } from "../../../api/lydia-api";
+import { IASak } from "../../../domenetyper/domenetyper";
 
 interface Props {
-    saksnummer?: string;
+    iaSak?: IASak;
 }
 
-export const ViBistårTab = ({saksnummer}: Props) => {
-    if (!saksnummer) return <p>Klarte ikke å hente saksnummer</p>
+export const ViBistårTab = ({iaSak}: Props) => {
+    if (!iaSak) return <p>Klarte ikke å hente sak</p>
 
     const iaTjenester = IATjenester;
     const moduler = IATjenesteModuler;
@@ -37,11 +38,11 @@ export const ViBistårTab = ({saksnummer}: Props) => {
         frist: ${ selectedDay ? lokalDato(selectedDay) : "ikke valgt"}            
         `)
 
-        if(!saksnummer || valgtModul === "" || !selectedDay ) {
+        if(!iaSak || valgtModul === "" || !selectedDay ) {
             return;
         }
 
-        nyLeveransePåSak(saksnummer, Number(valgtModul), selectedDay)
+        nyLeveransePåSak(iaSak.saksnummer, Number(valgtModul), selectedDay)
     }
 
     return (

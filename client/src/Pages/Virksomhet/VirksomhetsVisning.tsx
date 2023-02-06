@@ -41,13 +41,13 @@ export const VirksomhetsVisning = ({ virksomhet, iaSak, samarbeidshistorikk, mut
             <Tabs defaultValue="samarbeidshistorikk">
                 <Tabs.List style={{width: "100%"}}>
                     <Tabs.Tab value="samarbeidshistorikk" label="Samarbeidshistorikk" />
-                    {visViBistårTab && <Tabs.Tab value="vi-bistår" label="Vi bistår" />}
+                    {visViBistårTab && iaSak && <Tabs.Tab value="vi-bistår" label="Vi bistår" />}
                 </Tabs.List>
                 <StyledPanel value="samarbeidshistorikk">
                     <Samarbeidshistorikk samarbeidshistorikk={samarbeidshistorikk} />
                 </StyledPanel>
                 <StyledPanel value="vi-bistår">
-                    {visViBistårTab && <ViBistårTab saksnummer={iaSak?.saksnummer}/>}
+                    {visViBistårTab && iaSak && <ViBistårTab iaSak={iaSak}/>}
                 </StyledPanel>
             </Tabs>
         </Container>
