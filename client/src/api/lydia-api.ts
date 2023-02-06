@@ -28,6 +28,7 @@ import {
 } from "../domenetyper/virksomhetsoversikt";
 import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier";
 import { IASakLeveranse, iaSakLeveranseSchema, NyIASakLeveranseDTO } from "../domenetyper/iaLeveranse";
+import { isoDato } from "../util/dato";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -403,7 +404,7 @@ export const nyLeveransePåSak = (
     const nyLeveranseDTO: NyIASakLeveranseDTO = {
         saksnummer: saksnummer,
         modulId: modulId,
-        frist: frist,
+        frist: isoDato(frist),
     }
     return post(iaSakPostNyLeveransePath, iaSakLeveranseSchema, nyLeveranseDTO)
 }

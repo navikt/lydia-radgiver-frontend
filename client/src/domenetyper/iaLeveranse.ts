@@ -43,5 +43,5 @@ export type IASakLeveranse = z.infer<typeof iaSakLeveranseSchema>
 export interface NyIASakLeveranseDTO {
     saksnummer: string;
     modulId: number;
-    frist: Date;
+    frist: string; // isoDato(Date) -> string
 }

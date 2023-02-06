@@ -2,12 +2,15 @@ import { Button, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt
 import { IATjenesteModuler, IATjenester } from "../mocks/iaSakLeveranseMock";
 import { useState } from "react";
 import { lokalDato } from "../../../util/dato";
+import { nyLeveransePåSak } from "../../../api/lydia-api";
 
 interface Props {
     saksnummer?: string;
 }
 
 export const ViBistårTab = ({saksnummer}: Props) => {
+    if (!saksnummer) return <p>Klarte ikke å hente saksnummer</p>
+
     const iaTjenester = IATjenester;
     const moduler = IATjenesteModuler;
     const [valgtIATjeneste, setValgtIATjeneste] = useState("");
@@ -29,10 +32,16 @@ export const ViBistårTab = ({saksnummer}: Props) => {
 
     const leggTilLeveranse = () => {
         alert(` Data ved "Legg til"
-        IATjeneste: ${valgtIATjeneste as unknown as number ? IATjenester[valgtIATjeneste as unknown as number - 1].navn : ("ikke valgt")}
-        modul: ${valgtModul as unknown as number ? IATjenesteModuler[valgtModul as unknown as number - 1].navn : ("ikke valgt")}
+        IATjeneste: ${IATjenester[Number(valgtIATjeneste) - 1].navn}
+        modul: ${IATjenesteModuler[Number(valgtModul) - 1].navn}
         frist: ${ selectedDay ? lokalDato(selectedDay) : "ikke valgt"}            
         `)
+
+        if(!saksnummer || valgtModul === "" || !selectedDay ) {
+            return;
+        }
+
+        nyLeveransePåSak(saksnummer, Number(valgtModul), selectedDay)
     }
 
     return (
