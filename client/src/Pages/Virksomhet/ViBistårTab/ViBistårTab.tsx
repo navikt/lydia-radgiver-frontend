@@ -24,7 +24,7 @@ export const ViBistårTab = ({ iaSak }: Props) => {
         <Container>
             <div>
                 <Heading size="medium">Leveranser</Heading>
-                <BodyShort>(Her skal det ligge leveranser)</BodyShort>
+                <BodyShort>Her kan du legge leveranser når du bistår i saken.</BodyShort>
             </div>
             {
                 iaTjenester.map((tjeneste) => (
