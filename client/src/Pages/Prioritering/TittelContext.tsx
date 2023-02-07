@@ -3,6 +3,7 @@ import React from "react";
 export const statiskeSidetitler = {
     prioriteringsside: "Fia - søk",
     virksomhetsside: "Fia - virksomhet",
+    lederstatistikkside: "Fia - lederstatistikk",
 }
 
 interface TittelContextType {

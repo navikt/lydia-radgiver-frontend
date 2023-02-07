@@ -14,6 +14,7 @@ import { tabletAndUp } from "../../../styling/breakpoint";
 import { SektorDropdown } from "./SektorDropdown";
 import { Kommune } from "../../../domenetyper/fylkeOgKommune";
 
+
 const Skjema = styled.form`
   padding: 1rem;
   ${hvitBoksMedSkygge}
@@ -46,13 +47,16 @@ type Filtervisning = Omit<
     "lastData" | "oppdaterSide" // Disse funksjonene er ikke relevante for denne komponenten, derfor fjernes de fra typen.
 >;
 
+export type Filter = "IA_STATUS" | "EIER";
+
 interface FiltervisningProps {
     filtervisning: Filtervisning;
     søkPåNytt: () => void;
+    maskerteFiltre?: Filter[];
     className?: string;
 }
 
-export const Filtervisning = ({ filtervisning, søkPåNytt, className }: FiltervisningProps) => {
+export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFiltre}: FiltervisningProps) => {
     const {
         oppdaterAntallArbeidsforhold,
         oppdaterIastatus,
@@ -99,6 +103,12 @@ export const Filtervisning = ({ filtervisning, søkPåNytt, className }: Filterv
         oppdaterEiere({ eiere });
     };
 
+    const skalFilterVises = (filter: Filter): boolean => {
+        return maskerteFiltre ?
+            !maskerteFiltre.includes(filter)
+            : true;
+    }
+
     return (
         <Skjema className={className} onSubmit={(e) => e.preventDefault()}>
             <Rad>
@@ -106,7 +116,7 @@ export const Filtervisning = ({ filtervisning, søkPåNytt, className }: Filterv
                     fylkerOgKommuner={state.filterverdier?.fylker ?? []}
                     valgtFylke={state.valgtFylke?.fylke}
                     endreFylke={endreFylke}
-                    style={{ flex: "1" }}
+                    style={{flex: "1"}}
                 />
                 <Kommunedropdown
                     relevanteFylkerMedKommuner={
@@ -147,18 +157,22 @@ export const Filtervisning = ({ filtervisning, søkPåNytt, className }: Filterv
             </Rad>
             <br />
             <Rad>
-                <IAStatusDropdown
-                    endreStatus={endreStatus}
-                    statuser={state.filterverdier?.statuser ?? []}
-                    valgtStatus={state.iaStatus}
-                />
-                <EierDropdown
-                    filtrerbareEiere={
-                        state.filterverdier?.filtrerbareEiere ?? []
-                    }
-                    eier={state.eiere}
-                    onEierBytteCallback={endreEiere}
-                />
+                {skalFilterVises("IA_STATUS") &&
+                    <IAStatusDropdown
+                        endreStatus={endreStatus}
+                        statuser={state.filterverdier?.statuser ?? []}
+                        valgtStatus={state.iaStatus}
+                    />
+                }
+                {skalFilterVises("EIER") &&
+                    <EierDropdown
+                        filtrerbareEiere={
+                            state.filterverdier?.filtrerbareEiere ?? []
+                        }
+                        eier={state.eiere}
+                        onEierBytteCallback={endreEiere}
+                    />
+                }
                 <Søkeknapp size="medium" onClick={søkPåNytt}>
                     Søk
                 </Søkeknapp>
