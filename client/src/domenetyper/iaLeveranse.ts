@@ -22,7 +22,7 @@ const IA_SAK_LEVERANSE_STATUSER = [
     // "AVBRUTT"?
 ] as const;
 
-const IASakLeveranseStatusEnum = z.enum(IA_SAK_LEVERANSE_STATUSER);
+export const IASakLeveranseStatusEnum = z.enum(IA_SAK_LEVERANSE_STATUSER);
 
 type IASakLeveranseStatus = z.infer<typeof IASakLeveranseStatusEnum>
 
