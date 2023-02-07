@@ -13,12 +13,10 @@ const Container = styled.div`
 `;
 
 interface Props {
-    iaSak?: IASak;
+    iaSak: IASak;
 }
 
 export const ViBistårTab = ({ iaSak }: Props) => {
-    if (!iaSak) return <p>Klarte ikke å hente sak</p>
-
     const leveranser = iaSakLeveranser;
 
     return (
