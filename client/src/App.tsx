@@ -12,6 +12,7 @@ import { Dekoratør } from "./components/Dekoratør/Dekoratør";
 import { TittelContext, TittelProvider } from "./Pages/Prioritering/TittelContext";
 import { contentSpacing } from "./styling/contentSpacing";
 import { Footer } from "./components/Footer/Footer";
+import { Lederstatistikkside } from "./Pages/Lederstatistikk/Lederstatistikkside";
 
 const App = () =>
     <BrowserRouter>
@@ -34,6 +35,10 @@ const AppContent = () => {
                     <Route
                         path={"/"}
                         element={<Prioriteringsside />}
+                    />
+                    <Route
+                        path={"/lederstatistikk"}
+                        element={<Lederstatistikkside />}
                     />
                     <Route
                         path={"/virksomhet/:orgnummer"}

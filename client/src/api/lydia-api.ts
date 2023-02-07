@@ -29,6 +29,7 @@ import {
 import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier";
 import { IASakLeveranse, iaSakLeveranseSchema, NyIASakLeveranseDTO } from "../domenetyper/iaLeveranse";
 import { isoDato } from "../util/dato";
+import { LederstatistikkListeRespons, lederstatistikkListeResponsSchema } from "../domenetyper/lederstatistikk";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -43,6 +44,7 @@ export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
 export const gjeldendePeriodePath = "gjeldendeperiodesiste4kvartaler"
 export const iaSakPostNyLeveransePath = `${iaSakPath}/leveranse`
+export const lederstatistikkPath = `${basePath}/lederstatistikk`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -143,6 +145,11 @@ const getSykefraværsstatistikkUrl = (søkeverdier: FiltervisningState) =>
         søkeverdier
     ).toString()}`;
 
+const getLederstatistikkUrl = (søkeverdier: FiltervisningState) =>
+    `${lederstatistikkPath}?${søkeverdierTilUrlSearchParams(
+        søkeverdier
+    ).toString()}`;
+
 const getSykefraværsstatistikkAntallTreffUrl = (
     søkeverdier: FiltervisningState
 ) =>
@@ -175,6 +182,41 @@ function hentAntallTreff(
         }
     }, [antallTreffUrl, initierSøk, søkeverdier.side]);
     return antallTreff;
+}
+
+export const useHentLederstatistikk = ({
+   filterstate,
+   initierSøk = true,
+}: {
+    filterstate: FiltervisningState;
+    initierSøk?: boolean;
+}) => {
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [lederstatistikkListe, setLederstatistikkListe] =
+        useState<LederstatistikkListeRespons>();
+
+    const lederstatistikkUrl = getLederstatistikkUrl(filterstate);
+
+    useEffect(() => {
+        if (initierSøk) {
+            setLoading(true);
+
+            get(lederstatistikkUrl, lederstatistikkListeResponsSchema)
+                .then((response) => {
+                    setError("");
+                    setLederstatistikkListe(response);
+                })
+                .catch((e) => {
+                    setError(e.message);
+                })
+                .finally(() => {
+                    setLoading(false);
+                });
+        }
+    }, [lederstatistikkUrl, initierSøk]);
+
+    return { error, loading, data: lederstatistikkListe };
 }
 
 export const useHentVirksomhetsoversiktListe = ({
