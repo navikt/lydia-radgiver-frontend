@@ -21,7 +21,7 @@ export const ViBistårTab = ({ iaSak }: Props) => {
         <Container>
             <div>
                 <Heading size="medium">Leveranser</Heading>
-                <BodyShort>La oss late som om dette er en leveranse.</BodyShort>
+                <BodyShort>(Her skal det ligge leveranser)</BodyShort>
             </div>
 
             { iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR &&
