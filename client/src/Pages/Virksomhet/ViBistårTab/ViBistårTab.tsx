@@ -36,7 +36,7 @@ export const ViBistårTab = ({ iaSak }: Props) => {
                 ))
             }
             {iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR &&
-                <NyIALeveranseSkjema saksnummer={iaSak.saksnummer} />
+                <NyIALeveranseSkjema iaSak={iaSak} />
             }
         </Container>
     )

@@ -43,7 +43,7 @@ export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
 export const gjeldendePeriodePath = "gjeldendeperiodesiste4kvartaler"
-export const iaSakPostNyLeveransePath = `${iaSakPath}/leveranse`
+export const iaSakLeveransePath = `${iaSakPath}/leveranse`
 export const lederstatistikkPath = `${basePath}/lederstatistikk`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
@@ -185,8 +185,8 @@ function hentAntallTreff(
 }
 
 export const useHentLederstatistikk = ({
-   filterstate,
-   initierSøk = true,
+    filterstate,
+    initierSøk = true,
 }: {
     filterstate: FiltervisningState;
     initierSøk?: boolean;
@@ -439,6 +439,7 @@ export const søkeverdierTilUrlSearchParams = ({
 };
 
 export const nyLeveransePåSak = (
+    orgnummer: string,
     saksnummer: string,
     modulId: number,
     frist: Date
@@ -448,5 +449,5 @@ export const nyLeveransePåSak = (
         modulId: modulId,
         frist: isoDato(frist),
     }
-    return post(iaSakPostNyLeveransePath, iaSakLeveranseSchema, nyLeveranseDTO)
+    return post(`${iaSakLeveransePath}/${orgnummer}/${saksnummer}`, iaSakLeveranseSchema, nyLeveranseDTO)
 }
