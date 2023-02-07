@@ -1,9 +1,10 @@
-import { BodyShort, Heading } from "@navikt/ds-react";
-import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
+import { BodyShort, Heading, Loader } from "@navikt/ds-react";
 import styled from "styled-components";
+import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { NyIALeveranseSkjema } from "./NyIALeveranseSkjema";
 import { IASakLeveranse } from "./IASakLeveranse";
-import { iaSakLeveranser, IATjenester } from "../mocks/iaSakLeveranseMock";
+import { IATjenester } from "../mocks/iaSakLeveranseMock";
+import { useHentIASakLeveranser } from "../../../api/lydia-api";
 
 const Container = styled.div`
   height: 100%;
@@ -18,7 +19,10 @@ interface Props {
 
 export const ViBistårTab = ({ iaSak }: Props) => {
     const iaTjenester = IATjenester;
-    const leveranser = iaSakLeveranser;
+    const {
+        data: leveranser,
+        loading: lasterLeveranser
+    } = useHentIASakLeveranser(iaSak.orgnr, iaSak.saksnummer);
 
     return (
         <Container>
@@ -27,13 +31,17 @@ export const ViBistårTab = ({ iaSak }: Props) => {
                 <BodyShort>Her kan du legge leveranser når du bistår i saken.</BodyShort>
             </div>
             {
-                iaTjenester.map((tjeneste) => (
-                    <div key={tjeneste.id}>
-                        <Heading size="small" key={tjeneste.id}>{tjeneste.navn}</Heading>
-                        {leveranser.filter((leveranse) => leveranse.modul.iaTjeneste.id === (tjeneste.id)).map((leveranse) =>
-                            <IASakLeveranse leveranse={leveranse} key={leveranse.id} />)}
-                    </div>
-                ))
+                lasterLeveranser
+                    ? <Loader />
+                    : leveranser
+                        ? iaTjenester.map((tjeneste) => (
+                            <div key={tjeneste.id}>
+                                <Heading size="small" key={tjeneste.id}>{tjeneste.navn}</Heading>
+                                {leveranser.filter((leveranse) => leveranse.modul.iaTjeneste.id === (tjeneste.id)).map((leveranse) =>
+                                    <IASakLeveranse leveranse={leveranse} key={leveranse.id} />)}
+                            </div>
+                        ))
+                        : <BodyShort>Kunne ikke hente leveranser</BodyShort>
             }
             {iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR &&
                 <NyIALeveranseSkjema iaSak={iaSak} />

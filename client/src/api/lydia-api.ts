@@ -451,3 +451,13 @@ export const nyLeveransePåSak = (
     }
     return post(`${iaSakLeveransePath}/${orgnummer}/${saksnummer}`, iaSakLeveranseSchema, nyLeveranseDTO)
 }
+
+export const useHentIASakLeveranser = (orgnummer: string, saksnummer: string) => {
+    return useSwrTemplate<IASakLeveranse[]>(
+        orgnummer ? `${iaSakLeveransePath}/${orgnummer}/${saksnummer}` : null,
+        iaSakLeveranseSchema.array(),
+        {
+            revalidateOnFocus: true,
+        }
+    );
+};
