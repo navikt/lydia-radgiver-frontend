@@ -1,7 +1,6 @@
+import { useState } from "react";
 import { Button, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt/ds-react";
 import { IATjenesteModuler, IATjenester } from "../mocks/iaSakLeveranseMock";
-import { useState } from "react";
-import { lokalDato } from "../../../util/dato";
 import { nyLeveransePåSak } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 
@@ -30,16 +29,9 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
     }
 
     const leggTilLeveranse = () => {
-        alert(` Data ved "Legg til"
-        IATjeneste: ${IATjenester[Number(valgtIATjeneste) - 1].navn}
-        modul: ${IATjenesteModuler[Number(valgtModul) - 1].navn}
-        frist: ${selectedDay ? lokalDato(selectedDay) : "ikke valgt"}            
-        `)
-
         if (valgtModul === "" || !selectedDay) {
             return;
         }
-
         nyLeveransePåSak(iaSak.orgnr, iaSak.saksnummer, Number(valgtModul), selectedDay)
     }
 
