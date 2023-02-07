@@ -1,3 +1,10 @@
+import { useEffect, useState } from "react";
+import useSWR, { SWRConfiguration } from "swr";
+import { z, ZodError, ZodType } from "zod";
+import { isoDato } from "../util/dato";
+import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
+import { FiltervisningState } from "../Pages/Prioritering/Filter/filtervisning-reducer";
+import { Brukerinformasjon, brukerinformasjonSchema } from "../domenetyper/brukerinformasjon";
 import {
     GyldigNesteHendelse,
     IANySakshendelseDto,
@@ -5,15 +12,16 @@ import {
     iaSakSchema,
     ValgtÅrsakDto,
 } from "../domenetyper/domenetyper";
-import useSWR, { SWRConfiguration } from "swr";
-import { z, ZodError, ZodType } from "zod";
-import { useEffect, useState } from "react";
-import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
-import { FiltervisningState } from "../Pages/Prioritering/Filter/filtervisning-reducer";
+import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier";
+import { IASakLeveranse, iaSakLeveranseSchema, NyIASakLeveranseDTO } from "../domenetyper/iaLeveranse";
 import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartal";
-import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
-import { Brukerinformasjon, brukerinformasjonSchema } from "../domenetyper/brukerinformasjon";
+import { LederstatistikkListeRespons, lederstatistikkListeResponsSchema } from "../domenetyper/lederstatistikk";
 import { Sakshistorikk, sakshistorikkSchema } from "../domenetyper/sakshistorikk";
+import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
+import {
+    VirksomhetsoversiktListeRespons,
+    virksomhetsoversiktListeResponsSchema
+} from "../domenetyper/virksomhetsoversikt";
 import {
     VirkomshetsstatistikkSisteKvartal,
     virksomhetsstatistikkSisteKvartalSchema
@@ -22,14 +30,6 @@ import {
     VirksomhetsstatistikkSiste4Kvartaler,
     virksomhetsstatistikkSiste4KvartalerSchema
 } from "../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
-import {
-    VirksomhetsoversiktListeRespons,
-    virksomhetsoversiktListeResponsSchema
-} from "../domenetyper/virksomhetsoversikt";
-import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier";
-import { IASakLeveranse, iaSakLeveranseSchema, NyIASakLeveranseDTO } from "../domenetyper/iaLeveranse";
-import { isoDato } from "../util/dato";
-import { LederstatistikkListeRespons, lederstatistikkListeResponsSchema } from "../domenetyper/lederstatistikk";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -43,7 +43,7 @@ export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
 export const gjeldendePeriodePath = "gjeldendeperiodesiste4kvartaler"
-export const iaSakPostNyLeveransePath = `${iaSakPath}/leveranse`
+export const iaSakLeveransePath = `${iaSakPath}/leveranse`
 export const lederstatistikkPath = `${basePath}/lederstatistikk`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
@@ -185,8 +185,8 @@ function hentAntallTreff(
 }
 
 export const useHentLederstatistikk = ({
-   filterstate,
-   initierSøk = true,
+    filterstate,
+    initierSøk = true,
 }: {
     filterstate: FiltervisningState;
     initierSøk?: boolean;
@@ -439,6 +439,7 @@ export const søkeverdierTilUrlSearchParams = ({
 };
 
 export const nyLeveransePåSak = (
+    orgnummer: string,
     saksnummer: string,
     modulId: number,
     frist: Date
@@ -448,5 +449,15 @@ export const nyLeveransePåSak = (
         modulId: modulId,
         frist: isoDato(frist),
     }
-    return post(iaSakPostNyLeveransePath, iaSakLeveranseSchema, nyLeveranseDTO)
+    return post(`${iaSakLeveransePath}/${orgnummer}/${saksnummer}`, iaSakLeveranseSchema, nyLeveranseDTO)
 }
+
+export const useHentIASakLeveranser = (orgnummer: string, saksnummer: string) => {
+    return useSwrTemplate<IASakLeveranse[]>(
+        orgnummer ? `${iaSakLeveransePath}/${orgnummer}/${saksnummer}` : null,
+        iaSakLeveranseSchema.array(),
+        {
+            revalidateOnFocus: true,
+        }
+    );
+};
