@@ -13,10 +13,10 @@ interface Props {
     leveranse: IASakLeveranseType
 }
 
-export const IASakLeveranse = ({leveranse}: Props) => {
+export const IASakLeveranse = ({ leveranse }: Props) => {
     return (
         <Container>
-            <BodyShort>{`${leveranse.modul.iaTjeneste.navn} – ${leveranse.modul.navn}`}</BodyShort>
+            <BodyShort>{`${leveranse.modul.navn}`}</BodyShort>
             <BodyShort>{`Frist: ${lokalDato(leveranse.frist)}`}</BodyShort>
             <BodyShort>{`Status: ${leveranse.status.toLowerCase()}`}</BodyShort>
         </Container>
