@@ -1,3 +1,10 @@
+import { useEffect, useState } from "react";
+import useSWR, { SWRConfiguration } from "swr";
+import { z, ZodError, ZodType } from "zod";
+import { isoDato } from "../util/dato";
+import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
+import { FiltervisningState } from "../Pages/Prioritering/Filter/filtervisning-reducer";
+import { Brukerinformasjon, brukerinformasjonSchema } from "../domenetyper/brukerinformasjon";
 import {
     GyldigNesteHendelse,
     IANySakshendelseDto,
@@ -5,15 +12,16 @@ import {
     iaSakSchema,
     ValgtÅrsakDto,
 } from "../domenetyper/domenetyper";
-import useSWR, { SWRConfiguration } from "swr";
-import { z, ZodError, ZodType } from "zod";
-import { useEffect, useState } from "react";
-import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
-import { FiltervisningState } from "../Pages/Prioritering/Filter/filtervisning-reducer";
+import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier";
+import { IASakLeveranse, iaSakLeveranseSchema, NyIASakLeveranseDTO } from "../domenetyper/iaLeveranse";
 import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartal";
-import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
-import { Brukerinformasjon, brukerinformasjonSchema } from "../domenetyper/brukerinformasjon";
+import { LederstatistikkListeRespons, lederstatistikkListeResponsSchema } from "../domenetyper/lederstatistikk";
 import { Sakshistorikk, sakshistorikkSchema } from "../domenetyper/sakshistorikk";
+import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
+import {
+    VirksomhetsoversiktListeRespons,
+    virksomhetsoversiktListeResponsSchema
+} from "../domenetyper/virksomhetsoversikt";
 import {
     VirkomshetsstatistikkSisteKvartal,
     virksomhetsstatistikkSisteKvartalSchema
@@ -22,14 +30,6 @@ import {
     VirksomhetsstatistikkSiste4Kvartaler,
     virksomhetsstatistikkSiste4KvartalerSchema
 } from "../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
-import {
-    VirksomhetsoversiktListeRespons,
-    virksomhetsoversiktListeResponsSchema
-} from "../domenetyper/virksomhetsoversikt";
-import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier";
-import { IASakLeveranse, iaSakLeveranseSchema, NyIASakLeveranseDTO } from "../domenetyper/iaLeveranse";
-import { isoDato } from "../util/dato";
-import { LederstatistikkListeRespons, lederstatistikkListeResponsSchema } from "../domenetyper/lederstatistikk";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
