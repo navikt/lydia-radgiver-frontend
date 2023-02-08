@@ -33,15 +33,15 @@ export const ViBistårTab = ({ iaSak }: Props) => {
             {
                 lasterLeveranser
                     ? <Loader />
-                    : leveranser
-                        ? iaTjenester.map((tjeneste) => (
+                    : !leveranser
+                        ? <BodyShort>Kunne ikke hente leveranser</BodyShort>
+                        : iaTjenester.map((tjeneste) => (
                             <div key={tjeneste.id}>
                                 <Heading size="small" key={tjeneste.id}>{tjeneste.navn}</Heading>
                                 {leveranser.filter((leveranse) => leveranse.modul.iaTjeneste.id === (tjeneste.id)).map((leveranse) =>
                                     <IASakLeveranse leveranse={leveranse} key={leveranse.id} />)}
                             </div>
                         ))
-                        : <BodyShort>Kunne ikke hente leveranser</BodyShort>
             }
             {iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR &&
                 <NyIALeveranseSkjema iaSak={iaSak} />
