@@ -58,7 +58,7 @@ interface IngenAktiveSakerProps {
     oppdaterSak: () => void;
 }
 
-function IngenAktiveSaker({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) {
+const IngenAktiveSaker = ({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) => {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     return (
         <Container>
