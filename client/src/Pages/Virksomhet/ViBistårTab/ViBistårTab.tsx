@@ -38,7 +38,9 @@ export const ViBistårTab = ({ iaSak }: Props) => {
                         : iaTjenester.map((tjeneste) => (
                             <div key={tjeneste.id}>
                                 <Heading size="small" key={tjeneste.id}>{tjeneste.navn}</Heading>
-                                {leveranser.filter((leveranse) => leveranse.modul.iaTjeneste.id === (tjeneste.id)).map((leveranse) =>
+                                {leveranser
+                                    .filter((leveranse) => leveranse.modul.iaTjeneste.id === (tjeneste.id))
+                                    .map((leveranse) =>
                                     <IASakLeveranse leveranse={leveranse} key={leveranse.id} />)}
                             </div>
                         ))
