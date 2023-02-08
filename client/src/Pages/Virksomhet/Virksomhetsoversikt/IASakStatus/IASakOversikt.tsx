@@ -1,23 +1,17 @@
 import { useState } from "react";
 import styled from "styled-components";
 import { BodyShort } from "@navikt/ds-react";
-import {
-    GyldigNesteHendelse,
-    IAProsessStatusEnum,
-    IASak,
-    IASakshendelseTypeEnum, ValgtÅrsakDto
-} from "../../../../domenetyper/domenetyper";
+import { IngenAktiveSaker } from "./IngenAktiveSaker";
+import { GyldigNesteHendelse, IASak, ValgtÅrsakDto } from "../../../../domenetyper/domenetyper";
 import { StatusBadge } from "../../../../components/Badge/StatusBadge";
-import { nyHendelsePåSak, opprettSak, useHentBrukerinformasjon } from "../../../../api/lydia-api";
+import { nyHendelsePåSak } from "../../../../api/lydia-api";
 import { BegrunnelseModal } from "./BegrunnelseModal";
-import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import { SakshendelsesKnapper } from "./SakshendelsesKnapper";
 import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
 import { NavFarger } from "../../../../styling/farger";
 import { BorderRadius } from "../../../../styling/borderRadius";
-import { RolleEnum } from "../../../../domenetyper/brukerinformasjon";
 
-const Container = styled.div`
+export const IASakOversiktContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: ${24 / 16}rem;
@@ -31,7 +25,7 @@ const Container = styled.div`
   background-color: ${NavFarger.canvasBackground};
 `;
 
-const Saksinfo = styled.div`
+export const Saksinfo = styled.div`
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: repeat(auto-fill, auto);
@@ -39,7 +33,7 @@ const Saksinfo = styled.div`
   column-gap: 3rem;
 `;
 
-const InfoTittel = styled(BodyShort)`
+export const InfoTittel = styled(BodyShort)`
   font-weight: bold;
   min-width: ${44 / 16}rem;
 `;
@@ -47,39 +41,6 @@ const InfoTittel = styled(BodyShort)`
 const InfoData = styled(BodyShort)`
   overflow-wrap: anywhere;
 `;
-
-const VurderesKnappContainer = styled.div`
-  display: flex;
-  justify-content: end;
-`;
-
-interface IngenAktiveSakerProps {
-    orgnummer: string;
-    oppdaterSak: () => void;
-}
-
-const IngenAktiveSaker = ({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) => {
-    const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    return (
-        <Container>
-            <Saksinfo>
-                <InfoTittel>Status</InfoTittel>
-                <StatusBadge status={IAProsessStatusEnum.enum.IKKE_AKTIV} />
-            </Saksinfo>
-            {brukerInformasjon?.rolle === RolleEnum.enum.Superbruker ?
-                <VurderesKnappContainer>
-                    <IASakshendelseKnapp
-                        hendelsesType={IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES}
-                        onClick={() =>
-                            opprettSak(orgnummer).then(() => oppdaterSak())
-                        }
-                    />
-                </VurderesKnappContainer>
-                : null
-            }
-        </Container>
-    );
-}
 
 export interface IASakOversiktProps {
     orgnummer: string;
@@ -125,7 +86,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversi
     }
 
     return (
-        <Container>
+        <IASakOversiktContainer>
             <Saksinfo>
                 <InfoTittel>Status</InfoTittel>
                 <StatusBadge status={sak.status} />
@@ -151,6 +112,6 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversi
                     onClose={() => setValgtHendelseMedÅrsak(undefined)}
                 />
             )}
-        </Container>
+        </IASakOversiktContainer>
     );
 };
