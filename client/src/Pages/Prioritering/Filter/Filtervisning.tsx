@@ -53,10 +53,11 @@ interface FiltervisningProps {
     filtervisning: Filtervisning;
     søkPåNytt: () => void;
     maskerteFiltre?: Filter[];
+    søkeknappTittel?: string;
     className?: string;
 }
 
-export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFiltre}: FiltervisningProps) => {
+export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFiltre, søkeknappTittel}: FiltervisningProps) => {
     const {
         oppdaterAntallArbeidsforhold,
         oppdaterIastatus,
@@ -174,7 +175,7 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
                     />
                 }
                 <Søkeknapp size="medium" onClick={søkPåNytt}>
-                    Søk
+                    {søkeknappTittel? søkeknappTittel : 'Søk'}
                 </Søkeknapp>
             </Rad>
         </Skjema>

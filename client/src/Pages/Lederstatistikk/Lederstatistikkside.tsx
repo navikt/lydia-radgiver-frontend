@@ -62,6 +62,7 @@ export const Lederstatistikkside = () => {
                     setSkalSøke(true);
                 }}
                 maskerteFiltre={["IA_STATUS", "EIER"]}
+                søkeknappTittel={'Hent statistikk'}
             />
             <br />
             {skalViseTabell ? (
