@@ -32,6 +32,7 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
         if (valgtModul === "" || !selectedDay) {
             return;
         }
+        alert("Ny sak opprettes :D")
         nyLeveransePåSak(iaSak.orgnr, iaSak.saksnummer, Number(valgtModul), selectedDay)
     }
 
