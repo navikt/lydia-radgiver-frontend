@@ -1,4 +1,4 @@
-import { Eier, IAProsessStatusType, } from "../../../domenetyper/domenetyper";
+import { Eier, IAProsessStatusType, Periode, } from "../../../domenetyper/domenetyper";
 import { Range } from "./SykefraværsprosentVelger";
 import { useCallback, useEffect, useReducer } from "react";
 import { SortState } from "@navikt/ds-react";
@@ -37,6 +37,8 @@ const parametere = [
     "side",
     "bransjeprogram",
     "eiere",
+    "datoFra",
+    "datoTil"
 ] as const;
 
 type Søkeparametere = Partial<Record<typeof parametere[number], string>>;
@@ -151,6 +153,12 @@ type EndreSektorAction = {
         sektor: string;
     };
 };
+type EndrePeriodeAction = {
+    type: "ENDRE_PERIODE";
+    payload: {
+        periode?: {fraDato: Date, tilDato: Date};
+    };
+};
 type TilbakestillAction = {
     type: "TILBAKESTILL";
 };
@@ -167,6 +175,7 @@ type OppdaterEiereAction = {
         eiere?: Eier[];
     };
 };
+
 type Action =
     | EndreFylkeAction
     | EndreKommuneAction
@@ -178,6 +187,7 @@ type Action =
     | TilbakestillAction
     | OppdaterSideAction
     | OppdaterEiereAction
+    | EndrePeriodeAction
     | SettInnFilterverdierAction;
 
 export interface FiltervisningState {
@@ -193,6 +203,7 @@ export interface FiltervisningState {
     sorteringsnokkel?: Sorteringsverdi;
     sorteringsretning?: "asc" | "desc";
     eiere?: Eier[];
+    periode?: Periode;
     side: number;
 }
 
@@ -328,6 +339,11 @@ const endreEiere = (
     action: OppdaterEiereAction
 ): FiltervisningState => ({ ...state, eiere: action.payload.eiere });
 
+const endrePeriode = (
+    state: FiltervisningState,
+    action: EndrePeriodeAction
+): FiltervisningState => ({ ...state, periode: action.payload.periode });
+
 const settInnFilterverdier = (
     state: FiltervisningState,
     action: SettInnFilterverdierAction
@@ -360,7 +376,9 @@ const reducer = (state: FiltervisningState, action: Action) => {
         case "ENDRE_IASTATUS":
             return endreIastatus(state, action);
         case "ENDRE_SEKTOR":
-            return endreSektor(state, action)
+            return endreSektor(state, action);
+        case "ENDRE_PERIODE":
+            return endrePeriode(state, action)
         case "TILBAKESTILL":
             return { ...state, ...initialState };
         default: {
@@ -488,6 +506,16 @@ export const useFiltervisningState = () => {
         []
     );
 
+    const oppdaterPeriode = useCallback(
+        (payload: EndrePeriodeAction["payload"]) => {
+            dispatch({
+                type: "ENDRE_PERIODE",
+                payload,
+            });
+        },
+        []
+    );
+
     const lastData = useCallback(
         (payload: { filterverdier: Filterverdier }) => {
             const filterstate = søkeparametereTilFilterstate(
@@ -517,6 +545,7 @@ export const useFiltervisningState = () => {
         tilbakestill,
         oppdaterSide,
         oppdaterEiere,
+        oppdaterPeriode,
         lastData,
     };
 };

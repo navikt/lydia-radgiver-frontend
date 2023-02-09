@@ -71,6 +71,7 @@ const Prioriteringsside = () => {
         <Container>
             <Filtervisning
                 filtervisning={filtervisning}
+                maskerteFiltre={["PERIODE"]}
                 søkPåNytt={() => {
                     oppdaterSide(1);
                 }}
