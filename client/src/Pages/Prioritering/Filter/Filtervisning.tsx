@@ -8,11 +8,13 @@ import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
 import { hvitBoksMedSkygge } from "../../../styling/containere";
-import { Eier, IAProsessStatusType } from "../../../domenetyper/domenetyper";
+import { Eier, IAProsessStatusType, Periode } from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
 import { tabletAndUp } from "../../../styling/breakpoint";
 import { SektorDropdown } from "./SektorDropdown";
 import { Kommune } from "../../../domenetyper/fylkeOgKommune";
+import { PeriodeVelger } from "./PeriodeVelger";
+import { getDatoIFortidPåFørsteDagIMåned, getDatoPåFørsteDagINesteMåned } from "../../../util/dato";
 
 
 const Skjema = styled.form`
@@ -47,7 +49,7 @@ type Filtervisning = Omit<
     "lastData" | "oppdaterSide" // Disse funksjonene er ikke relevante for denne komponenten, derfor fjernes de fra typen.
 >;
 
-export type Filter = "IA_STATUS" | "EIER";
+export type Filter = "IA_STATUS" | "EIER" | "PERIODE";
 
 interface FiltervisningProps {
     filtervisning: Filtervisning;
@@ -67,7 +69,8 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
         oppdaterKommuner,
         oppdaterSykefraværsprosent,
         oppdaterNæringsgruppe,
-        oppdaterSektorer
+        oppdaterSektorer,
+        oppdaterPeriode,
     } = filtervisning;
 
     const endreSektor = (sektor: string) => {
@@ -102,6 +105,10 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
 
     const endreEiere = (eiere?: Eier[]) => {
         oppdaterEiere({ eiere });
+    };
+
+    const endrePeriode = (periode?: Periode) => {
+        oppdaterPeriode({ periode });
     };
 
     const skalFilterVises = (filter: Filter): boolean => {
@@ -172,6 +179,14 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
                         }
                         eier={state.eiere}
                         onEierBytteCallback={endreEiere}
+                    />
+                }
+                {skalFilterVises("PERIODE") &&
+                    <PeriodeVelger
+                        erSynlig={true}
+                        endrePeriode={endrePeriode}
+                        fraDato={getDatoIFortidPåFørsteDagIMåned(new Date(), 1)}
+                        tilDato={getDatoPåFørsteDagINesteMåned(new Date())}
                     />
                 }
                 <Søkeknapp size="medium" onClick={søkPåNytt}>

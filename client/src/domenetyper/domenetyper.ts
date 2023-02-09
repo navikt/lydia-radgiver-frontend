@@ -11,6 +11,13 @@ export const eierSchema = z.object({
 
 export type Eier = z.infer<typeof eierSchema>;
 
+export const periodeSchema = z.object({
+    fraDato: datoSchema,
+    tilDato: datoSchema,
+});
+
+export type Periode = z.infer<typeof periodeSchema>;
+
 const IA_PROSESS_STATUSER = [
     "NY",
     "IKKE_AKTIV",
