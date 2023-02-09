@@ -3,7 +3,17 @@ import { Button, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt
 import { IATjenesteModuler, IATjenester } from "../mocks/iaSakLeveranseMock";
 import { nyLeveransePåSak } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
+import styled from "styled-components";
 
+const Form = styled.form`
+  display: flex;
+  gap: 2rem;
+  align-items: end;
+  
+  div {
+    min-width: 8rem;
+  }
+`;
 
 interface Props {
     iaSak: IASak;
@@ -32,11 +42,12 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
         if (valgtModul === "" || !selectedDay) {
             return;
         }
+        alert("Ny sak opprettes :D")
         nyLeveransePåSak(iaSak.orgnr, iaSak.saksnummer, Number(valgtModul), selectedDay)
     }
 
     return (
-        <form onSubmit={(e) => e.preventDefault()}>
+        <Form onSubmit={(e) => e.preventDefault()}>
             <Select label="Velg IA-tjeneste" value={valgtIATjeneste} onChange={endreValgtIATjeneste}>
                 <option value=""></option>
                 {iaTjenester.map((tjeneste) =>
@@ -54,6 +65,6 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
                 <UNSAFE_DatePicker.Input {...inputProps} label="Velg dato" />
             </UNSAFE_DatePicker>
             <Button onClick={leggTilLeveranse}>Legg til</Button>
-        </form>
+        </Form>
     )
 }
