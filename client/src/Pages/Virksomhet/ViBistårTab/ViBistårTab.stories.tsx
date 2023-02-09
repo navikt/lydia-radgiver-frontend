@@ -1,6 +1,7 @@
 import { ViBistårTab } from "./ViBistårTab";
 import { ComponentMeta } from "@storybook/react";
 import { iaSakKartlegges, iaSakViBistår } from "../mocks/iaSakMock";
+import { SimulerTabletWrapper } from "../../../../.storybook/SkjermstørrelseSimuleringer";
 
 export default {
     title: "Virksomhet/Vi bistår/Vi bistår-tab",
@@ -8,9 +9,15 @@ export default {
 } as ComponentMeta<typeof ViBistårTab>
 
 export const Hovedstory = () => (
-    <ViBistårTab iaSak={iaSakViBistår}/>
+    <ViBistårTab iaSak={iaSakViBistår} />
+)
+
+export const HovedstoryTablet = () => (
+    <SimulerTabletWrapper>
+        <ViBistårTab iaSak={iaSakViBistår} />
+    </SimulerTabletWrapper>
 )
 
 export const SakErIkkeIViBistaar = () => (
-    <ViBistårTab iaSak={iaSakKartlegges}/>
+    <ViBistårTab iaSak={iaSakKartlegges} />
 )
