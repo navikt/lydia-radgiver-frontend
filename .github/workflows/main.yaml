@@ -16,14 +16,14 @@ jobs:
       - name: Install deps server
         working-directory: server
         run: npm ci
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - name: Run server tests
         working-directory: server
         run: npm run test
       - name: Install deps client
         working-directory: client
         run: npm ci
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - name: Run client tests
         working-directory: client
         run: npm run test
