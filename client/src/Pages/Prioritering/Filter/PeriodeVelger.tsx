@@ -27,12 +27,10 @@ export const PeriodeVelger = ({erSynlig, endrePeriode, fraDato, tilDato}:
     const {
         monthpickerProps: monthpickerFraProps,
         inputProps: inputFraProps,
-        //selectedMonth: selectedFraMåned
     } = UNSAFE_useMonthpicker(
         {
             defaultSelected: nyFraDato,
             onMonthChange: (dato) => {
-                console.log("ny FRA dato: ", dato);
                 setNyFraDato(dato);
             },
             onValidate: (måned) => {
@@ -49,12 +47,10 @@ export const PeriodeVelger = ({erSynlig, endrePeriode, fraDato, tilDato}:
     const {
         monthpickerProps: monthpickerTilProps,
         inputProps: inputTilProps,
-        //selectedMonth: selectedTilMåned
     } = UNSAFE_useMonthpicker(
         {
             defaultSelected: nyTilDato,
             onMonthChange: (dato) => {
-                console.log("ny TIL dato: ", dato);
                 setNyTilDato(dato);
             },
             onValidate: (måned) => {
@@ -76,7 +72,6 @@ export const PeriodeVelger = ({erSynlig, endrePeriode, fraDato, tilDato}:
             } else {
                 setForTidlig(false);
             }
-            console.log("endrePeriode: ", {fraDato: nyFraDato, tilDato: nyTilDato})
             endrePeriode({fraDato: nyFraDato, tilDato: nyTilDato});
         }
     }, [nyFraDato, nyTilDato]);
