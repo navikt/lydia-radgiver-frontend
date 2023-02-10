@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { BodyShort, Button } from "@navikt/ds-react";
-import { Delete } from "@navikt/ds-icons";
+import { DeleteFilled as Delete } from "@navikt/ds-icons";
 import { IASakLeveranse as IASakLeveranseType } from "../../../domenetyper/iaLeveranse";
 import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";
@@ -9,10 +9,12 @@ const Container = styled.div`
   display: flex;
   justify-content: stretch;
   align-items: center;
-  gap: 1rem;
+  gap: 4rem;
   
   background: white;
   margin-bottom: 1rem;
+
+  max-width: 60rem;
 `;
 
 const ModulNavn = styled(BodyShort)`
@@ -21,6 +23,7 @@ const ModulNavn = styled(BodyShort)`
 
 const FjernLeveranseKnapp = styled(Button)`
   color: ${NavFarger.text};
+
 `;
 
 interface Props {
