@@ -14,7 +14,10 @@ import { tabletAndUp } from "../../../styling/breakpoint";
 import { SektorDropdown } from "./SektorDropdown";
 import { Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { PeriodeVelger } from "./PeriodeVelger";
-import { getDatoIFortidPåFørsteDagIMåned, getDatoPåFørsteDagINesteMåned } from "../../../util/dato";
+import {
+    getDatoForEttÅrTilbakeITid,
+    getDatoPåSisteDagIMåned
+} from "../../../util/dato";
 
 
 const Skjema = styled.form`
@@ -185,8 +188,8 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
                     <PeriodeVelger
                         erSynlig={true}
                         endrePeriode={endrePeriode}
-                        fraDato={getDatoIFortidPåFørsteDagIMåned(new Date(), 1)}
-                        tilDato={getDatoPåFørsteDagINesteMåned(new Date())}
+                        fraDato={getDatoForEttÅrTilbakeITid(new Date())}
+                        tilDato={getDatoPåSisteDagIMåned(new Date())}
                     />
                 }
                 <Søkeknapp size="medium" onClick={søkPåNytt}>
