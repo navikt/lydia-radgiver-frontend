@@ -12,13 +12,18 @@ const Container = styled.div`
   gap: 4rem;
   
   background: white;
-  margin-bottom: 1rem;
-
+  padding: 0.5rem 1.5rem;
+  
   max-width: 60rem;
 `;
 
 const ModulNavn = styled(BodyShort)`
   flex: 1;
+`;
+
+const FullførKnapp = styled(Button)`
+  padding-left: 1.5rem;
+  padding-right: 1.5rem;
 `;
 
 const FjernLeveranseKnapp = styled(Button)`
@@ -35,7 +40,7 @@ export const IASakLeveranse = ({ leveranse }: Props) => {
         <Container>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
             <BodyShort>{`Frist: ${lokalDato(leveranse.frist)}`}</BodyShort>
-            <Button disabled={true}>Fullfør</Button>
+            <FullførKnapp disabled={true} size="small">Fullfør</FullførKnapp>
             <FjernLeveranseKnapp disabled={true} variant="tertiary" icon={<Delete title="Fjern leveranse" />}></FjernLeveranseKnapp>
         </Container>
     )
