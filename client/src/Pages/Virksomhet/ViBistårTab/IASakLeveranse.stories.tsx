@@ -21,7 +21,7 @@ export const HovedstoryTablet = () => (
 )
 
 export const AlleLeveranser = () => (
-    <div style={{display: "flex", flexDirection: "column", gap:"1rem"}}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         {iaSakLeveranser.map((leveranse) =>
             <IASakLeveranse leveranse={leveranse} key={leveranse.id} />
         )}
@@ -29,7 +29,7 @@ export const AlleLeveranser = () => (
 )
 
 export const AlleLeveranserEtterIATjeneste = () => (
-    <div style={{display: "flex", flexDirection: "column", gap:"1rem"}}>
+    <div style={{ display: "flex", flexDirection: "column", gap: "1rem" }}>
         {IATjenester.map((tjeneste) => (
             <div key={tjeneste.id}>
                 <Heading size="small" key={tjeneste.id}>{tjeneste.navn}</Heading>
@@ -40,4 +40,10 @@ export const AlleLeveranserEtterIATjeneste = () => (
             </div>
         ))}
     </div>
+)
+
+export const AlleLeveranserEtterIATjenesteTablet = () => (
+    <SimulerTabletWrapper>
+        <AlleLeveranserEtterIATjeneste />
+    </SimulerTabletWrapper>
 )
