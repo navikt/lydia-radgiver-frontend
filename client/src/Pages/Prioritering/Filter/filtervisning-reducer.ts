@@ -506,16 +506,6 @@ export const useFiltervisningState = () => {
         []
     );
 
-    const oppdaterPeriode = useCallback(
-        (payload: EndrePeriodeAction["payload"]) => {
-            dispatch({
-                type: "ENDRE_PERIODE",
-                payload,
-            });
-        },
-        []
-    );
-
     const lastData = useCallback(
         (payload: { filterverdier: Filterverdier }) => {
             const filterstate = søkeparametereTilFilterstate(
@@ -545,7 +535,6 @@ export const useFiltervisningState = () => {
         tilbakestill,
         oppdaterSide,
         oppdaterEiere,
-        oppdaterPeriode,
         lastData,
     };
 };

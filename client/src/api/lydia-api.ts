@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import useSWR, { SWRConfiguration } from "swr";
 import { z, ZodError, ZodType } from "zod";
-import { getDatoPåSisteDagIMåned, isoDato } from "../util/dato";
+import { isoDato } from "../util/dato";
 import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
 import { FiltervisningState } from "../Pages/Prioritering/Filter/filtervisning-reducer";
 import { Brukerinformasjon, brukerinformasjonSchema } from "../domenetyper/brukerinformasjon";
@@ -363,7 +363,6 @@ export const søkeverdierTilUrlSearchParams = ({
     bransjeprogram,
     eiere,
     sektor,
-    periode,
 }: FiltervisningState) => {
     const params = new URLSearchParams();
     appendIfPresent(
@@ -423,8 +422,6 @@ export const søkeverdierTilUrlSearchParams = ({
     );
     appendIfPresent("iaStatus", iaStatus, (status) => status, params);
     appendIfPresent("sektor", sektor, (sektor) => sektor, params);
-    appendIfPresent("fraDato", periode?.fraDato, (dato) => isoDato(dato), params);
-    appendIfPresent("tilDato", periode?.tilDato, (dato) => isoDato(getDatoPåSisteDagIMåned(dato)), params);
     appendIfPresent(
         "sorteringsnokkel",
         sorteringsnokkel,
