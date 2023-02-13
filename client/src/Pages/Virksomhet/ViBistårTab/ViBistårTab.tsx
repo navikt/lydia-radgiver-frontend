@@ -5,12 +5,22 @@ import { NyIALeveranseSkjema } from "./NyIALeveranseSkjema";
 import { IASakLeveranse } from "./IASakLeveranse";
 import { IATjenester } from "../mocks/iaSakLeveranseMock";
 import { useHentIASakLeveranser } from "../../../api/lydia-api";
+import { NavFarger } from "../../../styling/farger";
+import { BorderRadius } from "../../../styling/borderRadius";
+import { Skygger } from "../../../styling/skygger";
 
 const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 2rem;
+  
+  background: ${NavFarger.white};
+  padding: 0.75rem 1.5rem 1.5rem;
+  border-radius: ${BorderRadius.medium};
+  box-shadow: ${Skygger.small};
+  
+  // TODO legg på borders på leveranserader
 `;
 
 interface Props {
@@ -27,7 +37,7 @@ export const ViBistårTab = ({ iaSak }: Props) => {
     return (
         <Container>
             <div>
-                <Heading size="medium">Leveranser</Heading>
+                <Heading size="large">Leveranser</Heading>
                 <BodyShort>Her kan du legge leveranser når du bistår i saken.</BodyShort>
             </div>
             {
