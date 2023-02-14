@@ -36,7 +36,7 @@ interface Props {
 }
 
 export const IASakLeveranse = ({ leveranse }: Props) => {
-    const sakErFullført = leveranse.status !== IASakLeveranseStatusEnum.enum.UNDER_ARBEID;
+    const leveranseErFullført = leveranse.status === IASakLeveranseStatusEnum.enum.LEVERT;
 
     const fullførOppgave = () => {
         alert("Fullført! :D")
@@ -49,7 +49,7 @@ export const IASakLeveranse = ({ leveranse }: Props) => {
         <Container>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
             <BodyShort>{`Frist: ${lokalDato(leveranse.frist)}`}</BodyShort>
-            <FullførKnapp onClick={fullførOppgave} disabled={sakErFullført} size="small">Fullfør</FullførKnapp>
+            <FullførKnapp onClick={fullførOppgave} disabled={leveranseErFullført} size="small">Fullfør</FullførKnapp>
             <FjernLeveranseKnapp disabled={true} variant="tertiary" icon={<Delete title="Fjern leveranse" />}></FjernLeveranseKnapp>
         </Container>
     )
