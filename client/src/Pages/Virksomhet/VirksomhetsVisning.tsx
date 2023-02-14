@@ -27,7 +27,7 @@ interface Props {
     virksomhet: Virksomhet;
     iaSak?: IASak;
     samarbeidshistorikk: Sakshistorikk[];
-    muterState?: () => void;
+    muterState?: () => void;  // TODO: Kan denne eigentleg vere obligatorisk? 2023-03-14
 }
 
 export const VirksomhetsVisning = ({ virksomhet, iaSak, samarbeidshistorikk, muterState }: Props) => {

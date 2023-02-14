@@ -38,7 +38,7 @@ const VirksomhetsinfoContainer = styled.div`
 interface Props {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    muterState?: () => void;
+    muterState?: () => void;  // TODO: Kan denne eigentleg vere obligatorisk? 2023-03-14
 }
 
 export const Virksomhetsoversikt = ({ virksomhet, iaSak, muterState }: Props) => (

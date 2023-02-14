@@ -45,7 +45,7 @@ const InfoData = styled(BodyShort)`
 export interface IASakOversiktProps {
     orgnummer: string;
     iaSak?: IASak;
-    muterState?: () => void;
+    muterState?: () => void;  // TODO: Kan denne eigentleg vere obligatorisk? 2023-03-14
 }
 
 export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversiktProps) => {

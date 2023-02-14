@@ -40,7 +40,7 @@ const Virksomhetsside = () => {
 
     const muterState = () => {
         mutateHentSaker().then(() => {
-            mutateHentSamarbeidshistorikk()
+            mutateHentSamarbeidshistorikk() // TODO: Kan dette eigentleg berre gjerast i samarbeidshistorikken?
         })
     }
 
