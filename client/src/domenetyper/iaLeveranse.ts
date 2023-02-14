@@ -47,8 +47,8 @@ export interface NyIASakLeveranseDTO {
 }
 
 const iaSakLeveranseOppdateringDTOSchema = z.object({
-    frist: datoSchema.optional(),
-    status: IASakLeveranseStatusEnum.optional(),
+    frist: datoSchema.nullable(),
+    status: IASakLeveranseStatusEnum.nullable(),
 })
 
 export type IASakLeveranseOppdateringDTO = z.infer<typeof iaSakLeveranseOppdateringDTOSchema>

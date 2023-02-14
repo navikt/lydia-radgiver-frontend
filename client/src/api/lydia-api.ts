@@ -463,10 +463,11 @@ export const nyLeveransePåSak = (
 export const fullførIASakLeveranse = (
     orgnummer: string,
     saksnummer: string,
-    iaSakLeveranseId: string,
+    iaSakLeveranseId: number,
 ): Promise<IASakLeveranse> => {
     const oppdaterIASakLeveranseDTO: IASakLeveranseOppdateringDTO = {
         status: IASakLeveranseStatusEnum.enum.LEVERT,
+        frist: null,
     };
     return put(`${iaSakLeveransePath}/${orgnummer}/${saksnummer}/${iaSakLeveranseId}`, iaSakLeveranseSchema, oppdaterIASakLeveranseDTO);
 };
