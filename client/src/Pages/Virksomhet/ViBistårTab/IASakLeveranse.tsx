@@ -36,11 +36,18 @@ interface Props {
 }
 
 export const IASakLeveranse = ({ leveranse }: Props) => {
+    const fullførOppgave = () => {
+        alert("Fullført! :D")
+        // Send til backend
+        // Vent på svar
+        // Muterstate
+    }
+
     return (
         <Container>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
             <BodyShort>{`Frist: ${lokalDato(leveranse.frist)}`}</BodyShort>
-            <FullførKnapp disabled={true} size="small">Fullfør</FullførKnapp>
+            <FullførKnapp onClick={fullførOppgave} size="small">Fullfør</FullførKnapp>
             <FjernLeveranseKnapp disabled={true} variant="tertiary" icon={<Delete title="Fjern leveranse" />}></FjernLeveranseKnapp>
         </Container>
     )
