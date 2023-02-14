@@ -45,3 +45,10 @@ export interface NyIASakLeveranseDTO {
     modulId: number;
     frist: string; // isoDato(Date) -> string
 }
+
+const iaSakLeveranseOppdateringDTOSchema = z.object({
+    frist: datoSchema.optional(),
+    status: IASakLeveranseStatusEnum.optional(),
+})
+
+export type IASakLeveranseOppdateringDTO = z.infer<typeof iaSakLeveranseOppdateringDTOSchema>

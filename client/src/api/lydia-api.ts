@@ -13,7 +13,13 @@ import {
     ValgtÅrsakDto,
 } from "../domenetyper/domenetyper";
 import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier";
-import { IASakLeveranse, iaSakLeveranseSchema, NyIASakLeveranseDTO } from "../domenetyper/iaLeveranse";
+import {
+    IASakLeveranse,
+    IASakLeveranseOppdateringDTO,
+    iaSakLeveranseSchema,
+    IASakLeveranseStatusEnum,
+    NyIASakLeveranseDTO
+} from "../domenetyper/iaLeveranse";
 import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartal";
 import { LederstatistikkListeRespons, lederstatistikkListeResponsSchema } from "../domenetyper/lederstatistikk";
 import { Sakshistorikk, sakshistorikkSchema } from "../domenetyper/sakshistorikk";
@@ -453,6 +459,17 @@ export const nyLeveransePåSak = (
     }
     return post(`${iaSakLeveransePath}/${orgnummer}/${saksnummer}`, iaSakLeveranseSchema, nyLeveranseDTO)
 }
+
+export const fullførIASakLeveranse = (
+    orgnummer: string,
+    saksnummer: string,
+    iaSakLeveranseId: string,
+): Promise<IASakLeveranse> => {
+    const oppdaterIASakLeveranseDTO: IASakLeveranseOppdateringDTO = {
+        status: IASakLeveranseStatusEnum.enum.LEVERT,
+    };
+    return put(`${iaSakLeveransePath}/${orgnummer}/${saksnummer}/${iaSakLeveranseId}`, iaSakLeveranseSchema, oppdaterIASakLeveranseDTO);
+};
 
 export const useHentIASakLeveranser = (orgnummer: string, saksnummer: string) => {
     return useSwrTemplate<IASakLeveranse[]>(
