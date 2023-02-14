@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BodyShort, Button } from "@navikt/ds-react";
 import { DeleteFilled as Delete } from "@navikt/ds-icons";
-import { IASakLeveranse as IASakLeveranseType } from "../../../domenetyper/iaLeveranse";
+import { IASakLeveranse as IASakLeveranseType, IASakLeveranseStatusEnum } from "../../../domenetyper/iaLeveranse";
 import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";
 
@@ -36,6 +36,8 @@ interface Props {
 }
 
 export const IASakLeveranse = ({ leveranse }: Props) => {
+    const sakErFullført = leveranse.status !== IASakLeveranseStatusEnum.enum.UNDER_ARBEID;
+
     const fullførOppgave = () => {
         alert("Fullført! :D")
         // Send til backend
@@ -47,7 +49,7 @@ export const IASakLeveranse = ({ leveranse }: Props) => {
         <Container>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
             <BodyShort>{`Frist: ${lokalDato(leveranse.frist)}`}</BodyShort>
-            <FullførKnapp onClick={fullførOppgave} size="small">Fullfør</FullførKnapp>
+            <FullførKnapp onClick={fullførOppgave} disabled={sakErFullført} size="small">Fullfør</FullførKnapp>
             <FjernLeveranseKnapp disabled={true} variant="tertiary" icon={<Delete title="Fjern leveranse" />}></FjernLeveranseKnapp>
         </Container>
     )
