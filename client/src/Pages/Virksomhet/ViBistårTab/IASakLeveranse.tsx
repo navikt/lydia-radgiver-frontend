@@ -4,7 +4,7 @@ import { DeleteFilled as Delete } from "@navikt/ds-icons";
 import { IASakLeveranse as IASakLeveranseType, IASakLeveranseStatusEnum } from "../../../domenetyper/iaLeveranse";
 import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";
-import { fullførIASakLeveranse } from "../../../api/lydia-api";
+import { fullførIASakLeveranse, useHentIASakLeveranser } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 
 const Container = styled.div`
@@ -40,12 +40,11 @@ interface Props {
 
 export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
     const leveranseErFullført = leveranse.status === IASakLeveranseStatusEnum.enum.LEVERT;
+    const { mutate: hentLeveranserPåNytt } = useHentIASakLeveranser(iaSak.orgnr, leveranse.saksnummer)
 
     const fullførOppgave = () => {
-        // Send til backend
         fullførIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
-        // Vent på svar
-        // Muterstate
+            .then(() => hentLeveranserPåNytt())
     }
 
     return (
