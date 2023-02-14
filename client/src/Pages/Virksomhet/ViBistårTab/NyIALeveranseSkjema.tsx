@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Button, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt/ds-react";
 import { IATjenesteModuler, IATjenester } from "../mocks/iaSakLeveranseMock";
-import { nyLeveransePåSak } from "../../../api/lydia-api";
+import { nyLeveransePåSak, useHentIASakLeveranser } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 
@@ -24,6 +24,8 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
     const moduler = IATjenesteModuler;
     const [valgtIATjeneste, setValgtIATjeneste] = useState("");
     const [valgtModul, setValgtModul] = useState("");
+    const { mutate: hentLeveranserPåNytt } = useHentIASakLeveranser(iaSak.orgnr, iaSak.saksnummer)
+
 
     const { datepickerProps, inputProps, selectedDay } = UNSAFE_useDatepicker({
         fromDate: new Date("Aug 23 2019"),
@@ -42,8 +44,8 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
         if (valgtModul === "" || !selectedDay) {
             return;
         }
-        alert("Ny sak opprettes :D")
         nyLeveransePåSak(iaSak.orgnr, iaSak.saksnummer, Number(valgtModul), selectedDay)
+            .then(() => hentLeveranserPåNytt())
     }
 
     return (
