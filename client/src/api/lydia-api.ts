@@ -88,6 +88,8 @@ const post = <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
     fetchNative("POST")(url, schema, body);
 const get = <T>(url: string, schema: ZodType<T>): Promise<T> =>
     fetchNative("GET")(url, schema);
+const put = <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
+    fetchNative("PUT")(url, schema, body);
 
 const useSwrTemplate = <T>(
     path: string | (() => string | null) | null,
