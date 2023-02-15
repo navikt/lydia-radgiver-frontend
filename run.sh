@@ -3,12 +3,12 @@
 while getopts 'cih' opt; do
   case "$opt" in
     c)
-      echo "\nRydder opp...\n"
+      echo "Rydder opp..."
       docker-compose down -v
       ;;
 
     i)
-      echo "\nInitialiserer database...\n"
+      echo "Initialiserer database..."
       docker-compose up postgres -d
       sleep 3
       DB_DUMP=/tmp/db_script.sql
@@ -16,11 +16,11 @@ while getopts 'cih' opt; do
       PGPASSWORD=test psql -h localhost -p 5432 -U postgres -f $DB_DUMP > /dev/null
       rm $DB_DUMP
       sleep 1
-      echo "\nFerdi\n"
+      docker-compose stop postgres
       ;;
 
     h)
-      echo "Kjører opp utvikler miljøet. Bruk: $(basename $0) [-c] [-i] [-h]\n"
+      echo "Kjører opp utvikler miljøet. Bruk: $(basename $0) [-c] [-i] [-h]"
       echo "  -c rydder opp (kjører ned docker compose med tilhørende volumes)"
       echo "  -i kjører opp postgres, og forsøker å laste inn datadump fra git"
       echo "  -h denne hjelpeteksten"
@@ -35,8 +35,12 @@ while getopts 'cih' opt; do
 done
 shift "$(($OPTIND -1))"
 
+# stop evt kjørende tjenester
+docker-compose stop
+
 # kjør opp tjenester (dette migrerer databasen til nyeste versjon)
 docker-compose up -d
+sleep 10
 
 # kjør opp frontend
 cd client
