@@ -52,7 +52,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversi
     const [valgtHendelseMedÅrsak, setValgtHendelseMedÅrsak] =
         useState<GyldigNesteHendelse>();
 
-    if (!sak || sak.lukket)
+    if (!sak || sak.lukket) {
         return (
             <IngenAktiveSaker
                 orgnummer={orgnummer}
@@ -61,6 +61,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversi
                 }}
             />
         );
+    }
 
     const onNyHendelseHandler = (hendelse: GyldigNesteHendelse) => {
         hendelseKreverBegrunnelse(hendelse)
