@@ -4,5 +4,7 @@ const dateFormatDato = new Intl.DateTimeFormat("nb-NO", {
 
 export const lokalDato = (input: Date) => dateFormatDato.format(new Date(input));
 
-export const isoDato = (dato: Date) =>
-    new Intl.DateTimeFormat("en-CA", { dateStyle: "short" }).format(dato);
+export const isoDato = (dato: Date) => {
+    dato.setHours(12);
+    return dato.toISOString().substring(0, 10);
+};
