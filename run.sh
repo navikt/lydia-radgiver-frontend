@@ -1,6 +1,6 @@
 #! /usr/bin/env bash
 
-while getopts 'cih' opt; do
+while getopts 'cifh' opt; do
   case "$opt" in
     c)
       echo "Rydder opp..."
@@ -19,10 +19,16 @@ while getopts 'cih' opt; do
       docker-compose stop postgres
       ;;
 
+    f)
+      docker-compose down
+      docker rmi $(docker images | grep -E "lydia-api" | cut -w -f3)
+      ;;
+
     h)
-      echo "Kjører opp utvikler miljøet. Bruk: $(basename $0) [-c] [-i] [-h]"
+      echo "Kjører opp utvikler miljøet. Bruk: $(basename $0) [-c] [-i] [-h] [-f]"
       echo "  -c rydder opp (kjører ned docker compose med tilhørende volumes)"
       echo "  -i kjører opp postgres, og forsøker å laste inn datadump fra git"
+      echo "  -f fjerner gammelt backend image"
       echo "  -h denne hjelpeteksten"
       exit 0
       ;;

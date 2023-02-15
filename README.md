@@ -53,7 +53,7 @@ Om du bruker Colima treng du også å køyre denne for å få ting til å funger
 `
 
 Når du har docker på plass kan du køyre   
-`./run.sh` i rotmappa. Dette startar server og frontend med sine avhengigheiter.
+`./run.sh -cif` i rotmappa. Dette startar server og frontend med sine avhengigheiter.
 
 Besøk deretter http://localhost:2222 i din favorittbrowser.  
 Skjemaet som dukker opp her gjev deg høve til å endre kva rettar testbrukaren din har. I dei fleste tilfelle kan du skrive inn noko tilfeldig tekst og trykke "SIGN-IN".
