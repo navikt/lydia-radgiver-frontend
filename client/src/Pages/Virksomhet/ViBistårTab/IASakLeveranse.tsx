@@ -4,7 +4,7 @@ import { DeleteFilled as Delete } from "@navikt/ds-icons";
 import { IASakLeveranse as IASakLeveranseType, IASakLeveranseStatusEnum } from "../../../domenetyper/iaLeveranse";
 import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";
-import { fullførIASakLeveranse, useHentIASakLeveranser } from "../../../api/lydia-api";
+import { fullførIASakLeveranse, slettIASakLeveranse, useHentIASakLeveranser } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 
 const Container = styled.div`
@@ -47,12 +47,17 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
             .then(() => hentLeveranserPåNytt())
     }
 
+    const slettLeveranse = () => {
+        slettIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
+            .then(() => hentLeveranserPåNytt())
+    }
+
     return (
         <Container>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
             <BodyShort>{`Frist: ${lokalDato(leveranse.frist)}`}</BodyShort>
             <FullførKnapp onClick={fullførOppgave} disabled={leveranseErFullført} size="small">Fullfør</FullførKnapp>
-            <FjernLeveranseKnapp disabled={true} variant="tertiary" icon={<Delete title="Fjern leveranse" />} />
+            <FjernLeveranseKnapp onClick={slettLeveranse} variant="tertiary" icon={<Delete title="Fjern leveranse" />} />
         </Container>
     )
 }

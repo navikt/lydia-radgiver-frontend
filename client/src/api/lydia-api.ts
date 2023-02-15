@@ -96,6 +96,8 @@ const get = <T>(url: string, schema: ZodType<T>): Promise<T> =>
     fetchNative("GET")(url, schema);
 const put = <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
     fetchNative("PUT")(url, schema, body);
+const httpDelete = <T>(url: string, schema: ZodType<T>): Promise<T> =>
+    fetchNative("DELETE")(url, schema);
 
 const useSwrTemplate = <T>(
     path: string | (() => string | null) | null,
@@ -470,6 +472,14 @@ export const fullførIASakLeveranse = (
         frist: null,
     };
     return put(`${iaSakLeveransePath}/${orgnummer}/${saksnummer}/${iaSakLeveranseId}`, iaSakLeveranseSchema, oppdaterIASakLeveranseDTO);
+};
+
+export const slettIASakLeveranse = (
+    orgnummer: string,
+    saksnummer: string,
+    iaSakLeveranseId: number,
+): Promise<number> => {
+    return httpDelete(`${iaSakLeveransePath}/${orgnummer}/${saksnummer}/${iaSakLeveranseId}`, z.number());
 };
 
 export const useHentIASakLeveranser = (orgnummer: string, saksnummer: string) => {
