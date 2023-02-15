@@ -3,12 +3,12 @@
 while getopts 'cih' opt; do
   case "$opt" in
     c)
-      echo "Rydder opp først"
+      echo "\nRydder opp...\n"
       docker-compose down -v
       ;;
 
     i)
-      echo "Initialiserer database"
+      echo "\nInitialiserer database...\n"
       docker-compose up postgres -d
       sleep 3
       DB_DUMP=/tmp/db_script.sql
@@ -16,15 +16,19 @@ while getopts 'cih' opt; do
       PGPASSWORD=test psql -h localhost -p 5432 -U postgres -f $DB_DUMP > /dev/null
       rm $DB_DUMP
       sleep 1
+      echo "\nFerdi\n"
       ;;
 
     h)
-      echo "TODO"
+      echo "Kjører opp utvikler miljøet. Bruk: $(basename $0) [-c] [-i] [-h]\n"
+      echo "  -c rydder opp (kjører ned docker compose med tilhørende volumes)"
+      echo "  -i kjører opp postgres, og forsøker å laste inn datadump fra git"
+      echo "  -h denne hjelpeteksten"
       exit 0
       ;;
 
     ?)
-      echo -e "Invalid command option.\nUsage: $(basename $0) [-a] [-b] [-c arg]"
+      echo -e "Ugyldig argument. Bruk: $(basename $0) [-c] [-i] [-h]"
       exit 1
       ;;
   esac
