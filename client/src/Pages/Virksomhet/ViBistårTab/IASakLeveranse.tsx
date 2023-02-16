@@ -11,8 +11,7 @@ const Container = styled.div`
   display: flex;
   justify-content: stretch;
   align-items: center;
-  gap: 4rem;
-
+  gap: clamp(1.5rem, 14vw - 5.5rem, 4rem);
   padding: 0.5rem 1.5rem;
 
   max-width: 60rem;
@@ -20,6 +19,10 @@ const Container = styled.div`
 
 const ModulNavn = styled(BodyShort)`
   flex: 1;
+`;
+
+const Frist = styled(BodyShort)`
+  flex-shrink: 0;
 `;
 
 const FullførKnapp = styled(Button)`
@@ -56,7 +59,7 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
     return (
         <Container>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
-            <BodyShort>{`Frist: ${lokalDato(leveranse.frist)}`}</BodyShort>
+            <Frist>{`Frist: ${lokalDato(leveranse.frist)}`}</Frist>
             <FullførKnapp onClick={fullførOppgave} disabled={leveranseErFullført} size="small">
                 {fullførKnappTekst}
             </FullførKnapp>
