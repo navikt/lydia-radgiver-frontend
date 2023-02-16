@@ -2,6 +2,13 @@ import { BodyShort, Loader } from "@navikt/ds-react";
 import { IATjeneste } from "./IATjeneste";
 import { useHentIASakLeveranser } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
+import styled from "styled-components";
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+`;
 
 interface Props {
     iaSak: IASak;
@@ -22,7 +29,7 @@ export const LeveranseOversikt = ({ iaSak }: Props) => {
     }
 
     return (
-        <>
+        <Container>
             {
                 iaSakLeveranserPerTjeneste.map((iaTjenesteMedLeveranser) => (
                         <IATjeneste iaTjenesteMedLeveranser={iaTjenesteMedLeveranser}
@@ -31,6 +38,6 @@ export const LeveranseOversikt = ({ iaSak }: Props) => {
                     )
                 )
             }
-        </>
+        </Container>
     )
 }
