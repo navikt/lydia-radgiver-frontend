@@ -40,23 +40,26 @@ interface Props {
 
 export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
     const leveranseErFullført = leveranse.status === IASakLeveranseStatusEnum.enum.LEVERT;
-    const { mutate: hentLeveranserPåNytt } = useHentIASakLeveranser(iaSak.orgnr, leveranse.saksnummer)
+    const fullførKnappTekst = leveranseErFullført ? "Fullført" : "Fullfør";
+    const { mutate: hentLeveranserPåNytt } = useHentIASakLeveranser(iaSak.orgnr, leveranse.saksnummer);
 
     const fullførOppgave = () => {
         fullførIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
-            .then(() => hentLeveranserPåNytt())
+            .then(() => hentLeveranserPåNytt());
     }
 
     const slettLeveranse = () => {
         slettIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
-            .then(() => hentLeveranserPåNytt())
+            .then(() => hentLeveranserPåNytt());
     }
 
     return (
         <Container>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
             <BodyShort>{`Frist: ${lokalDato(leveranse.frist)}`}</BodyShort>
-            <FullførKnapp onClick={fullførOppgave} disabled={leveranseErFullført} size="small">Fullfør</FullførKnapp>
+            <FullførKnapp onClick={fullførOppgave} disabled={leveranseErFullført} size="small">
+                {fullførKnappTekst}
+            </FullførKnapp>
             <FjernLeveranseKnapp onClick={slettLeveranse} variant="tertiary" icon={<Delete title="Fjern leveranse" />} />
         </Container>
     )
