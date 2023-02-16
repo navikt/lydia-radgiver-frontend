@@ -2,6 +2,11 @@ import { IASakLeveranserPerTjeneste } from "../../../domenetyper/iaLeveranse";
 import { Heading } from "@navikt/ds-react";
 import { IASakLeveranse } from "./IASakLeveranse";
 import { IASak } from "../../../domenetyper/domenetyper";
+import styled from "styled-components";
+
+const TjenesteHeading = styled(Heading)`
+  padding: 0.5rem 1.5rem;
+`;
 
 interface Props {
     iaTjenesteMedLeveranser: IASakLeveranserPerTjeneste;
@@ -15,7 +20,7 @@ export const IATjeneste = ({ iaTjenesteMedLeveranser, iaSak }: Props) => {
 
     return (
         <div>
-            <Heading size="small">{iaTjenesteMedLeveranser.iaTjeneste.navn}</Heading>
+            <TjenesteHeading size="xsmall">{iaTjenesteMedLeveranser.iaTjeneste.navn}</TjenesteHeading>
             {
                 iaTjenesteMedLeveranser.leveranser
                     .map((leveranse) =>
