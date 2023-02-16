@@ -2,12 +2,18 @@ import { initialize, mswDecorator } from "msw-storybook-addon";
 import { NavFarger } from "../src/styling/farger";
 import { rest } from "msw";
 import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innloggetAnsattMock";
-import { gjeldendePeriodePath, siste4kvartalerPath, sykefraværsstatistikkPath } from "../src/api/lydia-api";
+import {
+    gjeldendePeriodePath,
+    iaSakHistorikkPath,
+    siste4kvartalerPath,
+    sykefraværsstatistikkPath
+} from "../src/api/lydia-api";
 import {
     gjeldendePeriodeSiste4Kvartal,
     sykefraværsstatistikkSisteKvartalMock,
     virksomhetsstatistikkSiste4KvartalerMock
 } from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
+import {samarbeidshistorikkMock} from "../src/Pages/Virksomhet/mocks/iaSakHistorikkMock";
 
 export const parameters = {
     actions: { argTypesRegex: "^on[A-Z].*" },
@@ -74,6 +80,13 @@ export const parameters = {
                     );
                 }),
             ],
+            samarbeidshistorikk: [
+                rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
+                    return res(
+                        ctx.json(samarbeidshistorikkMock)
+                    );
+                }),
+            ]
         }
     }
 };

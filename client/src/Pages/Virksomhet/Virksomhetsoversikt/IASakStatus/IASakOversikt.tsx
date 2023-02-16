@@ -4,7 +4,7 @@ import { BodyShort } from "@navikt/ds-react";
 import { IngenAktiveSaker } from "./IngenAktiveSaker";
 import { GyldigNesteHendelse, IASak, ValgtÅrsakDto } from "../../../../domenetyper/domenetyper";
 import { StatusBadge } from "../../../../components/Badge/StatusBadge";
-import { nyHendelsePåSak } from "../../../../api/lydia-api";
+import {nyHendelsePåSak, useHentSamarbeidshistorikk} from "../../../../api/lydia-api";
 import { BegrunnelseModal } from "./BegrunnelseModal";
 import { SakshendelsesKnapper } from "./SakshendelsesKnapper";
 import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
@@ -52,13 +52,20 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversi
     const [valgtHendelseMedÅrsak, setValgtHendelseMedÅrsak] =
         useState<GyldigNesteHendelse>();
 
+    const {
+        mutate: mutateSamarbeidshistorikk
+    } = useHentSamarbeidshistorikk(orgnummer)
+
+    const mutateIASakOgSamarbeidshistorikk = () => {
+        muterState?.()
+        mutateSamarbeidshistorikk?.()
+    }
+
     if (!sak || sak.lukket) {
         return (
             <IngenAktiveSaker
                 orgnummer={orgnummer}
-                oppdaterSak={() => {
-                    muterState?.();
-                }}
+                oppdaterSak={mutateIASakOgSamarbeidshistorikk}
             />
         );
     }
@@ -66,9 +73,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversi
     const onNyHendelseHandler = (hendelse: GyldigNesteHendelse) => {
         hendelseKreverBegrunnelse(hendelse)
             ? setValgtHendelseMedÅrsak(hendelse)
-            : nyHendelsePåSak(sak, hendelse).then(() =>
-                muterState?.()
-            )
+            : nyHendelsePåSak(sak, hendelse).then(mutateIASakOgSamarbeidshistorikk)
     }
 
     const skalRendreModal = !!valgtHendelseMedÅrsak;
@@ -80,7 +85,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversi
             return new Error(`Kan ikke lagre begrunnelse på denne hendelsen. Hendelse: ${valgtHendelseMedÅrsak}`)
         }
         nyHendelsePåSak(sak, valgtHendelseMedÅrsak, valgtÅrsak)
-            .then(() => muterState?.())
+            .then(mutateIASakOgSamarbeidshistorikk)
             .finally(() =>
                 setValgtHendelseMedÅrsak(undefined)
             )

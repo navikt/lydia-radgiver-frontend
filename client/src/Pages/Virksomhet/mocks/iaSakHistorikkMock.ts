@@ -62,9 +62,3 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [{
         }
     ]
 }]
-
-
-export const samarbeidshistorikkMockMedFlereSaker = [
-    samarbeidshistorikkMock[0],
-    samarbeidshistorikkMock[1],
-]

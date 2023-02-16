@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { Accordion, BodyShort } from "@navikt/ds-react";
-import { lokalDato } from "../../../util/dato";
-import { StatusBadge } from "../../../components/Badge/StatusBadge";
-import { SakshistorikkTabell } from "./SakshistorikkTabell";
-import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
+import {Accordion, BodyShort} from "@navikt/ds-react";
+import {lokalDato} from "../../../util/dato";
+import {StatusBadge} from "../../../components/Badge/StatusBadge";
+import {SakshistorikkTabell} from "./SakshistorikkTabell";
+import {Sakshistorikk} from "../../../domenetyper/sakshistorikk";
+import {useHentSamarbeidshistorikk} from "../../../api/lydia-api";
 
 const Container = styled.div`
   display: grid;
@@ -17,12 +18,33 @@ const AccordionHeaderContent = styled.div`
 `;
 
 interface SamarbeidshistorikkProps {
-    samarbeidshistorikk: Sakshistorikk[];
+    orgnr: string;
     className?: string;
 }
 
-export const Samarbeidshistorikk = ({ samarbeidshistorikk, className }: SamarbeidshistorikkProps) => {
-    const sortertHistorikk: Sakshistorikk[] = samarbeidshistorikk.map((historikk) => ({
+export const Samarbeidshistorikk = ({orgnr, className}: SamarbeidshistorikkProps) => {
+    const {
+        data: samarbeidshistorikk,
+        loading: lasterSamarbeidshistorikk
+    } = useHentSamarbeidshistorikk(orgnr)
+
+    if (lasterSamarbeidshistorikk) {
+        return (
+            <Container className={className}>
+                <p>Laster</p>
+            </Container>
+        )
+    }
+
+    if (!samarbeidshistorikk) {
+        return (
+            <Container className={className}>
+                <p>Kunne ikke hente samarbeidshistorikk</p>
+            </Container>
+        )
+    }
+
+    const sortertHistorikk = samarbeidshistorikk.map((historikk) => ({
         saksnummer: historikk.saksnummer,
         opprettet: historikk.opprettet,
         sakshendelser: sorterSakshistorikkPåTid(historikk)
@@ -36,7 +58,7 @@ export const Samarbeidshistorikk = ({ samarbeidshistorikk, className }: Samarbei
                         <Accordion.Item>
                             <Accordion.Header>
                                 <AccordionHeaderContent>
-                                    <StatusBadge status={sakshistorikk.sakshendelser[0].status} />
+                                    <StatusBadge status={sakshistorikk.sakshendelser[0].status}/>
                                     Sist oppdatert: {lokalDato(sakshistorikk.sakshendelser[0].tidspunktForSnapshot)} -
                                     Saksnummer: {sakshistorikk.saksnummer}
                                 </AccordionHeaderContent>
@@ -51,7 +73,7 @@ export const Samarbeidshistorikk = ({ samarbeidshistorikk, className }: Samarbei
                     </Accordion>
                 )
             ) : (
-                <IngenHendelserPåSak />
+                <IngenHendelserPåSak/>
             )}
         </Container>
     );
@@ -69,7 +91,7 @@ const IngenHendelserPåSak = () => {
     );
 };
 
-function sorterSakshistorikkPåTid({ sakshendelser }: Sakshistorikk) {
+function sorterSakshistorikkPåTid({sakshendelser}: Sakshistorikk) {
     return sakshendelser.sort(
         (a, b) =>
             b.tidspunktForSnapshot.getTime() -

@@ -3,7 +3,6 @@ import { useParams } from "react-router-dom";
 import { Loader } from "@navikt/ds-react";
 import {
     useHentSakerForVirksomhet,
-    useHentSamarbeidshistorikk,
     useHentVirksomhetsinformasjon
 } from "../../api/lydia-api";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
@@ -35,27 +34,15 @@ const Virksomhetsside = () => {
 
     const iaSak = nyesteSak(iaSaker)
 
-    const {
-        data: samarbeidshistorikk,
-        mutate: mutateHentSamarbeidshistorikk
-    } = useHentSamarbeidshistorikk(orgnummer)
-
     if (lasterVirksomhet || lasterIaSaker) {
         return <LasterVirksomhet />
-    }
-
-    const muterState = () => {
-        mutateHentSaker().then(() => {
-            mutateHentSamarbeidshistorikk() // TODO: Kan dette eigentleg berre gjerast i samarbeidshistorikken?
-        })
     }
 
     if (virksomhetsinformasjon && iaSaker) {
         return <VirksomhetsVisning
             virksomhet={virksomhetsinformasjon}
             iaSak={iaSak}
-            samarbeidshistorikk={samarbeidshistorikk ?? []}
-            muterState={muterState}
+            muterState={mutateHentSaker}
         />
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>

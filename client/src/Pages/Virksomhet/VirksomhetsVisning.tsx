@@ -7,7 +7,6 @@ import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../sty
 import { NavFarger } from "../../styling/farger";
 import { ViBistårTab } from "./ViBistårTab/ViBistårTab";
 import { Virksomhet } from "../../domenetyper/virksomhet";
-import { Sakshistorikk } from "../../domenetyper/sakshistorikk";
 
 const Container = styled.div`
   padding-top: ${contentSpacing.mobileY};
@@ -26,11 +25,10 @@ const StyledPanel = styled(Tabs.Panel)`
 interface Props {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    samarbeidshistorikk: Sakshistorikk[];
     muterState?: () => void;  // TODO: Kan denne eigentleg vere obligatorisk? 2023-03-14
 }
 
-export const VirksomhetsVisning = ({ virksomhet, iaSak, samarbeidshistorikk, muterState }: Props) => {
+export const VirksomhetsVisning = ({ virksomhet, iaSak, muterState }: Props) => {
     // Dette er ein wannabe feature toggle
     const visViBistårTab = false; // TODO: Dobbeltsjekk at verdien her er 'false' før du pusher
 
@@ -44,7 +42,7 @@ export const VirksomhetsVisning = ({ virksomhet, iaSak, samarbeidshistorikk, mut
                     {visViBistårTab && iaSak && <Tabs.Tab value="vi-bistår" label="Vi bistår" />}
                 </Tabs.List>
                 <StyledPanel value="samarbeidshistorikk">
-                    <Samarbeidshistorikk samarbeidshistorikk={samarbeidshistorikk} />
+                    <Samarbeidshistorikk orgnr={virksomhet.orgnr}/>
                 </StyledPanel>
                 <StyledPanel value="vi-bistår">
                     {visViBistårTab && iaSak && <ViBistårTab iaSak={iaSak}/>}
