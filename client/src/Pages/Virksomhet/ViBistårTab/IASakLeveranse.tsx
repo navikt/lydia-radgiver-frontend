@@ -13,7 +13,6 @@ const Container = styled.div`
   align-items: center;
   gap: 4rem;
 
-  background: white;
   padding: 0.5rem 1.5rem;
 
   max-width: 60rem;
@@ -26,11 +25,12 @@ const ModulNavn = styled(BodyShort)`
 const FullførKnapp = styled(Button)`
   padding-left: 1.5rem;
   padding-right: 1.5rem;
+  min-width: 5.8em;
 `;
 
 const FjernLeveranseKnapp = styled(Button)`
   color: ${NavFarger.text};
-
+  padding: 0;
 `;
 
 interface Props {
