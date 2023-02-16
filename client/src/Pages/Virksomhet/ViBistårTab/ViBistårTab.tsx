@@ -1,12 +1,11 @@
-import { BodyShort, Heading, Loader } from "@navikt/ds-react";
+import { BodyShort, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
 import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { NyIALeveranseSkjema } from "./NyIALeveranseSkjema";
-import { useHentIASakLeveranser } from "../../../api/lydia-api";
 import { NavFarger } from "../../../styling/farger";
 import { BorderRadius } from "../../../styling/borderRadius";
 import { Skygger } from "../../../styling/skygger";
-import { IATjeneste } from "./IATjeneste";
+import { LeveranseOversikt } from "./LeveranseOversikt";
 
 const Container = styled.div`
   height: 100%;
@@ -27,10 +26,6 @@ interface Props {
 }
 
 export const ViBistårTab = ({ iaSak }: Props) => {
-    const {
-        data: iaSakLeveranserPerTjeneste,
-        loading: lasterIASakLeveranserPerTjeneste
-    } = useHentIASakLeveranser(iaSak.orgnr, iaSak.saksnummer);
 
     return (
         <Container>
@@ -38,18 +33,7 @@ export const ViBistårTab = ({ iaSak }: Props) => {
                 <Heading size="large">Leveranser</Heading>
                 <BodyShort>Her kan du legge leveranser når du bistår i saken.</BodyShort>
             </div>
-            {
-                lasterIASakLeveranserPerTjeneste
-                    ? <Loader />
-                    : !iaSakLeveranserPerTjeneste
-                        ? <BodyShort>Kunne ikke hente leveranser</BodyShort>
-                        : iaSakLeveranserPerTjeneste.map((iaTjenesteMedLeveranser) => (
-                                <IATjeneste iaTjenesteMedLeveranser={iaTjenesteMedLeveranser}
-                                            iaSak={iaSak}
-                                            key={iaTjenesteMedLeveranser.iaTjeneste.id} />
-                            )
-                        )
-            }
+            <LeveranseOversikt iaSak={iaSak}/>
             {iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR &&
                 <NyIALeveranseSkjema iaSak={iaSak} />
             }
