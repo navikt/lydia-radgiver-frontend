@@ -8,7 +8,8 @@ const boksUtenOverflow = css`
   background: ${NavFarger.white};
   box-shadow: ${Skygger.medium};
 
-  overflow: hidden; // Fordi det skal gjere vondt om ein får overflow på komponentane.
+  overflow-x: hidden; // Fordi det skal gjere vondt om ein får overflow på komponentane.
+  overflow-y: auto;
 `;
 
 export const SimulerTabletWrapper = styled.div`
