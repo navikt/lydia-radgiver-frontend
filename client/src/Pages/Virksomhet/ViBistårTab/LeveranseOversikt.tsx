@@ -13,20 +13,23 @@ export const LeveranseOversikt = ({ iaSak }: Props) => {
         loading: lasterIASakLeveranserPerTjeneste
     } = useHentIASakLeveranser(iaSak.orgnr, iaSak.saksnummer);
 
+    if (lasterIASakLeveranserPerTjeneste) {
+        return <Loader/>
+    }
+
+    if (!iaSakLeveranserPerTjeneste) {
+        return <BodyShort>Kunne ikke hente leveranser</BodyShort>
+    }
 
     return (
         <>
             {
-                lasterIASakLeveranserPerTjeneste
-                    ? <Loader/>
-                    : !iaSakLeveranserPerTjeneste
-                        ? <BodyShort>Kunne ikke hente leveranser</BodyShort>
-                        : iaSakLeveranserPerTjeneste.map((iaTjenesteMedLeveranser) => (
-                                <IATjeneste iaTjenesteMedLeveranser={iaTjenesteMedLeveranser}
-                                            iaSak={iaSak}
-                                            key={iaTjenesteMedLeveranser.iaTjeneste.id}/>
-                            )
-                        )
+                iaSakLeveranserPerTjeneste.map((iaTjenesteMedLeveranser) => (
+                        <IATjeneste iaTjenesteMedLeveranser={iaTjenesteMedLeveranser}
+                                    iaSak={iaSak}
+                                    key={iaTjenesteMedLeveranser.iaTjeneste.id}/>
+                    )
+                )
             }
         </>
     )
