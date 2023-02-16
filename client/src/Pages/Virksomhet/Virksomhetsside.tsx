@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import {useContext, useEffect} from "react";
 import { useParams } from "react-router-dom";
 import { Loader } from "@navikt/ds-react";
 import {
@@ -12,7 +12,6 @@ import { statiskeSidetitler, TittelContext } from "../Prioritering/TittelContext
 
 const Virksomhetsside = () => {
     const {oppdaterTittel} = useContext(TittelContext)
-    oppdaterTittel(statiskeSidetitler.virksomhetsside)
     const params = useParams();
     const orgnummer = params.orgnummer
 
@@ -20,6 +19,13 @@ const Virksomhetsside = () => {
         data: virksomhetsinformasjon,
         loading: lasterVirksomhet
     } = useHentVirksomhetsinformasjon(orgnummer);
+
+    useEffect(() => {
+        if (virksomhetsinformasjon)
+            oppdaterTittel(`Fia - ${virksomhetsinformasjon.navn}`)
+        else
+            oppdaterTittel(statiskeSidetitler.virksomhetsside)
+    }, [oppdaterTittel, virksomhetsinformasjon])
 
     const {
         data: iaSaker,
@@ -45,7 +51,6 @@ const Virksomhetsside = () => {
     }
 
     if (virksomhetsinformasjon && iaSaker) {
-        oppdaterTittel(`Fia - ${virksomhetsinformasjon.navn}`)
         return <VirksomhetsVisning
             virksomhet={virksomhetsinformasjon}
             iaSak={iaSak}
