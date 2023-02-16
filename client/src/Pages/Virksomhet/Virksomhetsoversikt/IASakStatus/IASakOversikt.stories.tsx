@@ -1,7 +1,6 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { useState } from "react";
-import { rest } from "msw";
-import { IASakOversikt, IASakOversiktProps } from "./IASakOversikt";
+import {ComponentMeta, ComponentStory} from "@storybook/react";
+import {rest} from "msw";
+import {IASakOversikt, IASakOversiktProps} from "./IASakOversikt";
 import {
     iaSakFullført,
     iaSakFullførtOgLukket,
@@ -12,9 +11,8 @@ import {
     iaSakVurderesMedEier,
     iaSakVurderesUtenEier,
 } from "../../mocks/iaSakMock";
-import { iaSakPath, iaSakPostNyHendelsePath } from "../../../../api/lydia-api";
-import { FeilmeldingBanner } from "../../../FeilmeldingBanner";
-import { IASak } from "../../../../domenetyper/domenetyper";
+import {iaSakPath, iaSakPostNyHendelsePath} from "../../../../api/lydia-api";
+import {FeilmeldingBanner} from "../../../FeilmeldingBanner";
 
 export default {
     title: "Virksomhet/Virksomhetsoversikt/IA-sak-oversikt (statusfelt)",
@@ -29,12 +27,9 @@ export default {
 const orgnummer = "987654321";
 
 export const IkkeAktiv = () => {
-    const [sak, setSak] = useState<IASak>()
     return (
         <IASakOversikt
             orgnummer={orgnummer}
-            iaSak={sak}
-            muterState={() => {setSak(iaSakVurderesUtenEier)}}
         />
     );
 };

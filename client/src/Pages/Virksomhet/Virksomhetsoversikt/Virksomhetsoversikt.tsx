@@ -38,10 +38,9 @@ const VirksomhetsinfoContainer = styled.div`
 interface Props {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    muterState?: () => void;  // TODO: Kan denne eigentleg vere obligatorisk? 2023-03-14
 }
 
-export const Virksomhetsoversikt = ({ virksomhet, iaSak, muterState }: Props) => (
+export const Virksomhetsoversikt = ({ virksomhet, iaSak }: Props) => (
     <OversiktsContainer>
         <VirksomhetsnavnContainer>
             <Heading level={"2"} size={"large"}>{virksomhet.navn}</Heading>
@@ -52,7 +51,7 @@ export const Virksomhetsoversikt = ({ virksomhet, iaSak, muterState }: Props) =>
                 <VirksomhetInformasjon virksomhet={virksomhet} />
                 <Sykefraværsstatistikk orgnummer={virksomhet.orgnr} />
             </VirksomhetsinfoContainer>
-            <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} muterState={muterState} />
+            <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} />
         </InnholdContainer>
     </OversiktsContainer>
 )

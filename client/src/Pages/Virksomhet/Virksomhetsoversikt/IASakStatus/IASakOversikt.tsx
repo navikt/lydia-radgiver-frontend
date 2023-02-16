@@ -4,7 +4,7 @@ import { BodyShort } from "@navikt/ds-react";
 import { IngenAktiveSaker } from "./IngenAktiveSaker";
 import { GyldigNesteHendelse, IASak, ValgtÅrsakDto } from "../../../../domenetyper/domenetyper";
 import { StatusBadge } from "../../../../components/Badge/StatusBadge";
-import {nyHendelsePåSak, useHentSamarbeidshistorikk} from "../../../../api/lydia-api";
+import {nyHendelsePåSak, useHentSakerForVirksomhet, useHentSamarbeidshistorikk} from "../../../../api/lydia-api";
 import { BegrunnelseModal } from "./BegrunnelseModal";
 import { SakshendelsesKnapper } from "./SakshendelsesKnapper";
 import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
@@ -45,19 +45,17 @@ const InfoData = styled(BodyShort)`
 export interface IASakOversiktProps {
     orgnummer: string;
     iaSak?: IASak;
-    muterState?: () => void;  // TODO: Kan denne eigentleg vere obligatorisk? 2023-03-14
 }
 
-export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversiktProps) => {
+export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => {
     const [valgtHendelseMedÅrsak, setValgtHendelseMedÅrsak] =
         useState<GyldigNesteHendelse>();
 
-    const {
-        mutate: mutateSamarbeidshistorikk
-    } = useHentSamarbeidshistorikk(orgnummer)
+    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(orgnummer)
+    const { mutate: mutateHentSaker } = useHentSakerForVirksomhet(orgnummer)
 
-    const mutateIASakOgSamarbeidshistorikk = () => {
-        muterState?.()
+    const mutateIASakerOgSamarbeidshistorikk = () => {
+        mutateHentSaker?.()
         mutateSamarbeidshistorikk?.()
     }
 
@@ -65,7 +63,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversi
         return (
             <IngenAktiveSaker
                 orgnummer={orgnummer}
-                oppdaterSak={mutateIASakOgSamarbeidshistorikk}
+                oppdaterSak={mutateIASakerOgSamarbeidshistorikk}
             />
         );
     }
@@ -73,7 +71,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversi
     const onNyHendelseHandler = (hendelse: GyldigNesteHendelse) => {
         hendelseKreverBegrunnelse(hendelse)
             ? setValgtHendelseMedÅrsak(hendelse)
-            : nyHendelsePåSak(sak, hendelse).then(mutateIASakOgSamarbeidshistorikk)
+            : nyHendelsePåSak(sak, hendelse).then(mutateIASakerOgSamarbeidshistorikk)
     }
 
     const skalRendreModal = !!valgtHendelseMedÅrsak;
@@ -85,7 +83,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak, muterState }: IASakOversi
             return new Error(`Kan ikke lagre begrunnelse på denne hendelsen. Hendelse: ${valgtHendelseMedÅrsak}`)
         }
         nyHendelsePåSak(sak, valgtHendelseMedÅrsak, valgtÅrsak)
-            .then(mutateIASakOgSamarbeidshistorikk)
+            .then(mutateIASakerOgSamarbeidshistorikk)
             .finally(() =>
                 setValgtHendelseMedÅrsak(undefined)
             )

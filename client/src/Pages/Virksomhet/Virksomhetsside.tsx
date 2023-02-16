@@ -28,7 +28,6 @@ const Virksomhetsside = () => {
 
     const {
         data: iaSaker,
-        mutate: mutateHentSaker,
         loading: lasterIaSaker
     } = useHentSakerForVirksomhet(orgnummer)
 
@@ -42,7 +41,6 @@ const Virksomhetsside = () => {
         return <VirksomhetsVisning
             virksomhet={virksomhetsinformasjon}
             iaSak={iaSak}
-            muterState={mutateHentSaker}
         />
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>

@@ -25,16 +25,15 @@ const StyledPanel = styled(Tabs.Panel)`
 interface Props {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    muterState?: () => void;  // TODO: Kan denne eigentleg vere obligatorisk? 2023-03-14
 }
 
-export const VirksomhetsVisning = ({ virksomhet, iaSak, muterState }: Props) => {
+export const VirksomhetsVisning = ({ virksomhet, iaSak }: Props) => {
     // Dette er ein wannabe feature toggle
     const visViBistårTab = false; // TODO: Dobbeltsjekk at verdien her er 'false' før du pusher
 
     return (
         <Container>
-            <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} muterState={muterState} />
+            <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />
             <br />
             <Tabs defaultValue="samarbeidshistorikk">
                 <Tabs.List style={{width: "100%"}}>
