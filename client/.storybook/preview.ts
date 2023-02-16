@@ -5,6 +5,7 @@ import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innlog
 import {
     gjeldendePeriodePath,
     iaSakHistorikkPath,
+    iaSakLeveransePath,
     siste4kvartalerPath,
     sykefraværsstatistikkPath
 } from "../src/api/lydia-api";
@@ -13,7 +14,8 @@ import {
     sykefraværsstatistikkSisteKvartalMock,
     virksomhetsstatistikkSiste4KvartalerMock
 } from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
-import {samarbeidshistorikkMock} from "../src/Pages/Virksomhet/mocks/iaSakHistorikkMock";
+import { samarbeidshistorikkMock } from "../src/Pages/Virksomhet/mocks/iaSakHistorikkMock";
+import { iaSakLeveranser } from "../src/Pages/Virksomhet/mocks/iaSakLeveranseMock";
 
 export const parameters = {
     actions: { argTypesRegex: "^on[A-Z].*" },
@@ -86,7 +88,14 @@ export const parameters = {
                         ctx.json(samarbeidshistorikkMock)
                     );
                 }),
-            ]
+            ],
+            iaSakLeveranser: [
+                rest.get(`${iaSakLeveransePath}/:orgnummer/:saksnummer`, (req, res, ctx) => {
+                    return res(
+                        ctx.json(iaSakLeveranser)
+                    );
+                }),
+            ],
         }
     }
 };

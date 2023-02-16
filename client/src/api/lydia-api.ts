@@ -16,6 +16,8 @@ import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier
 import {
     IASakLeveranse,
     IASakLeveranseOppdateringDTO,
+    IASakLeveranserPerTjeneste,
+    iaSakLeveranserPerTjenesteSchema,
     iaSakLeveranseSchema,
     IASakLeveranseStatusEnum,
     NyIASakLeveranseDTO
@@ -483,9 +485,9 @@ export const slettIASakLeveranse = (
 };
 
 export const useHentIASakLeveranser = (orgnummer: string, saksnummer: string) => {
-    return useSwrTemplate<IASakLeveranse[]>(
+    return useSwrTemplate<IASakLeveranserPerTjeneste[]>(
         orgnummer ? `${iaSakLeveransePath}/${orgnummer}/${saksnummer}` : null,
-        iaSakLeveranseSchema.array(),
+        iaSakLeveranserPerTjenesteSchema.array(),
         {
             revalidateOnFocus: true,
         }

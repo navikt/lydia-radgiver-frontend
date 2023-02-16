@@ -29,16 +29,19 @@ type IASakLeveranseStatus = z.infer<typeof IASakLeveranseStatusEnum>
 export const iaSakLeveranseSchema = z.object({
     id: z.number(),
     saksnummer: z.string(),
-    modul: z.object({
-        id: z.number(),
-        iaTjeneste: iaTjenesteSchema,
-        navn: z.string(),
-    }),
+    modul: iaTjenesteModulSchema,
     frist: datoSchema,
     status: IASakLeveranseStatusEnum,
 })
 
 export type IASakLeveranse = z.infer<typeof iaSakLeveranseSchema>
+
+export const iaSakLeveranserPerTjenesteSchema = z.object({
+    iaTjeneste: iaTjenesteSchema,
+    leveranser: z.array(iaSakLeveranseSchema),
+})
+
+export type IASakLeveranserPerTjeneste = z.infer<typeof iaSakLeveranserPerTjenesteSchema>
 
 export interface NyIASakLeveranseDTO {
     saksnummer: string;

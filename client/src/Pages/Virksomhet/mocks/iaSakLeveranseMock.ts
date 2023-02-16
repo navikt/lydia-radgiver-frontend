@@ -1,6 +1,6 @@
 import { ulid } from "ulid";
 import {
-    IASakLeveranse,
+    IASakLeveranserPerTjeneste,
     IASakLeveranseStatusEnum,
     IATjeneste,
     IATjenesteModul
@@ -74,116 +74,86 @@ export const IATjenesteModuler: IATjenesteModul[] = [
     },
 ]
 
-export const iaSakLeveranser: IASakLeveranse[] = [
+export const iaSakLeveranser: IASakLeveranserPerTjeneste[] = [
     {
-        id: 1,
-        saksnummer: saksnummer,
-        modul: {
-            id: IATjenesteModuler[0].id,
-            iaTjeneste: IATjenester[0],
-            navn: IATjenesteModuler[0].navn
-        },
-        frist: new Date(),
-        status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
-    }, {
-        id: 2,
-        saksnummer: saksnummer,
-        modul: {
-            id: IATjenesteModuler[1].id,
-            iaTjeneste: IATjenester[0],
-            navn: IATjenesteModuler[1].navn
-        },
-        frist: new Date(),
-        status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
-    }, {
-        id: 3,
-        saksnummer: saksnummer,
-        modul: {
-            id: IATjenesteModuler[2].id,
-            iaTjeneste: IATjenester[0],
-            navn: IATjenesteModuler[2].navn
-        },
-        frist: new Date(),
-        status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
-    }, {
-        id: 4,
-        saksnummer: saksnummer,
-        modul: {
-            id: IATjenesteModuler[3].id,
-            iaTjeneste: IATjenester[0],
-            navn: IATjenesteModuler[3].navn
-        },
-        frist: new Date(),
-        status: IASakLeveranseStatusEnum.enum.LEVERT,
-    }, {
-        id: 5,
-        saksnummer: saksnummer,
-        modul: {
-            id: IATjenesteModuler[4].id,
-            iaTjeneste: IATjenester[1],
-            navn: IATjenesteModuler[4].navn
-        },
-        frist: new Date(),
-        status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
-    }, {
-        id: 6,
-        saksnummer: saksnummer,
-        modul: {
-            id: IATjenesteModuler[5].id,
-            iaTjeneste: IATjenester[1],
-            navn: IATjenesteModuler[5].navn
-        },
-        frist: new Date(),
-        status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
-    }, {
-        id: 7,
-        saksnummer: saksnummer,
-        modul: {
-            id: IATjenesteModuler[6].id,
-            iaTjeneste: IATjenester[1],
-            navn: IATjenesteModuler[6].navn
-        },
-        frist: new Date(),
-        status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
-    }, {
-        id: 8,
-        saksnummer: saksnummer,
-        modul: {
-            id: IATjenesteModuler[7].id,
-            iaTjeneste: IATjenester[1],
-            navn: IATjenesteModuler[7].navn
-        },
-        frist: new Date(),
-        status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
-    }, {
-        id: 9,
-        saksnummer: saksnummer,
-        modul: {
-            id: IATjenesteModuler[8].id,
-            iaTjeneste: IATjenester[1],
-            navn: IATjenesteModuler[8].navn
-        },
-        frist: new Date(),
-        status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
-    }, {
-        id: 10,
-        saksnummer: saksnummer,
-        modul: {
-            id: IATjenesteModuler[9].id,
-            iaTjeneste: IATjenester[1],
-            navn: IATjenesteModuler[9].navn
-        },
-        frist: new Date(),
-        status: IASakLeveranseStatusEnum.enum.LEVERT,
-    }, {
-        id: 11,
-        saksnummer: saksnummer,
-        modul: {
-            id: IATjenesteModuler[10].id,
-            iaTjeneste: IATjenester[2],
-            navn: IATjenesteModuler[10].navn
-        },
-        frist: new Date(),
-        status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+        iaTjeneste: IATjenester[0],
+        leveranser: [
+            {
+                id: 1,
+                saksnummer: saksnummer,
+                modul: IATjenesteModuler[0],
+                frist: new Date(),
+                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+            }, {
+                id: 2,
+                saksnummer: saksnummer,
+                modul: IATjenesteModuler[1],
+                frist: new Date(),
+                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+            }, {
+                id: 3,
+                saksnummer: saksnummer,
+                modul: IATjenesteModuler[2],
+                frist: new Date(),
+                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+            }, {
+                id: 4,
+                saksnummer: saksnummer,
+                modul: IATjenesteModuler[3],
+                frist: new Date(),
+                status: IASakLeveranseStatusEnum.enum.LEVERT,
+            },],
     },
+    {
+        iaTjeneste: IATjenester[1],
+        leveranser: [
+            {
+                id: 5,
+                saksnummer: saksnummer,
+                modul: IATjenesteModuler[4],
+                frist: new Date(),
+                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+            }, {
+                id: 6,
+                saksnummer: saksnummer,
+                modul: IATjenesteModuler[5],
+                frist: new Date(),
+                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+            }, {
+                id: 7,
+                saksnummer: saksnummer,
+                modul: IATjenesteModuler[6],
+                frist: new Date(),
+                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+            }, {
+                id: 8,
+                saksnummer: saksnummer,
+                modul: IATjenesteModuler[7],
+                frist: new Date(),
+                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+            }, {
+                id: 9,
+                saksnummer: saksnummer,
+                modul: IATjenesteModuler[8],
+                frist: new Date(),
+                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+            }, {
+                id: 10,
+                saksnummer: saksnummer,
+                modul: IATjenesteModuler[9],
+                frist: new Date(),
+                status: IASakLeveranseStatusEnum.enum.LEVERT,
+            },],
+    },
+    {
+        iaTjeneste: IATjenester[2],
+        leveranser: [
+            {
+                id: 11,
+                saksnummer: saksnummer,
+                modul: IATjenesteModuler[10],
+                frist: new Date(),
+                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+            }],
+    }
 ]
