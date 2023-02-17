@@ -1,14 +1,14 @@
 import { z } from "zod";
 import { datoSchema } from "./domenetyper";
 
-const iaTjenesteSchema = z.object({
+export const iaTjenesteSchema = z.object({
     id: z.number(),
     navn: z.string()
 })
 
 export type IATjeneste = z.infer<typeof iaTjenesteSchema>;
 
-const iaTjenesteModulSchema = z.object({
+export const iaTjenesteModulSchema = z.object({
     id: z.number(),
     iaTjeneste: z.number(),
     navn: z.string(),

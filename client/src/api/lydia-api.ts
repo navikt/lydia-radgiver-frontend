@@ -19,7 +19,7 @@ import {
     IASakLeveranserPerTjeneste,
     iaSakLeveranserPerTjenesteSchema,
     iaSakLeveranseSchema,
-    IASakLeveranseStatusEnum,
+    IASakLeveranseStatusEnum, IATjeneste, IATjenesteModul, iaTjenesteModulSchema, iaTjenesteSchema,
     NyIASakLeveranseDTO
 } from "../domenetyper/iaLeveranse";
 import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartal";
@@ -493,3 +493,16 @@ export const useHentIASakLeveranser = (orgnummer: string, saksnummer: string) =>
         }
     );
 };
+
+export const useHentIATjenester = () => {
+    return useSwrTemplate<IATjeneste[]>(
+        `${iaSakLeveransePath}/tjenester`,
+        iaTjenesteSchema.array()
+    )
+}
+export const useHentIATjenesteModuler = () => {
+    return useSwrTemplate<IATjenesteModul[]>(
+        `${iaSakLeveransePath}/moduler`,
+        iaTjenesteModulSchema.array()
+    )
+}

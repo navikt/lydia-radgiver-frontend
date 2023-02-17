@@ -1,7 +1,11 @@
 import { useState } from "react";
 import { Button, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt/ds-react";
-import { IATjenesteModuler, IATjenester } from "../mocks/iaSakLeveranseMock";
-import { nyLeveransePåSak, useHentIASakLeveranser } from "../../../api/lydia-api";
+import {
+    nyLeveransePåSak,
+    useHentIASakLeveranser,
+    useHentIATjenesteModuler,
+    useHentIATjenester
+} from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 
@@ -22,8 +26,14 @@ interface Props {
 }
 
 export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
-    const iaTjenester = IATjenester;
-    const moduler = IATjenesteModuler;
+    const {
+        data: iaTjenester,
+        loading: lasterIATjenester
+    } = useHentIATjenester();
+    const {
+        data: moduler,
+        loading: lasterIATjenesteModuler
+    } = useHentIATjenesteModuler();
     const [valgtIATjeneste, setValgtIATjeneste] = useState("");
     const [valgtModul, setValgtModul] = useState("");
     const { mutate: hentLeveranserPåNytt } = useHentIASakLeveranser(iaSak.orgnr, iaSak.saksnummer)
@@ -53,14 +63,14 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
     return (
         <Form onSubmit={(e) => e.preventDefault()}>
             <Select label="Velg IA-tjeneste" value={valgtIATjeneste} onChange={endreValgtIATjeneste}>
-                <option value=""></option>
-                {iaTjenester.map((tjeneste) =>
+                <option value="">{lasterIATjenester && "Laster IA-tjenester..."}</option>
+                {iaTjenester?.map((tjeneste) =>
                     <option value={tjeneste.id} key={tjeneste.id}>{tjeneste.navn}</option>
                 )}
             </Select>
             <Select label="Velg modul" value={valgtModul} onChange={endreValgtModul}>
-                <option value=""></option>
-                {moduler.filter((modul) => modul.iaTjeneste.toString() === valgtIATjeneste)
+                <option value="">{lasterIATjenesteModuler && "Laster moduler..."}</option>
+                {moduler?.filter((modul) => modul.iaTjeneste.toString() === valgtIATjeneste)
                     .map((modul) =>
                         <option value={modul.id} key={modul.id}>{modul.navn}</option>
                     )}
