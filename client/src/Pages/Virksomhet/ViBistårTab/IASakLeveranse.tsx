@@ -6,6 +6,8 @@ import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";
 import { fullførIASakLeveranse, slettIASakLeveranse, useHentIASakLeveranser } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
+import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
+import { useState } from "react";
 
 const Container = styled.div`
   display: flex;
@@ -45,17 +47,13 @@ interface Props {
 }
 
 export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
+    const [open, setOpen] = useState(false)
     const leveranseErFullført = leveranse.status === IASakLeveranseStatusEnum.enum.LEVERT;
     const fullførKnappTekst = leveranseErFullført ? "Fullført" : "Fullfør";
     const { mutate: hentLeveranserPåNytt } = useHentIASakLeveranser(iaSak.orgnr, leveranse.saksnummer);
 
     const fullførOppgave = () => {
         fullførIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
-            .then(() => hentLeveranserPåNytt());
-    }
-
-    const slettLeveranse = () => {
-        slettIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
             .then(() => hentLeveranserPåNytt());
     }
 
@@ -66,7 +64,16 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
             <FullførKnapp onClick={fullførOppgave} disabled={leveranseErFullført} size="small">
                 {fullførKnappTekst}
             </FullførKnapp>
-            <FjernLeveranseKnapp onClick={slettLeveranse} variant="tertiary" icon={<Delete title="Fjern leveranse" />} />
+            <FjernLeveranseKnapp onClick={() => setOpen(true)} variant="tertiary" icon={<Delete title="Fjern leveranse" />} />
+            <BekreftValgModal onConfirm={() => {
+                slettIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
+                    .then(() => {
+                        setOpen(false)
+                        hentLeveranserPåNytt()
+                    });
+            }} onCancel={() => {
+                setOpen(false)
+            }} åpen={open} description={"Vennligst bekreft at du vil slette denne leveransen"} />
         </Container>
     )
 }
