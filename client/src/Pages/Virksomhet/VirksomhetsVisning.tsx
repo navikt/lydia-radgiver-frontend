@@ -7,6 +7,7 @@ import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../sty
 import { NavFarger } from "../../styling/farger";
 import { ViBistårTab } from "./ViBistårTab/ViBistårTab";
 import { Virksomhet } from "../../domenetyper/virksomhet";
+import { erIDev } from "../../components/Dekoratør/Dekoratør";
 
 const Container = styled.div`
   padding-top: ${contentSpacing.mobileY};
@@ -28,8 +29,8 @@ interface Props {
 }
 
 export const VirksomhetsVisning = ({ virksomhet, iaSak }: Props) => {
-    // Dette er ein wannabe feature toggle
-    const visViBistårTab = false; // TODO: Dobbeltsjekk at verdien her er 'false' før du pusher
+    // TODO: Fjern denne for prodsetting
+    const visViBistårTab = erIDev;
 
     return (
         <Container>
