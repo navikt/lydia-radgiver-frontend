@@ -17,8 +17,6 @@ const Container = styled.div`
   padding: 0.75rem 1.5rem 1.5rem;
   border-radius: ${BorderRadius.medium};
   box-shadow: ${Skygger.small};
-
-  // TODO legg på borders på leveranserader
 `;
 
 const BeskjedTilBrukere = styled(BodyShort)`
