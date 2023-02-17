@@ -67,4 +67,8 @@ export enum NavFarger {
     link = blue500,
     focus = blue800,
     canvasBackground = gray100,
+
+
+    // Semantiske fargar til border, designsystem 2.0
+    borderDefault = "var(--a-border-default)",
 }
