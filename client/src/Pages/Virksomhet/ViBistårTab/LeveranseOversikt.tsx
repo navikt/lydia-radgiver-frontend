@@ -8,6 +8,8 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+
+  max-width: 60rem;
 `;
 
 interface Props {

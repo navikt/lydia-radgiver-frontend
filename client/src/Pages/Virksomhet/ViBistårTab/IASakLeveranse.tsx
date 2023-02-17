@@ -15,11 +15,8 @@ const Container = styled.div`
   align-items: center;
   gap: clamp(1.5rem, 14vw - 5.5rem, 4rem);
   padding: 0.5rem 1.5rem;
-
-  max-width: 60rem;
-
+  
   border-bottom: 1px solid ${NavFarger.borderDefault};
-
 `;
 
 const ModulNavn = styled(BodyShort)`
