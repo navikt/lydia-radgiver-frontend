@@ -3,9 +3,11 @@ import { Heading } from "@navikt/ds-react";
 import { IASakLeveranse } from "./IASakLeveranse";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
+import { NavFarger } from "../../../styling/farger";
 
 const TjenesteHeading = styled(Heading)`
   padding: 0.5rem 1.5rem;
+  border-bottom: 2px solid ${NavFarger.borderDefault};
 `;
 
 interface Props {
