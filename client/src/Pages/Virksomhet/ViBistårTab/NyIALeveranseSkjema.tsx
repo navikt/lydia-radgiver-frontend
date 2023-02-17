@@ -7,7 +7,9 @@ import styled from "styled-components";
 
 const Form = styled.form`
   display: flex;
-  gap: 2rem;
+  flex-wrap: wrap;
+  column-gap: 2rem;
+  row-gap: 1rem;
   align-items: end;
   
   div {
