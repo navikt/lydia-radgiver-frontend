@@ -13,7 +13,7 @@ const boksUtenOverflow = css`
 `;
 
 export const SimulerTabletWrapper = styled.div`
-  width: ${Breakpoint.Tablet}px;
+  width: ${Breakpoint.Tablet};
   height: 800px;
   padding: ${contentSpacing.mobileX};
 
@@ -21,7 +21,7 @@ export const SimulerTabletWrapper = styled.div`
 `;
 
 export const SimulerMobilWrapper = styled.div`
-  width: ${Breakpoint.Mobile}px;
+  width: ${Breakpoint.Mobile};
   height: 800px;
   padding: ${contentSpacing.mobileX};
 
