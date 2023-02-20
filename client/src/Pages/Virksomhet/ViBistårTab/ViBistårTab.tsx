@@ -1,11 +1,10 @@
-import { BodyShort, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
+import { BodyShort, Heading } from "@navikt/ds-react";
 import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { NyIALeveranseSkjema } from "./NyIALeveranseSkjema";
 import { NavFarger } from "../../../styling/farger";
-import { BorderRadius } from "../../../styling/borderRadius";
-import { Skygger } from "../../../styling/skygger";
 import { LeveranseOversikt } from "./LeveranseOversikt";
+import { tabInnholdStyling } from "../../../styling/containere";
 
 const Container = styled.div`
   height: 100%;
@@ -13,10 +12,7 @@ const Container = styled.div`
   flex-direction: column;
   gap: 3rem;
 
-  background: ${NavFarger.white};
-  padding: 0.75rem 1.5rem 1.5rem;
-  border-radius: ${BorderRadius.medium};
-  box-shadow: ${Skygger.small};
+  ${tabInnholdStyling};
 `;
 
 const BeskjedTilBrukere = styled(BodyShort)`
@@ -34,10 +30,11 @@ export const ViBistårTab = ({ iaSak }: Props) => {
             <div>
                 <Heading size="large">Leveranser</Heading>
                 <BodyShort>Her kan du legge leveranser når du bistår i saken.</BodyShort>
-                <BeskjedTilBrukere>Denne modulen er under utvikling og skal ikke være synlig for brukere enda.</BeskjedTilBrukere>
+                <BeskjedTilBrukere>Denne modulen er under utvikling og skal ikke være synlig for brukere
+                    enda.</BeskjedTilBrukere>
                 <BeskjedTilBrukere>Om du kan se denne modulen ta kontakt med team Pia :)</BeskjedTilBrukere>
             </div>
-            <LeveranseOversikt iaSak={iaSak}/>
+            <LeveranseOversikt iaSak={iaSak} />
             {iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR &&
                 <NyIALeveranseSkjema iaSak={iaSak} />
             }
