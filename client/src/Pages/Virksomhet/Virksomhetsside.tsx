@@ -11,8 +11,7 @@ import { statiskeSidetitler, TittelContext } from "../Prioritering/TittelContext
 
 const Virksomhetsside = () => {
     const {oppdaterTittel} = useContext(TittelContext)
-    const params = useParams();
-    const orgnummer = params.orgnummer
+    const {orgnummer} = useParams();
 
     const {
         data: virksomhetsinformasjon,
