@@ -8,6 +8,7 @@ import {
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
+import { IASakLeveranse, IATjenesteModul } from "../../../domenetyper/iaLeveranse";
 
 const Form = styled.form`
   display: flex;
@@ -26,6 +27,10 @@ interface Props {
 }
 
 export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
+    const {
+        data: iaSakLeveranserPerTjeneste
+    } = useHentIASakLeveranser(iaSak.orgnr, iaSak.saksnummer);
+
     const {
         data: iaTjenester,
         loading: lasterIATjenester
@@ -60,6 +65,16 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
             .then(() => hentLeveranserPåNytt())
     }
 
+    const erModulIkkeValgt = (modul : IATjenesteModul) : boolean => {
+        if (!iaSakLeveranserPerTjeneste || iaSakLeveranserPerTjeneste.length === 0) {
+            return true;
+        }
+
+        return iaSakLeveranserPerTjeneste
+            .flatMap(tjenesteMedValgteLeveranser => tjenesteMedValgteLeveranser.leveranser)
+            .every((leveranse : IASakLeveranse) => leveranse.modul.id !== modul.id)
+    }
+
     return (
         <Form onSubmit={(e) => e.preventDefault()}>
             <Select label="Velg IA-tjeneste" value={valgtIATjeneste} onChange={endreValgtIATjeneste}>
@@ -71,6 +86,7 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
             <Select label="Velg modul" value={valgtModul} onChange={endreValgtModul}>
                 <option value="">{lasterIATjenesteModuler && "Laster moduler..."}</option>
                 {moduler?.filter((modul) => modul.iaTjeneste.toString() === valgtIATjeneste)
+                    .filter((modul) => erModulIkkeValgt(modul))
                     .map((modul) =>
                         <option value={modul.id} key={modul.id}>{modul.navn}</option>
                     )}
