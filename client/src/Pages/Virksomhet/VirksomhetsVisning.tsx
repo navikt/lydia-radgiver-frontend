@@ -18,6 +18,7 @@ const Container = styled.div`
 
 const StyledPanel = styled(Tabs.Panel)`
   padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
   
   background-color: ${NavFarger.gray100};
   ${strekkBakgrunnenHeltUtTilKantenAvSida}
