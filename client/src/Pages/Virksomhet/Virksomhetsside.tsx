@@ -24,7 +24,7 @@ const Virksomhetsside = () => {
             oppdaterTittel(`Fia - ${virksomhetsinformasjon.navn}`)
         else
             oppdaterTittel(statiskeSidetitler.virksomhetsside)
-    }, [oppdaterTittel, virksomhetsinformasjon])
+    }, [virksomhetsinformasjon?.navn])
 
     const {
         data: iaSaker,

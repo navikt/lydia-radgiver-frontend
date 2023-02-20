@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useCallback} from "react";
 
 export const statiskeSidetitler = {
     prioriteringsside: "Fia - søk",
@@ -20,6 +20,6 @@ export const TittelContext = React.createContext<TittelContextType>({
 
 export const TittelProvider = ({children}: { children: React.ReactNode }) => {
     const [tittel, setTittel] = React.useState<string>(statiskeSidetitler.prioriteringsside);
-    const oppdaterTittel = (nyTittel: string) => setTittel(nyTittel)
+    const oppdaterTittel = useCallback((nyTittel: string) => setTittel(nyTittel), [])
     return <TittelContext.Provider value={{tittel, oppdaterTittel}}>{children}</TittelContext.Provider>;
 };
