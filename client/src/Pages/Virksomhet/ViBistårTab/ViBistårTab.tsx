@@ -11,7 +11,7 @@ const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  gap: 2rem;
+  gap: 3rem;
 
   background: ${NavFarger.white};
   padding: 0.75rem 1.5rem 1.5rem;

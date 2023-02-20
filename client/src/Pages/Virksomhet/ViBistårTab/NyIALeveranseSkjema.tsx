@@ -17,6 +17,9 @@ const Form = styled.form`
   row-gap: 1rem;
   align-items: start;
   
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  
   div {
     min-width: 8rem;
   }
