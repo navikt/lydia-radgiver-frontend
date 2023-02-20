@@ -32,6 +32,7 @@ export const iaSakLeveranseSchema = z.object({
     modul: iaTjenesteModulSchema,
     frist: datoSchema,
     status: IASakLeveranseStatusEnum,
+    fullført: datoSchema.optional().nullable(),
 })
 
 export type IASakLeveranse = z.infer<typeof iaSakLeveranseSchema>
