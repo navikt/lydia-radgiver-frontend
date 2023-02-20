@@ -76,7 +76,7 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
                     )}
             </Select>
             <UNSAFE_DatePicker {...datepickerProps}>
-                <UNSAFE_DatePicker.Input {...inputProps} label="Velg dato" />
+                <UNSAFE_DatePicker.Input {...inputProps} label="Tentativ frist" />
             </UNSAFE_DatePicker>
             <Button onClick={leggTilLeveranse}>Legg til</Button>
         </Form>
