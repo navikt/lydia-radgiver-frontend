@@ -1,21 +1,20 @@
 import styled from "styled-components";
-import { contentSpacing } from "../../styling/contentSpacing";
-import { Filtervisning } from "../Prioritering/Filter/Filtervisning";
-import { useFiltervisningState } from "../Prioritering/Filter/filtervisning-reducer";
-import { useFilterverdier, useHentLederstatistikk } from "../../api/lydia-api";
-import React, { useContext, useEffect, useState } from "react";
-import { Lederstatistikk } from "../../domenetyper/lederstatistikk";
-import { Loader, Table } from "@navikt/ds-react";
-import { StatusBadge } from "../../components/Badge/StatusBadge";
-import { statiskeSidetitler, TittelContext } from "../Prioritering/TittelContext";
+import {contentSpacing} from "../../styling/contentSpacing";
+import {Filtervisning} from "../Prioritering/Filter/Filtervisning";
+import {useFiltervisningState} from "../Prioritering/Filter/filtervisning-reducer";
+import {useFilterverdier, useHentLederstatistikk} from "../../api/lydia-api";
+import React, {useEffect, useState} from "react";
+import {Lederstatistikk} from "../../domenetyper/lederstatistikk";
+import {Loader, Table} from "@navikt/ds-react";
+import {StatusBadge} from "../../components/Badge/StatusBadge";
+import {statiskeSidetitler, useTittel} from "../../util/useTittel";
 
 const Container = styled.div`
   padding: ${contentSpacing.mobileY} 0;
 `;
 
 export const Lederstatistikkside = () => {
-    const {oppdaterTittel} = useContext(TittelContext)
-    oppdaterTittel(statiskeSidetitler.lederstatistikkside)
+    useTittel(statiskeSidetitler.lederstatistikkside)
 
     const [lederstatistikkListe, setLederstatistikkListe] =
         useState<Lederstatistikk[]>();

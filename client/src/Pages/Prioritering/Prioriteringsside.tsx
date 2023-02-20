@@ -1,13 +1,13 @@
-import { useContext, useEffect, useState } from "react";
+import {useEffect, useState} from "react";
 import styled from "styled-components";
-import { Loader, SortState } from "@navikt/ds-react";
-import { Filtervisning } from "./Filter/Filtervisning";
-import { PrioriteringsTabell } from "./PrioriteringsTabell";
-import { useFilterverdier, useHentVirksomhetsoversiktListe, } from "../../api/lydia-api";
-import { statiskeSidetitler, TittelContext } from "./TittelContext";
-import { contentSpacing } from "../../styling/contentSpacing";
-import { useFiltervisningState } from "./Filter/filtervisning-reducer";
-import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
+import {Loader, SortState} from "@navikt/ds-react";
+import {Filtervisning} from "./Filter/Filtervisning";
+import {PrioriteringsTabell} from "./PrioriteringsTabell";
+import {useFilterverdier, useHentVirksomhetsoversiktListe,} from "../../api/lydia-api";
+import {statiskeSidetitler, useTittel} from "../../util/useTittel";
+import {contentSpacing} from "../../styling/contentSpacing";
+import {useFiltervisningState} from "./Filter/filtervisning-reducer";
+import {Virksomhetsoversikt} from "../../domenetyper/virksomhetsoversikt";
 
 const Container = styled.div`
   padding: ${contentSpacing.mobileY} 0;
@@ -16,8 +16,7 @@ const Container = styled.div`
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 
 const Prioriteringsside = () => {
-    const { oppdaterTittel } = useContext(TittelContext);
-    oppdaterTittel(statiskeSidetitler.prioriteringsside);
+    useTittel(statiskeSidetitler.prioriteringsside);
 
     const [sortering, setSortering] = useState<SortState>({
         direction: "descending",

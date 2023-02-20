@@ -1,16 +1,13 @@
-import {useContext, useEffect} from "react";
-import { useParams } from "react-router-dom";
-import { Loader } from "@navikt/ds-react";
-import {
-    useHentSakerForVirksomhet,
-    useHentVirksomhetsinformasjon
-} from "../../api/lydia-api";
-import { VirksomhetsVisning } from "./VirksomhetsVisning";
-import { IASak } from "../../domenetyper/domenetyper";
-import { statiskeSidetitler, TittelContext } from "../Prioritering/TittelContext";
+import {useEffect} from "react";
+import {useParams} from "react-router-dom";
+import {Loader} from "@navikt/ds-react";
+import {useHentSakerForVirksomhet, useHentVirksomhetsinformasjon} from "../../api/lydia-api";
+import {VirksomhetsVisning} from "./VirksomhetsVisning";
+import {IASak} from "../../domenetyper/domenetyper";
+import {statiskeSidetitler, useTittel} from "../../util/useTittel";
 
 const Virksomhetsside = () => {
-    const {oppdaterTittel} = useContext(TittelContext)
+    const {oppdaterTittel} = useTittel(statiskeSidetitler.virksomhetsside)
     const {orgnummer} = useParams();
 
     const {
@@ -21,8 +18,6 @@ const Virksomhetsside = () => {
     useEffect(() => {
         if (virksomhetsinformasjon)
             oppdaterTittel(`Fia - ${virksomhetsinformasjon.navn}`)
-        else
-            oppdaterTittel(statiskeSidetitler.virksomhetsside)
     }, [virksomhetsinformasjon?.navn])
 
     const {

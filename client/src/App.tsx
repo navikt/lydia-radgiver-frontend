@@ -1,4 +1,3 @@
-import { useContext } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import "@navikt/ds-css";
@@ -9,22 +8,16 @@ import { desktopAndUp, largeDesktopAndUp } from "./styling/breakpoint";
 import Virksomhetsside from "./Pages/Virksomhet/Virksomhetsside";
 import { FeilmeldingBanner } from "./Pages/FeilmeldingBanner";
 import { Dekoratør } from "./components/Dekoratør/Dekoratør";
-import { TittelContext, TittelProvider } from "./Pages/Prioritering/TittelContext";
 import { contentSpacing } from "./styling/contentSpacing";
 import { Footer } from "./components/Footer/Footer";
 import { Lederstatistikkside } from "./Pages/Lederstatistikk/Lederstatistikkside";
 
 const App = () =>
     <BrowserRouter>
-        <TittelProvider>
-            <AppContent />
-        </TittelProvider>
+        <AppContent />
     </BrowserRouter>
 
 const AppContent = () => {
-    const { tittel } = useContext(TittelContext)
-    document.title = tittel
-
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     return brukerInformasjon ? (
         <>
