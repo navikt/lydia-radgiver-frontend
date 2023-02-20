@@ -15,11 +15,15 @@ const Form = styled.form`
   flex-wrap: wrap;
   column-gap: 2rem;
   row-gap: 1rem;
-  align-items: end;
+  align-items: start;
   
   div {
     min-width: 8rem;
   }
+`;
+
+const LeggTilKnapp = styled(Button)`
+  margin-top: 2rem;
 `;
 
 interface Props {
@@ -113,7 +117,7 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
                      } />
 
             </UNSAFE_DatePicker>
-            <Button onClick={leggTilLeveranse}>Legg til</Button>
+            <LeggTilKnapp onClick={leggTilLeveranse}>Legg til</LeggTilKnapp>
         </Form>
     )
 }
