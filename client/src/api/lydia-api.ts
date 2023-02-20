@@ -60,7 +60,10 @@ const defaultSwrConfiguration: SWRConfiguration = {
 };
 
 const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
-    fetch(...args).then((res) => res.json());
+    fetch(...args)
+        .then((res) => res.ok ? res : Promise.reject("Noe har gått galt. Prøv å laste inn siden på nytt."))
+        .then((res) => res.json())
+        .catch((feilmelding) => dispatchFeilmelding({feilmelding}));
 
 const fetchNative =
     (method: "GET" | "POST" | "DELETE" | "PUT") =>
