@@ -27,6 +27,9 @@ interface Props {
 }
 
 export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
+    const [forTidlig, setForTidlig] = useState<boolean>();
+    const [ugyldig, setUgyldig] = useState<boolean>();
+
     const {
         data: iaSakLeveranserPerTjeneste
     } = useHentIASakLeveranser(iaSak.orgnr, iaSak.saksnummer);
@@ -45,8 +48,17 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
 
 
     const { datepickerProps, inputProps, selectedDay } = UNSAFE_useDatepicker({
-        fromDate: new Date("Aug 23 2019"),
-        onDateChange: console.log,
+        fromDate: new Date(),
+        onValidate: (val) => {
+            if (val.isBefore) setForTidlig(true);
+            else setForTidlig(false);
+            if (val.isEmpty) {
+                setUgyldig(false);
+            } else {
+                if (val.isWeekend === undefined) setUgyldig(true);
+                else setUgyldig(false);
+            }
+        },
     });
 
     const endreValgtIATjeneste = (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -92,7 +104,14 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
                     )}
             </Select>
             <UNSAFE_DatePicker {...datepickerProps}>
-                <UNSAFE_DatePicker.Input {...inputProps} label="Tentativ frist" />
+                <UNSAFE_DatePicker.Input {...inputProps}
+                     label="Tentativ frist"
+                     error={
+                         (ugyldig &&
+                             "Dette er ikke en gyldig dato. Gyldig format er DD.MM.ÅÅÅÅ") ||
+                         (forTidlig && "Frist kan tidligst være idag")
+                     } />
+
             </UNSAFE_DatePicker>
             <Button onClick={leggTilLeveranse}>Legg til</Button>
         </Form>
