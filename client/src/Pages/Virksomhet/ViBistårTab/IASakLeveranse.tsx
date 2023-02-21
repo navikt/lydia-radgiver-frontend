@@ -57,7 +57,7 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
     }
 
     return (
-        <Table.Row>
+        <Table.Row shadeOnHover={false}>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
             <DataCellNoWrap>{`Frist: ${lokalDato(leveranse.frist)}`}</DataCellNoWrap>
             <Table.DataCell>
