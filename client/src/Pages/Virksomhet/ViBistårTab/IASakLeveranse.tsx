@@ -39,7 +39,7 @@ const FjernLeveranseKnapp = styled(Button)`
 `;
 
 interface Props {
-    leveranse: IASakLeveranseType
+    leveranse: IASakLeveranseType;
     iaSak: IASak;
 }
 
@@ -69,6 +69,10 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
             <FullførKnapp onClick={fullførLeveranse} disabled={leveranseErFullført} size="small">
                 {fullførKnappTekst}
             </FullførKnapp>
+            {!leveranse.fullført
+                ? null
+                : <BodyShort>{`Fullført: ${lokalDato(leveranse.fullført)}`}</BodyShort>
+            }
             <FjernLeveranseKnapp onClick={() => setOpen(true)}
                                  variant="tertiary"
                                  icon={<Delete title="Fjern leveranse" />} />
