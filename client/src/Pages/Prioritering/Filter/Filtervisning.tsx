@@ -10,7 +10,7 @@ import { EierDropdown } from "./EierDropdown";
 import { hvitBoksMedSkygge } from "../../../styling/containere";
 import { Eier, IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
-import { tabletAndUp } from "../../../styling/breakpoint";
+import { tabletAndUp } from "../../../styling/breakpoints";
 import { SektorDropdown } from "./SektorDropdown";
 import { Kommune } from "../../../domenetyper/fylkeOgKommune";
 

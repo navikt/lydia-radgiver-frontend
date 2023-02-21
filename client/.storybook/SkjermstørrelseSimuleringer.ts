@@ -1,5 +1,5 @@
 import styled, { css } from "styled-components";
-import { Breakpoint } from "../src/styling/breakpoint";
+import { Breakpoints } from "../src/styling/breakpoints";
 import { NavFarger } from "../src/styling/farger";
 import { Skygger } from "../src/styling/skygger";
 import { contentSpacing } from "../src/styling/contentSpacing";
@@ -13,7 +13,7 @@ const boksUtenOverflow = css`
 `;
 
 export const SimulerTabletWrapper = styled.div`
-  width: ${Breakpoint.Tablet};
+  width: ${Breakpoints.Tablet};
   height: 800px;
   padding: ${contentSpacing.mobileX};
 
@@ -21,7 +21,7 @@ export const SimulerTabletWrapper = styled.div`
 `;
 
 export const SimulerMobilWrapper = styled.div`
-  width: ${Breakpoint.Mobile};
+  width: ${Breakpoints.Mobile};
   height: 800px;
   padding: ${contentSpacing.mobileX};
 

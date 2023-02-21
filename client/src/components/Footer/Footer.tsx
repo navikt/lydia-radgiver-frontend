@@ -2,7 +2,7 @@ import { EksternLenke } from "../EksternLenke";
 import styled from "styled-components";
 import { NavFarger } from "../../styling/farger";
 import { contentSpacing } from "../../styling/contentSpacing";
-import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoint";
+import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoints";
 import { BodyShort } from "@navikt/ds-react";
 import { useHentGjeldendePeriodeForVirksomhetSiste4Kvartal } from "../../api/lydia-api";
 import { getGjeldendePeriodeTekst } from "../../util/gjeldendePeriodeSisteFireKvartal";

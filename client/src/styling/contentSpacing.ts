@@ -1,5 +1,5 @@
 import { css } from "styled-components";
-import { desktopAndUp, largeDesktopAndUp } from "./breakpoint";
+import { desktopAndUp, largeDesktopAndUp } from "./breakpoints";
 
 export const contentSpacing =  {
     mobileX: '8px',

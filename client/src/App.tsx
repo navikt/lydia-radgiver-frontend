@@ -4,7 +4,7 @@ import "@navikt/ds-css";
 import "@navikt/ds-css-internal";
 import { useHentBrukerinformasjon } from "./api/lydia-api";
 import Prioriteringsside from "./Pages/Prioritering/Prioriteringsside";
-import { desktopAndUp, largeDesktopAndUp } from "./styling/breakpoint";
+import { desktopAndUp, largeDesktopAndUp } from "./styling/breakpoints";
 import Virksomhetsside from "./Pages/Virksomhet/Virksomhetsside";
 import { FeilmeldingBanner } from "./Pages/FeilmeldingBanner";
 import { Dekoratør } from "./components/Dekoratør/Dekoratør";
