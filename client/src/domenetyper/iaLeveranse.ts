@@ -51,7 +51,6 @@ export interface NyIASakLeveranseDTO {
 }
 
 const iaSakLeveranseOppdateringDTOSchema = z.object({
-    frist: datoSchema.nullable(),
     status: IASakLeveranseStatusEnum.nullable(),
 })
 
