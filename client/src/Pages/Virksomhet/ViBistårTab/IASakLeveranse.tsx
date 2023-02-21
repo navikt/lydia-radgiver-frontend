@@ -15,7 +15,7 @@ const Container = styled.div`
   align-items: center;
   gap: clamp(1.5rem, 14vw - 5.5rem, 4rem);
   padding: 0.5rem 1.5rem;
-  
+
   border-bottom: 1px solid ${NavFarger.borderDefault};
 `;
 
@@ -49,28 +49,33 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
     const fullførKnappTekst = leveranseErFullført ? "Fullført" : "Fullfør";
     const { mutate: hentLeveranserPåNytt } = useHentIASakLeveranser(iaSak.orgnr, leveranse.saksnummer);
 
-    const fullførOppgave = () => {
+    const fullførLeveranse = () => {
         fullførIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
             .then(() => hentLeveranserPåNytt());
+    }
+
+    const slettLeveranse = () => {
+        slettIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
+            .then(() => {
+                setOpen(false)
+                hentLeveranserPåNytt()
+            });
     }
 
     return (
         <Container>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
             <Frist>{`Frist: ${lokalDato(leveranse.frist)}`}</Frist>
-            <FullførKnapp onClick={fullførOppgave} disabled={leveranseErFullført} size="small">
+            <FullførKnapp onClick={fullførLeveranse} disabled={leveranseErFullført} size="small">
                 {fullførKnappTekst}
             </FullførKnapp>
-            <FjernLeveranseKnapp onClick={() => setOpen(true)} variant="tertiary" icon={<Delete title="Fjern leveranse" />} />
-            <BekreftValgModal onConfirm={() => {
-                slettIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
-                    .then(() => {
-                        setOpen(false)
-                        hentLeveranserPåNytt()
-                    });
-            }} onCancel={() => {
-                setOpen(false)
-            }} åpen={open} description={"Vennligst bekreft at du vil slette denne leveransen"} />
+            <FjernLeveranseKnapp onClick={() => setOpen(true)}
+                                 variant="tertiary"
+                                 icon={<Delete title="Fjern leveranse" />} />
+            <BekreftValgModal onConfirm={slettLeveranse}
+                              onCancel={() => {setOpen(false)}}
+                              åpen={open}
+                              description={"Vennligst bekreft at du vil slette denne leveransen"} />
         </Container>
     )
 }
