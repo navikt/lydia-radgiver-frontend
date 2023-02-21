@@ -78,7 +78,8 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
                 <BekreftValgModal onConfirm={slettLeveranse}
                                   onCancel={() => {setOpen(false)}}
                                   åpen={open}
-                                  description={"Vennligst bekreft at du vil slette denne leveransen"} />
+                                  title="Er du sikker på at du vil fjerne leveransen?"
+                                  description={`Leveransen som fjernes er "${leveranse.modul.navn}" med frist ${lokalDato(leveranse.frist)}`} />
             </Table.DataCell>
         </Table.Row>
     )
