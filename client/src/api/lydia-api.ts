@@ -113,6 +113,7 @@ const useSwrTemplate = <T>(
         data,
         error: fetchError,
         mutate,
+        isLoading
     } = useSWR<T>(path, defaultFetcher, {
         ...defaultSwrConfiguration,
         ...config,
@@ -122,7 +123,7 @@ const useSwrTemplate = <T>(
             data,
             mutate,
             error: undefined,
-            loading: true,
+            loading: isLoading,
         };
     }
     if (fetchError) {
@@ -131,7 +132,7 @@ const useSwrTemplate = <T>(
             data,
             mutate,
             error: fetchError,
-            loading: false,
+            loading: isLoading,
         };
     }
     const safeParseResultat = schema.safeParse(data);
@@ -144,14 +145,14 @@ const useSwrTemplate = <T>(
             data,
             mutate,
             error: safeParseResultat.error,
-            loading: false,
+            loading: isLoading,
         };
     }
     return {
         data: safeParseResultat.data,
         mutate,
         error: undefined,
-        loading: false,
+        loading: isLoading,
     };
 };
 
