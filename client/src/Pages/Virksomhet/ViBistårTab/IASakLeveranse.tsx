@@ -25,7 +25,11 @@ const FullførKnapp = styled(Button)`
 
 const FjernLeveranseKnapp = styled(Button)`
   color: ${NavFarger.text};
-  padding: 0;
+  padding: 0.25rem;
+
+  &:hover {
+    background: none;
+  }
 `;
 
 interface Props {
@@ -67,7 +71,7 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
                     : `Fullført: ${lokalDato(leveranse.fullført)}`
                 }
             </DataCellNoWrap>
-            <Table.DataCell>
+            <Table.DataCell align="right">
                 <FjernLeveranseKnapp onClick={() => setOpen(true)}
                                      variant="tertiary"
                                      icon={<Delete title="Fjern leveranse" />} />
