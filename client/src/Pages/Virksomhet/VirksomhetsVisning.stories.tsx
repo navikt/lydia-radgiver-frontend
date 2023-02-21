@@ -1,7 +1,6 @@
 import { ComponentMeta } from "@storybook/react";
 import { fjernetVirksomhetMock, slettetVirksomhetMock, virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
-import { iaSakFullførtOgLukket, iaSakKontaktes } from "./mocks/iaSakMock";
 
 export default {
     title: "Virksomhet/Visning av en virksomhet",
@@ -11,27 +10,27 @@ export default {
 export const Hovedstory = () => (
     <VirksomhetsVisning
         virksomhet={virksomhetMock}
-        iaSak={iaSakKontaktes}
+        // iaSak={iaSakKontaktes}
     />
 );
 
 export const VirksomhetSomErSlettet = () => (
     <VirksomhetsVisning
         virksomhet={slettetVirksomhetMock}
-        iaSak={iaSakKontaktes}
+        // iaSak={iaSakKontaktes}
     />
 );
 
 export const VirksomhetSomErFjernet = () => (
     <VirksomhetsVisning
         virksomhet={fjernetVirksomhetMock}
-        iaSak={iaSakKontaktes}
+        // iaSak={iaSakKontaktes}
     />
 );
 
 export const VirksomhetMedSakSomErLukket = () => (
     <VirksomhetsVisning
         virksomhet={virksomhetMock}
-        iaSak={iaSakFullførtOgLukket}
+        // iaSak={iaSakFullførtOgLukket}
     />
 );

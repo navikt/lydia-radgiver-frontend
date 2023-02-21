@@ -4,7 +4,7 @@ import { BodyShort } from "@navikt/ds-react";
 import { IngenAktiveSaker } from "./IngenAktiveSaker";
 import { GyldigNesteHendelse, IASak, ValgtÅrsakDto } from "../../../../domenetyper/domenetyper";
 import { StatusBadge } from "../../../../components/Badge/StatusBadge";
-import {nyHendelsePåSak, useHentSakerForVirksomhet, useHentSamarbeidshistorikk} from "../../../../api/lydia-api";
+import {nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk} from "../../../../api/lydia-api";
 import { BegrunnelseModal } from "./BegrunnelseModal";
 import { SakshendelsesKnapper } from "./SakshendelsesKnapper";
 import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
@@ -52,7 +52,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => 
         useState<GyldigNesteHendelse>();
 
     const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(orgnummer)
-    const { mutate: mutateHentSaker } = useHentSakerForVirksomhet(orgnummer)
+    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(orgnummer)
 
     const mutateIASakerOgSamarbeidshistorikk = () => {
         mutateHentSaker?.()

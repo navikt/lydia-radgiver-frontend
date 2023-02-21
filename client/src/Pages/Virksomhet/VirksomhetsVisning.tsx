@@ -1,6 +1,5 @@
 import styled from "styled-components";
 import { Tabs } from "@navikt/ds-react";
-import { IASak,   } from "../../domenetyper/domenetyper";
 import { Samarbeidshistorikk } from "./Samarbeidshistorikk/Samarbeidshistorikk";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
 import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../styling/contentSpacing";
@@ -8,6 +7,7 @@ import { NavFarger } from "../../styling/farger";
 import { ViBistårTab } from "./ViBistårTab/ViBistårTab";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
+import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 
 const Container = styled.div`
   padding-top: ${contentSpacing.mobileY};
@@ -26,12 +26,15 @@ const StyledPanel = styled(Tabs.Panel)`
 
 interface Props {
     virksomhet: Virksomhet;
-    iaSak?: IASak;
 }
 
-export const VirksomhetsVisning = ({ virksomhet, iaSak }: Props) => {
+export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     // TODO: Fjern denne for prodsetting
     const visViBistårTab = erIDev;
+
+    const {
+        data: iaSak
+    } = useHentAktivSakForVirksomhet(virksomhet.orgnr)
 
     return (
         <Container>

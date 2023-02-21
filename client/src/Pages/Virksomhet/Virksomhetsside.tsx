@@ -1,10 +1,9 @@
-import {useEffect} from "react";
-import {useParams} from "react-router-dom";
-import {Loader} from "@navikt/ds-react";
-import {useHentSakerForVirksomhet, useHentVirksomhetsinformasjon} from "../../api/lydia-api";
-import {VirksomhetsVisning} from "./VirksomhetsVisning";
-import {IASak} from "../../domenetyper/domenetyper";
-import {statiskeSidetitler, useTittel} from "../../util/useTittel";
+import { useEffect } from "react";
+import { useParams } from "react-router-dom";
+import { Loader } from "@navikt/ds-react";
+import { useHentVirksomhetsinformasjon } from "../../api/lydia-api";
+import { VirksomhetsVisning } from "./VirksomhetsVisning";
+import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 
 const Virksomhetsside = () => {
     const {oppdaterTittel} = useTittel(statiskeSidetitler.virksomhetsside)
@@ -20,28 +19,18 @@ const Virksomhetsside = () => {
             oppdaterTittel(`Fia - ${virksomhetsinformasjon.navn}`)
     }, [virksomhetsinformasjon?.navn])
 
-    const {
-        data: iaSaker,
-        loading: lasterIaSaker
-    } = useHentSakerForVirksomhet(orgnummer)
-
-    const iaSak = nyesteSak(iaSaker)
-
-    if (lasterVirksomhet || lasterIaSaker) {
+    if (lasterVirksomhet) {
         return <LasterVirksomhet />
     }
 
-    if (virksomhetsinformasjon && iaSaker) {
+    if (virksomhetsinformasjon) {
         return <VirksomhetsVisning
             virksomhet={virksomhetsinformasjon}
-            iaSak={iaSak}
         />
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>
     }
 };
-
-const nyesteSak = (iaSaker?: IASak[]): IASak | undefined => !iaSaker || iaSaker.length === 0 ? undefined : iaSaker[0]
 
 const LasterVirksomhet = () => <Loader title={"Laster inn virksomhet"} variant={"interaction"} size={"xlarge"} />
 

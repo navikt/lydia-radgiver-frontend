@@ -44,9 +44,9 @@ VirksomhetssideStory.parameters = {
                         ctx.json([sykefraværsstatistikkMock[0]])
                     );
                 }),
-                rest.get(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
+                rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
                     return res(
-                        ctx.json([iaSakKontaktes])
+                        ctx.json(iaSakKontaktes)
                     );
                 }),
                 rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {

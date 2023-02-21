@@ -62,7 +62,7 @@ const defaultSwrConfiguration: SWRConfiguration = {
 const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
     fetch(...args)
         .then((res) => res.ok ? res : Promise.reject("Noe har gått galt. Prøv å laste inn siden på nytt."))
-        .then((res) => res.json())
+        .then((res) => res.status === 204 ? undefined : res.json())
         .catch((feilmelding) => dispatchFeilmelding({feilmelding}));
 
 const fetchNative =
@@ -318,9 +318,9 @@ export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
 export const useHentBrukerinformasjon = () =>
     useSwrTemplate<Brukerinformasjon>(innloggetAnsattPath, brukerinformasjonSchema);
 
-export const useHentSakerForVirksomhet = (orgnummer?: string) => {
-    const iasakUrl = `${iaSakPath}/${orgnummer}`;
-    return useSwrTemplate<IASak[]>(iasakUrl, iaSakSchema.array(), {
+export const useHentAktivSakForVirksomhet = (orgnummer?: string) => {
+    const iasakUrl = `${iaSakPath}/${orgnummer}/aktiv`;
+    return useSwrTemplate<IASak | undefined>(iasakUrl, iaSakSchema.optional(), {
         revalidateOnFocus: true,
     });
 };
