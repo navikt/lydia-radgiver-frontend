@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BodyShort, Button } from "@navikt/ds-react";
+import { Button, Table } from "@navikt/ds-react";
 import { DeleteFilled as Delete } from "@navikt/ds-icons";
 import { IASakLeveranse as IASakLeveranseType, IASakLeveranseStatusEnum } from "../../../domenetyper/iaLeveranse";
 import { lokalDato } from "../../../util/dato";
@@ -9,22 +9,12 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { useState } from "react";
 
-const Container = styled.div`
-  display: flex;
-  justify-content: stretch;
-  align-items: center;
-  gap: clamp(1.5rem, 14vw - 5.5rem, 4rem);
-  padding: 0.5rem 1.5rem;
-
-  border-bottom: 1px solid ${NavFarger.borderDefault};
+const ModulNavn = styled(Table.HeaderCell)`
+  font-weight: initial;
 `;
 
-const ModulNavn = styled(BodyShort)`
-  flex: 1;
-`;
-
-const Frist = styled(BodyShort)`
-  flex-shrink: 0;
+const DataCellNoWrap = styled(Table.DataCell)`
+  white-space: nowrap;
 `;
 
 const FullførKnapp = styled(Button)`
@@ -63,23 +53,29 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
     }
 
     return (
-        <Container>
+        <Table.Row>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
-            <Frist>{`Frist: ${lokalDato(leveranse.frist)}`}</Frist>
-            <FullførKnapp onClick={fullførLeveranse} disabled={leveranseErFullført} size="small">
-                {fullførKnappTekst}
-            </FullførKnapp>
-            {!leveranse.fullført
-                ? null
-                : <BodyShort>{`Fullført: ${lokalDato(leveranse.fullført)}`}</BodyShort>
-            }
-            <FjernLeveranseKnapp onClick={() => setOpen(true)}
-                                 variant="tertiary"
-                                 icon={<Delete title="Fjern leveranse" />} />
-            <BekreftValgModal onConfirm={slettLeveranse}
-                              onCancel={() => {setOpen(false)}}
-                              åpen={open}
-                              description={"Vennligst bekreft at du vil slette denne leveransen"} />
-        </Container>
+            <DataCellNoWrap>{`Frist: ${lokalDato(leveranse.frist)}`}</DataCellNoWrap>
+            <Table.DataCell>
+                <FullførKnapp onClick={fullførLeveranse} disabled={leveranseErFullført} size="small">
+                    {fullførKnappTekst}
+                </FullførKnapp>
+            </Table.DataCell>
+            <DataCellNoWrap>
+                {!leveranse.fullført
+                    ? ""
+                    : `Fullført: ${lokalDato(leveranse.fullført)}`
+                }
+            </DataCellNoWrap>
+            <Table.DataCell>
+                <FjernLeveranseKnapp onClick={() => setOpen(true)}
+                                     variant="tertiary"
+                                     icon={<Delete title="Fjern leveranse" />} />
+                <BekreftValgModal onConfirm={slettLeveranse}
+                                  onCancel={() => {setOpen(false)}}
+                                  åpen={open}
+                                  description={"Vennligst bekreft at du vil slette denne leveransen"} />
+            </Table.DataCell>
+        </Table.Row>
     )
 }

@@ -1,14 +1,7 @@
+import { Heading, Table } from "@navikt/ds-react";
 import { IASakLeveranserPerTjeneste } from "../../../domenetyper/iaLeveranse";
-import { Heading } from "@navikt/ds-react";
 import { IASakLeveranse } from "./IASakLeveranse";
 import { IASak } from "../../../domenetyper/domenetyper";
-import styled from "styled-components";
-import { NavFarger } from "../../../styling/farger";
-
-const TjenesteHeading = styled(Heading)`
-  padding: 0.5rem 1.5rem;
-  border-bottom: 2px solid ${NavFarger.borderDefault};
-`;
 
 interface Props {
     iaTjenesteMedLeveranser: IASakLeveranserPerTjeneste;
@@ -21,13 +14,19 @@ export const IATjeneste = ({ iaTjenesteMedLeveranser, iaSak }: Props) => {
     }
 
     return (
-        <div>
-            <TjenesteHeading size="xsmall">{iaTjenesteMedLeveranser.iaTjeneste.navn}</TjenesteHeading>
-            {
-                iaTjenesteMedLeveranser.leveranser
-                    .map((leveranse) =>
-                        <IASakLeveranse leveranse={leveranse} iaSak={iaSak} key={leveranse.id} />)
-            }
-        </div>
+        <Table>
+            <Table.Header>
+                <Table.HeaderCell colSpan={5}>
+                    <Heading size="xsmall">{iaTjenesteMedLeveranser.iaTjeneste.navn}</Heading>
+                </Table.HeaderCell>
+            </Table.Header>
+            <Table.Body>
+                {
+                    iaTjenesteMedLeveranser.leveranser
+                        .map((leveranse) =>
+                            <IASakLeveranse leveranse={leveranse} iaSak={iaSak} key={leveranse.id} />)
+                }
+            </Table.Body>
+        </Table>
     )
 }
