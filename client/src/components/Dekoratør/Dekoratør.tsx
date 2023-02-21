@@ -1,10 +1,10 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import {Alert, BodyShort, Link} from "@navikt/ds-react";
-import {Header} from "@navikt/ds-react-internal";
-import {Søkefelt} from "./Søkefelt";
-import {NavFarger} from "../../styling/farger";
-import {Brukerinformasjon} from "../../domenetyper/brukerinformasjon";
+import { Alert, BodyShort, Link } from "@navikt/ds-react";
+import { Header } from "@navikt/ds-react-internal";
+import { Søkefelt } from "./Søkefelt";
+import { NavFarger } from "../../styling/farger";
+import { Brukerinformasjon } from "../../domenetyper/brukerinformasjon";
 
 const FEM_MINUTTER_SOM_MS = 1000 * 60 * 5
 
@@ -25,12 +25,23 @@ const DemoversjonTekst = styled(BodyShort)<{ hidden: boolean }>`
   background: ${NavFarger.red500};
 `;
 
+const LenkeTilSøkesiden = styled(Link)`
+  margin-right: auto;
+  color: ${NavFarger.textInverted};
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
+`;
+
 interface Props {
     brukerInformasjon: Brukerinformasjon
 }
+
 export const erIDev = ["localhost", "fia.dev.intern.nav.no"].includes(window.location.hostname)
 
-export const Dekoratør = ({brukerInformasjon}: Props) => {
+export const Dekoratør = ({ brukerInformasjon }: Props) => {
     const [gjenværendeTidForBrukerMs, setGjenværendeTidForBrukerMs] = useState(
         hentGjenværendeTidForBrukerMs(brukerInformasjon)
     )
@@ -46,14 +57,9 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
     return (
         <>
             <Header className="w-full" data-theme="light">
-                <Header.Title
-                    as="h1"
-                    style={{
-                        marginRight: "auto",
-                        cursor: "pointer"
-                    }}
-                    onClick={() => document.location = "/"}
-                    title="Tilbake til søkeside">Fia</Header.Title>
+                <LenkeTilSøkesiden href="/" title="Gå til søkesiden">
+                    <Header.Title as="h1">Fia</Header.Title>
+                </LenkeTilSøkesiden>
                 <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
                 <Søkefelt style={{
                     minWidth: "16rem",
@@ -63,7 +69,7 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
                     <Header.User
                         name={brukerInformasjon.navn}
                         description={brukerInformasjon.ident}
-                        style={{marginLeft: "auto", color: NavFarger.white}}
+                        style={{ marginLeft: "auto", color: NavFarger.white }}
                     />
                 )}
             </Header>
@@ -73,16 +79,16 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
     )
 }
 
-const RedirectKomponent = ({gjenværendeTidForBrukerMs}: { gjenværendeTidForBrukerMs: number }) => {
+const RedirectKomponent = ({ gjenværendeTidForBrukerMs }: { gjenværendeTidForBrukerMs: number }) => {
     return gjenværendeTidForBrukerMs > 0
         ? <SesjonenHolderPåÅLøpeUt gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs} />
         : <SesjonenErUtløpt />
 }
 
-const SesjonenHolderPåÅLøpeUt = ({gjenværendeTidForBrukerMs}: { gjenværendeTidForBrukerMs: number }) => {
+const SesjonenHolderPåÅLøpeUt = ({ gjenværendeTidForBrukerMs }: { gjenværendeTidForBrukerMs: number }) => {
     const gjenværendeSekunder = Math.round(gjenværendeTidForBrukerMs / 1000)
     return (
-        <Alert variant="warning" style={{margin: "1rem"}}>
+        <Alert variant="warning" style={{ margin: "1rem" }}>
             <BodyShort>
                 Sesjonen din løper ut om {gjenværendeSekunder} sekunder. Vennligst trykk på <Link
                 href={hentRedirectUrl()}>denne lenken</Link> for å logge inn på nytt
@@ -92,7 +98,7 @@ const SesjonenHolderPåÅLøpeUt = ({gjenværendeTidForBrukerMs}: { gjenværende
 }
 
 const SesjonenErUtløpt = () =>
-    <Alert variant="error" style={{margin: "1rem"}}>
+    <Alert variant="error" style={{ margin: "1rem" }}>
         <BodyShort>
             Sesjonen din er utløpt. Vennligst trykk på <Link href={hentRedirectUrl()}>denne lenken</Link> for å logge
             inn på nytt
