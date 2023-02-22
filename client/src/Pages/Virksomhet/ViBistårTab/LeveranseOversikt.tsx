@@ -3,6 +3,7 @@ import { IATjeneste } from "./IATjeneste";
 import { useHentIASakLeveranser } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
+import { IASakLeveranserPerTjeneste } from "../../../domenetyper/iaLeveranse";
 
 const Container = styled.div`
   display: flex;
@@ -23,7 +24,7 @@ export const LeveranseOversikt = ({ iaSak }: Props) => {
     } = useHentIASakLeveranser(iaSak.orgnr, iaSak.saksnummer);
 
     if (lasterIASakLeveranserPerTjeneste) {
-        return <Loader/>
+        return <Loader />
     }
 
     if (!iaSakLeveranserPerTjeneste) {
@@ -33,13 +34,17 @@ export const LeveranseOversikt = ({ iaSak }: Props) => {
     return (
         <Container>
             {
-                iaSakLeveranserPerTjeneste.map((iaTjenesteMedLeveranser) => (
+                iaSakLeveranserPerTjeneste.sort(sorterPåTjenesteId).map((iaTjenesteMedLeveranser) => (
                         <IATjeneste iaTjenesteMedLeveranser={iaTjenesteMedLeveranser}
                                     iaSak={iaSak}
-                                    key={iaTjenesteMedLeveranser.iaTjeneste.id}/>
+                                    key={iaTjenesteMedLeveranser.iaTjeneste.id} />
                     )
                 )
             }
         </Container>
     )
+}
+
+const sorterPåTjenesteId = (a: IASakLeveranserPerTjeneste, b: IASakLeveranserPerTjeneste) => {
+    return a.iaTjeneste.id - b.iaTjeneste.id
 }
