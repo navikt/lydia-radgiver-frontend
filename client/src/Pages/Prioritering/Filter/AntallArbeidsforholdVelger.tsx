@@ -9,12 +9,7 @@ interface InputProps {
     endreAntallArbeidsforhold: (verdi: number) => void;
 }
 
-function AntallArbeidsforholdInput({
-    value,
-    label,
-    hideLabel = false,
-    endreAntallArbeidsforhold,
-}: InputProps) {
+function AntallArbeidsforholdInput({ value, label, hideLabel = false, endreAntallArbeidsforhold }: InputProps) {
     return (
         <TallInput
             type={"number"}

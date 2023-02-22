@@ -16,12 +16,7 @@ interface InputProps {
     onChange: EndreSykefraværsprosent;
 }
 
-function SykefraværsprosentInput({
-    value,
-    label,
-    hideLabel = false,
-    onChange,
-}: InputProps) {
+function SykefraværsprosentInput({ value, label, hideLabel = false, onChange }: InputProps) {
     return (
         <TallInput
             type={"number"}
@@ -42,10 +37,7 @@ interface SykefraværsProsentProps {
     endre: EndreSykefraværsprosentRange;
 }
 
-export const SykefraværsprosentVelger = ({
-    sykefraværsprosentRange,
-    endre,
-}: SykefraværsProsentProps) => (
+export const SykefraværsprosentVelger = ({ sykefraværsprosentRange, endre }: SykefraværsProsentProps) => (
     <FraTilFieldset legend="Sykefravær (%)">
         <SykefraværsprosentInput
             value={sykefraværsprosentRange.fra}

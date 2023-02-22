@@ -1,14 +1,16 @@
-import {Select} from "@navikt/ds-react";
-import {CSSProperties} from "react";
-import {sorterAlfabetisk} from "../../../util/sortering";
+import { CSSProperties } from "react";
+import { Select } from "@navikt/ds-react";
+import { sorterAlfabetisk } from "../../../util/sortering";
 import { Fylke, FylkeMedKommuner } from "../../../domenetyper/fylkeOgKommune";
 
-export const Fylkedropdown = ({fylkerOgKommuner, valgtFylke, endreFylke, style}: {
+interface Props {
     fylkerOgKommuner: FylkeMedKommuner[];
     valgtFylke: Fylke | undefined;
     endreFylke: (fylkesnummer: string) => void;
     style?: CSSProperties;
-}) => {
+}
+
+export const Fylkedropdown = ({ fylkerOgKommuner, valgtFylke, endreFylke, style }: Props) => {
     return (
         <Select
             label="Fylke"
@@ -19,7 +21,7 @@ export const Fylkedropdown = ({fylkerOgKommuner, valgtFylke, endreFylke, style}:
             <option value="">Alle</option>
             {fylkerOgKommuner
                 .sort((a, b) => sorterAlfabetisk(a.fylke.navn, b.fylke.navn))
-                .map(({fylke}) => (
+                .map(({ fylke }) => (
                     <option value={fylke.nummer} key={fylke.nummer}>
                         {fylke.navn}
                     </option>
@@ -28,10 +30,8 @@ export const Fylkedropdown = ({fylkerOgKommuner, valgtFylke, endreFylke, style}:
     );
 };
 
-export const kommunenummerTilKommune = (
-    kommunenummer: string,
-    fylkerMedKommuner: FylkeMedKommuner[]
-) =>
-    fylkerMedKommuner
-        .find(({fylke}) => fylke.nummer === kommunenummer.substring(0, 2))
-        ?.kommuner.find(({nummer}) => nummer === kommunenummer);
+export const kommunenummerTilKommune = (kommunenummer: string, fylkerMedKommuner: FylkeMedKommuner[]) => {
+    return fylkerMedKommuner
+        .find(({ fylke }) => fylke.nummer === kommunenummer.substring(0, 2))
+        ?.kommuner.find(({ nummer }) => nummer === kommunenummer);
+};

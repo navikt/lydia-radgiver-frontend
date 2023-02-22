@@ -1,9 +1,6 @@
-import { Label } from "@navikt/ds-react";
-import {
-    StyledReactSelect,
-    reactSelectStyle,
-} from "../../../components/ReactSelect/StyledReactSelect";
 import { CSSProperties } from "react";
+import { Label } from "@navikt/ds-react";
+import { reactSelectStyle, StyledReactSelect } from "../../../components/ReactSelect/StyledReactSelect";
 import { sorterAlfabetisk } from "../../../util/sortering";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 
@@ -16,12 +13,7 @@ interface Props {
     style?: CSSProperties;
 }
 
-export const Kommunedropdown = ({
-    relevanteFylkerMedKommuner,
-    endreKommuner,
-    valgteKommuner = [],
-    style,
-}: Props) => {
+export const Kommunedropdown = ({ relevanteFylkerMedKommuner, endreKommuner, valgteKommuner = [], style, }: Props) => {
     const sorterteKommuner = relevanteFylkerMedKommuner.map(
         (fylkeMedKommuner) => ({
             label: fylkeMedKommuner.fylke.navn,

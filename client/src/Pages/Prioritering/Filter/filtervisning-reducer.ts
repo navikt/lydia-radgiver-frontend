@@ -1,17 +1,15 @@
-import { Eier, IAProsessStatusType, Periode, } from "../../../domenetyper/domenetyper";
-import { Range } from "./SykefraværsprosentVelger";
 import { useCallback, useEffect, useReducer } from "react";
-import { SortState } from "@navikt/ds-react";
 import { useSearchParams } from "react-router-dom";
+import { SortState } from "@navikt/ds-react";
+import { Range } from "./SykefraværsprosentVelger";
+import { Eier, IAProsessStatusType, Periode, } from "../../../domenetyper/domenetyper";
 import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { Næringsgruppe } from "../../../domenetyper/virksomhet";
 import { Filterverdier, Sorteringsverdi } from "../../../domenetyper/filterverdier";
 
-const næringsgruppeKoderTilNæringsgrupper = (
-    næringsgruppeKoder: string[],
-    næringsgrupper: Næringsgruppe[]
-) => næringsgrupper.filter(({ kode }) => næringsgruppeKoder.includes(kode));
+const næringsgruppeKoderTilNæringsgrupper = (næringsgruppeKoder: string[], næringsgrupper: Næringsgruppe[]) =>
+    næringsgrupper.filter(({ kode }) => næringsgruppeKoder.includes(kode));
 
 const finnBransjeprogram = (næringsgrupper: string[]) =>
     næringsgrupper.filter((gruppe) => isNaN(+gruppe));
@@ -43,10 +41,7 @@ const parametere = [
 
 type Søkeparametere = Partial<Record<typeof parametere[number], string>>;
 
-function hentKommunerFraParametere(
-    kommuner: string,
-    filterverdier: Filterverdier
-): Kommune[] {
+function hentKommunerFraParametere(kommuner: string, filterverdier: Filterverdier): Kommune[] {
     const kommuneliste = kommuner.split(",").filter((v) => v.trim().length);
     return filterverdier.fylker
         .map((fylke) => fylke.kommuner)
@@ -54,10 +49,7 @@ function hentKommunerFraParametere(
         .filter((kommune) => kommuneliste.includes(kommune.nummer));
 }
 
-const søkeparametereTilFilterstate = (
-    parametere: Søkeparametere,
-    filterverdier: Filterverdier
-): FiltervisningState => {
+const søkeparametereTilFilterstate = (parametere: Søkeparametere, filterverdier: Filterverdier): FiltervisningState => {
     return {
         kommuner: hentKommunerFraParametere(
             parametere?.kommuner ?? "",
@@ -75,12 +67,10 @@ const søkeparametereTilFilterstate = (
         },
         sykefraværsprosent: {
             fra: Number(
-                parametere.sykefraversprosentFra ??
-                    initialState.sykefraværsprosent.fra
+                parametere.sykefraversprosentFra ?? initialState.sykefraværsprosent.fra
             ),
             til: Number(
-                parametere.sykefraversprosentTil ??
-                    initialState.sykefraværsprosent.til
+                parametere.sykefraversprosentTil ?? initialState.sykefraværsprosent.til
             ),
         },
         eiere: filterverdier.filtrerbareEiere.filter((eier) =>
@@ -156,7 +146,7 @@ type EndreSektorAction = {
 type EndrePeriodeAction = {
     type: "ENDRE_PERIODE";
     payload: {
-        periode?: {fraDato: Date, tilDato: Date};
+        periode?: { fraDato: Date, tilDato: Date };
     };
 };
 type TilbakestillAction = {
@@ -207,18 +197,12 @@ export interface FiltervisningState {
     side: number;
 }
 
-const endreKommune = (
-    state: FiltervisningState,
-    action: EndreKommuneAction
-): FiltervisningState => ({
+const endreKommune = (state: FiltervisningState, action: EndreKommuneAction): FiltervisningState => ({
     ...state,
     kommuner: action.payload.kommuner,
 });
 
-function endreFylke(
-    state: FiltervisningState,
-    action: EndreFylkeAction
-): FiltervisningState {
+function endreFylke(state: FiltervisningState, action: EndreFylkeAction): FiltervisningState {
     if (action.payload.fylkesnummer === state.valgtFylke?.fylke.nummer)
         return state;
     const endretFylkeMedKommuner = finnFylke(
@@ -243,10 +227,7 @@ function endreFylke(
     };
 }
 
-const endreNæringsgruppe = (
-    state: FiltervisningState,
-    action: EndreNæringsgruppeAction
-): FiltervisningState => {
+const endreNæringsgruppe = (state: FiltervisningState, action: EndreNæringsgruppeAction): FiltervisningState => {
     const endretNæringsgrupper = næringsgruppeKoderTilNæringsgrupper(
         action.payload.næringsgrupper,
         state.filterverdier?.neringsgrupper ?? []
@@ -275,18 +256,12 @@ const endreAntallArbeidsforhold = (
     antallArbeidsforhold: action.payload.arbeidsforhold,
 });
 
-const endreIastatus = (
-    state: FiltervisningState,
-    action: EndreIAStatusAction
-): FiltervisningState => ({
+const endreIastatus = (state: FiltervisningState, action: EndreIAStatusAction): FiltervisningState => ({
     ...state,
     iaStatus: action.payload.iastatus,
 });
 
-const endreSektor = (
-    state: FiltervisningState,
-    action: EndreSektorAction
-): FiltervisningState => ({
+const endreSektor = (state: FiltervisningState, action: EndreSektorAction): FiltervisningState => ({
     ...state,
     sektor: action.payload.sektor,
 });
@@ -306,10 +281,7 @@ const initialState: FiltervisningState = {
     side: 1,
 };
 
-const endreSide = (
-    state: FiltervisningState,
-    action: OppdaterSideAction
-): FiltervisningState => {
+const endreSide = (state: FiltervisningState, action: OppdaterSideAction): FiltervisningState => {
     const tilSorteringsretning = (
         direction: SortState["direction"] = "descending"
     ) => {
@@ -334,20 +306,17 @@ const endreSide = (
     };
 };
 
-const endreEiere = (
-    state: FiltervisningState,
-    action: OppdaterEiereAction
-): FiltervisningState => ({ ...state, eiere: action.payload.eiere });
+const endreEiere = (state: FiltervisningState, action: OppdaterEiereAction): FiltervisningState => ({
+    ...state,
+    eiere: action.payload.eiere
+});
 
-const endrePeriode = (
-    state: FiltervisningState,
-    action: EndrePeriodeAction
-): FiltervisningState => ({ ...state, periode: action.payload.periode });
+const endrePeriode = (state: FiltervisningState, action: EndrePeriodeAction): FiltervisningState => ({
+    ...state,
+    periode: action.payload.periode
+});
 
-const settInnFilterverdier = (
-    state: FiltervisningState,
-    action: SettInnFilterverdierAction
-): FiltervisningState => {
+const settInnFilterverdier = (state: FiltervisningState, action: SettInnFilterverdierAction): FiltervisningState => {
     return {
         ...state,
         ...action.payload.filterstate,
@@ -474,11 +443,11 @@ export const useFiltervisningState = () => {
 
     const oppdaterSektorer = useCallback(
         (payload: EndreSektorAction["payload"]) => {
-        dispatch({
-            type: "ENDRE_SEKTOR",
-            payload
-        })
-    }, [])
+            dispatch({
+                type: "ENDRE_SEKTOR",
+                payload
+            })
+        }, [])
 
     const tilbakestill = useCallback(() => {
         dispatch({
