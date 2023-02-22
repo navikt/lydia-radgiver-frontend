@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt/ds-react";
+import { Button, Heading, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt/ds-react";
 import {
     nyLeveransePåSak,
     useHentIASakLeveranser,
@@ -96,34 +96,38 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
     }
 
     return (
-        <Form onSubmit={(e) => e.preventDefault()}>
-            <Select label="Velg IA-tjeneste" value={valgtIATjeneste} onChange={endreValgtIATjeneste}>
-                <option value="">{lasterIATjenester && "Laster IA-tjenester..."}</option>
-                {iaTjenester?.sort(iatjenesterStigendeEtterId).map((tjeneste) =>
-                    <option value={tjeneste.id} key={tjeneste.id}>{tjeneste.navn}</option>
-                )}
-            </Select>
-            <Select label="Velg modul" value={valgtModul} onChange={endreValgtModul}>
-                <option value="">{lasterIATjenesteModuler && "Laster moduler..."}</option>
-                {moduler?.filter((modul) => modul.iaTjeneste.toString() === valgtIATjeneste)
-                    .filter((modul) => erModulIkkeValgt(modul))
-                    .sort(modulAlfabetiskPåNavn)
-                    .map((modul) =>
-                        <option value={modul.id} key={modul.id}>{modul.navn}</option>
+        <div>
+            <Heading size="small">Legg til ny leveranse</Heading>
+            <Form onSubmit={(e) => e.preventDefault()}>
+                <Select label="IA-tjeneste" value={valgtIATjeneste} onChange={endreValgtIATjeneste}>
+                    <option value="">{lasterIATjenester && "Laster IA-tjenester..."}</option>
+                    {iaTjenester?.sort(iatjenesterStigendeEtterId).map((tjeneste) =>
+                        <option value={tjeneste.id} key={tjeneste.id}>{tjeneste.navn}</option>
                     )}
-            </Select>
-            <UNSAFE_DatePicker {...datepickerProps}>
-                <UNSAFE_DatePicker.Input {...inputProps}
-                                         label="Tentativ frist"
-                                         error={
-                                             (ugyldig &&
-                                                 "Dette er ikke en gyldig dato. Gyldig format er DD.MM.ÅÅÅÅ") ||
-                                             (forTidlig && "Frist kan tidligst være idag")
-                                         } />
+                </Select>
+                <Select label="Modul" value={valgtModul} onChange={endreValgtModul}>
+                    <option value="">{lasterIATjenesteModuler && "Laster moduler..."}</option>
+                    {moduler?.filter((modul) => modul.iaTjeneste.toString() === valgtIATjeneste)
+                        .filter((modul) => erModulIkkeValgt(modul))
+                        .sort(modulAlfabetiskPåNavn)
+                        .map((modul) =>
+                            <option value={modul.id} key={modul.id}>{modul.navn}</option>
+                        )}
+                </Select>
+                <UNSAFE_DatePicker {...datepickerProps}>
+                    <UNSAFE_DatePicker.Input {...inputProps}
+                                             label="Tentativ frist"
+                                             error={
+                                                 (ugyldig &&
+                                                     "Dette er ikke en gyldig dato. Gyldig format er DD.MM.ÅÅÅÅ") ||
+                                                 (forTidlig && "Frist kan tidligst være idag")
+                                             } />
 
-            </UNSAFE_DatePicker>
-            <LeggTilKnapp onClick={leggTilLeveranse}>Legg til</LeggTilKnapp>
-        </Form>
+                </UNSAFE_DatePicker>
+                <LeggTilKnapp onClick={leggTilLeveranse}>Legg til</LeggTilKnapp>
+            </Form>
+        </div>
+
     )
 }
 
