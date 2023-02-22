@@ -6,6 +6,29 @@ describe("oversettelse fra søkeverdier til URL-parametre", () => {
     test("tomme søkeverdier resulterer i søkeparametre uten noen verdier", () => {
         const søkeverdier: FiltervisningState = {
             antallArbeidsforhold: {
+                fra: 0,
+                til: NaN,
+            },
+            bransjeprogram: [],
+            kommuner: [],
+            næringsgrupper: [],
+            side: 1,
+            sykefraværsprosent: {
+                fra: 0,
+                til: 0,
+            },
+        };
+        const searchParams =
+            søkeverdierTilUrlSearchParams(søkeverdier).toString();
+
+        expect(searchParams).toBe(
+            ""
+        );
+    });
+
+    test("defaultverdier resulterer i søkeparametre uten noen verdier", () => {
+        const søkeverdier: FiltervisningState = {
+            antallArbeidsforhold: {
                 fra: 5,
                 til: NaN,
             },
@@ -22,7 +45,7 @@ describe("oversettelse fra søkeverdier til URL-parametre", () => {
             søkeverdierTilUrlSearchParams(søkeverdier).toString();
 
         expect(searchParams).toBe(
-            "sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1"
+            ""
         );
     });
 
@@ -55,7 +78,7 @@ describe("oversettelse fra søkeverdier til URL-parametre", () => {
         const searchParams =
             søkeverdierTilUrlSearchParams(søkeverdier).toString();
         expect(searchParams).toBe(
-            `kommuner=0000%2C0001&fylker=03&sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1`
+            `kommuner=0000%2C0001&fylker=03`
         );
     });
 });
