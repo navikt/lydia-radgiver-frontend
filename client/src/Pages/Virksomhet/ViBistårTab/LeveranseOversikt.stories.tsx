@@ -4,7 +4,7 @@ import { SimulerMobilWrapper, SimulerTabletWrapper } from "../../../../.storyboo
 import { LeveranseOversikt } from "./LeveranseOversikt";
 
 export default {
-    title: "Virksomhet/Vi bistår/Leveranseoversikt",
+    title: "Virksomhet/Bistand/Leveranseoversikt",
     component: LeveranseOversikt,
 } as ComponentMeta<typeof LeveranseOversikt>
 

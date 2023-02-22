@@ -1,10 +1,10 @@
 import { ComponentMeta } from "@storybook/react";
-import { iaSakViBistår } from "../mocks/iaSakMock";
 import { NyIALeveranseSkjema } from "./NyIALeveranseSkjema";
+import { iaSakViBistår } from "../mocks/iaSakMock";
 import { SimulerMobilWrapper, SimulerTabletWrapper } from "../../../../.storybook/SkjermstørrelseSimuleringer";
 
 export default {
-    title: "Virksomhet/Vi bistår/Ny IA-leveranse-skjema",
+    title: "Virksomhet/Bistand/Ny IA-leveranse-skjema",
     component: NyIALeveranseSkjema,
 } as ComponentMeta<typeof NyIALeveranseSkjema>
 

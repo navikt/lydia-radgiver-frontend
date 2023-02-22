@@ -23,7 +23,7 @@ interface Props {
     iaSak: IASak;
 }
 
-export const ViBistårTab = ({ iaSak }: Props) => {
+export const BistandTab = ({ iaSak }: Props) => {
 
     return (
         <Container>

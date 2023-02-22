@@ -4,7 +4,7 @@ import { Samarbeidshistorikk } from "./Samarbeidshistorikk/Samarbeidshistorikk";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
 import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../styling/contentSpacing";
 import { NavFarger } from "../../styling/farger";
-import { ViBistårTab } from "./ViBistårTab/ViBistårTab";
+import { BistandTab } from "./ViBistårTab/BistandTab";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
@@ -30,7 +30,7 @@ interface Props {
 
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     // TODO: Fjern denne for prodsetting
-    const visViBistårTab = erIDev;
+    const visBistandTab = erIDev;
 
     const {
         data: iaSak
@@ -43,13 +43,13 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
             <Tabs defaultValue="samarbeidshistorikk">
                 <Tabs.List style={{width: "100%"}}>
                     <Tabs.Tab value="samarbeidshistorikk" label="Samarbeidshistorikk" />
-                    {visViBistårTab && iaSak && <Tabs.Tab value="vi-bistår" label="Vi bistår" />}
+                    {visBistandTab && iaSak && <Tabs.Tab value="bistand" label="Bistand" />}
                 </Tabs.List>
                 <StyledPanel value="samarbeidshistorikk">
                     <Samarbeidshistorikk orgnr={virksomhet.orgnr}/>
                 </StyledPanel>
-                <StyledPanel value="vi-bistår">
-                    {visViBistårTab && iaSak && <ViBistårTab iaSak={iaSak}/>}
+                <StyledPanel value="bistand">
+                    {visBistandTab && iaSak && <BistandTab iaSak={iaSak}/>}
                 </StyledPanel>
             </Tabs>
         </Container>
