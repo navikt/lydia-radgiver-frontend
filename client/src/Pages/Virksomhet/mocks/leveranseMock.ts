@@ -1,14 +1,14 @@
 import { ulid } from "ulid";
 import {
-    IASakLeveranserPerTjeneste,
-    IASakLeveranseStatusEnum,
+    LeveranserPerIATjeneste,
+    LeveranseStatusEnum,
     IATjeneste,
     IATjenesteModul
-} from "../../../domenetyper/iaLeveranse";
+} from "../../../domenetyper/leveranse";
 
 const saksnummer = ulid()
 
-export const IATjenester: IATjeneste[] = [
+export const iaTjenester: IATjeneste[] = [
     {
         id: 1,
         navn: "Redusere sykefravær",
@@ -21,7 +21,7 @@ export const IATjenester: IATjeneste[] = [
     }
 ]
 
-export const IATjenesteModuler: IATjenesteModul[] = [
+export const iaTjenesteModuler: IATjenesteModul[] = [
     // 1 - "Redusere sykefravær"
     {
         id: 1,
@@ -74,96 +74,96 @@ export const IATjenesteModuler: IATjenesteModul[] = [
     },
 ]
 
-export const iaSakLeveranser: IASakLeveranserPerTjeneste[] = [
+export const leveranserPerIATjeneste: LeveranserPerIATjeneste[] = [
     {
-        iaTjeneste: IATjenester[0],
+        iaTjeneste: iaTjenester[0],
         leveranser: [
             {
                 id: 1,
                 saksnummer: saksnummer,
-                modul: IATjenesteModuler[0],
+                modul: iaTjenesteModuler[0],
                 frist: new Date(),
-                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+                status: LeveranseStatusEnum.enum.UNDER_ARBEID,
                 fullført: null,
             }, {
                 id: 2,
                 saksnummer: saksnummer,
-                modul: IATjenesteModuler[1],
+                modul: iaTjenesteModuler[1],
                 frist: new Date(),
-                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+                status: LeveranseStatusEnum.enum.UNDER_ARBEID,
                 fullført: null,
             }, {
                 id: 3,
                 saksnummer: saksnummer,
-                modul: IATjenesteModuler[2],
+                modul: iaTjenesteModuler[2],
                 frist: new Date(),
-                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+                status: LeveranseStatusEnum.enum.UNDER_ARBEID,
                 fullført: null,
             }, {
                 id: 4,
                 saksnummer: saksnummer,
-                modul: IATjenesteModuler[3],
+                modul: iaTjenesteModuler[3],
                 frist: new Date(),
-                status: IASakLeveranseStatusEnum.enum.LEVERT,
+                status: LeveranseStatusEnum.enum.LEVERT,
                 fullført: new Date(),
             },],
     },
     {
-        iaTjeneste: IATjenester[1],
+        iaTjeneste: iaTjenester[1],
         leveranser: [
             {
                 id: 5,
                 saksnummer: saksnummer,
-                modul: IATjenesteModuler[4],
+                modul: iaTjenesteModuler[4],
                 frist: new Date(),
-                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+                status: LeveranseStatusEnum.enum.UNDER_ARBEID,
                 fullført: null,
             }, {
                 id: 6,
                 saksnummer: saksnummer,
-                modul: IATjenesteModuler[5],
+                modul: iaTjenesteModuler[5],
                 frist: new Date(),
-                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+                status: LeveranseStatusEnum.enum.UNDER_ARBEID,
                 fullført: null,
             }, {
                 id: 7,
                 saksnummer: saksnummer,
-                modul: IATjenesteModuler[6],
+                modul: iaTjenesteModuler[6],
                 frist: new Date(),
-                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+                status: LeveranseStatusEnum.enum.UNDER_ARBEID,
                 fullført: null,
             }, {
                 id: 8,
                 saksnummer: saksnummer,
-                modul: IATjenesteModuler[7],
+                modul: iaTjenesteModuler[7],
                 frist: new Date(),
-                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+                status: LeveranseStatusEnum.enum.UNDER_ARBEID,
                 fullført: null,
             }, {
                 id: 9,
                 saksnummer: saksnummer,
-                modul: IATjenesteModuler[8],
+                modul: iaTjenesteModuler[8],
                 frist: new Date(),
-                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+                status: LeveranseStatusEnum.enum.UNDER_ARBEID,
                 fullført: null,
             }, {
                 id: 10,
                 saksnummer: saksnummer,
-                modul: IATjenesteModuler[9],
+                modul: iaTjenesteModuler[9],
                 frist: new Date(),
-                status: IASakLeveranseStatusEnum.enum.LEVERT,
+                status: LeveranseStatusEnum.enum.LEVERT,
                 fullført: new Date(),
             },],
     },
     {
-        iaTjeneste: IATjenester[2],
+        iaTjeneste: iaTjenester[2],
         leveranser: [
             {
                 id: 11,
                 saksnummer: saksnummer,
-                modul: IATjenesteModuler[10],
+                modul: iaTjenesteModuler[10],
                 frist: new Date(),
-                status: IASakLeveranseStatusEnum.enum.UNDER_ARBEID,
+                status: LeveranseStatusEnum.enum.UNDER_ARBEID,
                 fullført: null,
             }],
     }

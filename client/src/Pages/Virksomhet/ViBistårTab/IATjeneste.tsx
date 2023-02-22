@@ -1,10 +1,10 @@
 import { Heading, Table } from "@navikt/ds-react";
-import { IASakLeveranserPerTjeneste } from "../../../domenetyper/iaLeveranse";
-import { IASakLeveranse } from "./IASakLeveranse";
+import { LeveranserPerIATjeneste } from "../../../domenetyper/leveranse";
+import { Leveranse } from "./Leveranse";
 import { IASak } from "../../../domenetyper/domenetyper";
 
 interface Props {
-    iaTjenesteMedLeveranser: IASakLeveranserPerTjeneste;
+    iaTjenesteMedLeveranser: LeveranserPerIATjeneste;
     iaSak: IASak;
 }
 
@@ -24,7 +24,7 @@ export const IATjeneste = ({ iaTjenesteMedLeveranser, iaSak }: Props) => {
                 {
                     iaTjenesteMedLeveranser.leveranser
                         .map((leveranse) =>
-                            <IASakLeveranse leveranse={leveranse} iaSak={iaSak} key={leveranse.id} />)
+                            <Leveranse leveranse={leveranse} iaSak={iaSak} key={leveranse.id} />)
                 }
             </Table.Body>
         </Table>

@@ -2,13 +2,13 @@ import { useState } from "react";
 import { Button, Heading, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt/ds-react";
 import {
     nyLeveransePåSak,
-    useHentIASakLeveranser,
+    useHentLeveranser,
     useHentIATjenesteModuler,
     useHentIATjenester
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import { IASakLeveranse, IATjeneste, IATjenesteModul } from "../../../domenetyper/iaLeveranse";
+import { Leveranse, IATjeneste, IATjenesteModul } from "../../../domenetyper/leveranse";
 import { sorterAlfabetisk } from "../../../util/sortering";
 
 const Form = styled.form`
@@ -34,13 +34,13 @@ interface Props {
     iaSak: IASak;
 }
 
-export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
+export const LeggTilLeveranse = ({ iaSak }: Props) => {
     const [forTidlig, setForTidlig] = useState<boolean>();
     const [ugyldig, setUgyldig] = useState<boolean>();
 
     const {
-        data: iaSakLeveranserPerTjeneste
-    } = useHentIASakLeveranser(iaSak.orgnr, iaSak.saksnummer);
+        data: leveranserPerIATjeneste
+    } = useHentLeveranser(iaSak.orgnr, iaSak.saksnummer);
 
     const {
         data: iaTjenester,
@@ -52,7 +52,7 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
     } = useHentIATjenesteModuler();
     const [valgtIATjeneste, setValgtIATjeneste] = useState("");
     const [valgtModul, setValgtModul] = useState("");
-    const { mutate: hentLeveranserPåNytt } = useHentIASakLeveranser(iaSak.orgnr, iaSak.saksnummer)
+    const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, iaSak.saksnummer)
 
 
     const { datepickerProps, inputProps, selectedDay } = UNSAFE_useDatepicker({
@@ -86,13 +86,13 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
     }
 
     const erModulIkkeValgt = (modul: IATjenesteModul): boolean => {
-        if (!iaSakLeveranserPerTjeneste || iaSakLeveranserPerTjeneste.length === 0) {
+        if (!leveranserPerIATjeneste || leveranserPerIATjeneste.length === 0) {
             return true;
         }
 
-        return iaSakLeveranserPerTjeneste
+        return leveranserPerIATjeneste
             .flatMap(tjenesteMedValgteLeveranser => tjenesteMedValgteLeveranser.leveranser)
-            .every((leveranse: IASakLeveranse) => leveranse.modul.id !== modul.id)
+            .every((leveranse: Leveranse) => leveranse.modul.id !== modul.id)
     }
 
     return (

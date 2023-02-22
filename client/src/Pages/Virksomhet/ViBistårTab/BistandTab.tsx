@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
-import { NyIALeveranseSkjema } from "./NyIALeveranseSkjema";
+import { LeggTilLeveranse } from "./LeggTilLeveranse";
 import { NavFarger } from "../../../styling/farger";
 import { LeveranseOversikt } from "./LeveranseOversikt";
 import { tabInnholdStyling } from "../../../styling/containere";
@@ -36,7 +36,7 @@ export const BistandTab = ({ iaSak }: Props) => {
             </div>
             <LeveranseOversikt iaSak={iaSak} />
             {iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR &&
-                <NyIALeveranseSkjema iaSak={iaSak} />
+                <LeggTilLeveranse iaSak={iaSak} />
             }
         </Container>
     )

@@ -5,7 +5,7 @@ import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innlog
 import {
     gjeldendePeriodePath,
     iaSakHistorikkPath,
-    iaSakLeveransePath,
+    leveransePath,
     siste4kvartalerPath,
     sykefraværsstatistikkPath
 } from "../src/api/lydia-api";
@@ -15,7 +15,7 @@ import {
     virksomhetsstatistikkSiste4KvartalerMock
 } from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
 import { samarbeidshistorikkMock } from "../src/Pages/Virksomhet/mocks/iaSakHistorikkMock";
-import { iaSakLeveranser } from "../src/Pages/Virksomhet/mocks/iaSakLeveranseMock";
+import { leveranserPerIATjeneste } from "../src/Pages/Virksomhet/mocks/leveranseMock";
 
 export const parameters = {
     actions: { argTypesRegex: "^on[A-Z].*" },
@@ -89,10 +89,10 @@ export const parameters = {
                     );
                 }),
             ],
-            iaSakLeveranser: [
-                rest.get(`${iaSakLeveransePath}/:orgnummer/:saksnummer`, (req, res, ctx) => {
+            leveranser: [
+                rest.get(`${leveransePath}/:orgnummer/:saksnummer`, (req, res, ctx) => {
                     return res(
-                        ctx.json(iaSakLeveranser)
+                        ctx.json(leveranserPerIATjeneste)
                     );
                 }),
             ],

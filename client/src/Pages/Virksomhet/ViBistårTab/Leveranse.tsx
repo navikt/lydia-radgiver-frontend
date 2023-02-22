@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { Button, Table } from "@navikt/ds-react";
 import { DeleteFilled as Delete } from "@navikt/ds-icons";
-import { IASakLeveranse as IASakLeveranseType, IASakLeveranseStatusEnum } from "../../../domenetyper/iaLeveranse";
+import { Leveranse as LeveranseType, LeveranseStatusEnum } from "../../../domenetyper/leveranse";
 import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";
-import { fullførIASakLeveranse, slettIASakLeveranse, useHentIASakLeveranser } from "../../../api/lydia-api";
+import { fullførLeveranse, slettLeveranse, useHentLeveranser } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { useState } from "react";
@@ -33,23 +33,23 @@ const FjernLeveranseKnapp = styled(Button)`
 `;
 
 interface Props {
-    leveranse: IASakLeveranseType;
+    leveranse: LeveranseType;
     iaSak: IASak;
 }
 
-export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
+export const Leveranse = ({ leveranse, iaSak }: Props) => {
     const [open, setOpen] = useState(false)
-    const leveranseErFullført = leveranse.status === IASakLeveranseStatusEnum.enum.LEVERT;
+    const leveranseErFullført = leveranse.status === LeveranseStatusEnum.enum.LEVERT;
     const fullførKnappTekst = leveranseErFullført ? "Fullført" : "Fullfør";
-    const { mutate: hentLeveranserPåNytt } = useHentIASakLeveranser(iaSak.orgnr, leveranse.saksnummer);
+    const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, leveranse.saksnummer);
 
-    const fullførLeveranse = () => {
-        fullførIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
+    const vedFullførLeveranse = () => {
+        fullførLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
             .then(() => hentLeveranserPåNytt());
     }
 
-    const slettLeveranse = () => {
-        slettIASakLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
+    const vedSlettLeveranse = () => {
+        slettLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
             .then(() => {
                 setOpen(false)
                 hentLeveranserPåNytt()
@@ -61,7 +61,7 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
             <DataCellNoWrap>{`Tentativ frist: ${lokalDato(leveranse.frist)}`}</DataCellNoWrap>
             <Table.DataCell>
-                <FullførKnapp onClick={fullførLeveranse} disabled={leveranseErFullført} size="small">
+                <FullførKnapp onClick={vedFullførLeveranse} disabled={leveranseErFullført} size="small">
                     {fullførKnappTekst}
                 </FullførKnapp>
             </Table.DataCell>
@@ -75,7 +75,7 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
                 <FjernLeveranseKnapp onClick={() => setOpen(true)}
                                      variant="tertiary"
                                      icon={<Delete title="Fjern leveranse" />} />
-                <BekreftValgModal onConfirm={slettLeveranse}
+                <BekreftValgModal onConfirm={vedSlettLeveranse}
                                   onCancel={() => {setOpen(false)}}
                                   åpen={open}
                                   title="Er du sikker på at du vil fjerne leveransen?"

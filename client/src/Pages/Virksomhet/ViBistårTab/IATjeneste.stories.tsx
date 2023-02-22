@@ -1,7 +1,7 @@
 import { ComponentMeta } from "@storybook/react";
 import { iaSakViBistår } from "../mocks/iaSakMock";
 import { IATjeneste } from "./IATjeneste";
-import { iaSakLeveranser } from "../mocks/iaSakLeveranseMock";
+import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
 import { SimulerTabletWrapper } from "../../../../.storybook/SkjermstørrelseSimuleringer";
 
 export default {
@@ -10,11 +10,11 @@ export default {
 } as ComponentMeta<typeof IATjeneste>
 
 export const Hovedstory = () => (
-    <IATjeneste iaSak={iaSakViBistår} iaTjenesteMedLeveranser={iaSakLeveranser[0]} />
+    <IATjeneste iaSak={iaSakViBistår} iaTjenesteMedLeveranser={leveranserPerIATjeneste[0]} />
 )
 
 export const HovedstoryTablet = () => (
     <SimulerTabletWrapper>
-        <IATjeneste iaSak={iaSakViBistår} iaTjenesteMedLeveranser={iaSakLeveranser[0]} />
+        <IATjeneste iaSak={iaSakViBistår} iaTjenesteMedLeveranser={leveranserPerIATjeneste[0]} />
     </SimulerTabletWrapper>
 )

@@ -14,14 +14,14 @@ import {
 } from "../domenetyper/domenetyper";
 import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier";
 import {
-    IASakLeveranse,
-    IASakLeveranseOppdateringDTO,
-    IASakLeveranserPerTjeneste,
-    iaSakLeveranserPerTjenesteSchema,
-    iaSakLeveranseSchema,
-    IASakLeveranseStatusEnum, IATjeneste, IATjenesteModul, iaTjenesteModulSchema, iaTjenesteSchema,
-    NyIASakLeveranseDTO
-} from "../domenetyper/iaLeveranse";
+    Leveranse,
+    LeveranseOppdateringDTO,
+    LeveranserPerIATjeneste,
+    leveranserPerIATjenesteSchema,
+    leveranseSchema,
+    LeveranseStatusEnum, IATjeneste, IATjenesteModul, iaTjenesteModulSchema, iaTjenesteSchema,
+    NyLeveranseDTO
+} from "../domenetyper/leveranse";
 import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartal";
 import { LederstatistikkListeRespons, lederstatistikkListeResponsSchema } from "../domenetyper/lederstatistikk";
 import { Sakshistorikk, sakshistorikkSchema } from "../domenetyper/sakshistorikk";
@@ -51,7 +51,7 @@ export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
 export const gjeldendePeriodePath = "gjeldendeperiodesiste4kvartaler"
-export const iaSakLeveransePath = `${iaSakPath}/leveranse`
+export const leveransePath = `${iaSakPath}/leveranse`
 export const lederstatistikkPath = `${basePath}/lederstatistikk`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
@@ -459,38 +459,38 @@ export const nyLeveransePåSak = (
     saksnummer: string,
     modulId: number,
     frist: Date
-): Promise<IASakLeveranse> => {
-    const nyLeveranseDTO: NyIASakLeveranseDTO = {
+): Promise<Leveranse> => {
+    const nyLeveranseDTO: NyLeveranseDTO = {
         saksnummer: saksnummer,
         modulId: modulId,
         frist: isoDato(frist),
     }
-    return post(`${iaSakLeveransePath}/${orgnummer}/${saksnummer}`, iaSakLeveranseSchema, nyLeveranseDTO)
+    return post(`${leveransePath}/${orgnummer}/${saksnummer}`, leveranseSchema, nyLeveranseDTO)
 }
 
-export const fullførIASakLeveranse = (
+export const fullførLeveranse = (
     orgnummer: string,
     saksnummer: string,
-    iaSakLeveranseId: number,
-): Promise<IASakLeveranse> => {
-    const oppdaterIASakLeveranseDTO: IASakLeveranseOppdateringDTO = {
-        status: IASakLeveranseStatusEnum.enum.LEVERT,
+    leveranseId: number,
+): Promise<Leveranse> => {
+    const oppdaterLeveranseDTO: LeveranseOppdateringDTO = {
+        status: LeveranseStatusEnum.enum.LEVERT,
     };
-    return put(`${iaSakLeveransePath}/${orgnummer}/${saksnummer}/${iaSakLeveranseId}`, iaSakLeveranseSchema, oppdaterIASakLeveranseDTO);
+    return put(`${leveransePath}/${orgnummer}/${saksnummer}/${leveranseId}`, leveranseSchema, oppdaterLeveranseDTO);
 };
 
-export const slettIASakLeveranse = (
+export const slettLeveranse = (
     orgnummer: string,
     saksnummer: string,
-    iaSakLeveranseId: number,
+    leveranseId: number,
 ): Promise<number> => {
-    return httpDelete(`${iaSakLeveransePath}/${orgnummer}/${saksnummer}/${iaSakLeveranseId}`, z.number());
+    return httpDelete(`${leveransePath}/${orgnummer}/${saksnummer}/${leveranseId}`, z.number());
 };
 
-export const useHentIASakLeveranser = (orgnummer: string, saksnummer: string) => {
-    return useSwrTemplate<IASakLeveranserPerTjeneste[]>(
-        orgnummer ? `${iaSakLeveransePath}/${orgnummer}/${saksnummer}` : null,
-        iaSakLeveranserPerTjenesteSchema.array(),
+export const useHentLeveranser = (orgnummer: string, saksnummer: string) => {
+    return useSwrTemplate<LeveranserPerIATjeneste[]>(
+        orgnummer ? `${leveransePath}/${orgnummer}/${saksnummer}` : null,
+        leveranserPerIATjenesteSchema.array(),
         {
             revalidateOnFocus: true,
         }
@@ -499,13 +499,13 @@ export const useHentIASakLeveranser = (orgnummer: string, saksnummer: string) =>
 
 export const useHentIATjenester = () => {
     return useSwrTemplate<IATjeneste[]>(
-        `${iaSakLeveransePath}/tjenester`,
+        `${leveransePath}/tjenester`,
         iaTjenesteSchema.array()
     )
 }
 export const useHentIATjenesteModuler = () => {
     return useSwrTemplate<IATjenesteModul[]>(
-        `${iaSakLeveransePath}/moduler`,
+        `${leveransePath}/moduler`,
         iaTjenesteModulSchema.array()
     )
 }
