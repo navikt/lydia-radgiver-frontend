@@ -2,7 +2,7 @@ import { Heading, Table } from "@navikt/ds-react";
 import { LeveranserPerIATjeneste } from "../../../domenetyper/leveranse";
 import { Leveranse } from "./Leveranse";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { IASakLeveranse as IASakLeveranseType } from "../../../domenetyper/iaLeveranse";
+import { Leveranse as LeveranseType } from "../../../domenetyper/leveranse";
 
 interface Props {
     iaTjenesteMedLeveranser: LeveranserPerIATjeneste;
@@ -33,6 +33,6 @@ export const IATjeneste = ({ iaTjenesteMedLeveranser, iaSak }: Props) => {
     )
 }
 
-const leveranseStigendeEtterFrist = (a: IASakLeveranseType, b: IASakLeveranseType) => {
+const leveranseStigendeEtterFrist = (a: LeveranseType, b: LeveranseType) => {
     return a.frist.getTime() - b.frist.getTime();
 }
