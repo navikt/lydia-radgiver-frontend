@@ -8,13 +8,13 @@ export const iaTjenesteSchema = z.object({
 
 export type IATjeneste = z.infer<typeof iaTjenesteSchema>;
 
-export const iaTjenesteModulSchema = z.object({
+export const modulSchema = z.object({
     id: z.number(),
     iaTjeneste: z.number(),
     navn: z.string(),
 })
 
-export type IATjenesteModul = z.infer<typeof iaTjenesteModulSchema>;
+export type Modul = z.infer<typeof modulSchema>;
 
 const LEVERANSE_STATUSER = [
     "UNDER_ARBEID",
@@ -29,7 +29,7 @@ type LeveranseStatus = z.infer<typeof LeveranseStatusEnum>
 export const leveranseSchema = z.object({
     id: z.number(),
     saksnummer: z.string(),
-    modul: iaTjenesteModulSchema,
+    modul: modulSchema,
     frist: datoSchema,
     status: LeveranseStatusEnum,
     fullført: datoSchema.nullable(),

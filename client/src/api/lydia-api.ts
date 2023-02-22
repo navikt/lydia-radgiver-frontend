@@ -19,7 +19,7 @@ import {
     LeveranserPerIATjeneste,
     leveranserPerIATjenesteSchema,
     leveranseSchema,
-    LeveranseStatusEnum, IATjeneste, IATjenesteModul, iaTjenesteModulSchema, iaTjenesteSchema,
+    LeveranseStatusEnum, IATjeneste, Modul, modulSchema, iaTjenesteSchema,
     NyLeveranseDTO
 } from "../domenetyper/leveranse";
 import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartal";
@@ -503,9 +503,9 @@ export const useHentIATjenester = () => {
         iaTjenesteSchema.array()
     )
 }
-export const useHentIATjenesteModuler = () => {
-    return useSwrTemplate<IATjenesteModul[]>(
+export const useHentModuler = () => {
+    return useSwrTemplate<Modul[]>(
         `${leveransePath}/moduler`,
-        iaTjenesteModulSchema.array()
+        modulSchema.array()
     )
 }

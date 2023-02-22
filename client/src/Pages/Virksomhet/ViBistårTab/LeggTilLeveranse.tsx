@@ -3,12 +3,12 @@ import { Button, Heading, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from
 import {
     nyLeveransePåSak,
     useHentLeveranser,
-    useHentIATjenesteModuler,
+    useHentModuler,
     useHentIATjenester
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import { Leveranse, IATjeneste, IATjenesteModul } from "../../../domenetyper/leveranse";
+import { Leveranse, IATjeneste, Modul } from "../../../domenetyper/leveranse";
 import { sorterAlfabetisk } from "../../../util/sortering";
 
 const Form = styled.form`
@@ -48,8 +48,8 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
     } = useHentIATjenester();
     const {
         data: moduler,
-        loading: lasterIATjenesteModuler
-    } = useHentIATjenesteModuler();
+        loading: lasterModuler
+    } = useHentModuler();
     const [valgtIATjeneste, setValgtIATjeneste] = useState("");
     const [valgtModul, setValgtModul] = useState("");
     const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, iaSak.saksnummer)
@@ -85,7 +85,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
             .then(() => hentLeveranserPåNytt())
     }
 
-    const erModulIkkeValgt = (modul: IATjenesteModul): boolean => {
+    const erModulIkkeValgt = (modul: Modul): boolean => {
         if (!leveranserPerIATjeneste || leveranserPerIATjeneste.length === 0) {
             return true;
         }
@@ -106,7 +106,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
                     )}
                 </Select>
                 <Select label="Modul" value={valgtModul} onChange={endreValgtModul}>
-                    <option value="">{lasterIATjenesteModuler && "Laster moduler..."}</option>
+                    <option value="">{lasterModuler && "Laster moduler..."}</option>
                     {moduler?.filter((modul) => modul.iaTjeneste.toString() === valgtIATjeneste)
                         .filter((modul) => erModulIkkeValgt(modul))
                         .sort(modulAlfabetiskPåNavn)
@@ -135,6 +135,6 @@ const iatjenesterStigendeEtterId = (a: IATjeneste, b: IATjeneste) => {
     return a.id - b.id;
 }
 
-const modulAlfabetiskPåNavn = (a: IATjenesteModul, b: IATjenesteModul) => {
+const modulAlfabetiskPåNavn = (a: Modul, b: Modul) => {
     return sorterAlfabetisk(a.navn, b.navn)
 }
