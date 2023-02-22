@@ -2,6 +2,7 @@ import { Heading, Table } from "@navikt/ds-react";
 import { LeveranserPerIATjeneste } from "../../../domenetyper/leveranse";
 import { Leveranse } from "./Leveranse";
 import { IASak } from "../../../domenetyper/domenetyper";
+import { IASakLeveranse as IASakLeveranseType } from "../../../domenetyper/iaLeveranse";
 
 interface Props {
     iaTjenesteMedLeveranser: LeveranserPerIATjeneste;
@@ -23,10 +24,15 @@ export const IATjeneste = ({ iaTjenesteMedLeveranser, iaSak }: Props) => {
             <Table.Body>
                 {
                     iaTjenesteMedLeveranser.leveranser
+                        .sort(leveranseStigendeEtterFrist)
                         .map((leveranse) =>
                             <Leveranse leveranse={leveranse} iaSak={iaSak} key={leveranse.id} />)
                 }
             </Table.Body>
         </Table>
     )
+}
+
+const leveranseStigendeEtterFrist = (a: IASakLeveranseType, b: IASakLeveranseType) => {
+    return a.frist.getTime() - b.frist.getTime();
 }
