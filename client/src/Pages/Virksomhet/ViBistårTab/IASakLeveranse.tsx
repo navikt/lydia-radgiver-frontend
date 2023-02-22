@@ -59,7 +59,7 @@ export const IASakLeveranse = ({ leveranse, iaSak }: Props) => {
     return (
         <Table.Row shadeOnHover={false}>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
-            <DataCellNoWrap>{`Frist: ${lokalDato(leveranse.frist)}`}</DataCellNoWrap>
+            <DataCellNoWrap>{`Tentativ frist: ${lokalDato(leveranse.frist)}`}</DataCellNoWrap>
             <Table.DataCell>
                 <FullførKnapp onClick={fullførLeveranse} disabled={leveranseErFullført} size="small">
                     {fullførKnappTekst}
