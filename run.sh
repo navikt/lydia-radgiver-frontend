@@ -46,7 +46,7 @@ docker-compose stop
 
 # kjør opp tjenester (dette migrerer databasen til nyeste versjon)
 docker-compose up -d
-sleep 10
+sleep 5
 
 # kjør opp frontend
 cd client
