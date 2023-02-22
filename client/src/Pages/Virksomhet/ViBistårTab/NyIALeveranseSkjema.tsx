@@ -8,7 +8,8 @@ import {
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import { IASakLeveranse, IATjenesteModul } from "../../../domenetyper/iaLeveranse";
+import { IASakLeveranse, IATjeneste, IATjenesteModul } from "../../../domenetyper/iaLeveranse";
+import { sorterAlfabetisk } from "../../../util/sortering";
 
 const Form = styled.form`
   display: flex;
@@ -16,10 +17,10 @@ const Form = styled.form`
   column-gap: 2rem;
   row-gap: 1rem;
   align-items: start;
-  
+
   padding-top: 0.5rem;
   padding-bottom: 0.5rem;
-  
+
   div {
     min-width: 8rem;
   }
@@ -84,21 +85,21 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
             .then(() => hentLeveranserPåNytt())
     }
 
-    const erModulIkkeValgt = (modul : IATjenesteModul) : boolean => {
+    const erModulIkkeValgt = (modul: IATjenesteModul): boolean => {
         if (!iaSakLeveranserPerTjeneste || iaSakLeveranserPerTjeneste.length === 0) {
             return true;
         }
 
         return iaSakLeveranserPerTjeneste
             .flatMap(tjenesteMedValgteLeveranser => tjenesteMedValgteLeveranser.leveranser)
-            .every((leveranse : IASakLeveranse) => leveranse.modul.id !== modul.id)
+            .every((leveranse: IASakLeveranse) => leveranse.modul.id !== modul.id)
     }
 
     return (
         <Form onSubmit={(e) => e.preventDefault()}>
             <Select label="Velg IA-tjeneste" value={valgtIATjeneste} onChange={endreValgtIATjeneste}>
                 <option value="">{lasterIATjenester && "Laster IA-tjenester..."}</option>
-                {iaTjenester?.map((tjeneste) =>
+                {iaTjenester?.sort(iatjenesterStigendeEtterId).map((tjeneste) =>
                     <option value={tjeneste.id} key={tjeneste.id}>{tjeneste.navn}</option>
                 )}
             </Select>
@@ -106,21 +107,30 @@ export const NyIALeveranseSkjema = ({ iaSak }: Props) => {
                 <option value="">{lasterIATjenesteModuler && "Laster moduler..."}</option>
                 {moduler?.filter((modul) => modul.iaTjeneste.toString() === valgtIATjeneste)
                     .filter((modul) => erModulIkkeValgt(modul))
+                    .sort(modulAlfabetiskPåNavn)
                     .map((modul) =>
                         <option value={modul.id} key={modul.id}>{modul.navn}</option>
                     )}
             </Select>
             <UNSAFE_DatePicker {...datepickerProps}>
                 <UNSAFE_DatePicker.Input {...inputProps}
-                     label="Tentativ frist"
-                     error={
-                         (ugyldig &&
-                             "Dette er ikke en gyldig dato. Gyldig format er DD.MM.ÅÅÅÅ") ||
-                         (forTidlig && "Frist kan tidligst være idag")
-                     } />
+                                         label="Tentativ frist"
+                                         error={
+                                             (ugyldig &&
+                                                 "Dette er ikke en gyldig dato. Gyldig format er DD.MM.ÅÅÅÅ") ||
+                                             (forTidlig && "Frist kan tidligst være idag")
+                                         } />
 
             </UNSAFE_DatePicker>
             <LeggTilKnapp onClick={leggTilLeveranse}>Legg til</LeggTilKnapp>
         </Form>
     )
+}
+
+const iatjenesterStigendeEtterId = (a: IATjeneste, b: IATjeneste) => {
+    return a.id - b.id;
+}
+
+const modulAlfabetiskPåNavn = (a: IATjenesteModul, b: IATjenesteModul) => {
+    return sorterAlfabetisk(a.navn, b.navn)
 }
