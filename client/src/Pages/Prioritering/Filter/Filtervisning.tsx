@@ -170,7 +170,7 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
                         filtrerbareEiere={
                             state.filterverdier?.filtrerbareEiere ?? []
                         }
-                        eier={state.eiere}
+                        eiere={state.eiere}
                         onEierBytteCallback={endreEiere}
                     />
                 }
