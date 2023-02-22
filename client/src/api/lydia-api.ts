@@ -14,12 +14,16 @@ import {
 } from "../domenetyper/domenetyper";
 import { Filterverdier, filterverdierSchema } from "../domenetyper/filterverdier";
 import {
+    IATjeneste,
+    iaTjenesteSchema,
     Leveranse,
     LeveranseOppdateringDTO,
     LeveranserPerIATjeneste,
     leveranserPerIATjenesteSchema,
     leveranseSchema,
-    LeveranseStatusEnum, IATjeneste, Modul, modulSchema, iaTjenesteSchema,
+    LeveranseStatusEnum,
+    Modul,
+    modulSchema,
     NyLeveranseDTO
 } from "../domenetyper/leveranse";
 import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartal";
@@ -63,7 +67,7 @@ const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
     fetch(...args)
         .then((res) => res.ok ? res : Promise.reject("Noe har gått galt. Prøv å laste inn siden på nytt."))
         .then((res) => res.status === 204 ? undefined : res.json())
-        .catch((feilmelding) => dispatchFeilmelding({feilmelding}));
+        .catch((feilmelding) => dispatchFeilmelding({ feilmelding }));
 
 const fetchNative =
     (method: "GET" | "POST" | "DELETE" | "PUT") =>
@@ -354,6 +358,21 @@ export const nyHendelsePåSak = (
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
 };
 
+const appendIfNotDefaultValue = <T>(
+    key: string,
+    value: T | undefined,
+    defaultValue: T | undefined,
+    mapper: (value: T) => string,
+    params: URLSearchParams,
+) => {
+    if (!value) return;
+    if (value === defaultValue) return;
+
+    const valueToAdd = mapper(value);
+    if (valueToAdd.length === 0) return;
+    return params.append(key, valueToAdd);
+};
+
 const appendIfPresent = <T>(
     key: string,
     value: T | undefined,
@@ -399,22 +418,27 @@ export const søkeverdierTilUrlSearchParams = ({
         (grupper) => grupper.map(({ kode }) => kode).join(","),
         params
     );
-    appendIfPresent(
+
+    appendIfNotDefaultValue(
         "sykefraversprosentFra",
-        sykefraværsprosent,
-        ({ fra }) => isNaN(fra) ? "" : fra.toFixed(2),
+        sykefraværsprosent.fra,
+        0,
+        (fra) => isNaN(fra) ? "" : fra.toFixed(2),
         params
     );
-    appendIfPresent(
+    appendIfNotDefaultValue(
         "sykefraversprosentTil",
-        sykefraværsprosent,
-        ({ til }) => isNaN(til) ? "" : til.toFixed(2),
+        sykefraværsprosent.til,
+        100,
+        (til) => isNaN(til) ? "" : til.toFixed(2),
         params
     );
-    appendIfPresent(
+
+    appendIfNotDefaultValue(
         "ansatteFra",
-        antallArbeidsforhold,
-        ({ fra }) => (!Number.isNaN(fra) ? "" + fra : ""),
+        antallArbeidsforhold.fra,
+        5,
+        (fra) => (!Number.isNaN(fra) ? "" + fra : ""),
         params
     );
     appendIfPresent(
@@ -450,7 +474,13 @@ export const søkeverdierTilUrlSearchParams = ({
         (retning) => retning,
         params
     );
-    appendIfPresent("side", side, (side) => "" + side, params);
+
+    appendIfNotDefaultValue(
+        "side",
+        side,
+        1,
+        (side) => "" + side, params
+    );
     return params;
 };
 
