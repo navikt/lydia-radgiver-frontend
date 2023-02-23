@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import { BodyShort, Loader } from "@navikt/ds-react";
-import { contentSpacing } from "../../styling/contentSpacing";
 import { Filtervisning } from "../Prioritering/Filter/Filtervisning";
 import { useFiltervisningState } from "../Prioritering/Filter/filtervisning-reducer";
 import { useFilterverdier, useHentLederstatistikk } from "../../api/lydia-api";
 import { Lederstatistikk } from "../../domenetyper/lederstatistikk";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { StatistikkTabell } from "./StatistikkTabell";
-
-const Container = styled.div`
-  padding: ${contentSpacing.mobileY} 0;
-`;
+import { SideContainer } from "../../styling/containere";
 
 export const Lederstatistikkside = () => {
     useTittel(statiskeSidetitler.lederstatistikkside)
@@ -54,7 +49,7 @@ export const Lederstatistikkside = () => {
     }, [lederstatistikkResultatFraApi]);
 
     return (
-        <Container>
+        <SideContainer>
             <Filtervisning
                 filtervisning={filtervisning}
                 søkPåNytt={() => {
@@ -81,6 +76,6 @@ export const Lederstatistikkside = () => {
                     Noe gikk galt under uthenting av lederstatistikk
                 </BodyShort>
             )}
-        </Container>
+        </SideContainer>
     )
 }

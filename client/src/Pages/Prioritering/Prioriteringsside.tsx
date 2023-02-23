@@ -1,17 +1,12 @@
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import { BodyShort, Loader, SortState } from "@navikt/ds-react";
 import { Filtervisning } from "./Filter/Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import { useFilterverdier, useHentVirksomhetsoversiktListe, } from "../../api/lydia-api";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
-import { contentSpacing } from "../../styling/contentSpacing";
 import { useFiltervisningState } from "./Filter/filtervisning-reducer";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
-
-const Container = styled.div`
-  padding: ${contentSpacing.mobileY} 0;
-`;
+import { SideContainer } from "../../styling/containere";
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 
@@ -65,7 +60,7 @@ export const Prioriteringsside = () => {
     }
 
     return (
-        <Container>
+        <SideContainer>
             <Filtervisning
                 filtervisning={filtervisning}
                 søkPåNytt={() => {
@@ -104,6 +99,6 @@ export const Prioriteringsside = () => {
                     </BodyShort>
                 )}
             </div>
-        </Container>
+        </SideContainer>
     );
 };
