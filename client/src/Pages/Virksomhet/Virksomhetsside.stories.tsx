@@ -1,16 +1,11 @@
 import { ComponentMeta } from "@storybook/react";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { rest } from "msw";
 import { virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
 import { sykefraværsstatistikkMock } from "../Prioritering/mocks/sykefraværsstatistikkMock";
 import { iaSakKontaktes } from "./mocks/iaSakMock";
-import Virksomhetsside from "./Virksomhetsside";
-import { rest } from "msw";
-import {
-    iaSakHistorikkPath,
-    iaSakPath,
-    sykefraværsstatistikkPath,
-    virksomhetsPath
-} from "../../api/lydia-api";
-import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { Virksomhetsside } from "./Virksomhetsside";
+import { iaSakHistorikkPath, iaSakPath, sykefraværsstatistikkPath, virksomhetsPath } from "../../api/lydia-api";
 import { samarbeidshistorikkMock } from "./mocks/iaSakHistorikkMock";
 
 export default {

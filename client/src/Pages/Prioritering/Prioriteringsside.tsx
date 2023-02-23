@@ -15,7 +15,7 @@ const Container = styled.div`
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 
-const Prioriteringsside = () => {
+export const Prioriteringsside = () => {
     useTittel(statiskeSidetitler.prioriteringsside);
 
     const [sortering, setSortering] = useState<SortState>({
@@ -107,5 +107,3 @@ const Prioriteringsside = () => {
         </Container>
     );
 };
-
-export default Prioriteringsside;

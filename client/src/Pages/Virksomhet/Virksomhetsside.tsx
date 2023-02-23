@@ -5,9 +5,9 @@ import { useHentVirksomhetsinformasjon } from "../../api/lydia-api";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 
-const Virksomhetsside = () => {
-    const {oppdaterTittel} = useTittel(statiskeSidetitler.virksomhetsside)
-    const {orgnummer} = useParams();
+export const Virksomhetsside = () => {
+    const { oppdaterTittel } = useTittel(statiskeSidetitler.virksomhetsside)
+    const { orgnummer } = useParams();
 
     const {
         data: virksomhetsinformasjon,
@@ -24,14 +24,10 @@ const Virksomhetsside = () => {
     }
 
     if (virksomhetsinformasjon) {
-        return <VirksomhetsVisning
-            virksomhet={virksomhetsinformasjon}
-        />
+        return <VirksomhetsVisning virksomhet={virksomhetsinformasjon} />
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>
     }
 };
 
 const LasterVirksomhet = () => <Loader title={"Laster inn virksomhet"} variant={"interaction"} size={"xlarge"} />
-
-export default Virksomhetsside;
