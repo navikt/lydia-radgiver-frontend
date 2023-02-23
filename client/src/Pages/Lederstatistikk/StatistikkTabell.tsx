@@ -1,6 +1,12 @@
+import styled from "styled-components";
 import { Table } from "@navikt/ds-react";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { Lederstatistikk } from "../../domenetyper/lederstatistikk";
+import { hvitBoksMedSkygge } from "../../styling/containere";
+
+const Tabell = styled(Table)`
+    ${hvitBoksMedSkygge};
+`;
 
 interface Props {
     lederstatistikkListe: Lederstatistikk[]
@@ -8,7 +14,7 @@ interface Props {
 
 export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
     return (
-        <Table>
+        <Tabell size={"small"}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Status</Table.HeaderCell>
@@ -25,5 +31,5 @@ export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
                     );
                 })}
             </Table.Body>
-        </Table>)
+        </Tabell>)
 }
