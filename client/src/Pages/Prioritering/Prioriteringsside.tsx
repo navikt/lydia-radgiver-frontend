@@ -1,13 +1,13 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
-import {Loader, SortState} from "@navikt/ds-react";
-import {Filtervisning} from "./Filter/Filtervisning";
-import {PrioriteringsTabell} from "./PrioriteringsTabell";
-import {useFilterverdier, useHentVirksomhetsoversiktListe,} from "../../api/lydia-api";
-import {statiskeSidetitler, useTittel} from "../../util/useTittel";
-import {contentSpacing} from "../../styling/contentSpacing";
-import {useFiltervisningState} from "./Filter/filtervisning-reducer";
-import {Virksomhetsoversikt} from "../../domenetyper/virksomhetsoversikt";
+import { BodyShort, Loader, SortState } from "@navikt/ds-react";
+import { Filtervisning } from "./Filter/Filtervisning";
+import { PrioriteringsTabell } from "./PrioriteringsTabell";
+import { useFilterverdier, useHentVirksomhetsoversiktListe, } from "../../api/lydia-api";
+import { statiskeSidetitler, useTittel } from "../../util/useTittel";
+import { contentSpacing } from "../../styling/contentSpacing";
+import { useFiltervisningState } from "./Filter/filtervisning-reducer";
+import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 
 const Container = styled.div`
   padding: ${contentSpacing.mobileY} 0;
@@ -23,13 +23,11 @@ const Prioriteringsside = () => {
         orderBy: "tapte_dagsverk",
     });
 
-    const [virksomhetsoversiktListe, setVirksomhetsoversiktListe] =
-        useState<Virksomhetsoversikt[]>();
+    const [virksomhetsoversiktListe, setVirksomhetsoversiktListe] = useState<Virksomhetsoversikt[]>();
     const [skalSøke, setSkalSøke] = useState(false);
     const [filtervisningLoaded, setFiltervisningLoaded] = useState(false);
     const harSøktMinstEnGang = virksomhetsoversiktListe !== undefined;
-    const fantResultaterISøk =
-        harSøktMinstEnGang && virksomhetsoversiktListe.length > 0;
+    const fantResultaterISøk = harSøktMinstEnGang && virksomhetsoversiktListe.length > 0;
     const skalViseTabell = fantResultaterISøk && !skalSøke;
 
     const { data: filterverdier } = useFilterverdier();
@@ -90,9 +88,9 @@ const Prioriteringsside = () => {
                     totaltAntallTreff={totaltAntallTreff}
                 />
             ) : (
-                harSøktMinstEnGang && !loading && <SøketGaIngenResultater />
+                harSøktMinstEnGang && !loading && <BodyShort>Søket ga ingen resultater</BodyShort>
             )}
-            <div style={{ textAlign: "center" }}>
+            <div>
                 {loading && (
                     <Loader
                         title={"Henter sykefraværsstatistikk"}
@@ -101,18 +99,13 @@ const Prioriteringsside = () => {
                     />
                 )}
                 {error && (
-                    <p>
-                        {" "}
+                    <BodyShort>
                         Noe gikk galt under uthenting av sykefraværsstatistikk
-                    </p>
+                    </BodyShort>
                 )}
             </div>
         </Container>
     );
 };
-
-const SøketGaIngenResultater = () => (
-    <p style={{ textAlign: "center" }}>Søket ga ingen resultater</p>
-);
 
 export default Prioriteringsside;

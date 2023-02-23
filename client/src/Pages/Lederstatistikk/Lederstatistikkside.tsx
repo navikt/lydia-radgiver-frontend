@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Loader } from "@navikt/ds-react";
+import { BodyShort, Loader } from "@navikt/ds-react";
 import { contentSpacing } from "../../styling/contentSpacing";
 import { Filtervisning } from "../Prioritering/Filter/Filtervisning";
 import { useFiltervisningState } from "../Prioritering/Filter/filtervisning-reducer";
@@ -26,7 +26,7 @@ export const Lederstatistikkside = () => {
         harSøktMinstEnGang && lederstatistikkListe.length > 0;
     const skalViseTabell = fantResultaterISøk && !skalSøke;
 
-    const {data: filterverdier} = useFilterverdier();
+    const { data: filterverdier } = useFilterverdier();
     const filtervisning = useFiltervisningState();
 
     const {
@@ -41,7 +41,7 @@ export const Lederstatistikkside = () => {
 
     useEffect(() => {
         if (filterverdier && !filtervisningLoaded) {
-            filtervisning.lastData({filterverdier});
+            filtervisning.lastData({ filterverdier });
             setFiltervisningLoaded(true);
         }
     });
@@ -67,23 +67,20 @@ export const Lederstatistikkside = () => {
             {skalViseTabell ? (
                 <StatistikkTabell lederstatistikkListe={lederstatistikkListe} />
             ) : (
-                harSøktMinstEnGang && !loading && <p style={{textAlign: "center"}}>Søket ga ingen resultater</p>
+                harSøktMinstEnGang && !loading && !error && <BodyShort>Søket ga ingen resultater</BodyShort>
             )}
-            <div style={{ textAlign: "center" }}>
-                {loading && (
-                    <Loader
-                        title={"Henter lederstatistikk"}
-                        variant={"interaction"}
-                        size={"xlarge"}
-                    />
-                )}
-                {error && (
-                    <p>
-                        {" "}
-                        Noe gikk galt under uthenting av lederstatistikk
-                    </p>
-                )}
-            </div>
+            {loading && (
+                <Loader
+                    title={"Henter lederstatistikk"}
+                    variant={"interaction"}
+                    size={"xlarge"}
+                />
+            )}
+            {error && (
+                <BodyShort>
+                    Noe gikk galt under uthenting av lederstatistikk
+                </BodyShort>
+            )}
         </Container>
     )
 }
