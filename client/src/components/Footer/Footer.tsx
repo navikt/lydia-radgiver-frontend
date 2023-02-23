@@ -38,8 +38,6 @@ export const Footer = () => {
         data: gjeldendePeriodeSiste4Kvartal,
     } = useHentGjeldendePeriodeForVirksomhetSiste4Kvartal();
 
-
-
     return (
         <StyledFooter>
             <BodyShort>

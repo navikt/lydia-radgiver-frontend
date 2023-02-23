@@ -293,7 +293,7 @@ export const useHentGjeldendePeriodeForVirksomhetSiste4Kvartal = () => {
         `${sykefraværsstatistikkPath}/${gjeldendePeriodePath}`,
         kvartalFraTilSchema,
         {
-            revalidateOnFocus: true,
+            revalidateOnFocus: false,
         }
     );
 };
