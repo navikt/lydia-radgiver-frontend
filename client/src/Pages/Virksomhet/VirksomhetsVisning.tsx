@@ -4,7 +4,7 @@ import { Samarbeidshistorikk } from "./Samarbeidshistorikk/Samarbeidshistorikk";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
 import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../styling/contentSpacing";
 import { NavFarger } from "../../styling/farger";
-import { BistandTab } from "./ViBistårTab/BistandTab";
+import { BistandTab } from "./BistandTab/BistandTab";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
