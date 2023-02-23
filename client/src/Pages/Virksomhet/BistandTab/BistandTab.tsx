@@ -28,7 +28,7 @@ export const BistandTab = ({ iaSak }: Props) => {
     return (
         <Container>
             <div>
-                <Heading size="large">Leveranser</Heading>
+                <Heading spacing={true} size="large">Leveranser</Heading>
                 <BodyShort>Her kan du legge leveranser når du bistår i saken.</BodyShort>
                 <BeskjedTilBrukere>Denne modulen er under utvikling og skal ikke være synlig for brukere
                     enda.</BeskjedTilBrukere>
