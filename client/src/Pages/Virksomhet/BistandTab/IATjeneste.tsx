@@ -3,6 +3,7 @@ import { LeveranserPerIATjeneste } from "../../../domenetyper/leveranse";
 import { Leveranse } from "./Leveranse";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Leveranse as LeveranseType } from "../../../domenetyper/leveranse";
+import { sorterAlfabetisk } from "../../../util/sortering";
 
 interface Props {
     iaTjenesteMedLeveranser: LeveranserPerIATjeneste;
@@ -34,5 +35,9 @@ export const IATjeneste = ({ iaTjenesteMedLeveranser, iaSak }: Props) => {
 }
 
 const leveranseStigendeEtterFrist = (a: LeveranseType, b: LeveranseType) => {
+    // Alfabetisk om frist er lik
+    if (a.frist.getTime() === b.frist.getTime()) {
+        return sorterAlfabetisk(a.modul.navn, b.modul.navn)
+    }
     return a.frist.getTime() - b.frist.getTime();
 }
