@@ -43,8 +43,8 @@ interface Props {
 const NyStatistikkKommerSnart = ({ lukkMeg }: Props) => {
     return (
         <Banner variant="info">
-            <Heading size="xsmall">Snart kommer statistikk for 4. kvartal 2022</Heading>
-            <BodyShort>Ny statistikk blir tilgjengelig i Fia i løpet av torsdag 2. mars.</BodyShort>
+            <Heading size="xsmall">Snart kommer sykefraværsstatistikk for 4. kvartal 2022</Heading>
+            <BodyShort>Fia blir oppdatert med nye tall i løpet av torsdag 2. mars.</BodyShort>
             <Lukkeknapp onClick={lukkMeg} size="small" variant="secondary">Lukk</Lukkeknapp>
         </Banner>
     )
@@ -55,7 +55,7 @@ const NyStatistikkErUte = ({ lukkMeg }: Props) => {
         <Banner variant="info">
             <Heading size="xsmall">Sykefraværsstatistikken i Fia er oppdatert med tall fra 4. kvartal 2022</Heading>
             <BodyShort>
-                Løsningen er oppdatert med offisiell sykefraværsstatistikkstatistikk for de siste fire kvartalene
+                Løsningen er oppdatert med offisiell sykefraværsstatistikk for de siste fire kvartalene
                 (1. kvartal 2022 – 4. kvartal 2022)
             </BodyShort>
             <BodyShort>
