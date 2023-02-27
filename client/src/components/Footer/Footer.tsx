@@ -41,15 +41,15 @@ export const Footer = () => {
     return (
         <StyledFooter>
             <BodyShort>
-                Fia viser offisiell sykefraværsstatistikk fra de siste
-                fire kvartalene{getGjeldendePeriodeTekst(gjeldendePeriodeSiste4Kvartal)}.
-                Tall for &quot;arbeidsforhold&quot; er fra siste tilgjengelige kvartal.
-                Du finner flere detaljer om statistikk i bruksanvisningen.
+                {`Fia viser offisiell sykefraværsstatistikk fra de siste
+                    fire kvartalene${getGjeldendePeriodeTekst(gjeldendePeriodeSiste4Kvartal)}.
+                    Tall for "arbeidsforhold" er fra siste tilgjengelige kvartal.
+                    Du finner flere detaljer om statistikk i `}
+                <EksternLenke
+                    href={"https://navno.sharepoint.com/sites/intranett-produktomrader-og-prosjekter/SitePages/FIA-brukerveiledning.aspx"}>
+                    Brukerveiledning for Fia på Navet
+                </EksternLenke>
             </BodyShort>
-            <EksternLenke
-                href={"https://navno.sharepoint.com/sites/intranett-produktomrader-og-prosjekter/SitePages/FIA-brukerveiledning.aspx"}>
-                Brukerveiledning for Fia på Navet
-            </EksternLenke>
         </StyledFooter>
     )
 }
