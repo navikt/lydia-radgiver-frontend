@@ -1,18 +1,17 @@
-import { Brukerinformasjon } from "../../domenetyper/brukerinformasjon";
 import { useEffect, useState } from "react";
-import { Banner } from "./Banner";
 import { BodyShort, Link } from "@navikt/ds-react";
+import { Brukerinformasjon } from "../../domenetyper/brukerinformasjon";
+import { Banner } from "./Banner";
 
-const FEM_MINUTTER_SOM_MS = 1000 * 60 * 5
+const FEM_MINUTTER_SOM_MS = 1000 * 60 * 5;
 
-const hentRedirectUrl = () =>
-    `${document.location.origin}/oauth2/login?redirect=${document.location.href}`
+const redirectUrl = `${document.location.origin}/oauth2/login?redirect=${document.location.href}`;
 
 const hentGjenværendeTidForBrukerMs = (brukerInformasjon: Brukerinformasjon) =>
-    brukerInformasjon.tokenUtløper - Date.now()
+    brukerInformasjon.tokenUtløper - Date.now();
 
 const tokenHolderPåÅLøpeUt = (brukerInformasjon: Brukerinformasjon) =>
-    hentGjenværendeTidForBrukerMs(brukerInformasjon) < FEM_MINUTTER_SOM_MS
+    hentGjenværendeTidForBrukerMs(brukerInformasjon) < FEM_MINUTTER_SOM_MS;
 
 interface Props {
     brukerInformasjon: Brukerinformasjon;
@@ -46,16 +45,17 @@ const SesjonenHolderPåÅLøpeUt = ({ gjenværendeTidForBrukerMs }: { gjenværen
         <Banner variant="warning">
             <BodyShort>
                 Sesjonen din løper ut om {gjenværendeSekunder} sekunder. Vennligst trykk på <Link
-                href={hentRedirectUrl()}>denne lenken</Link> for å logge inn på nytt
+                href={redirectUrl}>denne lenken</Link> for å logge inn på nytt
             </BodyShort>
         </Banner>
     )
 }
 
-const SesjonenErUtløpt = () =>
-    <Banner variant="error">
+const SesjonenErUtløpt = () => {
+    return <Banner variant="error">
         <BodyShort>
-            Sesjonen din er utløpt. Vennligst trykk på <Link href={hentRedirectUrl()}>denne lenken</Link> for å logge
+            Sesjonen din er utløpt. Vennligst trykk på <Link href={redirectUrl}>denne lenken</Link> for å logge
             inn på nytt
         </BodyShort>
-    </Banner>
+    </Banner>;
+}
