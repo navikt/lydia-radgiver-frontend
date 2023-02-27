@@ -1,6 +1,7 @@
-import { Alert, Button } from "@navikt/ds-react";
+import { Button } from "@navikt/ds-react";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { Banner } from "./Banner";
 
 interface EventData {
     feilmelding: string;
@@ -55,10 +56,9 @@ export const FeilmeldingBanner = () => {
         : null;
 };
 
-const AlertMelding = styled(Alert)`
+const AlertMelding = styled(Banner)`
   padding-right: 5rem;
   position: relative;
-  margin: 0.25rem;
 `;
 
 const Lukkeknapp = styled(Button).attrs({size: "small", variant: "secondary"})`

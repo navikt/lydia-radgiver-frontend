@@ -1,12 +1,11 @@
 import styled from "styled-components";
-import { Alert, BodyShort, Button, Heading } from "@navikt/ds-react";
-import { BorderRadius } from "../../styling/borderRadius";
+import { BodyShort, Button, Heading } from "@navikt/ds-react";
 import { useState } from "react";
+import { Banner } from "./Banner";
 
-const Banner = styled(Alert)`
+const StyledBanner = styled(Banner)`
   position: relative; // For å halde lukk-knappen (position: absolute) inne i banneret
   padding-right: 5rem; // Hindrar overlapp mellom lukk-knapp og tekst
-  border-radius: 0 0 ${BorderRadius.medium} ${BorderRadius.medium};
 `;
 
 const Lukkeknapp = styled(Button).attrs({ size: "small", variant: "secondary" })`
@@ -42,17 +41,17 @@ interface Props {
 
 const NyStatistikkKommerSnart = ({ lukkMeg }: Props) => {
     return (
-        <Banner variant="info">
+        <StyledBanner variant="info">
             <Heading size="xsmall">Snart kommer sykefraværsstatistikk for 4. kvartal 2022</Heading>
             <BodyShort>Fia blir oppdatert med nye tall i løpet av torsdag 2. mars.</BodyShort>
             <Lukkeknapp onClick={lukkMeg} size="small" variant="secondary">Lukk</Lukkeknapp>
-        </Banner>
+        </StyledBanner>
     )
 }
 
 const NyStatistikkErUte = ({ lukkMeg }: Props) => {
     return (
-        <Banner variant="info">
+        <StyledBanner variant="info">
             <Heading size="xsmall">Sykefraværsstatistikken i Fia er oppdatert med tall fra 4. kvartal 2022</Heading>
             <BodyShort>
                 Løsningen er oppdatert med offisiell sykefraværsstatistikk for de siste fire kvartalene
@@ -63,6 +62,6 @@ const NyStatistikkErUte = ({ lukkMeg }: Props) => {
                 2022
             </BodyShort>
             <Lukkeknapp onClick={lukkMeg} size="small" variant="secondary">Lukk</Lukkeknapp>
-        </Banner>
+        </StyledBanner>
     )
 }

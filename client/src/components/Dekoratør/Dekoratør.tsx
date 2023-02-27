@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Alert, BodyShort, Link } from "@navikt/ds-react";
+import { BodyShort, Link } from "@navikt/ds-react";
 import { Header } from "@navikt/ds-react-internal";
 import { Søkefelt } from "./Søkefelt";
 import { NavFarger } from "../../styling/farger";
 import { Brukerinformasjon } from "../../domenetyper/brukerinformasjon";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
+import { Banner } from "../Banner/Banner";
 
 const FEM_MINUTTER_SOM_MS = 1000 * 60 * 5
 
@@ -91,19 +92,19 @@ const RedirectKomponent = ({ gjenværendeTidForBrukerMs }: { gjenværendeTidForB
 const SesjonenHolderPåÅLøpeUt = ({ gjenværendeTidForBrukerMs }: { gjenværendeTidForBrukerMs: number }) => {
     const gjenværendeSekunder = Math.round(gjenværendeTidForBrukerMs / 1000)
     return (
-        <Alert variant="warning" style={{ margin: "1rem" }}>
+        <Banner variant="warning">
             <BodyShort>
                 Sesjonen din løper ut om {gjenværendeSekunder} sekunder. Vennligst trykk på <Link
                 href={hentRedirectUrl()}>denne lenken</Link> for å logge inn på nytt
             </BodyShort>
-        </Alert>
+        </Banner>
     )
 }
 
 const SesjonenErUtløpt = () =>
-    <Alert variant="error" style={{ margin: "1rem" }}>
+    <Banner variant="error">
         <BodyShort>
             Sesjonen din er utløpt. Vennligst trykk på <Link href={hentRedirectUrl()}>denne lenken</Link> for å logge
             inn på nytt
         </BodyShort>
-    </Alert>
+    </Banner>
