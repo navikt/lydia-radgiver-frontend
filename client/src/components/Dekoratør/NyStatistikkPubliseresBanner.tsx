@@ -5,6 +5,7 @@ import { useState } from "react";
 
 const Banner = styled(Alert)`
   position: relative; // For å halde lukk-knappen (position: absolute) inne i banneret
+  padding-right: 5rem; // Hindrar overlapp mellom lukk-knapp og tekst
   border-radius: 0 0 ${BorderRadius.medium} ${BorderRadius.medium};
 `;
 
