@@ -1,7 +1,5 @@
-import { Button } from "@navikt/ds-react";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
-import { Banner } from "./Banner";
+import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
 
 interface EventData {
     feilmelding: string;
@@ -46,23 +44,12 @@ export const FeilmeldingBanner = () => {
             document.removeEventListener("feilmeldingFraBackend", handler);
         };
     }, []);
+
     return synlig
         ? (
-            <AlertMelding variant="error">
+            <BannerMedLukkeknapp variant="error">
                 {melding}
-                <Lukkeknapp onClick={nullstillBanner} size="small" variant="secondary">Lukk</Lukkeknapp>
-            </AlertMelding>
+            </BannerMedLukkeknapp>
         )
         : null;
 };
-
-const AlertMelding = styled(Banner)`
-  padding-right: 5rem;
-  position: relative;
-`;
-
-const Lukkeknapp = styled(Button).attrs({size: "small", variant: "secondary"})`
-  position: absolute;
-  right: 0.5rem;
-  bottom: 0.5rem;
-`;
