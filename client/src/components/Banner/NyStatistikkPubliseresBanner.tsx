@@ -1,6 +1,11 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
 
+const publiseringsdag = "torsdag 2. mars";
+const nyttKvartal = "4. kvartal 2022";
+const siste4fra = "1. kvartal 2022";
+const siste4til = nyttKvartal;
+
 export const NyStatistikkPubliseresBanner = () => {
     const statistikkErPublisert = false;
 
@@ -17,8 +22,8 @@ export const NyStatistikkPubliseresBanner = () => {
 const NyStatistikkKommerSnart = () => {
     return (
         <BannerMedLukkeknapp variant="info">
-            <Heading size="xsmall">Snart kommer sykefraværsstatistikk for 4. kvartal 2022</Heading>
-            <BodyShort>Fia blir oppdatert med nye tall i løpet av torsdag 2. mars.</BodyShort>
+            <Heading size="xsmall">Snart kommer sykefraværsstatistikk for {nyttKvartal}</Heading>
+            <BodyShort>Fia blir oppdatert med nye tall i løpet av {publiseringsdag}.</BodyShort>
         </BannerMedLukkeknapp>
     )
 }
@@ -26,14 +31,13 @@ const NyStatistikkKommerSnart = () => {
 const NyStatistikkErUte = () => {
     return (
         <BannerMedLukkeknapp variant="info">
-            <Heading size="xsmall">Sykefraværsstatistikken i Fia er oppdatert med tall fra 4. kvartal 2022</Heading>
+            <Heading size="xsmall">Sykefraværsstatistikken i Fia er oppdatert med tall fra {nyttKvartal}</Heading>
             <BodyShort>
                 Løsningen er oppdatert med offisiell sykefraværsstatistikk for de siste fire kvartalene
-                (1. kvartal 2022 – 4. kvartal 2022)
+                ({siste4fra} – {siste4til})
             </BodyShort>
             <BodyShort>
-                Tall for de siste fire kvartalene er nå basert på 1. kvartal 2022 til 4. kvartal
-                2022
+                Tall for de siste fire kvartalene er nå basert på {siste4fra} til {siste4til}
             </BodyShort>
         </BannerMedLukkeknapp>
     )
