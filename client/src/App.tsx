@@ -6,7 +6,7 @@ import { useHentBrukerinformasjon } from "./api/lydia-api";
 import { Prioriteringsside } from "./Pages/Prioritering/Prioriteringsside";
 import { desktopAndUp, largeDesktopAndUp } from "./styling/breakpoints";
 import { Virksomhetsside } from "./Pages/Virksomhet/Virksomhetsside";
-import { FeilmeldingBanner } from "./Pages/FeilmeldingBanner";
+import { FeilmeldingBanner } from "./components/Banner/FeilmeldingBanner";
 import { Dekoratør } from "./components/Dekoratør/Dekoratør";
 import { contentSpacing } from "./styling/contentSpacing";
 import { Footer } from "./components/Footer/Footer";

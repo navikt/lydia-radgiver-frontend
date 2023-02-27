@@ -12,7 +12,7 @@ import {
     iaSakVurderesUtenEier,
 } from "../../mocks/iaSakMock";
 import {iaSakPath, iaSakPostNyHendelsePath} from "../../../../api/lydia-api";
-import {FeilmeldingBanner} from "../../../FeilmeldingBanner";
+import {FeilmeldingBanner} from "../../../../components/Banner/FeilmeldingBanner";
 
 export default {
     title: "Virksomhet/Virksomhetsoversikt/IA-sak-oversikt (statusfelt)",

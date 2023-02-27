@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import useSWR, { SWRConfiguration } from "swr";
 import { z, ZodError, ZodType } from "zod";
 import { isoDato } from "../util/dato";
-import { dispatchFeilmelding } from "../Pages/FeilmeldingBanner";
+import { dispatchFeilmelding } from "../components/Banner/FeilmeldingBanner";
 import { FiltervisningState } from "../Pages/Prioritering/Filter/filtervisning-reducer";
 import { Brukerinformasjon, brukerinformasjonSchema } from "../domenetyper/brukerinformasjon";
 import {

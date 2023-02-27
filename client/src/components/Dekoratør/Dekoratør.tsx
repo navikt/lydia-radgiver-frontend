@@ -5,7 +5,7 @@ import { Header } from "@navikt/ds-react-internal";
 import { Søkefelt } from "./Søkefelt";
 import { NavFarger } from "../../styling/farger";
 import { Brukerinformasjon } from "../../domenetyper/brukerinformasjon";
-import { NyStatistikkPubliseresBanner } from "./NyStatistikkPubliseresBanner";
+import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 
 const FEM_MINUTTER_SOM_MS = 1000 * 60 * 5
 
