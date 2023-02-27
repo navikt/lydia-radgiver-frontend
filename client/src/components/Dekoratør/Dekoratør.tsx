@@ -5,6 +5,7 @@ import { Header } from "@navikt/ds-react-internal";
 import { Søkefelt } from "./Søkefelt";
 import { NavFarger } from "../../styling/farger";
 import { Brukerinformasjon } from "../../domenetyper/brukerinformasjon";
+import { NyStatistikkPubliseresBanner } from "./NyStatistikkPubliseresBanner";
 
 const FEM_MINUTTER_SOM_MS = 1000 * 60 * 5
 
@@ -74,7 +75,9 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                 )}
             </Header>
             {tokenHolderPåÅLøpeUt(brukerInformasjon) &&
-                <RedirectKomponent gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs} />}
+                <RedirectKomponent gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs} />
+            }
+            <NyStatistikkPubliseresBanner />
         </>
     )
 }
