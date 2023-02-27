@@ -8,7 +8,7 @@ import { Brukerinformasjon } from "../../domenetyper/brukerinformasjon";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 import { Banner } from "../Banner/Banner";
 
-const FEM_MINUTTER_SOM_MS = 1000 * 60 * 5
+const FEM_MINUTTER_SOM_MS = 10000 * 60 * 5
 
 const hentRedirectUrl = () =>
     `${document.location.origin}/oauth2/login?redirect=${document.location.href}`
@@ -38,24 +38,12 @@ const LenkeTilSøkesiden = styled(Link)`
 `;
 
 interface Props {
-    brukerInformasjon: Brukerinformasjon
+    brukerInformasjon: Brukerinformasjon;
 }
 
 export const erIDev = ["localhost", "fia.dev.intern.nav.no"].includes(window.location.hostname)
 
 export const Dekoratør = ({ brukerInformasjon }: Props) => {
-    const [gjenværendeTidForBrukerMs, setGjenværendeTidForBrukerMs] = useState(
-        hentGjenværendeTidForBrukerMs(brukerInformasjon)
-    )
-
-    useEffect(() => {
-        const interval = setInterval(() => {
-            setGjenværendeTidForBrukerMs(hentGjenværendeTidForBrukerMs(brukerInformasjon))
-        }, 1000);
-
-        return () => clearInterval(interval);
-    }, []);
-
     return (
         <>
             <Header className="w-full" data-theme="light">
@@ -76,14 +64,30 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                 )}
             </Header>
             {tokenHolderPåÅLøpeUt(brukerInformasjon) &&
-                <RedirectKomponent gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs} />
+                <SesjonBanner brukerInformasjon={brukerInformasjon} />
             }
             <NyStatistikkPubliseresBanner />
         </>
     )
 }
 
-const RedirectKomponent = ({ gjenværendeTidForBrukerMs }: { gjenværendeTidForBrukerMs: number }) => {
+interface SesjonBannerProps {
+    brukerInformasjon: Brukerinformasjon;
+}
+
+const SesjonBanner = ({ brukerInformasjon }: SesjonBannerProps) => {
+    const [gjenværendeTidForBrukerMs, setGjenværendeTidForBrukerMs] = useState(
+        hentGjenværendeTidForBrukerMs(brukerInformasjon)
+    )
+
+    useEffect(() => {
+        const interval = setInterval(() => {
+            setGjenværendeTidForBrukerMs(hentGjenværendeTidForBrukerMs(brukerInformasjon))
+        }, 1000);
+
+        return () => clearInterval(interval);
+    }, []);
+
     return gjenværendeTidForBrukerMs > 0
         ? <SesjonenHolderPåÅLøpeUt gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs} />
         : <SesjonenErUtløpt />
