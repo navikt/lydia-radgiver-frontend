@@ -33,11 +33,7 @@ const NyStatistikkErUte = () => {
         <BannerMedLukkeknapp variant="info">
             <Heading size="xsmall">Sykefraværsstatistikken i Fia er oppdatert med tall fra {nyttKvartal}</Heading>
             <BodyShort>
-                Løsningen er oppdatert med offisiell sykefraværsstatistikk for de siste fire kvartalene
-                ({siste4fra} – {siste4til})
-            </BodyShort>
-            <BodyShort>
-                Tall for de siste fire kvartalene er nå basert på {siste4fra} til {siste4til}
+                Tall for de siste fire kvartalene er nå basert på {siste4fra} til {siste4til}.
             </BodyShort>
         </BannerMedLukkeknapp>
     )
