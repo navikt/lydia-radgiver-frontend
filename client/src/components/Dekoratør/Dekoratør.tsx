@@ -51,7 +51,7 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                     />
                 )}
             </Header>
-            <SesjonBanner brukerInformasjon={brukerInformasjon} />
+            <SesjonBanner tokenUtløper={brukerInformasjon.tokenUtløper} />
             <NyStatistikkPubliseresBanner />
         </>
     )

@@ -1,46 +1,43 @@
 import { useEffect, useState } from "react";
 import { BodyShort, Link } from "@navikt/ds-react";
-import { Brukerinformasjon } from "../../domenetyper/brukerinformasjon";
 import { Banner } from "./Banner";
 
 const FEM_MINUTTER_SOM_MS = 1000 * 60 * 5;
 
 const redirectUrl = `${document.location.origin}/oauth2/login?redirect=${document.location.href}`;
 
-const hentGjenværendeTidForBrukerMs = (brukerInformasjon: Brukerinformasjon) =>
-    brukerInformasjon.tokenUtløper - Date.now();
-
-const tokenHolderPåÅLøpeUt = (brukerInformasjon: Brukerinformasjon) =>
-    hentGjenværendeTidForBrukerMs(brukerInformasjon) < FEM_MINUTTER_SOM_MS;
-
 interface Props {
-    brukerInformasjon: Brukerinformasjon;
+    tokenUtløper: number;
 }
 
-export const SesjonBanner = ({ brukerInformasjon }: Props) => {
-    const [gjenværendeTidForBrukerMs, setGjenværendeTidForBrukerMs] = useState(
-        hentGjenværendeTidForBrukerMs(brukerInformasjon)
-    )
+export const SesjonBanner = ({ tokenUtløper }: Props) => {
+    const [tidIgjenAvSesjon, setTidIgjenAvSesjon] = useState(tokenUtløper - Date.now());
 
     useEffect(() => {
-        const interval = setInterval(() => {
-            setGjenværendeTidForBrukerMs(hentGjenværendeTidForBrukerMs(brukerInformasjon))
-        }, 1000);
-
+        const interval = setInterval(
+            () => setTidIgjenAvSesjon(tokenUtløper - Date.now()),
+            1000,
+        );
         return () => clearInterval(interval);
-    }, []);
+    }, [tokenUtløper]);
 
-    if (!tokenHolderPåÅLøpeUt(brukerInformasjon)) {
+
+    if (tidIgjenAvSesjon >= FEM_MINUTTER_SOM_MS) {
         return null;
     }
 
-    return gjenværendeTidForBrukerMs > 0
-        ? <SesjonenHolderPåÅLøpeUt gjenværendeTidForBrukerMs={gjenværendeTidForBrukerMs} />
+    return tidIgjenAvSesjon > 0
+        ? <SesjonenLøperUt tidIgjenAvSesjon={tidIgjenAvSesjon} />
         : <SesjonenErUtløpt />
 }
 
-const SesjonenHolderPåÅLøpeUt = ({ gjenværendeTidForBrukerMs }: { gjenværendeTidForBrukerMs: number }) => {
-    const gjenværendeSekunder = Math.round(gjenværendeTidForBrukerMs / 1000)
+interface SesjonenLøperUtProps {
+    tidIgjenAvSesjon: number
+}
+
+const SesjonenLøperUt = ({ tidIgjenAvSesjon }: SesjonenLøperUtProps) => {
+    const gjenværendeSekunder = Math.round(tidIgjenAvSesjon / 1000)
+
     return (
         <Banner variant="warning">
             <BodyShort>
