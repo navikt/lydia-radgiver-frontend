@@ -26,3 +26,11 @@ export const brukerMedVeldigLangtNavn : Brukerinformasjon = {
     rolle: "Superbruker",
     tokenUtløper: Date.now() + TRE_TIMER_MS
 }
+
+export const brukerSomErSaksbehandler : Brukerinformasjon = {
+    navn: "Minerva McSnurp",
+    ident: "S12345",
+    epost: "a@b.com",
+    rolle: "Saksbehandler",
+    tokenUtløper: Date.now() + TRE_TIMER_MS
+}
