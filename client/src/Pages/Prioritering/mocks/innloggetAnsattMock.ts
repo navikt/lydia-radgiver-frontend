@@ -21,7 +21,7 @@ export const brukerMedTokenSomHolderPåÅLøpeUt : Brukerinformasjon = {
 
 export const brukerMedVeldigLangtNavn : Brukerinformasjon = {
     navn: "Albus Persifal Ulfrik Brian Humlesnurr",
-    ident: "H12345",
+    ident: "NAV-54321",
     epost: "a@b.com",
     rolle: "Superbruker",
     tokenUtløper: Date.now() + TRE_TIMER_MS
