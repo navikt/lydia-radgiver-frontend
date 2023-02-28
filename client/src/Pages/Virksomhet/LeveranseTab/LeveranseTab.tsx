@@ -20,6 +20,8 @@ interface Props {
 }
 
 export const LeveranseTab = ({ iaSak }: Props) => {
+    const sakenErIViBistår = iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR;
+
     return (
         <Container>
             <div>
@@ -35,7 +37,7 @@ export const LeveranseTab = ({ iaSak }: Props) => {
                 </BodyShort>
             </div>
             <LeveranseOversikt iaSak={iaSak} />
-            {iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR &&
+            {sakenErIViBistår &&
                 <LeggTilLeveranse iaSak={iaSak} />
             }
         </Container>
