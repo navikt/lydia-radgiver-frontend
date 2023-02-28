@@ -6,7 +6,6 @@ import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../sty
 import { NavFarger } from "../../styling/farger";
 import { LeveranseTab } from "./LeveranseTab/LeveranseTab";
 import { Virksomhet } from "../../domenetyper/virksomhet";
-import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 
 const Container = styled.div`
@@ -19,7 +18,7 @@ const Container = styled.div`
 const StyledPanel = styled(Tabs.Panel)`
   padding-top: 1.5rem;
   padding-bottom: 1.5rem;
-  
+
   background-color: ${NavFarger.gray100};
   ${strekkBakgrunnenHeltUtTilKantenAvSida}
 `;
@@ -29,9 +28,6 @@ interface Props {
 }
 
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
-    // TODO: Fjern denne for prodsetting
-    const visLeveranserTab = erIDev;
-
     const {
         data: iaSak
     } = useHentAktivSakForVirksomhet(virksomhet.orgnr)
@@ -41,15 +37,15 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />
             <br />
             <Tabs defaultValue="samarbeidshistorikk">
-                <Tabs.List style={{width: "100%"}}>
+                <Tabs.List style={{ width: "100%" }}>
                     <Tabs.Tab value="samarbeidshistorikk" label="Samarbeidshistorikk" />
-                    {visLeveranserTab && iaSak && <Tabs.Tab value="leveranser" label="Leveranser" />}
+                    {iaSak && <Tabs.Tab value="leveranser" label="Leveranser" />}
                 </Tabs.List>
                 <StyledPanel value="samarbeidshistorikk">
-                    <Samarbeidshistorikk orgnr={virksomhet.orgnr}/>
+                    <Samarbeidshistorikk orgnr={virksomhet.orgnr} />
                 </StyledPanel>
                 <StyledPanel value="leveranser">
-                    {visLeveranserTab && iaSak && <LeveranseTab iaSak={iaSak}/>}
+                    {iaSak && <LeveranseTab iaSak={iaSak} />}
                 </StyledPanel>
             </Tabs>
         </Container>
