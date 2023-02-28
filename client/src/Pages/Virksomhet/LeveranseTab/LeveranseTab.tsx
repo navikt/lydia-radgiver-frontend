@@ -2,9 +2,9 @@ import styled from "styled-components";
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { LeggTilLeveranse } from "./LeggTilLeveranse";
-import { NavFarger } from "../../../styling/farger";
 import { LeveranseOversikt } from "./LeveranseOversikt";
 import { tabInnholdStyling } from "../../../styling/containere";
+import { EksternLenke } from "../../../components/EksternLenke";
 
 const Container = styled.div`
   height: 100%;
@@ -13,10 +13,6 @@ const Container = styled.div`
   gap: 3rem;
 
   ${tabInnholdStyling};
-`;
-
-const BeskjedTilBrukere = styled(BodyShort)`
-  background: ${NavFarger.red300};
 `;
 
 interface Props {
@@ -28,10 +24,15 @@ export const LeveranseTab = ({ iaSak }: Props) => {
         <Container>
             <div>
                 <Heading spacing={true} size="large">Leveranser</Heading>
-                <BodyShort>Her kan du legge leveranser når du bistår i saken.</BodyShort>
-                <BeskjedTilBrukere>Denne modulen er under utvikling og skal ikke være synlig for brukere
-                    enda.</BeskjedTilBrukere>
-                <BeskjedTilBrukere>Om du kan se denne modulen ta kontakt med team Pia :)</BeskjedTilBrukere>
+                <BodyShort>
+                    Her kan du legge inn og få oversikt over leveranser til virksomheten. Du må være på status
+                    “Vi bistår” for å registrere leveransen.
+                </BodyShort>
+                <BodyShort>
+                    Du kan bare legge inn IA-tjenester og leveranser som er beskrevet i <EksternLenke
+                    href="https://navno.sharepoint.com/sites/fag-og-ytelser-veileder-for-inkluderende-arbeidsliv">IA-veilederen
+                    4.1-4.3</EksternLenke>.
+                </BodyShort>
             </div>
             <LeveranseOversikt iaSak={iaSak} />
             {iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR &&
