@@ -1,25 +1,25 @@
 import { ComponentMeta } from "@storybook/react";
-import { LeggTilLeveranse } from "./LeggTilLeveranse";
 import { iaSakViBistår } from "../mocks/iaSakMock";
 import { SimulerMobilWrapper, SimulerTabletWrapper } from "../../../../.storybook/SkjermstørrelseSimuleringer";
+import { LeveranseOversikt } from "./LeveranseOversikt";
 
 export default {
-    title: "Virksomhet/Bistand/Legg til leveranse",
-    component: LeggTilLeveranse,
-} as ComponentMeta<typeof LeggTilLeveranse>
+    title: "Virksomhet/Leveranser/Leveranseoversikt",
+    component: LeveranseOversikt,
+} as ComponentMeta<typeof LeveranseOversikt>
 
 export const Hovedstory = () => (
-    <LeggTilLeveranse iaSak={iaSakViBistår} />
+    <LeveranseOversikt iaSak={iaSakViBistår} />
 )
 
 export const HovedstoryTablet = () => (
     <SimulerTabletWrapper>
-        <LeggTilLeveranse iaSak={iaSakViBistår} />
+        <LeveranseOversikt iaSak={iaSakViBistår} />
     </SimulerTabletWrapper>
 )
 
 export const HovedstoryMobil = () => (
     <SimulerMobilWrapper>
-        <LeggTilLeveranse iaSak={iaSakViBistår} />
+        <LeveranseOversikt iaSak={iaSakViBistår} />
     </SimulerMobilWrapper>
 )

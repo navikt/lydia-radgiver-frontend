@@ -5,7 +5,7 @@ import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
 import { SimulerTabletWrapper } from "../../../../.storybook/SkjermstørrelseSimuleringer";
 
 export default {
-    title: "Virksomhet/Bistand/Leveranser per IATjeneste",
+    title: "Virksomhet/Leveranser/Leveranser per IATjeneste",
     component: IATjeneste,
 } as ComponentMeta<typeof IATjeneste>
 

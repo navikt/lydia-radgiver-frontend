@@ -1,23 +1,23 @@
 import { ComponentMeta } from "@storybook/react";
-import { BistandTab } from "./BistandTab";
+import { LeveranseTab } from "./LeveranseTab";
 import { iaSakKartlegges, iaSakViBistår } from "../mocks/iaSakMock";
 import { SimulerTabletWrapper } from "../../../../.storybook/SkjermstørrelseSimuleringer";
 
 export default {
-    title: "Virksomhet/Bistand/Bistandsfane",
-    component: BistandTab,
-} as ComponentMeta<typeof BistandTab>
+    title: "Virksomhet/Leveranser/Leveransefane",
+    component: LeveranseTab,
+} as ComponentMeta<typeof LeveranseTab>
 
 export const Hovedstory = () => (
-    <BistandTab iaSak={iaSakViBistår} />
+    <LeveranseTab iaSak={iaSakViBistår} />
 )
 
 export const HovedstoryTablet = () => (
     <SimulerTabletWrapper>
-        <BistandTab iaSak={iaSakViBistår} />
+        <LeveranseTab iaSak={iaSakViBistår} />
     </SimulerTabletWrapper>
 )
 
 export const SakErIkkeIViBistaar = () => (
-    <BistandTab iaSak={iaSakKartlegges} />
+    <LeveranseTab iaSak={iaSakKartlegges} />
 )
