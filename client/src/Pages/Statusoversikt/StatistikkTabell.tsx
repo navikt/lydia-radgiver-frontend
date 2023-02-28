@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Table } from "@navikt/ds-react";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
-import { Lederstatistikk } from "../../domenetyper/lederstatistikk";
+import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 
 const Tabell = styled(Table)`
@@ -9,7 +9,7 @@ const Tabell = styled(Table)`
 `;
 
 interface Props {
-    lederstatistikkListe: Lederstatistikk[]
+    lederstatistikkListe: Statusoversikt[]
 }
 
 export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {

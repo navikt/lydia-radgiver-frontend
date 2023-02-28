@@ -27,7 +27,7 @@ import {
     NyLeveranseDTO
 } from "../domenetyper/leveranse";
 import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartal";
-import { LederstatistikkListeRespons, lederstatistikkListeResponsSchema } from "../domenetyper/lederstatistikk";
+import { StatusoversiktListeRespons, statusoversiktListeResponsSchema } from "../domenetyper/statusoversikt";
 import { Sakshistorikk, sakshistorikkSchema } from "../domenetyper/sakshistorikk";
 import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
 import {
@@ -56,7 +56,7 @@ export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
 export const gjeldendePeriodePath = "gjeldendeperiodesiste4kvartaler"
 export const leveransePath = `${iaSakPath}/leveranse`
-export const lederstatistikkPath = `${basePath}/lederstatistikk`;
+export const statusoversiktPath = `${basePath}/statusoversikt`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -165,8 +165,8 @@ const getSykefraværsstatistikkUrl = (søkeverdier: FiltervisningState) =>
         søkeverdier
     ).toString()}`;
 
-const getLederstatistikkUrl = (søkeverdier: FiltervisningState) =>
-    `${lederstatistikkPath}?${søkeverdierTilUrlSearchParams(
+const getStatusoversiktUrl = (søkeverdier: FiltervisningState) =>
+    `${statusoversiktPath}?${søkeverdierTilUrlSearchParams(
         søkeverdier
     ).toString()}`;
 
@@ -204,7 +204,7 @@ function hentAntallTreff(
     return antallTreff;
 }
 
-export const useHentLederstatistikk = ({
+export const useHentStatusoversikt = ({
     filterstate,
     initierSøk = true,
 }: {
@@ -213,19 +213,19 @@ export const useHentLederstatistikk = ({
 }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [lederstatistikkListe, setLederstatistikkListe] =
-        useState<LederstatistikkListeRespons>();
+    const [statusoversiktListe, setStatusoversiktListe] =
+        useState<StatusoversiktListeRespons>();
 
-    const lederstatistikkUrl = getLederstatistikkUrl(filterstate);
+    const statusoversiktUrl = getStatusoversiktUrl(filterstate);
 
     useEffect(() => {
         if (initierSøk) {
             setLoading(true);
 
-            get(lederstatistikkUrl, lederstatistikkListeResponsSchema)
+            get(statusoversiktUrl, statusoversiktListeResponsSchema)
                 .then((response) => {
                     setError("");
-                    setLederstatistikkListe(response);
+                    setStatusoversiktListe(response);
                 })
                 .catch((e) => {
                     setError(e.message);
@@ -234,9 +234,9 @@ export const useHentLederstatistikk = ({
                     setLoading(false);
                 });
         }
-    }, [lederstatistikkUrl, initierSøk]);
+    }, [statusoversiktUrl, initierSøk]);
 
-    return { error, loading, data: lederstatistikkListe };
+    return { error, loading, data: statusoversiktListe };
 }
 
 export const useHentVirksomhetsoversiktListe = ({

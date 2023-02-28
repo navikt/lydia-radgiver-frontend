@@ -3,7 +3,7 @@ import React, {useCallback} from "react";
 export const statiskeSidetitler = {
     prioriteringsside: "Fia - søk",
     virksomhetsside: "Fia - virksomhet",
-    lederstatistikkside: "Fia - lederstatistikk",
+    statusoversiktside: "Fia - statusoversikt",
 }
 
 export const useTittel = (defaultTittel: string = statiskeSidetitler.prioriteringsside) => {

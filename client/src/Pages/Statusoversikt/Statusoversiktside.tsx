@@ -2,33 +2,33 @@ import { useEffect, useState } from "react";
 import { BodyShort, Loader } from "@navikt/ds-react";
 import { Filtervisning } from "../Prioritering/Filter/Filtervisning";
 import { useFiltervisningState } from "../Prioritering/Filter/filtervisning-reducer";
-import { useFilterverdier, useHentLederstatistikk } from "../../api/lydia-api";
-import { Lederstatistikk } from "../../domenetyper/lederstatistikk";
+import { useFilterverdier, useHentStatusoversikt } from "../../api/lydia-api";
+import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { StatistikkTabell } from "./StatistikkTabell";
 import { SideContainer } from "../../styling/containere";
 
-export const Lederstatistikkside = () => {
-    useTittel(statiskeSidetitler.lederstatistikkside)
+export const Statusoversiktside = () => {
+    useTittel(statiskeSidetitler.statusoversiktside)
 
-    const [lederstatistikkListe, setLederstatistikkListe] =
-        useState<Lederstatistikk[]>();
+    const [statusoversiktListe, setStatusoversiktListe] =
+        useState<Statusoversikt[]>();
     const [skalSøke, setSkalSøke] = useState(false);
 
     const [filtervisningLoaded, setFiltervisningLoaded] = useState(false);
-    const harSøktMinstEnGang = lederstatistikkListe !== undefined;
+    const harSøktMinstEnGang = statusoversiktListe !== undefined;
     const fantResultaterISøk =
-        harSøktMinstEnGang && lederstatistikkListe.length > 0;
+        harSøktMinstEnGang && statusoversiktListe.length > 0;
     const skalViseTabell = fantResultaterISøk && !skalSøke;
 
     const { data: filterverdier } = useFilterverdier();
     const filtervisning = useFiltervisningState();
 
     const {
-        data: lederstatistikkResultatFraApi,
+        data: statusoversiktResultatFraApi,
         error,
         loading,
-    } = useHentLederstatistikk({
+    } = useHentStatusoversikt({
         filterstate: filtervisning.state,
         initierSøk: skalSøke,
     });
@@ -42,11 +42,11 @@ export const Lederstatistikkside = () => {
     });
 
     useEffect(() => {
-        if (lederstatistikkResultatFraApi) {
-            setLederstatistikkListe(lederstatistikkResultatFraApi.data);
+        if (statusoversiktResultatFraApi) {
+            setStatusoversiktListe(statusoversiktResultatFraApi.data);
             setSkalSøke(false);
         }
-    }, [lederstatistikkResultatFraApi]);
+    }, [statusoversiktResultatFraApi]);
 
     return (
         <SideContainer>
@@ -55,25 +55,25 @@ export const Lederstatistikkside = () => {
                 søkPåNytt={() => {
                     setSkalSøke(true);
                 }}
-                maskerteFiltre={["IA_STATUS", "EIER"]}
+                maskerteFiltre={["IA_STATUS"]}
                 søkeknappTittel={'Hent statistikk'}
             />
             <br />
             {skalViseTabell ? (
-                <StatistikkTabell lederstatistikkListe={lederstatistikkListe} />
+                <StatistikkTabell lederstatistikkListe={statusoversiktListe} />
             ) : (
                 harSøktMinstEnGang && !loading && !error && <BodyShort>Søket ga ingen resultater</BodyShort>
             )}
             {loading && (
                 <Loader
-                    title={"Henter lederstatistikk"}
+                    title={"Henter statusoversikt"}
                     variant={"interaction"}
                     size={"xlarge"}
                 />
             )}
             {error && (
                 <BodyShort>
-                    Noe gikk galt under uthenting av lederstatistikk
+                    Noe gikk galt under uthenting av statusoversikt
                 </BodyShort>
             )}
         </SideContainer>

@@ -10,7 +10,7 @@ import { FeilmeldingBanner } from "./components/Banner/FeilmeldingBanner";
 import { Dekoratør } from "./components/Dekoratør/Dekoratør";
 import { contentSpacing } from "./styling/contentSpacing";
 import { Footer } from "./components/Footer/Footer";
-import { Lederstatistikkside } from "./Pages/Lederstatistikk/Lederstatistikkside";
+import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
 
 const App = () =>
     <BrowserRouter>
@@ -30,8 +30,8 @@ const AppContent = () => {
                         element={<Prioriteringsside />}
                     />
                     <Route
-                        path={"/lederstatistikk"}
-                        element={<Lederstatistikkside />}
+                        path={"/statusoversikt"}
+                        element={<Statusoversiktside />}
                     />
                     <Route
                         path={"/virksomhet/:orgnummer"}
