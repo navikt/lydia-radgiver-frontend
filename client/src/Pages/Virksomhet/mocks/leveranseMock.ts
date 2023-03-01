@@ -70,7 +70,22 @@ export const moduler: Modul[] = [
     {
         id: 11,
         iaTjeneste: 3,
-        navn: "Bedriftstiltaket",
+        navn: "Muskel- og skjelett",
+    },
+    {
+        id: 12,
+        iaTjeneste: 3,
+        navn: "Smertemestring og arbeidsmiljø",
+    },
+    {
+        id: 13,
+        iaTjeneste: 3,
+        navn: "Psykisk helse",
+    },
+    {
+        id: 14,
+        iaTjeneste: 3,
+        navn: "Sees i morgen",
     },
 ]
 
