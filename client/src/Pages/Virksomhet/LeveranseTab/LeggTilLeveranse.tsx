@@ -120,6 +120,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
                 <Select label="Modul" value={valgtModul} onChange={endreValgtModul} disabled={!brukerErEierAvSak}>
                     <option value="">{lasterModuler && "Laster moduler..."}</option>
                     {moduler?.filter((modul) => modul.iaTjeneste.toString() === valgtIATjeneste)
+                        .filter((modul) => modul.id !== 11) // Filtrerar bort Bedriftstiltaket medan vi jobbar med fjerning av denne modulen
                         .filter((modul) => erModulIkkeValgt(modul))
                         .sort(modulAlfabetiskPåNavn)
                         .map((modul) =>
