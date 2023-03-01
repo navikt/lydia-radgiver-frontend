@@ -139,7 +139,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
                     />
 
                 </UNSAFE_DatePicker>
-                <LeggTilKnapp onClick={leggTilLeveranse} disabled={!brukerErEierAvSak}>Legg til</LeggTilKnapp>
+                <LeggTilKnapp onClick={leggTilLeveranse} disabled={!brukerErEierAvSak || valgtModul === "" || !selectedDay}>Legg til</LeggTilKnapp>
             </Form>
         </div>
 
