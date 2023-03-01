@@ -1,14 +1,15 @@
 import { useState } from "react";
-import { Button, Heading, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt/ds-react";
+import { BodyShort, Button, Heading, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt/ds-react";
 import {
     nyLeveransePåSak,
+    useHentBrukerinformasjon,
+    useHentIATjenester,
     useHentLeveranser,
-    useHentModuler,
-    useHentIATjenester
+    useHentModuler
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import { Leveranse, IATjeneste, Modul } from "../../../domenetyper/leveranse";
+import { IATjeneste, Leveranse, Modul } from "../../../domenetyper/leveranse";
 import { sorterAlfabetisk } from "../../../util/sortering";
 
 const Form = styled.form`
@@ -35,6 +36,9 @@ interface Props {
 }
 
 export const LeggTilLeveranse = ({ iaSak }: Props) => {
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
+
     const [forTidlig, setForTidlig] = useState<boolean>();
     const [ugyldig, setUgyldig] = useState<boolean>();
 
@@ -98,14 +102,22 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
     return (
         <div>
             <Heading size="small">Legg til ny leveranse</Heading>
+            {!brukerErEierAvSak &&
+                <BodyShort spacing={true}>Du må være eier av saken for å kunne legge til leveranser</BodyShort>
+            }
+
             <Form onSubmit={(e) => e.preventDefault()}>
-                <Select label="IA-tjeneste" value={valgtIATjeneste} onChange={endreValgtIATjeneste}>
+                <Select label="IA-tjeneste"
+                        value={valgtIATjeneste}
+                        onChange={endreValgtIATjeneste}
+                        disabled={!brukerErEierAvSak}
+                >
                     <option value="">{lasterIATjenester && "Laster IA-tjenester..."}</option>
                     {iaTjenester?.sort(iatjenesterStigendeEtterId).map((tjeneste) =>
                         <option value={tjeneste.id} key={tjeneste.id}>{tjeneste.navn}</option>
                     )}
                 </Select>
-                <Select label="Modul" value={valgtModul} onChange={endreValgtModul}>
+                <Select label="Modul" value={valgtModul} onChange={endreValgtModul} disabled={!brukerErEierAvSak}>
                     <option value="">{lasterModuler && "Laster moduler..."}</option>
                     {moduler?.filter((modul) => modul.iaTjeneste.toString() === valgtIATjeneste)
                         .filter((modul) => erModulIkkeValgt(modul))
@@ -121,10 +133,12 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
                                                  (ugyldig &&
                                                      "Dette er ikke en gyldig dato. Gyldig format er DD.MM.ÅÅÅÅ") ||
                                                  (forTidlig && "Frist kan tidligst være idag")
-                                             } />
+                                             }
+                                             disabled={!brukerErEierAvSak}
+                    />
 
                 </UNSAFE_DatePicker>
-                <LeggTilKnapp onClick={leggTilLeveranse}>Legg til</LeggTilKnapp>
+                <LeggTilKnapp onClick={leggTilLeveranse} disabled={!brukerErEierAvSak}>Legg til</LeggTilKnapp>
             </Form>
         </div>
 

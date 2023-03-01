@@ -5,7 +5,6 @@ import { LeggTilLeveranse } from "./LeggTilLeveranse";
 import { LeveranseOversikt } from "./LeveranseOversikt";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { EksternLenke } from "../../../components/EksternLenke";
-import { useHentBrukerinformasjon } from "../../../api/lydia-api";
 
 const Container = styled.div`
   height: 100%;
@@ -22,8 +21,6 @@ interface Props {
 
 export const LeveranseTab = ({ iaSak }: Props) => {
     const sakenErIViBistår = iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR;
-    const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
 
     return (
         <Container>
@@ -40,7 +37,7 @@ export const LeveranseTab = ({ iaSak }: Props) => {
                 </BodyShort>
             </div>
             <LeveranseOversikt iaSak={iaSak} />
-            {sakenErIViBistår && brukerErEierAvSak &&
+            {sakenErIViBistår &&
                 <LeggTilLeveranse iaSak={iaSak} />
             }
         </Container>
