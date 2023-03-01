@@ -18,9 +18,11 @@ export const IATjeneste = ({ iaTjenesteMedLeveranser, iaSak }: Props) => {
     return (
         <Table>
             <Table.Header>
-                <Table.HeaderCell colSpan={5}>
-                    <Heading size="xsmall">{iaTjenesteMedLeveranser.iaTjeneste.navn}</Heading>
-                </Table.HeaderCell>
+                <Table.Row>
+                    <Table.HeaderCell colSpan={5}>
+                        <Heading size="xsmall">{iaTjenesteMedLeveranser.iaTjeneste.navn}</Heading>
+                    </Table.HeaderCell>
+                </Table.Row>
             </Table.Header>
             <Table.Body>
                 {
