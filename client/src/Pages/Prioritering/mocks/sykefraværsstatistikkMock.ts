@@ -28,14 +28,25 @@ export const sykefraværsstatistikkSisteKvartalMock: VirkomshetsstatistikkSisteK
     "maskert": false,
 }];
 
-export const gjeldendePeriodeSiste4Kvartal: KvartalFraTil = {
+export const forrigePeriodeSiste4Kvartal: KvartalFraTil = {
     fra: {
-        kvartal: 3,
-        årstall: 2020,
+        kvartal: 4,
+        årstall: 2021,
     },
     til: {
-        kvartal: 2,
-        årstall: 2021,
+        kvartal: 3,
+        årstall: 2022,
+    }
+}
+
+export const gjeldendePeriodeSiste4Kvartal: KvartalFraTil = {
+    fra: {
+        kvartal: 1,
+        årstall: 2022,
+    },
+    til: {
+        kvartal: 4,
+        årstall: 2022,
     }
 }
 

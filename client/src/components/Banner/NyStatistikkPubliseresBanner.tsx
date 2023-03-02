@@ -1,13 +1,34 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
+import { useHentGjeldendePeriodeForVirksomhetSiste4Kvartal } from "../../api/lydia-api";
+import { KvartalFraTil } from "../../domenetyper/kvartal";
 
 const publiseringsdag = "torsdag 2. mars";
-const nyttKvartal = "4. kvartal 2022";
-const siste4fra = "1. kvartal 2022";
+const nyPeriode: KvartalFraTil = {
+    fra: {
+        kvartal: 1,
+        årstall: 2022,
+    },
+    til: {
+        kvartal: 4,
+        årstall: 2022
+    },
+}
+const nyttKvartal = `${nyPeriode.til.kvartal}. kvartal ${nyPeriode.til.årstall}`;
+const siste4fra = `${nyPeriode.fra.kvartal}. kvartal ${nyPeriode.fra.årstall}`;
 const siste4til = nyttKvartal;
 
 export const NyStatistikkPubliseresBanner = () => {
-    const statistikkErPublisert = true;
+    const {
+        data: gjeldendePeriodeSiste4kvartal,
+        loading: lasterGjeldendePeriodeSiste4kvartal
+    } = useHentGjeldendePeriodeForVirksomhetSiste4Kvartal()
+
+    if (lasterGjeldendePeriodeSiste4kvartal) {
+        return null;
+    }
+
+    const statistikkErPublisert = JSON.stringify(nyPeriode) === JSON.stringify(gjeldendePeriodeSiste4kvartal);
 
     return (
         <>
