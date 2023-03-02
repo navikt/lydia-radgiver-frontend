@@ -66,6 +66,11 @@ export const moduler: Modul[] = [
         iaTjeneste: 2,
         navn: "Livsfaseorientert personalpolitikk",
     },
+    {
+        id: 14,
+        iaTjeneste: 2,
+        navn: "Sees i morgen",
+    },
     // 3 - "HelseIArbeid"
     {
         id: 11,
@@ -81,11 +86,6 @@ export const moduler: Modul[] = [
         id: 13,
         iaTjeneste: 3,
         navn: "Psykisk helse",
-    },
-    {
-        id: 14,
-        iaTjeneste: 3,
-        navn: "Sees i morgen",
     },
 ]
 
