@@ -7,7 +7,7 @@ const siste4fra = "1. kvartal 2022";
 const siste4til = nyttKvartal;
 
 export const NyStatistikkPubliseresBanner = () => {
-    const statistikkErPublisert = false;
+    const statistikkErPublisert = true;
 
     return (
         <>
