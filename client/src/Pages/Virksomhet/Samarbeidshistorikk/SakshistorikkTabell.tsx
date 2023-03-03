@@ -19,7 +19,7 @@ interface SakshistorikkTabellProps {
 }
 
 export const SakshistorikkTabell = ({ sakshistorikk }: SakshistorikkTabellProps) => {
-    const kolonneNavn = ["Status", "Tidspunkt", "Begrunnelse", "Eier"];
+    const kolonneNavn = ["Status", "Tidspunkt", "Detaljer", "Eier"];
 
     return (
         <StyledTable zebraStripes={true}>
@@ -43,6 +43,9 @@ export const SakshistorikkTabell = ({ sakshistorikk }: SakshistorikkTabellProps)
                                 {lokalDato(sakSnapshot.tidspunktForSnapshot)}
                             </Table.DataCell>
                             <Table.DataCell>
+                                {sakSnapshot.begrunnelser.length > 0 &&
+                                    <Detail>Begrunnelse</Detail>
+                                }
                                 <ul style={{ margin: "0" }}>
                                     {sakSnapshot.begrunnelser.map(begrunnelse =>
                                         (<li key={begrunnelse}>
@@ -60,4 +63,5 @@ export const SakshistorikkTabell = ({ sakshistorikk }: SakshistorikkTabellProps)
             </Table.Body>
         </StyledTable>
     );
-};
+}
+    ;
