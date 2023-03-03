@@ -16,13 +16,18 @@ const DemoversjonTekst = styled(BodyShort)<{ hidden: boolean }>`
 `;
 
 const LenkeTilSøkesiden = styled(Link)`
-  margin-right: auto;
   color: ${NavFarger.textInverted};
   text-decoration: none;
 
   &:hover {
     text-decoration: underline;
   }
+`;
+
+const LenkeTilStatusoversikt = styled(Link)`
+  margin-left: 1rem;
+  margin-right: auto;
+  color: ${NavFarger.textInverted};
 `;
 
 interface Props {
@@ -38,6 +43,9 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                 <LenkeTilSøkesiden href="/" title="Gå til søkesiden">
                     <Header.Title as="h1">Fia</Header.Title>
                 </LenkeTilSøkesiden>
+                <LenkeTilStatusoversikt href="/statusoversikt">
+                    Statusoversikt
+                </LenkeTilStatusoversikt>
                 <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
                 <Søkefelt style={{
                     minWidth: "16rem",
