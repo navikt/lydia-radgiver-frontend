@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { BodyShort, Loader, SortState } from "@navikt/ds-react";
 import { Filtervisning } from "./Filter/Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
-import { useFilterverdier, useHentVirksomhetsoversiktListe, } from "../../api/lydia-api";
+import { useFilterverdier, useHentAntallTreff, useHentVirksomhetsoversiktListe, } from "../../api/lydia-api";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { useFiltervisningState } from "./Filter/filtervisning-reducer";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
@@ -18,21 +18,29 @@ export const Prioriteringsside = () => {
         orderBy: "tapte_dagsverk",
     });
 
-    const [virksomhetsoversiktListe, setVirksomhetsoversiktListe] = useState<Virksomhetsoversikt[]>();
     const [skalSøke, setSkalSøke] = useState(false);
+    const [virksomhetsoversiktListe, setVirksomhetsoversiktListe] = useState<Virksomhetsoversikt[]>();
+    const [totaltAntallTreff, setTotaltAntallTreff] = useState<number>()
     const [filtervisningLoaded, setFiltervisningLoaded] = useState(false);
+    const { data: filterverdier } = useFilterverdier();
+    const filtervisning = useFiltervisningState();
     const harSøktMinstEnGang = virksomhetsoversiktListe !== undefined;
     const fantResultaterISøk = harSøktMinstEnGang && virksomhetsoversiktListe.length > 0;
     const skalViseTabell = fantResultaterISøk && !skalSøke;
 
-    const { data: filterverdier } = useFilterverdier();
-    const filtervisning = useFiltervisningState();
+
     const {
-        data: virksomhetsoversiktResultatFraApi,
-        error,
-        loading,
-        antallTreff: totaltAntallTreff,
+        data: virksomhetsoversiktListeRespons,
+        loading: lasterVirksomhetsoversiktListe,
+        error: virksomhetsoversiktListeFeil,
     } = useHentVirksomhetsoversiktListe({
+        filterstate: filtervisning.state,
+        initierSøk: skalSøke,
+    });
+
+    const {
+        data: antallTreff,
+    } = useHentAntallTreff({
         filterstate: filtervisning.state,
         initierSøk: skalSøke,
     });
@@ -42,14 +50,19 @@ export const Prioriteringsside = () => {
             filtervisning.lastData({ filterverdier });
             setFiltervisningLoaded(true);
         }
-    });
+    }, [filterverdier, filtervisningLoaded]);
 
     useEffect(() => {
-        if (virksomhetsoversiktResultatFraApi) {
-            setVirksomhetsoversiktListe(virksomhetsoversiktResultatFraApi.data);
+        if (virksomhetsoversiktListeRespons) {
+            setVirksomhetsoversiktListe(virksomhetsoversiktListeRespons.data);
             setSkalSøke(false);
         }
-    }, [virksomhetsoversiktResultatFraApi]);
+    }, [virksomhetsoversiktListeRespons]);
+    useEffect(() => {
+        if (antallTreff) {
+            setTotaltAntallTreff(antallTreff);
+        }
+    }, [antallTreff]);
 
     function oppdaterSide(side: number, sortering?: SortState) {
         filtervisning.oppdaterSide({
@@ -83,17 +96,17 @@ export const Prioriteringsside = () => {
                     totaltAntallTreff={totaltAntallTreff}
                 />
             ) : (
-                harSøktMinstEnGang && !loading && <BodyShort>Søket ga ingen resultater</BodyShort>
+                harSøktMinstEnGang && !lasterVirksomhetsoversiktListe && <BodyShort>Søket ga ingen resultater</BodyShort>
             )}
             <div>
-                {loading && (
+                {lasterVirksomhetsoversiktListe && (
                     <Loader
                         title={"Henter sykefraværsstatistikk"}
                         variant={"interaction"}
                         size={"xlarge"}
                     />
                 )}
-                {error && (
+                {virksomhetsoversiktListeFeil && (
                     <BodyShort>
                         Noe gikk galt under uthenting av sykefraværsstatistikk
                     </BodyShort>

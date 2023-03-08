@@ -32,6 +32,8 @@ const mockEnv = () => {
     process.env[envVars.fiaSaksbehandlerGroupId] = "ensaksbehandlerGroupId"
     process.env[envVars.fiaLesetilgangGroupId] = "enlesetilgangGroupId"
     process.env[envVars.sessionSecret] = "secret"
+    process.env[envVars.csrfSecret] = "csrf"
+    process.env[envVars.cookieSecret] = "cookie"
 };
 
 export async function createMockToken() {

@@ -165,6 +165,8 @@ services:
       REDIS_PORT: 6379
       NAIS_CLUSTER_NAME: dev
       SESSION_SECRET: secret
+      CSRF_SECRET: csrf
+      COOKIE_SECRET: cookie
       OBO_TOKEN_ENC_KEY: bogus
       NAIS_NAMESPACE: pia
       LYDIA_API_URI: http://backend:8080
