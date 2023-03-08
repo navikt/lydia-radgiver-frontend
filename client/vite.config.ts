@@ -12,6 +12,7 @@ export default defineConfig({
                 changeOrigin: true,
             },
             "/innloggetAnsatt": "http://localhost:3000",
+            "/csrf-token" : "http://localhost:3000",
         },
     },
     build: {

@@ -1,31 +1,34 @@
 import {JWKSetRetriever} from "./jwks";
 
-
 interface ConfigOptions {
     azure?: Azure
     server?: Server
     lydiaApi?: LydiaApi
     jwkSet?: JWKSetRetriever
+    secrets?: Secrets
 }
 
 export class Config {
-    azure: Azure
-    server: Server
-    lydiaApi: LydiaApi
-    _jwkSet: JWKSetRetriever
+    azure: Azure;
+    server: Server;
+    lydiaApi: LydiaApi;
+    _jwkSet: JWKSetRetriever;
+    secrets: Secrets;
 
     constructor(
         {
             azure = new Azure(),
             server = new Server(),
             lydiaApi = new LydiaApi(),
-            jwkSet
+            jwkSet,
+            secrets = new Secrets(),
         }: ConfigOptions = {}
     ) {
         this.azure = azure
         this.server = server
         this.lydiaApi = lydiaApi
         this._jwkSet = jwkSet
+        this.secrets = secrets;
     }
 }
 
@@ -43,6 +46,8 @@ export const envVars = {
     fiaSaksbehandlerGroupId: "FIA_SAKSBEHANDLER_GROUP_ID",
     fiaLesetilgangGroupId: "FIA_LESETILGANG_GROUP_ID",
     sessionSecret: "SESSION_SECRET",
+    csrfSecret: "CSRF_SECRET",
+    cookieSecret: "COOKIE_SECRET",
 }
 
 export class Azure {
@@ -84,6 +89,19 @@ export class LydiaApi {
     ) {
         this.uri = uri
         this.scope = `api://${getEnvVar(envVars.clusterName)}.${getEnvVar(envVars.nameSpace)}.lydia-api/.default`
+    }
+}
+
+export class Secrets {
+    csrf: string;
+    cookie: string;
+
+    constructor(
+        csrf = getEnvVar(envVars.csrfSecret),
+        cookie = getEnvVar(envVars.cookieSecret)
+    ) {
+        this.csrf = csrf;
+        this.cookie = cookie;
     }
 }
 

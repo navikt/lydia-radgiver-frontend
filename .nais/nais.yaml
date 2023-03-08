@@ -59,6 +59,7 @@ spec:
       value: {{fiaLesetilgangGroup}}
   envFrom:
     - secret: fia-redis
+    - secret: fia-frackend
   ingresses:
   {{#each ingresses as |url|}}
      - {{url}}

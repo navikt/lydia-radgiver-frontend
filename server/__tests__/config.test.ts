@@ -13,7 +13,9 @@ const settOppNødvendigEnvVariabler = () => {
         envVars.nameSpace,
         envVars.lydiaApiUri,
         envVars.azureOpenidConfigIssuer,
-        envVars.jwkUri
+        envVars.jwkUri,
+        envVars.csrfSecret,
+        envVars.cookieSecret
     ]
     nødvedigeMiljøVariabler.forEach(name => setEnvVar(name, "verdi"))
 }

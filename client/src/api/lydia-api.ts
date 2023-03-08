@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import useSWR, { SWRConfiguration } from "swr";
 import { z, ZodError, ZodType } from "zod";
 import { isoDato } from "../util/dato";
@@ -27,11 +26,10 @@ import {
     NyLeveranseDTO
 } from "../domenetyper/leveranse";
 import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartal";
-import { StatusoversiktListeRespons, statusoversiktListeResponsSchema } from "../domenetyper/statusoversikt";
+import { statusoversiktListeResponsSchema } from "../domenetyper/statusoversikt";
 import { Sakshistorikk, sakshistorikkSchema } from "../domenetyper/sakshistorikk";
 import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
 import {
-    VirksomhetsoversiktListeRespons,
     virksomhetsoversiktListeResponsSchema
 } from "../domenetyper/virksomhetsoversikt";
 import {
@@ -63,6 +61,16 @@ const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnReconnect: false,
 };
 
+const csrfFetcher = async () => fetch("/csrf-token", {
+    method: "GET",
+    headers: {
+        "Content-Type": "application/json"
+    }
+})
+    .then(res => res.json())
+    .then(csrfJson => csrfJson.csrfToken)
+
+
 const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
     fetch(...args)
         .then((res) => res.ok ? res : Promise.reject("Noe har gått galt. Prøv å laste inn siden på nytt."))
@@ -70,15 +78,19 @@ const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
         .catch((feilmelding) => dispatchFeilmelding({ feilmelding }));
 
 const fetchNative =
-    (method: "GET" | "POST" | "DELETE" | "PUT") =>
+    (method: "POST" | "DELETE" | "PUT") =>
         <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
-            fetch(url, {
-                method,
-                body: body ? JSON.stringify(body) : undefined,
-                headers: {
-                    "Content-Type": "application/json",
-                },
-            })
+            csrfFetcher()
+                .then(csrfToken =>
+                    fetch(url, {
+                        method,
+                        body: body ? JSON.stringify(body) : undefined,
+                        headers: {
+                            "Content-Type": "application/json",
+                            "x-csrf-token": csrfToken,
+                        },
+                    })
+                )
                 .then((res) => (res.ok ? res : Promise.reject(res.text())))
                 .then((res) => res.json())
                 .catch((e: Promise<string | ZodError>) => {
@@ -101,8 +113,6 @@ const fetchNative =
 
 const post = <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
     fetchNative("POST")(url, schema, body);
-const get = <T>(url: string, schema: ZodType<T>): Promise<T> =>
-    fetchNative("GET")(url, schema);
 const put = <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
     fetchNative("PUT")(url, schema, body);
 const httpDelete = <T>(url: string, schema: ZodType<T>): Promise<T> =>
@@ -180,100 +190,24 @@ const getSykefraværsstatistikkAntallTreffUrl = (
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);
 
-function hentAntallTreff(
-    søkeverdier: FiltervisningState,
-    initierSøk: boolean,
-    setError: (value: ((prevState: string) => string) | string) => void
-) {
-    const [antallTreff, setAntallTreff] = useState<number>();
-    const antallTreffUrl = getSykefraværsstatistikkAntallTreffUrl(søkeverdier);
-
-    useEffect(() => {
-        if (søkeverdier.side === 1 && initierSøk) {
-            setAntallTreff(undefined);
-            get(antallTreffUrl, z.number())
-                .then((response) => {
-                    setError("");
-                    setAntallTreff(response);
-                })
-                .catch((e) => {
-                    setError(e.message);
-                });
-        }
-    }, [antallTreffUrl, initierSøk, søkeverdier.side]);
-    return antallTreff;
-}
-
-export const useHentStatusoversikt = ({
-    filterstate,
-    initierSøk = true,
-}: {
+interface SøkeProps {
     filterstate: FiltervisningState;
     initierSøk?: boolean;
-}) => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
-    const [statusoversiktListe, setStatusoversiktListe] =
-        useState<StatusoversiktListeRespons>();
+}
 
+export function useHentAntallTreff({ filterstate, initierSøk = true, }: SøkeProps) {
+    const antallTreffUrl = getSykefraværsstatistikkAntallTreffUrl(filterstate);
+    return useSwrTemplate(initierSøk ? antallTreffUrl : null, z.number());
+}
+
+export const useHentStatusoversikt = ({ filterstate, initierSøk = true, }: SøkeProps) => {
     const statusoversiktUrl = getStatusoversiktUrl(filterstate);
+    return useSwrTemplate(initierSøk ? statusoversiktUrl : null, statusoversiktListeResponsSchema);
+};
 
-    useEffect(() => {
-        if (initierSøk) {
-            setLoading(true);
-
-            get(statusoversiktUrl, statusoversiktListeResponsSchema)
-                .then((response) => {
-                    setError("");
-                    setStatusoversiktListe(response);
-                })
-                .catch((e) => {
-                    setError(e.message);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    }, [statusoversiktUrl, initierSøk]);
-
-    return { error, loading, data: statusoversiktListe };
-}
-
-export const useHentVirksomhetsoversiktListe = ({
-    filterstate,
-    initierSøk = true,
-}: {
-    filterstate: FiltervisningState;
-    initierSøk?: boolean;
-}) => {
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState("");
-    const [virksomhetsoversiktListe, setVirksomhetsoversiktListe] =
-        useState<VirksomhetsoversiktListeRespons>();
-
+export const useHentVirksomhetsoversiktListe = ({ filterstate, initierSøk = true, }: SøkeProps) => {
     const sykefraværUrl = getSykefraværsstatistikkUrl(filterstate); // Funfact: Endepunktet for virksomhetsoversikt heter "sykefravær"
-
-    useEffect(() => {
-        if (initierSøk) {
-            setLoading(true);
-
-            get(sykefraværUrl, virksomhetsoversiktListeResponsSchema)
-                .then((response) => {
-                    setError("");
-                    setVirksomhetsoversiktListe(response);
-                })
-                .catch((e) => {
-                    setError(e.message);
-                })
-                .finally(() => {
-                    setLoading(false);
-                });
-        }
-    }, [sykefraværUrl, initierSøk]);
-
-    const antallTreff = hentAntallTreff(filterstate, initierSøk, setError);
-
-    return { error, loading, data: virksomhetsoversiktListe, antallTreff };
+    return useSwrTemplate(initierSøk ? sykefraværUrl : null, virksomhetsoversiktListeResponsSchema);
 };
 
 export const useHentVirksomhetsstatistikkSiste4Kvartaler = (
@@ -386,19 +320,19 @@ const appendIfPresent = <T>(
 };
 
 export const søkeverdierTilUrlSearchParams = ({
-    kommuner,
-    valgtFylke: fylkeMedKommune,
-    næringsgrupper,
-    sykefraværsprosent,
-    antallArbeidsforhold,
-    sorteringsretning,
-    sorteringsnokkel,
-    iaStatus,
-    side,
-    bransjeprogram,
-    eiere,
-    sektor,
-}: FiltervisningState) => {
+                                                  kommuner,
+                                                  valgtFylke: fylkeMedKommune,
+                                                  næringsgrupper,
+                                                  sykefraværsprosent,
+                                                  antallArbeidsforhold,
+                                                  sorteringsretning,
+                                                  sorteringsnokkel,
+                                                  iaStatus,
+                                                  side,
+                                                  bransjeprogram,
+                                                  eiere,
+                                                  sektor,
+                                              }: FiltervisningState) => {
     const params = new URLSearchParams();
     appendIfPresent(
         "kommuner",

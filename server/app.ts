@@ -1,20 +1,22 @@
-import express, {NextFunction, Request, Response} from "express";
+import express, { NextFunction, Request, Response } from "express";
 import helmet from "helmet";
 import path from "path";
 import apiMetrics from "prometheus-api-metrics";
 
-import {LydiaApiProxy} from "./proxy";
+import { LydiaApiProxy } from "./proxy";
 import {
     onBehalfOfTokenMiddleware,
     validerTokenFraFakedings,
     validerTokenFraWonderwall,
 } from "./onBehalfOf";
-import {Config} from "./config";
+import { Config } from "./config";
 import logger from "./logging";
-import {AuthError} from "./error";
-import {hentInnloggetAnsattMiddleware} from "./brukerinfo";
-import {memorySessionManager, redisSessionManager} from "./RedisStore";
-import {randomUUID} from "crypto";
+import { AuthError } from "./error";
+import { hentInnloggetAnsattMiddleware } from "./brukerinfo";
+import { memorySessionManager, redisSessionManager } from "./RedisStore";
+import { randomUUID } from "crypto";
+import { doubleCsrf } from "csrf-csrf";
+import cookieParser from "cookie-parser";
 
 export const inCloudMode = () => process.env.NAIS_CLUSTER_NAME === "dev-gcp" || process.env.NAIS_CLUSTER_NAME === "prod-gcp"
 
@@ -54,6 +56,26 @@ export default class Application {
             inLocalMode()
                 ? validerTokenFraFakedings(config.azure, config._jwkSet)
                 : validerTokenFraWonderwall(config.azure, config._jwkSet);
+
+        const {
+            generateToken, // Use this in your routes to provide a CSRF hash cookie and token.
+            doubleCsrfProtection, // This is the default CSRF protection middleware.
+        } = doubleCsrf({
+            getSecret: () => config.secrets.csrf,
+            cookieName: "__fia.intern.nav.no-x-csrf-token"
+        });
+        const csrfTokenRoute = (request, response) => {
+            const csrfToken = generateToken(response, request);
+            response.json({ csrfToken });
+        };
+        this.expressApp.use((req, res, next) => {
+           generateToken(res, req);
+           next()
+        })
+        // this.expressApp.use(cookieParser(config.secrets.cookie))
+        this.expressApp.use(cookieParser(config.secrets.cookie))
+        this.expressApp.get("/csrf-token", tokenValidator, csrfTokenRoute);
+        this.expressApp.use(doubleCsrfProtection);
 
         this.expressApp.get("/loggut", (req, res, next) => {
             req.session.destroy((err) => {
