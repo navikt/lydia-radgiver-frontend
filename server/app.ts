@@ -68,11 +68,6 @@ export default class Application {
             const csrfToken = generateToken(response, request);
             response.json({ csrfToken });
         };
-        this.expressApp.use((req, res, next) => {
-           generateToken(res, req);
-           next()
-        })
-        // this.expressApp.use(cookieParser(config.secrets.cookie))
         this.expressApp.use(cookieParser(config.secrets.cookie))
         this.expressApp.get("/csrf-token", tokenValidator, csrfTokenRoute);
         this.expressApp.use(doubleCsrfProtection);
