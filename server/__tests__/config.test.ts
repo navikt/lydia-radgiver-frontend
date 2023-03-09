@@ -1,4 +1,4 @@
-import { Config, envVars } from "../config"
+import { Config, miljøVariabler } from "../config"
 
 const setEnvVar = (name : string, value : string) : void => {
     process.env[name] = value
@@ -6,16 +6,16 @@ const setEnvVar = (name : string, value : string) : void => {
 
 const settOppNødvendigEnvVariabler = () => {
     const nødvedigeMiljøVariabler = [
-        envVars.azureAppClientId,
-        envVars.azureOpenidConfigTokenEndpoint,
-        envVars.azureAppClientSecret,
-        envVars.clusterName,
-        envVars.nameSpace,
-        envVars.lydiaApiUri,
-        envVars.azureOpenidConfigIssuer,
-        envVars.jwkUri,
-        envVars.csrfSecret,
-        envVars.cookieSecret
+        miljøVariabler.azureAppClientId,
+        miljøVariabler.azureOpenidConfigTokenEndpoint,
+        miljøVariabler.azureAppClientSecret,
+        miljøVariabler.clusterName,
+        miljøVariabler.nameSpace,
+        miljøVariabler.lydiaApiUri,
+        miljøVariabler.azureOpenidConfigIssuer,
+        miljøVariabler.jwkUri,
+        miljøVariabler.csrfHemmelighet,
+        miljøVariabler.cookieHemmelighet
     ]
     nødvedigeMiljøVariabler.forEach(name => setEnvVar(name, "verdi"))
 }
@@ -33,7 +33,7 @@ describe("Tester konfigurasjon", () => {
     test("Det er mulig å spesifisere port for server hvis man ønsker", () => {
         settOppNødvendigEnvVariabler()
         const serverPort = 12345
-        setEnvVar(envVars.serverPort, serverPort.toString())
+        setEnvVar(miljøVariabler.serverPort, serverPort.toString())
         const config = new Config()
         expect(config.server.port).toBe(serverPort)
     })

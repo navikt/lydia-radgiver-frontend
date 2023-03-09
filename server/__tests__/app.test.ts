@@ -1,6 +1,6 @@
 import request from "supertest";
 import {Express} from "express";
-import {Config, envVars} from "../config";
+import {Config, miljøVariabler} from "../config";
 import Application from "../app";
 import nock from "nock";
 import {generateLocalKeys, setupLocalJwkSet} from "../jwks";
@@ -18,22 +18,22 @@ const azureClientId = "azureAppClientId";
 let privateKey: KeyLike;
 
 const mockEnv = () => {
-    process.env[envVars.clusterName] = "local";
+    process.env[miljøVariabler.clusterName] = "local";
     process.env["OBO_TOKEN_ENC_KEY"] = "min_kryptonøkkel";
-    process.env[envVars.nameSpace] = "pia";
-    process.env[envVars.azureAppClientId] = azureClientId;
-    process.env[envVars.azureOpenidConfigIssuer] = "azure";
-    process.env[envVars.azureOpenidConfigTokenEndpoint] = azureOpenidConfigTokenEndpoint;
-    process.env[envVars.azureAppClientSecret] = "azureAppClientSecret";
-    process.env[envVars.serverPort] = "8080";
-    process.env[envVars.lydiaApiUri] = lydiaApiUri;
-    process.env[envVars.jwkUri] = "hei123";
-    process.env[envVars.fiaSuperbrukerGroupId] = "ensuperbrukerGroupId"
-    process.env[envVars.fiaSaksbehandlerGroupId] = "ensaksbehandlerGroupId"
-    process.env[envVars.fiaLesetilgangGroupId] = "enlesetilgangGroupId"
-    process.env[envVars.sessionSecret] = "secret"
-    process.env[envVars.csrfSecret] = "csrf"
-    process.env[envVars.cookieSecret] = "cookie"
+    process.env[miljøVariabler.nameSpace] = "pia";
+    process.env[miljøVariabler.azureAppClientId] = azureClientId;
+    process.env[miljøVariabler.azureOpenidConfigIssuer] = "azure";
+    process.env[miljøVariabler.azureOpenidConfigTokenEndpoint] = azureOpenidConfigTokenEndpoint;
+    process.env[miljøVariabler.azureAppClientSecret] = "azureAppClientSecret";
+    process.env[miljøVariabler.serverPort] = "8080";
+    process.env[miljøVariabler.lydiaApiUri] = lydiaApiUri;
+    process.env[miljøVariabler.jwkUri] = "hei123";
+    process.env[miljøVariabler.fiaSuperbrukerGroupId] = "ensuperbrukerGroupId"
+    process.env[miljøVariabler.fiaSaksbehandlerGroupId] = "ensaksbehandlerGroupId"
+    process.env[miljøVariabler.fiaLesetilgangGroupId] = "enlesetilgangGroupId"
+    process.env[miljøVariabler.sessionHemmelighet] = "secret"
+    process.env[miljøVariabler.csrfHemmelighet] = "csrf"
+    process.env[miljøVariabler.cookieHemmelighet] = "cookie"
 };
 
 export async function createMockToken() {

@@ -32,7 +32,7 @@ export class Config {
     }
 }
 
-export const envVars = {
+export const miljøVariabler = {
     azureAppClientId: "AZURE_APP_CLIENT_ID",
     azureOpenidConfigTokenEndpoint: "AZURE_OPENID_CONFIG_TOKEN_ENDPOINT",
     azureAppClientSecret: "AZURE_APP_CLIENT_SECRET",
@@ -45,9 +45,9 @@ export const envVars = {
     fiaSuperbrukerGroupId: "FIA_SUPERBRUKER_GROUP_ID",
     fiaSaksbehandlerGroupId: "FIA_SAKSBEHANDLER_GROUP_ID",
     fiaLesetilgangGroupId: "FIA_LESETILGANG_GROUP_ID",
-    sessionSecret: "SESSION_SECRET",
-    csrfSecret: "CSRF_SECRET",
-    cookieSecret: "COOKIE_SECRET",
+    sessionHemmelighet: "SESSION_SECRET",
+    csrfHemmelighet: "CSRF_SECRET",
+    cookieHemmelighet: "COOKIE_SECRET",
 }
 
 export class Azure {
@@ -58,11 +58,11 @@ export class Azure {
     jwkUri: string
 
     constructor(
-        clientId: string = getEnvVar(envVars.azureAppClientId),
-        tokenEndpoint: string = getEnvVar(envVars.azureOpenidConfigTokenEndpoint),
-        clientSecret: string = getEnvVar(envVars.azureAppClientSecret),
-        issuer: string = getEnvVar(envVars.azureOpenidConfigIssuer),
-        jwkUri: string = getEnvVar(envVars.jwkUri)
+        clientId: string = getEnvVar(miljøVariabler.azureAppClientId),
+        tokenEndpoint: string = getEnvVar(miljøVariabler.azureOpenidConfigTokenEndpoint),
+        clientSecret: string = getEnvVar(miljøVariabler.azureAppClientSecret),
+        issuer: string = getEnvVar(miljøVariabler.azureOpenidConfigIssuer),
+        jwkUri: string = getEnvVar(miljøVariabler.jwkUri)
     ) {
         this.clientId = clientId;
         this.tokenEndpoint = tokenEndpoint;
@@ -75,7 +75,7 @@ export class Azure {
 export class Server {
     port: number
     constructor(port = 8080) {
-        const specifiedPort = getOptionalEnvVar(envVars.serverPort)
+        const specifiedPort = getOptionalEnvVar(miljøVariabler.serverPort)
         this.port = specifiedPort ? parseInt(specifiedPort) : port
     }
 }
@@ -85,10 +85,10 @@ export class LydiaApi {
     scope: string;
 
     constructor(
-        uri = getEnvVar(envVars.lydiaApiUri),
+        uri = getEnvVar(miljøVariabler.lydiaApiUri),
     ) {
         this.uri = uri
-        this.scope = `api://${getEnvVar(envVars.clusterName)}.${getEnvVar(envVars.nameSpace)}.lydia-api/.default`
+        this.scope = `api://${getEnvVar(miljøVariabler.clusterName)}.${getEnvVar(miljøVariabler.nameSpace)}.lydia-api/.default`
     }
 }
 
@@ -97,8 +97,8 @@ export class Secrets {
     cookie: string;
 
     constructor(
-        csrf = getEnvVar(envVars.csrfSecret),
-        cookie = getEnvVar(envVars.cookieSecret)
+        csrf = getEnvVar(miljøVariabler.csrfHemmelighet),
+        cookie = getEnvVar(miljøVariabler.cookieHemmelighet)
     ) {
         this.csrf = csrf;
         this.cookie = cookie;
