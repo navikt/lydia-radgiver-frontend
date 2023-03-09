@@ -4,6 +4,10 @@ import { useHentGjeldendePeriodeForVirksomhetSiste4Kvartal } from "../../api/lyd
 import { KvartalFraTil } from "../../domenetyper/kvartal";
 
 const publiseringsdag = "torsdag 2. mars";
+const publisering = new Date('2023-03-02');
+const ANTALL_DAGER_FØR_PUBLISERING_HVOR_BANNER_SKAL_VISES = 4;
+const ANTALL_DAGER_ETTER_PUBLISERING_HVOR_BANNER_SKAL_VISES = 7;
+
 const nyPeriode: KvartalFraTil = {
     fra: {
         kvartal: 1,
@@ -18,7 +22,22 @@ const nyttKvartal = `${nyPeriode.til.kvartal}. kvartal ${nyPeriode.til.årstall}
 const siste4fra = `${nyPeriode.fra.kvartal}. kvartal ${nyPeriode.fra.årstall}`;
 const siste4til = nyttKvartal;
 
+export const skjulNyStatistikkBanner = (idag: Date, publiseringsdato: Date) => {
+    const ETT_DØGN_I_MILLISEKUND = 1000 * 60 * 60 * 24;
+    const erDetForTidlig = idag.getTime() <= publiseringsdato.getTime()
+        - (ANTALL_DAGER_FØR_PUBLISERING_HVOR_BANNER_SKAL_VISES * ETT_DØGN_I_MILLISEKUND);
+    const erDetForSent = idag.getTime() >= publiseringsdato.getTime()
+        + (ANTALL_DAGER_ETTER_PUBLISERING_HVOR_BANNER_SKAL_VISES * ETT_DØGN_I_MILLISEKUND);
+
+    return erDetForTidlig || erDetForSent;
+}
+
 export const NyStatistikkPubliseresBanner = () => {
+
+    if (skjulNyStatistikkBanner(new Date(), publisering)) {
+        return null;
+    }
+
     const {
         data: gjeldendePeriodeSiste4kvartal,
         loading: lasterGjeldendePeriodeSiste4kvartal
