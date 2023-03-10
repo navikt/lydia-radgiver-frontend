@@ -25,9 +25,13 @@ const LenkeTilSøkesiden = styled(Link)`
 `;
 
 const LenkeTilStatusoversikt = styled(Link)`
-  margin-left: 1rem;
   margin-right: auto;
   color: ${NavFarger.textInverted};
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 interface Props {
@@ -43,8 +47,8 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                 <LenkeTilSøkesiden href="/" title="Gå til søkesiden">
                     <Header.Title as="h1">Fia</Header.Title>
                 </LenkeTilSøkesiden>
-                <LenkeTilStatusoversikt href="/statusoversikt">
-                    Statusoversikt
+                <LenkeTilStatusoversikt href="/statusoversikt" title="Gå til statusoversiktsiden">
+                    <Header.Title as="h1">Statusoversikt</Header.Title>
                 </LenkeTilStatusoversikt>
                 <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
                 <Søkefelt style={{
