@@ -11,45 +11,56 @@ import { Dekoratør } from "./components/Dekoratør/Dekoratør";
 import { contentSpacing } from "./styling/contentSpacing";
 import { Footer } from "./components/Footer/Footer";
 import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
-import { BodyLong, Loader } from "@navikt/ds-react";
+import { BodyShort, Link, Loader } from "@navikt/ds-react";
+import { redirectUrl } from "./components/Banner/SesjonBanner";
 
 const App = () =>
     <BrowserRouter>
         <AppContent />
     </BrowserRouter>
 
+const PrøvÅLoggInnPåNytt = () =>
+    <BodyShort>Du kan prøve å logge inn på nytt ved å trykke på <Link
+        href={redirectUrl}>denne lenken</Link>.</BodyShort>
+
 const AppContent = () => {
     const { data: brukerInformasjon, loading, error } = useHentBrukerinformasjon();
 
     if (loading) {
-        return <Loader size="xlarge"/>;
+        return <Loader size="xlarge" />;
     } else if (error) {
-        return <BodyLong>Noe gikk feil ved innlasting av siden</BodyLong>;
+        return <>
+            <BodyShort>Noe gikk feil ved innlasting av siden.</BodyShort>
+            <PrøvÅLoggInnPåNytt />
+        </>;
     } else if (!brukerInformasjon) {
-        return <BodyLong>Det ser ikke ut til at du har en gyldig innlogging til Fia</BodyLong>;
+        return <>
+            <BodyShort>Det ser ikke ut til at du har en gyldig innlogging til Fia.</BodyShort>
+            <PrøvÅLoggInnPåNytt />
+        </>;
     }
 
     return <>
-            <Dekoratør brukerInformasjon={brukerInformasjon} />
-            <FeilmeldingBanner />
-            <AppRamme>
-                <Routes>
-                    <Route
-                        path={"/"}
-                        element={<Prioriteringsside />}
-                    />
-                    <Route
-                        path={"/statusoversikt"}
-                        element={<Statusoversiktside />}
-                    />
-                    <Route
-                        path={"/virksomhet/:orgnummer"}
-                        element={<Virksomhetsside />}
-                    />
-                </Routes>
-            </AppRamme>
-            <Footer />
-        </>;
+        <Dekoratør brukerInformasjon={brukerInformasjon} />
+        <FeilmeldingBanner />
+        <AppRamme>
+            <Routes>
+                <Route
+                    path={"/"}
+                    element={<Prioriteringsside />}
+                />
+                <Route
+                    path={"/statusoversikt"}
+                    element={<Statusoversiktside />}
+                />
+                <Route
+                    path={"/virksomhet/:orgnummer"}
+                    element={<Virksomhetsside />}
+                />
+            </Routes>
+        </AppRamme>
+        <Footer />
+    </>;
 }
 
 const AppRamme = styled.main`

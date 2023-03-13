@@ -4,7 +4,7 @@ import { Banner } from "./Banner";
 
 const FEM_MINUTTER_SOM_MS = 1000 * 60 * 5;
 
-const redirectUrl = `${document.location.origin}/oauth2/login?redirect=${document.location.href}`;
+export const redirectUrl = `${document.location.origin}/oauth2/login?redirect=${document.location.href}`;
 
 interface Props {
     tokenUtløper: number;
