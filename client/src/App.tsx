@@ -11,6 +11,7 @@ import { Dekoratør } from "./components/Dekoratør/Dekoratør";
 import { contentSpacing } from "./styling/contentSpacing";
 import { Footer } from "./components/Footer/Footer";
 import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
+import { BodyLong, Loader } from "@navikt/ds-react";
 
 const App = () =>
     <BrowserRouter>
@@ -18,9 +19,17 @@ const App = () =>
     </BrowserRouter>
 
 const AppContent = () => {
-    const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    return brukerInformasjon ? (
-        <>
+    const { data: brukerInformasjon, loading, error } = useHentBrukerinformasjon();
+
+    if (loading) {
+        return <Loader size="xlarge"/>;
+    } else if (error) {
+        return <BodyLong>Noe gikk feil ved innlasting av siden</BodyLong>;
+    } else if (!brukerInformasjon) {
+        return <BodyLong>Det ser ikke ut til at du har en gyldig innlogging til Fia</BodyLong>;
+    }
+
+    return <>
             <Dekoratør brukerInformasjon={brukerInformasjon} />
             <FeilmeldingBanner />
             <AppRamme>
@@ -40,8 +49,7 @@ const AppContent = () => {
                 </Routes>
             </AppRamme>
             <Footer />
-        </>
-    ) : null;
+        </>;
 }
 
 const AppRamme = styled.main`
