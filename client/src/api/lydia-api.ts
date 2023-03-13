@@ -74,8 +74,7 @@ const csrfFetcher = async () => fetch("/csrf-token", {
 const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
     fetch(...args)
         .then((res) => res.ok ? res : Promise.reject("Noe har gått galt. Prøv å laste inn siden på nytt."))
-        .then((res) => res.status === 204 ? undefined : res.json())
-        .catch((feilmelding) => dispatchFeilmelding({ feilmelding }));
+        .then((res) => res.status === 204 ? undefined : res.json());
 
 const fetchNative =
     (method: "POST" | "DELETE" | "PUT") =>
@@ -132,6 +131,7 @@ const useSwrTemplate = <T>(
         ...defaultSwrConfiguration,
         ...config,
     });
+
     if (!data && !fetchError) {
         return {
             data,
