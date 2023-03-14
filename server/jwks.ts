@@ -1,6 +1,7 @@
-import {FlattenedJWSInput, GetKeyFunction, JWK, JWSHeaderParameters} from "jose/dist/types/types";
-import {createRemoteJWKSet, generateKeyPair, exportJWK, createLocalJWKSet} from "jose";
+import { FlattenedJWSInput, GetKeyFunction, JWK, JWSHeaderParameters, JWTVerifyResult } from "jose/dist/types/types";
+import { createRemoteJWKSet, generateKeyPair, exportJWK, createLocalJWKSet, jwtVerify } from "jose";
 import {URL} from "url";
+import { Azure } from "./config";
 
 export type JWKSetRetriever = GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput>
 export let _remoteJwkSet: GetKeyFunction<JWSHeaderParameters, FlattenedJWSInput>
@@ -12,6 +13,15 @@ export async function setupRemoteJwkSet(): Promise<JWKSetRetriever> {
         })
     }
     return _remoteJwkSet
+}
+
+export async function verifiserAzureToken(
+    token: string,
+    azure: Azure,
+    jwkSet: JWKSetRetriever): Promise<JWTVerifyResult> {
+    return await jwtVerify(token, jwkSet, {
+        issuer: azure.issuer,
+    });
 }
 
 export function setupLocalJwkSet(keys: JWK[] ) {

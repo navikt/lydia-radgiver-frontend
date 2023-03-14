@@ -81,10 +81,10 @@ export default class Application {
             return res.redirect("/oauth2/logout?post_logout_redirect_uri=https://nav.no")
         })
 
-        this.expressApp.use(
+        this.expressApp.get(
             "/innloggetAnsatt",
             tokenValidator,
-            hentInnloggetAnsattMiddleware
+            hentInnloggetAnsattMiddleware(config.azure, config._jwkSet)
         );
 
         const lydiaApiProxy = new LydiaApiProxy(

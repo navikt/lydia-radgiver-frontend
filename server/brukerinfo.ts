@@ -1,8 +1,10 @@
 import {NextFunction, Request, Response} from "express";
-import {decodeJwt, JWTPayload} from "jose";
+import { JWTPayload } from "jose";
 import {AuthError} from "./error";
 import {getBearerToken} from "./onBehalfOf";
 import {inLocalMode} from "./app";
+import { JWKSetRetriever, verifiserAzureToken } from "./jwks";
+import { Azure } from "./config";
 
 export type Brukerinformasjon = {
     navn: string;
@@ -68,7 +70,7 @@ export const hentBrukerinfoFraToken = (jwtPayload : JWTPayload) : Brukerinformas
     }
 }
 
-export const hentInnloggetAnsattMiddleware = (
+export const hentInnloggetAnsattMiddleware = (azure: Azure, jwkSet: JWKSetRetriever) => async (
     req: Request,
     res: Response,
     next: NextFunction
@@ -80,7 +82,7 @@ export const hentInnloggetAnsattMiddleware = (
         if (!bearerToken) {
             return next(new AuthError("Mangler token i auth header"));
         }
-        const jwtPayload = decodeJwt(bearerToken);
+        const { payload: jwtPayload } = await verifiserAzureToken(bearerToken, azure, jwkSet);
         return res.send(hentBrukerinfoFraToken(jwtPayload));
     }
 };
