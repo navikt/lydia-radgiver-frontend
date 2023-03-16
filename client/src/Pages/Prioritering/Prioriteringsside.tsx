@@ -7,6 +7,7 @@ import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { useFiltervisningState } from "./Filter/filtervisning-reducer";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { SideContainer } from "../../styling/containere";
+import { loggSideLastet } from "../../util/amplitude-klient";
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 
@@ -49,6 +50,7 @@ export const Prioriteringsside = () => {
         if (filterverdier && !filtervisningLoaded) {
             filtervisning.lastData({ filterverdier });
             setFiltervisningLoaded(true);
+            loggSideLastet("Prioriteringsside");
         }
     }, [filterverdier, filtervisningLoaded]);
 
