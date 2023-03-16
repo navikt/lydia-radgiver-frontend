@@ -8,9 +8,13 @@ const apiKeys = {
     fiaProd: "747d79b00c945cf3e549ae0b197293bf",
     fiaDev: "747f1d150abf4cad4248ff1d3f93e999"
 };
+const isProduction = () =>
+    typeof window !== "undefined" &&
+    window.location.hostname === "fia.intern.nav.no";
+
 export const loggSideLastet = (side: string) => {
     if (!initialized) {
-        const apiKey = process.env.NAIS_CLUSTER_NAME === "prod-gcp"
+        const apiKey = isProduction()
             ? apiKeys.fiaProd
             : apiKeys.fiaDev;
 
