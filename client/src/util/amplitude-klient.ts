@@ -10,7 +10,7 @@ const apiKeys = {
 };
 export const loggSideLastet = (side: string) => {
     if (!initialized) {
-        const apiKey = process.env.NODE_ENV === "production"
+        const apiKey = process.env.NAIS_CLUSTER_NAME === "prod-gcp"
             ? apiKeys.fiaProd
             : apiKeys.fiaDev;
 
