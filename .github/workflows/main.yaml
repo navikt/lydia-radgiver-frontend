@@ -75,7 +75,7 @@ jobs:
         cluster: [dev]
     name: Deploy app to ${{ matrix.cluster }}
     needs: build
-    if: github.ref == 'refs/heads/csrf_rewrite'
+    if: github.ref == 'refs/heads/csp-directives-for-amplitude'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
