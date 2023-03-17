@@ -7,6 +7,7 @@ import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { StatistikkTabell } from "./StatistikkTabell";
 import { SideContainer } from "../../styling/containere";
+import { loggSideLastet } from "../../util/amplitude-klient";
 
 export const Statusoversiktside = () => {
     useTittel(statiskeSidetitler.statusoversiktside)
@@ -38,6 +39,7 @@ export const Statusoversiktside = () => {
         if (filterverdier && !filtervisningLoaded) {
             filtervisning.lastData({ filterverdier });
             setFiltervisningLoaded(true);
+            loggSideLastet("Statusoversiktside");
         }
     });
 
