@@ -4,6 +4,7 @@ import { Loader } from "@navikt/ds-react";
 import { useHentVirksomhetsinformasjon } from "../../api/lydia-api";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
+import { loggSideLastet } from "../../util/amplitude-klient";
 
 export const Virksomhetsside = () => {
     const { oppdaterTittel } = useTittel(statiskeSidetitler.virksomhetsside)
@@ -15,8 +16,10 @@ export const Virksomhetsside = () => {
     } = useHentVirksomhetsinformasjon(orgnummer);
 
     useEffect(() => {
-        if (virksomhetsinformasjon)
-            oppdaterTittel(`Fia - ${virksomhetsinformasjon.navn}`)
+        if (virksomhetsinformasjon) {
+            oppdaterTittel(`Fia - ${virksomhetsinformasjon.navn}`);
+            loggSideLastet("Virksomhetsside");
+        }
     }, [virksomhetsinformasjon?.navn])
 
     if (lasterVirksomhet) {
