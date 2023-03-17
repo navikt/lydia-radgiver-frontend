@@ -39,7 +39,7 @@ export default class Application {
                         scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
                         connectSrc: ["'self'", "*.nav.no"],
                         styleSrc: ["'self'", "'unsafe-inline'"],
-                        imgSrc: ["'self'"],
+                        imgSrc: ["'self'", "data:", "*.nav.no"],
                     },
                 }
             }));
