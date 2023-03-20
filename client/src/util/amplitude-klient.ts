@@ -1,4 +1,5 @@
 import amplitude, { AmplitudeClient } from "amplitude-js";
+import { maskerOrgnr } from "./amplitude-klient-utils";
 
 const amplitudeKlient : AmplitudeClient = amplitude.getInstance();
 
@@ -8,11 +9,31 @@ const apiKeys = {
     fiaProd: "747d79b00c945cf3e549ae0b197293bf",
     fiaDev: "747f1d150abf4cad4248ff1d3f93e999"
 };
+
 const isProduction = () =>
     typeof window !== "undefined" &&
     window.location.hostname === "fia.intern.nav.no";
 
-export const loggSideLastet = (side: string) => {
+/**
+ *  Gyldige events: https://github.com/navikt/analytics-taxonomy/tree/main/events
+ */
+type validEventNames =
+    | 'besøk'
+    | 'navigere'
+    | 'alert vist'
+    | 'accordion åpnet'
+    | 'accordion lukket'
+    | 'knapp klikket'
+    | 'modal åpnet'
+    | 'modal lukket'
+
+export const loggSideLastet = (sidetittel: string) => {
+    const url = window? window.location.href : '';
+    const maskertUrl = maskerOrgnr(url);
+    logAmplitudeEvent('besøk', {url: maskertUrl, sidetittel: sidetittel})
+};
+
+const logAmplitudeEvent = (eventName: validEventNames, eventData: Record<string, string | boolean>) => {
     if (!initialized) {
         const apiKey = isProduction()
             ? apiKeys.fiaProd
@@ -23,5 +44,5 @@ export const loggSideLastet = (side: string) => {
         });
         initialized = true;
     }
-    amplitudeKlient.logEvent("side-lastet",{side : side} );
+    amplitudeKlient.logEvent(eventName, eventData);
 };
