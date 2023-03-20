@@ -1,7 +1,7 @@
 import { maskerOrgnr } from "../src/util/amplitude-klient-utils";
 
 describe("Masker orgnr (9 siffer) i url", () => {
-    test("URL blir uendreet dersom det ikke er noe å maskere", () => {
+    test("URL blir uendret dersom det ikke er noe å maskere", () => {
         expect(maskerOrgnr(undefined)).toBe('');
         expect(maskerOrgnr('')).toBe('');
         expect(maskerOrgnr('ingen url her')).toBe('ingen url her');
