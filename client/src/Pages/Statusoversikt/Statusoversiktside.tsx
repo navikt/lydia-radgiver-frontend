@@ -7,7 +7,7 @@ import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { StatistikkTabell } from "./StatistikkTabell";
 import { SideContainer } from "../../styling/containere";
-import { loggSideLastet } from "../../util/amplitude-klient";
+import { loggSideLastet, loggSøkPåFylke } from "../../util/amplitude-klient";
 
 export const Statusoversiktside = () => {
     useTittel(statiskeSidetitler.statusoversiktside)
@@ -51,7 +51,13 @@ export const Statusoversiktside = () => {
     }, [statusoversiktResultatFraApi]);
 
     const søkPåNytt = () => {
-        // TODO logg søk på fylker i amplitude
+        if (filtervisning?.state?.valgtFylke) {
+            loggSøkPåFylke(
+                filtervisning.state.valgtFylke.fylke,
+                "statusoversikt?fylker",
+                "statusoversikt"
+            )
+        }
         setSkalSøke(true);
     }
 
