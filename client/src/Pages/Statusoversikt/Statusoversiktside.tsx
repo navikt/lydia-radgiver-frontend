@@ -50,13 +50,16 @@ export const Statusoversiktside = () => {
         }
     }, [statusoversiktResultatFraApi]);
 
+    const søkPåNytt = () => {
+        // TODO logg søk på fylker i amplitude
+        setSkalSøke(true);
+    }
+
     return (
         <SideContainer>
             <Filtervisning
                 filtervisning={filtervisning}
-                søkPåNytt={() => {
-                    setSkalSøke(true);
-                }}
+                søkPåNytt={søkPåNytt}
                 maskerteFiltre={["IA_STATUS"]}
                 søkeknappTittel={'Hent statistikk'}
             />
