@@ -7,7 +7,7 @@ import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { useFiltervisningState } from "./Filter/filtervisning-reducer";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { SideContainer } from "../../styling/containere";
-import { loggSideLastet } from "../../util/amplitude-klient";
+import { loggSideLastet, loggSøkPåFylke } from "../../util/amplitude-klient";
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 
@@ -67,6 +67,13 @@ export const Prioriteringsside = () => {
     }, [antallTreff]);
 
     function oppdaterSide(side: number, sortering?: SortState) {
+        if (filtervisning?.state?.valgtFylke) {
+            loggSøkPåFylke(
+                filtervisning.state.valgtFylke.fylke,
+                "sykefraversstatistikk?fylker",
+                "prioritering"
+            )
+        }
         filtervisning.oppdaterSide({
             side,
             sortering,
@@ -98,7 +105,8 @@ export const Prioriteringsside = () => {
                     totaltAntallTreff={totaltAntallTreff}
                 />
             ) : (
-                harSøktMinstEnGang && !lasterVirksomhetsoversiktListe && <BodyShort>Søket ga ingen resultater</BodyShort>
+                harSøktMinstEnGang && !lasterVirksomhetsoversiktListe &&
+                <BodyShort>Søket ga ingen resultater</BodyShort>
             )}
             <div>
                 {lasterVirksomhetsoversiktListe && (

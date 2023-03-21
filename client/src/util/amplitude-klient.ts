@@ -1,7 +1,8 @@
 import amplitude, { AmplitudeClient } from "amplitude-js";
 import { maskerOrgnr } from "./amplitude-klient-utils";
+import { Fylke } from "../domenetyper/fylkeOgKommune";
 
-const amplitudeKlient : AmplitudeClient = amplitude.getInstance();
+const amplitudeKlient: AmplitudeClient = amplitude.getInstance();
 
 let initialized = false;
 
@@ -18,19 +19,20 @@ const isProduction = () =>
  *  Gyldige events: https://github.com/navikt/analytics-taxonomy/tree/main/events
  */
 type validEventNames =
-    | 'besøk'
-    | 'navigere'
-    | 'alert vist'
-    | 'accordion åpnet'
-    | 'accordion lukket'
-    | 'knapp klikket'
-    | 'modal åpnet'
-    | 'modal lukket'
+    | "besøk"
+    | "navigere"
+    | "alert vist"
+    | "accordion åpnet"
+    | "accordion lukket"
+    | "knapp klikket"
+    | "modal åpnet"
+    | "modal lukket"
+    | "søk"
 
 export const loggSideLastet = (sidetittel: string) => {
-    const url = window? window.location.href : '';
+    const url = window ? window.location.href : "";
     const maskertUrl = maskerOrgnr(url);
-    logAmplitudeEvent('besøk', {url: maskertUrl, sidetittel: sidetittel})
+    logAmplitudeEvent("besøk", { url: maskertUrl, sidetittel: sidetittel })
 };
 
 const logAmplitudeEvent = (eventName: validEventNames, eventData: Record<string, string | boolean>) => {
@@ -39,10 +41,23 @@ const logAmplitudeEvent = (eventName: validEventNames, eventData: Record<string,
             ? apiKeys.fiaProd
             : apiKeys.fiaDev;
 
-        amplitudeKlient.init(apiKey, "",{
+        amplitudeKlient.init(apiKey, "", {
             apiEndpoint: "amplitude.nav.no/collect"
         });
         initialized = true;
     }
     amplitudeKlient.logEvent(eventName, eventData);
 };
+
+export const loggSøkPåFylke = (
+    fylke: Fylke,
+    destinasjon: "sykefraversstatistikk?fylker" | "statusoversikt?fylker",
+    komponent: "prioritering" | "statusoversikt" | "virksomhetssøk",
+) => {
+    // Dataformat basert på forslag om taksonomi på https://github.com/navikt/analytics-taxonomy/tree/main/events/s%C3%B8k
+    logAmplitudeEvent("søk", {
+        destinasjon: destinasjon,
+        søkeord: fylke.navn,
+        komponent: komponent,
+    })
+}
