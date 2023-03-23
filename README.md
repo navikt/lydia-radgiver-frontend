@@ -88,6 +88,39 @@ Då kan du nå Storybook i ein nettlesar på adressa [localhost:6006](http://loc
 
 ---
 
+## Ymse feilsøking
+### Applikasjonen køyrer fint, men etter innlogging får du beskjed om å logge inn på nytt
+Dato: 2023-03-23
+Case:
+Frontend og backend køyrer fint. Frontend får opp oAuth. Backend responderer på [localhost:8080/internal/isAlive](http://localhost:8080/internal/isalive). Etter innlogging får du feilmeldingsside med beskjed om "trykk her for å logge inn på nytt".
+
+<details>
+<summary>
+Feilsøking
+</summary>
+Sjekk docker logs på frackend
+`docker ps`
+Kopier CONTAINER ID
+`docker logs [CONTAINER ID HERE]`
+Sjekk om du får feilmeldingar her.
+
+Fordi ein kan (og i tilfelle docker-imaget for frackend er gamalt)
+`docker rmi [CONTAINER ID HERE]`
+Gjer `/run.sh` på nytt
+
+Etter dette fungerte ting på magisk vis.
+
+<br>
+
+Andre ting vi prøvde som kanskje/kanskje ikkje hjalp
+- installere dependencies i /server
+- køyre `npm run dev` i /server (etter at docker-containarar var stoppa) for å sjå feilmeldinger litt betre
+- docker logs
+
+</details>
+
+---
+
 # Henvendelser
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub
