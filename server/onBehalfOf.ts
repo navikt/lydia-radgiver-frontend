@@ -18,11 +18,9 @@ export const onBehalfOfTokenMiddleware =
         hentOnBehalfOfToken(bearerToken, config, req)
             .then((oboToken) => {
                 res.locals.on_behalf_of_token = oboToken;
-                logger.info("DEBUG pcn: hentOnBehalfOfToken: ok")
                 return next();
             })
             .catch((error) => {
-                logger.error(`DEBUG pcn: hentOnBehalfOfToken error: ${error}`)
                 next(error)
             });
     };

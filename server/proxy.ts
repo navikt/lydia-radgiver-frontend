@@ -16,29 +16,20 @@ export class LydiaApiProxy {
             logLevel: "debug",
             pathRewrite: (path : string, req : Request) => {
                 const nyPath = path.replace("/api", '');
-                logger.info(`DEBUG pcn: pathRewrite original: ${path} ny: ${nyPath}`)
                 return nyPath;
             },
             onProxyReq: (proxyReq : ClientRequest, req: Request, res: Response) => {
                 proxyReq.setHeader('Authorization', `Bearer ${res.locals.on_behalf_of_token}`)
                 proxyReq.setHeader("x-request-id", res.locals.requestId)
-                logger.info(`DEBUG pcn: Proxying path: ${req.path}`)
-            },
-            onOpen: () => {
-                logger.info(`DEBUG pcn: Proxy onOpen`)
-            },
-            onClose: () => {
-                logger.info(`DEBUG pcn: Proxy onClose`)
             },
             onProxyRes: (proxyRes: http.IncomingMessage, req: Request) => {
-                logger.info(`DEBUG pcn: Proxy onProxyRes status: ${proxyRes.statusCode} message: ${proxyRes.statusMessage}`)
+                if(proxyRes.statusCode >= 500 && proxyRes.statusCode < 600) {
+                    logger.error(`Frackend proxy fikk serverfeil med statuskode: ${proxyRes.statusCode} melding: ${proxyRes.statusMessage}`)
+                }
+                if(proxyRes.statusCode >= 400 && proxyRes.statusCode < 500) {
+                    logger.warn(`Frackend proxy fikk klientfeil med statuskode: ${proxyRes.statusCode} melding: ${proxyRes.statusMessage}`)
+                }
             },
-            onProxyReqWs: () => {
-                logger.info(`DEBUG pcn: Proxy onProxyReqWs`)
-            },
-            onError: (err: Error) => {
-                logger.info(`DEBUG pcn: Proxy onError: ${err.name} - ${err.message}\n${err.stack}`)
-            }
         }
     }
     createExpressMiddleWare() {
