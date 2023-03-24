@@ -12,15 +12,16 @@ export class LydiaApiProxy {
         this.options = {
             target: targetURI,
             changeOrigin: true,
+            logLevel: "debug",
             pathRewrite: (path : string, req : Request) => {
                 const nyPath = path.replace("/api", '');
-                logger.info("DEBUG pcn: pathRewrite original: ", path, " ny: ", nyPath)
+                logger.info(`DEBUG pcn: pathRewrite original: ${req.path} ny: ${req.path}`)
                 return nyPath;
             },
             onProxyReq: (proxyReq : ClientRequest, req: Request, res: Response) => {
                 proxyReq.setHeader('Authorization', `Bearer ${res.locals.on_behalf_of_token}`)
                 proxyReq.setHeader("x-request-id", res.locals.requestId)
-                logger.info("DEBUG pcn: Proxying url: ", req.path)
+                logger.info(`DEBUG pcn: Proxying path: ${req.path}`)
             }
         }
     }
