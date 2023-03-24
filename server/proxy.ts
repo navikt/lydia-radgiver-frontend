@@ -4,6 +4,7 @@ import {createProxyMiddleware, Options} from "http-proxy-middleware"
 import logger from "./logging";
 import {Config} from "./config";
 import winston from "winston";
+import http from "http";
 
 export class LydiaApiProxy {
     options : Options
@@ -29,8 +30,8 @@ export class LydiaApiProxy {
             onClose: () => {
                 logger.info(`DEBUG pcn: Proxy onClose`)
             },
-            onProxyRes: () => {
-                logger.info(`DEBUG pcn: Proxy onProxyRes`)
+            onProxyRes: (proxyRes: http.IncomingMessage, req: Request) => {
+                logger.info(`DEBUG pcn: Proxy onProxyRes status: ${proxyRes.statusCode} message: ${proxyRes.statusMessage}`)
             },
             onProxyReqWs: () => {
                 logger.info(`DEBUG pcn: Proxy onProxyReqWs`)
