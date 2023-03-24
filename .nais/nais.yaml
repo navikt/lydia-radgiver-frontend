@@ -30,6 +30,8 @@ spec:
       rules:
         - application: lydia-api
         - application: fia-radgiver-frontend-redis
+      external:
+        - host: {{lydia-api.ingress}}
   azure:
     application:
       enabled: true
