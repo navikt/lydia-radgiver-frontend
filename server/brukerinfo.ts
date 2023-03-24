@@ -5,6 +5,7 @@ import {getBearerToken} from "./onBehalfOf";
 import {inLocalMode} from "./app";
 import { JWKSetRetriever, verifiserAzureToken } from "./jwks";
 import { Azure } from "./config";
+import logger from "./logging";
 
 export type Brukerinformasjon = {
     navn: string;
@@ -75,6 +76,7 @@ export const hentInnloggetAnsattMiddleware = (azure: Azure, jwkSet: JWKSetRetrie
     res: Response,
     next: NextFunction
 ) => {
+    logger.info("DEBUG pcn: hentInnloggetAnsattMiddleware localmode: ", inLocalMode())
     if (inLocalMode()) {
         res.send(lokalMockBruker);
     } else {

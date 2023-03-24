@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { ClientRequest } from "http";
 import { createProxyMiddleware, Options } from "http-proxy-middleware"
+import logger from "./logging";
 
 import { Config } from "./config";
 
@@ -18,6 +19,7 @@ export class LydiaApiProxy {
             onProxyReq: (proxyReq : ClientRequest, req: Request, res: Response) => {
                 proxyReq.setHeader('Authorization', `Bearer ${res.locals.on_behalf_of_token}`)
                 proxyReq.setHeader("x-request-id", res.locals.requestId)
+                logger.info("Proxying url: ", req.url)
             }
         }
     }
