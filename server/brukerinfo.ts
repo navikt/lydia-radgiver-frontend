@@ -76,7 +76,7 @@ export const hentInnloggetAnsattMiddleware = (azure: Azure, jwkSet: JWKSetRetrie
     res: Response,
     next: NextFunction
 ) => {
-    logger.info("DEBUG pcn: hentInnloggetAnsattMiddleware localmode: ", inLocalMode())
+    logger.info("DEBUG pcn: hentInnloggetAnsattMiddleware localmode: ", inLocalMode() ? "true" : "false")
     if (inLocalMode()) {
         res.send(lokalMockBruker);
     } else {
