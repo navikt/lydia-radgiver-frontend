@@ -3,7 +3,6 @@ import {ClientRequest} from "http";
 import {createProxyMiddleware, Options} from "http-proxy-middleware"
 import logger from "./logging";
 import {Config} from "./config";
-import winston from "winston";
 import http from "http";
 
 export class LydiaApiProxy {
@@ -14,7 +13,7 @@ export class LydiaApiProxy {
             target: targetURI,
             changeOrigin: true,
             logLevel: "warn",
-            pathRewrite: (path : string, req : Request) => {
+            pathRewrite: (path : string) => {
                 const nyPath = path.replace("/api", '');
                 return nyPath;
             },
@@ -22,7 +21,7 @@ export class LydiaApiProxy {
                 proxyReq.setHeader('Authorization', `Bearer ${res.locals.on_behalf_of_token}`)
                 proxyReq.setHeader("x-request-id", res.locals.requestId)
             },
-            onProxyRes: (proxyRes: http.IncomingMessage, req: Request) => {
+            onProxyRes: (proxyRes: http.IncomingMessage) => {
                 if(proxyRes.statusCode >= 500 && proxyRes.statusCode < 600) {
                     logger.error(`Frackend proxy fikk serverfeil med statuskode: ${proxyRes.statusCode} melding: ${proxyRes.statusMessage}`)
                 }
