@@ -3,6 +3,7 @@ import {ClientRequest} from "http";
 import {createProxyMiddleware, Options} from "http-proxy-middleware"
 import logger from "./logging";
 import {Config} from "./config";
+import winston from "winston";
 
 export class LydiaApiProxy {
     options : Options
@@ -22,10 +23,19 @@ export class LydiaApiProxy {
                 proxyReq.setHeader("x-request-id", res.locals.requestId)
                 logger.info(`DEBUG pcn: Proxying path: ${req.path}`)
             },
+            onOpen: () => {
+                logger.info(`DEBUG pcn: Proxy onOpen`)
+            },
             onClose: () => {
                 logger.info(`DEBUG pcn: Proxy onClose`)
             },
-            onError: (err: Error, req: Request, res: Response) => {
+            onProxyRes: () => {
+                logger.info(`DEBUG pcn: Proxy onProxyRes`)
+            },
+            onProxyReqWs: () => {
+                logger.info(`DEBUG pcn: Proxy onProxyReqWs`)
+            },
+            onError: (err: Error) => {
                 logger.info(`DEBUG pcn: Proxy onError: ${err.name} - ${err.message}\n${err.stack}`)
             }
         }
