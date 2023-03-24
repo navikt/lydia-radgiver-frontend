@@ -64,7 +64,7 @@ export default class Application {
 
         const tokenValidator =
             inLocalMode()
-                ? validerTokenFraFakedings(config.azure, config._jwkSet)
+                ? validerTokenFraFakedings(config.azure)
                 : validerTokenFraWonderwall(config.azure, config._jwkSet);
 
         const {

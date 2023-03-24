@@ -50,6 +50,7 @@ export const validerAccessToken = (
                 feilmelding = "Tokenet er ikke gyldig";
                 logger.error("Ukjent feil: " + error.message);
             }
+            logger.error("Tokenet er avvist med feilmelding: " + feilmelding)
             return Promise.reject(new AuthError(feilmelding));
         });
 };
@@ -69,7 +70,7 @@ export const validerTokenFraWonderwall =
     };
 
 export const validerTokenFraFakedings =
-    (azure: Azure, jwkSet: JWKSetRetriever) =>
+    (azure: Azure) =>
     async (req: Request, res: Response, next: NextFunction) => {
         const { data: bearerToken } = await axios.get(azure.tokenEndpoint);
         res.locals.on_behalf_of_token = bearerToken;
@@ -106,12 +107,11 @@ export const hentOnBehalfOfToken = async (
         } catch (error) {
             if (error instanceof Error) {
                 if (axios.isAxiosError(error)) {
-                    throw new AuthError(
-                        `Feil under uthenting av OBO token: ${JSON.stringify(
-                            error.response?.data
-                        )}`
-                    );
+                    const felmelding = `Feil under uthenting av OBO token: ${JSON.stringify(error.response?.data)}`;
+                    logger.error(felmelding);
+                    throw new AuthError(felmelding);
                 } else {
+                    logger.error("AuthError: Ukjent feil: " + error.message)
                     throw new AuthError("Ukjent feil: " + error.message);
                 }
             }
