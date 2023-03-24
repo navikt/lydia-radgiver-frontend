@@ -1,9 +1,8 @@
-import { Request, Response } from "express";
-import { ClientRequest } from "http";
-import { createProxyMiddleware, Options } from "http-proxy-middleware"
+import {Request, Response} from "express";
+import {ClientRequest} from "http";
+import {createProxyMiddleware, Options} from "http-proxy-middleware"
 import logger from "./logging";
-
-import { Config } from "./config";
+import {Config} from "./config";
 
 export class LydiaApiProxy {
     options : Options
@@ -15,13 +14,19 @@ export class LydiaApiProxy {
             logLevel: "debug",
             pathRewrite: (path : string, req : Request) => {
                 const nyPath = path.replace("/api", '');
-                logger.info(`DEBUG pcn: pathRewrite original: ${req.path} ny: ${req.path}`)
+                logger.info(`DEBUG pcn: pathRewrite original: ${path} ny: ${nyPath}`)
                 return nyPath;
             },
             onProxyReq: (proxyReq : ClientRequest, req: Request, res: Response) => {
                 proxyReq.setHeader('Authorization', `Bearer ${res.locals.on_behalf_of_token}`)
                 proxyReq.setHeader("x-request-id", res.locals.requestId)
                 logger.info(`DEBUG pcn: Proxying path: ${req.path}`)
+            },
+            onClose: () => {
+                logger.info(`DEBUG pcn: Proxy onClose`)
+            },
+            onError: (err: Error, req: Request, res: Response) => {
+                logger.info(`DEBUG pcn: Proxy onError: ${err.name} - ${err.message}\n${err.stack}`)
             }
         }
     }
