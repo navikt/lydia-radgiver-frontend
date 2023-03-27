@@ -94,8 +94,8 @@ export const filterverdierMock: Filterverdier = {
         },
         {
             fylke: {
+                nummer: "18",
                 navn: "Nordland",
-                nummer: "18"
             },
             kommuner: [
                 {
