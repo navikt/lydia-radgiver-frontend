@@ -8,6 +8,7 @@ import { useFiltervisningState } from "./Filter/filtervisning-reducer";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { SideContainer } from "../../styling/containere";
 import { loggSideLastet, loggSøkPåFylke } from "../../util/amplitude-klient";
+import { finnFylkerForKommuner } from "../../util/finnFylkeForKommune";
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 
@@ -72,6 +73,17 @@ export const Prioriteringsside = () => {
                 filtervisning.state.valgtFylke.fylke,
                 "sykefraversstatistikk?fylker",
                 "prioritering"
+            )
+        } else if (filtervisning?.state?.kommuner && filterverdier) { // Om fylke er vald må alle kommunar høyre til det fylket, så vi treng ikkje mappe tilbake til fylke.
+            const fylker = finnFylkerForKommuner(filtervisning.state.kommuner, filterverdier.fylker);
+
+            fylker.map((fylke) => {
+                    return loggSøkPåFylke(
+                        fylke,
+                        "sykefraversstatistikk?kommuner",
+                        "prioritering"
+                    )
+                }
             )
         }
         filtervisning.oppdaterSide({

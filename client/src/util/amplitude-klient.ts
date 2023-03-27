@@ -49,10 +49,21 @@ const logAmplitudeEvent = (eventName: validEventNames, eventData: Record<string,
     amplitudeKlient.logEvent(eventName, eventData);
 };
 
+type SøkPåFylkeDestinasjoner =
+    | "sykefraversstatistikk?fylker"
+    | "sykefraversstatistikk?kommuner"
+    | "statusoversikt?fylker"
+    | "statusoversikt?kommuner"
+
+type SøkPåFylkeKomponenter =
+    | "prioritering"
+    | "statusoversikt"
+    | "virksomhetssøk"
+
 export const loggSøkPåFylke = (
     fylke: Fylke,
-    destinasjon: "sykefraversstatistikk?fylker" | "statusoversikt?fylker",
-    komponent: "prioritering" | "statusoversikt" | "virksomhetssøk",
+    destinasjon: SøkPåFylkeDestinasjoner,
+    komponent: SøkPåFylkeKomponenter,
 ) => {
     // Dataformat basert på forslag om taksonomi på https://github.com/navikt/analytics-taxonomy/tree/main/events/s%C3%B8k
     logAmplitudeEvent("søk", {
