@@ -35,7 +35,7 @@ export const EIERE_MOCKS: Eier[] = [
         navIdent: "H12345"
     },
     {
-        navn: "Pippilotta Viktualia Rullgardina Krusmynte Efraimsdatter Langstrømpe",
+        navn: "Pippilotta Viktualia Rullegardina Krusemynte Efraimsdatter Langstrømpe",
         navIdent: "I12345"
     },
     {
