@@ -18,15 +18,14 @@ const isProduction = () =>
 /**
  *  Gyldige events: https://github.com/navikt/analytics-taxonomy/tree/main/events
  */
-type validEventNames =
-    | "besøk"
-    | "navigere"
+type NavsAmplitudeTopologiEventer =
     | "alert vist"
-    | "accordion åpnet"
+    | "besøk"
     | "accordion lukket"
-    | "knapp klikket"
-    | "modal åpnet"
+    | "accordion åpnet"
     | "modal lukket"
+    | "modal åpnet"
+    | "navigere"
     | "søk"
 
 export const loggSideLastet = (sidetittel: string) => {
@@ -35,7 +34,10 @@ export const loggSideLastet = (sidetittel: string) => {
     logAmplitudeEvent("besøk", { url: maskertUrl, sidetittel: sidetittel })
 };
 
-const logAmplitudeEvent = (eventName: validEventNames, eventData: Record<string, string | boolean>) => {
+const logAmplitudeEvent = (
+    eventNavn: NavsAmplitudeTopologiEventer,
+    eventData: Record<string, string | boolean>
+) => {
     if (!initialized) {
         const apiKey = isProduction()
             ? apiKeys.fiaProd
@@ -46,7 +48,7 @@ const logAmplitudeEvent = (eventName: validEventNames, eventData: Record<string,
         });
         initialized = true;
     }
-    amplitudeKlient.logEvent(eventName, eventData);
+    amplitudeKlient.logEvent(eventNavn, eventData);
 };
 
 type SøkPåFylkeDestinasjoner =
@@ -71,4 +73,18 @@ export const loggSøkPåFylke = (
         søkeord: fylke.navn,
         komponent: komponent,
     })
+}
+
+export const loggModalTilbakeTilForrigeStatusLukket = (
+    modalTittel: string,
+    modalUnderskrift: string,
+    valg: 'ja' | 'avbryt',
+    fraStatus: string,
+) => {
+    logAmplitudeEvent("modal lukket", {
+        tekst: modalTittel,
+        underskrift: modalUnderskrift,
+        valg: valg,
+        fraStatus: fraStatus,
+    });
 }

@@ -8,8 +8,12 @@ import {
     IASakshendelseTypeEnum
 } from "../../../../domenetyper/domenetyper";
 import { erHendelsenDestruktiv, IASakshendelseKnapp, sorterHendelserPåKnappeType } from "./IASakshendelseKnapp";
-import { BekreftValgModal, Props as BekreftValgModalProps } from "../../../../components/Modal/BekreftValgModal";
+import {
+    BekreftValgModal,
+    Props as BekreftValgModalProps
+} from "../../../../components/Modal/BekreftValgModal";
 import { penskrivIAStatus } from "../../../../components/Badge/StatusBadge";
+import { loggModalTilbakeTilForrigeStatusLukket } from "../../../../util/amplitude-klient";
 
 const horisontalKnappeStyling: CSSProperties = {
     display: "flex",
@@ -29,15 +33,20 @@ interface BekreftHendelseModalProps {
 }
 
 interface ModalTekst {
-    tittel?: string;
+    tittel: string;
     beskrivelse: string;
 }
 
-const modalTekstForHendelse = ({ hendelse, sakstatus }: {
+const DEFAULT_TITTEL_FOR_MODAL = "Er du sikker på at du vil gjøre dette?";
+
+const modalTekstForHendelse = ({hendelse, sakstatus}: {
     hendelse: GyldigNesteHendelse | null,
     sakstatus: IAProsessStatusType
 }): ModalTekst => {
-    if (!hendelse) return { beskrivelse: "" }
+    if (!hendelse) return {
+        tittel: DEFAULT_TITTEL_FOR_MODAL,
+        beskrivelse: ""
+    }
 
     switch (hendelse.saksHendelsestype) {
         case "FULLFØR_BISTAND":
@@ -64,20 +73,43 @@ const modalTekstForHendelse = ({ hendelse, sakstatus }: {
             }
         }
         default:
-            return { beskrivelse: "" }
+            return {
+                tittel: DEFAULT_TITTEL_FOR_MODAL,
+                beskrivelse: ""
+            }
     }
 }
 
 const BekreftHendelseModal = ({
-    sak: { status: sakstatus },
-    hendelse,
-    ...rest
-}: BekreftValgModalProps & BekreftHendelseModalProps) => {
-    const modalTekst = modalTekstForHendelse({ hendelse, sakstatus });
+                                  sak: {status: sakstatus},
+                                  åpen,
+                                  onConfirm,
+                                  onCancel,
+                                  hendelse,
+                              }: BekreftValgModalProps & BekreftHendelseModalProps) => {
+    const modalTekst = modalTekstForHendelse({hendelse, sakstatus});
 
     return (
         <BekreftValgModal
-            {...rest}
+            åpen={åpen}
+            onConfirm={() => {
+                onConfirm();
+                loggModalTilbakeTilForrigeStatusLukket(
+                    modalTekst.tittel,
+                    modalTekst.beskrivelse,
+                    "ja",
+                    sakstatus
+                );
+            }}
+            onCancel={() => {
+                onCancel();
+                loggModalTilbakeTilForrigeStatusLukket(
+                    modalTekst.tittel,
+                    modalTekst.beskrivelse,
+                    "avbryt",
+                    sakstatus
+                );
+            }}
             title={modalTekst.tittel}
             description={modalTekst.beskrivelse}
         />
@@ -95,7 +127,7 @@ interface SakshendelsesKnapperProps {
     onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void;
 }
 
-export const SakshendelsesKnapper = ({ sak, hendelser, onNyHendelseHandler }: SakshendelsesKnapperProps) => {
+export const SakshendelsesKnapper = ({sak, hendelser, onNyHendelseHandler}: SakshendelsesKnapperProps) => {
     const [hendelseSomMåBekreftes, setHendelseSomMåBekreftes] = useState<GyldigNesteHendelse | null>(null)
 
     const destruktiveHendelser = hendelser
@@ -104,7 +136,7 @@ export const SakshendelsesKnapper = ({ sak, hendelser, onNyHendelseHandler }: Sa
         .filter(hendelse => !erHendelsenDestruktiv(hendelse.saksHendelsestype))
 
     return (
-        <div style={{ display: "flex", flexDirection: "row", justifyContent: "space-between" }}>
+        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
             {
                 [destruktiveHendelser, ikkeDestruktiveHendelser].map((hendelser) => {
                     return <div style={horisontalKnappeStyling}
