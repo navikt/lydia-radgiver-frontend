@@ -15,7 +15,7 @@ export const BekreftValgModal = ({
     onConfirm,
     onCancel,
     åpen,
-    title = "Er du sikker på at du vil gjøre dette?",
+    title,
     description
 }: Props) => {
     Modal.setAppElement?.(document.body)
