@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import "@navikt/ds-css";
@@ -13,6 +14,7 @@ import { Footer } from "./components/Footer/Footer";
 import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
 import { BodyShort, Link, Loader } from "@navikt/ds-react";
 import { redirectUrl } from "./components/Banner/SesjonBanner";
+import { setTilgangsnivå } from "./util/amplitude-klient";
 
 const App = () =>
     <BrowserRouter>
@@ -25,6 +27,12 @@ const PrøvÅLoggInnPåNytt = () =>
 
 const AppContent = () => {
     const { data: brukerInformasjon, loading, error } = useHentBrukerinformasjon();
+
+    useEffect(() => {
+        if (brukerInformasjon) {
+            setTilgangsnivå(brukerInformasjon.rolle);
+        }
+    }, [brukerInformasjon])
 
     if (loading) {
         return <Loader size="xlarge" />;

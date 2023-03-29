@@ -1,6 +1,7 @@
 import amplitude, { AmplitudeClient } from "amplitude-js";
 import { maskerOrgnr } from "./amplitude-klient-utils";
 import { Fylke } from "../domenetyper/fylkeOgKommune";
+import { Rolle } from "../domenetyper/brukerinformasjon";
 
 const amplitudeKlient: AmplitudeClient = amplitude.getInstance();
 
@@ -47,6 +48,20 @@ const logAmplitudeEvent = (eventName: validEventNames, eventData: Record<string,
         initialized = true;
     }
     amplitudeKlient.logEvent(eventName, eventData);
+};
+
+export const setTilgangsnivå = (tilgangsnivå : Rolle) => {
+    if (!initialized) {
+        const apiKey = isProduction()
+            ? apiKeys.fiaProd
+            : apiKeys.fiaDev;
+
+        amplitudeKlient.init(apiKey, "", {
+            apiEndpoint: "amplitude.nav.no/collect"
+        });
+        initialized = true;
+    }
+    amplitudeKlient.setUserProperties({"tilgangsnivå" : tilgangsnivå});
 };
 
 type SøkPåFylkeDestinasjoner =
