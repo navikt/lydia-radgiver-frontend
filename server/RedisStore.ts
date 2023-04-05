@@ -1,17 +1,16 @@
+import RedisStore from "connect-redis"
 import Redis, {RedisOptions} from "ioredis";
 import session from "express-session";
-import connectRedis from "connect-redis";
 import {inCloudMode} from "./app";
 
 export const redisSessionManager = () => {
-    const redisStore = connectRedis(session);
     const redisConfig: RedisOptions = {
         host: process.env.REDIS_HOST || 'redis',
         port: +process.env.REDIS_PORT
     }
     const client = new Redis(redisConfig);
     return session({
-        store: new redisStore({
+        store: new RedisStore({
             client,
             disableTouch: true, // Gjør slik at man ikke kan endre TTL på redis store
         }),
