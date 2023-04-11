@@ -38,7 +38,7 @@ interface Props {
 }
 
 export const Leveranse = ({ leveranse, iaSak }: Props) => {
-    const [open, setOpen] = useState(false)
+    const [bekreftValgModalÅpen, setBekreftValgModalÅpen] = useState(false)
     const leveranseErFullført = leveranse.status === LeveranseStatusEnum.enum.LEVERT;
     const fullførKnappTekst = leveranseErFullført ? "Fullført" : "Fullfør";
     const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, leveranse.saksnummer);
@@ -51,7 +51,7 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
     const vedSlettLeveranse = () => {
         slettLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
             .then(() => {
-                setOpen(false)
+                setBekreftValgModalÅpen(false)
                 hentLeveranserPåNytt()
             });
     }
@@ -72,12 +72,12 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
                 }
             </DataCellNoWrap>
             <Table.DataCell align="right">
-                <FjernLeveranseKnapp onClick={() => setOpen(true)}
+                <FjernLeveranseKnapp onClick={() => setBekreftValgModalÅpen(true)}
                                      variant="tertiary"
                                      icon={<Delete title="Fjern leveranse" />} />
                 <BekreftValgModal onConfirm={vedSlettLeveranse}
-                                  onCancel={() => {setOpen(false)}}
-                                  åpen={open}
+                                  onCancel={() => {setBekreftValgModalÅpen(false)}}
+                                  åpen={bekreftValgModalÅpen}
                                   title="Er du sikker på at du vil fjerne leveransen?"
                                   description={`Leveransen som fjernes er "${leveranse.modul.navn}" med frist ${lokalDato(leveranse.frist)}`} />
             </Table.DataCell>
