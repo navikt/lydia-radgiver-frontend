@@ -11,6 +11,7 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 import { IATjeneste, Leveranse, Modul } from "../../../domenetyper/leveranse";
 import { sorterAlfabetisk } from "../../../util/sortering";
+import { RolleEnum } from "../../../domenetyper/brukerinformasjon";
 
 const Form = styled.form`
   display: flex;
@@ -38,6 +39,11 @@ interface Props {
 export const LeggTilLeveranse = ({ iaSak }: Props) => {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
+    const brukerMedLesetilgang = brukerInformasjon?.rolle === RolleEnum.enum.Lesetilgang;
+
+    if (brukerMedLesetilgang) {
+        return null;
+    }
 
     const [forTidlig, setForTidlig] = useState<boolean>();
     const [ugyldig, setUgyldig] = useState<boolean>();
