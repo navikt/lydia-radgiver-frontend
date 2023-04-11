@@ -4,10 +4,11 @@ import { DeleteFilled as Delete } from "@navikt/ds-icons";
 import { Leveranse as LeveranseType, LeveranseStatusEnum } from "../../../domenetyper/leveranse";
 import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";
-import { fullførLeveranse, slettLeveranse, useHentLeveranser } from "../../../api/lydia-api";
+import { fullførLeveranse, slettLeveranse, useHentBrukerinformasjon, useHentLeveranser } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { useState } from "react";
+import { RolleEnum } from "../../../domenetyper/brukerinformasjon";
 
 const ModulNavn = styled(Table.HeaderCell)`
   font-weight: initial;
@@ -43,6 +44,9 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
     const fullførKnappTekst = leveranseErFullført ? "Fullført" : "Fullfør";
     const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, leveranse.saksnummer);
 
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const brukerMedLesetilgang = brukerInformasjon?.rolle === RolleEnum.enum.Lesetilgang;
+
     const vedFullførLeveranse = () => {
         fullførLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
             .then(() => hentLeveranserPåNytt());
@@ -60,27 +64,31 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
         <Table.Row shadeOnHover={false}>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
             <DataCellNoWrap>{`Tentativ frist: ${lokalDato(leveranse.frist)}`}</DataCellNoWrap>
-            <Table.DataCell>
-                <FullførKnapp onClick={vedFullførLeveranse} disabled={leveranseErFullført} size="small">
-                    {fullførKnappTekst}
-                </FullførKnapp>
-            </Table.DataCell>
+            {brukerMedLesetilgang ? null :
+                <Table.DataCell>
+                    <FullførKnapp onClick={vedFullførLeveranse} disabled={leveranseErFullført} size="small">
+                        {fullførKnappTekst}
+                    </FullførKnapp>
+                </Table.DataCell>
+            }
             <DataCellNoWrap>
                 {!leveranse.fullført
                     ? ""
                     : `Fullført: ${lokalDato(leveranse.fullført)}`
                 }
             </DataCellNoWrap>
-            <Table.DataCell align="right">
-                <FjernLeveranseKnapp onClick={() => setBekreftValgModalÅpen(true)}
-                                     variant="tertiary"
-                                     icon={<Delete title="Fjern leveranse" />} />
-                <BekreftValgModal onConfirm={vedSlettLeveranse}
-                                  onCancel={() => {setBekreftValgModalÅpen(false)}}
-                                  åpen={bekreftValgModalÅpen}
-                                  title="Er du sikker på at du vil fjerne leveransen?"
-                                  description={`Leveransen som fjernes er "${leveranse.modul.navn}" med frist ${lokalDato(leveranse.frist)}`} />
-            </Table.DataCell>
+            {brukerMedLesetilgang ? null :
+                <Table.DataCell align="right">
+                    <FjernLeveranseKnapp onClick={() => setBekreftValgModalÅpen(true)}
+                                         variant="tertiary"
+                                         icon={<Delete title="Fjern leveranse" />} />
+                    <BekreftValgModal onConfirm={vedSlettLeveranse}
+                                      onCancel={() => {setBekreftValgModalÅpen(false)}}
+                                      åpen={bekreftValgModalÅpen}
+                                      title="Er du sikker på at du vil fjerne leveransen?"
+                                      description={`Leveransen som fjernes er "${leveranse.modul.navn}" med frist ${lokalDato(leveranse.frist)}`} />
+                </Table.DataCell>
+            }
         </Table.Row>
     )
 }
