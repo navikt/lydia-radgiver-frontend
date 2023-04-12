@@ -1,11 +1,11 @@
 import { Button } from "@navikt/ds-react";
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { FeilmeldingBanner, dispatchFeilmelding } from "./FeilmeldingBanner";
 
 export default {
     title: "FeilmeldingBanner",
     component: FeilmeldingBanner,
-} as ComponentMeta<typeof FeilmeldingBanner>;
+} as Meta<typeof FeilmeldingBanner>;
 
 export const Story = () => (
     <>

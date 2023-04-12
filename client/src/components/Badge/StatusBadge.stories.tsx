@@ -1,11 +1,11 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { StatusBadge } from "./StatusBadge";
 import { IAProsessStatusEnum, IAProsessStatusType } from "../../domenetyper/domenetyper";
 
 export default {
     title: "Prioritering/StatusBadge",
     component: StatusBadge,
-} as ComponentMeta<typeof StatusBadge>;
+} as Meta<typeof StatusBadge>;
 
 const statuser = [
     IAProsessStatusEnum.enum.NY,

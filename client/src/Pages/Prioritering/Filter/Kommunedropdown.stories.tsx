@@ -1,10 +1,10 @@
-import {ComponentMeta} from "@storybook/react";
-import {Kommunedropdown} from "./Kommunedropdown";
+import { Meta } from "@storybook/react";
+import { Kommunedropdown } from "./Kommunedropdown";
 
 export default {
     title: "Prioritering/Kommune",
     component: Kommunedropdown,
-} as ComponentMeta<typeof Kommunedropdown>;
+} as Meta<typeof Kommunedropdown>;
 
 export const Hovedstory = () => (<Kommunedropdown relevanteFylkerMedKommuner={[
     {

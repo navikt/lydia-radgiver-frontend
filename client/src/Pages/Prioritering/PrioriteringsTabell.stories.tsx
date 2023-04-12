@@ -1,4 +1,4 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import { sykefraværsstatistikkMock } from "./mocks/sykefraværsstatistikkMock";
 import { useState } from "react";
@@ -7,7 +7,7 @@ import { SortState } from "@navikt/ds-react";
 export default {
     title: "Prioritering/Prioriteringstabell",
     component: PrioriteringsTabell,
-} as ComponentMeta<typeof PrioriteringsTabell>;
+} as Meta<typeof PrioriteringsTabell>;
 
 function repeatArray<T>(arr: T[], repeats: number): T[] {
     return Array.from({length: repeats}, () => arr).flat();

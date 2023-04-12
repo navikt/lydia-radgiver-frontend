@@ -1,4 +1,4 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { rest } from "msw";
 import "@navikt/ds-css";
@@ -21,7 +21,7 @@ export default {
             </Routes>
         </MemoryRouter>
     )]
-} as ComponentMeta<typeof Prioriteringsside>;
+} as Meta<typeof Prioriteringsside>;
 
 export const PrioriteringssideMedDataStory = () => (<Prioriteringsside />);
 

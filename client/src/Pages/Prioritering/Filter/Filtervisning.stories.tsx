@@ -1,4 +1,4 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { Filtervisning } from "./Filtervisning";
 import { filterverdierMock } from "../mocks/filterverdierMock";
 import { useFiltervisningState } from "./filtervisning-reducer";
@@ -19,7 +19,7 @@ export default {
             </Routes>
         </MemoryRouter>
     )]
-} as ComponentMeta<typeof Filtervisning>;
+} as Meta<typeof Filtervisning>;
 
 export const Hovedstory = () => {
     const filtervisning = useFiltervisningState();

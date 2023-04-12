@@ -1,4 +1,4 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { NyStatistikkPubliseresBanner } from "./NyStatistikkPubliseresBanner";
 import { rest } from "msw";
 import {
@@ -14,7 +14,7 @@ import {
 export default {
     title: "NyStatistikkPubliseres-banner",
     component: NyStatistikkPubliseresBanner,
-} as ComponentMeta<typeof NyStatistikkPubliseresBanner>;
+} as Meta<typeof NyStatistikkPubliseresBanner>;
 
 export const StatistikkIkkePublisert = () => {
     const { data: periode } = useHentGjeldendePeriodeForVirksomhetSiste4Kvartal()

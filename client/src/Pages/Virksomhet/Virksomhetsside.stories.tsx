@@ -1,4 +1,4 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { rest } from "msw";
 import { virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
@@ -21,7 +21,7 @@ export default {
             </Routes>
         </MemoryRouter>
     )]
-} as ComponentMeta<typeof Virksomhetsside>;
+} as Meta<typeof Virksomhetsside>;
 
 export const VirksomhetssideStory = () => (
     <Virksomhetsside />

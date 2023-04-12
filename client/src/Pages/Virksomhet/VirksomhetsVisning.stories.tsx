@@ -1,4 +1,4 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { fjernetVirksomhetMock, slettetVirksomhetMock, virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
 import { rest } from "msw";
@@ -8,7 +8,7 @@ import { iaSakFullførtOgLukket, iaSakKontaktes } from "./mocks/iaSakMock";
 export default {
     title: "Virksomhet/Visning av en virksomhet",
     component: VirksomhetsVisning,
-} as ComponentMeta<typeof VirksomhetsVisning>;
+} as Meta<typeof VirksomhetsVisning>;
 
 export const Hovedstory = () => (
     <VirksomhetsVisning

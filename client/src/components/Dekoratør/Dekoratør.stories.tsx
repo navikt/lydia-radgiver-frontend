@@ -1,4 +1,4 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { Dekoratør } from "./Dekoratør";
 import { rest } from "msw";
 import { virksomhetAutocompletePath } from "../../api/lydia-api";
@@ -11,7 +11,7 @@ import {
 export default {
     title: "Dekoratør",
     component: Dekoratør,
-} as ComponentMeta<typeof Dekoratør>;
+} as Meta<typeof Dekoratør>;
 
 export const Autentisert = () => (
     <div>

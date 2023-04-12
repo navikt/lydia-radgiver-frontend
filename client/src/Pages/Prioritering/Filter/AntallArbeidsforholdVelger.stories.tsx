@@ -1,10 +1,10 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 
 export default {
     title: "Prioritering/Antall arbeidsforhold-velger",
     component: AntallArbeidsforholdVelger,
-} as ComponentMeta<typeof AntallArbeidsforholdVelger>
+} as Meta<typeof AntallArbeidsforholdVelger>
 
 export const Hovedstory = () => (
     <AntallArbeidsforholdVelger

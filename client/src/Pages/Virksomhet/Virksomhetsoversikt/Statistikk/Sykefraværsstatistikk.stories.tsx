@@ -1,4 +1,4 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { rest } from "msw";
 import {
     gjeldendePeriodeSiste4Kvartal,
@@ -15,7 +15,7 @@ export default {
             default: 'white'
         }
     }
-} as ComponentMeta<typeof Sykefraværsstatistikk>;
+} as Meta<typeof Sykefraværsstatistikk>;
 
 const orgnummer = "999123456"
 

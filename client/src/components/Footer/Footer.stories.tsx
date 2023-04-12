@@ -1,4 +1,4 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { Footer } from "./Footer";
 import { rest } from "msw";
 import { gjeldendePeriodePath, sykefraværsstatistikkPath } from "../../api/lydia-api";
@@ -7,7 +7,7 @@ import { gjeldendePeriodeSiste4Kvartal } from "../../Pages/Prioritering/mocks/sy
 export default {
     title: "Footer",
     component: Footer,
-} as ComponentMeta<typeof Footer>;
+} as Meta<typeof Footer>;
 
 export const Hovedstory = () => (
     <div>

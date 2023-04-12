@@ -1,5 +1,4 @@
-import { ComponentMeta } from "@storybook/react";
-import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
+import { Meta } from "@storybook/react";
 import { Statistikkboks } from "./Statistikkboks";
 
 export default {
@@ -17,7 +16,7 @@ export default {
             </div>
         )
     ],
-} as ComponentMeta<typeof Sykefraværsstatistikk>;
+} as Meta<typeof Statistikkboks>;
 
 export const Arbeidsforhold = () => <Statistikkboks tittel="Arbeidsforhold" verdi="5001"
                                                     helpTekst="Antall arbeidsforhold i siste kvartal"/>

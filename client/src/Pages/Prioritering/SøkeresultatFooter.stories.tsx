@@ -1,12 +1,12 @@
 import { useEffect, useState } from "react";
-import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { Meta, StoryFn } from "@storybook/react";
 import { SøkeresultatFooter } from "./SøkeresultatFooter";
 import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
 
 export default {
     title: "Prioritering/SøkeresultatFooter",
     component: SøkeresultatFooter,
-} as ComponentMeta<typeof SøkeresultatFooter>;
+} as Meta<typeof SøkeresultatFooter>;
 
 interface Props {
     side: number;
@@ -15,7 +15,7 @@ interface Props {
     totaltAntallTreff?: number;
 }
 
-const Template: ComponentStory<typeof SøkeresultatFooter> = ({totaltAntallTreff}: Props) => {
+const Template: StoryFn<typeof SøkeresultatFooter> = ({totaltAntallTreff}: Props) => {
     const [side, setSide] = useState(1);
     const antallTreffPåSide = side === 10 ? 10 : ANTALL_RESULTATER_PER_SIDE;
 

@@ -1,7 +1,7 @@
 import { BodyLong, Button, Heading, Modal } from "@navikt/ds-react";
-import { getRootElement } from "../../main";
 import { StyledModal } from "./StyledModal";
 import { ModalKnapper } from "./ModalKnapper";
+import { useEffect } from "react";
 
 export interface Props {
     onConfirm: () => void
@@ -18,9 +18,12 @@ export const BekreftValgModal = ({
     title,
     description
 }: Props) => {
-    Modal.setAppElement?.(document.body)
+    useEffect(() => {
+        Modal.setAppElement(document.getElementById("root"));
+    }, []);
+
     return (
-        <StyledModal parentSelector={() => getRootElement()}
+        <StyledModal
                      open={åpen}
                      onClose={onCancel}>
             <Modal.Content>
