@@ -31,6 +31,10 @@ const FjernLeveranseKnapp = styled(Button)`
   &:hover {
     background: none;
   }
+
+  &:disabled:hover {
+    color: ${NavFarger.text};
+  }
 `;
 
 interface Props {
@@ -46,6 +50,7 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerMedLesetilgang = brukerInformasjon?.rolle === RolleEnum.enum.Lesetilgang;
+    const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
 
     const vedFullførLeveranse = () => {
         fullførLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
@@ -66,7 +71,7 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
             <DataCellNoWrap>{`Tentativ frist: ${lokalDato(leveranse.frist)}`}</DataCellNoWrap>
             {brukerMedLesetilgang ? null :
                 <Table.DataCell>
-                    <FullførKnapp onClick={vedFullførLeveranse} disabled={leveranseErFullført} size="small">
+                    <FullførKnapp onClick={vedFullførLeveranse} disabled={leveranseErFullført || !brukerErEierAvSak} size="small">
                         {fullførKnappTekst}
                     </FullførKnapp>
                 </Table.DataCell>
@@ -80,6 +85,7 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
             {brukerMedLesetilgang ? null :
                 <Table.DataCell align="right">
                     <FjernLeveranseKnapp onClick={() => setBekreftValgModalÅpen(true)}
+                                         disabled={!brukerErEierAvSak}
                                          variant="tertiary"
                                          icon={<Delete title="Fjern leveranse" />} />
                     <BekreftValgModal onConfirm={vedSlettLeveranse}
