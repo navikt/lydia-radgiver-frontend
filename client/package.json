@@ -16,11 +16,11 @@
     "prepare": "cd .. && husky install client/.husky"
   },
   "dependencies": {
-    "@navikt/ds-css": "2.8.2",
-    "@navikt/ds-css-internal": "2.8.2",
-    "@navikt/ds-icons": "2.8.2",
-    "@navikt/ds-react": "2.8.2",
-    "@navikt/ds-react-internal": "2.8.2",
+    "@navikt/ds-css": "2.8.11",
+    "@navikt/ds-css-internal": "2.8.11",
+    "@navikt/ds-icons": "2.8.11",
+    "@navikt/ds-react": "2.8.11",
+    "@navikt/ds-react-internal": "2.8.11",
     "@types/amplitude-js": "8.16.2",
     "amplitude-js": "8.21.6",
     "react": "18.2.0",
