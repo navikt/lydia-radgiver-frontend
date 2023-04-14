@@ -21,6 +21,7 @@ const sorteringsverdier = {
     antall_personer: "Antall arbeidsforhold",
     sykefraversprosent: "Sykefraværsprosent",
     navn: "Alfabetisk på navn",
+    sist_endret: "Sist endret",
 } as const;
 
 export type Sorteringsverdi = keyof typeof sorteringsverdier;

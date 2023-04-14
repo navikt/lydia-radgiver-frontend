@@ -26,8 +26,9 @@ const kolonner: Kolonne[] = [
         textAlignment: "left"
     },
     {
-        key: "endret",
+        key: "sist_endret",
         name: "Endret",
+        sortable: true,
         textAlignment: "left"
     },
     {
