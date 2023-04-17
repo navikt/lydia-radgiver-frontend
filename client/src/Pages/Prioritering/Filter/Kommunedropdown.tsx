@@ -32,7 +32,12 @@ export const Kommunedropdown = ({ relevanteFylkerMedKommuner, endreKommuner, val
                 value={valgteKommuner}
                 noOptionsMessage={() => "Ingen kommuner å velge"}
                 options={sorterteKommuner}
-                getOptionLabel={(v) => (v as Kommune).navn}
+                getOptionLabel={(v) => {
+                    const kommune = (v as Kommune)
+                    if (kommune.navn !== kommune.navnNorsk)
+                        return `${kommune.navn} (${kommune.navnNorsk})`
+                    return kommune.navn;
+                }}
                 getOptionValue={(v) => (v as Kommune).nummer}
                 isMulti
                 styles={reactSelectStyle()}

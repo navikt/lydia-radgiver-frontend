@@ -1,50 +1,13 @@
 import { Meta } from "@storybook/react";
 import { Kommunedropdown } from "./Kommunedropdown";
+import { filterverdierMock } from "../mocks/filterverdierMock";
 
 export default {
     title: "Prioritering/Kommune",
     component: Kommunedropdown,
 } as Meta<typeof Kommunedropdown>;
 
-export const Hovedstory = () => (<Kommunedropdown relevanteFylkerMedKommuner={[
-    {
-        fylke: {
-            navn: "Viken",
-            nummer: "03"
-        },
-        kommuner: [
-            {
-                navn: "Haugenstua",
-                nummer: "0195",
-            },
-            {
-                navn: "Gika",
-                nummer: "0222",
-            },
-            {
-                navn: "Oslo",
-                nummer: "0202"
-            }
-        ],
-    },
-    {
-        fylke: {
-            navn: "Innlandet",
-            nummer: "05"
-        },
-        kommuner: [
-            {
-                navn: "Gjøvik",
-                nummer: "1111",
-            },
-            {
-                navn: "Broen",
-                nummer: "1122",
-            },
-            {
-                navn: "Erstad",
-                nummer: "3333"
-            }
-        ]
+export const Hovedstory = () => (<Kommunedropdown relevanteFylkerMedKommuner={
+    filterverdierMock.fylker
     }
-]} endreKommuner={console.log}/>)
+ endreKommuner={console.log}/>)

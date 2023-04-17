@@ -7,7 +7,7 @@ const fylkerMedKommuner = filterverdierMock.fylker;
 
 describe("Finn fylke for kommune som vert sendt inn", () => {
     test('at vi finn Oslo fylke frå liste med berre Oslo kommune', () => {
-        const kommuner = [{ navn: "Oslo", nummer: "0301" }]
+        const kommuner = [{ navn: "Oslo", navnNorsk: "Oslo", nummer: "0301" }]
         const fylker = finnFylkerForKommuner(kommuner, fylkerMedKommuner)
         const forventaFylker = [{
             nummer: "03",
@@ -19,10 +19,10 @@ describe("Finn fylke for kommune som vert sendt inn", () => {
 
     test("at vi kan få ut ei liste med fylker (utan duplikat)", () => {
         const kommuner = [
-            { navn: "Oslo", nummer: "0301" },           // Oslo
-            { navn: "Vågan", nummer: "1865" },          // Nordland
-            { navn: "Nord-Aurdal", nummer: "3451" },    // Innlandet
-            { navn: "Træna", nummer: "1835" },          // Nordland
+            { navn: "Oslo", navnNorsk: "Oslo", nummer: "0301" },           // Oslo
+            { navn: "Vågan", navnNorsk: "Vågan", nummer: "1865" },          // Nordland
+            { navn: "Nord-Aurdal", navnNorsk: "Nord-Aurdal", nummer: "3451" },    // Innlandet
+            { navn: "Træna", navnNorsk: "Træna", nummer: "1835" },          // Nordland
         ]
         const fylker = finnFylkerForKommuner(kommuner, fylkerMedKommuner)
         const forventaFylker = [
@@ -37,8 +37,8 @@ describe("Finn fylke for kommune som vert sendt inn", () => {
 
     test("at vi finn Aust- og Vest-Viken", () => {
         const kommuner = [
-            { nummer: "3026", navn: "Aurskog-Høland", },    // Øst-Viken
-            { nummer: "3024", navn: "Bærum", },             // Vest-Viken
+            { nummer: "3026", navn: "Aurskog-Høland", navnNorsk: "Aurskog-Høland", },    // Øst-Viken
+            { nummer: "3024", navn: "Bærum", navnNorsk: "Bærum", },             // Vest-Viken
         ]
         const fylker = finnFylkerForKommuner(kommuner, fylkerMedKommuner)
         const forventaFylker = [

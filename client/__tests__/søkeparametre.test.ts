@@ -51,8 +51,8 @@ describe("oversettelse fra søkeverdier til URL-parametre", () => {
 
     test("kommuner og fylker blir separert med komma som igjen blir escapet med %2C", () => {
         const kommuner: Kommune[] = [
-            { navn: "A", nummer: "0000" },
-            { navn: "B", nummer: "0001" },
+            { navn: "A", navnNorsk: "A", nummer: "0000" },
+            { navn: "B", navnNorsk: "B", nummer: "0001" },
         ];
         const søkeverdier: FiltervisningState = {
             antallArbeidsforhold: {
