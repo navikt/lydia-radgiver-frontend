@@ -21,7 +21,7 @@ const hendelsesTyperSomMåBekreftes: IASakshendelseType[] = [
 ]
 
 interface SakshendelsesKnapperProps {
-    sak: IASak
+    sak: IASak;
     hendelser: GyldigNesteHendelse[];
     onNyHendelseHandler: (hendelse: GyldigNesteHendelse) => void;
 }
@@ -65,7 +65,7 @@ export const SakshendelsesKnapper = ({sak, hendelser, onNyHendelseHandler}: Saks
                 })
             }
             <BekreftHendelseModal
-                sak={sak}
+                saksstatus={sak.status}
                 åpen={hendelseSomMåBekreftes !== null}
                 onConfirm={() => {
                     hendelseSomMåBekreftes && onNyHendelseHandler(hendelseSomMåBekreftes)

@@ -1,26 +1,21 @@
 import { BekreftValgModal, Props as BekreftValgModalProps } from "../../../../components/Modal/BekreftValgModal";
 import { loggModalTilbakeTilForrigeStatusLukket } from "../../../../util/amplitude-klient";
-import {
-    GyldigNesteHendelse,
-    IAProsessStatusEnum,
-    IAProsessStatusType,
-    IASak
-} from "../../../../domenetyper/domenetyper";
+import { GyldigNesteHendelse, IAProsessStatusEnum, IAProsessStatusType } from "../../../../domenetyper/domenetyper";
 import { penskrivIAStatus } from "../../../../components/Badge/StatusBadge";
 
 interface BekreftHendelseModalProps {
-    sak: IASak
+    saksstatus: IAProsessStatusType,
     hendelse: GyldigNesteHendelse | null
 }
 
 export const BekreftHendelseModal = ({
-    sak: { status: sakstatus },
+    saksstatus,
     hendelse,
     åpen,
     onConfirm,
     onCancel,
 }: BekreftValgModalProps & BekreftHendelseModalProps) => {
-    const modalTekst = modalTekstForHendelse({ hendelse, sakstatus });
+    const modalTekst = modalTekstForHendelse({ hendelse, saksstatus });
 
     return (
         <BekreftValgModal
@@ -31,7 +26,7 @@ export const BekreftHendelseModal = ({
                     modalTekst.tittel,
                     modalTekst.beskrivelse,
                     "ja",
-                    sakstatus
+                    saksstatus
                 );
             }}
             onCancel={() => {
@@ -40,7 +35,7 @@ export const BekreftHendelseModal = ({
                     modalTekst.tittel,
                     modalTekst.beskrivelse,
                     "avbryt",
-                    sakstatus
+                    saksstatus
                 );
             }}
             title={modalTekst.tittel}
@@ -58,10 +53,10 @@ interface ModalTekst {
 
 interface ModalTekstForHendelseProps {
     hendelse: GyldigNesteHendelse | null,
-    sakstatus: IAProsessStatusType
+    saksstatus: IAProsessStatusType
 }
 
-const modalTekstForHendelse = ({ hendelse, sakstatus }: ModalTekstForHendelseProps): ModalTekst => {
+const modalTekstForHendelse = ({ hendelse, saksstatus }: ModalTekstForHendelseProps): ModalTekst => {
     if (!hendelse) return {
         tittel: DEFAULT_TITTEL_FOR_MODAL,
         beskrivelse: ""
@@ -74,13 +69,13 @@ const modalTekstForHendelse = ({ hendelse, sakstatus }: ModalTekstForHendelsePro
                 beskrivelse: 'Dette vil lukke saken og skal gjøres når avtalt IA-oppfølging er fullført.'
             }
         case "TILBAKE": {
-            if (sakstatus === IAProsessStatusEnum.enum.FULLFØRT) {
+            if (saksstatus === IAProsessStatusEnum.enum.FULLFØRT) {
                 return {
                     tittel: 'Er du sikker på at du vil gjenåpne saken?',
                     beskrivelse: `Dette setter saken tilbake til "${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)}"`,
                 }
             }
-            if (sakstatus === IAProsessStatusEnum.enum.IKKE_AKTUELL) {
+            if (saksstatus === IAProsessStatusEnum.enum.IKKE_AKTUELL) {
                 return {
                     tittel: 'Er du sikker på at du vil gjenåpne saken?',
                     beskrivelse: 'Dette setter saken tilbake til forrige status.'
