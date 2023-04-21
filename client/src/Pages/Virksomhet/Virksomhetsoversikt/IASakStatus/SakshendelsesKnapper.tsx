@@ -15,11 +15,6 @@ const horisontalKnappeStyling: CSSProperties = {
     gap: "0.5rem"
 };
 
-const hendelsesTyperSomMåBekreftes: IASakshendelseType[] = [
-    IASakshendelseTypeEnum.enum.TILBAKE,
-    IASakshendelseTypeEnum.enum.FULLFØR_BISTAND,
-]
-
 interface SakshendelsesKnapperProps {
     sak: IASak;
     hendelser: GyldigNesteHendelse[];
@@ -39,6 +34,18 @@ export const SakshendelsesKnapper = ({sak, hendelser, onNyHendelseHandler}: Saks
     const ikkeDestruktiveHendelser = hendelser
         .filter(hendelse => !erHendelsenDestruktiv(hendelse.saksHendelsestype))
 
+    const trykkPåSakhendelsesknapp = (hendelse: GyldigNesteHendelse) => {
+        const erEnHendelseSomMåBekreftes = hendelse.saksHendelsestype === IASakshendelseTypeEnum.enum.TILBAKE
+            || hendelse.saksHendelsestype === IASakshendelseTypeEnum.enum.FULLFØR_BISTAND
+
+        if (erEnHendelseSomMåBekreftes) {
+            setHendelseSomMåBekreftes(hendelse)
+        } else {
+            // endre hendelse og hent begrunnelse om den skal ha det
+            onNyHendelseHandler(hendelse)
+        }
+    }
+
     return (
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
             {
@@ -52,11 +59,7 @@ export const SakshendelsesKnapper = ({sak, hendelser, onNyHendelseHandler}: Saks
                                     <IASakshendelseKnapp
                                         key={hendelse.saksHendelsestype}
                                         hendelsesType={hendelse.saksHendelsestype}
-                                        onClick={() => {
-                                            hendelsesTyperSomMåBekreftes.includes(hendelse.saksHendelsestype)
-                                                ? setHendelseSomMåBekreftes(hendelse)
-                                                : onNyHendelseHandler(hendelse)
-                                        }}
+                                        onClick={() => trykkPåSakhendelsesknapp(hendelse)}
                                     />
                                 );
                             })
