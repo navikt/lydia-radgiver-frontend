@@ -3,7 +3,6 @@ import { BodyShort } from "@navikt/ds-react";
 import { IngenAktiveSaker } from "./IngenAktiveSaker";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import { StatusBadge } from "../../../../components/Badge/StatusBadge";
-import { useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../api/lydia-api";
 import { SakshendelsesKnapper } from "./SakshendelsesKnapper";
 import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
 import { NavFarger } from "../../../../styling/farger";
@@ -46,19 +45,10 @@ export interface IASakOversiktProps {
 }
 
 export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => {
-    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(orgnummer)
-    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(orgnummer)
-
-    const mutateIASakerOgSamarbeidshistorikk = () => {
-        mutateHentSaker?.()
-        mutateSamarbeidshistorikk?.()
-    }
-
     if (!sak || sak.lukket) {
         return (
             <IngenAktiveSaker
                 orgnummer={orgnummer}
-                oppdaterSak={mutateIASakerOgSamarbeidshistorikk}
             />
         );
     }

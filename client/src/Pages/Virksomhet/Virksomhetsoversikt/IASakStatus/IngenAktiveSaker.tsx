@@ -1,7 +1,12 @@
 import styled from "styled-components";
 import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import { IASakOversiktContainer, InfoTittel, Saksinfo } from "./IASakOversikt";
-import { opprettSak, useHentBrukerinformasjon } from "../../../../api/lydia-api";
+import {
+    opprettSak,
+    useHentAktivSakForVirksomhet,
+    useHentBrukerinformasjon,
+    useHentSamarbeidshistorikk
+} from "../../../../api/lydia-api";
 import { StatusBadge } from "../../../../components/Badge/StatusBadge";
 import { IAProsessStatusEnum, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
 import { RolleEnum } from "../../../../domenetyper/brukerinformasjon";
@@ -13,11 +18,18 @@ const VurderesKnappContainer = styled.div`
 
 interface IngenAktiveSakerProps {
     orgnummer: string;
-    oppdaterSak: () => void;
 }
 
-export const IngenAktiveSaker = ({ orgnummer, oppdaterSak }: IngenAktiveSakerProps) => {
-    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+export const IngenAktiveSaker = ({orgnummer}: IngenAktiveSakerProps) => {
+    const {data: brukerInformasjon} = useHentBrukerinformasjon();
+    const {mutate: mutateSamarbeidshistorikk} = useHentSamarbeidshistorikk(orgnummer)
+    const {mutate: mutateAktivSak} = useHentAktivSakForVirksomhet(orgnummer)
+
+    const mutateIASakerOgSamarbeidshistorikk = () => {
+        mutateAktivSak?.()
+        mutateSamarbeidshistorikk?.()
+    }
+
     return (
         <IASakOversiktContainer>
             <Saksinfo>
@@ -28,9 +40,7 @@ export const IngenAktiveSaker = ({ orgnummer, oppdaterSak }: IngenAktiveSakerPro
                 <VurderesKnappContainer>
                     <IASakshendelseKnapp
                         hendelsesType={IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES}
-                        onClick={() =>
-                            opprettSak(orgnummer).then(() => oppdaterSak())
-                        }
+                        onClick={() => opprettSak(orgnummer).then(() => mutateIASakerOgSamarbeidshistorikk())}
                     />
                 </VurderesKnappContainer>
                 : null
