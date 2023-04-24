@@ -38,7 +38,7 @@ interface Props {
     brukerInformasjon: Brukerinformasjon;
 }
 
-export const erIDev = ["localhost", "fia.dev.intern.nav.no"].includes(window.location.hostname)
+export const erIDev = ["localhost", "fia.intern.dev.nav.no"].includes(window.location.hostname)
 
 export const Dekoratør = ({ brukerInformasjon }: Props) => {
     return (
