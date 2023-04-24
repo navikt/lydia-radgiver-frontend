@@ -1,9 +1,10 @@
-import React, { CSSProperties, ReactElement } from "react";
+import React, { ReactElement } from "react";
 import { GyldigNesteHendelse, IASak, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
 import { erHendelsenDestruktiv, sorterHendelserPåKnappeType } from "./IASakshendelseKnapp";
 import { IkkeAktuellKnapp } from "./IkkeAktuellKnapp";
 import { HendelseMåBekreftesKnapp } from "./HendelseMåBekreftesKnapp";
 import { RettTilNesteStatusKnapp } from "./RettTilNesteStatusKnapp";
+import styled from "styled-components";
 
 const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak): ReactElement => {
     switch (hendelse.saksHendelsestype) {
@@ -40,12 +41,17 @@ const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak): Reac
     }
 }
 
-const horisontalKnappeStyling: CSSProperties = {
-    display: "flex",
-    flexDirection: "column",
-    justifyContent: "flex-end",
-    gap: "0.5rem"
-};
+const Container = styled.div`
+  display: flex;
+  justify-content: space-between;
+`
+
+const KnappeKolonner = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  gap: 0.5rem;
+`;
 
 interface SakshendelsesKnapperProps {
     sak: IASak;
@@ -59,21 +65,19 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
         .filter(hendelse => !erHendelsenDestruktiv(hendelse.saksHendelsestype))
 
     return (
-        <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
-            {
-                [destruktiveHendelser, ikkeDestruktiveHendelser].map((hendelser) => {
-                    return (
-                        <div style={horisontalKnappeStyling}
-                             key={hendelser.map(hendelse => hendelse.saksHendelsestype).join("-")}>
-                            {hendelser.sort(sorterHendelserPåKnappeType)
-                                .map((hendelse) =>
-                                    rendreKnappForHendelse(hendelse, sak)
-                                )
-                            }
-                        </div>
-                    )
-                })
-            }
-        </div>
+        <Container>
+            {[destruktiveHendelser, ikkeDestruktiveHendelser].map((hendelser) => {
+                return (
+                    <KnappeKolonner
+                        key={hendelser.map(hendelse => hendelse.saksHendelsestype).join("-")}>
+                        {hendelser.sort(sorterHendelserPåKnappeType)
+                            .map((hendelse) =>
+                                rendreKnappForHendelse(hendelse, sak)
+                            )
+                        }
+                    </ KnappeKolonner>
+                )
+            })}
+        </ Container>
     )
 }
