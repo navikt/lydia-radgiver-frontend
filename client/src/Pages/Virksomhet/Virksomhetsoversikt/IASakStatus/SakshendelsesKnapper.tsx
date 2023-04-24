@@ -1,11 +1,11 @@
 import React, { CSSProperties, ReactElement } from "react";
 import { GyldigNesteHendelse, IASak, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
-import { erHendelsenDestruktiv, IASakshendelseKnapp, sorterHendelserPåKnappeType } from "./IASakshendelseKnapp";
-import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../api/lydia-api";
+import { erHendelsenDestruktiv, sorterHendelserPåKnappeType } from "./IASakshendelseKnapp";
 import { IkkeAktuellKnapp } from "./IkkeAktuellKnapp";
 import { HendelseMåBekreftesKnapp } from "./HendelseMåBekreftesKnapp";
+import { RettTilNesteStatusKnapp } from "./RettTilNesteStatusKnapp";
 
-const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak, trykkPåSakhendelsesknapp: (hendelse: GyldigNesteHendelse) => void): ReactElement => {
+const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak): ReactElement => {
     switch (hendelse.saksHendelsestype) {
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
             return (
@@ -31,10 +31,10 @@ const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak, trykk
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
         case IASakshendelseTypeEnum.enum.SLETT_SAK:
             return (
-                <IASakshendelseKnapp
+                <RettTilNesteStatusKnapp
+                    sak={sak}
+                    hendelse={hendelse}
                     key={hendelse.saksHendelsestype}
-                    hendelsesType={hendelse.saksHendelsestype}
-                    onClick={() => trykkPåSakhendelsesknapp(hendelse)}
                 />
             )
     }
@@ -58,18 +58,6 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
     const ikkeDestruktiveHendelser = hendelser
         .filter(hendelse => !erHendelsenDestruktiv(hendelse.saksHendelsestype))
 
-    const {mutate: mutateSamarbeidshistorikk} = useHentSamarbeidshistorikk(sak.orgnr)
-    const {mutate: mutateHentSaker} = useHentAktivSakForVirksomhet(sak.orgnr)
-
-    const mutateIASakerOgSamarbeidshistorikk = () => {
-        mutateHentSaker?.()
-        mutateSamarbeidshistorikk?.()
-    }
-
-    const trykkPåSakhendelsesknapp = (hendelse: GyldigNesteHendelse) => {
-        nyHendelsePåSak(sak, hendelse).then(mutateIASakerOgSamarbeidshistorikk)
-    }
-
     return (
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
             {
@@ -79,7 +67,7 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
                              key={hendelser.map(hendelse => hendelse.saksHendelsestype).join("-")}>
                             {hendelser.sort(sorterHendelserPåKnappeType)
                                 .map((hendelse) =>
-                                    rendreKnappForHendelse(hendelse, sak, trykkPåSakhendelsesknapp)
+                                    rendreKnappForHendelse(hendelse, sak)
                                 )
                             }
                         </div>
