@@ -59,20 +59,31 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
                         {hendelser
                             .sort(sorterHendelserPåKnappeType)
                             .map((hendelse) => {
-                                if (hendelse.saksHendelsestype === "VIRKSOMHET_ER_IKKE_AKTUELL") {
-                                    return (
-                                        <IkkeAktuellKnapp sak={sak}
-                                                          hendelse={hendelse}
-                                                          key={hendelse.saksHendelsestype} />
-                                    )
+                                switch (hendelse.saksHendelsestype) {
+                                    case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
+                                    case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
+                                    case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
+                                    case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
+                                    case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
+                                    case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
+                                    case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
+                                    case IASakshendelseTypeEnum.enum.TILBAKE:
+                                    case IASakshendelseTypeEnum.enum.SLETT_SAK:
+                                        return (
+                                            <IASakshendelseKnapp
+                                                key={hendelse.saksHendelsestype}
+                                                hendelsesType={hendelse.saksHendelsestype}
+                                                onClick={() => trykkPåSakhendelsesknapp(hendelse)}
+                                            />
+                                        )
+                                    case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
+                                        return (
+                                            <IkkeAktuellKnapp
+                                                sak={sak}
+                                                hendelse={hendelse}
+                                                key={hendelse.saksHendelsestype} />
+                                        )
                                 }
-                                return (
-                                    <IASakshendelseKnapp
-                                        key={hendelse.saksHendelsestype}
-                                        hendelsesType={hendelse.saksHendelsestype}
-                                        onClick={() => trykkPåSakhendelsesknapp(hendelse)}
-                                    />
-                                );
                             })
                         }
                     </div>
