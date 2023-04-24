@@ -1,9 +1,9 @@
 import { CSSProperties, useState } from "react";
-import { GyldigNesteHendelse, IASak, IASakshendelseTypeEnum, ValgtÅrsakDto } from "../../../../domenetyper/domenetyper";
+import { GyldigNesteHendelse, IASak, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
 import { erHendelsenDestruktiv, IASakshendelseKnapp, sorterHendelserPåKnappeType } from "./IASakshendelseKnapp";
 import { BekreftHendelseModal } from "./BekreftHendelseModal";
-import { BegrunnelseModal } from "./BegrunnelseModal";
 import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../api/lydia-api";
+import { IkkeAktuellKnapp } from "./IkkeAktuellKnapp";
 
 const horisontalKnappeStyling: CSSProperties = {
     display: "flex",
@@ -19,7 +19,6 @@ interface SakshendelsesKnapperProps {
 
 export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps) => {
     const [hendelseSomMåBekreftes, setHendelseSomMåBekreftes] = useState<GyldigNesteHendelse | null>(null)
-    const [hendelseSomMåBegrunnes, setHendelseSomMåBegrunnes] = useState<GyldigNesteHendelse | null>(null);
 
     const destruktiveHendelser = hendelser
         .filter(hendelse => erHendelsenDestruktiv(hendelse.saksHendelsestype))
@@ -37,12 +36,9 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
     const trykkPåSakhendelsesknapp = (hendelse: GyldigNesteHendelse) => {
         const erEnHendelseSomMåBekreftes = hendelse.saksHendelsestype === IASakshendelseTypeEnum.enum.TILBAKE
             || hendelse.saksHendelsestype === IASakshendelseTypeEnum.enum.FULLFØR_BISTAND
-        const erEnHendelseSomMåBegrunnes = hendelse.gyldigeÅrsaker.length > 0;
 
         if (erEnHendelseSomMåBekreftes) {
             setHendelseSomMåBekreftes(hendelse) // åpne modal
-        } else if (erEnHendelseSomMåBegrunnes) {
-            setHendelseSomMåBegrunnes(hendelse) // åpne modal
         } else {
             nyHendelsePåSak(sak, hendelse).then(mutateIASakerOgSamarbeidshistorikk)
         }
@@ -54,15 +50,6 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
             .finally(() => setHendelseSomMåBekreftes(null))
     }
 
-    const lagreBegrunnelsePåSak = (valgtÅrsak: ValgtÅrsakDto) => {
-        if (!hendelseSomMåBegrunnes) {
-            return new Error(`Kan ikke lagre begrunnelse på denne hendelsen. Hendelse: ${hendelseSomMåBegrunnes}`)
-        }
-        nyHendelsePåSak(sak, hendelseSomMåBegrunnes, valgtÅrsak)
-            .then(mutateIASakerOgSamarbeidshistorikk)
-            .finally(() => setHendelseSomMåBegrunnes(null))
-    }
-
     return (
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
             {
@@ -72,6 +59,13 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
                         {hendelser
                             .sort(sorterHendelserPåKnappeType)
                             .map((hendelse) => {
+                                if (hendelse.saksHendelsestype === "VIRKSOMHET_ER_IKKE_AKTUELL") {
+                                    return (
+                                        <IkkeAktuellKnapp sak={sak}
+                                                          hendelse={hendelse}
+                                                          key={hendelse.saksHendelsestype} />
+                                    )
+                                }
                                 return (
                                     <IASakshendelseKnapp
                                         key={hendelse.saksHendelsestype}
@@ -91,14 +85,6 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
                     onConfirm={bekreftNyHendelsePåSak}
                     onCancel={() => {setHendelseSomMåBekreftes(null)}}
                     hendelse={hendelseSomMåBekreftes}
-                />
-            )}
-            {hendelseSomMåBegrunnes && (
-                <BegrunnelseModal
-                    hendelse={hendelseSomMåBegrunnes}
-                    åpen={true}
-                    lagre={lagreBegrunnelsePåSak}
-                    onClose={() => setHendelseSomMåBegrunnes(null)}
                 />
             )}
         </div>
