@@ -1,9 +1,44 @@
-import { CSSProperties } from "react";
+import React, { CSSProperties, ReactElement } from "react";
 import { GyldigNesteHendelse, IASak, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
 import { erHendelsenDestruktiv, IASakshendelseKnapp, sorterHendelserPåKnappeType } from "./IASakshendelseKnapp";
 import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../api/lydia-api";
 import { IkkeAktuellKnapp } from "./IkkeAktuellKnapp";
 import { HendelseMåBekreftesKnapp } from "./HendelseMåBekreftesKnapp";
+
+const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak, trykkPåSakhendelsesknapp: (hendelse: GyldigNesteHendelse) => void): ReactElement => {
+    switch (hendelse.saksHendelsestype) {
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
+            return (
+                <IkkeAktuellKnapp
+                    sak={sak}
+                    hendelse={hendelse}
+                    key={hendelse.saksHendelsestype} />
+            )
+        case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
+        case IASakshendelseTypeEnum.enum.TILBAKE:
+            return (
+                <HendelseMåBekreftesKnapp
+                    sak={sak}
+                    hendelse={hendelse}
+                    key={hendelse.saksHendelsestype}
+                />
+            )
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
+        case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
+        case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
+        case IASakshendelseTypeEnum.enum.SLETT_SAK:
+            return (
+                <IASakshendelseKnapp
+                    key={hendelse.saksHendelsestype}
+                    hendelsesType={hendelse.saksHendelsestype}
+                    onClick={() => trykkPåSakhendelsesknapp(hendelse)}
+                />
+            )
+    }
+}
 
 const horisontalKnappeStyling: CSSProperties = {
     display: "flex",
@@ -39,46 +74,16 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
         <div style={{display: "flex", flexDirection: "row", justifyContent: "space-between"}}>
             {
                 [destruktiveHendelser, ikkeDestruktiveHendelser].map((hendelser) => {
-                    return <div style={horisontalKnappeStyling}
-                                key={hendelser.map(hendelse => hendelse.saksHendelsestype).join("-")}>
-                        {hendelser
-                            .sort(sorterHendelserPåKnappeType)
-                            .map((hendelse) => {
-                                switch (hendelse.saksHendelsestype) {
-                                    case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
-                                    case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
-                                    case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
-                                    case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
-                                    case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
-                                    case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
-                                    case IASakshendelseTypeEnum.enum.SLETT_SAK:
-                                        return (
-                                            <IASakshendelseKnapp
-                                                key={hendelse.saksHendelsestype}
-                                                hendelsesType={hendelse.saksHendelsestype}
-                                                onClick={() => trykkPåSakhendelsesknapp(hendelse)}
-                                            />
-                                        )
-                                    case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
-                                    case IASakshendelseTypeEnum.enum.TILBAKE:
-                                        return (
-                                            <HendelseMåBekreftesKnapp
-                                                sak={sak}
-                                                hendelse={hendelse}
-                                                key={hendelse.saksHendelsestype}
-                                            />
-                                        )
-                                    case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
-                                        return (
-                                            <IkkeAktuellKnapp
-                                                sak={sak}
-                                                hendelse={hendelse}
-                                                key={hendelse.saksHendelsestype} />
-                                        )
-                                }
-                            })
-                        }
-                    </div>
+                    return (
+                        <div style={horisontalKnappeStyling}
+                             key={hendelser.map(hendelse => hendelse.saksHendelsestype).join("-")}>
+                            {hendelser.sort(sorterHendelserPåKnappeType)
+                                .map((hendelse) =>
+                                    rendreKnappForHendelse(hendelse, sak, trykkPåSakhendelsesknapp)
+                                )
+                            }
+                        </div>
+                    )
                 })
             }
         </div>

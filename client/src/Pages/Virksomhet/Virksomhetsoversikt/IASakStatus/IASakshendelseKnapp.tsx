@@ -53,17 +53,17 @@ export const knappeTypeFraSakshendelsesType = (hendelsesType: IASakshendelseType
     }
 }
 
-interface Props {
-    hendelsesType: IASakshendelseType
-    onClick: () => void
-}
-
 export const erHendelsenDestruktiv = (hendelsesType: IASakshendelseType) =>
     knappeTypeFraSakshendelsesType(hendelsesType) === "danger"
 
 export const sorterHendelserPåKnappeType = (a: GyldigNesteHendelse, b: GyldigNesteHendelse) =>
     ButtonVariant[knappeTypeFraSakshendelsesType(a.saksHendelsestype)].valueOf()
     - ButtonVariant[knappeTypeFraSakshendelsesType(b.saksHendelsestype)].valueOf()
+
+interface Props {
+    hendelsesType: IASakshendelseType
+    onClick: () => void
+}
 
 export const IASakshendelseKnapp = ({hendelsesType, onClick}: Props) => {
     return (
