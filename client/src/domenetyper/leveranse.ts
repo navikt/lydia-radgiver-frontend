@@ -24,8 +24,6 @@ const LEVERANSE_STATUSER = [
 
 export const LeveranseStatusEnum = z.enum(LEVERANSE_STATUSER);
 
-type LeveranseStatus = z.infer<typeof LeveranseStatusEnum>
-
 export const leveranseSchema = z.object({
     id: z.number(),
     saksnummer: z.string(),
