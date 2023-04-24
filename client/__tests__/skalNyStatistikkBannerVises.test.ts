@@ -1,4 +1,4 @@
-import { skjulNyStatistikkBanner } from "../src/components/Banner/NyStatistikkPubliseresBanner";
+import { skjulNyStatistikkBanner } from "../src/util/skjulNyStatistikkBanner";
 
 const publiseringsdato = new Date('2023-03-02');
 
