@@ -1,9 +1,9 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties } from "react";
 import { GyldigNesteHendelse, IASak, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
 import { erHendelsenDestruktiv, IASakshendelseKnapp, sorterHendelserPåKnappeType } from "./IASakshendelseKnapp";
-import { BekreftHendelseModal } from "./BekreftHendelseModal";
 import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../api/lydia-api";
 import { IkkeAktuellKnapp } from "./IkkeAktuellKnapp";
+import { HendelseMåBekreftesKnapp } from "./HendelseMåBekreftesKnapp";
 
 const horisontalKnappeStyling: CSSProperties = {
     display: "flex",
@@ -18,8 +18,6 @@ interface SakshendelsesKnapperProps {
 }
 
 export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps) => {
-    const [hendelseSomMåBekreftes, setHendelseSomMåBekreftes] = useState<GyldigNesteHendelse | null>(null)
-
     const destruktiveHendelser = hendelser
         .filter(hendelse => erHendelsenDestruktiv(hendelse.saksHendelsestype))
     const ikkeDestruktiveHendelser = hendelser
@@ -34,20 +32,7 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
     }
 
     const trykkPåSakhendelsesknapp = (hendelse: GyldigNesteHendelse) => {
-        const erEnHendelseSomMåBekreftes = hendelse.saksHendelsestype === IASakshendelseTypeEnum.enum.TILBAKE
-            || hendelse.saksHendelsestype === IASakshendelseTypeEnum.enum.FULLFØR_BISTAND
-
-        if (erEnHendelseSomMåBekreftes) {
-            setHendelseSomMåBekreftes(hendelse) // åpne modal
-        } else {
-            nyHendelsePåSak(sak, hendelse).then(mutateIASakerOgSamarbeidshistorikk)
-        }
-    }
-
-    const bekreftNyHendelsePåSak = () => {
-        hendelseSomMåBekreftes && nyHendelsePåSak(sak, hendelseSomMåBekreftes)
-            .then(mutateIASakerOgSamarbeidshistorikk)
-            .finally(() => setHendelseSomMåBekreftes(null))
+        nyHendelsePåSak(sak, hendelse).then(mutateIASakerOgSamarbeidshistorikk)
     }
 
     return (
@@ -66,14 +51,21 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
                                     case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
                                     case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
                                     case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
-                                    case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
-                                    case IASakshendelseTypeEnum.enum.TILBAKE:
                                     case IASakshendelseTypeEnum.enum.SLETT_SAK:
                                         return (
                                             <IASakshendelseKnapp
                                                 key={hendelse.saksHendelsestype}
                                                 hendelsesType={hendelse.saksHendelsestype}
                                                 onClick={() => trykkPåSakhendelsesknapp(hendelse)}
+                                            />
+                                        )
+                                    case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
+                                    case IASakshendelseTypeEnum.enum.TILBAKE:
+                                        return (
+                                            <HendelseMåBekreftesKnapp
+                                                sak={sak}
+                                                hendelse={hendelse}
+                                                key={hendelse.saksHendelsestype}
                                             />
                                         )
                                     case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
@@ -89,15 +81,6 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
                     </div>
                 })
             }
-            {hendelseSomMåBekreftes && (
-                <BekreftHendelseModal
-                    saksstatus={sak.status}
-                    åpen={true}
-                    onConfirm={bekreftNyHendelsePåSak}
-                    onCancel={() => {setHendelseSomMåBekreftes(null)}}
-                    hendelse={hendelseSomMåBekreftes}
-                />
-            )}
         </div>
     )
 }
