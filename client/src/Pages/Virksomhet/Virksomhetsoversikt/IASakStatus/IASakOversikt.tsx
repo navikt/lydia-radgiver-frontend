@@ -1,11 +1,9 @@
-import { useState } from "react";
 import styled from "styled-components";
 import { BodyShort } from "@navikt/ds-react";
 import { IngenAktiveSaker } from "./IngenAktiveSaker";
-import { GyldigNesteHendelse, IASak, ValgtÅrsakDto } from "../../../../domenetyper/domenetyper";
+import { IASak } from "../../../../domenetyper/domenetyper";
 import { StatusBadge } from "../../../../components/Badge/StatusBadge";
-import {nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk} from "../../../../api/lydia-api";
-import { BegrunnelseModal } from "./BegrunnelseModal";
+import { useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../api/lydia-api";
 import { SakshendelsesKnapper } from "./SakshendelsesKnapper";
 import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
 import { NavFarger } from "../../../../styling/farger";
@@ -48,9 +46,6 @@ export interface IASakOversiktProps {
 }
 
 export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => {
-    const [valgtHendelseMedÅrsak, setValgtHendelseMedÅrsak] =
-        useState<GyldigNesteHendelse>();
-
     const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(orgnummer)
     const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(orgnummer)
 
@@ -66,27 +61,6 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => 
                 oppdaterSak={mutateIASakerOgSamarbeidshistorikk}
             />
         );
-    }
-
-    const onNyHendelseHandler = (hendelse: GyldigNesteHendelse) => {
-        hendelseKreverBegrunnelse(hendelse)
-            ? setValgtHendelseMedÅrsak(hendelse)
-            : nyHendelsePåSak(sak, hendelse).then(mutateIASakerOgSamarbeidshistorikk)
-    }
-
-    const skalRendreModal = !!valgtHendelseMedÅrsak;
-    const hendelseKreverBegrunnelse = (hendelse: GyldigNesteHendelse) =>
-        hendelse.gyldigeÅrsaker.length > 0;
-
-    const lagreBegrunnelse = (valgtÅrsak: ValgtÅrsakDto) => {
-        if (!valgtHendelseMedÅrsak) {
-            return new Error(`Kan ikke lagre begrunnelse på denne hendelsen. Hendelse: ${valgtHendelseMedÅrsak}`)
-        }
-        nyHendelsePåSak(sak, valgtHendelseMedÅrsak, valgtÅrsak)
-            .then(mutateIASakerOgSamarbeidshistorikk)
-            .finally(() =>
-                setValgtHendelseMedÅrsak(undefined)
-            )
     }
 
     return (
@@ -106,16 +80,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => 
             <SakshendelsesKnapper
                 sak={sak}
                 hendelser={sak.gyldigeNesteHendelser}
-                onNyHendelseHandler={onNyHendelseHandler}
             />
-            {valgtHendelseMedÅrsak && (
-                <BegrunnelseModal
-                    hendelse={valgtHendelseMedÅrsak}
-                    åpen={skalRendreModal}
-                    lagre={lagreBegrunnelse}
-                    onClose={() => setValgtHendelseMedÅrsak(undefined)}
-                />
-            )}
         </IASakOversiktContainer>
     );
 };
