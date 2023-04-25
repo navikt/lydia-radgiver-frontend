@@ -1,12 +1,9 @@
 import { useState } from "react";
-import { BodyLong, Button, Heading, Modal } from "@navikt/ds-react";
 import { GyldigNesteHendelse, IASak } from "../../../../../domenetyper/domenetyper";
 import { HendelseMåBekreftesKnapp } from "./HendelseMåBekreftesKnapp";
 import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
-import { StyledModal } from "../../../../../components/Modal/StyledModal";
-import { getRootElement } from "../../../../../main";
-import { ModalKnapper } from "../../../../../components/Modal/ModalKnapper";
 import { useHentLeveranser } from "../../../../../api/lydia-api";
+import { FullførLeveranserFørstModal } from "../FullførLeveranserFørstModal";
 
 interface Props {
     hendelse: GyldigNesteHendelse;
@@ -32,26 +29,7 @@ export const FullførKnapp = ({hendelse, sak}: Props) => {
                 hendelsesType={hendelse.saksHendelsestype}
                 onClick={() => setVisModal(true)}
             />
-            <StyledModal parentSelector={() => getRootElement()}
-                         open={visModal}
-                         onClose={() => setVisModal(false)}>
-                <Modal.Content>
-                    <Heading size="medium" spacing>Saken har leveranser som ikke er fullført</Heading>
-                    <BodyLong>For å lukke saken må du fullføre leveransene som er planlagt for saken. Dersom en
-                        leveranse ikke skal utføres
-                        likevel kan du slette den fra planen.</BodyLong>
-
-                    <br />
-                    <ModalKnapper>
-                        <Button
-                            variant="secondary"
-                            onClick={() => setVisModal(false)}
-                        >
-                            Den er grei
-                        </Button>
-                    </ModalKnapper>
-                </Modal.Content>
-            </StyledModal>
+            <FullførLeveranserFørstModal visModal={visModal} lukkModal={() => setVisModal(false)}/>
         </>
     )
 }
