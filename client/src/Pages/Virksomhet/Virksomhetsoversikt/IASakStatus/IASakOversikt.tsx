@@ -3,7 +3,7 @@ import { BodyShort } from "@navikt/ds-react";
 import { IngenAktiveSaker } from "./IngenAktiveSaker";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import { StatusBadge } from "../../../../components/Badge/StatusBadge";
-import { SakshendelsesKnapper } from "./SakshendelsesKnapper";
+import { SakshendelsesKnapper } from "./EndreStatusKnappar/SakshendelsesKnapper";
 import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
 import { NavFarger } from "../../../../styling/farger";
 import { BorderRadius } from "../../../../styling/borderRadius";

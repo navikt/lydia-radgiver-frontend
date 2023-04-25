@@ -1,8 +1,8 @@
-import { GyldigNesteHendelse, IASak } from "../../../../domenetyper/domenetyper";
+import { GyldigNesteHendelse, IASak } from "../../../../../domenetyper/domenetyper";
 import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
-import { BekreftHendelseModal } from "./BekreftHendelseModal";
+import { BekreftHendelseModal } from "../BekreftHendelseModal";
 import { useState } from "react";
-import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../api/lydia-api";
+import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../../api/lydia-api";
 
 interface Props {
     hendelse: GyldigNesteHendelse;

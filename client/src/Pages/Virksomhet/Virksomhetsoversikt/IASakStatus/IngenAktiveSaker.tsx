@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
+import { IASakshendelseKnapp } from "./EndreStatusKnappar/IASakshendelseKnapp";
 import { IASakOversiktContainer, InfoTittel, Saksinfo } from "./IASakOversikt";
 import {
     opprettSak,

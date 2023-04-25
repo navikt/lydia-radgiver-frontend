@@ -1,7 +1,7 @@
 import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import React from "react";
-import { GyldigNesteHendelse, IASak } from "../../../../domenetyper/domenetyper";
-import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../api/lydia-api";
+import { GyldigNesteHendelse, IASak } from "../../../../../domenetyper/domenetyper";
+import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../../api/lydia-api";
 
 interface Props {
     hendelse: GyldigNesteHendelse;

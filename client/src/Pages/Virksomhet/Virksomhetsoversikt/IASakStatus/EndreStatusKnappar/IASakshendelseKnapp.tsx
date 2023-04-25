@@ -1,5 +1,5 @@
 import { Button } from "@navikt/ds-react";
-import { GyldigNesteHendelse, IASakshendelseType, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
+import { GyldigNesteHendelse, IASakshendelseType, IASakshendelseTypeEnum } from "../../../../../domenetyper/domenetyper";
 
 export const penskrivIASakshendelsestype = (hendelsestype: IASakshendelseType): string => {
     switch (hendelsestype) {

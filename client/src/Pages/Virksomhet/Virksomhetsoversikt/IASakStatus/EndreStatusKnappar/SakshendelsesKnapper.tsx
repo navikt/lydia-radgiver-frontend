@@ -1,5 +1,5 @@
 import React, { ReactElement } from "react";
-import { GyldigNesteHendelse, IASak, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
+import { GyldigNesteHendelse, IASak, IASakshendelseTypeEnum } from "../../../../../domenetyper/domenetyper";
 import { erHendelsenDestruktiv, sorterHendelserPåKnappeType } from "./IASakshendelseKnapp";
 import { IkkeAktuellKnapp } from "./IkkeAktuellKnapp";
 import { HendelseMåBekreftesKnapp } from "./HendelseMåBekreftesKnapp";
