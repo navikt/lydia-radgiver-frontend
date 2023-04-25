@@ -1,10 +1,11 @@
 import React, { ReactElement } from "react";
+import styled from "styled-components";
 import { GyldigNesteHendelse, IASak, IASakshendelseTypeEnum } from "../../../../../domenetyper/domenetyper";
 import { erHendelsenDestruktiv, sorterHendelserPåKnappeType } from "./IASakshendelseKnapp";
 import { IkkeAktuellKnapp } from "./IkkeAktuellKnapp";
 import { HendelseMåBekreftesKnapp } from "./HendelseMåBekreftesKnapp";
 import { RettTilNesteStatusKnapp } from "./RettTilNesteStatusKnapp";
-import styled from "styled-components";
+import { FullførKnapp } from "./FullførKnapp";
 
 const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak): ReactElement => {
     switch (hendelse.saksHendelsestype) {
@@ -13,9 +14,17 @@ const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak): Reac
                 <IkkeAktuellKnapp
                     sak={sak}
                     hendelse={hendelse}
-                    key={hendelse.saksHendelsestype} />
+                    key={hendelse.saksHendelsestype}
+                />
             )
         case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
+            return (
+                <FullførKnapp
+                    sak={sak}
+                    hendelse={hendelse}
+                    key={hendelse.saksHendelsestype}
+                />
+            )
         case IASakshendelseTypeEnum.enum.TILBAKE:
             return (
                 <HendelseMåBekreftesKnapp
