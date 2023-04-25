@@ -6,6 +6,7 @@ import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import { StyledModal } from "../../../../../components/Modal/StyledModal";
 import { getRootElement } from "../../../../../main";
 import { ModalKnapper } from "../../../../../components/Modal/ModalKnapper";
+import { useHentLeveranser } from "../../../../../api/lydia-api";
 
 interface Props {
     hendelse: GyldigNesteHendelse;
@@ -13,44 +14,44 @@ interface Props {
 }
 
 export const FullførKnapp = ({hendelse, sak}: Props) => {
-    const visFullførtDialogFeatureToggle = false; // TODO denne skal vere "false" til ting er klart
+    const {data: leveranserPåSak} = useHentLeveranser(sak.orgnr, sak.saksnummer);
+    const harBareFullførteLeveranser = leveranserPåSak?.flatMap((iaTjeneste) => iaTjeneste.leveranser)
+        .some((leveranse) => leveranse.status === "LEVERT")
+    const [visModal, setVisModal] = useState(false);
 
-    // Om nokon leveransar ikkje er fullført
-    // vis knapp med modal
-    const [visFullførLeveranserFørstModal, setFullførLeveranserFørstModal] = useState(false);
-    const visModal = () => setFullførLeveranserFørstModal(true);
-    const lukkModal = () => setFullførLeveranserFørstModal(false);
-
-    if (visFullførtDialogFeatureToggle) {
+    // Om alt er fint og greit slik det skal vere
+    if (harBareFullførteLeveranser) {
         return (
-            <>
-                <IASakshendelseKnapp
-                    hendelsesType={hendelse.saksHendelsestype}
-                    onClick={visModal}
-                />
-                <StyledModal parentSelector={() => getRootElement()} open={visFullførLeveranserFørstModal}
-                             onClose={lukkModal}>
-                    <Modal.Content>
-                        <Heading size="medium" spacing>Saken har leveranser som ikke er fullført</Heading>
-                        <BodyLong>For å lukke saken må du fullføre leveransene. Dersom leveransen ikke skal utføres likevel sletter du den fra planen.</BodyLong>
-
-                        <br />
-                        <ModalKnapper>
-                            <Button
-                                variant="secondary"
-                                onClick={lukkModal}
-                            >
-                                Den er grei
-                            </Button>
-                        </ModalKnapper>
-                    </Modal.Content>
-                </StyledModal>
-            </>
+            <HendelseMåBekreftesKnapp hendelse={hendelse} sak={sak} />
         )
     }
 
-    // Om alt er fint og greit slik det skal vere
     return (
-        <HendelseMåBekreftesKnapp hendelse={hendelse} sak={sak} />
+        <>
+            <IASakshendelseKnapp
+                hendelsesType={hendelse.saksHendelsestype}
+                onClick={() => setVisModal(true)}
+            />
+            <StyledModal parentSelector={() => getRootElement()}
+                         open={visModal}
+                         onClose={() => setVisModal(false)}>
+                <Modal.Content>
+                    <Heading size="medium" spacing>Saken har leveranser som ikke er fullført</Heading>
+                    <BodyLong>For å lukke saken må du fullføre leveransene som er planlagt for saken. Dersom en
+                        leveranse ikke skal utføres
+                        likevel kan du slette den fra planen.</BodyLong>
+
+                    <br />
+                    <ModalKnapper>
+                        <Button
+                            variant="secondary"
+                            onClick={() => setVisModal(false)}
+                        >
+                            Den er grei
+                        </Button>
+                    </ModalKnapper>
+                </Modal.Content>
+            </StyledModal>
+        </>
     )
 }
