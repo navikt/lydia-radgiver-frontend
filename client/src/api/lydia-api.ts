@@ -25,7 +25,6 @@ import {
     modulSchema,
     NyLeveranseDTO
 } from "../domenetyper/leveranse";
-import { KvartalFraTil, kvartalFraTilSchema } from "../domenetyper/kvartal";
 import { statusoversiktListeResponsSchema } from "../domenetyper/statusoversikt";
 import { Sakshistorikk, sakshistorikkSchema } from "../domenetyper/sakshistorikk";
 import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
@@ -40,6 +39,7 @@ import {
     VirksomhetsstatistikkSiste4Kvartaler,
     virksomhetsstatistikkSiste4KvartalerSchema
 } from "../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
+import {Publiseringsinfo, publiseringsinfoSchema} from "../domenetyper/publiseringsinfo";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -52,7 +52,7 @@ export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
 export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
-export const gjeldendePeriodePath = "gjeldendeperiodesiste4kvartaler"
+export const publiseringsinfoPath = "publiseringsinfo"
 export const leveransePath = `${iaSakPath}/leveranse`
 export const statusoversiktPath = `${basePath}/statusoversikt`;
 
@@ -222,10 +222,10 @@ export const useHentVirksomhetsstatistikkSiste4Kvartaler = (
     );
 };
 
-export const useHentGjeldendePeriodeForVirksomhetSiste4Kvartal = () => {
-    return useSwrTemplate<KvartalFraTil>(
-        `${sykefraværsstatistikkPath}/${gjeldendePeriodePath}`,
-        kvartalFraTilSchema,
+export const useHentPubliseringsinfo = () => {
+    return useSwrTemplate<Publiseringsinfo>(
+        `${sykefraværsstatistikkPath}/${publiseringsinfoPath}`,
+        publiseringsinfoSchema,
         {
             revalidateOnFocus: false,
         }

@@ -1,8 +1,8 @@
 import { IAProsessStatusEnum } from "../../../domenetyper/domenetyper";
-import { KvartalFraTil } from "../../../domenetyper/kvartal";
 import { VirkomshetsstatistikkSisteKvartal } from "../../../domenetyper/virksomhetsstatistikkSisteKvartal";
 import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 import { Virksomhetsoversikt } from "../../../domenetyper/virksomhetsoversikt";
+import {Publiseringsinfo} from "../../../domenetyper/publiseringsinfo";
 
 const sykefraværStatiskData: Pick<Virksomhetsoversikt, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
     antallPersoner: 69.4123,
@@ -28,25 +28,33 @@ export const sykefraværsstatistikkSisteKvartalMock: VirkomshetsstatistikkSisteK
     "maskert": false,
 }];
 
-export const forrigePeriodeSiste4Kvartal: KvartalFraTil = {
-    fra: {
-        kvartal: 4,
-        årstall: 2021,
-    },
-    til: {
-        kvartal: 3,
-        årstall: 2022,
+export const forrigePeriodePubliseringsinfo: Publiseringsinfo = {
+    sistePubliseringsdato: "2022-12-03",
+    nestePubliseringsdato: "2023-03-02",
+    fraTil: {
+        fra: {
+            kvartal: 4,
+            årstall: 2021,
+        },
+        til: {
+            kvartal: 3,
+            årstall: 2022,
+        }
     }
 }
 
-export const gjeldendePeriodeSiste4Kvartal: KvartalFraTil = {
-    fra: {
-        kvartal: 1,
-        årstall: 2022,
-    },
-    til: {
-        kvartal: 4,
-        årstall: 2022,
+export const gjeldendePeriodePubliseringsinfo: Publiseringsinfo = {
+    sistePubliseringsdato: "2023-03-02",
+    nestePubliseringsdato: "2023-06-01",
+    fraTil: {
+        fra: {
+            kvartal: 1,
+            årstall: 2022,
+        },
+        til: {
+            kvartal: 4,
+            årstall: 2022,
+        }
     }
 }
 

@@ -1,11 +1,11 @@
 import { Meta } from "@storybook/react";
 import { rest } from "msw";
 import {
-    gjeldendePeriodeSiste4Kvartal,
+    gjeldendePeriodePubliseringsinfo,
     virksomhetsstatistikkSiste4KvartalerMock
 } from "../../../Prioritering/mocks/sykefraværsstatistikkMock";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
-import { gjeldendePeriodePath, siste4kvartalerPath, sykefraværsstatistikkPath } from "../../../../api/lydia-api";
+import {publiseringsinfoPath, siste4kvartalerPath, sykefraværsstatistikkPath} from "../../../../api/lydia-api";
 
 export default {
     title: "Virksomhet/Virksomhetsoversikt/Sykefraværsstatistikk for en virksomhet",
@@ -31,9 +31,9 @@ Hovedstory.parameters = {
                         ctx.json(virksomhetsstatistikkSiste4KvartalerMock[0])
                     );
                 }),
-                rest.get(`${sykefraværsstatistikkPath}/${gjeldendePeriodePath}`, (req, res, ctx) => {
+                rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
                     return res(
-                        ctx.json(gjeldendePeriodeSiste4Kvartal)
+                        ctx.json(gjeldendePeriodePubliseringsinfo)
                     );
                 }),
             ],
@@ -55,9 +55,9 @@ MedStatistikkFraKunToKvartal.parameters = {
                         )
                     );
                 }),
-                rest.get(`${sykefraværsstatistikkPath}/${gjeldendePeriodePath}`, (req, res, ctx) => {
+                rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
                     return res(
-                        ctx.json(gjeldendePeriodeSiste4Kvartal)
+                        ctx.json(gjeldendePeriodePubliseringsinfo)
                     );
                 }),
             ],

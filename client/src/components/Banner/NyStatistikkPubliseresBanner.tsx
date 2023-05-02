@@ -1,71 +1,57 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
-import { useHentGjeldendePeriodeForVirksomhetSiste4Kvartal } from "../../api/lydia-api";
-import { KvartalFraTil } from "../../domenetyper/kvartal";
-
-import { skjulNyStatistikkBanner } from "../../util/skjulNyStatistikkBanner";
-
-const publiseringsdag = "torsdag 2. mars";
-const publisering = new Date('2023-03-02');
-
-const nyPeriode: KvartalFraTil = {
-    fra: {
-        kvartal: 1,
-        årstall: 2022,
-    },
-    til: {
-        kvartal: 4,
-        årstall: 2022
-    },
-}
-const nyttKvartal = `${nyPeriode.til.kvartal}. kvartal ${nyPeriode.til.årstall}`;
-const siste4fra = `${nyPeriode.fra.kvartal}. kvartal ${nyPeriode.fra.årstall}`;
-const siste4til = nyttKvartal;
-
-
+import { useHentPubliseringsinfo } from "../../api/lydia-api";
+import { skalViseStatistikkKommer, skjulNyStatistikkBanner } from "../../util/nyStatistikkBannerUtils";
+import { Publiseringsinfo } from "../../domenetyper/publiseringsinfo";
 
 export const NyStatistikkPubliseresBanner = () => {
-
-    if (skjulNyStatistikkBanner(new Date(), publisering)) {
-        return null;
-    }
-
     const {
-        data: gjeldendePeriodeSiste4kvartal,
-        loading: lasterGjeldendePeriodeSiste4kvartal
-    } = useHentGjeldendePeriodeForVirksomhetSiste4Kvartal()
+        data: publiseringsinfo,
+        loading: lasterPubliseringsinfo
+    } = useHentPubliseringsinfo()
 
-    if (lasterGjeldendePeriodeSiste4kvartal) {
+    if (lasterPubliseringsinfo) {
         return null;
     }
 
-    const statistikkErPublisert = JSON.stringify(nyPeriode) === JSON.stringify(gjeldendePeriodeSiste4kvartal);
+    const idag = new Date()
+
+    if (!publiseringsinfo || skjulNyStatistikkBanner(idag, publiseringsinfo)) {
+        return null;
+    }
+
+    const statistikkErIkkePublisert = skalViseStatistikkKommer(idag, publiseringsinfo)
 
     return (
         <>
-            {statistikkErPublisert
-                ? <NyStatistikkErUte />
-                : <NyStatistikkKommerSnart />
+            {statistikkErIkkePublisert
+                ? <NyStatistikkKommerSnart publiseringsinfo={publiseringsinfo} />
+                : <NyStatistikkErUte publiseringsinfo={publiseringsinfo}/>
             }
         </>
     )
 }
 
-const NyStatistikkKommerSnart = () => {
+interface NyStatistikkProps {
+    publiseringsinfo: Publiseringsinfo;
+}
+const NyStatistikkKommerSnart = (props: NyStatistikkProps) => {
     return (
         <BannerMedLukkeknapp variant="info">
-            <Heading size="xsmall">Snart kommer sykefraværsstatistikk for {nyttKvartal}</Heading>
-            <BodyShort>Fia blir oppdatert med nye tall i løpet av {publiseringsdag}.</BodyShort>
+            <Heading size="xsmall">Snart kommer sykefraværsstatistikk for {props.publiseringsinfo.fraTil.til.kvartal}. kvartal {props.publiseringsinfo.fraTil.til.årstall}</Heading>
+            <BodyShort>Fia blir oppdatert med nye tall i løpet av {props.publiseringsinfo.nestePubliseringsdato}.</BodyShort>
         </BannerMedLukkeknapp>
     )
 }
 
-const NyStatistikkErUte = () => {
+const NyStatistikkErUte = (props: NyStatistikkProps) => {
+    const sisteKvartal = `${props.publiseringsinfo.fraTil.til.kvartal}. kvartal ${props.publiseringsinfo.fraTil.til.årstall}`;
     return (
         <BannerMedLukkeknapp variant="info">
-            <Heading size="xsmall">Sykefraværsstatistikken i Fia er oppdatert med tall fra {nyttKvartal}</Heading>
+            <Heading size="xsmall">Sykefraværsstatistikken i Fia er oppdatert med tall
+                fra {sisteKvartal}</Heading>
             <BodyShort>
-                Tall for de siste fire kvartalene er nå basert på {siste4fra} til {siste4til}.
+                Tall for de siste fire kvartalene er nå basert på {props.publiseringsinfo.fraTil.fra.kvartal}. kvartal {props.publiseringsinfo.fraTil.fra.årstall} til {sisteKvartal}.
             </BodyShort>
         </BannerMedLukkeknapp>
     )

@@ -4,7 +4,7 @@ import { NavFarger } from "../../styling/farger";
 import { contentSpacing } from "../../styling/contentSpacing";
 import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoints";
 import { BodyShort } from "@navikt/ds-react";
-import { useHentGjeldendePeriodeForVirksomhetSiste4Kvartal } from "../../api/lydia-api";
+import { useHentPubliseringsinfo} from "../../api/lydia-api";
 import { getGjeldendePeriodeTekst } from "../../util/gjeldendePeriodeSisteFireKvartal";
 
 const StyledFooter = styled.footer`
@@ -35,14 +35,15 @@ const StyledFooter = styled.footer`
 
 export const Footer = () => {
     const {
-        data: gjeldendePeriodeSiste4Kvartal,
-    } = useHentGjeldendePeriodeForVirksomhetSiste4Kvartal();
+        data: publiseringsinfo,
+    } = useHentPubliseringsinfo();
 
     return (
         <StyledFooter>
             <BodyShort>
                 {`Fia viser offisiell sykefraværsstatistikk fra de siste
-                    fire kvartalene${getGjeldendePeriodeTekst(gjeldendePeriodeSiste4Kvartal)}.
+                    fire kvartalene${getGjeldendePeriodeTekst(publiseringsinfo)}.
+                    Neste publiseringsdato er ${publiseringsinfo?.nestePubliseringsdato}.
                     Tall for "arbeidsforhold" er fra siste tilgjengelige kvartal.
                     Du finner flere detaljer om statistikk i `}
                 <EksternLenke

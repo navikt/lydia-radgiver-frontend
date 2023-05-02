@@ -3,14 +3,15 @@ import { Statistikkboks } from "./Statistikkboks";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {
-    useHentGjeldendePeriodeForVirksomhetSiste4Kvartal,
+    useHentPubliseringsinfo,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
     useHentVirksomhetsstatistikkSiste4Kvartaler
 } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { getGjeldendePeriodeTekst } from "../../../../util/gjeldendePeriodeSisteFireKvartal";
-import { Kvartal, KvartalFraTil } from "../../../../domenetyper/kvartal";
+import { Kvartal } from "../../../../domenetyper/kvartal";
 import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
+import { Publiseringsinfo } from "../../../../domenetyper/publiseringsinfo";
 
 const Container = styled.div`
   display: grid;
@@ -29,8 +30,8 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
     } = useHentVirksomhetsstatistikkSiste4Kvartaler(orgnummer)
 
     const {
-        data: gjeldendePeriodeSisteFireKvartal,
-    } = useHentGjeldendePeriodeForVirksomhetSiste4Kvartal()
+        data: publiseringsinfo,
+    } = useHentPubliseringsinfo()
 
     const {
         data: sykefraværsstatistikkSisteKvartal,
@@ -45,7 +46,7 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
             />
         )
     } else if (virksomhetsstatistikkSiste4Kvartaler && sykefraværsstatistikkSisteKvartal) {
-        const sisteFireKvartalInfo = hvilkeKvartalHarVi(virksomhetsstatistikkSiste4Kvartaler, gjeldendePeriodeSisteFireKvartal);
+        const sisteFireKvartalInfo = hvilkeKvartalHarVi(virksomhetsstatistikkSiste4Kvartaler, publiseringsinfo);
 
         return (
             <Container>
@@ -97,11 +98,11 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
     }
 };
 
-const hvilkeKvartalHarVi = (statistikk: VirksomhetsstatistikkSiste4Kvartaler, gjeldendePeriode: KvartalFraTil | undefined) => {
+const hvilkeKvartalHarVi = (statistikk: VirksomhetsstatistikkSiste4Kvartaler, publiseringsinfo: Publiseringsinfo | undefined) => {
     let kvartalstrenger = "";
 
     if (statistikk.antallKvartaler === 4) {
-        kvartalstrenger = ` siste fire kvartaler${getGjeldendePeriodeTekst(gjeldendePeriode)}`
+        kvartalstrenger = ` siste fire kvartaler${getGjeldendePeriodeTekst(publiseringsinfo)}`
     } else {
         kvartalstrenger += statistikk.kvartaler.sort(sorterKvartalStigende).map((kvartal: Kvartal) => {
             return ` ${kvartal.kvartal}. kvartal ${kvartal.årstall}`
