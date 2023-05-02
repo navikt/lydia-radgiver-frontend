@@ -2,13 +2,13 @@ import { Meta } from "@storybook/react";
 import { NyStatistikkPubliseresBanner } from "./NyStatistikkPubliseresBanner";
 import { rest } from "msw";
 import {
-    gjeldendePeriodePath,
+    publiseringsinfoPath,
     sykefraværsstatistikkPath,
-    useHentGjeldendePeriodeForVirksomhetSiste4Kvartal
+    useHentPubliseringsinfo,
 } from "../../api/lydia-api";
 import {
-    forrigePeriodeSiste4Kvartal,
-    gjeldendePeriodeSiste4Kvartal
+    forrigePeriodePubliseringsinfo,
+    gjeldendePeriodePubliseringsinfo
 } from "../../Pages/Prioritering/mocks/sykefraværsstatistikkMock";
 
 export default {
@@ -17,23 +17,28 @@ export default {
 } as Meta<typeof NyStatistikkPubliseresBanner>;
 
 export const StatistikkIkkePublisert = () => {
-    const { data: periode } = useHentGjeldendePeriodeForVirksomhetSiste4Kvartal()
+    const { data: publiseringsinfo } = useHentPubliseringsinfo()
 
     return (
         <>
             <NyStatistikkPubliseresBanner />
-            <p>Periode: {`${periode?.fra.kvartal}. kvartal ${periode?.fra.årstall} til ${periode?.til.kvartal}. kvartal ${periode?.til.årstall}`}</p>
+            <p>
+                Periode: {`${publiseringsinfo?.fraTil.fra.kvartal}. 
+                kvartal ${publiseringsinfo?.fraTil.fra.årstall} 
+                til ${publiseringsinfo?.fraTil.til.kvartal}. 
+                kvartal ${publiseringsinfo?.fraTil.til.årstall}`}
+            </p>
         </>
     )
 };
 
 export const StatistikkPublisert = () => {
-    const { data: periode } = useHentGjeldendePeriodeForVirksomhetSiste4Kvartal()
+    const { data: publiseringsinfo } = useHentPubliseringsinfo()
 
     return (
         <>
             <NyStatistikkPubliseresBanner />
-            <p>Periode: {`${periode?.fra.kvartal}. kvartal ${periode?.fra.årstall} til ${periode?.til.kvartal}. kvartal ${periode?.til.årstall}`}</p>
+            <p>Periode: {`${publiseringsinfo?.fraTil.fra.kvartal}. kvartal ${publiseringsinfo?.fraTil.fra.årstall} til ${publiseringsinfo?.fraTil.til.kvartal}. kvartal ${publiseringsinfo?.fraTil.til.årstall}`}</p>
         </>
     )
 };
@@ -43,9 +48,9 @@ StatistikkIkkePublisert.parameters = {
     msw: {
         handlers: {
             gjeldendePeriodeSiste4Kvartal: [
-                rest.get(`${sykefraværsstatistikkPath}/${gjeldendePeriodePath}`, (req, res, ctx) => {
+                rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
                     return res(
-                        ctx.json(forrigePeriodeSiste4Kvartal)
+                        ctx.json(forrigePeriodePubliseringsinfo)
                     );
                 }),
             ],
@@ -57,9 +62,9 @@ StatistikkPublisert.parameters = {
     msw: {
         handlers: {
             gjeldendePeriodeSiste4Kvartal: [
-                rest.get(`${sykefraværsstatistikkPath}/${gjeldendePeriodePath}`, (req, res, ctx) => {
+                rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
                     return res(
-                        ctx.json(gjeldendePeriodeSiste4Kvartal)
+                        ctx.json(gjeldendePeriodePubliseringsinfo)
                     );
                 }),
             ],

@@ -1,10 +1,10 @@
-import { KvartalFraTil } from "../domenetyper/kvartal";
+import {Publiseringsinfo} from "../domenetyper/publiseringsinfo";
 
-export const getGjeldendePeriodeTekst = (gjeldendePeriode: KvartalFraTil | undefined) => {
-    if (gjeldendePeriode) {
-        return ` (${gjeldendePeriode.fra.kvartal}. kvartal ${gjeldendePeriode.fra.årstall} 
+export const getGjeldendePeriodeTekst = (publisreingsinfo: Publiseringsinfo | undefined) => {
+    if (publisreingsinfo) {
+        return ` (${publisreingsinfo.fraTil.fra.kvartal}. kvartal ${publisreingsinfo.fraTil.fra.årstall} 
                       – 
-                      ${gjeldendePeriode.til.kvartal}. kvartal ${gjeldendePeriode.til.årstall})`
+                      ${publisreingsinfo.fraTil.til.kvartal}. kvartal ${publisreingsinfo.fraTil.til.årstall})`
     }
     return "";
 }

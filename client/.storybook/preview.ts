@@ -4,14 +4,13 @@ import { initialize, mswDecorator } from "msw-storybook-addon";
 import { NavFarger } from "../src/styling/farger";
 import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innloggetAnsattMock";
 import {
-    gjeldendePeriodePath,
     iaSakHistorikkPath,
-    leveransePath,
+    leveransePath, publiseringsinfoPath,
     siste4kvartalerPath,
     sykefraværsstatistikkPath
 } from "../src/api/lydia-api";
 import {
-    gjeldendePeriodeSiste4Kvartal,
+    gjeldendePeriodePubliseringsinfo,
     sykefraværsstatistikkSisteKvartalMock,
     virksomhetsstatistikkSiste4KvartalerMock
 } from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
@@ -78,9 +77,9 @@ const preview: Preview = {
                     }),
                 ],
                 gjeldendePeriodeSiste4Kvartal: [
-                    rest.get(`${sykefraværsstatistikkPath}/${gjeldendePeriodePath}`, (req, res, ctx) => {
+                    rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
                         return res(
-                            ctx.json(gjeldendePeriodeSiste4Kvartal)
+                            ctx.json(gjeldendePeriodePubliseringsinfo)
                         );
                     }),
                 ],
