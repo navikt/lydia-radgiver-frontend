@@ -20,11 +20,11 @@ export const NyStatistikkPubliseresBanner = () => {
         return null;
     }
 
-    const statistikkErIkkePublisert = skalViseStatistikkKommer(idag, publiseringsinfo)
+    const nyStatistikkKommerSnart = skalViseStatistikkKommer(idag, publiseringsinfo)
 
     return (
         <>
-            {statistikkErIkkePublisert
+            {nyStatistikkKommerSnart
                 ? <NyStatistikkKommerSnart publiseringsinfo={publiseringsinfo} />
                 : <NyStatistikkErUte publiseringsinfo={publiseringsinfo}/>
             }
