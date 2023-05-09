@@ -12,24 +12,22 @@ interface Props {
 
 export const FullførKnapp = ({hendelse, sak}: Props) => {
     const {data: leveranserPåSak} = useHentLeveranser(sak.orgnr, sak.saksnummer);
-    const harBareFullførteLeveranser = leveranserPåSak?.flatMap((iaTjeneste) => iaTjeneste.leveranser)
-        .some((leveranse) => leveranse.status === "LEVERT")
+    const harLeveranserSomErUnderArbeid = leveranserPåSak?.flatMap((iaTjeneste) => iaTjeneste.leveranser)
+        .some((leveranse) => leveranse.status === "UNDER_ARBEID")
     const [visModal, setVisModal] = useState(false);
 
-    // Om alt er fint og greit slik det skal vere
-    if (harBareFullførteLeveranser) {
+    if (harLeveranserSomErUnderArbeid) {
         return (
-            <HendelseMåBekreftesKnapp hendelse={hendelse} sak={sak} />
-        )
+            <>
+                <IASakshendelseKnapp
+                    hendelsesType={hendelse.saksHendelsestype}
+                    onClick={() => setVisModal(true)}
+                />
+                <FullførLeveranserFørstModal visModal={visModal} lukkModal={() => setVisModal(false)} />
+            </>)
     }
 
     return (
-        <>
-            <IASakshendelseKnapp
-                hendelsesType={hendelse.saksHendelsestype}
-                onClick={() => setVisModal(true)}
-            />
-            <FullførLeveranserFørstModal visModal={visModal} lukkModal={() => setVisModal(false)}/>
-        </>
+        <HendelseMåBekreftesKnapp hendelse={hendelse} sak={sak} />
     )
 }
