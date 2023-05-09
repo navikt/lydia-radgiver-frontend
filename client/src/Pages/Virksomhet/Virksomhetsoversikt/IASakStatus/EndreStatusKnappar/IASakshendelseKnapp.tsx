@@ -14,7 +14,7 @@ export const penskrivIASakshendelsestype = (hendelsestype: IASakshendelseType): 
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
             return "Ikke aktuell"
         case IASakshendelseTypeEnum.enum.TILBAKE:
-            return "Tilbake"
+            return "Forrige status"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
             return "Kartlegg"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
