@@ -1,0 +1,32 @@
+{
+  "value": [
+    {
+      "id": "5",
+      "userPrincipalName": "minnie",
+      "onPremisesSamAccountName": "M54321",
+      "givenName": "Minnie Mus",
+      "surname": "Mus"
+    },
+    {
+      "id": "6",
+      "userPrincipalName": "bjørg",
+      "onPremisesSamAccountName": "S54321",
+      "givenName": "Bjørg Scheie",
+      "surname": "Scheie"
+    },
+    {
+      "id": "7",
+      "userPrincipalName": "rigmor",
+      "onPremisesSamAccountName": "S64321",
+      "givenName": "Rigmor Stokke",
+      "surname": "Stokke"
+    },
+    {
+      "id": "8",
+      "userPrincipalName": "sonja",
+      "onPremisesSamAccountName": "R54321",
+      "givenName": "Sonja Rex",
+      "surname": "Rex"
+    }
+  ]
+}

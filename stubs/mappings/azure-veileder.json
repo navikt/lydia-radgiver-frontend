@@ -1,6 +1,6 @@
 {
   "request" : {
-    "urlPathPattern" : "/v1.0/groups/.*/members",
+    "urlPathPattern" : "/v1.0/users/.*",
     "method" : "GET",
     "headers": {
       "Authorization": {
@@ -10,7 +10,7 @@
   },
   "response" : {
     "status" : 200,
-    "bodyFileName": "azure-veiledere-response.json",
+    "bodyFileName": "azure-veileder-response.json",
     "headers" : {
       "Content-Type" : "application/json"
     }

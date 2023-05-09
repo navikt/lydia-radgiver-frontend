@@ -1,39 +1,33 @@
 {
+  "@odata.nextLink": "http://host.testcontainers.internal:42421/v1.0/groups/12345/nesteside",
   "value": [
     {
       "id": "1",
       "userPrincipalName": "mikke",
       "onPremisesSamAccountName": "M12345",
-      "givenName": "Mikke",
+      "givenName": "Mikke Mus",
       "surname": "Mus"
     },
     {
       "id": "2",
       "userPrincipalName": "arne",
       "onPremisesSamAccountName": "S12345",
-      "givenName": "Arne",
+      "givenName": "Arne Scheie",
       "surname": "Scheie"
     },
     {
       "id": "3",
       "userPrincipalName": "roar",
       "onPremisesSamAccountName": "S12346",
-      "givenName": "Roar",
+      "givenName": "Roar Stokke",
       "surname": "Stokke"
     },
     {
       "id": "4",
       "userPrincipalName": "harald",
       "onPremisesSamAccountName": "R12345",
-      "givenName": "Harald",
+      "givenName": "Harald Rex",
       "surname": "Rex"
-    },
-    {
-      "id": "5",
-      "userPrincipalName": "albus",
-      "onPremisesSamAccountName": "A12345",
-      "givenName": "Albus Parsifal Ulfrik Brian",
-      "surname": "Humlesnurr"
     }
   ]
 }
