@@ -14,6 +14,10 @@ export const Hovedstory = () => (
     <Leveranse leveranse={leveranserPerIATjeneste[0].leveranser[0]} iaSak={iaSakViBistår} />
 )
 
+export const LevertLeveranse = () => (
+    <Leveranse leveranse={leveranserPerIATjeneste[0].leveranser[3]} iaSak={iaSakViBistår} />
+)
+
 export const HovedstoryTablet = () => (
     <SimulerTabletWrapper>
         <Leveranse leveranse={leveranserPerIATjeneste[0].leveranser[0]} iaSak={iaSakViBistår} />

@@ -4,7 +4,7 @@ import { DeleteFilled as Delete } from "@navikt/ds-icons";
 import { Leveranse as LeveranseType, LeveranseStatusEnum } from "../../../domenetyper/leveranse";
 import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";
-import { fullførLeveranse, slettLeveranse, useHentBrukerinformasjon, useHentLeveranser } from "../../../api/lydia-api";
+import { merkLeveranseSomLevert, slettLeveranse, useHentBrukerinformasjon, useHentLeveranser } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { useState } from "react";
@@ -18,7 +18,7 @@ const DataCellNoWrap = styled(Table.DataCell)`
   white-space: nowrap;
 `;
 
-const FullførKnapp = styled(Button)`
+const LevertKnapp = styled(Button)`
   padding-left: 1.5rem;
   padding-right: 1.5rem;
   min-width: 5.8em;
@@ -44,16 +44,15 @@ interface Props {
 
 export const Leveranse = ({ leveranse, iaSak }: Props) => {
     const [bekreftValgModalÅpen, setBekreftValgModalÅpen] = useState(false)
-    const leveranseErFullført = leveranse.status === LeveranseStatusEnum.enum.LEVERT;
-    const fullførKnappTekst = leveranseErFullført ? "Fullført" : "Fullfør";
+    const erLevert = leveranse.status === LeveranseStatusEnum.enum.LEVERT;
     const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, leveranse.saksnummer);
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerMedLesetilgang = brukerInformasjon?.rolle === RolleEnum.enum.Lesetilgang;
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
 
-    const vedFullførLeveranse = () => {
-        fullførLeveranse(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
+    const vedMerkLeveranseSomLevert = () => {
+        merkLeveranseSomLevert(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
             .then(() => hentLeveranserPåNytt());
     }
 
@@ -71,15 +70,15 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
             <DataCellNoWrap>{`Tentativ frist: ${lokalDato(leveranse.frist)}`}</DataCellNoWrap>
             {brukerMedLesetilgang ? null :
                 <Table.DataCell>
-                    <FullførKnapp onClick={vedFullførLeveranse} disabled={leveranseErFullført || !brukerErEierAvSak} size="small">
-                        {fullførKnappTekst}
-                    </FullførKnapp>
+                    <LevertKnapp onClick={vedMerkLeveranseSomLevert} disabled={erLevert || !brukerErEierAvSak} size="small">
+                        Levert
+                    </LevertKnapp>
                 </Table.DataCell>
             }
             <DataCellNoWrap>
                 {!leveranse.fullført
                     ? ""
-                    : `Fullført: ${lokalDato(leveranse.fullført)}`
+                    : `Levert: ${lokalDato(leveranse.fullført)}`
                 }
             </DataCellNoWrap>
             {brukerMedLesetilgang ? null :

@@ -449,7 +449,7 @@ export const nyLeveransePåSak = (
     return post(`${leveransePath}/${orgnummer}/${saksnummer}`, leveranseSchema, nyLeveranseDTO)
 }
 
-export const fullførLeveranse = (
+export const merkLeveranseSomLevert = (
     orgnummer: string,
     saksnummer: string,
     leveranseId: number,
