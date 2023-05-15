@@ -120,6 +120,7 @@ services:
       IA_SAK_HENDELSE_TOPIC: pia.ia-sak-hendelse-v1
       IA_SAK_TOPIC: pia.ia-sak-v1
       IA_SAK_STATISTIKK_TOPIC: pia.ia-sak-statistikk-v1
+      IA_SAK_STATUS_TOPIC: pia.ia-sak-status-v1
       IA_SAK_LEVERANSE_TOPIC: pia.ia-sak-leveranse-v1
       BRREG_OPPDATERING_TOPIC: pia.brreg-oppdatering
       # Backend spesifikk env
