@@ -3,6 +3,7 @@ import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import { BekreftHendelseModal } from "../BekreftHendelseModal";
 import { useState } from "react";
 import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../../api/lydia-api";
+import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 
 interface Props {
     hendelse: GyldigNesteHendelse;
@@ -24,6 +25,7 @@ export const HendelseMåBekreftesKnapp = ({hendelse, sak}: Props) => {
         nyHendelsePåSak(sak, hendelse)
             .then(mutateIASakerOgSamarbeidshistorikk)
             .finally(() => setVisBekreftelsesModal(false))
+        loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status)
     }
 
     return (
