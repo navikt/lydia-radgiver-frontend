@@ -1,13 +1,14 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { Leveranser } from "./Leveranser";
 import { iaSakKartlegges, iaSakViBistår } from "../mocks/iaSakMock";
 import { brukerSomErSaksbehandler } from "../../Prioritering/mocks/innloggetAnsattMock";
 import { SimulerTabletWrapper } from "../../../../.storybook/SkjermstørrelseSimuleringer";
 
-export default {
+const meta: Meta<typeof Leveranser> = {
     title: "Virksomhet/Leveranser/Leveransefane",
     component: Leveranser,
-} as ComponentMeta<typeof Leveranser>
+}
+export default meta;
 
 export const Hovedstory = () => (
     <Leveranser iaSak={iaSakViBistår} />

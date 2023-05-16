@@ -1,12 +1,13 @@
-import { ComponentMeta } from "@storybook/react";
+import { Meta } from "@storybook/react";
 import { iaSakViBistår } from "../mocks/iaSakMock";
 import { SimulerMobilWrapper, SimulerTabletWrapper } from "../../../../.storybook/SkjermstørrelseSimuleringer";
 import { LeveranseOversikt } from "./LeveranseOversikt";
 
-export default {
+const meta: Meta<typeof LeveranseOversikt> = {
     title: "Virksomhet/Leveranser/Leveranseoversikt",
     component: LeveranseOversikt,
-} as ComponentMeta<typeof LeveranseOversikt>
+}
+export default meta;
 
 export const Hovedstory = () => (
     <LeveranseOversikt iaSak={iaSakViBistår} />
