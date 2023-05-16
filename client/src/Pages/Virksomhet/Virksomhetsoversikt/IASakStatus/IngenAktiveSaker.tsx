@@ -10,6 +10,7 @@ import {
 import { StatusBadge } from "../../../../components/Badge/StatusBadge";
 import { IAProsessStatusEnum, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
 import { RolleEnum } from "../../../../domenetyper/brukerinformasjon";
+import { loggStatusendringPåSak } from "../../../../util/amplitude-klient";
 
 const VurderesKnappContainer = styled.div`
   display: flex;
@@ -30,6 +31,11 @@ export const IngenAktiveSaker = ({orgnummer}: IngenAktiveSakerProps) => {
         mutateSamarbeidshistorikk?.()
     }
 
+    const vurderes = () => {
+        opprettSak(orgnummer).then(() => mutateIASakerOgSamarbeidshistorikk())
+        loggStatusendringPåSak(IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES, IAProsessStatusEnum.enum.NY)
+    }
+
     return (
         <IASakOversiktContainer>
             <Saksinfo>
@@ -40,7 +46,7 @@ export const IngenAktiveSaker = ({orgnummer}: IngenAktiveSakerProps) => {
                 <VurderesKnappContainer>
                     <IASakshendelseKnapp
                         hendelsesType={IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES}
-                        onClick={() => opprettSak(orgnummer).then(() => mutateIASakerOgSamarbeidshistorikk())}
+                        onClick={vurderes}
                     />
                 </VurderesKnappContainer>
                 : null
