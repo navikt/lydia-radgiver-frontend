@@ -1,4 +1,4 @@
-import { Meta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { rest } from "msw";
 import { virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
@@ -8,7 +8,7 @@ import { Virksomhetsside } from "./Virksomhetsside";
 import { iaSakHistorikkPath, iaSakPath, sykefraværsstatistikkPath, virksomhetsPath } from "../../api/lydia-api";
 import { samarbeidshistorikkMock } from "./mocks/iaSakHistorikkMock";
 
-export default {
+const meta = {
     title: "Virksomhet/Virksomhetside",
     component: Virksomhetsside,
     decorators: [(Story) => (
@@ -21,11 +21,14 @@ export default {
             </Routes>
         </MemoryRouter>
     )]
-} as Meta<typeof Virksomhetsside>;
+} satisfies Meta<typeof Virksomhetsside>;
 
-export const VirksomhetssideStory = () => (
-    <Virksomhetsside />
-);
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const VirksomhetssideStory: Story = {
+    args: {}
+}
 
 VirksomhetssideStory.parameters = {
     msw: {

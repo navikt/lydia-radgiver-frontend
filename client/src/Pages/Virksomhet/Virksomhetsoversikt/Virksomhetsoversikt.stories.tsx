@@ -1,10 +1,10 @@
-import { Meta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { virksomhetMock } from "../../Prioritering/mocks/virksomhetMock";
 import { iaSakKontaktes } from "../mocks/iaSakMock";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt";
 
-export default {
+const meta = {
     title: "Virksomhet/Virksomhetsoversikt/Virksomhetsoversikt",
     component: Virksomhetsoversikt,
     decorators: [(Story) => (
@@ -17,11 +17,14 @@ export default {
             </Routes>
         </MemoryRouter>
     )]
-} as Meta<typeof Virksomhetsoversikt>;
+} satisfies Meta<typeof Virksomhetsoversikt>;
 
-export const Hovedstory = () => (
-    <Virksomhetsoversikt
-        virksomhet={virksomhetMock}
-        iaSak={iaSakKontaktes}
-    />
-)
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const Hovedstory: Story = {
+    args: {
+        virksomhet: virksomhetMock,
+        iaSak: iaSakKontaktes,
+    }
+}
