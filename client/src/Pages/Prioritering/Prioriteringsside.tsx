@@ -66,6 +66,7 @@ export const Prioriteringsside = () => {
 
     useEffect(() => {
         console.debug("Debug: AntallTreff-effect, lasterTreff: ", henterAntallTreff);
+        console.debug("Debug: AntallTreff-effect, antallTreff: ", antallTreff, !!antallTreff);
         if (antallTreff) {
             console.debug("Debug: Hurra, vi har antalltreff: ", antallTreff)
             setTotaltAntallTreff(antallTreff);
