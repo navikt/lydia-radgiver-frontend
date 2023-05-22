@@ -13,7 +13,7 @@ import { Kvartal } from "../../../../domenetyper/kvartal";
 import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 import { Publiseringsinfo } from "../../../../domenetyper/publiseringsinfo";
 
-const Container = styled.div`
+const Container = styled.dl`
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(${230 / 16}rem, 1fr));

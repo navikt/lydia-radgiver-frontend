@@ -2,6 +2,7 @@ import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import React from "react";
 import { GyldigNesteHendelse, IASak } from "../../../../../domenetyper/domenetyper";
 import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../../api/lydia-api";
+import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 
 interface Props {
     hendelse: GyldigNesteHendelse;
@@ -19,6 +20,7 @@ export const RettTilNesteStatusKnapp = ({hendelse, sak}: Props) => {
 
     const trykkPåSakhendelsesknapp = (hendelse: GyldigNesteHendelse) => {
         nyHendelsePåSak(sak, hendelse).then(mutateIASakerOgSamarbeidshistorikk)
+        loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status)
     }
 
     return (

@@ -4,7 +4,7 @@ import { Samarbeidshistorikk } from "./Samarbeidshistorikk/Samarbeidshistorikk";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
 import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../styling/contentSpacing";
 import { NavFarger } from "../../styling/farger";
-import { LeveranseTab } from "./LeveranseTab/LeveranseTab";
+import { Leveranser } from "./Leveranser/Leveranser";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 
@@ -45,7 +45,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     <Samarbeidshistorikk orgnr={virksomhet.orgnr} />
                 </StyledPanel>
                 <StyledPanel value="leveranser">
-                    {iaSak && <LeveranseTab iaSak={iaSak} />}
+                    {iaSak && <Leveranser iaSak={iaSak} />}
                 </StyledPanel>
             </Tabs>
         </Container>

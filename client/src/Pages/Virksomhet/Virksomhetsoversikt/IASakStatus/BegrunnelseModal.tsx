@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Button, Checkbox, CheckboxGroup, ErrorSummary, Heading, Modal, Select } from "@navikt/ds-react";
 import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../../../domenetyper/domenetyper";
-import { getRootElement } from "../../../../main";
 import { StyledModal } from "../../../../components/Modal/StyledModal";
 import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
 
@@ -100,7 +99,7 @@ interface BegrunnelseModalProps extends ModalInnholdProps {
 
 export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: BegrunnelseModalProps) => {
     return (
-        <StyledModal parentSelector={() => getRootElement()} open={åpen} onClose={onClose}>
+        <StyledModal open={åpen} onClose={onClose}>
             <Modal.Content>
                 <ModalInnhold
                     hendelse={hendelse}

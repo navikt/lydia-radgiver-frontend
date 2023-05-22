@@ -57,7 +57,7 @@ export const Statistikkboks = ({tittel, helpTekst, verdi, verdiSisteKvartal}: Pr
     return (
         <Container>
             <TittelMedHelpTextContainer>
-                <Tittel>
+                <Tittel as="dt">
                     {tittel}
                 </Tittel>
                 <HelpText title="Hvor kommer dette fra?">
@@ -65,8 +65,8 @@ export const Statistikkboks = ({tittel, helpTekst, verdi, verdiSisteKvartal}: Pr
                 </HelpText>
             </TittelMedHelpTextContainer>
 
-            <Verdi>{verdi}</Verdi>
-            <VerdiSisteKvartal hidden={!verdiSisteKvartal}>
+            <Verdi as="dd">{verdi}</Verdi>
+            <VerdiSisteKvartal as="dd" hidden={!verdiSisteKvartal}>
                 {`${verdiSisteKvartal?.verdi} i ${verdiSisteKvartal?.kvartal}. kvartal ${verdiSisteKvartal?.år}`}
             </VerdiSisteKvartal>
         </Container>

@@ -3,6 +3,7 @@ import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import { BegrunnelseModal } from "../BegrunnelseModal";
 import { GyldigNesteHendelse, IASak, ValgtÅrsakDto } from "../../../../../domenetyper/domenetyper";
 import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../../api/lydia-api";
+import {loggStatusendringPåSak} from "../../../../../util/amplitude-klient";
 
 interface Props {
     hendelse: GyldigNesteHendelse;
@@ -24,6 +25,7 @@ export const IkkeAktuellKnapp = ({hendelse, sak}: Props) => {
         nyHendelsePåSak(sak, hendelse, valgtÅrsak)
             .then(mutateIASakerOgSamarbeidshistorikk)
             .finally(() => setVisBegrunnelsesModal(false))
+        loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status)
     }
 
     return (

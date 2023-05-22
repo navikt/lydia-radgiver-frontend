@@ -16,3 +16,8 @@ html, body, #root {
 p {
   max-width: 60em;
 }
+
+/* Reset default margin for description elements in description lists. */
+dd {
+  margin-left: 0;
+}

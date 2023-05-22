@@ -19,6 +19,7 @@
     "@navikt/ds-icons": "2.8.12",
     "@navikt/ds-react": "2.8.12",
     "@navikt/ds-react-internal": "2.8.12",
+    "@storybook/addon-styling": "1.0.8",
     "amplitude-js": "8.21.8",
     "react": "18.2.0",
     "react-dom": "18.2.0",

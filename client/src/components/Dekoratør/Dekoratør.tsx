@@ -3,16 +3,21 @@ import { BodyShort, Link } from "@navikt/ds-react";
 import { Header } from "@navikt/ds-react-internal";
 import { Søkefelt } from "./Søkefelt";
 import { NavFarger } from "../../styling/farger";
-import { Brukerinformasjon } from "../../domenetyper/brukerinformasjon";
+import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/brukerinformasjon";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 import { SesjonBanner } from "../Banner/SesjonBanner";
 
-const DemoversjonTekst = styled(BodyShort)<{ hidden: boolean }>`
+const DemoversjonTekst = styled(BodyShort)<{hidden: boolean}>`
   display: ${(props) => props.hidden ? "none" : "flex"};
   align-items: center;
   padding: 0 1.5rem;
   color: ${NavFarger.white};
   background: ${NavFarger.red500};
+`;
+
+const Navigasjon = styled.nav`
+  align-self: center;
+  margin-right: auto; // dyttar søkefeltet inn til midten
 `;
 
 const LenkeTilSøkesiden = styled(Link)`
@@ -25,7 +30,6 @@ const LenkeTilSøkesiden = styled(Link)`
 `;
 
 const LenkeTilStatusoversikt = styled(Link)`
-  margin-right: auto;
   color: ${NavFarger.textInverted};
   text-decoration: none;
 
@@ -34,32 +38,38 @@ const LenkeTilStatusoversikt = styled(Link)`
   }
 `;
 
+const Brukerinformasjon = styled(Header.User)`
+  margin-left: auto; // dyttar søkefeltet inn til midten
+  color: ${NavFarger.white}
+`;
+
 interface Props {
-    brukerInformasjon: Brukerinformasjon;
+    brukerInformasjon: BrukerinformasjonType;
 }
 
 export const erIDev = ["localhost", "fia.intern.dev.nav.no"].includes(window.location.hostname)
 
-export const Dekoratør = ({ brukerInformasjon }: Props) => {
+export const Dekoratør = ({brukerInformasjon}: Props) => {
     return (
         <>
             <Header className="w-full" data-theme="light">
-                <LenkeTilSøkesiden href="/" title="Gå til søkesiden">
-                    <Header.Title as="h1">Fia</Header.Title>
-                </LenkeTilSøkesiden>
-                <LenkeTilStatusoversikt href="/statusoversikt" title="Gå til statusoversiktsiden">
-                    <Header.Title as="h1">Statusoversikt</Header.Title>
-                </LenkeTilStatusoversikt>
+                <Navigasjon>
+                    <LenkeTilSøkesiden href="/" title="Gå til søkesiden">
+                        <Header.Title as="h1">Fia</Header.Title>
+                    </LenkeTilSøkesiden>
+                    <LenkeTilStatusoversikt href="/statusoversikt" title="Gå til statusoversiktsiden">
+                        <Header.Title>Statusoversikt</Header.Title>
+                    </LenkeTilStatusoversikt>
+                </Navigasjon>
                 <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
                 <Søkefelt style={{
                     minWidth: "16rem",
                     width: "25%",
                 }} />
                 {brukerInformasjon && (
-                    <Header.User
+                    <Brukerinformasjon
                         name={brukerInformasjon.navn}
                         description={brukerInformasjon.ident}
-                        style={{ marginLeft: "auto", color: NavFarger.white }}
                     />
                 )}
             </Header>

@@ -2,6 +2,7 @@ import amplitude, { AmplitudeClient } from "amplitude-js";
 import { maskerOrgnr } from "./amplitude-klient-utils";
 import { Fylke } from "../domenetyper/fylkeOgKommune";
 import { Rolle } from "../domenetyper/brukerinformasjon";
+import {IAProsessStatusType, IASakshendelseType} from "../domenetyper/domenetyper";
 
 const amplitudeKlient: AmplitudeClient = amplitude.getInstance();
 
@@ -28,6 +29,7 @@ type NavsAmplitudeTopologiEventer =
     | "modal åpnet"
     | "navigere"
     | "søk"
+    | "saksstatus endret"
 
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
@@ -101,5 +103,16 @@ export const loggModalTilbakeTilForrigeStatusLukket = (
         underskrift: modalUnderskrift,
         valg: valg,
         fraStatus: fraStatus,
+    });
+}
+
+export const loggStatusendringPåSak = (
+    hendelse: IASakshendelseType,
+    fraStatus: IAProsessStatusType,
+) => {
+    logAmplitudeEvent("saksstatus endret", {
+        hendelse: hendelse,
+        fraStatus: fraStatus,
+        navEnhet: "",
     });
 }

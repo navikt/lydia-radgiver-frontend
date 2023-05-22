@@ -1,20 +1,23 @@
-import { Meta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { fjernetVirksomhetMock, slettetVirksomhetMock, virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
 import { rest } from "msw";
 import { iaSakPath } from "../../api/lydia-api";
 import { iaSakFullførtOgLukket, iaSakKontaktes } from "./mocks/iaSakMock";
 
-export default {
+const meta = {
     title: "Virksomhet/Visning av en virksomhet",
     component: VirksomhetsVisning,
-} as Meta<typeof VirksomhetsVisning>;
+} satisfies Meta<typeof VirksomhetsVisning>
 
-export const Hovedstory = () => (
-    <VirksomhetsVisning
-        virksomhet={virksomhetMock}
-    />
-);
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const Hovedstory: Story = {
+    args: {
+        virksomhet: virksomhetMock,
+    },
+};
 
 Hovedstory.parameters = {
     msw: {
@@ -28,11 +31,12 @@ Hovedstory.parameters = {
     },
 };
 
-export const VirksomhetSomErSlettet = () => (
-    <VirksomhetsVisning
-        virksomhet={slettetVirksomhetMock}
-    />
-);
+
+export const VirksomhetSomErSlettet: Story = {
+    args: {
+        virksomhet: slettetVirksomhetMock
+    }
+};
 
 VirksomhetSomErSlettet.parameters = {
     msw: {
@@ -46,11 +50,12 @@ VirksomhetSomErSlettet.parameters = {
     },
 };
 
-export const VirksomhetSomErFjernet = () => (
-    <VirksomhetsVisning
-        virksomhet={fjernetVirksomhetMock}
-    />
-);
+
+export const VirksomhetSomErFjernet: Story = {
+    args: {
+        virksomhet: fjernetVirksomhetMock
+    }
+};
 
 VirksomhetSomErFjernet.parameters = {
     msw: {
@@ -64,11 +69,12 @@ VirksomhetSomErFjernet.parameters = {
     },
 };
 
-export const VirksomhetMedSakSomErLukket = () => (
-    <VirksomhetsVisning
-        virksomhet={virksomhetMock}
-    />
-);
+
+export const VirksomhetMedSakSomErLukket: Story = {
+    args: {
+        virksomhet: virksomhetMock
+    }
+};
 
 VirksomhetMedSakSomErLukket.parameters = {
     msw: {
@@ -82,11 +88,12 @@ VirksomhetMedSakSomErLukket.parameters = {
     },
 };
 
-export const VirksomhetUtenSak = () => (
-    <VirksomhetsVisning
-        virksomhet={virksomhetMock}
-    />
-);
+
+export const VirksomhetUtenSak: Story = {
+    args: {
+        virksomhet: virksomhetMock
+    }
+};
 
 VirksomhetUtenSak.parameters = {
     msw: {

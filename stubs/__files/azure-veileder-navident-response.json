@@ -1,0 +1,13 @@
+{
+  "value": [
+    {
+      "id": "1",
+      "userPrincipalName": "mikke",
+      "onPremisesSamAccountName": "M12345",
+      "givenName": "Mikke Mus",
+      "surname": "Mus",
+      "streetAddress": "2900",
+      "department": "IT-avdelingen"
+    }
+  ]
+}
