@@ -56,13 +56,17 @@ export const Prioriteringsside = () => {
     }, [filterverdier, filtervisningLoaded]);
 
     useEffect(() => {
+        console.debug("Debug: Inne i useEffect for sett virksomhetsoversiktliste");
         if (virksomhetsoversiktListeRespons) {
             setVirksomhetsoversiktListe(virksomhetsoversiktListeRespons.data);
             setSkalSøke(false);
         }
     }, [virksomhetsoversiktListeRespons]);
+
     useEffect(() => {
+        console.debug("Debug: Inne i useEffect for sett antall treff");
         if (antallTreff) {
+            console.debug("Debug: Hurra, vi har antalltreff: ", antallTreff)
             setTotaltAntallTreff(antallTreff);
         }
     }, [antallTreff]);
