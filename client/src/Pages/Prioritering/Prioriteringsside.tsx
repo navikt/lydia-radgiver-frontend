@@ -42,6 +42,7 @@ export const Prioriteringsside = () => {
 
     const {
         data: antallTreff,
+        loading: henterAntallTreff,
     } = useHentAntallTreff({
         filterstate: filtervisning.state,
         initierSøk: skalSøke,
@@ -56,7 +57,7 @@ export const Prioriteringsside = () => {
     }, [filterverdier, filtervisningLoaded]);
 
     useEffect(() => {
-        console.debug("Debug: Inne i useEffect for sett virksomhetsoversiktliste");
+        console.debug("Debug: Virksomhetsliste-effect");
         if (virksomhetsoversiktListeRespons) {
             setVirksomhetsoversiktListe(virksomhetsoversiktListeRespons.data);
             setSkalSøke(false);
@@ -64,12 +65,12 @@ export const Prioriteringsside = () => {
     }, [virksomhetsoversiktListeRespons]);
 
     useEffect(() => {
-        console.debug("Debug: Inne i useEffect for sett antall treff");
+        console.debug("Debug: AntallTreff-effect, lasterTreff: ", henterAntallTreff);
         if (antallTreff) {
             console.debug("Debug: Hurra, vi har antalltreff: ", antallTreff)
             setTotaltAntallTreff(antallTreff);
         }
-    }, [antallTreff]);
+    }, [antallTreff, henterAntallTreff]);
 
     function oppdaterSide(side: number, sortering?: SortState) {
         if (filtervisning?.state?.valgtFylke) {
