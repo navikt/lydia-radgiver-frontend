@@ -107,6 +107,7 @@ export const Prioriteringsside = () => {
             <Filtervisning
                 filtervisning={filtervisning}
                 søkPåNytt={() => {
+                    setTotaltAntallTreff(undefined)
                     oppdaterSide(1);
                 }}
             />
