@@ -28,8 +28,6 @@ export const Prioriteringsside = () => {
     const filtervisning = useFiltervisningState();
     const harSøktMinstEnGang = virksomhetsoversiktListe !== undefined;
     const fantResultaterISøk = harSøktMinstEnGang && virksomhetsoversiktListe.length > 0;
-    const skalViseTabell = fantResultaterISøk && !skalSøke;
-
 
     const {
         data: virksomhetsoversiktListeRespons,
@@ -40,6 +38,8 @@ export const Prioriteringsside = () => {
         initierSøk: skalSøke,
     });
 
+    const skalViseTabell = fantResultaterISøk && !lasterVirksomhetsoversiktListe;
+
     const {
         data: antallTreff,
         loading: henterAntallTreff,
@@ -47,6 +47,12 @@ export const Prioriteringsside = () => {
         filterstate: filtervisning.state,
         initierSøk: skalSøke,
     });
+
+    const stoppSøkingOmViHarFåttSvarPåAlt = () => {
+        if (virksomhetsoversiktListeRespons && antallTreff) {
+            setSkalSøke(false);
+        }
+    }
 
     useEffect(() => {
         if (filterverdier && !filtervisningLoaded) {
@@ -57,19 +63,16 @@ export const Prioriteringsside = () => {
     }, [filterverdier, filtervisningLoaded]);
 
     useEffect(() => {
-        console.debug("Debug: Virksomhetsliste-effect");
         if (virksomhetsoversiktListeRespons) {
             setVirksomhetsoversiktListe(virksomhetsoversiktListeRespons.data);
-            setSkalSøke(false);
+            stoppSøkingOmViHarFåttSvarPåAlt()
         }
     }, [virksomhetsoversiktListeRespons]);
 
     useEffect(() => {
-        console.debug("Debug: AntallTreff-effect, lasterTreff: ", henterAntallTreff);
-        console.debug("Debug: AntallTreff-effect, antallTreff: ", antallTreff, !!antallTreff);
         if (antallTreff) {
-            console.debug("Debug: Hurra, vi har antalltreff: ", antallTreff)
             setTotaltAntallTreff(antallTreff);
+            stoppSøkingOmViHarFåttSvarPåAlt()
         }
     }, [antallTreff, henterAntallTreff]);
 
