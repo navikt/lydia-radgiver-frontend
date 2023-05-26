@@ -1,18 +1,23 @@
-import { Meta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { iaSakViBistår } from "../mocks/iaSakMock";
 import { IATjeneste } from "./IATjeneste";
 import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
 import { SimulerTabletWrapper } from "../../../../.storybook/SkjermstørrelseSimuleringer";
 
-const meta: Meta<typeof IATjeneste> = {
+const meta = {
     title: "Virksomhet/Leveranser/Leveranser per IATjeneste",
     component: IATjeneste,
-}
-export default meta;
+} satisfies Meta<typeof IATjeneste>
 
-export const Hovedstory = () => (
-    <IATjeneste iaSak={iaSakViBistår} iaTjenesteMedLeveranser={leveranserPerIATjeneste[0]} />
-)
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const Hovedstory: Story = {
+    args: {
+        iaSak: iaSakViBistår,
+        iaTjenesteMedLeveranser: leveranserPerIATjeneste[0],
+    },
+}
 
 export const HovedstoryTablet = () => (
     <SimulerTabletWrapper>
