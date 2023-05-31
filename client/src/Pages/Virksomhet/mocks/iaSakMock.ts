@@ -8,8 +8,11 @@ import {
 import { ulid } from "ulid";
 
 
-const saksnummer = ulid()
-const endretAv = ulid()
+const saksnummer = ulid();
+const endretAv = ulid();
+const orgnr = "987654321";
+const navIdent1 = "NAV-12345";
+const navIdent2 = "NAV-54321";
 
 export const ikkeAktuellHendelseMock: GyldigNesteHendelse = {
     saksHendelsestype: IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL,
@@ -53,11 +56,11 @@ const hendelseUtenÅrsak = (saksHendelsetype: IASakshendelseType) => {
 
 export const iaSakVurderesUtenEier: IASak = {
     saksnummer: saksnummer,
-    orgnr: "987654321",
+    orgnr: orgnr,
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: navIdent1,
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
+    endretAv: navIdent2,
     eidAv: null,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.VURDERES,
@@ -67,12 +70,12 @@ export const iaSakVurderesUtenEier: IASak = {
 
 export const iaSakVurderesMedEier: IASak = {
     saksnummer: saksnummer,
-    orgnr: "987654321",
+    orgnr: orgnr,
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: navIdent1,
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: navIdent2,
+    eidAv: navIdent2,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.VURDERES,
     gyldigeNesteHendelser: [
@@ -84,12 +87,12 @@ export const iaSakVurderesMedEier: IASak = {
 
 export const iaSakKontaktes: IASak = {
     saksnummer: saksnummer,
-    orgnr: "987654321",
+    orgnr: orgnr,
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: navIdent1,
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: navIdent2,
+    eidAv: navIdent2,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.KONTAKTES,
     gyldigeNesteHendelser: [
@@ -102,12 +105,12 @@ export const iaSakKontaktes: IASak = {
 
 export const iaSakIkkeAktuell: IASak = {
     saksnummer: saksnummer,
-    orgnr: "987654321",
+    orgnr: orgnr,
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: navIdent1,
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: navIdent2,
+    eidAv: navIdent2,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.IKKE_AKTUELL,
     gyldigeNesteHendelser: [hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)],
@@ -116,12 +119,12 @@ export const iaSakIkkeAktuell: IASak = {
 
 export const iaSakKartlegges: IASak = {
     saksnummer: saksnummer,
-    orgnr: "987654321",
+    orgnr: orgnr,
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: navIdent1,
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: navIdent2,
+    eidAv: navIdent2,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.KARTLEGGES,
     gyldigeNesteHendelser: [
@@ -134,12 +137,12 @@ export const iaSakKartlegges: IASak = {
 
 export const iaSakViBistår: IASak = {
     saksnummer: saksnummer,
-    orgnr: "987654321",
+    orgnr: orgnr,
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: navIdent1,
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: navIdent2,
+    eidAv: navIdent2,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.VI_BISTÅR,
     gyldigeNesteHendelser: [
@@ -152,12 +155,12 @@ export const iaSakViBistår: IASak = {
 
 export const iaSakFullført: IASak = {
     saksnummer: saksnummer,
-    orgnr: "987654321",
+    orgnr: orgnr,
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: navIdent1,
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: navIdent2,
+    eidAv: navIdent2,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.FULLFØRT,
     gyldigeNesteHendelser: [
@@ -169,12 +172,12 @@ export const iaSakFullført: IASak = {
 
 export const iaSakFullførtOgLukket: IASak = {
     saksnummer: saksnummer,
-    orgnr: "987654321",
+    orgnr: orgnr,
     opprettetTidspunkt: new Date(),
-    opprettetAv: "NAV-12345",
+    opprettetAv: navIdent1,
     endretTidspunkt: new Date(),
-    endretAv: "NAV-54321",
-    eidAv: "NAV-54321",
+    endretAv: navIdent2,
+    eidAv: navIdent2,
     endretAvHendelseId: endretAv,
     status: IAProsessStatusEnum.enum.FULLFØRT,
     gyldigeNesteHendelser: [],
