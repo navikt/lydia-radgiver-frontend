@@ -32,27 +32,25 @@ export const VirksomhetssideStory: Story = {
 
 VirksomhetssideStory.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(`${virksomhetsPath}/:orgnummer`, (req, res, ctx) => {
-                    return res(ctx.json(virksomhetMock));
-                }),
-                rest.get(`${sykefraværsstatistikkPath}/:orgnummer`, (req, res, ctx) => {
-                    return res(
-                        ctx.json([sykefraværsstatistikkMock[0]])
-                    );
-                }),
-                rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(iaSakKontaktes)
-                    );
-                }),
-                rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(samarbeidshistorikkMock)
-                    );
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(`${virksomhetsPath}/:orgnummer`, (req, res, ctx) => {
+                return res(ctx.json(virksomhetMock));
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/:orgnummer`, (req, res, ctx) => {
+                return res(
+                    ctx.json([sykefraværsstatistikkMock[0]])
+                );
+            }),
+            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
+                return res(
+                    ctx.json(iaSakKontaktes)
+                );
+            }),
+            rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
+                return res(
+                    ctx.json(samarbeidshistorikkMock)
+                );
+            }),
+        ],
     },
 };

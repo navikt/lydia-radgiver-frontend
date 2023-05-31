@@ -1,11 +1,7 @@
 import { Meta } from "@storybook/react";
 import { NyStatistikkPubliseresBanner } from "./NyStatistikkPubliseresBanner";
 import { rest } from "msw";
-import {
-    publiseringsinfoPath,
-    sykefraværsstatistikkPath,
-    useHentPubliseringsinfo,
-} from "../../api/lydia-api";
+import { publiseringsinfoPath, sykefraværsstatistikkPath, useHentPubliseringsinfo, } from "../../api/lydia-api";
 import {
     forrigePeriodePubliseringsinfo,
     gjeldendePeriodePubliseringsinfo
@@ -46,28 +42,24 @@ export const StatistikkPublisert = () => {
 
 StatistikkIkkePublisert.parameters = {
     msw: {
-        handlers: {
-            gjeldendePeriodeSiste4Kvartal: [
-                rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(forrigePeriodePubliseringsinfo)
-                    );
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(forrigePeriodePubliseringsinfo)
+                );
+            }),
+        ],
     },
 };
 
 StatistikkPublisert.parameters = {
     msw: {
-        handlers: {
-            gjeldendePeriodeSiste4Kvartal: [
-                rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(gjeldendePeriodePubliseringsinfo)
-                    );
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(gjeldendePeriodePubliseringsinfo)
+                );
+            }),
+        ],
     },
 };

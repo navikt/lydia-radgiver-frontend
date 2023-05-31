@@ -1,6 +1,6 @@
-import {ComponentMeta, ComponentStory} from "@storybook/react";
-import {rest} from "msw";
-import {IASakOversikt, IASakOversiktProps} from "./IASakOversikt";
+import { ComponentMeta, ComponentStory } from "@storybook/react";
+import { rest } from "msw";
+import { IASakOversikt, IASakOversiktProps } from "./IASakOversikt";
 import {
     iaSakFullført,
     iaSakFullførtOgLukket,
@@ -11,8 +11,8 @@ import {
     iaSakVurderesMedEier,
     iaSakVurderesUtenEier,
 } from "../../mocks/iaSakMock";
-import {iaSakPath, iaSakPostNyHendelsePath} from "../../../../api/lydia-api";
-import {FeilmeldingBanner} from "../../../../components/Banner/FeilmeldingBanner";
+import { iaSakPath, iaSakPostNyHendelsePath } from "../../../../api/lydia-api";
+import { FeilmeldingBanner } from "../../../../components/Banner/FeilmeldingBanner";
 
 export default {
     title: "Virksomhet/Virksomhetsoversikt/IA-sak-oversikt (statusfelt)",
@@ -36,13 +36,11 @@ export const IkkeAktiv = () => {
 
 IkkeAktiv.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
-                    return res(ctx.json(iaSakVurderesUtenEier));
-                }),
-            ],
-        }
+        handlers: [
+            rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
+                return res(ctx.json(iaSakVurderesUtenEier));
+            }),
+        ],
     },
 };
 
@@ -52,13 +50,11 @@ export const VurderesUtenEier = () => (
 
 VurderesUtenEier.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.post(`${iaSakPostNyHendelsePath}`, (req, res, ctx) => {
-                    return res(ctx.json(iaSakVurderesMedEier));
-                }),
-            ],
-        }
+        handlers: [
+            rest.post(`${iaSakPostNyHendelsePath}`, (req, res, ctx) => {
+                return res(ctx.json(iaSakVurderesMedEier));
+            }),
+        ],
     },
 };
 
@@ -71,13 +67,11 @@ export const VurderesUtenEierMedFeilmelding = () => (
 
 VurderesUtenEierMedFeilmelding.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
-                    return res(ctx.status(415, "Dette er ikke lov........."));
-                })
-            ],
-        }
+        handlers: [
+            rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
+                return res(ctx.status(415, "Dette er ikke lov........."));
+            })
+        ],
     },
 };
 

@@ -1,5 +1,4 @@
 import { ComponentMeta } from "@storybook/react";
-
 import { Samarbeidshistorikk } from "./Samarbeidshistorikk";
 import { samarbeidshistorikkMock } from "../mocks/iaSakHistorikkMock";
 import { rest } from "msw";
@@ -28,57 +27,49 @@ export const FeilVedLastingAvSaker = () => (
 
 FlereSaker.parameters = {
     msw: {
-        handlers: {
-            samarbeidshistorikk: [
-                rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(samarbeidshistorikkMock)
-                    );
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
+                return res(
+                    ctx.json(samarbeidshistorikkMock)
+                );
+            }),
+        ],
     },
 };
 
 IngenSaker.parameters = {
     msw: {
-        handlers: {
-            samarbeidshistorikk: [
-                rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
-                    return res(
-                        ctx.json([])
-                    );
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
+                return res(
+                    ctx.json([])
+                );
+            }),
+        ],
     },
 };
 
 LasterSaker.parameters = {
     msw: {
-        handlers: {
-            samarbeidshistorikk: [
-                rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
-                    return new Promise(resolve => setTimeout(resolve, 3000))
-                        .then( () => res(
-                            ctx.json([])
-                        ))
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
+                return new Promise(resolve => setTimeout(resolve, 3000))
+                    .then(() => res(
+                        ctx.json([])
+                    ))
+            }),
+        ],
     },
 };
 
 FeilVedLastingAvSaker.parameters = {
     msw: {
-        handlers: {
-            samarbeidshistorikk: [
-                rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
-                    return   res(
-                        ctx.json(undefined)
-                    );
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
+                return res(
+                    ctx.json(undefined)
+                );
+            }),
+        ],
     },
 };

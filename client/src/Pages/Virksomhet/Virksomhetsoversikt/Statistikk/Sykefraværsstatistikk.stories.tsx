@@ -5,7 +5,7 @@ import {
     virksomhetsstatistikkSiste4KvartalerMock
 } from "../../../Prioritering/mocks/sykefraværsstatistikkMock";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
-import {publiseringsinfoPath, siste4kvartalerPath, sykefraværsstatistikkPath} from "../../../../api/lydia-api";
+import { publiseringsinfoPath, siste4kvartalerPath, sykefraværsstatistikkPath } from "../../../../api/lydia-api";
 
 export default {
     title: "Virksomhet/Virksomhetsoversikt/Sykefraværsstatistikk for en virksomhet",
@@ -24,20 +24,18 @@ export const Hovedstory = () =>
 
 Hovedstory.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(virksomhetsstatistikkSiste4KvartalerMock[0])
-                    );
-                }),
-                rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(gjeldendePeriodePubliseringsinfo)
-                    );
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(virksomhetsstatistikkSiste4KvartalerMock[0])
+                );
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(gjeldendePeriodePubliseringsinfo)
+                );
+            }),
+        ],
     },
 };
 
@@ -46,21 +44,19 @@ export const MedStatistikkFraKunToKvartal = () =>
 
 MedStatistikkFraKunToKvartal.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(
-                            virksomhetsstatistikkSiste4KvartalerMock[2],
-                        )
-                    );
-                }),
-                rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(gjeldendePeriodePubliseringsinfo)
-                    );
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(
+                        virksomhetsstatistikkSiste4KvartalerMock[2],
+                    )
+                );
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(gjeldendePeriodePubliseringsinfo)
+                );
+            }),
+        ],
     },
 };

@@ -17,15 +17,13 @@ export const Hovedstory = () => (
 
 Hovedstory.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(gjeldendePeriodePubliseringsinfo)
-                    );
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(gjeldendePeriodePubliseringsinfo)
+                );
+            }),
+        ],
     },
 };
 
@@ -37,16 +35,14 @@ export const HentGjeldendePeriodeErTreig = () => (
 
 HentGjeldendePeriodeErTreig.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, async (req, res, ctx) => {
-                    await sleep(5000)
-                    return res(
-                        ctx.json(gjeldendePeriodePubliseringsinfo)
-                    );
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, async (req, res, ctx) => {
+                await sleep(5000)
+                return res(
+                    ctx.json(gjeldendePeriodePubliseringsinfo)
+                );
+            }),
+        ],
     },
 };
 

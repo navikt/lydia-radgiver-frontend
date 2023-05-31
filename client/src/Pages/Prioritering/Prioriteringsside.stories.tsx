@@ -27,22 +27,20 @@ export const PrioriteringssideMedDataStory = () => (<Prioriteringsside />);
 
 PrioriteringssideMedDataStory.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(filterverdierPath, (req, res, ctx) => {
-                    return res(ctx.json(filterverdierMock));
-                }),
-                rest.get(sykefraværsstatistikkPath, (req, res, ctx) => {
-                    return res(
-                        ctx.delay(2000),
-                        ctx.json({
-                            data: sykefraværsstatistikkMock,
-                            total: 500000,
-                        })
-                    )
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(filterverdierPath, (req, res, ctx) => {
+                return res(ctx.json(filterverdierMock));
+            }),
+            rest.get(sykefraværsstatistikkPath, (req, res, ctx) => {
+                return res(
+                    ctx.delay(2000),
+                    ctx.json({
+                        data: sykefraværsstatistikkMock,
+                        total: 500000,
+                    })
+                )
+            }),
+        ],
     },
 };
 
@@ -51,20 +49,18 @@ export const PrioriteringssideUtenResultaterFraSøkStory = () => (<Prioriterings
 
 PrioriteringssideUtenResultaterFraSøkStory.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(filterverdierPath, (req, res, ctx) => {
-                    return res(ctx.json(filterverdierMock));
-                }),
-                rest.get(sykefraværsstatistikkPath, (req, res, ctx) => {
-                    return res(
-                        ctx.json({
-                            data: [],
-                            total: 0,
-                        })
-                    );
-                }),
-            ],
-        }
+        handlers: [
+            rest.get(filterverdierPath, (req, res, ctx) => {
+                return res(ctx.json(filterverdierMock));
+            }),
+            rest.get(sykefraværsstatistikkPath, (req, res, ctx) => {
+                return res(
+                    ctx.json({
+                        data: [],
+                        total: 0,
+                    })
+                );
+            }),
+        ],
     },
 };

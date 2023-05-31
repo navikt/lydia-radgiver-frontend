@@ -21,13 +21,11 @@ export const Hovedstory: Story = {
 
 Hovedstory.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                    return res(ctx.json(iaSakKontaktes));
-                })
-            ],
-        }
+        handlers: [
+            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
+                return res(ctx.json(iaSakKontaktes));
+            })
+        ],
     },
 };
 
@@ -40,13 +38,11 @@ export const VirksomhetSomErSlettet: Story = {
 
 VirksomhetSomErSlettet.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                    return res(ctx.json(iaSakKontaktes));
-                })
-            ],
-        }
+        handlers: [
+            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
+                return res(ctx.json(iaSakKontaktes));
+            })
+        ],
     },
 };
 
@@ -59,13 +55,11 @@ export const VirksomhetSomErFjernet: Story = {
 
 VirksomhetSomErFjernet.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                    return res(ctx.json(iaSakKontaktes));
-                })
-            ],
-        }
+        handlers: [
+            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
+                return res(ctx.json(iaSakKontaktes));
+            })
+        ],
     },
 };
 
@@ -78,13 +72,11 @@ export const VirksomhetMedSakSomErLukket: Story = {
 
 VirksomhetMedSakSomErLukket.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                    return res(ctx.json(iaSakFullførtOgLukket));
-                })
-            ],
-        }
+        handlers: [
+            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
+                return res(ctx.json(iaSakFullførtOgLukket));
+            })
+        ],
     },
 };
 
@@ -97,12 +89,10 @@ export const VirksomhetUtenSak: Story = {
 
 VirksomhetUtenSak.parameters = {
     msw: {
-        handlers: {
-            others: [
-                rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                    return res(ctx.status(204));
-                })
-            ],
-        }
+        handlers: [
+            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
+                return res(ctx.status(204));
+            })
+        ],
     },
 };
