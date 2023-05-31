@@ -1,7 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { Leveranser } from "./Leveranser";
 import { iaSakFullført, iaSakKartlegges, iaSakViBistår } from "../mocks/iaSakMock";
-import { brukerSomErSaksbehandler } from "../../Prioritering/mocks/innloggetAnsattMock";
+import { brukerSomErSaksbehandler, brukerSomHarLesetilgang } from "../../Prioritering/mocks/innloggetAnsattMock";
+import { rest } from "msw";
+import { mswHandlers } from "../../../../.storybook/mswHandlers";
 
 const meta = {
     title: "Virksomhet/Leveranser/Leveransefane",
@@ -31,5 +33,19 @@ export const SakErIkkeIViBistaar: Story = {
 export const SakErIFullført: Story = {
     args: {
         iaSak: iaSakFullført
+    }
+}
+
+export const BrukerHarLesetilgang: Story = {
+    args: {
+        iaSak: iaSakFullført
+    },
+    parameters: {
+        msw: [
+            rest.get('/innloggetAnsatt', (req, res, ctx) => {
+                return res(ctx.json(brukerSomHarLesetilgang));
+            }),
+            ...mswHandlers,
+        ]
     }
 }

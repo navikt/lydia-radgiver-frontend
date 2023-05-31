@@ -34,3 +34,11 @@ export const brukerSomErSaksbehandler : Brukerinformasjon = {
     rolle: "Saksbehandler",
     tokenUtløper: Date.now() + TRE_TIMER_MS
 }
+
+export const brukerSomHarLesetilgang : Brukerinformasjon = {
+    navn: "Lesebruker Lesebrukersen",
+    ident: "L12345",
+    epost: "a@b.com",
+    rolle: "Lesetilgang",
+    tokenUtløper: Date.now() + TRE_TIMER_MS
+}
