@@ -5,9 +5,12 @@ import { NavFarger } from "../src/styling/farger";
 import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innloggetAnsattMock";
 import {
     iaSakHistorikkPath,
-    leveransePath, publiseringsinfoPath,
+    leveransePath,
+    modulerPath,
+    publiseringsinfoPath,
     siste4kvartalerPath,
-    sykefraværsstatistikkPath
+    sykefraværsstatistikkPath,
+    tjenesterPath
 } from "../src/api/lydia-api";
 import {
     gjeldendePeriodePubliseringsinfo,
@@ -15,7 +18,7 @@ import {
     virksomhetsstatistikkSiste4KvartalerMock
 } from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
 import { samarbeidshistorikkMock } from "../src/Pages/Virksomhet/mocks/iaSakHistorikkMock";
-import { leveranserPerIATjeneste } from "../src/Pages/Virksomhet/mocks/leveranseMock";
+import { iaTjenester, leveranserPerIATjeneste, moduler } from "../src/Pages/Virksomhet/mocks/leveranseMock";
 
 const preview: Preview = {
     parameters: {
@@ -97,6 +100,20 @@ const preview: Preview = {
                         );
                     }),
                 ],
+                tjenester: [
+                    rest.get(tjenesterPath, (req, res, ctx) => {
+                        return res(
+                            ctx.json(iaTjenester)
+                        );
+                    }),
+                ],
+                moduler: [
+                    rest.get(modulerPath, (req, res, ctx) => {
+                        return res(
+                            ctx.json(moduler)
+                        );
+                    }),
+                ]
             }
         }
     }

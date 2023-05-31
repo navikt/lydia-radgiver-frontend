@@ -54,6 +54,8 @@ export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
 export const publiseringsinfoPath = "publiseringsinfo"
 export const leveransePath = `${iaSakPath}/leveranse`
+export const tjenesterPath = `${leveransePath}/tjenester`
+export const modulerPath = `${leveransePath}/moduler`
 export const statusoversiktPath = `${basePath}/statusoversikt`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
@@ -485,13 +487,13 @@ export const useHentLeveranser = (orgnummer: string, saksnummer: string) => {
 
 export const useHentIATjenester = () => {
     return useSwrTemplate<IATjeneste[]>(
-        `${leveransePath}/tjenester`,
+        tjenesterPath,
         iaTjenesteSchema.array()
     )
 }
 export const useHentModuler = () => {
     return useSwrTemplate<Modul[]>(
-        `${leveransePath}/moduler`,
+        modulerPath,
         modulSchema.array()
     )
 }
