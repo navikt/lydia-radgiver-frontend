@@ -1,15 +1,26 @@
-import { Meta } from "@storybook/react";
-import { Leveranser } from "./Leveranser";
+import { Meta, StoryObj } from "@storybook/react";
+import { iaSakViBistår } from "../mocks/iaSakMock";
 import { Leveranse } from "./Leveranse";
 import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
-import { iaSakViBistår } from "../mocks/iaSakMock";
 
-const meta: Meta<typeof Leveranser> = {
+const meta = {
     title: "Virksomhet/Leveranser/Leveranse",
-    component: Leveranser,
-}
-export default meta;
+    component: Leveranse,
+} satisfies Meta<typeof Leveranse>
 
-export const Hovedstory = () => (
-    <Leveranse leveranse={leveranserPerIATjeneste[0].leveranser[0]} iaSak={iaSakViBistår} />
-)
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const LeveranseUnderArbeid: Story = {
+    args: {
+        iaSak: iaSakViBistår,
+        leveranse: leveranserPerIATjeneste[0].leveranser[0],
+    }
+}
+
+export const LeveranseLevert: Story = {
+    args: {
+        iaSak: iaSakViBistår,
+        leveranse: leveranserPerIATjeneste[0].leveranser[3],
+    }
+}

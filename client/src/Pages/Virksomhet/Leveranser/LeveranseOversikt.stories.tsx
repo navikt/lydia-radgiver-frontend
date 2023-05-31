@@ -1,13 +1,17 @@
-import { Meta } from "@storybook/react";
+import { Meta, StoryObj } from "@storybook/react";
 import { iaSakViBistår } from "../mocks/iaSakMock";
 import { LeveranseOversikt } from "./LeveranseOversikt";
 
-const meta: Meta<typeof LeveranseOversikt> = {
+const meta = {
     title: "Virksomhet/Leveranser/Leveranseoversikt",
     component: LeveranseOversikt,
-}
-export default meta;
+} satisfies  Meta<typeof LeveranseOversikt>
 
-export const Hovedstory = () => (
-    <LeveranseOversikt iaSak={iaSakViBistår} />
-)
+export default meta;
+type Story = StoryObj<typeof meta>
+
+export const Hovedstory: Story = {
+    args: {
+        iaSak: iaSakViBistår
+    }
+}
