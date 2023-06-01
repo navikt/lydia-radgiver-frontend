@@ -1,8 +1,9 @@
 import { Meta, StoryObj } from "@storybook/react";
+import { rest } from "msw";
 import { iaSakViBistår } from "../mocks/iaSakMock";
 import { Leveranse } from "./Leveranse";
+import { Leveranse as LeveranseType } from "../../../domenetyper/leveranse"
 import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
-import { rest } from "msw";
 import { brukerSomHarLesetilgang } from "../../Prioritering/mocks/innloggetAnsattMock";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
 
@@ -14,24 +15,28 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>
 
+const stigendeEtterId = (a: LeveranseType, b: LeveranseType) => {
+    return a.id - b.id;
+}
+
 export const LeveranseUnderArbeid: Story = {
     args: {
         iaSak: iaSakViBistår,
-        leveranse: leveranserPerIATjeneste[0].leveranser[0],
+        leveranse: leveranserPerIATjeneste[0].leveranser.sort(stigendeEtterId)[0],
     }
 }
 
 export const LeveranseLevert: Story = {
     args: {
         iaSak: iaSakViBistår,
-        leveranse: leveranserPerIATjeneste[0].leveranser[3],
+        leveranse: leveranserPerIATjeneste[0].leveranser.sort(stigendeEtterId)[3],
     }
 }
 
-export const LeveranseBrukerErLesebruker: Story = {
+export const BrukerErLesebruker: Story = {
     args: {
         iaSak: iaSakViBistår,
-        leveranse: leveranserPerIATjeneste[0].leveranser[3],
+        leveranse: leveranserPerIATjeneste[0].leveranser.sort(stigendeEtterId)[3],
     },
     parameters: {
         msw: [
