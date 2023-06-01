@@ -1,6 +1,5 @@
-import { ComponentMeta, ComponentStory } from "@storybook/react";
-import { rest } from "msw";
-import { IASakOversikt, IASakOversiktProps } from "./IASakOversikt";
+import { Meta, StoryObj } from "@storybook/react";
+import { IASakOversikt } from "./IASakOversikt";
 import {
     iaSakFullført,
     iaSakFullførtOgLukket,
@@ -11,10 +10,8 @@ import {
     iaSakVurderesMedEier,
     iaSakVurderesUtenEier,
 } from "../../mocks/iaSakMock";
-import { iaSakPath, iaSakPostNyHendelsePath } from "../../../../api/lydia-api";
-import { FeilmeldingBanner } from "../../../../components/Banner/FeilmeldingBanner";
 
-export default {
+const meta = {
     title: "Virksomhet/Virksomhetsoversikt/IA-sak-oversikt (statusfelt)",
     component: IASakOversikt,
     parameters: {
@@ -22,80 +19,70 @@ export default {
             default: 'white'
         }
     }
-} as ComponentMeta<typeof IASakOversikt>;
+} satisfies Meta<typeof IASakOversikt>;
 
-const orgnummer = "987654321";
+export default meta;
+type Story = StoryObj<typeof meta>;
 
-export const IkkeAktiv = () => {
-    return (
-        <IASakOversikt
-            orgnummer={orgnummer}
-        />
-    );
-};
-
-IkkeAktiv.parameters = {
-    msw: {
-        handlers: [
-            rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
-                return res(ctx.json(iaSakVurderesUtenEier));
-            }),
-        ],
+export const IkkeAktiv: Story = {
+    args: {
+        orgnummer: "987654321",
     },
 };
 
-export const VurderesUtenEier = () => (
-    <IASakOversikt iaSak={iaSakVurderesUtenEier} orgnummer={orgnummer} />
-);
-
-VurderesUtenEier.parameters = {
-    msw: {
-        handlers: [
-            rest.post(`${iaSakPostNyHendelsePath}`, (req, res, ctx) => {
-                return res(ctx.json(iaSakVurderesMedEier));
-            }),
-        ],
+export const VurderesUtenEier: Story = {
+    args: {
+        ...IkkeAktiv.args,
+        iaSak: iaSakVurderesUtenEier,
     },
 };
 
-export const VurderesUtenEierMedFeilmelding = () => (
-    <>
-        <FeilmeldingBanner />
-        <IASakOversikt iaSak={iaSakVurderesUtenEier} orgnummer={orgnummer} />
-    </>
-);
-
-VurderesUtenEierMedFeilmelding.parameters = {
-    msw: {
-        handlers: [
-            rest.post(`${iaSakPath}/:orgnummer`, (req, res, ctx) => {
-                return res(ctx.status(415, "Dette er ikke lov........."));
-            })
-        ],
-    },
+export const VurderesMedEierEier = {
+    args: {
+        ...IkkeAktiv.args,
+        iaSak: iaSakVurderesMedEier,
+    }
 };
 
-const Template: ComponentStory<typeof IASakOversikt> = ({iaSak}: IASakOversiktProps) => {
-    return <IASakOversikt iaSak={iaSak} orgnummer={orgnummer} />
-}
+export const Kontaktes = {
+    args: {
+        ...IkkeAktiv.args,
+        iaSak: iaSakKontaktes,
+    }
+};
 
-export const VurderesMedEierEier = Template.bind({});
-VurderesMedEierEier.args = {iaSak: iaSakVurderesMedEier};
 
-export const Kontaktes = Template.bind({});
-Kontaktes.args = {iaSak: iaSakKontaktes};
+export const IkkeAktuell = {
+    args: {
+        ...IkkeAktiv.args,
+        iaSak: iaSakIkkeAktuell,
+    }
+};
 
-export const IkkeAktuell = Template.bind({});
-IkkeAktuell.args = {iaSak: iaSakIkkeAktuell};
+export const Kartlegges = {
+    args: {
+        ...IkkeAktiv.args,
+        iaSak: iaSakKartlegges,
+    }
+};
 
-export const Kartlegges = Template.bind({});
-Kartlegges.args = {iaSak: iaSakKartlegges};
+export const ViBistar = {
+    args: {
+        ...IkkeAktiv.args,
+        iaSak: iaSakViBistår,
+    }
+};
 
-export const ViBistar = Template.bind({});
-ViBistar.args = {iaSak: iaSakViBistår};
+export const Fullfort = {
+    args: {
+        ...IkkeAktiv.args,
+        iaSak: iaSakFullført,
+    }
+};
 
-export const Fullfort = Template.bind({});
-Fullfort.args = {iaSak: iaSakFullført};
-
-export const FullfortOgLukket = Template.bind({});
-FullfortOgLukket.args = {iaSak: iaSakFullførtOgLukket};
+export const FullfortOgLukket = {
+    args: {
+        ...IkkeAktiv.args,
+        iaSak: iaSakFullførtOgLukket,
+    }
+};
