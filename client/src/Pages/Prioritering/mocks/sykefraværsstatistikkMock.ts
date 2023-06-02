@@ -112,7 +112,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [{
     ...sykefraværStatiskDataUtenDesimaler,
     "status": IAProsessStatusEnum.enum.IKKE_AKTUELL,
     "eidAv": null,
-    "sistEndret": endretDato,
+    "sistEndret": new Date(),
 }, {
     "orgnr": "974706490",
     "virksomhetsnavn": "HERMETISKE TOMATER",

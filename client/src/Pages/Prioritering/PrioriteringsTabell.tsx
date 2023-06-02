@@ -3,12 +3,12 @@ import styled from "styled-components";
 import { SortState, Table } from "@navikt/ds-react";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
-import { lokalDato } from "../../util/dato";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
 import { EksternLenke } from "../../components/EksternLenke";
 import { SøkeresultatFooter } from "./SøkeresultatFooter";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
+import { EndretDataCell } from "./EndretDataCell";
 
 interface Kolonne {
     key: string,
@@ -134,13 +134,7 @@ export const PrioriteringsTabell = ({
                             <Table.DataCell>
                                 <StatusBadge status={virksomhetsoversikt.status} />
                             </Table.DataCell>
-                            <Table.DataCell>
-                                {virksomhetsoversikt.sistEndret ? lokalDato(virksomhetsoversikt.sistEndret) : ""}
-                                {/*{virksomhetsoversikt.sistEndret*/}
-                                {/*&& aktivitetIForrigeKvartalEllerNyere(new Date(), virksomhetsoversikt.sistEndret)*/}
-                                {/*    ? <FlowerPetalFallingIcon/>*/}
-                                {/*    : ""}*/}
-                            </Table.DataCell>
+                            <EndretDataCell sistEndret={virksomhetsoversikt.sistEndret} />
                             <Table.HeaderCell scope="row">
                                 <EksternLenke
                                     target={`${virksomhetsoversikt.orgnr}`}
