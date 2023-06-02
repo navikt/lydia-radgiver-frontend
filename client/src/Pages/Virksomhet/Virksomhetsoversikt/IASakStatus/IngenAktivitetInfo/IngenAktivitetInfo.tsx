@@ -29,7 +29,7 @@ export const IngenAktivitetInfo = ({sak}: Props) => {
 
     return (
         <Container>
-            Ingen aktivitet har blitt registrert gjennom hele forrige kvartal <FlowerPetalFallingIcon
+            Ingen aktivitet har blitt registrert på saken i Fia gjennom hele forrige kvartal <FlowerPetalFallingIcon
             fontSize={"1.125rem"} />
         </Container>
     )
