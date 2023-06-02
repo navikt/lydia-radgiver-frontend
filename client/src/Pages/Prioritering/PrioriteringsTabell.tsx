@@ -136,6 +136,10 @@ export const PrioriteringsTabell = ({
                             </Table.DataCell>
                             <Table.DataCell>
                                 {virksomhetsoversikt.sistEndret ? lokalDato(virksomhetsoversikt.sistEndret) : ""}
+                                {/*{virksomhetsoversikt.sistEndret*/}
+                                {/*&& aktivitetIForrigeKvartalEllerNyere(new Date(), virksomhetsoversikt.sistEndret)*/}
+                                {/*    ? <FlowerPetalFallingIcon/>*/}
+                                {/*    : ""}*/}
                             </Table.DataCell>
                             <Table.HeaderCell scope="row">
                                 <EksternLenke
