@@ -4,8 +4,8 @@ import { Header } from "@navikt/ds-react-internal";
 import { Søkefelt } from "./Søkefelt";
 import { NavFarger } from "../../styling/farger";
 import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/brukerinformasjon";
-import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 import { SesjonBanner } from "../Banner/SesjonBanner";
+import { ProblemerMedPubliseringBanner } from "../Banner/ProblemerMedPubliseringBanner";
 
 const DemoversjonTekst = styled(BodyShort)<{hidden: boolean}>`
   display: ${(props) => props.hidden ? "none" : "flex"};
@@ -74,7 +74,8 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
                 )}
             </Header>
             <SesjonBanner tokenUtløper={brukerInformasjon.tokenUtløper} />
-            <NyStatistikkPubliseresBanner />
+            {/*<NyStatistikkPubliseresBanner />*/}
+            <ProblemerMedPubliseringBanner /> {/* TODO: fjern banner når publisering er i orden igjen. 2023-06-02 */}
         </>
     )
 }
