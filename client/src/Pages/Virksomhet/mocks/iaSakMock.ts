@@ -183,3 +183,21 @@ export const iaSakFullførtOgLukket: IASak = {
     gyldigeNesteHendelser: [],
     lukket: true
 }
+
+export const iaSakIngenAktivitetPåOverEtKvartal: IASak = {
+    saksnummer: saksnummer,
+    orgnr: orgnr,
+    opprettetTidspunkt: new Date(2000, 11, 29),
+    opprettetAv: navIdent1,
+    endretTidspunkt: new Date(2000, 11, 31),
+    endretAv: navIdent2,
+    eidAv: navIdent2,
+    endretAvHendelseId: endretAv,
+    status: IAProsessStatusEnum.enum.KARTLEGGES,
+    gyldigeNesteHendelser: [
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS),
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL),
+        hendelseUtenÅrsak(IASakshendelseTypeEnum.enum.TILBAKE)
+    ],
+    lukket: false
+}

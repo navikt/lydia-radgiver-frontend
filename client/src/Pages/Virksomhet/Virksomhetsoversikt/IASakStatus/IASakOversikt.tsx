@@ -7,6 +7,7 @@ import { SakshendelsesKnapper } from "./EndreStatusKnappar/SakshendelsesKnapper"
 import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
 import { NavFarger } from "../../../../styling/farger";
 import { BorderRadius } from "../../../../styling/borderRadius";
+import { IngenAktivitetInfo } from "./IngenAktivitetInfo/IngenAktivitetInfo";
 
 export const IASakOversiktContainer = styled.div`
   display: flex;
@@ -71,6 +72,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => 
                 sak={sak}
                 hendelser={sak.gyldigeNesteHendelser}
             />
+            <IngenAktivitetInfo sak={sak} />
         </IASakOversiktContainer>
     );
 };

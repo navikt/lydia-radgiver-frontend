@@ -4,6 +4,7 @@ import {
     iaSakFullført,
     iaSakFullførtOgLukket,
     iaSakIkkeAktuell,
+    iaSakIngenAktivitetPåOverEtKvartal,
     iaSakKartlegges,
     iaSakKontaktes,
     iaSakViBistår,
@@ -86,3 +87,10 @@ export const FullfortOgLukket = {
         iaSak: iaSakFullførtOgLukket,
     }
 };
+
+export const IngenAktivitetPaLenge: Story = {
+    args: {
+        ...IkkeAktiv.args,
+        iaSak: iaSakIngenAktivitetPåOverEtKvartal,
+    }
+}
