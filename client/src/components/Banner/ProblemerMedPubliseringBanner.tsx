@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
 
