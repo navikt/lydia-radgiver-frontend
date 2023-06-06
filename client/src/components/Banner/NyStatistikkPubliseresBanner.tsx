@@ -3,6 +3,7 @@ import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
 import { useHentPubliseringsinfo } from "../../api/lydia-api";
 import { skalViseStatistikkKommer, skjulNyStatistikkBanner } from "../../util/nyStatistikkBannerUtils";
 import { Publiseringsinfo } from "../../domenetyper/publiseringsinfo";
+import { nesteKvartal } from "../../domenetyper/kvartal";
 
 export const NyStatistikkPubliseresBanner = () => {
     const {
@@ -36,9 +37,12 @@ interface NyStatistikkProps {
     publiseringsinfo: Publiseringsinfo;
 }
 const NyStatistikkKommerSnart = (props: NyStatistikkProps) => {
+    const nesteTilgjengeligKvartal =
+        nesteKvartal(props.publiseringsinfo.fraTil.til)
+
     return (
         <BannerMedLukkeknapp variant="info">
-            <Heading size="xsmall">Snart kommer sykefraværsstatistikk for {props.publiseringsinfo.fraTil.til.kvartal}. kvartal {props.publiseringsinfo.fraTil.til.årstall}</Heading>
+            <Heading size="xsmall">Snart kommer sykefraværsstatistikk for {nesteTilgjengeligKvartal.kvartal}. kvartal {nesteTilgjengeligKvartal.årstall}</Heading>
             <BodyShort>Fia blir oppdatert med nye tall i løpet av {props.publiseringsinfo.nestePubliseringsdato}.</BodyShort>
         </BannerMedLukkeknapp>
     )

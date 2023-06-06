@@ -12,4 +12,17 @@ export const kvartalFraTilSchema = z.object({
     til: kvartalSchema,
 })
 
+export const nesteKvartal = (kvartal: Kvartal) => {
+    if (kvartal.kvartal == 4) {
+        return {
+            årstall: kvartal.årstall + 1,
+            kvartal: 1
+        }
+    }
+    return {
+        årstall: kvartal.årstall,
+        kvartal: kvartal.kvartal + 1
+    }
+}
+
 export type KvartalFraTil = z.infer<typeof kvartalFraTilSchema>;
