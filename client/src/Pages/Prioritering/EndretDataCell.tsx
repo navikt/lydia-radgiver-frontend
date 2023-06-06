@@ -7,9 +7,10 @@ import { lokalDato } from "../../util/dato";
 
 interface Props {
     sistEndret: Date | null;
+    lukket: boolean;
 }
 
-export const EndretDataCell = ({sistEndret}: Props) => {
+export const EndretDataCell = ({sistEndret, lukket}: Props) => {
     if (!sistEndret) {
         return (
             <Table.DataCell>
@@ -17,7 +18,7 @@ export const EndretDataCell = ({sistEndret}: Props) => {
         )
     }
 
-    if (!aktivitetIForrigeKvartalEllerNyere(new Date(), sistEndret)) {
+    if (!aktivitetIForrigeKvartalEllerNyere(new Date(), sistEndret) && !lukket) {
         return (
             <Table.DataCell style={{fontWeight: "bold", whiteSpace: "nowrap"}}>
                 {lokalDato(sistEndret)}

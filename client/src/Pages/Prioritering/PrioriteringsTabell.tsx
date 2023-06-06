@@ -9,6 +9,7 @@ import { SøkeresultatFooter } from "./SøkeresultatFooter";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { EndretDataCell } from "./EndretDataCell";
+import { IAProsessStatusEnum } from "../../domenetyper/domenetyper";
 
 interface Kolonne {
     key: string,
@@ -134,7 +135,7 @@ export const PrioriteringsTabell = ({
                             <Table.DataCell>
                                 <StatusBadge status={virksomhetsoversikt.status} />
                             </Table.DataCell>
-                            <EndretDataCell sistEndret={virksomhetsoversikt.sistEndret} />
+                            <EndretDataCell sistEndret={virksomhetsoversikt.sistEndret} lukket={virksomhetsoversikt.status === IAProsessStatusEnum.enum.IKKE_AKTIV} />
                             <Table.HeaderCell scope="row">
                                 <EksternLenke
                                     target={`${virksomhetsoversikt.orgnr}`}
