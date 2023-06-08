@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button, Table } from "@navikt/ds-react";
-import { DeleteFilled as Delete } from "@navikt/ds-icons";
+import { TrashFillIcon as Delete } from "@navikt/aksel-icons";
 import { Leveranse as LeveranseType, LeveranseStatusEnum } from "../../../domenetyper/leveranse";
 import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";

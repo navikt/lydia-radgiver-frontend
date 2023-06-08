@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import cl from "clsx";
 import Item from "@navikt/ds-react/esm/pagination/PaginationItem";
-import { Back, Next } from "@navikt/ds-icons";
+import { ChevronLeftIcon as Back, ChevronRightIcon as Next } from "@navikt/aksel-icons";
 import { BodyShort } from "@navikt/ds-react";
 import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
 
