@@ -1,4 +1,3 @@
-import axios from "axios";
 import { NextFunction, Request, Response } from "express";
 import { URLSearchParams } from "url";
 import { Azure, Config } from "./config";
@@ -69,10 +68,9 @@ export const validerTokenFraWonderwall =
     };
 
 export const validerTokenFraFakedings =
-    (azure: Azure, jwkSet: JWKSetRetriever) =>
+    (azure: Azure, _) =>
     async (req: Request, res: Response, next: NextFunction) => {
-        const { data: bearerToken } = await axios.get(azure.tokenEndpoint);
-        res.locals.on_behalf_of_token = bearerToken;
+        res.locals.on_behalf_of_token = await fetch(azure.tokenEndpoint);
         return next();
     };
 
@@ -95,25 +93,21 @@ export const hentOnBehalfOfToken = async (
         params.append("scope", scope);
         params.append("requested_token_use", "on_behalf_of");
         try {
-            const result = await axios.post<AzureTokenResponse>(
-                config.azure.tokenEndpoint,
-                params,
-                { headers: { "content-type": "application/x-www-form-urlencoded" } }
-            );
+            const result = await fetch(config.azure.tokenEndpoint, {
+                method: "POST",
+                headers : {
+                    "content-type": "application/x-www-form-urlencoded"
+                },
+                body: params
+            }).then((res) => res.json())
+            .then((data) => data as AzureTokenResponse)
+
             req.session.accessToken = await encrypt(accessToken)
-            req.session.azureOboToken = await encrypt(result.data.access_token);
-            return result.data.access_token;
+            req.session.azureOboToken = await encrypt(result.access_token);
+            return result.access_token;
         } catch (error) {
             if (error instanceof Error) {
-                if (axios.isAxiosError(error)) {
-                    throw new AuthError(
-                        `Feil under uthenting av OBO token: ${JSON.stringify(
-                            error.response?.data
-                        )}`
-                    );
-                } else {
-                    throw new AuthError("Ukjent feil: " + error.message);
-                }
+                throw new AuthError("Ukjent feil: " + error.message);
             }
         }
     }
