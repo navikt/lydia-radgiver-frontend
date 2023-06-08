@@ -12,7 +12,7 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: "16"
+          node-version: "18"
           registry-url: "https://npm.pkg.github.com"
       - name: Install deps server
         working-directory: server
@@ -75,7 +75,7 @@ jobs:
         cluster: [dev]
     name: Deploy app to ${{ matrix.cluster }}
     needs: build
-    if: github.ref == 'refs/heads/csp-directives-for-amplitude'
+    if: github.ref == 'refs/heads/node18'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
