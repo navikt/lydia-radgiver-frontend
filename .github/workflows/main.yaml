@@ -3,6 +3,9 @@ on: [push]
 
 jobs:
   build:
+    permissions:
+      contents: "read"
+      id-token: "write"
     name: Build, lint, test and push docker image
     runs-on: ubuntu-latest
     steps:
