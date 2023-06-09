@@ -1,8 +1,6 @@
 name: Build and deploy lydia-radgiver-frontend
 on: [push]
 
-env:
-  IMAGE: ghcr.io/${{ github.repository }}:${{ github.sha }}
 jobs:
   build:
     name: Build, lint, test and push docker image
@@ -36,19 +34,16 @@ jobs:
         run: npm run build
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v2
-      - name: Login to GitHub Docker Registry
-        uses: docker/login-action@v2
+      - name: Build and push docker image
+        uses: nais/docker-build-push@v0
+        id: docker-push
         with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-      - name: Build and push
-        id: docker_build
-        uses: docker/build-push-action@v3
-        with:
-          push: true
-          tags: ghcr.io/${{ github.repository }}:latest,${{ env.IMAGE }}
-          context: .
+          team: pia
+          tag: latest
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+    outputs:
+      image: ${{ steps.docker-push.outputs.image }}
 
   deploy:
     strategy:
@@ -67,22 +62,21 @@ jobs:
           CLUSTER: ${{ matrix.cluster }}-gcp
           RESOURCE: .nais/nais.yaml
           VARS: .nais/${{ matrix.cluster }}.yaml
+          VAR: image=${{ needs.build.outputs.image }}
 
 
-  deploy-to-dev:
-    strategy:
-      matrix:
-        cluster: [dev]
-    name: Deploy app to ${{ matrix.cluster }}
+  deploy-branch-to-dev:
+    name: Deploy app to dev
     needs: build
     if: github.ref == 'refs/heads/node18'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - name: Deploy to ${{ matrix.cluster }}
+      - name: Deploy to dev
         uses: nais/deploy/actions/deploy@v1
         env:
           APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-          CLUSTER: ${{ matrix.cluster }}-gcp
+          CLUSTER: dev-gcp
           RESOURCE: .nais/nais.yaml
-          VARS: .nais/${{ matrix.cluster }}.yaml
+          VARS: .nais/dev.yaml
+          VAR: image=${{ needs.build.outputs.image }}
