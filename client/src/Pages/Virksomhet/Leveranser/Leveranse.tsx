@@ -5,7 +5,7 @@ import { Leveranse as LeveranseType, LeveranseStatusEnum } from "../../../domene
 import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";
 import { merkLeveranseSomLevert, slettLeveranse, useHentBrukerinformasjon, useHentLeveranser } from "../../../api/lydia-api";
-import { IASak } from "../../../domenetyper/domenetyper";
+import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { useState } from "react";
 import { RolleEnum } from "../../../domenetyper/brukerinformasjon";
@@ -50,6 +50,7 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerMedLesetilgang = brukerInformasjon?.rolle === RolleEnum.enum.Lesetilgang;
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
+    const sakenErIViBistår = iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR;
 
     const vedMerkLeveranseSomLevert = () => {
         merkLeveranseSomLevert(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
@@ -68,7 +69,7 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
         <Table.Row shadeOnHover={false}>
             <ModulNavn>{`${leveranse.modul.navn}`}</ModulNavn>
             <DataCellNoWrap>{`Tentativ frist: ${lokalDato(leveranse.frist)}`}</DataCellNoWrap>
-            {brukerMedLesetilgang ? null :
+            {(brukerMedLesetilgang || !sakenErIViBistår) ? null :
                 <Table.DataCell>
                     <LevertKnapp onClick={vedMerkLeveranseSomLevert} disabled={erLevert || !brukerErEierAvSak} size="small">
                         Levert
@@ -81,7 +82,7 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
                     : `Levert: ${lokalDato(leveranse.fullført)}`
                 }
             </DataCellNoWrap>
-            {brukerMedLesetilgang ? null :
+            {(brukerMedLesetilgang || !sakenErIViBistår) ? null :
                 <Table.DataCell align="right">
                     <FjernLeveranseKnapp onClick={() => setBekreftValgModalÅpen(true)}
                                          disabled={!brukerErEierAvSak}
