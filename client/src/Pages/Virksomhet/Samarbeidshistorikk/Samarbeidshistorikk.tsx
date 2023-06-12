@@ -6,6 +6,7 @@ import { SakshistorikkTabell } from "./SakshistorikkTabell";
 import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 import { useHentSamarbeidshistorikk } from "../../../api/lydia-api";
 import { tabInnholdStyling } from "../../../styling/containere";
+import { LeveransehistorikkTabell } from "./LeveransehistorikkTabell";
 
 const Container = styled.div`
   display: grid;
@@ -67,6 +68,11 @@ export const Samarbeidshistorikk = ({ orgnr, className }: SamarbeidshistorikkPro
                                 </AccordionHeaderContent>
                             </Accordion.Header>
                             <Accordion.Content>
+                                <LeveransehistorikkTabell
+                                    orgnr={orgnr}
+                                    saksnummer={sakshistorikk.saksnummer}
+                                />
+                                <br/>
                                 <SakshistorikkTabell
                                     key={sakshistorikk.saksnummer}
                                     sakshistorikk={sakshistorikk}
