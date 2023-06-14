@@ -37,7 +37,7 @@ export const LeveransehistorikkTabell = ({ orgnr, saksnummer } : Leveransehistor
 
             {fullførteLeveranser.length
                 ?
-                <StyledTable zebraStripes={true}>
+                <StyledTable>
                     <Table.Header>
                         <Table.Row>
                             <Table.HeaderCell>

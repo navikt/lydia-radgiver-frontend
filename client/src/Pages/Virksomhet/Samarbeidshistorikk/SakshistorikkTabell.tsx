@@ -15,7 +15,7 @@ export const SakshistorikkTabell = ({ sakshistorikk }: SakshistorikkTabellProps)
     return (
         <>
             <h3>Sakshistorikk</h3>
-            <StyledTable zebraStripes={true}>
+            <StyledTable>
                 <Table.Header>
                     <Table.Row>
                         {kolonneNavn.map((navn) => (
