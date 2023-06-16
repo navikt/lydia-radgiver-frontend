@@ -14,11 +14,9 @@
     "prepare": "cd .. && husky install client/.husky"
   },
   "dependencies": {
-    "@navikt/aksel-icons": "3.4.2",
-    "@navikt/ds-css": "3.4.2",
-    "@navikt/ds-css-internal": "3.4.2",
-    "@navikt/ds-react": "3.4.2",
-    "@navikt/ds-react-internal": "3.4.2",
+    "@navikt/aksel-icons": "4.0.0",
+    "@navikt/ds-css": "4.0.0",
+    "@navikt/ds-react": "4.0.0",
     "@storybook/addon-styling": "1.0.8",
     "amplitude-js": "8.21.8",
     "react": "18.2.0",

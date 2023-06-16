@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { BodyShort, Link } from "@navikt/ds-react";
-import { Header } from "@navikt/ds-react-internal";
+import { BodyShort, Link, InternalHeader } from "@navikt/ds-react";
 import { Søkefelt } from "./Søkefelt";
 import { NavFarger } from "../../styling/farger";
 import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/brukerinformasjon";
@@ -38,7 +37,7 @@ const LenkeTilStatusoversikt = styled(Link)`
   }
 `;
 
-const Brukerinformasjon = styled(Header.User)`
+const Brukerinformasjon = styled(InternalHeader.User)`
   margin-left: auto; // dyttar søkefeltet inn til midten
   color: ${NavFarger.white}
 `;
@@ -52,13 +51,13 @@ export const erIDev = ["localhost", "fia.intern.dev.nav.no"].includes(window.loc
 export const Dekoratør = ({brukerInformasjon}: Props) => {
     return (
         <>
-            <Header className="w-full" data-theme="light">
+            <InternalHeader className="w-full" data-theme="light">
                 <Navigasjon>
                     <LenkeTilSøkesiden href="/" title="Gå til søkesiden">
-                        <Header.Title as="h1">Fia</Header.Title>
+                        <InternalHeader.Title as="h1">Fia</InternalHeader.Title>
                     </LenkeTilSøkesiden>
                     <LenkeTilStatusoversikt href="/statusoversikt" title="Gå til statusoversiktsiden">
-                        <Header.Title>Statusoversikt</Header.Title>
+                        <InternalHeader.Title>Statusoversikt</InternalHeader.Title>
                     </LenkeTilStatusoversikt>
                 </Navigasjon>
                 <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
@@ -72,7 +71,7 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
                         description={brukerInformasjon.ident}
                     />
                 )}
-            </Header>
+            </InternalHeader>
             <SesjonBanner tokenUtløper={brukerInformasjon.tokenUtløper} />
             <NyStatistikkPubliseresBanner />
         </>

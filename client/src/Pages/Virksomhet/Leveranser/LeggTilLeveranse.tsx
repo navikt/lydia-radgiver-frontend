@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { BodyShort, Button, Heading, Select, UNSAFE_DatePicker, UNSAFE_useDatepicker } from "@navikt/ds-react";
+import { BodyShort, Button, Heading, Select, DatePicker, useDatepicker } from "@navikt/ds-react";
 import {
     nyLeveransePåSak,
     useHentBrukerinformasjon,
@@ -65,7 +65,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
     const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, iaSak.saksnummer)
 
 
-    const { datepickerProps, inputProps, selectedDay } = UNSAFE_useDatepicker({
+    const { datepickerProps, inputProps, selectedDay } = useDatepicker({
         fromDate: new Date(),
         onValidate: (val) => {
             if (val.isBefore) setForTidlig(true);
@@ -132,8 +132,8 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
                             <option value={modul.id} key={modul.id}>{modul.navn}</option>
                         )}
                 </Select>
-                <UNSAFE_DatePicker {...datepickerProps}>
-                    <UNSAFE_DatePicker.Input {...inputProps}
+                <DatePicker {...datepickerProps}>
+                    <DatePicker.Input {...inputProps}
                                              label="Tentativ frist"
                                              error={
                                                  (ugyldig &&
@@ -143,7 +143,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
                                              disabled={!brukerErEierAvSak}
                     />
 
-                </UNSAFE_DatePicker>
+                </DatePicker>
                 <LeggTilKnapp onClick={leggTilLeveranse} disabled={!brukerErEierAvSak || valgtModul === "" || !selectedDay}>Legg til</LeggTilKnapp>
             </Form>
         </div>
