@@ -2,7 +2,6 @@ import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import styled from "styled-components";
 import "@navikt/ds-css";
-import "@navikt/ds-css-internal";
 import { useHentBrukerinformasjon } from "./api/lydia-api";
 import { Prioriteringsside } from "./Pages/Prioritering/Prioriteringsside";
 import { desktopAndUp, largeDesktopAndUp } from "./styling/breakpoints";
