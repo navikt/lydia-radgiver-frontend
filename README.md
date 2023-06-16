@@ -122,7 +122,7 @@ Andre ting vi prøvde som kanskje/kanskje ikkje hjalp
 </details>
 
 
-###  [vite] http proxy error at /innloggetAnsatt
+###  `[vite] http proxy error at /innloggetAnsatt` + feilmelding om allokert port
 Dato: 2023-06-19  
 Utviklar: Ingrid og Thomas  
 Case:  
@@ -150,6 +150,91 @@ Feilsøking
 - Fjern dockar-containarar. Ingrid fjerna lydia-api + lydia-radgiver-frontend-frackend,  Thomas fjerna alle. Å fjerne alle tek litt lengre tid å køyre opp, men då funka localhost:2222 med ein gong etterpå, hos Ingrid funka ting etter at ho hadde hatt lunsj.  
 - `./run.sh -i` (eller `./run.sh -cfi` om du vil gjere dei to stega over ein ekstra gong)  
 - 🎉🎉🎉  
+
+</details>
+
+
+
+### `[vite] http proxy error at /innloggetAnsatt` (aka "den gongen vi ikkje googla feilmeldinga")
+Dato: 2023-06-20  
+Utviklar: Ingrid, (Christian og Per-Christian er med på feilsøking)  
+
+Case:  
+Får til å køyre opp frontend med /run.sh, men etter innlogging i OAuth får vi feilmelding i frontend og i terminalen.
+
+Frontend:  
+> Noe gikk feil ved innlasting av siden.   
+> Du kan prøve å logge inn på nytt ved å trykke på denne lenken.
+
+Terminal:  
+```bash
+10:22:57 AM [vite] http proxy error at /innloggetAnsatt:
+Error: connect ECONNREFUSED ::1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1494:16)
+```
+
+Får ikkje feilmeldingar ved køyring av ./run.sh før vi kallar ting frå frontend.
+
+<details>
+<summary>
+Feilsøking
+</summary>
+
+Vi prøvde mykje greier som vi skildrar lengre nede, men fann til slutt problemet ved å google feilmeldinga frå terminalen.  
+Dette er artiklane vi fann som forklarte problemet vårt:  
+- https://github.com/lima-vm/lima/issues/1330  
+- https://github.com/nodejs/node/issues/40702  
+
+#### Feilen, kort oppsummert:  
+Frå Node v17 vert ikkje IP-adresser lengre sortert med IPv4 fyrst. Dette gjer at datamaskina ikkje nødvendigvis finn localhost 127.0.0.1 (IPv4) før localhost ::1 (IPv6). Lima, som Colima er bygga på, støttar ikkje IPv6 enno. Det betyr:   
+Når Colima får ::1 som localhost klikkar ting.
+
+#### Løysing:
+Hardkode `127.0.0.1` som localhost-adresse i `vite.config.ts` i staden for å berre skrive `localhost`.
+
+
+
+Vi legg med ei oppsummering av ting vi prøvde før vi googla som ikkje fungerte, som ei påminning om å spørje internett før du tenker sjølv i fire timar.
+
+#### Feilsøking som ikkje funka
+
+- Ta ned alle containarar og volumes: `docker-compose down --remove-orphans -v`  
+- Køyr opp med `docker-compose up` i root og `npm run dev` i /client for meir gjennomsiktig logging.
+- Får feilmeldingar om "proxy error at /innloggetAnsatt". At noko skjer på :3000 tyder på at vi ikkje når frackend.
+- (Ein gong rundt her lurer Per-Christian på om IPv6 kan vere problemet, vi burde fylgd dette sporet allereie no.)
+- Sjekkar logs på frackend-container: `docker logs [container id]`. Dei er normale (typ 10-ish linjer)
+- Sjekkar logs på lydia-api, får masse vanleg ræl. 
+- Sjekkar isalive på dei ulike portane: http://localhost:3000/internal/isalive (frackend), http://localhost:8080/internal/isalive (backend)
+
+No veit vi:  
+- wonderwall er oppe (fordi vi får innloggingsprompt og svar på 2222)
+- frontend er oppe (fordi vi kan sjå feilmelding i nettlesaren)
+- frackend er oppe (isalive 3000)
+- backend er oppe (isalive 8080)  
+
+Meir feilsøking:  
+- inspiserar request i Networks i devtools i nettlesar. Får "500 internal server error" på /innloggetAnsatt.
+- Køyrar `./run.sh -cif`. Får `psql:/tmp/db_script.sql:4606: ERROR:  role "cloudsqliamuser" does not exist` i tillegg til den vanlege `role "testuser" does not exist`. Framleis feil i innlogging. Vi trur vi får denne fordi vi sletta volumes i -c-steget i run.sh
+
+Vi byrjar å bli svoltne, så då prøver vi drastiske ting.   
+- Fjerne alle "dangeling" images: `dc down`, så `docker image prune`. [Info om kva image prune gjer.](https://docs.docker.com/engine/reference/commandline/image_prune/) Dette fjerna tydelegvis 3-ish greier, mellom anna containaren "none". 
+- Fjernar resten av images: `dc down`, så `docker image prune -a`. Fjernar dangling images + alle utan minst ein container knytt til seg. Output: `Total reclaimed space: 5.966GB`.
+- `docker images` for å sjå om alt er borte. 
+- `./run.sh` på nytt medan vi et lunsj. Dette hjalp heller ikkje. Kult. Vi har sånn 7 docker-images no.
+-Vi prøver `docker-network prune`. `docker network ls`  listar nettverk. Vi hadde 3 stk. Etter `docker network prune` har vi framleis 3 stk. 
+- Vi stoppar Alt: `docker-compose down`, så `docker system prune -a`. Dette fjernar images, alle stoppa containarar, networks og volumes. `Total reclaimed space: 7.259GB`. Kult.
+- Vi restartar terminalen, i tilfelle det hjelp på noko. `docker-compose down` fyrst.
+- Googlar feilmelding: https://github.com/nodejs/node/issues/40702. Finn ut kva problemet var. Tek ein oppgitt pause.
+- Bytta ut localhost i vite.config.ts med 127.0.0.1. Då funka ting etter restart av run.sh.
+- 🎉🎉🎉
+
+#### Læringspunkt:
+- Å google ting burde ikkje vere steg 16, men kanskje sånn mellom 1 og 3 ein stad.
+- Lytt til Erfarne Fjellfolk når dei nevnar IPv6.
+- Om ei adresse ser litt rar ut – søk den opp med ein gong. ::1:3000 var jo litt rart, og ville nok leidd oss på rett veg.
+- Når feilmeldinga i terminal seier noko om TCP har kanskje feilen noko med nettverk å gjere.
+- Det er fint å notere feilsøkingssteg, då har vi betre oversikt over kva vi har gjort.
+- Guide frå tidlegare buggar var nyttig i å finne ein stad å starte feilsøkinga, sjølv om vi ikkje burde starta der.
 
 </details>
 
