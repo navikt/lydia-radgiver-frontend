@@ -90,7 +90,8 @@ Då kan du nå Storybook i ein nettlesar på adressa [localhost:6006](http://loc
 
 ## Ymse feilsøking
 ### Applikasjonen køyrer fint, men etter innlogging får du beskjed om å logge inn på nytt
-Dato: 2023-03-23
+Dato: 2023-03-23  
+Utviklar: Ingrid  
 Case:
 Frontend og backend køyrer fint. Frontend får opp oAuth. Backend responderer på [localhost:8080/internal/isAlive](http://localhost:8080/internal/isalive). Etter innlogging får du feilmeldingsside med beskjed om "trykk her for å logge inn på nytt".
 
@@ -100,15 +101,16 @@ Feilsøking
 </summary>
 Sjekk docker logs på frackend
 `docker ps`
-Kopier CONTAINER ID
+Kopier CONTAINER ID for lydia-radgiver-frontend-frackend 
 `docker logs [CONTAINER ID HERE]`
 Sjekk om du får feilmeldingar her.
 
 Fordi ein kan (og i tilfelle docker-imaget for frackend er gamalt)
+`docker images`, hent ut id for lydia-radgiver-frontend-frackend
 `docker rmi [CONTAINER ID HERE]`
 Gjer `/run.sh` på nytt
 
-Etter dette fungerte ting på magisk vis.
+Etter dette fungerte ting på magisk vis 2023-03-23.
 
 <br>
 
@@ -118,6 +120,39 @@ Andre ting vi prøvde som kanskje/kanskje ikkje hjalp
 - docker logs
 
 </details>
+
+
+###  [vite] http proxy error at /innloggetAnsatt
+Dato: 2023-06-19  
+Utviklar: Ingrid og Thomas  
+Case:  
+Får til å køyre opp frontend med /run.sh, men etter innlogging i OAuth får vi feilmelding i frontend og i terminalen.
+
+Frontend:
+> Noe gikk feil ved innlasting av siden.  
+> Du kan prøve å logge inn på nytt ved å trykke på denne lenken.
+
+Terminal:
+```bash
+10:22:57 AM [vite] http proxy error at /innloggetAnsatt:
+Error: connect ECONNREFUSED ::1:3000
+    at TCPConnectWrap.afterConnect [as oncomplete] (node:net:1494:16)
+```
+
+Ved ./run.sh fekk Thomas ein ei feilmelding om at ein port allereie var allokkert. Dette er truleg rota til problemet.
+
+<details>
+<summary>
+Feilsøking
+</summary>
+
+- Ta ned alle containarar og volumes: `docker-compose down --remove-orphans -v`  
+- Fjern dockar-containarar. Ingrid fjerna lydia-api + lydia-radgiver-frontend-frackend,  Thomas fjerna alle. Å fjerne alle tek litt lengre tid å køyre opp, men då funka localhost:2222 med ein gong etterpå, hos Ingrid funka ting etter at ho hadde hatt lunsj.  
+- `./run.sh -i` (eller `./run.sh -cfi` om du vil gjere dei to stega over ein ekstra gong)  
+- 🎉🎉🎉  
+
+</details>
+
 
 ---
 
