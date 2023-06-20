@@ -156,6 +156,38 @@ Feilsøking
 
 ---
 
+### Ukjent feil: Fetch not defined
+Oppdater til node 18
+Om du ikke har nvm sjekk ut [denne linken](https://medium.com/devops-techable/how-to-install-nvm-node-version-manager-on-macos-with-homebrew-1bc10626181) først.
+
+```bash
+nvm install 18 --latest-npm
+nvm alias default 18
+nvm use 18
+
+#evt:
+nvm install 18 --default --latest-npm
+nvm use 18
+
+#sjekk med:
+node -v
+```
+Kjør npm install på nytt i både server og client
+```bash
+cd client
+npm install
+cd ../server
+npm install
+```
+Stop docker images og slett frackend imaget
+```bash
+docker-compose down
+docker images | grep frackend
+docker rmi [image id]
+run.sh -cfi
+```
+* Profit!
+
 # Henvendelser
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub
