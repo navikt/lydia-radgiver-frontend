@@ -23,10 +23,11 @@ const AccordionHeaderContent = styled.div`
 
 interface SamarbeidshistorikkProps {
     orgnr: string;
+    sistEndret?: Date | null;
     className?: string;
 }
 
-export const Samarbeidshistorikk = ({ orgnr, className }: SamarbeidshistorikkProps) => {
+export const Samarbeidshistorikk = ({ orgnr, sistEndret, className }: SamarbeidshistorikkProps) => {
     const {
         data: samarbeidshistorikk,
         loading: lasterSamarbeidshistorikk
@@ -40,7 +41,7 @@ export const Samarbeidshistorikk = ({ orgnr, className }: SamarbeidshistorikkPro
         )
     }
 
-    if (!samarbeidshistorikk) {
+    if (!samarbeidshistorikk || !sistEndret) {
         return (
             <Container className={className}>
                 <p>Kunne ikke hente samarbeidshistorikk</p>
@@ -63,8 +64,7 @@ export const Samarbeidshistorikk = ({ orgnr, className }: SamarbeidshistorikkPro
                             <Accordion.Header>
                                 <AccordionHeaderContent>
                                     <StatusBadge status={sakshistorikk.sakshendelser[0].status} />
-                                    Sist oppdatert: {lokalDato(sakshistorikk.sakshendelser[0].tidspunktForSnapshot)} -
-                                    Saksnummer: {sakshistorikk.saksnummer}
+                                    Sist oppdatert: {lokalDato(sistEndret)} - Saksnummer: {sakshistorikk.saksnummer}
                                 </AccordionHeaderContent>
                             </Accordion.Header>
                             <Accordion.Content>

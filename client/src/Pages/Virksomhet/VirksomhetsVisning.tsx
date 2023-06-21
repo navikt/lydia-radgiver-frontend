@@ -42,7 +42,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     {iaSak && <Tabs.Tab value="leveranser" label="Leveranser" />}
                 </Tabs.List>
                 <StyledPanel value="samarbeidshistorikk">
-                    <Samarbeidshistorikk orgnr={virksomhet.orgnr} />
+                    <Samarbeidshistorikk orgnr={virksomhet.orgnr} sistEndret={iaSak?.endretTidspunkt} />
                 </StyledPanel>
                 <StyledPanel value="leveranser">
                     {iaSak && <Leveranser iaSak={iaSak} />}
