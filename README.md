@@ -242,7 +242,14 @@ Vi byrjar å bli svoltne, så då prøver vi drastiske ting.
 ---
 
 ### Ukjent feil: Fetch not defined
+Dato: 2023-06-20  
+Utvikler: Per-Christian  
+Case: får feilmelding `Ukjent feil: Fetch not defined`
+
+<details>
+<summary>
 Oppdater til node 18
+</summary>
 Om du ikke har nvm sjekk ut [denne linken](https://medium.com/devops-techable/how-to-install-nvm-node-version-manager-on-macos-with-homebrew-1bc10626181) først.
 
 ```bash
@@ -272,6 +279,8 @@ docker rmi [image id]
 run.sh -cfi
 ```
 * Profit!
+
+</details>
 
 # Henvendelser
 
