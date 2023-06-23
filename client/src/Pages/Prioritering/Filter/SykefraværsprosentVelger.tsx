@@ -22,6 +22,7 @@ function SykefraværsprosentInput({ value, label, hideLabel = false, onChange }:
             type={"number"}
             min={"0"}
             max={"100"}
+            step={0.01}
             value={`${value}`}
             label={label}
             hideLabel={hideLabel}
