@@ -61,7 +61,8 @@
   },
   "overrides": {
     "glob-parent": "6.0.2",
-    "loader-utils": "1.4.2"
+    "loader-utils": "1.4.2",
+    "semver": "7.5.2"
   },
   "msw": {
     "workerDirectory": "public"
