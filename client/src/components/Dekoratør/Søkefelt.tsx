@@ -14,6 +14,7 @@ export const Søkefelt = ({ style }: Props) => {
     const [firmaer, setFirmaer] = useState<VirksomhetSøkeresultat[]>([])
     const [søkestreng, setSøkestreng] = useState("")
     const faktiskSøkestreng = useDebounce(søkestreng, 300)
+
     useEffect(() => {
         if (faktiskSøkestreng.length >= 3) {
             fetch(`${virksomhetAutocompletePath}?q=${faktiskSøkestreng}`)
@@ -28,7 +29,7 @@ export const Søkefelt = ({ style }: Props) => {
                 placeholder="Søk etter virksomhet"
                 ref={searchRef}
                 label="Søk etter virksomhet"
-                variant="primary"
+                variant="simple"
                 onChange={(innhold) => setSøkestreng(innhold)}
                 onClear={() => setSøkestreng("")}
             />
@@ -59,4 +60,3 @@ export const Søkefelt = ({ style }: Props) => {
         </div>
     );
 }
-
