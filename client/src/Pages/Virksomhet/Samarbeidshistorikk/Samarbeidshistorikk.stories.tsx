@@ -15,7 +15,6 @@ type Story = StoryObj<typeof meta>
 export const FlereSaker: Story = {
     args: {
         orgnr: "123456789",
-        sistEndret: new Date(),
     },
     parameters: {
         msw: {
