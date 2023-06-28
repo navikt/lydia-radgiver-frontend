@@ -11,6 +11,7 @@ const sakSnapshotSchema = z.object({
 export const sakshistorikkSchema = z.object({
     saksnummer: z.string(),
     opprettet: datoSchema,
+    sistEndret: datoSchema.optional(), // TODO endre til obligatorisk når backend sender dette feltet
     sakshendelser: sakSnapshotSchema.array(),
 });
 
