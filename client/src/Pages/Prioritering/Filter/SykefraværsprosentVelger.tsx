@@ -22,12 +22,16 @@ function SykefraværsprosentInput({ value, label, hideLabel = false, onChange }:
             type={"number"}
             min={"0"}
             max={"100"}
-            step={0.01}
+            step={0.1}
             value={`${value}`}
             label={label}
             hideLabel={hideLabel}
             onChange={(e) => {
-                onChange(e.target.valueAsNumber);
+                const inputString = e.target.value;
+                const regexForTallMellom0Og100MedEnDesimal = /^(100(\.0{1,2})?|[0-9]?\d(\.\d)?)$/;
+                if (regexForTallMellom0Og100MedEnDesimal.test(inputString) || inputString=== "") {
+                    onChange(parseFloat(inputString));
+                }
             }}
         />
     );
