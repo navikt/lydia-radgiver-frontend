@@ -51,6 +51,7 @@ export const Samarbeidshistorikk = ({ orgnr, className }: SamarbeidshistorikkPro
     const sortertHistorikk = samarbeidshistorikk.map((historikk) => ({
         saksnummer: historikk.saksnummer,
         opprettet: historikk.opprettet,
+        sistEndret: historikk.sistEndret,
         sakshendelser: sorterSakshistorikkPåTid(historikk)
     }))
 
@@ -63,7 +64,7 @@ export const Samarbeidshistorikk = ({ orgnr, className }: SamarbeidshistorikkPro
                             <Accordion.Header>
                                 <AccordionHeaderContent>
                                     <StatusBadge status={sakshistorikk.sakshendelser[0].status} />
-                                    Sist oppdatert: {lokalDato(sakshistorikk.sakshendelser[0].tidspunktForSnapshot)} - Saksnummer: {sakshistorikk.saksnummer}
+                                    Sist oppdatert: {lokalDato(sakshistorikk.sistEndret)}
                                 </AccordionHeaderContent>
                             </Accordion.Header>
                             <Accordion.Content>
