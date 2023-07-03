@@ -1,9 +1,9 @@
 import { Table } from "@navikt/ds-react";
-import { FlowerPetalFallingIcon } from "@navikt/aksel-icons";
 import {
     aktivitetIForrigeKvartalEllerNyere
 } from "../Virksomhet/Virksomhetsoversikt/IASakStatus/IngenAktivitetInfo/datoTilKvartal";
 import { lokalDato } from "../../util/dato";
+import { Blomsterikon } from "../../components/Blomsterikon";
 
 interface Props {
     sistEndret: Date | null;
@@ -22,7 +22,7 @@ export const EndretDataCell = ({sistEndret, lukket}: Props) => {
         return (
             <Table.DataCell style={{fontWeight: "bold", whiteSpace: "nowrap"}}>
                 {lokalDato(sistEndret)}
-                <FlowerPetalFallingIcon title="Denne saken hadde ingen endringer gjennom hele forrige kvartal" />
+                <Blomsterikon title="Denne saken hadde ingen endringer gjennom hele forrige kvartal" />
             </Table.DataCell>
         );
     }

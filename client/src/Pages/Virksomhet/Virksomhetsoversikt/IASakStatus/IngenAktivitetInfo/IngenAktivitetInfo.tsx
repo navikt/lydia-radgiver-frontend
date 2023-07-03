@@ -1,10 +1,10 @@
 import styled from "styled-components";
-import { FlowerPetalFallingIcon } from '@navikt/aksel-icons';
 import { NavFarger } from "../../../../../styling/farger";
 import { BorderRadius } from "../../../../../styling/borderRadius";
 import { Skygger } from "../../../../../styling/skygger";
 import { aktivitetIForrigeKvartalEllerNyere } from "./datoTilKvartal";
 import { IASak } from "../../../../../domenetyper/domenetyper";
+import { Blomsterikon } from "../../../../../components/Blomsterikon";
 
 const Container = styled.p`
   background: ${NavFarger.orange100};
@@ -29,8 +29,8 @@ export const IngenAktivitetInfo = ({sak}: Props) => {
 
     return (
         <Container>
-            Ingen aktivitet har blitt registrert på saken i Fia gjennom hele forrige kvartal <FlowerPetalFallingIcon
-            fontSize={"1.125rem"} />
+            Ingen aktivitet har blitt registrert på saken i Fia gjennom hele forrige kvartal
+            <Blomsterikon fontSize={"1.125rem"} />
         </Container>
     )
 }
