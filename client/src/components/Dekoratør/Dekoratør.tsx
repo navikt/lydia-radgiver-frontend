@@ -28,9 +28,10 @@ const LenkeTilSøkesiden = styled(Link)`
   }
 `;
 
-const LenkeTilStatusoversikt = styled(Link)`
+const LenkeTilStatusoversikt = styled(InternalHeader.Title)`
   color: ${NavFarger.textInverted};
   text-decoration: none;
+  display: inline-flex;
 
   &:hover {
     text-decoration: underline;
@@ -56,8 +57,11 @@ export const Dekoratør = ({brukerInformasjon}: Props) => {
                     <LenkeTilSøkesiden href="/" title="Gå til søkesiden">
                         <InternalHeader.Title as="h1">Fia</InternalHeader.Title>
                     </LenkeTilSøkesiden>
-                    <LenkeTilStatusoversikt href="/statusoversikt" title="Gå til statusoversiktsiden">
-                        <InternalHeader.Title>Statusoversikt</InternalHeader.Title>
+                    <LenkeTilStatusoversikt
+                        href="/statusoversikt"
+                        title="Gå til statusoversiktsiden"
+                    >
+                        Statusoversikt
                     </LenkeTilStatusoversikt>
                 </Navigasjon>
                 <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
