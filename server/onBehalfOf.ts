@@ -47,7 +47,7 @@ export const validerAccessToken = (
                 feilmelding = `Token mottatt har ugyldig claim ${error.claim}`;
             } else {
                 feilmelding = "Tokenet er ikke gyldig";
-                logger.error("Ukjent feil: " + error.message);
+                logger.error("Ukjent feil under verifisering: " + error.message);
             }
             return Promise.reject(new AuthError(feilmelding));
         });
@@ -107,7 +107,7 @@ export const hentOnBehalfOfToken = async (
             return result.access_token;
         } catch (error) {
             if (error instanceof Error) {
-                throw new AuthError("Ukjent feil: " + error.message);
+                throw new AuthError("Ukjent feil under token exchange: " + error.message);
             }
         }
     }
