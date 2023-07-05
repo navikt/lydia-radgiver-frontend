@@ -93,6 +93,18 @@ export const loggSøkPåFylke = (
     })
 }
 
+export const loggSøkPåVirksomhet = (
+    søkstype: "vanlig" | "med *", //TODO: vurder andre navn på typer
+) => {
+    // Dataformat basert på forslag om taksonomi på https://github.com/navikt/analytics-taxonomy/tree/main/events/s%C3%B8k
+    logAmplitudeEvent("søk", {
+        destinasjon: "virksomhet/finn",
+        søkeord: søkstype,
+        komponent: Søkekomponenter.VIRKSOMHETSSØK,
+    })
+
+}
+
 export const loggModalTilbakeTilForrigeStatusLukket = (
     modalTittel: string,
     modalUnderskrift: string,
