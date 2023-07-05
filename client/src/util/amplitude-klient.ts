@@ -2,7 +2,7 @@ import amplitude, { AmplitudeClient } from "amplitude-js";
 import { maskerOrgnr } from "./amplitude-klient-utils";
 import { Fylke } from "../domenetyper/fylkeOgKommune";
 import { Rolle } from "../domenetyper/brukerinformasjon";
-import {IAProsessStatusType, IASakshendelseType} from "../domenetyper/domenetyper";
+import { IAProsessStatusType, IASakshendelseType } from "../domenetyper/domenetyper";
 
 const amplitudeKlient: AmplitudeClient = amplitude.getInstance();
 
@@ -54,7 +54,7 @@ const logAmplitudeEvent = (
     amplitudeKlient.logEvent(eventNavn, eventData);
 };
 
-export const setTilgangsnivå = (tilgangsnivå : Rolle) => {
+export const setTilgangsnivå = (tilgangsnivå: Rolle) => {
     if (!initialized) {
         const apiKey = isProduction()
             ? apiKeys.fiaProd
@@ -65,7 +65,7 @@ export const setTilgangsnivå = (tilgangsnivå : Rolle) => {
         });
         initialized = true;
     }
-    amplitudeKlient.setUserProperties({"tilgangsnivå" : tilgangsnivå});
+    amplitudeKlient.setUserProperties({ "tilgangsnivå": tilgangsnivå });
 };
 
 type SøkPåFylkeDestinasjoner =
@@ -74,15 +74,16 @@ type SøkPåFylkeDestinasjoner =
     | "statusoversikt?fylker"
     | "statusoversikt?kommuner"
 
-type SøkPåFylkeKomponenter =
-    | "prioritering"
-    | "statusoversikt"
-    | "virksomhetssøk"
+export const enum Søkekomponenter {
+    PRIORITERING = "prioritering",
+    STATUSOVERSIKT = "statusoversikt",
+    VIRKSOMHETSSØK = "virksomhetssøk"
+}
 
 export const loggSøkPåFylke = (
     fylke: Fylke,
     destinasjon: SøkPåFylkeDestinasjoner,
-    komponent: SøkPåFylkeKomponenter,
+    komponent: Søkekomponenter,
 ) => {
     // Dataformat basert på forslag om taksonomi på https://github.com/navikt/analytics-taxonomy/tree/main/events/s%C3%B8k
     logAmplitudeEvent("søk", {
