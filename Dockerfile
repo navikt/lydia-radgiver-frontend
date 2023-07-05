@@ -1,18 +1,13 @@
-FROM node:lts-alpine
+FROM cgr.dev/chainguard/node:latest
 
-ARG NODE_ENV
-ENV NODE_ENV $NODE_ENV
+ENV NODE_ENV=production
 
-WORKDIR /home/node/app
+WORKDIR /app
 
-COPY ./server/build build
-COPY ./client/dist client/dist
+COPY --chown=node:node ./server/build build
+COPY --chown=node:node ./client/dist client/dist
+COPY --chown=node:node ./server/package*.json ./
 
-# gi node-bruker riktige rettigheter 
-RUN chown -R node /home/node/app
-USER node
-
-COPY server/package*.json .
 RUN npm ci --production
 
-CMD ["node", "build/server.js"]
+CMD ["/app/build/server.js"]

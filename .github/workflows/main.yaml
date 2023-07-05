@@ -71,7 +71,7 @@ jobs:
   deploy-branch-to-dev:
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/node18'
+    if: github.ref == 'refs/heads/chainguard'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
