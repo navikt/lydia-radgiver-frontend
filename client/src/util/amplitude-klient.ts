@@ -94,7 +94,7 @@ export const loggSøkPåFylke = (
 }
 
 export const loggSøkPåVirksomhet = (
-    søkstype: "vanlig" | "med *", //TODO: vurder andre navn på typer
+    søkstype: "vanlig" | "med *",
 ) => {
     // Dataformat basert på forslag om taksonomi på https://github.com/navikt/analytics-taxonomy/tree/main/events/s%C3%B8k
     logAmplitudeEvent("søk", {

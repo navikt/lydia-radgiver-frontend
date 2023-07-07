@@ -4,6 +4,7 @@ import { useDebounce } from "../../util/useDebounce";
 import { virksomhetAutocompletePath } from "../../api/lydia-api";
 import { VirksomhetSøkeresultat } from "../../domenetyper/domenetyper";
 import { EksternLenke } from "../EksternLenke";
+import { loggSøkPåVirksomhet } from "../../util/amplitude-klient";
 
 interface Props {
     style?: CSSProperties
@@ -13,13 +14,18 @@ export const Søkefelt = ({ style }: Props) => {
     const searchRef = useRef<HTMLDivElement | null>(null)
     const [firmaer, setFirmaer] = useState<VirksomhetSøkeresultat[]>([])
     const [søkestreng, setSøkestreng] = useState("")
-    const faktiskSøkestreng = useDebounce(søkestreng, 300)
+    const faktiskSøkestreng = useDebounce(søkestreng, 500)
 
     useEffect(() => {
         if (faktiskSøkestreng.length >= 3) {
             fetch(`${virksomhetAutocompletePath}?q=${faktiskSøkestreng}`)
                 .then(res => res.json())
                 .then((data: VirksomhetSøkeresultat[]) => setFirmaer(data))
+
+            loggSøkPåVirksomhet(faktiskSøkestreng.includes("*")
+                ? "med *"
+                : "vanlig"
+            )
         }
     }, [faktiskSøkestreng])
 
@@ -44,7 +50,7 @@ export const Søkefelt = ({ style }: Props) => {
                     {firmaer.map(firma => (
                         <EksternLenke
                             key={firma.orgnr}
-                            style={{display: "block"}}
+                            style={{ display: "block" }}
                             href={`/virksomhet/${firma.orgnr}`}
                             target={`/virksomhet/${firma.orgnr}`}
                             onClick={() => {
