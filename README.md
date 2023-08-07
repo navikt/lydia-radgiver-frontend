@@ -282,6 +282,78 @@ run.sh -cfi
 
 </details>
 
+
+---
+
+### Error occurred while trying to proxy: 127.0.0.1:3000/sykefraversstatistikk/antallTreff?
+
+Dato: 2023-08-07
+Utviklar: Ingrid
+
+Case:
+Får timeout på api-kall og beskjed om feil i tilkopling til proxy. 
+Det er fyrste dag etter sommarferien, backend hadde 44 commits, frontend 4, sidan sist eg pulla.
+
+<details>
+<summary> Feilsøking </summary>@
+
+#### Problemet  
+Det er sannsynlegvis lenge sidan sist nokon prøvde å køyre opp Fia lokalt frå frontend, så eg mistenker feilen handlar om ei endring i backend som frontend ikkje har fått med seg.
+
+
+- får ikkje tak i filterverdiar fordi timeout(504): GET
+  http://localhost:2222/api/sykefraversstatistikk/filterverdier  
+- også timeout på http://localhost:2222/api/sykefraversstatistikk/publiseringsinfo  
+- Har også (forhåpentlegvis ikkje relaterte) feilmeldingar om at sida ikkje liker å skulle vise feilmelding-banner samstundes som den skal vise "ny statistikk publiseres"-banner  
+- Andre timeouts: GET
+  http://localhost:2222/api/sykefraversstatistikk og GET
+  http://localhost:2222/api/sykefraversstatistikk/antallTreff, sistnemnde får feilmeldingbanneret.  
+
+#### Feilsøking
+- ./run.sh -cfi
+- Sletta images som er relaterte  
+- Dobbeltsjekka at vi bruker same $DB_DUMP i backend og frontend
+- Sjekka for feilmeldingar etter ./run.sh  
+- Køyrer `pus` i terminal (`docker ps`), ser at lydia-api står som "restarting". Det pleier sjeldan vere bra.
+- (Har også "ReferenceError: utilsService is not defined" i frontend-konsollen)
+- Er på naisdevice, har oppdatert brew, har pulla nyaste frontend (og backend)
+
+- Køyrer opp med `dc up` og `npm run dev` i client. Får då feilmelding i terminal for docker: `lydia-radgiver-frontend-frackend-1    | [HPM] Error occurred while proxying request 127.0.0.1:3000/sykefraversstatistikk/publiseringsinfo to http://backend:8080/ [ENOTFOUND] (https://nodejs.org/api/errors.html#errors_common_system_errors)
+  `
+- Så kom det (kanskje?) gull:
+```
+lydia-radgiver-frontend-backend-1 exited with code 1
+lydia-radgiver-frontend-backend-1     | Picked up JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+lydia-radgiver-frontend-backend-1     | Listening for transport dt_socket at address: 5005
+lydia-radgiver-frontend-backend-1     | Exception in thread "main" 
+lydia-radgiver-frontend-backend-1     | java.lang.RuntimeException: Missing required variable STATISTIKK_METADATA_VIRKSOMHET_TOPIC
+lydia-radgiver-frontend-backend-1     | 	at no.nav.lydia.NaisEnvironmentKt.getEnvVar(NaisEnvironment.kt:155)
+lydia-radgiver-frontend-backend-1     | 	at no.nav.lydia.NaisEnvironmentKt.getEnvVar$default(NaisEnvironment.kt:154)
+lydia-radgiver-frontend-backend-1     | 	at no.nav.lydia.Kafka.<init>(NaisEnvironment.kt:83)
+lydia-radgiver-frontend-backend-1     | 	at no.nav.lydia.NaisEnvironment.<init>(NaisEnvironment.kt:14)
+lydia-radgiver-frontend-backend-1     | 	at no.nav.lydia.AppKt.startLydiaBackend(App.kt:69)
+lydia-radgiver-frontend-backend-1     | 	at no.nav.lydia.AppKt.main(App.kt:65)
+lydia-radgiver-frontend-backend-1     | 	at no.nav.lydia.AppKt.main(App.kt)
+lydia-radgiver-frontend-backend-1 exited with code 1
+```
+
+Legg til `STATISTIKK_METADATA_VIRKSOMHET_TOPIC` i `docker-compose.yaml`, hentar verdiar frå backend. Køyrer opp på nytt med `./run.sh -cfi`
+
+Denne gongen får eg feilmelding om `STATISTIKK_SEKTOR_TOPIC` etter å ha venta litt. Eg trur eg ser mønsteret.
+
+</details>
+
+Løysing:
+Leggje inn alle manglande kafka-topics i `docker-compose.yaml`. Hentar verdiar frå `nais.yaml` i backend (lydia-api). 
+
+Lærdom:
+- Framleis fint å køyre opp ting med `dc up` + `npm run dev`, då får ein betre feilmeldingar.
+- Det er lurt å la ting køyre ein stund etter at du har framprovosert feilen, i tilfelle terminalen spyttar ut fleire feilmeldingar etter kvart. Det gjorde den i dag. Det viste seg at om ein venta nokre minutt spytta den ut alle manglande topics.  
+
+---
+
+
+
 # Henvendelser
 
 Spørsmål knyttet til koden eller prosjektet kan stilles som issues her på GitHub
