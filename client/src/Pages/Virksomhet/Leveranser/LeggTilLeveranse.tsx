@@ -1,7 +1,8 @@
 import { useState } from "react";
-import { BodyShort, Button, Heading, Select, DatePicker, useDatepicker } from "@navikt/ds-react";
+import { BodyShort, Button, DatePicker, Heading, Select, useDatepicker } from "@navikt/ds-react";
 import {
     nyLeveransePåSak,
+    useHentAktivSakForVirksomhet,
     useHentBrukerinformasjon,
     useHentIATjenester,
     useHentLeveranser,
@@ -51,7 +52,6 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
     const {
         data: leveranserPerIATjeneste
     } = useHentLeveranser(iaSak.orgnr, iaSak.saksnummer);
-
     const {
         data: iaTjenester,
         loading: lasterIATjenester
@@ -63,6 +63,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
     const [valgtIATjeneste, setValgtIATjeneste] = useState("");
     const [valgtModul, setValgtModul] = useState("");
     const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, iaSak.saksnummer)
+    const { mutate: hentSakPåNytt } = useHentAktivSakForVirksomhet(iaSak.orgnr)
 
 
     const { datepickerProps, inputProps, selectedDay } = useDatepicker({
@@ -92,7 +93,10 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
             return;
         }
         nyLeveransePåSak(iaSak.orgnr, iaSak.saksnummer, Number(valgtModul), selectedDay)
-            .then(() => hentLeveranserPåNytt())
+            .then(() => {
+                hentLeveranserPåNytt()
+                hentSakPåNytt()
+            })
     }
 
     const erModulIkkeValgt = (modul: Modul): boolean => {
