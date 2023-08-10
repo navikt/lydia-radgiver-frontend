@@ -4,7 +4,13 @@ import { TrashFillIcon as Delete } from "@navikt/aksel-icons";
 import { Leveranse as LeveranseType, LeveranseStatusEnum } from "../../../domenetyper/leveranse";
 import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";
-import { merkLeveranseSomLevert, slettLeveranse, useHentBrukerinformasjon, useHentLeveranser } from "../../../api/lydia-api";
+import {
+    merkLeveranseSomLevert,
+    slettLeveranse,
+    useHentAktivSakForVirksomhet,
+    useHentBrukerinformasjon,
+    useHentLeveranser
+} from "../../../api/lydia-api";
 import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { useState } from "react";
@@ -46,6 +52,7 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
     const [bekreftValgModalÅpen, setBekreftValgModalÅpen] = useState(false)
     const erLevert = leveranse.status === LeveranseStatusEnum.enum.LEVERT;
     const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, leveranse.saksnummer);
+    const { mutate: hentSakPåNytt } = useHentAktivSakForVirksomhet(iaSak.orgnr)
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerMedLesetilgang = brukerInformasjon?.rolle === RolleEnum.enum.Lesetilgang;
@@ -54,7 +61,10 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
 
     const vedMerkLeveranseSomLevert = () => {
         merkLeveranseSomLevert(iaSak.orgnr, leveranse.saksnummer, leveranse.id)
-            .then(() => hentLeveranserPåNytt());
+            .then(() => {
+                hentLeveranserPåNytt()
+                hentSakPåNytt()
+            });
     }
 
     const vedSlettLeveranse = () => {
@@ -62,6 +72,7 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
             .then(() => {
                 setBekreftValgModalÅpen(false)
                 hentLeveranserPåNytt()
+                hentSakPåNytt()
             });
     }
 
