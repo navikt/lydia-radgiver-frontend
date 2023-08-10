@@ -1,10 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { SortState, Table } from "@navikt/ds-react";
+import { Link, SortState, Table } from "@navikt/ds-react";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
-import { EksternLenke } from "../../components/EksternLenke";
 import { SøkeresultatFooter } from "./SøkeresultatFooter";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
@@ -89,14 +88,14 @@ interface Props {
 }
 
 export const PrioriteringsTabell = ({
-    virksomhetsoversiktListe,
-    className,
-    side,
-    sortering,
-    endreSortering,
-    endreSide,
-    totaltAntallTreff,
-}: Props) => {
+                                        virksomhetsoversiktListe,
+                                        className,
+                                        side,
+                                        sortering,
+                                        endreSortering,
+                                        endreSide,
+                                        totaltAntallTreff,
+                                    }: Props) => {
     const onSortChange = (sortKey: string | undefined) => {
         if (sortKey == sortering.orderBy) {
             endreSortering({
@@ -135,14 +134,12 @@ export const PrioriteringsTabell = ({
                             <Table.DataCell>
                                 <StatusBadge status={virksomhetsoversikt.status} />
                             </Table.DataCell>
-                            <EndretDataCell sistEndret={virksomhetsoversikt.sistEndret} lukket={virksomhetsoversikt.status === IAProsessStatusEnum.enum.IKKE_AKTIV} />
+                            <EndretDataCell sistEndret={virksomhetsoversikt.sistEndret}
+                                            lukket={virksomhetsoversikt.status === IAProsessStatusEnum.enum.IKKE_AKTIV} />
                             <Table.HeaderCell scope="row">
-                                <EksternLenke
-                                    target={`${virksomhetsoversikt.orgnr}`}
-                                    href={`virksomhet/${virksomhetsoversikt.orgnr}`}
-                                >
+                                <Link href={`virksomhet/${virksomhetsoversikt.orgnr}`}>
                                     {virksomhetsoversikt.virksomhetsnavn}
-                                </EksternLenke>
+                                </Link>
                             </Table.HeaderCell>
                             <RightAllignedDataCell>
                                 {formaterSomHeltall(virksomhetsoversikt.antallPersoner)}
