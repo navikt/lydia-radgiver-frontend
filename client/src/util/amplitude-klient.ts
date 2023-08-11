@@ -105,6 +105,19 @@ export const loggSøkPåVirksomhet = (
 
 }
 
+export const enum filterverdiKategorier {
+    FYLKE = "_fylke",
+    KOMMUNE = "_kommune",
+    STATUS = "_status",
+    SEKTOR = "_sektor",
+    BRANSJE = "_bransje-og-næringsgruppe",
+    EIER = "_eier",
+    SYKEFRAVÆR_FRA = "_sykefravær-fra",
+    SYKEFRAVÆR_TIL = "_sykefravær-til",
+    ARBEIDSFORHOLD_FRA = "_arbeidsforhold-fra",
+    ARBEIDSFORHOLD_TIL = "_arbeidsforhold-til",
+}
+
 export const loggModalTilbakeTilForrigeStatusLukket = (
     modalTittel: string,
     modalUnderskrift: string,
