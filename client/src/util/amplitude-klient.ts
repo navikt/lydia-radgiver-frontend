@@ -124,12 +124,13 @@ type FiltersøkDestinasjoner =
 
 export const loggFilterverdiKategorier = (
     filterverdiKategorier: FilterverdiKategorier,
-    destinasjon: FiltersøkDestinasjoner
+    destinasjon: FiltersøkDestinasjoner,
+    søkekomponent: Søkekomponenter,
 ) => {
     logAmplitudeEvent("søk", {
         destinasjon: destinasjon,
         søkeord: filterverdiKategorier,
-        komponent: Søkekomponenter.VIRKSOMHETSSØK,
+        komponent: søkekomponent,
     });
 }
 
