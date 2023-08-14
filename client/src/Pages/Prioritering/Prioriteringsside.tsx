@@ -7,7 +7,13 @@ import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { FiltervisningState, useFiltervisningState } from "./Filter/filtervisning-reducer";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { SideContainer } from "../../styling/containere";
-import { loggSideLastet, loggSøkPåFylke, Søkekomponenter } from "../../util/amplitude-klient";
+import {
+    FilterverdiKategorier,
+    loggFilterverdiKategorier,
+    loggSideLastet,
+    loggSøkPåFylke,
+    Søkekomponenter
+} from "../../util/amplitude-klient";
 import { finnFylkerForKommuner } from "../../util/finnFylkeForKommune";
 import { Filterverdier } from "../../domenetyper/filterverdier";
 
@@ -79,6 +85,7 @@ export const Prioriteringsside = () => {
 
     function oppdaterSide(side: number, sortering?: SortState) {
         filtervisning?.state && filterverdier && loggSøkPåFylkeIAmplitude(filtervisning.state, filterverdier)
+        loggSøkMedFilterIAmplitude(filtervisning.state)
 
         filtervisning.oppdaterSide({
             side,
@@ -144,12 +151,104 @@ const loggSøkPåFylkeIAmplitude = (filtervisningstate: FiltervisningState, filt
         const fylker = finnFylkerForKommuner(filtervisningstate.kommuner, filterverdier.fylker);
 
         fylker.map((fylke) => {
-            return loggSøkPåFylke(
+                return loggSøkPåFylke(
                     fylke,
                     "sykefraversstatistikk?kommuner",
                     Søkekomponenter.PRIORITERING
                 )
             }
+        )
+    }
+}
+
+const loggSøkMedFilterIAmplitude = (filtervisningstate: FiltervisningState) => {
+    if (filtervisningstate.valgtFylke) {
+        loggFilterverdiKategorier(
+            FilterverdiKategorier.FYLKE,
+            "sykefraversstatistikk",
+            Søkekomponenter.PRIORITERING
+        )
+    }
+
+    if (filtervisningstate.kommuner.length) {
+        loggFilterverdiKategorier(
+            FilterverdiKategorier.KOMMUNE,
+            "sykefraversstatistikk",
+            Søkekomponenter.PRIORITERING
+        )
+    }
+
+    if (filtervisningstate.iaStatus) {
+        loggFilterverdiKategorier(
+            FilterverdiKategorier.STATUS,
+            "sykefraversstatistikk",
+            Søkekomponenter.PRIORITERING
+        )
+    }
+
+    if (filtervisningstate.sektor) {
+        loggFilterverdiKategorier(
+            FilterverdiKategorier.SEKTOR,
+            "sykefraversstatistikk",
+            Søkekomponenter.PRIORITERING
+        )
+    }
+
+    if (filtervisningstate.bransjeprogram.length) {
+        loggFilterverdiKategorier(
+            FilterverdiKategorier.BRANSJE,
+            "sykefraversstatistikk",
+            Søkekomponenter.PRIORITERING
+        )
+    }
+
+    if (filtervisningstate.næringsgrupper.length) {
+        loggFilterverdiKategorier(
+            FilterverdiKategorier.NÆRINGSGRUPPE,
+            "sykefraversstatistikk",
+            Søkekomponenter.PRIORITERING
+        )
+    }
+
+    if (filtervisningstate.eiere?.length) {
+        loggFilterverdiKategorier(
+            FilterverdiKategorier.EIER,
+            "sykefraversstatistikk",
+            Søkekomponenter.PRIORITERING
+        )
+    }
+
+    if (filtervisningstate.sykefraværsprosent.fra > 0) {
+        loggFilterverdiKategorier(
+            FilterverdiKategorier.SYKEFRAVÆR_FRA,
+            "sykefraversstatistikk",
+            Søkekomponenter.PRIORITERING
+        )
+    }
+
+    if (filtervisningstate.sykefraværsprosent.til < 100) {
+        loggFilterverdiKategorier(
+            FilterverdiKategorier.SYKEFRAVÆR_TIL,
+            "sykefraversstatistikk",
+            Søkekomponenter.PRIORITERING
+        )
+    }
+
+    if (filtervisningstate.antallArbeidsforhold.fra != 5) {
+        console.log("Antall arbeidsforhold fra: ", filtervisningstate.antallArbeidsforhold.fra)
+        loggFilterverdiKategorier(
+            FilterverdiKategorier.ARBEIDSFORHOLD_FRA,
+            "sykefraversstatistikk",
+            Søkekomponenter.PRIORITERING
+        )
+    }
+
+    if (filtervisningstate.antallArbeidsforhold.til) {
+        console.log("Antall arbeidsforhold til: ", filtervisningstate.antallArbeidsforhold.til)
+        loggFilterverdiKategorier(
+            FilterverdiKategorier.ARBEIDSFORHOLD_TIL,
+            "sykefraversstatistikk",
+            Søkekomponenter.PRIORITERING
         )
     }
 }
