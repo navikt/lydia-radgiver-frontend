@@ -105,7 +105,7 @@ export const loggSøkPåVirksomhet = (
 
 }
 
-export const enum filterverdiKategorier {
+export const enum FilterverdiKategorier {
     FYLKE = "_fylke",
     KOMMUNE = "_kommune",
     STATUS = "_status",
@@ -116,6 +116,21 @@ export const enum filterverdiKategorier {
     SYKEFRAVÆR_TIL = "_sykefravær-til",
     ARBEIDSFORHOLD_FRA = "_arbeidsforhold-fra",
     ARBEIDSFORHOLD_TIL = "_arbeidsforhold-til",
+}
+
+type FiltersøkDestinasjoner =
+    | "sykefraversstatistikk"
+    | "statusoversikt"
+
+export const loggFilterverdiKategorier = (
+    filterverdiKategorier: FilterverdiKategorier,
+    destinasjon: FiltersøkDestinasjoner
+) => {
+    logAmplitudeEvent("søk", {
+        destinasjon: destinasjon,
+        søkeord: filterverdiKategorier,
+        komponent: Søkekomponenter.VIRKSOMHETSSØK,
+    });
 }
 
 export const loggModalTilbakeTilForrigeStatusLukket = (
