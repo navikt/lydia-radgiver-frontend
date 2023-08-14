@@ -165,48 +165,48 @@ const loggSøkMedFilterIAmplitude = (filtervisningstate: FiltervisningState) => 
     const filter = [
         /* Filter som er enkeltverdiar */
         {
-            condition: filtervisningstate.valgtFylke,
-            filterloggeting: FilterverdiKategorier.FYLKE,
+            predikat: filtervisningstate.valgtFylke,
+            filterverdiKategori: FilterverdiKategorier.FYLKE,
         }, {
-            condition: filtervisningstate.sektor,
-            filterloggeting: FilterverdiKategorier.SEKTOR,
+            predikat: filtervisningstate.sektor,
+            filterverdiKategori: FilterverdiKategorier.SEKTOR,
         }, {
-            condition: filtervisningstate.iaStatus,
-            filterloggeting: FilterverdiKategorier.STATUS,
+            predikat: filtervisningstate.iaStatus,
+            filterverdiKategori: FilterverdiKategorier.STATUS,
         },
         /* Filter som er lister */
         {
-            condition: filtervisningstate.kommuner.length,
-            filterloggeting: FilterverdiKategorier.KOMMUNE,
+            predikat: filtervisningstate.kommuner.length,
+            filterverdiKategori: FilterverdiKategorier.KOMMUNE,
         }, {
-            condition: filtervisningstate.bransjeprogram.length,
-            filterloggeting: FilterverdiKategorier.BRANSJE,
+            predikat: filtervisningstate.bransjeprogram.length,
+            filterverdiKategori: FilterverdiKategorier.BRANSJE,
         }, {
-            condition: filtervisningstate.næringsgrupper.length,
-            filterloggeting: FilterverdiKategorier.NÆRINGSGRUPPE,
+            predikat: filtervisningstate.næringsgrupper.length,
+            filterverdiKategori: FilterverdiKategorier.NÆRINGSGRUPPE,
         }, {
-            condition: filtervisningstate.eiere?.length,
-            filterloggeting: FilterverdiKategorier.EIER,
+            predikat: filtervisningstate.eiere?.length,
+            filterverdiKategori: FilterverdiKategorier.EIER,
         },
         /* Filter som er rekkevidde (range, frå/til) */
         {
-            condition: filtervisningstate.sykefraværsprosent.fra > 0,
-            filterloggeting: FilterverdiKategorier.SYKEFRAVÆR_FRA,
+            predikat: filtervisningstate.sykefraværsprosent.fra > 0,
+            filterverdiKategori: FilterverdiKategorier.SYKEFRAVÆR_FRA,
         }, {
-            condition: filtervisningstate.sykefraværsprosent.til < 100,
-            filterloggeting: FilterverdiKategorier.SYKEFRAVÆR_TIL,
+            predikat: filtervisningstate.sykefraværsprosent.til < 100,
+            filterverdiKategori: FilterverdiKategorier.SYKEFRAVÆR_TIL,
         }, {
-            condition: filtervisningstate.antallArbeidsforhold.fra != 5,
-            filterloggeting: FilterverdiKategorier.ARBEIDSFORHOLD_FRA,
+            predikat: filtervisningstate.antallArbeidsforhold.fra != 5,
+            filterverdiKategori: FilterverdiKategorier.ARBEIDSFORHOLD_FRA,
         }, {
-            condition: filtervisningstate.antallArbeidsforhold.til,
-            filterloggeting: FilterverdiKategorier.ARBEIDSFORHOLD_TIL,
+            predikat: filtervisningstate.antallArbeidsforhold.til,
+            filterverdiKategori: FilterverdiKategorier.ARBEIDSFORHOLD_TIL,
         },]
 
     filter.map((filter) => {
-        if (filter.condition) {
+        if (filter.predikat) {
             loggFilterverdiKategorier(
-                filter.filterloggeting,
+                filter.filterverdiKategori,
                 "sykefraversstatistikk",
                 Søkekomponenter.PRIORITERING
             )
