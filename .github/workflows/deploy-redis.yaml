@@ -5,29 +5,22 @@ on:
         branches:
             - main
         paths:
-            - ".nais/redis.yaml" # Bare deploy Redis når denne config-filen endrer seg
-    workflow_dispatch:
+            - ".nais/redis.yaml" # Deploy Redis når nais-config endrer seg,
+            - ".github/workflows/deploy-redis.yaml" # og når denne workflowen endrer seg
+
+permissions: {}
 
 jobs:
-    deploy-redis-dev-gcp:
-        name: Deploy redis dev-gcp
+    deploy-redis:
+        strategy:
+            matrix:
+                cluster: [dev, prod]
+        name: Deploy redis to ${{ matrix.cluster }}
         runs-on: ubuntu-latest
         steps:
             - uses: actions/checkout@v3
             - uses: nais/deploy/actions/deploy@v1
               env:
                   APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  CLUSTER: dev-gcp
-                  RESOURCE: .nais/redis.yaml
-
-    deploy-redis-prod-gcp:
-        name: Deploy redis prod-gcp
-        needs: deploy-redis-dev-gcp
-        runs-on: ubuntu-latest
-        steps:
-            - uses: actions/checkout@v3
-            - uses: nais/deploy/actions/deploy@v1
-              env:
-                  APIKEY: ${{ secrets.NAIS_DEPLOY_APIKEY }}
-                  CLUSTER: prod-gcp
+                  CLUSTER: ${{ matrix.cluster }}-gcp
                   RESOURCE: .nais/redis.yaml
