@@ -4,7 +4,6 @@ on: [push]
 jobs:
   build:
     permissions:
-      contents: "read"
       id-token: "write"
     name: Build, lint, test and push docker image
     runs-on: ubuntu-latest
@@ -49,6 +48,7 @@ jobs:
       image: ${{ steps.docker-push.outputs.image }}
 
   deploy:
+    permissions: {}
     strategy:
       matrix:
         cluster: [dev, prod]
@@ -69,6 +69,7 @@ jobs:
 
 
   deploy-branch-to-dev:
+    permissions: {}
     name: Deploy app to dev
     needs: build
     if: github.ref == 'refs/heads/chainguard'
