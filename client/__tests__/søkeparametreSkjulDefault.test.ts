@@ -2,8 +2,8 @@ import { søkeverdierTilUrlSearchParams } from "../src/api/lydia-api";
 import { FiltervisningState } from "../src/Pages/Prioritering/Filter/filtervisning-reducer";
 import { Kommune } from "../src/domenetyper/fylkeOgKommune";
 
-describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
-    test("tomme søkeverdier resulterer i default-verdier for søkeparametre", () => {
+describe("oversettelse fra søkeverdier til URL-parametre i nettleservindu", () => {
+    test("tomme søkeverdier resulterer i søkeparametre uten noen verdier", () => {
         const søkeverdier: FiltervisningState = {
             antallArbeidsforhold: {
                 fra: 0,
@@ -19,14 +19,15 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
             },
         };
         const searchParams =
-            søkeverdierTilUrlSearchParams(søkeverdier).toString();
+            søkeverdierTilUrlSearchParams(søkeverdier,
+                true).toString();
 
         expect(searchParams).toBe(
-            "sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1"
+            ""
         );
     });
 
-    test("defaultverdier vises i søkeparametre", () => {
+    test("defaultverdier resulterer i søkeparametre uten noen verdier", () => {
         const søkeverdier: FiltervisningState = {
             antallArbeidsforhold: {
                 fra: 5,
@@ -42,17 +43,18 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
             },
         };
         const searchParams =
-            søkeverdierTilUrlSearchParams(søkeverdier).toString();
+            søkeverdierTilUrlSearchParams(søkeverdier,
+                true).toString();
 
         expect(searchParams).toBe(
-            "sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1"
+            ""
         );
     });
 
-    test("kommuner og fylker blir separert med komma som igjen blir escapet med %2C (og vi får med default-verdier)", () => {
+    test("kommuner og fylker blir separert med komma som igjen blir escapet med %2C (uten default-verdier)", () => {
         const kommuner: Kommune[] = [
-            { navn: "A", navnNorsk: "A", nummer: "0000" },
-            { navn: "B", navnNorsk: "B", nummer: "0001" },
+            {navn: "A", navnNorsk: "A", nummer: "0000"},
+            {navn: "B", navnNorsk: "B", nummer: "0001"},
         ];
         const søkeverdier: FiltervisningState = {
             antallArbeidsforhold: {
@@ -76,9 +78,10 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
             },
         };
         const searchParams =
-            søkeverdierTilUrlSearchParams(søkeverdier).toString();
+            søkeverdierTilUrlSearchParams(søkeverdier,
+                true).toString();
         expect(searchParams).toBe(
-            "kommuner=0000%2C0001&fylker=03&sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1"
+            `kommuner=0000%2C0001&fylker=03`
         );
     });
 });
