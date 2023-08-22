@@ -319,17 +319,20 @@ export const nyHendelsePåSak = (
 export const appendIfNotDefaultValue = <T>(
     key: string,
     value: T | undefined,
-    defaultValue: T | undefined,
+    defaultValue: T,
     mapper: (value: T) => string,
     params: URLSearchParams,
     skjulDefaultParametre: boolean,
 ) => {
-    if (!value) return;
-    if (value === defaultValue && skjulDefaultParametre) return;
+    const verdiBareBedre = !value ? defaultValue : value;
 
-    const valueToAdd = mapper(value);
+    if (verdiBareBedre === defaultValue && skjulDefaultParametre) return;
+
+    const valueToAdd = mapper(verdiBareBedre);
     if (valueToAdd.length === 0) return;
-    return params.append(key, valueToAdd);
+
+    params.append(key, valueToAdd);
+    return;
 };
 
 const appendIfPresent = <T>(

@@ -38,23 +38,23 @@ describe("Få rette parametrar i url", () => {
         expect(params).toEqual(forventaParams)
     })
 
-    // test("Skal returnere default-parameterar som default når skjulDefaultParametre=false", () => {
-    //     const params = new URLSearchParams();
-    //     const skjulDefaultParametre = false;
-    //     const verdi = NaN;
-    //     const defaultverdi = 5;
-    //     const forventaParams = new URLSearchParams();
-    //     forventaParams.append("ansatteFra", defaultverdi.toString())
-    //
-    //     appendIfNotDefaultValue(
-    //         "ansatteFra",
-    //         verdi,
-    //         defaultverdi,
-    //         (verdi: number) => (Number.isNaN(verdi) ? "" : `${verdi}`),
-    //         params,
-    //         skjulDefaultParametre,
-    //     )
-    //
-    //     expect(params).toEqual(forventaParams)
-    // })
+    test("Skal returnere default-parameterar som default når skjulDefaultParametre=false", () => {
+        const params = new URLSearchParams();
+        const skjulDefaultParametre = false;
+        const verdi = NaN;
+        const defaultverdi = 5;
+        const forventaParams = new URLSearchParams();
+        forventaParams.append("ansatteFra", defaultverdi.toString())
+
+        appendIfNotDefaultValue(
+            "ansatteFra",
+            verdi,
+            defaultverdi,
+            (verdi: number) => (Number.isNaN(verdi) ? "" : `${verdi}`),
+            params,
+            skjulDefaultParametre,
+        )
+
+        expect(params).toEqual(forventaParams)
+    })
 })
