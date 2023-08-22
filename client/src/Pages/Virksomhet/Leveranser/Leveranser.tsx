@@ -5,6 +5,7 @@ import { LeggTilLeveranse } from "./LeggTilLeveranse";
 import { LeveranseOversikt } from "./LeveranseOversikt";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { EksternLenke } from "../../../components/EksternLenke";
+import { EksternNavigeringKategorier, loggNavigeringMedEksternLenke } from "../../../util/amplitude-klient";
 
 const Container = styled.div`
   height: 100%;
@@ -32,8 +33,10 @@ export const Leveranser = ({ iaSak }: Props) => {
                 </BodyShort>
                 <BodyShort>
                     Du kan bare legge inn IA-tjenester og leveranser som er beskrevet i <EksternLenke
-                    href="https://navno.sharepoint.com/sites/fag-og-ytelser-veileder-for-inkluderende-arbeidsliv">IA-veilederen
-                    4.1-4.3</EksternLenke>.
+                    href="https://navno.sharepoint.com/sites/fag-og-ytelser-veileder-for-inkluderende-arbeidsliv"
+                    onClick={() => loggNavigeringMedEksternLenke(EksternNavigeringKategorier.IAVEILEDER)}>
+                    IA-veilederen 4.1-4.3
+                </EksternLenke>.
                 </BodyShort>
             </div>
             <LeveranseOversikt iaSak={iaSak} />

@@ -30,6 +30,7 @@ type NavsAmplitudeTopologiEventer =
     | "navigere"
     | "søk"
     | "saksstatus endret"
+    | "navigere ut av fia"
 
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
@@ -157,5 +158,19 @@ export const loggStatusendringPåSak = (
         hendelse: hendelse,
         fraStatus: fraStatus,
         navEnhet: "",
+    });
+}
+
+export const enum EksternNavigeringKategorier {
+    FIA_BRUKERVEILEDNING = "_fia-brukerveiledning",
+    IAVEILEDER = "_iaveileder",
+    TEAMKATALOGEN = "_teamkatalogen",
+}
+
+export const loggNavigeringMedEksternLenke = (
+    destinasjon: EksternNavigeringKategorier,
+) => {
+    logAmplitudeEvent("navigere ut av fia", {
+        destinasjon: destinasjon,
     });
 }

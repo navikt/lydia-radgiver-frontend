@@ -6,6 +6,7 @@ import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoints";
 import { BodyShort } from "@navikt/ds-react";
 import { useHentPubliseringsinfo} from "../../api/lydia-api";
 import { getGjeldendePeriodeTekst } from "../../util/gjeldendePeriodeSisteFireKvartal";
+import { EksternNavigeringKategorier, loggNavigeringMedEksternLenke } from "../../util/amplitude-klient";
 
 const StyledFooter = styled.footer`
   background-color: ${NavFarger.deepblue800};
@@ -47,7 +48,9 @@ export const Footer = () => {
                     Tall for "arbeidsforhold" er fra siste tilgjengelige kvartal.
                     Du finner flere detaljer om statistikk i `}
                 <EksternLenke
-                    href={"https://navno.sharepoint.com/sites/intranett-produktomrader-og-prosjekter/SitePages/FIA-brukerveiledning.aspx"}>
+                    href={"https://navno.sharepoint.com/sites/intranett-produktomrader-og-prosjekter/SitePages/FIA-brukerveiledning.aspx"}
+                    onClick={() => loggNavigeringMedEksternLenke(EksternNavigeringKategorier.FIA_BRUKERVEILEDNING)}
+                >
                     Brukerveiledning for Fia på Navet
                 </EksternLenke>
             </BodyShort>
