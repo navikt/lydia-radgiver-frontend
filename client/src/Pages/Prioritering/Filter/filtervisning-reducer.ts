@@ -362,7 +362,7 @@ export const useFiltervisningState = () => {
     const [search, setSearch] = useSearchParams();
 
     useEffect(() => {
-        const searchParams = søkeverdierTilUrlSearchParams(state);
+        const searchParams = søkeverdierTilUrlSearchParams(state, true);
         setSearch(searchParams, {
             replace: true,
         });

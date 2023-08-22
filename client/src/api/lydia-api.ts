@@ -316,15 +316,16 @@ export const nyHendelsePåSak = (
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
 };
 
-const appendIfNotDefaultValue = <T>(
+export const appendIfNotDefaultValue = <T>(
     key: string,
     value: T | undefined,
     defaultValue: T | undefined,
     mapper: (value: T) => string,
     params: URLSearchParams,
+    skjulDefaultParametre: boolean,
 ) => {
     if (!value) return;
-    if (value === defaultValue) return;
+    if (value === defaultValue && skjulDefaultParametre) return;
 
     const valueToAdd = mapper(value);
     if (valueToAdd.length === 0) return;
@@ -356,7 +357,8 @@ export const søkeverdierTilUrlSearchParams = ({
                                                   bransjeprogram,
                                                   eiere,
                                                   sektor,
-                                              }: FiltervisningState) => {
+                                              }: FiltervisningState,
+                                              skjulDefaultParametre: boolean = false) => {
     const params = new URLSearchParams();
     appendIfPresent(
         "kommuner",
@@ -382,14 +384,16 @@ export const søkeverdierTilUrlSearchParams = ({
         sykefraværsprosent.fra,
         0,
         (fra) => isNaN(fra) ? "" : fra.toFixed(2),
-        params
+        params,
+        skjulDefaultParametre,
     );
     appendIfNotDefaultValue(
         "sykefraversprosentTil",
         sykefraværsprosent.til,
         100,
         (til) => isNaN(til) ? "" : til.toFixed(2),
-        params
+        params,
+        skjulDefaultParametre,
     );
 
     appendIfNotDefaultValue(
@@ -397,7 +401,8 @@ export const søkeverdierTilUrlSearchParams = ({
         antallArbeidsforhold.fra,
         5,
         (fra) => (Number.isNaN(fra) ? "" : `${fra}`),
-        params
+        params,
+        skjulDefaultParametre,
     );
     appendIfPresent(
         "ansatteTil",
@@ -437,7 +442,8 @@ export const søkeverdierTilUrlSearchParams = ({
         "side",
         side,
         1,
-        (side) => "" + side, params
+        (side) => "" + side, params,
+        skjulDefaultParametre,
     );
     return params;
 };
