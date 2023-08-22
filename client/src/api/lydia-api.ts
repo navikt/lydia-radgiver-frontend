@@ -396,13 +396,13 @@ export const søkeverdierTilUrlSearchParams = ({
         "ansatteFra",
         antallArbeidsforhold.fra,
         5,
-        (fra) => (!Number.isNaN(fra) ? "" + fra : ""),
+        (fra) => (Number.isNaN(fra) ? "" : `${fra}`),
         params
     );
     appendIfPresent(
         "ansatteTil",
-        antallArbeidsforhold,
-        ({ til }) => (!Number.isNaN(til) ? "" + til : ""),
+        antallArbeidsforhold.til,
+        ( til ) => (Number.isNaN(til) ? "" : `${til}`),
         params
     );
 
