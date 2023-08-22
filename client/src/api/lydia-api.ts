@@ -322,13 +322,13 @@ export const appendIfNotDefaultValue = <T>(
     defaultValue: T,
     mapper: (value: T) => string,
     params: URLSearchParams,
-    skjulDefaultParametre: boolean,
+    skjulDefaultParametreIUrl: boolean,
 ) => {
-    const verdiBareBedre = !value ? defaultValue : value;
+    const faktiskVerdi = value ? value : defaultValue;
 
-    if (verdiBareBedre === defaultValue && skjulDefaultParametre) return;
+    if (faktiskVerdi === defaultValue && skjulDefaultParametreIUrl) return;
 
-    const valueToAdd = mapper(verdiBareBedre);
+    const valueToAdd = mapper(faktiskVerdi);
     if (valueToAdd.length === 0) return;
 
     params.append(key, valueToAdd);
@@ -361,7 +361,7 @@ export const søkeverdierTilUrlSearchParams = ({
                                                   eiere,
                                                   sektor,
                                               }: FiltervisningState,
-                                              skjulDefaultParametre: boolean = false) => {
+                                              skjulDefaultParametreIUrl: boolean = false) => {
     const params = new URLSearchParams();
     appendIfPresent(
         "kommuner",
@@ -388,7 +388,7 @@ export const søkeverdierTilUrlSearchParams = ({
         0,
         (fra) => isNaN(fra) ? "" : fra.toFixed(2),
         params,
-        skjulDefaultParametre,
+        skjulDefaultParametreIUrl,
     );
     appendIfNotDefaultValue(
         "sykefraversprosentTil",
@@ -396,7 +396,7 @@ export const søkeverdierTilUrlSearchParams = ({
         100,
         (til) => isNaN(til) ? "" : til.toFixed(2),
         params,
-        skjulDefaultParametre,
+        skjulDefaultParametreIUrl,
     );
 
     appendIfNotDefaultValue(
@@ -405,7 +405,7 @@ export const søkeverdierTilUrlSearchParams = ({
         5,
         (fra) => (Number.isNaN(fra) ? "" : `${fra}`),
         params,
-        skjulDefaultParametre,
+        skjulDefaultParametreIUrl,
     );
     appendIfPresent(
         "ansatteTil",
@@ -426,8 +426,16 @@ export const søkeverdierTilUrlSearchParams = ({
         (e) => e.map(({ navIdent }) => navIdent).join(","),
         params
     );
-    appendIfPresent("iaStatus", iaStatus, (status) => status, params);
-    appendIfPresent("sektor", sektor, (sektor) => sektor, params);
+    appendIfPresent(
+        "iaStatus",
+        iaStatus,
+        (status) => status,
+        params);
+    appendIfPresent(
+        "sektor",
+        sektor,
+        (sektor) => sektor,
+        params);
     appendIfPresent(
         "sorteringsnokkel",
         sorteringsnokkel,
@@ -446,7 +454,7 @@ export const søkeverdierTilUrlSearchParams = ({
         side,
         1,
         (side) => "" + side, params,
-        skjulDefaultParametre,
+        skjulDefaultParametreIUrl,
     );
     return params;
 };
