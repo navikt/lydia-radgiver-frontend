@@ -6,7 +6,7 @@ describe("oversettelse fra søkeverdier til URL-parametre i nettleservindu", () 
     test("tomme søkeverdier resulterer i søkeparametre uten noen verdier", () => {
         const søkeverdier: FiltervisningState = {
             antallArbeidsforhold: {
-                fra: 0,
+                fra: NaN,
                 til: NaN,
             },
             bransjeprogram: [],
@@ -14,8 +14,8 @@ describe("oversettelse fra søkeverdier til URL-parametre i nettleservindu", () 
             næringsgrupper: [],
             side: 1,
             sykefraværsprosent: {
-                fra: 0,
-                til: 0,
+                fra: NaN,
+                til: NaN,
             },
         };
         const searchParams =

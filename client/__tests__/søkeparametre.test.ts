@@ -6,7 +6,7 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
     test("tomme søkeverdier resulterer i default-verdier for søkeparametre", () => {
         const søkeverdier: FiltervisningState = {
             antallArbeidsforhold: {
-                fra: 0,
+                fra: NaN,
                 til: NaN,
             },
             bransjeprogram: [],
@@ -15,7 +15,7 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
             side: 1,
             sykefraværsprosent: {
                 fra: 0,
-                til: 0,
+                til: NaN,
             },
         };
         const searchParams =
@@ -51,8 +51,8 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
 
     test("kommuner og fylker blir separert med komma som igjen blir escapet med %2C (og vi får med default-verdier)", () => {
         const kommuner: Kommune[] = [
-            { navn: "A", navnNorsk: "A", nummer: "0000" },
-            { navn: "B", navnNorsk: "B", nummer: "0001" },
+            {navn: "A", navnNorsk: "A", nummer: "0000"},
+            {navn: "B", navnNorsk: "B", nummer: "0001"},
         ];
         const søkeverdier: FiltervisningState = {
             antallArbeidsforhold: {
@@ -81,4 +81,29 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
             "kommuner=0000%2C0001&fylker=03&sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1"
         );
     });
+
+    test("Ikkje bruk default-verdi for 'ansatteFra' når input er 0", () => {
+        const søkeverdier: FiltervisningState = {
+            antallArbeidsforhold: {
+                fra: 0,
+                til: 5,
+            },
+            bransjeprogram: [],
+            kommuner: [],
+            næringsgrupper: [],
+            side: 1,
+            sykefraværsprosent: {
+                fra: 0,
+                til: 100,
+            },
+        };
+
+        const searchParams =
+            søkeverdierTilUrlSearchParams(søkeverdier,
+            ).toString();
+
+        expect(searchParams).toBe(
+            "sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=0&ansatteTil=5&side=1"
+        );
+    })
 });

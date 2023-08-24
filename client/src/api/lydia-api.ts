@@ -39,7 +39,7 @@ import {
     VirksomhetsstatistikkSiste4Kvartaler,
     virksomhetsstatistikkSiste4KvartalerSchema
 } from "../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
-import {Publiseringsinfo, publiseringsinfoSchema} from "../domenetyper/publiseringsinfo";
+import { Publiseringsinfo, publiseringsinfoSchema } from "../domenetyper/publiseringsinfo";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -148,7 +148,8 @@ const useSwrTemplate = <T>(
     } = useSWR<T>(path, defaultFetcher, {
         ...defaultSwrConfiguration,
         ...config,
-        onErrorRetry: () => { /* Do nothing */}
+        onErrorRetry: () => { /* Do nothing */
+        }
     });
 
     if (!data && !fetchError) {
@@ -219,17 +220,17 @@ interface SøkeProps {
     initierSøk?: boolean;
 }
 
-export function useHentAntallTreff({ filterstate, initierSøk = true, }: SøkeProps) {
+export function useHentAntallTreff({filterstate, initierSøk = true,}: SøkeProps) {
     const antallTreffUrl = getSykefraværsstatistikkAntallTreffUrl(filterstate);
     return useSwrTemplate(initierSøk ? antallTreffUrl : null, z.number());
 }
 
-export const useHentStatusoversikt = ({ filterstate, initierSøk = true, }: SøkeProps) => {
+export const useHentStatusoversikt = ({filterstate, initierSøk = true,}: SøkeProps) => {
     const statusoversiktUrl = getStatusoversiktUrl(filterstate);
     return useSwrTemplate(initierSøk ? statusoversiktUrl : null, statusoversiktListeResponsSchema);
 };
 
-export const useHentVirksomhetsoversiktListe = ({ filterstate, initierSøk = true, }: SøkeProps) => {
+export const useHentVirksomhetsoversiktListe = ({filterstate, initierSøk = true,}: SøkeProps) => {
     const sykefraværUrl = getSykefraværsstatistikkUrl(filterstate); // Funfact: Endepunktet for virksomhetsoversikt heter "sykefravær"
     return useSwrTemplate(initierSøk ? sykefraværUrl : null, virksomhetsoversiktListeResponsSchema);
 };
@@ -311,7 +312,7 @@ export const nyHendelsePåSak = (
         saksnummer: sak.saksnummer,
         hendelsesType: hendelse.saksHendelsestype,
         endretAvHendelseId: sak.endretAvHendelseId,
-        ...(valgtÅrsak && { payload: JSON.stringify(valgtÅrsak) }),
+        ...(valgtÅrsak && {payload: JSON.stringify(valgtÅrsak)}),
     };
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
 };
@@ -324,7 +325,7 @@ export const appendIfNotDefaultValue = <T>(
     params: URLSearchParams,
     skjulDefaultParametreIUrl: boolean,
 ) => {
-    const faktiskVerdi = value ? value : defaultValue;
+    const faktiskVerdi = (value || value === 0) ? value : defaultValue;
 
     if (faktiskVerdi === defaultValue && skjulDefaultParametreIUrl) return;
 
@@ -366,19 +367,19 @@ export const søkeverdierTilUrlSearchParams = ({
     appendIfPresent(
         "kommuner",
         kommuner,
-        (k) => k.map(({ nummer }) => nummer).join(","),
+        (k) => k.map(({nummer}) => nummer).join(","),
         params
     );
     appendIfPresent(
         "fylker",
         fylkeMedKommune,
-        ({ fylke: { nummer } }) => nummer,
+        ({fylke: {nummer}}) => nummer,
         params
     );
     appendIfPresent(
         "neringsgrupper",
         næringsgrupper,
-        (grupper) => grupper.map(({ kode }) => kode).join(","),
+        (grupper) => grupper.map(({kode}) => kode).join(","),
         params
     );
 
@@ -410,7 +411,7 @@ export const søkeverdierTilUrlSearchParams = ({
     appendIfPresent(
         "ansatteTil",
         antallArbeidsforhold.til,
-        ( til ) => (Number.isNaN(til) ? "" : `${til}`),
+        (til) => (Number.isNaN(til) ? "" : `${til}`),
         params
     );
 
@@ -423,7 +424,7 @@ export const søkeverdierTilUrlSearchParams = ({
     appendIfPresent(
         "eiere",
         eiere,
-        (e) => e.map(({ navIdent }) => navIdent).join(","),
+        (e) => e.map(({navIdent}) => navIdent).join(","),
         params
     );
     appendIfPresent(
