@@ -114,19 +114,22 @@ services:
       KAFKA_TRUSTSTORE_PATH: ""
       KAFKA_KEYSTORE_PATH: ""
       KAFKA_CREDSTORE_PASSWORD: ""
-      STATISTIKK_TOPIC: arbeidsgiver.sykefravarsstatistikk-v1
+      # Kafka-topics
+      IA_SAK_TOPIC: pia.ia-sak-v1
+      IA_SAK_STATISTIKK_TOPIC: pia.ia-sak-statistikk-v1
+      IA_SAK_STATUS_TOPIC: pia.ia-sak-status-v1
+      IA_SAK_LEVERANSE_TOPIC: pia.ia-sak-leveranse-v1
+      BRREG_OPPDATERING_TOPIC: pia.brreg-oppdatering
+      BRREG_ALLE_VIRKSOMHETER_TOPIC: pia.brreg-alle-virksomheter
       STATISTIKK_METADATA_VIRKSOMHET_TOPIC: arbeidsgiver.sykefravarsstatistikk-metadata-virksomhet-v1
       STATISTIKK_LAND_TOPIC: arbeidsgiver.sykefravarsstatistikk-land-v1
       STATISTIKK_SEKTOR_TOPIC: arbeidsgiver.sykefravarsstatistikk-sektor-v1
       STATISTIKK_NARING_TOPIC: arbeidsgiver.sykefravarsstatistikk-naring-v1
       STATISTIKK_NARINGSKODE_TOPIC: arbeidsgiver.sykefravarsstatistikk-naringskode-v1
       STATISTIKK_VIRKSOMHET_TOPIC: arbeidsgiver.sykefravarsstatistikk-virksomhet-v1
+      # Ubrukte topics?
+      STATISTIKK_TOPIC: arbeidsgiver.sykefravarsstatistikk-v1
       IA_SAK_HENDELSE_TOPIC: pia.ia-sak-hendelse-v1
-      IA_SAK_TOPIC: pia.ia-sak-v1
-      IA_SAK_STATISTIKK_TOPIC: pia.ia-sak-statistikk-v1
-      IA_SAK_STATUS_TOPIC: pia.ia-sak-status-v1
-      IA_SAK_LEVERANSE_TOPIC: pia.ia-sak-leveranse-v1
-      BRREG_OPPDATERING_TOPIC: pia.brreg-oppdatering
       # Backend spesifikk env
       BRREG_UNDERENHET_URL: /brregmock/enhetsregisteret/api/underenheter/lastned
       CONSUMER_LOOP_DELAY: 1
