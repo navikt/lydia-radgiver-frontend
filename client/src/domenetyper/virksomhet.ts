@@ -25,6 +25,9 @@ export const virksomhetsSchema = z.object({
     postnummer: z.string(),
     poststed: z.string(),
     neringsgrupper: næringsgrupperSchema.array(),
+    næringsundergruppe1: næringsgrupperSchema.optional(),
+    næringsundergruppe2: næringsgrupperSchema.optional(),
+    næringsundergruppe3: næringsgrupperSchema.optional(),
     sektor: z.string().optional(),
     status: VirksomhetStatusBrregEnum,
 });
