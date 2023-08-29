@@ -124,6 +124,7 @@ services:
       STATISTIKK_METADATA_VIRKSOMHET_TOPIC: arbeidsgiver.sykefravarsstatistikk-metadata-virksomhet-v1
       STATISTIKK_LAND_TOPIC: arbeidsgiver.sykefravarsstatistikk-land-v1
       STATISTIKK_SEKTOR_TOPIC: arbeidsgiver.sykefravarsstatistikk-sektor-v1
+      STATISTIKK_BRANSJE_TOPIC: arbeidsgiver.sykefravarsstatistikk-bransje-v1
       STATISTIKK_NARING_TOPIC: arbeidsgiver.sykefravarsstatistikk-naring-v1
       STATISTIKK_NARINGSKODE_TOPIC: arbeidsgiver.sykefravarsstatistikk-naringskode-v1
       STATISTIKK_VIRKSOMHET_TOPIC: arbeidsgiver.sykefravarsstatistikk-virksomhet-v1
