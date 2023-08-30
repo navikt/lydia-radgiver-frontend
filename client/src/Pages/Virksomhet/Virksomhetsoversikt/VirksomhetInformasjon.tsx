@@ -1,8 +1,8 @@
 import styled from "styled-components";
-import { BodyShort } from "@navikt/ds-react";
-import { NavFarger } from "../../../styling/farger";
-import { BorderRadius } from "../../../styling/borderRadius";
-import { Virksomhet } from "../../../domenetyper/virksomhet";
+import {BodyShort} from "@navikt/ds-react";
+import {NavFarger} from "../../../styling/farger";
+import {BorderRadius} from "../../../styling/borderRadius";
+import {Virksomhet} from "../../../domenetyper/virksomhet";
 
 const Container = styled.div`
   display: grid;
@@ -31,7 +31,6 @@ interface Props {
 
 export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
     const adresse = virksomhet.adresse.join(', ');
-    const næringsgrupper: string = virksomhet.neringsgrupper.map(({navn, kode}) => (`${navn} (${kode})`)).join(', ')
 
     return (
         <Container className={className}>
@@ -40,7 +39,11 @@ export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
             <InfoTittel>Adresse</InfoTittel>
             <InfoData>{adresse}, {virksomhet.postnummer} {virksomhet.poststed}</InfoData>
             <InfoTittel>Bransje/næring</InfoTittel>
-            <InfoData>{næringsgrupper}</InfoData>
+            <InfoData>
+                {virksomhet.næringsundergruppe1.navn} ({virksomhet.næringsundergruppe1.kode})
+                {virksomhet.næringsundergruppe2 && `, ${virksomhet.næringsundergruppe2.navn} (${virksomhet.næringsundergruppe2.kode})`}
+                {virksomhet.næringsundergruppe3 && `, ${virksomhet.næringsundergruppe3.navn} (${virksomhet.næringsundergruppe3.kode})`}
+            </InfoData>
             {virksomhet.sektor &&
                 (<>
                     <InfoTittel>Sektor</InfoTittel>
