@@ -24,7 +24,6 @@ export const virksomhetsSchema = z.object({
     adresse: z.string().array(),
     postnummer: z.string(),
     poststed: z.string(),
-    neringsgrupper: næringsgrupperSchema.array().optional(),
     næringsundergruppe1: næringsgrupperSchema,
     næringsundergruppe2: næringsgrupperSchema.optional(),
     næringsundergruppe3: næringsgrupperSchema.optional(),
