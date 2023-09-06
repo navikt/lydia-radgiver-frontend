@@ -100,13 +100,13 @@ interface BegrunnelseModalProps extends ModalInnholdProps {
 export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: BegrunnelseModalProps) => {
     return (
         <StyledModal open={åpen} onClose={onClose}>
-            <Modal.Content>
+            <Modal.Body>
                 <ModalInnhold
                     hendelse={hendelse}
                     lagre={lagre}
                     onClose={onClose}
                 />
-            </Modal.Content>
+            </Modal.Body>
         </StyledModal>
     );
 };

@@ -10,7 +10,7 @@ interface Props {
 export const FullførLeveranserFørstModal = ({visModal, lukkModal}: Props) => {
     return (
         <StyledModal open={visModal} onClose={lukkModal}>
-            <Modal.Content>
+            <Modal.Body>
                 <Heading size="medium" spacing>Saken har leveranser som ikke er levert</Heading>
                 <BodyLong>
                     For å gå videre må du markere utførte leveranser som levert. Dersom en leveranse ikke skal utføres
@@ -25,7 +25,7 @@ export const FullførLeveranserFørstModal = ({visModal, lukkModal}: Props) => {
                         Den er grei
                     </Button>
                 </ModalKnapper>
-            </Modal.Content>
+            </Modal.Body>
         </StyledModal>
     )
 }
