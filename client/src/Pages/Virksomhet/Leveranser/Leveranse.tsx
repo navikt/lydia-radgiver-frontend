@@ -43,6 +43,10 @@ const FjernLeveranseKnapp = styled(Button)`
   }
 `;
 
+const BekreftValgModalIHøyrejustertCelle = styled(BekreftValgModal)`
+  text-align: left;
+`;
+
 interface Props {
     leveranse: LeveranseType;
     iaSak: IASak;
@@ -99,11 +103,12 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
                                          disabled={!brukerErEierAvSak}
                                          variant="tertiary"
                                          icon={<Delete title="Fjern leveranse" />} />
-                    <BekreftValgModal onConfirm={vedSlettLeveranse}
+                    <BekreftValgModalIHøyrejustertCelle onConfirm={vedSlettLeveranse}
                                       onCancel={() => {setBekreftValgModalÅpen(false)}}
                                       åpen={bekreftValgModalÅpen}
                                       title="Er du sikker på at du vil fjerne leveransen?"
-                                      description={`Leveransen som fjernes er "${leveranse.modul.navn}" med frist ${lokalDato(leveranse.frist)}`} />
+                                      description={`Leveransen som fjernes er "${leveranse.modul.navn}" med frist ${lokalDato(leveranse.frist)}`}
+                    />
                 </Table.DataCell>
             }
         </Table.Row>

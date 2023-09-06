@@ -7,7 +7,8 @@ export interface Props {
     onCancel: () => void
     åpen: boolean,
     title?: string,
-    description?: string
+    description?: string,
+    className?: string,
 }
 
 export const BekreftValgModal = ({
@@ -15,10 +16,11 @@ export const BekreftValgModal = ({
     onCancel,
     åpen,
     title,
-    description
+    description,
+    ...rest
 }: Props) => {
     return (
-        <StyledModal open={åpen} onClose={onCancel}>
+        <StyledModal open={åpen} onClose={onCancel} {...rest}>
             <Modal.Body>
                 <Heading size="medium" spacing>{title}</Heading>
                 {description && <BodyLong>{description}</BodyLong>}
