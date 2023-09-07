@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Checkbox, CheckboxGroup, ErrorSummary, Heading, Modal, Select } from "@navikt/ds-react";
+import { Button, Checkbox, CheckboxGroup, ErrorSummary, Modal, Select } from "@navikt/ds-react";
 import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../../../domenetyper/domenetyper";
 import { StyledModal } from "../../../../components/Modal/StyledModal";
 import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
@@ -28,7 +28,6 @@ export const ModalInnhold = ({ hendelse, lagre, onClose }: ModalInnholdProps) =>
 
     return (
         <>
-            <Heading size="medium" spacing>{'Er du sikker på at du vil sette saken til "Ikke aktuell"?'}</Heading>
             <Select
                 label="Begrunnelse for at samarbeid ikke er aktuelt:"
                 onChange={(e) => {
@@ -99,7 +98,7 @@ interface BegrunnelseModalProps extends ModalInnholdProps {
 
 export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: BegrunnelseModalProps) => {
     return (
-        <StyledModal open={åpen} onClose={onClose}>
+        <StyledModal open={åpen} onClose={onClose} header={{heading: 'Er du sikker på at du vil sette saken til "Ikke aktuell"?'}}>
             <Modal.Body>
                 <ModalInnhold
                     hendelse={hendelse}
