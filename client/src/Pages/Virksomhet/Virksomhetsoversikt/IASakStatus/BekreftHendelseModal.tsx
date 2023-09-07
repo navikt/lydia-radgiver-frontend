@@ -1,11 +1,14 @@
-import { BekreftValgModal, Props as BekreftValgModalProps } from "../../../../components/Modal/BekreftValgModal";
+import { BekreftValgModal } from "../../../../components/Modal/BekreftValgModal";
 import { loggModalTilbakeTilForrigeStatusLukket } from "../../../../util/amplitude-klient";
 import { GyldigNesteHendelse, IAProsessStatusEnum, IAProsessStatusType } from "../../../../domenetyper/domenetyper";
 import { penskrivIAStatus } from "../../../../components/Badge/StatusBadge";
 
 interface BekreftHendelseModalProps {
-    saksstatus: IAProsessStatusType,
-    hendelse: GyldigNesteHendelse | null
+    saksstatus: IAProsessStatusType;
+    hendelse: GyldigNesteHendelse | null;
+    onConfirm: () => void;
+    onCancel: () => void;
+    åpen: boolean;
 }
 
 export const BekreftHendelseModal = ({
@@ -14,7 +17,7 @@ export const BekreftHendelseModal = ({
     åpen,
     onConfirm,
     onCancel,
-}: BekreftValgModalProps & BekreftHendelseModalProps) => {
+}: BekreftHendelseModalProps) => {
     const modalTekst = modalTekstForHendelse({ hendelse, saksstatus });
 
     return (

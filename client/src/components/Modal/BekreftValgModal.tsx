@@ -1,13 +1,13 @@
-import { BodyLong, Button, Heading, Modal } from "@navikt/ds-react";
+import { BodyLong, Button, Modal } from "@navikt/ds-react";
 import { StyledModal } from "./StyledModal";
 import { ModalKnapper } from "./ModalKnapper";
 
-export interface Props {
+interface Props {
     onConfirm: () => void
     onCancel: () => void
     åpen: boolean,
-    title?: string,
-    description?: string,
+    title: string,
+    description: string,
     className?: string,
 }
 
@@ -20,10 +20,9 @@ export const BekreftValgModal = ({
     ...rest
 }: Props) => {
     return (
-        <StyledModal open={åpen} onClose={onCancel} {...rest}>
+        <StyledModal open={åpen} onClose={onCancel} header={{heading: title}} {...rest}>
             <Modal.Body>
-                <Heading size="medium" spacing>{title}</Heading>
-                {description && <BodyLong>{description}</BodyLong>}
+                <BodyLong>{description}</BodyLong>
                 <br />
                 <ModalKnapper>
                     <Button onClick={onConfirm}>Ja</Button>
