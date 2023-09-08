@@ -26,6 +26,7 @@ const parametere = [
     "neringsgrupper",
     "sykefraversprosentFra",
     "sykefraversprosentTil",
+    "snittfilter",
     "ansatteFra",
     "ansatteTil",
     "sorteringsnokkel",
@@ -73,6 +74,7 @@ const søkeparametereTilFilterstate = (parametere: Søkeparametere, filterverdie
                 parametere.sykefraversprosentTil ?? initialState.sykefraværsprosent.til
             ),
         },
+        valgtSnittfilter: parametere.snittfilter,
         eiere: filterverdier.filtrerbareEiere.filter((eier) =>
             parametere.eiere?.includes(eier.navIdent)
         ),
@@ -116,6 +118,12 @@ type EndreSykefraværsprosentAction = {
     type: "ENDRE_SYKEFRAVÆRSPROSENT";
     payload: {
         sykefraværsprosent: Range;
+    };
+};
+type EndreSnittfilterAction = {
+    type: "ENDRE_SNITTFILTER";
+    payload: {
+        snittfilter: string;
     };
 };
 type EndreAntallArbeidsforholdAction = {
@@ -171,6 +179,7 @@ type Action =
     | EndreKommuneAction
     | EndreNæringsgruppeAction
     | EndreSykefraværsprosentAction
+    | EndreSnittfilterAction
     | EndreAntallArbeidsforholdAction
     | EndreIAStatusAction
     | EndreSektorAction
@@ -186,6 +195,7 @@ export interface FiltervisningState {
     kommuner: Kommune[];
     næringsgrupper: Næringsgruppe[];
     sykefraværsprosent: Range;
+    valgtSnittfilter?: string;
     antallArbeidsforhold: Range;
     sektor?: string;
     iaStatus?: IAProsessStatusType;
@@ -246,6 +256,14 @@ const endreSykefraværsprosent = (
 ): FiltervisningState => ({
     ...state,
     sykefraværsprosent: action.payload.sykefraværsprosent,
+});
+
+const endreSnittfilter = (
+    state: FiltervisningState,
+    action: EndreSnittfilterAction
+): FiltervisningState => ({
+    ...state,
+    valgtSnittfilter: action.payload.snittfilter,
 });
 
 const endreAntallArbeidsforhold = (
@@ -340,6 +358,8 @@ const reducer = (state: FiltervisningState, action: Action) => {
             return endreNæringsgruppe(state, action);
         case "ENDRE_SYKEFRAVÆRSPROSENT":
             return endreSykefraværsprosent(state, action);
+        case "ENDRE_SNITTFILTER":
+            return endreSnittfilter(state, action);
         case "ENDRE_ARBEIDSFORHOLD":
             return endreAntallArbeidsforhold(state, action);
         case "ENDRE_IASTATUS":
@@ -415,6 +435,16 @@ export const useFiltervisningState = () => {
         (payload: EndreSykefraværsprosentAction["payload"]) => {
             dispatch({
                 type: "ENDRE_SYKEFRAVÆRSPROSENT",
+                payload,
+            });
+        },
+        []
+    );
+
+    const oppdaterSnittfilter = useCallback(
+        (payload: EndreSnittfilterAction["payload"]) => {
+            dispatch({
+                type: "ENDRE_SNITTFILTER",
                 payload,
             });
         },
@@ -501,6 +531,7 @@ export const useFiltervisningState = () => {
         oppdaterSektorer,
         oppdaterNæringsgruppe,
         oppdaterSykefraværsprosent,
+        oppdaterSnittfilter,
         tilbakestill,
         oppdaterSide,
         oppdaterEiere,
