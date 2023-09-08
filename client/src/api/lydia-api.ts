@@ -353,6 +353,7 @@ export const søkeverdierTilUrlSearchParams = ({
                                                   valgtFylke: fylkeMedKommune,
                                                   næringsgrupper,
                                                   sykefraværsprosent,
+                                                  valgtSnittfilter,
                                                   antallArbeidsforhold,
                                                   sorteringsretning,
                                                   sorteringsnokkel,
@@ -399,7 +400,10 @@ export const søkeverdierTilUrlSearchParams = ({
         params,
         skjulDefaultParametreIUrl,
     );
-
+    appendIfPresent(
+        "snittfilter",
+        valgtSnittfilter,
+        (verdi) => verdi, params);
     appendIfNotDefaultValue(
         "ansatteFra",
         antallArbeidsforhold.fra,

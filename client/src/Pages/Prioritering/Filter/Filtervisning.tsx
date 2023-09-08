@@ -13,6 +13,7 @@ import { useFiltervisningState } from "./filtervisning-reducer";
 import { tabletAndUp } from "../../../styling/breakpoints";
 import { SektorDropdown } from "./SektorDropdown";
 import { Kommune } from "../../../domenetyper/fylkeOgKommune";
+import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 
 
 const Skjema = styled.form`
@@ -66,6 +67,7 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
         state,
         oppdaterKommuner,
         oppdaterSykefraværsprosent,
+        oppdaterSnittfilter,
         oppdaterNæringsgruppe,
         oppdaterSektorer,
     } = filtervisning;
@@ -90,6 +92,10 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
         oppdaterSykefraværsprosent({
             sykefraværsprosent: sykefraværsprosentRange,
         });
+    };
+
+    const endreSnittfilter = (snittfilter: string) => {
+        oppdaterSnittfilter({ snittfilter: snittfilter });
     };
 
     const endreAntallArbeidsforhold = (antallArbeidsforhold: Range) => {
@@ -151,6 +157,8 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
                     sykefraværsprosentRange={state.sykefraværsprosent}
                     endre={endreSykefraværsprosent}
                 />
+                <BransjeEllerNæringDropdown valgtSnittfilter={state.valgtSnittfilter}
+                                            endreSnittfilter={endreSnittfilter}/>
                 <AntallArbeidsforholdVelger
                     antallArbeidsforhold={state.antallArbeidsforhold}
                     endreAntallArbeidsforhold={endreAntallArbeidsforhold}

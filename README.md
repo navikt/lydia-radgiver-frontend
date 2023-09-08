@@ -352,6 +352,9 @@ Lærdom:
 
 ---
 
+### Klarer ikke å laste ned backend fra ghcr.io
+Fikk authentication feil ven nedlasting... Kjørte ```docker logout ghcr.io``` og ble glad igjen.
+Litt usikker på hva som skjedde.
 
 
 # Henvendelser
