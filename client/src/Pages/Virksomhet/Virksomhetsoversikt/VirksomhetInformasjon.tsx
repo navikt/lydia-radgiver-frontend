@@ -38,7 +38,13 @@ export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
             <InfoData>{virksomhet.orgnr}</InfoData>
             <InfoTittel>Adresse</InfoTittel>
             <InfoData>{adresse}, {virksomhet.postnummer} {virksomhet.poststed}</InfoData>
-            <InfoTittel>Bransje/næring</InfoTittel>
+            { virksomhet.bransje &&
+                <>
+                    <InfoTittel>Bransje</InfoTittel>
+                    <InfoData>{virksomhet.bransje}</InfoData>
+                </>
+            }
+            <InfoTittel>Næring</InfoTittel>
             <InfoData>
                 {virksomhet.næringsundergruppe1.navn} ({virksomhet.næringsundergruppe1.kode})
                 {virksomhet.næringsundergruppe2 && `, ${virksomhet.næringsundergruppe2.navn} (${virksomhet.næringsundergruppe2.kode})`}

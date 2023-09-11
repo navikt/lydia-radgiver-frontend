@@ -20,6 +20,7 @@ export const virksomhetMock: Virksomhet = {
         kode: "24.450"
     },
     sektor: "Privat og offentlig næringsvirksomhet",
+    bransje: null,
     status: "AKTIV",
 }
 
