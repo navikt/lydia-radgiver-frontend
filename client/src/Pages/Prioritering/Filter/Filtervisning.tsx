@@ -115,7 +115,7 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
             !maskerteFiltre.includes(filter)
             : true;
     }
-    const snittfilterAktivert = false;
+    const snittfilterAktivert = true;
 
     return (
         <Skjema className={className} onSubmit={(e) => e.preventDefault()}>
