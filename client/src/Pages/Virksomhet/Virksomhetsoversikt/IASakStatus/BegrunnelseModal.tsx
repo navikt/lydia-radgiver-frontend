@@ -64,6 +64,14 @@ export const BegrunnelseModal = ({hendelse, åpen, onClose, lagre}: BegrunnelseM
                         </Checkbox>
                     ))}
                 </CheckboxGroup>
+                {valideringsfeil.length > 0 &&
+                    <ErrorSummary style={{marginTop: "1rem"}}>
+                        {valideringsfeil.map(feil =>
+                            (<ErrorSummary.Item key={feil} href={`#${begrunnelserCheckboxId}`}>
+                                {feil}
+                            </ErrorSummary.Item>)
+                        )}
+                    </ErrorSummary>}
                 <ModalKnapper>
                     <Button
                         onClick={() => {
@@ -83,14 +91,6 @@ export const BegrunnelseModal = ({hendelse, åpen, onClose, lagre}: BegrunnelseM
                     </Button>
                     <Button variant="secondary" onClick={onClose}>Avbryt</Button>
                 </ModalKnapper>
-                {valideringsfeil.length > 0 &&
-                    <ErrorSummary style={{marginTop: "1rem"}}>
-                        {valideringsfeil.map(feil =>
-                            (<ErrorSummary.Item key={feil} href={`#${begrunnelserCheckboxId}`}>
-                                {feil}
-                            </ErrorSummary.Item>)
-                        )}
-                    </ErrorSummary>}
             </Modal.Body>
         </StyledModal>
     );

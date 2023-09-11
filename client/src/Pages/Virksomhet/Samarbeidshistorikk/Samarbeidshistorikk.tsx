@@ -9,9 +9,6 @@ import { tabInnholdStyling } from "../../../styling/containere";
 import { LeveransehistorikkTabell } from "./LeveransehistorikkTabell";
 
 const Container = styled.div`
-  display: grid;
-  grid-gap: 2rem;
-
   ${tabInnholdStyling};
 `;
 
@@ -26,7 +23,7 @@ interface SamarbeidshistorikkProps {
     className?: string;
 }
 
-export const Samarbeidshistorikk = ({ orgnr, className }: SamarbeidshistorikkProps) => {
+export const Samarbeidshistorikk = ({orgnr, className}: SamarbeidshistorikkProps) => {
     const {
         data: samarbeidshistorikk,
         loading: lasterSamarbeidshistorikk
@@ -58,32 +55,32 @@ export const Samarbeidshistorikk = ({ orgnr, className }: SamarbeidshistorikkPro
     return (
         <Container className={className}>
             {sortertHistorikk.length > 0 ? (
-                sortertHistorikk.map(sakshistorikk =>
-                    <Accordion key={sakshistorikk.saksnummer}>
-                        <Accordion.Item>
-                            <Accordion.Header>
-                                <AccordionHeaderContent>
-                                    <StatusBadge status={sakshistorikk.sakshendelser[0].status} />
-                                    Sist oppdatert: {lokalDato(sakshistorikk.sistEndret)}
-                                </AccordionHeaderContent>
-                            </Accordion.Header>
-                            <Accordion.Content>
-                                <LeveransehistorikkTabell
-                                    orgnr={orgnr}
-                                    saksnummer={sakshistorikk.saksnummer}
-                                />
-                                <br/>
-                                <SakshistorikkTabell
-                                    key={sakshistorikk.saksnummer}
-                                    sakshistorikk={sakshistorikk}
-                                />
-                            </Accordion.Content>
-                        </Accordion.Item>
-                    </Accordion>
-                )
-            ) : (
-                <IngenHendelserPåSak />
-            )}
+                    <Accordion>
+                        {sortertHistorikk.map(sakshistorikk =>
+                            <Accordion.Item key={sakshistorikk.saksnummer}>
+                                <Accordion.Header>
+                                    <AccordionHeaderContent>
+                                        <StatusBadge status={sakshistorikk.sakshendelser[0].status} />
+                                        Sist oppdatert: {lokalDato(sakshistorikk.sistEndret)}
+                                    </AccordionHeaderContent>
+                                </Accordion.Header>
+                                <Accordion.Content>
+                                    <LeveransehistorikkTabell
+                                        orgnr={orgnr}
+                                        saksnummer={sakshistorikk.saksnummer}
+                                    />
+                                    <br />
+                                    <SakshistorikkTabell
+                                        key={sakshistorikk.saksnummer}
+                                        sakshistorikk={sakshistorikk}
+                                    />
+                                </Accordion.Content>
+                            </Accordion.Item>
+                        )}
+                    </Accordion>)
+                : (
+                    <IngenHendelserPåSak />
+                )}
         </Container>
     );
 };
