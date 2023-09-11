@@ -115,6 +115,7 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
             !maskerteFiltre.includes(filter)
             : true;
     }
+    const snittfilterAktivert = false;
 
     return (
         <Skjema className={className} onSubmit={(e) => e.preventDefault()}>
@@ -157,8 +158,10 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
                     sykefraværsprosentRange={state.sykefraværsprosent}
                     endre={endreSykefraværsprosent}
                 />
-                <BransjeEllerNæringDropdown valgtSnittfilter={state.valgtSnittfilter}
+                {snittfilterAktivert &&
+                    <BransjeEllerNæringDropdown valgtSnittfilter={state.valgtSnittfilter}
                                             endreSnittfilter={endreSnittfilter}/>
+                }
                 <AntallArbeidsforholdVelger
                     antallArbeidsforhold={state.antallArbeidsforhold}
                     endreAntallArbeidsforhold={endreAntallArbeidsforhold}
