@@ -31,6 +31,10 @@ interface Props {
 
 export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
     const adresse = virksomhet.adresse.join(', ');
+    const capitalizedLabel = (label :string) => {
+        const lowerCasedLabel: string = label.toLowerCase()
+        return lowerCasedLabel[0].toUpperCase() + lowerCasedLabel.slice(1)
+    }
 
     return (
         <Container className={className}>
@@ -41,7 +45,7 @@ export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
             { virksomhet.bransje &&
                 <>
                     <InfoTittel>Bransje</InfoTittel>
-                    <InfoData>{virksomhet.bransje}</InfoData>
+                    <InfoData>{capitalizedLabel(virksomhet.bransje)}</InfoData>
                 </>
             }
             <InfoTittel>Næring</InfoTittel>
