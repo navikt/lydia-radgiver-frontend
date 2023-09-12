@@ -72,7 +72,7 @@ jobs:
     permissions: {}
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/legg-til-snittfilter'
+    if: github.ref == 'refs/heads/vise-bransje-i-virksomhetsoversikt'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3

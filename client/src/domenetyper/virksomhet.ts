@@ -27,6 +27,7 @@ export const virksomhetsSchema = z.object({
     næringsundergruppe1: næringsgrupperSchema,
     næringsundergruppe2: næringsgrupperSchema.nullable(),
     næringsundergruppe3: næringsgrupperSchema.nullable(),
+    bransje: z.string().nullable(),
     sektor: z.string().optional(),
     status: VirksomhetStatusBrregEnum,
 });
