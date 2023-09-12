@@ -42,7 +42,6 @@ export const Prioriteringsside = () => {
 
     const {
         data: antallTreff,
-        loading: henterAntallTreff,
     } = useHentAntallTreff({
         filterstate: filtervisning.state,
         initierSøk: skalSøke,
@@ -70,11 +69,11 @@ export const Prioriteringsside = () => {
     }, [virksomhetsoversiktListeRespons]);
 
     useEffect(() => {
-        if (antallTreff) {
+        if (antallTreff !== undefined) {
             setTotaltAntallTreff(antallTreff);
             stoppSøkingOmViHarFåttSvarPåAlt()
         }
-    }, [antallTreff, henterAntallTreff]);
+    }, [antallTreff]);
 
     function oppdaterSide(side: number, sortering?: SortState) {
         filtervisning?.state && filterverdier && loggSøkPåFylkeIAmplitude(filtervisning.state, filterverdier)
