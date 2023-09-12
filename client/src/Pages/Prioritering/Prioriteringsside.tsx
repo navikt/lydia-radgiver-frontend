@@ -80,6 +80,8 @@ export const Prioriteringsside = () => {
         filtervisning?.state && filterverdier && loggSøkPåFylkeIAmplitude(filtervisning.state, filterverdier)
         loggSøkMedFilterIAmplitude(filtervisning.state)
 
+        setVirksomhetsoversiktListe(undefined)
+
         filtervisning.oppdaterSide({
             side,
             sortering,
