@@ -49,7 +49,7 @@ export const Prioriteringsside = () => {
     });
 
     const stoppSøkingOmViHarFåttSvarPåAlt = () => {
-        if (virksomhetsoversiktListeRespons && antallTreff) {
+        if (virksomhetsoversiktListeRespons && antallTreff !== undefined) {
             setSkalSøke(false);
         }
     }
