@@ -74,8 +74,8 @@ export default class Application {
             getSecret: () => config.secrets.csrf,
             cookieName: "__fia.intern.nav.no-x-csrf-token"
         });
-        const csrfTokenRoute = (request, response) => {
-            const csrfToken = generateToken(response, request);
+        const csrfTokenRoute = (request: Request, response: Response) => {
+            const csrfToken = generateToken(request, response, true);
             response.json({ csrfToken });
         };
         this.expressApp.use(cookieParser(config.secrets.cookie))
