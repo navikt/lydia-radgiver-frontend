@@ -86,6 +86,10 @@ Då kan du nå Storybook i ein nettlesar på adressa [localhost:6006](http://loc
 ## Deploy til NAIS  
 // TODO skriv noko om 'frackend' og deploy til NAIS  
 
+## Koble til postgresql lokalt via docker-compose oppsett
+
+Sjekk https://github.com/navikt/lydia-api#koble-til-postgresql-lokalt-via-docker-compose-oppsett
+
 ---
 
 ## Ymse feilsøking
