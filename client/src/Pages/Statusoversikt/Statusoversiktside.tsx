@@ -78,7 +78,7 @@ export const Statusoversiktside = () => {
             <Filtervisning
                 filtervisning={filtervisning}
                 søkPåNytt={søkPåNytt}
-                maskerteFiltre={["IA_STATUS"]}
+                maskerteFiltre={["IA_STATUS", "SNITTFILTER"]}
                 søkeknappTittel={'Hent statistikk'}
             />
             <br />

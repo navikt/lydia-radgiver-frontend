@@ -48,7 +48,7 @@ type Filtervisning = Omit<
     "lastData" | "oppdaterSide" // Disse funksjonene er ikke relevante for denne komponenten, derfor fjernes de fra typen.
 >;
 
-export type Filter = "IA_STATUS" | "EIER";
+export type Filter = "IA_STATUS" | "EIER" | "SNITTFILTER";
 
 interface FiltervisningProps {
     filtervisning: Filtervisning;
@@ -157,8 +157,10 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
                     sykefraværsprosentRange={state.sykefraværsprosent}
                     endre={endreSykefraværsprosent}
                 />
-                <BransjeEllerNæringDropdown valgtSnittfilter={state.valgtSnittfilter}
-                                            endreSnittfilter={endreSnittfilter}/>
+                {skalFilterVises("SNITTFILTER") &&
+                    <BransjeEllerNæringDropdown valgtSnittfilter={state.valgtSnittfilter}
+                                                endreSnittfilter={endreSnittfilter}/>
+                }
                 <AntallArbeidsforholdVelger
                     antallArbeidsforhold={state.antallArbeidsforhold}
                     endreAntallArbeidsforhold={endreAntallArbeidsforhold}
