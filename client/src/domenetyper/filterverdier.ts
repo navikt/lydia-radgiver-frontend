@@ -25,3 +25,9 @@ const sorteringsverdier = {
 } as const;
 
 export type Sorteringsverdi = keyof typeof sorteringsverdier;
+
+export enum ValgtSnittFilter {
+    BRANSJE_NÆRING_OVER = 'BRANSJE_NÆRING_OVER',
+    BRANSJE_NÆRING_UNDER_ELLER_LIK = "BRANSJE_NÆRING_UNDER_ELLER_LIK",
+    ALLE = "",
+}

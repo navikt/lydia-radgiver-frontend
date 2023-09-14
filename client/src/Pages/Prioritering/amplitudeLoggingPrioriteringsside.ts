@@ -5,7 +5,7 @@ import {
     loggSøkPåFylke,
     Søkekomponenter
 } from "../../util/amplitude-klient";
-import { Filterverdier } from "../../domenetyper/filterverdier";
+import { Filterverdier, ValgtSnittFilter } from "../../domenetyper/filterverdier";
 import { finnFylkerForKommuner } from "../../util/finnFylkeForKommune";
 
 export const loggSøkPåFylkeIAmplitude = (filtervisningstate: FiltervisningState, filterverdier: Filterverdier) => {
@@ -69,7 +69,16 @@ export const loggSøkMedFilterIAmplitude = (filtervisningstate: FiltervisningSta
         }, {
             vilkår: filtervisningstate.antallArbeidsforhold.til,
             filterverdiKategori: FilterverdiKategorier.ARBEIDSFORHOLD_TIL,
-        },]
+        },
+        /* Filter der vi loggar ulik input kvar for seg */
+        {
+            vilkår: filtervisningstate.valgtSnittfilter === ValgtSnittFilter.BRANSJE_NÆRING_OVER,
+            filterverdiKategori: FilterverdiKategorier.BRANSJE_NÆRING_OVER,
+        }, {
+            vilkår: filtervisningstate.valgtSnittfilter === ValgtSnittFilter.BRANSJE_NÆRING_UNDER_ELLER_LIK,
+            filterverdiKategori: FilterverdiKategorier.BRANSJE_NÆRING_UNDER_ELLER_LIK,
+        },
+    ]
 
     filter.map((filter) => {
         if (filter.vilkår) {

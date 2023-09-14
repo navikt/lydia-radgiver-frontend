@@ -118,6 +118,8 @@ export const enum FilterverdiKategorier {
     SYKEFRAVÆR_TIL = "_sykefravær-til",
     ARBEIDSFORHOLD_FRA = "_arbeidsforhold-fra",
     ARBEIDSFORHOLD_TIL = "_arbeidsforhold-til",
+    BRANSJE_NÆRING_OVER = "_over-bransje-naring-snitt",
+    BRANSJE_NÆRING_UNDER_ELLER_LIK = "_under-eller-lik-bransje-naring-snitt"
 }
 
 type FiltersøkDestinasjoner =

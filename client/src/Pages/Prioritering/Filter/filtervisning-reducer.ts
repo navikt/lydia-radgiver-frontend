@@ -6,7 +6,7 @@ import { Eier, IAProsessStatusType, Periode, } from "../../../domenetyper/domene
 import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { Næringsgruppe } from "../../../domenetyper/virksomhet";
-import { Filterverdier, Sorteringsverdi } from "../../../domenetyper/filterverdier";
+import { Filterverdier, Sorteringsverdi, ValgtSnittFilter } from "../../../domenetyper/filterverdier";
 
 const næringsgruppeKoderTilNæringsgrupper = (næringsgruppeKoder: string[], næringsgrupper: Næringsgruppe[]) =>
     næringsgrupper.filter(({ kode }) => næringsgruppeKoder.includes(kode));
@@ -74,7 +74,7 @@ const søkeparametereTilFilterstate = (parametere: Søkeparametere, filterverdie
                 parametere.sykefraversprosentTil ?? initialState.sykefraværsprosent.til
             ),
         },
-        valgtSnittfilter: parametere.snittfilter,
+        valgtSnittfilter: parametere.snittfilter as ValgtSnittFilter,
         eiere: filterverdier.filtrerbareEiere.filter((eier) =>
             parametere.eiere?.includes(eier.navIdent)
         ),
@@ -195,7 +195,7 @@ export interface FiltervisningState {
     kommuner: Kommune[];
     næringsgrupper: Næringsgruppe[];
     sykefraværsprosent: Range;
-    valgtSnittfilter?: string;
+    valgtSnittfilter?: ValgtSnittFilter;
     antallArbeidsforhold: Range;
     sektor?: string;
     iaStatus?: IAProsessStatusType;
@@ -263,7 +263,7 @@ const endreSnittfilter = (
     action: EndreSnittfilterAction
 ): FiltervisningState => ({
     ...state,
-    valgtSnittfilter: action.payload.snittfilter,
+    valgtSnittfilter: action.payload.snittfilter as ValgtSnittFilter,
 });
 
 const endreAntallArbeidsforhold = (
