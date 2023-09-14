@@ -179,6 +179,14 @@ Error: connect ECONNREFUSED ::1:3000
 
 Får ikkje feilmeldingar ved køyring av ./run.sh før vi kallar ting frå frontend.
 
+
+#### Feilen, kort oppsummert:
+Frå Node v17 vert ikkje IP-adresser lengre sortert med IPv4 fyrst. Dette gjer at datamaskina ikkje nødvendigvis finn localhost 127.0.0.1 (IPv4) før localhost ::1 (IPv6). Lima, som Colima er bygga på, støttar ikkje IPv6 enno. Det betyr:   
+Når Colima får ::1 som localhost klikkar ting.
+
+#### Løysing:
+Hardkode `127.0.0.1` som localhost-adresse i `vite.config.ts` i staden for å berre skrive `localhost`.
+
 <details>
 <summary>
 Feilsøking
@@ -187,16 +195,7 @@ Feilsøking
 Vi prøvde mykje greier som vi skildrar lengre nede, men fann til slutt problemet ved å google feilmeldinga frå terminalen.  
 Dette er artiklane vi fann som forklarte problemet vårt:  
 - https://github.com/lima-vm/lima/issues/1330  
-- https://github.com/nodejs/node/issues/40702  
-
-#### Feilen, kort oppsummert:  
-Frå Node v17 vert ikkje IP-adresser lengre sortert med IPv4 fyrst. Dette gjer at datamaskina ikkje nødvendigvis finn localhost 127.0.0.1 (IPv4) før localhost ::1 (IPv6). Lima, som Colima er bygga på, støttar ikkje IPv6 enno. Det betyr:   
-Når Colima får ::1 som localhost klikkar ting.
-
-#### Løysing:
-Hardkode `127.0.0.1` som localhost-adresse i `vite.config.ts` i staden for å berre skrive `localhost`.
-
-
+- https://github.com/nodejs/node/issues/40702
 
 Vi legg med ei oppsummering av ting vi prøvde før vi googla som ikkje fungerte, som ei påminning om å spørje internett før du tenker sjølv i fire timar.
 
@@ -232,6 +231,8 @@ Vi byrjar å bli svoltne, så då prøver vi drastiske ting.
 - Bytta ut localhost i vite.config.ts med 127.0.0.1. Då funka ting etter restart av run.sh.
 - 🎉🎉🎉
 
+</details>
+
 #### Læringspunkt:
 - Å google ting burde ikkje vere steg 16, men kanskje sånn mellom 1 og 3 ein stad.
 - Lytt til Erfarne Fjellfolk når dei nevnar IPv6.
@@ -239,8 +240,6 @@ Vi byrjar å bli svoltne, så då prøver vi drastiske ting.
 - Når feilmeldinga i terminal seier noko om TCP har kanskje feilen noko med nettverk å gjere.
 - Det er fint å notere feilsøkingssteg, då har vi betre oversikt over kva vi har gjort.
 - Guide frå tidlegare buggar var nyttig i å finne ein stad å starte feilsøkinga, sjølv om vi ikkje burde starta der.
-
-</details>
 
 
 ---
@@ -299,7 +298,7 @@ Får timeout på api-kall og beskjed om feil i tilkopling til proxy.
 Det er fyrste dag etter sommarferien, backend hadde 44 commits, frontend 4, sidan sist eg pulla.
 
 <details>
-<summary> Feilsøking </summary>@
+<summary> Feilsøking </summary>
 
 #### Problemet  
 Det er sannsynlegvis lenge sidan sist nokon prøvde å køyre opp Fia lokalt frå frontend, så eg mistenker feilen handlar om ei endring i backend som frontend ikkje har fått med seg.
@@ -353,6 +352,86 @@ Leggje inn alle manglande kafka-topics i `docker-compose.yaml`. Hentar verdiar f
 Lærdom:
 - Framleis fint å køyre opp ting med `dc up` + `npm run dev`, då får ein betre feilmeldingar.
 - Det er lurt å la ting køyre ein stund etter at du har framprovosert feilen, i tilfelle terminalen spyttar ut fleire feilmeldingar etter kvart. Det gjorde den i dag. Det viste seg at om ein venta nokre minutt spytta den ut alle manglande topics.  
+
+### Socket-hangup (den som liknar på localhost-ipv6-buggen)
+
+Dato: 2023-09-14  
+Utviklar: Ingrid og Christian (men Thomas har også hatt problemet.)  
+
+Case: Får køyrd opp ting, men får  
+
+> Noe gikk feil ved innlasting av siden.
+Du kan prøve å logge inn på nytt ved å trykke på denne lenken.  
+
+og dei to feilmeldingene du ser i "details"-blokker under her.  
+
+<details>
+<summary>
+Feilmelding frå `./run.sh`:
+</summary>
+
+```bash
+10:22:57 AM [vite] http proxy error at /innloggetAnsatt:
+Error: socket hang up
+at connResetException (node:internal/errors:717:14)
+at Socket.socketOnEnd (node:_http_client:526:23)
+at Socket.emit (node:events:525:35)
+at endReadableNT (node:internal/streams/readable:1359:12)
+at process.processTicksAndRejections (node:internal/process/task_queues:82:21)
+```
+
+</details>
+
+<details>
+<summary>
+Feilmelding frå `docker logs [frackend-container-id]`
+</summary>
+
+```bash
+[nodemon] watching path(s): *.*
+[nodemon] watching extensions: ts,json
+[nodemon] starting `ts-node server.ts`
+/home/node/app/node_modules/ts-node/src/index.ts:859
+    return new TSError(diagnosticText, diagnosticCodes, diagnostics);
+           ^
+TSError: ⨯ Unable to compile TypeScript:
+app.ts(78,64): error TS2554: Expected 2 arguments, but got 3.
+
+    at createTSError (/home/node/app/node_modules/ts-node/src/index.ts:859:12)
+    at reportTSError (/home/node/app/node_modules/ts-node/src/index.ts:863:19)
+    at getOutput (/home/node/app/node_modules/ts-node/src/index.ts:1077:36)
+    at Object.compile (/home/node/app/node_modules/ts-node/src/index.ts:1433:41)
+    at Module.m._compile (/home/node/app/node_modules/ts-node/src/index.ts:1617:30)
+    at Module._extensions..js (node:internal/modules/cjs/loader:1310:10)
+    at Object.require.extensions.<computed> [as .ts] (/home/node/app/node_modules/ts-node/src/index.ts:1621:12)
+    at Module.load (node:internal/modules/cjs/loader:1119:32)
+    at Function.Module._load (node:internal/modules/cjs/loader:960:12)
+    at Module.require (node:internal/modules/cjs/loader:1143:19) {
+  diagnosticCodes: [ 2554 ]
+}
+[nodemon] app crashed - waiting for file changes before starting...
+```
+
+</details>
+
+<details>
+<summary>
+Feilsøking
+</summary>
+- `dc down`, så `colima stop`. Start colima att og køyr `/run.sh`. Dette + litt venting løyste det hos Thomas.
+- `brew update` og `brew upgrade`
+- Køyrer opp `docker compose up` og `npm run dev` kvar for seg for å kunne sjå fleire loggar. Ser same feil, no tydelegare at den er sendt frå frontend. Får ikkje noko vettugt frå `docker logs [lydia-api-id]`
+- prøvar å køyre opp med `./run.sh -cfi`
+- Pullar nyaste endringar frå git. Får same feil.
+- Slettar frackend-, wonderwall- og backend-imaget. `./run.sh`. Då funka det hos Ingrid etterpå, men ikkje hos Christian.
+- Etter litt andre random steg fungerer det hos Christian også.
+
+</details>
+
+Konklusjon:  
+Vi veit ikkje heilt kva som var gale. Kanskje frackend, kanskje wonderwall. Prøv litt ulike ting, det er vårt beste forslag.
+
+
 
 ---
 
