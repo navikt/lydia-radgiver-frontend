@@ -48,7 +48,7 @@ export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
                     <InfoData>{capitalizedLabel(virksomhet.bransje)}</InfoData>
                 </>
             }
-            <InfoTittel>Næring</InfoTittel>
+            <InfoTittel>Næringsundergruppe{virksomhet.næringsundergruppe2 && "r"}</InfoTittel>
             <InfoData>
                 {virksomhet.næringsundergruppe1.navn} ({virksomhet.næringsundergruppe1.kode})
                 {virksomhet.næringsundergruppe2 && `, ${virksomhet.næringsundergruppe2.navn} (${virksomhet.næringsundergruppe2.kode})`}
