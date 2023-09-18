@@ -103,10 +103,10 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje}: Props) => {
                     <Statistikkboks
                         tittel="Sykefravær bransje"
                         helpTekst={`Sykefravær i bransje "${bransje}" ${sisteFireKvartalInfo}`}
-                        verdi={formaterSomHeltall(bransjestatistikk?.siste4Kvartal.prosent)}
+                        verdi={formaterSomProsentMedEnDesimal(bransjestatistikk?.siste4Kvartal.prosent)}
                         verdiSisteKvartal={bransjestatistikk?.sisteGjeldendeKvartal.prosent
                             ? {
-                                verdi: formaterSomHeltall(bransjestatistikk?.sisteGjeldendeKvartal.prosent),
+                                verdi: formaterSomProsentMedEnDesimal(bransjestatistikk?.sisteGjeldendeKvartal.prosent),
                                 år: bransjestatistikk?.sisteGjeldendeKvartal.årstall,
                                 kvartal: bransjestatistikk?.sisteGjeldendeKvartal.kvartal,
                             }
