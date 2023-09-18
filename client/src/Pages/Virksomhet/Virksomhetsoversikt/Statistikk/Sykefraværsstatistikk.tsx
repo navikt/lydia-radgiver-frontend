@@ -13,7 +13,6 @@ import { getGjeldendePeriodeTekst } from "../../../../util/gjeldendePeriodeSiste
 import { Kvartal } from "../../../../domenetyper/kvartal";
 import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 import { Publiseringsinfo } from "../../../../domenetyper/publiseringsinfo";
-import { erIDev } from "../../../../components/Dekoratør/Dekoratør";
 
 const Container = styled.dl`
   display: grid;
@@ -98,8 +97,7 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje}: Props) => {
                         }
                         : undefined}
                 />
-                {/* TODO: fjern "featuretoggle" "erIDev" */}
-                {erIDev && bransje && bransjestatistikk?.siste4Kvartal.prosent &&
+                {bransje && bransjestatistikk?.siste4Kvartal.prosent &&
                     <Statistikkboks
                         tittel="Sykefravær bransje"
                         helpTekst={`Sykefravær i bransje "${bransje.toLowerCase()}" ${sisteFireKvartalInfo}`}
