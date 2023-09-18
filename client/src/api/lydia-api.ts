@@ -40,6 +40,7 @@ import {
     virksomhetsstatistikkSiste4KvartalerSchema
 } from "../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 import { Publiseringsinfo, publiseringsinfoSchema } from "../domenetyper/publiseringsinfo";
+import { Bransjestatistikk, bransjestatistikkSchema } from "../domenetyper/bransjestatistikk";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -268,6 +269,18 @@ export const useHentSykefraværsstatistikkForVirksomhetSisteKvartal = (
         }
     );
 };
+
+export const useHentBransjestatistikk = (
+    bransje: string | null
+) => {
+    return useSwrTemplate<Bransjestatistikk>(
+        bransje ? `${sykefraværsstatistikkPath}/bransje/${bransje}` : null,
+        bransjestatistikkSchema,
+        {
+            revalidateOnFocus: false,
+        }
+    )
+}
 
 export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
     return useSwrTemplate<Virksomhet>(

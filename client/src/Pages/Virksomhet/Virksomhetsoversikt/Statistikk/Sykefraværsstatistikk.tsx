@@ -3,6 +3,7 @@ import { Statistikkboks } from "./Statistikkboks";
 import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {
+    useHentBransjestatistikk,
     useHentPubliseringsinfo,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
     useHentVirksomhetsstatistikkSiste4Kvartaler
@@ -12,6 +13,7 @@ import { getGjeldendePeriodeTekst } from "../../../../util/gjeldendePeriodeSiste
 import { Kvartal } from "../../../../domenetyper/kvartal";
 import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 import { Publiseringsinfo } from "../../../../domenetyper/publiseringsinfo";
+import { erIDev } from "../../../../components/Dekoratør/Dekoratør";
 
 const Container = styled.dl`
   display: grid;
@@ -21,22 +23,27 @@ const Container = styled.dl`
 
 interface Props {
     orgnummer: string;
+    bransje: string | null;
 }
 
-export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
+export const Sykefraværsstatistikk = ({orgnummer, bransje}: Props) => {
+    const {
+        data: publiseringsinfo,
+    } = useHentPubliseringsinfo()
+
     const {
         data: virksomhetsstatistikkSiste4Kvartaler,
         loading: lasterSykefraværsstatistikkSiste4Kvartal,
     } = useHentVirksomhetsstatistikkSiste4Kvartaler(orgnummer)
 
     const {
-        data: publiseringsinfo,
-    } = useHentPubliseringsinfo()
-
-    const {
         data: sykefraværsstatistikkSisteKvartal,
         loading: lasterSykefraværsstatistikkSisteKvartal,
     } = useHentSykefraværsstatistikkForVirksomhetSisteKvartal(orgnummer)
+
+    const {
+        data: bransjestatistikk,
+    } = useHentBransjestatistikk(bransje)
 
     if (lasterSykefraværsstatistikkSiste4Kvartal || lasterSykefraværsstatistikkSisteKvartal) {
         return (
@@ -91,6 +98,21 @@ export const Sykefraværsstatistikk = ({ orgnummer }: Props) => {
                         }
                         : undefined}
                 />
+                {/* TODO: fjern "featuretoggle" "erIDev" */}
+                {erIDev && bransje && bransjestatistikk?.siste4Kvartal.prosent &&
+                    <Statistikkboks
+                        tittel="Sykefravær bransje"
+                        helpTekst={`Sykefravær i bransje "${bransje}" ${sisteFireKvartalInfo}`}
+                        verdi={formaterSomHeltall(bransjestatistikk?.siste4Kvartal.prosent)}
+                        verdiSisteKvartal={bransjestatistikk?.sisteGjeldendeKvartal.prosent
+                            ? {
+                                verdi: formaterSomHeltall(bransjestatistikk?.sisteGjeldendeKvartal.prosent),
+                                år: bransjestatistikk?.sisteGjeldendeKvartal.årstall,
+                                kvartal: bransjestatistikk?.sisteGjeldendeKvartal.kvartal,
+                            }
+                            : undefined}
+                    />
+                }
             </Container>
         );
     } else {
