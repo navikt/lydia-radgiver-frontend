@@ -356,7 +356,7 @@ Lærdom:
 ### Socket-hangup (den som liknar på localhost-ipv6-buggen)
 
 Dato: 2023-09-14  
-Utviklar: Ingrid og Christian (men Thomas har også hatt problemet.)  
+Utviklar: Ingrid og Christian og Nima (men Thomas har også hatt problemet.)  
 
 Case: Får køyrd opp ting, men får  
 
@@ -425,6 +425,7 @@ Feilsøking
 - Pullar nyaste endringar frå git. Får same feil.
 - Slettar frackend-, wonderwall- og backend-imaget. `./run.sh`. Då funka det hos Ingrid etterpå, men ikkje hos Christian.
 - Etter litt andre random steg fungerer det hos Christian også.
+- Slett absolutt alt: `dc down`, så `docker system prune -a`. Då fungerte det hos Nima også.
 
 </details>
 
