@@ -26,3 +26,11 @@ export const bransjestatistikkSchema = z.object({
 });
 
 export type Bransjestatistikk = z.infer<typeof bransjestatistikkSchema>
+
+export const næringsstatistikkSchema = z.object({
+    næring: z.string(),
+    sisteGjeldendeKvartal: sistePubliserteKvartalSchema,
+    siste4Kvartal: siste4KvartalSchema,
+});
+
+export type Næringsstatistikk = z.infer<typeof næringsstatistikkSchema>

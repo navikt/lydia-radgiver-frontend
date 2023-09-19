@@ -49,7 +49,10 @@ export const Virksomhetsoversikt = ({ virksomhet, iaSak }: Props) => (
         <InnholdContainer>
             <VirksomhetsinfoContainer>
                 <VirksomhetInformasjon virksomhet={virksomhet} />
-                <Sykefraværsstatistikk orgnummer={virksomhet.orgnr} bransje={virksomhet.bransje} />
+                <Sykefraværsstatistikk orgnummer={virksomhet.orgnr}
+                                       bransje={virksomhet.bransje}
+                                       næring={virksomhet.næring.navn}
+                />
             </VirksomhetsinfoContainer>
             <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} />
         </InnholdContainer>

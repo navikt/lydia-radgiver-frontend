@@ -4,6 +4,7 @@ import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../../../
 import { Loader } from "@navikt/ds-react";
 import {
     useHentBransjestatistikk,
+    useHentNæringsstatistikk,
     useHentPubliseringsinfo,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
     useHentVirksomhetsstatistikkSiste4Kvartaler
@@ -23,9 +24,10 @@ const Container = styled.dl`
 interface Props {
     orgnummer: string;
     bransje: string | null;
+    næring: string;
 }
 
-export const Sykefraværsstatistikk = ({orgnummer, bransje}: Props) => {
+export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => {
     const {
         data: publiseringsinfo,
     } = useHentPubliseringsinfo()
@@ -44,6 +46,10 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje}: Props) => {
         data: bransjestatistikk,
     } = useHentBransjestatistikk(bransje)
 
+    const {
+        data: næringsstatistikk,
+    } = useHentNæringsstatistikk(næring)
+
     if (lasterSykefraværsstatistikkSiste4Kvartal || lasterSykefraværsstatistikkSisteKvartal) {
         return (
             <Loader title={"Laster inn statistikk for virksomhet"}
@@ -53,6 +59,7 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje}: Props) => {
         )
     } else if (virksomhetsstatistikkSiste4Kvartaler && sykefraværsstatistikkSisteKvartal) {
         const sisteFireKvartalInfo = hvilkeKvartalHarVi(virksomhetsstatistikkSiste4Kvartaler, publiseringsinfo);
+        const erIDev = ["localhost", "fia.intern.dev.nav.no"].includes(window.location.hostname);
 
         return (
             <Container>
@@ -107,6 +114,22 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje}: Props) => {
                                 verdi: formaterSomProsentMedEnDesimal(bransjestatistikk?.sisteGjeldendeKvartal.prosent),
                                 år: bransjestatistikk?.sisteGjeldendeKvartal.årstall,
                                 kvartal: bransjestatistikk?.sisteGjeldendeKvartal.kvartal,
+                            }
+                            : undefined}
+                    />
+                }
+                {erIDev &&
+                    <Statistikkboks
+                        tittel="Sykefravær næring"
+                        helpTekst={`Sykefravær i næring "${næring.toLowerCase()}" ${sisteFireKvartalInfo}`}
+                        verdi={næringsstatistikk?.siste4Kvartal.prosent ?
+                            formaterSomProsentMedEnDesimal(næringsstatistikk?.siste4Kvartal.prosent) : "Ikke funnet"
+                        }
+                        verdiSisteKvartal={næringsstatistikk?.sisteGjeldendeKvartal.prosent
+                            ? {
+                                verdi: formaterSomProsentMedEnDesimal(næringsstatistikk?.sisteGjeldendeKvartal.prosent),
+                                år: næringsstatistikk?.sisteGjeldendeKvartal.årstall,
+                                kvartal: næringsstatistikk?.sisteGjeldendeKvartal.kvartal,
                             }
                             : undefined}
                     />
