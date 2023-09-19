@@ -7,6 +7,13 @@ export const næringsgrupperSchema = z.object({
 
 export type Næringsgruppe = z.infer<typeof næringsgrupperSchema>;
 
+export const næringSchema = z.object({
+    navn: z.string(),
+    kode: z.string(),
+});
+
+export type Næring = z.infer<typeof næringSchema>;
+
 export const sektorSchema = z.object({
     kode: z.string(),
     beskrivelse: z.string()
@@ -24,6 +31,7 @@ export const virksomhetsSchema = z.object({
     adresse: z.string().array(),
     postnummer: z.string(),
     poststed: z.string(),
+    næring: næringSchema,
     næringsundergruppe1: næringsgrupperSchema,
     næringsundergruppe2: næringsgrupperSchema.nullable(),
     næringsundergruppe3: næringsgrupperSchema.nullable(),

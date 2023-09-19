@@ -6,17 +6,21 @@ export const virksomhetMock: Virksomhet = {
     adresse: ["Haugenstua 123", "Leilighet 501"],
     postnummer: "0187",
     poststed: "Oslo",
-    navn: "Ola Halvorsen AS",
+    navn: "Sjøfart stål og stell AS",
+    næring: {
+        navn: "Sjøfart",
+        kode: "50"
+    },
     næringsundergruppe1: {
         navn: "Offentlig administrasjon og forsvar, og trygdeordninger underlagt offentlig forvaltning",
         kode: "50.221"
     },
     næringsundergruppe2: {
-        navn: "En annen næring",
-        kode: "23.321"
+        navn: "Barnehager",
+        kode: "88.911"
     },
     næringsundergruppe3: {
-        navn: "Produksjon av ikke-jernholdige metaller ellers",
+        navn: "Produksjon av ikke-jernholdige metaller ellers", // sannsynligvis kvikksølv
         kode: "24.450"
     },
     sektor: "Privat og offentlig næringsvirksomhet",
