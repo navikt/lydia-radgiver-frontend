@@ -14,6 +14,7 @@ import { getGjeldendePeriodeTekst } from "../../../../util/gjeldendePeriodeSiste
 import { Kvartal } from "../../../../domenetyper/kvartal";
 import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 import { Publiseringsinfo } from "../../../../domenetyper/publiseringsinfo";
+import { Næring } from "../../../../domenetyper/virksomhet";
 
 const Container = styled.dl`
   display: grid;
@@ -24,7 +25,7 @@ const Container = styled.dl`
 interface Props {
     orgnummer: string;
     bransje: string | null;
-    næring: string;
+    næring: Næring;
 }
 
 export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => {
@@ -121,7 +122,7 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => 
                 {erIDev &&
                     <Statistikkboks
                         tittel="Sykefravær næring"
-                        helpTekst={`Sykefravær i næring "${næring.toLowerCase()}" ${sisteFireKvartalInfo}`}
+                        helpTekst={`Sykefravær i næring "${næring.navn}" ${sisteFireKvartalInfo}`}
                         verdi={næringsstatistikk?.siste4Kvartal.prosent ?
                             formaterSomProsentMedEnDesimal(næringsstatistikk?.siste4Kvartal.prosent) : "Ikke funnet"
                         }

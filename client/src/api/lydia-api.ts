@@ -27,7 +27,7 @@ import {
 } from "../domenetyper/leveranse";
 import { statusoversiktListeResponsSchema } from "../domenetyper/statusoversikt";
 import { Sakshistorikk, sakshistorikkSchema } from "../domenetyper/sakshistorikk";
-import { Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
+import { Næring, Virksomhet, virksomhetsSchema } from "../domenetyper/virksomhet";
 import {
     virksomhetsoversiktListeResponsSchema
 } from "../domenetyper/virksomhetsoversikt";
@@ -288,10 +288,10 @@ export const useHentBransjestatistikk = (
 };
 
 export const useHentNæringsstatistikk =(
-    næring: string
+    næring: Næring
 ) => {
     return useSwrTemplate<Næringsstatistikk>(
-        `${sykefraværsstatistikkPath}/naring/${næring}`,
+        `${sykefraværsstatistikkPath}/naring/${næring.kode}`,
         næringsstatistikkSchema,
         {
             revalidateOnFocus: false,

@@ -6,6 +6,7 @@ import {
 } from "../../../Prioritering/mocks/sykefraværsstatistikkMock";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import { publiseringsinfoPath, siste4kvartalerPath, sykefraværsstatistikkPath } from "../../../../api/lydia-api";
+import {Næring} from "../../../../domenetyper/virksomhet";
 
 export default {
     title: "Virksomhet/Virksomhetsoversikt/Sykefraværsstatistikk for en virksomhet",
@@ -18,9 +19,13 @@ export default {
 } as Meta<typeof Sykefraværsstatistikk>;
 
 const orgnummer = "999123456"
+const jordbruk: Næring = {
+    navn: "Jordbruk",
+    kode: "01"
+}
 
 export const Hovedstory = () =>
-    <Sykefraværsstatistikk orgnummer={orgnummer} bransje={null} næring={"01"} />
+    <Sykefraværsstatistikk orgnummer={orgnummer} bransje={null} næring={jordbruk} />
 
 Hovedstory.parameters = {
     msw: {
@@ -40,7 +45,7 @@ Hovedstory.parameters = {
 };
 
 export const MedStatistikkFraKunToKvartal = () =>
-    <Sykefraværsstatistikk orgnummer={orgnummer} bransje={null} næring={"01"} />
+    <Sykefraværsstatistikk orgnummer={orgnummer} bransje={null} næring={jordbruk} />
 
 MedStatistikkFraKunToKvartal.parameters = {
     msw: {
