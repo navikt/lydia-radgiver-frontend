@@ -20,7 +20,7 @@ export default {
 const orgnummer = "999123456"
 
 export const Hovedstory = () =>
-    <Sykefraværsstatistikk orgnummer={orgnummer} bransje={null} />
+    <Sykefraværsstatistikk orgnummer={orgnummer} bransje={null} næring={"01"} />
 
 Hovedstory.parameters = {
     msw: {
@@ -40,7 +40,7 @@ Hovedstory.parameters = {
 };
 
 export const MedStatistikkFraKunToKvartal = () =>
-    <Sykefraværsstatistikk orgnummer={orgnummer} bransje={null} />
+    <Sykefraværsstatistikk orgnummer={orgnummer} bransje={null} næring={"01"} />
 
 MedStatistikkFraKunToKvartal.parameters = {
     msw: {
