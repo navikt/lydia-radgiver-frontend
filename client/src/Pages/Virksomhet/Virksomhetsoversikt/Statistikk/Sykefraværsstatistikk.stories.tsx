@@ -2,10 +2,20 @@ import { Meta } from "@storybook/react";
 import { rest } from "msw";
 import {
     gjeldendePeriodePubliseringsinfo,
+    sykefraværsstatistikkBransjeMock,
+    sykefraværsstatistikkNæringMock,
+    sykefraværsstatistikkSisteKvartalMock,
     virksomhetsstatistikkSiste4KvartalerMock
 } from "../../../Prioritering/mocks/sykefraværsstatistikkMock";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
-import { publiseringsinfoPath, siste4kvartalerPath, sykefraværsstatistikkPath } from "../../../../api/lydia-api";
+import {
+    bransjePath,
+    næringPath,
+    publiseringsinfoPath,
+    siste4kvartalerPath,
+    sistekvartalPath,
+    sykefraværsstatistikkPath
+} from "../../../../api/lydia-api";
 import {Næring} from "../../../../domenetyper/virksomhet";
 
 export default {
@@ -35,6 +45,21 @@ Hovedstory.parameters = {
                     ctx.json(virksomhetsstatistikkSiste4KvartalerMock[0])
                 );
             }),
+            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
+                );
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/${næringPath}/:naringskode`, (req, res, ctx) => {
+                return res(
+                    ctx.json(sykefraværsstatistikkNæringMock)
+                );
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, (req, res, ctx) => {
+                return res(
+                    ctx.json(sykefraværsstatistikkBransjeMock)
+                );
+            }),
             rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
                 return res(
                     ctx.json(gjeldendePeriodePubliseringsinfo)
@@ -55,6 +80,21 @@ MedStatistikkFraKunToKvartal.parameters = {
                     ctx.json(
                         virksomhetsstatistikkSiste4KvartalerMock[2],
                     )
+                );
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
+                );
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/${næringPath}/:naringskode`, (req, res, ctx) => {
+                return res(
+                    ctx.json(sykefraværsstatistikkNæringMock)
+                );
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, (req, res, ctx) => {
+                return res(
+                    ctx.json(sykefraværsstatistikkBransjeMock)
                 );
             }),
             rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {

@@ -58,6 +58,9 @@ export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
 export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
+export const sistekvartalPath = "sistetilgjengeligekvartal";
+export const næringPath = "naring";
+export const bransjePath = "bransje";
 export const publiseringsinfoPath = "publiseringsinfo"
 export const leveransePath = `${iaSakPath}/leveranse`
 export const tjenesterPath = `${leveransePath}/tjenester`
@@ -267,7 +270,7 @@ export const useHentSykefraværsstatistikkForVirksomhetSisteKvartal = (
     orgnummer?: string
 ) => {
     return useSwrTemplate<VirkomshetsstatistikkSisteKvartal>(
-        orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}/sistetilgjengeligekvartal` : null,
+        orgnummer ? `${sykefraværsstatistikkPath}/${orgnummer}/${sistekvartalPath}` : null,
         virksomhetsstatistikkSisteKvartalSchema,
         {
             revalidateOnFocus: true,
@@ -279,7 +282,7 @@ export const useHentBransjestatistikk = (
     bransje: string | null
 ) => {
     return useSwrTemplate<Bransjestatistikk>(
-        bransje ? `${sykefraværsstatistikkPath}/bransje/${bransje}` : null,
+        bransje ? `${sykefraværsstatistikkPath}/${bransjePath}/${bransje}` : null,
         bransjestatistikkSchema,
         {
             revalidateOnFocus: false,
@@ -291,7 +294,7 @@ export const useHentNæringsstatistikk =(
     næring: Næring
 ) => {
     return useSwrTemplate<Næringsstatistikk>(
-        `${sykefraværsstatistikkPath}/naring/${næring.kode}`,
+        `${sykefraværsstatistikkPath}/${næringPath}/${næring.kode}`,
         næringsstatistikkSchema,
         {
             revalidateOnFocus: false,

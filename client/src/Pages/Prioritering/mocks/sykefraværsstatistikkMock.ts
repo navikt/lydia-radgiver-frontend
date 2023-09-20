@@ -2,7 +2,8 @@ import { IAProsessStatusEnum } from "../../../domenetyper/domenetyper";
 import { VirkomshetsstatistikkSisteKvartal } from "../../../domenetyper/virksomhetsstatistikkSisteKvartal";
 import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 import { Virksomhetsoversikt } from "../../../domenetyper/virksomhetsoversikt";
-import {Publiseringsinfo} from "../../../domenetyper/publiseringsinfo";
+import { Publiseringsinfo } from "../../../domenetyper/publiseringsinfo";
+import { Bransjestatistikk, Næringsstatistikk } from "../../../domenetyper/bransjestatistikk";
 
 const sykefraværStatiskData: Pick<Virksomhetsoversikt, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
     antallPersoner: 69.4123,
@@ -27,6 +28,40 @@ export const sykefraværsstatistikkSisteKvartalMock: VirkomshetsstatistikkSisteK
     ...sykefraværStatiskData,
     "maskert": false,
 }];
+
+const sistePubliserteKvartalMock = {
+    årstall: 2092,
+    kvartal: 2,
+    prosent: 21,
+    tapteDagsverk: 1234,
+    muligeDagsverk: 4321,
+    antallPersoner: 7239481728,
+    erMaskert: false,
+}
+
+const siste4KvartalMock = {
+    prosent: 12,
+    tapteDagsverk: 2345,
+    muligeDagsverk: 4321,
+    erMaskert: false,
+    kvartaler: [
+        { årstall: 2022, kvartal: 3 },
+        { årstall: 2022, kvartal: 2 },
+        { årstall: 2022, kvartal: 1 },
+        { årstall: 2021, kvartal: 4 },
+    ],
+}
+export const sykefraværsstatistikkNæringMock: Næringsstatistikk = {
+    næring: "næringsnavn",
+    sisteGjeldendeKvartal: sistePubliserteKvartalMock,
+    siste4Kvartal: siste4KvartalMock,
+}
+
+export const sykefraværsstatistikkBransjeMock: Bransjestatistikk = {
+    bransje: "bransjenavn",
+    sisteGjeldendeKvartal: sistePubliserteKvartalMock,
+    siste4Kvartal: siste4KvartalMock,
+}
 
 export const forrigePeriodePubliseringsinfo: Publiseringsinfo = {
     sistePubliseringsdato: "2022-12-03",
