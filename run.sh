@@ -1,13 +1,18 @@
 #! /usr/bin/env bash
 
-while getopts 'cifh' opt; do
+while getopts 'hif' opt; do
   case "$opt" in
-    c)
-      echo "Rydder opp..."
-      docker-compose down -v
+    h)
+      echo "Kjører opp utvikler miljøet. Bruk: $(basename $0) [-h] [-i] [-f]"
+      echo "  -h denne hjelpeteksten"
+      echo "  -i sletter volumes, kjører opp postgres, og laster inn datadump fra git"
+      echo "  -f fjerner gammelt backend og frackend image"
+      exit 0
       ;;
 
     i)
+      echo "Sletter volumes ..."
+      docker-compose down -v
       echo "Initialiserer database..."
       docker-compose up postgres -d
       sleep 3
@@ -21,20 +26,13 @@ while getopts 'cifh' opt; do
 
     f)
       docker-compose down
-      docker rmi $(docker images | grep -E "lydia-api" | cut -w -f3)
-      ;;
-
-    h)
-      echo "Kjører opp utvikler miljøet. Bruk: $(basename $0) [-c] [-i] [-h] [-f]"
-      echo "  -c rydder opp (kjører ned docker compose med tilhørende volumes)"
-      echo "  -i kjører opp postgres, og forsøker å laste inn datadump fra git"
-      echo "  -f fjerner gammelt backend image"
-      echo "  -h denne hjelpeteksten"
-      exit 0
+      docker-compose pull authserver azure postgres redis kafka wonderwall
+      echo "Sletter gammelt backend og frackend image"
+      docker rmi $(docker images | grep -E "lydia-api|lydia-radgiver-frontend-frackend" | cut -w -f3)
       ;;
 
     ?)
-      echo -e "Ugyldig argument. Bruk: $(basename $0) [-c] [-i] [-h]"
+      echo -e "Ugyldig argument. Bruk: $(basename $0) [-h] [-i] [-f]"
       exit 1
       ;;
   esac
