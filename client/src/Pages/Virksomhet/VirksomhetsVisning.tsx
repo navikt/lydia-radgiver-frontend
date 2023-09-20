@@ -39,12 +39,12 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
             <Tabs defaultValue="samarbeidshistorikk">
                 <Tabs.List style={{ width: "100%" }}>
                     <Tabs.Tab value="samarbeidshistorikk" label="Samarbeidshistorikk" />
-                    {iaSak && <Tabs.Tab value="leveranser" label="Leveranser" />}
+                    {iaSak && <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />}
                 </Tabs.List>
                 <StyledPanel value="samarbeidshistorikk">
                     <Samarbeidshistorikk orgnr={virksomhet.orgnr} />
                 </StyledPanel>
-                <StyledPanel value="leveranser">
+                <StyledPanel value="ia-tjenester">
                     {iaSak && <Leveranser iaSak={iaSak} />}
                 </StyledPanel>
             </Tabs>

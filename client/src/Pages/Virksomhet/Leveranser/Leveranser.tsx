@@ -26,7 +26,7 @@ export const Leveranser = ({ iaSak }: Props) => {
     return (
         <Container>
             <div>
-                <Heading spacing={true} size="large">Leveranser</Heading>
+                <Heading spacing={true} size="large">IA-tjenester</Heading>
                 <BodyShort>
                     Her kan du legge inn og få oversikt over leveranser til virksomheten. Du må være på status
                     “Vi bistår” for å registrere leveransen.
