@@ -50,7 +50,7 @@ export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
             }
             <InfoTittel>Næring</InfoTittel>
             <InfoData>
-                {virksomhet.næring.kode} - {virksomhet.næring.navn}
+                {`${virksomhet.næring.navn} (${virksomhet.næring.kode})`}
             </InfoData>
             <InfoTittel>Næringsundergruppe{virksomhet.næringsundergruppe2 && "r"}</InfoTittel>
             <InfoData>
