@@ -35,7 +35,7 @@ const jordbruk: Næring = {
 }
 
 export const Hovedstory = () =>
-    <Sykefraværsstatistikk orgnummer={orgnummer} bransje={null} næring={jordbruk} />
+    <Sykefraværsstatistikk orgnummer={orgnummer} bransje={"BRANSJE"} næring={jordbruk} />
 
 Hovedstory.parameters = {
     msw: {
@@ -69,8 +69,45 @@ Hovedstory.parameters = {
     },
 };
 
-export const MedStatistikkFraKunToKvartal = () =>
+export const ForVirksomhetUtenBransje = () =>
     <Sykefraværsstatistikk orgnummer={orgnummer} bransje={null} næring={jordbruk} />
+
+ForVirksomhetUtenBransje.parameters = {
+    msw: {
+        handlers: [
+            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(
+                        virksomhetsstatistikkSiste4KvartalerMock[2],
+                    )
+                );
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
+                );
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/${næringPath}/:naringskode`, (req, res, ctx) => {
+                return res(
+                    ctx.json(sykefraværsstatistikkNæringMock)
+                );
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, (req, res, ctx) => {
+                return res(
+                    ctx.json(sykefraværsstatistikkBransjeMock)
+                );
+            }),
+            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
+                return res(
+                    ctx.json(gjeldendePeriodePubliseringsinfo)
+                );
+            }),
+        ],
+    },
+};
+
+export const MedStatistikkFraKunToKvartal = () =>
+    <Sykefraværsstatistikk orgnummer={orgnummer} bransje={"BRANSJE"} næring={jordbruk} />
 
 MedStatistikkFraKunToKvartal.parameters = {
     msw: {
