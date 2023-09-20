@@ -19,7 +19,7 @@ import { Næring } from "../../../../domenetyper/virksomhet";
 const Container = styled.dl`
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(${230 / 16}rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
 `;
 
 interface Props {
