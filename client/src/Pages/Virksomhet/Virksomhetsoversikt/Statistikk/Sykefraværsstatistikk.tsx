@@ -60,7 +60,6 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => 
         )
     } else if (virksomhetsstatistikkSiste4Kvartaler && sykefraværsstatistikkSisteKvartal) {
         const sisteFireKvartalInfo = hvilkeKvartalHarVi(virksomhetsstatistikkSiste4Kvartaler, publiseringsinfo);
-        const erIDev = ["localhost", "fia.intern.dev.nav.no"].includes(window.location.hostname);
 
         return (
             <Container>
@@ -119,22 +118,20 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => 
                             : undefined}
                     />
                 }
-                {erIDev &&
-                    <Statistikkboks
-                        tittel="Sykefravær næring"
-                        helpTekst={`Sykefravær i næring "${næring.navn}" ${sisteFireKvartalInfo}`}
-                        verdi={næringsstatistikk?.siste4Kvartal.prosent ?
-                            formaterSomProsentMedEnDesimal(næringsstatistikk?.siste4Kvartal.prosent) : "Ikke funnet"
+                <Statistikkboks
+                    tittel="Sykefravær næring"
+                    helpTekst={`Sykefravær i næring "${næring.navn}" ${sisteFireKvartalInfo}`}
+                    verdi={næringsstatistikk?.siste4Kvartal.prosent ?
+                        formaterSomProsentMedEnDesimal(næringsstatistikk?.siste4Kvartal.prosent) : "Ikke funnet"
+                    }
+                    verdiSisteKvartal={næringsstatistikk?.sisteGjeldendeKvartal.prosent
+                        ? {
+                            verdi: formaterSomProsentMedEnDesimal(næringsstatistikk?.sisteGjeldendeKvartal.prosent),
+                            år: næringsstatistikk?.sisteGjeldendeKvartal.årstall,
+                            kvartal: næringsstatistikk?.sisteGjeldendeKvartal.kvartal,
                         }
-                        verdiSisteKvartal={næringsstatistikk?.sisteGjeldendeKvartal.prosent
-                            ? {
-                                verdi: formaterSomProsentMedEnDesimal(næringsstatistikk?.sisteGjeldendeKvartal.prosent),
-                                år: næringsstatistikk?.sisteGjeldendeKvartal.årstall,
-                                kvartal: næringsstatistikk?.sisteGjeldendeKvartal.kvartal,
-                            }
-                            : undefined}
-                    />
-                }
+                        : undefined}
+                />
             </Container>
         );
     } else {
