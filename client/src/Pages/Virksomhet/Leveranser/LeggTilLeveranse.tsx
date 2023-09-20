@@ -127,8 +127,8 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
                         <option value={tjeneste.id} key={tjeneste.id}>{tjeneste.navn}</option>
                     )}
                 </Select>
-                <Select label="Modul" value={valgtModul} onChange={endreValgtModul} disabled={!brukerErEierAvSak}>
-                    <option value="">{lasterModuler && "Laster moduler..."}</option>
+                <Select label="Leveranse" value={valgtModul} onChange={endreValgtModul} disabled={!brukerErEierAvSak}>
+                    <option value="">{lasterModuler && "Laster leveranser..."}</option>
                     {moduler?.filter((modul) => modul.iaTjeneste.toString() === valgtIATjeneste)
                         .filter((modul) => erModulIkkeValgt(modul))
                         .sort(modulAlfabetiskPåNavn)
