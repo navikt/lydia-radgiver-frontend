@@ -23,15 +23,15 @@ const VirksomhetsnavnContainer = styled.div`
 
 const InnholdContainer = styled.div`
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   gap: 2rem;
 `;
 
 const VirksomhetsinfoContainer = styled.div`
   display: flex;
-  flex-direction: column;
+  flex-wrap: wrap;
   flex: 3;
-  gap: 1rem;
+  gap: 2rem;
   min-width: 20rem;
 `
 
@@ -40,7 +40,7 @@ interface Props {
     iaSak?: IASak;
 }
 
-export const Virksomhetsoversikt = ({ virksomhet, iaSak }: Props) => (
+export const Virksomhetsoversikt = ({virksomhet, iaSak}: Props) => (
     <OversiktsContainer>
         <VirksomhetsnavnContainer>
             <Heading level={"2"} size={"large"}>{virksomhet.navn}</Heading>
@@ -49,12 +49,12 @@ export const Virksomhetsoversikt = ({ virksomhet, iaSak }: Props) => (
         <InnholdContainer>
             <VirksomhetsinfoContainer>
                 <VirksomhetInformasjon virksomhet={virksomhet} />
-                <Sykefraværsstatistikk orgnummer={virksomhet.orgnr}
-                                       bransje={virksomhet.bransje}
-                                       næring={virksomhet.næring}
-                />
+                <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} />
             </VirksomhetsinfoContainer>
-            <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} />
+            <Sykefraværsstatistikk orgnummer={virksomhet.orgnr}
+                                   bransje={virksomhet.bransje}
+                                   næring={virksomhet.næring}
+            />
         </InnholdContainer>
     </OversiktsContainer>
 )

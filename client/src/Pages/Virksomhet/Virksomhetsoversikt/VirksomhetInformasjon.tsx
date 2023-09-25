@@ -5,6 +5,9 @@ import {BorderRadius} from "../../../styling/borderRadius";
 import {Virksomhet} from "../../../domenetyper/virksomhet";
 
 const Container = styled.div`
+  flex: 1 20rem;
+  height: fit-content;
+  
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: repeat(auto-fill, auto);

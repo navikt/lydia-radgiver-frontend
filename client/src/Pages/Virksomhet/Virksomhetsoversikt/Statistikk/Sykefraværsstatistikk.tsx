@@ -17,6 +17,7 @@ import { Publiseringsinfo } from "../../../../domenetyper/publiseringsinfo";
 import { Næring } from "../../../../domenetyper/virksomhet";
 
 const Container = styled.dl`
+  margin: 0; // Nullstiller defaults i description lists (dl)
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
