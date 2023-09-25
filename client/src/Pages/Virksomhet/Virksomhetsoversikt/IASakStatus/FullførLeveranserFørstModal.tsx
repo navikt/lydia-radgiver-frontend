@@ -9,10 +9,10 @@ interface Props {
 
 export const FullførLeveranserFørstModal = ({visModal, lukkModal}: Props) => {
     return (
-        <StyledModal open={visModal} onClose={lukkModal} header={{heading: "Saken har leveranser som ikke er levert"}}>
+        <StyledModal open={visModal} onClose={lukkModal} header={{heading: "Saken har IA-tjenester som ikke er levert"}}>
             <Modal.Body>
                 <BodyLong>
-                    For å gå videre må du markere utførte leveranser som levert. Dersom en leveranse ikke skal utføres
+                    For å gå videre må du markere utførte IA-tjenester som levert. Dersom en IA-tjeneste ikke skal utføres
                     likevel kan du slette den fra planen.
                 </BodyLong>
                 <br />
