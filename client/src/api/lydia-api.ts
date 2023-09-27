@@ -46,6 +46,7 @@ import {
     Næringsstatistikk,
     næringsstatistikkSchema
 } from "../domenetyper/bransjestatistikk";
+import { HistoriskStatistikk, historiskStatistikkSchema } from "../domenetyper/historiskstatistikk";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -330,6 +331,13 @@ export const useHentSamarbeidshistorikk = (orgnummer?: string) => {
             revalidateOnFocus: true,
         }
     );
+};
+
+export const useHentHistoriskstatistikk = (orgnummer?: string) => {
+    const historiskStatistikkUrl = `${sykefraværsstatistikkPath}/${orgnummer}/historiskstatistikk`;
+    return useSwrTemplate<HistoriskStatistikk>(historiskStatistikkUrl, historiskStatistikkSchema, {
+        revalidateOnFocus: false,
+    });
 };
 
 export const opprettSak = (orgnummer: string): Promise<IASak> =>
