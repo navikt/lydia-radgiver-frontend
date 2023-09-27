@@ -8,7 +8,15 @@ interface Props {
 
 export const Historiskstatistikk = ({ historiskStatistikk }: Props) => {
 
-    const detSomSkalVises = historiskStatistikk.virksomhetsstatistikk.statistikk.map(
+    const detSomSkalVises = historiskStatistikk.virksomhetsstatistikk.statistikk
+        .sort( (s1, s2)  => {
+            if((s1.årstall - s2.årstall) === 0) {
+                return s1.kvartal - s2.kvartal
+            } else {
+                return s1.årstall - s2.årstall
+            }
+        } )
+        .map(
         statistikk => {
             return {
                 name: `${statistikk.årstall}-${statistikk.kvartal}`,
