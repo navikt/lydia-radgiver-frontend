@@ -4,24 +4,32 @@ import { HistoriskStatistikk } from "../../../domenetyper/historiskstatistikk";
 import { BodyShort, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
+import { SymbolSvg } from "./SymbolSvg";
 
 const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 3rem;
-
   ${tabInnholdStyling};
 `;
+const Legend = styled.div`
+  margin-top: 1rem;
+  margin-bottom: 2rem;
+  display: flex;
+  flex-direction: row;
+  gap: 1rem;
+  align-items: center;
+ `;
 
-interface Props {
+interface HistoriskStatistikkProps {
     historiskStatistikk: HistoriskStatistikk
 }
 
 const linjebredde = 2;
 const dotStrl = 40;
 
-export const Historiskstatistikk = ({ historiskStatistikk }: Props) => {
+export const Historiskstatistikk = ({ historiskStatistikk }: HistoriskStatistikkProps) => {
 
     const detSomSkalVises = historiskStatistikk.virksomhetsstatistikk.statistikk
         .sort((s1, s2) => {
@@ -47,6 +55,12 @@ export const Historiskstatistikk = ({ historiskStatistikk }: Props) => {
                 <BodyShort>
                     Her kan du se hvordan det legemeldte sykefraværet utvikler seg over tid.
                 </BodyShort>
+                <Legend>
+                    <SymbolSvg size={dotStrl} fill={"red"} />
+                    <BodyShort>
+                        Virksomhet
+                    </BodyShort>
+                </Legend>
             </div>
 
             <ResponsiveContainer minHeight={400}>
