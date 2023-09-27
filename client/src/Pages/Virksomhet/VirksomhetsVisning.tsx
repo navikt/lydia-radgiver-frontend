@@ -6,8 +6,8 @@ import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../sty
 import { NavFarger } from "../../styling/farger";
 import { Leveranser } from "./Leveranser/Leveranser";
 import { Virksomhet } from "../../domenetyper/virksomhet";
-import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
-import {Historiskstatistikk} from "./Historiskstatistikk/Historiskstatistikk";
+import { useHentAktivSakForVirksomhet, useHentHistoriskstatistikk } from "../../api/lydia-api";
+import { Historiskstatistikk } from "./Historiskstatistikk/Historiskstatistikk";
 
 const Container = styled.div`
   padding-top: ${contentSpacing.mobileY};
@@ -33,6 +33,10 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         data: iaSak
     } = useHentAktivSakForVirksomhet(virksomhet.orgnr)
 
+    const {
+        data: statistikk
+    } = useHentHistoriskstatistikk(virksomhet.orgnr)
+
     return (
         <Container>
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />
@@ -50,7 +54,8 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     {iaSak && <Leveranser iaSak={iaSak} />}
                 </StyledPanel>
                 <StyledPanel value="historiskstatistikk">
-                    <Historiskstatistikk/>
+                    {statistikk &&
+                        <Historiskstatistikk historiskStatistikk={statistikk}/>}
                 </StyledPanel>
             </Tabs>
         </Container>
