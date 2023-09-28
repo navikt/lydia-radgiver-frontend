@@ -42,21 +42,21 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         <Container>
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />
             <br />
-            <Tabs defaultValue="samarbeidshistorikk">
+            <Tabs defaultValue={erIDev ? "historiskstatistikk" : "samarbeidshistorikk"}>
                 <Tabs.List style={{ width: "100%" }}>
+                    {erIDev && <Tabs.Tab value="historiskstatistikk" label="Historisk statistikk" />}
                     <Tabs.Tab value="samarbeidshistorikk" label="Samarbeidshistorikk" />
                     {iaSak && <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />}
-                    {erIDev && <Tabs.Tab value="historiskstatistikk" label="Historisk statistikk" />}
                 </Tabs.List>
+                <StyledPanel value="historiskstatistikk">
+                    {statistikk &&
+                        <HistoriskstatistikkFane historiskStatistikk={statistikk} />}
+                </StyledPanel>
                 <StyledPanel value="samarbeidshistorikk">
                     <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />
                 </StyledPanel>
                 <StyledPanel value="ia-tjenester">
                     {iaSak && <LeveranseFane iaSak={iaSak} />}
-                </StyledPanel>
-                <StyledPanel value="historiskstatistikk">
-                    {statistikk &&
-                        <HistoriskstatistikkFane historiskStatistikk={statistikk} />}
                 </StyledPanel>
             </Tabs>
         </Container>
