@@ -56,7 +56,7 @@ export const SamarbeidshistorikkFane = ({ orgnr, className }: Samarbeidshistorik
 
     return (
         <Container className={className}>
-            <Heading spacing={true} size="large">Samarbeidshistorikk</Heading>
+            <Heading level="3" size="large" spacing={true}>Samarbeidshistorikk</Heading>
             {sortertHistorikk.length > 0 ? (
                     <Accordion>
                         {sortertHistorikk.map(sakshistorikk =>

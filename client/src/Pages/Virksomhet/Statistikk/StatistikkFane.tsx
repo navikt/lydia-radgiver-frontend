@@ -17,7 +17,7 @@ interface Props {
 export const StatistikkFane = ({ virksomhet }: Props) => {
     return (
         <Container>
-            <Heading size="large" level="3" spacing={true}>Statistikk</Heading>
+            <Heading level="3" size="large" spacing={true}>Statistikk</Heading>
             <Sykefraværsstatistikk orgnummer={virksomhet.orgnr}
                                    bransje={virksomhet.bransje}
                                    næring={virksomhet.næring}
