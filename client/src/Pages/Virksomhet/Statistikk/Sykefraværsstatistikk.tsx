@@ -15,12 +15,17 @@ import { Kvartal } from "../../../domenetyper/kvartal";
 import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 import { Publiseringsinfo } from "../../../domenetyper/publiseringsinfo";
 import { Næring } from "../../../domenetyper/virksomhet";
+import { desktopAndUp } from "../../../styling/breakpoints";
 
 const Container = styled.dl`
   margin: 0; // Nullstiller defaults i description lists (dl)
   display: grid;
   gap: 1rem;
-  grid-template-columns: repeat(auto-fit, minmax(16rem, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
+  
+  ${desktopAndUp} {
+    grid-template-columns: repeat(3, minmax(15rem, 24rem));
+  }
 `;
 
 interface Props {
