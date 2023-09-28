@@ -6,7 +6,7 @@ import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../sty
 import { NavFarger } from "../../styling/farger";
 import { LeveranseFane } from "./Leveranser/LeveranseFane";
 import { Virksomhet } from "../../domenetyper/virksomhet";
-import { useHentAktivSakForVirksomhet, useHentHistoriskstatistikk } from "../../api/lydia-api";
+import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 import { HistoriskstatistikkFane } from "./Historiskstatistikk/HistoriskstatistikkFane";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
@@ -35,10 +35,6 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         data: iaSak
     } = useHentAktivSakForVirksomhet(virksomhet.orgnr)
 
-    const {
-        data: statistikk
-    } = useHentHistoriskstatistikk(virksomhet.orgnr)
-
     return (
         <Container>
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />
@@ -54,8 +50,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     <StatistikkFane virksomhet={virksomhet}/>
                 </StyledPanel>
                 <StyledPanel value="historiskstatistikk">
-                    {statistikk &&
-                        <HistoriskstatistikkFane historiskStatistikk={statistikk} />}
+                        <HistoriskstatistikkFane orgnr={virksomhet.orgnr} />
                 </StyledPanel>
                 <StyledPanel value="samarbeidshistorikk">
                     <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />
