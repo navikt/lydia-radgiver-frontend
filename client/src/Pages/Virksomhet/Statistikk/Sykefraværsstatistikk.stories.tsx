@@ -6,7 +6,7 @@ import {
     sykefraværsstatistikkNæringMock,
     sykefraværsstatistikkSisteKvartalMock,
     virksomhetsstatistikkSiste4KvartalerMock
-} from "../../../Prioritering/mocks/sykefraværsstatistikkMock";
+} from "../../Prioritering/mocks/sykefraværsstatistikkMock";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import {
     bransjePath,
@@ -15,8 +15,8 @@ import {
     siste4kvartalerPath,
     sistekvartalPath,
     sykefraværsstatistikkPath
-} from "../../../../api/lydia-api";
-import {Næring} from "../../../../domenetyper/virksomhet";
+} from "../../../api/lydia-api";
+import {Næring} from "../../../domenetyper/virksomhet";
 
 export default {
     title: "Virksomhet/Virksomhetsoversikt/Sykefraværsstatistikk for en virksomhet",

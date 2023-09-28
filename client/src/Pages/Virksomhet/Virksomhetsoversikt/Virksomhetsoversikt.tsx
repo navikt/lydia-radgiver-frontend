@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { Heading } from "@navikt/ds-react";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { Sykefraværsstatistikk } from "./Statistikk/Sykefraværsstatistikk";
 import { IASakOversikt } from "./IASakStatus/IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import { contentSpacing } from "../../../styling/contentSpacing";
@@ -51,10 +50,6 @@ export const Virksomhetsoversikt = ({virksomhet, iaSak}: Props) => (
                 <VirksomhetInformasjon virksomhet={virksomhet} />
                 <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} />
             </VirksomhetsinfoContainer>
-            <Sykefraværsstatistikk orgnummer={virksomhet.orgnr}
-                                   bransje={virksomhet.bransje}
-                                   næring={virksomhet.næring}
-            />
         </InnholdContainer>
     </OversiktsContainer>
 )

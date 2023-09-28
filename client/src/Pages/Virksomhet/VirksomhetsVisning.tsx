@@ -9,6 +9,7 @@ import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentAktivSakForVirksomhet, useHentHistoriskstatistikk } from "../../api/lydia-api";
 import { HistoriskstatistikkFane } from "./Historiskstatistikk/HistoriskstatistikkFane";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
+import { StatistikkFane } from "./Statistikk/StatistikkFane";
 
 const Container = styled.div`
   padding-top: ${contentSpacing.mobileY};
@@ -42,12 +43,16 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         <Container>
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />
             <br />
-            <Tabs defaultValue={erIDev ? "historiskstatistikk" : "samarbeidshistorikk"}>
+            <Tabs defaultValue="statistikk">
                 <Tabs.List style={{ width: "100%" }}>
+                    <Tabs.Tab value="statistikk" label="Statistikk" />
                     {erIDev && <Tabs.Tab value="historiskstatistikk" label="Historisk statistikk" />}
                     <Tabs.Tab value="samarbeidshistorikk" label="Samarbeidshistorikk" />
                     {iaSak && <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />}
                 </Tabs.List>
+                <StyledPanel value="statistikk">
+                    <StatistikkFane virksomhet={virksomhet}/>
+                </StyledPanel>
                 <StyledPanel value="historiskstatistikk">
                     {statistikk &&
                         <HistoriskstatistikkFane historiskStatistikk={statistikk} />}

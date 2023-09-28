@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Statistikkboks } from "./Statistikkboks";
-import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../../../util/tallFormatering";
+import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {
     useHentBransjestatistikk,
@@ -8,13 +8,13 @@ import {
     useHentPubliseringsinfo,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
     useHentVirksomhetsstatistikkSiste4Kvartaler
-} from "../../../../api/lydia-api";
-import { sorterKvartalStigende } from "../../../../util/sortering";
-import { getGjeldendePeriodeTekst } from "../../../../util/gjeldendePeriodeSisteFireKvartal";
-import { Kvartal } from "../../../../domenetyper/kvartal";
-import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
-import { Publiseringsinfo } from "../../../../domenetyper/publiseringsinfo";
-import { Næring } from "../../../../domenetyper/virksomhet";
+} from "../../../api/lydia-api";
+import { sorterKvartalStigende } from "../../../util/sortering";
+import { getGjeldendePeriodeTekst } from "../../../util/gjeldendePeriodeSisteFireKvartal";
+import { Kvartal } from "../../../domenetyper/kvartal";
+import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
+import { Publiseringsinfo } from "../../../domenetyper/publiseringsinfo";
+import { Næring } from "../../../domenetyper/virksomhet";
 
 const Container = styled.dl`
   margin: 0; // Nullstiller defaults i description lists (dl)
