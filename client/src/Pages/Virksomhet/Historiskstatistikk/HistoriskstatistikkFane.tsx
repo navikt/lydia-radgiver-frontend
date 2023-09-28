@@ -43,7 +43,7 @@ export const HistoriskstatistikkFane = ({ historiskStatistikk }: HistoriskStatis
             statistikk => {
                 return {
                     name: `${statistikk.årstall}-${statistikk.kvartal}`,
-                    value: statistikk.sykefraværsprosent
+                    value: statistikk.maskert ? null : statistikk.sykefraværsprosent
                 }
             }
         )
