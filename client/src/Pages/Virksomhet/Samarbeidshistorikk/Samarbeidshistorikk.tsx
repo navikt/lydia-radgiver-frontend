@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Accordion, BodyShort } from "@navikt/ds-react";
+import { Accordion, BodyShort, Heading } from "@navikt/ds-react";
 import { lokalDato } from "../../../util/dato";
 import { StatusBadge } from "../../../components/Badge/StatusBadge";
 import { SakshistorikkTabell } from "./SakshistorikkTabell";
@@ -23,7 +23,7 @@ interface SamarbeidshistorikkProps {
     className?: string;
 }
 
-export const Samarbeidshistorikk = ({orgnr, className}: SamarbeidshistorikkProps) => {
+export const Samarbeidshistorikk = ({ orgnr, className }: SamarbeidshistorikkProps) => {
     const {
         data: samarbeidshistorikk,
         loading: lasterSamarbeidshistorikk
@@ -32,7 +32,8 @@ export const Samarbeidshistorikk = ({orgnr, className}: SamarbeidshistorikkProps
     if (lasterSamarbeidshistorikk) {
         return (
             <Container className={className}>
-                <p>Laster</p>
+                <Heading spacing={true} size="large">Samarbeidshistorikk</Heading>
+                <BodyShort>Laster</BodyShort>
             </Container>
         )
     }
@@ -40,7 +41,8 @@ export const Samarbeidshistorikk = ({orgnr, className}: SamarbeidshistorikkProps
     if (!samarbeidshistorikk) {
         return (
             <Container className={className}>
-                <p>Kunne ikke hente samarbeidshistorikk</p>
+                <Heading spacing={true} size="large">Samarbeidshistorikk</Heading>
+                <BodyShort>Kunne ikke hente samarbeidshistorikk</BodyShort>
             </Container>
         )
     }
@@ -54,6 +56,7 @@ export const Samarbeidshistorikk = ({orgnr, className}: SamarbeidshistorikkProps
 
     return (
         <Container className={className}>
+            <Heading spacing={true} size="large">Samarbeidshistorikk</Heading>
             {sortertHistorikk.length > 0 ? (
                     <Accordion>
                         {sortertHistorikk.map(sakshistorikk =>
@@ -79,21 +82,11 @@ export const Samarbeidshistorikk = ({orgnr, className}: SamarbeidshistorikkProps
                         )}
                     </Accordion>)
                 : (
-                    <IngenHendelserPåSak />
+                    <BodyShort>
+                        Fant ingen samarbeidshistorikk på denne virksomheten
+                    </BodyShort>
                 )}
         </Container>
-    );
-};
-
-const IngenHendelserDetail = styled(BodyShort)`
-  padding: 1rem 1rem;
-`;
-
-const IngenHendelserPåSak = () => {
-    return (
-        <IngenHendelserDetail>
-            Fant ingen samarbeidshistorikk på denne virksomheten
-        </IngenHendelserDetail>
     );
 };
 
