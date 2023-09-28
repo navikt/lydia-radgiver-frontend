@@ -20,7 +20,7 @@ interface Props {
     iaSak: IASak;
 }
 
-export const Leveranser = ({ iaSak }: Props) => {
+export const LeveranseFane = ({ iaSak }: Props) => {
     const sakenErIViBistår = iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR;
 
     return (

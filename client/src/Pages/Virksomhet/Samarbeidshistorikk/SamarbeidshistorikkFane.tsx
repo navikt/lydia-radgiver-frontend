@@ -23,7 +23,7 @@ interface SamarbeidshistorikkProps {
     className?: string;
 }
 
-export const Samarbeidshistorikk = ({ orgnr, className }: SamarbeidshistorikkProps) => {
+export const SamarbeidshistorikkFane = ({ orgnr, className }: SamarbeidshistorikkProps) => {
     const {
         data: samarbeidshistorikk,
         loading: lasterSamarbeidshistorikk

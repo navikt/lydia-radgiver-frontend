@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { Tabs } from "@navikt/ds-react";
-import { Samarbeidshistorikk } from "./Samarbeidshistorikk/Samarbeidshistorikk";
+import { SamarbeidshistorikkFane } from "./Samarbeidshistorikk/SamarbeidshistorikkFane";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
 import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../styling/contentSpacing";
 import { NavFarger } from "../../styling/farger";
-import { Leveranser } from "./Leveranser/Leveranser";
+import { LeveranseFane } from "./Leveranser/LeveranseFane";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentAktivSakForVirksomhet, useHentHistoriskstatistikk } from "../../api/lydia-api";
-import { Historiskstatistikk } from "./Historiskstatistikk/Historiskstatistikk";
+import { HistoriskstatistikkFane } from "./Historiskstatistikk/HistoriskstatistikkFane";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
 
 const Container = styled.div`
@@ -49,14 +49,14 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     {erIDev && <Tabs.Tab value="historiskstatistikk" label="Historisk statistikk" />}
                 </Tabs.List>
                 <StyledPanel value="samarbeidshistorikk">
-                    <Samarbeidshistorikk orgnr={virksomhet.orgnr} />
+                    <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />
                 </StyledPanel>
                 <StyledPanel value="ia-tjenester">
-                    {iaSak && <Leveranser iaSak={iaSak} />}
+                    {iaSak && <LeveranseFane iaSak={iaSak} />}
                 </StyledPanel>
                 <StyledPanel value="historiskstatistikk">
                     {statistikk &&
-                        <Historiskstatistikk historiskStatistikk={statistikk} />}
+                        <HistoriskstatistikkFane historiskStatistikk={statistikk} />}
                 </StyledPanel>
             </Tabs>
         </Container>

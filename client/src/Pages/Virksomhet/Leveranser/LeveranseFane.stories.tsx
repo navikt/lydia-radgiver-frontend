@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { Leveranser } from "./Leveranser";
+import { LeveranseFane } from "./LeveranseFane";
 import { iaSakFullført, iaSakKartlegges, iaSakViBistår } from "../mocks/iaSakMock";
 import { brukerSomErSaksbehandler, brukerSomHarLesetilgang } from "../../Prioritering/mocks/innloggetAnsattMock";
 import { rest } from "msw";
@@ -7,8 +7,8 @@ import { mswHandlers } from "../../../../.storybook/mswHandlers";
 
 const meta = {
     title: "Virksomhet/Leveranser/Leveransefane",
-    component: Leveranser,
-} satisfies Meta<typeof Leveranser>
+    component: LeveranseFane,
+} satisfies Meta<typeof LeveranseFane>
 export default meta;
 type Story = StoryObj<typeof meta>
 

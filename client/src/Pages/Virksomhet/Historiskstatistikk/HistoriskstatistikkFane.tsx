@@ -29,7 +29,7 @@ interface HistoriskStatistikkProps {
 const linjebredde = 2;
 const dotStrl = 40;
 
-export const Historiskstatistikk = ({ historiskStatistikk }: HistoriskStatistikkProps) => {
+export const HistoriskstatistikkFane = ({ historiskStatistikk }: HistoriskStatistikkProps) => {
 
     const detSomSkalVises = historiskStatistikk.virksomhetsstatistikk.statistikk
         .sort((s1, s2) => {

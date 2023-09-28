@@ -1,13 +1,13 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { rest } from "msw";
-import { Samarbeidshistorikk } from "./Samarbeidshistorikk";
+import { SamarbeidshistorikkFane } from "./SamarbeidshistorikkFane";
 import { samarbeidshistorikkMock } from "../mocks/iaSakHistorikkMock";
 import { iaSakHistorikkPath } from "../../../api/lydia-api";
 
 const meta = {
-    title: "Virksomhet/Samarbeidshistorikk for en IA-sak",
-    component: Samarbeidshistorikk,
-} satisfies Meta<typeof Samarbeidshistorikk>;
+    title: "Virksomhet/Samarbeidshistorikkfane",
+    component: SamarbeidshistorikkFane,
+} satisfies Meta<typeof SamarbeidshistorikkFane>;
 
 export default meta;
 type Story = StoryObj<typeof meta>
