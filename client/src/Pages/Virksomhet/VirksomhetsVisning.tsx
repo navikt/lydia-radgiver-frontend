@@ -7,8 +7,6 @@ import { NavFarger } from "../../styling/farger";
 import { LeveranseFane } from "./Leveranser/LeveranseFane";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
-import { HistoriskstatistikkFane } from "./Historiskstatistikk/HistoriskstatistikkFane";
-import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
 
 const Container = styled.div`
@@ -42,15 +40,11 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
             <Tabs defaultValue="statistikk">
                 <Tabs.List style={{ width: "100%" }}>
                     <Tabs.Tab value="statistikk" label="Statistikk" />
-                    {erIDev && <Tabs.Tab value="historiskstatistikk" label="Historisk statistikk" />}
                     <Tabs.Tab value="samarbeidshistorikk" label="Samarbeidshistorikk" />
                     {iaSak && <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />}
                 </Tabs.List>
                 <StyledPanel value="statistikk">
                     <StatistikkFane virksomhet={virksomhet}/>
-                </StyledPanel>
-                <StyledPanel value="historiskstatistikk">
-                        <HistoriskstatistikkFane orgnr={virksomhet.orgnr} />
                 </StyledPanel>
                 <StyledPanel value="samarbeidshistorikk">
                     <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />

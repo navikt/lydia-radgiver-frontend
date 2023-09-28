@@ -1,16 +1,16 @@
 import styled from "styled-components";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Symbols, Tooltip, XAxis, YAxis } from "recharts";
 import { BodyShort, Heading } from "@navikt/ds-react";
-import { tabInnholdStyling } from "../../../styling/containere";
 import { SymbolSvg } from "./SymbolSvg";
 import { useHentHistoriskstatistikk } from "../../../api/lydia-api";
 
 const Container = styled.div`
+  padding-top: 4rem;
   height: 100%;
+  
   display: flex;
   flex-direction: column;
   gap: 3rem;
-  ${tabInnholdStyling};
 `;
 const Legend = styled.div`
   margin-top: 1rem;
@@ -28,7 +28,7 @@ interface HistoriskStatistikkProps {
 const linjebredde = 2;
 const dotStrl = 40;
 
-export const HistoriskstatistikkFane = ({ orgnr }: HistoriskStatistikkProps) => {
+export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
     const {
         data: historiskStatistikk
     } = useHentHistoriskstatistikk(orgnr)
@@ -57,7 +57,7 @@ export const HistoriskstatistikkFane = ({ orgnr }: HistoriskStatistikkProps) => 
     return (
         <Container>
             <div>
-                <Heading spacing={true} size="large">Historisk statistikk</Heading>
+                <Heading spacing={true} level="4" size="medium">Historisk statistikk</Heading>
                 <BodyShort>
                     Her kan du se hvordan det legemeldte sykefraværet utvikler seg over tid.
                 </BodyShort>

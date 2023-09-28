@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { Heading } from "@navikt/ds-react";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
+import { Historiskstatistikk } from "./Historiskstatistikk";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 const Container = styled.div`
   ${tabInnholdStyling}
@@ -20,6 +22,8 @@ export const StatistikkFane = ({ virksomhet }: Props) => {
                                    bransje={virksomhet.bransje}
                                    næring={virksomhet.næring}
             />
+            {erIDev &&
+                <Historiskstatistikk orgnr={virksomhet.orgnr} />}
         </Container>
     )
 }
