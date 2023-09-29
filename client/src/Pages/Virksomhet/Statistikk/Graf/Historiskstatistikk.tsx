@@ -2,8 +2,8 @@ import styled from "styled-components";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Symbols, Tooltip, XAxis, YAxis } from "recharts";
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { SymbolSvg } from "./SymbolSvg";
-import { useHentHistoriskstatistikk } from "../../../api/lydia-api";
-import { sorterKvartalStigende } from "../../../util/sortering";
+import { useHentHistoriskstatistikk } from "../../../../api/lydia-api";
+import { sorterKvartalStigende } from "../../../../util/sortering";
 
 const Container = styled.div`
   padding-top: 4rem;

@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { Heading } from "@navikt/ds-react";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
-import { Historiskstatistikk } from "./Historiskstatistikk";
+import { Historiskstatistikk } from "./Graf/Historiskstatistikk";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 const Container = styled.div`
