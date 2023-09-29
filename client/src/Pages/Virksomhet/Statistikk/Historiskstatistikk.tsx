@@ -14,8 +14,9 @@ const Container = styled.div`
   gap: 3rem;
 `;
 const Legend = styled.div`
-  margin-top: 1rem;
-  margin-bottom: 2rem;
+  padding-top: 1rem;
+  padding-bottom: 2rem;
+  
   display: flex;
   flex-direction: row;
   gap: 1rem;
@@ -78,7 +79,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                           dot={<Symbols type={"circle"} size={dotStrl} fill={"red"} />}
                     />
                     <XAxis dataKey="name" />
-                    <YAxis />
+                    <YAxis tickFormatter={(value) => (`${value} %`)}/>
                     <Tooltip />
                 </LineChart>
             </ResponsiveContainer>
