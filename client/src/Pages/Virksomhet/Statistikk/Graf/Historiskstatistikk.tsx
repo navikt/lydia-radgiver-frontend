@@ -30,6 +30,8 @@ interface HistoriskStatistikkProps {
 
 const linjebredde = 2;
 const dotStrl = 40;
+const kvartalSomTekst = (årstall: number, kvartal: number) =>
+    årstall + ', ' + kvartal + '. kvartal';
 
 export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
     const {
@@ -45,7 +47,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
         .map(
             statistikk => {
                 return {
-                    name: `${statistikk.årstall}-${statistikk.kvartal}`,
+                    name: `${kvartalSomTekst(statistikk.årstall, statistikk.kvartal)}`,
                     virksomhet: statistikk.maskert ? null : statistikk.sykefraværsprosent
                 }
             }
