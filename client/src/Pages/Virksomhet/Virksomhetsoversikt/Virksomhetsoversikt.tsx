@@ -10,7 +10,7 @@ import { Virksomhet } from "../../../domenetyper/virksomhet";
 const OversiktsContainer = styled.div`
   display: flex;
   flex-direction: column;
-  
+
   padding-bottom: ${contentSpacing.mobileY};
 `;
 
@@ -20,16 +20,11 @@ const VirksomhetsnavnContainer = styled.div`
   gap: 1rem;
 `;
 
-const InnholdContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-`;
-
 const VirksomhetsinfoContainer = styled.div`
+  flex: 3;
+
   display: flex;
   flex-wrap: wrap;
-  flex: 3;
   gap: 2rem;
   min-width: 20rem;
 `
@@ -39,17 +34,15 @@ interface Props {
     iaSak?: IASak;
 }
 
-export const Virksomhetsoversikt = ({virksomhet, iaSak}: Props) => (
+export const Virksomhetsoversikt = ({ virksomhet, iaSak }: Props) => (
     <OversiktsContainer>
         <VirksomhetsnavnContainer>
             <Heading level={"2"} size={"large"}>{virksomhet.navn}</Heading>
             <BrregStatus status={virksomhet.status} />
         </VirksomhetsnavnContainer>
-        <InnholdContainer>
-            <VirksomhetsinfoContainer>
-                <VirksomhetInformasjon virksomhet={virksomhet} />
-                <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} />
-            </VirksomhetsinfoContainer>
-        </InnholdContainer>
+        <VirksomhetsinfoContainer>
+            <VirksomhetInformasjon virksomhet={virksomhet} />
+            <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} />
+        </VirksomhetsinfoContainer>
     </OversiktsContainer>
 )
