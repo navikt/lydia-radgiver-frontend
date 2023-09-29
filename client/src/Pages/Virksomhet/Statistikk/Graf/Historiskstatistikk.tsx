@@ -9,7 +9,7 @@ import { graphTooltip } from "./GraphTooltip";
 const Container = styled.div`
   padding-top: 4rem;
   height: 100%;
-  
+
   display: flex;
   flex-direction: column;
   gap: 3rem;
@@ -17,7 +17,7 @@ const Container = styled.div`
 const Legend = styled.div`
   padding-top: 1rem;
   padding-bottom: 2rem;
-  
+
   display: flex;
   flex-direction: row;
   gap: 1rem;
@@ -53,6 +53,10 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
             }
         )
 
+    const førstekvartalIHvertÅr = detSomSkalVises.filter((it) => {
+        return it.name.includes("1. kvartal");
+    }).map(it => it.name)
+
     return (
         <Container>
             <div>
@@ -81,8 +85,12 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                           isAnimationActive={false}
                           dot={<Symbols type={"circle"} size={dotStrl} fill={"red"} />}
                     />
-                    <XAxis dataKey="name" />
-                    <YAxis tickFormatter={(value) => (`${value} %`)}/>
+                    <XAxis
+                        dataKey="name"
+                        tickFormatter={(tickValue) => tickValue.substring(0, 4)} // Bare vis år-delen av "name"
+                        ticks={førstekvartalIHvertÅr} // på same format som "name"
+                    />
+                    <YAxis tickFormatter={(value) => (`${value} %`)} />
                     {graphTooltip()}
                 </LineChart>
             </ResponsiveContainer>
