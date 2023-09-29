@@ -3,6 +3,7 @@ import { CartesianGrid, Line, LineChart, ResponsiveContainer, Symbols, Tooltip, 
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { SymbolSvg } from "./SymbolSvg";
 import { useHentHistoriskstatistikk } from "../../../api/lydia-api";
+import { sorterKvartalStigende } from "../../../util/sortering";
 
 const Container = styled.div`
   padding-top: 4rem;
@@ -38,13 +39,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
     }
 
     const detSomSkalVises = historiskStatistikk.virksomhetsstatistikk.statistikk
-        .sort((s1, s2) => {
-            if ((s1.årstall - s2.årstall) === 0) {
-                return s1.kvartal - s2.kvartal
-            } else {
-                return s1.årstall - s2.årstall
-            }
-        })
+        .sort(sorterKvartalStigende)
         .map(
             statistikk => {
                 return {
