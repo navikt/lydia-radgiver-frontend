@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { CartesianGrid, Line, LineChart, ResponsiveContainer, Symbols, Tooltip, XAxis, YAxis } from "recharts";
+import { CartesianGrid, Line, LineChart, ResponsiveContainer, Symbols, XAxis, YAxis } from "recharts";
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { SymbolSvg } from "./SymbolSvg";
 import { useHentHistoriskstatistikk } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
+import { graphTooltip } from "./GraphTooltip";
 
 const Container = styled.div`
   padding-top: 4rem;
@@ -45,7 +46,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
             statistikk => {
                 return {
                     name: `${statistikk.årstall}-${statistikk.kvartal}`,
-                    value: statistikk.maskert ? null : statistikk.sykefraværsprosent
+                    virksomhet: statistikk.maskert ? null : statistikk.sykefraværsprosent
                 }
             }
         )
@@ -72,7 +73,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                 >
                     <CartesianGrid strokeDasharray="3 3" stroke="#C6C2BF" />
                     <Line type="monotone"
-                          dataKey="value"
+                          dataKey="virksomhet"
                           stroke="red"
                           strokeWidth={linjebredde}
                           isAnimationActive={false}
@@ -80,7 +81,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                     />
                     <XAxis dataKey="name" />
                     <YAxis tickFormatter={(value) => (`${value} %`)}/>
-                    <Tooltip />
+                    {graphTooltip()}
                 </LineChart>
             </ResponsiveContainer>
         </Container>
