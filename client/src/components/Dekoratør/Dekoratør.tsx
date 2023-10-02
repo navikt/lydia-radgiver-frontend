@@ -6,7 +6,7 @@ import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/br
 import { SesjonBanner } from "../Banner/SesjonBanner";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 
-const DemoversjonTekst = styled(BodyShort)<{hidden: boolean}>`
+const DemoversjonTekst = styled(BodyShort)<{ hidden: boolean }>`
   display: ${(props) => props.hidden ? "none" : "flex"};
   align-items: center;
   padding: 0 1.5rem;
@@ -19,19 +19,9 @@ const Navigasjon = styled.nav`
   margin-right: auto; // dyttar søkefeltet inn til midten
 `;
 
-const LenkeTilSøkesiden = styled(Link)`
+const Navigasjonslenke = styled(Link)`
   color: ${NavFarger.textInverted};
   text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
-`;
-
-const LenkeTilStatusoversikt = styled(InternalHeader.Title)`
-  color: ${NavFarger.textInverted};
-  text-decoration: none;
-  display: inline-flex;
 
   &:hover {
     text-decoration: underline;
@@ -49,20 +39,17 @@ interface Props {
 
 export const erIDev = ["localhost", "fia.intern.dev.nav.no"].includes(window.location.hostname)
 
-export const Dekoratør = ({brukerInformasjon}: Props) => {
+export const Dekoratør = ({ brukerInformasjon }: Props) => {
     return (
         <>
             <InternalHeader className="w-full" data-theme="light">
                 <Navigasjon>
-                    <LenkeTilSøkesiden href="/" title="Gå til søkesiden">
+                    <Navigasjonslenke href="/" title="Gå til søkesiden">
                         <InternalHeader.Title as="h1">Fia</InternalHeader.Title>
-                    </LenkeTilSøkesiden>
-                    <LenkeTilStatusoversikt
-                        href="/statusoversikt"
-                        title="Gå til statusoversiktsiden"
-                    >
-                        Statusoversikt
-                    </LenkeTilStatusoversikt>
+                    </Navigasjonslenke>
+                    <Navigasjonslenke href="/statusoversikt" title="Gå til statusoversiktsiden">
+                        <InternalHeader.Title as="span">Statusoversikt</InternalHeader.Title>
+                    </Navigasjonslenke>
                 </Navigasjon>
                 <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
                 <Søkefelt style={{
