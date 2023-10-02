@@ -5,6 +5,7 @@ import { SymbolSvg } from "./SymbolSvg";
 import { useHentHistoriskstatistikk } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { graphTooltip } from "./GraphTooltip";
+import { Kvartal } from "../../../../domenetyper/kvartal";
 
 const Container = styled.div`
   padding-top: 4rem;
@@ -42,7 +43,53 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
         return null;
     }
 
-    const detSomSkalVises = historiskStatistikk.virksomhetsstatistikk.statistikk
+    interface Datapunkt {
+        name: string;
+        virksomhet: number | null;
+    }
+
+    const alleKvartalerTilgjengelig: Kvartal[] = [
+        { årstall: 2020, kvartal: 1 },
+        { årstall: 2020, kvartal: 2 },
+        { årstall: 2020, kvartal: 3 },
+        { årstall: 2020, kvartal: 4 },
+        { årstall: 2021, kvartal: 1 },
+        { årstall: 2021, kvartal: 2 },
+        { årstall: 2021, kvartal: 3 },
+        { årstall: 2021, kvartal: 4 },
+        { årstall: 2022, kvartal: 1 },
+        { årstall: 2022, kvartal: 2 },
+        { årstall: 2022, kvartal: 3 },
+        { årstall: 2022, kvartal: 4 },
+        { årstall: 2023, kvartal: 1 },
+        { årstall: 2023, kvartal: 2 },
+    ]
+
+    const leggTilManglendeKvartaler = (liste: Datapunkt[]): Datapunkt[] => {
+
+        const listeMedAlleKvartaler: Datapunkt[] = []
+
+        alleKvartalerTilgjengelig
+            .map(
+                kvartal => {
+                    return {
+                        name: `${kvartalSomTekst(kvartal.årstall, kvartal.kvartal)}`,
+                        virksomhet: null,
+                    }
+                }
+            ).forEach(element => {
+                const funnet = liste.find(datapunkt => {return datapunkt.name === element.name})
+
+                if (funnet) {
+                    listeMedAlleKvartaler.push(funnet)
+                } else {
+                    listeMedAlleKvartaler.push(element)
+                }
+            })
+        return listeMedAlleKvartaler
+    }
+
+    const detSomSkalVises = leggTilManglendeKvartaler(historiskStatistikk.virksomhetsstatistikk.statistikk
         .sort(sorterKvartalStigende)
         .map(
             statistikk => {
@@ -52,6 +99,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                 }
             }
         )
+    )
 
     const førstekvartalIHvertÅr = detSomSkalVises.filter((it) => {
         return it.name.includes("1. kvartal");

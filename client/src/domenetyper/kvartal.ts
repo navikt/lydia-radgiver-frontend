@@ -25,4 +25,19 @@ export const nesteKvartal = (kvartal: Kvartal) => {
     }
 }
 
+export const forrigeKvartal = (kvartal : Kvartal) : Kvartal => {
+    if (kvartal.kvartal === 1) {
+        return {
+            kvartal: 4,
+            årstall: kvartal.årstall -1,
+        }
+    } else {
+        return {
+            kvartal: kvartal.kvartal -1,
+            årstall: kvartal.årstall,
+        }
+    }
+}
+
+
 export type KvartalFraTil = z.infer<typeof kvartalFraTilSchema>;
