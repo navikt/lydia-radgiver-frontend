@@ -20,7 +20,7 @@ export const IASakOversiktContainer = styled.div`
   padding: ${24 / 16}rem;
 
   border-radius: ${BorderRadius.medium};
-  background-color: ${NavFarger.canvasBackground};
+  background-color: ${NavFarger.backgroundSubtle};
 `;
 
 export const Saksinfo = styled.div`

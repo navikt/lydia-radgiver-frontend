@@ -68,7 +68,7 @@ export enum NavFarger {
     borderMuted = gray500,
     link = blue500,
     focus = blue800,
-    canvasBackground = gray100,
+    backgroundSubtle = "var(--a-bg-subtle)", // gray100
 
 
     // Semantiske fargar til border, designsystem 2.0

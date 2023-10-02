@@ -10,7 +10,7 @@ const Container = styled.div`
   align-items: center;
   flex-wrap: wrap;
 
-  background: ${NavFarger.canvasBackground};
+  background: ${NavFarger.backgroundSubtle};
   border-radius: ${BorderRadius.medium};
 
   padding: ${12 / 16}rem ${24 / 16}rem;

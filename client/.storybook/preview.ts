@@ -11,7 +11,7 @@ const preview: Preview = {
             values: [
                 {
                     name: 'canvasBackground',
-                    value: NavFarger.canvasBackground,
+                    value: NavFarger.backgroundSubtle,
                 },
                 {
                     name: 'white',
