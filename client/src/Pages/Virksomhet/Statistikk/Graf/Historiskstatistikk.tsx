@@ -2,10 +2,10 @@ import styled from "styled-components";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Symbols, XAxis, YAxis } from "recharts";
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { SymbolSvg } from "./SymbolSvg";
-import { useHentHistoriskstatistikk } from "../../../../api/lydia-api";
+import { useHentHistoriskstatistikk, useHentPubliseringsinfo } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { graphTooltip } from "./GraphTooltip";
-import { Kvartal } from "../../../../domenetyper/kvartal";
+import { Kvartal, lagKvartaler } from "../../../../domenetyper/kvartal";
 
 const Container = styled.div`
   padding-top: 4rem;
@@ -29,17 +29,22 @@ interface HistoriskStatistikkProps {
     orgnr: string;
 }
 
+export const FEM_ÅR_TILBAKE_I_TID_I_ANTALL_KVARTALER = 20;
 const linjebredde = 2;
 const dotStrl = 40;
 const kvartalSomTekst = (årstall: number, kvartal: number) =>
     årstall + ', ' + kvartal + '. kvartal';
 
+
 export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
+    const {
+        data: publiseringsinfo,
+    } = useHentPubliseringsinfo()
     const {
         data: historiskStatistikk
     } = useHentHistoriskstatistikk(orgnr)
 
-    if (!historiskStatistikk) {
+    if (!historiskStatistikk || !publiseringsinfo) {
         return null;
     }
 
@@ -48,27 +53,13 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
         virksomhet: number | null;
     }
 
-    const alleKvartalerTilgjengelig: Kvartal[] = [
-        { årstall: 2020, kvartal: 1 },
-        { årstall: 2020, kvartal: 2 },
-        { årstall: 2020, kvartal: 3 },
-        { årstall: 2020, kvartal: 4 },
-        { årstall: 2021, kvartal: 1 },
-        { årstall: 2021, kvartal: 2 },
-        { årstall: 2021, kvartal: 3 },
-        { årstall: 2021, kvartal: 4 },
-        { årstall: 2022, kvartal: 1 },
-        { årstall: 2022, kvartal: 2 },
-        { årstall: 2022, kvartal: 3 },
-        { årstall: 2022, kvartal: 4 },
-        { årstall: 2023, kvartal: 1 },
-        { årstall: 2023, kvartal: 2 },
-    ]
+    const alleKvartalerTilgjengelig: Kvartal[] = lagKvartaler(
+        { årstall: publiseringsinfo.fraTil.til.årstall, kvartal: publiseringsinfo.fraTil.til.kvartal },
+        FEM_ÅR_TILBAKE_I_TID_I_ANTALL_KVARTALER
+    ).sort(sorterKvartalStigende)
 
     const leggTilManglendeKvartaler = (liste: Datapunkt[]): Datapunkt[] => {
-
         const listeMedAlleKvartaler: Datapunkt[] = []
-
         alleKvartalerTilgjengelig
             .map(
                 kvartal => {

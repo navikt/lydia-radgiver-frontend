@@ -39,5 +39,21 @@ export const forrigeKvartal = (kvartal : Kvartal) : Kvartal => {
     }
 }
 
+const rekursivtLagKvartaler = (
+    kvartaler: Kvartal[],
+    kvartal: Kvartal,
+    kvartalerIgjen: number,
+): Kvartal[] => {
+    if (kvartalerIgjen === 0) {
+        return kvartaler
+    } else {
+        kvartaler.push(kvartal)
+        return rekursivtLagKvartaler(kvartaler, forrigeKvartal(kvartal), kvartalerIgjen - 1)
+    }
+}
+
+export const lagKvartaler = (fraKvartal: Kvartal, antall: number): Kvartal[] => {
+    return rekursivtLagKvartaler([], fraKvartal, antall)
+}
 
 export type KvartalFraTil = z.infer<typeof kvartalFraTilSchema>;
