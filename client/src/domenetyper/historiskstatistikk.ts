@@ -20,7 +20,11 @@ const kategoristatistikkSchema = z.object({
 })
 
 export const historiskStatistikkSchema = z.object({
-    virksomhetsstatistikk: kategoristatistikkSchema
+    virksomhetsstatistikk: kategoristatistikkSchema,
+    næringsstatistikk: kategoristatistikkSchema,
+    bransjestatistikk: kategoristatistikkSchema,
+    sektorstatistikk: kategoristatistikkSchema,
+    landsstatistikk: kategoristatistikkSchema
 })
 export type HistoriskStatistikk = z.infer<typeof historiskStatistikkSchema>
 

@@ -84,9 +84,14 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
         .sort(sorterKvartalStigende)
         .map(
             statistikk => {
+                const landverdi = historiskStatistikk.landsstatistikk.statistikk
+                    .find(datapunkt => {
+                        return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
+                    });
                 return {
                     name: `${kvartalSomTekst(statistikk.årstall, statistikk.kvartal)}`,
-                    virksomhet: statistikk.maskert ? null : statistikk.sykefraværsprosent
+                    virksomhet: statistikk.maskert ? null : statistikk.sykefraværsprosent,
+                    land: landverdi ? landverdi.sykefraværsprosent : null
                 }
             }
         )
@@ -108,6 +113,11 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                     <BodyShort>
                         Virksomhet
                     </BodyShort>
+
+                    <SymbolSvg size={dotStrl} fill={"blue"} />
+                    <BodyShort>
+                        Land
+                    </BodyShort>
                 </Legend>
             </div>
 
@@ -123,6 +133,14 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                           strokeWidth={linjebredde}
                           isAnimationActive={false}
                           dot={<Symbols type={"circle"} size={dotStrl} fill={"red"} />}
+                    />
+                    <Line
+                        type="monotone"
+                        dataKey="land"
+                        stroke="blue"
+                        strokeWidth={linjebredde}
+                        isAnimationActive={false}
+                        dot={<Symbols type={"circle"} size={dotStrl} fill={"blue"} />}
                     />
                     <XAxis
                         dataKey="name"

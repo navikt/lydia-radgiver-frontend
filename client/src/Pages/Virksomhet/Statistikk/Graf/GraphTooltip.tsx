@@ -35,12 +35,19 @@ const Ikon = styled(SymbolSvg)`
   margin-right: 0.5rem;
 `;
 
+const farge = (name : string) => {
+    if (name === "land") {
+        return "blue"
+    } else {
+        return "red"
+    }
+}
 export const graphTooltip = () => {
     return (
         <Tooltip
             formatter={(value: number, name: string) => [
                 <TooltipItemWrapper key={`tooltip-${name}`}>
-                    <Ikon size={40} fill={"red"} />
+                    <Ikon size={40} fill={farge(name)} />
                     <NavnOgVerdi>
                         <Navn>{name}</Navn>
                         <Verdi>{value + ' %'}</Verdi>
