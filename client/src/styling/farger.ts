@@ -8,6 +8,14 @@ export enum FiaFarger {
     gul = "#FFD799",        // orange200
 }
 
+export enum GrafFarger {
+    rød = '#C30000',
+    lilla = '#826BA1',
+    oransje = '#FF9100',
+    blå = '#3385D1',
+    grønn = '#38A161',
+}
+
 // https://aksel.nav.no/designsystem/side/color
 export enum NavFarger {
     white = "var(--a-white)",

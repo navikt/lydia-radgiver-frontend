@@ -1,6 +1,7 @@
 import { Tooltip } from "recharts";
 import styled from "styled-components";
 import { SymbolSvg } from "./SymbolSvg";
+import { graflinjer } from "./graflinjer";
 import { NavFarger } from "../../../../styling/farger";
 
 const TooltipItemWrapper = styled.span`
@@ -36,19 +37,12 @@ const Ikon = styled(SymbolSvg)`
   margin-right: 0.5rem;
 `;
 
-const farge = (name : string) => {
-    if (name === "land") {
-        return "blue"
-    } else {
-        return "red"
-    }
-}
 export const graphTooltip = () => {
     return (
         <Tooltip
             formatter={(value: number, name: string) => [
                 <TooltipItemWrapper key={`tooltip-${name}`}>
-                    <Ikon size={40} fill={farge(name)} />
+                    <Ikon size={40} fill={graflinjer[name].farge} symbol={graflinjer[name].symbol} />
                     <NavnOgVerdi>
                         <Navn>{name}</Navn>
                         <Verdi>{value + ' %'}</Verdi>
