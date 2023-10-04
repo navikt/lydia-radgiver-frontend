@@ -6,6 +6,7 @@ import { useHentHistoriskstatistikk, useHentPubliseringsinfo } from "../../../..
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { graphTooltip } from "./GraphTooltip";
 import { Kvartal, lagKvartaler } from "../../../../domenetyper/kvartal";
+import { graflinjer } from "./graflinjer";
 
 const Container = styled.div`
   padding-top: 4rem;
@@ -109,12 +110,19 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                     Her kan du se hvordan det legemeldte sykefraværet utvikler seg over tid.
                 </BodyShort>
                 <Legend>
-                    <SymbolSvg size={dotStrl} fill={"red"} />
+                    <SymbolSvg
+                        size={dotStrl}
+                        fill={graflinjer["virksomhet"].farge}
+                        symbol={graflinjer["virksomhet"].symbol}
+                    />
                     <BodyShort>
                         Virksomhet
                     </BodyShort>
 
-                    <SymbolSvg size={dotStrl} fill={"blue"} />
+                    <SymbolSvg size={dotStrl}
+                               fill={graflinjer["land"].farge}
+                               symbol={graflinjer["land"].symbol}
+                    />
                     <BodyShort>
                         Land
                     </BodyShort>
@@ -129,18 +137,30 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                     <CartesianGrid strokeDasharray="3 3" stroke="#C6C2BF" />
                     <Line type="monotone"
                           dataKey="virksomhet"
-                          stroke="red"
+                          stroke={graflinjer["virksomhet"].farge}
                           strokeWidth={linjebredde}
                           isAnimationActive={false}
-                          dot={<Symbols type={"circle"} size={dotStrl} fill={"red"} />}
+                          dot={
+                              <Symbols
+                                  type={graflinjer["virksomhet"].symbol}
+                                  size={dotStrl}
+                                  fill={graflinjer["virksomhet"].farge}
+                              />
+                          }
                     />
                     <Line
                         type="monotone"
                         dataKey="land"
-                        stroke="blue"
+                        stroke={graflinjer["land"].farge}
                         strokeWidth={linjebredde}
                         isAnimationActive={false}
-                        dot={<Symbols type={"circle"} size={dotStrl} fill={"blue"} />}
+                        dot={
+                            <Symbols
+                                type={graflinjer["land"].symbol}
+                                size={dotStrl}
+                                fill={graflinjer["land"].farge}
+                            />
+                        }
                     />
                     <XAxis
                         dataKey="name"
