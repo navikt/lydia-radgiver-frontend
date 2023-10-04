@@ -1,6 +1,7 @@
 import { Tooltip } from "recharts";
 import styled from "styled-components";
 import { SymbolSvg } from "./SymbolSvg";
+import { NavFarger } from "../../../../styling/farger";
 
 const TooltipItemWrapper = styled.span`
   display: flex;
@@ -10,7 +11,7 @@ const TooltipItemWrapper = styled.span`
 
 const NavnOgVerdi = styled.div`
   font-size: 1rem;
-  color: var(--a-gray-900);
+  color: ${NavFarger.gray900};
   align-content: center;
   display: flex;
   width: 100%;
@@ -20,14 +21,14 @@ const NavnOgVerdi = styled.div`
 
 const Navn = styled.span`
   font-weight: bold;
-  color: var(--a-gray-900);
+  color: ${NavFarger.gray900};
   margin-right: 0.75rem;
 
   text-transform: capitalize;
 `;
 
 const Verdi = styled.span`
-  color: var(--a-gray-900);
+  color: ${NavFarger.gray900};
   align-content: space-around;
 `;
 
