@@ -133,6 +133,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                 <LineChart
                     data={detSomSkalVises}
                     role="img"
+                    aria-label="Graf som viser sykefraværet over tid."
                 >
                     <CartesianGrid strokeDasharray="3 3" stroke="#C6C2BF" />
                     <Line type="monotone"
