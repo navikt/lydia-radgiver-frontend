@@ -85,6 +85,18 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
         .sort(sorterKvartalStigende)
         .map(
             statistikk => {
+                const næringverdi = historiskStatistikk.næringsstatistikk.statistikk
+                    .find(datapunkt => {
+                        return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
+                    });
+                const bransjeverdi = historiskStatistikk.bransjestatistikk.statistikk
+                    .find(datapunkt => {
+                        return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
+                    });
+                const sektorverdi = historiskStatistikk.sektorstatistikk.statistikk
+                    .find(datapunkt => {
+                        return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
+                    });
                 const landverdi = historiskStatistikk.landsstatistikk.statistikk
                     .find(datapunkt => {
                         return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
@@ -92,7 +104,10 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                 return {
                     name: `${kvartalSomTekst(statistikk.årstall, statistikk.kvartal)}`,
                     virksomhet: statistikk.maskert ? null : statistikk.sykefraværsprosent,
-                    land: landverdi ? landverdi.sykefraværsprosent : null
+                    næring: næringverdi ? næringverdi.sykefraværsprosent : null,
+                    bransje: bransjeverdi ? bransjeverdi.sykefraværsprosent : null,
+                    sektor: sektorverdi ? sektorverdi.sykefraværsprosent : null,
+                    land: landverdi ? landverdi.sykefraværsprosent : null,
                 }
             }
         )
@@ -118,7 +133,27 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                     <BodyShort>
                         Virksomhet
                     </BodyShort>
-
+                    <SymbolSvg size={dotStrl}
+                               fill={graflinjer["næring"].farge}
+                               symbol={graflinjer["næring"].symbol}
+                    />
+                    <BodyShort>
+                        Næring
+                    </BodyShort>
+                    <SymbolSvg size={dotStrl}
+                               fill={graflinjer["bransje"].farge}
+                               symbol={graflinjer["bransje"].symbol}
+                    />
+                    <BodyShort>
+                        Bransjeprogram
+                    </BodyShort>
+                    <SymbolSvg size={dotStrl}
+                               fill={graflinjer["sektor"].farge}
+                               symbol={graflinjer["sektor"].symbol}
+                    />
+                    <BodyShort>
+                        Sektor
+                    </BodyShort>
                     <SymbolSvg size={dotStrl}
                                fill={graflinjer["land"].farge}
                                symbol={graflinjer["land"].symbol}
@@ -146,6 +181,45 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                                   type={graflinjer["virksomhet"].symbol}
                                   size={dotStrl}
                                   fill={graflinjer["virksomhet"].farge}
+                              />
+                          }
+                    />
+                    <Line type="monotone"
+                          dataKey="næring"
+                          stroke={graflinjer["næring"].farge}
+                          strokeWidth={linjebredde}
+                          isAnimationActive={false}
+                          dot={
+                              <Symbols
+                                  type={graflinjer["næring"].symbol}
+                                  size={dotStrl}
+                                  fill={graflinjer["næring"].farge}
+                              />
+                          }
+                    />
+                    <Line type="monotone"
+                          dataKey="bransje"
+                          stroke={graflinjer["bransje"].farge}
+                          strokeWidth={linjebredde}
+                          isAnimationActive={false}
+                          dot={
+                              <Symbols
+                                  type={graflinjer["bransje"].symbol}
+                                  size={dotStrl}
+                                  fill={graflinjer["bransje"].farge}
+                              />
+                          }
+                    />
+                    <Line type="monotone"
+                          dataKey="sektor"
+                          stroke={graflinjer["sektor"].farge}
+                          strokeWidth={linjebredde}
+                          isAnimationActive={false}
+                          dot={
+                              <Symbols
+                                  type={graflinjer["sektor"].symbol}
+                                  size={dotStrl}
+                                  fill={graflinjer["sektor"].farge}
                               />
                           }
                     />

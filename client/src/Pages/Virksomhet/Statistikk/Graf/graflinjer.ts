@@ -12,6 +12,18 @@ export const graflinjer: {[key: string]: Graflinje} = {
         farge: GrafFarger.rød,
         symbol: "circle",
     },
+    næring: {
+        farge: GrafFarger.svart,
+        symbol: "star",
+    },
+    bransje: {
+        farge: GrafFarger.oransje,
+        symbol: "diamond",
+    },
+    sektor: {
+        farge: GrafFarger.blå,
+        symbol: "triangle",
+    },
     land: {
         farge: GrafFarger.grønn,
         symbol: "square",

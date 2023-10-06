@@ -14,6 +14,7 @@ export enum GrafFarger {
     oransje = '#FF9100',
     blå = '#3385D1',
     grønn = '#38A161',
+    svart = '#000000'
 }
 
 // https://aksel.nav.no/designsystem/side/color
