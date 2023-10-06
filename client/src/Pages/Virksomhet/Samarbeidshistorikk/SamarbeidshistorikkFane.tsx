@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Accordion, BodyShort, Heading } from "@navikt/ds-react";
+import { Accordion, BodyShort, Heading, Loader } from "@navikt/ds-react";
 import { lokalDato } from "../../../util/dato";
 import { StatusBadge } from "../../../components/Badge/StatusBadge";
 import { SakshistorikkTabell } from "./SakshistorikkTabell";
@@ -33,7 +33,7 @@ export const SamarbeidshistorikkFane = ({ orgnr, className }: Samarbeidshistorik
         return (
             <Container className={className}>
                 <Heading spacing={true} size="large">Samarbeidshistorikk</Heading>
-                <BodyShort>Laster</BodyShort>
+                <Loader/>
             </Container>
         )
     }
