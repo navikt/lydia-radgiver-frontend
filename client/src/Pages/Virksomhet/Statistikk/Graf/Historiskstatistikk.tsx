@@ -5,7 +5,6 @@ import { SymbolSvg } from "./SymbolSvg";
 import { useHentHistoriskstatistikk, useHentPubliseringsinfo } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { graphTooltip } from "./GraphTooltip";
-import { Kvartal, lagKvartaler } from "../../../../domenetyper/kvartal";
 import { graflinjer } from "./graflinjer";
 
 const Container = styled.div`
@@ -30,7 +29,6 @@ interface HistoriskStatistikkProps {
     orgnr: string;
 }
 
-export const FEM_ÅR_TILBAKE_I_TID_I_ANTALL_KVARTALER = 20;
 const linjebredde = 2;
 const dotStrl = 40;
 const kvartalSomTekst = (årstall: number, kvartal: number) =>
@@ -49,69 +47,37 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
         return null;
     }
 
-    interface Datapunkt {
-        name: string;
-        virksomhet: number | null;
-    }
-
-    const alleKvartalerTilgjengelig: Kvartal[] = lagKvartaler(
-        { årstall: publiseringsinfo.fraTil.til.årstall, kvartal: publiseringsinfo.fraTil.til.kvartal },
-        FEM_ÅR_TILBAKE_I_TID_I_ANTALL_KVARTALER
-    ).sort(sorterKvartalStigende)
-
-    const leggTilManglendeKvartaler = (liste: Datapunkt[]): Datapunkt[] => {
-        const listeMedAlleKvartaler: Datapunkt[] = []
-        alleKvartalerTilgjengelig
+    const detSomSkalVises =
+        historiskStatistikk.landsstatistikk.statistikk
+            .sort(sorterKvartalStigende)
             .map(
-                kvartal => {
+                statistikk => {
+                    const virksomhetverdi = historiskStatistikk.virksomhetsstatistikk.statistikk
+                        .find(datapunkt => {
+                            return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
+                        });
+                    const næringverdi = historiskStatistikk.næringsstatistikk.statistikk
+                        .find(datapunkt => {
+                            return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
+                        });
+                    const bransjeverdi = historiskStatistikk.bransjestatistikk.statistikk
+                        .find(datapunkt => {
+                            return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
+                        });
+                    const sektorverdi = historiskStatistikk.sektorstatistikk.statistikk
+                        .find(datapunkt => {
+                            return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
+                        });
                     return {
-                        name: `${kvartalSomTekst(kvartal.årstall, kvartal.kvartal)}`,
-                        virksomhet: null,
+                        name: `${kvartalSomTekst(statistikk.årstall, statistikk.kvartal)}`,
+                        land: statistikk.sykefraværsprosent,
+                        sektor: sektorverdi ? sektorverdi.sykefraværsprosent : null,
+                        næring: næringverdi ? næringverdi.sykefraværsprosent : null,
+                        bransje: bransjeverdi ? bransjeverdi.sykefraværsprosent : null,
+                        virksomhet: virksomhetverdi && !virksomhetverdi.maskert ? virksomhetverdi.sykefraværsprosent : null,
                     }
                 }
-            ).forEach(element => {
-                const funnet = liste.find(datapunkt => {return datapunkt.name === element.name})
-
-                if (funnet) {
-                    listeMedAlleKvartaler.push(funnet)
-                } else {
-                    listeMedAlleKvartaler.push(element)
-                }
-            })
-        return listeMedAlleKvartaler
-    }
-
-    const detSomSkalVises = leggTilManglendeKvartaler(historiskStatistikk.virksomhetsstatistikk.statistikk
-        .sort(sorterKvartalStigende)
-        .map(
-            statistikk => {
-                const næringverdi = historiskStatistikk.næringsstatistikk.statistikk
-                    .find(datapunkt => {
-                        return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
-                    });
-                const bransjeverdi = historiskStatistikk.bransjestatistikk.statistikk
-                    .find(datapunkt => {
-                        return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
-                    });
-                const sektorverdi = historiskStatistikk.sektorstatistikk.statistikk
-                    .find(datapunkt => {
-                        return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
-                    });
-                const landverdi = historiskStatistikk.landsstatistikk.statistikk
-                    .find(datapunkt => {
-                        return datapunkt.årstall === statistikk.årstall && datapunkt.kvartal === statistikk.kvartal
-                    });
-                return {
-                    name: `${kvartalSomTekst(statistikk.årstall, statistikk.kvartal)}`,
-                    virksomhet: statistikk.maskert ? null : statistikk.sykefraværsprosent,
-                    næring: næringverdi ? næringverdi.sykefraværsprosent : null,
-                    bransje: bransjeverdi ? bransjeverdi.sykefraværsprosent : null,
-                    sektor: sektorverdi ? sektorverdi.sykefraværsprosent : null,
-                    land: landverdi ? landverdi.sykefraværsprosent : null,
-                }
-            }
-        )
-    )
+            )
 
     const førstekvartalIHvertÅr = detSomSkalVises.filter((it) => {
         return it.name.includes("1. kvartal");

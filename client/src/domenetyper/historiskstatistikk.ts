@@ -1,6 +1,10 @@
 import {z} from "zod";
 
 const SYKEFRAVÆRSSTATISTIKK_KATEGORI = [
+    "LAND",
+    "SEKTOR",
+    "NÆRING",
+    "BRANSJE",
     "VIRKSOMHET",
 ] as const;
 
