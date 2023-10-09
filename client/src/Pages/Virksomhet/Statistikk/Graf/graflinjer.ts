@@ -14,7 +14,7 @@ export const graflinjer: {[key: string]: Graflinje} = {
     },
     næring: {
         farge: GrafFarger.svart,
-        symbol: "star",
+        symbol: "wye",
     },
     bransje: {
         farge: GrafFarger.oransje,
