@@ -15,6 +15,8 @@ interface Props {
 }
 
 export const StatistikkFane = ({ virksomhet }: Props) => {
+    const visGraf = window.location.search.includes("visgraf=true")
+
     return (
         <Container>
             <Heading level="3" size="large" spacing={true}>Statistikk</Heading>
@@ -22,7 +24,7 @@ export const StatistikkFane = ({ virksomhet }: Props) => {
                                    bransje={virksomhet.bransje}
                                    næring={virksomhet.næring}
             />
-            {erIDev &&
+            { (visGraf || erIDev) &&
                 <Historiskstatistikk orgnr={virksomhet.orgnr} />}
         </Container>
     )
