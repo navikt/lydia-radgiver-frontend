@@ -118,7 +118,9 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                 >
                     <CartesianGrid strokeDasharray="3 3" stroke="#C6C2BF" />
 
-                    {Object.entries(graflinjer).filter(([key]) => linjerSomSkalVises.includes(key)).map(([key, value]) => (
+                    {Object.entries(graflinjer).reverse() // tegner opp minst viktig grafer først
+                        .filter(([key]) => linjerSomSkalVises.includes(key))
+                        .map(([key, value]) => (
                         <Line type="monotone"
                               key={key}
                               dataKey={key}
