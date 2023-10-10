@@ -1,11 +1,11 @@
 import styled from "styled-components";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Symbols, XAxis, YAxis } from "recharts";
 import { BodyShort, Heading } from "@navikt/ds-react";
-import { SymbolSvg } from "./SymbolSvg";
 import { useHentHistoriskstatistikk, useHentPubliseringsinfo } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { graphTooltip } from "./GraphTooltip";
 import { graflinjer } from "./graflinjer";
+import { LegendMedToggles } from "./LegendMedToggles";
 
 const Container = styled.div`
   padding-top: 4rem;
@@ -14,15 +14,6 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   gap: 3rem;
-`;
-const Legend = styled.div`
-  padding-top: 1rem;
-  padding-bottom: 2rem;
-
-  display: flex;
-  flex-direction: row;
-  gap: 1rem;
-  align-items: center;
 `;
 
 interface HistoriskStatistikkProps {
@@ -90,44 +81,8 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                 <BodyShort>
                     Her kan du se hvordan det legemeldte sykefraværet utvikler seg over tid.
                 </BodyShort>
-                <Legend>
-                    <SymbolSvg
-                        size={dotStrl}
-                        fill={graflinjer["virksomhet"].farge}
-                        symbol={graflinjer["virksomhet"].symbol}
-                    />
-                    <BodyShort>
-                        Virksomhet
-                    </BodyShort>
-                    <SymbolSvg size={dotStrl}
-                               fill={graflinjer["næring"].farge}
-                               symbol={graflinjer["næring"].symbol}
-                    />
-                    <BodyShort>
-                        Næring
-                    </BodyShort>
-                    <SymbolSvg size={dotStrl}
-                               fill={graflinjer["bransje"].farge}
-                               symbol={graflinjer["bransje"].symbol}
-                    />
-                    <BodyShort>
-                        Bransjeprogram
-                    </BodyShort>
-                    <SymbolSvg size={dotStrl}
-                               fill={graflinjer["sektor"].farge}
-                               symbol={graflinjer["sektor"].symbol}
-                    />
-                    <BodyShort>
-                        Sektor
-                    </BodyShort>
-                    <SymbolSvg size={dotStrl}
-                               fill={graflinjer["land"].farge}
-                               symbol={graflinjer["land"].symbol}
-                    />
-                    <BodyShort>
-                        Land
-                    </BodyShort>
-                </Legend>
+                <br />
+                <LegendMedToggles />
             </div>
 
             <ResponsiveContainer minHeight={400}>
@@ -137,72 +92,24 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                     aria-label="Graf som viser sykefraværet over tid."
                 >
                     <CartesianGrid strokeDasharray="3 3" stroke="#C6C2BF" />
-                    <Line type="monotone"
-                          dataKey="virksomhet"
-                          stroke={graflinjer["virksomhet"].farge}
-                          strokeWidth={linjebredde}
-                          isAnimationActive={false}
-                          dot={
-                              <Symbols
-                                  type={graflinjer["virksomhet"].symbol}
-                                  size={dotStrl}
-                                  fill={graflinjer["virksomhet"].farge}
-                              />
-                          }
-                    />
-                    <Line type="monotone"
-                          dataKey="næring"
-                          stroke={graflinjer["næring"].farge}
-                          strokeWidth={linjebredde}
-                          isAnimationActive={false}
-                          dot={
-                              <Symbols
-                                  type={graflinjer["næring"].symbol}
-                                  size={dotStrl}
-                                  fill={graflinjer["næring"].farge}
-                              />
-                          }
-                    />
-                    <Line type="monotone"
-                          dataKey="bransje"
-                          stroke={graflinjer["bransje"].farge}
-                          strokeWidth={linjebredde}
-                          isAnimationActive={false}
-                          dot={
-                              <Symbols
-                                  type={graflinjer["bransje"].symbol}
-                                  size={dotStrl}
-                                  fill={graflinjer["bransje"].farge}
-                              />
-                          }
-                    />
-                    <Line type="monotone"
-                          dataKey="sektor"
-                          stroke={graflinjer["sektor"].farge}
-                          strokeWidth={linjebredde}
-                          isAnimationActive={false}
-                          dot={
-                              <Symbols
-                                  type={graflinjer["sektor"].symbol}
-                                  size={dotStrl}
-                                  fill={graflinjer["sektor"].farge}
-                              />
-                          }
-                    />
-                    <Line
-                        type="monotone"
-                        dataKey="land"
-                        stroke={graflinjer["land"].farge}
-                        strokeWidth={linjebredde}
-                        isAnimationActive={false}
-                        dot={
-                            <Symbols
-                                type={graflinjer["land"].symbol}
-                                size={dotStrl}
-                                fill={graflinjer["land"].farge}
-                            />
-                        }
-                    />
+
+                    {Object.entries(graflinjer).map(([key, value]) => (
+                        <Line type="monotone"
+                              key={key}
+                              dataKey={key}
+                              stroke={value.farge}
+                              strokeWidth={linjebredde}
+                              isAnimationActive={false}
+                              dot={
+                                  <Symbols
+                                      type={value.symbol}
+                                      size={dotStrl}
+                                      fill={value.farge}
+                                  />
+                              }
+                        />
+                    ))}
+
                     <XAxis
                         dataKey="name"
                         tickFormatter={(tickValue) => tickValue.substring(0, 4)} // Bare vis år-delen av "name"

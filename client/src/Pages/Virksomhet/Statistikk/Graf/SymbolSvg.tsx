@@ -18,11 +18,12 @@ interface Props {
     className?: string;
 }
 
-export const SymbolSvg = ({ size, fill, symbol }: Props) => {
+export const SymbolSvg = ({ size, fill, symbol, ...rest }: Props) => {
     const halfSize = size / 2;
 
     return (
         <svg
+            {...rest}
             width={size}
             height={size}
             viewBox={'0 0 ' + size + ' ' + size}
@@ -32,7 +33,7 @@ export const SymbolSvg = ({ size, fill, symbol }: Props) => {
                 fill={fill}
                 cx={halfSize}
                 cy={halfSize}
-                size={size * 3.75}
+                size={size * 5.75}
                 sizeType="area"
                 type={symbol}
             />
