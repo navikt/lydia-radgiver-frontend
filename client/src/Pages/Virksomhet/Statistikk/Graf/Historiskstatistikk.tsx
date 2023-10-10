@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Symbols, XAxis, YAxis } from "recharts";
-import { BodyShort, Heading } from "@navikt/ds-react";
+import { BodyShort, Checkbox, CheckboxGroup, Heading } from "@navikt/ds-react";
 import { useHentHistoriskstatistikk, useHentPubliseringsinfo } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { graphTooltip } from "./GraphTooltip";
 import { graflinjer } from "./graflinjer";
-import { LegendMedToggles } from "./LegendMedToggles";
+import { useState } from "react";
+import { SymbolSvg } from "./SymbolSvg";
 
 const Container = styled.div`
   padding-top: 4rem;
@@ -16,17 +17,24 @@ const Container = styled.div`
   gap: 3rem;
 `;
 
+const SymbolOgTekstWrapper = styled.div`
+  display: flex;
+  align-items: center;
+`;
+
+const LegendSymbol = styled(SymbolSvg)`
+  margin-right: 0.5rem;
+`;
+
+const kvartalSomTekst = (årstall: number, kvartal: number) =>
+    årstall + ', ' + kvartal + '. kvartal';
+
 interface HistoriskStatistikkProps {
     orgnr: string;
 }
 
-const linjebredde = 2;
-const dotStrl = 40;
-const kvartalSomTekst = (årstall: number, kvartal: number) =>
-    årstall + ', ' + kvartal + '. kvartal';
-
-
 export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
+    const [linjerSomSkalVises, setLinjerSomSkalVises] = useState(["virksomhet", "bransje", "næring"]);
     const {
         data: publiseringsinfo,
     } = useHentPubliseringsinfo()
@@ -82,7 +90,24 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                     Her kan du se hvordan det legemeldte sykefraværet utvikler seg over tid.
                 </BodyShort>
                 <br />
-                <LegendMedToggles />
+                <CheckboxGroup
+                    legend="Velg statistikk som skal vises i grafen"
+                    value={linjerSomSkalVises}
+                    onChange={setLinjerSomSkalVises}
+                >
+                    {Object.entries(graflinjer).map(([key, value]) =>
+                        (<Checkbox value={key} key={key}>
+                            <SymbolOgTekstWrapper>
+                                <LegendSymbol
+                                    size={18}
+                                    fill={value.farge}
+                                    symbol={value.symbol}
+                                />
+                                {value.navn}
+                            </SymbolOgTekstWrapper>
+                        </Checkbox>))
+                    }
+                </CheckboxGroup>
             </div>
 
             <ResponsiveContainer minHeight={400}>
@@ -93,17 +118,17 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                 >
                     <CartesianGrid strokeDasharray="3 3" stroke="#C6C2BF" />
 
-                    {Object.entries(graflinjer).map(([key, value]) => (
+                    {Object.entries(graflinjer).filter(([key]) => linjerSomSkalVises.includes(key)).map(([key, value]) => (
                         <Line type="monotone"
                               key={key}
                               dataKey={key}
                               stroke={value.farge}
-                              strokeWidth={linjebredde}
+                              strokeWidth={2}
                               isAnimationActive={false}
                               dot={
                                   <Symbols
                                       type={value.symbol}
-                                      size={dotStrl}
+                                      size={40}
                                       fill={value.farge}
                                   />
                               }
