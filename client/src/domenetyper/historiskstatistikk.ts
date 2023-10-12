@@ -18,6 +18,7 @@ const statistikkDataSchema = z.object({
 const kategoristatistikkSchema = z.object({
     kategori: z.enum(SYKEFRAVÆRSSTATISTIKK_KATEGORI),
     kode: z.string(),
+    beskrivelse: z.string(),
     statistikk: z.array(
         statistikkDataSchema
     )
