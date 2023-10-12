@@ -34,7 +34,7 @@ interface HistoriskStatistikkProps {
 }
 
 export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
-    const [linjerSomSkalVises, setLinjerSomSkalVises] = useState(["virksomhet", "bransje", "næring"]);
+    const [linjerSomSkalVises, setLinjerSomSkalVises] = useState(["virksomhet", "bransje", "næring", "sektor", "land"]);
     const {
         data: publiseringsinfo,
     } = useHentPubliseringsinfo()
