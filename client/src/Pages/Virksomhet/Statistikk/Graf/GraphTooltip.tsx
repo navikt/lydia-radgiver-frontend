@@ -44,7 +44,7 @@ export const graphTooltip = () => {
                 <TooltipItemWrapper key={`tooltip-${name}`}>
                     <Ikon size={40} fill={graflinjer[name].farge} symbol={graflinjer[name].symbol} />
                     <NavnOgVerdi>
-                        <Navn>{name}</Navn>
+                        <Navn>{graflinjer[name].navn}</Navn>
                         <Verdi>{value + ' %'}</Verdi>
                     </NavnOgVerdi>
                 </TooltipItemWrapper>,
