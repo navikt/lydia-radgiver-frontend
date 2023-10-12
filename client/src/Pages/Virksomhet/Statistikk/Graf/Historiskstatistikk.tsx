@@ -4,7 +4,7 @@ import { BodyShort, Checkbox, CheckboxGroup, Heading } from "@navikt/ds-react";
 import { useHentHistoriskstatistikk, useHentPubliseringsinfo } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { graphTooltip } from "./GraphTooltip";
-import { graflinjer } from "./graflinjer";
+import { Grafer, graflinjer } from "./graflinjer";
 import { useState } from "react";
 import { SymbolSvg } from "./SymbolSvg";
 
@@ -34,7 +34,12 @@ interface HistoriskStatistikkProps {
 }
 
 export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
-    const [linjerSomSkalVises, setLinjerSomSkalVises] = useState(["virksomhet", "bransje", "næring", "sektor", "land"]);
+    const [linjerSomSkalVises, setLinjerSomSkalVises] = useState([
+        Grafer.VIRKSOMHET,
+        Grafer.NÆRING,
+        Grafer.BRANSJE,
+        Grafer.SEKTOR,
+        Grafer.LAND]);
     const {
         data: publiseringsinfo,
     } = useHentPubliseringsinfo()
@@ -69,11 +74,11 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                         });
                     return {
                         name: `${kvartalSomTekst(statistikk.årstall, statistikk.kvartal)}`,
-                        land: statistikk.sykefraværsprosent,
-                        sektor: sektorverdi ? sektorverdi.sykefraværsprosent : null,
-                        næring: næringverdi ? næringverdi.sykefraværsprosent : null,
-                        bransje: bransjeverdi ? bransjeverdi.sykefraværsprosent : null,
-                        virksomhet: virksomhetverdi && !virksomhetverdi.maskert ? virksomhetverdi.sykefraværsprosent : null,
+                        [Grafer.LAND]: statistikk.sykefraværsprosent,
+                        [Grafer.SEKTOR]: sektorverdi ? sektorverdi.sykefraværsprosent : null,
+                        [Grafer.NÆRING]: næringverdi ? næringverdi.sykefraværsprosent : null,
+                        [Grafer.BRANSJE]: bransjeverdi ? bransjeverdi.sykefraværsprosent : null,
+                        [Grafer.VIRKSOMHET]: virksomhetverdi && !virksomhetverdi.maskert ? virksomhetverdi.sykefraværsprosent : null,
                     }
                 }
             )
@@ -119,23 +124,23 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                     <CartesianGrid strokeDasharray="3 3" stroke="#C6C2BF" />
 
                     {Object.entries(graflinjer)
-                        .filter(([key]) => linjerSomSkalVises.includes(key))
+                        .filter(([key]) => linjerSomSkalVises.includes(key as Grafer))
                         .map(([key, value]) => (
-                        <Line type="monotone"
-                              key={key}
-                              dataKey={key}
-                              stroke={value.farge}
-                              strokeWidth={2}
-                              isAnimationActive={false}
-                              dot={
-                                  <Symbols
-                                      type={value.symbol}
-                                      size={40}
-                                      fill={value.farge}
-                                  />
-                              }
-                        />
-                    ))}
+                            <Line type="monotone"
+                                  key={key}
+                                  dataKey={key}
+                                  stroke={value.farge}
+                                  strokeWidth={2}
+                                  isAnimationActive={false}
+                                  dot={
+                                      <Symbols
+                                          type={value.symbol}
+                                          size={40}
+                                          fill={value.farge}
+                                      />
+                                  }
+                            />
+                        ))}
 
                     <XAxis
                         dataKey="name"

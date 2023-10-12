@@ -1,6 +1,14 @@
 import { GrafSymboler } from "./SymbolSvg";
 import { GrafFarger } from "../../../../styling/farger";
 
+export const enum Grafer {
+    VIRKSOMHET = "virksomhet",
+    NÆRING = "næring",
+    BRANSJE = "bransje",
+    SEKTOR = "sektor",
+    LAND = "land",
+}
+
 export interface Graflinje {
     navn: string,
     farge: GrafFarger,
@@ -8,28 +16,28 @@ export interface Graflinje {
 }
 
 // TODO: Gje dette eit betre namn
-export const graflinjer: {[key: string]: Graflinje} = {
-    virksomhet: {
+export const graflinjer: { [key: string]: Graflinje } = {
+    [Grafer.VIRKSOMHET]: {
         navn: "Virksomhet",
         farge: GrafFarger.rød,
         symbol: "circle",
     },
-    næring: {
+    [Grafer.NÆRING]: {
         navn: "Næring",
         farge: GrafFarger.svart,
         symbol: "wye",
     },
-    bransje: {
+    [Grafer.BRANSJE]: {
         navn: "Bransjeprogram",
         farge: GrafFarger.oransje,
         symbol: "diamond",
     },
-    sektor: {
+    [Grafer.SEKTOR]: {
         navn: "Sektor",
         farge: GrafFarger.blå,
         symbol: "triangle",
     },
-    land: {
+    [Grafer.LAND]: {
         navn: "Norge",
         farge: GrafFarger.grønn,
         symbol: "square",
