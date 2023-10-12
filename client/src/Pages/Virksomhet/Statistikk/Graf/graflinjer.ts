@@ -30,7 +30,7 @@ export const graflinjer: {[key: string]: Graflinje} = {
         symbol: "triangle",
     },
     land: {
-        navn: "Land",
+        navn: "Norge",
         farge: GrafFarger.grønn,
         symbol: "square",
     },
