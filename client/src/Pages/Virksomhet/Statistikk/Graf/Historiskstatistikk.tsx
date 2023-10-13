@@ -115,9 +115,12 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                     value={linjerSomSkalVises}
                     onChange={setLinjerSomSkalVises}
                 >
-                    {Object.entries(graflinjer).map(([key, value]) =>
-                        // TODO: ikke vise Bransjeprogram dersom det er ingen statistikk for bransje/ingen bransje
-                        (<Checkbox value={key} key={key}>
+                    {Object.entries(graflinjer).map(([key, value]) => {
+                        if (key === Grafer.BRANSJE
+                            && historiskStatistikk.bransjestatistikk.statistikk.length === 0) {
+                            return null
+                        }
+                        return (<Checkbox value={key} key={key}>
                             <SymbolOgTekstWrapper>
                                 <LegendSymbol
                                     size={18}
@@ -126,8 +129,8 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                                 />
                                 {value.navn}{legendTekst(key as Grafer)}
                             </SymbolOgTekstWrapper>
-                        </Checkbox>))
-                    }
+                        </Checkbox>)
+                    })}
                 </CheckboxGroup>
             </div>
 
