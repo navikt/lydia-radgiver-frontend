@@ -87,6 +87,21 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
         return it.name.includes("1. kvartal");
     }).map(it => it.name)
 
+    const legendTekst = (navnTilStatistikk: Grafer) => {
+        switch (navnTilStatistikk) {
+            case Grafer.VIRKSOMHET:
+                return `: ${historiskStatistikk.virksomhetsstatistikk.beskrivelse}`
+            case Grafer.NÆRING:
+                return `: ${historiskStatistikk.næringsstatistikk.beskrivelse}`
+            case Grafer.BRANSJE:
+                return `: ${historiskStatistikk.bransjestatistikk.beskrivelse}`
+            case Grafer.SEKTOR:
+                return `: ${historiskStatistikk.sektorstatistikk.beskrivelse}`
+            case Grafer.LAND:
+                return ''
+        }
+    }
+
     return (
         <Container>
             <div>
@@ -101,6 +116,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                     onChange={setLinjerSomSkalVises}
                 >
                     {Object.entries(graflinjer).map(([key, value]) =>
+                        // TODO: ikke vise Bransjeprogram dersom det er ingen statistikk for bransje/ingen bransje
                         (<Checkbox value={key} key={key}>
                             <SymbolOgTekstWrapper>
                                 <LegendSymbol
@@ -108,7 +124,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                                     fill={value.farge}
                                     symbol={value.symbol}
                                 />
-                                {value.navn}
+                                {value.navn}{legendTekst(key as Grafer)}
                             </SymbolOgTekstWrapper>
                         </Checkbox>))
                     }
