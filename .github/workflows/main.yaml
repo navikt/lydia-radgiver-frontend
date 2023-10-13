@@ -84,3 +84,42 @@ jobs:
           RESOURCE: .nais/nais.yaml
           VARS: .nais/dev.yaml
           VAR: image=${{ needs.build.outputs.image }}
+
+  trivy-scan:
+    name: Scanner docker image med Trivy
+    runs-on: ubuntu-latest
+    needs: build
+    permissions:
+      contents: write # to write sarif
+      security-events: write # push sarif to github security
+      id-token: write # for nais/login
+      actions: read # for private repositories
+    steps:
+      - uses: actions/checkout@v4
+      - uses: nais/login@v0
+        with:
+          project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
+          identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
+          team: pia
+      - name: Pull docker image
+        run: docker pull ${{ needs.build.outputs.image }}
+      - name: Run Trivy vulnerability scanner on docker image
+        uses: aquasecurity/trivy-action@master
+        with:
+          image-ref: ${{ needs.build.outputs.image }}
+          ignore-unfixed: false # Vi vil se alle sårbarheter, også de som ikke er fikset
+          vuln-type: 'os,library'
+          limit-severities-for-sarif: true
+          severity: 'MEDIUM,HIGH,CRITICAL' # Prøver å filtrere bort lave og uklassifiserte sårbarheter
+          format: 'sarif'
+          output: 'trivy-results.sarif' # Filen som genereres av trivy brukes i de neste stegene
+      - name: Upload Trivy scan results to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v2
+        if: always()
+        with:
+          sarif_file: 'trivy-results.sarif'
+      - name: Laster opp Trivy sin rårapport som artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: trivy-results
+          path: 'trivy-results.sarif'
