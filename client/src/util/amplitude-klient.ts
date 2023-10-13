@@ -3,7 +3,6 @@ import { maskerOrgnr } from "./amplitude-klient-utils";
 import { Fylke } from "../domenetyper/fylkeOgKommune";
 import { Rolle } from "../domenetyper/brukerinformasjon";
 import { IAProsessStatusType, IASakshendelseType } from "../domenetyper/domenetyper";
-import { sorterAlfabetisk } from "./sortering";
 
 const amplitudeKlient: AmplitudeClient = amplitude.getInstance();
 
@@ -42,7 +41,7 @@ export const loggSideLastet = (sidetittel: string) => {
 
 const logAmplitudeEvent = (
     eventNavn: NavsAmplitudeTopologiEventer,
-    eventData: Record<string, string | boolean>
+    eventData: Record<string, string | boolean | string[]>
 ) => {
     if (!initialized) {
         const apiKey = isProduction()
@@ -183,6 +182,6 @@ export const loggGraflinjeEndringer = (
     graflinjer: string[],
 ) => {
     logAmplitudeEvent("endring i valgte linjer i graf", {
-        graflinjer: graflinjer.sort(sorterAlfabetisk).join(", "),
+        graflinjer_array: graflinjer,
     });
 }
