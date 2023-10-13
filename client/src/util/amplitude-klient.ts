@@ -3,6 +3,7 @@ import { maskerOrgnr } from "./amplitude-klient-utils";
 import { Fylke } from "../domenetyper/fylkeOgKommune";
 import { Rolle } from "../domenetyper/brukerinformasjon";
 import { IAProsessStatusType, IASakshendelseType } from "../domenetyper/domenetyper";
+import { sorterAlfabetisk } from "./sortering";
 
 const amplitudeKlient: AmplitudeClient = amplitude.getInstance();
 
@@ -31,6 +32,7 @@ type NavsAmplitudeTopologiEventer =
     | "søk"
     | "saksstatus endret"
     | "navigere ut av fia"
+    | "endring i valgte linjer i graf"
 
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
@@ -174,5 +176,13 @@ export const loggNavigeringMedEksternLenke = (
 ) => {
     logAmplitudeEvent("navigere ut av fia", {
         destinasjon: destinasjon,
+    });
+}
+
+export const loggGraflinjeEndringer = (
+    graflinjer: string[],
+) => {
+    logAmplitudeEvent("endring i valgte linjer i graf", {
+        graflinjer: graflinjer.sort(sorterAlfabetisk).join(", "),
     });
 }

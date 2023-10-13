@@ -7,6 +7,7 @@ import { graphTooltip } from "./GraphTooltip";
 import { Grafer, graflinjer } from "./graflinjer";
 import { useState } from "react";
 import { SymbolSvg } from "./SymbolSvg";
+import { loggGraflinjeEndringer } from "../../../../util/amplitude-klient";
 
 const Container = styled.div`
   padding-top: 4rem;
@@ -102,6 +103,11 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
         }
     }
 
+    const endringIValgteLinjer = (valgteLinjer: string[]) => {
+        loggGraflinjeEndringer(valgteLinjer)
+        setLinjerSomSkalVises(valgteLinjer as Grafer[])
+    }
+
     return (
         <Container>
             <div>
@@ -113,7 +119,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                 <CheckboxGroup
                     legend="Velg statistikk som skal vises i grafen"
                     value={linjerSomSkalVises}
-                    onChange={setLinjerSomSkalVises}
+                    onChange={endringIValgteLinjer}
                 >
                     {Object.entries(graflinjer).map(([key, value]) => {
                         if (key === Grafer.BRANSJE
