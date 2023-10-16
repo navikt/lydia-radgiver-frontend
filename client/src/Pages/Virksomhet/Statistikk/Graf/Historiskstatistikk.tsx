@@ -4,7 +4,7 @@ import { BodyShort, Checkbox, CheckboxGroup, Heading } from "@navikt/ds-react";
 import { useHentHistoriskstatistikk, useHentPubliseringsinfo } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { graphTooltip } from "./GraphTooltip";
-import { Grafer, graflinjer } from "./graflinjer";
+import { grafrekkefølge, Grafer, graflinjer } from "./graflinjer";
 import { useState } from "react";
 import { SymbolSvg } from "./SymbolSvg";
 import { loggGraflinjeEndringer } from "../../../../util/amplitude-klient";
@@ -149,6 +149,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                     <CartesianGrid strokeDasharray="3 3" stroke="#C6C2BF" />
 
                     {Object.entries(graflinjer)
+                        .sort(grafrekkefølge)
                         .filter(([key]) => linjerSomSkalVises.includes(key as Grafer))
                         .map(([key, value]) => (
                             <Line type="monotone"

@@ -1,7 +1,7 @@
 import { Tooltip } from "recharts";
 import styled from "styled-components";
 import { SymbolSvg } from "./SymbolSvg";
-import { graflinjer } from "./graflinjer";
+import { Grafer, graflinjer } from "./graflinjer";
 import { NavFarger } from "../../../../styling/farger";
 
 const TooltipItemWrapper = styled.span`
@@ -40,6 +40,7 @@ const Ikon = styled(SymbolSvg)`
 export const graphTooltip = () => {
     return (
         <Tooltip
+            itemSorter={(item) => graflinjer[item.dataKey as Grafer].rekkefølge}
             formatter={(value: number, name: string) => [
                 <TooltipItemWrapper key={`tooltip-${name}`}>
                     <Ikon size={40} fill={graflinjer[name].farge} symbol={graflinjer[name].symbol} />
