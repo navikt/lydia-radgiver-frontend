@@ -87,6 +87,7 @@ jobs:
           VAR: image=${{ needs.build.outputs.image }}
 
   trivy-scan:
+    if: ${{ github.actor != 'dependabot[bot]' }}
     name: Scanner docker image med Trivy
     runs-on: ubuntu-latest
     needs: build
