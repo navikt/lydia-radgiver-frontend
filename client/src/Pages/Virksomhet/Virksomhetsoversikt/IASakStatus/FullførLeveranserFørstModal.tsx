@@ -17,7 +17,7 @@ export const FullførLeveranserFørstModal = ({ visModal, lukkModal }: Props) =>
             <Modal.Body>
                 <BodyLong>
                     For å gå videre må du bekrefte at IA-tjenester er levert. Hvis en IA-tjeneste ikke skal utføres
-                    likevel må du slette den før du kan fullføre saken.
+                    likevel må du slette den før du kan sette saken til fullført.
                 </BodyLong>
                 <br />
                 <ModalKnapper>
