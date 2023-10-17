@@ -54,7 +54,12 @@ services:
     command: "bash -c '/tmp/setup_kraft.sh && /etc/confluent/docker/run'"
 
   backend:
-    image: ghcr.io/navikt/lydia-api:latest
+    image: europe-north1-docker.pkg.dev/nais-management-233d/pia/lydia-api:latest
+
+    # -- kan slettes når vi bygger image for moderne maccer også
+    platform: linux/amd64
+    # --
+
     depends_on:
       - postgres
       - kafka
