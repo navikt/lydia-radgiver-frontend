@@ -30,7 +30,7 @@ export const graflinjer: { [key: string]: Graflinje } = {
         rekkefølge: 1,
     },
     [Grafer.BRANSJE]: {
-        navn: "Bransjeprogram",
+        navn: "Bransje",
         farge: GrafFarger.oransje,
         symbol: "diamond",
         rekkefølge: 2,
