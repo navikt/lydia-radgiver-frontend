@@ -5,8 +5,8 @@ on:
         branches:
             - main
         paths:
-            - ".nais/redis.yaml" # Deploy Redis når nais-config endrer seg,
-            - ".github/workflows/deploy-redis.yaml" # og når denne workflowen endrer seg
+            - .nais/redis.yaml # Deploy Redis når nais-config endrer seg,
+            - .github/workflows/deploy-redis.yaml # og når denne workflowen endrer seg
 
 permissions: {}
 

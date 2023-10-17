@@ -4,7 +4,7 @@ on: [push]
 jobs:
   build:
     permissions:
-      id-token: "write"
+      id-token: write
     name: Build, lint, test and push docker image
     runs-on: ubuntu-latest
     steps:
@@ -12,8 +12,8 @@ jobs:
       - name: Setup node
         uses: actions/setup-node@v3
         with:
-          node-version: "18"
-          registry-url: "https://npm.pkg.github.com"
+          node-version: 18
+          registry-url: https://npm.pkg.github.com
       - name: Install deps server
         working-directory: server
         run: npm ci
@@ -108,18 +108,18 @@ jobs:
         with:
           image-ref: ${{ needs.build.outputs.image }}
           ignore-unfixed: false # Vi vil se alle sårbarheter, også de som ikke er fikset
-          vuln-type: 'os,library'
+          vuln-type: os,library
           limit-severities-for-sarif: true
-          severity: 'MEDIUM,HIGH,CRITICAL' # Prøver å filtrere bort lave og uklassifiserte sårbarheter
-          format: 'sarif'
-          output: 'trivy-results.sarif' # Filen som genereres av trivy brukes i de neste stegene
+          severity: MEDIUM,HIGH,CRITICAL # Prøver å filtrere bort lave og uklassifiserte sårbarheter
+          format: sarif
+          output: trivy-results.sarif # Filen som genereres av trivy brukes i de neste stegene
       - name: Upload Trivy scan results to GitHub Security tab
         uses: github/codeql-action/upload-sarif@v2
         if: always()
         with:
-          sarif_file: 'trivy-results.sarif'
+          sarif_file: trivy-results.sarif
       - name: Laster opp Trivy sin rårapport som artifact
         uses: actions/upload-artifact@v3
         with:
           name: trivy-results
-          path: 'trivy-results.sarif'
+          path: trivy-results.sarif
