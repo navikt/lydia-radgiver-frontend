@@ -5,7 +5,6 @@ import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import { useHentLeveranser } from "../../../../../api/lydia-api";
 import { FullførLeveranserFørstModal } from "../FullførLeveranserFørstModal";
 import { LeggTilLeveranserFørstModal } from "../LeggTilLeveranserFørstModal";
-import { erIDev } from "../../../../../components/Dekoratør/Dekoratør";
 
 interface Props {
     hendelse: GyldigNesteHendelse;
@@ -19,7 +18,7 @@ export const FullførKnapp = ({ hendelse, sak }: Props) => {
         .some((leveranse) => leveranse.status === "UNDER_ARBEID")
     const [visModal, setVisModal] = useState(false);
 
-    if (erIDev && ingenLeveranser) {
+    if (ingenLeveranser) {
         return (
             <>
                 <IASakshendelseKnapp
