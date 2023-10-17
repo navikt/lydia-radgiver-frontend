@@ -14,12 +14,12 @@ interface Props {
 
 export const FullførKnapp = ({ hendelse, sak }: Props) => {
     const { data: leveranserPåSak } = useHentLeveranser(sak.orgnr, sak.saksnummer);
-    const ikkeHarLeveranser = !leveranserPåSak?.length;
+    const ingenLeveranser = !leveranserPåSak?.length;
     const harLeveranserSomErUnderArbeid = leveranserPåSak?.flatMap((iaTjeneste) => iaTjeneste.leveranser)
         .some((leveranse) => leveranse.status === "UNDER_ARBEID")
     const [visModal, setVisModal] = useState(false);
 
-    if (erIDev && ikkeHarLeveranser) {
+    if (erIDev && ingenLeveranser) {
         return (
             <>
                 <IASakshendelseKnapp
