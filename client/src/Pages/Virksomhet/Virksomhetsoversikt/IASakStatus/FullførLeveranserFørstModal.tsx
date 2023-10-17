@@ -7,13 +7,17 @@ interface Props {
     lukkModal: () => void;
 }
 
-export const FullførLeveranserFørstModal = ({visModal, lukkModal}: Props) => {
+export const FullførLeveranserFørstModal = ({ visModal, lukkModal }: Props) => {
     return (
-        <StyledModal open={visModal} onClose={lukkModal} header={{heading: "Saken har IA-tjenester som ikke er levert"}}>
+        <StyledModal
+            open={visModal}
+            onClose={lukkModal}
+            header={{ heading: "Saken har IA-tjenester som ikke er levert" }}
+        >
             <Modal.Body>
                 <BodyLong>
-                    For å gå videre må du markere utførte IA-tjenester som levert. Dersom en IA-tjeneste ikke skal utføres
-                    likevel kan du slette den fra planen.
+                    For å gå videre må du bekrefte at IA-tjenester er levert. Hvis en IA-tjeneste ikke skal utføres
+                    likevel må du slette den før du kan fullføre saken.
                 </BodyLong>
                 <br />
                 <ModalKnapper>

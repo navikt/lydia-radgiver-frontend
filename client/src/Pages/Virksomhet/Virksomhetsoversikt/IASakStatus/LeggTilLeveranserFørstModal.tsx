@@ -15,7 +15,7 @@ export const LeggTilLeveranserFørstModal = ({ visModal, lukkModal }: Props) => 
             header={{ heading: "Saken har ingen IA-tjenester" }}>
             <Modal.Body>
                 <BodyLong>
-                    For å gå videre må du registrere og fullføre minst én IA-tjeneste på saken.
+                    For å gå videre må du registrere og levere minst én IA-tjeneste på saken.
                 </BodyLong>
                 <br />
                 <ModalKnapper>
