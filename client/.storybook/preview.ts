@@ -55,6 +55,23 @@ initialize({
                 ? "/lydia-radgiver-frontend/mockServiceWorker.js"
                 : "./mockServiceWorker.js",
     },
+
+    // Guide frå https://github.com/mswjs/msw/discussions/1231#discussioncomment-4803373
+    onUnhandledRequest: (req, print) => {
+        // specify routes to exclude
+        const excludedRoutes = ['/node_modules', '/src', '/.storybook'];
+        const excludedExternalRoutes = ['cdn.nav.no', 'amplitude.nav.no']
+
+        // check if the req.url.pathname contains excludedRoutes
+        const isExcluded = excludedRoutes.some(route => req.url.pathname.includes(route));
+        const isExcludedDomain = excludedExternalRoutes.some(hostname => req.url.hostname.includes(hostname))
+
+        if (isExcluded || isExcludedDomain) {
+            return;
+        }
+
+        print.warning()
+    }
 });
 
 // Provide the MSW addon decorator globally
