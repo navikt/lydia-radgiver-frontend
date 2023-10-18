@@ -87,7 +87,7 @@ jobs:
           VAR: image=${{ needs.build.outputs.image }}
 
   trivy-scan:
-    if: ${{ github.actor != 'dependabot[bot]' }}
+    if: ${{ github.ref == 'refs/heads/main' && github.actor != 'dependabot[bot]' }}
     name: Scanner docker image med Trivy
     needs: build
     permissions:
