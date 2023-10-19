@@ -67,6 +67,7 @@ export const leveransePath = `${iaSakPath}/leveranse`
 export const tjenesterPath = `${leveransePath}/tjenester`
 export const modulerPath = `${leveransePath}/moduler`
 export const statusoversiktPath = `${basePath}/statusoversikt`;
+export const historiskStatistikkPath = "historiskstatistikk";
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -334,7 +335,7 @@ export const useHentSamarbeidshistorikk = (orgnummer?: string) => {
 };
 
 export const useHentHistoriskstatistikk = (orgnummer?: string) => {
-    const historiskStatistikkUrl = `${sykefraværsstatistikkPath}/${orgnummer}/historiskstatistikk`;
+    const historiskStatistikkUrl = `${sykefraværsstatistikkPath}/${orgnummer}/${historiskStatistikkPath}`;
     return useSwrTemplate<HistoriskStatistikk>(historiskStatistikkUrl, historiskStatistikkSchema, {
         revalidateOnFocus: false,
     });
