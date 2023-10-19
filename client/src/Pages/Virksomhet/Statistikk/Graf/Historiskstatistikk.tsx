@@ -1,10 +1,10 @@
 import styled from "styled-components";
 import { CartesianGrid, Line, LineChart, ResponsiveContainer, Symbols, XAxis, YAxis } from "recharts";
 import { BodyShort, Checkbox, CheckboxGroup, Heading } from "@navikt/ds-react";
-import { useHentHistoriskstatistikk, useHentPubliseringsinfo } from "../../../../api/lydia-api";
+import { useHentHistoriskstatistikk } from "../../../../api/lydia-api";
 import { sorterKvartalStigende } from "../../../../util/sortering";
 import { graphTooltip } from "./GraphTooltip";
-import { grafrekkefølge, Grafer, graflinjer } from "./graflinjer";
+import { Grafer, graflinjer, grafrekkefølge } from "./graflinjer";
 import { useState } from "react";
 import { SymbolSvg } from "./SymbolSvg";
 import { loggGraflinjeEndringer } from "../../../../util/amplitude-klient";
@@ -42,13 +42,10 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
         Grafer.SEKTOR,
         Grafer.LAND]);
     const {
-        data: publiseringsinfo,
-    } = useHentPubliseringsinfo()
-    const {
         data: historiskStatistikk
     } = useHentHistoriskstatistikk(orgnr)
 
-    if (!historiskStatistikk || !publiseringsinfo) {
+    if (!historiskStatistikk) {
         return null;
     }
 
