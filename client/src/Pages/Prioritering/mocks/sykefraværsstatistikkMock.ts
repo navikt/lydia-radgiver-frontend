@@ -4,6 +4,7 @@ import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../domenetyper/virks
 import { Virksomhetsoversikt } from "../../../domenetyper/virksomhetsoversikt";
 import { Publiseringsinfo } from "../../../domenetyper/publiseringsinfo";
 import { Bransjestatistikk, Næringsstatistikk } from "../../../domenetyper/bransjestatistikk";
+import { HistoriskStatistikk } from "../../../domenetyper/historiskstatistikk";
 
 const sykefraværStatiskData: Pick<Virksomhetsoversikt, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent'> = {
     antallPersoner: 69.4123,
@@ -283,3 +284,161 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [{
     "sistEndret": endretDato,
 },
 ]
+
+export const historiskStatistikkMock: HistoriskStatistikk ={
+    virksomhetsstatistikk: {
+        kategori: "VIRKSOMHET",
+        kode: "123456789",
+        beskrivelse: "Virksomhet med historisk statistikk",
+        statistikk: [
+            {
+                kvartal: 2,
+                årstall: 2023,
+                sykefraværsprosent: 2.0,
+                maskert: false
+            },
+            {
+                kvartal: 1,
+                årstall: 2023,
+                sykefraværsprosent: 7.0,
+                maskert: false
+            },
+            {
+                kvartal: 4,
+                årstall: 2022,
+                sykefraværsprosent: 8.0,
+                maskert: false
+            },
+            {
+                kvartal: 3,
+                årstall: 2022,
+                sykefraværsprosent: 17.0,
+                maskert: false
+            },
+        ]
+    },
+    næringsstatistikk: {
+        kategori: "NÆRING",
+        kode: "88",
+        beskrivelse: "Omsorg uten botilbud, barnehager mv.",
+        statistikk: [
+            {
+                kvartal: 2,
+                årstall: 2023,
+                sykefraværsprosent: 5.0,
+                maskert: false
+            },
+            {
+                kvartal: 1,
+                årstall: 2023,
+                sykefraværsprosent: 5.0,
+                maskert: false
+            },
+            {
+                kvartal: 4,
+                årstall: 2022,
+                sykefraværsprosent: 5.0,
+                maskert: false
+            },
+            {
+                kvartal: 3,
+                årstall: 2022,
+                sykefraværsprosent: 5.0,
+                maskert: false
+            },
+        ]
+    },
+    bransjestatistikk: {
+        kategori: "BRANSJE",
+        kode: "Barnehager",
+        beskrivelse: "Barnehager",
+        statistikk: [
+            {
+                kvartal: 2,
+                årstall: 2023,
+                sykefraværsprosent: 6.0,
+                maskert: false
+            },
+            {
+                kvartal: 1,
+                årstall: 2023,
+                sykefraværsprosent: 6.0,
+                maskert: false
+            },
+            {
+                kvartal: 4,
+                årstall: 2022,
+                sykefraværsprosent: 6.0,
+                maskert: false
+            },
+            {
+                kvartal: 3,
+                årstall: 2022,
+                sykefraværsprosent: 6.0,
+                maskert: false
+            },
+        ]
+    },
+    sektorstatistikk: {
+        kategori: "SEKTOR",
+        kode: "1",
+        beskrivelse: "Statlig forvaltning",
+        statistikk: [
+            {
+                kvartal: 2,
+                årstall: 2023,
+                sykefraværsprosent: 4.9,
+                maskert: false
+            },
+            {
+                kvartal: 1,
+                årstall: 2023,
+                sykefraværsprosent: 4.9,
+                maskert: false
+            },
+            {
+                kvartal: 4,
+                årstall: 2022,
+                sykefraværsprosent: 4.9,
+                maskert: false
+            },
+            {
+                kvartal: 3,
+                årstall: 2022,
+                sykefraværsprosent: 4.9,
+                maskert: false
+            },
+        ]
+    },
+    landsstatistikk: {
+        kategori: "LAND",
+        kode: "NO",
+        beskrivelse: "Norge",
+        statistikk: [
+            {
+                kvartal: 2,
+                årstall: 2023,
+                sykefraværsprosent: 6.0,
+                maskert: false
+            },
+            {
+                kvartal: 1,
+                årstall: 2023,
+                sykefraværsprosent: 7.0,
+                maskert: false
+            },
+            {
+                kvartal: 4,
+                årstall: 2022,
+                sykefraværsprosent: 5.0,
+                maskert: false
+            },
+            {
+                kvartal: 3,
+                årstall: 2022,
+                sykefraværsprosent: 6.0,
+                maskert: false
+            },
+        ]
+    }
+}
