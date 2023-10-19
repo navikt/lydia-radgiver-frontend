@@ -1,11 +1,11 @@
 import { rest } from "msw";
 import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innloggetAnsattMock";
 import {
-    iaSakHistorikkPath,
+    iaSakHistorikkPath, innloggetAnsattPath,
     leveransePath,
     modulerPath,
     publiseringsinfoPath,
-    siste4kvartalerPath,
+    siste4kvartalerPath, sistekvartalPath,
     sykefraværsstatistikkPath,
     tjenesterPath
 } from "../src/api/lydia-api";
@@ -18,10 +18,10 @@ import { samarbeidshistorikkMock } from "../src/Pages/Virksomhet/mocks/iaSakHist
 import { iaTjenester, leveranserPerIATjeneste, moduler } from "../src/Pages/Virksomhet/mocks/leveranseMock";
 
 export const mswHandlers = [
-    rest.get('/innloggetAnsatt', (req, res, ctx) => {
+    rest.get(`/${innloggetAnsattPath}`, (req, res, ctx) => {
         return res(ctx.json(brukerMedVeldigLangtNavn));
     }),
-    rest.get(`${sykefraværsstatistikkPath}/:orgnummer/sistetilgjengeligekvartal`, (req, res, ctx) => {
+    rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, (req, res, ctx) => {
         return res(
             ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
         );

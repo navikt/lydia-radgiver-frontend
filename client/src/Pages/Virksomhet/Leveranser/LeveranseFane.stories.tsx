@@ -4,6 +4,7 @@ import { iaSakFullført, iaSakKartlegges, iaSakViBistår } from "../mocks/iaSakM
 import { brukerSomErSaksbehandler, brukerSomHarLesetilgang } from "../../Prioritering/mocks/innloggetAnsattMock";
 import { rest } from "msw";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
+import { innloggetAnsattPath } from "../../../api/lydia-api";
 
 const meta = {
     title: "Virksomhet/Leveranser/Leveransefane",
@@ -42,7 +43,7 @@ export const BrukerHarLesetilgang: Story = {
     },
     parameters: {
         msw: [
-            rest.get('/innloggetAnsatt', (req, res, ctx) => {
+            rest.get(innloggetAnsattPath, (req, res, ctx) => {
                 return res(ctx.json(brukerSomHarLesetilgang));
             }),
             ...mswHandlers,

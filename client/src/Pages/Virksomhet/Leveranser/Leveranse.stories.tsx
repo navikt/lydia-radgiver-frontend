@@ -6,6 +6,7 @@ import { Leveranse as LeveranseType } from "../../../domenetyper/leveranse"
 import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
 import { brukerSomHarLesetilgang } from "../../Prioritering/mocks/innloggetAnsattMock";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
+import { innloggetAnsattPath } from "../../../api/lydia-api";
 
 const meta = {
     title: "Virksomhet/Leveranser/Leveranse",
@@ -40,7 +41,7 @@ export const BrukerErLesebruker: Story = {
     },
     parameters: {
         msw: [
-            rest.get('/innloggetAnsatt', (req, res, ctx) => {
+            rest.get(innloggetAnsattPath, (req, res, ctx) => {
                 return res(ctx.json(brukerSomHarLesetilgang));
             }),
             ...mswHandlers,
