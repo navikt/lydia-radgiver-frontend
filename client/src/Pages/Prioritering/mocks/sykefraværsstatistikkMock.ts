@@ -325,19 +325,19 @@ export const historiskStatistikkMock: HistoriskStatistikk ={
             {
                 kvartal: 2,
                 årstall: 2023,
-                sykefraværsprosent: 5.0,
+                sykefraværsprosent: 7.0,
                 maskert: false
             },
             {
                 kvartal: 1,
                 årstall: 2023,
-                sykefraværsprosent: 5.0,
+                sykefraværsprosent: 8.0,
                 maskert: false
             },
             {
                 kvartal: 4,
                 årstall: 2022,
-                sykefraværsprosent: 5.0,
+                sykefraværsprosent: 9.0,
                 maskert: false
             },
             {
@@ -356,7 +356,7 @@ export const historiskStatistikkMock: HistoriskStatistikk ={
             {
                 kvartal: 2,
                 årstall: 2023,
-                sykefraværsprosent: 6.0,
+                sykefraværsprosent: 2.0,
                 maskert: false
             },
             {
@@ -368,7 +368,7 @@ export const historiskStatistikkMock: HistoriskStatistikk ={
             {
                 kvartal: 4,
                 årstall: 2022,
-                sykefraværsprosent: 6.0,
+                sykefraværsprosent: 8.0,
                 maskert: false
             },
             {
@@ -393,7 +393,7 @@ export const historiskStatistikkMock: HistoriskStatistikk ={
             {
                 kvartal: 1,
                 årstall: 2023,
-                sykefraværsprosent: 4.9,
+                sykefraværsprosent: 3.9,
                 maskert: false
             },
             {
