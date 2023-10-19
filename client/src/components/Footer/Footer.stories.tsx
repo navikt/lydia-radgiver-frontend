@@ -15,18 +15,6 @@ export const Hovedstory = () => (
     </div>
 )
 
-Hovedstory.parameters = {
-    msw: {
-        handlers: [
-            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(gjeldendePeriodePubliseringsinfo)
-                );
-            }),
-        ],
-    },
-};
-
 export const HentGjeldendePeriodeErTreig = () => (
     <div>
         <Footer />

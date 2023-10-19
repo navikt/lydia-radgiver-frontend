@@ -1,7 +1,6 @@
 import { Meta } from "@storybook/react";
 import { rest } from "msw";
 import {
-    gjeldendePeriodePubliseringsinfo,
     sykefraværsstatistikkBransjeMock,
     sykefraværsstatistikkNæringMock,
     sykefraværsstatistikkSisteKvartalMock,
@@ -11,12 +10,11 @@ import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import {
     bransjePath,
     næringPath,
-    publiseringsinfoPath,
     siste4kvartalerPath,
     sistekvartalPath,
     sykefraværsstatistikkPath
 } from "../../../api/lydia-api";
-import {Næring} from "../../../domenetyper/virksomhet";
+import { Næring } from "../../../domenetyper/virksomhet";
 
 export default {
     title: "Virksomhet/Virksomhetsoversikt/Sykefraværsstatistikk for en virksomhet",
@@ -60,11 +58,6 @@ Hovedstory.parameters = {
                     ctx.json(sykefraværsstatistikkBransjeMock)
                 );
             }),
-            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(gjeldendePeriodePubliseringsinfo)
-                );
-            }),
         ],
     },
 };
@@ -97,11 +90,6 @@ ForVirksomhetUtenBransje.parameters = {
                     ctx.json(sykefraværsstatistikkBransjeMock)
                 );
             }),
-            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(gjeldendePeriodePubliseringsinfo)
-                );
-            }),
         ],
     },
 };
@@ -132,11 +120,6 @@ MedStatistikkFraKunToKvartal.parameters = {
             rest.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, (req, res, ctx) => {
                 return res(
                     ctx.json(sykefraværsstatistikkBransjeMock)
-                );
-            }),
-            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(gjeldendePeriodePubliseringsinfo)
                 );
             }),
         ],
