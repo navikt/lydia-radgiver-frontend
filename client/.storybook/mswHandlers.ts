@@ -3,14 +3,14 @@ import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innlog
 import {
     iaSakHistorikkPath, innloggetAnsattPath,
     leveransePath,
-    modulerPath,
+    modulerPath, næringPath,
     publiseringsinfoPath,
     siste4kvartalerPath, sistekvartalPath,
     sykefraværsstatistikkPath,
     tjenesterPath
 } from "../src/api/lydia-api";
 import {
-    gjeldendePeriodePubliseringsinfo,
+    gjeldendePeriodePubliseringsinfo, sykefraværsstatistikkNæringMock,
     sykefraværsstatistikkSisteKvartalMock,
     virksomhetsstatistikkSiste4KvartalerMock
 } from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
@@ -56,5 +56,9 @@ export const mswHandlers = [
             ctx.json(moduler)
         );
     }),
+    rest.get(`${sykefraværsstatistikkPath}/${næringPath}/:naringskode`, (req, res, ctx) => {
+        return res(
+            ctx.json(sykefraværsstatistikkNæringMock)
+        );
+    }),
 ]
-

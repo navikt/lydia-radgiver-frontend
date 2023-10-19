@@ -2,18 +2,11 @@ import { Meta } from "@storybook/react";
 import { rest } from "msw";
 import {
     sykefraværsstatistikkBransjeMock,
-    sykefraværsstatistikkNæringMock,
     sykefraværsstatistikkSisteKvartalMock,
     virksomhetsstatistikkSiste4KvartalerMock
 } from "../../Prioritering/mocks/sykefraværsstatistikkMock";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
-import {
-    bransjePath,
-    næringPath,
-    siste4kvartalerPath,
-    sistekvartalPath,
-    sykefraværsstatistikkPath
-} from "../../../api/lydia-api";
+import { bransjePath, siste4kvartalerPath, sistekvartalPath, sykefraværsstatistikkPath } from "../../../api/lydia-api";
 import { Næring } from "../../../domenetyper/virksomhet";
 
 export default {
@@ -48,11 +41,6 @@ Hovedstory.parameters = {
                     ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
                 );
             }),
-            rest.get(`${sykefraværsstatistikkPath}/${næringPath}/:naringskode`, (req, res, ctx) => {
-                return res(
-                    ctx.json(sykefraværsstatistikkNæringMock)
-                );
-            }),
             rest.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, (req, res, ctx) => {
                 return res(
                     ctx.json(sykefraværsstatistikkBransjeMock)
@@ -80,11 +68,6 @@ ForVirksomhetUtenBransje.parameters = {
                     ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
                 );
             }),
-            rest.get(`${sykefraværsstatistikkPath}/${næringPath}/:naringskode`, (req, res, ctx) => {
-                return res(
-                    ctx.json(sykefraværsstatistikkNæringMock)
-                );
-            }),
             rest.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, (req, res, ctx) => {
                 return res(
                     ctx.json(sykefraværsstatistikkBransjeMock)
@@ -110,11 +93,6 @@ MedStatistikkFraKunToKvartal.parameters = {
             rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, (req, res, ctx) => {
                 return res(
                     ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
-                );
-            }),
-            rest.get(`${sykefraværsstatistikkPath}/${næringPath}/:naringskode`, (req, res, ctx) => {
-                return res(
-                    ctx.json(sykefraværsstatistikkNæringMock)
                 );
             }),
             rest.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, (req, res, ctx) => {
