@@ -3,6 +3,7 @@ import { rest } from "msw";
 import { SamarbeidshistorikkFane } from "./SamarbeidshistorikkFane";
 import { samarbeidshistorikkMock } from "../mocks/iaSakHistorikkMock";
 import { iaSakHistorikkPath } from "../../../api/lydia-api";
+import { mswHandlers } from "../../../../.storybook/mswHandlers";
 
 const meta = {
     title: "Virksomhet/Samarbeidshistorikkfane",
@@ -24,6 +25,7 @@ export const FlereSaker: Story = {
                         ctx.json(samarbeidshistorikkMock)
                     );
                 }),
+                ...mswHandlers,
             ],
         },
     },
