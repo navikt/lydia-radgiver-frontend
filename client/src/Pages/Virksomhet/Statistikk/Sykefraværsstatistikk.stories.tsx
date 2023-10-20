@@ -8,6 +8,7 @@ import {
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import { bransjePath, siste4kvartalerPath, sistekvartalPath, sykefraværsstatistikkPath } from "../../../api/lydia-api";
 import { Næring } from "../../../domenetyper/virksomhet";
+import { mswHandlers } from "../../../../.storybook/mswHandlers";
 
 export default {
     title: "Virksomhet/Virksomhetsoversikt/Sykefraværsstatistikk for en virksomhet",
@@ -31,6 +32,7 @@ export const Hovedstory = () =>
 Hovedstory.parameters = {
     msw: {
         handlers: [
+            ...mswHandlers,
             rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
                 return res(
                     ctx.json(virksomhetsstatistikkSiste4KvartalerMock[0])
@@ -56,6 +58,7 @@ export const ForVirksomhetUtenBransje = () =>
 ForVirksomhetUtenBransje.parameters = {
     msw: {
         handlers: [
+            ...mswHandlers,
             rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
                 return res(
                     ctx.json(
@@ -83,6 +86,7 @@ export const MedStatistikkFraKunToKvartal = () =>
 MedStatistikkFraKunToKvartal.parameters = {
     msw: {
         handlers: [
+            ...mswHandlers,
             rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
                 return res(
                     ctx.json(
