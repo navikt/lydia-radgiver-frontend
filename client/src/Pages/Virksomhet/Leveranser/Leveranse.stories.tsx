@@ -6,7 +6,7 @@ import { Leveranse as LeveranseType } from "../../../domenetyper/leveranse"
 import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
 import { brukerSomHarLesetilgang } from "../../Prioritering/mocks/innloggetAnsattMock";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
-import { innloggetAnsattPath } from "../../../api/lydia-api";
+import { iaSakPath, innloggetAnsattPath } from "../../../api/lydia-api";
 
 const meta = {
     title: "Virksomhet/Leveranser/Leveranse",
@@ -24,6 +24,17 @@ export const LeveranseUnderArbeid: Story = {
     args: {
         iaSak: iaSakViBistår,
         leveranse: leveranserPerIATjeneste[0].leveranser.sort(stigendeEtterId)[0],
+    },
+    parameters: {
+        msw: [
+            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
+                return res(ctx.json(iaSakViBistår));
+            }),
+            rest.get(innloggetAnsattPath, (req, res, ctx) => {
+                return res(ctx.json(brukerSomHarLesetilgang));
+            }),
+            ...mswHandlers,
+        ]
     }
 }
 
@@ -31,6 +42,17 @@ export const LeveranseLevert: Story = {
     args: {
         iaSak: iaSakViBistår,
         leveranse: leveranserPerIATjeneste[0].leveranser.sort(stigendeEtterId)[3],
+    },
+    parameters: {
+        msw: [
+            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
+                return res(ctx.json(iaSakViBistår));
+            }),
+            rest.get(innloggetAnsattPath, (req, res, ctx) => {
+                return res(ctx.json(brukerSomHarLesetilgang));
+            }),
+            ...mswHandlers,
+        ]
     }
 }
 
@@ -41,6 +63,9 @@ export const BrukerErLesebruker: Story = {
     },
     parameters: {
         msw: [
+            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
+                return res(ctx.json(iaSakViBistår));
+            }),
             rest.get(innloggetAnsattPath, (req, res, ctx) => {
                 return res(ctx.json(brukerSomHarLesetilgang));
             }),
