@@ -59,7 +59,17 @@ initialize({
     // Guide frå https://github.com/mswjs/msw/discussions/1231#discussioncomment-4803373
     onUnhandledRequest: (req, print) => {
         // specify routes to exclude
-        const excludedRoutes = ['/node_modules', '/src', '/.storybook'];
+        const excludedRoutes = [
+            '/node_modules',
+            '/src',
+            '/.storybook',
+            '/sb-common-assets',
+            '/@vite/client',
+            '/sb-preview',
+            '/virtual:/@storybook',
+            '/index.json',
+            '/@react-refresh',
+        ];
         const excludedExternalRoutes = ['cdn.nav.no', 'amplitude.nav.no']
 
         // check if the req.url.pathname contains excludedRoutes
