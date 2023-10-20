@@ -4,8 +4,7 @@ import { iaSakViBistår } from "../mocks/iaSakMock";
 import { IATjeneste } from "./IATjeneste";
 import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
-import { iaSakPath, innloggetAnsattPath } from "../../../api/lydia-api";
-import { brukerSomHarLesetilgang } from "../../Prioritering/mocks/innloggetAnsattMock";
+import { iaSakPath } from "../../../api/lydia-api";
 
 const meta = {
     title: "Virksomhet/Leveranser/Leveranser per IATjeneste",
@@ -24,9 +23,6 @@ export const Hovedstory: Story = {
         msw: [
             rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
                 return res(ctx.json(iaSakViBistår));
-            }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomHarLesetilgang));
             }),
             ...mswHandlers,
         ],

@@ -13,8 +13,7 @@ import {
 } from "../../mocks/iaSakMock";
 import { mswHandlers } from "../../../../../.storybook/mswHandlers";
 import { rest } from "msw";
-import { iaSakPath, innloggetAnsattPath } from "../../../../api/lydia-api";
-import { brukerSomErSaksbehandler } from "../../../Prioritering/mocks/innloggetAnsattMock";
+import { iaSakPath } from "../../../../api/lydia-api";
 
 const meta = {
     title: "Virksomhet/Virksomhetsoversikt/IA-sak-oversikt (statusfelt)",
@@ -39,9 +38,6 @@ export const IkkeAktiv: Story = {
             rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
                 return res(ctx.json(iaSakViBistår));
             }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomErSaksbehandler));
-            }),
         ],
     },
 };
@@ -56,9 +52,6 @@ export const VurderesUtenEier: Story = {
             ...mswHandlers,
             rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
                 return res(ctx.json(iaSakVurderesUtenEier));
-            }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomErSaksbehandler));
             }),
         ],
     },
@@ -164,9 +157,6 @@ export const FullfortOgLukket = {
             ...mswHandlers,
             rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
                 return res(ctx.json(iaSakFullførtOgLukket));
-            }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomErSaksbehandler));
             }),
         ],
     },

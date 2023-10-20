@@ -22,9 +22,6 @@ export const Hovedstory: Story = {
             rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
                 return res(ctx.json(iaSakViBistår));
             }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomErSaksbehandler));
-            }),
             ...mswHandlers,
         ]
     }
@@ -38,9 +35,6 @@ export const BrukerEierIkkeSak: Story = {
         msw: [
             rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
                 return res(ctx.json({...iaSakViBistår, eidAv: brukerSomErSaksbehandler.ident}));
-            }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomErSaksbehandler));
             }),
             ...mswHandlers,
         ]
@@ -56,9 +50,6 @@ export const SakErIkkeIViBistaar: Story = {
             rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
                 return res(ctx.json(iaSakKartlegges));
             }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomErSaksbehandler));
-            }),
             ...mswHandlers,
         ]
     }
@@ -72,9 +63,6 @@ export const SakErIFullført: Story = {
         msw: [
             rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
                 return res(ctx.json(iaSakFullført));
-            }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomErSaksbehandler));
             }),
             ...mswHandlers,
         ]

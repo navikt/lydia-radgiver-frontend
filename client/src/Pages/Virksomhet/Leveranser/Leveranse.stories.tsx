@@ -30,9 +30,6 @@ export const LeveranseUnderArbeid: Story = {
             rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
                 return res(ctx.json(iaSakViBistår));
             }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomHarLesetilgang));
-            }),
             ...mswHandlers,
         ]
     }
@@ -47,9 +44,6 @@ export const LeveranseLevert: Story = {
         msw: [
             rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
                 return res(ctx.json(iaSakViBistår));
-            }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomHarLesetilgang));
             }),
             ...mswHandlers,
         ]
