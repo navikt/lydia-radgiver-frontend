@@ -18,7 +18,7 @@ import { samarbeidshistorikkMock } from "../src/Pages/Virksomhet/mocks/iaSakHist
 import { iaTjenester, leveranserPerIATjeneste, moduler } from "../src/Pages/Virksomhet/mocks/leveranseMock";
 
 export const mswHandlers = [
-    rest.get(`/${innloggetAnsattPath}`, (req, res, ctx) => {
+    rest.get(`${innloggetAnsattPath}`, (req, res, ctx) => {
         return res(ctx.json(brukerMedVeldigLangtNavn));
     }),
     rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, (req, res, ctx) => {
