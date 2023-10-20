@@ -19,6 +19,7 @@ import {
     virksomhetsPath
 } from "../../api/lydia-api";
 import { samarbeidshistorikkMock } from "./mocks/iaSakHistorikkMock";
+import { mswHandlers } from "../../../.storybook/mswHandlers";
 
 const meta = {
     title: "Virksomhet/Virksomhetside",
@@ -45,6 +46,7 @@ export const VirksomhetssideStory: Story = {
 VirksomhetssideStory.parameters = {
     msw: {
         handlers: [
+            ...mswHandlers,
             rest.get(`${virksomhetsPath}/:orgnummer`, (req, res, ctx) => {
                 return res(ctx.json(virksomhetMock));
             }),
