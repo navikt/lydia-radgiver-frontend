@@ -298,7 +298,7 @@ const initialState: FiltervisningState = {
         til: NaN,
     },
     sektor: "",
-    iaStatus: undefined, // Denne fungerer ikkje heilt nett no
+    iaStatus: undefined,
     bransjeprogram: [],
     eiere: [],
     side: 1,
