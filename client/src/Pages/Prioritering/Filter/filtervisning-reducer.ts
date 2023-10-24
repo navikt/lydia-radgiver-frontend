@@ -285,17 +285,22 @@ const endreSektor = (state: FiltervisningState, action: EndreSektorAction): Filt
 });
 
 const initialState: FiltervisningState = {
+    valgtFylke: undefined,
     kommuner: [],
     næringsgrupper: [],
-    antallArbeidsforhold: {
-        fra: 5,
-        til: NaN,
-    },
     sykefraværsprosent: {
         fra: 0,
         til: 100,
     },
+    valgtSnittfilter: ValgtSnittFilter.ALLE,
+    antallArbeidsforhold: {
+        fra: 5,
+        til: NaN,
+    },
+    sektor: "",
+    iaStatus: undefined, // Denne fungerer ikkje heilt nett no
     bransjeprogram: [],
+    eiere: [],
     side: 1,
 };
 
