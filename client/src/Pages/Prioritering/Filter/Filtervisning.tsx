@@ -14,7 +14,7 @@ import { tabletAndUp } from "../../../styling/breakpoints";
 import { SektorDropdown } from "./SektorDropdown";
 import { Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
-
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 const Skjema = styled.form`
   padding: 1rem;
@@ -34,10 +34,15 @@ const Rad = styled.div`
   }
 `;
 
+const TømFilterknapp = styled(Button)`
+  align-self: end;
+  margin-left: auto;
+
+  height: fit-content;
+`;
 
 const Søkeknapp = styled(Button)`
   align-self: end;
-  margin-left: auto;
 
   width: 10rem;
   height: fit-content;
@@ -70,6 +75,7 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
         oppdaterSnittfilter,
         oppdaterNæringsgruppe,
         oppdaterSektorer,
+        tilbakestill,
     } = filtervisning;
 
     const endreSektor = (sektor: string) => {
@@ -123,7 +129,7 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
                     fylkerOgKommuner={state.filterverdier?.fylker ?? []}
                     valgtFylke={state.valgtFylke?.fylke}
                     endreFylke={endreFylke}
-                    style={{flex: "1"}}
+                    style={{ flex: "1" }}
                 />
                 <Kommunedropdown
                     relevanteFylkerMedKommuner={
@@ -159,7 +165,7 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
                 />
                 {skalFilterVises("SNITTFILTER") &&
                     <BransjeEllerNæringDropdown valgtSnittfilter={state.valgtSnittfilter}
-                                                endreSnittfilter={endreSnittfilter}/>
+                                                endreSnittfilter={endreSnittfilter} />
                 }
                 <AntallArbeidsforholdVelger
                     antallArbeidsforhold={state.antallArbeidsforhold}
@@ -184,8 +190,13 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
                         onEierBytteCallback={endreEiere}
                     />
                 }
+                { erIDev &&
+                    <TømFilterknapp size="medium" variant="tertiary" onClick={tilbakestill}>
+                        Tøm filter
+                    </TømFilterknapp>
+                }
                 <Søkeknapp size="medium" onClick={søkPåNytt}>
-                    {søkeknappTittel? søkeknappTittel : 'Søk'}
+                    {søkeknappTittel ? søkeknappTittel : 'Søk'}
                 </Søkeknapp>
             </Rad>
         </Skjema>
