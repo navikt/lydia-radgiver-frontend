@@ -42,7 +42,7 @@ jobs:
         id: docker-push
         with:
           team: pia
-          tag: latest
+          tag: ${{ github.ref == 'refs/heads/main' && 'latest' || 'branch_latest' }}
           project_id: ${{ vars.NAIS_MANAGEMENT_PROJECT_ID }}
           identity_provider: ${{ secrets.NAIS_WORKLOAD_IDENTITY_PROVIDER }}
     outputs:
