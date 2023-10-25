@@ -14,7 +14,6 @@ import { tabletAndUp } from "../../../styling/breakpoints";
 import { SektorDropdown } from "./SektorDropdown";
 import { Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 import { useSearchParams } from "react-router-dom";
 
 const Skjema = styled.form`
@@ -201,7 +200,7 @@ export const Filtervisning = ({
                     />
                 }
                 <KnappeWrapper>
-                    {erIDev && harFilterÅTømme &&
+                    {harFilterÅTømme &&
                         <Button size="medium" variant="tertiary" onClick={tilbakestill}>
                             Tøm filter
                         </Button>
