@@ -15,6 +15,7 @@ import { SektorDropdown } from "./SektorDropdown";
 import { Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
+import { useSearchParams } from "react-router-dom";
 
 const Skjema = styled.form`
   padding: 1rem;
@@ -70,6 +71,7 @@ export const Filtervisning = ({
                                   maskerteFiltre,
                                   søkeknappTittel
                               }: FiltervisningProps) => {
+    const [søkeparametre] = useSearchParams();
     const {
         oppdaterAntallArbeidsforhold,
         oppdaterIastatus,
@@ -127,6 +129,8 @@ export const Filtervisning = ({
             !maskerteFiltre.includes(filter)
             : true;
     }
+
+    const harFilterÅTømme = søkeparametre.size > 0;
 
     return (
         <Skjema className={className} onSubmit={(e) => e.preventDefault()}>
@@ -197,7 +201,7 @@ export const Filtervisning = ({
                     />
                 }
                 <KnappeWrapper>
-                    {erIDev &&
+                    {erIDev && harFilterÅTømme &&
                         <Button size="medium" variant="tertiary" onClick={tilbakestill}>
                             Tøm filter
                         </Button>
