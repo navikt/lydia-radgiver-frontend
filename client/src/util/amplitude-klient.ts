@@ -31,6 +31,7 @@ type NavsAmplitudeTopologiEventer =
     | "saksstatus endret"
     | "navigere ut av fia"
     | "endring i valgte linjer i graf"
+    | "nullstill filter i søk"
 
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
@@ -117,6 +118,10 @@ export const loggFilterverdiKategorier = (
         søkeord: filterverdiKategorier,
         komponent: søkekomponent,
     });
+}
+
+export const loggTømmingAvFilterverdier = () => {
+    logAmplitudeEvent("nullstill filter i søk", {})
 }
 
 export const loggModalTilbakeTilForrigeStatusLukket = (

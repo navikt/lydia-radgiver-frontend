@@ -15,6 +15,7 @@ import { SektorDropdown } from "./SektorDropdown";
 import { Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { useSearchParams } from "react-router-dom";
+import { loggTømmingAvFilterverdier } from "../../../util/amplitude-klient";
 
 const Skjema = styled.form`
   padding: 1rem;
@@ -130,6 +131,10 @@ export const Filtervisning = ({
     }
 
     const harFilterÅTømme = søkeparametre.size > 0;
+    const tømFilter = () => {
+        tilbakestill()
+        loggTømmingAvFilterverdier()
+    }
 
     return (
         <Skjema className={className} onSubmit={(e) => e.preventDefault()}>
@@ -201,7 +206,7 @@ export const Filtervisning = ({
                 }
                 <KnappeWrapper>
                     {harFilterÅTømme &&
-                        <Button type="button" size="medium" variant="tertiary" onClick={tilbakestill}>
+                        <Button type="button" size="medium" variant="tertiary" onClick={tømFilter}>
                             Tøm filter
                         </Button>
                     }
