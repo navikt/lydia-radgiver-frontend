@@ -7,8 +7,7 @@ import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { StatistikkTabell } from "./StatistikkTabell";
 import { SideContainer } from "../../styling/containere";
-import { loggSideLastet, loggSøkPåFylke, Søkekomponenter } from "../../util/amplitude-klient";
-import { finnFylkerForKommuner } from "../../util/finnFylkeForKommune";
+import { loggSideLastet } from "../../util/amplitude-klient";
 
 export const Statusoversiktside = () => {
     useTittel(statiskeSidetitler.statusoversiktside)
@@ -52,24 +51,6 @@ export const Statusoversiktside = () => {
     }, [statusoversiktResultatFraApi]);
 
     const søkPåNytt = () => {
-        if (filtervisning?.state?.valgtFylke) {
-            loggSøkPåFylke(
-                filtervisning.state.valgtFylke.fylke,
-                "statusoversikt?fylker",
-                Søkekomponenter.STATUSOVERSIKT
-            )
-        } else if (filtervisning?.state?.kommuner && filterverdier) { // Om fylke er vald må alle kommunar høyre til det fylket, så vi treng ikkje mappe tilbake til fylke.
-            const fylker = finnFylkerForKommuner(filtervisning.state.kommuner, filterverdier.fylker);
-
-            fylker.map((fylke) => {
-                    return loggSøkPåFylke(
-                        fylke,
-                        "statusoversikt?kommuner",
-                        Søkekomponenter.STATUSOVERSIKT
-                    )
-                }
-            )
-        }
         setSkalSøke(true);
     }
 

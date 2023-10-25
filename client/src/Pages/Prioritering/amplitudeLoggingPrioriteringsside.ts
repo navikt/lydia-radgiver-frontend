@@ -1,33 +1,6 @@
 import { FiltervisningState } from "./Filter/filtervisning-reducer";
-import {
-    FilterverdiKategorier,
-    loggFilterverdiKategorier,
-    loggSøkPåFylke,
-    Søkekomponenter
-} from "../../util/amplitude-klient";
-import { Filterverdier, ValgtSnittFilter } from "../../domenetyper/filterverdier";
-import { finnFylkerForKommuner } from "../../util/finnFylkeForKommune";
-
-export const loggSøkPåFylkeIAmplitude = (filtervisningstate: FiltervisningState, filterverdier: Filterverdier) => {
-    if (filtervisningstate.valgtFylke) {
-        return loggSøkPåFylke(
-            filtervisningstate.valgtFylke.fylke,
-            "sykefraversstatistikk?fylker",
-            Søkekomponenter.PRIORITERING
-        )
-    } else if (filtervisningstate.kommuner && filterverdier) { // Om fylke er vald må alle kommunar høyre til det fylket, så vi treng ikkje mappe tilbake til fylke.
-        const fylker = finnFylkerForKommuner(filtervisningstate.kommuner, filterverdier.fylker);
-
-        fylker.map((fylke) => {
-                return loggSøkPåFylke(
-                    fylke,
-                    "sykefraversstatistikk?kommuner",
-                    Søkekomponenter.PRIORITERING
-                )
-            }
-        )
-    }
-}
+import { FilterverdiKategorier, loggFilterverdiKategorier, Søkekomponenter } from "../../util/amplitude-klient";
+import { ValgtSnittFilter } from "../../domenetyper/filterverdier";
 
 export const loggSøkMedFilterIAmplitude = (filtervisningstate: FiltervisningState) => {
     const filter = [

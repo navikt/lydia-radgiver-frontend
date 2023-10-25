@@ -8,7 +8,7 @@ import { useFiltervisningState } from "./Filter/filtervisning-reducer";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { SideContainer } from "../../styling/containere";
 import { loggSideLastet } from "../../util/amplitude-klient";
-import { loggSøkMedFilterIAmplitude, loggSøkPåFylkeIAmplitude } from "./amplitudeLoggingPrioriteringsside";
+import { loggSøkMedFilterIAmplitude } from "./amplitudeLoggingPrioriteringsside";
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 
@@ -76,7 +76,6 @@ export const Prioriteringsside = () => {
     }, [antallTreff]);
 
     function oppdaterSide(side: number, sortering?: SortState) {
-        filtervisning?.state && filterverdier && loggSøkPåFylkeIAmplitude(filtervisning.state, filterverdier)
         loggSøkMedFilterIAmplitude(filtervisning.state)
 
         setVirksomhetsoversiktListe(undefined)
