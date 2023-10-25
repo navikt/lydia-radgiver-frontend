@@ -201,7 +201,7 @@ export const Filtervisning = ({
                 }
                 <KnappeWrapper>
                     {harFilterÅTømme &&
-                        <Button size="medium" variant="tertiary" onClick={tilbakestill}>
+                        <Button type="button" size="medium" variant="tertiary" onClick={tilbakestill}>
                             Tøm filter
                         </Button>
                     }
