@@ -34,18 +34,18 @@ const Rad = styled.div`
   }
 `;
 
-const TømFilterknapp = styled(Button)`
+const KnappeWrapper = styled.div`
   align-self: end;
   margin-left: auto;
+
+  display: flex;
+  gap: 1.5rem;
 
   height: fit-content;
 `;
 
 const Søkeknapp = styled(Button)`
-  align-self: end;
-
   width: 10rem;
-  height: fit-content;
 `;
 
 type Filtervisning = Omit<
@@ -63,7 +63,13 @@ interface FiltervisningProps {
     className?: string;
 }
 
-export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFiltre, søkeknappTittel}: FiltervisningProps) => {
+export const Filtervisning = ({
+                                  filtervisning,
+                                  søkPåNytt,
+                                  className,
+                                  maskerteFiltre,
+                                  søkeknappTittel
+                              }: FiltervisningProps) => {
     const {
         oppdaterAntallArbeidsforhold,
         oppdaterIastatus,
@@ -190,14 +196,16 @@ export const Filtervisning = ({filtervisning, søkPåNytt, className, maskerteFi
                         onEierBytteCallback={endreEiere}
                     />
                 }
-                { erIDev &&
-                    <TømFilterknapp size="medium" variant="tertiary" onClick={tilbakestill}>
-                        Tøm filter
-                    </TømFilterknapp>
-                }
-                <Søkeknapp size="medium" onClick={søkPåNytt}>
-                    {søkeknappTittel ? søkeknappTittel : 'Søk'}
-                </Søkeknapp>
+                <KnappeWrapper>
+                    {erIDev &&
+                        <Button size="medium" variant="tertiary" onClick={tilbakestill}>
+                            Tøm filter
+                        </Button>
+                    }
+                    <Søkeknapp size="medium" onClick={søkPåNytt}>
+                        {søkeknappTittel ? søkeknappTittel : 'Søk'}
+                    </Søkeknapp>
+                </KnappeWrapper>
             </Rad>
         </Skjema>
     );
