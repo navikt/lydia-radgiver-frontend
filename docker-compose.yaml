@@ -101,7 +101,6 @@ services:
       FIA_SAKSBEHANDLER_GROUP_ID: ensaksbehandlerGroupId
       FIA_LESETILGANG_GROUP_ID: enlesetilgangGroupId
       TEAM_PIA_GROUP_ID: enTeamPiaGroupId
-      SALESFORCE_SECURITY_TOKEN: ""
       # Kafka env
       KAFKA_BROKERS: "BROKER://kafka:9092,PLAINTEXT://kafka:9092"
       KAFKA_TRUSTSTORE_PATH: ""
