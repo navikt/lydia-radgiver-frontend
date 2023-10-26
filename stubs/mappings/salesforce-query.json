@@ -1,0 +1,21 @@
+{
+  "request" : {
+    "urlPathPattern" : "/services/data/v.*/query.*",
+    "method" : "GET",
+    "headers": {
+      "Authorization": {
+        "contains": "Bearer"
+      },
+      "Accept": {
+        "contains": "application/json"
+      }
+    }
+  },
+  "response" : {
+    "status" : 200,
+    "bodyFileName": "salesforce-query-response.json",
+    "headers" : {
+      "Content-Type" : "application/json"
+    }
+  }
+}

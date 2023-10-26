@@ -1,0 +1,19 @@
+{
+  "request" : {
+    "urlPathPattern" : "/services/oauth2/token.*",
+    "method" : "POST",
+    "headers": {
+      "Content-Type": {
+        "contains": "application/x-www-form-urlencoded"
+      }
+    }
+  },
+  "response" : {
+    "transformers" : ["response-template"],
+    "status" : 200,
+    "bodyFileName": "salesforce-token-response.json",
+    "headers" : {
+      "Content-Type" : "application/json"
+    }
+  }
+}

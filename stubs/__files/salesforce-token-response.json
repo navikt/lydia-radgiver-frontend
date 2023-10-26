@@ -1,0 +1,8 @@
+{
+  "access_token": "accessToken",
+  "instance_url": "http://{{request.host}}:{{request.port}}",
+  "id": "id",
+  "token_type": "Bearer",
+  "issued_at": "1697703998044",
+  "signature": "signature"
+}

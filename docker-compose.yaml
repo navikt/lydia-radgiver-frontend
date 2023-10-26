@@ -9,14 +9,16 @@ services:
       - 6969:6969
     restart: unless-stopped
 
-  azure:
-    container_name: azure
+  wiremock:
+    container_name: wiremock
     image: wiremock/wiremock
     ports:
       - "9090:8080"
     volumes:
       - ./stubs:/home/wiremock
     restart: unless-stopped
+    command:
+      - -global-response-templating
 
   postgres:
     image: postgres:14
@@ -64,6 +66,7 @@ services:
       - postgres
       - kafka
       - authserver
+      - wiremock
     ports:
       - 8080:8080
       - 5005:5005
@@ -127,6 +130,11 @@ services:
       NAIS_CLUSTER_NAME: "lokal"
       # Spesifikk for remote debugging
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
+      SALESFORCE_TOKEN_HOST: http://host.docker.internal:9090
+      SALESFORCE_CLIENT_ID: clientId
+      SALESFORCE_CLIENT_SECRET: clientSecret
+      SALESFORCE_USERNAME: username
+      SALESFORCE_PASSWORD: password
     restart: unless-stopped
 
   redis:
