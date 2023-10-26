@@ -2,7 +2,10 @@ import { FiltervisningState } from "./Filter/filtervisning-reducer";
 import { FilterverdiKategorier, loggFilterverdiKategorier, Søkekomponenter } from "../../util/amplitude-klient";
 import { ValgtSnittFilter } from "../../domenetyper/filterverdier";
 
-export const loggSøkMedFilterIAmplitude = (filtervisningstate: FiltervisningState) => {
+export const loggSøkMedFilterIAmplitude = (filtervisningstate: FiltervisningState,
+                                           søkekomponent:
+                                               | Søkekomponenter.PRIORITERING
+                                               | Søkekomponenter.STATUSOVERSIKT) => {
     const filter = [
         /* Filter som er enkeltverdiar */
         {
@@ -59,6 +62,6 @@ export const loggSøkMedFilterIAmplitude = (filtervisningstate: FiltervisningSta
 
     loggFilterverdiKategorier(
         kategorierSomSkalLogges,
-        Søkekomponenter.PRIORITERING
+        søkekomponent,
     )
 }
