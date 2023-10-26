@@ -34,6 +34,13 @@
       "onPremisesSamAccountName": "A12345",
       "givenName": "Albus Parsifal Ulfrik Brian",
       "surname": "Humlesnurr"
+    },
+    {
+      "id": "6",
+      "userPrincipalName": "test",
+      "onPremisesSamAccountName": "Z123456",
+      "givenName": "Test",
+      "surname": "Testesen"
     }
   ]
 }
