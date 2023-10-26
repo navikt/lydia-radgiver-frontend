@@ -53,13 +53,13 @@ export const loggSøkMedFilterIAmplitude = (filtervisningstate: FiltervisningSta
         },
     ]
 
-    filter.map((filter) => {
-        if (filter.vilkår) {
-            loggFilterverdiKategorier(
-                filter.filterverdiKategori,
-                "sykefraversstatistikk",
-                Søkekomponenter.PRIORITERING
-            )
-        }
-    })
+    const kategorierSomSkalLogges: FilterverdiKategorier[] = filter
+        .filter((it) => it.vilkår)
+        .map((it) => it.filterverdiKategori)
+
+    loggFilterverdiKategorier(
+        kategorierSomSkalLogges,
+        "sykefraversstatistikk",
+        Søkekomponenter.PRIORITERING
+    )
 }

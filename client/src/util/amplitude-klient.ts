@@ -109,7 +109,7 @@ type FiltersøkDestinasjoner =
     | "statusoversikt"
 
 export const loggFilterverdiKategorier = (
-    filterverdiKategorier: FilterverdiKategorier,
+    filterverdiKategorier: FilterverdiKategorier[],
     destinasjon: FiltersøkDestinasjoner,
     søkekomponent: Søkekomponenter,
 ) => {
