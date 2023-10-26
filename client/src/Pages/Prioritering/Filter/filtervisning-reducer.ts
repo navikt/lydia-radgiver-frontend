@@ -207,6 +207,26 @@ export interface FiltervisningState {
     side: number;
 }
 
+const initialState: FiltervisningState = {
+    valgtFylke: undefined,
+    kommuner: [],
+    næringsgrupper: [],
+    sykefraværsprosent: {
+        fra: 0,
+        til: 100,
+    },
+    valgtSnittfilter: ValgtSnittFilter.ALLE,
+    antallArbeidsforhold: {
+        fra: 5,
+        til: NaN,
+    },
+    sektor: "",
+    iaStatus: undefined,
+    bransjeprogram: [],
+    eiere: [],
+    side: 1,
+};
+
 const endreKommune = (state: FiltervisningState, action: EndreKommuneAction): FiltervisningState => ({
     ...state,
     kommuner: action.payload.kommuner,
@@ -283,26 +303,6 @@ const endreSektor = (state: FiltervisningState, action: EndreSektorAction): Filt
     ...state,
     sektor: action.payload.sektor,
 });
-
-const initialState: FiltervisningState = {
-    valgtFylke: undefined,
-    kommuner: [],
-    næringsgrupper: [],
-    sykefraværsprosent: {
-        fra: 0,
-        til: 100,
-    },
-    valgtSnittfilter: ValgtSnittFilter.ALLE,
-    antallArbeidsforhold: {
-        fra: 5,
-        til: NaN,
-    },
-    sektor: "",
-    iaStatus: undefined,
-    bransjeprogram: [],
-    eiere: [],
-    side: 1,
-};
 
 const endreSide = (state: FiltervisningState, action: OppdaterSideAction): FiltervisningState => {
     const tilSorteringsretning = (
