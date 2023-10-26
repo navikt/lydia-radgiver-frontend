@@ -101,6 +101,7 @@ services:
       FIA_SAKSBEHANDLER_GROUP_ID: ensaksbehandlerGroupId
       FIA_LESETILGANG_GROUP_ID: enlesetilgangGroupId
       TEAM_PIA_GROUP_ID: enTeamPiaGroupId
+      SALESFORCE_SECURITY_TOKEN: ""
       # Kafka env
       KAFKA_BROKERS: "BROKER://kafka:9092,PLAINTEXT://kafka:9092"
       KAFKA_TRUSTSTORE_PATH: ""
@@ -120,6 +121,7 @@ services:
       STATISTIKK_NARING_TOPIC: arbeidsgiver.sykefravarsstatistikk-naring-v1
       STATISTIKK_NARINGSKODE_TOPIC: arbeidsgiver.sykefravarsstatistikk-naringskode-v1
       STATISTIKK_VIRKSOMHET_TOPIC: arbeidsgiver.sykefravarsstatistikk-virksomhet-v1
+      STATISTIKK_VIRKSOMHET_GRADERING_TOPIC: arbeidsgiver.sykefravarsstatistikk-virksomhet-gradert-v1
       # Ubrukte topics?
       STATISTIKK_TOPIC: arbeidsgiver.sykefravarsstatistikk-v1
       IA_SAK_HENDELSE_TOPIC: pia.ia-sak-hendelse-v1
