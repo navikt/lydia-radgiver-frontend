@@ -104,15 +104,14 @@ export const enum FilterverdiKategorier {
     BRANSJE_NÆRING_UNDER_ELLER_LIK = "_under-eller-lik-bransje-naring-snitt"
 }
 
-type FiltersøkDestinasjoner =
-    | "sykefraversstatistikk"
-    | "statusoversikt"
-
 export const loggFilterverdiKategorier = (
     filterverdiKategorier: FilterverdiKategorier[],
-    destinasjon: FiltersøkDestinasjoner,
-    søkekomponent: Søkekomponenter,
+    søkekomponent: Søkekomponenter.PRIORITERING | Søkekomponenter.STATUSOVERSIKT,
 ) => {
+    const destinasjon = søkekomponent === Søkekomponenter.STATUSOVERSIKT
+        ? "statusoversikt"
+        : "sykefraversstatistikk"
+
     logAmplitudeEvent("søk", {
         destinasjon: destinasjon,
         søkeord: filterverdiKategorier,

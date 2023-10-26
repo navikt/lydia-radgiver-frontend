@@ -59,7 +59,6 @@ export const loggSøkMedFilterIAmplitude = (filtervisningstate: FiltervisningSta
 
     loggFilterverdiKategorier(
         kategorierSomSkalLogges,
-        "sykefraversstatistikk",
         Søkekomponenter.PRIORITERING
     )
 }
