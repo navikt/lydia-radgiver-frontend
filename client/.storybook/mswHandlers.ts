@@ -4,10 +4,10 @@ import {
     iaSakHistorikkPath, innloggetAnsattPath,
     leveransePath,
     modulerPath, næringPath,
-    publiseringsinfoPath,
+    publiseringsinfoPath, salesforceUrlPath,
     siste4kvartalerPath, sistekvartalPath,
     sykefraværsstatistikkPath,
-    tjenesterPath
+    tjenesterPath,
 } from "../src/api/lydia-api";
 import {
     gjeldendePeriodePubliseringsinfo, sykefraværsstatistikkNæringMock,
@@ -59,6 +59,14 @@ export const mswHandlers = [
     rest.get(`${sykefraværsstatistikkPath}/${næringPath}/:naringskode`, (req, res, ctx) => {
         return res(
             ctx.json(sykefraværsstatistikkNæringMock)
+        );
+    }),
+    rest.get(`${salesforceUrlPath}/:orgnummer`, (req, res, ctx) => {
+        return res(
+            ctx.json({
+                orgnr: req.params.orgnummer,
+                url: "https://www.salesforce.com"
+            })
         );
     }),
 ]

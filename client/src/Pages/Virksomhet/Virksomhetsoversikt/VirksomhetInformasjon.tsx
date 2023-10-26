@@ -3,6 +3,8 @@ import {BodyShort} from "@navikt/ds-react";
 import {NavFarger} from "../../../styling/farger";
 import {BorderRadius} from "../../../styling/borderRadius";
 import {Virksomhet} from "../../../domenetyper/virksomhet";
+import { useHentSalesforceUrl } from "../../../api/lydia-api";
+import { EksternLenke } from "../../../components/EksternLenke";
 
 const Container = styled.div`
   flex: 1 20rem;
@@ -23,6 +25,11 @@ const InfoTittel = styled(BodyShort)`
   font-weight: bold;
 `;
 
+const SalesforceLenke = styled(EksternLenke)`
+  padding-top: calc(0.5rem + 1em);
+  grid-column: span 2;
+`;
+
 const InfoData = styled(BodyShort)`
   overflow-wrap: anywhere;
 `;
@@ -38,6 +45,10 @@ export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
         const lowerCasedLabel: string = label.toLowerCase()
         return lowerCasedLabel[0].toUpperCase() + lowerCasedLabel.slice(1)
     }
+
+    const {
+        data: salesforceUrl,
+    } = useHentSalesforceUrl(virksomhet.orgnr)
 
     return (
         <Container className={className}>
@@ -67,6 +78,11 @@ export const VirksomhetInformasjon = ({virksomhet, className}: Props) => {
                     <InfoData>{virksomhet.sektor}</InfoData>
                 </>)
             }
+            {salesforceUrl && (
+                <SalesforceLenke href={salesforceUrl.url}>
+                    Se virksomheten i Salesforce
+                </SalesforceLenke>
+            )}
         </Container>
     );
 };

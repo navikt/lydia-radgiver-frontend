@@ -47,6 +47,7 @@ import {
     næringsstatistikkSchema
 } from "../domenetyper/bransjestatistikk";
 import { HistoriskStatistikk, historiskStatistikkSchema } from "../domenetyper/historiskstatistikk";
+import { SalesforceUrl, salesforceUrlSchema } from "../domenetyper/salesforceUrl";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
@@ -68,6 +69,8 @@ export const tjenesterPath = `${leveransePath}/tjenester`
 export const modulerPath = `${leveransePath}/moduler`
 export const statusoversiktPath = `${basePath}/statusoversikt`;
 export const historiskStatistikkPath = "historiskstatistikk";
+
+export const salesforceUrlPath = `${virksomhetsPath}/salesforce`
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -149,7 +152,8 @@ const httpDelete = <T>(url: string, schema: ZodType<T>): Promise<T> =>
 const useSwrTemplate = <T>(
     path: string | (() => string | null) | null,
     schema: ZodType<T>,
-    config: SWRConfiguration = defaultSwrConfiguration
+    config: SWRConfiguration = defaultSwrConfiguration,
+    visFeilmelding: boolean = true
 ) => {
     const {
         data,
@@ -172,7 +176,7 @@ const useSwrTemplate = <T>(
         };
     }
     if (fetchError) {
-        dispatchFeilmelding({feilmelding: fetchError.message});
+        visFeilmelding && dispatchFeilmelding({feilmelding: fetchError.message});
         return {
             data,
             mutate,
@@ -559,5 +563,14 @@ export const useHentModuler = () => {
     return useSwrTemplate<Modul[]>(
         modulerPath,
         modulSchema.array()
+    )
+}
+
+export const useHentSalesforceUrl = (orgnr: string) => {
+    return useSwrTemplate<SalesforceUrl>(
+        `${salesforceUrlPath}/${orgnr}`,
+        salesforceUrlSchema,
+        defaultSwrConfiguration,
+        false
     )
 }

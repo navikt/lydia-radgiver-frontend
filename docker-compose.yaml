@@ -137,6 +137,7 @@ services:
       SALESFORCE_CLIENT_SECRET: clientSecret
       SALESFORCE_USERNAME: username
       SALESFORCE_PASSWORD: password
+      SALESFORCE_SECURITY_TOKEN: securityToken
     restart: unless-stopped
 
   redis:
