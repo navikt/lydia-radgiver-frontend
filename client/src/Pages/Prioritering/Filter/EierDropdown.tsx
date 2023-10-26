@@ -6,7 +6,7 @@ import { Eier } from "../../../domenetyper/domenetyper";
 interface Props {
     onEierBytteCallback: (eiere: Eier[]) => void;
     filtrerbareEiere: Eier[];
-    eiere?: Eier[];
+    eiere: Eier[];
 }
 
 export const EierDropdown = ({ onEierBytteCallback, filtrerbareEiere, eiere }: Props) => {

@@ -120,7 +120,7 @@ export const Filtervisning = ({
         oppdaterIastatus({ iastatus: iaStatus });
     };
 
-    const endreEiere = (eiere?: Eier[]) => {
+    const endreEiere = (eiere: Eier[]) => {
         oppdaterEiere({ eiere });
     };
 

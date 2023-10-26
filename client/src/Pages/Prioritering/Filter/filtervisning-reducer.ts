@@ -60,18 +60,18 @@ const søkeparametereTilFilterstate = (parametere: Søkeparametere, filterverdie
 
         antallArbeidsforhold: {
             fra: Number(
-                parametere.ansatteFra ?? initialState.antallArbeidsforhold.fra
+                parametere.ansatteFra ?? initialFiltervisningState.antallArbeidsforhold.fra
             ),
             til: Number(
-                parametere.ansatteTil ?? initialState.antallArbeidsforhold.til
+                parametere.ansatteTil ?? initialFiltervisningState.antallArbeidsforhold.til
             ),
         },
         sykefraværsprosent: {
             fra: Number(
-                parametere.sykefraversprosentFra ?? initialState.sykefraværsprosent.fra
+                parametere.sykefraversprosentFra ?? initialFiltervisningState.sykefraværsprosent.fra
             ),
             til: Number(
-                parametere.sykefraversprosentTil ?? initialState.sykefraværsprosent.til
+                parametere.sykefraversprosentTil ?? initialFiltervisningState.sykefraværsprosent.til
             ),
         },
         valgtSnittfilter: parametere.snittfilter as ValgtSnittFilter,
@@ -92,7 +92,7 @@ const søkeparametereTilFilterstate = (parametere: Søkeparametere, filterverdie
             parametere?.neringsgrupper?.split(",") ?? [],
             filterverdier.neringsgrupper
         ),
-        side: initialState.side,
+        side: initialFiltervisningState.side,
     };
 };
 
@@ -170,7 +170,7 @@ type OppdaterSideAction = {
 type OppdaterEiereAction = {
     type: "OPPDATER_EIERE";
     payload: {
-        eiere?: Eier[];
+        eiere: Eier[];
     };
 };
 
@@ -202,12 +202,12 @@ export interface FiltervisningState {
     bransjeprogram: string[];
     sorteringsnokkel?: Sorteringsverdi;
     sorteringsretning?: "asc" | "desc";
-    eiere?: Eier[];
+    eiere: Eier[];
     periode?: Periode;
     side: number;
 }
 
-const initialState: FiltervisningState = {
+export const initialFiltervisningState: FiltervisningState = {
     valgtFylke: undefined,
     kommuner: [],
     næringsgrupper: [],
@@ -374,7 +374,7 @@ const reducer = (state: FiltervisningState, action: Action) => {
         case "ENDRE_PERIODE":
             return endrePeriode(state, action)
         case "TILBAKESTILL":
-            return { ...state, ...initialState };
+            return { ...state, ...initialFiltervisningState };
         default: {
             const _exaustiveCheck: never = action;
             return _exaustiveCheck;
@@ -383,7 +383,7 @@ const reducer = (state: FiltervisningState, action: Action) => {
 };
 
 export const useFiltervisningState = () => {
-    const [state, dispatch] = useReducer(reducer, initialState);
+    const [state, dispatch] = useReducer(reducer, initialFiltervisningState);
     const [search, setSearch] = useSearchParams();
 
     useEffect(() => {

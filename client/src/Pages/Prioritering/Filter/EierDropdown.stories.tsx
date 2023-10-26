@@ -8,4 +8,4 @@ export default {
 } as Meta<typeof EierDropdown>
 
 
-export const Hovedstory = () => (<EierDropdown onEierBytteCallback={console.log} filtrerbareEiere={EIERE_MOCKS} />)
+export const Hovedstory = () => (<EierDropdown onEierBytteCallback={console.log} filtrerbareEiere={EIERE_MOCKS} eiere={[]} />)
