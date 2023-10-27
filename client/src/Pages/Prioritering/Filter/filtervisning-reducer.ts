@@ -96,6 +96,52 @@ const søkeparametereTilFilterstate = (parametere: Søkeparametere, filterverdie
     };
 };
 
+const erUtryggFraLocalStorage = (localState: FiltervisningState, filterverdier: Filterverdier) => {
+    const tilgjengeligeKommuner = filterverdier.fylker.flatMap((fylke) => fylke.kommuner);
+    const lovligeKommunerFraLocalStorage = localState.kommuner.filter((kommune) => tilgjengeligeKommuner.find((k) => k.nummer === kommune.nummer && k.navn === kommune.navn && k.navnNorsk === kommune.navnNorsk) !== undefined);
+    if (lovligeKommunerFraLocalStorage.length !== localState.kommuner.length) {
+        return true;
+    }
+    
+    const lovligFylkeFraLocalstorage = filterverdier.fylker.find((fylke) => fylke.fylke.nummer === localState.valgtFylke?.fylke.nummer && fylke.fylke.navn === localState.valgtFylke?.fylke.navn);
+    if (lovligFylkeFraLocalstorage === undefined && localState.valgtFylke !== undefined) {
+        return true;
+    }
+
+    const lovligBransjeprogram = localState.bransjeprogram.filter((bransjeprogram) => filterverdier.bransjeprogram.includes(bransjeprogram));
+    if (lovligBransjeprogram.length !== localState.bransjeprogram.length) {
+        return true;
+    }
+
+    const lovligNæringsgrupper = localState.næringsgrupper.filter((næringsgruppe) => filterverdier.neringsgrupper.find((n) => n.kode === næringsgruppe.kode && n.navn === næringsgruppe.navn) !== undefined);
+    if (lovligNæringsgrupper.length !== localState.næringsgrupper.length) {
+        return true;
+    }
+
+    const lovligEier = localState.eiere.filter((eier) => filterverdier.filtrerbareEiere.find((e) => e.navIdent === eier.navIdent && e.navn === eier.navn) !== undefined);
+    if (lovligEier.length !== localState.eiere.length) {
+        return true;
+    }
+
+    return false;
+}
+
+const filterstateFraLokalstorage = (filterverdier: Filterverdier): FiltervisningState => {
+    const localState = window.localStorage.getItem("lokalFiltervisningState");
+    const parsedLocalState = localState ? JSON.parse(localState) : undefined;
+
+    if (erUtryggFraLocalStorage(parsedLocalState, filterverdier)) {
+        window.localStorage.removeItem("lokalFiltervisningState");
+
+        return initialFiltervisningState;
+    }
+
+    return {
+        ...initialFiltervisningState,
+        ...parsedLocalState,
+    };
+};
+
 type EndreFylkeAction = {
     type: "ENDRE_FYLKE";
     payload: {
@@ -391,6 +437,8 @@ export const useFiltervisningState = () => {
         setSearch(searchParams, {
             replace: true,
         });
+
+        window.localStorage.setItem("lokalFiltervisningState", JSON.stringify(state));
     }, [state]);
 
     const gyldigeSøkeparametereIUrlen: Søkeparametere = parametere.reduce(
@@ -512,17 +560,31 @@ export const useFiltervisningState = () => {
 
     const lastData = useCallback(
         (payload: { filterverdier: Filterverdier }) => {
-            const filterstate = søkeparametereTilFilterstate(
-                gyldigeSøkeparametereIUrlen,
-                payload.filterverdier
-            );
-            dispatch({
-                type: "SETT_INN_FILTERVERDIER",
-                payload: {
-                    filterverdier: payload.filterverdier,
-                    filterstate,
-                },
-            });
+            if (Object.keys(gyldigeSøkeparametereIUrlen).length > 0) {
+                const filterstate = søkeparametereTilFilterstate(
+                    gyldigeSøkeparametereIUrlen,
+                    payload.filterverdier
+                    );
+
+                dispatch({
+                    type: "SETT_INN_FILTERVERDIER",
+                    payload: {
+                        filterverdier: payload.filterverdier,
+                        filterstate,
+                    },
+                });
+            } else {
+                const localFilterState = filterstateFraLokalstorage(payload.filterverdier);
+
+                dispatch({
+                    type: "SETT_INN_FILTERVERDIER",
+                    payload: {
+                        filterverdier: payload.filterverdier,
+                        filterstate: localFilterState,
+                    },
+                });
+            }
+
         },
         []
     );
