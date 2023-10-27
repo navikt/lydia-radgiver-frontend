@@ -44,9 +44,13 @@ docker-compose stop
 
 # kjør opp tjenester (dette migrerer databasen til nyeste versjon)
 docker-compose up -d
-sleep 5
 
-# kjør opp frontend
-cd client
-npm install
-npm run dev
+if [ $? -eq 0 ]
+then
+  sleep 5
+
+  # kjør opp frontend
+  cd client
+  npm install
+  npm run dev
+fi
