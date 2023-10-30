@@ -16,6 +16,7 @@ import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../domenetyper/virks
 import { Publiseringsinfo } from "../../../domenetyper/publiseringsinfo";
 import { Næring } from "../../../domenetyper/virksomhet";
 import { desktopAndUp } from "../../../styling/breakpoints";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 const Container = styled.dl`
   margin: 0; // Nullstiller defaults i description lists (dl)
@@ -138,6 +139,23 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => 
                         }
                         : undefined}
                 />
+                {
+                    erIDev
+                    && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent
+                    && sykefraværsstatistikkSisteKvartal?.graderingsprosent
+                    && <Statistikkboks
+                        tittel="Gradert sykmelding"
+                        helpTekst={`Graderingsprosent ${sisteFireKvartalInfo}`}
+                        verdi={formaterSomProsentMedEnDesimal(virksomhetsstatistikkSiste4Kvartaler.graderingsprosent)}
+                        verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.graderingsprosent
+                            ? {
+                                verdi: formaterSomProsentMedEnDesimal(sykefraværsstatistikkSisteKvartal.graderingsprosent),
+                                år: sykefraværsstatistikkSisteKvartal.arstall,
+                                kvartal: sykefraværsstatistikkSisteKvartal.kvartal
+                            }
+                            : undefined}
+                    />
+                }
             </Container>
         );
     } else {
