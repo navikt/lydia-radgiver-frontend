@@ -126,7 +126,7 @@ const erUtryggFraLocalStorage = (localState: FiltervisningState, filterverdier: 
     return false;
 }
 
-const filterstateFraLokalstorage = (filterverdier: Filterverdier): FiltervisningState => {
+export const filterstateFraLokalstorage = (filterverdier: Filterverdier): FiltervisningState => {
     const localState = window.localStorage.getItem("lokalFiltervisningState");
     const parsedLocalState = localState ? JSON.parse(localState) : undefined;
 
