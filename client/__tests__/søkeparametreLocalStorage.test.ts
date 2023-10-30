@@ -115,4 +115,13 @@ describe("Lasting av søkeparametre fra localstorage", () => {
         const fraLS = window.localStorage.getItem("lokalFiltervisningState");
         expect(fraLS).toEqual(null);
     });
+    test("Sletter ikke localstorage om den finner gyldig data", () => {
+        window.localStorage.setItem(
+            "lokalFiltervisningState",
+            JSON.stringify(dummyLocalStorage),
+        );
+        filterstateFraLokalstorage(filterverdierMock);
+        const fraLS = JSON.parse(window.localStorage.getItem("lokalFiltervisningState") ?? "");
+        expect(fraLS).toEqual(dummyLocalStorage);
+    });
 });
