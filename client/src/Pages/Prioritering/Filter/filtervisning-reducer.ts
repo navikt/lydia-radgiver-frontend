@@ -97,6 +97,9 @@ const søkeparametereTilFilterstate = (parametere: Søkeparametere, filterverdie
 };
 
 const erUtryggFraLocalStorage = (localState: FiltervisningState, filterverdier: Filterverdier) => {
+    if (localState === undefined) {
+        return true;
+    }
     const tilgjengeligeKommuner = filterverdier.fylker.flatMap((fylke) => fylke.kommuner);
     const lovligeKommunerFraLocalStorage = localState.kommuner.filter((kommune) => tilgjengeligeKommuner.find((k) => k.nummer === kommune.nummer && k.navn === kommune.navn && k.navnNorsk === kommune.navnNorsk) !== undefined);
     if (lovligeKommunerFraLocalStorage.length !== localState.kommuner.length) {
