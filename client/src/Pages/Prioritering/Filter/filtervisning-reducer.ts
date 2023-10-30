@@ -246,9 +246,9 @@ export interface FiltervisningState {
     sektor?: string;
     iaStatus?: IAProsessStatusType;
     bransjeprogram: string[];
+    eiere: Eier[];
     sorteringsnokkel?: Sorteringsverdi;
     sorteringsretning?: "asc" | "desc";
-    eiere: Eier[];
     periode?: Periode;
     side: number;
 }
@@ -438,7 +438,16 @@ export const useFiltervisningState = () => {
             replace: true,
         });
 
-        window.localStorage.setItem("lokalFiltervisningState", JSON.stringify(state));
+        if (searchParams.toString().length > 0) {
+            window.localStorage.setItem("lokalFiltervisningState", JSON.stringify({...state,
+                 filterverdier: undefined,
+                 sorteringsnokkel: undefined,
+                 sorteringsretning: undefined,
+                 periode: undefined,
+                 side: initialFiltervisningState.side
+                }));
+        }
+
     }, [state]);
 
     const gyldigeSøkeparametereIUrlen: Søkeparametere = parametere.reduce(
@@ -533,6 +542,7 @@ export const useFiltervisningState = () => {
         }, [])
 
     const tilbakestill = useCallback(() => {
+        window.localStorage.removeItem("lokalFiltervisningState");
         dispatch({
             type: "TILBAKESTILL",
         });
