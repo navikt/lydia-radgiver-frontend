@@ -141,13 +141,13 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => 
                 />
                 {
                     erIDev
-                    && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent
-                    && sykefraværsstatistikkSisteKvartal?.graderingsprosent
+                    && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent >= 0
+                    && sykefraværsstatistikkSisteKvartal?.graderingsprosent >= 0
                     && <Statistikkboks
                         tittel="Gradert sykmelding"
                         helpTekst={`Graderingsprosent ${sisteFireKvartalInfo}`}
                         verdi={formaterSomProsentMedEnDesimal(virksomhetsstatistikkSiste4Kvartaler.graderingsprosent)}
-                        verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.graderingsprosent
+                        verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.graderingsprosent >= 0
                             ? {
                                 verdi: formaterSomProsentMedEnDesimal(sykefraværsstatistikkSisteKvartal.graderingsprosent),
                                 år: sykefraværsstatistikkSisteKvartal.arstall,
