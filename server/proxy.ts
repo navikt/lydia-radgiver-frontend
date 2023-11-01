@@ -7,18 +7,27 @@ import { Config } from "./config";
 export class LydiaApiProxy {
     options : Options
     constructor(config: Config) {
-        const targetURI = config.lydiaApi.uri
+        const whitelistedPaths = [
+            '/sykefraversstatistikk',
+            '/iasak/radgiver',
+            '/virksomhet',
+            '/statusoversikt',
+        ]
+
         this.options = {
-            target: targetURI,
+            target: config.lydiaApi.uri,
             changeOrigin: true,
-            pathRewrite: (path : string, req : Request) => {
-                const nyPath = path.replace("/api", '');
-                return nyPath;
+            pathRewrite: (path : string) => {
+                return path.replace("/api", '');
             },
-            onProxyReq: (proxyReq : ClientRequest, req: Request, res: Response) => {
-                proxyReq.setHeader('Authorization', `Bearer ${res.locals.on_behalf_of_token}`)
-                proxyReq.setHeader("x-request-id", res.locals.requestId)
-            }
+            onProxyReq: (proxyReq : ClientRequest, _req: Request, res: Response) => {
+                if (whitelistedPaths.filter(whitelistedPath => proxyReq.path.startsWith(whitelistedPath)).length > 0) {
+                    proxyReq.setHeader('Authorization', `Bearer ${res.locals.on_behalf_of_token}`)
+                    proxyReq.setHeader("x-request-id", res.locals.requestId)
+                } else {
+                    res.sendStatus(404)
+                }
+            },
         }
     }
     createExpressMiddleWare() {
