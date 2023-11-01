@@ -126,10 +126,10 @@ describe("Tester proxy mot lydia-api", () => {
             .post(azureOpenidConfigTokenPath)
             .reply(200, mockOBOToken);
 
-        const lydiaApiNockScope = nock(lydiaApiUri).get("/test").reply(200);
+        const lydiaApiNockScope = nock(lydiaApiUri).get("/virksomhet").reply(200);
 
         const responseForTestEndpoint = await request(expressApp)
-            .get("/api/test")
+            .get("/api/virksomhet")
             .set("Authorization", `Bearer ${gyldigTokenFraWonderwall}`);
         expect(responseForTestEndpoint.statusCode).toBe(200);
 
