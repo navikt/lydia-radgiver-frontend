@@ -8,7 +8,7 @@ export const virksomhetsstatistikkSisteKvartalSchema = z.object({
     tapteDagsverk: z.number(),
     muligeDagsverk: z.number(),
     sykefraversprosent: z.number(),
-    graderingsprosent: z.number(),
+    graderingsprosent: z.number().nullish(),
     maskert: z.boolean(),
 });
 

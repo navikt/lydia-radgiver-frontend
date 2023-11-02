@@ -66,6 +66,11 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => 
             />
         )
     } else if (virksomhetsstatistikkSiste4Kvartaler && sykefraværsstatistikkSisteKvartal) {
+        const harGraderingsstatistikk =
+            sykefraværsstatistikkSisteKvartal?.graderingsprosent != null
+            && sykefraværsstatistikkSisteKvartal?.graderingsprosent >= 0
+            && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent != null
+            && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent >= 0
         const sisteFireKvartalInfo = hvilkeKvartalHarVi(virksomhetsstatistikkSiste4Kvartaler, publiseringsinfo);
 
         return (
@@ -141,15 +146,16 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => 
                 />
                 {
                     erIDev
-                    && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent >= 0
-                    && sykefraværsstatistikkSisteKvartal?.graderingsprosent >= 0
+                    && harGraderingsstatistikk
                     && <Statistikkboks
                         tittel="Gradert sykmelding"
                         helpTekst={`Graderingsprosent ${sisteFireKvartalInfo}`}
-                        verdi={formaterSomProsentMedEnDesimal(virksomhetsstatistikkSiste4Kvartaler.graderingsprosent)}
-                        verdiSisteKvartal={sykefraværsstatistikkSisteKvartal?.graderingsprosent >= 0
+                        verdi={formaterSomProsentMedEnDesimal(virksomhetsstatistikkSiste4Kvartaler.graderingsprosent!)}
+                        verdiSisteKvartal={
+                            (sykefraværsstatistikkSisteKvartal?.graderingsprosent != null
+                                && sykefraværsstatistikkSisteKvartal?.graderingsprosent >= 0)
                             ? {
-                                verdi: formaterSomProsentMedEnDesimal(sykefraværsstatistikkSisteKvartal.graderingsprosent),
+                                verdi: formaterSomProsentMedEnDesimal(sykefraværsstatistikkSisteKvartal.graderingsprosent!),
                                 år: sykefraværsstatistikkSisteKvartal.arstall,
                                 kvartal: sykefraværsstatistikkSisteKvartal.kvartal
                             }
