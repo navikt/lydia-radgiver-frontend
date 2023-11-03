@@ -66,11 +66,6 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => 
             />
         )
     } else if (virksomhetsstatistikkSiste4Kvartaler && sykefraværsstatistikkSisteKvartal) {
-        const harGraderingsstatistikk =
-            sykefraværsstatistikkSisteKvartal?.graderingsprosent != null
-            && sykefraværsstatistikkSisteKvartal?.graderingsprosent >= 0
-            && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent != null
-            && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent >= 0
         const sisteFireKvartalInfo = hvilkeKvartalHarVi(virksomhetsstatistikkSiste4Kvartaler, publiseringsinfo);
 
         return (
@@ -146,7 +141,8 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => 
                 />
                 {
                     erIDev
-                    && harGraderingsstatistikk
+                    && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent != null
+                    && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent >= 0
                     && <Statistikkboks
                         tittel="Gradert sykmelding"
                         helpTekst={`Graderingsprosent ${sisteFireKvartalInfo}`}

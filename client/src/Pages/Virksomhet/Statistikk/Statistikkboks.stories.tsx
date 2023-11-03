@@ -35,3 +35,13 @@ export const TapteDagsverkMedVerdiSisteKvartal = () =>
 export const MuligeDagsverkMedVerdiSisteKvartal = () =>
     <Statistikkboks verdi="343" tittel="Mulige dagsverk" verdiSisteKvartal={{verdi:"345", år:2023, kvartal:1}}
                     helpTekst="Antall mulige dagsverk siste 4 kvartal"/>
+
+export const Gradering = () =>
+    <Statistikkboks verdi="20%" tittel="Gradert sykmelding" verdiSisteKvartal={{verdi:"14%", år:2023, kvartal:1}}
+                    helpTekst="Graderingsprosent siste 4 kvartal"/>
+
+export const GraderingUtenVerdiSisteKvartal = () =>
+    <Statistikkboks verdi="20%" tittel="Gradert sykmelding" verdiSisteKvartal={undefined}
+                    helpTekst="Graderingsprosent siste 4 kvartal"/>
+
+
