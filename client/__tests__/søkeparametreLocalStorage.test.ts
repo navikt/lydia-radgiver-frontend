@@ -92,6 +92,7 @@ describe("Lasting av søkeparametre fra localstorage", () => {
         const statefraLS = filterstateFraLokalstorage(filterverdierMock);
         expect(statefraLS).toEqual(initialFiltervisningState);
     });
+
     test("godtar gyldig filterstate", () => {
         window.localStorage.setItem(
             "lokalFiltervisningState",
@@ -100,6 +101,7 @@ describe("Lasting av søkeparametre fra localstorage", () => {
         const statefraLS = filterstateFraLokalstorage(filterverdierMock);
         expect(statefraLS).toEqual(dummyLocalStorage);
     });
+
     test("Sletter localstorage om den finner ugyldig data", () => {
         window.localStorage.setItem(
             "lokalFiltervisningState",
@@ -115,6 +117,7 @@ describe("Lasting av søkeparametre fra localstorage", () => {
         const fraLS = window.localStorage.getItem("lokalFiltervisningState");
         expect(fraLS).toEqual(null);
     });
+
     test("Sletter ikke localstorage om den finner gyldig data", () => {
         window.localStorage.setItem(
             "lokalFiltervisningState",
