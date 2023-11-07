@@ -130,10 +130,10 @@ const erUtryggFraLocalStorage = (localState: FiltervisningState, filterverdier: 
 }
 
 export const filterstateFraLokalstorage = (filterverdier: Filterverdier): FiltervisningState => {
-    const localState = window.localStorage.getItem("lokalFiltervisningState");
-    const parsedLocalState = localState ? JSON.parse(localState) : undefined;
+    const localstorageFilter = window.localStorage.getItem("lokalFiltervisningState");
+    const parsedLocalstorageFilter = localstorageFilter ? JSON.parse(localstorageFilter) : undefined;
 
-    if (erUtryggFraLocalStorage(parsedLocalState, filterverdier)) {
+    if (erUtryggFraLocalStorage(parsedLocalstorageFilter, filterverdier)) {
         window.localStorage.removeItem("lokalFiltervisningState");
 
         return initialFiltervisningState;
@@ -141,7 +141,7 @@ export const filterstateFraLokalstorage = (filterverdier: Filterverdier): Filter
 
     return {
         ...initialFiltervisningState,
-        ...parsedLocalState,
+        ...parsedLocalstorageFilter,
     };
 };
 
@@ -442,13 +442,14 @@ export const useFiltervisningState = () => {
         });
 
         if (searchParams.toString().length > 0) {
-            window.localStorage.setItem("lokalFiltervisningState", JSON.stringify({...state,
-                 filterverdier: undefined,
-                 sorteringsnokkel: undefined,
-                 sorteringsretning: undefined,
-                 periode: undefined,
-                 side: initialFiltervisningState.side
-                }));
+            window.localStorage.setItem("lokalFiltervisningState", JSON.stringify({
+                ...state,
+                filterverdier: undefined,
+                sorteringsnokkel: undefined,
+                sorteringsretning: undefined,
+                periode: undefined,
+                side: initialFiltervisningState.side
+            }));
         }
 
     }, [state]);
