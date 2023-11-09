@@ -144,8 +144,8 @@ export const Sykefraværsstatistikk = ({orgnummer, bransje, næring}: Props) => 
                     && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent != null
                     && virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent >= 0
                     && <Statistikkboks
-                        tittel="Gradert sykmelding"
-                        helpTekst={`Graderingsprosent ${sisteFireKvartalInfo}`}
+                        tittel="Gradert sykefravær"
+                        helpTekst={`Andelen av sykefraværet som var gradert ${sisteFireKvartalInfo}`}
                         verdi={formaterSomProsentMedEnDesimal(virksomhetsstatistikkSiste4Kvartaler.graderingsprosent!)}
                         verdiSisteKvartal={
                             (sykefraværsstatistikkSisteKvartal?.graderingsprosent != null
