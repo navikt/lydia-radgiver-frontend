@@ -5,13 +5,11 @@ import {
     useHentAktivSakForVirksomhet,
     useHentBrukerinformasjon,
     useHentIATjenester,
-    useHentLeveranser,
-    useHentModuler
+    useHentLeveranser
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import { IATjeneste, Leveranse, Modul } from "../../../domenetyper/leveranse";
-import { sorterAlfabetisk } from "../../../util/sortering";
+import { IATjeneste, LeveranserPerIATjeneste } from "../../../domenetyper/leveranse";
 import { RolleEnum } from "../../../domenetyper/brukerinformasjon";
 
 const Form = styled.form`
@@ -56,12 +54,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
         data: iaTjenester,
         loading: lasterIATjenester
     } = useHentIATjenester();
-    const {
-        data: moduler,
-        loading: lasterModuler
-    } = useHentModuler();
     const [valgtIATjeneste, setValgtIATjeneste] = useState("");
-    const [valgtModul, setValgtModul] = useState("");
     const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, iaSak.saksnummer)
     const { mutate: hentSakPåNytt } = useHentAktivSakForVirksomhet(iaSak.orgnr)
 
@@ -81,32 +74,22 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
     });
 
     const endreValgtIATjeneste = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setValgtModul("");
         setValgtIATjeneste(e.target.value);
-    }
-    const endreValgtModul = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setValgtModul(e.target.value);
     }
 
     const leggTilLeveranse = () => {
-        if (valgtModul === "" || !selectedDay) {
+        if (valgtIATjeneste === "" || !selectedDay) {
             return;
         }
-        nyLeveransePåSak(iaSak.orgnr, iaSak.saksnummer, Number(valgtModul), selectedDay)
+        const modulFraTjeneste = finnModulForIATjeneste(Number(valgtIATjeneste), leveranserPerIATjeneste)
+        if (!modulFraTjeneste) {
+            return;
+        }
+        nyLeveransePåSak(iaSak.orgnr, iaSak.saksnummer, modulFraTjeneste.id, selectedDay)
             .then(() => {
                 hentLeveranserPåNytt()
                 hentSakPåNytt()
             })
-    }
-
-    const erModulIkkeValgt = (modul: Modul): boolean => {
-        if (!leveranserPerIATjeneste || leveranserPerIATjeneste.length === 0) {
-            return true;
-        }
-
-        return leveranserPerIATjeneste
-            .flatMap(tjenesteMedValgteLeveranser => tjenesteMedValgteLeveranser.leveranser)
-            .every((leveranse: Leveranse) => leveranse.modul.id !== modul.id)
     }
 
     return (
@@ -127,15 +110,6 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
                         <option value={tjeneste.id} key={tjeneste.id}>{tjeneste.navn}</option>
                     )}
                 </Select>
-                <Select label="Leveranse" value={valgtModul} onChange={endreValgtModul} disabled={!brukerErEierAvSak}>
-                    <option value="">{lasterModuler && "Laster leveranser..."}</option>
-                    {moduler?.filter((modul) => modul.iaTjeneste.toString() === valgtIATjeneste)
-                        .filter((modul) => erModulIkkeValgt(modul))
-                        .sort(modulAlfabetiskPåNavn)
-                        .map((modul) =>
-                            <option value={modul.id} key={modul.id}>{modul.navn}</option>
-                        )}
-                </Select>
                 <DatePicker {...datepickerProps}>
                     <DatePicker.Input {...inputProps}
                                              label="Tentativ frist"
@@ -146,19 +120,18 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
                                              }
                                              disabled={!brukerErEierAvSak}
                     />
-
                 </DatePicker>
-                <LeggTilKnapp onClick={leggTilLeveranse} disabled={!brukerErEierAvSak || valgtModul === "" || !selectedDay}>Legg til</LeggTilKnapp>
+                <LeggTilKnapp onClick={leggTilLeveranse} disabled={!brukerErEierAvSak || valgtIATjeneste === "" || !selectedDay}>Legg til</LeggTilKnapp>
             </Form>
         </div>
-
     )
 }
 
 const iatjenesterStigendeEtterId = (a: IATjeneste, b: IATjeneste) => {
     return a.id - b.id;
 }
-
-const modulAlfabetiskPåNavn = (a: Modul, b: Modul) => {
-    return sorterAlfabetisk(a.navn, b.navn)
+export const finnModulForIATjeneste = (IATjeneste : number, leveranserPerIATjeneste? : LeveranserPerIATjeneste[]) => {
+    return leveranserPerIATjeneste?.find((iatjeneste) =>
+        iatjeneste.iaTjeneste.id === IATjeneste
+    )?.leveranser[0]
 }
