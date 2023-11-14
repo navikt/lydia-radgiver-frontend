@@ -3,7 +3,8 @@ import { datoSchema } from "./domenetyper";
 
 export const iaTjenesteSchema = z.object({
     id: z.number(),
-    navn: z.string()
+    navn: z.string(),
+    deaktivert: z.boolean(),
 })
 
 export type IATjeneste = z.infer<typeof iaTjenesteSchema>;
@@ -12,6 +13,7 @@ export const modulSchema = z.object({
     id: z.number(),
     iaTjeneste: z.number(),
     navn: z.string(),
+    deaktivert: z.boolean(),
 })
 
 export type Modul = z.infer<typeof modulSchema>;
@@ -19,7 +21,6 @@ export type Modul = z.infer<typeof modulSchema>;
 const LEVERANSE_STATUSER = [
     "UNDER_ARBEID",
     "LEVERT",
-    // "AVBRUTT"?
 ] as const;
 
 export const LeveranseStatusEnum = z.enum(LEVERANSE_STATUSER);
