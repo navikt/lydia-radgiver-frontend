@@ -57,7 +57,6 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
         data: moduler,
     } = useHentModuler();
     const [valgtIATjeneste, setValgtIATjeneste] = useState("");
-    const [valgtModul, setValgtModul] = useState("");
     const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, iaSak.saksnummer)
     const { mutate: hentSakPåNytt } = useHentAktivSakForVirksomhet(iaSak.orgnr)
 
@@ -76,7 +75,6 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
     });
 
     const endreValgtIATjeneste = (e: React.ChangeEvent<HTMLSelectElement>) => {
-        setValgtModul("");
         setValgtIATjeneste(e.target.value);
     }
 
@@ -129,7 +127,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
 
                 </DatePicker>
                 <LeggTilKnapp onClick={leggTilLeveranse}
-                              disabled={!brukerErEierAvSak || valgtModul === "" || !selectedDay}
+                              disabled={!brukerErEierAvSak || valgtIATjeneste === "" || !selectedDay}
                 >
                     Legg til
                 </LeggTilKnapp>
