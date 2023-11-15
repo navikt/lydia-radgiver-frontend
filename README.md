@@ -73,9 +73,21 @@ For å tvinge nedlastning av nye images (feks hvis det har kommet ett nytt backe
 Nokre gonger vil ikkje lydia-api-imaget oppdatere seg. Dette kan du sjekke ved å gjere `docker images` og sjekke opprettingsdatoen for ghcr.io/navikt/lydia-api. For å slette imaget gjer du `docker rmi <IMAGE ID>`. IMAGE ID finn du i tabellen frå `docker images`.
 
 ### Tilgang til backend docker image
-`gcloud auth configure-docker europe-north1-docker.pkg.dev`
-`gcloud auth login --update-adc`
-`gcloud components install docker-credential-gcr`
+`gcloud auth configure-docker europe-north1-docker.pkg.dev`  
+`gcloud auth login --update-adc`  
+`gcloud components install docker-credential-gcr`  
+
+### Køyre frontend lokalt med lokal backend
+1. Gå til rett branch i backend.
+2. `./gradlew build -x test` (`-x test` gjer at vi slepp å vente på at alle testane skal køyre)
+3. `docker build . -t <navn-på-nytt-image>`
+4. Gå til fila `docker-compose.yaml` i frontend.
+5. Endre linja som er `backend: image: <her er det eit image>` til å bruke `<navn-på-nytt-image>` i staden
+6. Køyr `./run.sh` fra frontend
+7. Profit 🎉🎉🎉
+
+Hugs å ikkje committe endringa du har gjort i `docker-compose.yaml`.
+
 
 ## Storybook
 For å raskt kunne teste at ein komponent ser ut som den skal har vi laga stories i Storybook. 
