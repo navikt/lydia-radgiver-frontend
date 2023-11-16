@@ -10,9 +10,10 @@ import {
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import { IATjeneste, Modul } from "../../../domenetyper/leveranse";
+import { IATjeneste } from "../../../domenetyper/leveranse";
 import { RolleEnum } from "../../../domenetyper/brukerinformasjon";
 import { loggLeveranseFristKategori } from "../../../util/amplitude-klient";
+import { finnAktivModulFraIATjeneste } from "./finnAktivModulFraIATjeneste";
 
 const Form = styled.form`
   display: flex;
@@ -139,10 +140,4 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
 
 const iatjenesterStigendeEtterId = (a: IATjeneste, b: IATjeneste) => {
     return a.id - b.id;
-}
-
-export const finnAktivModulFraIATjeneste = (iaTjeneste: string, moduler: Modul[]): Modul | undefined => {
-    return moduler.filter((modul) => !modul.deaktivert)
-        .sort((a: Modul, b: Modul) => a.id - b.id)
-        .find((modul) => modul.iaTjeneste === Number(iaTjeneste));
 }
