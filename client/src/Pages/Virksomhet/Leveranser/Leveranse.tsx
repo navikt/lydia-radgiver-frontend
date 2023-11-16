@@ -1,6 +1,6 @@
 import styled from "styled-components";
-import { Button, Table } from "@navikt/ds-react";
-import { TrashFillIcon as Delete } from "@navikt/aksel-icons";
+import { BodyLong, Button, Table } from "@navikt/ds-react";
+import { ExclamationmarkTriangleIcon, TrashFillIcon as Delete } from "@navikt/aksel-icons";
 import { Leveranse as LeveranseType, LeveranseStatusEnum } from "../../../domenetyper/leveranse";
 import { lokalDato } from "../../../util/dato";
 import { NavFarger } from "../../../styling/farger";
@@ -45,6 +45,20 @@ const FjernLeveranseKnapp = styled(Button)`
 
 const BekreftValgModalIHøyrejustertCelle = styled(BekreftValgModal)`
   text-align: left;
+`;
+
+const DeaktivertAdvarsel = styled.div `
+  display: flex;
+  gap: 0.5rem;
+  padding-top: 1.5rem;
+  
+  & p {
+    flex: 1;
+  }
+  & svg {
+    margin-top: 0.3rem;
+    color: ${NavFarger.warning};
+  }
 `;
 
 interface Props {
@@ -107,8 +121,17 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
                                       onCancel={() => {setBekreftValgModalÅpen(false)}}
                                       åpen={bekreftValgModalÅpen}
                                       title="Er du sikker på at du vil fjerne leveransen?"
-                                      description={`Leveransen som fjernes er "${leveranse.modul.navn}" med frist ${lokalDato(leveranse.frist)}`}
-                    />
+                                      description={`Leveransen som fjernes er "${leveranse.modul.navn}" med frist ${lokalDato(leveranse.frist)}.`}
+                    >
+                        {leveranse.modul.deaktivert && (
+                                <DeaktivertAdvarsel>
+                                    <ExclamationmarkTriangleIcon title="a11y-title" fontSize="3rem" />
+                                    <BodyLong>
+                                        Leveransen &quot;{leveranse.modul.navn}&quot; er ikke lenger i bruk, så om du sletter denne vil du ikke kunne legge den til på nytt.
+                                    </BodyLong>
+                                </DeaktivertAdvarsel>
+                            )}
+                    </BekreftValgModalIHøyrejustertCelle>
                 </Table.DataCell>
             }
         </Table.Row>

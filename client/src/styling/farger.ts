@@ -78,6 +78,7 @@ export enum NavFarger {
     link = blue500,
     focus = blue800,
     backgroundSubtle = "var(--a-bg-subtle)", // gray100
+    warning = "var(--a-icon-warning)", // orange600
 
 
     // Semantiske fargar til border, designsystem 2.0

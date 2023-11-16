@@ -67,3 +67,18 @@ export const BrukerErLesebruker: Story = {
         ]
     }
 }
+
+export const DeaktivertLeveranse: Story = {
+    args: {
+        iaSak: iaSakViBistår,
+        leveranse: leveranserPerIATjeneste[0].leveranser.sort(stigendeEtterId)[3],
+    },
+    parameters: {
+        msw: [
+            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
+                return res(ctx.json(iaSakViBistår));
+            }),
+            ...mswHandlers,
+        ]
+    }
+}

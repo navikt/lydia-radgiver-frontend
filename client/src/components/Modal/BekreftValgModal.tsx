@@ -8,6 +8,7 @@ interface Props {
     åpen: boolean,
     title: string,
     description: string,
+    children?: React.ReactNode,
     className?: string,
 }
 
@@ -17,12 +18,14 @@ export const BekreftValgModal = ({
     åpen,
     title,
     description,
+    children,
     ...rest
 }: Props) => {
     return (
         <StyledModal open={åpen} onClose={onCancel} header={{heading: title}} {...rest}>
             <Modal.Body>
                 <BodyLong>{description}</BodyLong>
+                {children}
                 <br />
                 <ModalKnapper>
                     <Button onClick={onConfirm}>Ja</Button>
