@@ -15,16 +15,16 @@
     "skuffende": "say sku fen de, komma"
   },
   "dependencies": {
-    "@navikt/aksel-icons": "5.10.0",
-    "@navikt/ds-css": "5.10.0",
-    "@navikt/ds-react": "5.10.0",
+    "@navikt/aksel-icons": "5.10.1",
+    "@navikt/ds-css": "5.10.1",
+    "@navikt/ds-react": "5.10.1",
     "amplitude-js": "8.21.9",
     "react": "18.2.0",
     "react-dom": "18.2.0",
-    "react-router-dom": "6.16.0",
-    "react-select": "5.7.7",
-    "recharts": "2.8.0",
-    "styled-components": "6.0.8",
+    "react-router-dom": "6.18.0",
+    "react-select": "5.8.0",
+    "recharts": "2.9.3",
+    "styled-components": "6.1.1",
     "swr": "2.2.4",
     "zod": "3.22.4"
   },
