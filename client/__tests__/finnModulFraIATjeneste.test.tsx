@@ -1,5 +1,5 @@
-import { finnAktivModulFraIATjeneste } from "../src/Pages/Virksomhet/Leveranser/LeggTilLeveranse";
 import { iaTjenester, moduler as modulerMock } from "../src/Pages/Virksomhet/mocks/leveranseMock";
+import { finnAktivModulFraIATjeneste } from "../src/Pages/Virksomhet/Leveranser/finnAktivModulFraIATjeneste";
 
 describe("Finn rett 'standardmodul' frå IATjeneste", () => {
     test("Finn en modul når vi har 1 modul per IA-tjeneste", () => {
