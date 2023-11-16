@@ -127,7 +127,7 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
                                 <DeaktivertAdvarsel>
                                     <ExclamationmarkTriangleIcon aria-hidden="true" title="Advarsel" fontSize="3rem" />
                                     <BodyLong>
-                                        Leveransen &quot;{leveranse.modul.navn}&quot; er ikke lenger i bruk, så om du sletter denne vil du ikke kunne legge den til på nytt.
+                                        Leveransen er ikke lenger i bruk. Hvis du sletter den, kan du ikke legge den til på nytt.
                                     </BodyLong>
                                 </DeaktivertAdvarsel>
                             )}
