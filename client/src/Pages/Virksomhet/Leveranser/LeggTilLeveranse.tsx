@@ -13,6 +13,7 @@ import styled from "styled-components";
 import { IATjeneste, Leveranse, Modul } from "../../../domenetyper/leveranse";
 import { sorterAlfabetisk } from "../../../util/sortering";
 import { RolleEnum } from "../../../domenetyper/brukerinformasjon";
+import { loggLeveranseFristKategori } from "../../../util/amplitude-klient";
 
 const Form = styled.form`
   display: flex;
@@ -67,7 +68,6 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
 
 
     const { datepickerProps, inputProps, selectedDay } = useDatepicker({
-        fromDate: new Date(),
         onValidate: (val) => {
             if (val.isBefore) setForTidlig(true);
             else setForTidlig(false);
@@ -97,6 +97,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
                 hentLeveranserPåNytt()
                 hentSakPåNytt()
             })
+        loggLeveranseFristKategori(selectedDay)
     }
 
     const erModulIkkeValgt = (modul: Modul): boolean => {

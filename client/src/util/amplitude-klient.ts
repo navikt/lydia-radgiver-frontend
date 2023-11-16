@@ -2,6 +2,7 @@ import amplitude, { AmplitudeClient } from "amplitude-js";
 import { maskerOrgnr } from "./amplitude-klient-utils";
 import { Rolle } from "../domenetyper/brukerinformasjon";
 import { IAProsessStatusType, IASakshendelseType } from "../domenetyper/domenetyper";
+import { erSammeDato } from "./dato";
 
 const amplitudeKlient: AmplitudeClient = amplitude.getInstance();
 
@@ -32,6 +33,7 @@ type NavsAmplitudeTopologiEventer =
     | "navigere ut av fia"
     | "endring i valgte linjer i graf"
     | "nullstill filter i søk"
+    | "opprette leveranse med frist"
 
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
@@ -167,5 +169,29 @@ export const loggGraflinjeEndringer = (
 ) => {
     logAmplitudeEvent("endring i valgte linjer i graf", {
         graflinjer_array: graflinjer,
+    });
+}
+
+type Tidskategorier = "fortid" | "fremtid" | "i dag";
+
+export const loggLeveranseFristKategori = (
+    frist: Date,
+) => {
+    const finnTidskategoriForDato = (frist: Date): Tidskategorier => {
+        const iDag = new Date()
+
+        if (erSammeDato(frist, iDag)) {
+            return "i dag";
+        } else if (frist < iDag) {
+            return "fortid";
+        } else {
+            return "fremtid";
+        }
+    }
+
+    const fristkategori = finnTidskategoriForDato(frist)
+
+    logAmplitudeEvent("opprette leveranse med frist", {
+        fristKategori: fristkategori,
     });
 }
