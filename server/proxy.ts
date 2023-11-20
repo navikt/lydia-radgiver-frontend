@@ -8,7 +8,7 @@ export class LydiaApiProxy {
     options : Options
     constructor(config: Config) {
         const whitelistedPaths = [
-            '/sykefraversstatistikk',
+            '/sykefravarsstatistikk',
             '/iasak/radgiver',
             '/virksomhet',
             '/statusoversikt',

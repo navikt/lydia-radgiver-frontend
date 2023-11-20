@@ -50,7 +50,7 @@ import { HistoriskStatistikk, historiskStatistikkSchema } from "../domenetyper/h
 import { SalesforceUrl, salesforceUrlSchema } from "../domenetyper/salesforceUrl";
 
 const basePath = "/api";
-export const sykefraværsstatistikkPath = `${basePath}/sykefraversstatistikk`;
+export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
 export const sykefraværsstatistikkAntallTreffPath = `${sykefraværsstatistikkPath}/antallTreff`;
 export const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
 export const virksomhetsPath = `${basePath}/virksomhet`;
