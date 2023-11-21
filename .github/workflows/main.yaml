@@ -73,7 +73,7 @@ jobs:
     permissions: {}
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/fjern-modular-forsøk-2'
+    if: github.ref == 'refs/heads/refactor-sykefravar'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
