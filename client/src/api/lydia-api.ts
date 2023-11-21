@@ -424,14 +424,14 @@ export const søkeverdierTilUrlSearchParams = ({
         params
     );
     appendIfPresent(
-        "neringsgrupper",
+        "naringsgrupper",
         næringsgrupper,
         (grupper) => grupper.map(({kode}) => kode).join(","),
         params
     );
 
     appendIfNotDefaultValue(
-        "sykefraversprosentFra",
+        "sykefravarsprosentFra",
         sykefraværsprosent.fra,
         0,
         (fra) => isNaN(fra) ? "" : fra.toFixed(2),
@@ -439,7 +439,7 @@ export const søkeverdierTilUrlSearchParams = ({
         skjulDefaultParametreIUrl,
     );
     appendIfNotDefaultValue(
-        "sykefraversprosentTil",
+        "sykefravarsprosentTil",
         sykefraværsprosent.til,
         100,
         (til) => isNaN(til) ? "" : til.toFixed(2),

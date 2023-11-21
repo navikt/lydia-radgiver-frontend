@@ -23,9 +23,9 @@ const finnKommunerIFylke = (kommuner: Kommune[], fylke: FylkeMedKommuner) =>
 const parametere = [
     "kommuner",
     "fylker",
-    "neringsgrupper",
-    "sykefraversprosentFra",
-    "sykefraversprosentTil",
+    "naringsgrupper",
+    "sykefravarsprosentFra",
+    "sykefravarsprosentTil",
     "snittfilter",
     "ansatteFra",
     "ansatteTil",
@@ -68,10 +68,10 @@ const søkeparametereTilFilterstate = (parametere: Søkeparametere, filterverdie
         },
         sykefraværsprosent: {
             fra: Number(
-                parametere.sykefraversprosentFra ?? initialFiltervisningState.sykefraværsprosent.fra
+                parametere.sykefravarsprosentFra ?? initialFiltervisningState.sykefraværsprosent.fra
             ),
             til: Number(
-                parametere.sykefraversprosentTil ?? initialFiltervisningState.sykefraværsprosent.til
+                parametere.sykefravarsprosentTil ?? initialFiltervisningState.sykefraværsprosent.til
             ),
         },
         valgtSnittfilter: parametere.snittfilter as ValgtSnittFilter,
@@ -89,8 +89,8 @@ const søkeparametereTilFilterstate = (parametere: Søkeparametere, filterverdie
         ),
 
         næringsgrupper: næringsgruppeKoderTilNæringsgrupper(
-            parametere?.neringsgrupper?.split(",") ?? [],
-            filterverdier.neringsgrupper
+            parametere?.naringsgrupper?.split(",") ?? [],
+            filterverdier.naringsgrupper
         ),
         side: initialFiltervisningState.side,
     };
@@ -105,7 +105,7 @@ const erUtryggFraLocalStorage = (localState: FiltervisningState, filterverdier: 
     if (lovligeKommunerFraLocalStorage.length !== localState.kommuner.length) {
         return true;
     }
-    
+
     const lovligFylkeFraLocalstorage = filterverdier.fylker.find((fylke) => fylke.fylke.nummer === localState.valgtFylke?.fylke.nummer && fylke.fylke.navn === localState.valgtFylke?.fylke.navn);
     if (lovligFylkeFraLocalstorage === undefined && localState.valgtFylke !== undefined) {
         return true;
@@ -116,7 +116,7 @@ const erUtryggFraLocalStorage = (localState: FiltervisningState, filterverdier: 
         return true;
     }
 
-    const lovligNæringsgrupper = localState.næringsgrupper.filter((næringsgruppe) => filterverdier.neringsgrupper.find((n) => n.kode === næringsgruppe.kode && n.navn === næringsgruppe.navn) !== undefined);
+    const lovligNæringsgrupper = localState.næringsgrupper.filter((næringsgruppe) => filterverdier.naringsgrupper.find((n) => n.kode === næringsgruppe.kode && n.navn === næringsgruppe.navn) !== undefined);
     if (lovligNæringsgrupper.length !== localState.næringsgrupper.length) {
         return true;
     }
@@ -309,7 +309,7 @@ function endreFylke(state: FiltervisningState, action: EndreFylkeAction): Filter
 const endreNæringsgruppe = (state: FiltervisningState, action: EndreNæringsgruppeAction): FiltervisningState => {
     const endretNæringsgrupper = næringsgruppeKoderTilNæringsgrupper(
         action.payload.næringsgrupper,
-        state.filterverdier?.neringsgrupper ?? []
+        state.filterverdier?.naringsgrupper ?? []
     );
     const bransjeprogram = finnBransjeprogram(action.payload.næringsgrupper);
     return {
