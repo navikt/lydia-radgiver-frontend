@@ -369,7 +369,7 @@ export const filterverdierMock: Filterverdier = {
         IAProsessStatusEnum.enum.IKKE_AKTUELL,
         IAProsessStatusEnum.enum.FULLFØRT,
     ],
-    neringsgrupper: [
+    naringsgrupper: [
         {
             kode: "02",
             navn: "Skogbruk og tjenester tilknyttet skogbruk",

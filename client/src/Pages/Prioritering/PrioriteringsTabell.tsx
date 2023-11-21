@@ -44,7 +44,7 @@ const kolonner: Kolonne[] = [
         textAlignment: "right"
     },
     {
-        key: "sykefraversprosent",
+        key: "sykefravarsprosent",
         name: "Syke\u00ADfravær",
         sortable: true,
         textAlignment: "right"

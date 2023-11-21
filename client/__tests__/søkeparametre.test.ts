@@ -20,7 +20,7 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
             søkeverdierTilUrlSearchParams(søkeverdier).toString();
 
         expect(searchParams).toBe(
-            "sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1"
+            "sykefravarsprosentFra=0.00&sykefravarsprosentTil=100.00&ansatteFra=5&side=1"
         );
     });
 
@@ -41,7 +41,7 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
             søkeverdierTilUrlSearchParams(søkeverdier).toString();
 
         expect(searchParams).toBe(
-            "sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1"
+            "sykefravarsprosentFra=0.00&sykefravarsprosentTil=100.00&ansatteFra=5&side=1"
         );
     });
 
@@ -59,7 +59,7 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
             ).toString();
 
         expect(searchParams).toBe(
-            "sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=0&ansatteTil=5&side=1"
+            "sykefravarsprosentFra=0.00&sykefravarsprosentTil=100.00&ansatteFra=0&ansatteTil=5&side=1"
         );
     })
 
@@ -84,7 +84,7 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
         const searchParams =
             søkeverdierTilUrlSearchParams(søkeverdier).toString();
         expect(searchParams).toBe(
-            "kommuner=0000%2C0001&fylker=03&sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1"
+            "kommuner=0000%2C0001&fylker=03&sykefravarsprosentFra=0.00&sykefravarsprosentTil=100.00&ansatteFra=5&side=1"
         );
     });
 });

@@ -5,7 +5,7 @@ import { eierSchema, IAProsessStatusEnum } from "./domenetyper";
 
 export const filterverdierSchema = z.object({
     fylker: z.array(fylkeMedKommunerSchema),
-    neringsgrupper: z.array(næringsgrupperSchema),
+    naringsgrupper: z.array(næringsgrupperSchema),
     sorteringsnokler: z.string().array(),
     statuser: IAProsessStatusEnum.array(),
     bransjeprogram: z.string().array(),
@@ -19,7 +19,7 @@ const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
     mulige_dagsverk: "Mulige dagsverk",
     antall_personer: "Antall arbeidsforhold",
-    sykefraversprosent: "Sykefraværsprosent",
+    sykefravarsprosent: "Sykefraværsprosent",
     navn: "Alfabetisk på navn",
     sist_endret: "Sist endret",
 } as const;

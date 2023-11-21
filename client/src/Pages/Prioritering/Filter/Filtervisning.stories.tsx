@@ -10,7 +10,7 @@ export default {
     component: Filtervisning,
     decorators: [(Story) => (
         <MemoryRouter
-            initialEntries={["/?sykefraversprosentFra=0.00&sykefraversprosentTil=100.00&ansatteFra=5&side=1"]}>
+            initialEntries={["/?sykefravarsprosentFra=0.00&sykefravarsprosentTil=100.00&ansatteFra=5&side=1"]}>
             <Routes>
                 <Route
                     path={"/"}

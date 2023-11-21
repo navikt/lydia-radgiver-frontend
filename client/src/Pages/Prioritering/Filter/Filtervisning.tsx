@@ -160,7 +160,7 @@ export const Filtervisning = ({
             <Rad>
                 <Næringsgruppedropdown
                     bransjeprogram={state.filterverdier?.bransjeprogram ?? []}
-                    næringsgrupper={state.filterverdier?.neringsgrupper ?? []}
+                    næringsgrupper={state.filterverdier?.naringsgrupper ?? []}
                     valgtBransjeprogram={state.bransjeprogram ?? []}
                     valgtNæringsgruppe={state.næringsgrupper}
                     endreNæringsgrupper={endreNæringsgruppe}
