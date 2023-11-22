@@ -3,7 +3,7 @@ import { kvartalSchema } from "./kvartal";
 
 export const virksomhetsstatistikkSiste4KvartalerSchema = z.object({
     orgnr: z.string(),
-    sykefraversprosent: z.number(),
+    sykefraværsprosent: z.number(),
     graderingsprosent: z.number().nullish(),
     muligeDagsverk: z.number(),
     tapteDagsverk: z.number(),

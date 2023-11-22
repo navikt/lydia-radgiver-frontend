@@ -145,7 +145,7 @@ export const PrioriteringsTabell = ({
                                 {formaterSomHeltall(virksomhetsoversikt.antallPersoner)}
                             </RightAllignedDataCell>
                             <RightAllignedDataCell>
-                                {formaterSomProsentMedEnDesimal(virksomhetsoversikt.sykefraversprosent)}
+                                {formaterSomProsentMedEnDesimal(virksomhetsoversikt.sykefraværsprosent)}
                             </RightAllignedDataCell>
                             <RightAllignedDataCell>
                                 {formaterSomHeltall(virksomhetsoversikt.tapteDagsverk)}
