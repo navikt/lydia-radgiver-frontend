@@ -6,19 +6,19 @@ import { Publiseringsinfo } from "../../../domenetyper/publiseringsinfo";
 import { Bransjestatistikk, Næringsstatistikk } from "../../../domenetyper/bransjestatistikk";
 import { HistoriskStatistikk } from "../../../domenetyper/historiskstatistikk";
 
-const sykefraværStatiskData: Pick<VirkomshetsstatistikkSisteKvartal, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent' | 'graderingsprosent'> = {
+const sykefraværStatiskData: Pick<VirkomshetsstatistikkSisteKvartal, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraværsprosent' | 'graderingsprosent'> = {
     antallPersoner: 69.4123,
     muligeDagsverk: 555.123123,
     tapteDagsverk: 222.22222,
-    sykefraversprosent: 1.513,
+    sykefraværsprosent: 1.513,
     graderingsprosent: 18.5,
 }
 
-const sykefraværStatiskDataUtenDesimaler: Pick<VirkomshetsstatistikkSisteKvartal, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraversprosent' | 'graderingsprosent'> = {
+const sykefraværStatiskDataUtenDesimaler: Pick<VirkomshetsstatistikkSisteKvartal, 'antallPersoner' | 'muligeDagsverk' | 'tapteDagsverk' | 'sykefraværsprosent' | 'graderingsprosent'> = {
     antallPersoner: 69,
     muligeDagsverk: 555,
     tapteDagsverk: 222,
-    sykefraversprosent: 1,
+    sykefraværsprosent: 1,
     graderingsprosent: 20,
 }
 
