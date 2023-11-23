@@ -99,9 +99,9 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
 
     return (
         <div>
-            <Heading size="small">Legg til ny leveranse</Heading>
+            <Heading size="small">Legg til ny IA-tjeneste</Heading>
             {!brukerErEierAvSak &&
-                <BodyShort spacing={true}>Du må være eier av saken for å kunne legge til leveranser</BodyShort>
+                <BodyShort spacing={true}>Du må være eier av saken for å kunne legge til IA-tjenester</BodyShort>
             }
 
             <Form onSubmit={(e) => e.preventDefault()}>

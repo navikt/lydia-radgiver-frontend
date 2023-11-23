@@ -28,11 +28,11 @@ export const LeveranseFane = ({ iaSak }: Props) => {
             <div>
                 <Heading level="3" size="large" spacing={true}>IA-tjenester</Heading>
                 <BodyShort>
-                    Her kan du legge inn og få oversikt over leveranser til virksomheten. Du må være på status
-                    “Vi bistår” for å registrere leveransen.
+                    Her legger du inn og får oversikt over IA-tjenester som gis til virksomheten.
+                    Du må være på status “Vi bistår” for å registrere tjenesten.
                 </BodyShort>
                 <BodyShort>
-                    Du kan bare legge inn IA-tjenester og leveranser som er beskrevet i <EksternLenke
+                    Du kan bare legge inn IA-tjenester som er beskrevet i <EksternLenke
                     href="https://navno.sharepoint.com/sites/fag-og-ytelser-veileder-for-inkluderende-arbeidsliv"
                     onClick={() => loggNavigeringMedEksternLenke(EksternNavigeringKategorier.IAVEILEDER)}>
                     IA-veilederen 4.1-4.3
