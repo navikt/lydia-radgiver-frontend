@@ -125,6 +125,14 @@ export const loggTømmingAvFilterverdier = () => {
     logAmplitudeEvent("nullstill filter i søk", {})
 }
 
+export const loggSendBrukerTilAITjenesterTab = (fraModal: string) => {
+    logAmplitudeEvent("navigere", {
+        destinasjon: "/virksomhet/[orgnr]?fane=ia-tjenester",
+        lenketekst: "Ta meg til IA-tjenester",
+        fraModal,
+    });
+}
+
 export const loggModalTilbakeTilForrigeStatusLukket = (
     modalTittel: string,
     modalUnderskrift: string,

@@ -2,6 +2,7 @@ import { BodyLong, Button, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
 import { StyledModal } from "../../../../components/Modal/StyledModal";
 import {useSendTilIATjenesterTab} from "../../../../util/useSendTilIATjenesterTab";
+import { loggSendBrukerTilAITjenesterTab } from "../../../../util/amplitude-klient";
 
 interface Props {
     visModal: boolean;
@@ -31,6 +32,7 @@ export const FullførLeveranserFørstModal = ({ visModal, lukkModal }: Props) =>
                         !erPåIaTjenesterFane && (
                             <Button variant="primary" onClick={() => {
                                 sendBrukerTilIATjenesterTab();
+                                loggSendBrukerTilAITjenesterTab('fullfør leveranser');
                                 lukkModal();
                             }}>
                                 Ta meg til IA-tjenester
