@@ -14,6 +14,7 @@ import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
 import { BodyShort, Link, Loader } from "@navikt/ds-react";
 import { redirectUrl } from "./components/Banner/SesjonBanner";
 import { setTilgangsnivå } from "./util/amplitude-klient";
+import { Leveransebrettside } from "./Pages/Leveransebrett/Leveransebrettside";
 
 const App = () =>
     <BrowserRouter>
@@ -63,6 +64,10 @@ const AppContent = () => {
                 <Route
                     path={"/virksomhet/:orgnummer"}
                     element={<Virksomhetsside />}
+                />
+                <Route
+                    path={"/leveransebrett"}
+                    element={<Leveransebrettside />}
                 />
             </Routes>
         </AppRamme>
