@@ -1,6 +1,7 @@
 import { BodyLong, Button, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
 import { StyledModal } from "../../../../components/Modal/StyledModal";
+import {useSendTilIATjenesterTab} from "../../../../util/useSendTilIATjenesterTab";
 
 interface Props {
     visModal: boolean;
@@ -8,6 +9,8 @@ interface Props {
 }
 
 export const FullførLeveranserFørstModal = ({ visModal, lukkModal }: Props) => {
+    const { erPåIaTjenesterFane, sendBrukerTilIATjenesterTab } = useSendTilIATjenesterTab();
+
     return (
         <StyledModal
             open={visModal}
@@ -24,6 +27,16 @@ export const FullførLeveranserFørstModal = ({ visModal, lukkModal }: Props) =>
                     <Button variant="secondary" onClick={lukkModal}>
                         Den er grei
                     </Button>
+                    {
+                        !erPåIaTjenesterFane && (
+                            <Button variant="primary" onClick={() => {
+                                sendBrukerTilIATjenesterTab();
+                                lukkModal();
+                            }}>
+                                Ta meg til IA-tjenester
+                            </Button>
+                        )
+                    }
                 </ModalKnapper>
             </Modal.Body>
         </StyledModal>
