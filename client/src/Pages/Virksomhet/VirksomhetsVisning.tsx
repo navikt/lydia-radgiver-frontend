@@ -1,4 +1,6 @@
+import React from "react";
 import styled from "styled-components";
+import { useSearchParams } from "react-router-dom";
 import { Tabs } from "@navikt/ds-react";
 import { SamarbeidshistorikkFane } from "./Samarbeidshistorikk/SamarbeidshistorikkFane";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
@@ -30,14 +32,32 @@ interface Props {
 
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     const {
-        data: iaSak
-    } = useHentAktivSakForVirksomhet(virksomhet.orgnr)
+        data: iaSak,
+        loading: lasterIaSak,
+    } = useHentAktivSakForVirksomhet(virksomhet.orgnr);
+
+    const [searchParams, setSearchParams] = useSearchParams();
+    const fane = searchParams.get("fane") ?? "statistikk";
+
+    const oppdaterTabISearchParam = (tab: string) => {
+        searchParams.set("fane", tab);
+        setSearchParams(searchParams, { replace: true });
+    };
+
+    React.useEffect(() => {
+        const ikkeGyldigTab = fane !== "statistikk" && fane !== "samarbeidshistorikk" && fane !== "ia-tjenester";
+        const manglerIaSak = fane === "ia-tjenester" && !iaSak && !lasterIaSak;
+
+        if (ikkeGyldigTab || manglerIaSak) {
+            oppdaterTabISearchParam("statistikk");
+        }
+    }, [lasterIaSak]);
 
     return (
         <Container>
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />
             <br />
-            <Tabs defaultValue="statistikk">
+            <Tabs value={fane} onChange={oppdaterTabISearchParam} defaultValue="statistikk">
                 <Tabs.List style={{ width: "100%" }}>
                     <Tabs.Tab value="statistikk" label="Statistikk" />
                     <Tabs.Tab value="samarbeidshistorikk" label="Samarbeidshistorikk" />
