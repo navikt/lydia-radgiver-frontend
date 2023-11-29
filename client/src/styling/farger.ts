@@ -77,6 +77,7 @@ export enum NavFarger {
     borderMuted = gray500,
     link = blue500,
     focus = blue800,
+    backgroundDefault = "var(--a-bg-default)", // white
     backgroundSubtle = "var(--a-bg-subtle)", // gray100
     warning = "var(--a-icon-warning)", // orange600
 
