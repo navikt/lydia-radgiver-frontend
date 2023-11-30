@@ -21,7 +21,8 @@ spec:
     limits:
       memory: 2Gi
     requests:
-      memory: 1Gi
+      memory: 256Mi
+      cpu: 100m
   prometheus:
     enabled: true
     path: "/metrics"
