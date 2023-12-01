@@ -17,7 +17,7 @@ export const Leveransebrettside = () => {
 		return null;
 	}
 
-	const { data } = useMineLeveranser();
+	const { data } = useMineLeveranser(); //TODO: håndtere error og loading for komponent
 
 	return (
 		<div>
