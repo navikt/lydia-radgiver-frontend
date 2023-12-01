@@ -50,6 +50,9 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                     <Navigasjonslenke href="/statusoversikt" title="Gå til statusoversiktsiden">
                         <InternalHeader.Title as="span">Statusoversikt</InternalHeader.Title>
                     </Navigasjonslenke>
+                    {erIDev && <Navigasjonslenke href="/leveransebrett" title="Gå til mine leveranser">
+                        <InternalHeader.Title as="span">Mine leveranser</InternalHeader.Title>
+                    </Navigasjonslenke>}
                 </Navigasjon>
                 <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
                 <Søkefelt style={{

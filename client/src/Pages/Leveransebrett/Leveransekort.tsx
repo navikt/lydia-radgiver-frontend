@@ -1,11 +1,12 @@
 import { Heading } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
 import { lokalDato } from "../../util/dato";
-import { LeveranseType, Container } from "./Leveransebrettside";
+import { Container } from "./Leveransebrettside";
 import { statusTilVisbarString } from "./statusTilVisbarString";
 import styled from "styled-components";
+import { MineLeveranser } from "../../domenetyper/leveranse";
 
-export const Leveransekort = ({ leveranse }: { leveranse: LeveranseType; }) => {
+export const Leveransekort = ({ leveranse }: { leveranse: MineLeveranser; }) => {
 	const { orgnr, virksomhetsnavn, iaTjeneste, modul, tentativFrist, status } = leveranse;
 
 	return (
@@ -48,6 +49,6 @@ const Datapunkt = styled.p`
 	margin-right: 1rem;
 	margin-top: 0;
 	margin-bottom: 0;
-	width: 20rem;
+	width: 25rem;
 `;
 

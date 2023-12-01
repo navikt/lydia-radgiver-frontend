@@ -36,6 +36,17 @@ export const leveranseSchema = z.object({
 
 export type Leveranse = z.infer<typeof leveranseSchema>
 
+export const mineLeveranserSchema = z.object({
+    orgnr: z.string(),
+    virksomhetsnavn: z.string(),
+    iaTjeneste: iaTjenesteSchema,
+    modul: modulSchema,
+    tentativFrist: datoSchema,
+    status: LeveranseStatusEnum,
+});
+
+export type MineLeveranser = z.infer<typeof mineLeveranserSchema>;
+
 export const leveranserPerIATjenesteSchema = z.object({
     iaTjeneste: iaTjenesteSchema,
     leveranser: z.array(leveranseSchema),
