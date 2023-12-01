@@ -1,10 +1,38 @@
 import { Heading } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
 import { lokalDato } from "../../util/dato";
-import { Container } from "./Leveransebrettside";
 import { statusTilVisbarString } from "./statusTilVisbarString";
 import styled from "styled-components";
 import { MineLeveranser } from "../../domenetyper/leveranse";
+import { NavFarger } from "../../styling/farger";
+
+export const Container = styled.div`
+	padding: 2rem;
+	border-radius: 0.5rem;
+	margin-top: 1rem;
+	background-color: ${NavFarger.white};
+`;
+
+const HeaderContainer = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: space-between;
+`;
+
+const DataRad = styled.div`
+	display: flex;
+	flex-direction: row;
+	justify-content: flex-start;
+	flex-wrap: wrap;
+	margin-top: 1rem;
+`;
+
+const Datapunkt = styled.p`
+	margin-right: 1rem;
+	margin-top: 0;
+	margin-bottom: 0;
+	width: 25rem;
+`;
 
 export const Leveransekort = ({ leveranse }: { leveranse: MineLeveranser; }) => {
 	const { orgnr, virksomhetsnavn, iaTjeneste, modul, tentativFrist, status } = leveranse;
@@ -30,25 +58,3 @@ export const Leveransekort = ({ leveranse }: { leveranse: MineLeveranser; }) => 
 		</Container>
 	);
 };
-
-const HeaderContainer = styled.div`
-	display: flex;
-	flex-direction: row;
-	justify-content: space-between;
-`;
-
-const DataRad = styled.div`
-	display: flex;
-	flex-direction: row;
-	justify-content: flex-start;
-	flex-wrap: wrap;
-	margin-top: 1rem;
-`;
-
-const Datapunkt = styled.p`
-	margin-right: 1rem;
-	margin-top: 0;
-	margin-bottom: 0;
-	width: 25rem;
-`;
-
