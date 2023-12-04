@@ -12,7 +12,7 @@ export class LydiaApiProxy {
             '/iasak/radgiver',
             '/virksomhet',
             '/statusoversikt',
-            '/leveranseoversikt',
+            '/iatjenesteoversikt',
         ]
 
         this.options = {
