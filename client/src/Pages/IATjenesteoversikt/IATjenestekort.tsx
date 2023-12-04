@@ -1,4 +1,4 @@
-import { Heading } from "@navikt/ds-react";
+import { BodyShort, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
 import { EksternLenke } from "../../components/EksternLenke";
 import { lokalDato } from "../../util/dato";
@@ -17,18 +17,18 @@ const HeaderContainer = styled.div`
 	justify-content: space-between;
 `;
 
-const Detaljer = styled.div`
-	display: flex;
-	flex-direction: column;
-	justify-content: flex-start;
-	flex-wrap: wrap;
-	margin-top: 1rem;
+const Detaljer = styled.dl`
+    margin-top: 1rem;
+
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: repeat(auto-fill, auto);
+    row-gap: 0.5rem;
+    column-gap: 1.5rem;
 `;
 
-const Datapunkt = styled.p`
-	margin-right: 1rem;
-	margin-top: 0;
-	margin-bottom: 0;
+const DetaljerTittel = styled(BodyShort)`
+    font-weight: bold;
 `;
 
 interface Props {
@@ -52,8 +52,14 @@ export const IATjenestekort = ({ iaTjeneste }: Props) => {
                 </EksternLenke>
             </HeaderContainer>
             <Detaljer>
-                <Datapunkt><b>IA-tjeneste:</b> {`${tjeneste.navn}${finskrevetModulNavn}`}</Datapunkt>
-                <Datapunkt><b>Tentativ frist:</b> {lokalDato(new Date(tentativFrist))}</Datapunkt>
+                <DetaljerTittel as='dh'>IA-tjeneste:</DetaljerTittel>
+                <BodyShort as='dd'>
+                    {`${tjeneste.navn}${finskrevetModulNavn}`}
+                </BodyShort>
+                <DetaljerTittel as='dh'>Tentativ frist:</DetaljerTittel>
+                <BodyShort as='dd'>
+                    {lokalDato(new Date(tentativFrist))}
+                </BodyShort>
             </Detaljer>
         </Container>
     );
