@@ -2,7 +2,7 @@ import { rest } from "msw";
 import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innloggetAnsattMock";
 import {
     iaSakHistorikkPath, innloggetAnsattPath,
-    leveransePath, mineLeveranserPath,
+    leveransePath, mineIATjenesterPath,
     modulerPath, næringPath,
     publiseringsinfoPath, salesforceUrlPath,
     siste4kvartalerPath, sistekvartalPath,
@@ -16,7 +16,7 @@ import {
 } from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
 import { samarbeidshistorikkMock } from "../src/Pages/Virksomhet/mocks/iaSakHistorikkMock";
 import { iaTjenester, leveranserPerIATjeneste, moduler } from "../src/Pages/Virksomhet/mocks/leveranseMock";
-import { mineLeveranserMock } from "../src/Pages/Leveransebrett/mineLeveranserMock";
+import { mineIATjenesterMock } from "../src/Pages/IATjenesteoversikt/mineIATjenesterMock";
 
 export const mswHandlers = [
     rest.get(`${innloggetAnsattPath}`, (req, res, ctx) => {
@@ -47,9 +47,9 @@ export const mswHandlers = [
             ctx.json(leveranserPerIATjeneste)
         );
     }),
-    rest.get(`${mineLeveranserPath}`, (req, res, ctx) => {
+    rest.get(`${mineIATjenesterPath}`, (req, res, ctx) => {
         return res(
-            ctx.json(mineLeveranserMock)
+            ctx.json(mineIATjenesterMock)
         );
     }),
     rest.get(tjenesterPath, (req, res, ctx) => {

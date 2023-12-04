@@ -1,7 +1,7 @@
-import { LeveranseStatusEnum, MineLeveranser } from "../../domenetyper/leveranse";
+import { LeveranseStatusEnum, MineIATjenester } from "../../domenetyper/leveranse";
 import { iaTjenester, moduler } from "../Virksomhet/mocks/leveranseMock";
 
-export const mineLeveranserMock: MineLeveranser[] = [
+export const mineIATjenesterMock: MineIATjenester[] = [
     {
         orgnr: "995428563",
         virksomhetsnavn: "SUSHISHAPPA PÅ HJØRNET AS",

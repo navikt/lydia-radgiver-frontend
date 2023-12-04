@@ -1,20 +1,20 @@
 import { BodyShort, Heading, Loader } from "@navikt/ds-react";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
-import { Leveransekort } from "./Leveransekort";
-import { useMineLeveranser } from "../../api/lydia-api";
+import { IATjenestekort } from "./IATjenestekort";
+import { useMineIATjenester } from "../../api/lydia-api";
 import { useEffect } from "react";
 import { loggSideLastet } from "../../util/amplitude-klient";
 
-export const Leveransebrettside = () => {
+export const IATjenesteoversiktside = () => {
     if (!erIDev) {
         return null;
     }
 
     useEffect(() => {
-        loggSideLastet("Leveranseoversiktside");
+        loggSideLastet("MineIATjenesterside");
     });
 
-    const { data, loading, error } = useMineLeveranser();
+    const { data, loading, error } = useMineIATjenester();
 
     if (loading) {
         return (
@@ -39,7 +39,7 @@ export const Leveransebrettside = () => {
             {data?.length ?
                 data.map((leveranse, index) => {
                     return (
-                        <Leveransekort leveranse={leveranse} key={index} />
+                        <IATjenestekort iaTjeneste={leveranse} key={index} />
                     );
                 })
                 : <BodyShort>Du har ingen IA-tjenester som er under arbeid</BodyShort>

@@ -36,7 +36,7 @@ export const leveranseSchema = z.object({
 
 export type Leveranse = z.infer<typeof leveranseSchema>
 
-export const mineLeveranserSchema = z.object({
+export const mineIATjenesterSchema = z.object({
     orgnr: z.string(),
     virksomhetsnavn: z.string(),
     iaTjeneste: iaTjenesteSchema,
@@ -45,7 +45,7 @@ export const mineLeveranserSchema = z.object({
     status: LeveranseStatusEnum,
 });
 
-export type MineLeveranser = z.infer<typeof mineLeveranserSchema>;
+export type MineIATjenester = z.infer<typeof mineIATjenesterSchema>;
 
 export const leveranserPerIATjenesteSchema = z.object({
     iaTjeneste: iaTjenesteSchema,

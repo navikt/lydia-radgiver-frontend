@@ -21,8 +21,8 @@ import {
     leveranserPerIATjenesteSchema,
     leveranseSchema,
     LeveranseStatusEnum,
-    MineLeveranser,
-    mineLeveranserSchema,
+    MineIATjenester,
+    mineIATjenesterSchema,
     Modul,
     modulSchema,
     NyLeveranseDTO
@@ -67,7 +67,7 @@ export const næringPath = "naring";
 export const bransjePath = "bransje";
 export const publiseringsinfoPath = "publiseringsinfo"
 export const leveransePath = `${iaSakPath}/leveranse`
-export const mineLeveranserPath = `${basePath}/leveranseoversikt/mine-leveranser`
+export const mineIATjenesterPath = `${basePath}/iatjenesteoversikt/mine-iatjenester`
 export const tjenesterPath = `${leveransePath}/tjenester`
 export const modulerPath = `${leveransePath}/moduler`
 export const statusoversiktPath = `${basePath}/statusoversikt`;
@@ -233,8 +233,8 @@ const getSykefraværsstatistikkAntallTreffUrl = (
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);
 
-export const useMineLeveranser = () =>
-    useSwrTemplate<MineLeveranser[]>(mineLeveranserPath, mineLeveranserSchema.array());
+export const useMineIATjenester = () =>
+    useSwrTemplate<MineIATjenester[]>(mineIATjenesterPath, mineIATjenesterSchema.array());
 
 interface SøkeProps {
     filterstate: FiltervisningState;
