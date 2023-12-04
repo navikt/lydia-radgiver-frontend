@@ -21,6 +21,10 @@ export const iaTjenester: IATjeneste[] = [
         id: 3,
         navn: "HelseIArbeid",
         deaktivert: false,
+    }, {
+        id: 4,
+        navn: "Utvikle partssamarbeid",
+        deaktivert: false,
     }
 ]
 
@@ -120,7 +124,13 @@ export const moduler: Modul[] = [
         iaTjeneste: 3,
         navn: "HelseIArbeid",
         deaktivert: false,
-    },
+    }, {
+        id: 18,
+        iaTjeneste: 4,
+        navn: "Utvikle partssamarbeid",
+        deaktivert: false,
+    }
+
 ]
 
 export const leveranserPerIATjeneste: LeveranserPerIATjeneste[] = [
