@@ -2,7 +2,6 @@ import { Heading } from "@navikt/ds-react";
 import styled from "styled-components";
 import { EksternLenke } from "../../components/EksternLenke";
 import { lokalDato } from "../../util/dato";
-import { statusTilVisbarString } from "./statusTilVisbarString";
 import { MineIATjenester } from "../../domenetyper/leveranse";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 
@@ -18,9 +17,9 @@ const HeaderContainer = styled.div`
 	justify-content: space-between;
 `;
 
-const DataRad = styled.div`
+const Detaljer = styled.div`
 	display: flex;
-	flex-direction: row;
+	flex-direction: column;
 	justify-content: flex-start;
 	flex-wrap: wrap;
 	margin-top: 1rem;
@@ -30,7 +29,6 @@ const Datapunkt = styled.p`
 	margin-right: 1rem;
 	margin-top: 0;
 	margin-bottom: 0;
-	width: 25rem;
 `;
 
 interface Props {
@@ -38,7 +36,8 @@ interface Props {
 }
 
 export const IATjenestekort = ({ iaTjeneste }: Props) => {
-    const { orgnr, virksomhetsnavn, iaTjeneste: tjeneste, modul, tentativFrist, status } = iaTjeneste;
+    const { orgnr, virksomhetsnavn, iaTjeneste: tjeneste, modul, tentativFrist } = iaTjeneste;
+    const finskrevetModulNavn = tjeneste.navn === modul.navn ? "" : ` (${modul.navn})`
 
     return (
         <Container>
@@ -52,12 +51,10 @@ export const IATjenestekort = ({ iaTjeneste }: Props) => {
                     {`Gå til IA-tjenester for virksomheten`}
                 </EksternLenke>
             </HeaderContainer>
-            <DataRad>
-                <Datapunkt><b>IA-tjeneste:</b> {tjeneste.navn}</Datapunkt>
-                {tjeneste.navn === modul.navn ? <Datapunkt /> : <Datapunkt><b>Leveranse:</b> {modul.navn}</Datapunkt>}
+            <Detaljer>
+                <Datapunkt><b>IA-tjeneste:</b> {`${tjeneste.navn}${finskrevetModulNavn}`}</Datapunkt>
                 <Datapunkt><b>Tentativ frist:</b> {lokalDato(new Date(tentativFrist))}</Datapunkt>
-                <Datapunkt><b>Status:</b> {statusTilVisbarString(status)}</Datapunkt>
-            </DataRad>
+            </Detaljer>
         </Container>
     );
 };
