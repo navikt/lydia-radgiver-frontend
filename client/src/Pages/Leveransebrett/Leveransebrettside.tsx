@@ -2,11 +2,17 @@ import { BodyShort, Heading, Loader } from "@navikt/ds-react";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import { Leveransekort } from "./Leveransekort";
 import { useMineLeveranser } from "../../api/lydia-api";
+import { useEffect } from "react";
+import { loggSideLastet } from "../../util/amplitude-klient";
 
 export const Leveransebrettside = () => {
     if (!erIDev) {
         return null;
     }
+
+    useEffect(() => {
+        loggSideLastet("Leveranseoversiktside");
+    });
 
     const { data, loading, error } = useMineLeveranser();
 
