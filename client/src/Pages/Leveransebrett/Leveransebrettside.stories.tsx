@@ -15,9 +15,6 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Hovedstory: Story = {
-    args: {
-        mineLeveranser : mineLeveranserMock
-    },
     parameters: {
         msw: [
             rest.get(`${mineLeveranserPath}`, (req, res, ctx) => {
