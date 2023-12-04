@@ -1,16 +1,15 @@
 import { Heading } from "@navikt/ds-react";
+import styled from "styled-components";
 import { EksternLenke } from "../../components/EksternLenke";
 import { lokalDato } from "../../util/dato";
 import { statusTilVisbarString } from "./statusTilVisbarString";
-import styled from "styled-components";
 import { MineIATjenester } from "../../domenetyper/leveranse";
-import { NavFarger } from "../../styling/farger";
+import { hvitBoksMedSkygge } from "../../styling/containere";
 
 export const Container = styled.div`
 	padding: 2rem;
-	border-radius: 0.5rem;
 	margin-top: 1rem;
-	background-color: ${NavFarger.white};
+    ${hvitBoksMedSkygge}
 `;
 
 const HeaderContainer = styled.div`
