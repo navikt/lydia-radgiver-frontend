@@ -44,9 +44,9 @@ export const IATjenesteoversiktside = () => {
         <Container>
             <Heading size="large">IA-tjenester på saker jeg eier</Heading>
             {data?.length ?
-                data.map((leveranse, index) => {
+                data.map((leveranse) => {
                     return (
-                        <IATjenestekort iaTjeneste={leveranse} key={index} />
+                        <IATjenestekort iaTjeneste={leveranse} key={`${leveranse.orgnr}-${leveranse.modul.id}`} />
                     );
                 })
                 : <BodyShort>Du har ingen IA-tjenester som er under arbeid</BodyShort>
