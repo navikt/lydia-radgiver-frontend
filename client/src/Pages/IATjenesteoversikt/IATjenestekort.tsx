@@ -1,6 +1,5 @@
-import { BodyShort, Heading } from "@navikt/ds-react";
+import { BodyShort, Heading, Link } from "@navikt/ds-react";
 import styled from "styled-components";
-import { EksternLenke } from "../../components/EksternLenke";
 import { lokalDato } from "../../util/dato";
 import { MineIATjenester } from "../../domenetyper/leveranse";
 import { hvitBoksMedSkygge } from "../../styling/containere";
@@ -43,14 +42,13 @@ export const IATjenestekort = ({ iaTjeneste }: Props) => {
     return (
         <Container>
             <HeaderContainer>
-                <Heading size="medium">{virksomhetsnavn}</Heading>
-                <EksternLenke
-                    key={orgnr}
-                    href={`/virksomhet/${orgnr}?fane=ia-tjenester`}
-                    target={`/virksomhet/${orgnr}?fane=ia-tjenester`}
-                >
-                    {`Gå til IA-tjenester for virksomheten`}
-                </EksternLenke>
+                <Heading size="medium">
+                    <Link
+                        href={`/virksomhet/${orgnr}?fane=ia-tjenester`}
+                    >
+                        {virksomhetsnavn}
+                    </Link>
+                </Heading>
             </HeaderContainer>
             <Detaljer>
                 <DetaljerTittel as='dh'>IA-tjeneste:</DetaljerTittel>
