@@ -17,14 +17,24 @@ p {
   max-width: 60em;
 }
 
-/* Reset default margin for description elements in description lists. */
+/*
+ * Nullstiller standard-margin for html-elementet "skildringslister" (description list)
+ * Nettlesarstandard (chrome, 2023-12-05) er 1em i margin-block-start og -end.
+ */
+dl {
+  margin: 0;
+}
+
+/* Nullstiller standard-margin for html-elementet "skildringselement" (description element) i skildringslister.
+ * Nettlesar-standard (chrome, 2023-12-05) er 40px i margin-inline-start.
+*/
 dd {
   margin-left: 0;
 }
 
 /*
  * Gjev secondary-knapp frå designsystemet kvit bakgrunn
- * slik at vi får betre kontrast når den vert brukt på saman med "background-subtle"
+ * slik at vi får betre kontrast når den vert brukt på saman med "background-subtle".
  */
 .navds-button.navds-button--secondary {
   background: var(--a-bg-default) /* "white" i designsystemet 2023-11-29 */

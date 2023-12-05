@@ -18,7 +18,6 @@ import { Næring } from "../../../domenetyper/virksomhet";
 import { desktopAndUp } from "../../../styling/breakpoints";
 
 const Container = styled.dl`
-  margin: 0; // Nullstiller defaults i description lists (dl)
   display: grid;
   gap: 1rem;
   grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr));
