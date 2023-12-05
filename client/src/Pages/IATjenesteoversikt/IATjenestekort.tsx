@@ -6,8 +6,9 @@ import { MineIATjenester } from "../../domenetyper/leveranse";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 
 export const Container = styled.div`
+	margin-top: 1.5rem;
 	padding: 2rem;
-	margin-top: 1rem;
+  
     ${hvitBoksMedSkygge}
 `;
 
