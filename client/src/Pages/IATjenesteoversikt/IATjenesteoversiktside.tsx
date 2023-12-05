@@ -6,6 +6,7 @@ import { useEffect } from "react";
 import { loggSideLastet } from "../../util/amplitude-klient";
 import styled from "styled-components";
 import { hvitBoksMedSkygge } from "../../styling/containere";
+import { sorterAlfabetisk, sorterPåDatoStigende } from "../../util/sortering";
 
 const Container = styled.div`
   padding: 1.5rem;
@@ -44,7 +45,16 @@ export const IATjenesteoversiktside = () => {
         <Container>
             <Heading size="large">IA-tjenester på saker jeg eier</Heading>
             {data?.length ?
-                data.map((leveranse) => {
+                /*
+                 Sorterer slik at rekkefølga blir (inkludert kva vi ser på om to er like):
+                 tidlegaste frist først,
+                 alfabetisk etter virksomhetsnavn,
+                 alfabetisk etter IA-tjeneste+modulnavn
+                */
+                data.sort((a, b) => sorterAlfabetisk(`${a.iaTjeneste.navn} (${a.modul.navn})`, `${b.iaTjeneste.navn} (${b.modul.navn})`))
+                    .sort((a, b) => sorterAlfabetisk(a.virksomhetsnavn, b.virksomhetsnavn))
+                    .sort((a, b) => sorterPåDatoStigende(a.tentativFrist, b.tentativFrist))
+                    .map((leveranse) => {
                     return (
                         <IATjenestekort iaTjeneste={leveranse} key={`${leveranse.orgnr}-${leveranse.modul.id}`} />
                     );

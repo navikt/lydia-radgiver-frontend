@@ -5,3 +5,7 @@ export const sorterAlfabetisk = (a: string, b: string) =>
 
 export const sorterKvartalStigende = (a: Kvartal, b: Kvartal) =>
     a.årstall !== b.årstall ? a.årstall - b.årstall : a.kvartal - b.kvartal
+
+export const sorterPåDatoStigende = (a: Date, b: Date) => {
+   return a.getTime() - b.getTime();
+}
