@@ -32,7 +32,7 @@ export const IATjenesteoversiktside = () => {
     if (loading) {
         return (
             <Container>
-                <Heading size="large">IA-tjenester på saker jeg eier</Heading>
+                <Heading size="large">Mine IA-tjenester</Heading>
                 <Loader />
             </Container>
         )
@@ -40,7 +40,7 @@ export const IATjenesteoversiktside = () => {
     if (error) {
         return (
             <Container>
-                <Heading size="large">IA-tjenester på saker jeg eier</Heading>
+                <Heading size="large">Mine IA-tjenester</Heading>
                 <BodyShort>Kunne ikke hente IA-tjenester</BodyShort>
             </Container>
         )
@@ -48,7 +48,7 @@ export const IATjenesteoversiktside = () => {
 
     return (
         <Container>
-            <Heading size="large">IA-tjenester på saker jeg eier</Heading>
+            <Heading size="large">Mine IA-tjenester</Heading>
             {data?.length ?
                 /*
                  Sorterer slik at rekkefølga blir (inkludert kva vi ser på om to er like):
