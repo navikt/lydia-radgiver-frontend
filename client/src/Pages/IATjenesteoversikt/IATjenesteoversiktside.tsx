@@ -1,15 +1,18 @@
+import { useEffect } from "react";
+import styled from "styled-components";
 import { BodyShort, Heading, Loader } from "@navikt/ds-react";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import { IATjenestekort } from "./IATjenestekort";
 import { useMineIATjenester } from "../../api/lydia-api";
-import { useEffect } from "react";
 import { loggSideLastet } from "../../util/amplitude-klient";
-import styled from "styled-components";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 import { sorterAlfabetisk, sorterPåDatoStigende } from "../../util/sortering";
+import { contentSpacing } from "../../styling/contentSpacing";
 
 const Container = styled.div`
-  padding: 1.5rem;
+  margin-top: ${contentSpacing.mobileY};
+  padding: 3rem;
+  
   ${hvitBoksMedSkygge}
 `;
 
