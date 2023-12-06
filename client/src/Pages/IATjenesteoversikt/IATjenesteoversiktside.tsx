@@ -8,6 +8,7 @@ import { loggSideLastet } from "../../util/amplitude-klient";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 import { sorterAlfabetisk, sorterPåDatoStigende } from "../../util/sortering";
 import { contentSpacing } from "../../styling/contentSpacing";
+import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 
 const Container = styled.div`
   margin-top: ${contentSpacing.mobileY};
@@ -20,6 +21,7 @@ export const IATjenesteoversiktside = () => {
     if (!erIDev) {
         return null;
     }
+    useTittel(statiskeSidetitler.iaTjenesteoversikt);
 
     useEffect(() => {
         loggSideLastet("MineIATjenesterside");

@@ -4,6 +4,7 @@ export const statiskeSidetitler = {
     prioriteringsside: "Fia - søk",
     virksomhetsside: "Fia - virksomhet",
     statusoversiktside: "Fia - statusoversikt",
+    iaTjenesteoversikt: "Fia - IA-tjenester"
 }
 
 export const useTittel = (defaultTittel: string = statiskeSidetitler.prioriteringsside) => {
