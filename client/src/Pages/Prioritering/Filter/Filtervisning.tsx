@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { Button } from "@navikt/ds-react";
+import { Button, Checkbox } from "@navikt/ds-react";
 import { Range, SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
 import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
 import { Fylkedropdown } from "./Fylkedropdown";
@@ -16,6 +16,7 @@ import { Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { useSearchParams } from "react-router-dom";
 import { loggTømmingAvFilterverdier } from "../../../util/amplitude-klient";
+import { FEATURE_FLAG_AUTOSØK } from "../../Prioritering/Prioriteringsside";
 
 const Skjema = styled.form`
   padding: 1rem;
@@ -62,15 +63,21 @@ interface FiltervisningProps {
     maskerteFiltre?: Filter[];
     søkeknappTittel?: string;
     className?: string;
+    laster?: boolean,
+    tillatAutosøk?: boolean,
+    setTillatAutosøk?: (tillatAutosøk: boolean) => void,
 }
 
 export const Filtervisning = ({
-                                  filtervisning,
-                                  søkPåNytt,
-                                  className,
-                                  maskerteFiltre,
-                                  søkeknappTittel
-                              }: FiltervisningProps) => {
+    filtervisning,
+    søkPåNytt,
+    className,
+    maskerteFiltre,
+    søkeknappTittel,
+    laster,
+    tillatAutosøk,
+    setTillatAutosøk,
+}: FiltervisningProps) => {
     const [søkeparametre] = useSearchParams();
     const {
         oppdaterAntallArbeidsforhold,
@@ -179,7 +186,7 @@ export const Filtervisning = ({
                 />
                 {skalFilterVises("SNITTFILTER") &&
                     <BransjeEllerNæringDropdown valgtSnittfilter={state.valgtSnittfilter}
-                                                endreSnittfilter={endreSnittfilter} />
+                        endreSnittfilter={endreSnittfilter} />
                 }
                 <AntallArbeidsforholdVelger
                     antallArbeidsforhold={state.antallArbeidsforhold}
@@ -210,7 +217,8 @@ export const Filtervisning = ({
                             Tøm filter
                         </Button>
                     }
-                    <Søkeknapp size="medium" onClick={søkPåNytt}>
+                    {FEATURE_FLAG_AUTOSØK ?? <Checkbox checked={tillatAutosøk} onClick={() => setTillatAutosøk?.(!tillatAutosøk)}>Autosøk</Checkbox>}
+                    <Søkeknapp size="medium" onClick={søkPåNytt} loading={laster}>
                         {søkeknappTittel ? søkeknappTittel : 'Søk'}
                     </Søkeknapp>
                 </KnappeWrapper>

@@ -276,6 +276,19 @@ export const initialFiltervisningState: FiltervisningState = {
     side: 1,
 };
 
+export const sammenliknFilterverdier = (filterstateA: FiltervisningState, filterstateB: FiltervisningState, ignorerSide: boolean = true) => {
+    const sammenlignbarFilterstateA = {
+        ...filterstateA,
+        side: ignorerSide ? filterstateA.side : undefined
+    };
+    const sammenlignbarFilterstateB = {
+        ...filterstateB,
+        side: ignorerSide ? filterstateB.side : undefined
+    };
+
+    return JSON.stringify(sammenlignbarFilterstateA) === JSON.stringify(sammenlignbarFilterstateB);
+}
+
 const endreKommune = (state: FiltervisningState, action: EndreKommuneAction): FiltervisningState => ({
     ...state,
     kommuner: action.payload.kommuner,

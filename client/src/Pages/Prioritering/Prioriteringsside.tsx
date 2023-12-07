@@ -4,11 +4,14 @@ import { Filtervisning } from "./Filter/Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import { useFilterverdier, useHentAntallTreff, useHentVirksomhetsoversiktListe, } from "../../api/lydia-api";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
-import { useFiltervisningState } from "./Filter/filtervisning-reducer";
+import { sammenliknFilterverdier, useFiltervisningState } from "./Filter/filtervisning-reducer";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { SideContainer } from "../../styling/containere";
 import { loggSideLastet, Søkekomponenter } from "../../util/amplitude-klient";
 import { loggSøkMedFilterIAmplitude } from "./loggSøkMedFilterIAmplitude";
+import { erIDev } from "../../components/Dekoratør/Dekoratør";
+
+export const FEATURE_FLAG_AUTOSØK = erIDev;
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 
@@ -28,11 +31,15 @@ export const Prioriteringsside = () => {
     const filtervisning = useFiltervisningState();
     const harSøktMinstEnGang = virksomhetsoversiktListe !== undefined;
     const fantResultaterISøk = harSøktMinstEnGang && virksomhetsoversiktListe.length > 0;
+    
+    const [skalBrukeAutosøk, setSkalBrukeAutosøk] = useState(FEATURE_FLAG_AUTOSØK);
+    const [gammelFilterState, setGammelFilterState] = useState(filtervisning.state);
 
     const {
         data: virksomhetsoversiktListeRespons,
         loading: lasterVirksomhetsoversiktListe,
         error: virksomhetsoversiktListeFeil,
+        validating: validererVirksomhetsoversiktListe,
     } = useHentVirksomhetsoversiktListe({
         filterstate: filtervisning.state,
         initierSøk: skalSøke,
@@ -87,10 +94,25 @@ export const Prioriteringsside = () => {
         setSkalSøke(true);
     }
 
+    const harEndringIFilterverdi = sammenliknFilterverdier(gammelFilterState, filtervisning.state);
+
+    const [autosøktimer, setAutosøktimer] = useState<NodeJS.Timeout | undefined>();
+
+    useEffect(() => {
+        if (!harEndringIFilterverdi && !skalSøke && skalBrukeAutosøk && FEATURE_FLAG_AUTOSØK) {
+            setGammelFilterState(filtervisning.state);
+            clearTimeout(autosøktimer);
+            setAutosøktimer(setTimeout(() => setSkalSøke(true), 500));
+        }
+    }, [harEndringIFilterverdi, skalSøke, skalBrukeAutosøk]);
+
     return (
         <SideContainer>
             <Filtervisning
+                tillatAutosøk={skalBrukeAutosøk}
+                setTillatAutosøk={setSkalBrukeAutosøk}
                 filtervisning={filtervisning}
+                laster={validererVirksomhetsoversiktListe || lasterVirksomhetsoversiktListe}
                 søkPåNytt={() => {
                     setTotaltAntallTreff(undefined)
                     oppdaterSide(1);
