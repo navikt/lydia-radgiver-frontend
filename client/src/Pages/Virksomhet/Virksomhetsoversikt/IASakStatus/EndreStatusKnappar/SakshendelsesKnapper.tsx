@@ -7,7 +7,7 @@ import { HendelseMåBekreftesKnapp } from "./HendelseMåBekreftesKnapp";
 import { RettTilNesteStatusKnapp } from "./RettTilNesteStatusKnapp";
 import { FullførKnapp } from "./FullførKnapp";
 
-const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak): ReactElement => {
+const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak, setVisKonfetti?: (visKonfetti: boolean) => void): ReactElement => {
     switch (hendelse.saksHendelsestype) {
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
             return (
@@ -23,6 +23,7 @@ const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak): Reac
                     sak={sak}
                     hendelse={hendelse}
                     key={hendelse.saksHendelsestype}
+                    setVisKonfetti={setVisKonfetti}
                 />
             )
         case IASakshendelseTypeEnum.enum.TILBAKE:
@@ -65,9 +66,10 @@ const KnappeKolonner = styled.div`
 interface SakshendelsesKnapperProps {
     sak: IASak;
     hendelser: GyldigNesteHendelse[];
+    setVisKonfetti?: (visKonfetti: boolean) => void;
 }
 
-export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps) => {
+export const SakshendelsesKnapper = ({ sak, hendelser, setVisKonfetti }: SakshendelsesKnapperProps) => {
     const destruktiveHendelser = hendelser
         .filter(hendelse => erHendelsenDestruktiv(hendelse.saksHendelsestype))
     const ikkeDestruktiveHendelser = hendelser
@@ -81,7 +83,7 @@ export const SakshendelsesKnapper = ({sak, hendelser}: SakshendelsesKnapperProps
                         key={hendelser.map(hendelse => hendelse.saksHendelsestype).join("-")}>
                         {hendelser.sort(sorterHendelserPåKnappeType)
                             .map((hendelse) =>
-                                rendreKnappForHendelse(hendelse, sak)
+                                rendreKnappForHendelse(hendelse, sak, setVisKonfetti)
                             )
                         }
                     </ KnappeKolonner>

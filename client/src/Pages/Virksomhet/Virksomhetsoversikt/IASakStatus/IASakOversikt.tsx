@@ -8,6 +8,8 @@ import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
 import { NavFarger } from "../../../../styling/farger";
 import { BorderRadius } from "../../../../styling/borderRadius";
 import { IngenAktivitetInfo } from "./IngenAktivitetInfo/IngenAktivitetInfo";
+import { Konfetti } from "../../../../components/Konfetti/Konfetti";
+import { useState } from "react";
 
 export const IASakOversiktContainer = styled.div`
   display: flex;
@@ -46,6 +48,7 @@ export interface IASakOversiktProps {
 }
 
 export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => {
+    const [visKonfetti, setVisKonfetti] = useState(false);
     if (!sak || sak.lukket) {
         return (
             <IngenAktiveSaker
@@ -71,8 +74,10 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => 
             <SakshendelsesKnapper
                 sak={sak}
                 hendelser={sak.gyldigeNesteHendelser}
+                setVisKonfetti={setVisKonfetti}
             />
             <IngenAktivitetInfo sak={sak} />
+            {visKonfetti ? <Konfetti onComplete={() => setVisKonfetti(false)} /> : null}
         </IASakOversiktContainer>
     );
 };

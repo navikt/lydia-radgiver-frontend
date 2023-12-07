@@ -9,9 +9,10 @@ import { LeggTilLeveranserFørstModal } from "../LeggTilLeveranserFørstModal";
 interface Props {
     hendelse: GyldigNesteHendelse;
     sak: IASak;
+    setVisKonfetti?: (visKonfetti: boolean) => void;
 }
 
-export const FullførKnapp = ({ hendelse, sak }: Props) => {
+export const FullførKnapp = ({ hendelse, sak, setVisKonfetti }: Props) => {
     const { data: leveranserPåSak } = useHentLeveranser(sak.orgnr, sak.saksnummer);
     const ingenLeveranser = !leveranserPåSak?.length;
     const harLeveranserSomErUnderArbeid = leveranserPåSak?.flatMap((iaTjeneste) => iaTjeneste.leveranser)
@@ -41,6 +42,6 @@ export const FullførKnapp = ({ hendelse, sak }: Props) => {
     }
 
     return (
-        <HendelseMåBekreftesKnapp hendelse={hendelse} sak={sak} />
+        <HendelseMåBekreftesKnapp hendelse={hendelse} sak={sak} setVisKonfetti={setVisKonfetti} />
     )
 }
