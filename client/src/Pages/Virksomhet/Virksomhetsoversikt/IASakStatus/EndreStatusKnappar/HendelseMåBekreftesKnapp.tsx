@@ -8,9 +8,10 @@ import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 interface Props {
     hendelse: GyldigNesteHendelse;
     sak: IASak;
+    setVisKonfetti?: (visKonfetti: boolean) => void;
 }
 
-export const HendelseMåBekreftesKnapp = ({hendelse, sak}: Props) => {
+export const HendelseMåBekreftesKnapp = ({hendelse, sak, setVisKonfetti}: Props) => {
     const [visBekreftelsesModal, setVisBekreftelsesModal] = useState(false)
 
     const {mutate: mutateSamarbeidshistorikk} = useHentSamarbeidshistorikk(sak.orgnr)
@@ -24,8 +25,11 @@ export const HendelseMåBekreftesKnapp = ({hendelse, sak}: Props) => {
     const bekreftNyHendelsePåSak = () => {
         nyHendelsePåSak(sak, hendelse)
             .then(mutateIASakerOgSamarbeidshistorikk)
-            .finally(() => setVisBekreftelsesModal(false))
-        loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status)
+            .finally(() => {
+                setVisKonfetti?.(true);
+                setVisBekreftelsesModal(false);
+            });
+        loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status);
     }
 
     return (
