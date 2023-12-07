@@ -217,7 +217,7 @@ export const Filtervisning = ({
                             Tøm filter
                         </Button>
                     }
-                    {FEATURE_FLAG_AUTOSØK ?? <Checkbox checked={tillatAutosøk} onClick={() => setTillatAutosøk?.(!tillatAutosøk)}>Autosøk</Checkbox>}
+                    {FEATURE_FLAG_AUTOSØK && <Checkbox checked={tillatAutosøk} onClick={() => setTillatAutosøk?.(!tillatAutosøk)}>Autosøk</Checkbox>}
                     <Søkeknapp size="medium" onClick={søkPåNytt} loading={laster}>
                         {søkeknappTittel ? søkeknappTittel : 'Søk'}
                     </Søkeknapp>
