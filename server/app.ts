@@ -31,18 +31,20 @@ export default class Application {
         this.expressApp = express();
         this.expressApp.set("trust proxy", 1);
 
-        this.expressApp.use(apiMetrics());
-            this.expressApp.use(helmet({
-                contentSecurityPolicy: {
-                    directives: {
-                        defaultSrc: ["'self'"],
-                        scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
-                        connectSrc: ["'self'", "*.nav.no"],
-                        styleSrc: ["'self'", "'unsafe-inline'"],
-                        imgSrc: ["'self'", "data:", "*.nav.no"],
-                    },
-                }
-            }));
+        this.expressApp.use(apiMetrics(
+            {metricsPath: "/internal/metrics"}
+        ));
+        this.expressApp.use(helmet({
+            contentSecurityPolicy: {
+                directives: {
+                    defaultSrc: ["'self'"],
+                    scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+                    connectSrc: ["'self'", "*.nav.no"],
+                    styleSrc: ["'self'", "'unsafe-inline'"],
+                    imgSrc: ["'self'", "data:", "*.nav.no"],
+                },
+            }
+        }));
 
         this.expressApp.all("*", (req, res, next) => {
             res.locals.requestId = randomUUID()
