@@ -166,7 +166,7 @@ describe("Tester uthenting av metrikker", () => {
         const superTest = request(expressApp);
         const livenessCheck = await superTest.get("/internal/isAlive")
         expect(livenessCheck.statusCode).toBe(200)
-        const metricsCollection = await superTest.get("/metrics")
+        const metricsCollection = await superTest.get("/internal/metrics")
         expect(metricsCollection.text).toContain("process_cpu_user_seconds_total")
         expect(metricsCollection.text).toContain("http_request_size_bytes_bucket")
         expect(metricsCollection.text).toContain("http_response_size_bytes_bucket")
