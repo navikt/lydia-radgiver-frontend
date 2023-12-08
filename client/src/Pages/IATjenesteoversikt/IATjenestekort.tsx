@@ -11,17 +11,17 @@ const Container = styled.li`
 `;
 
 const Detaljer = styled.dl`
-    margin-top: 1rem;
+  margin-top: 1rem;
 
-    display: grid;
-    grid-template-columns: auto 1fr;
-    grid-template-rows: repeat(auto-fill, auto);
-    row-gap: 0.5rem;
-    column-gap: 1.5rem;
+  display: grid;
+  grid-template-columns: auto 1fr;
+  grid-template-rows: repeat(auto-fill, auto);
+  row-gap: 0.5rem;
+  column-gap: 1.5rem;
 `;
 
 const DetaljerTittel = styled(BodyShort)`
-    font-weight: bold;
+  font-weight: bold;
 `;
 
 interface Props {
