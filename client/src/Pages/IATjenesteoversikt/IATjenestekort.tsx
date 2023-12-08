@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { lokalDato } from "../../util/dato";
 import { MineIATjenester } from "../../domenetyper/leveranse";
 import { hvitBoksMedSkygge } from "../../styling/containere";
+import { loggAktvitetPåIATjenesteoversikt } from "../../util/amplitude-klient";
 
 const Container = styled.li`
   padding: 2rem;
@@ -35,7 +36,10 @@ export const IATjenestekort = ({ iaTjeneste }: Props) => {
     return (
         <Container>
             <Heading size="medium">
-                <Link href={`/virksomhet/${orgnr}?fane=ia-tjenester`}>
+                <Link
+                    href={`/virksomhet/${orgnr}?fane=ia-tjenester`}
+                      onClick={() => loggAktvitetPåIATjenesteoversikt()}
+                >
                     {virksomhetsnavn}
                 </Link>
             </Heading>

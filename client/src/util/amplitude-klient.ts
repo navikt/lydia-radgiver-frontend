@@ -34,6 +34,7 @@ type NavsAmplitudeTopologiEventer =
     | "endring i valgte linjer i graf"
     | "nullstill filter i søk"
     | "opprette leveranse med frist"
+    | "aktivitet på IA-tjenesteoversikt"
 
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
@@ -131,6 +132,14 @@ export const loggSendBrukerTilAITjenesterTab = (fraModal: string) => {
         lenketekst: "Ta meg til IA-tjenester",
         fraModal,
     });
+}
+
+export const loggAktvitetPåIATjenesteoversikt = () => {
+    logAmplitudeEvent("aktivitet på IA-tjenesteoversikt", {
+        aktivitetstype: "navigere", // navigere, utføre hendelse (knapper), filtrere/sortere, ...
+        beskrivelse: "følg virksomhetslenke til ia-tjenestefane", // detaljerte kategorier
+        destinasjon: "/virksomhet/[orgnr]?fane=ia-tjenester", // url for navigering, kanskje api-kall for hendelser/sortering?
+    })
 }
 
 export const loggModalTilbakeTilForrigeStatusLukket = (
