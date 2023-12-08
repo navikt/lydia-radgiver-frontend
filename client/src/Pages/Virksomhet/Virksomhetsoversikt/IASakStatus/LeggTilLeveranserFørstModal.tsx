@@ -10,7 +10,8 @@ interface Props {
 }
 
 export const LeggTilLeveranserFørstModal = ({ visModal, lukkModal }: Props) => {
-    const { erPåIaTjenesterFane, sendBrukerTilIATjenesterTab } = useSendTilIATjenesterTab();
+    const { sendBrukerTilIATjenesterTab } = useSendTilIATjenesterTab();
+
     return (
         <StyledModal
             open={visModal}
@@ -25,17 +26,13 @@ export const LeggTilLeveranserFørstModal = ({ visModal, lukkModal }: Props) => 
                     <Button variant="secondary" onClick={lukkModal}>
                         Den er grei
                     </Button>
-                    {
-                        !erPåIaTjenesterFane && (
-                            <Button variant="primary" onClick={() => {
-                                sendBrukerTilIATjenesterTab();
-                                loggSendBrukerTilAITjenesterTab('legg til leveranser');
-                                lukkModal();
-                            }}>
-                                Ta meg til IA-tjenester
-                            </Button>
-                        )
-                    }
+                    <Button variant="primary" onClick={() => {
+                        sendBrukerTilIATjenesterTab();
+                        loggSendBrukerTilAITjenesterTab('legg til leveranser');
+                        lukkModal();
+                    }}>
+                        Ta meg til IA-tjenester
+                    </Button>
                 </ModalKnapper>
             </Modal.Body>
         </StyledModal>

@@ -1,7 +1,7 @@
 import { BodyLong, Button, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
 import { StyledModal } from "../../../../components/Modal/StyledModal";
-import {useSendTilIATjenesterTab} from "../../../../util/useSendTilIATjenesterTab";
+import { useSendTilIATjenesterTab } from "../../../../util/useSendTilIATjenesterTab";
 import { loggSendBrukerTilAITjenesterTab } from "../../../../util/amplitude-klient";
 
 interface Props {
@@ -10,7 +10,7 @@ interface Props {
 }
 
 export const FullførLeveranserFørstModal = ({ visModal, lukkModal }: Props) => {
-    const { erPåIaTjenesterFane, sendBrukerTilIATjenesterTab } = useSendTilIATjenesterTab();
+    const { sendBrukerTilIATjenesterTab } = useSendTilIATjenesterTab();
 
     return (
         <StyledModal
@@ -28,17 +28,13 @@ export const FullførLeveranserFørstModal = ({ visModal, lukkModal }: Props) =>
                     <Button variant="secondary" onClick={lukkModal}>
                         Den er grei
                     </Button>
-                    {
-                        !erPåIaTjenesterFane && (
-                            <Button variant="primary" onClick={() => {
-                                sendBrukerTilIATjenesterTab();
-                                loggSendBrukerTilAITjenesterTab('fullfør leveranser');
-                                lukkModal();
-                            }}>
-                                Ta meg til IA-tjenester
-                            </Button>
-                        )
-                    }
+                    <Button variant="primary" onClick={() => {
+                        sendBrukerTilIATjenesterTab();
+                        loggSendBrukerTilAITjenesterTab('fullfør leveranser');
+                        lukkModal();
+                    }}>
+                        Ta meg til IA-tjenester
+                    </Button>
                 </ModalKnapper>
             </Modal.Body>
         </StyledModal>
