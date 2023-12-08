@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BodyShort, Loader, SortState } from "@navikt/ds-react";
-import { Filtervisning } from "./Filter/Filtervisning";
+import { FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT, Filtervisning } from "./Filter/Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import { useFilterverdier, useHentAntallTreff, useHentVirksomhetsoversiktListe, } from "../../api/lydia-api";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
@@ -9,9 +9,6 @@ import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { SideContainer } from "../../styling/containere";
 import { loggSideLastet, Søkekomponenter } from "../../util/amplitude-klient";
 import { loggSøkMedFilterIAmplitude } from "./loggSøkMedFilterIAmplitude";
-import { erIDev } from "../../components/Dekoratør/Dekoratør";
-
-export const FEATURE_FLAG_AUTOSØK = erIDev;
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 
@@ -31,8 +28,8 @@ export const Prioriteringsside = () => {
     const filtervisning = useFiltervisningState();
     const harSøktMinstEnGang = virksomhetsoversiktListe !== undefined;
     const fantResultaterISøk = harSøktMinstEnGang && virksomhetsoversiktListe.length > 0;
-    
-    const [skalBrukeAutosøk, setSkalBrukeAutosøk] = useState(FEATURE_FLAG_AUTOSØK);
+
+    const [skalBrukeAutosøk, setSkalBrukeAutosøk] = useState(FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT);
     const [gammelFilterState, setGammelFilterState] = useState(filtervisning.state);
 
     const {
@@ -84,7 +81,6 @@ export const Prioriteringsside = () => {
 
     function oppdaterSide(side: number, sortering?: SortState) {
         loggSøkMedFilterIAmplitude(filtervisning.state, Søkekomponenter.PRIORITERING)
-
         setVirksomhetsoversiktListe(undefined)
 
         filtervisning.oppdaterSide({
@@ -95,11 +91,10 @@ export const Prioriteringsside = () => {
     }
 
     const harEndringIFilterverdi = sammenliknFilterverdier(gammelFilterState, filtervisning.state);
-
     const [autosøktimer, setAutosøktimer] = useState<NodeJS.Timeout | undefined>();
 
     useEffect(() => {
-        if (!harEndringIFilterverdi && !skalSøke && skalBrukeAutosøk && FEATURE_FLAG_AUTOSØK) {
+        if (!harEndringIFilterverdi && !skalSøke && skalBrukeAutosøk && FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT) {
             setGammelFilterState(filtervisning.state);
             clearTimeout(autosøktimer);
             setAutosøktimer(setTimeout(() => setSkalSøke(true), 500));

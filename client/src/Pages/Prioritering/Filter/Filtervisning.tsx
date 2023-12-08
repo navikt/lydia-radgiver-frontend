@@ -16,7 +16,9 @@ import { Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { useSearchParams } from "react-router-dom";
 import { loggTømmingAvFilterverdier } from "../../../util/amplitude-klient";
-import { FEATURE_FLAG_AUTOSØK } from "../../Prioritering/Prioriteringsside";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
+
+export const FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT = erIDev;
 
 const Skjema = styled.form`
   padding: 1rem;
@@ -217,7 +219,7 @@ export const Filtervisning = ({
                             Tøm filter
                         </Button>
                     }
-                    {FEATURE_FLAG_AUTOSØK && <Checkbox checked={tillatAutosøk} onClick={() => setTillatAutosøk?.(!tillatAutosøk)}>Autosøk</Checkbox>}
+                    {FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT && <Checkbox checked={tillatAutosøk} onClick={() => setTillatAutosøk?.(!tillatAutosøk)}>Autosøk</Checkbox>}
                     <Søkeknapp size="medium" onClick={søkPåNytt} loading={laster}>
                         {søkeknappTittel ? søkeknappTittel : 'Søk'}
                     </Søkeknapp>

@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { BodyShort, Loader } from "@navikt/ds-react";
-import { Filtervisning } from "../Prioritering/Filter/Filtervisning";
-import { useFiltervisningState } from "../Prioritering/Filter/filtervisning-reducer";
+import { FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT, Filtervisning } from "../Prioritering/Filter/Filtervisning";
+import { sammenliknFilterverdier, useFiltervisningState } from "../Prioritering/Filter/filtervisning-reducer";
 import { useFilterverdier, useHentStatusoversikt } from "../../api/lydia-api";
 import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
@@ -13,9 +13,9 @@ import { loggSøkMedFilterIAmplitude } from "../Prioritering/loggSøkMedFilterIA
 export const Statusoversiktside = () => {
     useTittel(statiskeSidetitler.statusoversiktside)
 
+    const [skalSøke, setSkalSøke] = useState(false);
     const [statusoversiktListe, setStatusoversiktListe] =
         useState<Statusoversikt[]>();
-    const [skalSøke, setSkalSøke] = useState(false);
 
     const [filtervisningLoaded, setFiltervisningLoaded] = useState(false);
     const harSøktMinstEnGang = statusoversiktListe !== undefined;
@@ -25,11 +25,14 @@ export const Statusoversiktside = () => {
 
     const { data: filterverdier } = useFilterverdier();
     const filtervisning = useFiltervisningState();
+    const [skalBrukeAutosøk, setSkalBrukeAutosøk] = useState(FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT);
+    const [gammelFilterState, setGammelFilterState] = useState(filtervisning.state);
 
     const {
         data: statusoversiktResultatFraApi,
         error,
-        loading,
+        loading: lasterStatusoversiktResultatFraApi,
+        validating: validererStatusoversiktResultatFraApi,
     } = useHentStatusoversikt({
         filterstate: filtervisning.state,
         initierSøk: skalSøke,
@@ -56,10 +59,24 @@ export const Statusoversiktside = () => {
         setSkalSøke(true);
     }
 
+    const harEndringIFilterverdi = sammenliknFilterverdier(gammelFilterState, filtervisning.state);
+    const [autosøktimer, setAutosøktimer] = useState<NodeJS.Timeout | undefined>();
+
+    useEffect(() => {
+        if (!harEndringIFilterverdi && !skalSøke && skalBrukeAutosøk && FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT) {
+            setGammelFilterState(filtervisning.state);
+            clearTimeout(autosøktimer);
+            setAutosøktimer(setTimeout(() => setSkalSøke(true), 500));
+        }
+    }, [harEndringIFilterverdi, skalSøke, skalBrukeAutosøk]);
+
     return (
         <SideContainer>
             <Filtervisning
+                tillatAutosøk={skalBrukeAutosøk}
+                setTillatAutosøk={setSkalBrukeAutosøk}
                 filtervisning={filtervisning}
+                laster={validererStatusoversiktResultatFraApi || lasterStatusoversiktResultatFraApi}
                 søkPåNytt={søkPåNytt}
                 maskerteFiltre={["IA_STATUS", "SNITTFILTER"]}
                 søkeknappTittel={'Hent statistikk'}
@@ -68,9 +85,9 @@ export const Statusoversiktside = () => {
             {skalViseTabell ? (
                 <StatistikkTabell lederstatistikkListe={statusoversiktListe} />
             ) : (
-                harSøktMinstEnGang && !loading && !error && <BodyShort>Søket ga ingen resultater</BodyShort>
+                harSøktMinstEnGang && !lasterStatusoversiktResultatFraApi && !error && <BodyShort>Søket ga ingen resultater</BodyShort>
             )}
-            {loading && (
+            {lasterStatusoversiktResultatFraApi && (
                 <Loader
                     title={"Henter statusoversikt"}
                     variant={"interaction"}
