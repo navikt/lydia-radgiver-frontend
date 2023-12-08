@@ -13,8 +13,22 @@ import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 const Container = styled.div`
   margin-top: ${contentSpacing.mobileY};
   padding: 3rem;
-  
+
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
   ${hvitBoksMedSkygge}
+`;
+
+const IATjenesteListe = styled.ol`
+  padding-left: 0;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  list-style: none;
 `;
 
 export const IATjenesteoversiktside = () => {
@@ -50,20 +64,26 @@ export const IATjenesteoversiktside = () => {
         <Container>
             <Heading size="large">Mine IA-tjenester</Heading>
             {data?.length ?
-                /*
-                 Sorterer slik at rekkefølga blir (inkludert kva vi ser på om to er like):
-                 tidlegaste frist først,
-                 alfabetisk etter virksomhetsnavn,
-                 alfabetisk etter IA-tjeneste+modulnavn
-                */
-                data.sort((a, b) => sorterAlfabetisk(`${a.iaTjeneste.navn} (${a.modul.navn})`, `${b.iaTjeneste.navn} (${b.modul.navn})`))
-                    .sort((a, b) => sorterAlfabetisk(a.virksomhetsnavn, b.virksomhetsnavn))
-                    .sort((a, b) => sorterPåDatoStigende(a.tentativFrist, b.tentativFrist))
-                    .map((leveranse) => {
-                    return (
-                        <IATjenestekort iaTjeneste={leveranse} key={`${leveranse.orgnr}-${leveranse.modul.id}`} />
-                    );
-                })
+                <IATjenesteListe>
+                    {/*
+                    Sorterer IA-tjenestene:
+                    tidlegaste frist først,
+                    innafor same frist sorterer vi alfabetisk etter virksomhetsnavn,
+                    innafor same virksomhet sorterer vi alfabetisk etter IA-tjeneste+modulnavn (som er unikt).
+                    */
+                        data.sort((a, b) => sorterAlfabetisk(
+                            `${a.iaTjeneste.navn} (${a.modul.navn})`,
+                            `${b.iaTjeneste.navn} (${b.modul.navn})`)
+                        )
+                            .sort((a, b) => sorterAlfabetisk(a.virksomhetsnavn, b.virksomhetsnavn))
+                            .sort((a, b) => sorterPåDatoStigende(a.tentativFrist, b.tentativFrist))
+                            .map((leveranse) => {
+                                return (
+                                    <IATjenestekort iaTjeneste={leveranse}
+                                                    key={`${leveranse.orgnr}-${leveranse.modul.id}`} />
+                                );
+                            })}
+                </IATjenesteListe>
                 : <BodyShort>Du har ingen IA-tjenester som er under arbeid</BodyShort>
             }
         </Container>
