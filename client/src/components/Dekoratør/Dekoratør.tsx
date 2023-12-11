@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BodyShort, Link, InternalHeader } from "@navikt/ds-react";
+import { BodyShort, InternalHeader, Link } from "@navikt/ds-react";
 import { Søkefelt } from "./Søkefelt";
 import { NavFarger } from "../../styling/farger";
 import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/brukerinformasjon";
@@ -50,9 +50,9 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                     <Navigasjonslenke href="/statusoversikt" title="Gå til statusoversiktsiden">
                         <InternalHeader.Title as="span">Statusoversikt</InternalHeader.Title>
                     </Navigasjonslenke>
-                    {erIDev && <Navigasjonslenke href="/iatjenesteoversikt" title="Gå til mine IA-tjenester">
+                    <Navigasjonslenke href="/iatjenesteoversikt" title="Gå til mine IA-tjenester">
                         <InternalHeader.Title as="span">Mine IA-tjenester</InternalHeader.Title>
-                    </Navigasjonslenke>}
+                    </Navigasjonslenke>
                 </Navigasjon>
                 <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
                 <Søkefelt style={{

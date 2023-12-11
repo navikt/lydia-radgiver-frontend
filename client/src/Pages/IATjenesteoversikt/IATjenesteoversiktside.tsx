@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import { BodyShort, Heading, Loader } from "@navikt/ds-react";
-import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import { IATjenestekort } from "./IATjenestekort";
 import { useMineIATjenester } from "../../api/lydia-api";
 import { loggSideLastet } from "../../util/amplitude-klient";
@@ -32,9 +31,6 @@ const IATjenesteListe = styled.ol`
 `;
 
 export const IATjenesteoversiktside = () => {
-    if (!erIDev) {
-        return null;
-    }
     useTittel(statiskeSidetitler.iaTjenesteoversikt);
 
     useEffect(() => {
