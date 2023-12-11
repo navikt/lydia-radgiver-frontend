@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { BodyShort, Heading, Loader } from "@navikt/ds-react";
 import { IATjenestekort } from "./IATjenestekort";
 import { useMineIATjenester } from "../../api/lydia-api";
-import { loggSideLastet } from "../../util/amplitude-klient";
+import { loggAntallIATjenesterPåIATjenesteoversikt, loggSideLastet } from "../../util/amplitude-klient";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 import { sorterAlfabetisk, sorterPåDatoStigende } from "../../util/sortering";
 import { contentSpacing } from "../../styling/contentSpacing";
@@ -38,6 +38,12 @@ export const IATjenesteoversiktside = () => {
     });
 
     const { data, loading, error } = useMineIATjenester();
+
+    useEffect(() => {
+        if (data) {
+            loggAntallIATjenesterPåIATjenesteoversikt(data.length)
+        }
+    }, [data]);
 
     if (loading) {
         return (

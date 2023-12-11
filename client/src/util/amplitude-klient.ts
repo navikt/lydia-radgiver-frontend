@@ -144,6 +144,18 @@ export const loggAktvitetPåIATjenesteoversikt = () => {
         aktivitetstype: "navigere", // navigere, utføre hendelse (knapper), filtrere/sortere, ...
         beskrivelse: "følg virksomhetslenke til ia-tjenestefane", // detaljerte kategorier
         destinasjon: "/virksomhet/[orgnr]?fane=ia-tjenester", // url for navigering, kanskje api-kall for hendelser/sortering?
+        //antallTreff: antallTreff, // antall resultat som vises, for eksempel ved sidelasting eller filtrering/sortering
+    })
+}
+
+export const loggAntallIATjenesterPåIATjenesteoversikt = (
+    antallIATjenester: number
+) => {
+    logAmplitudeEvent("aktivitet på IA-tjenesteoversikt", {
+        aktivitetstype: "se", // navigere, utføre hendelse (knapper), filtrere/sortere, ...
+        beskrivelse: "antall IA-tjenester brukeren ser i oversikten sin", // detaljerte kategorier
+        //destinasjon: "", // url for navigering, kanskje api-kall for hendelser/sortering?
+        antallTreff: antallIATjenester.toString(), // antall resultat som vises, for eksempel ved sidelasting eller filtrering/sortering
     })
 }
 
