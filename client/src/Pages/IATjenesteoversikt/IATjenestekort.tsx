@@ -6,13 +6,13 @@ import { hvitBoksMedSkygge } from "../../styling/containere";
 import { loggAktvitetPåIATjenesteoversikt } from "../../util/amplitude-klient";
 
 const Container = styled.li`
-  padding: 2rem;
+  padding: 1.5rem;
 
   ${hvitBoksMedSkygge}
 `;
 
 const Detaljer = styled.dl`
-  margin-top: 1rem;
+  margin-top: 0.5rem;
 
   display: grid;
   grid-template-columns: auto 1fr;
@@ -35,7 +35,7 @@ export const IATjenestekort = ({ iaTjeneste }: Props) => {
 
     return (
         <Container>
-            <Heading size="medium">
+            <Heading level="2" size="xsmall">
                 <Link
                     href={`/virksomhet/${orgnr}?fane=ia-tjenester`}
                       onClick={() => loggAktvitetPåIATjenesteoversikt()}
