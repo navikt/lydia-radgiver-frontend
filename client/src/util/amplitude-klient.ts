@@ -35,6 +35,7 @@ type NavsAmplitudeTopologiEventer =
     | "nullstill filter i søk"
     | "opprette leveranse med frist"
     | "aktivitet på IA-tjenesteoversikt"
+    | "skrudde av eller på autosøk";
 
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
@@ -124,6 +125,10 @@ export const loggFilterverdiKategorier = (
 
 export const loggTømmingAvFilterverdier = () => {
     logAmplitudeEvent("nullstill filter i søk", {})
+}
+
+export const loggTogglingAvAutosøk = (autosøk: boolean) => {
+    logAmplitudeEvent("skrudde av eller på autosøk", {autosøk: autosøk ? "på" : "av"});
 }
 
 export const loggSendBrukerTilAITjenesterTab = (fraModal: string) => {

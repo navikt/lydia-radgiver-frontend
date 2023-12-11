@@ -15,7 +15,7 @@ import { SektorDropdown } from "./SektorDropdown";
 import { Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { useSearchParams } from "react-router-dom";
-import { loggTømmingAvFilterverdier } from "../../../util/amplitude-klient";
+import { loggTogglingAvAutosøk, loggTømmingAvFilterverdier } from "../../../util/amplitude-klient";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 export const FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT = erIDev;
@@ -132,6 +132,7 @@ export const Filtervisning = ({
 
     const endreAutosøk = (autosøk: boolean) => {
         oppdaterAutosøk({ autosøk });
+        loggTogglingAvAutosøk(autosøk);
     };
 
     const skalFilterVises = (filter: Filter): boolean => {
