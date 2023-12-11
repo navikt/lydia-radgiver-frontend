@@ -7,6 +7,7 @@ import { filterverdierMock } from "../src/Pages/Prioritering/mocks/filterverdier
 import { ValgtSnittFilter } from "../src/domenetyper/filterverdier";
 
 const dummyLocalStorage: FiltervisningState = {
+    autosøk: true,
     kommuner: [
         {
             navn: "Nord-Aurdal",
