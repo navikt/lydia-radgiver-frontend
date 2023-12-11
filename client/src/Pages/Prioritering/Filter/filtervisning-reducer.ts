@@ -7,7 +7,6 @@ import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { Næringsgruppe } from "../../../domenetyper/virksomhet";
 import { Filterverdier, Sorteringsverdi, ValgtSnittFilter } from "../../../domenetyper/filterverdier";
-import { FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT } from "./Filtervisning";
 
 const næringsgruppeKoderTilNæringsgrupper = (næringsgruppeKoder: string[], næringsgrupper: Næringsgruppe[]) =>
     næringsgrupper.filter(({ kode }) => næringsgruppeKoder.includes(kode));
@@ -265,7 +264,7 @@ export interface FiltervisningState {
 }
 
 export const initialFiltervisningState: FiltervisningState = {
-    autosøk: FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT,
+    autosøk: true,
     valgtFylke: undefined,
     kommuner: [],
     næringsgrupper: [],

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BodyShort, Loader, SortState } from "@navikt/ds-react";
-import { FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT, Filtervisning } from "./Filter/Filtervisning";
+import { Filtervisning } from "./Filter/Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
 import { useFilterverdier, useHentAntallTreff, useHentVirksomhetsoversiktListe, } from "../../api/lydia-api";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
@@ -92,7 +92,7 @@ export const Prioriteringsside = () => {
     const [autosøktimer, setAutosøktimer] = useState<NodeJS.Timeout | undefined>();
 
     useEffect(() => {
-        if (!harEndringIFilterverdi && !skalSøke && filtervisning.state.autosøk && FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT) {
+        if (!harEndringIFilterverdi && !skalSøke && filtervisning.state.autosøk) {
             setGammelFilterState(filtervisning.state);
             clearTimeout(autosøktimer);
             setAutosøktimer(setTimeout(() => setSkalSøke(true), 500));

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { BodyShort, Loader } from "@navikt/ds-react";
-import { FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT, Filtervisning } from "../Prioritering/Filter/Filtervisning";
+import { Filtervisning } from "../Prioritering/Filter/Filtervisning";
 import { sammenliknFilterverdier, useFiltervisningState } from "../Prioritering/Filter/filtervisning-reducer";
 import { useFilterverdier, useHentStatusoversikt } from "../../api/lydia-api";
 import { Statusoversikt } from "../../domenetyper/statusoversikt";
@@ -62,7 +62,7 @@ export const Statusoversiktside = () => {
     const [autosøktimer, setAutosøktimer] = useState<NodeJS.Timeout | undefined>();
 
     useEffect(() => {
-        if (!harEndringIFilterverdi && !skalSøke && filtervisning.state.autosøk && FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT) {
+        if (!harEndringIFilterverdi && !skalSøke && filtervisning.state.autosøk) {
             setGammelFilterState(filtervisning.state);
             clearTimeout(autosøktimer);
             setAutosøktimer(setTimeout(() => setSkalSøke(true), 500));
