@@ -3,6 +3,7 @@ import { maskerOrgnr } from "./amplitude-klient-utils";
 import { Rolle } from "../domenetyper/brukerinformasjon";
 import { IAProsessStatusType, IASakshendelseType } from "../domenetyper/domenetyper";
 import { erSammeDato } from "./dato";
+import { tallTilFemmerintervall } from "./tallTilFemmerintervall";
 
 const amplitudeKlient: AmplitudeClient = amplitude.getInstance();
 
@@ -155,7 +156,7 @@ export const loggAntallIATjenesterPåIATjenesteoversikt = (
         aktivitetstype: "se", // navigere, utføre hendelse (knapper), filtrere/sortere, ...
         beskrivelse: "antall IA-tjenester brukeren ser i oversikten sin", // detaljerte kategorier
         //destinasjon: "", // url for navigering, kanskje api-kall for hendelser/sortering?
-        antallTreff: antallIATjenester.toString(), // antall resultat som vises, for eksempel ved sidelasting eller filtrering/sortering
+        antallTreff: tallTilFemmerintervall(antallIATjenester), // antall resultat som vises, for eksempel ved sidelasting eller filtrering/sortering
     })
 }
 
