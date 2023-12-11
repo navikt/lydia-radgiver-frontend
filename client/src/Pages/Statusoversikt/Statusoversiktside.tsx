@@ -25,7 +25,6 @@ export const Statusoversiktside = () => {
 
     const { data: filterverdier } = useFilterverdier();
     const filtervisning = useFiltervisningState();
-    const [skalBrukeAutosøk, setSkalBrukeAutosøk] = useState(FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT);
     const [gammelFilterState, setGammelFilterState] = useState(filtervisning.state);
 
     const {
@@ -63,18 +62,16 @@ export const Statusoversiktside = () => {
     const [autosøktimer, setAutosøktimer] = useState<NodeJS.Timeout | undefined>();
 
     useEffect(() => {
-        if (!harEndringIFilterverdi && !skalSøke && skalBrukeAutosøk && FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT) {
+        if (!harEndringIFilterverdi && !skalSøke && filtervisning.state.autosøk && FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT) {
             setGammelFilterState(filtervisning.state);
             clearTimeout(autosøktimer);
             setAutosøktimer(setTimeout(() => setSkalSøke(true), 500));
         }
-    }, [harEndringIFilterverdi, skalSøke, skalBrukeAutosøk]);
+    }, [harEndringIFilterverdi, skalSøke, filtervisning.state.autosøk]);
 
     return (
         <SideContainer>
             <Filtervisning
-                tillatAutosøk={skalBrukeAutosøk}
-                setTillatAutosøk={setSkalBrukeAutosøk}
                 filtervisning={filtervisning}
                 laster={validererStatusoversiktResultatFraApi || lasterStatusoversiktResultatFraApi}
                 søkPåNytt={søkPåNytt}

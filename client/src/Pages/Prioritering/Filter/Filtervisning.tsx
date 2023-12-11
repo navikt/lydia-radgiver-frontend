@@ -66,8 +66,6 @@ interface FiltervisningProps {
     søkeknappTittel?: string;
     className?: string;
     laster?: boolean,
-    tillatAutosøk?: boolean,
-    setTillatAutosøk?: (tillatAutosøk: boolean) => void,
 }
 
 export const Filtervisning = ({
@@ -77,8 +75,6 @@ export const Filtervisning = ({
     maskerteFiltre,
     søkeknappTittel,
     laster,
-    tillatAutosøk,
-    setTillatAutosøk,
 }: FiltervisningProps) => {
     const [søkeparametre] = useSearchParams();
     const {
@@ -92,6 +88,7 @@ export const Filtervisning = ({
         oppdaterSnittfilter,
         oppdaterNæringsgruppe,
         oppdaterSektorer,
+        oppdaterAutosøk,
         tilbakestill,
     } = filtervisning;
 
@@ -131,6 +128,10 @@ export const Filtervisning = ({
 
     const endreEiere = (eiere: Eier[]) => {
         oppdaterEiere({ eiere });
+    };
+
+    const endreAutosøk = (autosøk: boolean) => {
+        oppdaterAutosøk({ autosøk });
     };
 
     const skalFilterVises = (filter: Filter): boolean => {
@@ -219,7 +220,12 @@ export const Filtervisning = ({
                             Tøm filter
                         </Button>
                     }
-                    {FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT && <Checkbox checked={tillatAutosøk} onClick={() => setTillatAutosøk?.(!tillatAutosøk)}>Autosøk</Checkbox>}
+                    {FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT && <Checkbox checked={state.autosøk} onClick={
+
+                        () => {
+                            endreAutosøk(!state.autosøk);
+                        }
+                    }>Autosøk</Checkbox>}
                     <Søkeknapp size="medium" onClick={søkPåNytt} loading={laster}>
                         {søkeknappTittel ? søkeknappTittel : 'Søk'}
                     </Søkeknapp>

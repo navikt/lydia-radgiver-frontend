@@ -7,6 +7,7 @@ import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { Næringsgruppe } from "../../../domenetyper/virksomhet";
 import { Filterverdier, Sorteringsverdi, ValgtSnittFilter } from "../../../domenetyper/filterverdier";
+import { FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT } from "./Filtervisning";
 
 const næringsgruppeKoderTilNæringsgrupper = (næringsgruppeKoder: string[], næringsgrupper: Næringsgruppe[]) =>
     næringsgrupper.filter(({ kode }) => næringsgruppeKoder.includes(kode));
@@ -222,7 +223,12 @@ type OppdaterEiereAction = {
         eiere: Eier[];
     };
 };
-
+type OppdaterAutosøkAction = {
+    type: "OPPDATER_AUTOSØK";
+    payload: {
+        autosøk: boolean;
+    };
+};
 type Action =
     | EndreFylkeAction
     | EndreKommuneAction
@@ -236,9 +242,11 @@ type Action =
     | OppdaterSideAction
     | OppdaterEiereAction
     | EndrePeriodeAction
-    | SettInnFilterverdierAction;
+    | SettInnFilterverdierAction
+    | OppdaterAutosøkAction;
 
 export interface FiltervisningState {
+    autosøk?: boolean,
     readonly filterverdier?: Filterverdier;
     valgtFylke?: FylkeMedKommuner;
     kommuner: Kommune[];
@@ -257,6 +265,7 @@ export interface FiltervisningState {
 }
 
 export const initialFiltervisningState: FiltervisningState = {
+    autosøk: FEATURE_TOGGLE__FLAG_AUTOSØK__ER_AKTIVERT,
     valgtFylke: undefined,
     kommuner: [],
     næringsgrupper: [],
@@ -401,6 +410,11 @@ const endrePeriode = (state: FiltervisningState, action: EndrePeriodeAction): Fi
     periode: action.payload.periode
 });
 
+const oppdaterAutosøk = (state: FiltervisningState, action: OppdaterAutosøkAction): FiltervisningState => ({
+    ...state,
+    autosøk: action.payload.autosøk
+});
+
 const settInnFilterverdier = (state: FiltervisningState, action: SettInnFilterverdierAction): FiltervisningState => {
     return {
         ...state,
@@ -434,7 +448,9 @@ const reducer = (state: FiltervisningState, action: Action) => {
         case "ENDRE_SEKTOR":
             return endreSektor(state, action);
         case "ENDRE_PERIODE":
-            return endrePeriode(state, action)
+            return endrePeriode(state, action);
+        case "OPPDATER_AUTOSØK":
+            return oppdaterAutosøk(state, action);
         case "TILBAKESTILL":
             return { ...state, ...initialFiltervisningState };
         default: {
@@ -585,6 +601,15 @@ export const useFiltervisningState = () => {
         []
     );
 
+    const oppdaterAutosøk = useCallback(
+        (payload: OppdaterAutosøkAction["payload"]) => {
+            dispatch({
+                type: "OPPDATER_AUTOSØK",
+                payload,
+            });
+        },
+        []
+    );
     const lastData = useCallback(
         (payload: { filterverdier: Filterverdier }) => {
             if (Object.keys(gyldigeSøkeparametereIUrlen).length > 0) {
@@ -630,5 +655,6 @@ export const useFiltervisningState = () => {
         oppdaterSide,
         oppdaterEiere,
         lastData,
+        oppdaterAutosøk,
     };
 };
