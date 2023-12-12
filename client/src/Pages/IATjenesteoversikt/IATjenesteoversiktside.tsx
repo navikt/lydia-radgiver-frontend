@@ -8,10 +8,19 @@ import { hvitBoksMedSkygge } from "../../styling/containere";
 import { sorterAlfabetisk, sorterPåDatoStigende } from "../../util/sortering";
 import { contentSpacing } from "../../styling/contentSpacing";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
+import { desktopAndUp, tabletAndUp } from "../../styling/breakpoints";
 
 const Container = styled.div`
   margin-top: ${contentSpacing.mobileY};
-  padding: 3rem;
+  padding: ${contentSpacing.mobileX};
+
+  ${tabletAndUp} {
+    padding: 1.5rem;
+  }
+  
+  ${desktopAndUp} {
+    padding: 3rem;
+  }
 
   display: flex;
   flex-direction: column;
