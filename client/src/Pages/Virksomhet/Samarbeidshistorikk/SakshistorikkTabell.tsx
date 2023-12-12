@@ -37,15 +37,17 @@ export const SakshistorikkTabell = ({ sakshistorikk }: SakshistorikkTabellProps)
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     {sakSnapshot.begrunnelser.length > 0 &&
-                                        <Detail>Begrunnelse</Detail>
+                                        <>
+                                            <Detail>Begrunnelse</Detail>
+                                            <ul style={{ margin: "0" }}>
+                                                {sakSnapshot.begrunnelser.map(begrunnelse =>
+                                                    (<li key={begrunnelse}>
+                                                        <Detail>{begrunnelse}</Detail>
+                                                    </li>)
+                                                )}
+                                            </ul>
+                                        </>
                                     }
-                                    <ul style={{ margin: "0" }}>
-                                        {sakSnapshot.begrunnelser.map(begrunnelse =>
-                                            (<li key={begrunnelse}>
-                                                <Detail>{begrunnelse}</Detail>
-                                            </li>)
-                                        )}
-                                    </ul>
                                 </Table.DataCell>
                                 <Table.DataCell>
                                     <NavIdentMedLenke navIdent={sakSnapshot.eier} />
