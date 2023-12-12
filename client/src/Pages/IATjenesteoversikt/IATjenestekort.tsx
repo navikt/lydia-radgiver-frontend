@@ -44,11 +44,11 @@ export const IATjenestekort = ({ iaTjeneste }: Props) => {
                 </Link>
             </Heading>
             <Detaljer>
-                <DetaljerTittel as='dh'>IA-tjeneste:</DetaljerTittel>
+                <DetaljerTittel as='dt'>IA-tjeneste:</DetaljerTittel>
                 <BodyShort as='dd'>
                     {`${tjeneste.navn}${finskrevetModulNavn}`}
                 </BodyShort>
-                <DetaljerTittel as='dh'>Tentativ frist:</DetaljerTittel>
+                <DetaljerTittel as='dt'>Tentativ frist:</DetaljerTittel>
                 <BodyShort as='dd'>
                     {lokalDato(new Date(tentativFrist))}
                 </BodyShort>
