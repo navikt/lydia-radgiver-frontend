@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { IASakshendelseKnapp } from "./EndreStatusKnappar/IASakshendelseKnapp";
-import { IASakOversiktContainer, InfoTittel, Saksinfo } from "./IASakOversikt";
+import { IASakOversiktContainer, Saksinfotittel, Saksinfo } from "./IASakOversikt";
 import {
     opprettSak,
     useHentAktivSakForVirksomhet,
@@ -39,7 +39,7 @@ export const IngenAktiveSaker = ({orgnummer}: IngenAktiveSakerProps) => {
     return (
         <IASakOversiktContainer>
             <Saksinfo>
-                <InfoTittel>Status</InfoTittel>
+                <Saksinfotittel>Status</Saksinfotittel>
                 <StatusBadge status={IAProsessStatusEnum.enum.IKKE_AKTIV} />
             </Saksinfo>
             {brukerInformasjon?.rolle === RolleEnum.enum.Superbruker ?

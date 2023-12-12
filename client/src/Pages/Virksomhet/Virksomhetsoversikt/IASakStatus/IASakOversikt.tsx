@@ -33,7 +33,7 @@ export const Saksinfo = styled.div`
   column-gap: 3rem;
 `;
 
-export const InfoTittel = styled(BodyShort)`
+export const Saksinfotittel = styled(BodyShort)`
   font-weight: bold;
   min-width: ${44 / 16}rem;
 `;
@@ -60,15 +60,15 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => 
     return (
         <IASakOversiktContainer>
             <Saksinfo>
-                <InfoTittel>Status</InfoTittel>
+                <Saksinfotittel>Status</Saksinfotittel>
                 <StatusBadge status={sak.status} />
                 {sak.eidAv &&
                     <>
-                        <InfoTittel>Eier</InfoTittel>
+                        <Saksinfotittel>Eier</Saksinfotittel>
                         <InfoData><NavIdentMedLenke navIdent={sak.eidAv} /></InfoData>
                     </>
                 }
-                <InfoTittel>Saksnr</InfoTittel>
+                <Saksinfotittel>Saksnr</Saksinfotittel>
                 <InfoData>{sak.saksnummer}</InfoData>
             </Saksinfo>
             <SakshendelsesKnapper
