@@ -26,6 +26,14 @@ ol {
 }
 
 /*
+ * Nullstillar standardmargin for html-elementet "uordna liste" (unordered list)
+ * Nettleserstandard (chrome, 2023-12-12) er 1em i margin-block-start og -end.
+ */
+ul {
+  margin: 0;
+}
+
+/*
  * Nullstiller standard-margin for html-elementet "skildringslister" (description list)
  * Nettlesarstandard (chrome, 2023-12-05) er 1em i margin-block-start og -end.
  */

@@ -39,7 +39,7 @@ export const SakshistorikkTabell = ({ sakshistorikk }: SakshistorikkTabellProps)
                                     {sakSnapshot.begrunnelser.length > 0 &&
                                         <>
                                             <Detail>Begrunnelse</Detail>
-                                            <ul style={{ margin: "0" }}>
+                                            <ul>
                                                 {sakSnapshot.begrunnelser.map(begrunnelse =>
                                                     (<li key={begrunnelse}>
                                                         <Detail>{begrunnelse}</Detail>
