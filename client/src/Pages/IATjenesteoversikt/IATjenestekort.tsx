@@ -21,8 +21,12 @@ const Detaljer = styled.dl`
   column-gap: 1.5rem;
 `;
 
-const DetaljerTittel = styled(BodyShort)`
+const DetaljerTittel = styled(BodyShort).attrs({as: "dt"})`
   font-weight: bold;
+`;
+
+const DetaljerData = styled(BodyShort).attrs({as: "dd"})`
+  overflow-wrap: anywhere;
 `;
 
 interface Props {
@@ -44,14 +48,14 @@ export const IATjenestekort = ({ iaTjeneste }: Props) => {
                 </Link>
             </Heading>
             <Detaljer>
-                <DetaljerTittel as='dt'>IA-tjeneste:</DetaljerTittel>
-                <BodyShort as='dd'>
+                <DetaljerTittel>IA-tjeneste:</DetaljerTittel>
+                <DetaljerData>
                     {`${tjeneste.navn}${finskrevetModulNavn}`}
-                </BodyShort>
-                <DetaljerTittel as='dt'>Tentativ frist:</DetaljerTittel>
-                <BodyShort as='dd'>
+                </DetaljerData>
+                <DetaljerTittel>Tentativ frist:</DetaljerTittel>
+                <DetaljerData>
                     {lokalDato(new Date(tentativFrist))}
-                </BodyShort>
+                </DetaljerData>
             </Detaljer>
         </Container>
     );
