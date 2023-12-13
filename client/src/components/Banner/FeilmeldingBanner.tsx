@@ -47,7 +47,7 @@ export const FeilmeldingBanner = () => {
 
     return synlig
         ? (
-            <BannerMedLukkeknapp variant="error">
+            <BannerMedLukkeknapp variant="error" role="alert">
                 {melding}
             </BannerMedLukkeknapp>
         )
