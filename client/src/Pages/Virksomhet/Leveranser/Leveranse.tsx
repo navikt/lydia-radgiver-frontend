@@ -100,9 +100,13 @@ export const Leveranse = ({ leveranse, iaSak }: Props) => {
             <DataCellNoWrap>{`Tentativ frist: ${lokalDato(leveranse.frist)}`}</DataCellNoWrap>
             {(brukerMedLesetilgang || !sakenErIViBistår) ? null :
                 <Table.DataCell>
-                    <LevertKnapp onClick={vedMerkLeveranseSomLevert} disabled={erLevert || !brukerErEierAvSak} size="small">
-                        Levert
-                    </LevertKnapp>
+                    {
+                      erLevert || !brukerErEierAvSak ? 
+                        null : 
+                        <LevertKnapp onClick={vedMerkLeveranseSomLevert} size="small">
+                          Lever
+                        </LevertKnapp>
+                    }
                 </Table.DataCell>
             }
             <DataCellNoWrap>
