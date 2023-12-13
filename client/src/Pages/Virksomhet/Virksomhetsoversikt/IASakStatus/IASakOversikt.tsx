@@ -61,7 +61,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => 
         <IASakOversiktContainer>
             <Saksinfo>
                 <Saksinfotittel>Status</Saksinfotittel>
-                <StatusBadge status={sak.status} />
+                <StatusBadge ariaLive="polite" ariaLabel="Status" status={sak.status} />
                 {sak.eidAv &&
                     <>
                         <Saksinfotittel>Eier</Saksinfotittel>

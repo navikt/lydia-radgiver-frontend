@@ -40,7 +40,7 @@ export const IngenAktiveSaker = ({orgnummer}: IngenAktiveSakerProps) => {
         <IASakOversiktContainer>
             <Saksinfo>
                 <Saksinfotittel>Status</Saksinfotittel>
-                <StatusBadge status={IAProsessStatusEnum.enum.IKKE_AKTIV} />
+                <StatusBadge ariaLabel="Status" ariaLive="polite" status={IAProsessStatusEnum.enum.IKKE_AKTIV} />
             </Saksinfo>
             {brukerInformasjon?.rolle === RolleEnum.enum.Superbruker ?
                 <VurderesKnappContainer>

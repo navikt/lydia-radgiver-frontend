@@ -47,5 +47,5 @@ export function penskrivIAStatus(status: IAProsessStatusType): string {
     }
 }
 
-export const StatusBadge = ({status}: { status: IAProsessStatusType }) =>
-    <Badge backgroundColor={hentBakgrunnsFargeForIAStatus(status)}>{penskrivIAStatus(status)}</Badge>
+export const StatusBadge = ({ status, ariaLive, ariaLabel }: { status: IAProsessStatusType, ariaLive?: "off" | "polite" | "assertive", ariaLabel?: string }) =>
+    <Badge backgroundColor={hentBakgrunnsFargeForIAStatus(status)} ariaLive={ariaLive} ariaLabel={ariaLabel}>{penskrivIAStatus(status)}</Badge>
