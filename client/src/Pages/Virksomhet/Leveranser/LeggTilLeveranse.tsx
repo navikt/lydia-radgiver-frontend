@@ -10,7 +10,7 @@ import {
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import { IATjeneste } from "../../../domenetyper/leveranse";
+import { IATjeneste, LeveranserPerIATjeneste } from "../../../domenetyper/leveranse";
 import { RolleEnum } from "../../../domenetyper/brukerinformasjon";
 import { loggLeveranseFristKategori } from "../../../util/amplitude-klient";
 import { finnAktivModulFraIATjeneste } from "./finnAktivModulFraIATjeneste";
@@ -36,9 +36,10 @@ const LeggTilKnapp = styled(Button)`
 
 interface Props {
     iaSak: IASak;
+    leveranserPerIATjeneste?: LeveranserPerIATjeneste[];
 }
 
-export const LeggTilLeveranse = ({ iaSak }: Props) => {
+export const LeggTilLeveranse = ({ iaSak, leveranserPerIATjeneste }: Props) => {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
     const brukerMedLesetilgang = brukerInformasjon?.rolle === RolleEnum.enum.Lesetilgang;
@@ -47,8 +48,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
         return null;
     }
 
-    const [forTidlig, setForTidlig] = useState<boolean>();
-    const [ugyldig, setUgyldig] = useState<boolean>();
+    const [ugyldigDate, setUgyldigDate] = useState<boolean>();
 
     const {
         data: iaTjenester,
@@ -58,19 +58,20 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
         data: moduler,
     } = useHentModuler();
     const [valgtIATjeneste, setValgtIATjeneste] = useState("");
+    const [feiletForsøk, setFeiletForsøk] = useState(false);
+    const ugyldigIATjeneste = valgtIATjeneste === "" || valgtIATjeneste === undefined || valgtIATjeneste === null;
     const { mutate: hentLeveranserPåNytt } = useHentLeveranser(iaSak.orgnr, iaSak.saksnummer)
     const { mutate: hentSakPåNytt } = useHentAktivSakForVirksomhet(iaSak.orgnr)
 
 
+
     const { datepickerProps, inputProps, selectedDay } = useDatepicker({
         onValidate: (val) => {
-            if (val.isBefore) setForTidlig(true);
-            else setForTidlig(false);
             if (val.isEmpty) {
-                setUgyldig(false);
+                setUgyldigDate(false);
             } else {
-                if (val.isWeekend === undefined) setUgyldig(true);
-                else setUgyldig(false);
+                if (val.isWeekend === undefined) setUgyldigDate(true);
+                else setUgyldigDate(false);
             }
         },
     });
@@ -81,6 +82,7 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
 
     const leggTilLeveranse = () => {
         if (valgtIATjeneste === "" || !selectedDay || !moduler) {
+            setFeiletForsøk(true);
             return;
         }
 
@@ -93,9 +95,29 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
             .then(() => {
                 hentLeveranserPåNytt()
                 hentSakPåNytt()
+                setFeiletForsøk(false);
+                setValgtIATjeneste("");
             })
         loggLeveranseFristKategori(selectedDay)
     }
+
+    const filterBrukteIATjenester = (tjeneste: IATjeneste) => {
+        if (moduler) {
+            const modul = finnAktivModulFraIATjeneste(`${tjeneste.id}`, moduler);
+
+            const indexOfLevertTjeneste = leveranserPerIATjeneste?.findIndex((leveranse) => {
+                return leveranse.iaTjeneste.id === modul?.iaTjeneste
+            });
+
+            if (indexOfLevertTjeneste !== -1) {
+                return false;
+            }
+
+            return true;
+        }
+
+        return false;
+    };
 
     return (
         <div>
@@ -106,30 +128,29 @@ export const LeggTilLeveranse = ({ iaSak }: Props) => {
 
             <Form onSubmit={(e) => e.preventDefault()}>
                 <Select label="IA-tjeneste"
-                        value={valgtIATjeneste}
-                        onChange={endreValgtIATjeneste}
-                        disabled={!brukerErEierAvSak}
+                    value={valgtIATjeneste}
+                    onChange={endreValgtIATjeneste}
+                    error={ugyldigIATjeneste && feiletForsøk ? "Du må velge en IA-tjeneste" : undefined}
                 >
                     <option value="">{lasterIATjenester && "Laster IA-tjenester..."}</option>
-                    {iaTjenester?.sort(iatjenesterStigendeEtterId).map((tjeneste) =>
+                    {iaTjenester?.sort(iatjenesterStigendeEtterId).filter(filterBrukteIATjenester).map((tjeneste) =>
                         <option value={tjeneste.id} key={tjeneste.id}>{tjeneste.navn}</option>
                     )}
                 </Select>
                 <DatePicker {...datepickerProps}>
                     <DatePicker.Input {...inputProps}
-                                      label="Tentativ frist"
-                                      error={
-                                          (ugyldig &&
-                                              "Dette er ikke en gyldig dato. Gyldig format er DD.MM.ÅÅÅÅ") ||
-                                          (forTidlig && "Frist kan tidligst være idag")
-                                      }
-                                      disabled={!brukerErEierAvSak}
+                        label="Tentativ frist"
+                        error={
+                            (ugyldigDate &&
+                                <>Dette er ikke en gyldig dato.<br />Gyldig format er DD.MM.ÅÅÅÅ</>) || (
+                                (!selectedDay && feiletForsøk && "Du må velge en dato")
+                            )
+                        }
+                        disabled={!brukerErEierAvSak}
                     />
 
                 </DatePicker>
-                <LeggTilKnapp onClick={leggTilLeveranse}
-                              disabled={!brukerErEierAvSak || valgtIATjeneste === "" || !selectedDay}
-                >
+                <LeggTilKnapp onClick={leggTilLeveranse}>
                     Legg til
                 </LeggTilKnapp>
             </Form>

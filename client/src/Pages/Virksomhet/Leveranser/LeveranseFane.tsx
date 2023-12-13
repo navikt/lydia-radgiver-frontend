@@ -6,6 +6,7 @@ import { LeveranseOversikt } from "./LeveranseOversikt";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { EksternLenke } from "../../../components/EksternLenke";
 import { EksternNavigeringKategorier, loggNavigeringMedEksternLenke } from "../../../util/amplitude-klient";
+import { useHentLeveranser } from "../../../api/lydia-api";
 
 const Container = styled.div`
   height: 100%;
@@ -23,6 +24,11 @@ interface Props {
 export const LeveranseFane = ({ iaSak }: Props) => {
     const sakenErIViBistår = iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR;
 
+    const {
+        data: leveranserPerIATjeneste,
+        loading: lasterLeveranserPerIATjeneste
+    } = useHentLeveranser(iaSak.orgnr, iaSak.saksnummer);
+
     return (
         <Container>
             <div>
@@ -39,9 +45,14 @@ export const LeveranseFane = ({ iaSak }: Props) => {
                 </EksternLenke>.
                 </BodyShort>
             </div>
-            <LeveranseOversikt iaSak={iaSak} />
+            <LeveranseOversikt
+                iaSak={iaSak}
+                leveranserPerIATjeneste={leveranserPerIATjeneste}
+                lasterLeveranserPerIATjeneste={lasterLeveranserPerIATjeneste} />
             {sakenErIViBistår &&
-                <LeggTilLeveranse iaSak={iaSak} />
+                <LeggTilLeveranse
+                    iaSak={iaSak}
+                    leveranserPerIATjeneste={leveranserPerIATjeneste} />
             }
         </Container>
     )
