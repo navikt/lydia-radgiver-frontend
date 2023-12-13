@@ -105,12 +105,16 @@ export const LeggTilLeveranse = ({ iaSak, leveranserPerIATjeneste }: Props) => {
         if (moduler) {
             const modul = finnAktivModulFraIATjeneste(`${tjeneste.id}`, moduler);
 
-            const indexOfLevertTjeneste = leveranserPerIATjeneste?.findIndex((leveranse) => {
-                return leveranse.iaTjeneste.id === modul?.iaTjeneste
-            });
+            for (let leveranseIndex = 0; leveranserPerIATjeneste && leveranseIndex < leveranserPerIATjeneste.length; leveranseIndex++) {
+                const leveranse = leveranserPerIATjeneste[leveranseIndex];
 
-            if (indexOfLevertTjeneste !== -1) {
-                return false;
+                for (let index = 0; index < leveranse.leveranser.length; index++) {
+                    const leveransemodul = leveranse.leveranser[index].modul;
+
+                    if (leveransemodul.id === modul?.id) {
+                        return false;
+                    }
+                }
             }
 
             return true;
