@@ -125,7 +125,7 @@ export const LeggTilLeveranse = ({ iaSak, leveranserPerIATjeneste }: Props) => {
 
     return (
         <div>
-            <Heading size="small">Legg til ny IA-tjeneste</Heading>
+            <Heading level="4" size="small">Legg til ny IA-tjeneste</Heading>
             {!brukerErEierAvSak &&
                 <BodyShort spacing={true}>Du må være eier av saken for å kunne legge til IA-tjenester</BodyShort>
             }
