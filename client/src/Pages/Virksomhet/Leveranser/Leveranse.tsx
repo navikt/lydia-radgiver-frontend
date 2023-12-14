@@ -15,13 +15,21 @@ import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { useState } from "react";
 import { RolleEnum } from "../../../domenetyper/brukerinformasjon";
+import { tabletAndUp } from "../../../styling/breakpoints";
 
 const Container = styled.li`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  flex-direction: column;
   --ia-tjeneste-rad-gap: 2rem; // CSS-variabel slik at avstanden mellom knappar vert den same som mellom andre ting
-  gap: var(--ia-tjeneste-rad-gap);
+  column-gap: var(--ia-tjeneste-rad-gap);
+  row-gap: 0.5rem;
+
+  // Viser leveranse som rad på større skjermar
+  ${tabletAndUp} {
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+  }
 
   // Etterliknar stylinga til tabell-rader
   padding: ${12 / 16}rem;
@@ -39,11 +47,25 @@ const Modulnavn = styled(BodyShort)`
 
 const Dato = styled(BodyShort)`
   flex-basis: fit-content;
+
+  /* Innrykk på små skjermar 
+   * slik at det er lettare for lesaren å skilje modulnamn frå datoar */
+  padding-left: 1rem;
+
+  ${tabletAndUp} {
+    padding-left: 0;
+  }
 `;
 
 const KnappeContainer = styled.div`
   display: flex;
   gap: var(--ia-tjeneste-rad-gap);
+  
+  align-self: end;
+  
+  ${tabletAndUp} {
+    align-self: auto; // bruk forelder sin align-items
+  }
 `;
 
 const LevertKnapp = styled(Button)`
