@@ -1,9 +1,21 @@
-import { Heading, Table } from "@navikt/ds-react";
-import { LeveranserPerIATjeneste } from "../../../domenetyper/leveranse";
+import styled from "styled-components";
+import { Heading } from "@navikt/ds-react";
+import { Leveranse as LeveranseType, LeveranserPerIATjeneste } from "../../../domenetyper/leveranse";
 import { Leveranse } from "./Leveranse";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { Leveranse as LeveranseType } from "../../../domenetyper/leveranse";
 import { sorterAlfabetisk } from "../../../util/sortering";
+
+const IATjenestenavn = styled(Heading)`
+  // Etterliknar stylinga til tabell-rader
+  padding: ${12 / 16}rem;
+`;
+
+const LeveranseListe = styled.ol`
+  list-style: none;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+`;
 
 interface Props {
     iaTjenesteMedLeveranser: LeveranserPerIATjeneste;
@@ -16,23 +28,18 @@ export const IATjeneste = ({ iaTjenesteMedLeveranser, iaSak }: Props) => {
     }
 
     return (
-        <Table>
-            <Table.Header>
-                <Table.Row>
-                    <Table.HeaderCell colSpan={5}>
-                        <Heading size="xsmall">{iaTjenesteMedLeveranser.iaTjeneste.navn}</Heading>
-                    </Table.HeaderCell>
-                </Table.Row>
-            </Table.Header>
-            <Table.Body>
+        <div>
+            <IATjenestenavn level="4" size="xsmall">{iaTjenesteMedLeveranser.iaTjeneste.navn}</IATjenestenavn>
+            <LeveranseListe>
                 {
                     iaTjenesteMedLeveranser.leveranser
                         .sort(leveranseStigendeEtterFrist)
                         .map((leveranse) =>
-                            <Leveranse leveranse={leveranse} iaSak={iaSak} key={leveranse.id} />)
+                            <Leveranse leveranse={leveranse} iaSak={iaSak} key={leveranse.id} />
+                        )
                 }
-            </Table.Body>
-        </Table>
+            </LeveranseListe>
+        </div>
     )
 }
 
