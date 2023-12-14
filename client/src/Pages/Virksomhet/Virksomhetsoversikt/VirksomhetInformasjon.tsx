@@ -13,14 +13,22 @@ const Container = styled.div`
   padding: 1.5rem;
   border: 1px solid ${NavFarger.borderMuted};
   border-radius: ${BorderRadius.medium};
+  
+  container-type: inline-size; // Gjer det mogleg å style andre element basert på breidda til denne komponenten
 `;
 
 const Info = styled.dl`
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: repeat(auto-fill, auto);
-  row-gap: 0.5rem;
-  column-gap: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  
+  // Om virksomhetsinfo-boksen er over 400px-i-rem brei
+  @container (min-width: ${400 / 16}rem) {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: repeat(auto-fill, auto);
+    row-gap: 0.5rem;
+    column-gap: 1.5rem;
+  }
 `;
 
 const InfoTittel = styled(BodyShort).attrs({ as: "dt" })`
@@ -29,6 +37,13 @@ const InfoTittel = styled(BodyShort).attrs({ as: "dt" })`
 
 const InfoData = styled(BodyShort).attrs({ as: "dd" })`
   overflow-wrap: anywhere;
+  
+  // Gjer at det blir avstand mellom ulike info-element når virksomhetsinfo-boksen er liten
+  margin-bottom: 0.5rem;
+
+  @container (min-width: 400px) {
+    margin-bottom: 0;
+  }
 `;
 
 const SalesforceLenke = styled(EksternLenke)`
