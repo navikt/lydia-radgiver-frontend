@@ -59,12 +59,12 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                     minWidth: "16rem",
                     width: "25%",
                 }} />
-                {brukerInformasjon && (
-                    <Brukerinformasjon
-                        name={brukerInformasjon.navn}
-                        description={brukerInformasjon.ident}
-                    />
-                )}
+
+
+                <Brukerinformasjon
+                    name={brukerInformasjon.navn}
+                    description={brukerInformasjon.ident}
+                />
             </InternalHeader>
             <SesjonBanner tokenUtløper={brukerInformasjon.tokenUtløper} />
             <NyStatistikkPubliseresBanner />
