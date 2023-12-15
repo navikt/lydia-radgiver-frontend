@@ -51,7 +51,7 @@ const AppContent = () => {
     return <>
         <Dekoratør brukerInformasjon={brukerInformasjon} />
         <FeilmeldingBanner />
-        <AppRamme>
+        <AppRamme id="maincontent">
             <Routes>
                 <Route
                     path={"/"}

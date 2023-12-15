@@ -7,6 +7,35 @@ import { SesjonBanner } from "../Banner/SesjonBanner";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 import { mobileAndUp, tabletAndUp } from "../../styling/breakpoints";
 
+// Stylinga her er tatt fra navikt/nav-dekoratøren (15.12.2023)
+const TilHovedinnhold = styled.a`
+  clip: rect(0 0 0 0);
+  border: 0;
+  height: 1px;
+  margin: -1px;
+  overflow: hidden;
+  padding: 0;
+  position: absolute;
+  width: 1px;
+  z-index: 1001;
+
+  &:focus {
+    clip: auto;
+    height: 2.625rem;
+    margin: 0;
+    overflow: visible;
+    padding: 0.8rem;
+    position: absolute;
+    width: auto;
+
+    background-color: var(--a-border-focus);
+    box-shadow: 0 0 0 2px var(--a-border-focus);
+    color: #fff;
+    outline: none;
+    text-decoration: none;
+  }
+`;
+
 const StyledInternalHeader = styled(InternalHeader)`
   min-height: unset; // Motvirkar "min-height: 3rem" frå designsystemet som gjer at boksen ikkje får bakgrunn på alt når den wrapper
 
@@ -81,6 +110,7 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
         <>
             <StyledInternalHeader className="w-full" data-theme="light">
                 <Navigasjon>
+                    <TilHovedinnhold href="#maincontent">Hopp til hovedinnhold</TilHovedinnhold>
                     <Navigasjonslenke href="/" title="Gå til søkesiden">
                         <InternalHeader.Title as="h1">Fia</InternalHeader.Title>
                     </Navigasjonslenke>
