@@ -4,7 +4,7 @@ import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../../../domenet
 import { StyledModal } from "../../../../components/Modal/StyledModal";
 import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
 
-const hentÅrsakFraÅrsakType = (type: string, {gyldigeÅrsaker}: GyldigNesteHendelse) => {
+const hentÅrsakFraÅrsakType = (type: string, { gyldigeÅrsaker }: GyldigNesteHendelse) => {
     return gyldigeÅrsaker.find((årsak) => årsak.type === type);
 };
 
@@ -15,7 +15,7 @@ interface BegrunnelseModalProps {
     onClose: () => void;
 }
 
-export const BegrunnelseModal = ({hendelse, åpen, onClose, lagre}: BegrunnelseModalProps) => {
+export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: BegrunnelseModalProps) => {
     const [valgtÅrsak, setValgtÅrsak] = useState<Årsak | undefined>(() => {
         return hendelse.gyldigeÅrsaker.length
             ? hendelse.gyldigeÅrsaker[0]
@@ -27,51 +27,53 @@ export const BegrunnelseModal = ({hendelse, åpen, onClose, lagre}: BegrunnelseM
     const begrunnelserCheckboxId = "begrunnelser-checkbox"
 
     return (
-        <StyledModal header={{heading: 'Er du sikker på at du vil sette saken til "Ikke aktuell"?'}}
+        <StyledModal header={{ heading: 'Er du sikker på at du vil sette saken til "Ikke aktuell"?' }}
                      open={åpen}
                      onClose={onClose}
         >
             <Modal.Body>
-                <Select
-                    label="Begrunnelse for at samarbeid ikke er aktuelt:"
-                    onChange={(e) => {
-                        setValgtÅrsak(hentÅrsakFraÅrsakType(e.target.value, hendelse));
-                        setValgteBegrunnelser([]);
-                    }}
-                    value={valgtÅrsak?.type}
-                >
-                    {hendelse.gyldigeÅrsaker.map((årsak) => (
-                        <option key={årsak.type} value={årsak.type}>
-                            {årsak.navn}
-                        </option>
-                    ))}
-                </Select>
-                <br />
-                <CheckboxGroup
-                    size="medium"
-                    id={begrunnelserCheckboxId}
-                    legend="Velg en eller flere begrunnelser"
-                    hideLegend
-                    value={valgteBegrunnelser}
-                    onChange={(v) => {
-                        setValgteBegrunnelser(v)
-                        setValideringsfeil([])
-                    }}
-                >
-                    {valgtÅrsak?.begrunnelser.map((begrunnelse) => (
-                        <Checkbox value={begrunnelse.type} key={begrunnelse.type}>
-                            {begrunnelse.navn}
-                        </Checkbox>
-                    ))}
-                </CheckboxGroup>
-                {valideringsfeil.length > 0 &&
-                    <ErrorSummary style={{marginTop: "1rem"}}>
-                        {valideringsfeil.map(feil =>
-                            (<ErrorSummary.Item key={feil} href={`#${begrunnelserCheckboxId}`}>
-                                {feil}
-                            </ErrorSummary.Item>)
-                        )}
-                    </ErrorSummary>}
+                <form onSubmit={(e) => e.preventDefault()}>
+                    <Select
+                        label="Begrunnelse for at samarbeid ikke er aktuelt:"
+                        onChange={(e) => {
+                            setValgtÅrsak(hentÅrsakFraÅrsakType(e.target.value, hendelse));
+                            setValgteBegrunnelser([]);
+                        }}
+                        value={valgtÅrsak?.type}
+                    >
+                        {hendelse.gyldigeÅrsaker.map((årsak) => (
+                            <option key={årsak.type} value={årsak.type}>
+                                {årsak.navn}
+                            </option>
+                        ))}
+                    </Select>
+                    <br />
+                    <CheckboxGroup
+                        size="medium"
+                        id={begrunnelserCheckboxId}
+                        legend="Velg en eller flere begrunnelser"
+                        hideLegend
+                        value={valgteBegrunnelser}
+                        onChange={(v) => {
+                            setValgteBegrunnelser(v)
+                            setValideringsfeil([])
+                        }}
+                    >
+                        {valgtÅrsak?.begrunnelser.map((begrunnelse) => (
+                            <Checkbox value={begrunnelse.type} key={begrunnelse.type}>
+                                {begrunnelse.navn}
+                            </Checkbox>
+                        ))}
+                    </CheckboxGroup>
+                    {valideringsfeil.length > 0 &&
+                        <ErrorSummary style={{ marginTop: "1rem" }}>
+                            {valideringsfeil.map(feil =>
+                                (<ErrorSummary.Item key={feil} href={`#${begrunnelserCheckboxId}`}>
+                                    {feil}
+                                </ErrorSummary.Item>)
+                            )}
+                        </ErrorSummary>}
+                </form>
                 <ModalKnapper>
                     <Button
                         onClick={() => {
