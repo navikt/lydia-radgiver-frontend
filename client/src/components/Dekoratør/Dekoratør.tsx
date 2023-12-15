@@ -5,18 +5,39 @@ import { NavFarger } from "../../styling/farger";
 import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/brukerinformasjon";
 import { SesjonBanner } from "../Banner/SesjonBanner";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
+import { mobileAndUp, tabletAndUp } from "../../styling/breakpoints";
 
-const DemoversjonTekst = styled(BodyShort)<{ hidden: boolean }>`
-  display: ${(props) => props.hidden ? "none" : "flex"};
-  align-items: center;
-  padding: 0 1.5rem;
-  color: ${NavFarger.white};
-  background: ${NavFarger.red500};
+const StyledInternalHeader = styled(InternalHeader)`
+  min-height: unset; // Motvirkar "min-height: 3rem" frå designsystemet som gjer at boksen ikkje får bakgrunn på alt når den wrapper
+
+  flex-wrap: wrap;
+  flex-direction: column;
+
+  ${mobileAndUp} { // Alt utanom pittesmå skjermar
+    flex-direction: row;
+  }
 `;
 
 const Navigasjon = styled.nav`
-  align-self: center;
-  margin-right: auto; // dyttar søkefeltet inn til midten
+  display: flex;
+  flex-direction: column;
+  align-items: start;
+
+  ${tabletAndUp} {
+    flex-direction: row;
+    align-items: center;
+  }
+`;
+
+const DemoversjonTekst = styled(BodyShort)<{ hidden: boolean }>`
+  display: ${(props) => props.hidden ? "none" : "flex"};
+  justify-content: center;
+  align-items: center;
+
+  padding: 0 1.5rem;
+
+  color: ${NavFarger.white};
+  background: ${NavFarger.red500};
 `;
 
 const Navigasjonslenke = styled(Link)`
@@ -28,21 +49,37 @@ const Navigasjonslenke = styled(Link)`
   }
 `;
 
+const SøkOgBrukerinfoContainer = styled.div`
+  flex: 1;
+
+  display: flex;
+`;
+
+const Virksomhetssøk = styled(Søkefelt)`
+  min-width: 16rem;
+  width: 25%;
+
+  align-self: center;
+
+  /* Sentrerer søkeboks i det ledig området */
+  margin-left: auto;
+  margin-right: auto;
+`;
+
 const Brukerinformasjon = styled(InternalHeader.User)`
-  margin-left: auto; // dyttar søkefeltet inn til midten
   color: ${NavFarger.white}
 `;
+
+export const erIDev = ["localhost", "fia.intern.dev.nav.no"].includes(window.location.hostname)
 
 interface Props {
     brukerInformasjon: BrukerinformasjonType;
 }
 
-export const erIDev = ["localhost", "fia.intern.dev.nav.no"].includes(window.location.hostname)
-
 export const Dekoratør = ({ brukerInformasjon }: Props) => {
     return (
         <>
-            <InternalHeader className="w-full" data-theme="light">
+            <StyledInternalHeader className="w-full" data-theme="light">
                 <Navigasjon>
                     <Navigasjonslenke href="/" title="Gå til søkesiden">
                         <InternalHeader.Title as="h1">Fia</InternalHeader.Title>
@@ -55,17 +92,11 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                     </Navigasjonslenke>
                 </Navigasjon>
                 <DemoversjonTekst hidden={!erIDev}>Demoutgave</DemoversjonTekst>
-                <Søkefelt style={{
-                    minWidth: "16rem",
-                    width: "25%",
-                }} />
-
-
-                <Brukerinformasjon
-                    name={brukerInformasjon.navn}
-                    description={brukerInformasjon.ident}
-                />
-            </InternalHeader>
+                <SøkOgBrukerinfoContainer>
+                    <Virksomhetssøk />
+                    <Brukerinformasjon name={brukerInformasjon.navn} description={brukerInformasjon.ident} />
+                </SøkOgBrukerinfoContainer>
+            </StyledInternalHeader>
             <SesjonBanner tokenUtløper={brukerInformasjon.tokenUtløper} />
             <NyStatistikkPubliseresBanner />
         </>

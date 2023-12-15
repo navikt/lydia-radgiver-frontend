@@ -7,10 +7,11 @@ import { EksternLenke } from "../EksternLenke";
 import { loggSøkPåVirksomhet } from "../../util/amplitude-klient";
 
 interface Props {
-    style?: CSSProperties
+    className?: string;
+    style?: CSSProperties;
 }
 
-export const Søkefelt = ({ style }: Props) => {
+export const Søkefelt = ({ style, className }: Props) => {
     const searchRef = useRef<HTMLDivElement | null>(null)
     const [firmaer, setFirmaer] = useState<VirksomhetSøkeresultat[]>([])
     const [søkestreng, setSøkestreng] = useState("")
@@ -30,7 +31,7 @@ export const Søkefelt = ({ style }: Props) => {
     }, [faktiskSøkestreng])
 
     return (
-        <div style={style}>
+        <div style={style} className={className}>
             <Search
                 placeholder="Søk etter virksomhet"
                 ref={searchRef}
