@@ -459,8 +459,31 @@ const reducer = (state: FiltervisningState, action: Action) => {
     }
 };
 
+const storedReducer = (state: FiltervisningState, action: Action) => {
+    const newState = reducer(state, action);
+    
+    if (action.type === "TILBAKESTILL") {
+        window.localStorage.removeItem("lokalFiltervisningState");
+
+    } else if (action.type !== "SETT_INN_FILTERVERDIER") {
+        oppdaterLagretSøk(newState);
+    }
+    return newState;
+};
+
+function oppdaterLagretSøk(state: FiltervisningState) {
+    window.localStorage.setItem("lokalFiltervisningState", JSON.stringify({
+        ...state,
+        filterverdier: undefined,
+        sorteringsnokkel: undefined,
+        sorteringsretning: undefined,
+        periode: undefined,
+        side: initialFiltervisningState.side
+    }));
+}
+
 export const useFiltervisningState = () => {
-    const [state, dispatch] = useReducer(reducer, initialFiltervisningState);
+    const [state, dispatch] = useReducer(storedReducer, initialFiltervisningState);
     const [search, setSearch] = useSearchParams();
 
     useEffect(() => {
@@ -468,18 +491,6 @@ export const useFiltervisningState = () => {
         setSearch(searchParams, {
             replace: true,
         });
-
-        if (searchParams.toString().length > 0) {
-            window.localStorage.setItem("lokalFiltervisningState", JSON.stringify({
-                ...state,
-                filterverdier: undefined,
-                sorteringsnokkel: undefined,
-                sorteringsretning: undefined,
-                periode: undefined,
-                side: initialFiltervisningState.side
-            }));
-        }
-
     }, [state]);
 
     const gyldigeSøkeparametereIUrlen: Søkeparametere = parametere.reduce(
@@ -574,7 +585,6 @@ export const useFiltervisningState = () => {
         }, [])
 
     const tilbakestill = useCallback(() => {
-        window.localStorage.removeItem("lokalFiltervisningState");
         dispatch({
             type: "TILBAKESTILL",
         });
