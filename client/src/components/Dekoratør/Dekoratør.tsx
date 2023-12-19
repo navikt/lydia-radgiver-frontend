@@ -99,7 +99,7 @@ const Brukerinformasjon = styled(InternalHeader.User)`
   color: ${NavFarger.white}
 `;
 
-export const erIDev = ["localhost", "fia.intern.dev.nav.no"].includes(window.location.hostname)
+export const erIDev = ["localhost", "fia.intern.dev.nav.no", "fia.ekstern.dev.nav.no"].includes(window.location.hostname)
 
 interface Props {
     brukerInformasjon: BrukerinformasjonType;
