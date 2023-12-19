@@ -4,6 +4,7 @@ import { lokalDato } from "../../../util/dato";
 import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
 import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 import { StyledTable } from "../../../components/StyledTable";
+import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 
 interface SakshistorikkTabellProps {
     sakshistorikk: Sakshistorikk;
@@ -15,48 +16,50 @@ export const SakshistorikkTabell = ({ sakshistorikk }: SakshistorikkTabellProps)
     return (
         <>
             <h3>Sakshistorikk</h3>
-            <StyledTable>
-                <Table.Header>
-                    <Table.Row>
-                        {kolonneNavn.map((navn) => (
-                            <Table.HeaderCell scope="col" key={navn}>
-                                {navn}
-                            </Table.HeaderCell>
-                        ))}
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {sakshistorikk.sakshendelser.map((sakSnapshot, index) => {
-                        return (
-                            <Table.Row key={index}>
-                                <Table.DataCell>
-                                    <StatusBadge status={sakSnapshot.status} />
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {lokalDato(sakSnapshot.tidspunktForSnapshot)}
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    {sakSnapshot.begrunnelser.length > 0 &&
-                                        <>
-                                            <Detail>Begrunnelse</Detail>
-                                            <ul>
-                                                {sakSnapshot.begrunnelser.map(begrunnelse =>
-                                                    (<li key={begrunnelse}>
-                                                        <Detail>{begrunnelse}</Detail>
-                                                    </li>)
-                                                )}
-                                            </ul>
-                                        </>
-                                    }
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    <NavIdentMedLenke navIdent={sakSnapshot.eier} />
-                                </Table.DataCell>
-                            </Table.Row>
-                        );
-                    })}
-                </Table.Body>
-            </StyledTable>
+            <ScrollUtTilKantenContainer $offsetLeft={1.5 + 2.75} $offsetRight={1.5 + 0.75}>
+                <StyledTable>
+                    <Table.Header>
+                        <Table.Row>
+                            {kolonneNavn.map((navn) => (
+                                <Table.HeaderCell scope="col" key={navn}>
+                                    {navn}
+                                </Table.HeaderCell>
+                            ))}
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {sakshistorikk.sakshendelser.map((sakSnapshot, index) => {
+                            return (
+                                <Table.Row key={index}>
+                                    <Table.DataCell>
+                                        <StatusBadge status={sakSnapshot.status} />
+                                    </Table.DataCell>
+                                    <Table.DataCell>
+                                        {lokalDato(sakSnapshot.tidspunktForSnapshot)}
+                                    </Table.DataCell>
+                                    <Table.DataCell>
+                                        {sakSnapshot.begrunnelser.length > 0 &&
+                                            <>
+                                                <Detail>Begrunnelse</Detail>
+                                                <ul>
+                                                    {sakSnapshot.begrunnelser.map(begrunnelse =>
+                                                        (<li key={begrunnelse}>
+                                                            <Detail>{begrunnelse}</Detail>
+                                                        </li>)
+                                                    )}
+                                                </ul>
+                                            </>
+                                        }
+                                    </Table.DataCell>
+                                    <Table.DataCell>
+                                        <NavIdentMedLenke navIdent={sakSnapshot.eier} />
+                                    </Table.DataCell>
+                                </Table.Row>
+                            );
+                        })}
+                    </Table.Body>
+                </StyledTable>
+            </ScrollUtTilKantenContainer>
         </>
     );
 };
