@@ -16,9 +16,20 @@ const Container = styled.div`
 
 const FlexContainer = styled.div`
   display: flex;
-  flex-direction: row;
   justify-content: space-between;
   align-items: flex-end;
+  flex-wrap: wrap;
+  gap: 1rem;
+`;
+
+const GraphOrTableSwitch = styled(ToggleGroup)`
+  margin-left: auto;
+  flex-shrink: 0;
+`;
+
+const HeadingContainer = styled.div`
+  flex-grow: 1;
+  width: 20rem;
 `;
 
 interface HistoriskStatistikkProps {
@@ -39,15 +50,13 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
     return (
         <Container>
             <FlexContainer>
-
-                <div>
+                <HeadingContainer>
                     <Heading spacing={true} level="4" size="medium">Historisk statistikk</Heading>
                     <BodyShort>
                         Her kan du se hvordan det legemeldte sykefraværet utvikler seg over tid.
                     </BodyShort>
-                </div>
-                <ToggleGroup
-                    className="historikk__toggle-group"
+                </HeadingContainer>
+                <GraphOrTableSwitch
                     value={visTabell ? "tabell" : "graf"}
                     aria-label="Hvis du bruker skjermleser, bør du velge tabell"
                     onChange={(value) => {
@@ -56,7 +65,7 @@ export const Historiskstatistikk = ({ orgnr }: HistoriskStatistikkProps) => {
                 >
                     <ToggleGroup.Item value="graf">Graf</ToggleGroup.Item>
                     <ToggleGroup.Item value="tabell">Tabell</ToggleGroup.Item>
-                </ToggleGroup>
+                </GraphOrTableSwitch>
             </FlexContainer>
             {
                 visTabell ?
