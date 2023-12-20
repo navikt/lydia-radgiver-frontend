@@ -25,7 +25,7 @@ export const IASakOversiktContainer = styled.div`
   background-color: ${NavFarger.backgroundSubtle};
 `;
 
-export const Saksinfo = styled.div`
+export const Saksinfo = styled.dl`
   display: grid;
   grid-template-columns: auto 1fr;
   grid-template-rows: repeat(auto-fill, auto);
@@ -33,12 +33,12 @@ export const Saksinfo = styled.div`
   column-gap: 3rem;
 `;
 
-export const Saksinfotittel = styled(BodyShort)`
+export const Saksinfotittel = styled(BodyShort).attrs({ as: "dt" })`
   font-weight: bold;
   min-width: ${44 / 16}rem;
 `;
 
-const InfoData = styled(BodyShort)`
+const InfoData = styled(BodyShort).attrs({ as: "dd" })`
   overflow-wrap: anywhere;
 `;
 
@@ -61,7 +61,9 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => 
         <IASakOversiktContainer>
             <Saksinfo>
                 <Saksinfotittel>Status</Saksinfotittel>
-                <StatusBadge ariaLive="polite" ariaLabel="Status" status={sak.status} />
+                <InfoData>
+                    <StatusBadge ariaLive="polite" ariaLabel="Status" status={sak.status} />
+                </InfoData>
                 {sak.eidAv &&
                     <>
                         <Saksinfotittel>Eier</Saksinfotittel>
