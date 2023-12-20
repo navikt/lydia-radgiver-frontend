@@ -10,15 +10,16 @@ import { BorderRadius } from "../../../../styling/borderRadius";
 import { IngenAktivitetInfo } from "./IngenAktivitetInfo/IngenAktivitetInfo";
 import { Konfetti } from "../../../../components/Konfetti/Konfetti";
 import { useState } from "react";
+import { mobileAndUp } from "../../../../styling/breakpoints";
 
 export const IASakOversiktContainer = styled.div`
+  flex: 1 ${300 / 16}rem;
+  
   display: flex;
   flex-direction: column;
   gap: ${24 / 16}rem;
 
   height: fit-content;
-  width: ${300 / 16}rem;
-  min-width: ${300 / 16}em;
   padding: ${24 / 16}rem;
 
   border-radius: ${BorderRadius.medium};
@@ -26,11 +27,16 @@ export const IASakOversiktContainer = styled.div`
 `;
 
 export const Saksinfo = styled.dl`
-  display: grid;
-  grid-template-columns: auto 1fr;
-  grid-template-rows: repeat(auto-fill, auto);
-  row-gap: ${12 / 16}rem;
-  column-gap: 3rem;
+  display: flex;
+  flex-direction: column;
+
+  ${mobileAndUp} {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    grid-template-rows: repeat(auto-fill, auto);
+    row-gap: ${12 / 16}rem;
+    column-gap: 1.5rem;
+  }
 `;
 
 export const Saksinfotittel = styled(BodyShort).attrs({ as: "dt" })`
@@ -40,6 +46,11 @@ export const Saksinfotittel = styled(BodyShort).attrs({ as: "dt" })`
 
 const InfoData = styled(BodyShort).attrs({ as: "dd" })`
   overflow-wrap: anywhere;
+  margin-bottom: 0.5rem;
+
+  ${mobileAndUp} {
+    margin-bottom: 0;
+  }
 `;
 
 export interface IASakOversiktProps {

@@ -7,7 +7,7 @@ import { useHentSalesforceUrl } from "../../../api/lydia-api";
 import { EksternLenke } from "../../../components/EksternLenke";
 
 const Container = styled.div`
-  flex: 1 20rem;
+  flex: 14 20rem;
   height: fit-content;
 
   padding: 1.5rem;
