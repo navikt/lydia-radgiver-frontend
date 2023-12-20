@@ -19,31 +19,31 @@ export interface Graflinje {
 export const graflinjer: { [key: string]: Graflinje } = {
     [Grafer.VIRKSOMHET]: {
         navn: "Virksomhet",
-        farge: GrafFarger.rød,
+        farge: GrafFarger.data_3,
         symbol: "circle",
         rekkefølge: 0,
     },
     [Grafer.NÆRING]: {
         navn: "Næring",
-        farge: GrafFarger.svart,
+        farge: GrafFarger.data_4,
         symbol: "wye",
         rekkefølge: 1,
     },
     [Grafer.BRANSJE]: {
         navn: "Bransje",
-        farge: GrafFarger.oransje,
+        farge: GrafFarger.data_5,
         symbol: "diamond",
         rekkefølge: 2,
     },
     [Grafer.SEKTOR]: {
         navn: "Sektor",
-        farge: GrafFarger.blå,
+        farge: GrafFarger.data_6,
         symbol: "triangle",
         rekkefølge: 3,
     },
     [Grafer.LAND]: {
         navn: "Norge",
-        farge: GrafFarger.grønn,
+        farge: GrafFarger.data_1,
         symbol: "square",
         rekkefølge: 4,
     },

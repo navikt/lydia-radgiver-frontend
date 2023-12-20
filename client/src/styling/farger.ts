@@ -9,12 +9,12 @@ export enum FiaFarger {
 }
 
 export enum GrafFarger {
-    rød = '#C30000',
-    lilla = '#826BA1',
-    oransje = '#FF9100',
-    blå = '#3385D1',
-    grønn = '#38A161',
-    svart = '#000000'
+    data_1 = 'var(--a-data-surface-1)',
+    data_2 = 'var(--a-data-surface-2)',
+    data_3 = 'var(--a-data-surface-3)',
+    data_4 = 'var(--a-data-surface-4)',
+    data_5 = 'var(--a-data-surface-5)',
+    data_6 = 'var(--a-data-surface-6)',
 }
 
 // https://aksel.nav.no/designsystem/side/color
