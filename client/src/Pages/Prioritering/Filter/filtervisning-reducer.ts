@@ -4,7 +4,7 @@ import { SortState } from "@navikt/ds-react";
 import { Range } from "./SykefraværsprosentVelger";
 import { Eier, IAProsessStatusType, Periode, } from "../../../domenetyper/domenetyper";
 import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
-import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
+import { Fylke, FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { Næringsgruppe } from "../../../domenetyper/virksomhet";
 import { Filterverdier, Sorteringsverdi, ValgtSnittFilter } from "../../../domenetyper/filterverdier";
 
@@ -144,11 +144,17 @@ export const filterstateFraLokalstorage = (filterverdier: Filterverdier): Filter
         ...parsedLocalstorageFilter,
     };
 };
-
+// TODO: deleteme!
 type EndreFylkeAction = {
     type: "ENDRE_FYLKE";
     payload: {
         fylkesnummer: string;
+    };
+};
+type EndreFylkerAction = {
+    type: "ENDRE_FYLKER";
+    payload: {
+        fylker: Fylke[];
     };
 };
 type EndreKommuneAction = {
@@ -230,6 +236,7 @@ type OppdaterAutosøkAction = {
 };
 type Action =
     | EndreFylkeAction
+    | EndreFylkerAction
     | EndreKommuneAction
     | EndreNæringsgruppeAction
     | EndreSykefraværsprosentAction
@@ -248,6 +255,7 @@ export interface FiltervisningState {
     autosøk?: boolean,
     readonly filterverdier?: Filterverdier;
     valgtFylke?: FylkeMedKommuner;
+    valgteFylker?: Fylke[];
     kommuner: Kommune[];
     næringsgrupper: Næringsgruppe[];
     sykefraværsprosent: Range;
@@ -324,6 +332,26 @@ function endreFylke(state: FiltervisningState, action: EndreFylkeAction): Filter
             },
         }),
         valgtFylke: endretFylkeMedKommuner,
+    };
+}
+
+export const erSammeFylker = (liste1: Fylke[], liste2: Fylke[]) => {
+    return liste1.length === liste2.length &&
+        liste1.reduce(
+            (previousValue, fylke) => {
+                return previousValue &&
+                    (liste2.findIndex( (fylke2) => fylke2.nummer === fylke.nummer)
+                        !== -1)
+        }, true)
+}
+
+function endreFylker(state: FiltervisningState, action: EndreFylkerAction): FiltervisningState {
+    if (state.valgteFylker && erSammeFylker(action.payload.fylker, state.valgteFylker))
+        return state;
+
+    return {
+        ...state,
+        valgteFylker: action.payload.fylker,
     };
 }
 
@@ -432,6 +460,8 @@ const reducer = (state: FiltervisningState, action: Action) => {
             return endreSide(state, action);
         case "ENDRE_FYLKE":
             return endreFylke(state, action);
+        case "ENDRE_FYLKER":
+            return endreFylker(state, action);
         case "ENDRE_KOMMUNE":
             return endreKommune(state, action);
         case "ENDRE_NÆRINGSGRUPPE":
@@ -461,7 +491,7 @@ const reducer = (state: FiltervisningState, action: Action) => {
 
 const storedReducer = (state: FiltervisningState, action: Action) => {
     const newState = reducer(state, action);
-    
+
     if (action.type === "TILBAKESTILL") {
         window.localStorage.removeItem("lokalFiltervisningState");
 
@@ -520,6 +550,16 @@ export const useFiltervisningState = () => {
         (payload: EndreFylkeAction["payload"]) => {
             dispatch({
                 type: "ENDRE_FYLKE",
+                payload,
+            });
+        },
+        []
+    );
+
+    const oppdaterFylker = useCallback(
+        (payload: EndreFylkerAction["payload"]) => {
+            dispatch({
+                type: "ENDRE_FYLKER",
                 payload,
             });
         },
@@ -654,6 +694,7 @@ export const useFiltervisningState = () => {
         state,
         oppdaterAntallArbeidsforhold,
         oppdaterFylke,
+        oppdaterFylker,
         oppdaterKommuner,
         oppdaterIastatus,
         oppdaterSektorer,

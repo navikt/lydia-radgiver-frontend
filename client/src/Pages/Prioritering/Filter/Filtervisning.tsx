@@ -2,7 +2,6 @@ import styled from "styled-components";
 import { Button, Checkbox } from "@navikt/ds-react";
 import { Range, SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
 import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
-import { Fylkedropdown } from "./Fylkedropdown";
 import { IAStatusDropdown } from "./IAStatusDropdown";
 import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
@@ -12,10 +11,11 @@ import { Eier, IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
 import { tabletAndUp } from "../../../styling/breakpoints";
 import { SektorDropdown } from "./SektorDropdown";
-import { Kommune } from "../../../domenetyper/fylkeOgKommune";
+import { Fylke, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { useSearchParams } from "react-router-dom";
 import { loggTogglingAvAutosøk, loggTømmingAvFilterverdier } from "../../../util/amplitude-klient";
+import { FylkeMultidropdown } from "./FylkeMultidropdown";
 
 const Skjema = styled.form`
   padding: 1rem;
@@ -78,7 +78,7 @@ export const Filtervisning = ({
         oppdaterAntallArbeidsforhold,
         oppdaterIastatus,
         oppdaterEiere,
-        oppdaterFylke,
+        oppdaterFylker,
         state,
         oppdaterKommuner,
         oppdaterSykefraværsprosent,
@@ -93,8 +93,9 @@ export const Filtervisning = ({
         oppdaterSektorer({ sektor })
     }
 
-    const endreFylke = (fylkesnummer: string) => {
-        oppdaterFylke({ fylkesnummer });
+
+    const endrerFylker = (fylker: Fylke[]) => {
+        oppdaterFylker({ fylker });
     };
 
     const endreKommuner = (kommuner: Kommune[]) => {
@@ -147,12 +148,20 @@ export const Filtervisning = ({
     return (
         <Skjema className={className} onSubmit={(e) => e.preventDefault()}>
             <Rad>
+                <FylkeMultidropdown
+                    fylkerOgKommuner={state.filterverdier?.fylker ?? []}
+                    valgteFylker={state.valgteFylker ?? []}
+                    endreFylker={endrerFylker}
+                    style={{ flex: "5" }}
+                />
+{/*
                 <Fylkedropdown
                     fylkerOgKommuner={state.filterverdier?.fylker ?? []}
                     valgtFylke={state.valgtFylke?.fylke}
                     endreFylke={endreFylke}
                     style={{ flex: "1" }}
                 />
+*/}
                 <Kommunedropdown
                     relevanteFylkerMedKommuner={
                         state.valgtFylke
