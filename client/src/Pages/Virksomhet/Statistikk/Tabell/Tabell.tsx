@@ -1,18 +1,14 @@
 import { Table } from '@navikt/ds-react';
 import { HistoriskStatistikk } from '../../../../domenetyper/historiskstatistikk';
 import Tabellrader from './Tabellrader';
-import styled from 'styled-components';
-
-const Container = styled.div`
-	overflow-x: auto;
-`;
+import { ScrollUtTilKantenContainer } from '../../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer';
 
 
 const Tabell = ({ historiskStatistikk }: { historiskStatistikk: HistoriskStatistikk }) => {
 	const visBransje = historiskStatistikk.bransjestatistikk.beskrivelse?.length > 0;
 
 	return (
-		<Container>
+		<ScrollUtTilKantenContainer $offsetLeft={1.5} $offsetRight={1.5}>
 			<Table size="small" zebraStripes={true}>
 				<Table.Header>
 					<Table.Row>
@@ -46,7 +42,7 @@ const Tabell = ({ historiskStatistikk }: { historiskStatistikk: HistoriskStatist
 					}
 				</Table.Body>
 			</Table>
-		</Container>
+		</ScrollUtTilKantenContainer>
 	);
 };
 
