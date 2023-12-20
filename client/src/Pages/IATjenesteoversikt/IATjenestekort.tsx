@@ -1,4 +1,4 @@
-import { BodyShort, Heading, Link } from "@navikt/ds-react";
+import { BodyShort, Link } from "@navikt/ds-react";
 import styled from "styled-components";
 import { lokalDato } from "../../util/dato";
 import { MineIATjenester } from "../../domenetyper/leveranse";
@@ -29,11 +29,11 @@ const Detaljer = styled.dl`
   }
 `;
 
-const DetaljerTittel = styled(BodyShort).attrs({as: "dt"})`
+const DetaljerTittel = styled(BodyShort).attrs({ as: "dt" })`
   font-weight: bold;
 `;
 
-const DetaljerData = styled(BodyShort).attrs({as: "dd"})`
+const DetaljerData = styled(BodyShort).attrs({ as: "dd" })`
   overflow-wrap: anywhere;
   
   // Gjer at det blir avstand mellom ulike tittel-detalje-boksar på pittesmå skjermar
@@ -45,33 +45,34 @@ const DetaljerData = styled(BodyShort).attrs({as: "dd"})`
 `;
 
 interface Props {
-    iaTjeneste: MineIATjenester;
+  iaTjeneste: MineIATjenester;
 }
 
 export const IATjenestekort = ({ iaTjeneste }: Props) => {
-    const { orgnr, virksomhetsnavn, iaTjeneste: tjeneste, modul, tentativFrist } = iaTjeneste;
-    const finskrevetModulNavn = tjeneste.navn === modul.navn ? "" : ` (${modul.navn})`
+  const { orgnr, virksomhetsnavn, iaTjeneste: tjeneste, modul, tentativFrist } = iaTjeneste;
+  const finskrevetModulNavn = tjeneste.navn === modul.navn ? "" : ` (${modul.navn})`
 
-    return (
-        <Container>
-            <Heading level="2" size="xsmall">
-                <Link
-                    href={`/virksomhet/${orgnr}?fane=ia-tjenester`}
-                      onClick={() => loggAktvitetPåIATjenesteoversikt()}
-                >
-                    {virksomhetsnavn}
-                </Link>
-            </Heading>
-            <Detaljer>
-                <DetaljerTittel>IA-tjeneste:</DetaljerTittel>
-                <DetaljerData>
-                    {`${tjeneste.navn}${finskrevetModulNavn}`}
-                </DetaljerData>
-                <DetaljerTittel>Tentativ frist:</DetaljerTittel>
-                <DetaljerData>
-                    {lokalDato(new Date(tentativFrist))}
-                </DetaljerData>
-            </Detaljer>
-        </Container>
-    );
+  return (
+    <Container>
+      <Detaljer>
+        <DetaljerTittel>IA-tjeneste:</DetaljerTittel>
+        <DetaljerData>
+          {`${tjeneste.navn}${finskrevetModulNavn}`}
+        </DetaljerData>
+        <DetaljerTittel>Virksomhet:</DetaljerTittel>
+        <DetaljerData>
+          <Link
+            href={`/virksomhet/${orgnr}?fane=ia-tjenester`}
+            onClick={() => loggAktvitetPåIATjenesteoversikt()}
+          >
+            {virksomhetsnavn}
+          </Link>
+        </DetaljerData>
+        <DetaljerTittel>Tentativ frist:</DetaljerTittel>
+        <DetaljerData>
+          {lokalDato(new Date(tentativFrist))}
+        </DetaljerData>
+      </Detaljer>
+    </Container>
+  );
 };
