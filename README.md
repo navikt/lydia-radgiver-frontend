@@ -17,6 +17,10 @@ Dette vert orkestrert av docker-compose.
 - wonderwall
 - mockOAuth2-server
 
+### Tilgang til npm pakker på github
+Lag token på github med packages:read rettigheter.
+Legg så dette inn i ~/.npmrc slik som dette:
+`//npm.pkg.github.com/:_authToken=<generert token med packages:read rettigheter>`
 
 ### Før du startar
 Sjekk om du har postgresql-klient ved å køyre
