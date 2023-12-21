@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import { contentSpacing } from "../../styling/contentSpacing";
 
 /*
  * "Scroll innhald heilt ut til kanten av forelderen-boks"
@@ -22,13 +23,12 @@ export const ScrollUtTilKantenContainer = styled.div<OffsetProps>`
 
   /* Vi strekk komponenten heilt ut til venstre kant med margin, 
    * og dyttar innhaldet tilbake til startpunktet med padding */
-  margin-left: ${(props) => props.$offsetLeft * -1}rem;
-  padding-left: ${(props) => props.$offsetLeft}rem;
+  margin-left: calc(-${contentSpacing.mobileX} + ${(props) => props.$offsetLeft * -1}rem);
+  padding-left: calc(${contentSpacing.mobileX} + ${(props) => props.$offsetLeft}rem);
 
-  margin-right: ${(props) => props.$offsetRight * -1}rem;
-  padding-right: ${(props) => props.$offsetRight}rem;
-
-
+  margin-right: calc(-${contentSpacing.mobileX} + ${(props) => props.$offsetRight * -1}rem);
+  padding-right: calc(${contentSpacing.mobileX} + ${(props) => props.$offsetRight}rem);
+  
   // For at div-en ikkje skal kutte skuggar har vi lagt på 24px "minus-margin-plus-padding". 
   // Den største skuggen i designsystemet per 2023-12-19 er 24px, difor er denne verdien brukt.
   margin-top: -24px;
