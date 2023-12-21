@@ -407,7 +407,7 @@ const appendIfPresent = <T>(
 
 export const søkeverdierTilUrlSearchParams = ({
                                                   kommuner,
-                                                  valgtFylke: fylkeMedKommune,
+                                                  valgteFylker,
                                                   næringsgrupper,
                                                   sykefraværsprosent,
                                                   valgtSnittfilter,
@@ -430,8 +430,8 @@ export const søkeverdierTilUrlSearchParams = ({
     );
     appendIfPresent(
         "fylker",
-        fylkeMedKommune,
-        ({fylke: {nummer}}) => nummer,
+        valgteFylker,
+        (fylker) => fylker.map(({nummer}) => nummer).join(","),
         params
     );
     appendIfPresent(

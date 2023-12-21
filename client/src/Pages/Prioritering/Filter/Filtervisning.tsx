@@ -152,9 +152,9 @@ export const Filtervisning = ({
                     fylkerOgKommuner={state.filterverdier?.fylker ?? []}
                     valgteFylker={state.valgteFylker ?? []}
                     endreFylker={endrerFylker}
-                    style={{ flex: "5" }}
+                    style={{ flex: "2" }}
                 />
-{/*
+                {/*
                 <Fylkedropdown
                     fylkerOgKommuner={state.filterverdier?.fylker ?? []}
                     valgtFylke={state.valgtFylke?.fylke}
