@@ -52,9 +52,28 @@ const Navigasjon = styled.nav`
   flex-direction: column;
   align-items: start;
 
+  /* Overskriv border-right når navigasjonslenkene vert vist i kolonne */
+  & .navds-internalheader__title {
+    border-right: none;
+  }
+
   ${tabletAndUp} {
     flex-direction: row;
     align-items: center;
+
+    & .navds-internalheader__title {
+      /* Stylinga vi overskriv frå designsystemet (2023-12-21) */
+      border-right: 1px solid var(--ac-internalheader-divider, var(--a-gray-600));
+    }
+  }
+`;
+
+const Navigasjonslenke = styled(Link)`
+  color: ${NavFarger.textInverted};
+  text-decoration: none;
+
+  &:hover {
+    text-decoration: underline;
   }
 `;
 
@@ -67,15 +86,6 @@ const DemoversjonTekst = styled(BodyShort)<{ hidden: boolean }>`
 
   color: ${NavFarger.white};
   background: ${NavFarger.red500};
-`;
-
-const Navigasjonslenke = styled(Link)`
-  color: ${NavFarger.textInverted};
-  text-decoration: none;
-
-  &:hover {
-    text-decoration: underline;
-  }
 `;
 
 const SøkOgBrukerinfoContainer = styled.div`
