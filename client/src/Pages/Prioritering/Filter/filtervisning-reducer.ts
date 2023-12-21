@@ -105,12 +105,17 @@ const erUtryggFraLocalStorage = (localState: FiltervisningState, filterverdier: 
         return true;
     }
 
-    /*
-    TODO: Sjekk dette for nye fylkeløsningen
-    const lovligFylkeFraLocalstorage = filterverdier.fylker.find((fylke) => fylke.fylke.nummer === localState.valgtFylke?.fylke.nummer && fylke.fylke.navn === localState.valgtFylke?.fylke.navn);
-    if (lovligFylkeFraLocalstorage === undefined && localState.valgtFylke !== undefined) {
+    const lovligeFylkerFraLocalstorage = 
+        localState.valgteFylker?.find(
+            (lokaltFylke) => filterverdier.fylker.find(
+                (fylke) => 
+                fylke.fylke.nummer === lokaltFylke.fylke.nummer
+                && fylke.fylke.navn === lokaltFylke.fylke.navn) === undefined
+        );
+    
+    if (lovligeFylkerFraLocalstorage !== undefined) {
         return true;
-    }*/
+    }
 
     const lovligBransjeprogram = localState.bransjeprogram.filter((bransjeprogram) => filterverdier.bransjeprogram.includes(bransjeprogram));
     if (lovligBransjeprogram.length !== localState.bransjeprogram.length) {

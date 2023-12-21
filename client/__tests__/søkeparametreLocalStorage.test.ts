@@ -119,6 +119,33 @@ describe("Lasting av søkeparametre fra localstorage", () => {
         expect(fraLS).toEqual(null);
     });
 
+    test("Sletter localstorage om den finner ugyldig data på fylker", () => {
+        window.localStorage.setItem(
+            "lokalFiltervisningState",
+            JSON.stringify({
+                ...dummyLocalStorage,
+                valgteFylker: [
+                    {
+                        fylke: {
+                            nummer: "99",
+                            navn: "Feil",
+                        },
+                        kommuner: [
+                            {
+                                navn: "feil",
+                                navnNorsk: "feilerson",
+                                nummer: "9999",
+                            },
+                        ],
+                    },
+                ]
+            }),
+        );
+        filterstateFraLokalstorage(filterverdierMock);
+        const fraLS = window.localStorage.getItem("lokalFiltervisningState");
+        expect(fraLS).toEqual(null);
+    });
+
     test("Sletter ikke localstorage om den finner gyldig data", () => {
         window.localStorage.setItem(
             "lokalFiltervisningState",
