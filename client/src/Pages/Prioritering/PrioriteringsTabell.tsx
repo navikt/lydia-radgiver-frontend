@@ -9,6 +9,7 @@ import { hvitBoksMedSkygge } from "../../styling/containere";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { EndretDataCell } from "./EndretDataCell";
 import { IAProsessStatusEnum } from "../../domenetyper/domenetyper";
+import { ScrollUtTilKantenContainer } from "../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 
 interface Kolonne {
     key: string,
@@ -111,60 +112,62 @@ export const PrioriteringsTabell = ({
     }
 
     return (
-        <Container className={className}>
-            <Table zebraStripes size={"small"} sort={sortering} onSortChange={onSortChange}>
-                <Table.Header className={"table-header"}>
-                    <Table.Row>
-                        {kolonner.map(({sortable = false, name, key, textAlignment}) => (
-                            <Table.ColumnHeader
-                                scope="col"
-                                key={key}
-                                sortable={sortable}
-                                sortKey={key}
-                                align={textAlignment}
-                            >
-                                {name}
-                            </Table.ColumnHeader>
-                        ))}
-                    </Table.Row>
-                </Table.Header>
-                <Table.Body>
-                    {virksomhetsoversiktListe.map((virksomhetsoversikt) => (
-                        <Table.Row key={virksomhetsoversikt.virksomhetsnavn}>
-                            <Table.DataCell>
-                                <StatusBadge status={virksomhetsoversikt.status} />
-                            </Table.DataCell>
-                            <EndretDataCell sistEndret={virksomhetsoversikt.sistEndret}
-                                            lukket={virksomhetsoversikt.status === IAProsessStatusEnum.enum.IKKE_AKTIV} />
-                            <Table.HeaderCell scope="row">
-                                <Link href={`virksomhet/${virksomhetsoversikt.orgnr}`}>
-                                    {virksomhetsoversikt.virksomhetsnavn}
-                                </Link>
-                            </Table.HeaderCell>
-                            <RightAllignedDataCell>
-                                {formaterSomHeltall(virksomhetsoversikt.antallPersoner)}
-                            </RightAllignedDataCell>
-                            <RightAllignedDataCell>
-                                {formaterSomProsentMedEnDesimal(virksomhetsoversikt.sykefraværsprosent)}
-                            </RightAllignedDataCell>
-                            <RightAllignedDataCell>
-                                {formaterSomHeltall(virksomhetsoversikt.tapteDagsverk)}
-                            </RightAllignedDataCell>
-                            <RightAllignedDataCell>
-                                {formaterSomHeltall(virksomhetsoversikt.muligeDagsverk)}
-                            </RightAllignedDataCell>
-                            <Table.DataCell>
-                                <NavIdentMedLenke navIdent={virksomhetsoversikt.eidAv} />
-                            </Table.DataCell>
+        <ScrollUtTilKantenContainer $offsetRight={0} $offsetLeft={0}>
+            <Container className={className}>
+                <Table zebraStripes size={"small"} sort={sortering} onSortChange={onSortChange}>
+                    <Table.Header className={"table-header"}>
+                        <Table.Row>
+                            {kolonner.map(({ sortable = false, name, key, textAlignment }) => (
+                                <Table.ColumnHeader
+                                    scope="col"
+                                    key={key}
+                                    sortable={sortable}
+                                    sortKey={key}
+                                    align={textAlignment}
+                                >
+                                    {name}
+                                </Table.ColumnHeader>
+                            ))}
                         </Table.Row>
-                    ))}
-                </Table.Body>
-            </Table>
-            {!!virksomhetsoversiktListe.length &&
-                <SøkeresultatFooter side={side} endreSide={endreSide}
-                                    antallTreffPåSide={virksomhetsoversiktListe.length}
-                                    totaltAntallTreff={totaltAntallTreff} />
-            }
-        </Container>
+                    </Table.Header>
+                    <Table.Body>
+                        {virksomhetsoversiktListe.map((virksomhetsoversikt) => (
+                            <Table.Row key={virksomhetsoversikt.virksomhetsnavn}>
+                                <Table.DataCell>
+                                    <StatusBadge status={virksomhetsoversikt.status} />
+                                </Table.DataCell>
+                                <EndretDataCell sistEndret={virksomhetsoversikt.sistEndret}
+                                                lukket={virksomhetsoversikt.status === IAProsessStatusEnum.enum.IKKE_AKTIV} />
+                                <Table.HeaderCell scope="row">
+                                    <Link href={`virksomhet/${virksomhetsoversikt.orgnr}`}>
+                                        {virksomhetsoversikt.virksomhetsnavn}
+                                    </Link>
+                                </Table.HeaderCell>
+                                <RightAllignedDataCell>
+                                    {formaterSomHeltall(virksomhetsoversikt.antallPersoner)}
+                                </RightAllignedDataCell>
+                                <RightAllignedDataCell>
+                                    {formaterSomProsentMedEnDesimal(virksomhetsoversikt.sykefraværsprosent)}
+                                </RightAllignedDataCell>
+                                <RightAllignedDataCell>
+                                    {formaterSomHeltall(virksomhetsoversikt.tapteDagsverk)}
+                                </RightAllignedDataCell>
+                                <RightAllignedDataCell>
+                                    {formaterSomHeltall(virksomhetsoversikt.muligeDagsverk)}
+                                </RightAllignedDataCell>
+                                <Table.DataCell>
+                                    <NavIdentMedLenke navIdent={virksomhetsoversikt.eidAv} />
+                                </Table.DataCell>
+                            </Table.Row>
+                        ))}
+                    </Table.Body>
+                </Table>
+                {!!virksomhetsoversiktListe.length &&
+                    <SøkeresultatFooter side={side} endreSide={endreSide}
+                                        antallTreffPåSide={virksomhetsoversiktListe.length}
+                                        totaltAntallTreff={totaltAntallTreff} />
+                }
+            </Container>
+        </ScrollUtTilKantenContainer>
     )
 }
