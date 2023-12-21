@@ -54,7 +54,7 @@ export enum NavFarger {
     blue800 = "var(--a-blue-800)",
     blue900 = "var(--a-blue-900)",
 
-    deepblue50 =  "var(--a-deepblue-50)",
+    deepblue50 = "var(--a-deepblue-50)",
     deepblue100 = "var(--a-deepblue-100)",
     deepblue200 = "var(--a-deepblue-200)",
     deepblue300 = "var(--a-deepblue-300)",
@@ -80,7 +80,6 @@ export enum NavFarger {
     backgroundDefault = "var(--a-bg-default)", // white
     backgroundSubtle = "var(--a-bg-subtle)", // gray100
     warning = "var(--a-icon-warning)", // orange600
-
 
     // Semantiske fargar til border, designsystem 2.0
     borderDefault = "var(--a-border-default)",
