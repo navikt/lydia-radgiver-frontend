@@ -73,7 +73,7 @@ jobs:
     permissions: {}
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/konfettieksplosjon'
+    if: github.ref == 'refs/heads/ny-fylke-dropdown'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
