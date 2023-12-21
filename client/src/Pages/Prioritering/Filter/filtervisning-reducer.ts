@@ -4,7 +4,7 @@ import { SortState } from "@navikt/ds-react";
 import { Range } from "./SykefraværsprosentVelger";
 import { Eier, IAProsessStatusType, Periode, } from "../../../domenetyper/domenetyper";
 import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
-import { Fylke, FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
+import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { Næringsgruppe } from "../../../domenetyper/virksomhet";
 import { Filterverdier, Sorteringsverdi, ValgtSnittFilter } from "../../../domenetyper/filterverdier";
 
@@ -15,10 +15,9 @@ const finnBransjeprogram = (næringsgrupper: string[]) =>
     næringsgrupper.filter((gruppe) => isNaN(+gruppe));
 
 
-const finnFylker = (filterverdier: Filterverdier, fylkesnummer: string[]): Fylke[] => 
+const finnFylker = (filterverdier: Filterverdier, fylkesnummer: string[]): FylkeMedKommuner[] => 
     filterverdier.fylker
-        .filter(({ fylke }) => fylkesnummer.includes(fylke.nummer))
-        .map(({ fylke }) => fylke) ?? [];
+        .filter(({ fylke }) => fylkesnummer.includes(fylke.nummer)) ?? [];
 
 const parametere = [
     "kommuner",
@@ -106,10 +105,12 @@ const erUtryggFraLocalStorage = (localState: FiltervisningState, filterverdier: 
         return true;
     }
 
+    /*
+    TODO: Sjekk dette for nye fylkeløsningen
     const lovligFylkeFraLocalstorage = filterverdier.fylker.find((fylke) => fylke.fylke.nummer === localState.valgtFylke?.fylke.nummer && fylke.fylke.navn === localState.valgtFylke?.fylke.navn);
     if (lovligFylkeFraLocalstorage === undefined && localState.valgtFylke !== undefined) {
         return true;
-    }
+    }*/
 
     const lovligBransjeprogram = localState.bransjeprogram.filter((bransjeprogram) => filterverdier.bransjeprogram.includes(bransjeprogram));
     if (lovligBransjeprogram.length !== localState.bransjeprogram.length) {
@@ -147,7 +148,7 @@ export const filterstateFraLokalstorage = (filterverdier: Filterverdier): Filter
 type EndreFylkerAction = {
     type: "ENDRE_FYLKER";
     payload: {
-        fylker: Fylke[];
+        fylker: FylkeMedKommuner[];
     };
 };
 type EndreKommuneAction = {
@@ -246,8 +247,7 @@ type Action =
 export interface FiltervisningState {
     autosøk?: boolean,
     readonly filterverdier?: Filterverdier;
-    valgtFylke?: FylkeMedKommuner;
-    valgteFylker?: Fylke[];
+    valgteFylker?: FylkeMedKommuner[];
     kommuner: Kommune[];
     næringsgrupper: Næringsgruppe[];
     sykefraværsprosent: Range;
@@ -265,7 +265,7 @@ export interface FiltervisningState {
 
 export const initialFiltervisningState: FiltervisningState = {
     autosøk: true,
-    valgtFylke: undefined,
+    valgteFylker: undefined,
     kommuner: [],
     næringsgrupper: [],
     sykefraværsprosent: {
@@ -302,12 +302,12 @@ const endreKommune = (state: FiltervisningState, action: EndreKommuneAction): Fi
     kommuner: action.payload.kommuner,
 });
 
-export const erSammeFylker = (liste1: Fylke[], liste2: Fylke[]) => {
+export const erSammeFylker = (liste1: FylkeMedKommuner[], liste2: FylkeMedKommuner[]) => {
     return liste1.length === liste2.length &&
         liste1.reduce(
             (previousValue, fylke) => {
                 return previousValue &&
-                    (liste2.findIndex( (fylke2) => fylke2.nummer === fylke.nummer)
+                    (liste2.findIndex( (fylke2) => fylke2.fylke.nummer === fylke.fylke.nummer)
                         !== -1)
         }, true)
 }

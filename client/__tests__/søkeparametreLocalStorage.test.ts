@@ -20,7 +20,7 @@ const dummyLocalStorage: FiltervisningState = {
             nummer: "3452",
         },
     ],
-    valgtFylke: {
+    valgteFylker: [{
         fylke: {
             nummer: "34",
             navn: "Innlandet",
@@ -42,7 +42,7 @@ const dummyLocalStorage: FiltervisningState = {
                 nummer: "3453",
             },
         ],
-    },
+    }],
     antallArbeidsforhold: {
         fra: 5,
         til: 25,

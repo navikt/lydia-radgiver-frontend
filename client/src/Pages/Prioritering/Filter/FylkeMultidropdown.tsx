@@ -2,23 +2,22 @@ import { CSSProperties } from "react";
 import { Label } from "@navikt/ds-react";
 import { reactSelectStyle, StyledReactSelect } from "../../../components/ReactSelect/StyledReactSelect";
 import { sorterAlfabetisk } from "../../../util/sortering";
-import { Fylke, FylkeMedKommuner } from "../../../domenetyper/fylkeOgKommune";
+import { FylkeMedKommuner } from "../../../domenetyper/fylkeOgKommune";
 
 const fylkeDropdownId = "fylkedropdown";
 
 interface Props {
     fylkerOgKommuner: FylkeMedKommuner[];
-    valgteFylker?: Fylke[];
-    endreFylker: (fylker: Fylke[]) => void;
+    valgteFylker?: FylkeMedKommuner[];
+    endreFylker: (fylker: FylkeMedKommuner[]) => void;
     style?: CSSProperties;
 }
 
-export const FylkeMultidropdown = ({ fylkerOgKommuner, valgteFylker, endreFylker, style}: Props) => {
+export const FylkeMultidropdown = ({ fylkerOgKommuner, valgteFylker, endreFylker, style }: Props) => {
     const sorterteFylker =
         fylkerOgKommuner
             .sort((a, b) =>
-                sorterAlfabetisk(a.fylke.navn, b.fylke.navn))
-            .map((fylkeMedKommuner) => (fylkeMedKommuner.fylke))
+                sorterAlfabetisk(a.fylke.navn, b.fylke.navn));
 
     return (
         <div style={style}>
@@ -29,14 +28,14 @@ export const FylkeMultidropdown = ({ fylkerOgKommuner, valgteFylker, endreFylker
                 value={valgteFylker}
                 noOptionsMessage={() => "Ingen kommuner å velge"}
                 options={sorterteFylker}
-                getOptionLabel={(v) => (v as Fylke).navn}
-                getOptionValue={(v) => (v as Fylke).nummer}
+                getOptionLabel={(v) => (v as FylkeMedKommuner).fylke.navn}
+                getOptionValue={(v) => (v as FylkeMedKommuner).fylke.nummer}
                 isMulti
                 styles={reactSelectStyle()}
                 placeholder=""
                 onChange={(verdier) => {
                     console.log("Verdier!", verdier)
-                    endreFylker(verdier as Fylke[]);
+                    endreFylker(verdier as FylkeMedKommuner[]);
                 }}
             />
         </div>
