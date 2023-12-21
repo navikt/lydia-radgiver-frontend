@@ -21,12 +21,9 @@ const VirksomhetsnavnContainer = styled.div`
 `;
 
 const VirksomhetsinfoContainer = styled.div`
-  flex: 3;
-
   display: flex;
   flex-wrap: wrap;
   gap: 2rem;
-  min-width: 20rem;
 `
 
 interface Props {
