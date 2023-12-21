@@ -14,11 +14,11 @@ const næringsgruppeKoderTilNæringsgrupper = (næringsgruppeKoder: string[], n�
 const finnBransjeprogram = (næringsgrupper: string[]) =>
     næringsgrupper.filter((gruppe) => isNaN(+gruppe));
 
-const finnFylke = (filterverdier?: Filterverdier, fylkesnummer?: string) =>
-    filterverdier?.fylker.find(({ fylke }) => fylke.nummer === fylkesnummer);
 
-const finnKommunerIFylke = (kommuner: Kommune[], fylke: FylkeMedKommuner) =>
-    kommuner.filter((kommune) => fylke.kommuner.includes(kommune));
+const finnFylker = (filterverdier: Filterverdier, fylkesnummer: string[]): Fylke[] => 
+    filterverdier.fylker
+        .filter(({ fylke }) => fylkesnummer.includes(fylke.nummer))
+        .map(({ fylke }) => fylke) ?? [];
 
 const parametere = [
     "kommuner",
@@ -56,7 +56,7 @@ const søkeparametereTilFilterstate = (parametere: Søkeparametere, filterverdie
             parametere?.kommuner ?? "",
             filterverdier
         ),
-        valgtFylke: finnFylke(filterverdier, parametere.fylker),
+        valgteFylker: finnFylker(filterverdier, parametere.fylker?.split(",") ?? []),
 
         antallArbeidsforhold: {
             fra: Number(
@@ -144,13 +144,6 @@ export const filterstateFraLokalstorage = (filterverdier: Filterverdier): Filter
         ...parsedLocalstorageFilter,
     };
 };
-// TODO: deleteme!
-type EndreFylkeAction = {
-    type: "ENDRE_FYLKE";
-    payload: {
-        fylkesnummer: string;
-    };
-};
 type EndreFylkerAction = {
     type: "ENDRE_FYLKER";
     payload: {
@@ -235,7 +228,6 @@ type OppdaterAutosøkAction = {
     };
 };
 type Action =
-    | EndreFylkeAction
     | EndreFylkerAction
     | EndreKommuneAction
     | EndreNæringsgruppeAction
@@ -309,31 +301,6 @@ const endreKommune = (state: FiltervisningState, action: EndreKommuneAction): Fi
     ...state,
     kommuner: action.payload.kommuner,
 });
-
-function endreFylke(state: FiltervisningState, action: EndreFylkeAction): FiltervisningState {
-    if (action.payload.fylkesnummer === state.valgtFylke?.fylke.nummer)
-        return state;
-    const endretFylkeMedKommuner = finnFylke(
-        state.filterverdier,
-        action.payload.fylkesnummer
-    );
-    if (!endretFylkeMedKommuner) {
-        return {
-            ...state,
-            valgtFylke: undefined,
-        };
-    }
-    const kommuner = finnKommunerIFylke(state.kommuner, endretFylkeMedKommuner);
-    return {
-        ...endreKommune(state, {
-            type: "ENDRE_KOMMUNE",
-            payload: {
-                kommuner,
-            },
-        }),
-        valgtFylke: endretFylkeMedKommuner,
-    };
-}
 
 export const erSammeFylker = (liste1: Fylke[], liste2: Fylke[]) => {
     return liste1.length === liste2.length &&
@@ -458,8 +425,6 @@ const reducer = (state: FiltervisningState, action: Action) => {
             return endreEiere(state, action);
         case "OPPDATER_SIDE":
             return endreSide(state, action);
-        case "ENDRE_FYLKE":
-            return endreFylke(state, action);
         case "ENDRE_FYLKER":
             return endreFylker(state, action);
         case "ENDRE_KOMMUNE":
@@ -540,16 +505,6 @@ export const useFiltervisningState = () => {
         (payload: EndreKommuneAction["payload"]) => {
             dispatch({
                 type: "ENDRE_KOMMUNE",
-                payload,
-            });
-        },
-        []
-    );
-
-    const oppdaterFylke = useCallback(
-        (payload: EndreFylkeAction["payload"]) => {
-            dispatch({
-                type: "ENDRE_FYLKE",
                 payload,
             });
         },
@@ -693,7 +648,6 @@ export const useFiltervisningState = () => {
     return {
         state,
         oppdaterAntallArbeidsforhold,
-        oppdaterFylke,
         oppdaterFylker,
         oppdaterKommuner,
         oppdaterIastatus,
