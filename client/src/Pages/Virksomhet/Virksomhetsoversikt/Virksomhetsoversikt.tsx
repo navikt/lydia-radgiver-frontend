@@ -16,8 +16,13 @@ const OversiktsContainer = styled.div`
 
 const VirksomhetsnavnContainer = styled.div`
   display: flex;
-  align-items: baseline;
-  gap: 1rem;
+  flex-wrap: wrap;
+  column-gap: 1rem;
+
+  span {
+    margin-bottom: 0.25rem;
+    margin-top: 0.25rem;
+  }
 `;
 
 const VirksomhetsinfoContainer = styled.div`
