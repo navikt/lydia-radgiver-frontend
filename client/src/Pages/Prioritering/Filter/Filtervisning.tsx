@@ -11,7 +11,7 @@ import { Eier, IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
 import { tabletAndUp } from "../../../styling/breakpoints";
 import { SektorDropdown } from "./SektorDropdown";
-import { Fylke, Kommune } from "../../../domenetyper/fylkeOgKommune";
+import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { useSearchParams } from "react-router-dom";
 import { loggTogglingAvAutosøk, loggTømmingAvFilterverdier } from "../../../util/amplitude-klient";
@@ -94,7 +94,7 @@ export const Filtervisning = ({
     }
 
 
-    const endrerFylker = (fylker: Fylke[]) => {
+    const endrerFylker = (fylker: FylkeMedKommuner[]) => {
         oppdaterFylker({ fylker });
     };
 
@@ -164,8 +164,8 @@ export const Filtervisning = ({
 */}
                 <Kommunedropdown
                     relevanteFylkerMedKommuner={
-                        state.valgtFylke
-                            ? [state.valgtFylke]
+                        state.valgteFylker && state.valgteFylker.length > 0
+                            ? state.valgteFylker
                             : state.filterverdier?.fylker ?? []
                     }
                     valgteKommuner={state.kommuner}

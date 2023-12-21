@@ -431,7 +431,7 @@ export const søkeverdierTilUrlSearchParams = ({
     appendIfPresent(
         "fylker",
         valgteFylker,
-        (fylker) => fylker.map(({nummer}) => nummer).join(","),
+        (fylker) => fylker.map(({fylke}) => fylke.nummer).join(","),
         params
     );
     appendIfPresent(

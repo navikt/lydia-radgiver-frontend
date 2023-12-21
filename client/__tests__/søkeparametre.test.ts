@@ -72,13 +72,13 @@ describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
         const søkeverdier: FiltervisningState = {
             ...initialFiltervisningState,
             kommuner,
-            valgtFylke: {
+            valgteFylker: [{
                 fylke: {
                     nummer: "03",
                     navn: "Hei",
                 },
                 kommuner,
-            },
+            }],
         };
 
         const searchParams =

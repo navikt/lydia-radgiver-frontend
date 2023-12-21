@@ -9,9 +9,6 @@ export const loggSøkMedFilterIAmplitude = (filtervisningstate: FiltervisningSta
     const filter = [
         /* Filter som er enkeltverdiar */
         {
-            vilkår: filtervisningstate.valgtFylke,
-            filterverdiKategori: FilterverdiKategorier.FYLKE,
-        }, {
             vilkår: filtervisningstate.sektor,
             filterverdiKategori: FilterverdiKategorier.SEKTOR,
         }, {
@@ -20,6 +17,9 @@ export const loggSøkMedFilterIAmplitude = (filtervisningstate: FiltervisningSta
         },
         /* Filter som er lister */
         {
+            vilkår: filtervisningstate.valgteFylker,
+            filterverdiKategori: FilterverdiKategorier.FYLKE,
+        }, {
             vilkår: filtervisningstate.kommuner.length,
             filterverdiKategori: FilterverdiKategorier.KOMMUNE,
         }, {
