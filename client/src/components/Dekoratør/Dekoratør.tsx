@@ -41,7 +41,7 @@ const StyledInternalHeader = styled(InternalHeader)`
 
   flex-wrap: wrap;
   flex-direction: column;
-
+  
   ${mobileAndUp} { // Alt utanom pittesmå skjermar
     flex-direction: row;
   }
@@ -82,6 +82,11 @@ const SøkOgBrukerinfoContainer = styled.div`
   flex: 1;
 
   display: flex;
+  flex-direction: column;
+  
+  ${mobileAndUp} {
+    flex-direction: row;
+  }
 `;
 
 const Virksomhetssøk = styled(Søkefelt)`
@@ -96,6 +101,7 @@ const Virksomhetssøk = styled(Søkefelt)`
 `;
 
 const Brukerinformasjon = styled(InternalHeader.User)`
+  margin-left: auto;
   color: ${NavFarger.white}
 `;
 
