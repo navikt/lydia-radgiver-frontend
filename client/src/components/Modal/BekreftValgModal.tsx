@@ -10,6 +10,7 @@ interface Props {
     description: string,
     children?: React.ReactNode,
     className?: string,
+    laster?: boolean
 }
 
 export const BekreftValgModal = ({
@@ -19,16 +20,17 @@ export const BekreftValgModal = ({
     title,
     description,
     children,
+    laster,
     ...rest
 }: Props) => {
     return (
-        <StyledModal open={åpen} onClose={onCancel} header={{heading: title}} {...rest}>
+        <StyledModal open={åpen} onClose={onCancel} header={{ heading: title }} {...rest}>
             <Modal.Body>
                 <BodyLong>{description}</BodyLong>
                 {children}
                 <br />
                 <ModalKnapper>
-                    <Button onClick={onConfirm}>Ja</Button>
+                    <Button onClick={onConfirm} disabled={laster} loading={laster}>Ja</Button>
                     <Button variant="secondary" onClick={onCancel}>Avbryt</Button>
                 </ModalKnapper>
             </Modal.Body>

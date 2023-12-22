@@ -11,11 +11,12 @@ interface Props {
     setVisKonfetti?: (visKonfetti: boolean) => void;
 }
 
-export const HendelseMåBekreftesKnapp = ({hendelse, sak, setVisKonfetti}: Props) => {
+export const HendelseMåBekreftesKnapp = ({ hendelse, sak, setVisKonfetti }: Props) => {
+    const [laster, setLaster] = useState(false);
     const [visBekreftelsesModal, setVisBekreftelsesModal] = useState(false)
 
-    const {mutate: mutateSamarbeidshistorikk} = useHentSamarbeidshistorikk(sak.orgnr)
-    const {mutate: mutateHentSaker} = useHentAktivSakForVirksomhet(sak.orgnr)
+    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(sak.orgnr)
+    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(sak.orgnr)
 
     const mutateIASakerOgSamarbeidshistorikk = () => {
         mutateHentSaker?.()
@@ -23,23 +24,28 @@ export const HendelseMåBekreftesKnapp = ({hendelse, sak, setVisKonfetti}: Props
     }
 
     const bekreftNyHendelsePåSak = () => {
+        setLaster(true);
         nyHendelsePåSak(sak, hendelse)
             .then(mutateIASakerOgSamarbeidshistorikk)
-            .finally(() => {
+            .then(() => {
                 setVisKonfetti?.(true);
+            })
+            .finally(() => {
                 setVisBekreftelsesModal(false);
+                setLaster(false);
             });
         loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status);
     }
 
     return (
         <>
-            <IASakshendelseKnapp hendelsesType={hendelse.saksHendelsestype} onClick={() => setVisBekreftelsesModal(true)} />
+            <IASakshendelseKnapp laster={laster} hendelsesType={hendelse.saksHendelsestype} onClick={() => setVisBekreftelsesModal(true)} />
             <BekreftHendelseModal
+                laster={laster}
                 saksstatus={sak.status}
                 åpen={visBekreftelsesModal}
                 onConfirm={bekreftNyHendelsePåSak}
-                onCancel={() => {setVisBekreftelsesModal(false)}}
+                onCancel={() => { setVisBekreftelsesModal(false) }}
                 hendelse={hendelse}
             />
         </>

@@ -63,12 +63,15 @@ export const sorterHendelserPåKnappeType = (a: GyldigNesteHendelse, b: GyldigNe
 interface Props {
     hendelsesType: IASakshendelseType
     onClick: () => void
+    laster?: boolean
 }
 
-export const IASakshendelseKnapp = ({hendelsesType, onClick}: Props) => {
+export const IASakshendelseKnapp = ({ hendelsesType, onClick, laster }: Props) => {
     return (
         <Button
             key={hendelsesType}
+            disabled={laster}
+            loading={laster}
             onClick={onClick}
             variant={knappeTypeFraSakshendelsesType(hendelsesType)}
             size={"small"}

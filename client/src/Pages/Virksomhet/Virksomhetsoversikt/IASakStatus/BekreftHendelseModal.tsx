@@ -9,6 +9,7 @@ interface BekreftHendelseModalProps {
     onConfirm: () => void;
     onCancel: () => void;
     åpen: boolean;
+    laster?: boolean;
 }
 
 export const BekreftHendelseModal = ({
@@ -17,11 +18,13 @@ export const BekreftHendelseModal = ({
     åpen,
     onConfirm,
     onCancel,
+    laster
 }: BekreftHendelseModalProps) => {
     const modalTekst = modalTekstForHendelse({ hendelse, saksstatus });
 
     return (
         <BekreftValgModal
+            laster={laster}
             åpen={åpen}
             onConfirm={() => {
                 onConfirm();

@@ -9,9 +9,10 @@ interface Props {
     sak: IASak;
 }
 
-export const RettTilNesteStatusKnapp = ({hendelse, sak}: Props) => {
-    const {mutate: mutateSamarbeidshistorikk} = useHentSamarbeidshistorikk(sak.orgnr)
-    const {mutate: mutateHentSaker} = useHentAktivSakForVirksomhet(sak.orgnr)
+export const RettTilNesteStatusKnapp = ({ hendelse, sak }: Props) => {
+    const [laster, setLaster] = React.useState(false);
+    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(sak.orgnr)
+    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(sak.orgnr)
 
     const mutateIASakerOgSamarbeidshistorikk = () => {
         mutateHentSaker?.()
@@ -19,12 +20,14 @@ export const RettTilNesteStatusKnapp = ({hendelse, sak}: Props) => {
     }
 
     const trykkPåSakhendelsesknapp = (hendelse: GyldigNesteHendelse) => {
-        nyHendelsePåSak(sak, hendelse).then(mutateIASakerOgSamarbeidshistorikk)
+        setLaster(true);
+        nyHendelsePåSak(sak, hendelse).then(mutateIASakerOgSamarbeidshistorikk).finally(() => setLaster(false));
         loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status)
     }
 
     return (
         <IASakshendelseKnapp
+            laster={laster}
             key={hendelse.saksHendelsestype}
             hendelsesType={hendelse.saksHendelsestype}
             onClick={() => trykkPåSakhendelsesknapp(hendelse)}
