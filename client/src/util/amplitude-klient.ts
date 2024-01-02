@@ -1,9 +1,11 @@
-import * as amplitude from "@amplitude/analytics-browser";
+import amplitude, { AmplitudeClient } from "amplitude-js";
 import { maskerOrgnr } from "./amplitude-klient-utils";
 import { Rolle } from "../domenetyper/brukerinformasjon";
 import { IAProsessStatusType, IASakshendelseType } from "../domenetyper/domenetyper";
 import { erSammeDato } from "./dato";
 import { tallTilFemmerintervall } from "./tallTilFemmerintervall";
+
+const amplitudeKlient: AmplitudeClient = amplitude.getInstance();
 
 let initialized = false;
 
@@ -51,13 +53,12 @@ const logAmplitudeEvent = (
             ? apiKeys.fiaProd
             : apiKeys.fiaDev;
 
-        amplitude.init(apiKey, "", {
-            defaultTracking: true,
-            serverUrl: "amplitude.nav.no/collect"
+        amplitudeKlient.init(apiKey, "", {
+            apiEndpoint: "amplitude.nav.no/collect"
         });
         initialized = true;
     }
-    amplitude.track(eventNavn, eventData);
+    amplitudeKlient.logEvent(eventNavn, eventData);
 };
 
 export const setTilgangsnivå = (tilgangsnivå: Rolle) => {
@@ -66,15 +67,12 @@ export const setTilgangsnivå = (tilgangsnivå: Rolle) => {
             ? apiKeys.fiaProd
             : apiKeys.fiaDev;
 
-        amplitude.init(apiKey, "", {
-            defaultTracking: true,
-            serverUrl: "amplitude.nav.no/collect"
+        amplitudeKlient.init(apiKey, "", {
+            apiEndpoint: "amplitude.nav.no/collect"
         });
         initialized = true;
     }
-    const identify = new amplitude.Identify();
-    identify.set("tilgangsnivå", tilgangsnivå);
-    amplitude.identify(identify);
+    amplitudeKlient.setUserProperties({ "tilgangsnivå": tilgangsnivå });
 };
 
 export const enum Søkekomponenter {
