@@ -52,8 +52,8 @@ const logAmplitudeEvent = (
             : apiKeys.fiaDev;
 
         amplitude.init(apiKey, "", {
-            defaultTracking: true,
-            serverUrl: "amplitude.nav.no/collect"
+            defaultTracking: false,
+            serverUrl: "https://amplitude.nav.no/collect"
         });
         initialized = true;
     }
@@ -67,8 +67,8 @@ export const setTilgangsnivå = (tilgangsnivå: Rolle) => {
             : apiKeys.fiaDev;
 
         amplitude.init(apiKey, "", {
-            defaultTracking: true,
-            serverUrl: "amplitude.nav.no/collect"
+            defaultTracking: false,
+            serverUrl: "https://amplitude.nav.no/collect"
         });
         initialized = true;
     }
