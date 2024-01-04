@@ -14,10 +14,23 @@ import {
 import { iaSakFullførtOgLukket, iaSakKontaktes } from "./mocks/iaSakMock";
 import { mswHandlers } from "../../../.storybook/mswHandlers";
 import { historiskStatistikkMock } from "../Prioritering/mocks/sykefraværsstatistikkMock";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 
 const meta = {
     title: "Virksomhet/Visning av en virksomhet",
     component: VirksomhetsVisning,
+    decorators: [
+        (Story) => (
+            <MemoryRouter initialEntries={["/virksomhet/123456789"]}>
+                <Routes>
+                    <Route
+                        path={"/virksomhet/:orgnummer"}
+                        element={<Story />}
+                    />
+                </Routes>
+            </MemoryRouter>
+        ),
+    ],
 } satisfies Meta<typeof VirksomhetsVisning>;
 
 export default meta;
