@@ -15,9 +15,9 @@
     "skuffende": "say sku fen de, komma"
   },
   "dependencies": {
-    "@navikt/aksel-icons": "5.12.2",
-    "@navikt/ds-css": "5.12.2",
-    "@navikt/ds-react": "5.12.2",
+    "@navikt/aksel-icons": "5.12.4",
+    "@navikt/ds-css": "5.12.4",
+    "@navikt/ds-react": "5.12.4",
     "@amplitude/analytics-browser": "2.3.8",
     "react": "18.2.0",
     "react-confetti-explosion": "2.1.2",
@@ -57,9 +57,9 @@
     "prettier": "3.1.1",
     "storybook": "7.6.7",
     "ts-jest": "29.1.1",
-    "typescript": "5.2.2",
+    "typescript": "5.3.3",
     "ulid": "2.3.0",
-    "vite": "5.0.10"
+    "vite": "5.0.11"
   },
   "overrides": {
     "glob-parent": "6.0.2",
