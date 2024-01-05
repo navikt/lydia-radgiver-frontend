@@ -2,8 +2,14 @@ import { useState } from "react";
 import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import { BegrunnelseModal } from "../BegrunnelseModal";
 import { GyldigNesteHendelse, IASak, ValgtÅrsakDto } from "../../../../../domenetyper/domenetyper";
-import { nyHendelsePåSak, useHentAktivSakForVirksomhet, useHentSamarbeidshistorikk } from "../../../../../api/lydia-api";
+import {
+    nyHendelsePåSak,
+    useHentAktivSakForVirksomhet,
+    useHentLeveranser,
+    useHentSamarbeidshistorikk
+} from "../../../../../api/lydia-api";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
+import { FullførLeveranserFørstModal } from "../FullførLeveranserFørstModal";
 
 interface Props {
     hendelse: GyldigNesteHendelse;
@@ -11,6 +17,11 @@ interface Props {
 }
 
 export const IkkeAktuellKnapp = ({ hendelse, sak }: Props) => {
+    const { data: leveranserPåSak } = useHentLeveranser(sak.orgnr, sak.saksnummer);
+    const harLeveranserSomErUnderArbeid = leveranserPåSak?.flatMap((iaTjeneste) => iaTjeneste.leveranser)
+        .some((leveranse) => leveranse.status === "UNDER_ARBEID")
+    const [visFullførLeveranserFørstModal, setVisFullførLeveranserFørstModal] = useState(false);
+
     const [laster, setLaster] = useState(false);
     const [visBegrunnelsesModal, setVisBegrunnelsesModal] = useState(false)
 
@@ -31,6 +42,17 @@ export const IkkeAktuellKnapp = ({ hendelse, sak }: Props) => {
                 setLaster(false);
             })
         loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status)
+    }
+
+    if (harLeveranserSomErUnderArbeid) {
+        return (
+            <>
+                <IASakshendelseKnapp
+                    hendelsesType={hendelse.saksHendelsestype}
+                    onClick={() => setVisFullførLeveranserFørstModal(true)}
+                />
+                <FullførLeveranserFørstModal visModal={visFullførLeveranserFørstModal} lukkModal={() => setVisFullførLeveranserFørstModal(false)} />
+            </>)
     }
 
     return (
