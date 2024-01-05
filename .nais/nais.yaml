@@ -30,7 +30,9 @@ spec:
     outbound:
       rules:
         - application: lydia-api
-        - application: fia-radgiver-frontend-redis
+  redis:
+    - instance: fia_sessions
+      access: readwrite
   azure:
     application:
       enabled: true
@@ -48,10 +50,6 @@ spec:
   env:
     - name: LYDIA_API_URI
       value: http://lydia-api
-    - name: REDIS_HOST
-      value: fia-radgiver-frontend-redis.pia.svc.cluster.local
-    - name: REDIS_PORT
-      value: "6379"
     - name: FIA_SUPERBRUKER_GROUP_ID
       value: {{fiaSuperbrukerGroup}}
     - name: FIA_SAKSBEHANDLER_GROUP_ID

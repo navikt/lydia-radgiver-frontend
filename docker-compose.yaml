@@ -144,6 +144,7 @@ services:
     image: redis:7-alpine
     ports:
       - 6379:6379
+    command: ["redis-server", "--user brukernavn on +@all ~* >passord"]
     restart: unless-stopped
 
   wonderwall:
@@ -172,8 +173,9 @@ services:
     ports:
       - 3000:3000
     environment:
-      REDIS_HOST: redis
-      REDIS_PORT: 6379
+      REDIS_URI_FIA_SESSIONS: redis://redis:6379
+      REDIS_USERNAME_FIA_SESSIONS: brukernavn
+      REDIS_PASSWORD_FIA_SESSIONS: passord
       NAIS_CLUSTER_NAME: dev
       SESSION_SECRET: secret
       CSRF_SECRET: csrf
