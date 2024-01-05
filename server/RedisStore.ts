@@ -5,10 +5,10 @@ import {inCloudMode} from "./app";
 
 export const redisSessionManager = () => {
     const redisConfig: RedisOptions = {
-        username: process.env.REDIS_USERNAME_FIA_SESSIONS || 'brukernavn',
-        password: process.env.REDIS_PASSWORD_FIA_SESSIONS || 'passord'
+        username: process.env.REDIS_USERNAME_FIASESSIONS || 'brukernavn',
+        password: process.env.REDIS_PASSWORD_FIASESSIONS || 'passord'
     }
-    const client = new Redis(process.env.REDIS_URI_FIA_SESSIONS, redisConfig);
+    const client = new Redis(process.env.REDIS_URI_FIASESSIONS, redisConfig);
     return session({
         store: new RedisStore({
             client,

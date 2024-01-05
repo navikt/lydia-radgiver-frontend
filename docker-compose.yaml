@@ -173,9 +173,9 @@ services:
     ports:
       - 3000:3000
     environment:
-      REDIS_URI_FIA_SESSIONS: redis://redis:6379
-      REDIS_USERNAME_FIA_SESSIONS: brukernavn
-      REDIS_PASSWORD_FIA_SESSIONS: passord
+      REDIS_URI_FIASESSIONS: redis://redis:6379
+      REDIS_USERNAME_FIASESSIONS: brukernavn
+      REDIS_PASSWORD_FIASESSIONS: passord
       NAIS_CLUSTER_NAME: dev
       SESSION_SECRET: secret
       CSRF_SECRET: csrf

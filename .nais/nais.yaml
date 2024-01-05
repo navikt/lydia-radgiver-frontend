@@ -31,7 +31,7 @@ spec:
       rules:
         - application: lydia-api
   redis:
-    - instance: fia_sessions
+    - instance: fiasessions
       access: readwrite
   azure:
     application:
