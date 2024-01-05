@@ -192,10 +192,6 @@ const useSwrTemplate = <T>(
     }
     const safeParseResultat = schema.safeParse(data);
 
-    if (path && path.toString().indexOf("antallTreff") != -1) {
-        console.debug(safeParseResultat, " i ", path);
-    }
-
     if (!safeParseResultat.success) {
         console.error(
             "Feil i parsing av data fra server",
