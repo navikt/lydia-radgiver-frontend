@@ -1,7 +1,7 @@
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
-import { Button } from "@navikt/ds-react";
+import { BodyShort, Button, Heading } from "@navikt/ds-react";
 import { nyKartleggingPåSak } from "../../../api/lydia-api";
 
 const Container = styled.div`
@@ -22,7 +22,19 @@ export const KartleggingFane = ({ iaSak }: Props) => {
 
     return (
         <Container>
-            <Button onClick={opprettKartlegging}>Opprett</Button>
+            <div>
+                <Heading level="3" size="large" spacing={true}>
+                    IA-Kartlegging
+                </Heading>
+                <BodyShort>
+                    Her legger du inn og får oversikt over kartleggingene til
+                    saken. Du må være på status “Kartlegges” for å jobbe med
+                    kartlegginger.
+                </BodyShort>
+            </div>
+            {iaSak.status === "KARTLEGGES" && (
+                <Button onClick={opprettKartlegging}>Opprett</Button>
+            )}
         </Container>
     );
 };
