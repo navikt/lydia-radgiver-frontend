@@ -4,26 +4,31 @@ import { useSearchParams } from "react-router-dom";
 import { Tabs } from "@navikt/ds-react";
 import { SamarbeidshistorikkFane } from "./Samarbeidshistorikk/SamarbeidshistorikkFane";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
-import { contentSpacing, strekkBakgrunnenHeltUtTilKantenAvSida } from "../../styling/contentSpacing";
+import {
+    contentSpacing,
+    strekkBakgrunnenHeltUtTilKantenAvSida,
+} from "../../styling/contentSpacing";
 import { NavFarger } from "../../styling/farger";
 import { LeveranseFane } from "./Leveranser/LeveranseFane";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
+import { KartleggingFane } from "./Kartlegging/KartleggingFane";
+import { erIDev } from "../../components/Dekoratør/Dekoratør";
 
 const Container = styled.div`
-  padding-top: ${contentSpacing.mobileY};
+    padding-top: ${contentSpacing.mobileY};
 
-  background-color: ${NavFarger.white};
-  ${strekkBakgrunnenHeltUtTilKantenAvSida}
+    background-color: ${NavFarger.white};
+    ${strekkBakgrunnenHeltUtTilKantenAvSida}
 `;
 
 const StyledPanel = styled(Tabs.Panel)`
-  padding-top: 1.5rem;
-  padding-bottom: 1.5rem;
+    padding-top: 1.5rem;
+    padding-bottom: 1.5rem;
 
-  background-color: ${NavFarger.gray100};
-  ${strekkBakgrunnenHeltUtTilKantenAvSida}
+    background-color: ${NavFarger.gray100};
+    ${strekkBakgrunnenHeltUtTilKantenAvSida}
 `;
 
 interface Props {
@@ -31,10 +36,9 @@ interface Props {
 }
 
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
-    const {
-        data: iaSak,
-        loading: lasterIaSak,
-    } = useHentAktivSakForVirksomhet(virksomhet.orgnr);
+    const { data: iaSak, loading: lasterIaSak } = useHentAktivSakForVirksomhet(
+        virksomhet.orgnr,
+    );
 
     const [searchParams, setSearchParams] = useSearchParams();
     const fane = searchParams.get("fane") ?? "statistikk";
@@ -45,7 +49,10 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     };
 
     React.useEffect(() => {
-        const ikkeGyldigTab = fane !== "statistikk" && fane !== "samarbeidshistorikk" && fane !== "ia-tjenester";
+        const ikkeGyldigTab =
+            fane !== "statistikk" &&
+            fane !== "samarbeidshistorikk" &&
+            fane !== "ia-tjenester";
         const manglerIaSak = fane === "ia-tjenester" && !iaSak && !lasterIaSak;
 
         if (ikkeGyldigTab || manglerIaSak) {
@@ -57,17 +64,32 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         <Container>
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />
             <br />
-            <Tabs value={fane} onChange={oppdaterTabISearchParam} defaultValue="statistikk">
+            <Tabs
+                value={fane}
+                onChange={oppdaterTabISearchParam}
+                defaultValue="statistikk"
+            >
                 <Tabs.List style={{ width: "100%" }}>
                     <Tabs.Tab value="statistikk" label="Statistikk" />
-                    <Tabs.Tab value="samarbeidshistorikk" label="Samarbeidshistorikk" />
-                    {iaSak && <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />}
+                    <Tabs.Tab
+                        value="samarbeidshistorikk"
+                        label="Samarbeidshistorikk"
+                    />
+                    {iaSak && erIDev && (
+                        <Tabs.Tab value="kartlegging" label="Kartlegging" />
+                    )}
+                    {iaSak && (
+                        <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />
+                    )}
                 </Tabs.List>
                 <StyledPanel value="statistikk">
-                    <StatistikkFane virksomhet={virksomhet}/>
+                    <StatistikkFane virksomhet={virksomhet} />
                 </StyledPanel>
                 <StyledPanel value="samarbeidshistorikk">
                     <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />
+                </StyledPanel>
+                <StyledPanel value="kartlegging">
+                    {iaSak && erIDev && <KartleggingFane iaSak={iaSak} />}
                 </StyledPanel>
                 <StyledPanel value="ia-tjenester">
                     {iaSak && <LeveranseFane iaSak={iaSak} />}
