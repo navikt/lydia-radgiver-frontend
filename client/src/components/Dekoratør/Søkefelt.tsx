@@ -1,10 +1,11 @@
 import { CSSProperties, useEffect, useRef, useState } from "react";
-import { Popover, Search } from "@navikt/ds-react";
+import { Loader, Popover, Search } from "@navikt/ds-react";
 import { useDebounce } from "../../util/useDebounce";
 import { virksomhetAutocompletePath } from "../../api/lydia-api";
 import { VirksomhetSøkeresultat } from "../../domenetyper/domenetyper";
 import { EksternLenke } from "../EksternLenke";
 import { loggSøkPåVirksomhet } from "../../util/amplitude-klient";
+import styled from "styled-components";
 
 interface Props {
     className?: string;
@@ -14,14 +15,17 @@ interface Props {
 export const Søkefelt = ({ style, className }: Props) => {
     const searchRef = useRef<HTMLDivElement | null>(null)
     const [firmaer, setFirmaer] = useState<VirksomhetSøkeresultat[]>([])
+    const [søkLaster, setSøkLaster] = useState(false);
     const [søkestreng, setSøkestreng] = useState("")
     const faktiskSøkestreng = useDebounce(søkestreng, 500)
 
     useEffect(() => {
         if (faktiskSøkestreng.length >= 3) {
+            setSøkLaster(true);
             fetch(`${virksomhetAutocompletePath}?q=${faktiskSøkestreng}`)
                 .then(res => res.json())
                 .then((data: VirksomhetSøkeresultat[]) => setFirmaer(data))
+                .then(() => setSøkLaster(false));
 
             loggSøkPåVirksomhet(faktiskSøkestreng.includes("*")
                 ? "med *"
@@ -47,6 +51,11 @@ export const Søkefelt = ({ style, className }: Props) => {
                 placement="bottom-start"
                 arrow={false}
             >
+                {
+                    søkLaster && <Popover.Content>
+                        <Lastespinner />
+                    </Popover.Content>
+                }
                 {!!firmaer.length && <Popover.Content>
                     {firmaer.map(firma => (
                         <EksternLenke
@@ -63,7 +72,16 @@ export const Søkefelt = ({ style, className }: Props) => {
                         </EksternLenke>
                     ))}
                 </Popover.Content>}
+                {(firmaer.length === 0 && !søkLaster) && <Popover.Content>
+                    Ingen resultater.
+                </Popover.Content>}
             </Popover>
         </div>
     );
 }
+
+const Lastespinner = styled(Loader)`
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+`;
