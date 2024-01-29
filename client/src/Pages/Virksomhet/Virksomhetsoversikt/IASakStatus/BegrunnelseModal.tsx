@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Button, Checkbox, CheckboxGroup, ErrorSummary, Modal, Select } from "@navikt/ds-react";
+import { Alert, Box, Button, Checkbox, CheckboxGroup, ErrorSummary, Modal, Select } from "@navikt/ds-react";
 import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../../../domenetyper/domenetyper";
 import { StyledModal } from "../../../../components/Modal/StyledModal";
 import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
@@ -66,20 +66,28 @@ export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: Begrunnels
                         ))}
                     </CheckboxGroup>
                     {valideringsfeil.length > 0 &&
-                        <ErrorSummary style={{ marginTop: "1rem" }}>
+                        <Box
+                            background="bg-default"
+                            borderColor="border-danger"
+                            padding="4"
+                            borderWidth="2"
+                            borderRadius="xlarge"
+                        >
                             {valideringsfeil.map(feil =>
-                                (<ErrorSummary.Item key={feil} href={`#${begrunnelserCheckboxId}`}>
+                                (<Alert key={feil} inline variant="error">
                                     {feil}
-                                </ErrorSummary.Item>)
+                                </Alert>)
                             )}
-                        </ErrorSummary>}
+                        </Box>}
                 </form>
                 <ModalKnapper>
                     <Button
                         onClick={() => {
                             if (!valgtÅrsak || valgteBegrunnelser.length == 0) {
-                                setValideringsfeil([...valideringsfeil, "Du må velge minst én begrunnelse"])
-                                return
+                                if (!valideringsfeil.includes("Du må velge minst én begrunnelse")) {
+                                    setValideringsfeil([...valideringsfeil, "Du må velge minst én begrunnelse"])
+                                }
+                                return;
                             }
                             const valgtÅrsakDto: ValgtÅrsakDto = {
                                 type: valgtÅrsak.type,
