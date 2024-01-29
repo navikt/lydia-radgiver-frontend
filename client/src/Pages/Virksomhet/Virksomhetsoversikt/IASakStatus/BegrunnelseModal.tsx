@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Alert, Box, Button, Checkbox, CheckboxGroup, ErrorSummary, Modal, Select } from "@navikt/ds-react";
+import { Alert, Box, Button, Checkbox, CheckboxGroup, Modal, Select } from "@navikt/ds-react";
 import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../../../domenetyper/domenetyper";
 import { StyledModal } from "../../../../components/Modal/StyledModal";
 import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
