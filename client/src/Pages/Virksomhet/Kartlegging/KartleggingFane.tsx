@@ -52,14 +52,14 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                     {!lasterIASakKartlegging &&
                         iaSakKartlegging &&
                         iaSakKartlegging.map((item) => (
-                            <List.Item key={item.id}>
+                            <List.Item key={item.kartleggingId}>
                                 <EksternLenke
-                                    key={item.id}
+                                    key={item.kartleggingId}
                                     style={{ display: "block" }}
-                                    href={`https://fia-arbeidsgiver.intern.dev.nav.no/${item.id}/vert`}
-                                    target={`https://fia-arbeidsgiver.intern.dev.nav.no/${item.id}/vert`}
+                                    href={`https://fia-arbeidsgiver.intern.dev.nav.no/${item.kartleggingId}/vert`}
+                                    target={`https://fia-arbeidsgiver.intern.dev.nav.no/${item.kartleggingId}/vert`}
                                 >
-                                    {item.id}
+                                    {item.kartleggingId}
                                 </EksternLenke>
                             </List.Item>
                         ))}

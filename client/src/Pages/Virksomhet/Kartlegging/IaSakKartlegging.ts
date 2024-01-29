@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const iaSakKartleggingSchema = z.object({
-    id: z.string(),
+    kartleggingId: z.string(),
     status: z.string(),
 });
 
