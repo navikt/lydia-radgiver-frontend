@@ -20,12 +20,14 @@ interface Props {
 }
 
 export const KartleggingFane = ({ iaSak }: Props) => {
+    const { data: iaSakKartlegging, loading: lasterIASakKartlegging, mutate: muterKartlegginger } =
+        useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
     const opprettKartlegging = () => {
-        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer);
+        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(() => {
+            muterKartlegginger()
+        });
     };
 
-    const { data: iaSakKartlegging, loading: lasterIASakKartlegging } =
-        useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
 
     return (
         <>
