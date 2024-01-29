@@ -1,5 +1,8 @@
 import { Button } from "@navikt/ds-react";
-import { GyldigNesteHendelse, IASakshendelseType, IASakshendelseTypeEnum } from "../../../../../domenetyper/domenetyper";
+import { GyldigNesteHendelse, IASak, IASakshendelseType, IASakshendelseTypeEnum } from "../../../../../domenetyper/domenetyper";
+import { useHentLeveranser } from "../../../../../api/lydia-api";
+import { FullførLeveranserFørstModal } from "../FullførLeveranserFørstModal";
+import { useState } from "react";
 
 export const penskrivIASakshendelsestype = (hendelsestype: IASakshendelseType): string => {
     switch (hendelsestype) {
@@ -53,6 +56,30 @@ export const knappeTypeFraSakshendelsesType = (hendelsesType: IASakshendelseType
     }
 }
 
+export const useTrengerÅFullføreLeveranserFørst = (hendelsesType: IASakshendelseType, sak?: IASak): boolean => {
+    if (sak === undefined) {
+        return false;
+    }
+    const { data: leveranserPåSak } = useHentLeveranser(sak.orgnr, sak.saksnummer);
+    const harLeveranserSomErUnderArbeid = leveranserPåSak?.flatMap((iaTjeneste) => iaTjeneste.leveranser)
+        .some((leveranse) => leveranse.status === "UNDER_ARBEID") || false;
+    
+    switch (hendelsesType) {
+        case IASakshendelseTypeEnum.enum.TILBAKE:
+            return harLeveranserSomErUnderArbeid;
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
+        case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
+        case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
+        case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
+        case IASakshendelseTypeEnum.enum.SLETT_SAK:
+            return false;
+    }
+}
+
 export const erHendelsenDestruktiv = (hendelsesType: IASakshendelseType) =>
     knappeTypeFraSakshendelsesType(hendelsesType) === "danger"
 
@@ -64,9 +91,25 @@ interface Props {
     hendelsesType: IASakshendelseType
     onClick: () => void
     laster?: boolean
+    sak?: IASak
 }
 
-export const IASakshendelseKnapp = ({ hendelsesType, onClick, laster }: Props) => {
+export const IASakshendelseKnapp = ({ hendelsesType, onClick, laster, sak }: Props) => {
+    const trengerÅFullføreLeveranserFørst = useTrengerÅFullføreLeveranserFørst(hendelsesType, sak);
+    const [visFullførLeveranserFørstModal, setVisFullførLeveranserFørstModal] = useState(false);
+
+    if (trengerÅFullføreLeveranserFørst) {
+        return (
+            <>
+                <IASakshendelseKnappInnhold hendelsesType={hendelsesType} onClick={() => setVisFullførLeveranserFørstModal(true)} laster={laster} />
+                <FullførLeveranserFørstModal visModal={visFullførLeveranserFørstModal} lukkModal={() => setVisFullførLeveranserFørstModal(false)} />
+            </>)
+    }
+
+    return <IASakshendelseKnappInnhold hendelsesType={hendelsesType} onClick={onClick} laster={laster} />
+}
+
+function IASakshendelseKnappInnhold({ hendelsesType, onClick, laster }: { hendelsesType: IASakshendelseType, onClick: () => void, laster?: boolean }) {
     return (
         <Button
             key={hendelsesType}

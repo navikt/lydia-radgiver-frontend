@@ -31,6 +31,7 @@ export const RettTilNesteStatusKnapp = ({ hendelse, sak }: Props) => {
             key={hendelse.saksHendelsestype}
             hendelsesType={hendelse.saksHendelsestype}
             onClick={() => trykkPåSakhendelsesknapp(hendelse)}
-        />
+            sak={sak}
+            />
     )
 }

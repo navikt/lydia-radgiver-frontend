@@ -39,7 +39,7 @@ export const HendelseMåBekreftesKnapp = ({ hendelse, sak, setVisKonfetti }: Pro
 
     return (
         <>
-            <IASakshendelseKnapp laster={laster} hendelsesType={hendelse.saksHendelsestype} onClick={() => setVisBekreftelsesModal(true)} />
+            <IASakshendelseKnapp laster={laster} hendelsesType={hendelse.saksHendelsestype} onClick={() => setVisBekreftelsesModal(true)} sak={sak} />
             <BekreftHendelseModal
                 laster={laster}
                 saksstatus={sak.status}

@@ -25,6 +25,7 @@ export const FullførKnapp = ({ hendelse, sak, setVisKonfetti }: Props) => {
                 <IASakshendelseKnapp
                     hendelsesType={hendelse.saksHendelsestype}
                     onClick={() => setVisModal(true)}
+                    sak={sak}
                 />
                 <LeggTilLeveranserFørstModal visModal={visModal} lukkModal={() => setVisModal(false)} />
             </>
@@ -36,6 +37,7 @@ export const FullførKnapp = ({ hendelse, sak, setVisKonfetti }: Props) => {
                 <IASakshendelseKnapp
                     hendelsesType={hendelse.saksHendelsestype}
                     onClick={() => setVisModal(true)}
+                    sak={sak}
                 />
                 <FullførLeveranserFørstModal visModal={visModal} lukkModal={() => setVisModal(false)} />
             </>)

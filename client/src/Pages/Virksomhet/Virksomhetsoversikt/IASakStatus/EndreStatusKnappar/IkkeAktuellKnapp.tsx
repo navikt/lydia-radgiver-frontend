@@ -50,6 +50,7 @@ export const IkkeAktuellKnapp = ({ hendelse, sak }: Props) => {
                 <IASakshendelseKnapp
                     hendelsesType={hendelse.saksHendelsestype}
                     onClick={() => setVisFullførLeveranserFørstModal(true)}
+                    sak={sak}
                 />
                 <FullførLeveranserFørstModal visModal={visFullførLeveranserFørstModal} lukkModal={() => setVisFullførLeveranserFørstModal(false)} />
             </>)
@@ -61,7 +62,8 @@ export const IkkeAktuellKnapp = ({ hendelse, sak }: Props) => {
                 laster={laster}
                 hendelsesType={hendelse.saksHendelsestype}
                 onClick={() => setVisBegrunnelsesModal(true)}
-            />
+                sak={sak}
+                />
             <BegrunnelseModal
                 hendelse={hendelse}
                 åpen={visBegrunnelsesModal}
