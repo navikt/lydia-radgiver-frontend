@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import "@navikt/ds-css";
 import { Prioriteringsside } from "./Prioriteringsside";
 import { filterverdierPath, sykefraværsstatistikkPath, } from "../../api/lydia-api";
@@ -28,17 +28,14 @@ export const PrioriteringssideMedDataStory = () => (<Prioriteringsside />);
 PrioriteringssideMedDataStory.parameters = {
     msw: {
         handlers: [
-            rest.get(filterverdierPath, (req, res, ctx) => {
-                return res(ctx.json(filterverdierMock));
+            http.get(filterverdierPath, () => {
+                return HttpResponse.json(filterverdierMock);
             }),
-            rest.get(sykefraværsstatistikkPath, (req, res, ctx) => {
-                return res(
-                    ctx.delay(2000),
-                    ctx.json({
-                        data: sykefraværsstatistikkMock,
-                        total: 500000,
-                    })
-                )
+            http.get(sykefraværsstatistikkPath, () => {
+                return HttpResponse.json({
+                    data: sykefraværsstatistikkMock,
+                    total: 500000,
+                })
             }),
         ],
     },
@@ -50,16 +47,14 @@ export const PrioriteringssideUtenResultaterFraSøkStory = () => (<Prioriterings
 PrioriteringssideUtenResultaterFraSøkStory.parameters = {
     msw: {
         handlers: [
-            rest.get(filterverdierPath, (req, res, ctx) => {
-                return res(ctx.json(filterverdierMock));
+            http.get(filterverdierPath, () => {
+                return HttpResponse.json(filterverdierMock);
             }),
-            rest.get(sykefraværsstatistikkPath, (req, res, ctx) => {
-                return res(
-                    ctx.json({
-                        data: [],
-                        total: 0,
-                    })
-                );
+            http.get(sykefraværsstatistikkPath, () => {
+                return HttpResponse.json({
+                    data: [],
+                    total: 0,
+                });
             }),
         ],
     },

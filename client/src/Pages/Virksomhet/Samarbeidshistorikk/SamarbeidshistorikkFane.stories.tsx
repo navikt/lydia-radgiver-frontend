@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { SamarbeidshistorikkFane } from "./SamarbeidshistorikkFane";
 import { samarbeidshistorikkMock } from "../mocks/iaSakHistorikkMock";
 import { iaSakHistorikkPath } from "../../../api/lydia-api";
@@ -20,10 +20,8 @@ export const FlereSaker: Story = {
     parameters: {
         msw: {
             handlers: [
-                rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(samarbeidshistorikkMock)
-                    );
+                http.get(`${iaSakHistorikkPath}/:orgnummer`, () => {
+                    return HttpResponse.json(samarbeidshistorikkMock);
                 }),
                 ...mswHandlers,
             ],
@@ -36,10 +34,8 @@ export const IngenSaker: Story = {
     parameters: {
         msw: {
             handlers: [
-                rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
-                    return res(
-                        ctx.json([])
-                    );
+                http.get(`${iaSakHistorikkPath}/:orgnummer`, () => {
+                    return HttpResponse.json([]);
                 }),
             ],
         },
@@ -51,11 +47,10 @@ export const LasterSaker: Story = {
     parameters: {
         msw: {
             handlers: [
-                rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
-                    return new Promise(resolve => setTimeout(resolve, 3000))
-                        .then(() => res(
-                            ctx.json([])
-                        ))
+                http.get(`${iaSakHistorikkPath}/:orgnummer`, async () => {
+                    await new Promise(resolve => setTimeout(resolve, 3000));
+
+                    return  HttpResponse.json([]);
                 }),
             ],
         },
@@ -66,10 +61,8 @@ export const FeilVedLastingAvSaker: Story = {
     parameters: {
         msw: {
             handlers: [
-                rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
-                    return res(
-                        ctx.json(undefined)
-                    );
+                http.get(`${iaSakHistorikkPath}/:orgnummer`, () => {
+                    return HttpResponse.json(undefined);
                 }),
             ],
         },

@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { iaSakViBistår } from "../mocks/iaSakMock";
 import { IATjeneste } from "./IATjeneste";
 import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
@@ -21,8 +21,8 @@ export const Hovedstory: Story = {
     },
     parameters: {
         msw: [
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakViBistår));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakViBistår);
             }),
             ...mswHandlers,
         ],

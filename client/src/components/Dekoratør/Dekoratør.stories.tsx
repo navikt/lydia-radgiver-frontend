@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react";
 import { Dekoratør } from "./Dekoratør";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { virksomhetAutocompletePath } from "../../api/lydia-api";
 import { virksomhetAutocompleteMock } from "../../Pages/Prioritering/mocks/virksomhetMock";
 import {
@@ -22,15 +22,15 @@ export const Autentisert = () => (
 Autentisert.parameters = {
     msw: {
         handlers: [
-            rest.get(`${virksomhetAutocompletePath}`, (req, res, ctx) => {
-                const søketekst = req.url.searchParams.get("q")
-                return res(ctx.json(søketekst === null
+            http.get(`${virksomhetAutocompletePath}`, ({ request }) => {
+                const url = new URL(request.url);
+                const søketekst = url.searchParams.get("q")
+                return HttpResponse.json(søketekst === null
                     ? []
                     : virksomhetAutocompleteMock
                         .filter(virksomhet => virksomhet.navn.startsWith(søketekst)
                             || virksomhet.orgnr.startsWith(søketekst)
-                        )
-                ));
+                        ));
             }),
         ]
     },

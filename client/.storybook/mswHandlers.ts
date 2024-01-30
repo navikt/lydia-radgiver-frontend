@@ -1,4 +1,4 @@
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innloggetAnsattMock";
 import {
     iaSakHistorikkPath, innloggetAnsattPath,
@@ -19,60 +19,40 @@ import { iaTjenester, leveranserPerIATjeneste, moduler } from "../src/Pages/Virk
 import { mineIATjenesterMock } from "../src/Pages/IATjenesteoversikt/mineIATjenesterMock";
 
 export const mswHandlers = [
-    rest.get(`${innloggetAnsattPath}`, (req, res, ctx) => {
-        return res(ctx.json(brukerMedVeldigLangtNavn));
+    http.get(`${innloggetAnsattPath}`, () => {
+        return HttpResponse.json(brukerMedVeldigLangtNavn);
     }),
-    rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, (req, res, ctx) => {
-        return res(
-            ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
-        );
+    http.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, () => {
+        return HttpResponse.json(sykefraværsstatistikkSisteKvartalMock[0]);
     }),
-    rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
-        return res(
-            ctx.json(virksomhetsstatistikkSiste4KvartalerMock[0])
-        );
+    http.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, () => {
+        return HttpResponse.json(virksomhetsstatistikkSiste4KvartalerMock[0]);
     }),
-    rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, (req, res, ctx) => {
-        return res(
-            ctx.json(gjeldendePeriodePubliseringsinfo)
-        );
+    http.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, () => {
+        return HttpResponse.json(gjeldendePeriodePubliseringsinfo);
     }),
-    rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
-        return res(
-            ctx.json(samarbeidshistorikkMock)
-        );
+    http.get(`${iaSakHistorikkPath}/:orgnummer`, () => {
+        return HttpResponse.json(samarbeidshistorikkMock);
     }),
-    rest.get(`${leveransePath}/:orgnummer/:saksnummer`, (req, res, ctx) => {
-        return res(
-            ctx.json(leveranserPerIATjeneste)
-        );
+    http.get(`${leveransePath}/:orgnummer/:saksnummer`, () => {
+        return HttpResponse.json(leveranserPerIATjeneste);
     }),
-    rest.get(`${mineIATjenesterPath}`, (req, res, ctx) => {
-        return res(
-            ctx.json(mineIATjenesterMock)
-        );
+    http.get(`${mineIATjenesterPath}`, () => {
+        return HttpResponse.json(mineIATjenesterMock);
     }),
-    rest.get(tjenesterPath, (req, res, ctx) => {
-        return res(
-            ctx.json(iaTjenester)
-        );
+    http.get(tjenesterPath, () => {
+        return HttpResponse.json(iaTjenester);
     }),
-    rest.get(modulerPath, (req, res, ctx) => {
-        return res(
-            ctx.json(moduler)
-        );
+    http.get(modulerPath, () => {
+        return HttpResponse.json(moduler);
     }),
-    rest.get(`${sykefraværsstatistikkPath}/${næringPath}/:naringskode`, (req, res, ctx) => {
-        return res(
-            ctx.json(sykefraværsstatistikkNæringMock)
-        );
+    http.get(`${sykefraværsstatistikkPath}/${næringPath}/:naringskode`, () => {
+        return HttpResponse.json(sykefraværsstatistikkNæringMock);
     }),
-    rest.get(`${salesforceUrlPath}/:orgnummer`, (req, res, ctx) => {
-        return res(
-            ctx.json({
-                orgnr: req.params.orgnummer,
-                url: "https://www.salesforce.com"
-            })
-        );
+    http.get(`${salesforceUrlPath}/:orgnummer`, ({ params }) => {
+        return HttpResponse.json({
+            orgnr: params.orgnummer,
+            url: "https://www.salesforce.com"
+        });
     }),
 ]

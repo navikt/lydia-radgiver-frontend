@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react";
 import { Footer } from "./Footer";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { publiseringsinfoPath, sykefraværsstatistikkPath } from "../../api/lydia-api";
 import { gjeldendePeriodePubliseringsinfo } from "../../Pages/Prioritering/mocks/sykefraværsstatistikkMock";
 
@@ -24,11 +24,9 @@ export const HentGjeldendePeriodeErTreig = () => (
 HentGjeldendePeriodeErTreig.parameters = {
     msw: {
         handlers: [
-            rest.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, async (req, res, ctx) => {
+            http.get(`${sykefraværsstatistikkPath}/${publiseringsinfoPath}`, async () => {
                 await sleep(5000)
-                return res(
-                    ctx.json(gjeldendePeriodePubliseringsinfo)
-                );
+                return HttpResponse.json(gjeldendePeriodePubliseringsinfo);
             }),
         ],
     },

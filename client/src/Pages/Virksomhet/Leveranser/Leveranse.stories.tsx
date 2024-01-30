@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { iaSakViBistår } from "../mocks/iaSakMock";
 import { Leveranse } from "./Leveranse";
 import { Leveranse as LeveranseType } from "../../../domenetyper/leveranse"
@@ -27,8 +27,8 @@ export const LeveranseUnderArbeid: Story = {
     },
     parameters: {
         msw: [
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakViBistår));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakViBistår);
             }),
             ...mswHandlers,
         ]
@@ -42,8 +42,8 @@ export const LeveranseLevert: Story = {
     },
     parameters: {
         msw: [
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakViBistår));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakViBistår);
             }),
             ...mswHandlers,
         ]
@@ -57,11 +57,11 @@ export const BrukerErLesebruker: Story = {
     },
     parameters: {
         msw: [
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakViBistår));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakViBistår);
             }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomHarLesetilgang));
+            http.get(innloggetAnsattPath, () => {
+                return HttpResponse.json(brukerSomHarLesetilgang);
             }),
             ...mswHandlers,
         ]
@@ -75,8 +75,8 @@ export const DeaktivertLeveranse: Story = {
     },
     parameters: {
         msw: [
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakViBistår));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakViBistår);
             }),
             ...mswHandlers,
         ]

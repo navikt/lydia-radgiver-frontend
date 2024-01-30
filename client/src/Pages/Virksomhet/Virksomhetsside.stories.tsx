@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
 import {
     historiskStatistikkMock,
@@ -47,33 +47,23 @@ VirksomhetssideStory.parameters = {
     msw: {
         handlers: [
             ...mswHandlers,
-            rest.get(`${virksomhetsPath}/:orgnummer`, (req, res, ctx) => {
-                return res(ctx.json(virksomhetMock));
+            http.get(`${virksomhetsPath}/:orgnummer`, () => {
+                return HttpResponse.json(virksomhetMock);
             }),
-            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
-                );
+            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, () => {
+                return HttpResponse.json(sykefraværsstatistikkSisteKvartalMock[0]);
             }),
-            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(virksomhetsstatistikkSiste4KvartalerMock[1])
-                );
+            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, () => {
+                return HttpResponse.json(virksomhetsstatistikkSiste4KvartalerMock[1]);
             }),
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(
-                    ctx.json(iaSakKontaktes)
-                );
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakKontaktes);
             }),
-            rest.get(`${iaSakHistorikkPath}/:orgnummer`, (req, res, ctx) => {
-                return res(
-                    ctx.json(samarbeidshistorikkMock)
-                );
+            http.get(`${iaSakHistorikkPath}/:orgnummer`, () => {
+                return HttpResponse.json(samarbeidshistorikkMock);
             }),
-            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${historiskStatistikkPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(historiskStatistikkMock)
-                );
+            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${historiskStatistikkPath}`, () => {
+                return HttpResponse.json(historiskStatistikkMock);
             }),
         ],
     },
