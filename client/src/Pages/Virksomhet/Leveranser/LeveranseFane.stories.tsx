@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { LeveranseFane } from "./LeveranseFane";
 import { iaSakFullført, iaSakKartlegges, iaSakViBistår } from "../mocks/iaSakMock";
 import { brukerSomErSaksbehandler, brukerSomHarLesetilgang } from "../../Prioritering/mocks/innloggetAnsattMock";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
 import { iaSakPath, innloggetAnsattPath } from "../../../api/lydia-api";
 
@@ -19,8 +19,8 @@ export const Hovedstory: Story = {
     },
     parameters: {
         msw: [
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakViBistår));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakViBistår);
             }),
             ...mswHandlers,
         ]
@@ -33,8 +33,8 @@ export const BrukerEierIkkeSak: Story = {
     },
     parameters: {
         msw: [
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json({...iaSakViBistår, eidAv: brukerSomErSaksbehandler.ident}));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json({ ...iaSakViBistår, eidAv: brukerSomErSaksbehandler.ident });
             }),
             ...mswHandlers,
         ]
@@ -47,8 +47,8 @@ export const SakErIkkeIViBistaar: Story = {
     },
     parameters: {
         msw: [
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakKartlegges));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakKartlegges);
             }),
             ...mswHandlers,
         ]
@@ -61,8 +61,8 @@ export const SakErIFullført: Story = {
     },
     parameters: {
         msw: [
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakFullført));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakFullført);
             }),
             ...mswHandlers,
         ]
@@ -75,11 +75,11 @@ export const BrukerHarLesetilgang: Story = {
     },
     parameters: {
         msw: [
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakFullført));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakFullført);
             }),
-            rest.get(innloggetAnsattPath, (req, res, ctx) => {
-                return res(ctx.json(brukerSomHarLesetilgang));
+            http.get(innloggetAnsattPath, () => {
+                return HttpResponse.json(brukerSomHarLesetilgang);
             }),
             ...mswHandlers,
         ]

@@ -1,5 +1,5 @@
 import { Meta } from "@storybook/react";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import {
     sykefraværsstatistikkBransjeMock,
     sykefraværsstatistikkSisteKvartalMock,
@@ -33,20 +33,14 @@ Hovedstory.parameters = {
     msw: {
         handlers: [
             ...mswHandlers,
-            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(virksomhetsstatistikkSiste4KvartalerMock[0])
-                );
+            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, () => {
+                return HttpResponse.json(virksomhetsstatistikkSiste4KvartalerMock[0]);
             }),
-            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
-                );
+            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, () => {
+                return HttpResponse.json(sykefraværsstatistikkSisteKvartalMock[0]);
             }),
-            rest.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, (req, res, ctx) => {
-                return res(
-                    ctx.json(sykefraværsstatistikkBransjeMock)
-                );
+            http.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, () => {
+                return HttpResponse.json(sykefraværsstatistikkBransjeMock);
             }),
         ],
     },
@@ -59,22 +53,14 @@ ForVirksomhetUtenBransje.parameters = {
     msw: {
         handlers: [
             ...mswHandlers,
-            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(
-                        virksomhetsstatistikkSiste4KvartalerMock[2],
-                    )
-                );
+            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, () => {
+                return HttpResponse.json(virksomhetsstatistikkSiste4KvartalerMock[2],);
             }),
-            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
-                );
+            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, () => {
+                return HttpResponse.json(sykefraværsstatistikkSisteKvartalMock[0]);
             }),
-            rest.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, (req, res, ctx) => {
-                return res(
-                    ctx.json(sykefraværsstatistikkBransjeMock)
-                );
+            http.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, () => {
+                return HttpResponse.json(sykefraværsstatistikkBransjeMock);
             }),
         ],
     },
@@ -87,22 +73,14 @@ MedStatistikkFraKunToKvartal.parameters = {
     msw: {
         handlers: [
             ...mswHandlers,
-            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(
-                        virksomhetsstatistikkSiste4KvartalerMock[2],
-                    )
-                );
+            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, () => {
+                return HttpResponse.json(virksomhetsstatistikkSiste4KvartalerMock[2],);
             }),
-            rest.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, (req, res, ctx) => {
-                return res(
-                    ctx.json(sykefraværsstatistikkSisteKvartalMock[0])
-                );
+            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, () => {
+                return HttpResponse.json(sykefraværsstatistikkSisteKvartalMock[0]);
             }),
-            rest.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, (req, res, ctx) => {
-                return res(
-                    ctx.json(sykefraværsstatistikkBransjeMock)
-                );
+            http.get(`${sykefraværsstatistikkPath}/${bransjePath}/:bransjekode`, () => {
+                return HttpResponse.json(sykefraværsstatistikkBransjeMock);
             }),
         ],
     },

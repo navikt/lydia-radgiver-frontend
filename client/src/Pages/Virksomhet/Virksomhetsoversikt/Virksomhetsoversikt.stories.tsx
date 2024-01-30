@@ -1,6 +1,6 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { virksomhetMock } from "../../Prioritering/mocks/virksomhetMock";
 import { iaSakKontaktes } from "../mocks/iaSakMock";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt";
@@ -33,8 +33,8 @@ export const Hovedstory: Story = {
     parameters: {
         msw: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakKontaktes));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakKontaktes);
             }),
         ],
     },

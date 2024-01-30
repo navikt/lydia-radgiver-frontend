@@ -1,5 +1,5 @@
 import { Meta, StoryObj } from "@storybook/react";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { LeggTilLeveranse } from "./LeggTilLeveranse";
 import { iaSakViBistår } from "../mocks/iaSakMock";
 import { iaSakPath } from "../../../api/lydia-api";
@@ -18,8 +18,8 @@ export const Hovedstory: Story = {
     },
     parameters: {
         msw: [
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakViBistår));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakViBistår);
             }),
             ...mswHandlers,
         ],

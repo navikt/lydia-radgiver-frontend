@@ -12,7 +12,7 @@ import {
     iaSakVurderesUtenEier,
 } from "../../mocks/iaSakMock";
 import { mswHandlers } from "../../../../../.storybook/mswHandlers";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import { iaSakPath } from "../../../../api/lydia-api";
 
 const meta = {
@@ -35,8 +35,8 @@ export const IkkeAktiv: Story = {
     parameters: {
         msw: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakViBistår));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakViBistår);
             }),
         ],
     },
@@ -50,8 +50,8 @@ export const VurderesUtenEier: Story = {
     parameters: {
         msw: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakVurderesUtenEier));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakVurderesUtenEier);
             }),
         ],
     },
@@ -65,8 +65,8 @@ export const VurderesMedEierEier = {
     parameters: {
         msw: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakVurderesMedEier));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakVurderesMedEier);
             }),
         ],
     },
@@ -80,8 +80,8 @@ export const Kontaktes = {
     parameters: {
         msw: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakKontaktes));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakKontaktes);
             }),
         ],
     },
@@ -95,8 +95,8 @@ export const IkkeAktuell = {
     parameters: {
         msw: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakIkkeAktuell));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakIkkeAktuell);
             }),
         ],
     },
@@ -110,8 +110,8 @@ export const Kartlegges = {
     parameters: {
         msw: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakKartlegges));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakKartlegges);
             }),
         ],
     },
@@ -125,8 +125,8 @@ export const ViBistar = {
     parameters: {
         msw: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakViBistår));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakViBistår);
             }),
         ],
     },
@@ -140,8 +140,8 @@ export const Fullfort = {
     parameters: {
         msw: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakFullført));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakFullført);
             }),
         ],
     },
@@ -155,8 +155,8 @@ export const FullfortOgLukket = {
     parameters: {
         msw: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakFullførtOgLukket));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakFullførtOgLukket);
             }),
         ],
     },
@@ -170,8 +170,8 @@ export const IngenAktivitetPaLenge = {
     parameters: {
         msw: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakIngenAktivitetPåOverEtKvartal));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakIngenAktivitetPåOverEtKvartal);
             }),
         ],
     },

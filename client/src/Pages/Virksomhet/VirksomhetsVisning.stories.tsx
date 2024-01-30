@@ -5,7 +5,7 @@ import {
     virksomhetMock,
 } from "../Prioritering/mocks/virksomhetMock";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
-import { rest } from "msw";
+import { http, HttpResponse } from "msw";
 import {
     historiskStatistikkPath,
     iaSakPath,
@@ -46,13 +46,13 @@ Hovedstory.parameters = {
     msw: {
         handlers: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakKontaktes));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakKontaktes);
             }),
-            rest.get(
+            http.get(
                 `${sykefraværsstatistikkPath}/:orgnummer/${historiskStatistikkPath}`,
-                (req, res, ctx) => {
-                    return res(ctx.json(historiskStatistikkMock));
+                () => {
+                    return HttpResponse.json(historiskStatistikkMock);
                 },
             ),
         ],
@@ -69,13 +69,13 @@ VirksomhetSomErSlettet.parameters = {
     msw: {
         handlers: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakKontaktes));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakKontaktes);
             }),
-            rest.get(
+            http.get(
                 `${sykefraværsstatistikkPath}/:orgnummer/${historiskStatistikkPath}`,
-                (req, res, ctx) => {
-                    return res(ctx.json(historiskStatistikkMock));
+                () => {
+                    return HttpResponse.json(historiskStatistikkMock);
                 },
             ),
         ],
@@ -92,13 +92,13 @@ VirksomhetSomErFjernet.parameters = {
     msw: {
         handlers: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakKontaktes));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakKontaktes);
             }),
-            rest.get(
+            http.get(
                 `${sykefraværsstatistikkPath}/:orgnummer/${historiskStatistikkPath}`,
-                (req, res, ctx) => {
-                    return res(ctx.json(historiskStatistikkMock));
+                () => {
+                    return HttpResponse.json(historiskStatistikkMock);
                 },
             ),
         ],
@@ -115,13 +115,13 @@ VirksomhetMedSakSomErLukket.parameters = {
     msw: {
         handlers: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.json(iaSakFullførtOgLukket));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(iaSakFullførtOgLukket);
             }),
-            rest.get(
+            http.get(
                 `${sykefraværsstatistikkPath}/:orgnummer/${historiskStatistikkPath}`,
-                (req, res, ctx) => {
-                    return res(ctx.json(historiskStatistikkMock));
+                () => {
+                    return HttpResponse.json(historiskStatistikkMock);
                 },
             ),
         ],
@@ -138,13 +138,13 @@ VirksomhetUtenSak.parameters = {
     msw: {
         handlers: [
             ...mswHandlers,
-            rest.get(`${iaSakPath}/:orgnummer/aktiv`, (req, res, ctx) => {
-                return res(ctx.status(204));
+            http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
+                return HttpResponse.json(null, { status: 204 });
             }),
-            rest.get(
+            http.get(
                 `${sykefraværsstatistikkPath}/:orgnummer/${historiskStatistikkPath}`,
-                (req, res, ctx) => {
-                    return res(ctx.json(historiskStatistikkMock));
+                () => {
+                    return HttpResponse.json(historiskStatistikkMock);
                 },
             ),
         ],
