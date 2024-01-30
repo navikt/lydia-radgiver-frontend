@@ -20,14 +20,16 @@ interface Props {
 }
 
 export const KartleggingFane = ({ iaSak }: Props) => {
-    const { data: iaSakKartlegging, loading: lasterIASakKartlegging, mutate: muterKartlegginger } =
-        useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
+    const {
+        data: iaSakKartlegging,
+        loading: lasterIASakKartlegging,
+        mutate: muterKartlegginger,
+    } = useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
     const opprettKartlegging = () => {
         nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(() => {
-            muterKartlegginger()
+            muterKartlegginger();
         });
     };
-
 
     return (
         <>
@@ -58,8 +60,8 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                 <EksternLenke
                                     key={item.kartleggingId}
                                     style={{ display: "block" }}
-                                    href={`https://fia-arbeidsgiver.intern.dev.nav.no/${item.kartleggingId}/vert`}
-                                    target={`https://fia-arbeidsgiver.intern.dev.nav.no/${item.kartleggingId}/vert`}
+                                    href={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
+                                    target={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
                                 >
                                     {item.kartleggingId}
                                 </EksternLenke>
