@@ -1,4 +1,4 @@
-import { Meta, StoryObj } from "@storybook/react";
+import { Meta, StoryFn, StoryObj } from "@storybook/react";
 import { IASakOversikt } from "./IASakOversikt";
 import {
     iaSakFullført,
@@ -14,6 +14,7 @@ import {
 import { mswHandlers } from "../../../../../.storybook/mswHandlers";
 import { http, HttpResponse } from "msw";
 import { iaSakPath } from "../../../../api/lydia-api";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
 
 const meta = {
     title: "Virksomhet/Virksomhetsoversikt/IA-sak-oversikt (statusfelt)",
@@ -23,6 +24,15 @@ const meta = {
             default: "white",
         },
     },
+    decorators: [
+        (Story: StoryFn) => (
+            <MemoryRouter>
+                <Routes>
+                    <Route path="/*" element={<Story />} />
+                </Routes>
+            </MemoryRouter>
+        )
+    ]
 } satisfies Meta<typeof IASakOversikt>;
 
 export default meta;
