@@ -34,6 +34,12 @@ export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER);
 
 export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>;
 
+const IA_KARTLEGGING_STATUSER = ["OPPRETTET", "AVSLUTTET"] as const;
+export const iaSakKartleggingStatusEnum = z.enum(IA_KARTLEGGING_STATUSER);
+export type IASakKartleggingStatusType = z.infer<
+    typeof iaSakKartleggingStatusEnum
+>;
+
 export type VirksomhetSøkeresultat = {
     orgnr: string;
     navn: string;

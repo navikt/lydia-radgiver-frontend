@@ -1,61 +1,77 @@
 import "@navikt/ds-css";
 import React from "react";
 import { Badge } from "./Badge";
-import { IAProsessStatusEnum, IAProsessStatusType } from "../../domenetyper/domenetyper";
+import {
+    iaSakKartleggingStatusEnum,
+    IASakKartleggingStatusType,
+    IAProsessStatusEnum,
+    IAProsessStatusType,
+} from "../../domenetyper/domenetyper";
 import { FiaFarger } from "../../styling/farger";
 
-export const hentBakgrunnsFargeForIAStatus = (status: IAProsessStatusType): FiaFarger => {
+export const hentBakgrunnsFargeForIAStatus = (
+    status: IAProsessStatusType | IASakKartleggingStatusType,
+): FiaFarger => {
     switch (status) {
+        case iaSakKartleggingStatusEnum.enum.OPPRETTET:
+        case iaSakKartleggingStatusEnum.enum.AVSLUTTET:
         case IAProsessStatusEnum.enum.NY:
         case IAProsessStatusEnum.enum.FULLFØRT:
-            return FiaFarger.hvit
+            return FiaFarger.hvit;
         case IAProsessStatusEnum.enum.VURDERES:
-            return FiaFarger.lyseBlå
+            return FiaFarger.lyseBlå;
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
         case IAProsessStatusEnum.enum.SLETTET:
-            return FiaFarger.grå
+            return FiaFarger.grå;
         case IAProsessStatusEnum.enum.KONTAKTES:
-            return FiaFarger.mørkeBlå
+            return FiaFarger.mørkeBlå;
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
-            return FiaFarger.rød
+            return FiaFarger.rød;
         case IAProsessStatusEnum.enum.KARTLEGGES:
-            return FiaFarger.gul
+            return FiaFarger.gul;
         case IAProsessStatusEnum.enum.VI_BISTÅR:
-            return FiaFarger.grønn
+            return FiaFarger.grønn;
     }
-}
+};
 
-export function penskrivIAStatus(status: IAProsessStatusType): string {
+export function penskrivIAStatus(
+    status: IAProsessStatusType | IASakKartleggingStatusType,
+): string {
     switch (status) {
+        case iaSakKartleggingStatusEnum.enum.OPPRETTET:
         case IAProsessStatusEnum.enum.NY:
-            return "Opprettet"
+            return "Opprettet";
         case IAProsessStatusEnum.enum.VURDERES:
-            return "Vurderes"
+            return "Vurderes";
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
         case IAProsessStatusEnum.enum.SLETTET:
-            return "Ikke aktiv"
+            return "Ikke aktiv";
         case IAProsessStatusEnum.enum.KONTAKTES:
-            return "Kontaktes"
+            return "Kontaktes";
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
-            return "Ikke aktuell"
+            return "Ikke aktuell";
         case IAProsessStatusEnum.enum.KARTLEGGES:
-            return "Kartlegges"
+            return "Kartlegges";
         case IAProsessStatusEnum.enum.VI_BISTÅR:
-            return "Vi bistår"
+            return "Vi bistår";
+        case iaSakKartleggingStatusEnum.enum.AVSLUTTET:
         case IAProsessStatusEnum.enum.FULLFØRT:
-            return "Fullført"
+            return "Fullført";
     }
 }
 
 interface Props {
-    status: IAProsessStatusType;
+    status: IAProsessStatusType | IASakKartleggingStatusType;
     ariaLive?: "off" | "polite" | "assertive";
     ariaLabel?: string;
 }
 
-export const StatusBadge = ({ status, ariaLive, ariaLabel }: Props) =>
-    <Badge backgroundColor={hentBakgrunnsFargeForIAStatus(status)}
-           ariaLive={ariaLive}
-           ariaLabel={ariaLabel}>
+export const StatusBadge = ({ status, ariaLive, ariaLabel }: Props) => (
+    <Badge
+        backgroundColor={hentBakgrunnsFargeForIAStatus(status)}
+        ariaLive={ariaLive}
+        ariaLabel={ariaLabel}
+    >
         {penskrivIAStatus(status)}
     </Badge>
+);

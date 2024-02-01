@@ -74,6 +74,10 @@ import {
     IASakKartlegging,
     iaSakKartleggingSchema,
 } from "../domenetyper/iaSakKartlegging";
+import {
+    IASakKartleggingResultat,
+    iaSakKartleggingResultatSchema,
+} from "../domenetyper/iaSakKartleggingResultat";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
@@ -655,10 +659,24 @@ export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
     );
 };
 
+export const useHentKartleggingResultat = (
+    orgnummer: string,
+    saksnummer: string,
+    kartleggingId: string,
+) => {
+    return useSwrTemplate<IASakKartleggingResultat>(
+        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}`,
+        iaSakKartleggingResultatSchema,
+    );
+};
+
 export const avsluttKartlegging = (
     orgnummer: string,
     saksnummer: string,
     kartleggingId: string,
 ): Promise<IASakKartlegging> => {
-    return post(`${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}/avslutt`, iaSakKartleggingSchema);
-}
+    return post(
+        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}/avslutt`,
+        iaSakKartleggingSchema,
+    );
+};
