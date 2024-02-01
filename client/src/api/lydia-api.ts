@@ -71,9 +71,9 @@ import {
     salesforceUrlSchema,
 } from "../domenetyper/salesforceUrl";
 import {
-    iaSakKartlegging,
+    IASakKartlegging,
     iaSakKartleggingSchema,
-} from "../Pages/Virksomhet/Kartlegging/IaSakKartlegging";
+} from "../domenetyper/iaSakKartlegging";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
@@ -641,7 +641,7 @@ export const useHentSalesforceUrl = (orgnr: string) => {
 export const nyKartleggingPåSak = (
     orgnummer: string,
     saksnummer: string,
-): Promise<iaSakKartlegging> => {
+): Promise<IASakKartlegging> => {
     return post(
         `${kartleggingPath}/${orgnummer}/${saksnummer}/opprett`,
         iaSakKartleggingSchema,
@@ -649,8 +649,16 @@ export const nyKartleggingPåSak = (
 };
 
 export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
-    return useSwrTemplate<iaSakKartlegging[]>(
+    return useSwrTemplate<IASakKartlegging[]>(
         `${kartleggingPath}/${orgnummer}/${saksnummer}`,
         iaSakKartleggingSchema.array(),
     );
 };
+
+export const avsluttKartlegging = (
+    orgnummer: string,
+    saksnummer: string,
+    kartleggingId: string,
+): Promise<IASakKartlegging> => {
+    return post(`${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}/avslutt`, iaSakKartleggingSchema);
+}

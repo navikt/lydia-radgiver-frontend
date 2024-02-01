@@ -3,6 +3,7 @@ import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { BodyShort, Button, Heading, List } from "@navikt/ds-react";
 import {
+    avsluttKartlegging,
     nyKartleggingPåSak,
     useHentKartlegginger,
 } from "../../../api/lydia-api";
@@ -21,7 +22,7 @@ interface Props {
 
 export const KartleggingFane = ({ iaSak }: Props) => {
     const {
-        data: iaSakKartlegging,
+        data: iaSakKartlegginger,
         loading: lasterIASakKartlegging,
         mutate: muterKartlegginger,
     } = useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
@@ -30,6 +31,15 @@ export const KartleggingFane = ({ iaSak }: Props) => {
             muterKartlegginger();
         });
     };
+
+    const pågåendeKartlegginger = iaSakKartlegginger?.filter((kartlegging) => kartlegging.status == "OPPRETTET")
+    const avsluttedeKartlegginger = iaSakKartlegginger?.filter((kartlegging) => kartlegging.status == "AVSLUTTET")
+
+    const avslutt = (kartlegginId: string) => {
+        avsluttKartlegging(iaSak.orgnr, iaSak.saksnummer, kartlegginId).then(() => {
+            muterKartlegginger();
+        });
+    }
 
     return (
         <>
@@ -50,21 +60,40 @@ export const KartleggingFane = ({ iaSak }: Props) => {
             </Container>
             <Container>
                 <Heading level={"3"} size={"large"}>
-                    Kartlegginger:
+                    Pågående kartlegginger:
                 </Heading>
                 <List>
                     {!lasterIASakKartlegging &&
-                        iaSakKartlegging &&
-                        iaSakKartlegging.map((item) => (
+                        pågåendeKartlegginger &&
+                        pågåendeKartlegginger.map((item) => (
                             <List.Item key={item.kartleggingId}>
                                 <EksternLenke
-                                    key={item.kartleggingId}
                                     style={{ display: "block" }}
                                     href={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
                                     target={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
                                 >
                                     {item.kartleggingId}
                                 </EksternLenke>
+                                <Button onClick={() => {avslutt(item.kartleggingId)}}>Avslutt</Button>
+                            </List.Item>
+                        ))}
+                </List>
+                <Heading level={"3"} size={"large"}>
+                    Avsluttede kartlegginger:
+                </Heading>
+                <List>
+                    {!lasterIASakKartlegging &&
+                        avsluttedeKartlegginger &&
+                        avsluttedeKartlegginger.map((item) => (
+                            <List.Item key={item.kartleggingId}>
+                                <EksternLenke
+                                    style={{ display: "block" }}
+                                    href={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
+                                    target={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
+                                >
+                                    {item.kartleggingId}
+                                </EksternLenke>
+                                <Button onClick={() => {}}>Se resultater</Button>
                             </List.Item>
                         ))}
                 </List>
