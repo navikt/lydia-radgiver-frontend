@@ -1,7 +1,6 @@
 import { BodyShort, List, Loader } from "@navikt/ds-react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { useHentKartleggingResultat } from "../../../api/lydia-api";
-import { EksternLenke } from "../../../components/EksternLenke";
 
 interface Props {
     iaSak: IASak;
@@ -25,16 +24,6 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
     }
 
     return (
-        <div>
-            <EksternLenke
-                key={kartleggingId}
-                style={{ display: "block" }}
-                href={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${kartleggingId}/vert`}
-                target={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${kartleggingId}/vert`}
-            >
-                Lenke til spørreundersøkelse
-            </EksternLenke>
-            <BodyShort>KartleggingId: {kartleggingId}</BodyShort>
             <List>
                 {kartleggingResultat.spørsmålMedSvar.map((spørsmål) => (
                     <List.Item key={spørsmål.spørsmålId}>
@@ -54,6 +43,5 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
                     </List.Item>
                 ))}
             </List>
-        </div>
     );
 };

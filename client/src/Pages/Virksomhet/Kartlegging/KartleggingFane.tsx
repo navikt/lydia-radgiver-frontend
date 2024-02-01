@@ -9,6 +9,7 @@ import {
 } from "../../../api/lydia-api";
 import { StatusBadge } from "../../../components/Badge/StatusBadge";
 import { KartleggingResultat } from "./KartleggingResultat";
+import { EksternLenke } from "../../../components/EksternLenke";
 
 const Container = styled.div`
     ${tabInnholdStyling};
@@ -84,20 +85,23 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                         </Accordion.Header>
 
                                         <Accordion.Content>
-                                            <KartleggingResultat
-                                                iaSak={iaSak}
-                                                kartleggingId={
-                                                    item.kartleggingId
-                                                }
-                                            />
+                                            <EksternLenke
+                                                key={item.kartleggingId}
+                                                style={{ display: "block" }}
+                                                href={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
+                                                target={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
+                                            >
+                                                Lenke til spørreundersøkelse
+                                            </EksternLenke>
+                                            <BodyShort>KartleggingId: {item.kartleggingId}</BodyShort>
+                                            <Button
+                                                onClick={() => {
+                                                    avslutt(item.kartleggingId);
+                                                }}
+                                            >
+                                                Avslutt
+                                            </Button>
                                         </Accordion.Content>
-                                        <Button
-                                            onClick={() => {
-                                                avslutt(item.kartleggingId);
-                                            }}
-                                        >
-                                            Avslutt
-                                        </Button>
                                     </Accordion.Item>
                                 ))}
                         </Accordion>
@@ -119,6 +123,15 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                         </Accordion.Header>
 
                                         <Accordion.Content>
+                                            <EksternLenke
+                                                key={item.kartleggingId}
+                                                style={{ display: "block" }}
+                                                href={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
+                                                target={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
+                                            >
+                                                Lenke til spørreundersøkelse
+                                            </EksternLenke>
+                                            <BodyShort>KartleggingId: {item.kartleggingId}</BodyShort>
                                             <KartleggingResultat
                                                 iaSak={iaSak}
                                                 kartleggingId={
