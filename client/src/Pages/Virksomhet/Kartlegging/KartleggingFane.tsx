@@ -7,19 +7,13 @@ import {
     nyKartleggingPåSak,
     useHentKartlegginger,
 } from "../../../api/lydia-api";
-import { StatusBadge } from "../../../components/Badge/StatusBadge";
-import { KartleggingResultat } from "./KartleggingResultat";
-import { EksternLenke } from "../../../components/EksternLenke";
+import { PågåendeKartleggingRad } from "./PågåendeKartleggingRad";
+import { FullførtKartleggingRad } from "./FullførtKartleggingRad";
 
 const Container = styled.div`
     ${tabInnholdStyling};
 `;
 
-const AccordionHeaderContent = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-`;
 interface Props {
     iaSak: IASak;
 }
@@ -30,121 +24,70 @@ export const KartleggingFane = ({ iaSak }: Props) => {
         loading: lasterIASakKartlegging,
         mutate: muterKartlegginger,
     } = useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
+
     const opprettKartlegging = () => {
         nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(() => {
             muterKartlegginger();
         });
     };
 
-    const pågåendeKartlegginger = iaSakKartlegginger?.filter(
-        (kartlegging) => kartlegging.status == "OPPRETTET",
-    );
-    const avsluttedeKartlegginger = iaSakKartlegginger?.filter(
-        (kartlegging) => kartlegging.status == "AVSLUTTET",
-    );
-
-    const avslutt = (kartlegginId: string) => {
-        avsluttKartlegging(iaSak.orgnr, iaSak.saksnummer, kartlegginId).then(
-            () => {
-                muterKartlegginger();
-            },
-        );
+    const avslutt = (kartleggingId: string) => {
+        avsluttKartlegging(iaSak.orgnr, iaSak.saksnummer, kartleggingId)
+            .then(() => {
+                muterKartlegginger()
+            })
     };
 
     return (
-        <>
-            <Container>
-                <div>
-                    <Heading level="3" size="large" spacing={true}>
-                        IA-Kartlegging
+        <Container>
+            <div>
+                <Heading level="3" size="large" spacing={true}>
+                    IA-Kartlegging
+                </Heading>
+                <BodyShort>
+                    Her legger du inn og får oversikt over kartleggingene
+                    til saken. Du må være på status “Kartlegges” for å jobbe
+                    med kartlegginger.
+                </BodyShort>
+            </div>
+            {iaSak.status === "KARTLEGGES" && (
+                <>
+                    <Button onClick={opprettKartlegging}>Opprett</Button>
+                    <Heading level={"3"} size={"large"}>
+                        Pågående kartlegginger:
                     </Heading>
-                    <BodyShort>
-                        Her legger du inn og får oversikt over kartleggingene
-                        til saken. Du må være på status “Kartlegges” for å jobbe
-                        med kartlegginger.
-                    </BodyShort>
-                </div>
-                {iaSak.status === "KARTLEGGES" && (
-                    <>
-                        <Button onClick={opprettKartlegging}>Opprett</Button>
-                        <Heading level={"3"} size={"large"}>
-                            Pågående kartlegginger:
-                        </Heading>
-                        <Accordion>
-                            {!lasterIASakKartlegging &&
-                                pågåendeKartlegginger &&
-                                pågåendeKartlegginger.map((item, index) => (
-                                    <Accordion.Item key={item.kartleggingId}>
-                                        <Accordion.Header>
-                                            <AccordionHeaderContent>
-                                                <StatusBadge
-                                                    status={item.status}
-                                                />
-                                                Kartlegging nr {index + 1}
-                                            </AccordionHeaderContent>
-                                        </Accordion.Header>
+                    <Accordion>
+                        {!lasterIASakKartlegging &&
+                            iaSakKartlegginger &&
+                            iaSakKartlegginger
+                                .filter((kartlegging) => kartlegging.status === "OPPRETTET")
+                                .map((item, index) => (
+                                    <PågåendeKartleggingRad key={item.kartleggingId}
+                                                            item={item}
+                                                            avslutt={avslutt}
+                                                            index={index}
+                                    />
 
-                                        <Accordion.Content>
-                                            <EksternLenke
-                                                key={item.kartleggingId}
-                                                style={{ display: "block" }}
-                                                href={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
-                                                target={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
-                                            >
-                                                Lenke til spørreundersøkelse
-                                            </EksternLenke>
-                                            <BodyShort>KartleggingId: {item.kartleggingId}</BodyShort>
-                                            <Button
-                                                onClick={() => {
-                                                    avslutt(item.kartleggingId);
-                                                }}
-                                            >
-                                                Avslutt
-                                            </Button>
-                                        </Accordion.Content>
-                                    </Accordion.Item>
                                 ))}
-                        </Accordion>
-                        <Heading level={"3"} size={"large"}>
-                            Avsluttede kartlegginger:
-                        </Heading>
-                        <Accordion>
-                            {!lasterIASakKartlegging &&
-                                avsluttedeKartlegginger &&
-                                avsluttedeKartlegginger.map((item, index) => (
-                                    <Accordion.Item key={item.kartleggingId}>
-                                        <Accordion.Header>
-                                            <AccordionHeaderContent>
-                                                <StatusBadge
-                                                    status={item.status}
-                                                />
-                                                Kartlegging nr {index + 1}
-                                            </AccordionHeaderContent>
-                                        </Accordion.Header>
-
-                                        <Accordion.Content>
-                                            <EksternLenke
-                                                key={item.kartleggingId}
-                                                style={{ display: "block" }}
-                                                href={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
-                                                target={`https://fia-arbeidsgiver.ekstern.dev.nav.no/${item.kartleggingId}/vert`}
-                                            >
-                                                Lenke til spørreundersøkelse
-                                            </EksternLenke>
-                                            <BodyShort>KartleggingId: {item.kartleggingId}</BodyShort>
-                                            <KartleggingResultat
-                                                iaSak={iaSak}
-                                                kartleggingId={
-                                                    item.kartleggingId
-                                                }
-                                            />
-                                        </Accordion.Content>
-                                    </Accordion.Item>
+                    </Accordion>
+                    <Heading level={"3"} size={"large"}>
+                        Fullførte kartlegginger:
+                    </Heading>
+                    <Accordion>
+                        {!lasterIASakKartlegging &&
+                            iaSakKartlegginger &&
+                            iaSakKartlegginger.filter(
+                                (kartlegging) => kartlegging.status === "AVSLUTTET")
+                                .map((item, index) => (
+                                    <FullførtKartleggingRad key={item.kartleggingId}
+                                                            iaSak={iaSak}
+                                                            item={item}
+                                                            index={index}
+                                    />
                                 ))}
-                        </Accordion>
-                    </>
-                )}
-            </Container>
-        </>
+                    </Accordion>
+                </>
+            )}
+        </Container>
     );
 };

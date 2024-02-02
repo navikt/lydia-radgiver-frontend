@@ -1,6 +1,4 @@
 import { z } from "zod";
-import { iaSakKartleggingStatusEnum } from "./domenetyper";
-
 export const kartleggingSvarAlternativ = z.object({
     svarId: z.string(),
     tekst: z.string(),
@@ -15,7 +13,6 @@ export const kartleggingSpørsmål = z.object({
 
 export const iaSakKartleggingResultatSchema = z.object({
     kartleggingId: z.string(),
-    status: iaSakKartleggingStatusEnum,
     spørsmålMedSvar: z.array(kartleggingSpørsmål),
 });
 
