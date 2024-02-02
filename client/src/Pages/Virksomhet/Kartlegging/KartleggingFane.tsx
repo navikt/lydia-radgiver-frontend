@@ -63,7 +63,8 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                 .filter((kartlegging) => kartlegging.status === "OPPRETTET")
                                 .map((item, index) => (
                                     <PågåendeKartleggingRad key={item.kartleggingId}
-                                                            item={item}
+                                                            kartleggingId={item.kartleggingId}
+                                                            kartleggingStatus={item.status}
                                                             avslutt={avslutt}
                                                             index={index}
                                     />
@@ -81,7 +82,8 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                 .map((item, index) => (
                                     <FullførtKartleggingRad key={item.kartleggingId}
                                                             iaSak={iaSak}
-                                                            item={item}
+                                                            kartleggingId={item.kartleggingId}
+                                                            kartleggingStatus={item.status}
                                                             index={index}
                                     />
                                 ))}
