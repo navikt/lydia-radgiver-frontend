@@ -3,6 +3,7 @@ import { iaSakKartleggingStatusEnum } from "./domenetyper";
 
 export const iaSakKartleggingSchema = z.object({
     kartleggingId: z.string(),
+    vertId: z.string(),
     status: iaSakKartleggingStatusEnum,
 });
 

@@ -32,10 +32,11 @@ export const KartleggingFane = ({ iaSak }: Props) => {
     };
 
     const avslutt = (kartleggingId: string) => {
-        avsluttKartlegging(iaSak.orgnr, iaSak.saksnummer, kartleggingId)
-            .then(() => {
-                muterKartlegginger()
-            })
+        avsluttKartlegging(iaSak.orgnr, iaSak.saksnummer, kartleggingId).then(
+            () => {
+                muterKartlegginger();
+            },
+        );
     };
 
     return (
@@ -45,9 +46,9 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                     IA-Kartlegging
                 </Heading>
                 <BodyShort>
-                    Her legger du inn og får oversikt over kartleggingene
-                    til saken. Du må være på status “Kartlegges” for å jobbe
-                    med kartlegginger.
+                    Her legger du inn og får oversikt over kartleggingene til
+                    saken. Du må være på status “Kartlegges” for å jobbe med
+                    kartlegginger.
                 </BodyShort>
             </div>
             {iaSak.status === "KARTLEGGES" && (
@@ -60,15 +61,19 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                         {!lasterIASakKartlegging &&
                             iaSakKartlegginger &&
                             iaSakKartlegginger
-                                .filter((kartlegging) => kartlegging.status === "OPPRETTET")
+                                .filter(
+                                    (kartlegging) =>
+                                        kartlegging.status === "OPPRETTET",
+                                )
                                 .map((item, index) => (
-                                    <PågåendeKartleggingRad key={item.kartleggingId}
-                                                            kartleggingId={item.kartleggingId}
-                                                            kartleggingStatus={item.status}
-                                                            avslutt={avslutt}
-                                                            index={index}
+                                    <PågåendeKartleggingRad
+                                        key={item.kartleggingId}
+                                        kartleggingId={item.kartleggingId}
+                                        vertId={item.vertId}
+                                        kartleggingStatus={item.status}
+                                        avslutt={avslutt}
+                                        index={index}
                                     />
-
                                 ))}
                     </Accordion>
                     <Heading level={"3"} size={"large"}>
@@ -77,14 +82,18 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                     <Accordion>
                         {!lasterIASakKartlegging &&
                             iaSakKartlegginger &&
-                            iaSakKartlegginger.filter(
-                                (kartlegging) => kartlegging.status === "AVSLUTTET")
+                            iaSakKartlegginger
+                                .filter(
+                                    (kartlegging) =>
+                                        kartlegging.status === "AVSLUTTET",
+                                )
                                 .map((item, index) => (
-                                    <FullførtKartleggingRad key={item.kartleggingId}
-                                                            iaSak={iaSak}
-                                                            kartleggingId={item.kartleggingId}
-                                                            kartleggingStatus={item.status}
-                                                            index={index}
+                                    <FullførtKartleggingRad
+                                        key={item.kartleggingId}
+                                        iaSak={iaSak}
+                                        kartleggingId={item.kartleggingId}
+                                        kartleggingStatus={item.status}
+                                        index={index}
                                     />
                                 ))}
                     </Accordion>
