@@ -1,6 +1,7 @@
-import { BodyShort, List, Loader } from "@navikt/ds-react";
+import { BodyShort, Loader } from "@navikt/ds-react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { useHentKartleggingResultat } from "../../../api/lydia-api";
+import { Bar, BarChart, ResponsiveContainer, XAxis, YAxis } from "recharts";
 
 interface Props {
     iaSak: IASak;
@@ -24,24 +25,27 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
     }
 
     return (
-            <List>
-                {kartleggingResultat.spørsmålMedSvar.map((spørsmål) => (
-                    <List.Item key={spørsmål.spørsmålId}>
-                        <BodyShort weight={"semibold"}>
-                            {spørsmål.tekst}
-                        </BodyShort>
-                        <List>
-                            {spørsmål.svarListe.map((svaralternativ) => (
-                                <List.Item key={svaralternativ.svarId}>
-                                    <BodyShort>
-                                        {svaralternativ.antallSvar} :{" "}
-                                        {svaralternativ.tekst}
-                                    </BodyShort>
-                                </List.Item>
-                            ))}
-                        </List>
-                    </List.Item>
-                ))}
-            </List>
+        <>
+            {kartleggingResultat.spørsmålMedSvar.map((spørsmål) => (
+                <div key={spørsmål.spørsmålId}>
+                    <BodyShort weight={"semibold"}>
+                        {spørsmål.tekst}
+                    </BodyShort>
+                    <ResponsiveContainer minHeight={100}>
+                        <BarChart width={500}
+                                  height={300}
+                                  data={spørsmål.svarListe}
+                        >
+                            <XAxis dataKey="tekst" />
+                            <YAxis />
+                            {spørsmål.svarListe.map(svar => (
+                                    <Bar key={svar.svarId} dataKey={"antallSvar"} stackId={"a"}></Bar>
+                                )
+                            )}
+                        </BarChart>
+                    </ResponsiveContainer>
+                </div>
+            ))}
+        </>
     );
 };
