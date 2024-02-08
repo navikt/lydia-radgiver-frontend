@@ -86,17 +86,6 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                     >
                         Pågående kartlegginger
                     </Heading>
-                    {!harPågåendeKartlegginger && (
-                        <IngenKartleggingInfoBoks
-                            header={"Ingen pågående kartlegging"}
-                            illustrasjon={<Person1Svg size={60} />}
-                        >
-                            <BodyShort style={{ marginTop: ".5rem" }}>
-                                Du har ingen pågående kartlegging for denne
-                                virksomheten.
-                            </BodyShort>
-                        </IngenKartleggingInfoBoks>
-                    )}
                     {!harKartlegginger && (
                         <IngenKartleggingInfoBoks
                             header={"Her var det tomt"}
@@ -107,6 +96,17 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                 virksomheten enda. For å komme igang trykker du
                                 på Ny kartlegging knappen som ligger over dette
                                 feltet.
+                            </BodyShort>
+                        </IngenKartleggingInfoBoks>
+                    )}
+                    {harKartlegginger && !harPågåendeKartlegginger && (
+                        <IngenKartleggingInfoBoks
+                            header={"Ingen pågående kartlegging"}
+                            illustrasjon={<Person1Svg size={60} />}
+                        >
+                            <BodyShort style={{ marginTop: ".5rem" }}>
+                                Du har ingen pågående kartlegging for denne
+                                virksomheten.
                             </BodyShort>
                         </IngenKartleggingInfoBoks>
                     )}
