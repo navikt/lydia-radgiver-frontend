@@ -1,4 +1,4 @@
-import { Accordion, BodyShort } from "@navikt/ds-react";
+import { Accordion, Heading } from "@navikt/ds-react";
 import React from "react";
 import { StatusBadge } from "../../../components/Badge/StatusBadge";
 import { KartleggingResultat } from "./KartleggingResultat";
@@ -30,7 +30,7 @@ export const FullførtKartleggingRad = ({ iaSak, kartleggingId, kartleggingStatu
             </Accordion.Header>
 
             <Accordion.Content>
-                <BodyShort>KartleggingId: {kartleggingId}</BodyShort>
+                <Heading  spacing={true} size="medium">KartleggingId: {kartleggingId}</Heading>
                 <KartleggingResultat iaSak={iaSak} kartleggingId={kartleggingId} />
             </Accordion.Content>
         </Accordion.Item>
