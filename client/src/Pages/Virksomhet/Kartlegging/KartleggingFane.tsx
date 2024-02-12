@@ -162,7 +162,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                         ) : (
                                             <KartleggingRadIkkeEier
                                                 key={index}
-                                                kartleggingStatus={item.status}
+                                                kartlegging={item}
                                             />
                                         ),
                                     )}
@@ -211,7 +211,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                         ) : (
                                             <KartleggingRadIkkeEier
                                                 key={index}
-                                                kartleggingStatus={item.status}
+                                                kartlegging={item}
                                             />
                                         ),
                                     )}
