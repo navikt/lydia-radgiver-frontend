@@ -11,6 +11,7 @@ import {
 import {
     avsluttKartlegging,
     nyKartleggingPåSak,
+    useHentBrukerinformasjon,
     useHentKartlegginger,
 } from "../../../api/lydia-api";
 import { PågåendeKartleggingRad } from "./PågåendeKartleggingRad";
@@ -19,6 +20,7 @@ import { Person2Svg } from "../../../components/Person2Svg";
 import { Person1Svg } from "../../../components/Person1Svg";
 import { IngenKartleggingInfoBoks } from "./IngenKartleggingInfoBoks";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
+import { KartleggingRadIkkeEier } from "./KartleggingRadIkkeEier";
 
 const Container = styled.div`
     ${tabInnholdStyling};
@@ -37,7 +39,8 @@ function KartleggingInfo() {
             </Heading>
             <BodyShort>
                 Her legger du inn og får oversikt over kartleggingene til saken.
-                Du må være på status “Kartlegges” for å jobbe med kartlegginger.
+                Du må være i status “Kartlegges” og eier av saken for å jobbe
+                med kartlegginger.
             </BodyShort>
         </Container>
     );
@@ -64,6 +67,9 @@ export const KartleggingFane = ({ iaSak }: Props) => {
         );
     };
 
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
+
     const harKartlegginger =
         !lasterIASakKartlegging &&
         iaSakKartlegginger &&
@@ -83,7 +89,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
 
     return (
         <>
-            {iaSak.status === "KARTLEGGES" ? (
+            {iaSak.status === "KARTLEGGES" && brukerErEierAvSak ? (
                 <Button
                     onClick={opprettKartlegging}
                     variant={"secondary"}
@@ -141,16 +147,25 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                         (kartlegging) =>
                                             kartlegging.status === "OPPRETTET",
                                     )
-                                    .map((item, index) => (
-                                        <PågåendeKartleggingRad
-                                            key={item.kartleggingId}
-                                            kartleggingId={item.kartleggingId}
-                                            vertId={item.vertId}
-                                            kartleggingStatus={item.status}
-                                            avslutt={avslutt}
-                                            index={index}
-                                        />
-                                    ))}
+                                    .map((item, index) =>
+                                        brukerErEierAvSak ? (
+                                            <PågåendeKartleggingRad
+                                                key={item.kartleggingId}
+                                                kartleggingId={
+                                                    item.kartleggingId
+                                                }
+                                                vertId={item.vertId}
+                                                kartleggingStatus={item.status}
+                                                avslutt={avslutt}
+                                                index={index}
+                                            />
+                                        ) : (
+                                            <KartleggingRadIkkeEier
+                                                key={index}
+                                                kartleggingStatus={item.status}
+                                            />
+                                        ),
+                                    )}
                         </Accordion>
                     </Container>
                     <Container>
@@ -182,15 +197,24 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                         (kartlegging) =>
                                             kartlegging.status === "AVSLUTTET",
                                     )
-                                    .map((item, index) => (
-                                        <FullførtKartleggingRad
-                                            key={item.kartleggingId}
-                                            iaSak={iaSak}
-                                            kartleggingId={item.kartleggingId}
-                                            kartleggingStatus={item.status}
-                                            index={index}
-                                        />
-                                    ))}
+                                    .map((item, index) =>
+                                        brukerErEierAvSak ? (
+                                            <FullførtKartleggingRad
+                                                key={item.kartleggingId}
+                                                iaSak={iaSak}
+                                                kartleggingId={
+                                                    item.kartleggingId
+                                                }
+                                                kartleggingStatus={item.status}
+                                                index={index}
+                                            />
+                                        ) : (
+                                            <KartleggingRadIkkeEier
+                                                key={index}
+                                                kartleggingStatus={item.status}
+                                            />
+                                        ),
+                                    )}
                         </Accordion>
                     </Container>
                 </div>

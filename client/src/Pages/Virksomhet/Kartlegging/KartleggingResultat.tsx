@@ -1,7 +1,15 @@
 import { BodyShort, Heading, Loader } from "@navikt/ds-react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { useHentKartleggingResultat } from "../../../api/lydia-api";
-import { Bar, BarChart, LabelList, Legend, ResponsiveContainer, XAxis, YAxis } from "recharts";
+import {
+    Bar,
+    BarChart,
+    LabelList,
+    Legend,
+    ResponsiveContainer,
+    XAxis,
+    YAxis,
+} from "recharts";
 import styled from "styled-components";
 import React from "react";
 
@@ -27,7 +35,6 @@ const HeadingContainer = styled.div`
     width: 20rem;
 `;
 
-
 interface Props {
     iaSak: IASak;
     kartleggingId: string;
@@ -49,20 +56,31 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
         return <BodyShort>Kunne ikke hente kartleggingsresultater</BodyShort>;
     }
 
-    const kartleggingerMedProsent = kartleggingResultat.spørsmålMedSvar.map((spørsmål) => {
-        const totalAntallSvar = spørsmål.svarListe.reduce((accumulator, svar) => accumulator + svar.antallSvar, 0);
-        const svarListeMedProsent = spørsmål.svarListe.map(svar => ({
-            ...svar,
-            prosent: (svar.antallSvar / totalAntallSvar) * 100
-        }));
+    const kartleggingerMedProsent = kartleggingResultat.spørsmålMedSvar.map(
+        (spørsmål) => {
+            const totalAntallSvar = spørsmål.svarListe.reduce(
+                (accumulator, svar) => accumulator + svar.antallSvar,
+                0,
+            );
+            const svarListeMedProsent = spørsmål.svarListe.map((svar) => ({
+                ...svar,
+                prosent: (svar.antallSvar / totalAntallSvar) * 100,
+            }));
 
-        return {
-            ...spørsmål,
-            svarListe: svarListeMedProsent
-        }
-    });
+            return {
+                ...spørsmål,
+                svarListe: svarListeMedProsent,
+            };
+        },
+    );
 
-    const svarGrafFarger: string[] = ['#8884d8', '#82ca9d', '#ffc658', '#ff8042', '#8dd1e1'];
+    const svarGrafFarger: string[] = [
+        "#8884d8",
+        "#82ca9d",
+        "#ffc658",
+        "#ff8042",
+        "#8dd1e1",
+    ];
 
     function getSvarGrafFarge(index: number): string {
         return svarGrafFarger[index % svarGrafFarger.length];
@@ -70,7 +88,9 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
 
     return (
         <Container>
-            <Heading spacing={true} level="3" size="medium">Partssamarbeid</Heading>
+            <Heading spacing={true} level="3" size="medium">
+                Partssamarbeid
+            </Heading>
             {kartleggingerMedProsent.map((spørsmål) => (
                 <FlexContainer key={spørsmål.spørsmålId}>
                     <HeadingContainer>
@@ -79,32 +99,35 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
                         </BodyShort>
                     </HeadingContainer>
                     <ResponsiveContainer minHeight={100}>
-                        <BarChart width={500}
-                                  height={300}
-                                  data={[spørsmål]}
-                                  layout={"vertical"}
+                        <BarChart
+                            width={500}
+                            height={300}
+                            data={[spørsmål]}
+                            layout={"vertical"}
                         >
                             <XAxis type={"number"} />
                             <YAxis hide type={"category"} dataKey={"tekst"} />
                             <Legend />
                             {spørsmål.svarListe.map((svar, index) => (
-                                    <Bar key={svar.svarId}
-                                         dataKey={`svarListe[${index}].prosent`}
-                                         stackId={"a"}
-                                         fill={getSvarGrafFarge(index)}
-                                         name={svar.tekst}
-                                         type={"monotone"}
-                                    >
-                                        <LabelList
-                                            dataKey={`svarListe[${index}].prosent`}
-                                            position={"center"}
-                                            fill={"#000"}
-                                            fontWeight={"bold"}
-                                            formatter={(value: number) => `${value.toFixed(1)}%`}
-                                        />
-                                    </Bar>
-                                )
-                            )}
+                                <Bar
+                                    key={svar.svarId}
+                                    dataKey={`svarListe[${index}].prosent`}
+                                    stackId={"a"}
+                                    fill={getSvarGrafFarge(index)}
+                                    name={svar.tekst}
+                                    type={"monotone"}
+                                >
+                                    <LabelList
+                                        dataKey={`svarListe[${index}].prosent`}
+                                        position={"center"}
+                                        fill={"#000"}
+                                        fontWeight={"bold"}
+                                        formatter={(value: number) =>
+                                            `${value.toFixed(1)}%`
+                                        }
+                                    />
+                                </Bar>
+                            ))}
                         </BarChart>
                     </ResponsiveContainer>
                 </FlexContainer>
