@@ -13,8 +13,6 @@ export const hentBakgrunnsFargeForIAStatus = (
     status: IAProsessStatusType | IASakKartleggingStatusType,
 ): FiaFarger => {
     switch (status) {
-        case iaSakKartleggingStatusEnum.enum.OPPRETTET:
-        case iaSakKartleggingStatusEnum.enum.AVSLUTTET:
         case IAProsessStatusEnum.enum.NY:
         case IAProsessStatusEnum.enum.FULLFØRT:
             return FiaFarger.hvit;
@@ -27,8 +25,10 @@ export const hentBakgrunnsFargeForIAStatus = (
             return FiaFarger.mørkeBlå;
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
             return FiaFarger.rød;
+        case iaSakKartleggingStatusEnum.enum.OPPRETTET:
         case IAProsessStatusEnum.enum.KARTLEGGES:
             return FiaFarger.gul;
+        case iaSakKartleggingStatusEnum.enum.AVSLUTTET:
         case IAProsessStatusEnum.enum.VI_BISTÅR:
             return FiaFarger.grønn;
     }
@@ -39,6 +39,7 @@ export function penskrivIAStatus(
 ): string {
     switch (status) {
         case iaSakKartleggingStatusEnum.enum.OPPRETTET:
+            return "Ikke besøkt";
         case IAProsessStatusEnum.enum.NY:
             return "Opprettet";
         case IAProsessStatusEnum.enum.VURDERES:
