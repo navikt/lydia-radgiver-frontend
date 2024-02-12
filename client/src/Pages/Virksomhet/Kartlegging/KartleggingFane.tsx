@@ -1,7 +1,13 @@
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
-import { Accordion, BodyShort, Button, Heading } from "@navikt/ds-react";
+import {
+    Accordion,
+    BodyShort,
+    Button,
+    Heading,
+    HStack,
+} from "@navikt/ds-react";
 import {
     avsluttKartlegging,
     nyKartleggingPåSak,
@@ -12,13 +18,29 @@ import { FullførtKartleggingRad } from "./FullførtKartleggingRad";
 import { Person2Svg } from "../../../components/Person2Svg";
 import { Person1Svg } from "../../../components/Person1Svg";
 import { IngenKartleggingInfoBoks } from "./IngenKartleggingInfoBoks";
+import { PlusCircleIcon } from "@navikt/aksel-icons";
 
 const Container = styled.div`
     ${tabInnholdStyling};
+    margin-bottom: 2rem;
 `;
 
 interface Props {
     iaSak: IASak;
+}
+
+function KartleggingInfo() {
+    return (
+        <Container>
+            <Heading level="3" size="large" spacing={true}>
+                IA-Kartlegging
+            </Heading>
+            <BodyShort>
+                Her legger du inn og får oversikt over kartleggingene til saken.
+                Du må være på status “Kartlegges” for å jobbe med kartlegginger.
+            </BodyShort>
+        </Container>
+    );
 }
 
 export const KartleggingFane = ({ iaSak }: Props) => {
@@ -60,115 +82,119 @@ export const KartleggingFane = ({ iaSak }: Props) => {
         ).length !== 0;
 
     return (
-        <Container>
-            <div>
-                <Heading level="3" size="large" spacing={true}>
-                    IA-Kartlegging
-                </Heading>
-                <BodyShort>
-                    Her legger du inn og får oversikt over kartleggingene til
-                    saken. Du må være på status “Kartlegges” for å jobbe med
-                    kartlegginger.
-                </BodyShort>
-            </div>
-            {iaSak.status === "KARTLEGGES" && (
-                <>
-                    <Button
-                        onClick={opprettKartlegging}
-                        style={{ margin: "1rem" }}
-                    >
-                        Opprett
-                    </Button>
-                    <Heading
-                        level={"3"}
-                        size={"large"}
-                        style={{ marginTop: "1.5rem" }}
-                    >
-                        Pågående kartlegginger
-                    </Heading>
-                    {!harKartlegginger && (
-                        <IngenKartleggingInfoBoks
-                            header={"Her var det tomt"}
-                            illustrasjon={<Person1Svg size={60} />}
-                        >
-                            <BodyShort style={{ marginTop: ".5rem" }}>
-                                Du har ikke startet kartlegging for denne
-                                virksomheten enda. For å komme igang trykker du
-                                på Ny kartlegging knappen som ligger over dette
-                                feltet.
-                            </BodyShort>
-                        </IngenKartleggingInfoBoks>
-                    )}
-                    {harKartlegginger && !harPågåendeKartlegginger && (
-                        <IngenKartleggingInfoBoks
-                            header={"Ingen pågående kartlegging"}
-                            illustrasjon={<Person1Svg size={60} />}
-                        >
-                            <BodyShort style={{ marginTop: ".5rem" }}>
-                                Du har ingen pågående kartlegging for denne
-                                virksomheten.
-                            </BodyShort>
-                        </IngenKartleggingInfoBoks>
-                    )}
-                    <Accordion style={{ marginTop: "1rem" }}>
-                        {!lasterIASakKartlegging &&
-                            iaSakKartlegginger &&
-                            iaSakKartlegginger
-                                .filter(
-                                    (kartlegging) =>
-                                        kartlegging.status === "OPPRETTET",
-                                )
-                                .map((item, index) => (
-                                    <PågåendeKartleggingRad
-                                        key={item.kartleggingId}
-                                        kartleggingId={item.kartleggingId}
-                                        vertId={item.vertId}
-                                        kartleggingStatus={item.status}
-                                        avslutt={avslutt}
-                                        index={index}
-                                    />
-                                ))}
-                    </Accordion>
-                    <Heading
-                        level={"3"}
-                        size={"large"}
-                        style={{ marginTop: "1.5rem" }}
-                    >
-                        Fullførte kartlegginger
-                    </Heading>
-                    {!harAvsluttetKartlegginger && (
-                        <IngenKartleggingInfoBoks
-                            header={
-                                "Her vil rapportene fra fullførte kartlegginger ligge"
-                            }
-                            illustrasjon={<Person2Svg size={60} />}
-                        >
-                            <BodyShort style={{ marginTop: ".5rem" }}>
-                                Alle kartlegginger som er gjort i denne
-                                virksomheten vil legges her.
-                            </BodyShort>
-                        </IngenKartleggingInfoBoks>
-                    )}
-                    <Accordion style={{ marginTop: "1rem" }}>
-                        {!lasterIASakKartlegging &&
-                            iaSakKartlegginger &&
-                            iaSakKartlegginger
-                                .filter(
-                                    (kartlegging) =>
-                                        kartlegging.status === "AVSLUTTET",
-                                )
-                                .map((item, index) => (
-                                    <FullførtKartleggingRad
-                                        key={item.kartleggingId}
-                                        iaSak={iaSak}
-                                        kartleggingId={item.kartleggingId}
-                                        kartleggingStatus={item.status}
-                                        index={index}
-                                    />
-                                ))}
-                    </Accordion>
-                </>
+        <>
+            {iaSak.status === "KARTLEGGES" ? (
+                <Button
+                    onClick={opprettKartlegging}
+                    variant={"secondary"}
+                    style={{ margin: "1rem" }}
+                >
+                    <HStack align={"center"} gap={"2"}>
+                        <PlusCircleIcon title="a11y-title" fontSize="1.5rem" />
+                        Ny kartlegging
+                    </HStack>
+                </Button>
+            ) : (
+                <KartleggingInfo />
             )}
-        </Container>
+
+            {iaSak.status === "KARTLEGGES" && (
+                <div>
+                    <Container>
+                        <Heading
+                            level={"3"}
+                            size={"large"}
+                            style={{ marginTop: "1.5rem" }}
+                        >
+                            Pågående kartlegginger
+                        </Heading>
+
+                        {!harKartlegginger && (
+                            <IngenKartleggingInfoBoks
+                                header={"Her var det tomt"}
+                                illustrasjon={<Person1Svg size={60} />}
+                            >
+                                <BodyShort style={{ marginTop: ".5rem" }}>
+                                    Du har ikke startet kartlegging for denne
+                                    virksomheten enda. For å komme igang trykker
+                                    du på Ny kartlegging knappen som ligger over
+                                    dette feltet.
+                                </BodyShort>
+                            </IngenKartleggingInfoBoks>
+                        )}
+                        {harKartlegginger && !harPågåendeKartlegginger && (
+                            <IngenKartleggingInfoBoks
+                                header={"Ingen pågående kartlegging"}
+                                illustrasjon={<Person1Svg size={60} />}
+                            >
+                                <BodyShort style={{ marginTop: ".5rem" }}>
+                                    Du har ingen pågående kartlegging for denne
+                                    virksomheten.
+                                </BodyShort>
+                            </IngenKartleggingInfoBoks>
+                        )}
+                        <Accordion style={{ marginTop: "1rem" }}>
+                            {!lasterIASakKartlegging &&
+                                iaSakKartlegginger &&
+                                iaSakKartlegginger
+                                    .filter(
+                                        (kartlegging) =>
+                                            kartlegging.status === "OPPRETTET",
+                                    )
+                                    .map((item, index) => (
+                                        <PågåendeKartleggingRad
+                                            key={item.kartleggingId}
+                                            kartleggingId={item.kartleggingId}
+                                            vertId={item.vertId}
+                                            kartleggingStatus={item.status}
+                                            avslutt={avslutt}
+                                            index={index}
+                                        />
+                                    ))}
+                        </Accordion>
+                    </Container>
+                    <Container>
+                        <Heading
+                            level={"3"}
+                            size={"large"}
+                            style={{ marginTop: "1.5rem" }}
+                        >
+                            Fullførte kartlegginger
+                        </Heading>
+                        {!harAvsluttetKartlegginger && (
+                            <IngenKartleggingInfoBoks
+                                header={
+                                    "Her vil rapportene fra fullførte kartlegginger ligge"
+                                }
+                                illustrasjon={<Person2Svg size={60} />}
+                            >
+                                <BodyShort style={{ marginTop: ".5rem" }}>
+                                    Alle kartlegginger som er gjort i denne
+                                    virksomheten vil legges her.
+                                </BodyShort>
+                            </IngenKartleggingInfoBoks>
+                        )}
+                        <Accordion style={{ marginTop: "1rem" }}>
+                            {!lasterIASakKartlegging &&
+                                iaSakKartlegginger &&
+                                iaSakKartlegginger
+                                    .filter(
+                                        (kartlegging) =>
+                                            kartlegging.status === "AVSLUTTET",
+                                    )
+                                    .map((item, index) => (
+                                        <FullførtKartleggingRad
+                                            key={item.kartleggingId}
+                                            iaSak={iaSak}
+                                            kartleggingId={item.kartleggingId}
+                                            kartleggingStatus={item.status}
+                                            index={index}
+                                        />
+                                    ))}
+                        </Accordion>
+                    </Container>
+                </div>
+            )}
+        </>
     );
 };
