@@ -52,10 +52,12 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         const ikkeGyldigTab =
             fane !== "statistikk" &&
             fane !== "samarbeidshistorikk" &&
+            fane !== "kartlegging" &&
             fane !== "ia-tjenester";
         const manglerIaSak = fane === "ia-tjenester" && !iaSak && !lasterIaSak;
+        const skjulKartleggingFane = fane === "kartlegging" && !erIDev;
 
-        if (ikkeGyldigTab || manglerIaSak) {
+        if (ikkeGyldigTab || manglerIaSak || skjulKartleggingFane) {
             oppdaterTabISearchParam("statistikk");
         }
     }, [lasterIaSak]);
