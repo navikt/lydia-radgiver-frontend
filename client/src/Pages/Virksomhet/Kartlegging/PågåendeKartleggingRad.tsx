@@ -45,9 +45,12 @@ export const PågåendeKartleggingRad = ({
             </Button>
             <BekreftValgModal
                 onConfirm={() =>
-                    window.open(
+                    {
+                        window.open(
                         `https://fia-arbeidsgiver.ekstern.dev.nav.no/${kartlegging.kartleggingId}/vert/${vertId}`,
-                    )
+                        )
+                        setBekreftStartKartleggingModalÅpen(false);
+                    }
                 }
                 onCancel={() => {
                     setBekreftStartKartleggingModalÅpen(false);
