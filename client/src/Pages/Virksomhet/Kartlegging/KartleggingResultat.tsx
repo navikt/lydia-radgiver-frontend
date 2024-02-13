@@ -98,7 +98,7 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
                             {spørsmål.tekst}
                         </BodyShort>
                     </HeadingContainer>
-                    <ResponsiveContainer minHeight={100}>
+                    <ResponsiveContainer minHeight={150}>
                         <BarChart
                             width={500}
                             height={300}
