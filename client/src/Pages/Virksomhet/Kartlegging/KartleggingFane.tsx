@@ -1,11 +1,12 @@
-import {IASak} from "../../../domenetyper/domenetyper";
+import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import {tabInnholdStyling} from "../../../styling/containere";
-import {Accordion, BodyShort, Button, Heading, HStack,} from "@navikt/ds-react";
-import {nyKartleggingPåSak, useHentBrukerinformasjon, useHentKartlegginger,} from "../../../api/lydia-api";
-import {IngenKartleggingInfoBoks} from "./IngenKartleggingInfoBoks";
-import {PlusCircleIcon} from "@navikt/aksel-icons";
-import {KartleggingRad} from "./KartleggingRad";
+import { tabInnholdStyling } from "../../../styling/containere";
+import { Accordion, BodyShort, Button, Heading, HStack, } from "@navikt/ds-react";
+import { nyKartleggingPåSak, useHentBrukerinformasjon, useHentKartlegginger, } from "../../../api/lydia-api";
+import { IngenKartleggingInfoBoks } from "./IngenKartleggingInfoBoks";
+import { PlusCircleIcon } from "@navikt/aksel-icons";
+import { KartleggingRad } from "./KartleggingRad";
+import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 
 const Container = styled.div`
     ${tabInnholdStyling};
@@ -16,33 +17,31 @@ interface Props {
     iaSak: IASak;
 }
 
-function KartleggingInfo() {
-    return (
-        <Container>
-            <Heading level="3" size="large" spacing={true}>
-                IA-Kartlegging
-            </Heading>
-            <BodyShort>
-                Her legger du inn og får oversikt over kartleggingene til saken.
-                Du må være i status “Kartlegges” og eier av saken for å jobbe
-                med kartlegginger.
-            </BodyShort>
-        </Container>
-    );
-}
+const KartleggingInfo = () => (
+    <Container>
+        <Heading level="3" size="large" spacing={true}>
+            IA-Kartlegging
+        </Heading>
+        <BodyShort>
+            Her legger du inn og får oversikt over kartleggingene til saken.
+            Du må være i status “Kartlegges” og eier av saken for å jobbe
+            med kartlegginger.
+        </BodyShort>
+    </Container>
+);
 
-function NyKartleggingKnapp(props: { onClick: () => void }) {
-    return <Button
+const NyKartleggingKnapp = (props: { onClick: () => void }) => (
+    <Button
         onClick={props.onClick}
         variant={"secondary"}
-        style={{margin: "1rem"}}
+        style={{ margin: "1rem" }}
     >
         <HStack align={"center"} gap={"2"}>
-            <PlusCircleIcon title="a11y-title" fontSize="1.5rem"/>
+            <PlusCircleIcon title="a11y-title" fontSize="1.5rem" />
             Ny kartlegging
         </HStack>
-    </Button>;
-}
+    </Button>
+);
 
 export const KartleggingFane = ({ iaSak }: Props) => {
     const {
@@ -64,6 +63,13 @@ export const KartleggingFane = ({ iaSak }: Props) => {
         !lasterIASakKartlegging &&
         iaSakKartlegginger &&
         iaSakKartlegginger.length > 0;
+
+    const sorterPåDato = (kartlegginger: IASakKartlegging[]) => kartlegginger
+        .sort(
+            (a, b) =>
+                b.opprettetTidspunkt.getTime() -
+                a.opprettetTidspunkt.getTime()
+        );
 
     return (
         <>
@@ -87,7 +93,8 @@ export const KartleggingFane = ({ iaSak }: Props) => {
 
                     <Accordion style={{ marginTop: "1rem" }}>
                         {harKartlegginger &&
-                            iaSakKartlegginger.map((kartlegging, index) =>
+                            sorterPåDato(iaSakKartlegginger)
+                                .map((kartlegging, index) =>
                                 <KartleggingRad
                                     iaSak={iaSak}
                                     kartlegging={kartlegging}
