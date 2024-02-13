@@ -1,7 +1,8 @@
 import styled from "styled-components";
 import { NavFarger } from "../../../styling/farger";
-import { Heading } from "@navikt/ds-react";
+import {BodyShort, Heading} from "@navikt/ds-react";
 import React from "react";
+import {Person1Svg} from "../../../components/Person1Svg";
 
 const Container = styled.div`
     margin-top: 1rem;
@@ -22,22 +23,22 @@ const InnholdContainer = styled.div`
     padding: 1.5rem;
 `;
 
-export interface Props {
-    header: string;
-    illustrasjon: React.ReactNode;
-    children: React.ReactNode;
-}
 
-export const IngenKartleggingInfoBoks = ({ children, ...props }: Props) => {
+export const IngenKartleggingInfoBoks = () => {
     return (
         <Container>
             <IkonOgContentContainer>
-                <IkonContainer>{props.illustrasjon}</IkonContainer>
+                <IkonContainer><Person1Svg size={60} /></IkonContainer>
                 <InnholdContainer>
                     <Heading level={"4"} size={"medium"}>
-                        {props.header}
+                        Her var det tomt
                     </Heading>
-                    {children}
+                    <BodyShort style={{ marginTop: ".5rem" }}>
+                        Du har ikke startet kartlegging for denne
+                        virksomheten enda. For å komme igang trykker
+                        du på Ny kartlegging knappen som ligger over
+                        dette feltet.
+                    </BodyShort>
                 </InnholdContainer>
             </IkonOgContentContainer>
         </Container>

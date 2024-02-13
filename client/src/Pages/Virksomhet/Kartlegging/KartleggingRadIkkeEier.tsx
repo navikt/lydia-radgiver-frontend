@@ -26,7 +26,6 @@ export const KartleggingRadIkkeEier = ({ kartlegging }: Props) => {
                 Kartlegging opprettet den {lokalDato(kartlegging.opprettetTidspunkt)} av {kartlegging.opprettetAv}
                 <BodyShort> Sist endret: {lokalDato(kartlegging.opprettetTidspunkt)}</BodyShort>
             </Rad>
-
         </Container>
     );
 };
