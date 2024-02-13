@@ -105,7 +105,7 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
                             data={[spørsmål]}
                             layout={"vertical"}
                         >
-                            <XAxis type={"number"} />
+                            <XAxis hide type={"number"} />
                             <YAxis hide type={"category"} dataKey={"tekst"} />
                             <Legend />
                             {spørsmål.svarListe.map((svar, index) => (
