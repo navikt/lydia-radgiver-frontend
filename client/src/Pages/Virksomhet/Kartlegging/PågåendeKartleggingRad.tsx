@@ -5,12 +5,17 @@ import {IASak} from "../../../domenetyper/domenetyper";
 import {avsluttKartlegging, useHentKartlegginger} from "../../../api/lydia-api";
 import {lokalDatoMedKlokkeslett} from "../../../util/dato";
 import {IASakKartlegging} from "../../../domenetyper/iaSakKartlegging";
+import styled from "styled-components";
 
 interface PågåendeKartleggingProps {
     iaSak: IASak;
     kartlegging: IASakKartlegging;
     vertId: string;
 }
+
+const StyledActionButton = styled(Button)`
+    margin-right: 1rem;
+`;
 
 export const PågåendeKartleggingRad = ({
     iaSak,
@@ -37,12 +42,12 @@ export const PågåendeKartleggingRad = ({
 
     return (
         <Accordion.Content>
-            <Button
+            <StyledActionButton
                 variant={"secondary"}
                 onClick={() => setBekreftStartKartleggingModalÅpen(true)}
             >
-                Start kartlegging
-            </Button>
+                Åpne kartlegging
+            </StyledActionButton>
             <BekreftValgModal
                 jaTekst={"Fortsett"}
                 onConfirm={() =>
@@ -70,10 +75,9 @@ export const PågåendeKartleggingRad = ({
                     Der vil deltakerne kunne koble til med sine enheter.
                 </BodyLong>
             </BekreftValgModal>
-            &nbsp;
-            <Button onClick={() => setBekreftValgModalÅpen(true)}>
+            <StyledActionButton onClick={() => setBekreftValgModalÅpen(true)}>
                 Fullfør
-            </Button>
+            </StyledActionButton>
             <BekreftValgModal
                 onConfirm={() => avslutt()}
                 onCancel={() => {
