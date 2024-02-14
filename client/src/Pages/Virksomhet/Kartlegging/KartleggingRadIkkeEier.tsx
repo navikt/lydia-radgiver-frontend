@@ -24,7 +24,7 @@ export const KartleggingRadIkkeEier = ({ kartlegging }: Props) => {
     return (
         <Container>
             <Rad>
-                Kartlegging {kartlegging.status.toLowerCase()} den {lokalDato(dato!!)} av {kartlegging.opprettetAv}
+                Kartlegging {kartlegging.status.toLowerCase()} den {dato && lokalDato(dato)} av {kartlegging.opprettetAv}
                 {kartlegging.status !== "AVSLUTTET" &&
                     <BodyShort> Sist endret: {lokalDato(kartlegging.opprettetTidspunkt)}</BodyShort>
                 }
