@@ -20,11 +20,14 @@ export interface Props {
 }
 
 export const KartleggingRadIkkeEier = ({ kartlegging }: Props) => {
+    const dato = kartlegging.status === "AVSLUTTET" ? kartlegging.endretTidspunkt : kartlegging.opprettetTidspunkt;
     return (
         <Container>
             <Rad>
-                Kartlegging opprettet den {lokalDato(kartlegging.opprettetTidspunkt)} av {kartlegging.opprettetAv}
-                <BodyShort> Sist endret: {lokalDato(kartlegging.opprettetTidspunkt)}</BodyShort>
+                Kartlegging {kartlegging.status.toLowerCase()} den {lokalDato(dato!!)} av {kartlegging.opprettetAv}
+                {kartlegging.status !== "AVSLUTTET" &&
+                    <BodyShort> Sist endret: {lokalDato(kartlegging.opprettetTidspunkt)}</BodyShort>
+                }
             </Rad>
         </Container>
     );
