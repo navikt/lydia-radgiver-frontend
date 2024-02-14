@@ -652,6 +652,17 @@ export const nyKartleggingPåSak = (
     );
 };
 
+export const startKartlegging = (
+    orgnummer: string,
+    saksnummer: string,
+    kartleggingId: string,
+): Promise<IASakKartlegging> => {
+    return post(
+        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}/start`,
+        iaSakKartleggingSchema,
+    );
+};
+
 export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
     return useSwrTemplate<IASakKartlegging[]>(
         `${kartleggingPath}/${orgnummer}/${saksnummer}`,

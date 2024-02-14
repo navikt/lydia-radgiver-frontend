@@ -18,6 +18,7 @@ export const hentBakgrunnsFargeForIAStatus = (
         case IAProsessStatusEnum.enum.FULLFØRT:
             return FiaFarger.hvit;
         case IAProsessStatusEnum.enum.VURDERES:
+        case iaSakKartleggingStatusEnum.enum.PÅBEGYNT:
             return FiaFarger.lyseBlå;
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
         case IAProsessStatusEnum.enum.SLETTET:
@@ -41,6 +42,8 @@ export function penskrivIAStatus(
     switch (status) {
         case iaSakKartleggingStatusEnum.enum.OPPRETTET:
             return "Ikke besøkt";
+        case iaSakKartleggingStatusEnum.enum.PÅBEGYNT:
+            return "Påbegynt";
         case IAProsessStatusEnum.enum.NY:
             return "Opprettet";
         case IAProsessStatusEnum.enum.VURDERES:
@@ -69,7 +72,11 @@ interface Props {
 }
 
 const StatusBadgeWrapper = styled.div`
-    :focus, &:hover, &:visited, &:link, &:active {
+    &:focus,
+    &:hover,
+    &:visited,
+    &:link,
+    &:active {
         text-decoration: none;
     }
 `;

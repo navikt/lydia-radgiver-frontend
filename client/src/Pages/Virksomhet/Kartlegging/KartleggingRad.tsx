@@ -22,34 +22,37 @@ interface KartleggingRadProps {
 }
 
 export const KartleggingRad = ({
-   iaSak,
-   kartlegging,
-   brukerErEierAvSak,
-   defaultOpen,
+    iaSak,
+    kartlegging,
+    brukerErEierAvSak,
+    defaultOpen,
 }: KartleggingRadProps) => {
     if (!brukerErEierAvSak) {
-        return <KartleggingRadIkkeEier kartlegging={kartlegging} />
+        return <KartleggingRadIkkeEier kartlegging={kartlegging} />;
     }
 
     return (
         <Accordion.Item defaultOpen={defaultOpen}>
             <Accordion.Header>
                 <AccordionHeaderContent>
-                        <StatusBadge status={kartlegging.status} />
-                    Kartlegging opprettet {lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}
+                    <StatusBadge status={kartlegging.status} />
+                    Kartlegging opprettet{" "}
+                    {lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}
                 </AccordionHeaderContent>
             </Accordion.Header>
-            {kartlegging.status === "OPPRETTET" &&
+            {(kartlegging.status === "OPPRETTET" || "PÅBEGYNT") && (
                 <PågåendeKartleggingRad
                     iaSak={iaSak}
                     kartlegging={kartlegging}
-                    vertId={kartlegging.vertId} />
-            }
-            {kartlegging.status === "AVSLUTTET" &&
+                    vertId={kartlegging.vertId}
+                />
+            )}
+            {kartlegging.status === "AVSLUTTET" && (
                 <FullførtKartleggingRad
                     iaSak={iaSak}
-                    kartleggingId={kartlegging.kartleggingId} />
-            }
+                    kartleggingId={kartlegging.kartleggingId}
+                />
+            )}
         </Accordion.Item>
-    )
-}
+    );
+};
