@@ -14,12 +14,12 @@ import styled from "styled-components";
 import React from "react";
 
 const Container = styled.div`
-    padding-top: 4rem;
+    padding-top: 1rem;
     height: 100%;
 
     display: flex;
     flex-direction: column;
-    gap: 3rem;
+    gap: 2rem;
 `;
 
 const FlexContainer = styled.div`
