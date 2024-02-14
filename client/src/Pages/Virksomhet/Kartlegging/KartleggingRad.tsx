@@ -18,19 +18,21 @@ interface KartleggingRadProps {
     iaSak: IASak;
     kartlegging: IASakKartlegging;
     brukerErEierAvSak: boolean;
+    defaultOpen?: boolean;
 }
 
 export const KartleggingRad = ({
    iaSak,
    kartlegging,
    brukerErEierAvSak,
+   defaultOpen,
 }: KartleggingRadProps) => {
     if (!brukerErEierAvSak) {
         return <KartleggingRadIkkeEier kartlegging={kartlegging} />
     }
 
     return (
-        <Accordion.Item>
+        <Accordion.Item defaultOpen={defaultOpen}>
             <Accordion.Header>
                 <AccordionHeaderContent>
                         <StatusBadge status={kartlegging.status} />

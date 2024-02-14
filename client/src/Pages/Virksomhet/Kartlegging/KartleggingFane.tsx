@@ -1,3 +1,4 @@
+import React from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
@@ -44,6 +45,7 @@ const NyKartleggingKnapp = (props: { onClick: () => void }) => (
 );
 
 export const KartleggingFane = ({ iaSak }: Props) => {
+    const [harOpprettetKartlegging, setHarOpprettetKartlegging] = React.useState(false);
     const {
         data: iaSakKartlegginger,
         loading: lasterIASakKartlegging,
@@ -54,6 +56,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
         nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(() => {
             muterKartlegginger();
         });
+        setHarOpprettetKartlegging(true);
     };
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
@@ -99,7 +102,8 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                     iaSak={iaSak}
                                     kartlegging={kartlegging}
                                     brukerErEierAvSak={brukerErEierAvSak}
-                                    key={index}
+                                    key={kartlegging.kartleggingId}
+                                    defaultOpen={index === 0 && harOpprettetKartlegging}
                                 />
                             )}
                     </Accordion>
