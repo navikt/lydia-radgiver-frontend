@@ -59,12 +59,25 @@ export const PågåendeKartleggingRad = ({
 
     return (
         <Accordion.Content>
-            <StyledActionButton
-                variant={"secondary"}
-                onClick={() => setBekreftStartKartleggingModalÅpen(true)}
-            >
-                Åpne kartlegging
-            </StyledActionButton>
+            {kartlegging.status === "OPPRETTET" ? (
+                <StyledActionButton
+                    variant={"secondary"}
+                    onClick={() => setBekreftStartKartleggingModalÅpen(true)}
+                >
+                    Åpne kartlegging
+                </StyledActionButton>
+            ) : (
+                <StyledActionButton
+                    variant={"secondary"}
+                    onClick={() => {
+                        window.open(
+                            `https://fia-arbeidsgiver.ekstern.dev.nav.no/${kartlegging.kartleggingId}/vert/${vertId}`,
+                        );
+                    }}
+                >
+                    Fortsett
+                </StyledActionButton>
+            )}
             <BekreftValgModal
                 jaTekst={"Fortsett"}
                 onConfirm={() => {
