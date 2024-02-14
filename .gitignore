@@ -108,5 +108,9 @@ dist
 # Ignore Intellij project-specific directory
 .idea
 
+# Ignore Visual Studio Code project-specific directory
+.vscode
+*.code-workspace
+
 # Storybook build output
 storybook-static/
