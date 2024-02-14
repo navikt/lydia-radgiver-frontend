@@ -1,4 +1,4 @@
-import {Accordion, Button} from "@navikt/ds-react";
+import { Accordion, BodyLong, Button } from "@navikt/ds-react";
 import {BekreftValgModal} from "../../../components/Modal/BekreftValgModal";
 import {useState} from "react";
 import {IASak} from "../../../domenetyper/domenetyper";
@@ -44,6 +44,7 @@ export const PågåendeKartleggingRad = ({
                 Start kartlegging
             </Button>
             <BekreftValgModal
+                jaTekst={"Fortsett"}
                 onConfirm={() =>
                     {
                         window.open(
@@ -57,15 +58,18 @@ export const PågåendeKartleggingRad = ({
                 }}
                 åpen={bekreftStartKartleggingModalÅpen}
                 title={"Før du går videre..."}
-                description={
-                    "Du er i ferd med å starte kartlegging med virksomhet.\n" +
-                    "\n" +
-                    "Når du klikker start åpnes det et nytt vindu du kan vise til deltakerne i møtet.\n" +
-                    "\n" +
-                    "Sørg for at alle partene er representert før du starter. " +
-                    "Det er de som logger inn på neste side. Når alle har logget inn klikker du neste."
-                }
-            ></BekreftValgModal>
+            >
+                <BodyLong>
+                    <br />
+                    Du er i ferd med å starte kartlegging med denne virksomheten.
+                    <br />
+                    Sørg for at alle partene er representert før du starter.
+                    <br />
+                    Når du klikker fortsett åpnes det et nytt vindu du kan vise til deltakerne i møtet.
+                    <br />
+                    Der vil deltakerne kunne koble til med sine enheter.
+                </BodyLong>
+            </BekreftValgModal>
             &nbsp;
             <Button onClick={() => setBekreftValgModalÅpen(true)}>
                 Fullfør

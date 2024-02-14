@@ -67,7 +67,7 @@ export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: Begrunnels
                     </CheckboxGroup>
                     {valideringsfeil.length > 0 &&
                         <Box
-                            background="bg-default"
+                            background={"bg-default"}
                             borderColor="border-danger"
                             padding="4"
                             borderWidth="2"
@@ -81,6 +81,7 @@ export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: Begrunnels
                         </Box>}
                 </form>
                 <ModalKnapper>
+                    <Button variant="secondary" onClick={onClose}>Avbryt</Button>
                     <Button
                         onClick={() => {
                             if (!valgtÅrsak || valgteBegrunnelser.length == 0) {
@@ -99,7 +100,6 @@ export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: Begrunnels
                     >
                         Lagre
                     </Button>
-                    <Button variant="secondary" onClick={onClose}>Avbryt</Button>
                 </ModalKnapper>
             </Modal.Body>
         </StyledModal>

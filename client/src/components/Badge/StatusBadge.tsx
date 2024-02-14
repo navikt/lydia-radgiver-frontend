@@ -8,6 +8,7 @@ import {
     IAProsessStatusType,
 } from "../../domenetyper/domenetyper";
 import { FiaFarger } from "../../styling/farger";
+import styled from "styled-components";
 
 export const hentBakgrunnsFargeForIAStatus = (
     status: IAProsessStatusType | IASakKartleggingStatusType,
@@ -67,12 +68,20 @@ interface Props {
     ariaLabel?: string;
 }
 
+const StatusBadgeWrapper = styled.div`
+    :focus, &:hover, &:visited, &:link, &:active {
+        text-decoration: none;
+    }
+`;
+
 export const StatusBadge = ({ status, ariaLive, ariaLabel }: Props) => (
-    <Badge
-        backgroundColor={hentBakgrunnsFargeForIAStatus(status)}
-        ariaLive={ariaLive}
-        ariaLabel={ariaLabel}
-    >
-        {penskrivIAStatus(status)}
-    </Badge>
+    <StatusBadgeWrapper>
+        <Badge
+            backgroundColor={hentBakgrunnsFargeForIAStatus(status)}
+            ariaLive={ariaLive}
+            ariaLabel={ariaLabel}
+        >
+            {penskrivIAStatus(status)}
+        </Badge>
+    </StatusBadgeWrapper>
 );
