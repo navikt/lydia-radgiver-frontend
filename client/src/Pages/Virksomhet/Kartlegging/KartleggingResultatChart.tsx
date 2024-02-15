@@ -29,18 +29,18 @@ const LabelList = styled.ul`
 	margin-top: 1rem;
 `;
 
-const Label = styled.li<{$farge: string}>`
-	color: ${props => props.$farge};
+const Label = styled.li`
 	list-style-type: none;
 	flex-shrink: 0;
 	display: flex;
 	justify-content: center;
 	align-items: center;
+	margin-right: 0.5rem;
 `;
 
 const LabelBox = styled.div<{$farge: string}>`
-	width: 0.75rem;
-	height: 0.75rem;
+	width: 1rem;
+	height: 1rem;
 	margin-right: 0.5rem;
 	margin-left: 0.5rem;
 	background-color: ${props => props.$farge};
@@ -80,7 +80,7 @@ export default function StackedBarChart({spørsmål}: {spørsmål: {
             </BarWrapper>
             <LabelList>
                 {spørsmål.svarListe.map((svar, index) => (
-                    <Label key={svar.svarId} $farge={getSvarGrafFarge(index)}>
+                    <Label key={svar.svarId}>
 						<LabelBox $farge={getSvarGrafFarge(index)} />{svar.tekst}: {svar.prosent.toFixed(0)}%
 					</Label>
                 ))}
