@@ -7,6 +7,7 @@ import { Accordion } from "@navikt/ds-react";
 import { StatusBadge } from "../../../components/Badge/StatusBadge";
 import styled from "styled-components";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
+import { NyKartleggingRad } from "./NyKartleggingRad";
 
 const AccordionHeaderContent = styled.div`
     display: flex;
@@ -40,13 +41,22 @@ export const KartleggingRad = ({
                     {lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}
                 </AccordionHeaderContent>
             </Accordion.Header>
-            {(kartlegging.status === "OPPRETTET" || "PÅBEGYNT") && (
+            {kartlegging.status === "OPPRETTET" && (
+                <NyKartleggingRad
+                    iaSak={iaSak}
+                    kartlegging={kartlegging}
+                    vertId={kartlegging.vertId}
+                />
+            )}
+
+            {kartlegging.status === "PÅBEGYNT" && (
                 <PågåendeKartleggingRad
                     iaSak={iaSak}
                     kartlegging={kartlegging}
                     vertId={kartlegging.vertId}
                 />
             )}
+
             {kartlegging.status === "AVSLUTTET" && (
                 <FullførtKartleggingRad
                     iaSak={iaSak}

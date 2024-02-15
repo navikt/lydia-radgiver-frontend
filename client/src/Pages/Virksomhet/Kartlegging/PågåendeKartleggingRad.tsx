@@ -1,15 +1,12 @@
-import { Accordion, BodyLong, Button } from "@navikt/ds-react";
+import { Accordion, Button } from "@navikt/ds-react";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { useState } from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
-import {
-    avsluttKartlegging,
-    startKartlegging,
-    useHentKartlegginger,
-} from "../../../api/lydia-api";
+import { avsluttKartlegging, useHentKartlegginger, } from "../../../api/lydia-api";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import styled from "styled-components";
+import { åpneKartleggingINyFane } from "../../../util/navigasjon";
 
 interface PågåendeKartleggingProps {
     iaSak: IASak;
@@ -21,15 +18,9 @@ const StyledActionButton = styled(Button)`
     margin-right: 1rem;
 `;
 
-export const PågåendeKartleggingRad = ({
-    iaSak,
-    kartlegging,
-    vertId,
-}: PågåendeKartleggingProps) => {
-    const [bekreftValgModalÅpen, setBekreftValgModalÅpen] = useState(false);
-    const [
-        bekreftStartKartleggingModalÅpen,
-        setBekreftStartKartleggingModalÅpen,
+export const PågåendeKartleggingRad = ({ iaSak, kartlegging, vertId, }: PågåendeKartleggingProps) => {
+    const [bekreftFullførKartleggingModalÅpen,
+        setBekreftFullførKartleggingModalÅpen,
     ] = useState(false);
 
     const { mutate: muterKartlegginger } = useHentKartlegginger(
@@ -47,74 +38,23 @@ export const PågåendeKartleggingRad = ({
         });
     };
 
-    const startKartleggingen = () => {
-        startKartlegging(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            kartlegging.kartleggingId,
-        ).then(() => {
-            muterKartlegginger();
-        });
-    };
-
     return (
         <Accordion.Content>
-            {kartlegging.status === "OPPRETTET" ? (
-                <StyledActionButton
-                    variant={"secondary"}
-                    onClick={() => setBekreftStartKartleggingModalÅpen(true)}
-                >
-                    Åpne kartlegging
-                </StyledActionButton>
-            ) : (
-                <StyledActionButton
-                    variant={"secondary"}
-                    onClick={() => {
-                        window.open(
-                            `https://fia-arbeidsgiver.ekstern.dev.nav.no/${kartlegging.kartleggingId}/vert/${vertId}`,
-                        );
-                    }}
-                >
-                    Fortsett
-                </StyledActionButton>
-            )}
-            <BekreftValgModal
-                jaTekst={"Fortsett"}
-                onConfirm={() => {
-                    startKartleggingen();
-                    window.open(
-                        `https://fia-arbeidsgiver.ekstern.dev.nav.no/${kartlegging.kartleggingId}/vert/${vertId}`,
-                    );
-                    setBekreftStartKartleggingModalÅpen(false);
-                }}
-                onCancel={() => {
-                    setBekreftStartKartleggingModalÅpen(false);
-                }}
-                åpen={bekreftStartKartleggingModalÅpen}
-                title={"Før du går videre..."}
+            <StyledActionButton
+                variant={"secondary"}
+                onClick={() => åpneKartleggingINyFane(kartlegging.kartleggingId, vertId)}
             >
-                <BodyLong>
-                    <br />
-                    Du er i ferd med å starte kartlegging med denne
-                    virksomheten.
-                    <br />
-                    Sørg for at alle partene er representert før du starter.
-                    <br />
-                    Når du klikker fortsett åpnes det et nytt vindu du kan vise
-                    til deltakerne i møtet.
-                    <br />
-                    Der vil deltakerne kunne koble til med sine enheter.
-                </BodyLong>
-            </BekreftValgModal>
-            <StyledActionButton onClick={() => setBekreftValgModalÅpen(true)}>
+                Fortsett
+            </StyledActionButton>
+            <StyledActionButton onClick={() => setBekreftFullførKartleggingModalÅpen(true)}>
                 Fullfør
             </StyledActionButton>
             <BekreftValgModal
-                onConfirm={() => avslutt()}
+                onConfirm={avslutt}
                 onCancel={() => {
-                    setBekreftValgModalÅpen(false);
+                    setBekreftFullførKartleggingModalÅpen(false);
                 }}
-                åpen={bekreftValgModalÅpen}
+                åpen={bekreftFullførKartleggingModalÅpen}
                 title="Er du sikker på at du vil fullføre denne kartleggingen?"
                 description={`Kartleggingen som fullføres er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
             />
