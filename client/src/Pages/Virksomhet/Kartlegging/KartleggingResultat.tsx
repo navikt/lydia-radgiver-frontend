@@ -1,17 +1,9 @@
 import { BodyShort, Heading, Loader } from "@navikt/ds-react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { useHentKartleggingResultat } from "../../../api/lydia-api";
-import {
-    Bar,
-    BarChart,
-    LabelList,
-    Legend,
-    ResponsiveContainer,
-    XAxis,
-    YAxis,
-} from "recharts";
 import styled from "styled-components";
 import React from "react";
+import StackedBarChart from "./KartleggingResultatChart";
 
 const Container = styled.div`
     padding-top: 1rem;
@@ -75,18 +67,6 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
         },
     );
 
-    const svarGrafFarger: string[] = [
-        "#8884d8",
-        "#82ca9d",
-        "#ffc658",
-        "#ff8042",
-        "#8dd1e1",
-    ];
-
-    function getSvarGrafFarge(index: number): string {
-        return svarGrafFarger[index % svarGrafFarger.length];
-    }
-
     return (
         <Container>
             <Heading spacing={true} level="3" size="medium">
@@ -99,38 +79,7 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
                             {spørsmål.tekst}
                         </BodyShort>
                     </HeadingContainer>
-                    <ResponsiveContainer minHeight={150} >
-                        <BarChart
-                            width={500}
-                            height={300}
-                            data={[spørsmål]}
-                            layout={"vertical"}
-                        >
-                            <XAxis hide type={"number"} />
-                            <YAxis hide type={"category"} dataKey={"tekst"} />
-                            <Legend />
-                            {spørsmål.svarListe.map((svar, index) => (
-                                <Bar
-                                    key={svar.svarId}
-                                    dataKey={`svarListe[${index}].prosent`}
-                                    stackId={"a"}
-                                    fill={getSvarGrafFarge(index)}
-                                    name={`${svar.tekst}: ${isNaN(svar.prosent) ? 0 : svar.prosent.toFixed(0)}%`}
-                                    type={"monotone"}
-                                >
-                                    <LabelList
-                                        dataKey={`svarListe[${index}].prosent`}
-                                        position={"center"}
-                                        fill={"#000"}
-                                        fontWeight={"bold"}
-                                        formatter={(value: number) =>
-                                            value !== 0 ? `${value.toFixed(0)}%` : null
-                                        }
-                                    />
-                                </Bar>
-                            ))}
-                        </BarChart>
-                    </ResponsiveContainer>
+                    <StackedBarChart spørsmål={spørsmål} />
                 </FlexContainer>
             ))}
         </Container>
