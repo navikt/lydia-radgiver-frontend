@@ -93,9 +93,19 @@ export const Prioriteringsside = () => {
 
     useEffect(() => {
         if (!harEndringIFilterverdi && !skalSøke && filtervisning.state.autosøk) {
+            const gammelSide = gammelFilterState.side;
             setGammelFilterState(filtervisning.state);
             clearTimeout(autosøktimer);
-            setAutosøktimer(setTimeout(() => setSkalSøke(true), 500));
+            setAutosøktimer(setTimeout(() => {
+                setVirksomhetsoversiktListe(undefined);
+
+                if (gammelSide === filtervisning.state.side) {
+                    filtervisning.oppdaterSide({
+                        side: 1,
+                    });
+                }
+                setSkalSøke(true);
+            }, 500));
         }
     }, [harEndringIFilterverdi, skalSøke, filtervisning.state.autosøk]);
 
