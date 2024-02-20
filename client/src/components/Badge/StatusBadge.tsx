@@ -2,8 +2,6 @@ import "@navikt/ds-css";
 import React from "react";
 import { Badge } from "./Badge";
 import {
-    iaSakKartleggingStatusEnum,
-    IASakKartleggingStatusType,
     IAProsessStatusEnum,
     IAProsessStatusType,
 } from "../../domenetyper/domenetyper";
@@ -11,14 +9,13 @@ import { FiaFarger } from "../../styling/farger";
 import styled from "styled-components";
 
 export const hentBakgrunnsFargeForIAStatus = (
-    status: IAProsessStatusType | IASakKartleggingStatusType,
+    status: IAProsessStatusType,
 ): FiaFarger => {
     switch (status) {
         case IAProsessStatusEnum.enum.NY:
         case IAProsessStatusEnum.enum.FULLFØRT:
             return FiaFarger.hvit;
         case IAProsessStatusEnum.enum.VURDERES:
-        case iaSakKartleggingStatusEnum.enum.PÅBEGYNT:
             return FiaFarger.lyseBlå;
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
         case IAProsessStatusEnum.enum.SLETTET:
@@ -27,23 +24,17 @@ export const hentBakgrunnsFargeForIAStatus = (
             return FiaFarger.mørkeBlå;
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
             return FiaFarger.rød;
-        case iaSakKartleggingStatusEnum.enum.OPPRETTET:
         case IAProsessStatusEnum.enum.KARTLEGGES:
             return FiaFarger.gul;
-        case iaSakKartleggingStatusEnum.enum.AVSLUTTET:
         case IAProsessStatusEnum.enum.VI_BISTÅR:
             return FiaFarger.grønn;
     }
 };
 
 export function penskrivIAStatus(
-    status: IAProsessStatusType | IASakKartleggingStatusType,
+    status: IAProsessStatusType,
 ): string {
     switch (status) {
-        case iaSakKartleggingStatusEnum.enum.OPPRETTET:
-            return "Ikke besøkt";
-        case iaSakKartleggingStatusEnum.enum.PÅBEGYNT:
-            return "Påbegynt";
         case IAProsessStatusEnum.enum.NY:
             return "Opprettet";
         case IAProsessStatusEnum.enum.VURDERES:
@@ -59,14 +50,13 @@ export function penskrivIAStatus(
             return "Kartlegges";
         case IAProsessStatusEnum.enum.VI_BISTÅR:
             return "Vi bistår";
-        case iaSakKartleggingStatusEnum.enum.AVSLUTTET:
         case IAProsessStatusEnum.enum.FULLFØRT:
             return "Fullført";
     }
 }
 
 interface Props {
-    status: IAProsessStatusType | IASakKartleggingStatusType;
+    status: IAProsessStatusType;
     ariaLive?: "off" | "polite" | "assertive";
     ariaLabel?: string;
 }

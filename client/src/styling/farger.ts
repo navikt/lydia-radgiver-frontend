@@ -4,8 +4,11 @@ export enum FiaFarger {
     mørkeBlå = "#CCE1FF",   // blue100
     rød = "#EFA89D",        // red200
     grå = "#C9C9C9",
+    lysGrå = "var(--surface-neutral-moderate, rgba(17, 41, 64, 0.13))",
     grønn = "#99DEAD",      // green200
+    lysGrønn = "var(--surface-success-moderate, #99DEAD)",
     gul = "#FFD799",        // orange200
+    lilla = "var(--surface-alt-1-moderate, #C0B2D2)",      // purple100
 }
 
 export enum GrafFarger {

@@ -4,21 +4,33 @@ import { PågåendeKartleggingRad } from "./PågåendeKartleggingRad";
 import { FullførtKartleggingRad } from "./FullførtKartleggingRad";
 import { KartleggingRadIkkeEier } from "./KartleggingRadIkkeEier";
 import { Accordion } from "@navikt/ds-react";
-import { StatusBadge } from "../../../components/Badge/StatusBadge";
 import styled from "styled-components";
-import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 import { NyKartleggingRad } from "./NyKartleggingRad";
+import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
 
-const AccordionHeaderContent = styled.div`
+const AccordionHeader = styled(Accordion.Header)`
+    width: 100%;
+    
+    .navds-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
+`;
+
+const HeaderRightContent = styled.span`
     display: flex;
     align-items: center;
-    gap: 2rem;
+    gap: 40px;
+    font-size: 1rem;
 `;
 
 interface KartleggingRadProps {
     iaSak: IASak;
     kartlegging: IASakKartlegging;
     brukerErEierAvSak: boolean;
+    dato?: string;
     defaultOpen?: boolean;
 }
 
@@ -27,6 +39,7 @@ export const KartleggingRad = ({
     kartlegging,
     brukerErEierAvSak,
     defaultOpen,
+    dato,
 }: KartleggingRadProps) => {
     if (!brukerErEierAvSak) {
         return <KartleggingRadIkkeEier kartlegging={kartlegging} />;
@@ -34,13 +47,13 @@ export const KartleggingRad = ({
 
     return (
         <Accordion.Item defaultOpen={defaultOpen}>
-            <Accordion.Header>
-                <AccordionHeaderContent>
-                    <StatusBadge status={kartlegging.status} />
-                    Kartlegging opprettet{" "}
-                    {lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}
-                </AccordionHeaderContent>
-            </Accordion.Header>
+            <AccordionHeader>
+                Kartlegging
+                <HeaderRightContent>
+                    <KartleggingStatusBedge status={kartlegging.status} />
+                    {dato}
+                </HeaderRightContent>
+            </AccordionHeader>
             {kartlegging.status === "OPPRETTET" && (
                 <NyKartleggingRad
                     iaSak={iaSak}

@@ -18,6 +18,7 @@ import { IngenKartleggingInfoBoks } from "./IngenKartleggingInfoBoks";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
 import { KartleggingRad } from "./KartleggingRad";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
+import { erSammeDato, lokalDato, lokalDatoMedKlokkeslett } from "../../../util/dato";
 
 const Container = styled.div`
     ${tabInnholdStyling};
@@ -78,12 +79,6 @@ export const KartleggingFane = ({ iaSak }: Props) => {
         iaSakKartlegginger &&
         iaSakKartlegginger.length > 0;
 
-    const sorterPåDato = (kartlegginger: IASakKartlegging[]) =>
-        kartlegginger.sort(
-            (a, b) =>
-                b.opprettetTidspunkt.getTime() - a.opprettetTidspunkt.getTime(),
-        );
-
     return (
         <>
             {(iaSak.status !== "KARTLEGGES" || !brukerErEierAvSak) && (
@@ -105,12 +100,13 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                     <Accordion style={{ marginTop: "1rem" }}>
                         {harKartlegginger &&
                             sorterPåDato(iaSakKartlegginger).map(
-                                (kartlegging, index) => (
+                                (kartlegging, index, originalArray) => (
                                     <KartleggingRad
+                                        key={kartlegging.kartleggingId}
                                         iaSak={iaSak}
                                         kartlegging={kartlegging}
                                         brukerErEierAvSak={brukerErEierAvSak}
-                                        key={kartlegging.kartleggingId}
+                                        dato={formaterDatoForKartlegging(kartlegging, index, originalArray)}
                                         defaultOpen={
                                             index === 0 &&
                                             harOpprettetKartlegging
@@ -124,3 +120,27 @@ export const KartleggingFane = ({ iaSak }: Props) => {
         </>
     );
 };
+
+function sorterPåDato(kartlegginger: IASakKartlegging[]) {
+    return kartlegginger.sort(
+        (a, b) =>
+            b.opprettetTidspunkt.getTime() - a.opprettetTidspunkt.getTime(),
+    );
+}
+
+function formaterDatoForKartlegging(kartlegging: IASakKartlegging, index: number, kartlegginger: IASakKartlegging[]) {
+    // Vi anntar at kartlegginger er sortert på dato, så vi trenger kun å sjekke de to nærmeste kartleggingene
+    if (index > 0) {
+        if (erSammeDato(kartlegging.opprettetTidspunkt, kartlegginger[index - 1].opprettetTidspunkt)) {
+            return lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt);
+        }
+    }
+    
+    if (index < kartlegginger.length - 1) {
+        if (erSammeDato(kartlegging.opprettetTidspunkt, kartlegginger[index + 1].opprettetTidspunkt)) {
+            return lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt);
+        }
+    }
+
+    return lokalDato(kartlegging.opprettetTidspunkt);
+}
