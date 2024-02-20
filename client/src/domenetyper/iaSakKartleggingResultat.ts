@@ -13,6 +13,7 @@ export const kartleggingSpørsmål = z.object({
 
 export const iaSakKartleggingResultatSchema = z.object({
     kartleggingId: z.string(),
+    antallUnikeDeltakereMedMinstEttSvar: z.number(),
     spørsmålMedSvar: z.array(kartleggingSpørsmål),
 });
 
