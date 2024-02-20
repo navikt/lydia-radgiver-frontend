@@ -18,7 +18,7 @@ import { IngenKartleggingInfoBoks } from "./IngenKartleggingInfoBoks";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
 import { KartleggingRad } from "./KartleggingRad";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import { erSammeDato, lokalDato, lokalDatoMedKlokkeslett } from "../../../util/dato";
+import { erSammeDato } from "../../../util/dato";
 
 const Container = styled.div`
     ${tabInnholdStyling};
