@@ -133,7 +133,7 @@ function formaterDatoUtenKlokkeslett(dato: Date): string {
 }
 
 function formaterDatoMedKlokkeslett(dato: Date): string {
-    return `${dato.toLocaleDateString("nb-NO")}, ${dato.getHours()}:${dato.getMinutes()}`;
+    return `${dato.toLocaleDateString("nb-NO")}, ${dato.getHours()}:${dato.getMinutes().toString().padStart(2, "0")}`;
 }
 
 function formaterDatoForKartlegging(kartlegging: IASakKartlegging, index: number, kartlegginger: IASakKartlegging[]) {
