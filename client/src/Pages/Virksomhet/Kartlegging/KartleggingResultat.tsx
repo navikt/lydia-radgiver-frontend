@@ -69,6 +69,9 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
 
     return (
         <Container>
+            <BodyShort>
+                Antall unike deltakere som har minst ett svar: {kartleggingResultat.antallUnikeDeltakereMedMinstEttSvar}
+            </BodyShort>
             <Heading spacing={true} level="3" size="medium">
                 Partssamarbeid
             </Heading>
