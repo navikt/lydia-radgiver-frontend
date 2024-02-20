@@ -65,9 +65,9 @@ export const KartleggingFane = ({ iaSak }: Props) => {
 
     const opprettKartlegging = () => {
         nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(() => {
+            setHarOpprettetKartlegging(true);
             muterKartlegginger();
         });
-        setHarOpprettetKartlegging(true);
     };
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
@@ -110,7 +110,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                         iaSak={iaSak}
                                         kartlegging={kartlegging}
                                         brukerErEierAvSak={brukerErEierAvSak}
-                                        key={index}
+                                        key={kartlegging.kartleggingId}
                                         defaultOpen={
                                             index === 0 &&
                                             harOpprettetKartlegging
