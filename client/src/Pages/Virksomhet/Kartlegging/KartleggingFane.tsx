@@ -128,19 +128,23 @@ function sorterPåDato(kartlegginger: IASakKartlegging[]) {
     );
 }
 
+function formaterDatoUtenKlokkeslett(dato: Date): string {
+    return dato.toLocaleDateString("nb-NO");
+}
+
+function formaterDatoMedKlokkeslett(dato: Date): string {
+    return dato.toLocaleString("nb-NO");
+}
+
 function formaterDatoForKartlegging(kartlegging: IASakKartlegging, index: number, kartlegginger: IASakKartlegging[]) {
     // Vi anntar at kartlegginger er sortert på dato, så vi trenger kun å sjekke de to nærmeste kartleggingene
-    if (index > 0) {
-        if (erSammeDato(kartlegging.opprettetTidspunkt, kartlegginger[index - 1].opprettetTidspunkt)) {
-            return lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt);
-        }
+    if (index > 0 && erSammeDato(kartlegging.opprettetTidspunkt, kartlegginger[index - 1].opprettetTidspunkt)) {
+        return formaterDatoMedKlokkeslett(kartlegging.opprettetTidspunkt);
     }
     
-    if (index < kartlegginger.length - 1) {
-        if (erSammeDato(kartlegging.opprettetTidspunkt, kartlegginger[index + 1].opprettetTidspunkt)) {
-            return lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt);
-        }
+    if (index < kartlegginger.length - 1 && erSammeDato(kartlegging.opprettetTidspunkt, kartlegginger[index + 1].opprettetTidspunkt)) {
+        return formaterDatoMedKlokkeslett(kartlegging.opprettetTidspunkt);
     }
 
-    return lokalDato(kartlegging.opprettetTidspunkt);
+    return formaterDatoUtenKlokkeslett(kartlegging.opprettetTidspunkt);
 }
