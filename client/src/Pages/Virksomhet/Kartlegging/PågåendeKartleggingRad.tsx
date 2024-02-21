@@ -50,8 +50,8 @@ export const PågåendeKartleggingRad = ({ iaSak, kartlegging, vertId, }: Pågå
             {lasterKartleggingResultat && <Loader />}
             {!lasterKartleggingResultat && kartleggingResultat && (
                 <BodyShort>
-                    Antall unike deltakere som har minst ett
-                    svar: {kartleggingResultat.antallUnikeDeltakereMedMinstEttSvar}
+                    Antall fullførte:
+                    {kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt}
                 </BodyShort>
             )}
 
