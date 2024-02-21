@@ -1,8 +1,8 @@
-import { Accordion, Button } from "@navikt/ds-react";
+import {Accordion, BodyShort, Button, Loader} from "@navikt/ds-react";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { useState } from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { avsluttKartlegging, useHentKartlegginger, } from "../../../api/lydia-api";
+import {avsluttKartlegging, useHentKartlegginger, useHentKartleggingResultat,} from "../../../api/lydia-api";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import styled from "styled-components";
@@ -28,6 +28,13 @@ export const PågåendeKartleggingRad = ({ iaSak, kartlegging, vertId, }: Pågå
         iaSak.saksnummer,
     );
 
+    const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
+        useHentKartleggingResultat(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            kartlegging.kartleggingId,
+        );
+
     const avslutt = () => {
         avsluttKartlegging(
             iaSak.orgnr,
@@ -40,6 +47,14 @@ export const PågåendeKartleggingRad = ({ iaSak, kartlegging, vertId, }: Pågå
 
     return (
         <Accordion.Content>
+            {lasterKartleggingResultat && <Loader />}
+            {!lasterKartleggingResultat && kartleggingResultat && (
+                <BodyShort>
+                    Antall unike deltakere som har minst ett
+                    svar: {kartleggingResultat.antallUnikeDeltakereMedMinstEttSvar}
+                </BodyShort>
+            )}
+
             <StyledActionButton
                 variant={"secondary"}
                 onClick={() => åpneKartleggingINyFane(kartlegging.kartleggingId, vertId)}
