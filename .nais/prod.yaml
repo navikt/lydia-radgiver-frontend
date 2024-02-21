@@ -2,5 +2,6 @@ ingresses:
 - "https://fia.intern.nav.no"
 - "https://fia.nav.no"
 fiaSuperbrukerGroup: f71a0eed-1e59-4b19-ae13-6c1af824fe8e
+kartleggingUrl: "https://fia-arbeidsgiver.nav.no"
 fiaSaksbehandlerGroup: a72547f2-c92b-420c-b7b0-fc227337e9ea
 fiaLesetilgangGroup: 790acd42-dc41-46ce-b7e7-cee414b4b4bc
