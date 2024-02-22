@@ -56,8 +56,8 @@ const NyKartleggingKnapp = (props: { onClick: () => void }) => (
 );
 
 export const KartleggingFane = ({ iaSak }: Props) => {
-    const [harOpprettetKartlegging, setHarOpprettetKartlegging] =
-        React.useState(false);
+    const [sisteOpprettedeKartleggingId, setSisteOpprettedeKartleggingId] =
+        React.useState('');
     const {
         data: iaSakKartlegginger,
         loading: lasterIASakKartlegging,
@@ -65,8 +65,8 @@ export const KartleggingFane = ({ iaSak }: Props) => {
     } = useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
 
     const opprettKartlegging = () => {
-        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(() => {
-            setHarOpprettetKartlegging(true);
+        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(({kartleggingId}) => {
+            setSisteOpprettedeKartleggingId(kartleggingId);
             muterKartlegginger();
         });
     };
@@ -108,8 +108,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                         brukerErEierAvSak={brukerErEierAvSak}
                                         dato={formaterDatoForKartlegging(kartlegging, index, originalArray)}
                                         defaultOpen={
-                                            index === 0 &&
-                                            harOpprettetKartlegging
+                                            sisteOpprettedeKartleggingId === kartlegging.kartleggingId
                                         }
                                     />
                                 ),
