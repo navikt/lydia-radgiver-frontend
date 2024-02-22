@@ -40,7 +40,6 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
             kartleggingId,
         );
 
-
     if (lasterKartleggingResultat) {
         return <Loader />;
     }
@@ -70,8 +69,7 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
     return (
         <Container>
             <BodyShort>
-                Antall fullførte:
-                {kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt}
+                {`Antall deltakere som fullførte kartleggingen: ${kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt}`}
             </BodyShort>
             <Heading spacing={true} level="3" size="medium">
                 Partssamarbeid
