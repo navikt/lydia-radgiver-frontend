@@ -2,7 +2,7 @@ import { Accordion, BodyLong, Button } from "@navikt/ds-react";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { useState } from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { startKartlegging, useHentKartlegginger, } from "../../../api/lydia-api";
+import { startKartlegging, useHentKartlegginger } from "../../../api/lydia-api";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import styled from "styled-components";
 import { åpneKartleggingINyFane } from "../../../util/navigasjon";
@@ -17,8 +17,13 @@ const StyledActionButton = styled(Button)`
     margin-right: 1rem;
 `;
 
-export const NyKartleggingRad = ({ iaSak, kartlegging, vertId, }: NyKartleggingRadProps) => {
-    const [bekreftStartKartleggingModalÅpen,
+export const NyKartleggingRad = ({
+    iaSak,
+    kartlegging,
+    vertId,
+}: NyKartleggingRadProps) => {
+    const [
+        bekreftStartKartleggingModalÅpen,
         setBekreftStartKartleggingModalÅpen,
     ] = useState(false);
 
@@ -44,7 +49,7 @@ export const NyKartleggingRad = ({ iaSak, kartlegging, vertId, }: NyKartleggingR
                     variant={"secondary"}
                     onClick={() => setBekreftStartKartleggingModalÅpen(true)}
                 >
-                    Åpne kartlegging
+                    Start kartlegging
                 </StyledActionButton>
             )}
 
