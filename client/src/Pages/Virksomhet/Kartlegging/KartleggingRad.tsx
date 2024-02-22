@@ -22,8 +22,12 @@ const AccordionHeader = styled(Accordion.Header)`
 const HeaderRightContent = styled.span`
     display: flex;
     align-items: center;
-    gap: 40px;
     font-size: 1rem;
+`;
+
+const KartleggingDato = styled.span`
+    width: 8rem;
+    text-align: right;
 `;
 
 interface KartleggingRadProps {
@@ -51,7 +55,7 @@ export const KartleggingRad = ({
                 Kartlegging
                 <HeaderRightContent>
                     <KartleggingStatusBedge status={kartlegging.status} />
-                    {dato}
+                    <KartleggingDato>{dato}</KartleggingDato>
                 </HeaderRightContent>
             </AccordionHeader>
             {kartlegging.status === "OPPRETTET" && (
