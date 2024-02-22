@@ -55,15 +55,19 @@ export const PågåendeKartleggingRad = ({ iaSak, kartlegging, vertId, }: Pågå
                 </BodyShort>
             )}
 
-            <StyledActionButton
-                variant={"secondary"}
-                onClick={() => åpneKartleggingINyFane(kartlegging.kartleggingId, vertId)}
-            >
-                Fortsett
-            </StyledActionButton>
-            <StyledActionButton onClick={() => setBekreftFullførKartleggingModalÅpen(true)}>
-                Fullfør
-            </StyledActionButton>
+            {iaSak.status === "KARTLEGGES" && (
+                <>
+                    <StyledActionButton
+                        variant={"secondary"}
+                        onClick={() => åpneKartleggingINyFane(kartlegging.kartleggingId, vertId)}
+                    >
+                        Fortsett
+                    </StyledActionButton>
+                    <StyledActionButton onClick={() => setBekreftFullførKartleggingModalÅpen(true)}>
+                        Fullfør
+                    </StyledActionButton>
+                </>
+            )}
             <BekreftValgModal
                 onConfirm={avslutt}
                 onCancel={() => {

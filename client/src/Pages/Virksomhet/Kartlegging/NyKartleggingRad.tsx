@@ -39,12 +39,14 @@ export const NyKartleggingRad = ({ iaSak, kartlegging, vertId, }: NyKartleggingR
 
     return (
         <Accordion.Content>
-            <StyledActionButton
-                variant={"secondary"}
-                onClick={() => setBekreftStartKartleggingModalÅpen(true)}
-            >
-                Åpne kartlegging
-            </StyledActionButton>
+            {iaSak.status === "KARTLEGGES" && (
+                <StyledActionButton
+                    variant={"secondary"}
+                    onClick={() => setBekreftStartKartleggingModalÅpen(true)}
+                >
+                    Åpne kartlegging
+                </StyledActionButton>
+            )}
 
             <BekreftValgModal
                 jaTekst={"Fortsett"}

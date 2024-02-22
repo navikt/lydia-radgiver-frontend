@@ -49,7 +49,7 @@ const NyKartleggingKnapp = (props: { onClick: () => void }) => (
         style={{ margin: "1rem" }}
     >
         <HStack align={"center"} gap={"2"}>
-            <PlusCircleIcon title="a11y-title" fontSize="1.5rem" />
+            <PlusCircleIcon fontSize="1.5rem" />
             Ny kartlegging
         </HStack>
     </Button>
@@ -84,38 +84,35 @@ export const KartleggingFane = ({ iaSak }: Props) => {
             {(iaSak.status !== "KARTLEGGES" || !brukerErEierAvSak) && (
                 <KartleggingInfo />
             )}
+            <Container>
+                <Heading level="3" size="large">
+                    Kartlegginger
+                </Heading>
 
-            {iaSak.status === "KARTLEGGES" && (
-                <Container>
-                    <Heading level="3" size="large">
-                        Kartlegginger
-                    </Heading>
+                {(iaSak.status === "KARTLEGGES" && brukerErEierAvSak) && (
+                    <NyKartleggingKnapp onClick={opprettKartlegging} />
+                )}
 
-                    {brukerErEierAvSak && (
-                        <NyKartleggingKnapp onClick={opprettKartlegging} />
-                    )}
+                {!harKartlegginger && <IngenKartleggingInfoBoks />}
 
-                    {!harKartlegginger && <IngenKartleggingInfoBoks />}
-
-                    <Accordion style={{ marginTop: "1rem" }}>
-                        {harKartlegginger &&
-                            sorterPåDato(iaSakKartlegginger).map(
-                                (kartlegging, index, originalArray) => (
-                                    <KartleggingRad
-                                        key={kartlegging.kartleggingId}
-                                        iaSak={iaSak}
-                                        kartlegging={kartlegging}
-                                        brukerErEierAvSak={brukerErEierAvSak}
-                                        dato={formaterDatoForKartlegging(kartlegging, index, originalArray)}
-                                        defaultOpen={
-                                            sisteOpprettedeKartleggingId === kartlegging.kartleggingId
-                                        }
-                                    />
-                                ),
-                            )}
-                    </Accordion>
-                </Container>
-            )}
+                <Accordion style={{marginTop: "1rem"}}>
+                    {harKartlegginger &&
+                        sorterPåDato(iaSakKartlegginger).map(
+                            (kartlegging, index, originalArray) => (
+                                <KartleggingRad
+                                    key={kartlegging.kartleggingId}
+                                    iaSak={iaSak}
+                                    kartlegging={kartlegging}
+                                    brukerErEierAvSak={brukerErEierAvSak}
+                                    dato={formaterDatoForKartlegging(kartlegging, index, originalArray)}
+                                    defaultOpen={
+                                        sisteOpprettedeKartleggingId === kartlegging.kartleggingId
+                                    }
+                                />
+                            ),
+                        )}
+                </Accordion>
+            </Container>
         </>
     );
 };
