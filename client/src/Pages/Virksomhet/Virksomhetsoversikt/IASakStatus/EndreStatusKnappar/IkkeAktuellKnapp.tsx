@@ -1,15 +1,21 @@
 import { useState } from "react";
 import { IASakshendelseKnapp } from "./IASakshendelseKnapp";
 import { BegrunnelseModal } from "../BegrunnelseModal";
-import { GyldigNesteHendelse, IASak, ValgtÅrsakDto } from "../../../../../domenetyper/domenetyper";
+import {
+    GyldigNesteHendelse,
+    IASak,
+    ValgtÅrsakDto,
+} from "../../../../../domenetyper/domenetyper";
 import {
     nyHendelsePåSak,
     useHentAktivSakForVirksomhet,
+    useHentKartlegginger,
     useHentLeveranser,
-    useHentSamarbeidshistorikk
+    useHentSamarbeidshistorikk,
 } from "../../../../../api/lydia-api";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { FullførLeveranserFørstModal } from "../FullførLeveranserFørstModal";
+import { FullførKartleggingerFørstModal } from "../FullførKartleggingerFørstModal";
 
 interface Props {
     hendelse: GyldigNesteHendelse;
@@ -17,21 +23,35 @@ interface Props {
 }
 
 export const IkkeAktuellKnapp = ({ hendelse, sak }: Props) => {
-    const { data: leveranserPåSak } = useHentLeveranser(sak.orgnr, sak.saksnummer);
-    const harLeveranserSomErUnderArbeid = leveranserPåSak?.flatMap((iaTjeneste) => iaTjeneste.leveranser)
-        .some((leveranse) => leveranse.status === "UNDER_ARBEID")
-    const [visFullførLeveranserFørstModal, setVisFullførLeveranserFørstModal] = useState(false);
+    const { data: leveranserPåSak } = useHentLeveranser(
+        sak.orgnr,
+        sak.saksnummer,
+    );
+    const { data: kartleggingerPåSak } = useHentKartlegginger(
+        sak.orgnr,
+        sak.saksnummer,
+    );
+    const harLeveranserSomErUnderArbeid = leveranserPåSak
+        ?.flatMap((iaTjeneste) => iaTjeneste.leveranser)
+        .some((leveranse) => leveranse.status === "UNDER_ARBEID");
+    const harKartleggingerSomErUnderArbeid = kartleggingerPåSak
+        ?.flatMap((kartlegging) => kartlegging.status)
+        .some((status) => status !== "AVSLUTTET");
+    const [visFullførLeveranserFørstModal, setVisFullførLeveranserFørstModal] =
+        useState(false);
 
     const [laster, setLaster] = useState(false);
-    const [visBegrunnelsesModal, setVisBegrunnelsesModal] = useState(false)
+    const [visBegrunnelsesModal, setVisBegrunnelsesModal] = useState(false);
 
-    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(sak.orgnr)
-    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(sak.orgnr)
+    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
+        sak.orgnr,
+    );
+    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(sak.orgnr);
 
     const mutateIASakerOgSamarbeidshistorikk = () => {
-        mutateHentSaker?.()
-        mutateSamarbeidshistorikk?.()
-    }
+        mutateHentSaker?.();
+        mutateSamarbeidshistorikk?.();
+    };
 
     const lagreBegrunnelsePåSak = (valgtÅrsak: ValgtÅrsakDto) => {
         setLaster(true);
@@ -40,9 +60,9 @@ export const IkkeAktuellKnapp = ({ hendelse, sak }: Props) => {
             .finally(() => {
                 setVisBegrunnelsesModal(false);
                 setLaster(false);
-            })
-        loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status)
-    }
+            });
+        loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status);
+    };
 
     if (harLeveranserSomErUnderArbeid) {
         return (
@@ -52,8 +72,28 @@ export const IkkeAktuellKnapp = ({ hendelse, sak }: Props) => {
                     onClick={() => setVisFullførLeveranserFørstModal(true)}
                     sak={sak}
                 />
-                <FullførLeveranserFørstModal visModal={visFullførLeveranserFørstModal} lukkModal={() => setVisFullførLeveranserFørstModal(false)} />
-            </>)
+                <FullførLeveranserFørstModal
+                    visModal={visFullførLeveranserFørstModal}
+                    lukkModal={() => setVisFullførLeveranserFørstModal(false)}
+                />
+            </>
+        );
+    }
+
+    if (harKartleggingerSomErUnderArbeid) {
+        return (
+            <>
+                <IASakshendelseKnapp
+                    hendelsesType={hendelse.saksHendelsestype}
+                    onClick={() => setVisFullførLeveranserFørstModal(true)}
+                    sak={sak}
+                />
+                <FullførKartleggingerFørstModal
+                    visModal={visFullførLeveranserFørstModal}
+                    lukkModal={() => setVisFullførLeveranserFørstModal(false)}
+                />
+            </>
+        );
     }
 
     return (
@@ -63,7 +103,7 @@ export const IkkeAktuellKnapp = ({ hendelse, sak }: Props) => {
                 hendelsesType={hendelse.saksHendelsestype}
                 onClick={() => setVisBegrunnelsesModal(true)}
                 sak={sak}
-                />
+            />
             <BegrunnelseModal
                 hendelse={hendelse}
                 åpen={visBegrunnelsesModal}
@@ -71,5 +111,5 @@ export const IkkeAktuellKnapp = ({ hendelse, sak }: Props) => {
                 onClose={() => setVisBegrunnelsesModal(false)}
             />
         </>
-    )
-}
+    );
+};

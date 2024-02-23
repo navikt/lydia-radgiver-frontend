@@ -1,7 +1,10 @@
 import * as amplitude from "@amplitude/analytics-browser";
 import { maskerOrgnr } from "./amplitude-klient-utils";
 import { Rolle } from "../domenetyper/brukerinformasjon";
-import { IAProsessStatusType, IASakshendelseType } from "../domenetyper/domenetyper";
+import {
+    IAProsessStatusType,
+    IASakshendelseType,
+} from "../domenetyper/domenetyper";
 import { erSammeDato } from "./dato";
 import { tallTilFemmerintervall } from "./tallTilFemmerintervall";
 
@@ -9,7 +12,7 @@ let initialized = false;
 
 const apiKeys = {
     fiaProd: "747d79b00c945cf3e549ae0b197293bf",
-    fiaDev: "747f1d150abf4cad4248ff1d3f93e999"
+    fiaDev: "747f1d150abf4cad4248ff1d3f93e999",
 };
 
 const isProduction = () =>
@@ -39,21 +42,19 @@ type NavsAmplitudeTopologiEventer =
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
     const maskertUrl = maskerOrgnr(url);
-    logAmplitudeEvent("besøk", { url: maskertUrl, sidetittel: sidetittel })
+    logAmplitudeEvent("besøk", { url: maskertUrl, sidetittel: sidetittel });
 };
 
 const logAmplitudeEvent = (
     eventNavn: NavsAmplitudeTopologiEventer,
-    eventData: Record<string, string | boolean | string[]>
+    eventData: Record<string, string | boolean | string[]>,
 ) => {
     if (!initialized) {
-        const apiKey = isProduction()
-            ? apiKeys.fiaProd
-            : apiKeys.fiaDev;
+        const apiKey = isProduction() ? apiKeys.fiaProd : apiKeys.fiaDev;
 
         amplitude.init(apiKey, "", {
             defaultTracking: false,
-            serverUrl: "https://amplitude.nav.no/collect"
+            serverUrl: "https://amplitude.nav.no/collect",
         });
         initialized = true;
     }
@@ -62,13 +63,11 @@ const logAmplitudeEvent = (
 
 export const setTilgangsnivå = (tilgangsnivå: Rolle) => {
     if (!initialized) {
-        const apiKey = isProduction()
-            ? apiKeys.fiaProd
-            : apiKeys.fiaDev;
+        const apiKey = isProduction() ? apiKeys.fiaProd : apiKeys.fiaDev;
 
         amplitude.init(apiKey, "", {
             defaultTracking: false,
-            serverUrl: "https://amplitude.nav.no/collect"
+            serverUrl: "https://amplitude.nav.no/collect",
         });
         initialized = true;
     }
@@ -80,20 +79,17 @@ export const setTilgangsnivå = (tilgangsnivå: Rolle) => {
 export const enum Søkekomponenter {
     PRIORITERING = "prioritering",
     STATUSOVERSIKT = "statusoversikt",
-    VIRKSOMHETSSØK = "virksomhetssøk"
+    VIRKSOMHETSSØK = "virksomhetssøk",
 }
 
-export const loggSøkPåVirksomhet = (
-    søkstype: "vanlig" | "med *",
-) => {
+export const loggSøkPåVirksomhet = (søkstype: "vanlig" | "med *") => {
     // Dataformat basert på forslag om taksonomi på https://github.com/navikt/analytics-taxonomy/tree/main/events/s%C3%B8k
     logAmplitudeEvent("søk", {
         destinasjon: "virksomhet/finn",
         søkeord: søkstype,
         komponent: Søkekomponenter.VIRKSOMHETSSØK,
-    })
-
-}
+    });
+};
 
 export const enum FilterverdiKategorier {
     FYLKE = "_fylke",
@@ -108,39 +104,51 @@ export const enum FilterverdiKategorier {
     ARBEIDSFORHOLD_FRA = "_arbeidsforhold-fra",
     ARBEIDSFORHOLD_TIL = "_arbeidsforhold-til",
     BRANSJE_NÆRING_OVER = "_over-bransje-naring-snitt",
-    BRANSJE_NÆRING_UNDER_ELLER_LIK = "_under-eller-lik-bransje-naring-snitt"
+    BRANSJE_NÆRING_UNDER_ELLER_LIK = "_under-eller-lik-bransje-naring-snitt",
 }
 
 export const loggFilterverdiKategorier = (
     filterverdiKategorier: FilterverdiKategorier[],
-    søkekomponent: Søkekomponenter.PRIORITERING | Søkekomponenter.STATUSOVERSIKT,
+    søkekomponent:
+        | Søkekomponenter.PRIORITERING
+        | Søkekomponenter.STATUSOVERSIKT,
 ) => {
-    const destinasjon = søkekomponent === Søkekomponenter.STATUSOVERSIKT
-        ? "statusoversikt"
-        : "sykefraversstatistikk"
+    const destinasjon =
+        søkekomponent === Søkekomponenter.STATUSOVERSIKT
+            ? "statusoversikt"
+            : "sykefraversstatistikk";
 
     logAmplitudeEvent("søk", {
         destinasjon: destinasjon,
         søkeord: filterverdiKategorier,
         komponent: søkekomponent,
     });
-}
+};
 
 export const loggTømmingAvFilterverdier = () => {
-    logAmplitudeEvent("nullstill filter i søk", {})
-}
+    logAmplitudeEvent("nullstill filter i søk", {});
+};
 
 export const loggTogglingAvAutosøk = (autosøk: boolean) => {
-    logAmplitudeEvent("skrudde av eller på autosøk", {autosøk: autosøk ? "på" : "av"});
-}
+    logAmplitudeEvent("skrudde av eller på autosøk", {
+        autosøk: autosøk ? "på" : "av",
+    });
+};
 
-export const loggSendBrukerTilAITjenesterTab = (fraModal: string) => {
+export const loggSendBrukerTilIATjenesterTab = (fraModal: string) => {
     logAmplitudeEvent("navigere", {
         destinasjon: "/virksomhet/[orgnr]?fane=ia-tjenester",
         lenketekst: "Ta meg til IA-tjenester",
         fraModal,
     });
-}
+};
+export const loggSendBrukerTilKartleggingerTab = (fraModal: string) => {
+    logAmplitudeEvent("navigere", {
+        destinasjon: "/virksomhet/[orgnr]?fane=kartlegging",
+        lenketekst: "Ta meg til kartlegginger",
+        fraModal,
+    });
+};
 
 export const loggAktvitetPåIATjenesteoversikt = () => {
     logAmplitudeEvent("aktivitet på IA-tjenesteoversikt", {
@@ -148,24 +156,24 @@ export const loggAktvitetPåIATjenesteoversikt = () => {
         beskrivelse: "følg virksomhetslenke til ia-tjenestefane", // detaljerte kategorier
         destinasjon: "/virksomhet/[orgnr]?fane=ia-tjenester", // url for navigering, kanskje api-kall for hendelser/sortering?
         //antallTreff: antallTreff, // antall resultat som vises, for eksempel ved sidelasting eller filtrering/sortering
-    })
-}
+    });
+};
 
 export const loggAntallIATjenesterPåIATjenesteoversikt = (
-    antallIATjenester: number
+    antallIATjenester: number,
 ) => {
     logAmplitudeEvent("aktivitet på IA-tjenesteoversikt", {
         aktivitetstype: "se", // navigere, utføre hendelse (knapper), filtrere/sortere, ...
         beskrivelse: "antall IA-tjenester brukeren ser i oversikten sin", // detaljerte kategorier
         //destinasjon: "", // url for navigering, kanskje api-kall for hendelser/sortering?
         antallTreff: tallTilFemmerintervall(antallIATjenester), // antall resultat som vises, for eksempel ved sidelasting eller filtrering/sortering
-    })
-}
+    });
+};
 
 export const loggModalTilbakeTilForrigeStatusLukket = (
     modalTittel: string,
     modalUnderskrift: string,
-    valg: 'ja' | 'avbryt',
+    valg: "ja" | "avbryt",
     fraStatus: string,
 ) => {
     logAmplitudeEvent("modal lukket", {
@@ -174,7 +182,7 @@ export const loggModalTilbakeTilForrigeStatusLukket = (
         valg: valg,
         fraStatus: fraStatus,
     });
-}
+};
 
 export const loggStatusendringPåSak = (
     hendelse: IASakshendelseType,
@@ -185,7 +193,7 @@ export const loggStatusendringPåSak = (
         fraStatus: fraStatus,
         navEnhet: "",
     });
-}
+};
 
 export const enum EksternNavigeringKategorier {
     FIA_BRUKERVEILEDNING = "_fia-brukerveiledning",
@@ -199,23 +207,19 @@ export const loggNavigeringMedEksternLenke = (
     logAmplitudeEvent("navigere ut av fia", {
         destinasjon: destinasjon,
     });
-}
+};
 
-export const loggGraflinjeEndringer = (
-    graflinjer: string[],
-) => {
+export const loggGraflinjeEndringer = (graflinjer: string[]) => {
     logAmplitudeEvent("endring i valgte linjer i graf", {
         graflinjer_array: graflinjer,
     });
-}
+};
 
 type Tidskategorier = "fortid" | "fremtid" | "i dag";
 
-export const loggLeveranseFristKategori = (
-    frist: Date,
-) => {
+export const loggLeveranseFristKategori = (frist: Date) => {
     const finnTidskategoriForDato = (frist: Date): Tidskategorier => {
-        const iDag = new Date()
+        const iDag = new Date();
 
         if (erSammeDato(frist, iDag)) {
             return "i dag";
@@ -224,11 +228,11 @@ export const loggLeveranseFristKategori = (
         } else {
             return "fremtid";
         }
-    }
+    };
 
-    const fristkategori = finnTidskategoriForDato(frist)
+    const fristkategori = finnTidskategoriForDato(frist);
 
     logAmplitudeEvent("opprette leveranse med frist", {
         fristKategori: fristkategori,
     });
-}
+};
