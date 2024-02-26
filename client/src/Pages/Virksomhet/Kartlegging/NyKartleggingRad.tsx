@@ -82,7 +82,11 @@ export const NyKartleggingRad = ({
                 jaTekst={"Fortsett"}
                 onConfirm={() => {
                     startKartleggingen();
-                    åpneKartleggingINyFane(kartlegging.kartleggingId, vertId);
+                    åpneKartleggingINyFane(
+                        kartlegging.kartleggingId,
+                        vertId,
+                        "OPPRETTET",
+                    );
                     setBekreftStartKartleggingModalÅpen(false);
                 }}
                 onCancel={() => {

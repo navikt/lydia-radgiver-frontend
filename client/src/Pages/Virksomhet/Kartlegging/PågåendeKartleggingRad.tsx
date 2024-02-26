@@ -70,6 +70,7 @@ export const PågåendeKartleggingRad = ({
                             åpneKartleggingINyFane(
                                 kartlegging.kartleggingId,
                                 vertId,
+                                "PÅBEGYNT",
                             )
                         }
                     >
