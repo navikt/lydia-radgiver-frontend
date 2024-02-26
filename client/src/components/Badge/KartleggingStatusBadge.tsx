@@ -14,10 +14,12 @@ export const hentBakgrunnsFargeForKartleggingStatus = (
     switch (status) {
         case iaSakKartleggingStatusEnum.enum.PÅBEGYNT:
             return FiaFarger.lilla;
-            case iaSakKartleggingStatusEnum.enum.OPPRETTET:
+        case iaSakKartleggingStatusEnum.enum.OPPRETTET:
             return FiaFarger.lysGrå;
         case iaSakKartleggingStatusEnum.enum.AVSLUTTET:
             return FiaFarger.lysGrønn;
+        case iaSakKartleggingStatusEnum.enum.SLETTET:
+            return FiaFarger.rød;
     }
 };
 
@@ -31,6 +33,8 @@ export function penskrivKartleggingStatus(
             return "Påbegynt";
         case iaSakKartleggingStatusEnum.enum.AVSLUTTET:
             return "Fullført";
+        case iaSakKartleggingStatusEnum.enum.SLETTET:
+            return "Slettet";
     }
 }
 
@@ -50,7 +54,11 @@ const StatusBadgeWrapper = styled.div`
     }
 `;
 
-export const KartleggingStatusBedge = ({ status, ariaLive, ariaLabel }: Props) => (
+export const KartleggingStatusBedge = ({
+    status,
+    ariaLive,
+    ariaLabel,
+}: Props) => (
     <StatusBadgeWrapper>
         <Badge
             backgroundColor={hentBakgrunnsFargeForKartleggingStatus(status)}
