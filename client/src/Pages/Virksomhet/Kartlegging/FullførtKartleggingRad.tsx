@@ -36,9 +36,11 @@ export const FullførtKartleggingRad = ({
 
     return (
         <Accordion.Content>
-            <Button onClick={() => setSlettKartleggingModalÅpen(true)}>
-                Slett kartlegging
-            </Button>
+            {iaSak.status === "KARTLEGGES" && (
+                <Button onClick={() => setSlettKartleggingModalÅpen(true)}>
+                    Slett kartlegging
+                </Button>
+            )}
             <BekreftValgModal
                 onConfirm={slett}
                 onCancel={() => {
@@ -46,7 +48,7 @@ export const FullførtKartleggingRad = ({
                 }}
                 åpen={slettKartleggingModalÅpen}
                 title="Er du sikker på at du vil slette denne kartleggingen?"
-                description={`Kartleggingen som fullføres er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
+                description={`Kartleggingen som slettes er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
             />
             <KartleggingResultat
                 iaSak={iaSak}

@@ -22,6 +22,7 @@ Dette vert orkestrert av docker-compose.
 Lag token på github med packages:read rettigheter.
 Legg så dette inn i ~/.npmrc slik som dette:
 `//npm.pkg.github.com/:_authToken=<generert token med packages:read rettigheter>`
+Husk å logge på gcp med `gcloud auth login --update-adc`
 
 ### Før du startar
 

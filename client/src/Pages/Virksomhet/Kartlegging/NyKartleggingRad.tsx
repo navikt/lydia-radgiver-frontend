@@ -1,11 +1,16 @@
 import { Accordion, BodyLong, Button } from "@navikt/ds-react";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
-import { useState } from "react";
+import React, { useState } from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { startKartlegging, useHentKartlegginger } from "../../../api/lydia-api";
+import {
+    slettKartlegging,
+    startKartlegging,
+    useHentKartlegginger,
+} from "../../../api/lydia-api";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import styled from "styled-components";
 import { åpneKartleggingINyFane } from "../../../util/navigasjon";
+import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 
 interface NyKartleggingRadProps {
     iaSak: IASak;
@@ -26,6 +31,8 @@ export const NyKartleggingRad = ({
         bekreftStartKartleggingModalÅpen,
         setBekreftStartKartleggingModalÅpen,
     ] = useState(false);
+    const [slettKartleggingModalÅpen, setSlettKartleggingModalÅpen] =
+        useState(false);
 
     const { mutate: muterKartlegginger } = useHentKartlegginger(
         iaSak.orgnr,
@@ -42,15 +49,33 @@ export const NyKartleggingRad = ({
         });
     };
 
+    const slett = () => {
+        slettKartlegging(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            kartlegging.kartleggingId,
+        ).then(() => {
+            muterKartlegginger();
+            setSlettKartleggingModalÅpen(false);
+        });
+    };
+
     return (
         <Accordion.Content>
             {iaSak.status === "KARTLEGGES" && (
-                <StyledActionButton
-                    variant={"secondary"}
-                    onClick={() => setBekreftStartKartleggingModalÅpen(true)}
-                >
-                    Start kartlegging
-                </StyledActionButton>
+                <>
+                    <StyledActionButton
+                        variant={"secondary"}
+                        onClick={() =>
+                            setBekreftStartKartleggingModalÅpen(true)
+                        }
+                    >
+                        Start kartlegging
+                    </StyledActionButton>
+                    <Button onClick={() => setSlettKartleggingModalÅpen(true)}>
+                        Slett kartlegging
+                    </Button>
+                </>
             )}
 
             <BekreftValgModal
@@ -79,6 +104,15 @@ export const NyKartleggingRad = ({
                     Der vil deltakerne kunne koble til med sine enheter.
                 </BodyLong>
             </BekreftValgModal>
+            <BekreftValgModal
+                onConfirm={slett}
+                onCancel={() => {
+                    setSlettKartleggingModalÅpen(false);
+                }}
+                åpen={slettKartleggingModalÅpen}
+                title="Er du sikker på at du vil slette denne kartleggingen?"
+                description={`Kartleggingen som slettes er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
+            />
         </Accordion.Content>
     );
 };

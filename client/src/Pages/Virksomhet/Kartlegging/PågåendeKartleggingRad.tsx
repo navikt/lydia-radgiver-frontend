@@ -1,9 +1,10 @@
 import { Accordion, Button } from "@navikt/ds-react";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
-import { useState } from "react";
+import React, { useState } from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import {
     avsluttKartlegging,
+    slettKartlegging,
     useHentKartlegginger,
 } from "../../../api/lydia-api";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
@@ -30,6 +31,8 @@ export const PågåendeKartleggingRad = ({
         bekreftFullførKartleggingModalÅpen,
         setBekreftFullførKartleggingModalÅpen,
     ] = useState(false);
+    const [slettKartleggingModalÅpen, setSlettKartleggingModalÅpen] =
+        useState(false);
 
     const { mutate: muterKartlegginger } = useHentKartlegginger(
         iaSak.orgnr,
@@ -43,6 +46,17 @@ export const PågåendeKartleggingRad = ({
             kartlegging.kartleggingId,
         ).then(() => {
             muterKartlegginger();
+        });
+    };
+
+    const slett = () => {
+        slettKartlegging(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            kartlegging.kartleggingId,
+        ).then(() => {
+            muterKartlegginger();
+            setSlettKartleggingModalÅpen(false);
         });
     };
 
@@ -68,6 +82,9 @@ export const PågåendeKartleggingRad = ({
                     >
                         Fullfør
                     </StyledActionButton>
+                    <Button onClick={() => setSlettKartleggingModalÅpen(true)}>
+                        Slett kartlegging
+                    </Button>
                 </>
             )}
             <BekreftValgModal
@@ -78,6 +95,15 @@ export const PågåendeKartleggingRad = ({
                 åpen={bekreftFullførKartleggingModalÅpen}
                 title="Er du sikker på at du vil fullføre denne kartleggingen?"
                 description={`Kartleggingen som fullføres er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
+            />
+            <BekreftValgModal
+                onConfirm={slett}
+                onCancel={() => {
+                    setSlettKartleggingModalÅpen(false);
+                }}
+                åpen={slettKartleggingModalÅpen}
+                title="Er du sikker på at du vil slette denne kartleggingen?"
+                description={`Kartleggingen som slettes er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
             />
         </Accordion.Content>
     );
