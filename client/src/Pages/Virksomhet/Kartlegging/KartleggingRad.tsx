@@ -10,7 +10,7 @@ import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingSta
 
 const AccordionHeader = styled(Accordion.Header)`
     width: 100%;
-    
+
     .navds-heading {
         display: flex;
         align-items: center;
@@ -77,7 +77,7 @@ export const KartleggingRad = ({
             {kartlegging.status === "AVSLUTTET" && (
                 <FullførtKartleggingRad
                     iaSak={iaSak}
-                    kartleggingId={kartlegging.kartleggingId}
+                    kartlegging={kartlegging}
                 />
             )}
         </Accordion.Item>

@@ -691,3 +691,14 @@ export const avsluttKartlegging = (
         iaSakKartleggingSchema,
     );
 };
+
+export const slettKartlegging = (
+    orgnummer: string,
+    saksnummer: string,
+    kartleggingId: string,
+): Promise<IASakKartlegging> => {
+    return httpDelete(
+        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}/slett`,
+        iaSakKartleggingSchema,
+    );
+};
