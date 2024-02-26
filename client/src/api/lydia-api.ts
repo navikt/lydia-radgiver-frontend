@@ -698,7 +698,7 @@ export const slettKartlegging = (
     kartleggingId: string,
 ): Promise<IASakKartlegging> => {
     return httpDelete(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}/slett`,
+        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}`,
         iaSakKartleggingSchema,
     );
 };
