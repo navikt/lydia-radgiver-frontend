@@ -7,6 +7,7 @@ import { Accordion } from "@navikt/ds-react";
 import styled from "styled-components";
 import { NyKartleggingRad } from "./NyKartleggingRad";
 import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
+import { useState } from "react";
 
 const AccordionHeader = styled(Accordion.Header)`
     width: 100%;
@@ -45,12 +46,19 @@ export const KartleggingRad = ({
     defaultOpen,
     dato,
 }: KartleggingRadProps) => {
+    const [erÅpen, setErÅpen] = useState(defaultOpen);
+
     if (!brukerErEierAvSak) {
         return <KartleggingRadIkkeEier kartlegging={kartlegging} />;
     }
 
     return (
-        <Accordion.Item defaultOpen={defaultOpen}>
+        <Accordion.Item
+            defaultOpen={defaultOpen}
+            onOpenChange={(open: boolean) => {
+                setErÅpen(open);
+            }}
+        >
             <AccordionHeader>
                 Kartlegging
                 <HeaderRightContent>
@@ -58,7 +66,8 @@ export const KartleggingRad = ({
                     <KartleggingDato>{dato}</KartleggingDato>
                 </HeaderRightContent>
             </AccordionHeader>
-            {kartlegging.status === "OPPRETTET" && (
+
+            {erÅpen && kartlegging.status === "OPPRETTET" && (
                 <NyKartleggingRad
                     iaSak={iaSak}
                     kartlegging={kartlegging}
@@ -66,7 +75,7 @@ export const KartleggingRad = ({
                 />
             )}
 
-            {kartlegging.status === "PÅBEGYNT" && (
+            {erÅpen && kartlegging.status === "PÅBEGYNT" && (
                 <PågåendeKartleggingRad
                     iaSak={iaSak}
                     kartlegging={kartlegging}
@@ -74,7 +83,7 @@ export const KartleggingRad = ({
                 />
             )}
 
-            {kartlegging.status === "AVSLUTTET" && (
+            {erÅpen && kartlegging.status === "AVSLUTTET" && (
                 <FullførtKartleggingRad
                     iaSak={iaSak}
                     kartlegging={kartlegging}
