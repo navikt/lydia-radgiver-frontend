@@ -154,12 +154,11 @@ export const LeggTilLeveranse = ({ iaSak, leveranserPerIATjeneste }: Props) => {
                     />
 
                 </DatePicker>
-                <LeggTilKnapp onClick={leggTilLeveranse}>
-                    Legg til
-                </LeggTilKnapp>
+                {brukerErEierAvSak &&
+                    <LeggTilKnapp onClick={leggTilLeveranse}>Legg til</LeggTilKnapp>
+                }
             </Form>
         </div>
-
     )
 }
 
