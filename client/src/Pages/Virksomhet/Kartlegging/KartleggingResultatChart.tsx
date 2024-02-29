@@ -46,7 +46,7 @@ const LabelBox = styled.div<{$farge: string}>`
 	background-color: ${props => props.$farge};
 `
 
-export default function StackedBarChart({spørsmål}: {spørsmål: {
+export default function StackedBarChart({harNokDeltakere, spørsmål}: { harNokDeltakere: boolean, spørsmål: {
     spørsmålId: string;
     tekst: string;
     svarListe: {
@@ -77,11 +77,26 @@ export default function StackedBarChart({spørsmål}: {spørsmål: {
                         {svar.prosent.toFixed(0)}%
                     </Bar>
                 ))}
+
+                {!harNokDeltakere && (
+                    <Bar $prosent={100} $farge="#ccc" >
+                        For få deltakere
+                    </Bar>
+                )}
             </BarWrapper>
             <LabelList>
                 {spørsmål.svarListe.map((svar, index) => (
                     <Label key={svar.svarId}>
-						<LabelBox $farge={getSvarGrafFarge(index)} />{svar.tekst}: {svar.prosent.toFixed(0)}%
+                        {harNokDeltakere ?
+                            <>
+                                <LabelBox $farge={getSvarGrafFarge(index)} />{svar.tekst}: {svar.prosent.toFixed(0)}%
+                            </>
+                            :
+                            <>
+                                <LabelBox $farge={getSvarGrafFarge(index)} /> {svar.tekst}
+                            </>
+                        }
+
 					</Label>
                 ))}
             </LabelList>

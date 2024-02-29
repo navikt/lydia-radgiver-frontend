@@ -48,6 +48,9 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
         return <BodyShort>Kunne ikke hente kartleggingsresultater</BodyShort>;
     }
 
+    const MINIMUM_ANTALL_DELTAKERE = 3;
+    const harNokDeltakere = kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt >= MINIMUM_ANTALL_DELTAKERE;
+
     const kartleggingerMedProsent = kartleggingResultat.spørsmålMedSvar.map(
         (spørsmål) => {
             const totalAntallSvar = spørsmål.svarListe.reduce(
@@ -81,7 +84,7 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
                             {spørsmål.tekst}
                         </BodyShort>
                     </HeadingContainer>
-                    <StackedBarChart spørsmål={spørsmål} />
+                    <StackedBarChart harNokDeltakere={harNokDeltakere} spørsmål={spørsmål} />
                 </FlexContainer>
             ))}
         </Container>
