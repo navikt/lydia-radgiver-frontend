@@ -1,4 +1,4 @@
-import { Accordion, Button } from "@navikt/ds-react";
+import { Accordion, BodyLong, BodyShort, Button, Loader } from "@navikt/ds-react";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import React, { useState } from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
@@ -6,6 +6,7 @@ import {
     avsluttKartlegging,
     slettKartlegging,
     useHentKartlegginger,
+    useHentKartleggingResultat,
 } from "../../../api/lydia-api";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
@@ -39,6 +40,13 @@ export const PågåendeKartleggingRad = ({
         iaSak.saksnummer,
     );
 
+    const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
+        useHentKartleggingResultat(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            kartlegging.kartleggingId,
+        );
+
     const avslutt = () => {
         avsluttKartlegging(
             iaSak.orgnr,
@@ -59,6 +67,17 @@ export const PågåendeKartleggingRad = ({
             setSlettKartleggingModalÅpen(false);
         });
     };
+
+    if (lasterKartleggingResultat) {
+        return <Loader />;
+    }
+
+    if (!kartleggingResultat) {
+        return <BodyShort>Kunne ikke hente kartleggingsresultater</BodyShort>;
+    }
+
+    const MINIMUM_ANTALL_DELTAKERE = 3;
+    const harNokDeltakere = kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt >= MINIMUM_ANTALL_DELTAKERE;
 
     return (
         <Accordion.Content>
@@ -96,7 +115,14 @@ export const PågåendeKartleggingRad = ({
                 åpen={bekreftFullførKartleggingModalÅpen}
                 title="Er du sikker på at du vil fullføre denne kartleggingen?"
                 description={`Kartleggingen som fullføres er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
-            />
+            >
+                {!harNokDeltakere && (
+                    <BodyLong>
+                        Det er for få deltakere til å vise resultatene.
+                        Det kreves minimum {MINIMUM_ANTALL_DELTAKERE} deltakere for å vise resultatene.
+                    </BodyLong>
+                )}
+            </BekreftValgModal>
             <BekreftValgModal
                 onConfirm={slett}
                 onCancel={() => {
