@@ -72,14 +72,13 @@ export default function StackedBarChart({harNokDeltakere, spørsmål}: { harNokD
     return (
         <ChartWrapper>
             <BarWrapper>
-                {spørsmål.svarListe.map((svar, index) => svar.prosent > 0 && (
-                    <Bar key={svar.svarId} $prosent={svar.prosent} $farge={getSvarGrafFarge(index)}>
-                        {svar.prosent.toFixed(0)}%
-                    </Bar>
-                ))}
-
-                {!harNokDeltakere && (
-                    <Bar $prosent={100} $farge="#ccc" >
+                {harNokDeltakere ? spørsmål.svarListe.map((svar, index) =>
+                    (svar.prosent > 0) &&  (
+                        <Bar key={svar.svarId} $prosent={svar.prosent} $farge={getSvarGrafFarge(index)}>
+                            {svar.prosent.toFixed(0)}%
+                        </Bar>
+                    )) : (
+                    <Bar $prosent={100} $farge="#ccc">
                         For få deltakere
                     </Bar>
                 )}
