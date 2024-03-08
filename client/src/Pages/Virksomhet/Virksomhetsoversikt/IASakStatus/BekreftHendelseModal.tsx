@@ -100,7 +100,7 @@ const modalTekstForHendelse = ({ hendelse, saksstatus }: ModalTekstForHendelsePr
         case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
             return {
                 tittel: 'Er du sikker på at du vil ta eierskap til saken?',
-                beskrivelse: 'Dette vil gjøre deg til saksbehandler for saken.'
+                beskrivelse: 'Dette vil gjøre deg til eier av saken.'
             };
         default:
             return {
