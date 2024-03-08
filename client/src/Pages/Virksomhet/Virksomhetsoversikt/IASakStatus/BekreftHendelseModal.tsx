@@ -1,6 +1,11 @@
 import { BekreftValgModal } from "../../../../components/Modal/BekreftValgModal";
 import { loggModalTilbakeTilForrigeStatusLukket } from "../../../../util/amplitude-klient";
-import { GyldigNesteHendelse, IAProsessStatusEnum, IAProsessStatusType } from "../../../../domenetyper/domenetyper";
+import {
+    GyldigNesteHendelse,
+    IAProsessStatusEnum,
+    IAProsessStatusType,
+    IASakshendelseTypeEnum
+} from "../../../../domenetyper/domenetyper";
 import { penskrivIAStatus } from "../../../../components/Badge/StatusBadge";
 
 interface BekreftHendelseModalProps {
@@ -92,6 +97,11 @@ const modalTekstForHendelse = ({ hendelse, saksstatus }: ModalTekstForHendelsePr
                 beskrivelse: 'Dette setter saken tilbake til forrige status.',
             }
         }
+        case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
+            return {
+                tittel: 'Er du sikker på at du vil ta eierskap til saken?',
+                beskrivelse: 'Dette vil gjøre deg til saksbehandler for saken.'
+            };
         default:
             return {
                 tittel: DEFAULT_TITTEL_FOR_MODAL,

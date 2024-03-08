@@ -27,6 +27,7 @@ const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak, setVi
                 />
             )
         case IASakshendelseTypeEnum.enum.TILBAKE:
+        case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
             return (
                 <HendelseMåBekreftesKnapp
                     sak={sak}
@@ -36,7 +37,6 @@ const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak, setVi
             )
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
-        case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
