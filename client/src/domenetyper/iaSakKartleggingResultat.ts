@@ -11,11 +11,17 @@ export const kartleggingSpørsmål = z.object({
     svarListe: z.array(kartleggingSvarAlternativ),
 });
 
+export const TemanavnEnum = z.enum(["PARTSSAMARBEID"] as const);
+export const spørsmålMedSvarPerTema = z.object({
+    tema: TemanavnEnum,
+    spørsmålMedSvar: z.array(kartleggingSpørsmål),
+});
+
 export const iaSakKartleggingResultatSchema = z.object({
     kartleggingId: z.string(),
     antallUnikeDeltakereMedMinstEttSvar: z.number(),
     antallUnikeDeltakereSomHarSvartPåAlt: z.number(),
-    spørsmålMedSvar: z.array(kartleggingSpørsmål),
+    spørsmålMedSvarPerTema: z.array(spørsmålMedSvarPerTema),
 });
 
 export type IASakKartleggingResultat = z.infer<

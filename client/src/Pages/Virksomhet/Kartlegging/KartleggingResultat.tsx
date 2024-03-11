@@ -49,10 +49,15 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
     }
 
     const MINIMUM_ANTALL_DELTAKERE = 3;
-    const harNokDeltakere = kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt >= MINIMUM_ANTALL_DELTAKERE;
+    const harNokDeltakere =
+        kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt >=
+        MINIMUM_ANTALL_DELTAKERE;
 
-    const kartleggingerMedProsent = kartleggingResultat.spørsmålMedSvar.map(
-        (spørsmål) => {
+    const temaPartssamarbeidResultat =
+        kartleggingResultat.spørsmålMedSvarPerTema[0];
+
+    const kartleggingerMedProsent =
+        temaPartssamarbeidResultat.spørsmålMedSvar.map((spørsmål) => {
             const totalAntallSvar = spørsmål.svarListe.reduce(
                 (accumulator, svar) => accumulator + svar.antallSvar,
                 0,
@@ -66,8 +71,7 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
                 ...spørsmål,
                 svarListe: svarListeMedProsent,
             };
-        },
-    );
+        });
 
     return (
         <Container>
@@ -84,7 +88,10 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
                             {spørsmål.tekst}
                         </BodyShort>
                     </HeadingContainer>
-                    <StackedBarChart harNokDeltakere={harNokDeltakere} spørsmål={spørsmål} />
+                    <StackedBarChart
+                        harNokDeltakere={harNokDeltakere}
+                        spørsmål={spørsmål}
+                    />
                 </FlexContainer>
             ))}
         </Container>
