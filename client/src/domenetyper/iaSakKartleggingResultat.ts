@@ -11,7 +11,12 @@ export const kartleggingSpørsmål = z.object({
     svarListe: z.array(kartleggingSvarAlternativ),
 });
 
-export const TemanavnEnum = z.enum(["PARTSSAMARBEID"] as const);
+
+const Temanavn = ["UTVIKLE_PARTSSAMARBEID", "REDUSERE_SYKEFRAVÆR"] as const
+export const TemanavnEnum = z.enum(Temanavn);
+export type TemanavnType = z.infer<
+    typeof TemanavnEnum
+>;
 export const spørsmålMedSvarPerTema = z.object({
     tema: TemanavnEnum,
     spørsmålMedSvar: z.array(kartleggingSpørsmål),

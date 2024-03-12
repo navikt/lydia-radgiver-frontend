@@ -76,7 +76,7 @@ import {
 } from "../domenetyper/iaSakKartlegging";
 import {
     IASakKartleggingResultat,
-    iaSakKartleggingResultatSchema,
+    iaSakKartleggingResultatSchema, TemanavnType,
 } from "../domenetyper/iaSakKartleggingResultat";
 
 const basePath = "/api";
@@ -645,10 +645,12 @@ export const useHentSalesforceUrl = (orgnr: string) => {
 export const nyKartleggingPåSak = (
     orgnummer: string,
     saksnummer: string,
+    tema: TemanavnType[]
 ): Promise<IASakKartlegging> => {
     return post(
         `${kartleggingPath}/${orgnummer}/${saksnummer}/opprett`,
         iaSakKartleggingSchema,
+        tema,
     );
 };
 

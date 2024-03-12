@@ -65,7 +65,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
     } = useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
 
     const opprettKartlegging = () => {
-        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(({kartleggingId}) => {
+        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer, ["UTVIKLE_PARTSSAMARBEID"]).then(({kartleggingId}) => {
             setSisteOpprettedeKartleggingId(kartleggingId);
             muterKartlegginger();
         });
