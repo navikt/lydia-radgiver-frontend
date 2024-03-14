@@ -49,9 +49,6 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
     }
 
     const MINIMUM_ANTALL_DELTAKERE = 3;
-    const harNokDeltakere =
-        kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt >=
-        MINIMUM_ANTALL_DELTAKERE;
 
     const temaPartssamarbeidResultat =
         kartleggingResultat.spørsmålMedSvarPerTema[0];
@@ -89,7 +86,7 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
                         </BodyShort>
                     </HeadingContainer>
                     <StackedBarChart
-                        harNokDeltakere={harNokDeltakere}
+                        harNokDeltakere={spørsmål.svarListe.reduce((prev, current) => prev + current.antallSvar, 0) >= MINIMUM_ANTALL_DELTAKERE}
                         spørsmål={spørsmål}
                     />
                 </FlexContainer>
