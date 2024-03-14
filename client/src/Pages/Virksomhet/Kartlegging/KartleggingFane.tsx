@@ -65,7 +65,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
     } = useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
 
     const opprettKartlegging = () => {
-        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer, ["UTVIKLE_PARTSSAMARBEID", "REDUSERE_SYKEFRAVÆR"]).then(({kartleggingId}) => {
+        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer, ["UTVIKLE_PARTSSAMARBEID"/*, "REDUSERE_SYKEFRAVÆR" TODO: Putt meg tilbake etter fredag 12:00*/]).then(({kartleggingId}) => {
             setSisteOpprettedeKartleggingId(kartleggingId);
             muterKartlegginger();
         });
