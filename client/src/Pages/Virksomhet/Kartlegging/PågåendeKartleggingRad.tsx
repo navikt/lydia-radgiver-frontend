@@ -1,4 +1,10 @@
-import { Accordion, Button } from "@navikt/ds-react";
+import {
+    Accordion,
+    BodyLong,
+    BodyShort,
+    Button,
+    Loader,
+} from "@navikt/ds-react";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import React, { useState } from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
@@ -6,17 +12,23 @@ import {
     avsluttKartlegging,
     slettKartlegging,
     useHentKartlegginger,
+    useHentKartleggingOversikt,
 } from "../../../api/lydia-api";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import styled from "styled-components";
 import { åpneKartleggingINyFane } from "../../../util/navigasjon";
+import { KartleggingOversikt } from "./KartleggingOversikt";
 
 interface PågåendeKartleggingProps {
     iaSak: IASak;
     kartlegging: IASakKartlegging;
     vertId: string;
 }
+
+const EkstraInfoTekstIModal = styled.div`
+    margin-top: 1rem;
+`;
 
 const StyledActionButton = styled(Button)`
     margin-right: 1rem;
@@ -39,14 +51,6 @@ export const PågåendeKartleggingRad = ({
         iaSak.saksnummer,
     );
 
-    /*
-    const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
-        useHentKartleggingResultat(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            kartlegging.kartleggingId,
-        );*/
-
     const avslutt = () => {
         avsluttKartlegging(
             iaSak.orgnr,
@@ -67,6 +71,28 @@ export const PågåendeKartleggingRad = ({
             setSlettKartleggingModalÅpen(false);
         });
     };
+
+    const { data: kartleggingOversikt, loading: lasterKartleggingOversikt } =
+        useHentKartleggingOversikt(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            kartlegging.kartleggingId,
+        );
+
+    if (lasterKartleggingOversikt) {
+        return <Loader />;
+    }
+
+    if (!kartleggingOversikt) {
+        return (
+            <BodyShort>Kunne ikke hente oversikt over kartlegging</BodyShort>
+        );
+    }
+
+    const MINIMUM_ANTALL_DELTAKERE = 3;
+    const harNokDeltakere =
+        kartleggingOversikt.antallUnikeDeltakereSomHarSvartPåAlt >=
+        MINIMUM_ANTALL_DELTAKERE;
 
     return (
         <Accordion.Content>
@@ -104,8 +130,18 @@ export const PågåendeKartleggingRad = ({
                 åpen={bekreftFullførKartleggingModalÅpen}
                 title="Er du sikker på at du vil fullføre denne kartleggingen?"
                 description={`Kartleggingen som fullføres er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
-            />
-            {/* TODO: hente antall deltakere og varsle dersom det er for få*/}
+            >
+                {!harNokDeltakere && (
+                    <EkstraInfoTekstIModal>
+                        <BodyLong>
+                            Det er for få deltakere til å vise resultatene. Det
+                            kreves minimum {MINIMUM_ANTALL_DELTAKERE} deltakere
+                            for å vise resultatene.
+                        </BodyLong>
+                    </EkstraInfoTekstIModal>
+                )}
+            </BekreftValgModal>
+
             <BekreftValgModal
                 onConfirm={slett}
                 onCancel={() => {
@@ -115,6 +151,7 @@ export const PågåendeKartleggingRad = ({
                 title="Er du sikker på at du vil slette denne kartleggingen?"
                 description={`Kartleggingen som slettes er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
             />
+            <KartleggingOversikt kartleggingOversikt={kartleggingOversikt} />
         </Accordion.Content>
     );
 };

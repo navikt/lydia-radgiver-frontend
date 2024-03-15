@@ -75,8 +75,11 @@ import {
     iaSakKartleggingSchema,
 } from "../domenetyper/iaSakKartlegging";
 import {
+    IASakKartleggingOversikt,
+    iaSakKartleggingOversiktSchema,
     IASakKartleggingResultat,
-    iaSakKartleggingResultatSchema, TemanavnType,
+    iaSakKartleggingResultatSchema,
+    TemanavnType,
 } from "../domenetyper/iaSakKartleggingResultat";
 
 const basePath = "/api";
@@ -645,7 +648,7 @@ export const useHentSalesforceUrl = (orgnr: string) => {
 export const nyKartleggingPåSak = (
     orgnummer: string,
     saksnummer: string,
-    tema: TemanavnType[]
+    tema: TemanavnType[],
 ): Promise<IASakKartlegging> => {
     return post(
         `${kartleggingPath}/${orgnummer}/${saksnummer}/opprett`,
@@ -680,6 +683,17 @@ export const useHentKartleggingResultat = (
     return useSwrTemplate<IASakKartleggingResultat>(
         `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}`,
         iaSakKartleggingResultatSchema,
+    );
+};
+
+export const useHentKartleggingOversikt = (
+    orgnummer: string,
+    saksnummer: string,
+    kartleggingId: string,
+) => {
+    return useSwrTemplate<IASakKartleggingOversikt>(
+        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}/oversikt`,
+        iaSakKartleggingOversiktSchema,
     );
 };
 

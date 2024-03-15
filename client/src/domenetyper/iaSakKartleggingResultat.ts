@@ -11,15 +11,20 @@ export const kartleggingSpørsmål = z.object({
     svarListe: z.array(kartleggingSvarAlternativ),
 });
 
-
-const Temanavn = ["UTVIKLE_PARTSSAMARBEID", "REDUSERE_SYKEFRAVÆR"] as const
+const Temanavn = ["UTVIKLE_PARTSSAMARBEID", "REDUSERE_SYKEFRAVÆR"] as const;
 export const TemanavnEnum = z.enum(Temanavn);
-export type TemanavnType = z.infer<
-    typeof TemanavnEnum
->;
+export type TemanavnType = z.infer<typeof TemanavnEnum>;
 export const spørsmålMedSvarPerTema = z.object({
     tema: TemanavnEnum,
     spørsmålMedSvar: z.array(kartleggingSpørsmål),
+});
+
+export const spørsmålMedAntallSvarPerTema = z.object({
+    temabeskrivelse: z.string(),
+    antallSpørsmål: z.number(),
+    antallUnikeDeltakereMedMinstEttSvar: z.number(),
+    antallUnikeDeltakereSomHarSvartPåAlt: z.number(),
+    status: z.string(),
 });
 
 export const iaSakKartleggingResultatSchema = z.object({
@@ -31,4 +36,15 @@ export const iaSakKartleggingResultatSchema = z.object({
 
 export type IASakKartleggingResultat = z.infer<
     typeof iaSakKartleggingResultatSchema
+>;
+
+export const iaSakKartleggingOversiktSchema = z.object({
+    kartleggingId: z.string(),
+    antallUnikeDeltakereMedMinstEttSvar: z.number(),
+    antallUnikeDeltakereSomHarSvartPåAlt: z.number(),
+    spørsmålMedAntallSvarPerTema: z.array(spørsmålMedAntallSvarPerTema),
+});
+
+export type IASakKartleggingOversikt = z.infer<
+    typeof iaSakKartleggingOversiktSchema
 >;
