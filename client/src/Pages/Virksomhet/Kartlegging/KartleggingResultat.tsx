@@ -38,7 +38,8 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
     const kartleggingerMedProsent =
         kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => {
             return {
-                tittel: tema.tema,
+                tema: tema.tema,
+                beskrivelse: tema.beskrivelse,
                 liste: tema.spørsmålMedSvar.map((spørsmål) => {
                     const totalAntallSvar = spørsmål.svarListe.reduce(
                         (accumulator, svar) => accumulator + svar.antallSvar,
@@ -67,8 +68,8 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
 
             {kartleggingerMedProsent.map((tema) => (
                 <TemaResultat
-                    key={tema.tittel}
-                    tittel={tema.tittel}
+                    key={tema.tema}
+                    beskrivelse={tema.beskrivelse}
                     liste={tema.liste}
                 />
             ))}

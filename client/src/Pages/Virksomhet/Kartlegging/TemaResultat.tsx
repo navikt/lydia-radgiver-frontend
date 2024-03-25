@@ -17,7 +17,7 @@ const HeadingContainer = styled.div`
 `;
 
 interface Props {
-    tittel: string;
+    beskrivelse: string;
     liste: {
         svarListe: {
             prosent: number;
@@ -30,12 +30,12 @@ interface Props {
     }[];
 }
 
-export const TemaResultat = ({ tittel, liste }: Props) => {
+export const TemaResultat = ({ beskrivelse, liste }: Props) => {
     const MINIMUM_ANTALL_DELTAKERE = 3;
     return (
         <>
             <Heading spacing={true} level="3" size="medium">
-                {tittel}
+                {beskrivelse}
             </Heading>
             {liste.map((spørsmål) => (
                 <FlexContainer key={spørsmål.spørsmålId}>
