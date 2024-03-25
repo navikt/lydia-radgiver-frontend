@@ -1,9 +1,9 @@
-import { BodyShort, Heading, Loader } from "@navikt/ds-react";
+import { BodyShort, Loader } from "@navikt/ds-react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { useHentKartleggingResultat } from "../../../api/lydia-api";
 import styled from "styled-components";
 import React from "react";
-import StackedBarChart from "./KartleggingResultatChart";
+import { TemaResultat } from "./TemaResultat";
 
 const Container = styled.div`
     padding-top: 1rem;
@@ -12,19 +12,6 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-`;
-
-const FlexContainer = styled.div`
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-end;
-    flex-wrap: wrap;
-    gap: 1rem;
-`;
-
-const HeadingContainer = styled.div`
-    flex-grow: 1;
-    width: 20rem;
 `;
 
 interface Props {
@@ -48,25 +35,27 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
         return <BodyShort>Kunne ikke hente kartleggingsresultater</BodyShort>;
     }
 
-    const MINIMUM_ANTALL_DELTAKERE = 3;
-
-    const temaPartssamarbeidResultat =
-        kartleggingResultat.spørsmålMedSvarPerTema[0];
-
     const kartleggingerMedProsent =
-        temaPartssamarbeidResultat.spørsmålMedSvar.map((spørsmål) => {
-            const totalAntallSvar = spørsmål.svarListe.reduce(
-                (accumulator, svar) => accumulator + svar.antallSvar,
-                0,
-            );
-            const svarListeMedProsent = spørsmål.svarListe.map((svar) => ({
-                ...svar,
-                prosent: (svar.antallSvar / totalAntallSvar) * 100,
-            }));
-
+        kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => {
             return {
-                ...spørsmål,
-                svarListe: svarListeMedProsent,
+                tittel: tema.tema,
+                liste: tema.spørsmålMedSvar.map((spørsmål) => {
+                    const totalAntallSvar = spørsmål.svarListe.reduce(
+                        (accumulator, svar) => accumulator + svar.antallSvar,
+                        0,
+                    );
+                    const svarListeMedProsent = spørsmål.svarListe.map(
+                        (svar) => ({
+                            ...svar,
+                            prosent: (svar.antallSvar / totalAntallSvar) * 100,
+                        }),
+                    );
+
+                    return {
+                        ...spørsmål,
+                        svarListe: svarListeMedProsent,
+                    };
+                }),
             };
         });
 
@@ -75,21 +64,13 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
             <BodyShort>
                 {`Antall deltakere som fullførte kartleggingen: ${kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt}`}
             </BodyShort>
-            <Heading spacing={true} level="3" size="medium">
-                Partssamarbeid
-            </Heading>
-            {kartleggingerMedProsent.map((spørsmål) => (
-                <FlexContainer key={spørsmål.spørsmålId}>
-                    <HeadingContainer>
-                        <BodyShort weight={"semibold"}>
-                            {spørsmål.tekst}
-                        </BodyShort>
-                    </HeadingContainer>
-                    <StackedBarChart
-                        harNokDeltakere={spørsmål.svarListe.reduce((prev, current) => prev + current.antallSvar, 0) >= MINIMUM_ANTALL_DELTAKERE}
-                        spørsmål={spørsmål}
-                    />
-                </FlexContainer>
+
+            {kartleggingerMedProsent.map((tema) => (
+                <TemaResultat
+                    key={tema.tittel}
+                    tittel={tema.tittel}
+                    liste={tema.liste}
+                />
             ))}
         </Container>
     );
