@@ -1,62 +1,69 @@
 import styled from "styled-components";
+import { BodyShort } from "@navikt/ds-react";
+import React from "react";
 
 const ChartWrapper = styled.div`
-	display: flex;
-	flex-direction: column;
-	width: 100%;
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    margin-bottom: 2rem;
 `;
 
 const BarWrapper = styled.div`
-	display: flex;
-	width: 100%;
+    display: flex;
+    width: 100%;
 `;
 
-const Bar = styled.div<{$prosent: number, $farge: string}>`
-	background-color: ${props => props.$farge};
-	width: ${props => props.$prosent}%;
-	height: 50px;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	font-weight: 600;
+const Bar = styled.div<{ $prosent: number; $farge: string }>`
+    background-color: ${(props) => props.$farge};
+    width: ${(props) => props.$prosent}%;
+    height: 50px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: 600;
 `;
 
 const LabelList = styled.ul`
-	display: flex;
-	flex-wrap: wrap;
-	justify-content: center;
-	align-items: center;
-	margin-top: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    margin-left: -3rem;
+    margin-top: 1rem;
 `;
 
 const Label = styled.li`
-	list-style-type: none;
-	flex-shrink: 0;
-	display: flex;
-	justify-content: center;
-	align-items: center;
-	margin-right: 0.5rem;
+    list-style-type: none;
+    flex-shrink: 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-right: 3rem;
 `;
 
-const LabelBox = styled.div<{$farge: string}>`
-	width: 1rem;
-	height: 1rem;
-	margin-right: 0.5rem;
-	margin-left: 0.5rem;
-	background-color: ${props => props.$farge};
-`
+const BoldText = styled.span`
+    font-weight: bold;
+`;
 
-export default function StackedBarChart({harNokDeltakere, spørsmål}: { harNokDeltakere: boolean, spørsmål: {
-    spørsmålId: string;
-    tekst: string;
-    svarListe: {
-        svarId: string;
+const LabelBox = styled.div<{ $farge: string }>`
+    width: 1rem;
+    height: 1rem;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+    background-color: ${(props) => props.$farge};
+`;
+
+export default function KartleggingResultatChart({
+    visSomProsent,
+    spørsmål,
+}: {
+    visSomProsent: boolean;
+    spørsmål: {
+        spørsmålId: string;
         tekst: string;
-        antallSvar: number;
-        prosent: number;
-    }[];
-}}) {
-
+        svarListe: { tekst: string; svarId: string; antallSvar: number }[];
+    };
+}) {
     const svarGrafFarger: string[] = [
         "#8884d8",
         "#82ca9d",
@@ -69,36 +76,70 @@ export default function StackedBarChart({harNokDeltakere, spørsmål}: { harNokD
         return svarGrafFarger[index % svarGrafFarger.length];
     }
 
+    const MINIMUM_ANTALL_DELTAKERE = 3;
+
+    const harNokDeltakere =
+        spørsmål.svarListe.reduce(
+            (prev, current) => prev + current.antallSvar,
+            0,
+        ) >= MINIMUM_ANTALL_DELTAKERE;
+
+    const totalAntallSvar = spørsmål.svarListe.reduce(
+        (accumulator, svar) => accumulator + svar.antallSvar,
+        0,
+    );
+    const svarListeMedProsent = spørsmål.svarListe.map((svar) => ({
+        ...svar,
+        prosent: (svar.antallSvar / totalAntallSvar) * 100,
+    }));
+
     return (
         <ChartWrapper>
             <BarWrapper>
-                {harNokDeltakere ? spørsmål.svarListe.map((svar, index) =>
-                    (svar.prosent > 0) &&  (
-                        <Bar key={svar.svarId} $prosent={svar.prosent} $farge={getSvarGrafFarge(index)}>
-                            {svar.prosent.toFixed(0)}%
-                        </Bar>
-                    )) : (
+                {harNokDeltakere ? (
+                    svarListeMedProsent.map(
+                        (svar, index) =>
+                            svar.prosent > 0 && (
+                                <Bar
+                                    key={svar.svarId}
+                                    $prosent={svar.prosent}
+                                    $farge={getSvarGrafFarge(index)}
+                                />
+                            ),
+                    )
+                ) : (
                     <Bar $prosent={100} $farge="#ccc">
                         For få deltakere
                     </Bar>
                 )}
             </BarWrapper>
             <LabelList>
-                {spørsmål.svarListe.map((svar, index) => (
+                {svarListeMedProsent.map((svar, index) => (
                     <Label key={svar.svarId}>
-                        {harNokDeltakere ?
+                        {harNokDeltakere ? (
                             <>
-                                <LabelBox $farge={getSvarGrafFarge(index)} />{svar.tekst}: {svar.prosent.toFixed(0)}%
+                                <LabelBox $farge={getSvarGrafFarge(index)} />
+                                {visSomProsent ? (
+                                    <BodyShort size={"medium"}>
+                                        <BoldText>{svar.tekst}</BoldText>{" "}
+                                        {svar.prosent.toFixed(0)}%
+                                    </BodyShort>
+                                ) : (
+                                    <BodyShort size={"medium"}>
+                                        <BoldText>{svar.tekst}</BoldText> (
+                                        {svar.antallSvar.toFixed(0)})
+                                    </BodyShort>
+                                )}
                             </>
-                            :
+                        ) : (
                             <>
-                                <LabelBox $farge={getSvarGrafFarge(index)} /> {svar.tekst}
+                                <LabelBox $farge={getSvarGrafFarge(index)} />{" "}
+                                <BoldText>{svar.tekst}</BoldText>
                             </>
-                        }
-
-					</Label>
+                        )}
+                    </Label>
                 ))}
             </LabelList>
         </ChartWrapper>
-    )
+    );
 }

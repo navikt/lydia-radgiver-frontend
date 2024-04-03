@@ -10,11 +10,13 @@ import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 interface AvsluttetKartleggingProps {
     iaSak: IASak;
     kartlegging: IASakKartlegging;
+    visSomProsent: boolean;
 }
 
 export const FullførtKartleggingRad = ({
     iaSak,
     kartlegging,
+    visSomProsent,
 }: AvsluttetKartleggingProps) => {
     const [slettKartleggingModalÅpen, setSlettKartleggingModalÅpen] =
         useState(false);
@@ -53,6 +55,7 @@ export const FullførtKartleggingRad = ({
             <KartleggingResultat
                 iaSak={iaSak}
                 kartleggingId={kartlegging.kartleggingId}
+                visSomProsent={visSomProsent}
             />
         </Accordion.Content>
     );

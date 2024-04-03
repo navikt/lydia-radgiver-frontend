@@ -8,6 +8,7 @@ import {
     Button,
     Heading,
     HStack,
+    ToggleGroup,
 } from "@navikt/ds-react";
 import {
     nyKartleggingPåSak,
@@ -57,7 +58,9 @@ const NyKartleggingKnapp = (props: { onClick: () => void }) => (
 
 export const KartleggingFane = ({ iaSak }: Props) => {
     const [sisteOpprettedeKartleggingId, setSisteOpprettedeKartleggingId] =
-        React.useState('');
+        React.useState("");
+    const [prosentEllerAntall, setProsentEllerAntall] =
+        React.useState("antall");
     const {
         data: iaSakKartlegginger,
         loading: lasterIASakKartlegging,
@@ -65,7 +68,10 @@ export const KartleggingFane = ({ iaSak }: Props) => {
     } = useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
 
     const opprettKartlegging = () => {
-        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer, ["UTVIKLE_PARTSSAMARBEID", "REDUSERE_SYKEFRAVÆR"]).then(({kartleggingId}) => {
+        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer, [
+            "UTVIKLE_PARTSSAMARBEID",
+            "REDUSERE_SYKEFRAVÆR",
+        ]).then(({ kartleggingId }) => {
             setSisteOpprettedeKartleggingId(kartleggingId);
             muterKartlegginger();
         });
@@ -85,17 +91,32 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                 <KartleggingInfo />
             )}
             <Container>
-                <Heading level="3" size="large">
-                    Kartlegginger
-                </Heading>
+                <HStack justify={"space-between"} align={"center"}>
+                    <Heading level="3" size="large">
+                        Kartlegginger
+                    </Heading>
+                    {harKartlegginger && (
+                        <ToggleGroup
+                            onChange={setProsentEllerAntall}
+                            defaultValue={"antall"}
+                        >
+                            <ToggleGroup.Item value="prosent">
+                                Prosent
+                            </ToggleGroup.Item>
+                            <ToggleGroup.Item value="antall">
+                                Antall
+                            </ToggleGroup.Item>
+                        </ToggleGroup>
+                    )}
+                </HStack>
 
-                {(iaSak.status === "KARTLEGGES" && brukerErEierAvSak) && (
+                {iaSak.status === "KARTLEGGES" && brukerErEierAvSak && (
                     <NyKartleggingKnapp onClick={opprettKartlegging} />
                 )}
 
                 {!harKartlegginger && <IngenKartleggingInfoBoks />}
 
-                <Accordion style={{marginTop: "1rem"}}>
+                <Accordion style={{ marginTop: "1rem" }}>
                     {harKartlegginger &&
                         sorterPåDato(iaSakKartlegginger).map(
                             (kartlegging, index, originalArray) => (
@@ -104,9 +125,17 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                     iaSak={iaSak}
                                     kartlegging={kartlegging}
                                     brukerErEierAvSak={brukerErEierAvSak}
-                                    dato={formaterDatoForKartlegging(kartlegging, index, originalArray)}
+                                    dato={formaterDatoForKartlegging(
+                                        kartlegging,
+                                        index,
+                                        originalArray,
+                                    )}
                                     defaultOpen={
-                                        sisteOpprettedeKartleggingId === kartlegging.kartleggingId
+                                        sisteOpprettedeKartleggingId ===
+                                        kartlegging.kartleggingId
+                                    }
+                                    visSomProsent={
+                                        prosentEllerAntall === "prosent"
                                     }
                                 />
                             ),
@@ -132,13 +161,29 @@ function formaterDatoMedKlokkeslett(dato: Date): string {
     return `${dato.toLocaleDateString("nb-NO")}, ${dato.getHours()}:${dato.getMinutes().toString().padStart(2, "0")}`;
 }
 
-function formaterDatoForKartlegging(kartlegging: IASakKartlegging, index: number, kartlegginger: IASakKartlegging[]) {
+function formaterDatoForKartlegging(
+    kartlegging: IASakKartlegging,
+    index: number,
+    kartlegginger: IASakKartlegging[],
+) {
     // Vi anntar at kartlegginger er sortert på dato, så vi trenger kun å sjekke de to nærmeste kartleggingene
-    if (index > 0 && erSammeDato(kartlegging.opprettetTidspunkt, kartlegginger[index - 1].opprettetTidspunkt)) {
+    if (
+        index > 0 &&
+        erSammeDato(
+            kartlegging.opprettetTidspunkt,
+            kartlegginger[index - 1].opprettetTidspunkt,
+        )
+    ) {
         return formaterDatoMedKlokkeslett(kartlegging.opprettetTidspunkt);
     }
-    
-    if (index < kartlegginger.length - 1 && erSammeDato(kartlegging.opprettetTidspunkt, kartlegginger[index + 1].opprettetTidspunkt)) {
+
+    if (
+        index < kartlegginger.length - 1 &&
+        erSammeDato(
+            kartlegging.opprettetTidspunkt,
+            kartlegginger[index + 1].opprettetTidspunkt,
+        )
+    ) {
         return formaterDatoMedKlokkeslett(kartlegging.opprettetTidspunkt);
     }
 

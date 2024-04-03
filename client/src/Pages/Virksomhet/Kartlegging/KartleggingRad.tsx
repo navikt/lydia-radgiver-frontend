@@ -37,6 +37,7 @@ interface KartleggingRadProps {
     brukerErEierAvSak: boolean;
     dato?: string;
     defaultOpen?: boolean;
+    visSomProsent: boolean;
 }
 
 export const KartleggingRad = ({
@@ -45,6 +46,7 @@ export const KartleggingRad = ({
     brukerErEierAvSak,
     defaultOpen,
     dato,
+    visSomProsent,
 }: KartleggingRadProps) => {
     const [erÅpen, setErÅpen] = useState(defaultOpen);
 
@@ -87,6 +89,7 @@ export const KartleggingRad = ({
                 <FullførtKartleggingRad
                     iaSak={iaSak}
                     kartlegging={kartlegging}
+                    visSomProsent={visSomProsent}
                 />
             )}
         </Accordion.Item>

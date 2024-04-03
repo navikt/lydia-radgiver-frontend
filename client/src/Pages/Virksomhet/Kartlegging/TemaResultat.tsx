@@ -1,7 +1,7 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
 import styled from "styled-components";
 import React from "react";
-import StackedBarChart from "./KartleggingResultatChart";
+import KartleggingResultatChart from "./KartleggingResultatChart";
 
 const FlexContainer = styled.div`
     display: flex;
@@ -17,40 +17,34 @@ const HeadingContainer = styled.div`
 `;
 
 interface Props {
+    visSomProsent: boolean;
     beskrivelse: string;
-    liste: {
-        svarListe: {
-            prosent: number;
-            tekst: string;
-            svarId: string;
-            antallSvar: number;
-        }[];
+    spørsmålMedSvar: {
         spørsmålId: string;
         tekst: string;
+        svarListe: { tekst: string; svarId: string; antallSvar: number }[];
     }[];
 }
 
-export const TemaResultat = ({ beskrivelse, liste }: Props) => {
-    const MINIMUM_ANTALL_DELTAKERE = 3;
+export const TemaResultat = ({
+    visSomProsent,
+    beskrivelse,
+    spørsmålMedSvar,
+}: Props) => {
     return (
         <>
             <Heading spacing={true} level="3" size="medium">
                 {beskrivelse}
             </Heading>
-            {liste.map((spørsmål) => (
+            {spørsmålMedSvar.map((spørsmål) => (
                 <FlexContainer key={spørsmål.spørsmålId}>
                     <HeadingContainer>
-                        <BodyShort weight={"semibold"}>
+                        <BodyShort size={"large"} weight={"semibold"}>
                             {spørsmål.tekst}
                         </BodyShort>
                     </HeadingContainer>
-                    <StackedBarChart
-                        harNokDeltakere={
-                            spørsmål.svarListe.reduce(
-                                (prev, current) => prev + current.antallSvar,
-                                0,
-                            ) >= MINIMUM_ANTALL_DELTAKERE
-                        }
+                    <KartleggingResultatChart
+                        visSomProsent={visSomProsent}
                         spørsmål={spørsmål}
                     />
                 </FlexContainer>

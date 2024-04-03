@@ -17,9 +17,14 @@ const Container = styled.div`
 interface Props {
     iaSak: IASak;
     kartleggingId: string;
+    visSomProsent: boolean;
 }
 
-export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
+export const KartleggingResultat = ({
+    iaSak,
+    kartleggingId,
+    visSomProsent,
+}: Props) => {
     const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
         useHentKartleggingResultat(
             iaSak.orgnr,
@@ -35,42 +40,17 @@ export const KartleggingResultat = ({ iaSak, kartleggingId }: Props) => {
         return <BodyShort>Kunne ikke hente kartleggingsresultater</BodyShort>;
     }
 
-    const kartleggingerMedProsent =
-        kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => {
-            return {
-                tema: tema.tema,
-                beskrivelse: tema.beskrivelse,
-                liste: tema.spørsmålMedSvar.map((spørsmål) => {
-                    const totalAntallSvar = spørsmål.svarListe.reduce(
-                        (accumulator, svar) => accumulator + svar.antallSvar,
-                        0,
-                    );
-                    const svarListeMedProsent = spørsmål.svarListe.map(
-                        (svar) => ({
-                            ...svar,
-                            prosent: (svar.antallSvar / totalAntallSvar) * 100,
-                        }),
-                    );
-
-                    return {
-                        ...spørsmål,
-                        svarListe: svarListeMedProsent,
-                    };
-                }),
-            };
-        });
-
     return (
         <Container>
             <BodyShort>
                 {`Antall deltakere som fullførte kartleggingen: ${kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt}`}
             </BodyShort>
-
-            {kartleggingerMedProsent.map((tema) => (
+            {kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
                 <TemaResultat
                     key={tema.tema}
+                    spørsmålMedSvar={tema.spørsmålMedSvar}
                     beskrivelse={tema.beskrivelse}
-                    liste={tema.liste}
+                    visSomProsent={visSomProsent}
                 />
             ))}
         </Container>
