@@ -29,34 +29,39 @@ export const SakshistorikkTabell = ({ sakshistorikk }: SakshistorikkTabellProps)
                     </Table.Header>
                     <Table.Body>
                         {sakshistorikk.sakshendelser.map((sakSnapshot, index) => {
-                            return (
-                                <Table.Row key={index}>
-                                    <Table.DataCell>
-                                        <StatusBadge status={sakSnapshot.status} />
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        {lokalDato(sakSnapshot.tidspunktForSnapshot)}
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        {sakSnapshot.begrunnelser.length > 0 &&
-                                            <>
-                                                <Detail>Begrunnelse</Detail>
-                                                <ul>
-                                                    {sakSnapshot.begrunnelser.map(begrunnelse =>
-                                                        (<li key={begrunnelse}>
-                                                            <Detail>{begrunnelse}</Detail>
-                                                        </li>)
-                                                    )}
-                                                </ul>
-                                            </>
-                                        }
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        <NavIdentMedLenke navIdent={sakSnapshot.eier} />
-                                    </Table.DataCell>
-                                </Table.Row>
-                            );
-                        })}
+                                return (
+                                    <Table.Row key={index}>
+                                        <Table.DataCell>
+                                            <StatusBadge status={sakSnapshot.status} />
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            {lokalDato(sakSnapshot.tidspunktForSnapshot)}
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            {sakSnapshot.begrunnelser.length > 0 && (
+                                                <>
+                                                    <Detail>Begrunnelse</Detail>
+                                                    <ul>
+                                                        {sakSnapshot.begrunnelser.map((begrunnelse) => (
+                                                            <li key={begrunnelse}>
+                                                                <Detail>{begrunnelse}</Detail>
+                                                            </li>)
+                                                        )}
+                                                    </ul>
+                                                </>
+                                            )}
+                                            {sakSnapshot.hendelsestype ===
+                                                "TA_EIERSKAP_I_SAK" && (
+                                                <Detail>Tok eierskap i sak</Detail>
+                                            )}
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            <NavIdentMedLenke navIdent={sakSnapshot.eier} />
+                                        </Table.DataCell>
+                                    </Table.Row>
+                                );
+                            },
+                        )}
                     </Table.Body>
                 </StyledTable>
             </ScrollUtTilKantenContainer>
