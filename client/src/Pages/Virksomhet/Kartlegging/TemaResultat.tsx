@@ -22,6 +22,7 @@ interface Props {
     spørsmålMedSvar: {
         spørsmålId: string;
         tekst: string;
+        flervalg: boolean;
         svarListe: { tekst: string; svarId: string; antallSvar: number }[];
     }[];
 }
@@ -40,7 +41,7 @@ export const TemaResultat = ({
                 <FlexContainer key={spørsmål.spørsmålId}>
                     <HeadingContainer>
                         <BodyShort size={"large"} weight={"semibold"}>
-                            {spørsmål.tekst}
+                            {spørsmål.tekst} {spørsmål.flervalg ? "(flervalg)" : null}
                         </BodyShort>
                     </HeadingContainer>
                     <KartleggingResultatChart
