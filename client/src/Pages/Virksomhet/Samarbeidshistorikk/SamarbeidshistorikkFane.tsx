@@ -7,15 +7,17 @@ import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 import { useHentSamarbeidshistorikk } from "../../../api/lydia-api";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { LeveransehistorikkTabell } from "./LeveransehistorikkTabell";
+import { KartlegginghistorikkTabell } from "./KartlegginghistorikkTabell";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 const Container = styled.div`
-  ${tabInnholdStyling};
+    ${tabInnholdStyling};
 `;
 
 const AccordionHeaderContent = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 2rem;
 `;
 
 interface SamarbeidshistorikkProps {
@@ -23,69 +25,93 @@ interface SamarbeidshistorikkProps {
     className?: string;
 }
 
-export const SamarbeidshistorikkFane = ({ orgnr, className }: SamarbeidshistorikkProps) => {
-    const {
-        data: samarbeidshistorikk,
-        loading: lasterSamarbeidshistorikk
-    } = useHentSamarbeidshistorikk(orgnr)
+export const SamarbeidshistorikkFane = ({
+    orgnr,
+    className,
+}: SamarbeidshistorikkProps) => {
+    const { data: samarbeidshistorikk, loading: lasterSamarbeidshistorikk } =
+        useHentSamarbeidshistorikk(orgnr);
 
     if (lasterSamarbeidshistorikk) {
         return (
             <Container className={className}>
-                <Heading spacing={true} size="large">Samarbeidshistorikk</Heading>
-                <Loader/>
+                <Heading spacing={true} size="large">
+                    Samarbeidshistorikk
+                </Heading>
+                <Loader />
             </Container>
-        )
+        );
     }
 
     if (!samarbeidshistorikk) {
         return (
             <Container className={className}>
-                <Heading spacing={true} size="large">Samarbeidshistorikk</Heading>
+                <Heading spacing={true} size="large">
+                    Samarbeidshistorikk
+                </Heading>
                 <BodyShort>Kunne ikke hente samarbeidshistorikk</BodyShort>
             </Container>
-        )
+        );
     }
 
     const sortertHistorikk = samarbeidshistorikk.map((historikk) => ({
         saksnummer: historikk.saksnummer,
         opprettet: historikk.opprettet,
         sistEndret: historikk.sistEndret,
-        sakshendelser: sorterSakshistorikkPåTid(historikk)
-    }))
+        sakshendelser: sorterSakshistorikkPåTid(historikk),
+    }));
 
     return (
         <Container className={className}>
-            <Heading level="3" size="large" spacing={true}>Samarbeidshistorikk</Heading>
+            <Heading level="3" size="large" spacing={true}>
+                Samarbeidshistorikk
+            </Heading>
             {sortertHistorikk.length > 0 ? (
-                    <Accordion>
-                        {sortertHistorikk.map(sakshistorikk =>
-                            <Accordion.Item key={sakshistorikk.saksnummer}>
-                                <Accordion.Header>
-                                    <AccordionHeaderContent>
-                                        <StatusBadge status={sakshistorikk.sakshendelser[0].status} />
-                                        Sist oppdatert: {lokalDato(sakshistorikk.sistEndret)}
-                                    </AccordionHeaderContent>
-                                </Accordion.Header>
-                                <Accordion.Content>
-                                    <LeveransehistorikkTabell
-                                        orgnr={orgnr}
-                                        saksnummer={sakshistorikk.saksnummer}
+                <Accordion>
+                    {sortertHistorikk.map((sakshistorikk) => (
+                        <Accordion.Item key={sakshistorikk.saksnummer}>
+                            <Accordion.Header>
+                                <AccordionHeaderContent>
+                                    <StatusBadge
+                                        status={
+                                            sakshistorikk.sakshendelser[0]
+                                                .status
+                                        }
                                     />
-                                    <br />
-                                    <SakshistorikkTabell
-                                        key={sakshistorikk.saksnummer}
-                                        sakshistorikk={sakshistorikk}
-                                    />
-                                </Accordion.Content>
-                            </Accordion.Item>
-                        )}
-                    </Accordion>)
-                : (
-                    <BodyShort>
-                        Fant ingen samarbeidshistorikk på denne virksomheten
-                    </BodyShort>
-                )}
+                                    Sist oppdatert:{" "}
+                                    {lokalDato(sakshistorikk.sistEndret)}
+                                </AccordionHeaderContent>
+                            </Accordion.Header>
+                            <Accordion.Content>
+                                {erIDev && (
+                                    <>
+                                        <br/>
+                                        <KartlegginghistorikkTabell
+                                            orgnr={orgnr}
+                                            saksnummer={
+                                                sakshistorikk.saksnummer
+                                            }
+                                        />
+                                    </>
+                                )}
+                                <LeveransehistorikkTabell
+                                    orgnr={orgnr}
+                                    saksnummer={sakshistorikk.saksnummer}
+                                />
+                                <br />
+                                <SakshistorikkTabell
+                                    key={sakshistorikk.saksnummer}
+                                    sakshistorikk={sakshistorikk}
+                                />
+                            </Accordion.Content>
+                        </Accordion.Item>
+                    ))}
+                </Accordion>
+            ) : (
+                <BodyShort>
+                    Fant ingen samarbeidshistorikk på denne virksomheten
+                </BodyShort>
+            )}
         </Container>
     );
 };
