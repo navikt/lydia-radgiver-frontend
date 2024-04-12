@@ -1,4 +1,4 @@
-import { Accordion, BodyLong, Button } from "@navikt/ds-react";
+import { Accordion, BodyShort, Button, List } from "@navikt/ds-react";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import React, { useState } from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
@@ -11,6 +11,7 @@ import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import styled from "styled-components";
 import { åpneKartleggingINyFane } from "../../../util/navigasjon";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
+import ListItem from "@navikt/ds-react/esm/list/ListItem";
 
 interface NyKartleggingRadProps {
     iaSak: IASak;
@@ -79,7 +80,7 @@ export const NyKartleggingRad = ({
             )}
 
             <BekreftValgModal
-                jaTekst={"Fortsett"}
+                jaTekst={"Start"}
                 onConfirm={() => {
                     startKartleggingen();
                     åpneKartleggingINyFane(
@@ -93,20 +94,21 @@ export const NyKartleggingRad = ({
                     setBekreftStartKartleggingModalÅpen(false);
                 }}
                 åpen={bekreftStartKartleggingModalÅpen}
-                title={"Før du går videre..."}
+                title={"Start kartlegging"}
             >
-                <BodyLong>
-                    <br />
-                    Du er i ferd med å starte kartlegging med denne
-                    virksomheten.
-                    <br />
-                    Sørg for at alle partene er representert før du starter.
-                    <br />
-                    Når du klikker fortsett åpnes det et nytt vindu du kan vise
-                    til deltakerne i møtet.
-                    <br />
-                    Der vil deltakerne kunne koble til med sine enheter.
-                </BodyLong>
+                <br />
+                <BodyShort weight={"semibold"}>Før du starter kartlegging, husk at:</BodyShort>
+                <List>
+                    <ListItem>
+                        Deltakere må ha telefon med kamera for å scanne QR-koden.
+                    </ListItem>
+                    <ListItem>
+                        Det må være minst tre deltakere
+                    </ListItem>
+                    <ListItem>
+                        For å se resultater må minst tre deltakere ha svart spørsmålene.
+                    </ListItem>
+                </List>
             </BekreftValgModal>
             <BekreftValgModal
                 onConfirm={slett}
