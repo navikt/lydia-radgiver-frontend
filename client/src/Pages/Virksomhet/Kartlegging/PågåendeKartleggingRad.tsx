@@ -1,29 +1,25 @@
-import {
-    Accordion,
-    BodyLong,
-    BodyShort,
-    Button,
-    Loader,
-} from "@navikt/ds-react";
-import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
-import React, { useState } from "react";
-import { IASak } from "../../../domenetyper/domenetyper";
+import {Accordion, BodyLong, BodyShort, Button, Loader,} from "@navikt/ds-react";
+import {BekreftValgModal} from "../../../components/Modal/BekreftValgModal";
+import React, {useState} from "react";
+import {IASak} from "../../../domenetyper/domenetyper";
 import {
     avsluttKartlegging,
     slettKartlegging,
+    useHentBrukerinformasjon,
     useHentKartlegginger,
     useHentKartleggingOversikt,
 } from "../../../api/lydia-api";
-import { lokalDatoMedKlokkeslett } from "../../../util/dato";
-import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
+import {lokalDatoMedKlokkeslett} from "../../../util/dato";
+import {IASakKartlegging} from "../../../domenetyper/iaSakKartlegging";
 import styled from "styled-components";
-import { åpneKartleggingINyFane } from "../../../util/navigasjon";
-import { KartleggingOversikt } from "./KartleggingOversikt";
+import {åpneKartleggingINyFane} from "../../../util/navigasjon";
+import {KartleggingOversikt} from "./KartleggingOversikt";
 
 interface PågåendeKartleggingProps {
     iaSak: IASak;
     kartlegging: IASakKartlegging;
     vertId: string;
+    brukerErEierAvSak: boolean;
 }
 
 const EkstraInfoTekstIModal = styled.div`
@@ -38,6 +34,7 @@ export const PågåendeKartleggingRad = ({
     iaSak,
     kartlegging,
     vertId,
+    brukerErEierAvSak,
 }: PågåendeKartleggingProps) => {
     const [
         bekreftFullførKartleggingModalÅpen,
@@ -50,6 +47,8 @@ export const PågåendeKartleggingRad = ({
         iaSak.orgnr,
         iaSak.saksnummer,
     );
+
+    const {data:brukerInfo} = useHentBrukerinformasjon()
 
     const avslutt = () => {
         avsluttKartlegging(
@@ -96,7 +95,7 @@ export const PågåendeKartleggingRad = ({
 
     return (
         <Accordion.Content>
-            {iaSak.status === "KARTLEGGES" && (
+            {iaSak.status === "KARTLEGGES" && (brukerInfo?.rolle !== "Lesetilgang") && (
                 <>
                     <StyledActionButton
                         variant={"secondary"}
@@ -117,41 +116,48 @@ export const PågåendeKartleggingRad = ({
                     >
                         Fullfør
                     </StyledActionButton>
-                    <Button onClick={() => setSlettKartleggingModalÅpen(true)}>
-                        Slett kartlegging
-                    </Button>
+                    {brukerErEierAvSak &&
+                        <Button onClick={() => setSlettKartleggingModalÅpen(true)}>
+                            Slett kartlegging
+                        </Button>
+                    }
+                    <BekreftValgModal
+                        onConfirm={avslutt}
+                        onCancel={() => {
+                            setBekreftFullførKartleggingModalÅpen(false);
+                        }}
+                        åpen={bekreftFullførKartleggingModalÅpen}
+                        title="Er du sikker på at du vil fullføre denne kartleggingen?"
+                        description={`Kartleggingen som fullføres er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
+                    >
+                        {!harNokDeltakere && (
+                            <EkstraInfoTekstIModal>
+                                <BodyLong>
+                                    Det er for få deltakere til å vise resultatene. Det
+                                    kreves minimum {MINIMUM_ANTALL_DELTAKERE} deltakere
+                                    for å vise resultatene.
+                                </BodyLong>
+                            </EkstraInfoTekstIModal>
+                        )}
+                    </BekreftValgModal>
                 </>
             )}
-            <BekreftValgModal
-                onConfirm={avslutt}
-                onCancel={() => {
-                    setBekreftFullførKartleggingModalÅpen(false);
-                }}
-                åpen={bekreftFullførKartleggingModalÅpen}
-                title="Er du sikker på at du vil fullføre denne kartleggingen?"
-                description={`Kartleggingen som fullføres er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
-            >
-                {!harNokDeltakere && (
-                    <EkstraInfoTekstIModal>
-                        <BodyLong>
-                            Det er for få deltakere til å vise resultatene. Det
-                            kreves minimum {MINIMUM_ANTALL_DELTAKERE} deltakere
-                            for å vise resultatene.
-                        </BodyLong>
-                    </EkstraInfoTekstIModal>
-                )}
-            </BekreftValgModal>
 
-            <BekreftValgModal
-                onConfirm={slett}
-                onCancel={() => {
-                    setSlettKartleggingModalÅpen(false);
-                }}
-                åpen={slettKartleggingModalÅpen}
-                title="Er du sikker på at du vil slette denne kartleggingen?"
-                description={`Kartleggingen som slettes er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
-            />
-            <KartleggingOversikt kartleggingOversikt={kartleggingOversikt} />
+            {brukerErEierAvSak &&
+                <BekreftValgModal
+                    onConfirm={slett}
+                    onCancel={() => {
+                        setSlettKartleggingModalÅpen(false);
+                    }}
+                    åpen={slettKartleggingModalÅpen}
+                    title="Er du sikker på at du vil slette denne kartleggingen?"
+                    description={`Kartleggingen som slettes er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
+                />
+            }
+
+            {brukerInfo?.rolle !== "Lesetilgang" &&
+                <KartleggingOversikt kartleggingOversikt={kartleggingOversikt} />
+            }
         </Accordion.Content>
     );
 };

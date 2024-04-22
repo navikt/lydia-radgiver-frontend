@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import {
     slettKartlegging,
-    startKartlegging,
+    startKartlegging, useHentBrukerinformasjon,
     useHentKartlegginger,
 } from "../../../api/lydia-api";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
@@ -17,6 +17,7 @@ interface NyKartleggingRadProps {
     iaSak: IASak;
     kartlegging: IASakKartlegging;
     vertId: string;
+    brukerErEierAvSak: boolean;
 }
 
 const StyledActionButton = styled(Button)`
@@ -27,6 +28,7 @@ export const NyKartleggingRad = ({
     iaSak,
     kartlegging,
     vertId,
+    brukerErEierAvSak,
 }: NyKartleggingRadProps) => {
     const [
         bekreftStartKartleggingModalÅpen,
@@ -39,6 +41,8 @@ export const NyKartleggingRad = ({
         iaSak.orgnr,
         iaSak.saksnummer,
     );
+
+    const {data:brukerInfo} = useHentBrukerinformasjon()
 
     const startKartleggingen = () => {
         startKartlegging(
@@ -63,7 +67,7 @@ export const NyKartleggingRad = ({
 
     return (
         <Accordion.Content>
-            {iaSak.status === "KARTLEGGES" && (
+            {iaSak.status === "KARTLEGGES" && (brukerInfo?.rolle !== "Lesetilgang") &&(
                 <>
                     <StyledActionButton
                         variant={"secondary"}
@@ -73,9 +77,11 @@ export const NyKartleggingRad = ({
                     >
                         Start kartlegging
                     </StyledActionButton>
-                    <Button onClick={() => setSlettKartleggingModalÅpen(true)}>
-                        Slett kartlegging
-                    </Button>
+                    {brukerErEierAvSak &&
+                        <Button onClick={() => setSlettKartleggingModalÅpen(true)}>
+                            Slett kartlegging
+                        </Button>
+                    }
                 </>
             )}
 
@@ -110,15 +116,17 @@ export const NyKartleggingRad = ({
                     </ListItem>
                 </List>
             </BekreftValgModal>
-            <BekreftValgModal
-                onConfirm={slett}
-                onCancel={() => {
-                    setSlettKartleggingModalÅpen(false);
-                }}
-                åpen={slettKartleggingModalÅpen}
-                title="Er du sikker på at du vil slette denne kartleggingen?"
-                description={`Kartleggingen som slettes er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
-            />
+            {brukerErEierAvSak &&
+                <BekreftValgModal
+                    onConfirm={slett}
+                    onCancel={() => {
+                        setSlettKartleggingModalÅpen(false);
+                    }}
+                    åpen={slettKartleggingModalÅpen}
+                    title="Er du sikker på at du vil slette denne kartleggingen?"
+                    description={`Kartleggingen som slettes er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(kartlegging.opprettetTidspunkt)}".`}
+                />
+            }
         </Accordion.Content>
     );
 };

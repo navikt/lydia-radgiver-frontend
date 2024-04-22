@@ -1,13 +1,12 @@
-import { IASak } from "../../../domenetyper/domenetyper";
-import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import { PågåendeKartleggingRad } from "./PågåendeKartleggingRad";
-import { FullførtKartleggingRad } from "./FullførtKartleggingRad";
-import { KartleggingRadIkkeEier } from "./KartleggingRadIkkeEier";
-import { Accordion } from "@navikt/ds-react";
+import {IASak} from "../../../domenetyper/domenetyper";
+import {IASakKartlegging} from "../../../domenetyper/iaSakKartlegging";
+import {PågåendeKartleggingRad} from "./PågåendeKartleggingRad";
+import {Accordion} from "@navikt/ds-react";
 import styled from "styled-components";
-import { NyKartleggingRad } from "./NyKartleggingRad";
-import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
-import { useState } from "react";
+import {NyKartleggingRad} from "./NyKartleggingRad";
+import {KartleggingStatusBedge} from "../../../components/Badge/KartleggingStatusBadge";
+import React, {useState} from "react";
+import {KartleggingResultat} from "./KartleggingResultat";
 
 const AccordionHeader = styled(Accordion.Header)`
     width: 100%;
@@ -50,10 +49,6 @@ export const KartleggingRad = ({
 }: KartleggingRadProps) => {
     const [erÅpen, setErÅpen] = useState(defaultOpen);
 
-    if (!brukerErEierAvSak) {
-        return <KartleggingRadIkkeEier kartlegging={kartlegging} />;
-    }
-
     return (
         <Accordion.Item
             defaultOpen={defaultOpen}
@@ -74,6 +69,7 @@ export const KartleggingRad = ({
                     iaSak={iaSak}
                     kartlegging={kartlegging}
                     vertId={kartlegging.vertId}
+                    brukerErEierAvSak={brukerErEierAvSak}
                 />
             )}
 
@@ -82,15 +78,18 @@ export const KartleggingRad = ({
                     iaSak={iaSak}
                     kartlegging={kartlegging}
                     vertId={kartlegging.vertId}
+                    brukerErEierAvSak={brukerErEierAvSak}
                 />
             )}
 
             {erÅpen && kartlegging.status === "AVSLUTTET" && (
-                <FullførtKartleggingRad
-                    iaSak={iaSak}
-                    kartlegging={kartlegging}
-                    visSomProsent={visSomProsent}
-                />
+                <Accordion.Content>
+                    <KartleggingResultat
+                        iaSak={iaSak}
+                        kartleggingId={kartlegging.kartleggingId}
+                        visSomProsent={visSomProsent}
+                    />
+                </Accordion.Content>
             )}
         </Accordion.Item>
     );
