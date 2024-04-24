@@ -75,8 +75,6 @@ import {
     iaSakKartleggingSchema,
 } from "../domenetyper/iaSakKartlegging";
 import {
-    IASakKartleggingOversikt,
-    iaSakKartleggingOversiktSchema,
     IASakKartleggingResultat,
     iaSakKartleggingResultatSchema,
     TemanavnType,
@@ -683,17 +681,6 @@ export const useHentKartleggingResultat = (
     return useSwrTemplate<IASakKartleggingResultat>(
         `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}`,
         iaSakKartleggingResultatSchema,
-    );
-};
-
-export const useHentKartleggingOversikt = (
-    orgnummer: string,
-    saksnummer: string,
-    kartleggingId: string,
-) => {
-    return useSwrTemplate<IASakKartleggingOversikt>(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}/oversikt`,
-        iaSakKartleggingOversiktSchema,
     );
 };
 

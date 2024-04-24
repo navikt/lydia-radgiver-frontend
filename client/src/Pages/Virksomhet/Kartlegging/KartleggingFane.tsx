@@ -37,7 +37,8 @@ const KartleggingInfo = () => (
         </Heading>
         <BodyShort>
             Her legger du inn og får oversikt over kartleggingene til saken. Du
-            må være i status “Kartlegges” og eier av saken for opprette eller endre kartlegginger.
+            må være i status “Kartlegges” og eier av saken for opprette eller
+            endre kartlegginger.
         </BodyShort>
     </Container>
 );
@@ -123,7 +124,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                     key={kartlegging.kartleggingId}
                                     iaSak={iaSak}
                                     kartlegging={kartlegging}
-                                    brukerErEierAvSak={brukerErEierAvSak}
+                                    brukerRolle={brukerInformasjon?.rolle}
                                     dato={formaterDatoForKartlegging(
                                         kartlegging,
                                         index,

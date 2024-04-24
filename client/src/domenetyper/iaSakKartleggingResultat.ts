@@ -21,14 +21,6 @@ export const spørsmålMedSvarPerTema = z.object({
     spørsmålMedSvar: z.array(kartleggingSpørsmål),
 });
 
-export const spørsmålMedAntallSvarPerTema = z.object({
-    temabeskrivelse: z.string(),
-    antallSpørsmål: z.number(),
-    antallUnikeDeltakereMedMinstEttSvar: z.number(),
-    antallUnikeDeltakereSomHarSvartPåAlt: z.number(),
-    status: z.string(),
-});
-
 export const iaSakKartleggingResultatSchema = z.object({
     kartleggingId: z.string(),
     antallUnikeDeltakereMedMinstEttSvar: z.number(),
@@ -38,15 +30,4 @@ export const iaSakKartleggingResultatSchema = z.object({
 
 export type IASakKartleggingResultat = z.infer<
     typeof iaSakKartleggingResultatSchema
->;
-
-export const iaSakKartleggingOversiktSchema = z.object({
-    kartleggingId: z.string(),
-    antallUnikeDeltakereMedMinstEttSvar: z.number(),
-    antallUnikeDeltakereSomHarSvartPåAlt: z.number(),
-    spørsmålMedAntallSvarPerTema: z.array(spørsmålMedAntallSvarPerTema),
-});
-
-export type IASakKartleggingOversikt = z.infer<
-    typeof iaSakKartleggingOversiktSchema
 >;
