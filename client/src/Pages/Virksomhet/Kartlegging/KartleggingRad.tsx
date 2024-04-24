@@ -33,6 +33,7 @@ interface KartleggingRadProps {
     kartlegging: IASakKartlegging;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
     dato?: string;
+    brukerErEierAvSak: boolean;
     defaultOpen?: boolean;
     visSomProsent: boolean;
 }
@@ -42,6 +43,7 @@ export const KartleggingRad = ({
     kartlegging,
     brukerRolle,
     defaultOpen,
+    brukerErEierAvSak,
     dato,
     visSomProsent,
 }: KartleggingRadProps) => {
@@ -68,6 +70,7 @@ export const KartleggingRad = ({
                     kartlegging={kartlegging}
                     vertId={kartlegging.vertId}
                     brukerRolle={brukerRolle}
+                    brukerErEierAvSak={brukerErEierAvSak}
                     visSomProsent={visSomProsent}
                 />
             )}

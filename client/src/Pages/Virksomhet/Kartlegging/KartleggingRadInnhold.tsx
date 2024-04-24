@@ -9,11 +9,12 @@ import { SlettKartleggingModal } from "./SlettKartleggingModal";
 import { StartSpørreundersøkelseModal } from "./StartSpørreundersøkelseModal";
 import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkelseModal";
 
-interface NyKartleggingRadProps {
+interface KartleggingRadInnhold {
     iaSak: IASak;
     kartlegging: IASakKartlegging;
     vertId: string;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
+    brukerErEierAvSak: boolean;
     visSomProsent: boolean;
     kartleggingstatus: "OPPRETTET" | "PÅBEGYNT" | "AVSLUTTET" | "SLETTET";
 }
@@ -27,9 +28,10 @@ export const KartleggingRadInnhold = ({
     kartlegging,
     vertId,
     brukerRolle,
+    brukerErEierAvSak,
     kartleggingstatus,
     visSomProsent,
-}: NyKartleggingRadProps) => {
+}: KartleggingRadInnhold) => {
     const [
         bekreftFullførKartleggingModalÅpen,
         setBekreftFullførKartleggingModalÅpen,
@@ -44,7 +46,7 @@ export const KartleggingRadInnhold = ({
     ] = useState(false);
 
     const MINIMUM_ANTALL_DELTAKERE = 3;
-    const deltakereSomHarFullført = 4; // kartlegging.deltakereSomHarFullført
+    const deltakereSomHarFullført = 1; // kartlegging.deltakereSomHarFullført // TODO: Viser altid, Bytt ut etter oppdatert endepunkt er på plass
     const harNokDeltakere = deltakereSomHarFullført >= MINIMUM_ANTALL_DELTAKERE;
 
     if (kartleggingstatus === "SLETTET") {
@@ -77,7 +79,7 @@ export const KartleggingRadInnhold = ({
                             >
                                 Start kartlegging
                             </StyledActionButton>
-                            {brukerRolle && (
+                            {brukerErEierAvSak && (
                                 <Button
                                     onClick={() =>
                                         setSlettSpørreundersøkelseModalÅpen(
@@ -96,7 +98,6 @@ export const KartleggingRadInnhold = ({
                     erModalÅpen={bekreftStartKartleggingModalÅpen}
                     lukkModal={() => setBekreftStartKartleggingModalÅpen(false)}
                 />
-
                 {brukerRolle && (
                     <SlettKartleggingModal
                         iaSak={iaSak}
@@ -129,23 +130,27 @@ export const KartleggingRadInnhold = ({
                             >
                                 Fortsett
                             </StyledActionButton>
-                            <StyledActionButton
-                                onClick={() =>
-                                    setBekreftFullførKartleggingModalÅpen(true)
-                                }
-                            >
-                                Fullfør
-                            </StyledActionButton>
-                            {brukerRolle && (
-                                <Button
-                                    onClick={() =>
-                                        setSlettSpørreundersøkelseModalÅpen(
-                                            true,
-                                        )
-                                    }
-                                >
-                                    Slett kartlegging
-                                </Button>
+                            {brukerErEierAvSak && (
+                                <>
+                                    <StyledActionButton
+                                        onClick={() =>
+                                            setBekreftFullførKartleggingModalÅpen(
+                                                true,
+                                            )
+                                        }
+                                    >
+                                        Fullfør
+                                    </StyledActionButton>
+                                    <StyledActionButton
+                                        onClick={() =>
+                                            setSlettSpørreundersøkelseModalÅpen(
+                                                true,
+                                            )
+                                        }
+                                    >
+                                        Slett kartlegging
+                                    </StyledActionButton>
+                                </>
                             )}
                             <FullførSpørreundersøkelseModal
                                 iaSak={iaSak}
@@ -158,7 +163,6 @@ export const KartleggingRadInnhold = ({
                             />
                         </>
                     )}
-
                 {brukerRolle && (
                     <SlettKartleggingModal
                         iaSak={iaSak}

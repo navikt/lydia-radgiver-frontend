@@ -125,6 +125,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                     iaSak={iaSak}
                                     kartlegging={kartlegging}
                                     brukerRolle={brukerInformasjon?.rolle}
+                                    brukerErEierAvSak={brukerErEierAvSak}
                                     dato={formaterDatoForKartlegging(
                                         kartlegging,
                                         index,
