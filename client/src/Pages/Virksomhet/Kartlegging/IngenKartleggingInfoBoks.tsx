@@ -36,7 +36,7 @@ export const IngenKartleggingInfoBoks = () => {
                     <BodyShort style={{ marginTop: ".5rem" }}>
                         Du har ikke startet kartlegging for denne
                         virksomheten enda. For å komme igang trykker
-                        du på Ny kartlegging knappen som ligger over
+                        du på Ny behovsvurdering knappen som ligger over
                         dette feltet.
                     </BodyShort>
                 </InnholdContainer>

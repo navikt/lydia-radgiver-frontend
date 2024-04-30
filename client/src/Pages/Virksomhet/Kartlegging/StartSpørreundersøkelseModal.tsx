@@ -51,7 +51,7 @@ export function StartSpørreundersøkelseModal({
         >
             <br />
             <BodyShort weight={"semibold"}>
-                Før du starter kartlegging, husk at:
+                Før du starter behovsvurderingen, husk at:
             </BodyShort>
             <List>
                 <ListItem>

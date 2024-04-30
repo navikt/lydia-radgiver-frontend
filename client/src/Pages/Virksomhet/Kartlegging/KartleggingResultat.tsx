@@ -43,7 +43,7 @@ export const KartleggingResultat = ({
     return (
         <Container>
             <BodyShort>
-                {`Antall deltakere som fullførte kartleggingen: ${kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt}`}
+                {`Antall deltakere som fullførte behovsvurderingen: ${kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt}`}
             </BodyShort>
             {kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
                 <TemaResultat

@@ -72,22 +72,22 @@ export const KartleggingRadInnhold = ({
                     brukerRolle !== "Lesetilgang" && (
                         <>
                             <StyledActionButton
-                                variant={"secondary"}
                                 onClick={() =>
                                     setBekreftStartKartleggingModalÅpen(true)
                                 }
                             >
-                                Start kartlegging
+                                Start
                             </StyledActionButton>
                             {brukerErEierAvSak && (
                                 <Button
+                                    variant={"secondary"}
                                     onClick={() =>
                                         setSlettSpørreundersøkelseModalÅpen(
                                             true,
                                         )
                                     }
                                 >
-                                    Slett kartlegging
+                                    Slett
                                 </Button>
                             )}
                         </>
@@ -142,13 +142,14 @@ export const KartleggingRadInnhold = ({
                                         Fullfør
                                     </StyledActionButton>
                                     <StyledActionButton
+                                        variant={"danger"}
                                         onClick={() =>
                                             setSlettSpørreundersøkelseModalÅpen(
                                                 true,
                                             )
                                         }
                                     >
-                                        Slett kartlegging
+                                        Slett
                                     </StyledActionButton>
                                 </>
                             )}

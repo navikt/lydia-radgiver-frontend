@@ -36,8 +36,8 @@ export function SlettKartleggingModal({
             onConfirm={slett}
             onCancel={() => lukkModal()}
             åpen={erModalÅpen}
-            title="Er du sikker på at du vil slette denne kartleggingen?"
-            description={`Kartleggingen som slettes er "Kartlegging opprettet ${lokalDatoMedKlokkeslett(spørreundersøkelse.opprettetTidspunkt)}".`}
+            title="Er du sikker på at du vil slette denne behovsvurderingen?"
+            description={`Behovsvurderingen som slettes er "Behovsvurdering opprettet ${lokalDatoMedKlokkeslett(spørreundersøkelse.opprettetTidspunkt)}".`}
         />
     );
 }

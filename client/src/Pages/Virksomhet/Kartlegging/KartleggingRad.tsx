@@ -57,7 +57,7 @@ export const KartleggingRad = ({
             }}
         >
             <AccordionHeader>
-                Kartlegging
+                Behovsvurdering
                 <HeaderRightContent>
                     <KartleggingStatusBedge status={kartlegging.status} />
                     <KartleggingDato>{dato}</KartleggingDato>

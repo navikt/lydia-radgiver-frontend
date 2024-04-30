@@ -30,19 +30,6 @@ interface Props {
     iaSak: IASak;
 }
 
-const KartleggingInfo = () => (
-    <Container>
-        <Heading level="3" size="large" spacing={true}>
-            IA-Kartlegging
-        </Heading>
-        <BodyShort>
-            Her legger du inn og får oversikt over kartleggingene til saken. Du
-            må være i status “Kartlegges” og eier av saken for opprette eller
-            endre kartlegginger.
-        </BodyShort>
-    </Container>
-);
-
 const NyKartleggingKnapp = (props: { onClick: () => void }) => (
     <Button
         onClick={props.onClick}
@@ -51,7 +38,7 @@ const NyKartleggingKnapp = (props: { onClick: () => void }) => (
     >
         <HStack align={"center"} gap={"2"}>
             <PlusCircleIcon fontSize="1.5rem" />
-            Ny kartlegging
+            Ny behovsvurdering
         </HStack>
     </Button>
 );
@@ -87,13 +74,10 @@ export const KartleggingFane = ({ iaSak }: Props) => {
 
     return (
         <>
-            {(iaSak.status !== "KARTLEGGES" || !brukerErEierAvSak) && (
-                <KartleggingInfo />
-            )}
             <Container>
                 <HStack justify={"space-between"} align={"center"}>
-                    <Heading level="3" size="large">
-                        Kartlegginger
+                    <Heading level="3" size="large" spacing={true}>
+                        Behovsvurderinger
                     </Heading>
                     {harKartlegginger && (
                         <ToggleGroup
@@ -110,11 +94,19 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                     )}
                 </HStack>
 
+                <BodyShort>
+                    Her oppretter du og får oversikt over behovsvurderinger. Du
+                    må være i status “Kartlegges” og eier av saken for opprette eller
+                    gjøre endringer.
+                </BodyShort>
+
                 {iaSak.status === "KARTLEGGES" && brukerErEierAvSak && (
                     <NyKartleggingKnapp onClick={opprettKartlegging} />
                 )}
 
                 {!harKartlegginger && <IngenKartleggingInfoBoks />}
+
+                <br />
 
                 <Accordion style={{ marginTop: "1rem" }}>
                     {harKartlegginger &&
