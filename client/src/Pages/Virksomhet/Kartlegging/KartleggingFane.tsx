@@ -58,6 +58,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
         nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer, [
             "UTVIKLE_PARTSSAMARBEID",
             "REDUSERE_SYKEFRAVÆR",
+            "ARBEIDSMILJØ",
         ]).then(({ kartleggingId }) => {
             setSisteOpprettedeKartleggingId(kartleggingId);
             muterKartlegginger();
@@ -96,8 +97,8 @@ export const KartleggingFane = ({ iaSak }: Props) => {
 
                 <BodyShort>
                     Her oppretter du og får oversikt over behovsvurderinger. Du
-                    må være i status “Kartlegges” og eier av saken for opprette eller
-                    gjøre endringer.
+                    må være i status “Kartlegges” og eier av saken for opprette
+                    eller gjøre endringer.
                 </BodyShort>
 
                 {iaSak.status === "KARTLEGGES" && brukerErEierAvSak && (
