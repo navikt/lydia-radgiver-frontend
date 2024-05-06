@@ -47,7 +47,7 @@ export function StartSpørreundersøkelseModal({
             }}
             onCancel={() => lukkModal()}
             åpen={erModalÅpen}
-            title={"Start kartlegging"}
+            title={"Start behovsvurdering"}
         >
             <br />
             <BodyShort weight={"semibold"}>
