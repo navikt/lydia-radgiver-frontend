@@ -37,7 +37,7 @@ export const KartleggingResultat = ({
     }
 
     if (!kartleggingResultat) {
-        return <BodyShort>Kunne ikke hente kartleggingsresultater</BodyShort>;
+        return <BodyShort>Kunne ikke hente resultater</BodyShort>;
     }
 
     return (

@@ -46,7 +46,7 @@ export function FullførSpørreundersøkelseModal({
             onConfirm={fullførSpørreundersøkelse}
             onCancel={() => lukkModal()}
             åpen={erModalÅpen}
-            title={"Er du sikker på at du vil fullføre kartleggingen?"}
+            title={"Er du sikker på at du vil fullføre behovsvurderingen?"}
         >
             {harNokDeltakere && (
                 <EkstraInfoTekstIModal>

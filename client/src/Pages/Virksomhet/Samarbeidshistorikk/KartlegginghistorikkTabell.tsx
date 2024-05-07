@@ -29,7 +29,7 @@ export const KartlegginghistorikkTabell = ({
     }
 
     if (!iaSakKartlegginger) {
-        return <BodyShort>Kunne ikke hente kartlegginger</BodyShort>;
+        return <BodyShort>Kunne ikke hente behovsvurderinger</BodyShort>;
     }
     const avsluttedeKarltegginger = iaSakKartlegginger.filter(
         (kartlegging) => kartlegging.status === "AVSLUTTET",
@@ -37,7 +37,7 @@ export const KartlegginghistorikkTabell = ({
 
     return (
         <>
-            <h3>Gjennomførte kartlegginger</h3>
+            <h3>Gjennomførte behovsvurderinger</h3>
 
             {avsluttedeKarltegginger.length ? (
                 <ScrollUtTilKantenContainer
@@ -71,7 +71,7 @@ export const KartlegginghistorikkTabell = ({
                 </ScrollUtTilKantenContainer>
             ) : (
                 <BodyShort>
-                    Denne saken har ingen kartlegginger som er levert.
+                    Denne saken har ingen behovsvurderinger som er levert.
                 </BodyShort>
             )}
         </>
