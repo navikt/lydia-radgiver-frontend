@@ -14,7 +14,6 @@ import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
 import { KartleggingFane } from "./Kartlegging/KartleggingFane";
-import { erIDev } from "../../components/Dekoratør/Dekoratør";
 
 const Container = styled.div`
     padding-top: ${contentSpacing.mobileY};
@@ -55,9 +54,8 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
             fane !== "kartlegging" &&
             fane !== "ia-tjenester";
         const manglerIaSak = fane === "ia-tjenester" && !iaSak && !lasterIaSak;
-        const skjulKartleggingFane = fane === "kartlegging" && !erIDev;
 
-        if (ikkeGyldigTab || manglerIaSak || skjulKartleggingFane) {
+        if (ikkeGyldigTab || manglerIaSak) {
             oppdaterTabISearchParam("statistikk");
         }
     }, [lasterIaSak]);
@@ -73,28 +71,28 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
             >
                 <Tabs.List style={{ width: "100%" }}>
                     <Tabs.Tab value="statistikk" label="Statistikk" />
-                    <Tabs.Tab
-                        value="samarbeidshistorikk"
-                        label="Samarbeidshistorikk"
-                    />
-                    {iaSak && erIDev && (
+                    {iaSak && (
                         <Tabs.Tab value="kartlegging" label="Kartlegging" />
                     )}
                     {iaSak && (
                         <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />
                     )}
+                    <Tabs.Tab
+                        value="historikk"
+                        label="Historikk"
+                    />
                 </Tabs.List>
                 <StyledPanel value="statistikk">
                     <StatistikkFane virksomhet={virksomhet} />
                 </StyledPanel>
-                <StyledPanel value="samarbeidshistorikk">
-                    <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />
-                </StyledPanel>
                 <StyledPanel value="kartlegging">
-                    {iaSak && erIDev && <KartleggingFane iaSak={iaSak} />}
+                    {iaSak && <KartleggingFane iaSak={iaSak} />}
                 </StyledPanel>
                 <StyledPanel value="ia-tjenester">
                     {iaSak && <LeveranseFane iaSak={iaSak} />}
+                </StyledPanel>
+                <StyledPanel value="historikk">
+                    <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />
                 </StyledPanel>
             </Tabs>
         </Container>
