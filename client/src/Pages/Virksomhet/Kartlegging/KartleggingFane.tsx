@@ -1,25 +1,14 @@
 import React from "react";
-import { IASak } from "../../../domenetyper/domenetyper";
+import {IASak} from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import { tabInnholdStyling } from "../../../styling/containere";
-import {
-    Accordion,
-    BodyShort,
-    Button,
-    Heading,
-    HStack,
-    ToggleGroup,
-} from "@navikt/ds-react";
-import {
-    nyKartleggingPåSak,
-    useHentBrukerinformasjon,
-    useHentKartlegginger,
-} from "../../../api/lydia-api";
-import { IngenKartleggingInfoBoks } from "./IngenKartleggingInfoBoks";
-import { PlusCircleIcon } from "@navikt/aksel-icons";
-import { KartleggingRad } from "./KartleggingRad";
-import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import { erSammeDato } from "../../../util/dato";
+import {tabInnholdStyling} from "../../../styling/containere";
+import {Accordion, BodyShort, Button, Heading, HStack,} from "@navikt/ds-react";
+import {nyKartleggingPåSak, useHentBrukerinformasjon, useHentKartlegginger,} from "../../../api/lydia-api";
+import {IngenKartleggingInfoBoks} from "./IngenKartleggingInfoBoks";
+import {PlusCircleIcon} from "@navikt/aksel-icons";
+import {KartleggingRad} from "./KartleggingRad";
+import {IASakKartlegging} from "../../../domenetyper/iaSakKartlegging";
+import {erSammeDato} from "../../../util/dato";
 
 const Container = styled.div`
     ${tabInnholdStyling};
@@ -46,8 +35,6 @@ const NyKartleggingKnapp = (props: { onClick: () => void }) => (
 export const KartleggingFane = ({ iaSak }: Props) => {
     const [sisteOpprettedeKartleggingId, setSisteOpprettedeKartleggingId] =
         React.useState("");
-    const [prosentEllerAntall, setProsentEllerAntall] =
-        React.useState("antall");
     const {
         data: iaSakKartlegginger,
         loading: lasterIASakKartlegging,
@@ -76,24 +63,9 @@ export const KartleggingFane = ({ iaSak }: Props) => {
     return (
         <>
             <Container>
-                <HStack justify={"space-between"} align={"center"}>
-                    <Heading level="3" size="large" spacing={true}>
-                        Behovsvurderinger
-                    </Heading>
-                    {harKartlegginger && (
-                        <ToggleGroup
-                            onChange={setProsentEllerAntall}
-                            defaultValue={"antall"}
-                        >
-                            <ToggleGroup.Item value="prosent">
-                                Prosent
-                            </ToggleGroup.Item>
-                            <ToggleGroup.Item value="antall">
-                                Antall
-                            </ToggleGroup.Item>
-                        </ToggleGroup>
-                    )}
-                </HStack>
+                <Heading level="3" size="large" spacing={true}>
+                    Behovsvurderinger
+                </Heading>
 
                 <BodyShort>
                     Her oppretter du og får oversikt over behovsvurderinger. Du
@@ -128,9 +100,7 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                         sisteOpprettedeKartleggingId ===
                                         kartlegging.kartleggingId
                                     }
-                                    visSomProsent={
-                                        prosentEllerAntall === "prosent"
-                                    }
+                                    visSomProsent={false}
                                 />
                             ),
                         )}

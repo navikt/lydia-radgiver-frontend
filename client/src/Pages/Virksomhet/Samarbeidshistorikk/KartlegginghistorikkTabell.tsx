@@ -71,7 +71,7 @@ export const KartlegginghistorikkTabell = ({
                 </ScrollUtTilKantenContainer>
             ) : (
                 <BodyShort>
-                    Denne saken har ingen behovsvurderinger som er levert.
+                    Denne saken har ingen gjennomførte behovsvurderinger.
                 </BodyShort>
             )}
         </>

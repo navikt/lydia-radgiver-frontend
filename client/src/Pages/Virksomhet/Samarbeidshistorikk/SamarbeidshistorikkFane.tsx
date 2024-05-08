@@ -1,14 +1,13 @@
 import styled from "styled-components";
-import { Accordion, BodyShort, Heading, Loader } from "@navikt/ds-react";
-import { lokalDato } from "../../../util/dato";
-import { StatusBadge } from "../../../components/Badge/StatusBadge";
-import { SakshistorikkTabell } from "./SakshistorikkTabell";
-import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
-import { useHentSamarbeidshistorikk } from "../../../api/lydia-api";
-import { tabInnholdStyling } from "../../../styling/containere";
-import { LeveransehistorikkTabell } from "./LeveransehistorikkTabell";
-import { KartlegginghistorikkTabell } from "./KartlegginghistorikkTabell";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
+import {Accordion, BodyShort, Heading, Loader} from "@navikt/ds-react";
+import {lokalDato} from "../../../util/dato";
+import {StatusBadge} from "../../../components/Badge/StatusBadge";
+import {SakshistorikkTabell} from "./SakshistorikkTabell";
+import {Sakshistorikk} from "../../../domenetyper/sakshistorikk";
+import {useHentSamarbeidshistorikk} from "../../../api/lydia-api";
+import {tabInnholdStyling} from "../../../styling/containere";
+import {LeveransehistorikkTabell} from "./LeveransehistorikkTabell";
+import {KartlegginghistorikkTabell} from "./KartlegginghistorikkTabell";
 
 const Container = styled.div`
     ${tabInnholdStyling};
@@ -83,17 +82,13 @@ export const SamarbeidshistorikkFane = ({
                                 </AccordionHeaderContent>
                             </Accordion.Header>
                             <Accordion.Content>
-                                {erIDev && (
-                                    <>
-                                        <br/>
-                                        <KartlegginghistorikkTabell
-                                            orgnr={orgnr}
-                                            saksnummer={
-                                                sakshistorikk.saksnummer
-                                            }
-                                        />
-                                    </>
-                                )}
+                                <br/>
+                                <KartlegginghistorikkTabell
+                                    orgnr={orgnr}
+                                    saksnummer={
+                                        sakshistorikk.saksnummer
+                                    }
+                                />
                                 <LeveransehistorikkTabell
                                     orgnr={orgnr}
                                     saksnummer={sakshistorikk.saksnummer}
