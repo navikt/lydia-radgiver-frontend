@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BodyShort } from "@navikt/ds-react";
+import {BodyShort, HelpText} from "@navikt/ds-react";
 import { NavFarger } from "../../../styling/farger";
 import { BorderRadius } from "../../../styling/borderRadius";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
@@ -46,6 +46,13 @@ const InfoData = styled(BodyShort).attrs({ as: "dd" })`
   }
 `;
 
+const TittelMedHelpTextContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.5rem;
+`;
+
 const SalesforceLenke = styled(EksternLenke)`
   padding-top: calc(0.5rem + 1em);
 `;
@@ -63,7 +70,7 @@ export const VirksomhetInformasjon = ({ virksomhet, className }: Props) => {
     }
 
     const {
-        data: salesforceUrl,
+        data: salesforceInfo,
     } = useHentSalesforceUrl(virksomhet.orgnr)
 
     return (
@@ -95,11 +102,28 @@ export const VirksomhetInformasjon = ({ virksomhet, className }: Props) => {
                         <InfoData>{virksomhet.sektor}</InfoData>
                     </>)
                 }
+                {salesforceInfo && salesforceInfo.partnerStatus &&
+                    <>
+                        <TittelMedHelpTextContainer>
+                            <InfoTittel>
+                                Partner avtale
+                            </InfoTittel>
+                            <HelpText>
+                                <EksternLenke href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-markedsarbeid/SitePages/Strategisk-Rammeverk-for-Markedsarbeid.aspx">
+                                    Les mer om partner avtaler på navet
+                                </EksternLenke>
+                            </HelpText>
+                        </TittelMedHelpTextContainer>
+                        <InfoData>{salesforceInfo.partnerStatus}</InfoData>
+                    </>
+                }
             </Info>
-            {salesforceUrl &&
-                <SalesforceLenke href={salesforceUrl?.url}>
-                    Se virksomheten i Salesforce
-                </SalesforceLenke>
+            {salesforceInfo &&
+                <>
+                    <SalesforceLenke href={salesforceInfo?.url}>
+                        Se virksomheten i Salesforce
+                    </SalesforceLenke>
+                </>
             }
         </Container>
 

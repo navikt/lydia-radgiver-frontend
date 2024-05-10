@@ -67,9 +67,9 @@ import {
     historiskStatistikkSchema,
 } from "../domenetyper/historiskstatistikk";
 import {
-    SalesforceUrl,
-    salesforceUrlSchema,
-} from "../domenetyper/salesforceUrl";
+    SalesforceInfo,
+    salesforceInfoSchema,
+} from "../domenetyper/salesforceInfo";
 import {
     IASakKartlegging,
     iaSakKartleggingSchema,
@@ -635,9 +635,9 @@ export const useHentModuler = () => {
 };
 
 export const useHentSalesforceUrl = (orgnr: string) => {
-    return useSwrTemplate<SalesforceUrl>(
+    return useSwrTemplate<SalesforceInfo>(
         `${salesforceUrlPath}/${orgnr}`,
-        salesforceUrlSchema,
+        salesforceInfoSchema,
         defaultSwrConfiguration,
         false,
     );
