@@ -68,7 +68,8 @@ export const KartleggingRadInnhold = ({
     if (kartleggingstatus === "OPPRETTET") {
         return (
             <Accordion.Content>
-                {iaSak.status === "KARTLEGGES" &&
+                {(iaSak.status === "KARTLEGGES" ||
+                    iaSak.status === "VI_BISTÅR") &&
                     brukerRolle !== "Lesetilgang" && (
                         <>
                             <StyledActionButton
@@ -115,7 +116,8 @@ export const KartleggingRadInnhold = ({
     if (kartleggingstatus === "PÅBEGYNT") {
         return (
             <Accordion.Content>
-                {iaSak.status === "KARTLEGGES" &&
+                {(iaSak.status === "KARTLEGGES" ||
+                    iaSak.status === "VI_BISTÅR") &&
                     brukerRolle !== "Lesetilgang" && (
                         <>
                             <StyledActionButton

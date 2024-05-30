@@ -1,14 +1,24 @@
 import React from "react";
-import {IASak} from "../../../domenetyper/domenetyper";
+import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import {tabInnholdStyling} from "../../../styling/containere";
-import {Accordion, BodyShort, Button, Heading, HStack,} from "@navikt/ds-react";
-import {nyKartleggingPåSak, useHentBrukerinformasjon, useHentKartlegginger,} from "../../../api/lydia-api";
-import {IngenKartleggingInfoBoks} from "./IngenKartleggingInfoBoks";
-import {PlusCircleIcon} from "@navikt/aksel-icons";
-import {KartleggingRad} from "./KartleggingRad";
-import {IASakKartlegging} from "../../../domenetyper/iaSakKartlegging";
-import {erSammeDato} from "../../../util/dato";
+import { tabInnholdStyling } from "../../../styling/containere";
+import {
+    Accordion,
+    BodyShort,
+    Button,
+    Heading,
+    HStack,
+} from "@navikt/ds-react";
+import {
+    nyKartleggingPåSak,
+    useHentBrukerinformasjon,
+    useHentKartlegginger,
+} from "../../../api/lydia-api";
+import { IngenKartleggingInfoBoks } from "./IngenKartleggingInfoBoks";
+import { PlusCircleIcon } from "@navikt/aksel-icons";
+import { KartleggingRad } from "./KartleggingRad";
+import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
+import { erSammeDato } from "../../../util/dato";
 
 const Container = styled.div`
     ${tabInnholdStyling};
@@ -69,13 +79,15 @@ export const KartleggingFane = ({ iaSak }: Props) => {
 
                 <BodyShort>
                     Her oppretter du og får oversikt over behovsvurderinger. Du
-                    må være i status “Kartlegges” og eier av saken for opprette
-                    eller gjøre endringer.
+                    må være i status “Kartlegges” eller “Vi bistår” og eier av
+                    saken for å opprette eller gjøre endringer.
                 </BodyShort>
 
-                {iaSak.status === "KARTLEGGES" && brukerErEierAvSak && (
-                    <NyKartleggingKnapp onClick={opprettKartlegging} />
-                )}
+                {(iaSak.status === "KARTLEGGES" ||
+                    iaSak.status === "VI_BISTÅR") &&
+                    brukerErEierAvSak && (
+                        <NyKartleggingKnapp onClick={opprettKartlegging} />
+                    )}
 
                 {!harKartlegginger && <IngenKartleggingInfoBoks />}
 
