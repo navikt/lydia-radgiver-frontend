@@ -15,7 +15,6 @@ interface KartleggingRadInnhold {
     vertId: string;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
     brukerErEierAvSak: boolean;
-    visSomProsent: boolean;
     kartleggingstatus: "OPPRETTET" | "PÅBEGYNT" | "AVSLUTTET" | "SLETTET";
 }
 
@@ -30,7 +29,6 @@ export const KartleggingRadInnhold = ({
     brukerRolle,
     brukerErEierAvSak,
     kartleggingstatus,
-    visSomProsent,
 }: KartleggingRadInnhold) => {
     const [
         bekreftFullførKartleggingModalÅpen,
@@ -59,7 +57,6 @@ export const KartleggingRadInnhold = ({
                 <KartleggingResultat
                     iaSak={iaSak}
                     kartleggingId={kartlegging.kartleggingId}
-                    visSomProsent={visSomProsent}
                 />
             </Accordion.Content>
         );

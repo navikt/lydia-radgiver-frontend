@@ -17,13 +17,11 @@ const Container = styled.div`
 interface Props {
     iaSak: IASak;
     kartleggingId: string;
-    visSomProsent: boolean;
 }
 
 export const KartleggingResultat = ({
     iaSak,
     kartleggingId,
-    visSomProsent,
 }: Props) => {
     const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
         useHentKartleggingResultat(
@@ -50,7 +48,6 @@ export const KartleggingResultat = ({
                     key={tema.tema}
                     spørsmålMedSvar={tema.spørsmålMedSvar}
                     beskrivelse={tema.beskrivelse}
-                    visSomProsent={visSomProsent}
                 />
             ))}
         </Container>

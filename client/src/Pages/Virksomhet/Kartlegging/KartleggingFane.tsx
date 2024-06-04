@@ -112,7 +112,6 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                         sisteOpprettedeKartleggingId ===
                                         kartlegging.kartleggingId
                                     }
-                                    visSomProsent={false}
                                 />
                             ),
                         )}
