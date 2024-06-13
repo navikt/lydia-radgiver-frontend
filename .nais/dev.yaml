@@ -1,6 +1,8 @@
 ingresses:
 - "https://fia.intern.dev.nav.no"
 - "https://fia.ekstern.dev.nav.no"
+- "https://fia.ansatt.dev.nav.no"
+- "https://demo-fia.ansatt.dev.nav.no"
 fiaSuperbrukerGroup: 02b25498-1a81-45b5-84cb-876a8899c809
 kartleggingUrl: "https://fia-arbeidsgiver.ekstern.dev.nav.no"
 fiaSaksbehandlerGroup: e00f4248-2d26-4645-bf94-22d47623a51e
