@@ -79,6 +79,7 @@ services:
       NAIS_DATABASE_LYDIA_API_LYDIA_API_DB_DATABASE: postgres
       # Authserver env
       AZURE_APP_CLIENT_ID: lydia-api
+      AZURE_APP_CLIENT_SECRET: secret
       AZURE_OPENID_CONFIG_TOKEN_ENDPOINT: http://host.docker.internal:6969/azure/token
       AZURE_APP_JWK: >
         {
@@ -141,6 +142,10 @@ services:
       SALESFORCE_USERNAME: username
       SALESFORCE_PASSWORD: password
       SALESFORCE_SECURITY_TOKEN: securityToken
+      PIA_PDFGEN_URL: http://pia-pdfgen
+      JOURNALPOST_V1_URL: http://journal-post
+      JOURNALPOST_SCOPE: lokalt
+
     restart: unless-stopped
 
   redis:
