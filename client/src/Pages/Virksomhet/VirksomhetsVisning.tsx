@@ -40,6 +40,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     );
 
     const [searchParams, setSearchParams] = useSearchParams();
+    const kartleggingId = searchParams.get("kartleggingId");
     const fane = searchParams.get("fane") ?? "statistikk";
 
     const oppdaterTabISearchParam = (tab: string) => {
@@ -77,16 +78,18 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     {iaSak && (
                         <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />
                     )}
-                    <Tabs.Tab
-                        value="historikk"
-                        label="Historikk"
-                    />
+                    <Tabs.Tab value="historikk" label="Historikk" />
                 </Tabs.List>
                 <StyledPanel value="statistikk">
                     <StatistikkFane virksomhet={virksomhet} />
                 </StyledPanel>
                 <StyledPanel value="kartlegging">
-                    {iaSak && <KartleggingFane iaSak={iaSak} />}
+                    {iaSak && (
+                        <KartleggingFane
+                            iaSak={iaSak}
+                            KartleggingIdFraUrl={kartleggingId}
+                        />
+                    )}
                 </StyledPanel>
                 <StyledPanel value="ia-tjenester">
                     {iaSak && <LeveranseFane iaSak={iaSak} />}

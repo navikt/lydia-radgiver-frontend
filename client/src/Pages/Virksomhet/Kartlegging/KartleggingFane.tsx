@@ -27,6 +27,7 @@ const Container = styled.div`
 
 interface Props {
     iaSak: IASak;
+    KartleggingIdFraUrl: string | null;
 }
 
 const NyKartleggingKnapp = (props: { onClick: () => void }) => (
@@ -42,7 +43,7 @@ const NyKartleggingKnapp = (props: { onClick: () => void }) => (
     </Button>
 );
 
-export const KartleggingFane = ({ iaSak }: Props) => {
+export const KartleggingFane = ({ iaSak, KartleggingIdFraUrl }: Props) => {
     const [sisteOpprettedeKartleggingId, setSisteOpprettedeKartleggingId] =
         React.useState("");
     const {
@@ -109,8 +110,10 @@ export const KartleggingFane = ({ iaSak }: Props) => {
                                         originalArray,
                                     )}
                                     defaultOpen={
-                                        sisteOpprettedeKartleggingId ===
-                                        kartlegging.kartleggingId
+                                        kartlegging.kartleggingId ===
+                                            sisteOpprettedeKartleggingId ||
+                                        kartlegging.kartleggingId ===
+                                            KartleggingIdFraUrl
                                     }
                                 />
                             ),
