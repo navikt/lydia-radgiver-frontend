@@ -5,5 +5,6 @@ ingresses:
 - "https://demo-fia.ansatt.dev.nav.no"
 fiaSuperbrukerGroup: 02b25498-1a81-45b5-84cb-876a8899c809
 kartleggingUrl: "https://fia-arbeidsgiver.ekstern.dev.nav.no"
+faviconFile: "favicon_red.ico"
 fiaSaksbehandlerGroup: e00f4248-2d26-4645-bf94-22d47623a51e
 fiaLesetilgangGroup: 30f17df5-c36c-4ad7-b862-48f56c95ebb2

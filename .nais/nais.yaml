@@ -58,6 +58,8 @@ spec:
       value: {{fiaLesetilgangGroup}}
     - name: VITE_KARTLEGGING_URL
       value: {{kartleggingUrl}}
+    - name: VITE_FAVICON
+      value: {{faviconFile}}
   envFrom:
     - secret: fia-redis
     - secret: fia-frackend

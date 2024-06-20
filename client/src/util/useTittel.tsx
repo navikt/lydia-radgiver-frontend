@@ -1,10 +1,15 @@
-import React, {useCallback} from "react";
+import React, { useCallback } from "react";
+import { erIDemo, erIDev } from "../components/Dekoratør/Dekoratør";
 
 export const statiskeSidetitler = {
-    prioriteringsside: "Fia - søk",
-    virksomhetsside: "Fia - virksomhet",
-    statusoversiktside: "Fia - statusoversikt",
-    iaTjenesteoversikt: "Fia - IA-tjenester"
+    prioriteringsside: lagSidetittel("søk"),
+    virksomhetsside: lagSidetittel("virksomhet"),
+    statusoversiktside: lagSidetittel("statusoversikt"),
+    iaTjenesteoversikt: lagSidetittel("IA-tjenester"),
+}
+
+function lagSidetittel(tittel: string) {
+    return `Fia - ${erIDemo || erIDev ? "DEV - " : ""}${tittel}`;
 }
 
 export const useTittel = (defaultTittel: string = statiskeSidetitler.prioriteringsside) => {
