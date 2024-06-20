@@ -38,13 +38,17 @@ const AppContent = () => {
     useEffect(() => {
         // Gjør favicon rød i dev og demo
         if (erIDemo || erIDev) {
-            let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement | null;
-            if (!link) {
-                link = document.createElement('link');
-                link.rel = 'icon';
-                document.getElementsByTagName('head')[0].appendChild(link);
+            let link_prod = document.querySelector("link[rel~='icon']") as HTMLLinkElement | null;
+            if (!link_prod) {
+                link_prod = document.createElement('link');
+                link_prod.rel = 'icon';
+                document.getElementsByTagName('head')[0].appendChild(link_prod);
             }
-            link.href = '/src/favicon_red.ico';
+
+            const link_dev = document.querySelector("link[rel~='icon_red']") as HTMLLinkElement | null;
+            if (link_dev !== null) {
+                link_prod.href = link_dev.href;
+            }
         }
     }, [erIDemo, erIDev]);
 
