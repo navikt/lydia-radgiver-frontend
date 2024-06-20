@@ -15,6 +15,7 @@ import { BodyShort, Link, Loader } from "@navikt/ds-react";
 import { redirectUrl } from "./components/Banner/SesjonBanner";
 import { setTilgangsnivå } from "./util/amplitude-klient";
 import { IATjenesteoversiktside } from "./Pages/IATjenesteoversikt/IATjenesteoversiktside";
+import { MinOversiktside } from "./Pages/MinOversikt/MinOversiktside";
 
 const App = () =>
     <BrowserRouter>
@@ -68,6 +69,10 @@ const AppContent = () => {
                 <Route
                     path={"/iatjenesteoversikt"}
                     element={<IATjenesteoversiktside />}
+                    />
+                <Route
+                    path={"/minesaker"}
+                    element={<MinOversiktside />}
                 />
             </Routes>
         </AppRamme>
