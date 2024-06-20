@@ -7,7 +7,7 @@ import { Prioriteringsside } from "./Pages/Prioritering/Prioriteringsside";
 import { desktopAndUp, largeDesktopAndUp } from "./styling/breakpoints";
 import { Virksomhetsside } from "./Pages/Virksomhet/Virksomhetsside";
 import { FeilmeldingBanner } from "./components/Banner/FeilmeldingBanner";
-import { Dekoratør } from "./components/Dekoratør/Dekoratør";
+import { Dekoratør, erIDemo, erIDev } from "./components/Dekoratør/Dekoratør";
 import { contentSpacing } from "./styling/contentSpacing";
 import { Footer } from "./components/Footer/Footer";
 import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
@@ -33,7 +33,20 @@ const AppContent = () => {
         if (brukerInformasjon) {
             setTilgangsnivå(brukerInformasjon.rolle);
         }
-    }, [brukerInformasjon])
+    }, [brukerInformasjon]);
+
+    useEffect(() => {
+        // Gjør favicon rød i dev og demo
+        if (erIDemo || erIDev) {
+            let link = document.querySelector("link[rel~='icon']") as HTMLLinkElement | null;
+            if (!link) {
+                link = document.createElement('link');
+                link.rel = 'icon';
+                document.getElementsByTagName('head')[0].appendChild(link);
+            }
+            link.href = '/src/favicon_red.ico';
+        }
+    }, [erIDemo, erIDev]);
 
     if (loading) {
         return <Loader size="xlarge" />;
@@ -69,7 +82,7 @@ const AppContent = () => {
                 <Route
                     path={"/iatjenesteoversikt"}
                     element={<IATjenesteoversiktside />}
-                    />
+                />
                 <Route
                     path={"/minesaker"}
                     element={<MinOversiktside />}
