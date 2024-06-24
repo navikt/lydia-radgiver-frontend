@@ -14,6 +14,8 @@ import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
 import { KartleggingFane } from "./Kartlegging/KartleggingFane";
+import { erIDev } from "../../components/Dekoratør/Dekoratør";
+import PlanFane from "./Plan/PlanFane";
 
 const Container = styled.div`
     padding-top: ${contentSpacing.mobileY};
@@ -78,6 +80,9 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     {iaSak && (
                         <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />
                     )}
+                    {iaSak && erIDev && (
+                        <Tabs.Tab value="plan" label="Plan" />
+                    )}
                     <Tabs.Tab value="historikk" label="Historikk" />
                 </Tabs.List>
                 <StyledPanel value="statistikk">
@@ -93,6 +98,9 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                 </StyledPanel>
                 <StyledPanel value="ia-tjenester">
                     {iaSak && <LeveranseFane iaSak={iaSak} />}
+                </StyledPanel>
+                <StyledPanel value="plan">
+                    {iaSak && erIDev && <PlanFane />}
                 </StyledPanel>
                 <StyledPanel value="historikk">
                     <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />
