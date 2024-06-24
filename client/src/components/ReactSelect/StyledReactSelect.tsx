@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import ReactSelect, { StylesConfig } from "react-select";
+import ReactSelect, { CSSObjectWithLabel, StylesConfig } from "react-select";
 import { NavFarger } from "../../styling/farger";
 import { BorderRadius } from "../../styling/borderRadius";
 
@@ -18,20 +18,20 @@ export const reactSelectStyle = (): StylesConfig => ({
         ":hover": {
             border: `1px solid ${NavFarger.interactionPrimary}`,
         },
-    }),
+    } as CSSObjectWithLabel),
     placeholder: (provided) => ({
         ...provided,
         color: "-internal-light-dark(black, white);",
-    }),
+    } as CSSObjectWithLabel),
     dropdownIndicator: (provided) => ({
         ...provided,
         color: "initial",
         ":hover": {
             color: "initial",
         },
-    }),
+    } as CSSObjectWithLabel),
     valueContainer: (provided) => ({
         ...provided,
         padding: "0.5rem",
-    }),
+    } as CSSObjectWithLabel),
 });
