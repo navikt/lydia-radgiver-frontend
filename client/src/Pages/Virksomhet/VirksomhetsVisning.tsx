@@ -77,11 +77,11 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     {iaSak && (
                         <Tabs.Tab value="kartlegging" label="Kartlegging" />
                     )}
-                    {iaSak && (
-                        <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />
-                    )}
                     {iaSak && erIDev && (
                         <Tabs.Tab value="plan" label="Plan" />
+                    )}
+                    {iaSak && (
+                        <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />
                     )}
                     <Tabs.Tab value="historikk" label="Historikk" />
                 </Tabs.List>
