@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   annotations:
     nginx.ingress.kubernetes.io/use-regex: "true"
-    nginx.ingress.kubernetes.io/rewrite-target: "https://fia.ansatt.dev.nav.no/$2"
+    nginx.ingress.kubernetes.io/rewrite-target: "https://fia.ansatt.dev.nav.no/$1"
     prometheus.io/scrape: "false"
   labels:
     app: lydia-radgiver-frontend
@@ -21,7 +21,7 @@ spec:
                 name: lydia-radgiver-frontend
                 port:
                   number: 80
-            path: (/|$)(.*)
+            path: /(.*)
             pathType: ImplementationSpecific
     - host: fia.ekstern.dev.nav.no
       http:
@@ -31,5 +31,5 @@ spec:
                 name: lydia-radgiver-frontend
                 port:
                   number: 80
-            path: (/|$)(.*)
+            path: /(.*)
             pathType: ImplementationSpecific
