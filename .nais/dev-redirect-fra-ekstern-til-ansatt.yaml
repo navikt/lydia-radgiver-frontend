@@ -11,7 +11,7 @@ metadata:
   name: dev-redirect-fia-ekstern-til-ansatt
   namespace: pia
 spec:
-  ingressClassName: nais-ingress
+  ingressClassName: nais-ingress-external
   rules:
     - host: fia.ekstern.dev.nav.no
       http:
