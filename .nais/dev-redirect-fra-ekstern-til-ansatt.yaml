@@ -8,12 +8,12 @@ metadata:
   labels:
     app: lydia-radgiver-frontend
     team: pia
-  name: dev-redirect-fia-intern-til-ansatt
+  name: dev-redirect-fia-ekstern-til-ansatt
   namespace: pia
 spec:
   ingressClassName: nais-ingress
   rules:
-    - host: fia.intern.dev.nav.no
+    - host: fia.ekstern.dev.nav.no
       http:
         paths:
           - backend:

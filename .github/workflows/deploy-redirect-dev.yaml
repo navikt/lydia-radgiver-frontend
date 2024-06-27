@@ -4,6 +4,7 @@ on:
   push:
     paths:
       - ".github/workflows/deploy-redirect-dev.yaml"
+      - ".nais/dev-redirect-fra-ekstern-til-ansatt.yaml"
       - ".nais/dev-redirect-fra-intern-til-ansatt.yaml"
 
 permissions:
@@ -19,4 +20,6 @@ jobs:
         uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: dev-gcp
-          RESOURCE: .nais/dev-redirect-fra-intern-til-ansatt.yaml
+          RESOURCE: "\
+          .nais/dev-redirect-fra-intern-til-ansatt.yaml,\
+          .nais/dev-redirect-fra-ekstern-til-ansatt.yaml"
