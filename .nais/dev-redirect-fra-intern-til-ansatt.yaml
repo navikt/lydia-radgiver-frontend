@@ -21,5 +21,15 @@ spec:
                 name: lydia-radgiver-frontend
                 port:
                   number: 80
-            path: /lydia-radgiver-frontend(/|$)(.*)
+            path: (/|$)(.*)
+            pathType: ImplementationSpecific
+    - host: fia.ekstern.dev.nav.no
+      http:
+        paths:
+          - backend:
+              service:
+                name: lydia-radgiver-frontend
+                port:
+                  number: 80
+            path: (/|$)(.*)
             pathType: ImplementationSpecific
