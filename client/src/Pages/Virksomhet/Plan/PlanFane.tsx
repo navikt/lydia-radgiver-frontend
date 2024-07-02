@@ -57,7 +57,27 @@ const dummyData: Temainnhold = {
 }
 
 export default function PlanFane() {
-	const [tema, setTema] = React.useState(dummyData);
+	const [temaer, setTemaer] = React.useState([dummyData]);
+
+	return (
+		<>
+			<Temaer temaer={temaer} setTemaer={setTemaer} />
+		</>
+	);
+}
+
+function Temaer({ temaer, setTemaer }: { temaer: Temainnhold[], setTemaer: (t: Temainnhold[]) => void }) {
+	return temaer.map((tema, index) => (
+		<Tema key={index} tema={tema} setTema={(tema) => {
+			const nyeTema = [...temaer];
+			nyeTema[index] = tema;
+
+			return setTemaer(nyeTema);
+		}} />
+	));
+}
+
+function Tema({ tema, setTema }: { tema: Temainnhold, setTema: (t: Temainnhold) => void }) {
 	return (
 		<Container>
 			<Heading level="3" size="medium" spacing={true}>{tema.tittel}</Heading>

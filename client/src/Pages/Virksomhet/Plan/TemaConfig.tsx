@@ -99,12 +99,11 @@ function Temalinje({ undertema, setUndertema }: { undertema: Arbeidsperiode, set
 			<StyledAccordionContent>
 				<span style={{ display: "flex", gridColumn: "2/4" }}>
 					<MonthPicker selected={undertema.start} defaultSelected={undertema.start} onMonthSelect={(m) => {
-						console.log('m :>> ', m);
 						if (m) {
 							setStart(m);
 						}
 					}}>
-						<MonthPicker.Input hideLabel label="Start" value={`${undertema.start.toLocaleString('default', { month: 'short' })} ${undertema.start.getFullYear()}`} />
+						<MonthPicker.Input hideLabel onChange={() => null} label="Start" value={`${undertema.start.toLocaleString('default', { month: 'short' })} ${undertema.start.getFullYear()}`} />
 					</MonthPicker>
 					{" - "}
 					<MonthPicker selected={undertema.slutt} onMonthSelect={(m) => {
@@ -112,7 +111,7 @@ function Temalinje({ undertema, setUndertema }: { undertema: Arbeidsperiode, set
 							setSlutt(m);
 						}
 					}}>
-						<MonthPicker.Input hideLabel label="Slutt" value={`${undertema.slutt.toLocaleString('default', { month: 'short' })} ${undertema.slutt.getFullYear()}`} />
+						<MonthPicker.Input hideLabel onChange={() => null} label="Slutt" value={`${undertema.slutt.toLocaleString('default', { month: 'short' })} ${undertema.slutt.getFullYear()}`} />
 					</MonthPicker>
 				</span>
 				<Heading level="4" size="small">Mål: Øke kompetansen på hvordan gjennomføre gode oppfølgingssamtaler, både gjennom teori og praksis.</Heading>
@@ -139,7 +138,7 @@ function TemalinjeHeader({ undertema, setUndertema }: { undertema: Arbeidsperiod
 
 function TemalinjeHeaderPeriode({ start, slutt }: { start: Date; slutt: Date; }) {
 	return (
-		<><PrettyDate date={start} /> - <PrettyDate date={slutt} visNesteMåned /></>
+		<><PrettyDate date={start} /> - <PrettyDate date={slutt} /></>
 	);
 }
 
