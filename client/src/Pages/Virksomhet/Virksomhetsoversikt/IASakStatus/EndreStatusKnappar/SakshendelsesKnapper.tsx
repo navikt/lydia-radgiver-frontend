@@ -48,6 +48,8 @@ const rendreKnappForHendelse = (hendelse: GyldigNesteHendelse, sak: IASak, setVi
                     key={hendelse.saksHendelsestype}
                 />
             )
+        case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
+            return <></>
     }
 }
 
