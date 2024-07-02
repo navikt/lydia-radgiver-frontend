@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { BodyShort } from "@navikt/ds-react";
 import { IngenAktiveSaker } from "./IngenAktiveSaker";
-import { IASak } from "../../../../domenetyper/domenetyper";
+import {IASak, IASakshendelseTypeEnum} from "../../../../domenetyper/domenetyper";
 import { StatusBadge } from "../../../../components/Badge/StatusBadge";
 import { SakshendelsesKnapper } from "./EndreStatusKnappar/SakshendelsesKnapper";
 import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
@@ -68,6 +68,10 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => 
         );
     }
 
+    const hendelserSomRepresentererKnapperISaksboksen= sak.gyldigeNesteHendelser
+        .filter( hendelse =>
+            hendelse.saksHendelsestype !== IASakshendelseTypeEnum.Enum.ENDRE_PROSESS
+        );
     return (
         <IASakOversiktContainer>
             <Saksinfo>
@@ -86,7 +90,7 @@ export const IASakOversikt = ({ orgnummer, iaSak: sak }: IASakOversiktProps) => 
             </Saksinfo>
             <SakshendelsesKnapper
                 sak={sak}
-                hendelser={sak.gyldigeNesteHendelser}
+                hendelser={hendelserSomRepresentererKnapperISaksboksen}
                 setVisKonfetti={setVisKonfetti}
             />
             <IngenAktivitetInfo sak={sak} />
