@@ -1,7 +1,9 @@
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
-import { BodyShort, Heading } from "@navikt/ds-react";
+import { Heading } from "@navikt/ds-react";
 import PlanGraf from "./PlanGraf";
+import React from "react";
+import TemaConfig, { Temainnhold } from "./TemaConfig";
 
 const Container = styled.div`
   height: 100%;
@@ -12,40 +14,50 @@ const Container = styled.div`
   ${tabInnholdStyling};
 `;
 
+const dummyData: Temainnhold = {
+	tittel: "Sykefraværsarbeid",
+	undertema: [
+		{
+			start: new Date(2024, 0),
+			slutt: new Date(2024, 3),
+			tittel: 'Sykefraværsrutiner',
+			status: "Fullført"
+		},
+		{
+			start: new Date(2024, 2),
+			slutt: new Date(2024, 5),
+			tittel: 'Oppfølgingssamtaler',
+			status: "Pågår"
+		},
+		{
+			start: new Date(2024, 7),
+			slutt: new Date(2024, 10),
+			tittel: 'Tilretteleggings- og medvirkningsplikt',
+			status: "Pågår"
+		},
+		{
+			start: new Date(2024, 7),
+			slutt: new Date(2024, 9),
+			tittel: 'Gjentagende sykefravær',
+			status: "Pågår"
+		},
+		{
+			start: new Date(2024, 9),
+			slutt: new Date(2025, 0),
+			tittel: 'Enda en greie',
+			status: "Planlagt"
+		},
+	],
+	verktøy: [],
+}
+
 export default function PlanFane() {
+	const [tema, setTema] = React.useState(dummyData);
 	return (
 		<Container>
-			<Heading level="3" size="large" spacing={true}>Plan</Heading>
-			<BodyShort>
-				Her skal det stå noe greier om planen.
-			</BodyShort>
-			<PlanGraf periodStart={new Date(2024, 0)} periodeSlutt={new Date(2025, 0)} pølser={[
-				{
-					pølseStart: new Date(2024, 0),
-					pølseSlutt: new Date(2024, 3),
-					tittel: 'Sykefraværsrutiner',
-				},
-				{
-					pølseStart: new Date(2024, 2),
-					pølseSlutt: new Date(2024, 5),
-					tittel: 'Oppfølgingssamtaler',
-				},
-				{
-					pølseStart: new Date(2024, 7),
-					pølseSlutt: new Date(2024, 10),
-					tittel: 'Tilretteleggings- og medvirkningsplikt',
-				},
-				{
-					pølseStart: new Date(2024, 7),
-					pølseSlutt: new Date(2024, 9),
-					tittel: 'Gjentagende sykefravær',
-				},
-				{
-					pølseStart: new Date(2024, 9),
-					pølseSlutt: new Date(2024, 11),
-					tittel: 'Enda en greie',
-				},
-			]} />
+			<Heading level="3" size="medium" spacing={true}>{tema.tittel}</Heading>
+			<PlanGraf start={new Date(2024, 0)} slutt={new Date(2025, 0)} pølser={tema.undertema} />
+			<TemaConfig tema={tema} setTema={setTema} />
 		</Container>
 	);
 }

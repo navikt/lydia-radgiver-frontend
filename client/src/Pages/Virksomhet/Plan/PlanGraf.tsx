@@ -2,39 +2,39 @@ import React from "react";
 import styled from "styled-components";
 
 export type PølsegrafProps = {
-	periodStart: Date,
-	periodeSlutt: Date,
+	start: Date,
+	slutt: Date,
 	pølser: PølseProps[],
 };
 
-type PølseProps = {
-	pølseStart: Date,
-	pølseSlutt: Date,
+export type PølseProps = {
+	start: Date,
+	slutt: Date,
 	tittel: string,
 };
 
 export default function PlanGraf(props: PølsegrafProps) {
-	const periodStart = React.useMemo(() => new Date(props.periodStart), [props.periodStart]);
-	const periodeSlutt = React.useMemo(() => new Date(props.periodeSlutt), [props.periodeSlutt]);
-	const monthCols = getMonthColumns(periodStart, periodeSlutt);
+	const start = React.useMemo(() => new Date(props.start), [props.start]);
+	const slutt = React.useMemo(() => new Date(props.slutt), [props.slutt]);
+	const monthCols = getMonthColumns(start, slutt);
 	const pølser = React.useMemo(() => props.pølser.map(pølse => ({
 		...pølse,
-		pølseStart: new Date(pølse.pølseStart),
-		pølseSlutt: new Date(pølse.pølseSlutt),
+		start: new Date(pølse.start),
+		slutt: new Date(pølse.slutt),
 	})), [props.pølser]);
 
 
 
 	return (
 		<PølseGrid $monthCols={monthCols} $pølser={pølser}>
-			<MånedsLegend startDate={periodStart} endDate={periodeSlutt} />
+			<MånedsLegend startDate={start} endDate={slutt} />
 			{pølser.map((pølse, index) => (
 				<Pølserad
 					key={index}
 					index={index}
 					{...pølse} />
 			))}
-			<NåværendeDatoMarkør periodeStart={periodStart} periodeSlutt={periodeSlutt} />
+			<NåværendeDatoMarkør start={start} slutt={slutt} />
 		</PølseGrid>
 	)
 }
@@ -48,9 +48,9 @@ const PølseGrid = styled.div<{ $monthCols: string[], $pølser: PølseProps[] }>
 `;
 
 
-function NåværendeDatoMarkør({ periodeStart, periodeSlutt }: { periodeStart: Date, periodeSlutt: Date }) {
+function NåværendeDatoMarkør({ start, slutt }: { start: Date, slutt: Date }) {
 	const nå = new Date();
-	if (nå < periodeStart || nå > periodeSlutt) {
+	if (nå < start || nå > slutt) {
 		console.log("Nå er utenfor perioden");
 		return null;
 	}
@@ -184,14 +184,14 @@ const LegendeContainer = styled.div<{ $month: Date }>`
 	text-align: center;
 `;
 
-function Pølserad({ pølseStart, pølseSlutt, index, tittel }: PølseProps & { index: number }) {
+function Pølserad({ start, slutt, index, tittel }: PølseProps & { index: number }) {
 	return (
 		<>
 			<PølseradBakgrunn $index={index} />
 			<Pølsetittel $index={index}>
 				{tittel}
 			</Pølsetittel>
-			<Pølseinnhold $start={pølseStart} $slutt={pølseSlutt} $index={index} />
+			<Pølseinnhold $start={start} $slutt={slutt} $index={index} />
 		</>
 	)
 }
