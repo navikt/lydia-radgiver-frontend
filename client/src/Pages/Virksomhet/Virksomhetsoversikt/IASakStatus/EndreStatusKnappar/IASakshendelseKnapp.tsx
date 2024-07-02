@@ -17,6 +17,8 @@ export const penskrivIASakshendelsestype = (
     hendelsestype: IASakshendelseType,
 ): string => {
     switch (hendelsestype) {
+        case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
+            return "Endre prosess"
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
             return "Vurder";
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
@@ -60,6 +62,7 @@ export const knappeTypeFraSakshendelsesType = (
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
         case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
+        case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
             return "primary";
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
         case IASakshendelseTypeEnum.enum.SLETT_SAK:
@@ -88,15 +91,7 @@ export const useTrengerÅFullføreLeveranserFørst = (
     switch (hendelsesType) {
         case IASakshendelseTypeEnum.enum.TILBAKE:
             return harLeveranserSomErUnderArbeid;
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
-        case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
-        case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
-        case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
-        case IASakshendelseTypeEnum.enum.SLETT_SAK:
+        default:
             return false;
     }
 };
@@ -122,14 +117,7 @@ export const useTrengerÅFullføreKartleggingerFørst = (
         case IASakshendelseTypeEnum.enum.TILBAKE:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
             return harKartleggingerSomErUnderArbeid;
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
-        case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
-        case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
-        case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
-        case IASakshendelseTypeEnum.enum.SLETT_SAK:
+        default:
             return false;
     }
 };
