@@ -21,31 +21,36 @@ const dummyData: Temainnhold = {
 			start: new Date(2024, 0),
 			slutt: new Date(2024, 3),
 			tittel: 'Sykefraværsrutiner',
-			status: "Fullført"
+			status: "Fullført",
+			statusfarge: "success"
 		},
 		{
 			start: new Date(2024, 2),
 			slutt: new Date(2024, 5),
 			tittel: 'Oppfølgingssamtaler',
-			status: "Pågår"
+			status: "Pågår",
+			statusfarge: "warning"
 		},
 		{
 			start: new Date(2024, 7),
 			slutt: new Date(2024, 10),
 			tittel: 'Tilretteleggings- og medvirkningsplikt',
-			status: "Pågår"
+			status: "Pågår",
+			statusfarge: "danger"
 		},
 		{
 			start: new Date(2024, 7),
 			slutt: new Date(2024, 9),
 			tittel: 'Gjentagende sykefravær',
-			status: "Pågår"
+			status: "Pågår",
+			statusfarge: "info"
 		},
 		{
 			start: new Date(2024, 9),
 			slutt: new Date(2025, 0),
 			tittel: 'Enda en greie',
-			status: "Planlagt"
+			status: "Planlagt",
+			statusfarge: "neutral"
 		},
 	],
 	verktøy: [],
@@ -56,7 +61,7 @@ export default function PlanFane() {
 	return (
 		<Container>
 			<Heading level="3" size="medium" spacing={true}>{tema.tittel}</Heading>
-			<PlanGraf start={new Date(2024, 0)} slutt={new Date(2025, 0)} pølser={tema.undertema} />
+			<PlanGraf pølser={tema.undertema} />
 			<TemaConfig tema={tema} setTema={setTema} />
 		</Container>
 	);

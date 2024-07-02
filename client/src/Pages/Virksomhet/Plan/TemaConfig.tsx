@@ -1,4 +1,4 @@
-import { Accordion, BodyLong, Heading, MonthPicker, Select } from "@navikt/ds-react";
+import { Accordion, BodyLong, Heading, MonthPicker, Select, TimelinePeriodProps } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
 
@@ -13,6 +13,7 @@ export type Arbeidsperiode = {
 	slutt: Date;
 	tittel: string;
 	status: Arbeidsperiodestatus;
+	statusfarge: TimelinePeriodProps["status"];
 };
 
 export type Temainnhold = {
