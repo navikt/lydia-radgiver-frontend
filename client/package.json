@@ -11,7 +11,7 @@
     "preview": "vite preview",
     "lint": "eslint src/",
     "storybook": "storybook dev -p 6006 --disable-telemetry",
-    "prepare": "cd .. && husky install client/.husky",
+    "prepare": "cd .. && husky client/.husky",
     "skuffende": "say sku fen de, komma"
   },
   "dependencies": {
