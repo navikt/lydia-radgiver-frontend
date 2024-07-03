@@ -113,11 +113,6 @@ const Virksomhetssøk = styled(Søkefelt)`
     margin-right: auto;
 `;
 
-const Brukerinformasjon = styled(InternalHeader.User)`
-    margin-left: auto;
-    color: ${NavFarger.white};
-`;
-
 export const erIDev = [
     "localhost",
     "fia.intern.dev.nav.no",
