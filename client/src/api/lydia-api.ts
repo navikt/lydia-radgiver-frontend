@@ -79,6 +79,7 @@ import {
     iaSakKartleggingResultatSchema,
     TemanavnType,
 } from "../domenetyper/iaSakKartleggingResultat";
+import { MineSaker, mineSakerListSchema } from "../domenetyper/mineSaker";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
@@ -87,6 +88,7 @@ export const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
 export const virksomhetsPath = `${basePath}/virksomhet`;
 export const innloggetAnsattPath = `/innloggetAnsatt`;
 export const iaSakPath = `${basePath}/iasak/radgiver`;
+export const mineSakerPath = `${basePath}/iasak/minesaker`;
 export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
 export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
@@ -640,6 +642,13 @@ export const useHentSalesforceUrl = (orgnr: string) => {
         salesforceInfoSchema,
         defaultSwrConfiguration,
         false,
+    );
+};
+
+export const useHentMineSaker = () => {
+    return useSwrTemplate<MineSaker[]>(
+        `${mineSakerPath}`,
+        mineSakerListSchema,
     );
 };
 
