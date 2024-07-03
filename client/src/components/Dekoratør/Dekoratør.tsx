@@ -1,11 +1,12 @@
 import styled from "styled-components";
-import { BodyShort, InternalHeader, Link } from "@navikt/ds-react";
+import { BodyShort, Dropdown, InternalHeader, Link } from "@navikt/ds-react";
 import { Søkefelt } from "./Søkefelt";
 import { NavFarger } from "../../styling/farger";
 import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/brukerinformasjon";
 import { SesjonBanner } from "../Banner/SesjonBanner";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 import { mobileAndUp, tabletAndUp } from "../../styling/breakpoints";
+import { LeaveIcon } from "@navikt/aksel-icons";
 
 // Stylinga her er tatt fra navikt/nav-dekoratøren (15.12.2023)
 const TilHovedinnhold = styled.a`
@@ -127,6 +128,10 @@ export const erIDemo = ["demo-fia.ansatt.dev.nav.no"].includes(
     window.location.hostname,
 );
 
+const loggUt = () => {
+    window.location.assign("/oauth2/logout");
+};
+
 interface Props {
     brukerInformasjon: BrukerinformasjonType;
 }
@@ -176,10 +181,28 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                 </DemoversjonTekst>
                 <SøkOgBrukerinfoContainer>
                     <Virksomhetssøk />
-                    <Brukerinformasjon
-                        name={brukerInformasjon.navn}
-                        description={brukerInformasjon.ident}
-                    />
+                    <Dropdown>
+                        <InternalHeader.UserButton
+                            as={Dropdown.Toggle}
+                            name={brukerInformasjon.navn}
+                            description={brukerInformasjon.rolle}
+                        />
+                        <Dropdown.Menu>
+                            <dl>
+                                <BodyShort as="dt" size="medium">
+                                    Du er logget inn som:
+                                </BodyShort>
+                                <BodyShort as="dd" size="medium">
+                                    {brukerInformasjon.ident}
+                                </BodyShort>
+                            </dl>
+                            <Dropdown.Menu.List>
+                                <Dropdown.Menu.List.Item onClick={() => loggUt()}>
+                                    Logg ut <LeaveIcon aria-hidden fontSize="1.5rem" />
+                                </Dropdown.Menu.List.Item>
+                            </Dropdown.Menu.List>
+                        </Dropdown.Menu>
+                    </Dropdown>
                 </SøkOgBrukerinfoContainer>
             </StyledInternalHeader>
             <SesjonBanner tokenUtløper={brukerInformasjon.tokenUtløper} />
