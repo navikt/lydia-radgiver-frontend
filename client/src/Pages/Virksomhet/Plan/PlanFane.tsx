@@ -1,18 +1,92 @@
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
-import { Heading } from "@navikt/ds-react";
+import { Heading, TimelinePeriodProps } from "@navikt/ds-react";
 import PlanGraf from "./PlanGraf";
 import React from "react";
 import TemaConfig, { Temainnhold } from "./TemaConfig";
+import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 
 const Container = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
   gap: 3rem;
+  margin-bottom: 2rem;
 
   ${tabInnholdStyling};
 `;
+
+export type TilgjengeligTema = {
+	tittel: string;
+	undertema: TilgjengeligUndertema[];
+};
+
+type TilgjengeligUndertema = {
+	tittel: string;
+	statusfarge: TimelinePeriodProps["status"];
+};
+
+const tilgjengeligeTemaer: TilgjengeligTema[] = [
+	{
+		tittel: "Sykefraværsarbeid",
+		undertema: [
+			{
+				tittel: "Sykefraværsrutiner",
+				statusfarge: "success",
+			},
+			{
+				tittel: "Oppfølgingssamtaler",
+				statusfarge: "warning",
+			},
+			{
+				tittel: "Tilretteleggings- og medvirkningsplikt",
+				statusfarge: "danger",
+			},
+			{
+				tittel: "Gjentagende sykefravær",
+				statusfarge: "info",
+			},
+		]
+	},
+	{
+		tittel: "Partssamarbeid",
+		undertema: [
+			{
+				tittel: "Utvikle partssamarbeidet",
+				statusfarge: "success",
+			},
+			{
+				tittel: "Arbeidsmiljøloven",
+				statusfarge: "warning",
+			},
+			{
+				tittel: "Medbestemmelse",
+				statusfarge: "danger",
+			},
+			{
+				tittel: "Medvirkning",
+				statusfarge: "info",
+			},
+		]
+	},
+	{
+		tittel: "Arbeidsmiljø",
+		undertema: [
+			{
+				tittel: "Arbeidsmiljøloven",
+				statusfarge: "success",
+			},
+			{
+				tittel: "Medbestemmelse",
+				statusfarge: "warning",
+			},
+			{
+				tittel: "Medvirkning",
+				statusfarge: "danger",
+			},
+		]
+	}
+];
 
 const dummyData: Temainnhold = {
 	tittel: "Sykefraværsarbeid",
@@ -62,27 +136,22 @@ export default function PlanFane() {
 	return (
 		<>
 			<Temaer temaer={temaer} setTemaer={setTemaer} />
+			<LeggTilTemaKnapp temaer={temaer} setTemaer={setTemaer} tilgjengeligeTemaer={tilgjengeligeTemaer} />
 		</>
 	);
 }
 
 function Temaer({ temaer, setTemaer }: { temaer: Temainnhold[], setTemaer: (t: Temainnhold[]) => void }) {
 	return temaer.map((tema, index) => (
-		<Tema key={index} tema={tema} setTema={(tema) => {
-			const nyeTema = [...temaer];
-			nyeTema[index] = tema;
-
-			return setTemaer(nyeTema);
-		}} />
-	));
-}
-
-function Tema({ tema, setTema }: { tema: Temainnhold, setTema: (t: Temainnhold) => void }) {
-	return (
-		<Container>
+		<Container key={index}>
 			<Heading level="3" size="medium" spacing={true}>{tema.tittel}</Heading>
 			<PlanGraf pølser={tema.undertema} />
-			<TemaConfig tema={tema} setTema={setTema} />
+			<TemaConfig tema={tema} setTema={(tema) => {
+				const nyeTema = [...temaer];
+				nyeTema[index] = tema;
+
+				return setTemaer(nyeTema);
+			}} />
 		</Container>
-	);
+	));
 }

@@ -29,6 +29,10 @@ export default function PlanGraf(props: PølsegrafProps) {
 		return acc;
 	}, { earliestStart: new Date(8640000000000000), latestSlutt: new Date(-8640000000000000) }), [pølser]);
 
+	if (pølser.length === 0) {
+		return null;
+	}
+
 	return (
 		<>
 			<Timeline key={`${earliestStart}-${latestSlutt}`}>
