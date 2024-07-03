@@ -5,6 +5,7 @@ import PlanGraf from "./PlanGraf";
 import React from "react";
 import TemaConfig, { Temainnhold } from "./TemaConfig";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
+import LeggTilUndertemaKnapp from "./LeggTilUndertemaKnapp";
 
 const Container = styled.div`
   height: 100%;
@@ -21,7 +22,7 @@ export type TilgjengeligTema = {
 	undertema: TilgjengeligUndertema[];
 };
 
-type TilgjengeligUndertema = {
+export type TilgjengeligUndertema = {
 	tittel: string;
 	statusfarge: TimelinePeriodProps["status"];
 };
@@ -142,16 +143,24 @@ export default function PlanFane() {
 }
 
 function Temaer({ temaer, setTemaer }: { temaer: Temainnhold[], setTemaer: (t: Temainnhold[]) => void }) {
-	return temaer.map((tema, index) => (
-		<Container key={index}>
-			<Heading level="3" size="medium" spacing={true}>{tema.tittel}</Heading>
-			<PlanGraf pølser={tema.undertema} />
-			<TemaConfig tema={tema} setTema={(tema) => {
-				const nyeTema = [...temaer];
-				nyeTema[index] = tema;
+	return temaer.map((tema, index) => {
+		const setTema = (tema: Temainnhold) => {
+			const nyeTema = [...temaer];
+			nyeTema[index] = tema;
 
-				return setTemaer(nyeTema);
-			}} />
-		</Container>
-	));
+			return setTemaer(nyeTema);
+		};
+
+		return (
+			<Container key={index}>
+				<Heading level="3" size="medium" spacing={true}>{tema.tittel}</Heading>
+				<PlanGraf pølser={tema.undertema} />
+				<TemaConfig tema={tema} setTema={setTema} />
+				<LeggTilUndertemaKnapp
+					tema={tema}
+					setTema={setTema}
+					tilgjengeligeUndertemaer={tilgjengeligeTemaer.find((t) => t.tittel === tema.tittel)?.undertema || []} />
+			</Container>
+		)
+	});
 }
