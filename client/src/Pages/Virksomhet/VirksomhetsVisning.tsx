@@ -16,6 +16,7 @@ import { StatistikkFane } from "./Statistikk/StatistikkFane";
 import { KartleggingFane } from "./Kartlegging/KartleggingFane";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import PlanFane from "./Plan/PlanFane";
+import { AdministrerProsesser } from "./Prosesser/AdministrerProsesser";
 
 const Container = styled.div`
     padding-top: ${contentSpacing.mobileY};
@@ -67,6 +68,14 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         <Container>
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />
             <br />
+
+            {erIDev && iaSak && (
+                <AdministrerProsesser
+                    orgnummer={virksomhet.orgnr}
+                    iaSak={iaSak}
+                />
+            )}
+
             <Tabs
                 value={fane}
                 onChange={oppdaterTabISearchParam}
@@ -77,9 +86,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     {iaSak && (
                         <Tabs.Tab value="kartlegging" label="Kartlegging" />
                     )}
-                    {iaSak && erIDev && (
-                        <Tabs.Tab value="plan" label="Plan" />
-                    )}
+                    {iaSak && erIDev && <Tabs.Tab value="plan" label="Plan" />}
                     {iaSak && (
                         <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />
                     )}

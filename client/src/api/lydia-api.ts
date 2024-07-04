@@ -79,6 +79,7 @@ import {
     iaSakKartleggingResultatSchema,
     TemanavnType,
 } from "../domenetyper/iaSakKartleggingResultat";
+import { IaSakProsess, iaSakProsessSchema } from "../domenetyper/iaSakProsess";
 import { MineSaker, mineSakerListSchema } from "../domenetyper/mineSaker";
 
 const basePath = "/api";
@@ -422,6 +423,7 @@ export const nyHendelsePåSak = (
     sak: IASak,
     hendelse: GyldigNesteHendelse,
     valgtÅrsak: ValgtÅrsakDto | null = null,
+    prosessDto: IaSakProsess | null = null,
 ): Promise<IASak> => {
     const nyHendelseDto: IANySakshendelseDto = {
         orgnummer: sak.orgnr,
@@ -429,6 +431,7 @@ export const nyHendelsePåSak = (
         hendelsesType: hendelse.saksHendelsestype,
         endretAvHendelseId: sak.endretAvHendelseId,
         ...(valgtÅrsak && { payload: JSON.stringify(valgtÅrsak) }),
+        ...(prosessDto && { payload: JSON.stringify(prosessDto) }),
     };
     return post(iaSakPostNyHendelsePath, iaSakSchema, nyHendelseDto);
 };
@@ -690,6 +693,13 @@ export const useHentKartleggingResultat = (
     return useSwrTemplate<IASakKartleggingResultat>(
         `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}`,
         iaSakKartleggingResultatSchema,
+    );
+};
+
+export const useHentProsesser = (orgnummer: string, saksnummer?: string) => {
+    return useSwrTemplate<IaSakProsess[]>(
+        saksnummer ? `${iaSakPath}/${orgnummer}/${saksnummer}/prosesser` : null,
+        iaSakProsessSchema.array(),
     );
 };
 

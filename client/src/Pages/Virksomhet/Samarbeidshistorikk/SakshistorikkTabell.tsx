@@ -10,13 +10,18 @@ interface SakshistorikkTabellProps {
     sakshistorikk: Sakshistorikk;
 }
 
-export const SakshistorikkTabell = ({ sakshistorikk }: SakshistorikkTabellProps) => {
+export const SakshistorikkTabell = ({
+    sakshistorikk,
+}: SakshistorikkTabellProps) => {
     const kolonneNavn = ["Status", "Tidspunkt", "Detaljer", "Eier"];
 
     return (
         <>
             <h3>Sakshistorikk</h3>
-            <ScrollUtTilKantenContainer $offsetLeft={1.5 + 2.75} $offsetRight={1.5 + 0.75}>
+            <ScrollUtTilKantenContainer
+                $offsetLeft={1.5 + 2.75}
+                $offsetRight={1.5 + 0.75}
+            >
                 <StyledTable>
                     <Table.Header>
                         <Table.Row>
@@ -28,35 +33,61 @@ export const SakshistorikkTabell = ({ sakshistorikk }: SakshistorikkTabellProps)
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {sakshistorikk.sakshendelser.map((sakSnapshot, index) => {
+                        {sakshistorikk.sakshendelser.map(
+                            (sakSnapshot, index) => {
                                 return (
                                     <Table.Row key={index}>
                                         <Table.DataCell>
-                                            <StatusBadge status={sakSnapshot.status} />
+                                            <StatusBadge
+                                                status={sakSnapshot.status}
+                                            />
                                         </Table.DataCell>
                                         <Table.DataCell>
-                                            {lokalDato(sakSnapshot.tidspunktForSnapshot)}
+                                            {lokalDato(
+                                                sakSnapshot.tidspunktForSnapshot,
+                                            )}
                                         </Table.DataCell>
                                         <Table.DataCell>
-                                            {sakSnapshot.begrunnelser.length > 0 && (
+                                            {sakSnapshot.begrunnelser.length >
+                                                0 && (
                                                 <>
                                                     <Detail>Begrunnelse</Detail>
                                                     <ul>
-                                                        {sakSnapshot.begrunnelser.map((begrunnelse) => (
-                                                            <li key={begrunnelse}>
-                                                                <Detail>{begrunnelse}</Detail>
-                                                            </li>)
+                                                        {sakSnapshot.begrunnelser.map(
+                                                            (begrunnelse) => (
+                                                                <li
+                                                                    key={
+                                                                        begrunnelse
+                                                                    }
+                                                                >
+                                                                    <Detail>
+                                                                        {
+                                                                            begrunnelse
+                                                                        }
+                                                                    </Detail>
+                                                                </li>
+                                                            ),
                                                         )}
                                                     </ul>
                                                 </>
                                             )}
                                             {sakSnapshot.hendelsestype ===
                                                 "TA_EIERSKAP_I_SAK" && (
-                                                <Detail>Tok eierskap i sak</Detail>
+                                                <Detail>
+                                                    Tok eierskap i sak
+                                                </Detail>
+                                            )}
+                                            {sakSnapshot.hendelsestype ===
+                                                "ENDRE_PROSESS" && (
+                                                <Detail>
+                                                    Endret samarbeidsnavn
+                                                </Detail>
                                             )}
                                         </Table.DataCell>
                                         <Table.DataCell>
-                                            <NavIdentMedLenke navIdent={sakSnapshot.eier} />
+                                            <NavIdentMedLenke
+                                                navIdent={sakSnapshot.eier}
+                                            />
                                         </Table.DataCell>
                                     </Table.Row>
                                 );

@@ -13,6 +13,7 @@ import {
     nyKartleggingPåSak,
     useHentBrukerinformasjon,
     useHentKartlegginger,
+    useHentProsesser,
 } from "../../../api/lydia-api";
 import { IngenKartleggingInfoBoks } from "./IngenKartleggingInfoBoks";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
@@ -52,6 +53,11 @@ export const KartleggingFane = ({ iaSak, KartleggingIdFraUrl }: Props) => {
         mutate: muterKartlegginger,
     } = useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
 
+    const { mutate: muterProsesser } = useHentProsesser(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+    );
+
     const opprettKartlegging = () => {
         nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer, [
             "UTVIKLE_PARTSSAMARBEID",
@@ -60,6 +66,7 @@ export const KartleggingFane = ({ iaSak, KartleggingIdFraUrl }: Props) => {
         ]).then(({ kartleggingId }) => {
             setSisteOpprettedeKartleggingId(kartleggingId);
             muterKartlegginger();
+            muterProsesser();
         });
     };
 
