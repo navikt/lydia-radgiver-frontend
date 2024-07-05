@@ -16,7 +16,7 @@ import { StatistikkFane } from "./Statistikk/StatistikkFane";
 import { KartleggingFane } from "./Kartlegging/KartleggingFane";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import PlanFane from "./Plan/PlanFane";
-import { AdministrerProsesser } from "./Prosesser/AdministrerProsesser";
+import { AdministrerIaProsesser } from "./Prosesser/AdministrerIaProsesser";
 
 const Container = styled.div`
     padding-top: ${contentSpacing.mobileY};
@@ -70,7 +70,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
             <br />
 
             {erIDev && iaSak && (
-                <AdministrerProsesser
+                <AdministrerIaProsesser
                     orgnummer={virksomhet.orgnr}
                     iaSak={iaSak}
                 />

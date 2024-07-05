@@ -6,19 +6,19 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import {
     nyHendelsePåSak,
     useHentAktivSakForVirksomhet,
-    useHentProsesser,
+    useHentIaProsesser,
     useHentSamarbeidshistorikk,
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { NavFarger } from "../../../styling/farger";
 
-const ProsessRadContainer = styled.div`
+const IaProsessRadContainer = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
 `;
 
-const ProsessNavn = styled.div`
+const IaProsessNavn = styled.div`
     min-width: fit-content;
     width: 50%;
     max-width: 100%;
@@ -34,12 +34,12 @@ const LagrerNavnLoader = styled(Loader)`
     margin-left: 1rem;
 `;
 
-interface ProsessRadProps {
+interface IaProsessRadProps {
     iaProsess: IaSakProsess;
     iaSak: IASak;
 }
 
-export const ProsessRad = ({ iaProsess, iaSak }: ProsessRadProps) => {
+export const IaProsessRad = ({ iaProsess, iaSak }: IaProsessRadProps) => {
     const [navn, setNavn] = useState(iaProsess.navn ?? "");
     const [lagrerNavn, setLagrerNavn] = useState(false);
     const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
@@ -48,7 +48,7 @@ export const ProsessRad = ({ iaProsess, iaSak }: ProsessRadProps) => {
     const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(
         iaSak.orgnr,
     );
-    const { mutate: muterProsesser } = useHentProsesser(
+    const { mutate: muterIaProsesser } = useHentIaProsesser(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
@@ -69,13 +69,13 @@ export const ProsessRad = ({ iaProsess, iaSak }: ProsessRadProps) => {
         ).then(() => {
             mutateHentSaker();
             mutateSamarbeidshistorikk();
-            muterProsesser().then(() => setLagrerNavn(false));
+            muterIaProsesser().then(() => setLagrerNavn(false));
         });
     };
 
     return (
-        <ProsessRadContainer>
-            <ProsessNavn>
+        <IaProsessRadContainer>
+            <IaProsessNavn>
                 <TextField
                     maxLength={25}
                     size="small"
@@ -86,7 +86,7 @@ export const ProsessRad = ({ iaProsess, iaSak }: ProsessRadProps) => {
                     }}
                     hideLabel
                 />
-            </ProsessNavn>
+            </IaProsessNavn>
             {!lagrerNavn && iaProsess.navn != navn && (
                 <LagreNavnIkon
                     title="Lagre navn"
@@ -95,6 +95,6 @@ export const ProsessRad = ({ iaProsess, iaSak }: ProsessRadProps) => {
                 />
             )}
             {lagrerNavn && <LagrerNavnLoader size="small" />}
-        </ProsessRadContainer>
+        </IaProsessRadContainer>
     );
 };

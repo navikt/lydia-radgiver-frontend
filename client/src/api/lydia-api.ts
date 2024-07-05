@@ -649,10 +649,7 @@ export const useHentSalesforceUrl = (orgnr: string) => {
 };
 
 export const useHentMineSaker = () => {
-    return useSwrTemplate<MineSaker[]>(
-        `${mineSakerPath}`,
-        mineSakerListSchema,
-    );
+    return useSwrTemplate<MineSaker[]>(`${mineSakerPath}`, mineSakerListSchema);
 };
 
 export const nyKartleggingPåSak = (
@@ -696,7 +693,7 @@ export const useHentKartleggingResultat = (
     );
 };
 
-export const useHentProsesser = (orgnummer: string, saksnummer?: string) => {
+export const useHentIaProsesser = (orgnummer: string, saksnummer?: string) => {
     return useSwrTemplate<IaSakProsess[]>(
         saksnummer ? `${iaSakPath}/${orgnummer}/${saksnummer}/prosesser` : null,
         iaSakProsessSchema.array(),

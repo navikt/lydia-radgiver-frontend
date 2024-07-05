@@ -13,7 +13,7 @@ import {
     nyKartleggingPåSak,
     useHentBrukerinformasjon,
     useHentKartlegginger,
-    useHentProsesser,
+    useHentIaProsesser,
 } from "../../../api/lydia-api";
 import { IngenKartleggingInfoBoks } from "./IngenKartleggingInfoBoks";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
@@ -53,7 +53,7 @@ export const KartleggingFane = ({ iaSak, KartleggingIdFraUrl }: Props) => {
         mutate: muterKartlegginger,
     } = useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
 
-    const { mutate: muterProsesser } = useHentProsesser(
+    const { mutate: muterProsesser } = useHentIaProsesser(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
