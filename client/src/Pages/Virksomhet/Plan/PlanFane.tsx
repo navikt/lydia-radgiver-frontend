@@ -3,9 +3,9 @@ import { tabInnholdStyling } from "../../../styling/containere";
 import { Heading, TimelinePeriodProps } from "@navikt/ds-react";
 import PlanGraf from "./PlanGraf";
 import React from "react";
-import TemaConfig, { Temainnhold } from "./TemaConfig";
+import UndertemaConfig, { Temainnhold } from "./UndertemaConfig";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
-import LeggTilUndertemaKnapp from "./LeggTilUndertemaKnapp";
+import VerktøyConfig from "./VerktøyConfig";
 
 const Container = styled.div`
   height: 100%;
@@ -27,7 +27,7 @@ export type TilgjengeligUndertema = {
 	statusfarge: TimelinePeriodProps["status"];
 };
 
-const tilgjengeligeTemaer: TilgjengeligTema[] = [
+export const tilgjengeligeTemaer: TilgjengeligTema[] = [
 	{
 		tittel: "Sykefraværsarbeid",
 		undertema: [
@@ -128,7 +128,16 @@ const dummyData: Temainnhold = {
 			statusfarge: "neutral"
 		},
 	],
-	verktøy: [],
+	verktøy: [
+		{
+			tittel: "NRK",
+			lenke: "https://www.nrk.no"
+		},
+		{
+			tittel: "Avisa Oslo",
+			lenke: "https://www.ao.no"
+		},
+	],
 }
 
 export default function PlanFane() {
@@ -155,11 +164,8 @@ function Temaer({ temaer, setTemaer }: { temaer: Temainnhold[], setTemaer: (t: T
 			<Container key={index}>
 				<Heading level="3" size="medium" spacing={true}>{tema.tittel}</Heading>
 				<PlanGraf pølser={tema.undertema} />
-				<TemaConfig tema={tema} setTema={setTema} />
-				<LeggTilUndertemaKnapp
-					tema={tema}
-					setTema={setTema}
-					tilgjengeligeUndertemaer={tilgjengeligeTemaer.find((t) => t.tittel === tema.tittel)?.undertema || []} />
+				<UndertemaConfig tema={tema} setTema={setTema} />
+				<VerktøyConfig verktøy={tema.verktøy} setVerktøy={(verktøy) => setTema({ ...tema, verktøy })} />
 			</Container>
 		)
 	});

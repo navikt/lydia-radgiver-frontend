@@ -1,15 +1,16 @@
 import { Timeline } from "@navikt/ds-react";
 import React from "react";
-import { Arbeidsperiode } from "./TemaConfig";
+import { Arbeidsperiode } from "./UndertemaConfig";
 
 export type PølsegrafProps = {
 	pølser: Arbeidsperiode[],
 };
 
 export default function PlanGraf(props: PølsegrafProps) {
-	const pølser = React.useMemo(() => props.pølser.map(pølse => {
+	const pølser = React.useMemo(() => props.pølser.map((pølse) => {
 		const slutt = new Date(pølse.slutt);
 		slutt.setDate(slutt.getDate() - 1);
+
 		return ({
 			...pølse,
 			start: new Date(pølse.start),

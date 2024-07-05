@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react";
 import PlanGraf, { PølsegrafProps } from "./PlanGraf";
-import { Arbeidsperiode } from "./TemaConfig";
+import { Arbeidsperiode } from "./UndertemaConfig";
 
 export default {
     title: "Virksomhet/Plan",

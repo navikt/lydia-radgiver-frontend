@@ -1,6 +1,6 @@
 import React from "react";
 import { TilgjengeligTema } from "./PlanFane";
-import { Temainnhold } from "./TemaConfig";
+import { Temainnhold } from "./UndertemaConfig";
 import { Button, Checkbox, CheckboxGroup, Modal } from "@navikt/ds-react";
 import { StyledModal } from "../../../components/Modal/StyledModal";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";

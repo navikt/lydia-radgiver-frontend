@@ -1,11 +1,13 @@
 import { Accordion, BodyLong, Heading, MonthPicker, Select, TimelinePeriodProps } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
+import LeggTilUndertemaKnapp from "./LeggTilUndertemaKnapp";
+import { tilgjengeligeTemaer } from "./PlanFane";
 
 export type Arbeidsperiodestatus = "Fullført" | "Pågår" | "Planlagt";
 export type Verktøylenke = {
 	tittel: string;
-	url: string;
+	lenke: string;
 };
 
 export type Arbeidsperiode = {
@@ -65,28 +67,39 @@ const StatusLabel = styled.span`
 	grid-column: 4/5;
 `;
 
-export default function TemaConfig({ tema, setTema }: { tema: Temainnhold, setTema: (tema: Temainnhold) => void }) {
-	return (
-		<StyledAccordion>
-			<LabelRad>
-				<TemaLabel>Tema</TemaLabel>
-				<PeriodeLabel>Periode</PeriodeLabel>
-				<StatusLabel>Status</StatusLabel>
-			</LabelRad>
-			{
-				tema.undertema.map((undertema, index) => (
-					<Temalinje
-						key={index}
-						undertema={undertema}
-						setUndertema={(p: Arbeidsperiode) => {
-							const nyVerdi = { ...tema };
-							nyVerdi.undertema = [...tema.undertema];
-							nyVerdi.undertema[index] = p;
+const UndertemaConfigContainer = styled.div`
+	display: grid;
+	grid-gap: 1rem;
+`;
 
-							setTema(nyVerdi);
-						}} />))
-			}
-		</StyledAccordion>
+export default function UndertemaConfig({ tema, setTema }: { tema: Temainnhold, setTema: (tema: Temainnhold) => void }) {
+	return (
+		<UndertemaConfigContainer>
+			<StyledAccordion>
+				<LabelRad>
+					<TemaLabel>Tema</TemaLabel>
+					<PeriodeLabel>Periode</PeriodeLabel>
+					<StatusLabel>Status</StatusLabel>
+				</LabelRad>
+				{
+					tema.undertema.map((undertema, index) => (
+						<Temalinje
+							key={index}
+							undertema={undertema}
+							setUndertema={(p: Arbeidsperiode) => {
+								const nyVerdi = { ...tema };
+								nyVerdi.undertema = [...tema.undertema];
+								nyVerdi.undertema[index] = p;
+
+								setTema(nyVerdi);
+							}} />))
+				}
+			</StyledAccordion>
+			<LeggTilUndertemaKnapp
+				tema={tema}
+				setTema={setTema}
+				tilgjengeligeUndertemaer={tilgjengeligeTemaer.find((t) => t.tittel === tema.tittel)?.undertema || []} />
+		</UndertemaConfigContainer>
 	);
 }
 
