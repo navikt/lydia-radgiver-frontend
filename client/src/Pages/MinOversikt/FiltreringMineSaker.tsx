@@ -1,5 +1,5 @@
 import React from "react";
-import { Checkbox, CheckboxGroup } from "@navikt/ds-react"; // Adjust the import path as necessary
+import { Checkbox, CheckboxGroup, Search } from "@navikt/ds-react"; // Adjust the import path as necessary
 import styled from "styled-components";
 import {
     IAProsessStatusType,
@@ -11,26 +11,31 @@ const Container = styled.div`
     background-color: white;
     display: flex;
     flex-direction: column;
-    justify-items: center;
-    align-items: center;
-    margin-top: 1rem;
     padding: 2rem 3rem;
-    border-radius: 1rem;
+    border-radius: 0.25rem;
     cursor: pointer;
-    gap: 1rem;
+    gap: 2rem;
     position: sticky;
-    top: 0;
+    top: 1rem;
 `;
+
+const SøkeFeltContainer = styled.div`
+    
+`
 
 interface Props {
     onChange: (val: IAProsessStatusType[]) => void;
 }
 
-const FiltreringCheckbox: React.FC<Props> = ({ onChange }) => {
+const FiltreringMineSaker = ({ onChange } : Props) => {
     const { data } = useFilterverdier();
 
     return (
         <Container>
+            <SøkeFeltContainer>
+                <Search size="small" label="Søk i virksomheter" hideLabel={false}/>
+            </SøkeFeltContainer>
+
             <CheckboxGroup legend="Status" onChange={onChange}>
                 {data?.statuser.map((valg) => (
                     <Checkbox key={valg} value={valg}>
@@ -42,4 +47,4 @@ const FiltreringCheckbox: React.FC<Props> = ({ onChange }) => {
     );
 };
 
-export default FiltreringCheckbox;
+export default FiltreringMineSaker;
