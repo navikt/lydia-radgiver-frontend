@@ -4,10 +4,15 @@ import { MineSaker } from "../../domenetyper/mineSaker";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { Button } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
-import { useHentSalesforceUrl } from "../../api/lydia-api";
+import {
+    useHentSalesforceUrl,
+    useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
+    useHentVirksomhetsstatistikkSiste4Kvartaler,
+} from "../../api/lydia-api";
 import { NavFarger } from "../../styling/farger";
 import { Link } from "react-router-dom";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
+import { formaterSomHeltall } from "../../util/tallFormatering";
 
 const Card = styled.div`
     background-color: white;
@@ -34,7 +39,7 @@ const HeaderOverskrift = styled.div`
     flex-direction: row;
     align-items: center;
     gap: 0.25rem;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
 `;
 
 const HeaderVirksomhetLink = styled(Link)`
@@ -76,7 +81,7 @@ const CardContentLeft = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.5rem;
 `;
 
 const ContentText = styled.span`
@@ -96,6 +101,11 @@ const CardContentRight = styled.div`
 export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
     const navigate = useNavigate();
     const { data: salesforceInfo } = useHentSalesforceUrl(sak.orgnr);
+    const { data: statsSiste4Kvartaler, loading } =
+        useHentVirksomhetsstatistikkSiste4Kvartaler(sak.orgnr);
+
+    const { data: statsSisteKvartal, loading: lasterSisteKvartal } =
+        useHentSykefraværsstatistikkForVirksomhetSisteKvartal(sak.orgnr);
 
     return (
         <Card>
@@ -128,25 +138,41 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                         </ContentData>
                     </div>
                     <div>
-                        <ContentText>Saksnummer: </ContentText>
-                        <ContentData>{sak.saksnummer}</ContentData>
-                    </div>
-                    <div>
-                        <ContentText>Sist endret: </ContentText>
+                        <ContentText>Arbeidsforhold: </ContentText>
                         <ContentData>
-                            {sak.endretTidspunkt.toLocaleDateString("no", {
-                                dateStyle: "short",
-                            })}
+                            {statsSisteKvartal?.antallPersoner ||
+                            lasterSisteKvartal
+                                ? statsSisteKvartal?.antallPersoner
+                                : "Ingen data"}
                         </ContentData>
                     </div>
                     <div>
-                        <ContentText>Saksnummer: </ContentText>
-                        <ContentData>{sak.saksnummer}</ContentData>
+                        <ContentText>Sykefravær: </ContentText>
+                        <ContentData>
+                            {statsSisteKvartal?.sykefraværsprosent
+                                ? `${statsSisteKvartal?.sykefraværsprosent} %`
+                                : !lasterSisteKvartal
+                                  ? "Ingen data"
+                                  : null}
+                        </ContentData>
+                    </div>
+                    <div>
+                        <ContentText>Tapte dagsverk: </ContentText>
+                        <ContentData>
+                            {statsSiste4Kvartaler?.tapteDagsverk
+                                ? formaterSomHeltall(
+                                      statsSiste4Kvartaler?.tapteDagsverk,
+                                  )
+                                : !loading
+                                  ? "Ingen data"
+                                  : null}
+                        </ContentData>
                     </div>
                 </CardContentLeft>
                 <CardContentRight>
                     <Button
                         size="small"
+                        href={`/virksomhet/${sak.orgnr}`}
                         onClick={(e) => {
                             e.stopPropagation();
                             navigate(`/virksomhet/${sak.orgnr}`);
