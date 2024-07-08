@@ -34,6 +34,19 @@ const Header1 = styled.h1`
     font-size: 2rem;
     font-weight: 600;
     border-bottom: solid 2px ${NavFarger.gray500};
+    margin-bottom: 0;
+`;
+
+const HeaderContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+    margin-bottom: 1rem;
+`;
+const ButtonContainer = styled.div`
+    display: flex;
+    justify-content: flex-end;
 `;
 
 export const MinOversiktside = () => {
@@ -45,10 +58,10 @@ export const MinOversiktside = () => {
 
     const [søkFilter, setSøkFilter] = useState("");
 
-    const [sortByNewest, setSortByNewest] = useState(false);
-    const [iconState, setIconState] = useState("initial"); // State for icon toggle
-
-   
+    const [sortByNewest, setSortByNewest] = useState(true);
+    const [iconState, setIconState] = useState<
+        "initial" | "descending" | "ascending"
+    >("initial");
 
     // TODO: error states
     if (loading) return <div>Laster</div>;
@@ -73,10 +86,16 @@ export const MinOversiktside = () => {
             sak.orgnavn.toLowerCase().includes(søkFilter.toLowerCase()),
         );
 
-    const aktiveSaker = filtretSaker?.filter((sak) =>
+    const sorterteSaker = filtretSaker?.sort((a, b) => {
+        const dateA = a.endretTidspunkt.getTime();
+        const dateB = b.endretTidspunkt.getTime();
+        return sortByNewest ? dateB - dateA : dateA - dateB;
+    });
+
+    const aktiveSaker = sorterteSaker?.filter((sak) =>
         aktiveStatuser.includes(sak.status),
     );
-    const fullførteSaker = filtretSaker?.filter(
+    const fullførteSaker = sorterteSaker?.filter(
         (sak) => !aktiveStatuser.includes(sak.status),
     );
 
@@ -110,20 +129,26 @@ export const MinOversiktside = () => {
     };
     return (
         <SideContainer>
-            <Header1 style={{ borderBottom: `solid 2px ${NavFarger.gray500}` }}>
-                Mine saker
-            </Header1>
-            <Button
-                size="small"
-                variant="tertiary"
-                state="defult"
-                label="Nyeste øverst"
-                iconPosition="right"
-                icon={renderIcon()}
-                onClick={handleSortToggle}
-            >
-                Nyeste øverst
-            </Button>
+            <HeaderContainer>
+                <Header1
+                    style={{ borderBottom: `solid 2px ${NavFarger.gray500}` }}
+                >
+                    Mine saker
+                </Header1>
+                <ButtonContainer>
+                    <Button
+                        size="small"
+                        variant="tertiary"
+                        state="defult"
+                        label="Nyeste øverst"
+                        iconPosition="right"
+                        icon={renderIcon()}
+                        onClick={handleSortToggle}
+                    >
+                        Sist endret
+                    </Button>
+                </ButtonContainer>
+            </HeaderContainer>
             <FlexContainer>
                 <div>
                     <FiltreringMineSaker
