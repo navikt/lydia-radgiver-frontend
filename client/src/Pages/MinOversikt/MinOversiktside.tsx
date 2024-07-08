@@ -5,6 +5,12 @@ import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import FiltreringMineSaker from "./FiltreringMineSaker";
 import { useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
+import { Button } from "@navikt/ds-react";
+import {
+    ArrowDownIcon,
+    ArrowUpIcon,
+    ArrowsUpDownIcon,
+} from "@navikt/aksel-icons";
 import { NavFarger } from "../../styling/farger";
 
 const FlexContainer = styled.div`
@@ -38,6 +44,11 @@ export const MinOversiktside = () => {
     >([]);
 
     const [søkFilter, setSøkFilter] = useState("");
+
+    const [sortByNewest, setSortByNewest] = useState(false);
+    const [iconState, setIconState] = useState("initial"); // State for icon toggle
+
+   
 
     // TODO: error states
     if (loading) return <div>Laster</div>;
@@ -77,11 +88,42 @@ export const MinOversiktside = () => {
         setSøkFilter(søkestreng);
     };
 
+    const handleSortToggle = () => {
+        setSortByNewest(!sortByNewest);
+        setIconState(
+            iconState === "initial"
+                ? "descending"
+                : iconState === "descending"
+                  ? "ascending"
+                  : "descending",
+        );
+    };
+
+    const renderIcon = () => {
+        if (iconState === "initial") {
+            return <ArrowsUpDownIcon />;
+        } else if (iconState === "descending") {
+            return <ArrowDownIcon />;
+        } else {
+            return <ArrowUpIcon />;
+        }
+    };
     return (
         <SideContainer>
             <Header1 style={{ borderBottom: `solid 2px ${NavFarger.gray500}` }}>
                 Mine saker
             </Header1>
+            <Button
+                size="small"
+                variant="tertiary"
+                state="defult"
+                label="Nyeste øverst"
+                iconPosition="right"
+                icon={renderIcon()}
+                onClick={handleSortToggle}
+            >
+                Nyeste øverst
+            </Button>
             <FlexContainer>
                 <div>
                     <FiltreringMineSaker
