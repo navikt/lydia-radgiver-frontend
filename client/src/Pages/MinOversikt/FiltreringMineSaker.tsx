@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import { penskrivIAStatus } from "../../components/Badge/StatusBadge";
 import { useFilterverdier } from "../../api/lydia-api";
+import { useDebounce } from "../../util/useDebounce";
+import { useEffect, useState } from "react";
 
 const Container = styled.div`
     background-color: white;
@@ -27,8 +29,13 @@ const FiltreringMineSaker = ({
     filterSøkEndring,
 }: Props) => {
     const { data } = useFilterverdier();
+    const [søkestreng, setSøkeStreng] = useState("");
+    const faktiskSøkestreng = useDebounce(søkestreng, 500);
 
-    // TODO: Debounce søk
+    useEffect(() => {
+        filterSøkEndring(faktiskSøkestreng);
+    }, [faktiskSøkestreng]);
+
     return (
         <Container>
             <SøkeFeltContainer>
@@ -36,7 +43,7 @@ const FiltreringMineSaker = ({
                     size="small"
                     label="Søk på virksomheter"
                     hideLabel={false}
-                    onChange={filterSøkEndring}
+                    onChange={setSøkeStreng}
                 />
             </SøkeFeltContainer>
 
