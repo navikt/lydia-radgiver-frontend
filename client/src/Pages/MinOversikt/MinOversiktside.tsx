@@ -5,10 +5,12 @@ import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import FiltreringMineSaker from "./FiltreringMineSaker";
 import { useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
+import { NavFarger } from "../../styling/farger";
 
 const FlexContainer = styled.div`
     display: flex;
     align-items: flex-start;
+    justify-content: space-between;
     flex-direction: row;
     flex-wrap: wrap;
     gap: 5rem;
@@ -22,6 +24,12 @@ const MineSakerListe = styled.div`
     gap: 1.5rem;
 `;
 
+const Header1 = styled.h1`
+    font-size: 2rem;
+    font-weight: 600;
+    border-bottom: solid 2px ${NavFarger.gray500};
+`;
+
 export const MinOversiktside = () => {
     const { data: mineSaker, loading, error } = useHentMineSaker();
 
@@ -31,6 +39,7 @@ export const MinOversiktside = () => {
 
     const [søkFilter, setSøkFilter] = useState("");
 
+    // TODO: error states
     if (loading) return <div>Laster</div>;
     if (error) return <div>feil :trist:</div>;
 
@@ -70,7 +79,9 @@ export const MinOversiktside = () => {
 
     return (
         <SideContainer>
-            <h1 style={{ borderBottom: "solid 1px black" }}>Mine saker</h1>
+            <Header1 style={{ borderBottom: `solid 2px ${NavFarger.gray500}` }}>
+                Mine saker
+            </Header1>
             <FlexContainer>
                 <div>
                     <FiltreringMineSaker

@@ -3,6 +3,11 @@ import styled from "styled-components";
 import { MineSaker } from "../../domenetyper/mineSaker";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { Button } from "@navikt/ds-react";
+import { EksternLenke } from "../../components/EksternLenke";
+import { useHentSalesforceUrl } from "../../api/lydia-api";
+import { NavFarger } from "../../styling/farger";
+import { Link } from "react-router-dom";
+import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 
 const Card = styled.div`
     background-color: white;
@@ -11,7 +16,6 @@ const Card = styled.div`
     align-items: center;
     padding: 1.5rem 2rem 1rem 2rem;
     border-radius: 10px;
-    cursor: pointer;
     gap: 1rem;
     width: 100%;
 `;
@@ -19,7 +23,7 @@ const Card = styled.div`
 const CardHeader = styled.div`
     display: flex;
     flex-direction: column;
-    border-bottom: solid 1px black;
+    border-bottom: solid 1px ${NavFarger.gray500};
     width: 100%;
     gap: 1rem;
     padding: 0 0 1rem 0;
@@ -33,11 +37,25 @@ const HeaderOverskrift = styled.div`
     font-size: 1.25rem;
 `;
 
+const HeaderVirksomhetLink = styled(Link)`
+    color: ${NavFarger.text};
+    text-decoration: none;
+    font-weight: 600;
+    &:hover,
+    &:focus {
+        text-decoration: underline;
+    }
+`;
+
 const HeaderSubskrift = styled.div`
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap: 0.25rem;
+    gap: 1rem;
+`;
+
+const SalesforceLink = styled(EksternLenke)`
+    font-size: 1rem;
 `;
 
 const EierText = styled.span`
@@ -77,24 +95,25 @@ const CardContentRight = styled.div`
 
 export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
     const navigate = useNavigate();
+    const { data: salesforceInfo } = useHentSalesforceUrl(sak.orgnr);
 
     return (
-        <Card
-            onClick={() => navigate(`/virksomhet/${sak.orgnr}`)}
-            key={sak.saksnummer}
-        >
+        <Card>
             <CardHeader>
                 <HeaderOverskrift>
-                    <span>
-                        <b>{sak.orgnavn}</b>
-                    </span>
+                    <HeaderVirksomhetLink to={`/virksomhet/${sak.orgnr}`}>
+                        {sak.orgnavn}
+                    </HeaderVirksomhetLink>
                     <span>-</span>
                     <span>{sak.orgnr}</span>
                 </HeaderOverskrift>
                 <HeaderSubskrift>
                     <StatusBadge status={sak.status} />
+                    <SalesforceLink href={salesforceInfo?.url}>
+                        Salesforce
+                    </SalesforceLink>
                     <EierText>
-                        <b>Eier:</b> {sak.eidAv}
+                        <b>Eier:</b> <NavIdentMedLenke navIdent={sak.eidAv} />
                     </EierText>
                 </HeaderSubskrift>
             </CardHeader>
