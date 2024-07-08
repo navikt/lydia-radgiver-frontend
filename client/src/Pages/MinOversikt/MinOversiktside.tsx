@@ -29,6 +29,8 @@ export const MinOversiktside = () => {
         IAProsessStatusType[]
     >([]);
 
+    const [søkFilter, setSøkFilter] = useState("");
+
     if (loading) return <div>Laster</div>;
     if (error) return <div>feil :trist:</div>;
 
@@ -41,11 +43,16 @@ export const MinOversiktside = () => {
         "VI_BISTÅR",
     ];
 
-    const filtretSaker = mineSaker?.filter((sak) =>
-        aktiveStatusFilter.length
-            ? aktiveStatusFilter.includes(sak.status)
-            : true,
-    );
+    const filtretSaker = mineSaker
+        ?.filter((sak) =>
+            aktiveStatusFilter.length
+                ? aktiveStatusFilter.includes(sak.status)
+                : true,
+        )
+        .filter((sak) =>
+            sak.orgnavn.toLowerCase().includes(søkFilter.toLowerCase()),
+        );
+
     const aktiveSaker = filtretSaker?.filter((sak) =>
         aktiveStatuser.includes(sak.status),
     );
@@ -53,18 +60,23 @@ export const MinOversiktside = () => {
         (sak) => !aktiveStatuser.includes(sak.status),
     );
 
-    const handleChange = (val: IAProsessStatusType[]) => {
+    const filterStatusEndring = (val: IAProsessStatusType[]) => {
         setAktiveStatuser(val);
     };
 
-    console.log(mineSaker);
+    const filterSøkEndring = (søkestreng: string) => {
+        setSøkFilter(søkestreng);
+    };
 
     return (
         <SideContainer>
-            <h1 style={{borderBottom: "solid 1px black"}}>Mine saker</h1>
+            <h1 style={{ borderBottom: "solid 1px black" }}>Mine saker</h1>
             <FlexContainer>
                 <div>
-                    <FiltreringMineSaker onChange={handleChange} />
+                    <FiltreringMineSaker
+                        filterStatusEndring={filterStatusEndring}
+                        filterSøkEndring={filterSøkEndring}
+                    />
                 </div>
                 <MineSakerListe>
                     {aktiveSaker?.map((sak) => (
@@ -73,7 +85,7 @@ export const MinOversiktside = () => {
 
                     <h2>Arkiverte saker</h2>
                     {fullførteSaker?.map((sak) => (
-                         <MineSakerKort key={sak.saksnummer} sak={sak} />
+                        <MineSakerKort key={sak.saksnummer} sak={sak} />
                     ))}
                 </MineSakerListe>
             </FlexContainer>

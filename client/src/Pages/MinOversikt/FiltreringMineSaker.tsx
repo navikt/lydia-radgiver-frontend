@@ -1,9 +1,6 @@
-import React from "react";
-import { Checkbox, CheckboxGroup, Search } from "@navikt/ds-react"; // Adjust the import path as necessary
+import { Checkbox, CheckboxGroup, Search } from "@navikt/ds-react";
 import styled from "styled-components";
-import {
-    IAProsessStatusType,
-} from "../../domenetyper/domenetyper";
+import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import { penskrivIAStatus } from "../../components/Badge/StatusBadge";
 import { useFilterverdier } from "../../api/lydia-api";
 
@@ -13,30 +10,37 @@ const Container = styled.div`
     flex-direction: column;
     padding: 2rem 3rem;
     border-radius: 0.25rem;
-    cursor: pointer;
     gap: 2rem;
     position: sticky;
     top: 1rem;
 `;
 
-const SøkeFeltContainer = styled.div`
-    
-`
+const SøkeFeltContainer = styled.div``;
 
 interface Props {
-    onChange: (val: IAProsessStatusType[]) => void;
+    filterStatusEndring: (val: IAProsessStatusType[]) => void;
+    filterSøkEndring: (val: string) => void;
 }
 
-const FiltreringMineSaker = ({ onChange } : Props) => {
+const FiltreringMineSaker = ({
+    filterStatusEndring,
+    filterSøkEndring,
+}: Props) => {
     const { data } = useFilterverdier();
 
+    // TODO: Debounce søk
     return (
         <Container>
             <SøkeFeltContainer>
-                <Search size="small" label="Søk i virksomheter" hideLabel={false}/>
+                <Search
+                    size="small"
+                    label="Søk på virksomheter"
+                    hideLabel={false}
+                    onChange={filterSøkEndring}
+                />
             </SøkeFeltContainer>
 
-            <CheckboxGroup legend="Status" onChange={onChange}>
+            <CheckboxGroup legend="Status" onChange={filterStatusEndring}>
                 {data?.statuser.map((valg) => (
                     <Checkbox key={valg} value={valg}>
                         {penskrivIAStatus(valg)}
