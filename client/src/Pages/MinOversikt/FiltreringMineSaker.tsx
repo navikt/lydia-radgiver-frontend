@@ -6,16 +6,32 @@ import { useFilterverdier } from "../../api/lydia-api";
 import { useDebounce } from "../../util/useDebounce";
 import { useEffect, useState } from "react";
 
-const Container = styled.div`
+const StatusContainer = styled.div`
     background-color: white;
     display: flex;
     flex-direction: column;
     padding: 2rem 3rem;
     border-radius: 0.25rem;
-    gap: 2rem;
-    position: sticky;
+    gap: 1rem;
     top: 1rem;
 `;
+
+const ParentContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+`;
+
+const SearchContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+
+    border-radius: 0.25rem;
+    gap: 1rem;
+    top: 1rem;
+`;
+
+
 
 const SøkeFeltContainer = styled.div``;
 
@@ -37,24 +53,28 @@ const FiltreringMineSaker = ({
     }, [faktiskSøkestreng]);
 
     return (
-        <Container>
-            <SøkeFeltContainer>
-                <Search
-                    size="small"
-                    label="Søk på virksomheter"
-                    hideLabel={false}
-                    onChange={setSøkeStreng}
-                />
-            </SøkeFeltContainer>
-
-            <CheckboxGroup legend="Status" onChange={filterStatusEndring}>
-                {data?.statuser.map((valg) => (
-                    <Checkbox key={valg} value={valg}>
-                        {penskrivIAStatus(valg)}
-                    </Checkbox>
-                ))}
-            </CheckboxGroup>
-        </Container>
+        <ParentContainer>
+            <SearchContainer>
+                <SøkeFeltContainer>
+                    <Search
+                        size="small"
+                        label="Søk på virksomheter"
+                        hideLabel={false}
+                        onChange={setSøkeStreng}
+                    />
+                </SøkeFeltContainer>
+            </SearchContainer>
+            
+            <StatusContainer>
+                <CheckboxGroup legend="Status" onChange={filterStatusEndring}>
+                    {data?.statuser.map((valg) => (
+                        <Checkbox key={valg} value={valg}>
+                            {penskrivIAStatus(valg)}
+                        </Checkbox>
+                    ))}
+                </CheckboxGroup>
+            </StatusContainer>
+        </ParentContainer>
     );
 };
 

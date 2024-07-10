@@ -23,6 +23,7 @@ const FlexContainer = styled.div`
     width: 100%;
 `;
 
+
 const MineSakerListe = styled.div`
     flex: 1;
     display: flex;
@@ -47,6 +48,12 @@ const HeaderContainer = styled.div`
 const ButtonContainer = styled.div`
     display: flex;
     justify-content: flex-end;
+`;
+
+const StickyFilterContainer = styled.div`
+    position: sticky;
+    top: 1rem; 
+    align-self: flex-start;
 `;
 
 export const MinOversiktside = () => {
@@ -150,12 +157,12 @@ export const MinOversiktside = () => {
                 </ButtonContainer>
             </HeaderContainer>
             <FlexContainer>
-                <div>
+                <StickyFilterContainer>
                     <FiltreringMineSaker
                         filterStatusEndring={filterStatusEndring}
                         filterSøkEndring={filterSøkEndring}
                     />
-                </div>
+                </StickyFilterContainer>
                 <MineSakerListe>
                     {aktiveSaker?.map((sak) => (
                         <MineSakerKort key={sak.saksnummer} sak={sak} />
