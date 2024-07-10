@@ -160,7 +160,7 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                             Mine IA-tjenester
                         </InternalHeader.Title>
                     </Navigasjonslenke>
-                    {erIDev && (
+                    {(erIDev || erIDemo) && (
                         <Navigasjonslenke
                             href="/minesaker"
                             title="Gå til mine saker"
