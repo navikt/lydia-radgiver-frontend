@@ -18,6 +18,7 @@ import { DocPencilIcon } from "@navikt/aksel-icons";
 import { useState } from "react";
 import { TeamModal } from "./TeamModal";
 import { formaterSomHeltall } from "../../util/tallFormatering";
+import { erIDev } from "../../components/Dekoratør/Dekoratør";
 
 const Card = styled.div`
     background-color: white;
@@ -137,32 +138,38 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                     <EierText>
                         <b>Eier:</b> <NavIdentMedLenke navIdent={sak.eidAv} />
                     </EierText>
-                    <Button
-                        size="small"
-                        onClick={() => leggBrukerTilTeam(sak.saksnummer)}
-                    >
-                        Teamknapp
-                    </Button>
-                    <Button
-                        size="small"
-                        variant="danger"
-                        onClick={() => {
-                            fjernBrukerFraTeam(sak.saksnummer);
-                        }}
-                    >
-                        Forlatteam
-                    </Button>
-                    <div>
-                        <DocPencilIcon
-                            focusable="true"
-                            cursor="pointer"
-                            onClick={handleIconClick}
-                        />
-                        <TeamModal
-                            open={isModalOpen}
-                            setOpen={setIsModalOpen}
-                        />
-                    </div>
+                    {erIDev && (
+                        <Button
+                            size="small"
+                            onClick={() => leggBrukerTilTeam(sak.saksnummer)}
+                        >
+                            Teamknapp
+                        </Button>
+                    )}
+                    {erIDev && (
+                        <Button
+                            size="small"
+                            variant="danger"
+                            onClick={() => {
+                                fjernBrukerFraTeam(sak.saksnummer);
+                            }}
+                        >
+                            Forlatteam
+                        </Button>
+                    )}
+                    {erIDev && (
+                        <div>
+                            <DocPencilIcon
+                                focusable="true"
+                                cursor="pointer"
+                                onClick={handleIconClick}
+                            />
+                            <TeamModal
+                                open={isModalOpen}
+                                setOpen={setIsModalOpen}
+                            />
+                        </div>
+                    )}
                 </HeaderSubskrift>
             </CardHeader>
             <CardContent>
