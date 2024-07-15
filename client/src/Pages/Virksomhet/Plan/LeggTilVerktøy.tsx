@@ -61,7 +61,7 @@ export default function LeggTilVerktøy({ verktøy, setVerktøy }: {
 
 const VerktøyListeWrapper = styled.div`
 	display: grid;
-	grid-template-columns: 1fr 1fr 2rem;
+	grid-template-columns: 1fr 1fr min-content;
 	grid-gap: 1rem;
 `;
 
@@ -97,12 +97,23 @@ function Headerrad() {
 	);
 }
 
+const SlettKnapp = styled(Button)`
+	padding: 0%;
+
+	span {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		color: var(--a-text-default);
+	}
+`;
+
 function Verktøyrad({ verktøy, setVerktøy, slettVerktøy }: { verktøy: Verktøylenke, setVerktøy: (t: Verktøylenke) => void, slettVerktøy?: () => void }) {
 	return (
 		<>
 			<TextField size="small" label="Beskrivelse" hideLabel value={verktøy.tittel} onChange={(evt) => setVerktøy({ ...verktøy, tittel: evt.target.value })} />
 			<TextField size="small" label="Lenke" hideLabel value={verktøy.lenke} onChange={(evt) => setVerktøy({ ...verktøy, lenke: evt.target.value })} />
-			{slettVerktøy ? <TrashIcon onClick={slettVerktøy} /> : <span />}
+			{slettVerktøy ? <SlettKnapp variant="tertiary" onClick={slettVerktøy}><TrashIcon title={`Slett ${verktøy.tittel}`} fontSize="2rem" /></SlettKnapp> : <span />}
 		</>
 	);
 }
