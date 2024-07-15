@@ -6,7 +6,7 @@ export const mineSakerSchema = z.object({
     status: IAProsessStatusEnum,
     saksnummer: z.string(),
     orgnavn: z.string(),
-    eidAv: z.string(),
+    eidAv: z.string().nullable(),
     endretTidspunkt: datoSchema,
 });
 

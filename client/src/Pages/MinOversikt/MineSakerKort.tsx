@@ -136,7 +136,12 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                         Salesforce
                     </SalesforceLink>
                     <EierText>
-                        <b>Eier:</b> <NavIdentMedLenke navIdent={sak.eidAv} />
+                        <b>Eier: </b>
+                        {sak.eidAv ? (
+                            <NavIdentMedLenke navIdent={sak.eidAv} />
+                        ) : (
+                            "Ingen eier"
+                        )}
                     </EierText>
                     {erIDev && (
                         <Button
