@@ -54,7 +54,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     React.useEffect(() => {
         const ikkeGyldigTab =
             fane !== "statistikk" &&
-            fane !== "samarbeidshistorikk" &&
+            fane !== "historikk" &&
             fane !== "kartlegging" &&
             fane !== "ia-tjenester";
         const manglerIaSak = fane === "ia-tjenester" && !iaSak && !lasterIaSak;
