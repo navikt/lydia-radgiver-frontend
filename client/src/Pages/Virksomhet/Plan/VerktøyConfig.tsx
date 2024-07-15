@@ -1,4 +1,4 @@
-import { Heading, Link } from "@navikt/ds-react";
+import { BodyShort, Heading, Link } from "@navikt/ds-react";
 import LeggTilVerktøy from "./LeggTilVerktøy";
 import { Verktøylenke } from "./UndertemaConfig";
 import { FileIcon } from "@navikt/aksel-icons";
@@ -29,7 +29,8 @@ function Headerrad() {
 const VerktøyVisningContainer = styled.div`
 	display: grid;
 	grid-template-columns: max-content 1fr;
-	grid-gap: 1rem;
+	grid-gap: 1.5rem 2rem;
+	margin-bottom: 2rem;
 `;
 
 function VerktøyListe({ verktøy }: { verktøy: Verktøylenke[] }) {
@@ -42,7 +43,8 @@ function VerktøyListe({ verktøy }: { verktøy: Verktøylenke[] }) {
 
 function VerktøyVisning({ verktøy }: { verktøy: Verktøylenke }) {
 	if (verktøy.lenke.length) {
-		return <><Link href={verktøy.lenke}><FileIcon /> {verktøy.tittel}</Link><span>{verktøy.lenke}</span></>;
+		return <><Link href={verktøy.lenke} target="_blank" rel="noopener noreferrer"><FileIcon /> {verktøy.tittel}</Link><BodyShort textColor="subtle">{verktøy.lenke}</BodyShort></>;
 	}
+
 	return <><span>{verktøy.tittel}</span><span>-</span></>;
 }
