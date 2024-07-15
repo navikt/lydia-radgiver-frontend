@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
-import { Tabs } from "@navikt/ds-react";
+import { Button, HStack, Tabs } from "@navikt/ds-react";
 import { SamarbeidshistorikkFane } from "./Samarbeidshistorikk/SamarbeidshistorikkFane";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
 import {
@@ -11,7 +11,10 @@ import {
 import { NavFarger } from "../../styling/farger";
 import { LeveranseFane } from "./Leveranser/LeveranseFane";
 import { Virksomhet } from "../../domenetyper/virksomhet";
-import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
+import {
+    leggBrukerTilTeam,
+    useHentAktivSakForVirksomhet,
+} from "../../api/lydia-api";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
 import { KartleggingFane } from "./Kartlegging/KartleggingFane";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
@@ -42,6 +45,18 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         virksomhet.orgnr,
     );
 
+    const allowedStatuses = [
+        "VURDERES",
+        "KONTAKTES",
+        "KARTLEGGES",
+        "VI_BISTÅR",
+    ]; //${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)
+    let showButton = false;
+
+    if (iaSak && allowedStatuses.includes(iaSak.status)) {
+        showButton = true;
+    }
+
     const [searchParams, setSearchParams] = useSearchParams();
     const kartleggingId = searchParams.get("kartleggingId");
     const fane = searchParams.get("fane") ?? "statistikk";
@@ -69,11 +84,22 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />
             <br />
 
-            {erIDev && iaSak && (
-                <AdministrerIaProsesser
-                    orgnummer={virksomhet.orgnr}
-                    iaSak={iaSak}
-                />
+            {erIDev && (
+                <HStack gap="4">
+                    {iaSak && (
+                        <AdministrerIaProsesser
+                            orgnummer={virksomhet.orgnr}
+                            iaSak={iaSak}
+                        />
+                    )}
+                    {showButton && iaSak && (
+                        <Button
+                            onClick={() => leggBrukerTilTeam(iaSak.saksnummer)}
+                        >
+                            Teamknapp
+                        </Button>
+                    )}
+                </HStack>
             )}
 
             <Tabs

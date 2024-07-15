@@ -23,7 +23,6 @@ const FlexContainer = styled.div`
     width: 100%;
 `;
 
-
 const MineSakerListe = styled.div`
     flex: 1;
     display: flex;
@@ -52,7 +51,7 @@ const ButtonContainer = styled.div`
 
 const StickyFilterContainer = styled.div`
     position: sticky;
-    top: 1rem; 
+    top: 1rem;
     align-self: flex-start;
 `;
 

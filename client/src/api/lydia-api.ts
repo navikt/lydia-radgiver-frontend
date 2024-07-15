@@ -81,6 +81,7 @@ import {
 } from "../domenetyper/iaSakKartleggingResultat";
 import { IaSakProsess, iaSakProsessSchema } from "../domenetyper/iaSakProsess";
 import { MineSaker, mineSakerListSchema } from "../domenetyper/mineSaker";
+import { BrukerITeamDTO, brukerITeamSchema } from "../domenetyper/brukeriteam";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
@@ -90,6 +91,7 @@ export const virksomhetsPath = `${basePath}/virksomhet`;
 export const innloggetAnsattPath = `/innloggetAnsatt`;
 export const iaSakPath = `${basePath}/iasak/radgiver`;
 export const mineSakerPath = `${basePath}/iasak/minesaker`;
+export const iaSakTeamPath = `${basePath}/iasak/team`;
 export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
 export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
@@ -651,6 +653,32 @@ export const useHentSalesforceUrl = (orgnr: string) => {
 export const useHentMineSaker = () => {
     return useSwrTemplate<MineSaker[]>(`${mineSakerPath}`, mineSakerListSchema);
 };
+
+export const useHentTeam = (saksnummer: string) => {
+    return useSwrTemplate<BrukerITeamDTO[]>(`${iaSakTeamPath}/${saksnummer}`, brukerITeamSchema.array());
+};
+
+export const leggBrukerTilTeam = (
+    saksnummer: string,
+): Promise<BrukerITeamDTO> => {
+    console.log(`leggBrukerTilTeam called with saksnummer: ${saksnummer}`);
+    return post(
+        `${iaSakTeamPath}/${saksnummer}`,
+        brukerITeamSchema,
+    );
+};
+
+export const fjernBrukerFraTeam = (
+    saksnummer: string,
+): Promise<BrukerITeamDTO> => {
+    console.log(`fjernBrukerFraTeam called with saksnummer: ${saksnummer}`);
+    return httpDelete(
+        `${iaSakTeamPath}/${saksnummer}`,
+        brukerITeamSchema,
+    );
+};
+
+
 
 export const nyKartleggingPåSak = (
     orgnummer: string,

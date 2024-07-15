@@ -5,6 +5,8 @@ import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { Button } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
 import {
+    fjernBrukerFraTeam,
+    leggBrukerTilTeam,
     useHentSalesforceUrl,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
     useHentVirksomhetsstatistikkSiste4Kvartaler,
@@ -12,6 +14,9 @@ import {
 import { NavFarger } from "../../styling/farger";
 import { Link } from "react-router-dom";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
+import { DocPencilIcon } from "@navikt/aksel-icons";
+import { useState } from "react";
+import { TeamModal } from "./TeamModal";
 import { formaterSomHeltall } from "../../util/tallFormatering";
 
 const Card = styled.div`
@@ -39,7 +44,7 @@ const HeaderOverskrift = styled.div`
     flex-direction: row;
     align-items: center;
     gap: 0.25rem;
-    font-size: 1.5rem;
+    font-size: 1.25rem;
 `;
 
 const HeaderVirksomhetLink = styled(Link)`
@@ -81,7 +86,7 @@ const CardContentLeft = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.5rem;
+    gap: 0.75rem;
 `;
 
 const ContentText = styled.span`
@@ -101,11 +106,18 @@ const CardContentRight = styled.div`
 export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
     const navigate = useNavigate();
     const { data: salesforceInfo } = useHentSalesforceUrl(sak.orgnr);
+
     const { data: statsSiste4Kvartaler, loading } =
         useHentVirksomhetsstatistikkSiste4Kvartaler(sak.orgnr);
 
     const { data: statsSisteKvartal, loading: lasterSisteKvartal } =
         useHentSykefraværsstatistikkForVirksomhetSisteKvartal(sak.orgnr);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
+    const handleIconClick = () => {
+        setIsModalOpen(true);
+    };
 
     return (
         <Card>
@@ -125,6 +137,32 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                     <EierText>
                         <b>Eier:</b> <NavIdentMedLenke navIdent={sak.eidAv} />
                     </EierText>
+                    <Button
+                        size="small"
+                        onClick={() => leggBrukerTilTeam(sak.saksnummer)}
+                    >
+                        Teamknapp
+                    </Button>
+                    <Button
+                        size="small"
+                        variant="danger"
+                        onClick={() => {
+                            fjernBrukerFraTeam(sak.saksnummer);
+                        }}
+                    >
+                        Forlatteam
+                    </Button>
+                    <div>
+                        <DocPencilIcon
+                            focusable="true"
+                            cursor="pointer"
+                            onClick={handleIconClick}
+                        />
+                        <TeamModal
+                            open={isModalOpen}
+                            setOpen={setIsModalOpen}
+                        />
+                    </div>
                 </HeaderSubskrift>
             </CardHeader>
             <CardContent>
@@ -144,7 +182,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                             lasterSisteKvartal
                                 ? statsSisteKvartal?.antallPersoner
                                 : "Ingen data"}
-                        </ContentData>
+                        </ContentData>{" "}
                     </div>
                     <div>
                         <ContentText>Sykefravær: </ContentText>
