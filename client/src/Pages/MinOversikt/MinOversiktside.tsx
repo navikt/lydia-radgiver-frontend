@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { SideContainer } from "../../styling/containere";
 import { useHentMineSaker } from "../../api/lydia-api";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
-import FiltreringMineSaker from "./FiltreringMineSaker";
+import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
 import { useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
 import { Button } from "@navikt/ds-react";
@@ -73,6 +73,7 @@ export const MinOversiktside = () => {
     if (loading) return <div>Laster</div>;
     if (error) return <div>feil :trist:</div>;
 
+    // TODO samkjør med arkivstatuser i ./Filter/StatusFilter
     const aktiveStatuser: IAProsessStatusType[] = [
         "NY",
         "IKKE_AKTIV",
@@ -86,7 +87,7 @@ export const MinOversiktside = () => {
         ?.filter((sak) =>
             aktiveStatusFilter.length
                 ? aktiveStatusFilter.includes(sak.status)
-                : true,
+                : aktiveStatuser.includes(sak.status),
         )
         .filter((sak) =>
             sak.orgnavn.toLowerCase().includes(søkFilter.toLowerCase()),
@@ -98,12 +99,6 @@ export const MinOversiktside = () => {
         return sortByNewest ? dateB - dateA : dateA - dateB;
     });
 
-    const aktiveSaker = sorterteSaker?.filter((sak) =>
-        aktiveStatuser.includes(sak.status),
-    );
-    const fullførteSaker = sorterteSaker?.filter(
-        (sak) => !aktiveStatuser.includes(sak.status),
-    );
 
     const filterStatusEndring = (val: IAProsessStatusType[]) => {
         setAktiveStatuser(val);
@@ -163,12 +158,7 @@ export const MinOversiktside = () => {
                     />
                 </StickyFilterContainer>
                 <MineSakerListe>
-                    {aktiveSaker?.map((sak) => (
-                        <MineSakerKort key={sak.saksnummer} sak={sak} />
-                    ))}
-
-                    <h2>Arkiverte saker</h2>
-                    {fullførteSaker?.map((sak) => (
+                    {sorterteSaker?.map((sak) => (
                         <MineSakerKort key={sak.saksnummer} sak={sak} />
                     ))}
                 </MineSakerListe>
