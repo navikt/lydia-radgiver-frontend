@@ -9,6 +9,7 @@ import {
     leggBrukerTilTeam,
     useHentSalesforceUrl,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
+    useHentTeam,
     useHentVirksomhetsstatistikkSiste4Kvartaler,
 } from "../../api/lydia-api";
 import { NavFarger } from "../../styling/farger";
@@ -108,6 +109,8 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
     const navigate = useNavigate();
     const { data: salesforceInfo } = useHentSalesforceUrl(sak.orgnr);
 
+    const { data: brukerinformasjon, mutate } = useHentTeam(sak.saksnummer);
+
     const { data: statsSiste4Kvartaler, loading } =
         useHentVirksomhetsstatistikkSiste4Kvartaler(sak.orgnr);
 
@@ -118,6 +121,14 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
 
     const handleIconClick = () => {
         setIsModalOpen(true);
+    };
+
+    const sakInfo = {
+        saksnummer: sak.saksnummer,
+        orgnavn: sak.orgnavn,
+        navIdent: sak.eidAv,
+        følgere: brukerinformasjon ?? [],
+        mutate,
     };
 
     return (
@@ -146,7 +157,10 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                     {erIDev && (
                         <Button
                             size="small"
-                            onClick={() => leggBrukerTilTeam(sak.saksnummer)}
+                            onClick={async () => {
+                                await leggBrukerTilTeam(sak.saksnummer);
+                                mutate();
+                            }}
                         >
                             Teamknapp
                         </Button>
@@ -155,8 +169,9 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                         <Button
                             size="small"
                             variant="danger"
-                            onClick={() => {
-                                fjernBrukerFraTeam(sak.saksnummer);
+                            onClick={async () => {
+                                await fjernBrukerFraTeam(sak.saksnummer);
+                                mutate();
                             }}
                         >
                             Forlatteam
@@ -169,10 +184,15 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                                 cursor="pointer"
                                 onClick={handleIconClick}
                             />
-                            <TeamModal
-                                open={isModalOpen}
-                                setOpen={setIsModalOpen}
-                            />
+                            {loading ? (
+                                <div>Loading...</div>
+                            ) : (
+                                <TeamModal
+                                    open={isModalOpen}
+                                    setOpen={setIsModalOpen}
+                                    sakInfo={sakInfo}
+                                />
+                            )}
                         </div>
                     )}
                 </HeaderSubskrift>

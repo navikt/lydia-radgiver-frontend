@@ -166,7 +166,7 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                             title="Gå til mine saker"
                         >
                             <InternalHeader.Title as="span">
-                                Mine Saker
+                                Mine saker
                             </InternalHeader.Title>
                         </Navigasjonslenke>
                     )}
