@@ -12,15 +12,22 @@ import {
     ArrowsUpDownIcon,
 } from "@navikt/aksel-icons";
 import { NavFarger } from "../../styling/farger";
+import { desktopAndUp } from "../../styling/breakpoints";
 
 const FlexContainer = styled.div`
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
-    flex-direction: row;
+    flex-direction: column;
     flex-wrap: wrap;
-    gap: 5rem;
+    gap: 2rem;
     width: 100%;
+
+    ${desktopAndUp} {
+        flex-direction: row;
+        gap: 4rem;
+        align-items: flex-start;
+    }
 `;
 
 const MineSakerListe = styled.div`
@@ -50,9 +57,14 @@ const ButtonContainer = styled.div`
 `;
 
 const StickyFilterContainer = styled.div`
-    position: sticky;
+    position: static;
     top: 1rem;
-    align-self: flex-start;
+    min-width: 18rem;
+
+    ${desktopAndUp} {
+        position: sticky;
+        align-items: flex-start;
+    }
 `;
 
 export const MinOversiktside = () => {

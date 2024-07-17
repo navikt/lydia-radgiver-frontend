@@ -3,23 +3,20 @@ import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { SokeFelt } from "./SokeFelt";
 import { StatusFilter } from "./StatusFilter";
 
-const StatusContainer = styled.div`
-    background-color: white;
+const StatusFilterContainer = styled.div`
     display: flex;
     flex-direction: column;
-    padding: 2rem 3rem;
     border-radius: 0.25rem;
-    gap: 1rem;
-    top: 1rem;
+    gap: 2rem;
 `;
 
 const ParentContainer = styled.div`
     display: flex;
     flex-direction: column;
-    gap: 1rem;
+    gap: 2rem;
 `;
 
-interface Props {
+type Props = {
     filterStatusEndring: (val: IAProsessStatusType[]) => void;
     filterSøkEndring: (val: string) => void;
 }
@@ -32,9 +29,9 @@ const FiltreringMineSaker = ({
         <ParentContainer>
             <SokeFelt filterSøkEndring={filterSøkEndring} />
 
-            <StatusContainer>
+            <StatusFilterContainer>
                 <StatusFilter filterStatusEndring={filterStatusEndring} />
-            </StatusContainer>
+            </StatusFilterContainer>
         </ParentContainer>
     );
 };
