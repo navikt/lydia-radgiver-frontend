@@ -3,11 +3,14 @@ import styled from "styled-components";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { BrukerITeamDTO } from "../../domenetyper/brukeriteam";
 import { KeyedMutator } from "swr";
-import { FloppydiskIcon, HeartFillIcon, HeartIcon } from "@navikt/aksel-icons";
+import { HeartFillIcon, HeartIcon } from "@navikt/aksel-icons";
 import {
     fjernBrukerFraTeam,
     leggBrukerTilTeam,
+    nyHendelsePåSak,
+    useHentAktivSakForVirksomhet,
     useHentBrukerinformasjon,
+    useHentMineSaker,
 } from "../../api/lydia-api";
 
 const EierBoks = styled.div`
@@ -58,6 +61,7 @@ const FølgereKnappBoks = styled.div`
 interface SakInfo {
     saksnummer: string;
     orgnavn: string;
+    orgnummer: string;
     navIdent: string | null;
     følgere: BrukerITeamDTO[];
     mutate: KeyedMutator<BrukerITeamDTO[]>;
@@ -75,17 +79,29 @@ function følgerSak(brukerIdent: string | undefined, sakInfo: SakInfo): boolean 
 
 export const TeamModal = ({ open, setOpen, sakInfo }: TeamModalProps) => {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const brukerIdent: string | undefined = brukerInformasjon?.ident;
+    const { mutate: muterMineSaker } = useHentMineSaker();
+    const { data: iasak, mutate: muterIaSak } = useHentAktivSakForVirksomhet(
+        sakInfo.orgnummer,
+    );
+
+    const brukerIdent = brukerInformasjon?.ident;
+
+    const kanTaEierskap = iasak?.gyldigeNesteHendelser
+        .map((h) => h.saksHendelsestype)
+        .includes("TA_EIERSKAP_I_SAK");
 
     return (
         <>
             <Modal
                 open={open}
-                onClose={() => setOpen(false)}
+                onClose={() => {
+                    muterMineSaker();
+                    setOpen(false);
+                }}
                 header={{
                     heading: "Administrer gruppe",
                     size: "small",
-                    closeButton: false,
+                    closeButton: true,
                 }}
                 width="small"
             >
@@ -104,19 +120,39 @@ export const TeamModal = ({ open, setOpen, sakInfo }: TeamModalProps) => {
                             </EierHeader>
 
                             <EierKnappBoks>
-                                <span>
-                                    Ønsker du å ta eierskap til saken? Nåværende
-                                    eier blir automatisk fjernet.
-                                </span>
-                                <Button
-                                    size="small"
-                                    iconPosition="right"
-                                    variant="secondary"
-                                >
-                                    Ta eierskap
-                                </Button>
+                                    <span>
+                                        Ønsker du å ta eierskap til saken?
+                                        Nåværende eier blir automatisk fjernet.
+                                    </span>
+                                    <Button
+                                        size="small"
+                                        iconPosition="right"
+                                        variant="secondary"
+                                        disabled={!kanTaEierskap}
+                                        onClick={async () => {
+                                            if (!iasak) return;
+                                            await nyHendelsePåSak(
+                                                iasak,
+                                                {
+                                                    saksHendelsestype:
+                                                        "TA_EIERSKAP_I_SAK",
+                                                    gyldigeÅrsaker: [], // TODO: trengs dette å defineres
+                                                },
+                                                null,
+                                                null,
+                                            );
+                                            muterIaSak();
+                                            muterMineSaker();
+                                        }}
+                                    >
+                                        Ta eierskap
+                                    </Button>
                                 <EierTekst>
-                                    Du er allerede eier av denne saken.
+                                    {iasak && iasak.eidAv == brukerIdent
+                                        ? `Du er allerede eier av denne saken.`
+                                        : !kanTaEierskap
+                                          ? `Kan ikke bli eier`
+                                          : ``}
                                 </EierTekst>
                             </EierKnappBoks>
                         </EierBoks>
@@ -130,41 +166,14 @@ export const TeamModal = ({ open, setOpen, sakInfo }: TeamModalProps) => {
                                             navIdent={member.ident}
                                         />
                                     ))}
-                                {/* {sakInfo.følgere &&
-                                    sakInfo.følgere.map((member) => (
+                                {/* sakInfo.følgere &&
+                                    [...sakInfo.følgere, ...sakInfo.følgere, ...sakInfo.følgere, ...sakInfo.følgere,...sakInfo.følgere].map((member) => (
                                         <NavIdentMedLenke
                                             key={member.ident}
                                             navIdent={member.ident}
                                         />
                                     ))}
-                                {sakInfo.følgere &&
-                                    sakInfo.følgere.map((member) => (
-                                        <NavIdentMedLenke
-                                            key={member.ident}
-                                            navIdent={member.ident}
-                                        />
-                                    ))}
-                                {sakInfo.følgere &&
-                                    sakInfo.følgere.map((member) => (
-                                        <NavIdentMedLenke
-                                            key={member.ident}
-                                            navIdent={member.ident}
-                                        />
-                                    ))}
-                                {sakInfo.følgere &&
-                                    sakInfo.følgere.map((member) => (
-                                        <NavIdentMedLenke
-                                            key={member.ident}
-                                            navIdent={member.ident}
-                                        />
-                                    ))}
-                                {sakInfo.følgere &&
-                                    sakInfo.følgere.map((member) => (
-                                        <NavIdentMedLenke
-                                            key={member.ident}
-                                            navIdent={member.ident}
-                                        />
-                                    ))} */}
+                                */}
                             </FølgereListe>
 
                             <FølgereKnappBoks>
@@ -210,18 +219,10 @@ export const TeamModal = ({ open, setOpen, sakInfo }: TeamModalProps) => {
                 <Modal.Footer>
                     <Button
                         type="button"
-                        icon={<FloppydiskIcon />}
                         iconPosition="right"
                         onClick={() => setOpen(false)}
                     >
-                        Lagre
-                    </Button>
-                    <Button
-                        type="button"
-                        variant="secondary"
-                        onClick={() => setOpen(false)}
-                    >
-                        Avbryt
+                        Ferdig
                     </Button>
                 </Modal.Footer>
             </Modal>

@@ -5,8 +5,6 @@ import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { Button } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
 import {
-    fjernBrukerFraTeam,
-    leggBrukerTilTeam,
     useHentSalesforceUrl,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
     useHentTeam,
@@ -126,6 +124,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
     const sakInfo = {
         saksnummer: sak.saksnummer,
         orgnavn: sak.orgnavn,
+        orgnummer: sak.orgnr,
         navIdent: sak.eidAv,
         følgere: følgere ?? [],
         mutate,
@@ -155,45 +154,20 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                         )}
                     </EierText>
                     {erIDev && (
-                        <Button
-                            size="small"
-                            onClick={async () => {
-                                await leggBrukerTilTeam(sak.saksnummer);
-                                mutate();
-                            }}
-                        >
-                            Teamknapp
-                        </Button>
-                    )}
-                    {erIDev && (
-                        <Button
-                            size="small"
-                            variant="danger"
-                            onClick={async () => {
-                                await fjernBrukerFraTeam(sak.saksnummer);
-                                mutate();
-                            }}
-                        >
-                            Forlatteam
-                        </Button>
-                    )}
-                    {erIDev && (
-                        <div>
+                        <>
+                            <span>Følgere på sak ({følgere?.length})</span>
                             <DocPencilIcon
                                 focusable="true"
                                 cursor="pointer"
                                 onClick={handleIconClick}
+                                fontSize={30}
                             />
-                            {loading ? (
-                                <div>Loading...</div>
-                            ) : (
-                                <TeamModal
-                                    open={isModalOpen}
-                                    setOpen={setIsModalOpen}
-                                    sakInfo={sakInfo}
-                                />
-                            )}
-                        </div>
+                            <TeamModal
+                                open={isModalOpen}
+                                setOpen={setIsModalOpen}
+                                sakInfo={sakInfo}
+                            />
+                        </>
                     )}
                 </HeaderSubskrift>
             </CardHeader>
