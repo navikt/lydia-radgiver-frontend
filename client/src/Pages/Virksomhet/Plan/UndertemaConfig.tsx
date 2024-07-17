@@ -1,4 +1,4 @@
-import { Accordion, BodyLong, Heading, MonthPicker, Select, TimelinePeriodProps } from "@navikt/ds-react";
+import { Accordion, BodyLong, Heading, Select, TimelinePeriodProps } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
 import LeggTilUndertemaKnapp from "./LeggTilUndertemaKnapp";
@@ -104,29 +104,10 @@ export default function UndertemaConfig({ tema, setTema }: { tema: Temainnhold, 
 }
 
 function Temalinje({ undertema, setUndertema }: { undertema: Arbeidsperiode, setUndertema: (p: Arbeidsperiode) => void }) {
-	const setStart = (d: Date) => setUndertema({ ...undertema, start: d })
-	const setSlutt = (d: Date) => setUndertema({ ...undertema, slutt: d })
 	return (
 		<StyledAccordionItem>
 			<TemalinjeHeader undertema={undertema} setUndertema={setUndertema} />
 			<StyledAccordionContent>
-				<span style={{ display: "flex", gridColumn: "2/4" }}>
-					<MonthPicker selected={undertema.start} defaultSelected={undertema.start} onMonthSelect={(m) => {
-						if (m) {
-							setStart(m);
-						}
-					}}>
-						<MonthPicker.Input hideLabel onChange={() => null} label="Start" value={`${undertema.start.toLocaleString('default', { month: 'short' })} ${undertema.start.getFullYear()}`} />
-					</MonthPicker>
-					{" - "}
-					<MonthPicker selected={undertema.slutt} onMonthSelect={(m) => {
-						if (m) {
-							setSlutt(m);
-						}
-					}}>
-						<MonthPicker.Input hideLabel onChange={() => null} label="Slutt" value={`${undertema.slutt.toLocaleString('default', { month: 'short' })} ${undertema.slutt.getFullYear()}`} />
-					</MonthPicker>
-				</span>
 				<Heading level="4" size="small">Mål: Øke kompetansen på hvordan gjennomføre gode oppfølgingssamtaler, både gjennom teori og praksis.</Heading>
 				<BodyLong>
 					God dialog mellom leder og ansatt er sentralt i god sykefraværsoppfølging. En oppfølgingssamtale er en godt forberedt og personlig samtale mellom leder og medarbeider. Det er lovvpålagt å lage oppfølgingsplan for alle sykemeldte, følge opp og dokumentere samtaler.

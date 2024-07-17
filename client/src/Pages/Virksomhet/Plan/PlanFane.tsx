@@ -1,11 +1,12 @@
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
-import { Heading, TimelinePeriodProps } from "@navikt/ds-react";
+import { Heading, HStack, TimelinePeriodProps } from "@navikt/ds-react";
 import PlanGraf from "./PlanGraf";
 import React from "react";
 import UndertemaConfig, { Temainnhold } from "./UndertemaConfig";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import VerktøyConfig from "./VerktøyConfig";
+import EditTemaKnapp from "./EditTemaKnapp";
 
 const Container = styled.div`
   height: 100%;
@@ -120,13 +121,6 @@ const dummyData: Temainnhold = {
 			status: "Pågår",
 			statusfarge: "info"
 		},
-		{
-			start: new Date(2024, 9),
-			slutt: new Date(2025, 0),
-			tittel: 'Enda en greie',
-			status: "Planlagt",
-			statusfarge: "neutral"
-		},
 	],
 	verktøy: [
 		{
@@ -162,7 +156,10 @@ function Temaer({ temaer, setTemaer }: { temaer: Temainnhold[], setTemaer: (t: T
 
 		return (
 			<Container key={index}>
-				<Heading level="3" size="medium" spacing={true}>{tema.tittel}</Heading>
+				<HStack justify="space-between">
+					<Heading level="3" size="medium" spacing={true}>{tema.tittel}</Heading>
+					<EditTemaKnapp tema={tema} setTema={setTema} tilgjengeligeTemaer={tilgjengeligeTemaer} />
+				</HStack>
 				<PlanGraf pølser={tema.undertema} />
 				<UndertemaConfig tema={tema} setTema={setTema} />
 				<VerktøyConfig verktøy={tema.verktøy} setVerktøy={(verktøy) => setTema({ ...tema, verktøy })} />
