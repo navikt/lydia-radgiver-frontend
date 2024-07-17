@@ -3,8 +3,12 @@ import styled from "styled-components";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { BrukerITeamDTO } from "../../domenetyper/brukeriteam";
 import { KeyedMutator } from "swr";
-import { FloppydiskIcon, HeartIcon } from "@navikt/aksel-icons";
-import { leggBrukerTilTeam } from "../../api/lydia-api";
+import { FloppydiskIcon, HeartFillIcon, HeartIcon } from "@navikt/aksel-icons";
+import {
+    fjernBrukerFraTeam,
+    leggBrukerTilTeam,
+    useHentBrukerinformasjon,
+} from "../../api/lydia-api";
 
 const EierBoks = styled.div`
     display: flex;
@@ -65,7 +69,14 @@ interface TeamModalProps {
     sakInfo: SakInfo;
 }
 
+function følgerSak(brukerIdent: string | undefined, sakInfo: SakInfo): boolean {
+    return sakInfo.følgere.some((follower) => follower.ident === brukerIdent);
+}
+
 export const TeamModal = ({ open, setOpen, sakInfo }: TeamModalProps) => {
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const brukerIdent: string | undefined = brukerInformasjon?.ident;
+
     return (
         <>
             <Modal
@@ -119,7 +130,7 @@ export const TeamModal = ({ open, setOpen, sakInfo }: TeamModalProps) => {
                                             navIdent={member.ident}
                                         />
                                     ))}
-                                {sakInfo.følgere &&
+                                {/* {sakInfo.følgere &&
                                     sakInfo.følgere.map((member) => (
                                         <NavIdentMedLenke
                                             key={member.ident}
@@ -153,27 +164,45 @@ export const TeamModal = ({ open, setOpen, sakInfo }: TeamModalProps) => {
                                             key={member.ident}
                                             navIdent={member.ident}
                                         />
-                                    ))}
+                                    ))} */}
                             </FølgereListe>
 
                             <FølgereKnappBoks>
                                 <span>
-                                    Følg saken for å se den i mine saker
+                                    {følgerSak(brukerIdent, sakInfo)
+                                        ? "Du følger denne saken"
+                                        : "Følg saken for å se den i mine saker"}
                                 </span>
-                                <Button
-                                    icon={<HeartIcon />}
-                                    size="small"
-                                    iconPosition="right"
-                                    onClick={async () => {
-                                        await leggBrukerTilTeam(
-                                            sakInfo.saksnummer,
-                                        );
-                                        sakInfo.mutate();
-                                    }}
-                                >
-                                    Følg saken
-                                </Button>
-                                <Button size="small">Forlatteam</Button>
+                                {følgerSak(brukerIdent, sakInfo) ? (
+                                    <Button
+                                        size="small"
+                                        icon={<HeartFillIcon />}
+                                        iconPosition="right"
+                                        variant="secondary"
+                                        onClick={async () => {
+                                            await fjernBrukerFraTeam(
+                                                sakInfo.saksnummer,
+                                            );
+                                            sakInfo.mutate();
+                                        }}
+                                    >
+                                        Slutt å følge saken
+                                    </Button>
+                                ) : (
+                                    <Button
+                                        icon={<HeartIcon />}
+                                        size="small"
+                                        iconPosition="right"
+                                        onClick={async () => {
+                                            await leggBrukerTilTeam(
+                                                sakInfo.saksnummer,
+                                            );
+                                            sakInfo.mutate();
+                                        }}
+                                    >
+                                        Følg saken
+                                    </Button>
+                                )}
                             </FølgereKnappBoks>
                         </FølgereBoks>
                     </div>

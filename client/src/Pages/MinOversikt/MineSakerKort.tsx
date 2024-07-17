@@ -109,7 +109,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
     const navigate = useNavigate();
     const { data: salesforceInfo } = useHentSalesforceUrl(sak.orgnr);
 
-    const { data: brukerinformasjon, mutate } = useHentTeam(sak.saksnummer);
+    const { data: følgere, mutate } = useHentTeam(sak.saksnummer);
 
     const { data: statsSiste4Kvartaler, loading } =
         useHentVirksomhetsstatistikkSiste4Kvartaler(sak.orgnr);
@@ -127,7 +127,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
         saksnummer: sak.saksnummer,
         orgnavn: sak.orgnavn,
         navIdent: sak.eidAv,
-        følgere: brukerinformasjon ?? [],
+        følgere: følgere ?? [],
         mutate,
     };
 
