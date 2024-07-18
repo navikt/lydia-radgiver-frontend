@@ -7,13 +7,13 @@ export type PølsegrafProps = {
 };
 
 export default function PlanGraf(props: PølsegrafProps) {
-	const pølser = React.useMemo(() => props.pølser.map((pølse) => {
-		const slutt = new Date(pølse.slutt);
+	const pølser = React.useMemo(() => props.pølser.filter((pølse) => pølse.slutt && pølse.start).map((pølse) => {
+		const slutt = new Date(pølse.slutt ?? "");
 		slutt.setDate(slutt.getDate() - 1);
 
 		return ({
 			...pølse,
-			start: new Date(pølse.start),
+			start: new Date(pølse.start ?? ""),
 			slutt,
 		})
 	}), [props.pølser]);

@@ -104,12 +104,12 @@ const dummyData: Temainnhold = {
 			start: new Date(2024, 2),
 			slutt: new Date(2024, 5),
 			tittel: 'Oppfølgingssamtaler',
-			status: "Pågår",
+			status: "Fullført",
 			statusfarge: "warning"
 		},
 		{
-			start: new Date(2024, 7),
-			slutt: new Date(2024, 10),
+			start: new Date(2024, 5),
+			slutt: new Date(2024, 8),
 			tittel: 'Tilretteleggings- og medvirkningsplikt',
 			status: "Pågår",
 			statusfarge: "danger"
@@ -118,7 +118,7 @@ const dummyData: Temainnhold = {
 			start: new Date(2024, 7),
 			slutt: new Date(2024, 9),
 			tittel: 'Gjentagende sykefravær',
-			status: "Pågår",
+			status: "Planlagt",
 			statusfarge: "info"
 		},
 	],

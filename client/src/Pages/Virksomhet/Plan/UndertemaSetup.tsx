@@ -5,9 +5,9 @@ import styled from "styled-components";
 export type TilgjengeligUndertema = {
 	valgt: boolean;
 	tittel: string;
-	start: Date
-	slutt: Date
-	status?: Arbeidsperiodestatus;
+	start?: Date
+	slutt?: Date
+	status: Arbeidsperiodestatus;
 	statusfarge: TimelinePeriodProps["status"];
 }
 
@@ -15,13 +15,14 @@ const UndertemaRad = styled(HStack)`
 	margin-bottom: 0.5rem;
 `;
 
-export default function UndertemaSetup({ undertemaListe, setUndertemaListe }: {
+export default function UndertemaSetup({ undertemaListe, setUndertemaListe, legend = "Undertemaer" }: {
 	undertemaListe: TilgjengeligUndertema[];
 	setUndertemaListe: (ut: TilgjengeligUndertema[]) => void;
+	legend?: string
 }) {
 	return (
 		<CheckboxGroup
-			legend="Undertemaer"
+			legend={legend}
 			description="Velg hvilke undertemaer dere skal jobbe med og når"
 			value={undertemaListe.filter(({ valgt }) => valgt).map(({ tittel }) => tittel)}
 			onChange={(valgte) => {
@@ -29,6 +30,9 @@ export default function UndertemaSetup({ undertemaListe, setUndertemaListe }: {
 					undertemaListe.map((ut) => {
 						const valgt = valgte.indexOf(ut.tittel) !== -1;
 						const start = ut.start ?? new Date();
+						if (!ut.start) {
+							start.setDate(1);
+						}
 						const slutt = ut.slutt ?? new Date(start);
 
 						if (!ut.slutt) {
@@ -109,7 +113,7 @@ export default function UndertemaSetup({ undertemaListe, setUndertemaListe }: {
 	);
 }
 
-export function getDefaultMyUndertema(tilgjengeligeUndertema: TilgjengeligUndertema[] | undefined, tema: Temainnhold) {
+export function getDefaultMyUndertema(tilgjengeligeUndertema: TilgjengeligUndertema[] | undefined, tema: Temainnhold): TilgjengeligUndertema[] {
 	if (tilgjengeligeUndertema === undefined) {
 		return [];
 	} else {
@@ -128,7 +132,7 @@ export function getDefaultMyUndertema(tilgjengeligeUndertema: TilgjengeligUndert
 				tittel: ut.tittel,
 				start,
 				slutt,
-				status: undefined,
+				status: "Planlagt",
 				statusfarge: ut.statusfarge
 			}
 		});

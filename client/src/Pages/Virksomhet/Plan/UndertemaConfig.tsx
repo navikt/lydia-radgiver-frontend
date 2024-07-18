@@ -9,18 +9,19 @@ export type Verktøylenke = {
 };
 
 export type Arbeidsperiode = {
-	start: Date;
-	slutt: Date;
+	start?: Date;
+	slutt?: Date;
 	tittel: string;
 	status: Arbeidsperiodestatus;
 	statusfarge: TimelinePeriodProps["status"];
 };
 
-export type Temainnhold = {
+export type TemainnholdBase<Undertema extends Arbeidsperiode> = {
 	tittel: string;
-	undertema: Arbeidsperiode[];
+	undertema: Undertema[];
 	verktøy: Verktøylenke[];
 };
+export type Temainnhold = TemainnholdBase<Arbeidsperiode>
 
 const StyledAccordion = styled(Accordion)`
 	width: 100%;
@@ -109,8 +110,8 @@ function TemalinjeHeader({ undertema, setUndertema }: { undertema: Arbeidsperiod
 		<StyledAccordionHeader>
 			<span>{undertema.tittel}</span>
 			<TemalinjeHeaderPeriode
-				start={undertema.start}
-				slutt={undertema.slutt}
+				start={undertema.start ?? new Date()}
+				slutt={undertema.slutt ?? new Date()}
 			/>
 			<TemalinjeHeaderStatus status={undertema.status} setStatus={(s) => setUndertema({ ...undertema, status: s })} />
 		</StyledAccordionHeader>
