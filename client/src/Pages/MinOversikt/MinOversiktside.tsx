@@ -1,6 +1,9 @@
 import styled from "styled-components";
 import { SideContainer } from "../../styling/containere";
-import { useHentMineSaker } from "../../api/lydia-api";
+import {
+    useHentBrukerinformasjon,
+    useHentMineSaker,
+} from "../../api/lydia-api";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
 import { useState } from "react";
@@ -67,15 +70,30 @@ const StickyFilterContainer = styled.div`
     }
 `;
 
+export const EIER_FØLGER_FILTER_VALUES = ["eier", "følger"] as const;
+export type EierFølgerFilterType = (typeof EIER_FØLGER_FILTER_VALUES)[number][];
+
+export type SøkFilterType = string;
+
+export type SetMinesakerFiltreType = {
+    setStatusFilter: (val: IAProsessStatusType[]) => void;
+    setSøkFilter: (val: string) => void;
+    setEierFølgerFilter: (val: EierFølgerFilterType) => void;
+};
+
 export const MinOversiktside = () => {
     const { data: mineSaker, loading, error } = useHentMineSaker();
+    const { data: brukerInfo } = useHentBrukerinformasjon();
 
-    const [aktiveStatusFilter, setAktiveStatuser] = useState<
+    //Filter states
+    const [statusFilter, setStatusFilter] = useState<
         IAProsessStatusType[]
     >([]);
+    const [eierFølgerFilter, setEierFølgerFilter] =
+        useState<EierFølgerFilterType>([]);
+    const [søkFilter, setSøkFilter] = useState<SøkFilterType>("");
 
-    const [søkFilter, setSøkFilter] = useState("");
-
+    //Sorting states
     const [sortByNewest, setSortByNewest] = useState(true);
     const [iconState, setIconState] = useState<
         "initial" | "descending" | "ascending"
@@ -97,9 +115,17 @@ export const MinOversiktside = () => {
 
     const filtretSaker = mineSaker
         ?.filter((sak) =>
-            aktiveStatusFilter.length
-                ? aktiveStatusFilter.includes(sak.status)
+            statusFilter.length
+                ? statusFilter.includes(sak.status)
                 : aktiveStatuser.includes(sak.status),
+        )
+        ?.filter((sak) =>
+            eierFølgerFilter.length
+                ? (sak.eidAv == brukerInfo?.ident &&
+                      eierFølgerFilter.includes("eier")) ||
+                  (eierFølgerFilter.includes("følger") &&
+                      sak.eidAv != brukerInfo?.ident)
+                : true,
         )
         .filter((sak) =>
             sak.orgnavn.toLowerCase().includes(søkFilter.toLowerCase()),
@@ -110,15 +136,6 @@ export const MinOversiktside = () => {
         const dateB = b.endretTidspunkt.getTime();
         return sortByNewest ? dateB - dateA : dateA - dateB;
     });
-
-
-    const filterStatusEndring = (val: IAProsessStatusType[]) => {
-        setAktiveStatuser(val);
-    };
-
-    const filterSøkEndring = (søkestreng: string) => {
-        setSøkFilter(søkestreng);
-    };
 
     const handleSortToggle = () => {
         setSortByNewest(!sortByNewest);
@@ -165,8 +182,11 @@ export const MinOversiktside = () => {
             <FlexContainer>
                 <StickyFilterContainer>
                     <FiltreringMineSaker
-                        filterStatusEndring={filterStatusEndring}
-                        filterSøkEndring={filterSøkEndring}
+                        setFiltre={{
+                            setEierFølgerFilter,
+                            setStatusFilter,
+                            setSøkFilter,
+                        }}
                     />
                 </StickyFilterContainer>
                 <MineSakerListe>

@@ -32,10 +32,6 @@ const StyledAccordionItem = styled(Accordion.Item)`
         background-color: white;
     }
 `;
-const AccordionTitle = styled.div`
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-`;
 
 const CheckboxgroupStyling = styled.div`
     background-color: white;
@@ -50,9 +46,9 @@ const ARKIV_STATUSER: IAProsessStatusType[] = [
 ] as const;
 
 export const StatusFilter = ({
-    filterStatusEndring,
+    setStatusFilter,
 }: {
-    filterStatusEndring: (val: IAProsessStatusType[]) => void;
+    setStatusFilter: (val: IAProsessStatusType[]) => void;
 }) => {
     const { data: filterVerdier } = useFilterverdier();
     const { data: mineSaker } = useHentMineSaker();
@@ -60,6 +56,7 @@ export const StatusFilter = ({
     const [aktiveStatusFiltre, setAktiveStatusFiltre] = useState<
         IAProsessStatusType[]
     >([]);
+
     const [arkivStatusFilter, setArkivStatusFilter] = useState<string[]>([]);
 
     const handleStatusFilterEndring = (
@@ -67,8 +64,7 @@ export const StatusFilter = ({
         arkiv: boolean,
     ) => {
         if (arkiv) {
-            //setAktiveStatusFiltre([])
-            filterStatusEndring(
+            setStatusFilter(
                 !arkivStatusFilter.length
                     ? [...ARKIV_STATUSER]
                     : [...aktiveStatusFiltre],
@@ -76,7 +72,7 @@ export const StatusFilter = ({
             setArkivStatusFilter(statuser);
         } else {
             setAktiveStatusFiltre(statuser);
-            filterStatusEndring(statuser);
+            setStatusFilter(statuser);
             setArkivStatusFilter([]);
         }
     };
@@ -84,7 +80,6 @@ export const StatusFilter = ({
     return (
         <>
             <div>
-                <AccordionTitle>Filtrer søk</AccordionTitle>
                 <StyledAccordion variant="default">
                     <StyledAccordionItem defaultOpen>
                         <StyledAccordionHeader>Status</StyledAccordionHeader>

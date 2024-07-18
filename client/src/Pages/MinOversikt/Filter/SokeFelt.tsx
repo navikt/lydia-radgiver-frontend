@@ -6,7 +6,6 @@ import { useDebounce } from "../../../util/useDebounce";
 const SearchContainer = styled.div`
     display: flex;
     flex-direction: column;
-
     border-radius: 0.25rem;
     gap: 1rem;
     top: 1rem;
@@ -14,15 +13,15 @@ const SearchContainer = styled.div`
 
 
 export const SokeFelt = ({
-    filterSøkEndring,
+    setSøkFilter,
 }: {
-    filterSøkEndring: (val: string) => void;
+    setSøkFilter: (val: string) => void;
 }) => {
     const [søkestreng, setSøkeStreng] = useState("");
     const faktiskSøkestreng = useDebounce(søkestreng, 500);
 
     useEffect(() => {
-        filterSøkEndring(faktiskSøkestreng);
+        setSøkFilter(faktiskSøkestreng);
     }, [faktiskSøkestreng]);
 
     return (

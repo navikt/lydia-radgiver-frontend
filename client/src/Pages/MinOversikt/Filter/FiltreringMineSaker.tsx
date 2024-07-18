@@ -1,9 +1,10 @@
 import styled from "styled-components";
-import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { SokeFelt } from "./SokeFelt";
 import { StatusFilter } from "./StatusFilter";
+import { EierFølgerFilter } from "./EierFølgerFilter";
+import { SetMinesakerFiltreType } from "../MinOversiktside";
 
-const StatusFilterContainer = styled.div`
+const FilterContainer = styled.div`
     display: flex;
     flex-direction: column;
     border-radius: 0.25rem;
@@ -16,22 +17,32 @@ const ParentContainer = styled.div`
     gap: 2rem;
 `;
 
+const FilterTitle = styled.div`
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+`;
+
 type Props = {
-    filterStatusEndring: (val: IAProsessStatusType[]) => void;
-    filterSøkEndring: (val: string) => void;
+    setFiltre: SetMinesakerFiltreType
 }
 
 const FiltreringMineSaker = ({
-    filterStatusEndring,
-    filterSøkEndring,
+    setFiltre: {
+        setStatusFilter,
+        setSøkFilter,
+        setEierFølgerFilter
+    }
 }: Props) => {
     return (
         <ParentContainer>
-            <SokeFelt filterSøkEndring={filterSøkEndring} />
-
-            <StatusFilterContainer>
-                <StatusFilter filterStatusEndring={filterStatusEndring} />
-            </StatusFilterContainer>
+            <SokeFelt setSøkFilter={setSøkFilter} />
+            <div>
+                <FilterTitle>Filtrer søk</FilterTitle>
+                <FilterContainer>
+                    <EierFølgerFilter setEierFølgerFilter={setEierFølgerFilter} />
+                    <StatusFilter setStatusFilter={setStatusFilter} />
+                </FilterContainer>
+            </div>
         </ParentContainer>
     );
 };
