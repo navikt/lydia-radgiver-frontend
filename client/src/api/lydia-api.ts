@@ -654,8 +654,8 @@ export const useHentMineSaker = () => {
     return useSwrTemplate<MineSaker[]>(`${mineSakerPath}`, mineSakerListSchema);
 };
 
-export const useHentTeam = (saksnummer: string) => {
-    return useSwrTemplate<BrukerITeamDTO[]>(`${iaSakTeamPath}/${saksnummer}`, brukerITeamSchema.array());
+export const useHentTeam = (saksnummer?: string) => {
+    return useSwrTemplate<BrukerITeamDTO[]>(saksnummer ? `${iaSakTeamPath}/${saksnummer}` : null, brukerITeamSchema.array());
 };
 
 export const leggBrukerTilTeam = (

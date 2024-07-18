@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
-import { Button, HStack, Tabs } from "@navikt/ds-react";
+import { HStack, Tabs } from "@navikt/ds-react";
 import { SamarbeidshistorikkFane } from "./Samarbeidshistorikk/SamarbeidshistorikkFane";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
 import {
@@ -11,10 +11,7 @@ import {
 import { NavFarger } from "../../styling/farger";
 import { LeveranseFane } from "./Leveranser/LeveranseFane";
 import { Virksomhet } from "../../domenetyper/virksomhet";
-import {
-    leggBrukerTilTeam,
-    useHentAktivSakForVirksomhet,
-} from "../../api/lydia-api";
+import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
 import { KartleggingFane } from "./Kartlegging/KartleggingFane";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
@@ -44,18 +41,6 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     const { data: iaSak, loading: lasterIaSak } = useHentAktivSakForVirksomhet(
         virksomhet.orgnr,
     );
-
-    const allowedStatuses = [
-        "VURDERES",
-        "KONTAKTES",
-        "KARTLEGGES",
-        "VI_BISTÅR",
-    ]; //${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)
-    let showButton = false;
-
-    if (iaSak && allowedStatuses.includes(iaSak.status)) {
-        showButton = true;
-    }
 
     const [searchParams, setSearchParams] = useSearchParams();
     const kartleggingId = searchParams.get("kartleggingId");
@@ -91,13 +76,6 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                             orgnummer={virksomhet.orgnr}
                             iaSak={iaSak}
                         />
-                    )}
-                    {showButton && iaSak && (
-                        <Button
-                            onClick={() => leggBrukerTilTeam(iaSak.saksnummer)}
-                        >
-                            Teamknapp
-                        </Button>
                     )}
                 </HStack>
             )}

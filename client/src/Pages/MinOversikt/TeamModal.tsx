@@ -60,7 +60,6 @@ const FølgereKnappBoks = styled.div`
 `;
 interface SakInfo {
     saksnummer: string;
-    orgnavn: string;
     orgnummer: string;
     navIdent: string | null;
     følgere: BrukerITeamDTO[];
