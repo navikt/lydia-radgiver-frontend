@@ -13,7 +13,7 @@ import {
 import { NavFarger } from "../../styling/farger";
 import { Link } from "react-router-dom";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
-import { DocPencilIcon } from "@navikt/aksel-icons";
+import { NotePencilIcon } from "@navikt/aksel-icons";
 import { useState } from "react";
 import { TeamModal } from "./TeamModal";
 import { formaterSomHeltall } from "../../util/tallFormatering";
@@ -156,7 +156,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                     {erIDev && (
                         <>
                             <span>Følgere på sak ({følgere?.length})</span>
-                            <DocPencilIcon
+                            <NotePencilIcon
                                 focusable="true"
                                 cursor="pointer"
                                 onClick={handleIconClick}

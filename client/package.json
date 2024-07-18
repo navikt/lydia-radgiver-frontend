@@ -16,7 +16,7 @@
   },
   "dependencies": {
     "@amplitude/analytics-browser": "2.9.3",
-    "@navikt/aksel-icons": "5.18.3",
+    "@navikt/aksel-icons": "6.13.0",
     "@navikt/ds-css": "5.18.3",
     "@navikt/ds-react": "5.18.3",
     "highcharts": "11.4.3",
