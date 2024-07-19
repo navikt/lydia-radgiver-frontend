@@ -15,7 +15,7 @@ import { Konfetti } from "../../../../components/Konfetti/Konfetti";
 import { useState } from "react";
 import { mobileAndUp } from "../../../../styling/breakpoints";
 import { NotePencilIcon } from "@navikt/aksel-icons";
-/* import { erIDev } from "../../../../components/Dekoratør/Dekoratør"; */
+import { erIDemo, erIDev } from "../../../../components/Dekoratør/Dekoratør";
 import { TeamModal } from "../../../MinOversikt/TeamModal";
 import { useHentTeam } from "../../../../api/lydia-api";
 
@@ -127,26 +127,27 @@ export const IASakOversikt = ({
                 )}
                 <Saksinfotittel>Saksnr</Saksinfotittel>
                 <InfoData>{sak.saksnummer}</InfoData>
-
-                <>
-                    <Saksinfotittel>
-                        Følgere på sak{" "}
-                        <FollowersCount>({følgere?.length})</FollowersCount>
-                    </Saksinfotittel>
-                    <Følgereinnhold>
-                        <NotePencilIcon
-                            focusable="true"
-                            cursor="pointer"
-                            onClick={handleIconClick}
-                            fontSize={30}
-                        />
-                        <TeamModal
-                            open={isModalOpen}
-                            setOpen={setIsModalOpen}
-                            sakInfo={sakInfo}
-                        />
-                    </Følgereinnhold>
-                </>
+                {(erIDev || erIDemo) && (
+                    <>
+                        <Saksinfotittel>
+                            Følgere på sak{" "}
+                            <FollowersCount>({følgere?.length})</FollowersCount>
+                        </Saksinfotittel>
+                        <Følgereinnhold>
+                            <NotePencilIcon
+                                focusable="true"
+                                cursor="pointer"
+                                onClick={handleIconClick}
+                                fontSize={30}
+                            />
+                            <TeamModal
+                                open={isModalOpen}
+                                setOpen={setIsModalOpen}
+                                sakInfo={sakInfo}
+                            />
+                        </Følgereinnhold>
+                    </>
+                )}
             </Saksinfo>
 
             <SakshendelsesKnapper
