@@ -86,9 +86,7 @@ export const MinOversiktside = () => {
     const { data: brukerInfo } = useHentBrukerinformasjon();
 
     //Filter states
-    const [statusFilter, setStatusFilter] = useState<
-        IAProsessStatusType[]
-    >([]);
+    const [statusFilter, setStatusFilter] = useState<IAProsessStatusType[]>([]);
     const [eierFølgerFilter, setEierFølgerFilter] =
         useState<EierFølgerFilterType>([]);
     const [søkFilter, setSøkFilter] = useState<SøkFilterType>("");

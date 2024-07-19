@@ -17,7 +17,7 @@ import { NotePencilIcon } from "@navikt/aksel-icons";
 import { useState } from "react";
 import { TeamModal } from "./TeamModal";
 import { formaterSomHeltall } from "../../util/tallFormatering";
-import { erIDev } from "../../components/Dekoratør/Dekoratør";
+/* import { erIDev } from "../../components/Dekoratør/Dekoratør"; */
 
 const Card = styled.div`
     background-color: white;
@@ -153,7 +153,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                             "Ingen eier"
                         )}
                     </EierText>
-                    {erIDev && (
+                   
                         <>
                             <span>Følgere på sak ({følgere?.length})</span>
                             <NotePencilIcon
@@ -168,7 +168,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                                 sakInfo={sakInfo}
                             />
                         </>
-                    )}
+                  
                 </HeaderSubskrift>
             </CardHeader>
             <CardContent>
