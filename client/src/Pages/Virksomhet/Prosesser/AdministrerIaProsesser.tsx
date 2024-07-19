@@ -1,5 +1,8 @@
 import React from "react";
-import { useHentIaProsesser } from "../../../api/lydia-api";
+import {
+    useHentBrukerinformasjon,
+    useHentIaProsesser,
+} from "../../../api/lydia-api";
 import styled from "styled-components";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { IaProsessChips } from "./IaProsessChips";
@@ -26,15 +29,19 @@ export const AdministrerIaProsesser = ({
         iaSak.saksnummer,
     );
     const harAktiveProsesser = iaProsesser && iaProsesser.length > 0;
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
 
     return (
         harAktiveProsesser && (
             <AdministrerProsesserContainer>
                 <IaProsessChips iaProsesser={iaProsesser} />
-                <AdministrerIaProsesserKnapp
-                    iaProsesser={iaProsesser}
-                    iaSak={iaSak}
-                />
+                {brukerErEierAvSak && (
+                    <AdministrerIaProsesserKnapp
+                        iaProsesser={iaProsesser}
+                        iaSak={iaSak}
+                    />
+                )}
             </AdministrerProsesserContainer>
         )
     );
