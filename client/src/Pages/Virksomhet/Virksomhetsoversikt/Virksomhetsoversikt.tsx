@@ -6,30 +6,32 @@ import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import { contentSpacing } from "../../../styling/contentSpacing";
 import { BrregStatus } from "./BrregStatus";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
+import { VirksomhetsInfoPopover } from "./VirksomhetsInfoPopover";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 const OversiktsContainer = styled.div`
-  display: flex;
-  flex-direction: column;
+    display: flex;
+    flex-direction: column;
 
-  padding-bottom: ${contentSpacing.mobileY};
+    padding-bottom: ${contentSpacing.mobileY};
 `;
 
 const VirksomhetsnavnContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  column-gap: 1rem;
+    display: flex;
+    flex-wrap: wrap;
+    column-gap: 1rem;
 
-  span {
-    margin-bottom: 0.25rem;
-    margin-top: 0.25rem;
-  }
+    span {
+        margin-bottom: 0.25rem;
+        margin-top: 0.25rem;
+    }
 `;
 
 const VirksomhetsinfoContainer = styled.div`
-  display: flex;
-  flex-wrap: wrap;
-  gap: 2rem;
-`
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2rem;
+`;
 
 interface Props {
     virksomhet: Virksomhet;
@@ -38,13 +40,19 @@ interface Props {
 
 export const Virksomhetsoversikt = ({ virksomhet, iaSak }: Props) => (
     <OversiktsContainer>
-        <VirksomhetsnavnContainer>
-            <Heading level={"2"} size={"large"}>{virksomhet.navn}</Heading>
-            <BrregStatus status={virksomhet.status} />
-        </VirksomhetsnavnContainer>
+        {erIDev ? (
+            <VirksomhetsInfoPopover iaSak={iaSak} virksomhet={virksomhet} />
+        ) : (
+            <VirksomhetsnavnContainer>
+                <Heading level={"2"} size={"large"}>
+                    {virksomhet.navn}
+                </Heading>
+                <BrregStatus status={virksomhet.status} />
+            </VirksomhetsnavnContainer>
+        )}
         <VirksomhetsinfoContainer>
             <VirksomhetInformasjon virksomhet={virksomhet} />
             <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} />
         </VirksomhetsinfoContainer>
     </OversiktsContainer>
-)
+);
