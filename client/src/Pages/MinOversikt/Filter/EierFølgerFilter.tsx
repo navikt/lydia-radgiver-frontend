@@ -4,7 +4,11 @@ import {
     useHentMineSaker,
 } from "../../../api/lydia-api";
 import styled from "styled-components";
-import { EIER_FØLGER_FILTER_VALUES, EierFølgerFilterType } from "../MinOversiktside";
+import {
+    EIER_FØLGER_FILTER_VALUES,
+    EierFølgerFilterType,
+} from "../MinOversiktside";
+import { ARKIV_STATUSER } from "./StatusFilter";
 
 const StyledAccordion = styled(Accordion)`
     box-shadow: none;
@@ -33,10 +37,13 @@ const StyledAccordionItem = styled(Accordion.Item)`
     }
 `;
 
-const penskrivEierFølgerMap: Record<typeof EIER_FØLGER_FILTER_VALUES[number], string> = {
+const penskrivEierFølgerMap: Record<
+    (typeof EIER_FØLGER_FILTER_VALUES)[number],
+    string
+> = {
     eier: "Mine eierskap",
-    følger: "Saker jeg følger"
-}
+    følger: "Saker jeg følger",
+};
 
 export const EierFølgerFilter = ({
     setEierFølgerFilter,
@@ -46,10 +53,13 @@ export const EierFølgerFilter = ({
     const { data: mineSaker } = useHentMineSaker();
     const { data: brukerInfo } = useHentBrukerinformasjon();
 
-    const antallEier = mineSaker?.filter(
+    // vis antall basert på aktive saker
+    const aktiveSaker =
+        mineSaker?.filter((sak) => !ARKIV_STATUSER.includes(sak.status)) ?? [];
+    const antallEier = aktiveSaker.filter(
         (sak) => sak.eidAv == brukerInfo?.ident,
     ).length;
-    const antallFølger = mineSaker?.filter(
+    const antallFølger = aktiveSaker.filter(
         (sak) => sak.eidAv != brukerInfo?.ident,
     ).length;
 

@@ -6,7 +6,7 @@ import {
 } from "../../api/lydia-api";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
 import { Button } from "@navikt/ds-react";
 import {
@@ -16,6 +16,7 @@ import {
 } from "@navikt/aksel-icons";
 import { NavFarger } from "../../styling/farger";
 import { desktopAndUp } from "../../styling/breakpoints";
+import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 
 const FlexContainer = styled.div`
     display: flex;
@@ -82,7 +83,8 @@ export type SetMinesakerFiltreType = {
 };
 
 export const MinOversiktside = () => {
-    const { data: mineSaker, loading, error } = useHentMineSaker();
+    // TODO: Loading and error states
+    const { data: mineSaker } = useHentMineSaker();
     const { data: brukerInfo } = useHentBrukerinformasjon();
 
     const [statusFilter, setStatusFilter] = useState<IAProsessStatusType[]>([]);
@@ -100,37 +102,27 @@ export const MinOversiktside = () => {
         "initial" | "descending" | "ascending"
     >("initial");
 
-    // TODO: error states
-    if (loading) return <div>Laster</div>;
-    if (error) return <div>feil :trist:</div>;
-
-    // TODO samkjør med arkivstatuser i ./Filter/StatusFilter
-    const aktiveStatuser: IAProsessStatusType[] = [
-        "NY",
-        "IKKE_AKTIV",
-        "VURDERES",
-        "KONTAKTES",
-        "KARTLEGGES",
-        "VI_BISTÅR",
-    ];
-
-    const filtretSaker = mineSaker
-        ?.filter((sak) =>
-            statusFilter.length
-                ? statusFilter.includes(sak.status)
-                : aktiveStatuser.includes(sak.status),
-        )
-        ?.filter((sak) =>
-            eierFølgerFilter.length
-                ? (sak.eidAv == brukerInfo?.ident &&
-                      eierFølgerFilter.includes("eier")) ||
-                  (eierFølgerFilter.includes("følger") &&
-                      sak.eidAv != brukerInfo?.ident)
-                : true,
-        )
-        .filter((sak) =>
-            sak.orgnavn.toLowerCase().includes(søkFilter.toLowerCase()),
-        );
+    const filtretSaker = useMemo(
+        () =>
+            mineSaker
+                ?.filter((sak) =>
+                    statusFilter.length
+                        ? statusFilter.includes(sak.status)
+                        : !ARKIV_STATUSER.includes(sak.status),
+                )
+                .filter((sak) =>
+                    eierFølgerFilter.length
+                        ? (sak.eidAv == brukerInfo?.ident &&
+                              eierFølgerFilter.includes("eier")) ||
+                          (eierFølgerFilter.includes("følger") &&
+                              sak.eidAv != brukerInfo?.ident)
+                        : true,
+                )
+                .filter((sak) =>
+                    sak.orgnavn.toLowerCase().includes(søkFilter.toLowerCase()),
+                ),
+        [mineSaker, statusFilter, eierFølgerFilter, brukerInfo, søkFilter],
+    );
 
     const sorterteSaker = filtretSaker?.sort((a, b) => {
         const dateA = a.endretTidspunkt.getTime();

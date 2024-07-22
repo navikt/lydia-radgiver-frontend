@@ -17,8 +17,8 @@ import { NotePencilIcon } from "@navikt/aksel-icons";
 import { useState } from "react";
 import { TeamModal } from "./TeamModal";
 import { formaterSomHeltall } from "../../util/tallFormatering";
+import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 
-/* import { erIDev } from "../../components/Dekoratør/Dekoratør"; */
 
 const Card = styled.div`
     background-color: white;
@@ -104,6 +104,24 @@ const CardContentRight = styled.div`
     margin-top: auto;
 `;
 
+const navFane = (status: IAProsessStatusType) => {
+    let toReturn = "?fane="
+    switch (status) {
+        case "KARTLEGGES":
+            toReturn += "kartlegging"
+            break
+        case "VI_BISTÅR":
+            toReturn += "ia-tjenester"
+            break
+        case "FULLFØRT":
+            toReturn += "historikk"
+            break
+        default:
+            return ""
+    }
+    return toReturn
+}
+
 export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
     const navigate = useNavigate();
     const { data: salesforceInfo } = useHentSalesforceUrl(sak.orgnr);
@@ -131,11 +149,13 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
         mutate,
     };
 
+    const navUrl = `/virksomhet/${sak.orgnr}${navFane(sak.status)}`
+
     return (
         <Card>
             <CardHeader>
                 <HeaderOverskrift>
-                    <HeaderVirksomhetLink to={`/virksomhet/${sak.orgnr}`}>
+                    <HeaderVirksomhetLink to={navUrl}>
                         {sak.orgnavn}
                     </HeaderVirksomhetLink>
                     <span>-</span>
@@ -216,21 +236,10 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                 <CardContentRight>
                     <Button
                         size="small"
-                        href={`/virksomhet/${sak.orgnr}`}
+                        href={navUrl}
                         onClick={(e) => {
                             e.stopPropagation();
-
-                            if (sak.status === "KARTLEGGES") {
-                                navigate(
-                                    `/virksomhet/${sak.orgnr}/?fane=kartlegging`,
-                                );
-                            } else if (sak.status === "VI_BISTÅR") {
-                                navigate(
-                                    `/virksomhet/${sak.orgnr}/?fane=ia-tjenester`,
-                                );
-                            } else {
-                                navigate(`/virksomhet/${sak.orgnr}`);
-                            }
+                            navigate(navUrl)
                         }}
                     >
                         Gå til sak

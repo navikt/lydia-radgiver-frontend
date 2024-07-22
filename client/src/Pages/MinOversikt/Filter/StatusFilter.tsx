@@ -39,11 +39,13 @@ const CheckboxgroupStyling = styled.div`
     border-radius: ${BorderRadius.medium};
 `;
 
-const ARKIV_STATUSER: IAProsessStatusType[] = [
+export const ARKIV_STATUSER: readonly IAProsessStatusType[] = [
     "FULLFØRT",
     "IKKE_AKTUELL",
     "IKKE_AKTIV",
+    "SLETTET"
 ] as const;
+
 
 export const StatusFilter = ({
     setStatusFilter,
