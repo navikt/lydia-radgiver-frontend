@@ -17,6 +17,7 @@ import { NotePencilIcon } from "@navikt/aksel-icons";
 import { useState } from "react";
 import { TeamModal } from "./TeamModal";
 import { formaterSomHeltall } from "../../util/tallFormatering";
+
 /* import { erIDev } from "../../components/Dekoratør/Dekoratør"; */
 
 const Card = styled.div`
@@ -153,22 +154,21 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                             "Ingen eier"
                         )}
                     </EierText>
-                   
-                        <>
-                            <span>Følgere på sak ({følgere?.length})</span>
-                            <NotePencilIcon
-                                focusable="true"
-                                cursor="pointer"
-                                onClick={handleIconClick}
-                                fontSize={30}
-                            />
-                            <TeamModal
-                                open={isModalOpen}
-                                setOpen={setIsModalOpen}
-                                sakInfo={sakInfo}
-                            />
-                        </>
-                  
+
+                    <>
+                        <span>Følgere på sak ({følgere?.length})</span>
+                        <NotePencilIcon
+                            focusable="true"
+                            cursor="pointer"
+                            onClick={handleIconClick}
+                            fontSize={30}
+                        />
+                        <TeamModal
+                            open={isModalOpen}
+                            setOpen={setIsModalOpen}
+                            sakInfo={sakInfo}
+                        />
+                    </>
                 </HeaderSubskrift>
             </CardHeader>
             <CardContent>
@@ -219,7 +219,18 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                         href={`/virksomhet/${sak.orgnr}`}
                         onClick={(e) => {
                             e.stopPropagation();
-                            navigate(`/virksomhet/${sak.orgnr}`);
+
+                            if (sak.status === "KARTLEGGES") {
+                                navigate(
+                                    `/virksomhet/${sak.orgnr}/?fane=kartlegging`,
+                                );
+                            } else if (sak.status === "VI_BISTÅR") {
+                                navigate(
+                                    `/virksomhet/${sak.orgnr}/?fane=ia-tjenester`,
+                                );
+                            } else {
+                                navigate(`/virksomhet/${sak.orgnr}`);
+                            }
                         }}
                     >
                         Gå til sak

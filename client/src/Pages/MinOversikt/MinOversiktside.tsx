@@ -85,15 +85,18 @@ export const MinOversiktside = () => {
     const { data: mineSaker, loading, error } = useHentMineSaker();
     const { data: brukerInfo } = useHentBrukerinformasjon();
 
-    //Filter states
     const [statusFilter, setStatusFilter] = useState<IAProsessStatusType[]>([]);
     const [eierFølgerFilter, setEierFølgerFilter] =
         useState<EierFølgerFilterType>([]);
     const [søkFilter, setSøkFilter] = useState<SøkFilterType>("");
 
-    //Sorting states
     const [sortByNewest, setSortByNewest] = useState(true);
     const [iconState, setIconState] = useState<
+        "initial" | "descending" | "ascending"
+    >("initial");
+
+    const [sortAlphByNewest, setSortAlphByNewest] = useState(true);
+    const [alphIconState, setAlphIconState] = useState<
         "initial" | "descending" | "ascending"
     >("initial");
 
@@ -132,7 +135,21 @@ export const MinOversiktside = () => {
     const sorterteSaker = filtretSaker?.sort((a, b) => {
         const dateA = a.endretTidspunkt.getTime();
         const dateB = b.endretTidspunkt.getTime();
-        return sortByNewest ? dateB - dateA : dateA - dateB;
+
+        if (alphIconState === "initial") {
+            return sortByNewest ? dateB - dateA : dateA - dateB;
+        } else {
+            const navnA = a.orgnavn.toLowerCase(); // Use toLowerCase() to make the comparison case-insensitive
+            const navnB = b.orgnavn.toLowerCase();
+
+            if (navnA < navnB) {
+                return sortAlphByNewest ? -1 : 1;
+            }
+            if (navnA > navnB) {
+                return sortAlphByNewest ? 1 : -1;
+            }
+            return 0; // names must be equal
+        }
     });
 
     const handleSortToggle = () => {
@@ -144,12 +161,34 @@ export const MinOversiktside = () => {
                   ? "ascending"
                   : "descending",
         );
+        setAlphIconState("initial");
     };
 
-    const renderIcon = () => {
+    const handleAlphSortToggle = () => {
+        setSortAlphByNewest(!sortAlphByNewest);
+        setAlphIconState(
+            alphIconState === "initial"
+                ? "descending"
+                : alphIconState === "descending"
+                  ? "ascending"
+                  : "descending",
+        );
+        setIconState("initial");
+    };
+
+    const renderDateIcon = () => {
         if (iconState === "initial") {
             return <ArrowsUpDownIcon />;
         } else if (iconState === "descending") {
+            return <ArrowDownIcon />;
+        } else {
+            return <ArrowUpIcon />;
+        }
+    };
+    const renderAlphabeticalIcon = () => {
+        if (alphIconState === "initial") {
+            return <ArrowsUpDownIcon />;
+        } else if (alphIconState === "descending") {
             return <ArrowDownIcon />;
         } else {
             return <ArrowUpIcon />;
@@ -170,7 +209,18 @@ export const MinOversiktside = () => {
                         state="defult"
                         label="Nyeste øverst"
                         iconPosition="right"
-                        icon={renderIcon()}
+                        icon={renderAlphabeticalIcon()}
+                        onClick={handleAlphSortToggle}
+                    >
+                        Alfabetisk rekkefølge
+                    </Button>
+                    <Button
+                        size="small"
+                        variant="tertiary"
+                        state="defult"
+                        label="Nyeste øverst"
+                        iconPosition="right"
+                        icon={renderDateIcon()}
                         onClick={handleSortToggle}
                     >
                         Sist endret
