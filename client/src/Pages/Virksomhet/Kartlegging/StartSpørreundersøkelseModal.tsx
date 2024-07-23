@@ -40,7 +40,6 @@ export function StartSpørreundersøkelseModal({
                 startKartleggingen();
                 åpneKartleggingINyFane(
                     spørreundersøkelse.kartleggingId,
-                    spørreundersøkelse.vertId,
                     "OPPRETTET",
                 );
                 lukkModal();

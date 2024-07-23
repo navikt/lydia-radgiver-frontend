@@ -66,7 +66,6 @@ export const KartleggingRad = ({
                     iaSak={iaSak}
                     kartleggingstatus={kartlegging.status}
                     kartlegging={kartlegging}
-                    vertId={kartlegging.vertId}
                     brukerRolle={brukerRolle}
                     brukerErEierAvSak={brukerErEierAvSak}
                 />

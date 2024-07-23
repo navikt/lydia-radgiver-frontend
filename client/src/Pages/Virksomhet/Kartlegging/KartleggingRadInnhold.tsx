@@ -12,7 +12,6 @@ import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkels
 interface KartleggingRadInnhold {
     iaSak: IASak;
     kartlegging: IASakKartlegging;
-    vertId: string;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
     brukerErEierAvSak: boolean;
     kartleggingstatus: "OPPRETTET" | "PÅBEGYNT" | "AVSLUTTET" | "SLETTET";
@@ -25,7 +24,6 @@ const StyledActionButton = styled(Button)`
 export const KartleggingRadInnhold = ({
     iaSak,
     kartlegging,
-    vertId,
     brukerRolle,
     brukerErEierAvSak,
     kartleggingstatus,
@@ -122,7 +120,6 @@ export const KartleggingRadInnhold = ({
                                 onClick={() =>
                                     åpneKartleggingINyFane(
                                         kartlegging.kartleggingId,
-                                        vertId,
                                         "PÅBEGYNT",
                                     )
                                 }
