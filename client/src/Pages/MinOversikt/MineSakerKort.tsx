@@ -121,29 +121,18 @@ const navFane = (status: IAProsessStatusType) => {
 
 export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
     const navigate = useNavigate();
-    const { data: salesforceInfo } = useHentSalesforceUrl(sak.orgnr);
 
-    const { data: følgere, mutate } = useHentTeam(sak.saksnummer);
+    const { data: salesforceInfo } = useHentSalesforceUrl(sak.orgnr);
+    const { data: følgere = [] } = useHentTeam(sak.saksnummer);
 
     const { data: statsSiste4Kvartaler, loading } =
         useHentVirksomhetsstatistikkSiste4Kvartaler(sak.orgnr);
-
     const { data: statsSisteKvartal, loading: lasterSisteKvartal } =
         useHentSykefraværsstatistikkForVirksomhetSisteKvartal(sak.orgnr);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-
     const handleIconClick = () => {
         setIsModalOpen(true);
-    };
-
-    const sakInfo = {
-        saksnummer: sak.saksnummer,
-        orgnavn: sak.orgnavn,
-        orgnummer: sak.orgnr,
-        navIdent: sak.eidAv,
-        følgere: følgere ?? [],
-        mutate,
     };
 
     const navUrl = `/virksomhet/${sak.orgnr}${navFane(sak.status)}`;
@@ -175,7 +164,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                     </EierText>
 
                     <>
-                        <span>Følgere på sak ({følgere?.length})</span>
+                        <span>Følgere på sak ({følgere.length})</span>
                         <NotePencilIcon
                             focusable="true"
                             cursor="pointer"
@@ -185,7 +174,8 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                         <TeamModal
                             open={isModalOpen}
                             setOpen={setIsModalOpen}
-                            sakInfo={sakInfo}
+                            saksnummer={sak.saksnummer}
+                            orgnummer={sak.orgnr}
                         />
                     </>
                 </HeaderSubskrift>

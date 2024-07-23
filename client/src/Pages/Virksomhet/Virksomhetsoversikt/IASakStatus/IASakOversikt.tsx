@@ -81,7 +81,7 @@ export const IASakOversikt = ({
 }: IASakOversiktProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const { data: følgere = [], mutate } = useHentTeam(sak?.saksnummer);
+    const { data: følgere = [] } = useHentTeam(sak?.saksnummer);
 
     const [visKonfetti, setVisKonfetti] = useState(false);
 
@@ -90,14 +90,6 @@ export const IASakOversikt = ({
     }
     const handleIconClick = () => {
         setIsModalOpen(true);
-    };
-
-    const sakInfo = {
-        saksnummer: sak.saksnummer,
-        orgnummer: sak.orgnr,
-        navIdent: sak.eidAv,
-        følgere: følgere ?? [],
-        mutate,
     };
 
     const hendelserSomRepresentererKnapperISaksboksen =
@@ -143,7 +135,8 @@ export const IASakOversikt = ({
                             <TeamModal
                                 open={isModalOpen}
                                 setOpen={setIsModalOpen}
-                                sakInfo={sakInfo}
+                                saksnummer={sak.saksnummer}
+                                orgnummer={sak.orgnr}
                             />
                         </Følgereinnhold>
                     </>
