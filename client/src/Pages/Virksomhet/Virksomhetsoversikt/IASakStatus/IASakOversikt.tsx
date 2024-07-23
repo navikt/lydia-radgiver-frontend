@@ -138,7 +138,7 @@ export const IASakOversikt = ({
                                 focusable="true"
                                 cursor="pointer"
                                 onClick={handleIconClick}
-                                fontSize={30}
+                                fontSize={"1.5rem"}
                             />
                             <TeamModal
                                 open={isModalOpen}

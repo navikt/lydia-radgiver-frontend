@@ -38,14 +38,15 @@ const MineSakerListe = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 1rem;
 `;
 
 const Header1 = styled.h1`
     font-size: 2rem;
     font-weight: 600;
-    border-bottom: solid 2px ${NavFarger.gray500};
+    border-bottom: solid 0.1rem ${NavFarger.gray500};
     margin-bottom: 0;
+    padding-bottom: 1rem;
 `;
 
 const HeaderContainer = styled.div`

@@ -27,7 +27,8 @@ export const SokeFelt = ({
     return (
         <SearchContainer>
                 <Search
-                    size="small"
+                    size="medium"
+                    variant="simple"
                     label="Søk på virksomheter"
                     hideLabel={false}
                     onChange={setSøkeStreng}

@@ -8,7 +8,7 @@ const FilterContainer = styled.div`
     display: flex;
     flex-direction: column;
     border-radius: 0.25rem;
-    gap: 2rem;
+    gap: 0.5rem;
 `;
 
 const ParentContainer = styled.div`
@@ -20,6 +20,7 @@ const ParentContainer = styled.div`
 const FilterTitle = styled.div`
     font-weight: 600;
     margin-bottom: 0.5rem;
+    font-size: 1.125rem;
 `;
 
 type Props = {

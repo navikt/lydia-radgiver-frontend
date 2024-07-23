@@ -19,13 +19,12 @@ import { TeamModal } from "./TeamModal";
 import { formaterSomHeltall } from "../../util/tallFormatering";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 
-
 const Card = styled.div`
     background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 1.5rem 2rem 1rem 2rem;
+    padding: 1.5rem 2rem 1.25rem 2rem;
     border-radius: 10px;
     gap: 1rem;
     width: 100%;
@@ -45,7 +44,7 @@ const HeaderOverskrift = styled.div`
     flex-direction: row;
     align-items: center;
     gap: 0.25rem;
-    font-size: 1.25rem;
+    font-size: 1.5rem;
 `;
 
 const HeaderVirksomhetLink = styled(Link)`
@@ -65,13 +64,13 @@ const HeaderSubskrift = styled.div`
     gap: 1rem;
 `;
 
-const SalesforceLink = styled(EksternLenke)`
-    font-size: 1rem;
+const SalesforceLinkBox = styled.div`
+    flex: 1;
 `;
 
 const EierText = styled.span`
-    flex: 1;
-    text-align: right;
+    display: flex;
+    gap: 0.5rem;
 `;
 
 const CardContent = styled.div`
@@ -87,12 +86,10 @@ const CardContentLeft = styled.div`
     flex: 1;
     display: flex;
     flex-direction: column;
-    gap: 0.75rem;
+    gap: 0.6rem;
 `;
 
 const ContentText = styled.span`
-    font-size: 1rem;
-    font-style: normal;
     font-weight: 600;
 `;
 
@@ -105,22 +102,22 @@ const CardContentRight = styled.div`
 `;
 
 const navFane = (status: IAProsessStatusType) => {
-    let toReturn = "?fane="
+    let toReturn = "?fane=";
     switch (status) {
         case "KARTLEGGES":
-            toReturn += "kartlegging"
-            break
+            toReturn += "kartlegging";
+            break;
         case "VI_BISTÅR":
-            toReturn += "ia-tjenester"
-            break
+            toReturn += "ia-tjenester";
+            break;
         case "FULLFØRT":
-            toReturn += "historikk"
-            break
+            toReturn += "historikk";
+            break;
         default:
-            return ""
+            return "";
     }
-    return toReturn
-}
+    return toReturn;
+};
 
 export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
     const navigate = useNavigate();
@@ -149,7 +146,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
         mutate,
     };
 
-    const navUrl = `/virksomhet/${sak.orgnr}${navFane(sak.status)}`
+    const navUrl = `/virksomhet/${sak.orgnr}${navFane(sak.status)}`;
 
     return (
         <Card>
@@ -163,15 +160,17 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                 </HeaderOverskrift>
                 <HeaderSubskrift>
                     <StatusBadge status={sak.status} />
-                    <SalesforceLink href={salesforceInfo?.url}>
-                        Salesforce
-                    </SalesforceLink>
+                    <SalesforceLinkBox>
+                        <EksternLenke href={salesforceInfo?.url}>
+                            Salesforce
+                        </EksternLenke>
+                    </SalesforceLinkBox>
                     <EierText>
-                        <b>Eier: </b>
+                        <b>Eier</b>
                         {sak.eidAv ? (
                             <NavIdentMedLenke navIdent={sak.eidAv} />
                         ) : (
-                            "Ingen eier"
+                            <span>Ingen eier</span>
                         )}
                     </EierText>
 
@@ -181,7 +180,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                             focusable="true"
                             cursor="pointer"
                             onClick={handleIconClick}
-                            fontSize={30}
+                            fontSize={"1.5rem"}
                         />
                         <TeamModal
                             open={isModalOpen}
@@ -239,7 +238,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                         href={navUrl}
                         onClick={(e) => {
                             e.stopPropagation();
-                            navigate(navUrl)
+                            navigate(navUrl);
                         }}
                     >
                         Gå til sak

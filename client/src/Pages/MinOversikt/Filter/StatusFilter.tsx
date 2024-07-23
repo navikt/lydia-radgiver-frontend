@@ -17,7 +17,7 @@ const StyledAccordion = styled(Accordion)`
 const StyledAccordionHeader = styled(Accordion.Header)`
     flex-direction: row-reverse;
     & > .navds-accordion__header-content {
-        font-size: 1.1rem;
+        font-size: 1.125rem;
         font-weight: 400;
         flex: 1;
         padding-left: 1rem;
@@ -35,7 +35,7 @@ const StyledAccordionItem = styled(Accordion.Item)`
 
 const CheckboxgroupStyling = styled.div`
     background-color: white;
-    padding: 0.5rem 2rem;
+    padding: 0.6rem 2.75rem;
     border-radius: ${BorderRadius.medium};
 `;
 
