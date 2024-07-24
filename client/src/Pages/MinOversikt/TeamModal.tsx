@@ -12,6 +12,8 @@ import {
     useHentMineSaker,
     useHentTeam,
 } from "../../api/lydia-api";
+import { IAProsessStatusType } from "../../domenetyper/domenetyper";
+import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 
 const ModalBodyWrapper = styled.div`
     display: flex;
@@ -58,6 +60,7 @@ interface TeamModalProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     saksnummer: string;
     orgnummer: string;
+    status: IAProsessStatusType;
 }
 
 function følgerSak(
@@ -72,6 +75,7 @@ export const TeamModal = ({
     setOpen,
     orgnummer,
     saksnummer,
+    status,
 }: TeamModalProps) => {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const { mutate: muterMineSaker } = useHentMineSaker();
@@ -81,6 +85,15 @@ export const TeamModal = ({
         useHentTeam(saksnummer);
 
     const brukerIdent = brukerInformasjon?.ident;
+
+    /*  
+        TODO: her er det disconnect i dataen. useHentAktivForVirksomhet henter nyeste aktive sak, 
+        imens useHentMineSaker (som modal-propsene kommer fra) henter alle saker man er knyttet til, også historiske saker. 
+        Det er ikke nødvendigvis det samme, feks hvis en virksomhet har en tidligere inaktiv sak har fått ny aktiv sak.
+        Derfor er ikke nødvendigvis saksnummer === iasak.saksnummer, og bli eier knappen gjør request på feil sak
+    */
+    const arkivertSak =
+        ARKIV_STATUSER.includes(status) || saksnummer != iasak?.saksnummer; 
 
     const kanTaEierskap = iasak?.gyldigeNesteHendelser
         .map((h) => h.saksHendelsestype)
@@ -113,7 +126,7 @@ export const TeamModal = ({
                                 )}
                             </div>
 
-                            <EierKnappBoks>
+                            {!arkivertSak ? <EierKnappBoks>
                                 <span>
                                     Ønsker du å ta eierskap til saken? Nåværende
                                     eier blir automatisk fjernet.
@@ -148,7 +161,7 @@ export const TeamModal = ({
                                           ? `Kan ikke bli eier`
                                           : ``}
                                 </EierTekst>
-                            </EierKnappBoks>
+                            </EierKnappBoks> : <EierTekst>Kan ikke endre eierskap på en arkivert sak</EierTekst>}
                         </EierBoks>
                         <FølgereBoks>
                             <FølgereHeader>Følgere:</FølgereHeader>

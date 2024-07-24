@@ -137,6 +137,7 @@ export const IASakOversikt = ({
                                 setOpen={setIsModalOpen}
                                 saksnummer={sak.saksnummer}
                                 orgnummer={sak.orgnr}
+                                status={sak.status}
                             />
                         </Følgereinnhold>
                     </>

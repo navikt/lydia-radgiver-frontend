@@ -187,6 +187,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                         setOpen={setIsModalOpen}
                         saksnummer={sak.saksnummer}
                         orgnummer={sak.orgnr}
+                        status={sak.status}
                     />
                 </HeaderSubskrift>
             </CardHeader>
