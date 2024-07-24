@@ -8,15 +8,10 @@ import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
 import { useMemo, useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
-import { Button } from "@navikt/ds-react";
-import {
-    ArrowDownIcon,
-    ArrowUpIcon,
-    ArrowsUpDownIcon,
-} from "@navikt/aksel-icons";
 import { NavFarger } from "../../styling/farger";
 import { desktopAndUp } from "../../styling/breakpoints";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
+import { Sorteringsknapper } from "./Sorteringsknapper";
 
 const FlexContainer = styled.div`
     display: flex;
@@ -56,10 +51,6 @@ const HeaderContainer = styled.div`
     width: 100%;
     margin-bottom: 1rem;
 `;
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-`;
 
 const StickyFilterContainer = styled.div`
     position: static;
@@ -88,20 +79,13 @@ export const MinOversiktside = () => {
     const { data: mineSaker } = useHentMineSaker();
     const { data: brukerInfo } = useHentBrukerinformasjon();
 
+    const [sortBy, setSortBy] = useState<"date" | "alphabetical">("date");
+    const [isAscending, setIsAscending] = useState(false);
+
     const [statusFilter, setStatusFilter] = useState<IAProsessStatusType[]>([]);
     const [eierFølgerFilter, setEierFølgerFilter] =
         useState<EierFølgerFilterType>([]);
     const [søkFilter, setSøkFilter] = useState<SøkFilterType>("");
-
-    const [sortByNewest, setSortByNewest] = useState(true);
-    const [iconState, setIconState] = useState<
-        "initial" | "descending" | "ascending"
-    >("initial");
-
-    const [sortAlphByNewest, setSortAlphByNewest] = useState(true);
-    const [alphIconState, setAlphIconState] = useState<
-        "initial" | "descending" | "ascending"
-    >("initial");
 
     const filtretSaker = useMemo(
         () =>
@@ -126,68 +110,32 @@ export const MinOversiktside = () => {
         [mineSaker, statusFilter, eierFølgerFilter, brukerInfo, søkFilter],
     );
 
-    const sorterteSaker = filtretSaker?.sort((a, b) => {
-        const dateA = a.endretTidspunkt.getTime();
-        const dateB = b.endretTidspunkt.getTime();
+    const sorterteSaker = (() => {
+        if (!filtretSaker) return [];
 
-        if (alphIconState === "initial") {
-            return sortByNewest ? dateB - dateA : dateA - dateB;
-        } else {
-            const navnA = a.orgnavn.toLowerCase(); // Use toLowerCase() to make the comparison case-insensitive
-            const navnB = b.orgnavn.toLowerCase();
-
-            if (navnA < navnB) {
-                return sortAlphByNewest ? -1 : 1;
+        return [...filtretSaker].sort((a, b) => {
+            if (sortBy === "date") {
+                const dateA = a.endretTidspunkt.getTime();
+                const dateB = b.endretTidspunkt.getTime();
+                return isAscending ? dateA - dateB : dateB - dateA;
+            } else {
+                const navnA = a.orgnavn.toLowerCase();
+                const navnB = b.orgnavn.toLowerCase();
+                if (navnA < navnB) return isAscending ? -1 : 1;
+                if (navnA > navnB) return isAscending ? 1 : -1;
+                return 0;
             }
-            if (navnA > navnB) {
-                return sortAlphByNewest ? 1 : -1;
-            }
-            return 0; // names must be equal
-        }
-    });
+        });
+    })();
 
-    const handleSortToggle = () => {
-        setSortByNewest(!sortByNewest);
-        setIconState(
-            iconState === "initial"
-                ? "descending"
-                : iconState === "descending"
-                  ? "ascending"
-                  : "descending",
-        );
-        setAlphIconState("initial");
+    const handleSortChange = (
+        newSortBy: "date" | "alphabetical",
+        newIsAscending: boolean,
+    ) => {
+        setSortBy(newSortBy);
+        setIsAscending(newIsAscending);
     };
 
-    const handleAlphSortToggle = () => {
-        setSortAlphByNewest(!sortAlphByNewest);
-        setAlphIconState(
-            alphIconState === "initial"
-                ? "descending"
-                : alphIconState === "descending"
-                  ? "ascending"
-                  : "descending",
-        );
-        setIconState("initial");
-    };
-
-    const renderDateIcon = () => {
-        if (iconState === "initial") {
-            return <ArrowsUpDownIcon />;
-        } else if (iconState === "descending") {
-            return <ArrowDownIcon />;
-        } else {
-            return <ArrowUpIcon />;
-        }
-    };
-    const renderAlphabeticalIcon = () => {
-        if (alphIconState === "initial") {
-            return <ArrowsUpDownIcon />;
-        } else if (alphIconState === "descending") {
-            return <ArrowDownIcon />;
-        } else {
-            return <ArrowUpIcon />;
-        }
-    };
     return (
         <SideContainer>
             <HeaderContainer>
@@ -196,30 +144,7 @@ export const MinOversiktside = () => {
                 >
                     Mine saker
                 </Header1>
-                <ButtonContainer>
-                    <Button
-                        size="small"
-                        variant="tertiary"
-                        state="defult"
-                        label="Nyeste øverst"
-                        iconPosition="right"
-                        icon={renderAlphabeticalIcon()}
-                        onClick={handleAlphSortToggle}
-                    >
-                        Alfabetisk rekkefølge
-                    </Button>
-                    <Button
-                        size="small"
-                        variant="tertiary"
-                        state="defult"
-                        label="Nyeste øverst"
-                        iconPosition="right"
-                        icon={renderDateIcon()}
-                        onClick={handleSortToggle}
-                    >
-                        Sist endret
-                    </Button>
-                </ButtonContainer>
+                <Sorteringsknapper onSortChange={handleSortChange} />
             </HeaderContainer>
             <FlexContainer>
                 <StickyFilterContainer>
