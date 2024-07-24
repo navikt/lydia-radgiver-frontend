@@ -101,6 +101,12 @@ const CardContentRight = styled.div`
     margin-top: auto;
 `;
 
+const TeamModalButton = styled(Button)`
+    &>.navds-label {
+        font-size: 1.125rem;
+    }
+`
+
 const navFane = (status: IAProsessStatusType) => {
     let toReturn = "?fane=";
     switch (status) {
@@ -111,6 +117,7 @@ const navFane = (status: IAProsessStatusType) => {
             toReturn += "ia-tjenester";
             break;
         case "FULLFØRT":
+        case "IKKE_AKTUELL":
             toReturn += "historikk";
             break;
         default:
@@ -131,9 +138,7 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
         useHentSykefraværsstatistikkForVirksomhetSisteKvartal(sak.orgnr);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const handleIconClick = () => {
-        setIsModalOpen(true);
-    };
+
 
     const navUrl = `/virksomhet/${sak.orgnr}${navFane(sak.status)}`;
 
@@ -163,21 +168,26 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                         )}
                     </EierText>
 
-                    <>
+                    <TeamModalButton
+                        onClick={() => setIsModalOpen(true)}
+                        variant="tertiary-neutral"
+                        icon={
+                            <NotePencilIcon
+                                focusable="true"
+                                fontSize={"1.5rem"}
+                            />
+                        }
+                        size="small"
+                        iconPosition="right"
+                    >
                         <span>Følgere på sak ({følgere.length})</span>
-                        <NotePencilIcon
-                            focusable="true"
-                            cursor="pointer"
-                            onClick={handleIconClick}
-                            fontSize={"1.5rem"}
-                        />
-                        <TeamModal
-                            open={isModalOpen}
-                            setOpen={setIsModalOpen}
-                            saksnummer={sak.saksnummer}
-                            orgnummer={sak.orgnr}
-                        />
-                    </>
+                    </TeamModalButton>
+                    <TeamModal
+                        open={isModalOpen}
+                        setOpen={setIsModalOpen}
+                        saksnummer={sak.saksnummer}
+                        orgnummer={sak.orgnr}
+                    />
                 </HeaderSubskrift>
             </CardHeader>
             <CardContent>

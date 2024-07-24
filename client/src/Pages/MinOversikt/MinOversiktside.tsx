@@ -120,7 +120,8 @@ export const MinOversiktside = () => {
                         : true,
                 )
                 .filter((sak) =>
-                    sak.orgnavn.toLowerCase().includes(søkFilter.toLowerCase()),
+                    sak.orgnavn.toLowerCase().includes(søkFilter.toLowerCase()) ||
+                    sak.orgnr.toLowerCase().includes(søkFilter.toLowerCase())
                 ),
         [mineSaker, statusFilter, eierFølgerFilter, brukerInfo, søkFilter],
     );

@@ -41,7 +41,7 @@ const FiltreringMineSaker = ({
         <ParentContainer>
             <MineSakerSøkefelt setSøkFilter={setSøkFilter} />
             <div>
-                <FilterTitle>Filtrer søk</FilterTitle>
+                <FilterTitle>Filter</FilterTitle>
                 <FilterContainer>
                     <StatusFilter
                         aktiveStatusFiltre={aktiveStatusFiltre}

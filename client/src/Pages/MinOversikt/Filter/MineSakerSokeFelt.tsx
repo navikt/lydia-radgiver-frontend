@@ -26,14 +26,14 @@ export const MineSakerSøkefelt = ({
 
     return (
         <SearchContainer>
-                <Search
-                    size="medium"
-                    variant="simple"
-                    label="Søk på virksomheter"
-                    placeholder="Org.nr/navn"
-                    hideLabel={false}
-                    onChange={setSøkeStreng}
-                />
+            <Search
+                size="medium"
+                variant="simple"
+                label="Søk i Mine saker"
+                placeholder="Org.nr/navn"
+                hideLabel={false}
+                onChange={setSøkeStreng}
+            />
         </SearchContainer>
     );
 };
