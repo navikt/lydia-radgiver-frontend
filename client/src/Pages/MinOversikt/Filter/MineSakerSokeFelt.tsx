@@ -12,7 +12,7 @@ const SearchContainer = styled.div`
 `;
 
 
-export const SokeFelt = ({
+export const MineSakerSøkefelt = ({
     setSøkFilter,
 }: {
     setSøkFilter: (val: string) => void;
@@ -30,6 +30,7 @@ export const SokeFelt = ({
                     size="medium"
                     variant="simple"
                     label="Søk på virksomheter"
+                    placeholder="Org.nr/navn"
                     hideLabel={false}
                     onChange={setSøkeStreng}
                 />

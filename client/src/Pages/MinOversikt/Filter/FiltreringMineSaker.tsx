@@ -1,6 +1,10 @@
 import styled from "styled-components";
-import { SokeFelt } from "./SokeFelt";
-import { StatusFilter } from "./StatusFilter";
+import { MineSakerSøkefelt } from "./MineSakerSokeFelt";
+import {
+    StatusFilter,
+    ArkivStatusFilter,
+    useStatusFilter,
+} from "./StatusFilter";
 import { EierFølgerFilter } from "./EierFølgerFilter";
 import { SetMinesakerFiltreType } from "../MinOversiktside";
 
@@ -24,24 +28,33 @@ const FilterTitle = styled.div`
 `;
 
 type Props = {
-    setFiltre: SetMinesakerFiltreType
-}
+    setFiltre: SetMinesakerFiltreType;
+};
 
 const FiltreringMineSaker = ({
-    setFiltre: {
-        setStatusFilter,
-        setSøkFilter,
-        setEierFølgerFilter
-    }
+    setFiltre: { setStatusFilter, setSøkFilter, setEierFølgerFilter },
 }: Props) => {
+    const { handleStatusFilterEndring, aktiveStatusFiltre, arkivStatusFiltre } =
+        useStatusFilter(setStatusFilter);
+
     return (
         <ParentContainer>
-            <SokeFelt setSøkFilter={setSøkFilter} />
+            <MineSakerSøkefelt setSøkFilter={setSøkFilter} />
             <div>
                 <FilterTitle>Filtrer søk</FilterTitle>
                 <FilterContainer>
-                    <EierFølgerFilter setEierFølgerFilter={setEierFølgerFilter} />
-                    <StatusFilter setStatusFilter={setStatusFilter} />
+                    <StatusFilter
+                        aktiveStatusFiltre={aktiveStatusFiltre}
+                        arkivStatusFiltre={arkivStatusFiltre}
+                        handleStatusFilterEndring={handleStatusFilterEndring}
+                    />
+                    <EierFølgerFilter
+                        setEierFølgerFilter={setEierFølgerFilter}
+                    />
+                    <ArkivStatusFilter
+                        arkivStatusFiltre={arkivStatusFiltre}
+                        handleStatusFilterEndring={handleStatusFilterEndring}
+                    />
                 </FilterContainer>
             </div>
         </ParentContainer>
