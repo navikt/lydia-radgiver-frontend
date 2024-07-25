@@ -6,6 +6,7 @@ import { Button, HStack } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
 import {
     useHentIaProsesser,
+    useHentKartlegginger,
     useHentSalesforceUrl,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
     useHentTeam,
@@ -21,6 +22,7 @@ import { formaterSomHeltall } from "../../util/tallFormatering";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import { Chips } from "@navikt/ds-react";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
+import { penskrivKartleggingStatus } from "../../components/Badge/KartleggingStatusBadge";
 
 const Card = styled.div`
     background-color: white;
@@ -137,10 +139,6 @@ const navFane = (status: IAProsessStatusType) => {
 };
 
 export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
-    const navigate = useNavigate();
-
-    const [selected, setSelected] = useState<number | undefined>();
-
     const { data: salesforceInfo } = useHentSalesforceUrl(sak.orgnr);
     const { data: følgere = [] } = useHentTeam(sak.saksnummer);
 
@@ -149,20 +147,17 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
         sak.saksnummer,
     );
 
-    const { data: statsSiste4Kvartaler, loading } =
-        useHentVirksomhetsstatistikkSiste4Kvartaler(sak.orgnr);
-    const { data: statsSisteKvartal, loading: lasterSisteKvartal } =
-        useHentSykefraværsstatistikkForVirksomhetSisteKvartal(sak.orgnr);
-
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const navUrl = `/virksomhet/${sak.orgnr}${navFane(sak.status)}`;
+    const gåTilSakUrl = `/virksomhet/${sak.orgnr}${navFane(sak.status)}`;
+
+    const [selected, setSelected] = useState<number | undefined>();
 
     return (
         <Card>
             <CardHeader>
                 <HeaderOverskrift>
-                    <HeaderVirksomhetLink to={navUrl}>
+                    <HeaderVirksomhetLink to={gåTilSakUrl}>
                         {sak.orgnavn}
                     </HeaderVirksomhetLink>
                     <span>-</span>
@@ -216,10 +211,10 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                                     key={option.id}
                                     selected={i === selected}
                                     onClick={() => {
-                                        if (i !== selected) {
-                                            setSelected(i);
-                                        } else {
+                                        if (i === selected) {
                                             setSelected(undefined);
+                                        } else {
+                                            setSelected(i);
                                         }
                                     }}
                                 >
@@ -231,63 +226,117 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                 </ProsesserBoks>
             ) : null}
 
-            {(erIDev && selected !== undefined) || !erIDev ? (
-                <CardContent>
-                    <CardContentLeft>
-                        <div>
-                            <ContentText>Sist endret: </ContentText>
-                            <ContentData>
-                                {sak.endretTidspunkt.toLocaleDateString("no", {
-                                    dateStyle: "short",
-                                })}
-                            </ContentData>
-                        </div>
-                        <div>
-                            <ContentText>Arbeidsforhold: </ContentText>
-                            <ContentData>
-                                {statsSisteKvartal?.antallPersoner ||
-                                lasterSisteKvartal
-                                    ? statsSisteKvartal?.antallPersoner
-                                    : "Ingen data"}
-                            </ContentData>{" "}
-                        </div>
-                        <div>
-                            <ContentText>Sykefravær: </ContentText>
-                            <ContentData>
-                                {statsSisteKvartal?.sykefraværsprosent
-                                    ? `${statsSisteKvartal?.sykefraværsprosent} %`
-                                    : !lasterSisteKvartal
-                                      ? "Ingen data"
-                                      : null}
-                            </ContentData>
-                        </div>
-                        <div>
-                            <ContentText>Tapte dagsverk: </ContentText>
-                            <ContentData>
-                                {statsSiste4Kvartaler?.tapteDagsverk
-                                    ? formaterSomHeltall(
-                                          statsSiste4Kvartaler?.tapteDagsverk,
-                                      )
-                                    : !loading
-                                      ? "Ingen data"
-                                      : null}
-                            </ContentData>
-                        </div>
-                    </CardContentLeft>
-                    <CardContentRight>
-                        <Button
-                            size="small"
-                            href={navUrl}
-                            onClick={(e) => {
-                                e.stopPropagation();
-                                navigate(navUrl);
-                            }}
-                        >
-                            Gå til sak
-                        </Button>
-                    </CardContentRight>
-                </CardContent>
-            ) : null}
+            {(!erIDev || selected !== undefined) && (
+                <CardContentBox sak={sak} gåTilSakUrl={gåTilSakUrl} />
+            )}
         </Card>
+    );
+};
+
+const VIS_VURDERINGSSAKER: readonly IAProsessStatusType[] = [
+    "VI_BISTÅR",
+    "KARTLEGGES",
+] as const;
+
+const CardContentBox = ({
+    sak,
+    gåTilSakUrl,
+}: {
+    sak: MineSaker;
+    gåTilSakUrl: string;
+}) => {
+    const navigate = useNavigate();
+
+    const { data: statsSiste4Kvartaler, loading: lasterSiste4Kvartaler } =
+        useHentVirksomhetsstatistikkSiste4Kvartaler(sak.orgnr);
+    const { data: statsSisteKvartal, loading: lasterSisteKvartal } =
+        useHentSykefraværsstatistikkForVirksomhetSisteKvartal(sak.orgnr);
+
+    const { data: behosvurderinger, loading: lasterKartlegginger } =
+        useHentKartlegginger(sak.orgnr, sak.saksnummer);
+
+    const sisteVurdering = behosvurderinger
+        ?.sort(
+            (a, b) =>
+                (b.endretTidspunkt?.getTime() ?? 0) -
+                (a.endretTidspunkt?.getTime() ?? 0),
+        )
+        .pop();
+
+    const visVurdering = VIS_VURDERINGSSAKER.includes(sak.status);
+    const vurderingSistEndret = (
+        sisteVurdering?.endretTidspunkt || sisteVurdering?.opprettetTidspunkt
+    )?.toLocaleDateString("no", {
+        dateStyle: "short",
+    });
+
+    return (
+        <CardContent>
+            <CardContentLeft>
+                <div>
+                    <ContentText>Sist endret: </ContentText>
+                    <ContentData>
+                        {sak.endretTidspunkt.toLocaleDateString("no", {
+                            dateStyle: "short",
+                        })}
+                    </ContentData>
+                </div>
+                <div>
+                    <ContentText>Arbeidsforhold: </ContentText>
+                    <ContentData>
+                        {statsSisteKvartal?.antallPersoner || lasterSisteKvartal
+                            ? statsSisteKvartal?.antallPersoner
+                            : "Ingen data"}
+                    </ContentData>{" "}
+                </div>
+                <div>
+                    <ContentText>Sykefravær: </ContentText>
+                    <ContentData>
+                        {statsSisteKvartal?.sykefraværsprosent
+                            ? `${statsSisteKvartal.sykefraværsprosent} % (forrige kvartal)`
+                            : !lasterSisteKvartal
+                              ? "Ingen data"
+                              : null}
+                    </ContentData>
+                </div>
+
+                {visVurdering ? (
+                    <div>
+                        <ContentText>Behovsvurdering: </ContentText>
+                        <ContentData>
+                            {sisteVurdering?.status && vurderingSistEndret
+                                ? `${penskrivKartleggingStatus(sisteVurdering.status)}
+                                    ${vurderingSistEndret}`
+                                : !lasterKartlegginger
+                                  ? "Ingen behovsvurderinger"
+                                  : null}
+                        </ContentData>
+                    </div>
+                ) : (
+                    <div>
+                        <ContentText>Tapte dagsverk: </ContentText>
+                        <ContentData>
+                            {statsSiste4Kvartaler?.tapteDagsverk
+                                ? `${formaterSomHeltall(statsSiste4Kvartaler?.tapteDagsverk)} (siste 4 kvartaler)`
+                                : !lasterSiste4Kvartaler
+                                  ? "Ingen data"
+                                  : null}
+                        </ContentData>
+                    </div>
+                )}
+            </CardContentLeft>
+            <CardContentRight>
+                <Button
+                    size="small"
+                    href={gåTilSakUrl}
+                    onClick={(e) => {
+                        e.stopPropagation();
+                        navigate(gåTilSakUrl);
+                    }}
+                >
+                    Gå til sak
+                </Button>
+            </CardContentRight>
+        </CardContent>
     );
 };

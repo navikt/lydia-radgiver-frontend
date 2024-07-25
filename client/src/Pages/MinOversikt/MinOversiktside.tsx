@@ -39,7 +39,7 @@ const MineSakerListe = styled.div`
 const Header1 = styled.h1`
     font-size: 2rem;
     font-weight: 600;
-    border-bottom: solid 0.1rem ${NavFarger.gray500};
+    border-bottom: solid 2px ${NavFarger.gray500};
     margin-bottom: 0;
     padding-bottom: 1rem;
 `;
@@ -143,9 +143,7 @@ export const MinOversiktside = () => {
     return (
         <SideContainer>
             <HeaderContainer>
-                <Header1
-                    style={{ borderBottom: `solid 2px ${NavFarger.gray500}` }}
-                >
+                <Header1>
                     Mine saker
                 </Header1>
                 <Sorteringsknapper onSortChange={handleSortChange} />
