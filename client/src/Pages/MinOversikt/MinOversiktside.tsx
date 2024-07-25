@@ -75,7 +75,6 @@ export type SetMinesakerFiltreType = {
 };
 
 export const MinOversiktside = () => {
-    // TODO: Loading and error states
     const { data: mineSaker } = useHentMineSaker();
     const { data: brukerInfo } = useHentBrukerinformasjon();
 
@@ -103,9 +102,14 @@ export const MinOversiktside = () => {
                               sak.eidAv != brukerInfo?.ident)
                         : true,
                 )
-                .filter((sak) =>
-                    sak.orgnavn.toLowerCase().includes(søkFilter.toLowerCase()) ||
-                    sak.orgnr.toLowerCase().includes(søkFilter.toLowerCase())
+                .filter(
+                    (sak) =>
+                        sak.orgnavn
+                            .toLowerCase()
+                            .includes(søkFilter.toLowerCase()) ||
+                        sak.orgnr
+                            .toLowerCase()
+                            .includes(søkFilter.toLowerCase()),
                 ),
         [mineSaker, statusFilter, eierFølgerFilter, brukerInfo, søkFilter],
     );
@@ -157,9 +161,13 @@ export const MinOversiktside = () => {
                     />
                 </StickyFilterContainer>
                 <MineSakerListe>
-                    {sorterteSaker?.map((sak) => (
-                        <MineSakerKort key={sak.saksnummer} sak={sak} />
-                    ))}
+                    {sorterteSaker.length === 0 ? (
+                        <div>Fant ingen saker </div>
+                    ) : (
+                        sorterteSaker.map((sak) => (
+                            <MineSakerKort key={sak.saksnummer} sak={sak} />
+                        ))
+                    )}
                 </MineSakerListe>
             </FlexContainer>
         </SideContainer>
