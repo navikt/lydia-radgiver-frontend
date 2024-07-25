@@ -2,9 +2,10 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MineSaker } from "../../domenetyper/mineSaker";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
-import { Button } from "@navikt/ds-react";
+import { Button, HStack } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
 import {
+    useHentIaProsesser,
     useHentSalesforceUrl,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
     useHentTeam,
@@ -18,6 +19,8 @@ import { useState } from "react";
 import { TeamModal } from "./TeamModal";
 import { formaterSomHeltall } from "../../util/tallFormatering";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
+import { Chips } from "@navikt/ds-react";
+import { erIDev } from "../../components/Dekoratør/Dekoratør";
 
 const Card = styled.div`
     background-color: white;
@@ -102,10 +105,17 @@ const CardContentRight = styled.div`
 `;
 
 const TeamModalButton = styled(Button)`
-    &>.navds-label {
+    & > .navds-label {
         font-size: 1.125rem;
     }
-`
+`;
+
+const ProsesserBoks = styled.div`
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+`;
 
 const navFane = (status: IAProsessStatusType) => {
     let toReturn = "?fane=";
@@ -129,8 +139,15 @@ const navFane = (status: IAProsessStatusType) => {
 export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
     const navigate = useNavigate();
 
+    const [selected, setSelected] = useState<number | undefined>();
+
     const { data: salesforceInfo } = useHentSalesforceUrl(sak.orgnr);
     const { data: følgere = [] } = useHentTeam(sak.saksnummer);
+
+    const { data: prosesser = [] } = useHentIaProsesser(
+        sak.orgnr,
+        sak.saksnummer,
+    );
 
     const { data: statsSiste4Kvartaler, loading } =
         useHentVirksomhetsstatistikkSiste4Kvartaler(sak.orgnr);
@@ -138,7 +155,6 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
         useHentSykefraværsstatistikkForVirksomhetSisteKvartal(sak.orgnr);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
-
 
     const navUrl = `/virksomhet/${sak.orgnr}${navFane(sak.status)}`;
 
@@ -191,61 +207,87 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                     />
                 </HeaderSubskrift>
             </CardHeader>
-            <CardContent>
-                <CardContentLeft>
-                    <div>
-                        <ContentText>Sist endret: </ContentText>
-                        <ContentData>
-                            {sak.endretTidspunkt.toLocaleDateString("no", {
-                                dateStyle: "short",
-                            })}
-                        </ContentData>
-                    </div>
-                    <div>
-                        <ContentText>Arbeidsforhold: </ContentText>
-                        <ContentData>
-                            {statsSisteKvartal?.antallPersoner ||
-                            lasterSisteKvartal
-                                ? statsSisteKvartal?.antallPersoner
-                                : "Ingen data"}
-                        </ContentData>{" "}
-                    </div>
-                    <div>
-                        <ContentText>Sykefravær: </ContentText>
-                        <ContentData>
-                            {statsSisteKvartal?.sykefraværsprosent
-                                ? `${statsSisteKvartal?.sykefraværsprosent} %`
-                                : !lasterSisteKvartal
-                                  ? "Ingen data"
-                                  : null}
-                        </ContentData>
-                    </div>
-                    <div>
-                        <ContentText>Tapte dagsverk: </ContentText>
-                        <ContentData>
-                            {statsSiste4Kvartaler?.tapteDagsverk
-                                ? formaterSomHeltall(
-                                      statsSiste4Kvartaler?.tapteDagsverk,
-                                  )
-                                : !loading
-                                  ? "Ingen data"
-                                  : null}
-                        </ContentData>
-                    </div>
-                </CardContentLeft>
-                <CardContentRight>
-                    <Button
-                        size="small"
-                        href={navUrl}
-                        onClick={(e) => {
-                            e.stopPropagation();
-                            navigate(navUrl);
-                        }}
-                    >
-                        Gå til sak
-                    </Button>
-                </CardContentRight>
-            </CardContent>
+            {erIDev ? (
+                <ProsesserBoks>
+                    <HStack gap="10" align="start" justify="start">
+                        <Chips>
+                            {prosesser.map((option, i) => (
+                                <Chips.Toggle
+                                    key={option.id}
+                                    selected={i === selected}
+                                    onClick={() => {
+                                        if (i !== selected) {
+                                            setSelected(i);
+                                        } else {
+                                            setSelected(undefined);
+                                        }
+                                    }}
+                                >
+                                    {option.navn || sak.orgnavn}
+                                </Chips.Toggle>
+                            ))}
+                        </Chips>
+                    </HStack>
+                </ProsesserBoks>
+            ) : null}
+
+            {(erIDev && selected !== undefined) || !erIDev ? (
+                <CardContent>
+                    <CardContentLeft>
+                        <div>
+                            <ContentText>Sist endret: </ContentText>
+                            <ContentData>
+                                {sak.endretTidspunkt.toLocaleDateString("no", {
+                                    dateStyle: "short",
+                                })}
+                            </ContentData>
+                        </div>
+                        <div>
+                            <ContentText>Arbeidsforhold: </ContentText>
+                            <ContentData>
+                                {statsSisteKvartal?.antallPersoner ||
+                                lasterSisteKvartal
+                                    ? statsSisteKvartal?.antallPersoner
+                                    : "Ingen data"}
+                            </ContentData>{" "}
+                        </div>
+                        <div>
+                            <ContentText>Sykefravær: </ContentText>
+                            <ContentData>
+                                {statsSisteKvartal?.sykefraværsprosent
+                                    ? `${statsSisteKvartal?.sykefraværsprosent} %`
+                                    : !lasterSisteKvartal
+                                      ? "Ingen data"
+                                      : null}
+                            </ContentData>
+                        </div>
+                        <div>
+                            <ContentText>Tapte dagsverk: </ContentText>
+                            <ContentData>
+                                {statsSiste4Kvartaler?.tapteDagsverk
+                                    ? formaterSomHeltall(
+                                          statsSiste4Kvartaler?.tapteDagsverk,
+                                      )
+                                    : !loading
+                                      ? "Ingen data"
+                                      : null}
+                            </ContentData>
+                        </div>
+                    </CardContentLeft>
+                    <CardContentRight>
+                        <Button
+                            size="small"
+                            href={navUrl}
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                navigate(navUrl);
+                            }}
+                        >
+                            Gå til sak
+                        </Button>
+                    </CardContentRight>
+                </CardContent>
+            ) : null}
         </Card>
     );
 };
