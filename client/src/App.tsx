@@ -87,10 +87,10 @@ const AppContent = () => {
                     path={"/iatjenesteoversikt"}
                     element={<IATjenesteoversiktside />}
                 />
-                {(erIDev || erIDemo) && <Route
+                <Route
                     path={"/minesaker"}
                     element={<MinOversiktside />}
-                />}
+                />
             </Routes>
         </AppRamme>
         <Footer />
