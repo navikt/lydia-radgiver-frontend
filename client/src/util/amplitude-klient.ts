@@ -37,7 +37,8 @@ type NavsAmplitudeTopologiEventer =
     | "nullstill filter i søk"
     | "opprette leveranse med frist"
     | "aktivitet på IA-tjenesteoversikt"
-    | "skrudde av eller på autosøk";
+    | "skrudde av eller på autosøk"
+    | "fulgte sak";
 
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
@@ -80,6 +81,7 @@ export const enum Søkekomponenter {
     PRIORITERING = "prioritering",
     STATUSOVERSIKT = "statusoversikt",
     VIRKSOMHETSSØK = "virksomhetssøk",
+    MINESAKER = "minesaker",
 }
 
 export const loggSøkPåVirksomhet = (søkstype: "vanlig" | "med *") => {
@@ -236,3 +238,42 @@ export const loggLeveranseFristKategori = (frist: Date) => {
         fristKategori: fristkategori,
     });
 };
+
+export const loggFølgeSak = (begyntÅFølge: boolean) => {
+    logAmplitudeEvent("fulgte sak", {
+        følgehendelse: begyntÅFølge ? "fulgte" : "sluttet å følge",
+    });
+};
+
+export const loggGåTilSakFraMineSaker = (
+    navigertFra: "gå-til-sak-knapp" | "virksomhetslenke",
+    url: string,
+) => {
+    logAmplitudeEvent("navigere", {
+        destinasjon: maskerOrgnr(url),
+        lenketekst:
+            navigertFra == "gå-til-sak-knapp"
+                ? "Gå til sak"
+                : "Virksomhetsoverskrift",
+        navigertFra: "MineSaker",
+    });
+};
+
+export const enum MineSakerFilterKategorier {
+    STATUS = "_status",
+    KNYTNING = "_knytning",
+    ORGSØK = "_virksomhetsøk",
+    ARKIVERTE_SAKER = "_arkiverte-saker",
+}
+
+
+export const loggMineSakerFilter = (
+    typer: MineSakerFilterKategorier[],
+
+) => {
+    logAmplitudeEvent("søk", {
+        destinasjon: Søkekomponenter.MINESAKER,
+        søkeord: typer,
+        komponent: Søkekomponenter.MINESAKER,
+    })
+}

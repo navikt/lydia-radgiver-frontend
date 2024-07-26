@@ -14,6 +14,7 @@ import {
 } from "../../api/lydia-api";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
+import { loggFølgeSak } from "../../util/amplitude-klient";
 
 const ModalBodyWrapper = styled.div`
     display: flex;
@@ -173,19 +174,6 @@ export const TeamModal = ({
                                             navIdent={member.ident}
                                         />
                                     ))}
-                                    {/* 
-                                    [
-                                        ...sakInfo.følgere,
-                                        ...sakInfo.følgere,
-                                        ...sakInfo.følgere,
-                                        ...sakInfo.følgere,
-                                        ...sakInfo.følgere,
-                                    ].map((member, i) => (
-                                        <NavIdentMedLenke
-                                            key={member.ident + i}
-                                            navIdent={member.ident}
-                                        />
-                                    )) */}
                                 </FølgereListe>
                             )}
                             <span>
@@ -201,19 +189,21 @@ export const TeamModal = ({
                                     onClick={async () => {
                                         await fjernBrukerFraTeam(saksnummer);
                                         muterFølgere();
+                                        loggFølgeSak(false)
                                     }}
-                                >
+                                    >
                                     Slutt å følge saken
                                 </Button>
                             ) : (
                                 <Button
-                                    icon={<HeartIcon />}
-                                    size="small"
-                                    iconPosition="right"
-                                    onClick={async () => {
-                                        await leggBrukerTilTeam(saksnummer);
-                                        muterFølgere();
-                                    }}
+                                icon={<HeartIcon />}
+                                size="small"
+                                iconPosition="right"
+                                onClick={async () => {
+                                    await leggBrukerTilTeam(saksnummer);
+                                    muterFølgere();
+                                    loggFølgeSak(true)
+                                }}
                                 >
                                     Følg saken
                                 </Button>

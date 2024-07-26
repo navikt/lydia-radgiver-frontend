@@ -6,12 +6,14 @@ import {
 } from "../../api/lydia-api";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
 import { NavFarger } from "../../styling/farger";
 import { desktopAndUp } from "../../styling/breakpoints";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { Sorteringsknapper } from "./Sorteringsknapper";
+import { loggSideLastet } from "../../util/amplitude-klient";
+import { loggMineSakerFilterEndringMedAmplitude } from "./loggFilterEndringMedAmplitude";
 
 const FlexContainer = styled.div`
     display: flex;
@@ -75,6 +77,12 @@ export type SetMinesakerFiltreType = {
 };
 
 export const MinOversiktside = () => {
+
+    useEffect(() => {
+        loggSideLastet("Minesakerside")
+    }, [])
+
+    // TODO: Loading and error states
     const { data: mineSaker } = useHentMineSaker();
     const { data: brukerInfo } = useHentBrukerinformasjon();
 
@@ -113,6 +121,10 @@ export const MinOversiktside = () => {
                 ),
         [mineSaker, statusFilter, eierFølgerFilter, brukerInfo, søkFilter],
     );
+
+    useEffect(() => {
+        loggMineSakerFilterEndringMedAmplitude(statusFilter, søkFilter, eierFølgerFilter)
+    }, [statusFilter, eierFølgerFilter, søkFilter])
 
     const sorterteSaker = (() => {
         if (!filtretSaker) return [];

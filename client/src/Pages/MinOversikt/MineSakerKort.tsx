@@ -23,6 +23,7 @@ import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import { Chips } from "@navikt/ds-react";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import { penskrivKartleggingStatus } from "../../components/Badge/KartleggingStatusBadge";
+import { loggGåTilSakFraMineSaker } from "../../util/amplitude-klient";
 
 const Card = styled.div`
     background-color: white;
@@ -157,7 +158,9 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
         <Card>
             <CardHeader>
                 <HeaderOverskrift>
-                    <HeaderVirksomhetLink to={gåTilSakUrl}>
+                    <HeaderVirksomhetLink to={gåTilSakUrl} onClick={() => 
+                        loggGåTilSakFraMineSaker("virksomhetslenke", gåTilSakUrl)
+                    }>
                         {sak.orgnavn}
                     </HeaderVirksomhetLink>
                     <span>-</span>
@@ -331,6 +334,7 @@ const CardContentBox = ({
                     href={gåTilSakUrl}
                     onClick={(e) => {
                         e.stopPropagation();
+                        loggGåTilSakFraMineSaker("gå-til-sak-knapp", gåTilSakUrl)
                         navigate(gåTilSakUrl);
                     }}
                 >
