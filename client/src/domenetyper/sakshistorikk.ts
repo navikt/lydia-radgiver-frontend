@@ -1,5 +1,9 @@
 import { z } from "zod";
-import { datoSchema, IAProsessStatusEnum, IASakshendelseTypeEnum } from "./domenetyper";
+import {
+    datoSchema,
+    IAProsessStatusEnum,
+    IASakshendelseTypeEnum,
+} from "./domenetyper";
 
 const sakshendelseSchema = z.object({
     status: IAProsessStatusEnum,
@@ -15,4 +19,5 @@ export const sakshistorikkSchema = z.object({
     sakshendelser: sakshendelseSchema.array(),
 });
 
+export type Sakshendelse = z.infer<typeof sakshendelseSchema>;
 export type Sakshistorikk = z.infer<typeof sakshistorikkSchema>;
