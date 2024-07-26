@@ -56,12 +56,13 @@ const HeaderContainer = styled.div`
 
 const StickyFilterContainer = styled.div`
     position: static;
-    top: 1rem;
     min-width: 18rem;
-
+    
     ${desktopAndUp} {
         position: sticky;
         align-items: flex-start;
+        top: 3rem;
+        transform: translateY(-2rem);
     }
 `;
 

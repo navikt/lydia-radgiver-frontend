@@ -4,11 +4,7 @@ import styled from "styled-components";
 import { useDebounce } from "../../../util/useDebounce";
 
 const SearchContainer = styled.div`
-    display: flex;
-    flex-direction: column;
     border-radius: 0.25rem;
-    gap: 1rem;
-    top: 1rem;
 `;
 
 
