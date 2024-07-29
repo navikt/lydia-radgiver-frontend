@@ -1,10 +1,11 @@
-import { Virksomhet } from "../../../domenetyper/virksomhet";
 import styled from "styled-components";
 import { BodyShort, HelpText } from "@navikt/ds-react";
-import { EksternLenke } from "../../../components/EksternLenke";
 import PopoverContent from "@navikt/ds-react/esm/popover/PopoverContent";
-import { useHentSalesforceUrl } from "../../../api/lydia-api";
-import { IASak } from "../../../domenetyper/domenetyper";
+
+import { Virksomhet } from "../../../../domenetyper/virksomhet";
+import { EksternLenke } from "../../../../components/EksternLenke";
+import { useHentSalesforceUrl } from "../../../../api/lydia-api";
+import { IASak } from "../../../../domenetyper/domenetyper";
 
 const Info = styled.dl`
     display: grid;

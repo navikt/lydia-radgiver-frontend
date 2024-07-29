@@ -1,12 +1,14 @@
-import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useRef, useState } from "react";
 import styled from "styled-components";
+
 import { Heading, Popover } from "@navikt/ds-react";
-import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
-import { useHentSalesforceUrl } from "../../../api/lydia-api";
-import { EksternLenke } from "../../../components/EksternLenke";
 import { InformationSquareIcon } from "@navikt/aksel-icons";
-import { IASak } from "../../../domenetyper/domenetyper";
+
+import { Virksomhet } from "../../../../domenetyper/virksomhet";
+import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
+import { useHentSalesforceUrl } from "../../../../api/lydia-api";
+import { EksternLenke } from "../../../../components/EksternLenke";
+import { IASak } from "../../../../domenetyper/domenetyper";
 
 const Container = styled.div`
     display: flex;
@@ -39,10 +41,11 @@ interface Props {
     iaSak?: IASak;
 }
 
-export const VirksomhetsInfoPopover = ({ virksomhet, iaSak }: Props) => {
+export default function VirksomhetsinfoHeader({ virksomhet, iaSak }: Props) {
     const buttonRef = useRef<SVGSVGElement>(null);
     const [openState, setOpenState] = useState(false);
     const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
+
     return (
         <Container>
             {salesforceInfo && (
@@ -74,4 +77,4 @@ export const VirksomhetsInfoPopover = ({ virksomhet, iaSak }: Props) => {
             </NavnOgIkonContainer>
         </Container>
     );
-};
+}
