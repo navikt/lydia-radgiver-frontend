@@ -255,16 +255,14 @@ const CardContentBox = ({
     const { data: statsSisteKvartal, loading: lasterSisteKvartal } =
         useHentSykefraværsstatistikkForVirksomhetSisteKvartal(sak.orgnr);
 
-    const { data: behosvurderinger, loading: lasterKartlegginger } =
+    const { data: behovsvurderinger, loading: lasterKartlegginger } =
         useHentKartlegginger(sak.orgnr, sak.saksnummer);
 
-    const sisteVurdering = behosvurderinger
-        ?.sort(
-            (a, b) =>
-                (b.endretTidspunkt?.getTime() ?? 0) -
-                (a.endretTidspunkt?.getTime() ?? 0),
-        )
-        .pop();
+    const sisteVurdering = behovsvurderinger?.sort(
+        (a, b) =>
+            (b.endretTidspunkt?.getTime() ?? b.opprettetTidspunkt.getTime()) -
+            (a.endretTidspunkt?.getTime() ?? a.opprettetTidspunkt.getTime()),
+    )[0];
 
     const visVurdering = VIS_VURDERINGSSAKER.includes(sak.status);
     const vurderingSistEndret = (
