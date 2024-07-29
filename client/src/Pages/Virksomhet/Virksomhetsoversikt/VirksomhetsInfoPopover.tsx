@@ -16,7 +16,7 @@ const Container = styled.div`
 `;
 
 const SalesforceLenke = styled(EksternLenke)`
-    font-size: 1.25rem;
+    font-size: 1.125rem;
 `;
 
 const NavnOgIkonContainer = styled.div`
@@ -28,6 +28,10 @@ const VirksomhetsInfoIkon = styled(InformationSquareIcon)`
     margin-top: 0.25rem;
     margin-left: 1rem;
     cursor: pointer;
+`;
+
+const TittelseksjonMedLavFontWeight = styled.span`
+    font-weight: 400;
 `;
 
 interface Props {
@@ -48,7 +52,7 @@ export const VirksomhetsInfoPopover = ({ virksomhet, iaSak }: Props) => {
             )}
             <NavnOgIkonContainer>
                 <Heading level={"2"} size={"large"}>
-                    {virksomhet.navn} - {virksomhet.orgnr}
+                    {virksomhet.navn}<TittelseksjonMedLavFontWeight> - {virksomhet.orgnr}</TittelseksjonMedLavFontWeight>
                 </Heading>
                 <VirksomhetsInfoIkon
                     title={"Se detaljer"}

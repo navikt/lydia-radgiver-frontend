@@ -7,40 +7,32 @@ import { useHentSalesforceUrl } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 
 const Info = styled.dl`
-    display: flex;
-    flex-direction: column;
-
-    // Om virksomhetsinfo-boksen er over 400px-i-rem brei
-    @container (min-width: ${400 / 16}rem) {
-        display: grid;
-        grid-template-columns: auto 1fr;
-        grid-template-rows: repeat(auto-fill, auto);
-        row-gap: 0.5rem;
-        column-gap: 1.5rem;
-    }
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    row-gap: 0.5rem;
+    column-gap: 1.5rem;
 `;
 
 const InfoTittel = styled(BodyShort).attrs({ as: "dt" })`
     font-weight: bold;
+    grid-column-start: 0;
+    grid-column-end: 1;
 `;
 
 const InfoData = styled(BodyShort).attrs({ as: "dd" })`
-    overflow-wrap: anywhere;
-
-    // Gjer at det blir avstand mellom ulike info-element når virksomhetsinfo-boksen er liten
-    margin-bottom: 0.5rem;
-
-    @container (min-width: 400px) {
-        margin-bottom: 0;
-    }
+    grid-column-start: 1;
+    max-width: 26rem;
 `;
 
-const TittelMedHelpTextContainer = styled.div`
+const TittelMedHelpTextContainer = styled(BodyShort).attrs({ as: "dt" })`
+    font-weight: bold;
+    grid-column-start: 0;
+    grid-column-end: 1;
     display: flex;
-    flex-direction: row;
     align-items: center;
     gap: 0.5rem;
 `;
+
 
 interface PopoverInnholdProps {
     virksomhet: Virksomhet;
@@ -58,65 +50,85 @@ export const VirksomhetsInfoPopoverInnhold = ({
         return lowerCasedLabel[0].toUpperCase() + lowerCasedLabel.slice(1);
     };
 
-    const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
+
 
     return (
         <PopoverContent>
-            <>
-                <Info className={className}>
-                    {sak?.saksnummer && <InfoTittel>Saksnummer</InfoTittel>}
-                    <InfoData>{sak?.saksnummer}</InfoData>
-                    <InfoTittel>Orgnummer</InfoTittel>
-                    <InfoData>{virksomhet.orgnr}</InfoData>
-                    <InfoTittel>Adresse</InfoTittel>
-                    <InfoData>
-                        {adresse}, {virksomhet.postnummer} {virksomhet.poststed}
-                    </InfoData>
-                    {virksomhet.bransje && (
-                        <>
-                            <InfoTittel>Bransje</InfoTittel>
-                            <InfoData>
-                                {capitalizedLabel(virksomhet.bransje)}
-                            </InfoData>
-                        </>
-                    )}
-                    <InfoTittel>Næring</InfoTittel>
-                    <InfoData>
-                        {`${virksomhet.næring.navn} (${virksomhet.næring.kode})`}
-                    </InfoData>
-                    <InfoTittel>
-                        Næringsundergruppe
-                        {virksomhet.næringsundergruppe2 && "r"}
-                    </InfoTittel>
-                    <InfoData>
-                        {virksomhet.næringsundergruppe1.navn} (
-                        {virksomhet.næringsundergruppe1.kode})
-                        {virksomhet.næringsundergruppe2 &&
-                            `, ${virksomhet.næringsundergruppe2.navn} (${virksomhet.næringsundergruppe2.kode})`}
-                        {virksomhet.næringsundergruppe3 &&
-                            `, ${virksomhet.næringsundergruppe3.navn} (${virksomhet.næringsundergruppe3.kode})`}
-                    </InfoData>
-                    {virksomhet.sektor && (
-                        <>
-                            <InfoTittel>Sektor</InfoTittel>
-                            <InfoData>{virksomhet.sektor}</InfoData>
-                        </>
-                    )}
-                    {salesforceInfo && salesforceInfo.partnerStatus && (
-                        <>
-                            <TittelMedHelpTextContainer>
-                                <InfoTittel>Partner avtale</InfoTittel>
-                                <HelpText>
-                                    <EksternLenke href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-markedsarbeid/SitePages/Strategisk-Rammeverk-for-Markedsarbeid.aspx">
-                                        Les mer om partner avtaler på navet
-                                    </EksternLenke>
-                                </HelpText>
-                            </TittelMedHelpTextContainer>
-                            <InfoData>{salesforceInfo.partnerStatus}</InfoData>
-                        </>
-                    )}
-                </Info>
-            </>
+            <Info className={className}>
+                <Infolinje tittel="Saksnummer" data={sak?.saksnummer} />
+                <Infolinje tittel="Orgnummer" data={virksomhet.orgnr} />
+                <Infolinje tittel="Adresse" data={`${adresse}, ${virksomhet.postnummer} ${virksomhet.poststed}`} />
+                <Infolinje tittel="Bransje" data={virksomhet.bransje ? capitalizedLabel(virksomhet.bransje) : undefined} />
+                <Infolinje tittel="Næring" data={`${virksomhet.næring.navn} (${virksomhet.næring.kode})`} />
+                <NæringsgruppeInfolinje virksomhet={virksomhet} />
+                <Infolinje tittel="Sektor" data={virksomhet.sektor} />
+                <PartneravtaleInfolinje virksomhet={virksomhet} />
+            </Info>
         </PopoverContent>
     );
 };
+
+
+function Infolinje({ tittel, data }: { tittel: string; data?: string | string[] }) {
+    if (!data) {
+        return null;
+    }
+
+    if (Array.isArray(data)) {
+        return (
+            <>
+                <InfoTittel>{tittel}</InfoTittel>
+                {
+                    data.map((d, i) => (
+                        <InfoData key={i}>{d}{i + 1 < data.length ? "," : undefined}</InfoData>
+                    ))
+                }
+            </>
+        );
+    }
+
+    return (
+        <>
+            <InfoTittel>{tittel}</InfoTittel>
+            <InfoData>{data}</InfoData>
+        </>
+    );
+}
+
+function NæringsgruppeInfolinje({ virksomhet }: { virksomhet: Virksomhet }) {
+    const næringsgrupper = [`${virksomhet.næringsundergruppe1.navn} (${virksomhet.næringsundergruppe1.kode})`];
+    if (virksomhet.næringsundergruppe2) {
+        næringsgrupper.push(`${virksomhet.næringsundergruppe2.navn} (${virksomhet.næringsundergruppe2.kode})`);
+
+        if (virksomhet.næringsundergruppe3) {
+            næringsgrupper.push(`${virksomhet.næringsundergruppe3.navn} (${virksomhet.næringsundergruppe3.kode})`);
+
+        }
+    }
+    return (
+        <Infolinje tittel={`Næringsundergruppe${virksomhet.næringsundergruppe2 ? "r" : ""}`} data={næringsgrupper} />
+    );
+}
+
+function PartneravtaleInfolinje({ virksomhet }: { virksomhet: Virksomhet }) {
+    const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
+
+    if (!salesforceInfo?.partnerStatus) {
+        return null;
+    }
+
+    return (
+
+        <>
+            <TittelMedHelpTextContainer>
+                <span>Partner avtale</span>
+                <HelpText>
+                    <EksternLenke href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-markedsarbeid/SitePages/Strategisk-Rammeverk-for-Markedsarbeid.aspx">
+                        Les mer om partner avtaler på navet
+                    </EksternLenke>
+                </HelpText>
+            </TittelMedHelpTextContainer>
+            <InfoData>{salesforceInfo.partnerStatus}</InfoData>
+        </>
+    );
+}
