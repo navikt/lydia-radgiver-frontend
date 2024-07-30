@@ -1,7 +1,7 @@
 import { IAProsessStatusType } from "../../domenetyper/domenetyper"
 import { loggMineSakerFilter, MineSakerFilterKategorier } from "../../util/amplitude-klient"
 import { ARKIV_STATUSER } from "./Filter/StatusFilter"
-import { EierFølgerFilterType } from "./MinOversiktside"
+import { EierFølgerFilterType } from "./MineSakerside"
 
 export const loggMineSakerFilterEndringMedAmplitude = (statusFilter: IAProsessStatusType[], søkfilter: string, eierfølgerfilter: EierFølgerFilterType ) => {
   const typer: MineSakerFilterKategorier[] = []

@@ -15,7 +15,7 @@ import { Konfetti } from "../../../../components/Konfetti/Konfetti";
 import { useState } from "react";
 import { mobileAndUp } from "../../../../styling/breakpoints";
 import { NotePencilIcon } from "@navikt/aksel-icons";
-import { TeamModal } from "../../../MinOversikt/TeamModal";
+import { TeamModal } from "../../../MineSaker/TeamModal";
 import { useHentTeam } from "../../../../api/lydia-api";
 
 export const IASakOversiktContainer = styled.div`

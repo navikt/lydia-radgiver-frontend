@@ -6,7 +6,7 @@ import {
     useStatusFilter,
 } from "./StatusFilter";
 import { EierFølgerFilter } from "./EierFølgerFilter";
-import { SetMinesakerFiltreType } from "../MinOversiktside";
+import { SetMinesakerFiltreType } from "../MineSakerside";
 
 const FilterContainer = styled.div`
     display: flex;

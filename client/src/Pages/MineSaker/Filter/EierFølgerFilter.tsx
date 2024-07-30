@@ -7,7 +7,7 @@ import styled from "styled-components";
 import {
     EIER_FØLGER_FILTER_VALUES,
     EierFølgerFilterType,
-} from "../MinOversiktside";
+} from "../MineSakerside";
 import { ARKIV_STATUSER } from "./StatusFilter";
 
 const StyledAccordion = styled(Accordion)`

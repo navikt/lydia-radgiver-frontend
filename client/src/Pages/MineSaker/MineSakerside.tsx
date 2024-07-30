@@ -77,7 +77,7 @@ export type SetMinesakerFiltreType = {
     setEierFølgerFilter: (val: EierFølgerFilterType) => void;
 };
 
-export const MinOversiktside = () => {
+export const MineSakerside = () => {
 
     useEffect(() => {
         loggSideLastet("Minesakerside")
