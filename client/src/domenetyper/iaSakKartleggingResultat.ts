@@ -20,8 +20,7 @@ const Temanavn = [
 export const TemanavnEnum = z.enum(Temanavn);
 export type TemanavnType = z.infer<typeof TemanavnEnum>;
 export const spørsmålMedSvarPerTema = z.object({
-    tema: TemanavnEnum,
-    beskrivelse: z.string(),
+    navn: z.string(),
     spørsmålMedSvar: z.array(kartleggingSpørsmål),
 });
 

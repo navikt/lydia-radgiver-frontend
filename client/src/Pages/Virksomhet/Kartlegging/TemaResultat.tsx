@@ -23,18 +23,18 @@ type SpørsmålMedSvar = {
   svarListe: { tekst: string; svarId: string; antallSvar: number }[];
 };
 interface Props {
-  beskrivelse: string;
+  navn: string;
   spørsmålMedSvar: SpørsmålMedSvar[];
 }
 
 export const TemaResultat = ({
-  beskrivelse,
+  navn,
   spørsmålMedSvar,
 }: Props) => {
   return (
     <>
       <Heading spacing={true} level="3" size="medium">
-        {beskrivelse}
+        {navn}
       </Heading>
       <TemaContainer>
         {spørsmålMedSvar.map((spørsmål, index) => (

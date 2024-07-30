@@ -45,9 +45,9 @@ export const KartleggingResultat = ({
             </BodyShort>
             {kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
                 <TemaResultat
-                    key={tema.tema}
+                    key={tema.navn}
                     spørsmålMedSvar={tema.spørsmålMedSvar}
-                    beskrivelse={tema.beskrivelse}
+                    navn={tema.navn}
                 />
             ))}
         </Container>
