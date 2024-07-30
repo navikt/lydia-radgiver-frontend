@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
 
-import { Heading, Popover } from "@navikt/ds-react";
+import { Heading, HStack, Popover } from "@navikt/ds-react";
 import { InformationSquareIcon } from "@navikt/aksel-icons";
 
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
@@ -9,6 +9,7 @@ import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
 import { useHentSalesforceUrl } from "../../../../api/lydia-api";
 import { EksternLenke } from "../../../../components/EksternLenke";
 import { IASak } from "../../../../domenetyper/domenetyper";
+import Navigasjonsknapper from "./Navigasjonsknapper";
 
 const Container = styled.div`
     display: flex;
@@ -53,28 +54,31 @@ export default function VirksomhetsinfoHeader({ virksomhet, iaSak }: Props) {
                     Salesforce
                 </SalesforceLenke>
             )}
-            <NavnOgIkonContainer>
-                <Heading level={"2"} size={"large"}>
-                    {virksomhet.navn}<TittelseksjonMedLavFontWeight> - {virksomhet.orgnr}</TittelseksjonMedLavFontWeight>
-                </Heading>
-                <VirksomhetsInfoIkon
-                    title={"Se detaljer"}
-                    ref={buttonRef}
-                    onClick={() => setOpenState(!openState)}
-                    fontSize="2rem"
-                />
-                <Popover
-                    open={openState}
-                    placement="right-start"
-                    onClose={() => setOpenState(false)}
-                    anchorEl={buttonRef.current}
-                >
-                    <VirksomhetsInfoPopoverInnhold
-                        iaSak={iaSak}
-                        virksomhet={virksomhet}
+            <HStack justify="space-between" align="center">
+                <NavnOgIkonContainer>
+                    <Heading level={"2"} size={"large"}>
+                        {virksomhet.navn}<TittelseksjonMedLavFontWeight> - {virksomhet.orgnr}</TittelseksjonMedLavFontWeight>
+                    </Heading>
+                    <VirksomhetsInfoIkon
+                        title={"Se detaljer"}
+                        ref={buttonRef}
+                        onClick={() => setOpenState(!openState)}
+                        fontSize="2rem"
                     />
-                </Popover>
-            </NavnOgIkonContainer>
+                    <Popover
+                        open={openState}
+                        placement="right-start"
+                        onClose={() => setOpenState(false)}
+                        anchorEl={buttonRef.current}
+                    >
+                        <VirksomhetsInfoPopoverInnhold
+                            iaSak={iaSak}
+                            virksomhet={virksomhet}
+                        />
+                    </Popover>
+                </NavnOgIkonContainer>
+                <Navigasjonsknapper />
+            </HStack>
         </Container>
     );
 }

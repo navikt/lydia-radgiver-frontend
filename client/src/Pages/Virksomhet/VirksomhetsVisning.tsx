@@ -64,6 +64,8 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         }
     }, [lasterIaSak]);
 
+    // TODO: Rydd opp i erIDev før produksjon
+
     return (
         <Container>
             <Virksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />
@@ -86,7 +88,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                 defaultValue="statistikk"
             >
                 <Tabs.List style={{ width: "100%" }}>
-                    <Tabs.Tab value="statistikk" label="Statistikk" />
+                    {!erIDev && <Tabs.Tab value="statistikk" label="Statistikk" />}
                     {iaSak && (
                         <Tabs.Tab value="kartlegging" label="Kartlegging" />
                     )}
@@ -94,7 +96,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     {iaSak && (
                         <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />
                     )}
-                    <Tabs.Tab value="historikk" label="Historikk" />
+                    {!erIDev && <Tabs.Tab value="historikk" label="Historikk" />}
                 </Tabs.List>
                 <StyledPanel value="statistikk">
                     <StatistikkFane virksomhet={virksomhet} />
