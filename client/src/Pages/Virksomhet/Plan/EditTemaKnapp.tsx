@@ -37,7 +37,7 @@ export default function EditTemaKnapp({ tema, setTema, tilgjengeligeTemaer }: {
 	return (
 		<>
 			<Button variant="tertiary" onClick={() => setModalOpen(true)} icon={<DocPencilIcon />}>Rediger tema</Button>
-			<EditTemaModal open={modalOpen} onCancel={() => setModalOpen(false)}>
+			<EditTemaModal open={modalOpen} onClose={() => setModalOpen(false)} aria-label="Rediger tema">
 				<Modal.Body>
 					<UndertemaSetup undertemaListe={myUndertema} setUndertemaListe={setMyUndertema} />
 					<br />

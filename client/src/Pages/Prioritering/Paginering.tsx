@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import cl from "clsx";
-import Item from "@navikt/ds-react/esm/pagination/PaginationItem";
 import { ChevronLeftIcon as Back, ChevronRightIcon as Next } from "@navikt/aksel-icons";
-import { BodyShort } from "@navikt/ds-react";
+import { BodyShort, Pagination } from "@navikt/ds-react";
 import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
 
 const Nav = styled.nav`
@@ -18,9 +17,9 @@ interface Props {
     antallTreffPåSide: number;
 }
 
-export const Paginering = ({side, antallTreffPåSide, endreSide}: Props) => (
+export const Paginering = ({ side, antallTreffPåSide, endreSide }: Props) => (
     <Nav>
-        <Item
+        <Pagination.Item
             className={cl("navds-pagination__prev-next", "navds-pagination--prev-next--with-text", {
                 "navds-pagination--invisible": side === 1
             })}
@@ -41,9 +40,9 @@ export const Paginering = ({side, antallTreffPåSide, endreSide}: Props) => (
             >
                 Forrige
             </BodyShort>
-        </Item>
+        </Pagination.Item>
         <BodyShort>{side}</BodyShort>
-        <Item
+        <Pagination.Item
             className={cl("navds-pagination__prev-next", "navds-pagination--prev-next--with-text", {
                 "navds-pagination--invisible": antallTreffPåSide !== ANTALL_RESULTATER_PER_SIDE,
             })}
@@ -65,6 +64,6 @@ export const Paginering = ({side, antallTreffPåSide, endreSide}: Props) => (
             >
                 Neste
             </BodyShort>
-        </Item>
+        </Pagination.Item>
     </Nav>
 )

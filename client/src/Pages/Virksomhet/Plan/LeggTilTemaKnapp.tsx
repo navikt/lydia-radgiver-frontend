@@ -18,7 +18,7 @@ export default function LeggTilTemaKnapp({ temaer, setTemaer, tilgjengeligeTemae
 	return (
 		<>
 			<Button onClick={() => setModalOpen(true)} disabled={tilgjengeligeTemaer.length === 0}>Legg til tema</Button>
-			<LeggTilTemaModal open={modalOpen} onCancel={() => setModalOpen(false)}>
+			<LeggTilTemaModal open={modalOpen} onClose={() => setModalOpen(false)} aria-label="Legg til tema">
 				<Modal.Body>
 					<CheckboxGroup
 						legend="Velg tema i samarbeidsplan"

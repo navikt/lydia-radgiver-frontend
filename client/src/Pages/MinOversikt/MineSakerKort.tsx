@@ -329,7 +329,6 @@ const CardContentBox = ({
             <CardContentRight>
                 <Button
                     size="small"
-                    href={gåTilSakUrl}
                     onClick={(e) => {
                         e.stopPropagation();
                         loggGåTilSakFraMineSaker("gå-til-sak-knapp", gåTilSakUrl)

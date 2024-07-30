@@ -1,6 +1,5 @@
 import styled from "styled-components";
-import { BodyShort, HelpText } from "@navikt/ds-react";
-import PopoverContent from "@navikt/ds-react/esm/popover/PopoverContent";
+import { BodyShort, HelpText, Popover } from "@navikt/ds-react";
 
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { EksternLenke } from "../../../../components/EksternLenke";
@@ -54,7 +53,7 @@ export const VirksomhetsInfoPopoverInnhold = ({
 
 
     return (
-        <PopoverContent>
+        <Popover.Content>
             <Info className={className}>
                 <Infolinje tittel="Saksnummer" data={sak?.saksnummer} />
                 <Infolinje tittel="Orgnummer" data={virksomhet.orgnr} />
@@ -65,7 +64,7 @@ export const VirksomhetsInfoPopoverInnhold = ({
                 <Infolinje tittel="Sektor" data={virksomhet.sektor} />
                 <PartneravtaleInfolinje virksomhet={virksomhet} />
             </Info>
-        </PopoverContent>
+        </Popover.Content>
     );
 };
 

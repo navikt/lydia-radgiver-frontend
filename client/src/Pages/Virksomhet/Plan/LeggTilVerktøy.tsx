@@ -40,7 +40,7 @@ export default function LeggTilVerktøy({ verktøy, setVerktøy }: {
 		<StyledModal
 			width="medium"
 			open={modalOpen}
-			onCancel={() => setModalOpen(false)}
+			onClose={() => setModalOpen(false)}
 			header={{ heading: "Legg til verktøy og ressurser" }}>
 			<Modal.Body>
 				<StyledBody>Her kan du dele ressurser med virksomheten ved å laste opp relevante lenker til temaet. Vær sikker på at du laster opp riktig lenke før du lagrer.</StyledBody>

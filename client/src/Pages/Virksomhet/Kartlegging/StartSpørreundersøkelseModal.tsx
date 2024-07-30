@@ -4,7 +4,6 @@ import { startKartlegging, useHentKartlegginger } from "../../../api/lydia-api";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { åpneKartleggingINyFane } from "../../../util/navigasjon";
 import { BodyShort, List } from "@navikt/ds-react";
-import ListItem from "@navikt/ds-react/esm/list/ListItem";
 import React from "react";
 
 export function StartSpørreundersøkelseModal({
@@ -53,14 +52,14 @@ export function StartSpørreundersøkelseModal({
                 Før du starter behovsvurderingen, husk at:
             </BodyShort>
             <List>
-                <ListItem>
+                <List.Item>
                     Deltakere må ha telefon med kamera for å scanne QR-koden.
-                </ListItem>
-                <ListItem>Det må være minst tre deltakere</ListItem>
-                <ListItem>
+                </List.Item>
+                <List.Item>Det må være minst tre deltakere</List.Item>
+                <List.Item>
                     For å se resultater må minst tre deltakere ha svart
                     spørsmålene.
-                </ListItem>
+                </List.Item>
             </List>
         </BekreftValgModal>
     );

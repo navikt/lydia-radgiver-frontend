@@ -55,8 +55,6 @@ export const Sorteringsknapper = ({ onSortChange }: SorteringsknapperProps) => {
             <Button
                 size="medium"
                 variant="tertiary"
-                state="default"
-                label="Alfabetisk rekkefølge"
                 iconPosition="right"
                 icon={renderIcon("alphabetical")}
                 onClick={() => handleSortToggle("alphabetical")}
@@ -66,8 +64,6 @@ export const Sorteringsknapper = ({ onSortChange }: SorteringsknapperProps) => {
             <Button
                 size="medium"
                 variant="tertiary"
-                state="default"
-                label="Sist endret"
                 iconPosition="right"
                 icon={renderIcon("date")}
                 onClick={() => handleSortToggle("date")}
