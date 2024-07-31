@@ -655,13 +655,12 @@ export const useHentMineSaker = () => {
 };
 
 export const useHentTeam = (saksnummer?: string) => {
-    return useSwrTemplate<BrukerITeamDTO[]>(saksnummer ? `${iaSakTeamPath}/${saksnummer}` : null, brukerITeamSchema.array());
+    return useSwrTemplate<string[]>(saksnummer ? `${iaSakTeamPath}/${saksnummer}` : null, z.string().array());
 };
 
 export const leggBrukerTilTeam = (
     saksnummer: string,
 ): Promise<BrukerITeamDTO> => {
-    console.log(`leggBrukerTilTeam called with saksnummer: ${saksnummer}`);
     return post(
         `${iaSakTeamPath}/${saksnummer}`,
         brukerITeamSchema,
@@ -671,7 +670,6 @@ export const leggBrukerTilTeam = (
 export const fjernBrukerFraTeam = (
     saksnummer: string,
 ): Promise<BrukerITeamDTO> => {
-    console.log(`fjernBrukerFraTeam called with saksnummer: ${saksnummer}`);
     return httpDelete(
         `${iaSakTeamPath}/${saksnummer}`,
         brukerITeamSchema,

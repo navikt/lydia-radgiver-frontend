@@ -1,7 +1,6 @@
 import { Button, Modal } from "@navikt/ds-react";
 import styled from "styled-components";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
-import { BrukerITeamDTO } from "../../domenetyper/brukeriteam";
 import { HeartFillIcon, HeartIcon } from "@navikt/aksel-icons";
 import {
     fjernBrukerFraTeam,
@@ -12,9 +11,8 @@ import {
     useHentMineSaker,
     useHentTeam,
 } from "../../api/lydia-api";
-import { IAProsessStatusType } from "../../domenetyper/domenetyper";
-import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { loggFølgeSak } from "../../util/amplitude-klient";
+import { IASak } from "../../domenetyper/domenetyper";
 
 const ModalBodyWrapper = styled.div`
     display: flex;
@@ -59,44 +57,28 @@ const FølgereListe = styled.div`
 interface TeamModalProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    saksnummer: string;
-    orgnummer: string;
-    status: IAProsessStatusType;
+    iaSak: IASak;
 }
 
 function følgerSak(
     brukerIdent: string | undefined,
-    følgere?: BrukerITeamDTO[],
+    følgere?: string[],
 ): boolean {
-    return !!følgere?.some((følger) => følger.ident === brukerIdent);
+    return !!følgere?.some((følger) => følger === brukerIdent);
 }
 
-export const TeamModal = ({
-    open,
-    setOpen,
-    orgnummer,
-    saksnummer,
-    status,
-}: TeamModalProps) => {
+export const TeamModal = ({ open, setOpen, iaSak }: TeamModalProps) => {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const { mutate: muterMineSaker } = useHentMineSaker();
-    const { data: iasak, mutate: muterIaSak } =
-        useHentAktivSakForVirksomhet(orgnummer);
-    const { data: følgere = [], mutate: muterFølgere } =
-        useHentTeam(saksnummer);
+    const { mutate: muterIaSak } = useHentAktivSakForVirksomhet(iaSak.orgnr);
+
+    const { data: følgere = [], mutate: muterFølgere } = useHentTeam(
+        iaSak.saksnummer,
+    );
 
     const brukerIdent = brukerInformasjon?.ident;
 
-    /*  
-        TODO: her er det disconnect i dataen. useHentAktivForVirksomhet henter nyeste aktive sak, 
-        imens useHentMineSaker (som modal-propsene kommer fra) henter alle saker man er knyttet til, også historiske saker. 
-        Det er ikke nødvendigvis det samme, feks hvis en virksomhet har en tidligere inaktiv sak har fått ny aktiv sak.
-        Derfor er ikke nødvendigvis saksnummer === iasak.saksnummer, og bli eier knappen gjør request på feil sak
-    */
-    const arkivertSak =
-        ARKIV_STATUSER.includes(status) || saksnummer != iasak?.saksnummer; 
-
-    const kanTaEierskap = iasak?.gyldigeNesteHendelser
+    const kanTaEierskap = iaSak.gyldigeNesteHendelser
         .map((h) => h.saksHendelsestype)
         .includes("TA_EIERSKAP_I_SAK");
 
@@ -120,14 +102,14 @@ export const TeamModal = ({
                         <EierBoks>
                             <div>
                                 <b>Eier:</b>{" "}
-                                {iasak?.eidAv ? (
-                                    <NavIdentMedLenke navIdent={iasak.eidAv} />
+                                {iaSak.eidAv ? (
+                                    <NavIdentMedLenke navIdent={iaSak.eidAv} />
                                 ) : (
                                     "Ingen eier"
                                 )}
                             </div>
 
-                            {!arkivertSak ? <EierKnappBoks>
+                            <EierKnappBoks>
                                 <span>
                                     Ønsker du å ta eierskap til saken? Nåværende
                                     eier blir automatisk fjernet.
@@ -138,9 +120,8 @@ export const TeamModal = ({
                                     variant="secondary"
                                     disabled={!kanTaEierskap}
                                     onClick={async () => {
-                                        if (!iasak) return;
                                         await nyHendelsePåSak(
-                                            iasak,
+                                            iaSak,
                                             {
                                                 saksHendelsestype:
                                                     "TA_EIERSKAP_I_SAK",
@@ -156,22 +137,24 @@ export const TeamModal = ({
                                     Ta eierskap
                                 </Button>
                                 <EierTekst>
-                                    {iasak && iasak.eidAv === brukerIdent
+                                    {iaSak.eidAv === brukerIdent
                                         ? `Du er allerede eier av denne saken.`
-                                        : !kanTaEierskap
+                                        : /* !kanTaEierskap && iaSak.lukket
+                                          ? `Kan ikke bli eier på en lukket sak` : */
+                                          !kanTaEierskap
                                           ? `Kan ikke bli eier`
                                           : ``}
                                 </EierTekst>
-                            </EierKnappBoks> : <EierTekst>Kan ikke endre eierskap på en arkivert sak</EierTekst>}
+                            </EierKnappBoks>
                         </EierBoks>
                         <FølgereBoks>
                             <FølgereHeader>Følgere:</FølgereHeader>
                             {!!følgere.length && (
                                 <FølgereListe>
-                                    {følgere.map((member) => (
+                                    {følgere.map((følger) => (
                                         <NavIdentMedLenke
-                                            key={member.ident}
-                                            navIdent={member.ident}
+                                            key={følger}
+                                            navIdent={følger}
                                         />
                                     ))}
                                 </FølgereListe>
@@ -187,23 +170,27 @@ export const TeamModal = ({
                                     iconPosition="right"
                                     variant="secondary"
                                     onClick={async () => {
-                                        await fjernBrukerFraTeam(saksnummer);
+                                        await fjernBrukerFraTeam(
+                                            iaSak.saksnummer,
+                                        );
                                         muterFølgere();
-                                        loggFølgeSak(false)
+                                        loggFølgeSak(false);
                                     }}
-                                    >
+                                >
                                     Slutt å følge saken
                                 </Button>
                             ) : (
                                 <Button
-                                icon={<HeartIcon />}
-                                size="small"
-                                iconPosition="right"
-                                onClick={async () => {
-                                    await leggBrukerTilTeam(saksnummer);
-                                    muterFølgere();
-                                    loggFølgeSak(true)
-                                }}
+                                    icon={<HeartIcon />}
+                                    size="small"
+                                    iconPosition="right"
+                                    onClick={async () => {
+                                        await leggBrukerTilTeam(
+                                            iaSak.saksnummer,
+                                        );
+                                        muterFølgere();
+                                        loggFølgeSak(true);
+                                    }}
                                 >
                                     Følg saken
                                 </Button>

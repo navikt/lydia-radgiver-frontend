@@ -57,7 +57,7 @@ const HeaderContainer = styled.div`
 const StickyFilterContainer = styled.div`
     position: static;
     min-width: 18rem;
-    
+
     ${desktopAndUp} {
         position: sticky;
         align-items: flex-start;
@@ -78,10 +78,9 @@ export type SetMinesakerFiltreType = {
 };
 
 export const MineSakerside = () => {
-
     useEffect(() => {
-        loggSideLastet("Minesakerside")
-    }, [])
+        loggSideLastet("Minesakerside");
+    }, []);
 
     // TODO: Loading and error states
     const { data: mineSaker } = useHentMineSaker();
@@ -100,15 +99,15 @@ export const MineSakerside = () => {
             mineSaker
                 ?.filter((sak) =>
                     statusFilter.length
-                        ? statusFilter.includes(sak.status)
-                        : !ARKIV_STATUSER.includes(sak.status),
+                        ? statusFilter.includes(sak.iaSak.status)
+                        : !ARKIV_STATUSER.includes(sak.iaSak.status),
                 )
                 .filter((sak) =>
                     eierFølgerFilter.length
-                        ? (sak.eidAv == brukerInfo?.ident &&
+                        ? (sak.iaSak.eidAv == brukerInfo?.ident &&
                               eierFølgerFilter.includes("eier")) ||
                           (eierFølgerFilter.includes("følger") &&
-                              sak.eidAv != brukerInfo?.ident)
+                              sak.iaSak.eidAv != brukerInfo?.ident)
                         : true,
                 )
                 .filter(
@@ -116,7 +115,7 @@ export const MineSakerside = () => {
                         sak.orgnavn
                             .toLowerCase()
                             .includes(søkFilter.toLowerCase()) ||
-                        sak.orgnr
+                        sak.iaSak.orgnr
                             .toLowerCase()
                             .includes(søkFilter.toLowerCase()),
                 ),
@@ -124,16 +123,24 @@ export const MineSakerside = () => {
     );
 
     useEffect(() => {
-        loggMineSakerFilterEndringMedAmplitude(statusFilter, søkFilter, eierFølgerFilter)
-    }, [statusFilter, eierFølgerFilter, søkFilter])
+        loggMineSakerFilterEndringMedAmplitude(
+            statusFilter,
+            søkFilter,
+            eierFølgerFilter,
+        );
+    }, [statusFilter, eierFølgerFilter, søkFilter]);
 
     const sorterteSaker = (() => {
         if (!filtretSaker) return [];
 
         return [...filtretSaker].sort((a, b) => {
             if (sortBy === "date") {
-                const dateA = a.endretTidspunkt.getTime();
-                const dateB = b.endretTidspunkt.getTime();
+                const dateA =
+                    a.iaSak.endretTidspunkt?.getTime() ??
+                    a.iaSak.opprettetTidspunkt.getTime();
+                const dateB =
+                    b.iaSak.endretTidspunkt?.getTime() ??
+                    b.iaSak.opprettetTidspunkt.getTime();
                 return isAscending ? dateA - dateB : dateB - dateA;
             } else {
                 const navnA = a.orgnavn.toLowerCase();
@@ -156,9 +163,7 @@ export const MineSakerside = () => {
     return (
         <SideContainer>
             <HeaderContainer>
-                <Header1>
-                    Mine saker
-                </Header1>
+                <Header1>Mine saker</Header1>
                 <Sorteringsknapper onSortChange={handleSortChange} />
             </HeaderContainer>
             <FlexContainer>
@@ -175,8 +180,11 @@ export const MineSakerside = () => {
                     {sorterteSaker.length === 0 ? (
                         <div>Fant ingen saker </div>
                     ) : (
-                        sorterteSaker.map((sak) => (
-                            <MineSakerKort key={sak.saksnummer} sak={sak} />
+                        sorterteSaker.map((minsak) => (
+                            <MineSakerKort
+                                key={minsak.iaSak.saksnummer}
+                                {...minsak}
+                            />
                         ))
                     )}
                 </MineSakerListe>
