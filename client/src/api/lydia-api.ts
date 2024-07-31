@@ -81,6 +81,7 @@ import {
 import { IaSakProsess, iaSakProsessSchema } from "../domenetyper/iaSakProsess";
 import { MineSaker, mineSakerListSchema } from "../domenetyper/mineSaker";
 import { BrukerITeamDTO, brukerITeamSchema } from "../domenetyper/brukeriteam";
+import {IASakPlan, iaSakPlanSchema} from "../domenetyper/iaSakPlan";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
@@ -702,6 +703,12 @@ export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
     return useSwrTemplate<IASakKartlegging[]>(
         `${kartleggingPath}/${orgnummer}/${saksnummer}`,
         iaSakKartleggingSchema.array(),
+    );
+};
+export const nyPlanPåSak = (orgnummer: string, saksnummer: string) => {
+    return useSwrTemplate<IASakPlan>(
+        `${kartleggingPath}/${orgnummer}/${saksnummer}/opprett`,
+        iaSakPlanSchema,
     );
 };
 

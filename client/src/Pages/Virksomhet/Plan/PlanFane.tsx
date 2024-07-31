@@ -7,6 +7,8 @@ import UndertemaConfig, { Temainnhold } from "./UndertemaConfig";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import VerktøyConfig from "./VerktøyConfig";
 import EditTemaKnapp from "./EditTemaKnapp";
+import {nyPlanPåSak} from "../../../api/lydia-api";
+import {IASak} from "../../../domenetyper/domenetyper";
 
 const Container = styled.div`
   height: 100%;
@@ -134,11 +136,24 @@ const dummyData: Temainnhold = {
 	],
 }
 
-export default function PlanFane() {
+interface Props {
+	iaSak: IASak;
+}
+
+export default function PlanFane({iaSak}: Props) {
 	const [temaer, setTemaer] = React.useState([dummyData]);
+
+	const {
+		data: plan,
+	} = nyPlanPåSak(iaSak.orgnr, iaSak.saksnummer)
+
+
+
+
 
 	return (
 		<>
+			<div>PLANID: {plan?.planId}</div>
 			<Temaer temaer={temaer} setTemaer={setTemaer} />
 			<LeggTilTemaKnapp temaer={temaer} setTemaer={setTemaer} tilgjengeligeTemaer={tilgjengeligeTemaer} />
 		</>

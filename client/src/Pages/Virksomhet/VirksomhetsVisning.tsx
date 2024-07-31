@@ -113,7 +113,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     {iaSak && <LeveranseFane iaSak={iaSak} />}
                 </StyledPanel>
                 <StyledPanel value="plan">
-                    {iaSak && erIDev && <PlanFane />}
+                    {iaSak && erIDev && <PlanFane iaSak={iaSak}/>}
                 </StyledPanel>
                 <StyledPanel value="historikk">
                     <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />
