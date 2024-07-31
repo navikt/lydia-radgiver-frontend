@@ -77,7 +77,6 @@ import {
 import {
     IASakKartleggingResultat,
     iaSakKartleggingResultatSchema,
-    TemanavnType,
 } from "../domenetyper/iaSakKartleggingResultat";
 import { IaSakProsess, iaSakProsessSchema } from "../domenetyper/iaSakProsess";
 import { MineSaker, mineSakerListSchema } from "../domenetyper/mineSaker";
@@ -681,12 +680,10 @@ export const fjernBrukerFraTeam = (
 export const nyKartleggingPåSak = (
     orgnummer: string,
     saksnummer: string,
-    tema: TemanavnType[],
 ): Promise<IASakKartlegging> => {
     return post(
         `${kartleggingPath}/${orgnummer}/${saksnummer}/opprett`,
         iaSakKartleggingSchema,
-        tema,
     );
 };
 
