@@ -132,9 +132,7 @@ export const IASakOversikt = ({
                     <TeamModal
                         open={isModalOpen}
                         setOpen={setIsModalOpen}
-                        saksnummer={sak.saksnummer}
-                        orgnummer={sak.orgnr}
-                        status={sak.status}
+                        iaSak={sak}
                     />
                 </Følgereinnhold>
             </Saksinfo>

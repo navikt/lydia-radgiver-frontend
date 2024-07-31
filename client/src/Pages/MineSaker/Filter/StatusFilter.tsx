@@ -111,7 +111,7 @@ export const StatusFilter = ({
                                     .filter((f) => !ARKIV_STATUSER.includes(f))
                                     .map((valg) => (
                                         <Checkbox key={valg} value={valg}>
-                                            {`${penskrivIAStatus(valg)} (${mineSaker.filter((sak) => sak.status == valg).length})`}
+                                            {`${penskrivIAStatus(valg)} (${mineSaker.filter((sak) => sak.iaSak.status == valg).length})`}
                                         </Checkbox>
                                     ))}
                         </CheckboxGroup>

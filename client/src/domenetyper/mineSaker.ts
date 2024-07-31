@@ -1,13 +1,9 @@
 import { z } from "zod";
-import { IAProsessStatusEnum, datoSchema } from "./domenetyper";
+import { iaSakSchema } from "./domenetyper";
 
 export const mineSakerSchema = z.object({
-    orgnr: z.string(),
-    status: IAProsessStatusEnum,
-    saksnummer: z.string(),
+    iaSak: iaSakSchema,
     orgnavn: z.string(),
-    eidAv: z.string().nullable(),
-    endretTidspunkt: datoSchema,
 });
 
 export type MineSaker = z.infer<typeof mineSakerSchema>;

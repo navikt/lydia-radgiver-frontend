@@ -1,6 +1,5 @@
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
-import { MineSaker } from "../../domenetyper/mineSaker";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { Button, HStack } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
@@ -19,7 +18,7 @@ import { NotePencilIcon } from "@navikt/aksel-icons";
 import { useState } from "react";
 import { TeamModal } from "./TeamModal";
 import { formaterSomHeltall } from "../../util/tallFormatering";
-import { IAProsessStatusType } from "../../domenetyper/domenetyper";
+import { IAProsessStatusType, IASak } from "../../domenetyper/domenetyper";
 import { Chips } from "@navikt/ds-react";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import { penskrivKartleggingStatus } from "../../components/Badge/KartleggingStatusBadge";
@@ -139,35 +138,47 @@ const navFane = (status: IAProsessStatusType) => {
     return toReturn;
 };
 
-export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
-    const { data: salesforceInfo } = useHentSalesforceUrl(sak.orgnr);
-    const { data: følgere = [] } = useHentTeam(sak.saksnummer);
+export const MineSakerKort = ({
+    iaSak,
+    orgnavn,
+}: {
+    iaSak: IASak;
+    orgnavn: string;
+}) => {
+    const { data: salesforceInfo } = useHentSalesforceUrl(iaSak.orgnr);
+    const { data: følgere = [] } = useHentTeam(iaSak.saksnummer);
 
     const { data: prosesser = [] } = useHentIaProsesser(
-        sak.orgnr,
-        sak.saksnummer,
+        iaSak.orgnr,
+        iaSak.saksnummer,
     );
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    const gåTilSakUrl = `/virksomhet/${sak.orgnr}${navFane(sak.status)}`;
+    const gåTilSakUrl = `/virksomhet/${iaSak.orgnr}${navFane(iaSak.status)}`;
 
-    const [selected, setSelected] = useState<number | undefined>();
+    const [valgtProsess, setValgtProsess] = useState<number | undefined>();
 
     return (
         <Card>
             <CardHeader>
                 <HeaderOverskrift>
-                    <HeaderVirksomhetLink to={gåTilSakUrl} onClick={() => 
-                        loggGåTilSakFraMineSaker("virksomhetslenke", gåTilSakUrl)
-                    }>
-                        {sak.orgnavn}
+                    <HeaderVirksomhetLink
+                        to={gåTilSakUrl}
+                        onClick={() =>
+                            loggGåTilSakFraMineSaker(
+                                "virksomhetslenke",
+                                gåTilSakUrl,
+                            )
+                        }
+                    >
+                        {orgnavn}
                     </HeaderVirksomhetLink>
                     <span>-</span>
-                    <span>{sak.orgnr}</span>
+                    <span>{iaSak.orgnr}</span>
                 </HeaderOverskrift>
                 <HeaderSubskrift>
-                    <StatusBadge status={sak.status} />
+                    <StatusBadge status={iaSak.status} />
                     <SalesforceLinkBox>
                         <EksternLenke href={salesforceInfo?.url}>
                             Salesforce
@@ -175,8 +186,8 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                     </SalesforceLinkBox>
                     <EierText>
                         <b>Eier</b>
-                        {sak.eidAv ? (
-                            <NavIdentMedLenke navIdent={sak.eidAv} />
+                        {iaSak.eidAv ? (
+                            <NavIdentMedLenke navIdent={iaSak.eidAv} />
                         ) : (
                             <span>Ingen eier</span>
                         )}
@@ -199,64 +210,63 @@ export const MineSakerKort = ({ sak }: { sak: MineSaker }) => {
                     <TeamModal
                         open={isModalOpen}
                         setOpen={setIsModalOpen}
-                        saksnummer={sak.saksnummer}
-                        orgnummer={sak.orgnr}
-                        status={sak.status}
+                        iaSak={iaSak}
                     />
                 </HeaderSubskrift>
             </CardHeader>
-            {erIDev ? (
+            {erIDev && !!prosesser.length && (
                 <ProsesserBoks>
                     <HStack gap="10" align="start" justify="start">
                         <Chips>
-                            {prosesser.map((option, i) => (
+                            {prosesser.map((prosess, i) => (
                                 <Chips.Toggle
-                                    key={option.id}
-                                    selected={i === selected}
+                                    key={prosess.id}
+                                    selected={i === valgtProsess}
                                     onClick={() => {
-                                        if (i === selected) {
-                                            setSelected(undefined);
+                                        if (i === valgtProsess) {
+                                            setValgtProsess(undefined);
                                         } else {
-                                            setSelected(i);
+                                            setValgtProsess(i);
                                         }
                                     }}
                                 >
-                                    {option.navn || sak.orgnavn}
+                                    {prosess.navn || orgnavn}
                                 </Chips.Toggle>
                             ))}
                         </Chips>
                     </HStack>
                 </ProsesserBoks>
-            ) : null}
+            )}
 
-            {(!erIDev || selected !== undefined) && (
-                <CardContentBox sak={sak} gåTilSakUrl={gåTilSakUrl} />
+            {/* Kommenter ut 'true ||' for å toggle på prosess i dev */}
+            {(true || !erIDev || valgtProsess !== undefined) && (
+                <CardContentBox iaSak={iaSak} gåTilSakUrl={gåTilSakUrl} />
             )}
         </Card>
     );
 };
 
-const VIS_VURDERINGSSAKER: readonly IAProsessStatusType[] = [
+const VIS_VURDERINGSSTATUSER: readonly IAProsessStatusType[] = [
     "VI_BISTÅR",
     "KARTLEGGES",
 ] as const;
 
 const CardContentBox = ({
-    sak,
+    iaSak,
     gåTilSakUrl,
 }: {
-    sak: MineSaker;
+    iaSak: IASak;
     gåTilSakUrl: string;
 }) => {
     const navigate = useNavigate();
 
     const { data: statsSiste4Kvartaler, loading: lasterSiste4Kvartaler } =
-        useHentVirksomhetsstatistikkSiste4Kvartaler(sak.orgnr);
+        useHentVirksomhetsstatistikkSiste4Kvartaler(iaSak.orgnr);
     const { data: statsSisteKvartal, loading: lasterSisteKvartal } =
-        useHentSykefraværsstatistikkForVirksomhetSisteKvartal(sak.orgnr);
+        useHentSykefraværsstatistikkForVirksomhetSisteKvartal(iaSak.orgnr);
 
     const { data: behovsvurderinger, loading: lasterKartlegginger } =
-        useHentKartlegginger(sak.orgnr, sak.saksnummer);
+        useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
 
     const sisteVurdering = behovsvurderinger?.sort(
         (a, b) =>
@@ -264,7 +274,7 @@ const CardContentBox = ({
             (a.endretTidspunkt?.getTime() ?? a.opprettetTidspunkt.getTime()),
     )[0];
 
-    const visVurdering = VIS_VURDERINGSSAKER.includes(sak.status);
+    const visVurdering = VIS_VURDERINGSSTATUSER.includes(iaSak.status);
     const vurderingSistEndret = (
         sisteVurdering?.endretTidspunkt || sisteVurdering?.opprettetTidspunkt
     )?.toLocaleDateString("no", {
@@ -277,7 +287,9 @@ const CardContentBox = ({
                 <div>
                     <ContentText>Sist endret: </ContentText>
                     <ContentData>
-                        {sak.endretTidspunkt.toLocaleDateString("no", {
+                        {(
+                            iaSak.endretTidspunkt ?? iaSak.opprettetTidspunkt
+                        ).toLocaleDateString("no", {
                             dateStyle: "short",
                         })}
                     </ContentData>
@@ -331,7 +343,10 @@ const CardContentBox = ({
                     size="small"
                     onClick={(e) => {
                         e.stopPropagation();
-                        loggGåTilSakFraMineSaker("gå-til-sak-knapp", gåTilSakUrl)
+                        loggGåTilSakFraMineSaker(
+                            "gå-til-sak-knapp",
+                            gåTilSakUrl,
+                        );
                         navigate(gåTilSakUrl);
                     }}
                 >
