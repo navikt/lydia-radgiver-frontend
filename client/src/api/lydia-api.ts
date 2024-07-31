@@ -108,6 +108,7 @@ export const statusoversiktPath = `${basePath}/statusoversikt`;
 export const historiskStatistikkPath = "historiskstatistikk";
 export const salesforceUrlPath = `${virksomhetsPath}/salesforce`;
 export const kartleggingPath = `${iaSakPath}/kartlegging`;
+export const planPath = `${iaSakPath}/plan`;
 
 const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,
@@ -707,7 +708,7 @@ export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
 };
 export const nyPlanPåSak = (orgnummer: string, saksnummer: string) => {
     return useSwrTemplate<IASakPlan>(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}/opprett`,
+        `${planPath}/${orgnummer}/${saksnummer}/opprett`,
         iaSakPlanSchema,
     );
 };
