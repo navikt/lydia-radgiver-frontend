@@ -15,7 +15,7 @@ const iaSakPlanUndertemaSchema = z.object({
     målsetning: z.string(),
     beskrivelse: z.string(),
     planlagt: z.boolean(),
-    status: iaSakPlanStatusEnum,
+    status: iaSakPlanStatusEnum.nullable(),
     startDato: datoSchema.nullable(),
     sluttDato: datoSchema.nullable(),
 });
@@ -35,7 +35,7 @@ const iaSakPlanTemaSchema = z.object({
 });
 
 export const iaSakPlanSchema = z.object({
-    planId: z.string(),
+    id: z.string(),
     sistEndret: datoSchema,
     publisert: z.boolean(),
     sistPublisert: datoSchema.nullable(),
