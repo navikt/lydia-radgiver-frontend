@@ -11,13 +11,17 @@ import { HendelseMåBekreftesKnapp } from "../IASakStatus/EndreStatusKnappar/Hen
 import { loggStatusendringPåSak } from "../../../../util/amplitude-klient";
 import { RolleEnum } from "../../../../domenetyper/brukerinformasjon";
 import { IASakshendelseKnapp } from "../IASakStatus/EndreStatusKnappar/IASakshendelseKnapp";
+import EndreStatusModal from "../IASakStatus/EndreStatusModal";
+import { useVirksomhetContext } from "../../VirksomhetContext";
 
-export default function EierOgStatus({ iaSak, orgnummer }: { iaSak?: IASak, orgnummer: string }) {
+export default function EierOgStatus() {
+	const { setVisKonfetti, iaSak, virksomhet } = useVirksomhetContext();
+
 	if (iaSak === undefined) {
 		return (
 			<HStack gap="4" align="start" justify="end" flexGrow="1">
-				<Statusseksjon status={IAProsessStatusEnum.Enum.IKKE_AKTIV} eidAv={null} />
-				<VurderSeksjon orgnummer={orgnummer} />
+				<NyttStatusBadge status={IAProsessStatusEnum.Enum.IKKE_AKTIV} />
+				<VurderSeksjon orgnummer={virksomhet.orgnr} />
 			</HStack>
 		);
 	}
@@ -25,7 +29,7 @@ export default function EierOgStatus({ iaSak, orgnummer }: { iaSak?: IASak, orgn
 	if (iaSak.status === IAProsessStatusEnum.Enum.VURDERES && !iaSak.eidAv) {
 		return (
 			<HStack gap="4" align="start" justify="end" flexGrow="1">
-				<Statusseksjon status={iaSak.status} eidAv={iaSak.eidAv} />
+				<Statusseksjon iaSak={iaSak} setVisKonfetti={setVisKonfetti} />
 				<TaEierskapSeksjon iaSak={iaSak} />
 			</HStack>
 		);
@@ -34,7 +38,7 @@ export default function EierOgStatus({ iaSak, orgnummer }: { iaSak?: IASak, orgn
 
 	return (
 		<HStack gap="4" align="start" justify="end" flexGrow="1">
-			<Statusseksjon status={iaSak.status} eidAv={iaSak.eidAv} />
+			<Statusseksjon iaSak={iaSak} setVisKonfetti={setVisKonfetti} />
 			<Eierseksjon iaSak={iaSak} />
 		</HStack>
 	);
@@ -80,16 +84,34 @@ function kanEndreProsess(status: IAProsessStatusType, eidAv: string | null) {
 	return status !== IAProsessStatusEnum.Enum.VURDERES || eidAv !== null;
 }
 
-function Statusseksjon({ status, eidAv }: { status: IAProsessStatusType, eidAv: string | null }) {
+function Statusseksjon({ iaSak, setVisKonfetti }: { iaSak: IASak, setVisKonfetti?: (visKonfetti: boolean) => void }) {
+	const [open, setOpen] = React.useState(false);
+	const { status, eidAv } = iaSak;
+	const hendelserSomRepresentererKnapperISaksboksen =
+		iaSak.gyldigeNesteHendelser.filter(
+			(hendelse) =>
+				hendelse.saksHendelsestype !==
+				IASakshendelseTypeEnum.Enum.ENDRE_PROSESS,
+		);
+
+
 	return (
-		<HStack gap="1" align="center" justify="end">
-			<NyttStatusBadge status={status} />
-			{kanEndreProsess(status, eidAv) && (
-				<Button size="xsmall" variant="tertiary-neutral">
-					<NotePencilIcon fontSize="1.5rem" />
-				</Button>
-			)}
-		</HStack>
+		<>
+			<HStack gap="1" align="center" justify="end">
+				<NyttStatusBadge status={status} />
+				{kanEndreProsess(status, eidAv) && (
+					<Button size="xsmall" variant="tertiary-neutral" onClick={() => setOpen(true)}>
+						<NotePencilIcon fontSize="1.5rem" />
+					</Button>
+				)}
+			</HStack>
+			<EndreStatusModal
+				sak={iaSak}
+				hendelser={hendelserSomRepresentererKnapperISaksboksen}
+				setVisKonfetti={setVisKonfetti}
+				open={open}
+				setOpen={setOpen} />
+		</>
 	);
 }
 

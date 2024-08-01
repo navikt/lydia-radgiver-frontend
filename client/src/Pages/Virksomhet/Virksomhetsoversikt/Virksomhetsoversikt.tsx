@@ -1,13 +1,13 @@
 import styled from "styled-components";
 import { Heading } from "@navikt/ds-react";
-import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakOversikt } from "./IASakStatus/IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import { contentSpacing } from "../../../styling/contentSpacing";
 import { BrregStatus } from "./BrregStatus";
-import { Virksomhet } from "../../../domenetyper/virksomhet";
 import VirksomhetinfoHeader from "./VirksomhetsinfoHeader";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
+import React from "react";
+import VirksomhetContext, { VirksomhetContextType } from "../VirksomhetContext";
 
 const OversiktsContainer = styled.div`
     display: flex;
@@ -33,16 +33,12 @@ const VirksomhetsinfoContainer = styled.div`
     gap: 2rem;
 `;
 
-interface Props {
-    virksomhet: Virksomhet;
-    iaSak?: IASak;
-}
-
-export const Virksomhetsoversikt = ({ virksomhet, iaSak }: Props) => {
+export const Virksomhetsoversikt = () => {
     if (erIDev) {
         // TODO: Fjern "Virksomhetsoversikt" og rename "NyVirksomhetsoversikt" til "Virksomhetsoversikt" når det er klart for produksjon
-        return <NyVirksomhetsoversikt virksomhet={virksomhet} iaSak={iaSak} />;
+        return <NyVirksomhetsoversikt />;
     }
+    const { virksomhet, iaSak } = React.useContext(VirksomhetContext) as VirksomhetContextType;
 
     return (
         <OversiktsContainer>
@@ -60,13 +56,14 @@ export const Virksomhetsoversikt = ({ virksomhet, iaSak }: Props) => {
     );
 }
 
-function NyVirksomhetsoversikt({ virksomhet, iaSak }: Props) {
+function NyVirksomhetsoversikt() {
     /* return (
-        <VirksomhetinfoHeader iaSak={iaSak} virksomhet={virksomhet} />
+        <VirksomhetinfoHeader />
     ); */
+    const { virksomhet, iaSak } = React.useContext(VirksomhetContext) as VirksomhetContextType;
     return (
         <OversiktsContainer>
-            <VirksomhetinfoHeader iaSak={iaSak} virksomhet={virksomhet} />
+            <VirksomhetinfoHeader />
             <VirksomhetsinfoContainer>
                 <VirksomhetInformasjon virksomhet={virksomhet} />
                 <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} />

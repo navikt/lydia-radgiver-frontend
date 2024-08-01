@@ -1,16 +1,15 @@
-import { useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 import { Heading, HStack, Popover, VStack } from "@navikt/ds-react";
 import { InformationSquareIcon } from "@navikt/aksel-icons";
 
-import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
 import { useHentSalesforceUrl } from "../../../../api/lydia-api";
 import { EksternLenke } from "../../../../components/EksternLenke";
-import { IASak } from "../../../../domenetyper/domenetyper";
 import Navigasjonsknapper from "./Navigasjonsknapper";
 import EierOgStatus from "./EierOgStatus";
+import VirksomhetContext, { VirksomhetContextType } from "../../VirksomhetContext";
 
 const Container = styled.div`
     display: flex;
@@ -39,12 +38,9 @@ const TittelseksjonMedLavFontWeight = styled.span`
     font-weight: 400;
 `;
 
-interface Props {
-    virksomhet: Virksomhet;
-    iaSak?: IASak;
-}
 
-export default function VirksomhetsinfoHeader({ virksomhet, iaSak }: Props) {
+export default function VirksomhetsinfoHeader() {
+    const { virksomhet, iaSak } = React.useContext(VirksomhetContext) as VirksomhetContextType;
     const buttonRef = useRef<SVGSVGElement>(null);
     const [openState, setOpenState] = useState(false);
     const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
@@ -82,7 +78,7 @@ export default function VirksomhetsinfoHeader({ virksomhet, iaSak }: Props) {
                             </Popover>
                         </NavnOgIkonContainer>
                     </VStack>
-                    <EierOgStatus iaSak={iaSak} orgnummer={virksomhet.orgnr} />
+                    <EierOgStatus />
                 </HStack>
                 <Navigasjonsknapper />
             </VStack>

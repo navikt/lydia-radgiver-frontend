@@ -12,11 +12,12 @@ import { NavFarger } from "../../../../styling/farger";
 import { BorderRadius } from "../../../../styling/borderRadius";
 import { IngenAktivitetInfo } from "./IngenAktivitetInfo/IngenAktivitetInfo";
 import { Konfetti } from "../../../../components/Konfetti/Konfetti";
-import { useState } from "react";
+import React, { useState } from "react";
 import { mobileAndUp } from "../../../../styling/breakpoints";
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import { TeamModal } from "../../../MineSaker/TeamModal";
 import { useHentTeam } from "../../../../api/lydia-api";
+import VirksomhetContext, { VirksomhetContextType } from "../../VirksomhetContext";
 
 export const IASakOversiktContainer = styled.div`
     flex: 1 ${300 / 16}rem;
@@ -79,10 +80,9 @@ export const IASakOversikt = ({
     iaSak: sak,
 }: IASakOversiktProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { visKonfetti, setVisKonfetti } = React.useContext(VirksomhetContext) as VirksomhetContextType;
 
     const { data: følgere = [] } = useHentTeam(sak?.saksnummer);
-
-    const [visKonfetti, setVisKonfetti] = useState(false);
 
     if (!sak || sak.lukket) {
         return <IngenAktiveSaker orgnummer={orgnummer} />;

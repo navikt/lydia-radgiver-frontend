@@ -1,4 +1,4 @@
-import { Button, Heading, Modal } from "@navikt/ds-react";
+import { Heading, Modal } from "@navikt/ds-react";
 import React from "react";
 import { GyldigNesteHendelse, IASak } from "../../../../../domenetyper/domenetyper";
 import Historikk from "./Historikk";
@@ -8,13 +8,16 @@ import { erIDev } from "../../../../../components/Dekoratør/Dekoratør";
 export default function EndreStatusModal({
 	sak,
 	hendelser,
-	setVisKonfetti
+	setVisKonfetti,
+	open,
+	setOpen
 }: {
 	sak: IASak;
 	hendelser: GyldigNesteHendelse[];
 	setVisKonfetti?: (visKonfetti: boolean) => void;
+	open: boolean;
+	setOpen: (open: boolean) => void;
 }) {
-	const [modalOpen, setModalOpen] = React.useState(false);
 	const [nesteSteg, setNesteSteg] = React.useState<{ nesteSteg: StatusHendelseSteg | null, hendelse: GyldigNesteHendelse | null }>({ nesteSteg: null, hendelse: null });
 
 	if (!erIDev) {
@@ -23,11 +26,10 @@ export default function EndreStatusModal({
 
 	return (
 		<>
-			<Button onClick={() => setModalOpen(true)}>Endre status</Button>
-			<Modal open={modalOpen} style={{ minWidth: "36rem" }} onClose={() => {
-				setModalOpen(false);
+			<Modal open={open} style={{ minWidth: "36rem" }} onClose={() => {
+				setOpen(false);
 				setNesteSteg({ nesteSteg: null, hendelse: null });
-			}}>
+			}} aria-label="Endre status">
 				<Modal.Header>
 					<Heading size="medium">Endre status</Heading>
 				</Modal.Header>
@@ -37,7 +39,7 @@ export default function EndreStatusModal({
 				<Statusknapper
 					hendelser={hendelser}
 					sak={sak}
-					setModalOpen={setModalOpen}
+					setModalOpen={setOpen}
 					setVisKonfetti={setVisKonfetti}
 					nesteSteg={nesteSteg}
 					setNesteSteg={setNesteSteg} />

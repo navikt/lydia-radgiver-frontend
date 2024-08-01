@@ -6,10 +6,33 @@ import { iaSakKontaktes } from "../mocks/iaSakMock";
 import { Virksomhetsoversikt } from "./Virksomhetsoversikt";
 import { iaSakPath } from "../../../api/lydia-api";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
+import VirksomhetContext from "../VirksomhetContext";
+import React from "react";
+import { Virksomhet } from "../../../domenetyper/virksomhet";
+import { IASak } from "../../../domenetyper/domenetyper";
+
+
+const VirksomhetsoversiktMedContext = ({ virksomhet, iaSak }: { virksomhet: Virksomhet, iaSak: IASak }) => {
+    const [fane, setFane] = React.useState("statistikk");
+    return (
+        <VirksomhetContext.Provider value={{
+            virksomhet,
+            iaSak,
+            lasterIaSak: false,
+            fane,
+            setFane,
+            kartleggingId: "123456789",
+            setVisKonfetti: () => null,
+            visKonfetti: false,
+        }}>
+            <Virksomhetsoversikt />
+        </VirksomhetContext.Provider>
+    );
+}
 
 const meta = {
     title: "Virksomhet/Virksomhetsoversikt/Virksomhetsoversikt",
-    component: Virksomhetsoversikt,
+    component: VirksomhetsoversiktMedContext,
     decorators: [(Story) => (
         <MemoryRouter initialEntries={["/virksomhet/123456789"]}>
             <Routes>
