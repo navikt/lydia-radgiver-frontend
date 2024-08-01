@@ -15,7 +15,7 @@ export type VirksomhetContextType = {
 
 const VirksomhetContext = React.createContext<VirksomhetContextType | null>(null);
 
-export function useVirksomhetContext() {
+export function useVirksomhetContext(): VirksomhetContextType {
 	const context = React.useContext(VirksomhetContext);
 
 	if (!context) {

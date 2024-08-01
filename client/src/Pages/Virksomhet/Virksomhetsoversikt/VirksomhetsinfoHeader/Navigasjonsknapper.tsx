@@ -1,6 +1,7 @@
 import { Tabs } from "@navikt/ds-react";
 import { useSearchParams } from "react-router-dom";
 import styled from "styled-components";
+import { useVirksomhetContext } from "../../VirksomhetContext";
 
 const SAMARBEIDSFANER = ["plan", "kartlegging", "ia-tjenester"];
 function erSamarbeidsfane(fane: string) {
@@ -15,6 +16,7 @@ export default function Navigasjonsknapper() {
 	const [searchParams, setSearchParams] = useSearchParams();
 	const fane = searchParams.get("fane") ?? "statistikk";
 	const bruktFane = erSamarbeidsfane(fane) ? "samarbeid" : fane;
+	const { iaSak } = useVirksomhetContext();
 
 	const oppdaterTabISearchParam = (tab: string) => {
 		if (tab === "samarbeid") {
@@ -37,7 +39,7 @@ export default function Navigasjonsknapper() {
 			<StyledTabList>
 				<Tabs.Tab value="statistikk" label="Statistikk" />
 				<Tabs.Tab value="historikk" label="Historikk" />
-				<Tabs.Tab value="samarbeid" label="Samarbeid" />
+				{iaSak && <Tabs.Tab value="samarbeid" label="Samarbeid" />}
 			</StyledTabList>
 		</Tabs>
 	);
