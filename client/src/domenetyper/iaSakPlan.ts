@@ -1,5 +1,5 @@
 import {z} from "zod";
-import {datoSchema, iaSakKartleggingStatusEnum} from "./domenetyper";
+import {datoSchema} from "./domenetyper";
 
 const IA_PLAN_STATUSER = [
     "PLANLAGT",
@@ -8,6 +8,8 @@ const IA_PLAN_STATUSER = [
 ] as const;
 
 const iaSakPlanStatusEnum = z.enum(IA_PLAN_STATUSER);
+
+export type IASakPlanStatusEnum = z.infer<typeof iaSakPlanStatusEnum>;
 
 const iaSakPlanUndertemaSchema = z.object({
     id: z.number(),
@@ -25,6 +27,8 @@ const iaSakPlanRessursSchema = z.object({
     beskrivelse: z.string(),
     url: z.string().nullable(),
 });
+
+export type IASakPlanRessurs = z.infer<typeof iaSakPlanRessursSchema>;
 
 const iaSakPlanTemaSchema = z.object({
     id: z.number(),
@@ -44,4 +48,3 @@ export const iaSakPlanSchema = z.object({
 
 export type IASakPlan = z.infer<typeof iaSakPlanSchema>;
 
-export type IASakPlanStatusEnum = z.infer<typeof iaSakKartleggingStatusEnum>;

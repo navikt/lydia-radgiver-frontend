@@ -25,70 +25,70 @@ const dummyPølser: Arbeidsperiode[] = [
         start: new Date(2024, 0),
         slutt: new Date(2024, 3),
         tittel: 'Sykefraværsrutiner',
-        status: "Pågår",
+        status: "PÅGÅR",
         statusfarge: "success"
     },
     {
         start: new Date(2024, 2),
         slutt: new Date(2024, 5),
         tittel: 'Oppfølgingssamtaler',
-        status: "Fullført",
+        status: "FULLFØRT",
         statusfarge: "warning"
     },
     {
         start: new Date(2024, 7),
         slutt: new Date(2024, 10),
         tittel: 'Tilretteleggings- og medvirkningsplikt',
-        status: "Planlagt",
+        status: "PLANLAGT",
         statusfarge: "danger"
     },
     {
         start: new Date(2024, 7),
         slutt: new Date(2024, 9),
         tittel: 'Gjentagende sykefravær',
-        status: "Pågår",
+        status: "PÅGÅR",
         statusfarge: "info"
     },
     {
         start: new Date(2024, 9),
         slutt: new Date(2024, 11),
         tittel: 'Enda en greie',
-        status: "Fullført",
+        status: "FULLFØRT",
         statusfarge: "neutral"
     },
     {
         start: new Date(2025, 0),
         slutt: new Date(2025, 3),
         tittel: 'Sykefraværsrutiner 2',
-        status: "Planlagt",
+        status: "PLANLAGT",
         statusfarge: "success"
     },
     {
         start: new Date(2025, 2),
         slutt: new Date(2025, 5),
         tittel: 'Oppfølgingssamtaler 2',
-        status: "Pågår",
+        status: "PÅGÅR",
         statusfarge: "warning"
     },
     {
         start: new Date(2025, 7),
         slutt: new Date(2025, 10),
         tittel: 'Tilretteleggings- og medvirkningsplikt 2',
-        status: "Fullført",
+        status: "FULLFØRT",
         statusfarge: "danger"
     },
     {
         start: new Date(2025, 7),
         slutt: new Date(2025, 9),
         tittel: 'Gjentagende sykefravær 2',
-        status: "Planlagt",
+        status: "PLANLAGT",
         statusfarge: "info"
     },
     {
         start: new Date(2025, 9),
         slutt: new Date(2025, 11),
         tittel: 'Enda en greie 2',
-        status: "Fullført",
+        status: "FULLFØRT",
         statusfarge: "neutral"
     },
 ];

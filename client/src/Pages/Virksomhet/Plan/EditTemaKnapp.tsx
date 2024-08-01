@@ -50,7 +50,7 @@ export default function EditTemaKnapp({ tema, setTema, tilgjengeligeTemaer }: {
 							setModalOpen(false);
 							setTema({
 								...tema,
-								undertema: myUndertema.filter(({ valgt }) => valgt).map((v) => ({ ...v, status: "Planlagt", valgt: undefined }))
+								undertema: myUndertema.filter(({ valgt }) => valgt).map((v) => ({ ...v, status: "PLANLAGT", valgt: undefined }))
 							});
 						}}>Lagre</Button>
 					</ModalKnapper>

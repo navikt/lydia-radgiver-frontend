@@ -1,8 +1,8 @@
 import { Accordion, BodyLong, Heading, Select, TimelinePeriodProps } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
+import {IASakPlanStatusEnum} from "../../../domenetyper/iaSakPlan";
 
-export type Arbeidsperiodestatus = "Fullført" | "Pågår" | "Planlagt";
 export type Verktøylenke = {
 	tittel: string;
 	lenke: string;
@@ -12,7 +12,7 @@ export type Arbeidsperiode = {
 	start?: Date;
 	slutt?: Date;
 	tittel: string;
-	status: Arbeidsperiodestatus;
+	status: IASakPlanStatusEnum;
 	statusfarge: TimelinePeriodProps["status"];
 };
 
@@ -137,11 +137,11 @@ function PrettyDate({ date, visNesteMåned = false }: { date: Date, visNesteMån
 	return `${visningsdato.toLocaleString('default', { month: 'short' })} ${visningsdato.getFullYear()}`;
 }
 
-function TemalinjeHeaderStatus({ status, setStatus }: { status: Arbeidsperiodestatus; setStatus: (s: Arbeidsperiodestatus) => void }) {
+function TemalinjeHeaderStatus({ status, setStatus }: { status: IASakPlanStatusEnum; setStatus: (s: IASakPlanStatusEnum) => void }) {
 	return (<span>
 		<Select label="Status" size="small" hideLabel value={status} onClick={(e) => e.stopPropagation()} onChange={(e) => {
 			e.stopPropagation();
-			setStatus(e.target.value as Arbeidsperiodestatus);
+			setStatus(e.target.value as IASakPlanStatusEnum);
 		}}>
 			<option value="Fullført">Fullført</option>
 			<option value="Pågår">Pågår</option>

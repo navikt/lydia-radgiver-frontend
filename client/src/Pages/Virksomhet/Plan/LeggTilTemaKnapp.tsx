@@ -68,7 +68,7 @@ export default function LeggTilTemaKnapp({ temaer, setTemaer, tilgjengeligeTemae
 						<Button onClick={() => {
 							setTemaer(myTemaliste.filter((t) => valgteTemaer.includes(t.tittel)).map((t) => ({
 								...t,
-								undertema: t.undertema.filter(({ valgt }) => valgt).map((v) => ({ ...v, status: "Planlagt", valgt: undefined }))
+								undertema: t.undertema.filter(({ valgt }) => valgt).map((v) => ({ ...v, status: "PLANLAGT", valgt: undefined }))
 							})));
 							setModalOpen(false);
 						}}>
@@ -113,7 +113,7 @@ function transformTemaliste(tilgjengeligeTemaer: TilgjengeligTema[], temaer: Tem
 						return {
 							...undertema,
 							valgt: false,
-							status: "Planlagt",
+							status: "PLANLAGT",
 						};
 					}),
 				};
@@ -124,7 +124,7 @@ function transformTemaliste(tilgjengeligeTemaer: TilgjengeligTema[], temaer: Tem
 				undertema: tilgjengeligTema.undertema.map((undertema) => ({
 					...undertema,
 					valgt: false,
-					status: "Planlagt",
+					status: "PLANLAGT",
 				})),
 				verktøy: []
 			};

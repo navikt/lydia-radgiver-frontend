@@ -1,13 +1,14 @@
-import { Checkbox, CheckboxGroup, HStack, MonthPicker, TimelinePeriodProps } from "@navikt/ds-react";
-import { Arbeidsperiodestatus, Temainnhold } from "./UndertemaConfig";
+import {Checkbox, CheckboxGroup, HStack, MonthPicker, TimelinePeriodProps} from "@navikt/ds-react";
+import {Temainnhold} from "./UndertemaConfig";
 import styled from "styled-components";
+import {IASakPlanStatusEnum} from "../../../domenetyper/iaSakPlan";
 
 export type TilgjengeligUndertema = {
 	valgt: boolean;
 	tittel: string;
 	start?: Date
 	slutt?: Date
-	status: Arbeidsperiodestatus;
+	status: IASakPlanStatusEnum;
 	statusfarge: TimelinePeriodProps["status"];
 }
 
@@ -132,7 +133,7 @@ export function getDefaultMyUndertema(tilgjengeligeUndertema: TilgjengeligUndert
 				tittel: ut.tittel,
 				start,
 				slutt,
-				status: "Planlagt",
+				status: "PLANLAGT",
 				statusfarge: ut.statusfarge
 			}
 		});

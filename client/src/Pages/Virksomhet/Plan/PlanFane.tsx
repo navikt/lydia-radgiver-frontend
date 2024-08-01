@@ -101,28 +101,28 @@ const dummyData: Temainnhold = {
 			start: new Date(2024, 0),
 			slutt: new Date(2024, 3),
 			tittel: 'Sykefraværsrutiner',
-			status: "Fullført",
+			status: "FULLFØRT",
 			statusfarge: "success"
 		},
 		{
 			start: new Date(2024, 2),
 			slutt: new Date(2024, 5),
 			tittel: 'Oppfølgingssamtaler',
-			status: "Fullført",
+			status: "FULLFØRT",
 			statusfarge: "warning"
 		},
 		{
 			start: new Date(2024, 5),
 			slutt: new Date(2024, 8),
 			tittel: 'Tilretteleggings- og medvirkningsplikt',
-			status: "Pågår",
+			status: "PÅGÅR",
 			statusfarge: "danger"
 		},
 		{
 			start: new Date(2024, 7),
 			slutt: new Date(2024, 9),
 			tittel: 'Gjentagende sykefravær',
-			status: "Planlagt",
+			status: "PLANLAGT",
 			statusfarge: "info"
 		},
 	],
