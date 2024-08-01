@@ -18,7 +18,7 @@ export const AdministrerIaProsesserKnapp = ({
 
     return (
         <>
-            <Button variant="secondary" onClick={() => setÅpen(true)}>
+            <Button variant="tertiary" onClick={() => setÅpen(true)}>
                 Administrer samarbeid
             </Button>
             <BekreftValgModal

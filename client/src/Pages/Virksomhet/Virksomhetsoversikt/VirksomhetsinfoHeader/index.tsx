@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
 import styled from "styled-components";
 
-import { Heading, HStack, Popover } from "@navikt/ds-react";
+import { Heading, HStack, Popover, VStack } from "@navikt/ds-react";
 import { InformationSquareIcon } from "@navikt/aksel-icons";
 
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
@@ -10,12 +10,14 @@ import { useHentSalesforceUrl } from "../../../../api/lydia-api";
 import { EksternLenke } from "../../../../components/EksternLenke";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import Navigasjonsknapper from "./Navigasjonsknapper";
+import EierOgStatus from "./EierOgStatus";
 
 const Container = styled.div`
     display: flex;
     flex-direction: column;
     margin-bottom: 2rem;
     gap: 0.75rem;
+    border-bottom: 1px solid var(--a-gray-300);
 `;
 
 const SalesforceLenke = styled(EksternLenke)`
@@ -49,36 +51,41 @@ export default function VirksomhetsinfoHeader({ virksomhet, iaSak }: Props) {
 
     return (
         <Container>
-            {salesforceInfo && (
-                <SalesforceLenke href={salesforceInfo?.url}>
-                    Salesforce
-                </SalesforceLenke>
-            )}
-            <HStack justify="space-between" align="center">
-                <NavnOgIkonContainer>
-                    <Heading level={"2"} size={"large"}>
-                        {virksomhet.navn}<TittelseksjonMedLavFontWeight> - {virksomhet.orgnr}</TittelseksjonMedLavFontWeight>
-                    </Heading>
-                    <VirksomhetsInfoIkon
-                        title={"Se detaljer"}
-                        ref={buttonRef}
-                        onClick={() => setOpenState(!openState)}
-                        fontSize="2rem"
-                    />
-                    <Popover
-                        open={openState}
-                        placement="right-start"
-                        onClose={() => setOpenState(false)}
-                        anchorEl={buttonRef.current}
-                    >
-                        <VirksomhetsInfoPopoverInnhold
-                            iaSak={iaSak}
-                            virksomhet={virksomhet}
-                        />
-                    </Popover>
-                </NavnOgIkonContainer>
+            <VStack>
+                <HStack justify="space-between" align="start">
+                    <VStack>
+                        {salesforceInfo && (
+                            <SalesforceLenke href={salesforceInfo?.url}>
+                                Salesforce
+                            </SalesforceLenke>
+                        )}
+                        <NavnOgIkonContainer>
+                            <Heading level={"2"} size={"large"}>
+                                {virksomhet.navn}<TittelseksjonMedLavFontWeight> - {virksomhet.orgnr}</TittelseksjonMedLavFontWeight>
+                            </Heading>
+                            <VirksomhetsInfoIkon
+                                title={"Se detaljer"}
+                                ref={buttonRef}
+                                onClick={() => setOpenState(!openState)}
+                                fontSize="2rem"
+                            />
+                            <Popover
+                                open={openState}
+                                placement="right-start"
+                                onClose={() => setOpenState(false)}
+                                anchorEl={buttonRef.current}
+                            >
+                                <VirksomhetsInfoPopoverInnhold
+                                    iaSak={iaSak}
+                                    virksomhet={virksomhet}
+                                />
+                            </Popover>
+                        </NavnOgIkonContainer>
+                    </VStack>
+                    <EierOgStatus iaSak={iaSak} orgnummer={virksomhet.orgnr} />
+                </HStack>
                 <Navigasjonsknapper />
-            </HStack>
+            </VStack>
         </Container>
     );
 }

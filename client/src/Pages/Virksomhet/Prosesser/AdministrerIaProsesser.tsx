@@ -9,10 +9,12 @@ import { IaProsessChips } from "./IaProsessChips";
 import { AdministrerIaProsesserKnapp } from "./AdministrerIaProsesserKnapp";
 
 const AdministrerProsesserContainer = styled.div`
-    margin-bottom: 1.5rem;
+    margin-bottom: 0.5rem;
     display: flex;
     flex-direction: row;
     align-items: center;
+    width: 100%;
+    justify-content: space-between;
 `;
 
 interface AdministrerIaProsesserProps {

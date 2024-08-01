@@ -1,10 +1,15 @@
 import { Tabs } from "@navikt/ds-react";
 import { useSearchParams } from "react-router-dom";
+import styled from "styled-components";
 
 const SAMARBEIDSFANER = ["plan", "kartlegging", "ia-tjenester"];
 function erSamarbeidsfane(fane: string) {
 	return SAMARBEIDSFANER.includes(fane);
 }
+
+const StyledTabList = styled(Tabs.List)`
+	justify-content: flex-end;
+`;
 
 export default function Navigasjonsknapper() {
 	const [searchParams, setSearchParams] = useSearchParams();
@@ -29,11 +34,11 @@ export default function Navigasjonsknapper() {
 			onChange={oppdaterTabISearchParam}
 			defaultValue="statistikk"
 		>
-			<Tabs.List style={{ width: "100%" }}>
+			<StyledTabList>
 				<Tabs.Tab value="statistikk" label="Statistikk" />
 				<Tabs.Tab value="historikk" label="Historikk" />
 				<Tabs.Tab value="samarbeid" label="Samarbeid" />
-			</Tabs.List>
+			</StyledTabList>
 		</Tabs>
 	);
 }

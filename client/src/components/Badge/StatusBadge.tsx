@@ -7,6 +7,7 @@ import {
 } from "../../domenetyper/domenetyper";
 import { FiaFarger } from "../../styling/farger";
 import styled from "styled-components";
+import { Tag, TagProps } from "@navikt/ds-react";
 
 export const hentBakgrunnsFargeForIAStatus = (
     status: IAProsessStatusType,
@@ -70,6 +71,39 @@ const StatusBadgeWrapper = styled.div`
         text-decoration: none;
     }
 `;
+
+
+export const hentBakgrunnsFargeForIAStatusNy = (
+    status: IAProsessStatusType,
+): TagProps["variant"] => {
+    switch (status) {
+        case IAProsessStatusEnum.enum.NY:
+        case IAProsessStatusEnum.enum.FULLFØRT:
+            return "neutral-moderate";
+        case IAProsessStatusEnum.enum.VURDERES:
+            return "info-moderate";
+        case IAProsessStatusEnum.enum.IKKE_AKTIV:
+        case IAProsessStatusEnum.enum.SLETTET:
+            return "warning-moderate";
+        case IAProsessStatusEnum.enum.KONTAKTES:
+            return "alt3-moderate";
+        case IAProsessStatusEnum.enum.IKKE_AKTUELL:
+            return "error-moderate";
+        case IAProsessStatusEnum.enum.KARTLEGGES:
+            return "alt2-moderate";
+        case IAProsessStatusEnum.enum.VI_BISTÅR:
+            return "success-moderate";
+    }
+};
+
+export const NyttStatusBadge = ({ status }: Props) => {
+    // TODO: Fjern gamle når vi går over på nytt design.
+    return (
+        <Tag size="small" variant={hentBakgrunnsFargeForIAStatusNy(status)}>
+            {penskrivIAStatus(status)}
+        </Tag>
+    )
+}
 
 export const StatusBadge = ({ status, ariaLive, ariaLabel }: Props) => (
     <StatusBadgeWrapper>

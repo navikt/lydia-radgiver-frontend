@@ -61,6 +61,9 @@ export const Virksomhetsoversikt = ({ virksomhet, iaSak }: Props) => {
 }
 
 function NyVirksomhetsoversikt({ virksomhet, iaSak }: Props) {
+    /* return (
+        <VirksomhetinfoHeader iaSak={iaSak} virksomhet={virksomhet} />
+    ); */
     return (
         <OversiktsContainer>
             <VirksomhetinfoHeader iaSak={iaSak} virksomhet={virksomhet} />
