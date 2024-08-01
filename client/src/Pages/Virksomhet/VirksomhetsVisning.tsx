@@ -56,6 +56,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
             fane !== "statistikk" &&
             fane !== "historikk" &&
             fane !== "kartlegging" &&
+            fane !== "plan" &&
             fane !== "ia-tjenester";
         const manglerIaSak = fane === "ia-tjenester" && !iaSak && !lasterIaSak;
 
