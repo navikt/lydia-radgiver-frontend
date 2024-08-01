@@ -713,6 +713,13 @@ export const nyPlanPåSak = (orgnummer: string, saksnummer: string) : Promise <I
     );
 };
 
+export const useHentPlan = (orgnummer: string, saksnummer: string) => {
+    return useSwrTemplate<IASakPlan>(
+        `${planPath}/${orgnummer}/${saksnummer}`,
+        iaSakPlanSchema,
+    );
+};
+
 export const useHentKartleggingResultat = (
     orgnummer: string,
     saksnummer: string,

@@ -8,7 +8,7 @@ import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import VerktøyConfig from "./VerktøyConfig";
 import EditTemaKnapp from "./EditTemaKnapp";
 import {
-	nyPlanPåSak,
+	nyPlanPåSak, useHentIaProsesser, useHentPlan,
 } from "../../../api/lydia-api";
 import {IASak} from "../../../domenetyper/domenetyper";
 
@@ -145,16 +145,16 @@ interface Props {
 export default function PlanFane({iaSak}: Props) {
 	const [temaer, setTemaer] = React.useState([dummyData]);
 
-	// const {
-	// 	data: iaSakPlan,
-	// 	loading: lasterPlan,
-	// 	mutate: muterPlan,
-	// } = useHentPlan(iaSak.orgnr, iaSak.saksnummer);
+	const {
+		data: iaSakPlan,
+		loading: lasterPlan,
+		mutate: muterPlan,
+	} = useHentPlan(iaSak.orgnr, iaSak.saksnummer);
 
-	// const {mutate: muterProsesser} = useHentIaProsesser(
-	// 	iaSak.orgnr,
-	// 	iaSak.saksnummer,
-	// );
+	const {mutate: muterProsesser} = useHentIaProsesser(
+		iaSak.orgnr,
+		iaSak.saksnummer,
+	);
 
 	// TODO: Hent plan
 	//  Hvis plan ikke finnes, vis opprett plan knapp
@@ -163,24 +163,27 @@ export default function PlanFane({iaSak}: Props) {
 	const opprettPlan = () => {
 		nyPlanPåSak(iaSak.orgnr, iaSak.saksnummer).then((response) => {
 			console.log(response)
-			// muterPlan();
-			// muterProsesser();
+			muterPlan();
+			muterProsesser();
 		})
 	};
 
-
-
+	if(iaSakPlan === undefined || lasterPlan){
+		return(
+			<Button
+			size="small"
+			iconPosition="right"
+			variant="secondary"
+			onClick={opprettPlan}
+		>
+			Opprett plan
+		</Button>
+		)
+	}
 
 	return (
 		<>
-			<Button
-				size="small"
-				iconPosition="right"
-				variant="secondary"
-				onClick={opprettPlan}
-			>
-				Opprett plan
-			</Button>
+			<div>TEST: {iaSakPlan.id}</div>
 			<Temaer temaer={temaer} setTemaer={setTemaer} />
 			<LeggTilTemaKnapp temaer={temaer} setTemaer={setTemaer} tilgjengeligeTemaer={tilgjengeligeTemaer} />
 		</>
