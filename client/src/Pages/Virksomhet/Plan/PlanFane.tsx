@@ -1,13 +1,15 @@
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
-import { Heading, HStack, TimelinePeriodProps } from "@navikt/ds-react";
+import {Button, Heading, HStack, TimelinePeriodProps} from "@navikt/ds-react";
 import PlanGraf from "./PlanGraf";
 import React from "react";
 import UndertemaConfig, { Temainnhold } from "./UndertemaConfig";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import VerktøyConfig from "./VerktøyConfig";
 import EditTemaKnapp from "./EditTemaKnapp";
-import {nyPlanPåSak} from "../../../api/lydia-api";
+import {
+	nyPlanPåSak,
+} from "../../../api/lydia-api";
 import {IASak} from "../../../domenetyper/domenetyper";
 
 const Container = styled.div`
@@ -143,17 +145,42 @@ interface Props {
 export default function PlanFane({iaSak}: Props) {
 	const [temaer, setTemaer] = React.useState([dummyData]);
 
-	const {
-		data: plan,
-	} = nyPlanPåSak(iaSak.orgnr, iaSak.saksnummer)
+	// const {
+	// 	data: iaSakPlan,
+	// 	loading: lasterPlan,
+	// 	mutate: muterPlan,
+	// } = useHentPlan(iaSak.orgnr, iaSak.saksnummer);
 
+	// const {mutate: muterProsesser} = useHentIaProsesser(
+	// 	iaSak.orgnr,
+	// 	iaSak.saksnummer,
+	// );
+
+	// TODO: Hent plan
+	//  Hvis plan ikke finnes, vis opprett plan knapp
+	//  Når kanpp trykkes på muterPlaner
+
+	const opprettPlan = () => {
+		nyPlanPåSak(iaSak.orgnr, iaSak.saksnummer).then((response) => {
+			console.log(response)
+			// muterPlan();
+			// muterProsesser();
+		})
+	};
 
 
 
 
 	return (
 		<>
-			<div>PLANID: {plan?.planId}</div>
+			<Button
+				size="small"
+				iconPosition="right"
+				variant="secondary"
+				onClick={opprettPlan}
+			>
+				Opprett plan
+			</Button>
 			<Temaer temaer={temaer} setTemaer={setTemaer} />
 			<LeggTilTemaKnapp temaer={temaer} setTemaer={setTemaer} tilgjengeligeTemaer={tilgjengeligeTemaer} />
 		</>

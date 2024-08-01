@@ -706,8 +706,8 @@ export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
         iaSakKartleggingSchema.array(),
     );
 };
-export const nyPlanPåSak = (orgnummer: string, saksnummer: string) => {
-    return useSwrTemplate<IASakPlan>(
+export const nyPlanPåSak = (orgnummer: string, saksnummer: string) : Promise <IASakPlan> => {
+    return post(
         `${planPath}/${orgnummer}/${saksnummer}/opprett`,
         iaSakPlanSchema,
     );
