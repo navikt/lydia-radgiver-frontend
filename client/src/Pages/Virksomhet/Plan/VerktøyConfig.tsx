@@ -1,8 +1,8 @@
 import { BodyShort, Heading, Link } from "@navikt/ds-react";
 import LeggTilVerktøy from "./LeggTilVerktøy";
-import { Verktøylenke } from "./UndertemaConfig";
 import { FileIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
+import {IASakPlanRessurs} from "../../../domenetyper/iaSakPlan";
 
 const VerktøyConfigContainer = styled.div`
 	display: grid;
@@ -10,13 +10,13 @@ const VerktøyConfigContainer = styled.div`
 `;
 
 export default function VerktøyConfig({ verktøy, setVerktøy }: {
-	verktøy: Verktøylenke[];
-	setVerktøy: (t: Verktøylenke[]) => void;
+	verktøy: IASakPlanRessurs[];
+	setVerktøy: (t: IASakPlanRessurs[]) => void;
 }) {
 	return (
 		<VerktøyConfigContainer>
 			<Headerrad />
-			<VerktøyListe verktøy={verktøy} />
+			<VerktøyListe ressurs={verktøy} />
 			<LeggTilVerktøy verktøy={verktøy} setVerktøy={setVerktøy} />
 		</VerktøyConfigContainer>
 	);
@@ -33,18 +33,18 @@ const VerktøyVisningContainer = styled.div`
 	margin-bottom: 2rem;
 `;
 
-function VerktøyListe({ verktøy }: { verktøy: Verktøylenke[] }) {
+function VerktøyListe({ ressurs }: { ressurs: IASakPlanRessurs[] }) {
 	return (
 		<VerktøyVisningContainer>
-			{verktøy.map((v, i) => <VerktøyVisning key={i} verktøy={v} />)}
+			{ressurs.map((v, i) => <VerktøyVisning key={i} verktøy={v} />)}
 		</VerktøyVisningContainer>
 	);
 }
 
-function VerktøyVisning({ verktøy }: { verktøy: Verktøylenke }) {
-	if (verktøy.lenke.length) {
-		return <><Link href={verktøy.lenke} target="_blank" rel="noopener noreferrer"><FileIcon /> {verktøy.tittel}</Link><BodyShort textColor="subtle">{verktøy.lenke}</BodyShort></>;
+function VerktøyVisning({ verktøy }: { verktøy: IASakPlanRessurs }) {
+	if (verktøy.url !== null) {
+		return <><Link href={verktøy.url} target="_blank" rel="noopener noreferrer"><FileIcon /> {verktøy.beskrivelse}</Link><BodyShort textColor="subtle">{verktøy.url}</BodyShort></>;
 	}
 
-	return <><span>{verktøy.tittel}</span><span>-</span></>;
+	return <><span>{verktøy.beskrivelse}</span><span>-</span></>;
 }

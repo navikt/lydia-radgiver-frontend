@@ -1,10 +1,10 @@
 import React from "react";
-import { Verktøylenke } from "./UndertemaConfig";
 import { BodyLong, Button, Label, Modal, TextField } from "@navikt/ds-react";
 import { StyledModal } from "../../../components/Modal/StyledModal";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import styled from "styled-components";
 import { PlusIcon, TrashIcon } from '@navikt/aksel-icons';
+import {IASakPlanRessurs} from "../../../domenetyper/iaSakPlan";
 
 const StyledBody = styled(BodyLong)`
 	margin-top: 1rem;
@@ -16,15 +16,15 @@ const StyledButton = styled(Button)`
 `;
 
 export default function LeggTilVerktøy({ verktøy, setVerktøy }: {
-	verktøy: Verktøylenke[];
-	setVerktøy: (t: Verktøylenke[]) => void;
+	verktøy: IASakPlanRessurs[];
+	setVerktøy: (t: IASakPlanRessurs[]) => void;
 }) {
 	const [modalOpen, setModalOpen] = React.useState(false);
-	const [minVerktøyliste, setMinVerktøyliste] = React.useState<Verktøylenke[]>(verktøy);
+	const [minVerktøyliste, setMinVerktøyliste] = React.useState<IASakPlanRessurs[]>(verktøy);
 
 	React.useEffect(() => {
-		if (minVerktøyliste?.[minVerktøyliste.length - 1]?.tittel !== "" || minVerktøyliste?.[minVerktøyliste.length - 1]?.lenke !== "") {
-			setMinVerktøyliste([...minVerktøyliste, { tittel: "", lenke: "" }]);
+		if (minVerktøyliste?.[minVerktøyliste.length - 1]?.beskrivelse !== "" || minVerktøyliste?.[minVerktøyliste.length - 1]?.url !== "") {
+			setMinVerktøyliste([...minVerktøyliste, { id: 0, beskrivelse: "", url: "" }]);
 		}
 	}, [minVerktøyliste]);
 
@@ -51,7 +51,7 @@ export default function LeggTilVerktøy({ verktøy, setVerktøy }: {
 						setModalOpen(false);
 					}}>Avbryt</Button>
 					<Button onClick={() => {
-						setVerktøy(minVerktøyliste.filter((v) => v.tittel !== ""));
+						setVerktøy(minVerktøyliste.filter((ressurs) => ressurs.beskrivelse !== ""));
 						setModalOpen(false);
 					}}>Lagre</Button>
 				</ModalKnapper>
@@ -65,8 +65,8 @@ const VerktøyListeWrapper = styled.div`
 	grid-gap: 1rem;
 `;
 
-function VerktøyListe({ minVerktøyliste, setMinVerktøyliste }: { minVerktøyliste: Verktøylenke[], setMinVerktøyliste: (t: Verktøylenke[]) => void }) {
-	const setVerktøy = (verktøy: Verktøylenke, index: number) => {
+function VerktøyListe({ minVerktøyliste, setMinVerktøyliste }: { minVerktøyliste: IASakPlanRessurs[], setMinVerktøyliste: (t: IASakPlanRessurs[]) => void }) {
+	const setVerktøy = (verktøy: IASakPlanRessurs, index: number) => {
 		const nyeVerktøy = [...minVerktøyliste];
 		nyeVerktøy[index] = verktøy;
 
@@ -82,7 +82,7 @@ function VerktøyListe({ minVerktøyliste, setMinVerktøyliste }: { minVerktøyl
 	return (
 		<VerktøyListeWrapper>
 			<Headerrad />
-			{minVerktøyliste.map((verktøy, index) => <Verktøyrad key={index} verktøy={verktøy} setVerktøy={(vrk: Verktøylenke) => setVerktøy(vrk, index)} slettVerktøy={index < minVerktøyliste.length - 1 ? () => slettVerktøy(index) : undefined} />)}
+			{minVerktøyliste.map((verktøy, index) => <Verktøyrad key={index} verktøy={verktøy} setVerktøy={(ressurs: IASakPlanRessurs) => setVerktøy(ressurs, index)} slettVerktøy={index < minVerktøyliste.length - 1 ? () => slettVerktøy(index) : undefined} />)}
 		</VerktøyListeWrapper>
 	);
 }
@@ -98,7 +98,7 @@ function Headerrad() {
 }
 
 const SlettKnapp = styled(Button)`
-	padding: 0%;
+	padding: 0;
 
 	span {
 		display: flex;
@@ -108,12 +108,12 @@ const SlettKnapp = styled(Button)`
 	}
 `;
 
-function Verktøyrad({ verktøy, setVerktøy, slettVerktøy }: { verktøy: Verktøylenke, setVerktøy: (t: Verktøylenke) => void, slettVerktøy?: () => void }) {
+function Verktøyrad({ verktøy, setVerktøy, slettVerktøy }: { verktøy: IASakPlanRessurs, setVerktøy: (t: IASakPlanRessurs) => void, slettVerktøy?: () => void }) {
 	return (
 		<>
-			<TextField size="small" label="Beskrivelse" hideLabel value={verktøy.tittel} onChange={(evt) => setVerktøy({ ...verktøy, tittel: evt.target.value })} />
-			<TextField size="small" label="Lenke" hideLabel value={verktøy.lenke} onChange={(evt) => setVerktøy({ ...verktøy, lenke: evt.target.value })} />
-			{slettVerktøy ? <SlettKnapp variant="tertiary" onClick={slettVerktøy}><TrashIcon title={`Slett ${verktøy.tittel}`} fontSize="2rem" /></SlettKnapp> : <span />}
+			<TextField size="small" label="Beskrivelse" hideLabel value={verktøy.beskrivelse} onChange={(evt) => setVerktøy({ ...verktøy, beskrivelse: evt.target.value })} />
+			<TextField size="small" label="Lenke" hideLabel value={verktøy.beskrivelse} onChange={(evt) => setVerktøy({ ...verktøy, url: evt.target.value })} />
+			{slettVerktøy ? <SlettKnapp variant="tertiary" onClick={slettVerktøy}><TrashIcon title={`Slett ${verktøy.beskrivelse}`} fontSize="2rem" /></SlettKnapp> : <span />}
 		</>
 	);
 }

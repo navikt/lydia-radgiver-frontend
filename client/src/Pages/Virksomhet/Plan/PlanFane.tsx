@@ -128,12 +128,14 @@ const dummyData: Temainnhold = {
 	],
 	verktøy: [
 		{
-			tittel: "NRK",
-			lenke: "https://www.nrk.no"
+			id: 1,
+			beskrivelse: "NRK",
+			url: "https://www.nrk.no"
 		},
 		{
-			tittel: "Avisa Oslo",
-			lenke: "https://www.ao.no"
+			id: 2,
+			beskrivelse: "Avisa Oslo",
+			url: "https://www.ao.no"
 		},
 	],
 }
@@ -155,10 +157,6 @@ export default function PlanFane({iaSak}: Props) {
 		iaSak.orgnr,
 		iaSak.saksnummer,
 	);
-
-	// TODO: Hent plan
-	//  Hvis plan ikke finnes, vis opprett plan knapp
-	//  Når kanpp trykkes på muterPlaner
 
 	const opprettPlan = () => {
 		nyPlanPåSak(iaSak.orgnr, iaSak.saksnummer).then((response) => {

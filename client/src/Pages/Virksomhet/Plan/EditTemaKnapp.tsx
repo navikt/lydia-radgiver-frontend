@@ -9,7 +9,7 @@ import { DocPencilIcon } from '@navikt/aksel-icons';
 import UndertemaSetup, { getDefaultMyUndertema, TilgjengeligUndertema } from "./UndertemaSetup";
 
 const EditTemaModal = styled(Modal)`
-  padding: 0rem;
+  padding: 0;
   max-width: 64rem;
   --a-spacing-6: 0.5rem;
   

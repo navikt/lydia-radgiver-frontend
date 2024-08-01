@@ -1,12 +1,12 @@
 import { Accordion, BodyLong, Heading, Select, TimelinePeriodProps } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
-import {IASakPlanStatusEnum} from "../../../domenetyper/iaSakPlan";
+import {IASakPlanRessurs, IASakPlanStatusEnum} from "../../../domenetyper/iaSakPlan";
 
-export type Verktøylenke = {
-	tittel: string;
-	lenke: string;
-};
+// export type Verktøylenke = {
+// 	tittel: string;
+// 	lenke: string;
+// };
 
 export type Arbeidsperiode = {
 	start?: Date;
@@ -19,7 +19,7 @@ export type Arbeidsperiode = {
 export type TemainnholdBase<Undertema extends Arbeidsperiode> = {
 	tittel: string;
 	undertema: Undertema[];
-	verktøy: Verktøylenke[];
+	verktøy: IASakPlanRessurs[];
 };
 export type Temainnhold = TemainnholdBase<Arbeidsperiode>
 
