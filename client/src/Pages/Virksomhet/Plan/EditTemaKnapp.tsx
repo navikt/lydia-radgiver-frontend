@@ -1,61 +1,79 @@
 import React from "react";
-import { TilgjengeligTema } from "./PlanFane";
-import { Temainnhold } from "./UndertemaConfig";
 import { Button, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import styled from "styled-components";
 import { mobileAndUp } from "../../../styling/breakpoints";
-import { DocPencilIcon } from '@navikt/aksel-icons';
-import UndertemaSetup, { getDefaultMyUndertema, TilgjengeligUndertema } from "./UndertemaSetup";
+import { DocPencilIcon } from "@navikt/aksel-icons";
+import UndertemaSetup from "./UndertemaSetup";
+import { PlanTema } from "../../../domenetyper/plan";
+import { endreTema } from "../../../api/lydia-api";
 
 const EditTemaModal = styled(Modal)`
-  padding: 0;
-  max-width: 64rem;
-  --a-spacing-6: 0.5rem;
-  
-  ${mobileAndUp} {
-    padding: 1.5rem;
-    --a-spacing-6: var(--a-spacing-6); // Vi prøver å hente ut originalverdien frå designsystemet
-  }
+    padding: 0;
+    max-width: 64rem;
+    --a-spacing-6: 0.5rem;
+
+    ${mobileAndUp} {
+        padding: 1.5rem;
+        --a-spacing-6: var(--a-spacing-6);
+        // Vi prøver å hente ut originalverdien frå designsystemet
+    }
 `;
 
-export default function EditTemaKnapp({ tema, setTema, tilgjengeligeTemaer }: {
-	tema: Temainnhold;
-	setTema: (t: Temainnhold) => void;
-	tilgjengeligeTemaer: TilgjengeligTema[];
+export default function EditTemaKnapp({
+    tema,
+    orgnummer,
+    saksnummer,
+}: {
+    tema: PlanTema;
+    orgnummer: string;
+    saksnummer: string;
 }) {
-	const [modalOpen, setModalOpen] = React.useState(false);
+    const [modalOpen, setModalOpen] = React.useState(false);
 
-	const tilgjengeligeUndertema = tilgjengeligeTemaer.find((t) => t.tittel === tema.tittel)?.undertema as TilgjengeligUndertema[] ?? [];
+    const lagreEndring = () => {
+        endreTema(orgnummer, saksnummer, tema).then(() => {
+            console.log("Endret plan");
+        });
+    };
 
-	const [myUndertema, setMyUndertema] = React.useState<TilgjengeligUndertema[]>([]);
-
-	React.useEffect(() => {
-		setMyUndertema(getDefaultMyUndertema(tilgjengeligeUndertema, tema));
-	}, [tema]);
-
-	return (
-		<>
-			<Button variant="tertiary" onClick={() => setModalOpen(true)} icon={<DocPencilIcon />}>Rediger tema</Button>
-			<EditTemaModal open={modalOpen} onClose={() => setModalOpen(false)} aria-label="Rediger tema">
-				<Modal.Body>
-					<UndertemaSetup undertemaListe={myUndertema} setUndertemaListe={setMyUndertema} />
-					<br />
-					<ModalKnapper>
-						<Button variant="secondary" onClick={() => {
-							setMyUndertema(getDefaultMyUndertema(tilgjengeligeUndertema, tema));
-							setModalOpen(false);
-						}}>Avbryt</Button>
-						<Button onClick={() => {
-							setModalOpen(false);
-							setTema({
-								...tema,
-								undertema: myUndertema.filter(({ valgt }) => valgt).map((v) => ({ ...v, status: "PLANLAGT", valgt: undefined }))
-							});
-						}}>Lagre</Button>
-					</ModalKnapper>
-				</Modal.Body>
-			</EditTemaModal>
-		</>
-	);
+    return (
+        <>
+            <Button
+                variant="tertiary"
+                onClick={() => setModalOpen(true)}
+                icon={<DocPencilIcon />}
+            >
+                Rediger tema
+            </Button>
+            <EditTemaModal
+                open={modalOpen}
+                onClose={() => setModalOpen(false)}
+                aria-label="Rediger tema"
+            >
+                <Modal.Body>
+                    <UndertemaSetup tema={tema} />
+                    <br />
+                    <ModalKnapper>
+                        <Button
+                            variant="secondary"
+                            onClick={() => {
+                                setModalOpen(false);
+                            }}
+                        >
+                            Avbryt
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                setModalOpen(false);
+                                lagreEndring();
+                            }}
+                        >
+                            Lagre
+                        </Button>
+                    </ModalKnapper>
+                </Modal.Body>
+            </EditTemaModal>
+        </>
+    );
 }

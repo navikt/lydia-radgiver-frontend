@@ -81,7 +81,7 @@ import {
 import { IaSakProsess, iaSakProsessSchema } from "../domenetyper/iaSakProsess";
 import { MineSaker, mineSakerListSchema } from "../domenetyper/mineSaker";
 import { BrukerITeamDTO, brukerITeamSchema } from "../domenetyper/brukeriteam";
-import {IASakPlan, iaSakPlanSchema} from "../domenetyper/iaSakPlan";
+import {Plan, PlanSchema, PlanTema} from "../domenetyper/plan";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
@@ -708,17 +708,34 @@ export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
         iaSakKartleggingSchema.array(),
     );
 };
-export const nyPlanPåSak = (orgnummer: string, saksnummer: string) : Promise <IASakPlan> => {
+
+export const nyPlanPåSak = (orgnummer: string, saksnummer: string): Promise<Plan> => {
     return post(
         `${planPath}/${orgnummer}/${saksnummer}/opprett`,
-        iaSakPlanSchema,
+        PlanSchema,
+    );
+};
+
+export const endrePlan = (orgnummer: string, saksnummer: string, plan:Plan): Promise<Plan> => {
+    return post(
+        `${planPath}/${orgnummer}/${saksnummer}/opprett`,
+        PlanSchema,
+        plan,
+    );
+};
+
+export const endreTema = (orgnummer: string, saksnummer: string, tema:PlanTema): Promise<Plan> => {
+    return put(
+        `${planPath}/${orgnummer}/${saksnummer}/endre/tema/${tema.id}`,
+        PlanSchema,
+        tema,
     );
 };
 
 export const useHentPlan = (orgnummer: string, saksnummer: string) => {
-    return useSwrTemplate<IASakPlan>(
+    return useSwrTemplate<Plan>(
         `${planPath}/${orgnummer}/${saksnummer}`,
-        iaSakPlanSchema,
+        PlanSchema,
     );
 };
 
