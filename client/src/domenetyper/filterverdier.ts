@@ -15,6 +15,7 @@ export const filterverdierSchema = z.object({
 
 export type Filterverdier = z.infer<typeof filterverdierSchema>;
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const sorteringsverdier = {
     tapte_dagsverk: "Tapte dagsverk",
     mulige_dagsverk: "Mulige dagsverk",

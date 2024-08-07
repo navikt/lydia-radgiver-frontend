@@ -133,6 +133,7 @@ const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
                 .then((innhold) => {
                     try {
                         return JSON.parse(innhold);
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     } catch (e) {
                         return {
                             message: innhold,
@@ -220,8 +221,9 @@ const useSwrTemplate = <T>(
         };
     }
     if (fetchError) {
-        visFeilmelding &&
+        if (visFeilmelding) {
             dispatchFeilmelding({ feilmelding: fetchError.message });
+        }
         return {
             data,
             mutate,

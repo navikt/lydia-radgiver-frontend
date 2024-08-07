@@ -60,6 +60,7 @@ export interface NyLeveranseDTO {
     frist: string; // isoDato(Date) -> string
 }
 
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
 const leveranseOppdateringDTOSchema = z.object({
     status: LeveranseStatusEnum.nullable(),
 })
