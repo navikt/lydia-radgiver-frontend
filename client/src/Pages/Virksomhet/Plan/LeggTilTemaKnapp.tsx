@@ -3,7 +3,9 @@ import { Button, Checkbox, CheckboxGroup, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import UndertemaSetup from "./UndertemaSetup";
 import styled from "styled-components";
-import { PlanTema } from "../../../domenetyper/plan";
+import { PlanTema, PlanUndertema } from "../../../domenetyper/plan";
+import { endrePlan } from "../../../api/lydia-api";
+import { lagRequest, TemaRequest } from "./Requests";
 
 const UndertemaSetupContainer = styled.div`
     margin-bottom: 1rem;
@@ -17,11 +19,71 @@ const LeggTilTemaModal = styled(Modal)`
     max-width: 72rem;
 `;
 
-export default function LeggTilTemaKnapp({ temaer }: { temaer: PlanTema[] }) {
+export default function LeggTilTemaKnapp({
+    saksnummer,
+    orgnummer,
+    temaer,
+    muterPlan,
+}: {
+    orgnummer: string;
+    saksnummer: string;
+    temaer: PlanTema[];
+    muterPlan: () => void;
+}) {
     const [modalOpen, setModalOpen] = React.useState(false);
 
-    // const valgteTemaer = temaer.filter((tema) => tema.planlagt);
-    const handleChange = (val: string[]) => console.log(val);
+    const [redigertTemaliste, setRedigertTemaliste] =
+        React.useState<PlanTema[]>(temaer);
+
+    function velgTema(valgteTemaIder: number[]) {
+        setRedigertTemaliste(
+            redigertTemaliste.map((tema) =>
+                valgteTemaIder.includes(tema.id)
+                    ? { ...tema, planlagt: true }
+                    : {
+                          ...tema,
+                          planlagt: false,
+                          undertemaer: tema.undertemaer.map((undertema) => {
+                              return {
+                                  ...undertema,
+                                  planlagt: false,
+                                  status: null,
+                                  startDato: null,
+                                  sluttDato: null,
+                              };
+                          }),
+                      },
+            ),
+        );
+    }
+
+    function velgUndertema(
+        temaId: number,
+        redigerteUndertemaer: PlanUndertema[],
+    ) {
+        setRedigertTemaliste(
+            redigertTemaliste.map((tema) =>
+                tema.id === temaId
+                    ? {
+                          ...tema,
+                          undertemaer: redigerteUndertemaer,
+                      }
+                    : { ...tema },
+            ),
+        );
+    }
+
+    function lagreEndring() {
+        const temaer: TemaRequest[] = redigertTemaliste.map((tema) => {
+            return {
+                id: tema.id,
+                planlagt: tema.planlagt,
+                undertemaer: lagRequest(tema.undertemaer),
+            };
+        });
+
+        endrePlan(saksnummer, orgnummer, temaer).then(() => muterPlan());
+    }
 
     return (
         <>
@@ -40,19 +102,25 @@ export default function LeggTilTemaKnapp({ temaer }: { temaer: PlanTema[] }) {
                     <CheckboxGroup
                         legend="Velg tema i samarbeidsplan"
                         description="Velg hvilke temaer dere skal jobbe med under samarbeidsperioden"
-                        onChange={handleChange}
+                        value={redigertTemaliste.map((tema) =>
+                            tema.planlagt ? tema.id : null,
+                        )}
+                        onChange={(val: number[]) => velgTema(val)}
                     >
-                        {temaer.map((tema) => (
-                            <>
-                                <Checkbox key={tema.id} value={tema.id}>
-                                    {tema.navn}
-                                </Checkbox>
+                        {redigertTemaliste.map((tema) => (
+                            <div key={tema.id}>
+                                <Checkbox value={tema.id}>{tema.navn}</Checkbox>
                                 {tema.planlagt && (
                                     <UndertemaSetupContainer>
-                                        <UndertemaSetup tema={tema} />
+                                        <UndertemaSetup
+                                            valgteUndertemaer={tema.undertemaer}
+                                            velgUndertemaer={(
+                                                val: PlanUndertema[],
+                                            ) => velgUndertema(tema.id, val)}
+                                        />
                                     </UndertemaSetupContainer>
                                 )}
-                            </>
+                            </div>
                         ))}
                     </CheckboxGroup>
                     <br />
@@ -67,6 +135,7 @@ export default function LeggTilTemaKnapp({ temaer }: { temaer: PlanTema[] }) {
                         </Button>
                         <Button
                             onClick={() => {
+                                lagreEndring();
                                 setModalOpen(false);
                             }}
                         >

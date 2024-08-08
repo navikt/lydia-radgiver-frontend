@@ -17,10 +17,10 @@ export default function PlanFane({ iaSak }: Props) {
     const {
         data: iaSakPlan,
         loading: lasterPlan,
-        mutate: muterPlan,
+        mutate: hentPlanIgjen,
     } = useHentPlan(iaSak.orgnr, iaSak.saksnummer);
 
-    const { mutate: muterProsesser } = useHentIaProsesser(
+    const { mutate: hentProsesserIgjne } = useHentIaProsesser(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
@@ -28,8 +28,8 @@ export default function PlanFane({ iaSak }: Props) {
     const opprettPlan = () => {
         nyPlanPåSak(iaSak.orgnr, iaSak.saksnummer).then((response) => {
             console.log(response);
-            muterPlan();
-            muterProsesser();
+            hentPlanIgjen();
+            hentProsesserIgjne();
         });
     };
 
@@ -52,8 +52,14 @@ export default function PlanFane({ iaSak }: Props) {
                 plan={iaSakPlan}
                 orgnummer={iaSak.orgnr}
                 saksnummer={iaSak.saksnummer}
+                muterPlan={hentPlanIgjen}
             />
-            <LeggTilTemaKnapp temaer={iaSakPlan.temaer} />
+            <LeggTilTemaKnapp
+                orgnummer={iaSak.orgnr}
+                saksnummer={iaSak.saksnummer}
+                temaer={iaSakPlan.temaer}
+                muterPlan={hentPlanIgjen}
+            />
         </>
     );
 }

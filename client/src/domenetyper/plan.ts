@@ -1,11 +1,7 @@
-import {z} from "zod";
-import {datoSchema} from "./domenetyper";
+import { z } from "zod";
+import { datoSchema } from "./domenetyper";
 
-const IA_PLAN_STATUSER = [
-    "PLANLAGT",
-    "PÅGÅR",
-    "FULLFØRT",
-] as const;
+const IA_PLAN_STATUSER = ["PLANLAGT", "PÅGÅR", "FULLFØRT"] as const;
 
 const PlanStatusSchema = z.enum(IA_PLAN_STATUSER);
 
@@ -31,7 +27,7 @@ const PlanRessursSchema = z.object({
 
 export type PlanRessurs = z.infer<typeof PlanRessursSchema>;
 
-const PlanTemaSchema = z.object({
+export const PlanTemaSchema = z.object({
     id: z.number(),
     navn: z.string(),
     planlagt: z.boolean(),
@@ -50,4 +46,3 @@ export const PlanSchema = z.object({
 });
 
 export type Plan = z.infer<typeof PlanSchema>;
-
