@@ -21,10 +21,12 @@ export function Temaer({
     plan,
     orgnummer,
     saksnummer,
+    muterPlan,
 }: {
     plan: Plan;
     orgnummer: string;
     saksnummer: string;
+    muterPlan: () => void;
 }) {
     return plan.temaer
         .filter((tema) => tema.planlagt)
@@ -39,6 +41,7 @@ export function Temaer({
                             tema={tema}
                             orgnummer={orgnummer}
                             saksnummer={saksnummer}
+                            muterPlan={muterPlan}
                         />
                     </HStack>
                     <PlanGraf undertemaer={tema.undertemaer} />

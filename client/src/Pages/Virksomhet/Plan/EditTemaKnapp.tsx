@@ -5,8 +5,9 @@ import styled from "styled-components";
 import { mobileAndUp } from "../../../styling/breakpoints";
 import { DocPencilIcon } from "@navikt/aksel-icons";
 import UndertemaSetup from "./UndertemaSetup";
-import { PlanTema } from "../../../domenetyper/plan";
+import { PlanTema, PlanUndertema } from "../../../domenetyper/plan";
 import { endreTema } from "../../../api/lydia-api";
+import { lagRequest, UndertemaRequest } from "./Requests";
 
 const EditTemaModal = styled(Modal)`
     padding: 0;
@@ -24,16 +25,23 @@ export default function EditTemaKnapp({
     tema,
     orgnummer,
     saksnummer,
+    muterPlan,
 }: {
     tema: PlanTema;
     orgnummer: string;
     saksnummer: string;
+    muterPlan: () => void;
 }) {
     const [modalOpen, setModalOpen] = React.useState(false);
 
+    const [redigertTema, setRedigertTema] = React.useState<PlanTema>(tema);
+
     const lagreEndring = () => {
-        endreTema(orgnummer, saksnummer, tema).then(() => {
-            console.log("Endret plan");
+        const undertemaer: UndertemaRequest[] = lagRequest(
+            redigertTema.undertemaer,
+        );
+        endreTema(orgnummer, saksnummer, tema.id, undertemaer).then(() => {
+            muterPlan();
         });
     };
 
@@ -52,7 +60,17 @@ export default function EditTemaKnapp({
                 aria-label="Rediger tema"
             >
                 <Modal.Body>
-                    <UndertemaSetup tema={tema} />
+                    <UndertemaSetup
+                        valgteUndertemaer={redigertTema.undertemaer}
+                        velgUndertemaer={(
+                            redigerteUndertemaer: PlanUndertema[],
+                        ) => {
+                            setRedigertTema({
+                                ...redigertTema,
+                                undertemaer: redigerteUndertemaer,
+                            });
+                        }}
+                    />
                     <br />
                     <ModalKnapper>
                         <Button

@@ -1,6 +1,7 @@
 import { Checkbox, CheckboxGroup, HStack, MonthPicker } from "@navikt/ds-react";
 import styled from "styled-components";
-import { PlanTema, PlanUndertema } from "../../../domenetyper/plan";
+import { PlanUndertema } from "../../../domenetyper/plan";
+import React from "react";
 
 const UndertemaRad = styled(HStack)`
     margin-bottom: 0.5rem;
@@ -12,66 +13,112 @@ function StartOgSluttVelger({
     setNySluttDato,
 }: {
     undertema: PlanUndertema;
-    setNyStartDato: (val: Date | undefined) => void;
-    setNySluttDato: (val: Date | undefined) => void;
+    setNyStartDato: (date: Date) => void;
+    setNySluttDato: (date: Date) => void;
 }) {
-    const lagreStartDato = () => {
-        console.log("Endret plan");
+    const lagreStartDato = (date: Date | undefined) => {
+        date === undefined
+            ? console.log("dato ikke valgt")
+            : setNyStartDato(date);
     };
-    const lagreSluttDato = () => {
-        console.log("Endret plan");
+    const lagreSluttDato = (date: Date | undefined) => {
+        date === undefined
+            ? console.log("dato ikke valgt")
+            : setNySluttDato(date);
     };
 
     return (
-        undertema.startDato &&
-        undertema.sluttDato && (
-            <HStack align="center" gap="3">
-                <MonthPicker
-                    selected={undertema.startDato}
-                    defaultSelected={undertema.startDato}
-                    onMonthSelect={setNyStartDato}
-                >
-                    <MonthPicker.Input
-                        hideLabel
-                        size="small"
-                        label={`Startdato for ${undertema.navn}`}
-                        value={`${undertema?.startDato?.toLocaleString("default", { month: "short" })} ${undertema?.startDato?.getFullYear()}`}
-                        onChange={lagreStartDato}
-                    />
-                </MonthPicker>
-                {" - "}
-                <MonthPicker
-                    selected={undertema.sluttDato}
-                    defaultSelected={undertema.sluttDato}
-                    onMonthSelect={setNySluttDato}
-                >
-                    <MonthPicker.Input
-                        hideLabel
-                        size="small"
-                        label={`Sluttdato for ${undertema.navn}`}
-                        value={`${undertema?.sluttDato?.toLocaleString("default", { month: "short" })} ${undertema?.sluttDato?.getFullYear()}`}
-                        onChange={lagreSluttDato}
-                    />
-                </MonthPicker>
-            </HStack>
-        )
+        <HStack align="center" gap="3">
+            <MonthPicker onMonthSelect={lagreStartDato}>
+                <MonthPicker.Input
+                    hideLabel
+                    size="small"
+                    label={`Startdato for ${undertema.navn}`}
+                    value={
+                        undertema?.startDato === null
+                            ? ""
+                            : `${undertema.startDato.toLocaleString("default", { month: "short" })} ${undertema.startDato.getFullYear()}`
+                    }
+                    onChange={(date) => console.log(date)}
+                />
+            </MonthPicker>
+            {" - "}
+            <MonthPicker
+                selected={undertema.sluttDato ?? new Date()}
+                defaultSelected={undertema.sluttDato ?? new Date()}
+                onMonthSelect={lagreSluttDato}
+            >
+                <MonthPicker.Input
+                    hideLabel
+                    size="small"
+                    label={`Sluttdato for ${undertema.navn}`}
+                    value={
+                        undertema.sluttDato === null
+                            ? ""
+                            : `${undertema.sluttDato.toLocaleString("default", { month: "short" })} ${undertema.sluttDato.getFullYear()}`
+                    }
+                    onChange={(date) => console.log(date)}
+                />
+            </MonthPicker>
+        </HStack>
     );
 }
 
-export default function UndertemaSetup({ tema }: { tema: PlanTema }) {
-    const handleChange = (val: string[]) => console.log(val);
-    const setNyStartDato = (val: Date | undefined) => console.log(val);
-    const setNySluttDato = (val: Date | undefined) => console.log(val);
+interface UndertemaSetupProps {
+    valgteUndertemaer: PlanUndertema[];
+    velgUndertemaer: (val: PlanUndertema[]) => void;
+}
+
+export default function UndertemaSetup({
+    valgteUndertemaer,
+    velgUndertemaer,
+}: UndertemaSetupProps) {
+    const planleggUndertema = (undertemaIder: number[]) => {
+        velgUndertemaer(
+            valgteUndertemaer.map((undertema) =>
+                undertemaIder.includes(undertema.id)
+                    ? { ...undertema, planlagt: true, status: "PLANLAGT" }
+                    : {
+                          ...undertema,
+                          planlagt: false,
+                          startDato: null,
+                          sluttDato: null,
+                          status: null,
+                      },
+            ),
+        );
+    };
+
+    const setNyStartDato = (undertemaId: number, date: Date) => {
+        velgUndertemaer(
+            valgteUndertemaer.map((undertema) =>
+                undertema.id === undertemaId
+                    ? { ...undertema, startDato: date }
+                    : { ...undertema },
+            ),
+        );
+    };
+
+    const setNySluttDato = (undertemaId: number, date: Date) => {
+        velgUndertemaer(
+            valgteUndertemaer.map((undertema) =>
+                undertema.id === undertemaId
+                    ? { ...undertema, sluttDato: date }
+                    : { ...undertema },
+            ),
+        );
+    };
+
     return (
         <CheckboxGroup
             legend={"Undertemaer"}
             description="Velg hvilke undertemaer dere skal jobbe med og når"
-            value={tema.undertemaer
-                .filter(({ planlagt }) => planlagt)
-                .map(({ navn }) => navn)}
-            onChange={handleChange}
+            value={valgteUndertemaer
+                .filter((undertema) => undertema.planlagt)
+                .map((undertema) => undertema.id)}
+            onChange={planleggUndertema}
         >
-            {tema.undertemaer.map((undertema) => {
+            {valgteUndertemaer.map((undertema) => {
                 return (
                     <UndertemaRad
                         key={undertema.id}
@@ -79,14 +126,18 @@ export default function UndertemaSetup({ tema }: { tema: PlanTema }) {
                         gap="4"
                         align="center"
                     >
-                        <Checkbox value={undertema.navn}>
+                        <Checkbox key={undertema.id} value={undertema.id}>
                             {undertema.navn}
                         </Checkbox>
                         {undertema.planlagt ? (
                             <StartOgSluttVelger
                                 undertema={undertema}
-                                setNyStartDato={setNyStartDato}
-                                setNySluttDato={setNySluttDato}
+                                setNyStartDato={(date) =>
+                                    setNyStartDato(undertema.id, date)
+                                }
+                                setNySluttDato={(date) =>
+                                    setNySluttDato(undertema.id, date)
+                                }
                             />
                         ) : undefined}
                     </UndertemaRad>

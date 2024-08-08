@@ -81,7 +81,16 @@ import {
 import { IaSakProsess, iaSakProsessSchema } from "../domenetyper/iaSakProsess";
 import { MineSaker, mineSakerListSchema } from "../domenetyper/mineSaker";
 import { BrukerITeamDTO, brukerITeamSchema } from "../domenetyper/brukeriteam";
-import {Plan, PlanSchema, PlanTema} from "../domenetyper/plan";
+import {
+    Plan,
+    PlanSchema,
+    PlanTema,
+    PlanTemaSchema,
+} from "../domenetyper/plan";
+import {
+    TemaRequest,
+    UndertemaRequest,
+} from "../Pages/Virksomhet/Plan/Requests";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
@@ -658,28 +667,23 @@ export const useHentMineSaker = () => {
 };
 
 export const useHentTeam = (saksnummer?: string) => {
-    return useSwrTemplate<string[]>(saksnummer ? `${iaSakTeamPath}/${saksnummer}` : null, z.string().array());
+    return useSwrTemplate<string[]>(
+        saksnummer ? `${iaSakTeamPath}/${saksnummer}` : null,
+        z.string().array(),
+    );
 };
 
 export const leggBrukerTilTeam = (
     saksnummer: string,
 ): Promise<BrukerITeamDTO> => {
-    return post(
-        `${iaSakTeamPath}/${saksnummer}`,
-        brukerITeamSchema,
-    );
+    return post(`${iaSakTeamPath}/${saksnummer}`, brukerITeamSchema);
 };
 
 export const fjernBrukerFraTeam = (
     saksnummer: string,
 ): Promise<BrukerITeamDTO> => {
-    return httpDelete(
-        `${iaSakTeamPath}/${saksnummer}`,
-        brukerITeamSchema,
-    );
+    return httpDelete(`${iaSakTeamPath}/${saksnummer}`, brukerITeamSchema);
 };
-
-
 
 export const nyKartleggingPåSak = (
     orgnummer: string,
@@ -709,26 +713,35 @@ export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
     );
 };
 
-export const nyPlanPåSak = (orgnummer: string, saksnummer: string): Promise<Plan> => {
-    return post(
-        `${planPath}/${orgnummer}/${saksnummer}/opprett`,
-        PlanSchema,
-    );
+export const nyPlanPåSak = (
+    orgnummer: string,
+    saksnummer: string,
+): Promise<Plan> => {
+    return post(`${planPath}/${orgnummer}/${saksnummer}`, PlanSchema);
 };
 
-export const endrePlan = (orgnummer: string, saksnummer: string, plan:Plan): Promise<Plan> => {
-    return post(
-        `${planPath}/${orgnummer}/${saksnummer}/opprett`,
-        PlanSchema,
-        plan,
-    );
-};
-
-export const endreTema = (orgnummer: string, saksnummer: string, tema:PlanTema): Promise<Plan> => {
+export const endrePlan = (
+    orgnummer: string,
+    saksnummer: string,
+    body: TemaRequest[],
+): Promise<PlanTema[]> => {
     return put(
-        `${planPath}/${orgnummer}/${saksnummer}/endre/tema/${tema.id}`,
-        PlanSchema,
-        tema,
+        `${planPath}/${orgnummer}/${saksnummer}`,
+        PlanTemaSchema.array(),
+        body,
+    );
+};
+
+export const endreTema = (
+    orgnummer: string,
+    saksnummer: string,
+    temaId: number,
+    body: UndertemaRequest[],
+): Promise<PlanTema> => {
+    return put(
+        `${planPath}/${orgnummer}/${saksnummer}/${temaId}`,
+        PlanTemaSchema,
+        body,
     );
 };
 

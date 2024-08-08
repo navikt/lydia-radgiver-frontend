@@ -74,7 +74,7 @@ jobs:
       id-token: write
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/MineSakerDto-med-iaSakDto'
+    if: github.ref == 'refs/heads/bytte-fra-dummydata-til-api'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
