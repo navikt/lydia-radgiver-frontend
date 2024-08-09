@@ -83,7 +83,7 @@ export default function LeggTilTemaKnapp({
             };
         });
 
-        endrePlan(saksnummer, orgnummer, temaer).then(() => {
+        endrePlan(orgnummer, saksnummer, temaer).then(() => {
             hentPlanIgjen();
         });
     }

@@ -6,7 +6,7 @@ import { mobileAndUp } from "../../../styling/breakpoints";
 import { DocPencilIcon } from "@navikt/aksel-icons";
 import UndertemaSetup from "./UndertemaSetup";
 import { Plan, PlanTema, PlanUndertema } from "../../../domenetyper/plan";
-import { endreTema } from "../../../api/lydia-api";
+import { endrePlanTema } from "../../../api/lydia-api";
 import { lagRequest, UndertemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
 
@@ -41,7 +41,7 @@ export default function EditTemaKnapp({
         const undertemaer: UndertemaRequest[] = lagRequest(
             redigertTema.undertemaer,
         );
-        endreTema(orgnummer, saksnummer, tema.id, undertemaer).then(() => {
+        endrePlanTema(orgnummer, saksnummer, tema.id, undertemaer).then(() => {
             hentPlanIgjen();
         });
     };

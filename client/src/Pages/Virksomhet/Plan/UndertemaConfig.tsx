@@ -1,7 +1,14 @@
-import { Accordion, BodyLong, Heading, Select } from "@navikt/ds-react";
+import { Accordion, Alert, BodyLong, Heading, Select } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
-import { PlanStatus, PlanTema, PlanUndertema } from "../../../domenetyper/plan";
+import {
+    Plan,
+    PlanStatus,
+    PlanTema,
+    PlanUndertema,
+} from "../../../domenetyper/plan";
+import { endrePlanStatus } from "../../../api/lydia-api";
+import { KeyedMutator } from "swr";
 
 const StyledAccordion = styled(Accordion)`
     width: 100%;
@@ -45,7 +52,17 @@ const StatusLabel = styled.span`
     grid-column: 4/5;
 `;
 
-export default function UndertemaConfig({ tema }: { tema: PlanTema }) {
+export default function UndertemaConfig({
+    saksnummer,
+    orgnummer,
+    tema,
+    hentPlanIgjen,
+}: {
+    orgnummer: string;
+    saksnummer: string;
+    tema: PlanTema;
+    hentPlanIgjen: KeyedMutator<Plan>;
+}) {
     return (
         <StyledAccordion>
             <LabelRad>
@@ -55,37 +72,57 @@ export default function UndertemaConfig({ tema }: { tema: PlanTema }) {
             </LabelRad>
             {tema.undertemaer
                 .filter((undertema) => undertema.planlagt)
-                .map((undertema, index) => (
-                    <Temalinje key={index} undertema={undertema} />
+                .map((undertema) => (
+                    <Temalinje
+                        key={undertema.id}
+                        undertema={undertema}
+                        oppdaterStatus={(status: PlanStatus) =>
+                            endrePlanStatus(
+                                orgnummer,
+                                saksnummer,
+                                tema.id,
+                                undertema.id,
+                                status,
+                            ).then(() => {
+                                hentPlanIgjen();
+                            })
+                        }
+                    />
                 ))}
         </StyledAccordion>
     );
 }
 
-function Temalinje({ undertema }: { undertema: PlanUndertema }) {
+function Temalinje({
+    undertema,
+    oppdaterStatus,
+}: {
+    undertema: PlanUndertema;
+    oppdaterStatus: (status: PlanStatus) => void;
+}) {
     return (
         <StyledAccordionItem>
-            <TemalinjeHeader undertema={undertema} />
+            <TemalinjeHeader
+                undertema={undertema}
+                oppdaterStatus={oppdaterStatus}
+            />
             <StyledAccordionContent>
                 <Heading level="4" size="small">
                     {undertema.målsetning}
-                    {/*Mål: Øke kompetansen på hvordan gjennomføre gode*/}
-                    {/*oppfølgingssamtaler, både gjennom teori og praksis.*/}
                 </Heading>
-                <BodyLong>
-                    {undertema.beskrivelse}
-                    {/*God dialog mellom leder og ansatt er sentralt i god*/}
-                    {/*sykefraværsoppfølging. En oppfølgingssamtale er en godt*/}
-                    {/*forberedt og personlig samtale mellom leder og medarbeider.*/}
-                    {/*Det er lovvpålagt å lage oppfølgingsplan for alle*/}
-                    {/*sykemeldte, følge opp og dokumentere samtaler.*/}
-                </BodyLong>
+                <BodyLong>{undertema.beskrivelse}</BodyLong>
             </StyledAccordionContent>
         </StyledAccordionItem>
     );
 }
 
-function TemalinjeHeader({ undertema }: { undertema: PlanUndertema }) {
+function TemalinjeHeader({
+    undertema,
+    oppdaterStatus,
+}: {
+    undertema: PlanUndertema;
+    oppdaterStatus: (status: PlanStatus) => void;
+}) {
     return (
         <StyledAccordionHeader>
             <span>{undertema.navn}</span>
@@ -93,7 +130,10 @@ function TemalinjeHeader({ undertema }: { undertema: PlanUndertema }) {
                 start={undertema.startDato ?? new Date()}
                 slutt={undertema.sluttDato ?? new Date()}
             />
-            <TemalinjeHeaderStatus status={undertema.status} />
+            <TemalinjeHeaderStatus
+                status={undertema.status}
+                oppdaterStatus={oppdaterStatus}
+            />
         </StyledAccordionHeader>
     );
 }
@@ -131,7 +171,13 @@ function PrettyDate({
     return `${visningsdato.toLocaleString("default", { month: "short" })} ${visningsdato.getFullYear()}`;
 }
 
-function TemalinjeHeaderStatus({ status }: { status: PlanStatus | null }) {
+function TemalinjeHeaderStatus({
+    status,
+    oppdaterStatus,
+}: {
+    status: PlanStatus | null;
+    oppdaterStatus: (status: PlanStatus) => void;
+}) {
     return status ? (
         <span>
             <Select
@@ -141,6 +187,7 @@ function TemalinjeHeaderStatus({ status }: { status: PlanStatus | null }) {
                 value={status}
                 onClick={(e) => e.stopPropagation()}
                 onChange={(e) => {
+                    oppdaterStatus(e.target.value as PlanStatus);
                     e.stopPropagation();
                 }}
             >
@@ -149,5 +196,7 @@ function TemalinjeHeaderStatus({ status }: { status: PlanStatus | null }) {
                 <option value="PLANLAGT">Planlagt</option>
             </Select>
         </span>
-    ) : undefined;
+    ) : (
+        <Alert variant={"error"}>STATUS MANGLER</Alert>
+    );
 }
