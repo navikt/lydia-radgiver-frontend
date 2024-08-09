@@ -46,7 +46,12 @@ export function Temaer({
                         />
                     </HStack>
                     <PlanGraf undertemaer={tema.undertemaer} />
-                    <UndertemaConfig tema={tema} />
+                    <UndertemaConfig
+                        tema={tema}
+                        orgnummer={orgnummer}
+                        saksnummer={saksnummer}
+                        hentPlanIgjen={hentPlanIgjen}
+                    />
                     <VerktøyConfig verktøy={tema.ressurser} />
                 </Container>
             );

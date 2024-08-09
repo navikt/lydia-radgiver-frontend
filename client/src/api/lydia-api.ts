@@ -84,6 +84,7 @@ import { BrukerITeamDTO, brukerITeamSchema } from "../domenetyper/brukeriteam";
 import {
     Plan,
     PlanSchema,
+    PlanStatus,
     PlanTema,
     PlanTemaSchema,
 } from "../domenetyper/plan";
@@ -729,8 +730,7 @@ export const endrePlan = (
         body,
     );
 };
-
-export const endreTema = (
+export const endrePlanTema = (
     orgnummer: string,
     saksnummer: string,
     temaId: number,
@@ -739,6 +739,20 @@ export const endreTema = (
     return put(
         `${planPath}/${orgnummer}/${saksnummer}/${temaId}`,
         PlanTemaSchema,
+        body,
+    );
+};
+
+export const endrePlanStatus = (
+    orgnummer: string,
+    saksnummer: string,
+    temaId: number,
+    undertemaId: number,
+    body: PlanStatus,
+): Promise<PlanTema[]> => {
+    return put(
+        `${planPath}/${orgnummer}/${saksnummer}/${temaId}/${undertemaId}`,
+        PlanTemaSchema.array(),
         body,
     );
 };
