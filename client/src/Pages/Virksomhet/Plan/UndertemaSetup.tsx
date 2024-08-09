@@ -17,14 +17,18 @@ function StartOgSluttVelger({
     setNySluttDato: (date: Date) => void;
 }) {
     const lagreStartDato = (date: Date | undefined) => {
-        date === undefined
-            ? console.log("dato ikke valgt")
-            : setNyStartDato(date);
+        if (date === undefined) {
+            console.log("dato ikke valgt");
+        } else {
+            setNyStartDato(date);
+        }
     };
     const lagreSluttDato = (date: Date | undefined) => {
-        date === undefined
-            ? console.log("dato ikke valgt")
-            : setNySluttDato(date);
+        if (date === undefined) {
+            console.log("dato ikke valgt");
+        } else {
+            setNySluttDato(date);
+        }
     };
 
     return (
@@ -79,12 +83,12 @@ export default function UndertemaSetup({
                 undertemaIder.includes(undertema.id)
                     ? { ...undertema, planlagt: true, status: "PLANLAGT" }
                     : {
-                          ...undertema,
-                          planlagt: false,
-                          startDato: null,
-                          sluttDato: null,
-                          status: null,
-                      },
+                        ...undertema,
+                        planlagt: false,
+                        startDato: null,
+                        sluttDato: null,
+                        status: null,
+                    },
             ),
         );
     };
