@@ -10,14 +10,14 @@ import { useTrengerÅFullføreLeveranserFørst, useTrengerÅFullføreKartlegging
 
 
 export default function KnappForHendelse(
-	{ hendelse, sak, setVisKonfetti, nesteSteg, setNesteSteg, variant = "secondary" }:
+	{ hendelse, sak, nesteSteg, setNesteSteg, variant = "secondary", onStatusEndret }:
 		{
 			hendelse: GyldigNesteHendelse,
 			sak: IASak,
-			setVisKonfetti?: (visKonfetti: boolean) => void,
 			nesteSteg: StatusHendelseSteg | null,
 			setNesteSteg: (n: { nesteSteg: StatusHendelseSteg | null, hendelse: GyldigNesteHendelse | null }) => void,
-			variant?: ButtonProps["variant"]
+			variant?: ButtonProps["variant"],
+			onStatusEndret: (status: IASak["status"]) => void
 		}
 ) {
 	const disabled = nesteSteg !== null;
@@ -28,14 +28,14 @@ export default function KnappForHendelse(
 		case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
 		case IASakshendelseTypeEnum.enum.TILBAKE:
 		case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
-			return <HendelseMåBekreftesKnapp sak={sak} hendelse={hendelse} setNesteSteg={setNesteSteg} setVisKonfetti={setVisKonfetti} disabled={disabled} variant={variant} />;
+			return <HendelseMåBekreftesKnapp sak={sak} hendelse={hendelse} setNesteSteg={setNesteSteg} disabled={disabled} variant={variant} />;
 		case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
 		case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
 		case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
 		case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
 		case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
 		case IASakshendelseTypeEnum.enum.SLETT_SAK:
-			return <RettTilNesteStatusKnapp sak={sak} hendelse={hendelse} disabled={disabled} variant={variant} />;
+			return <RettTilNesteStatusKnapp sak={sak} hendelse={hendelse} disabled={disabled} variant={variant} onStatusEndret={onStatusEndret} />;
 		case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
 		default:
 			return <></>;
@@ -86,7 +86,6 @@ function IkkeAktuellKnapp(
 function HendelseMåBekreftesKnapp({ hendelse, setNesteSteg, disabled, variant, sak }: {
 	sak: IASak,
 	hendelse: GyldigNesteHendelse,
-	setVisKonfetti?: (visKonfetti: boolean) => void,
 	setNesteSteg: (n: { nesteSteg: StatusHendelseSteg | null, hendelse: GyldigNesteHendelse | null }) => void,
 	disabled: boolean,
 	variant?: ButtonProps["variant"]
@@ -133,7 +132,7 @@ function HendelseMåBekreftesKnapp({ hendelse, setNesteSteg, disabled, variant, 
 	);
 }
 
-function RettTilNesteStatusKnapp({ sak, hendelse, disabled, variant }: { sak: IASak, hendelse: GyldigNesteHendelse, disabled: boolean, variant?: ButtonProps["variant"] }) {
+function RettTilNesteStatusKnapp({ sak, hendelse, disabled, variant, onStatusEndret }: { sak: IASak, hendelse: GyldigNesteHendelse, disabled: boolean, variant?: ButtonProps["variant"], onStatusEndret: (status: IASak["status"]) => void }) {
 	const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(sak.orgnr);
 	const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(sak.orgnr);
 
@@ -145,6 +144,7 @@ function RettTilNesteStatusKnapp({ sak, hendelse, disabled, variant }: { sak: IA
 	const trykkPåSakhendelsesknapp = () => {
 		nyHendelsePåSak(sak, hendelse).then(mutateIASakerOgSamarbeidshistorikk).then(() => {
 			loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status);
+			onStatusEndret(sak.status);
 		});
 	}
 

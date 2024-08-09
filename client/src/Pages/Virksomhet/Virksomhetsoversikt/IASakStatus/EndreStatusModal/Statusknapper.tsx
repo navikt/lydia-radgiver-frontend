@@ -33,6 +33,7 @@ export function Statusknapper(
 		setVisKonfetti,
 		setNesteSteg,
 		nesteSteg,
+		onStatusEndret,
 	}: {
 		hendelser: GyldigNesteHendelse[];
 		sak: IASak;
@@ -40,6 +41,7 @@ export function Statusknapper(
 		setVisKonfetti?: (visKonfetti: boolean) => void;
 		setNesteSteg: (n: { nesteSteg: StatusHendelseSteg | null, hendelse: GyldigNesteHendelse | null }) => void;
 		nesteSteg: { nesteSteg: StatusHendelseSteg | null, hendelse: GyldigNesteHendelse | null };
+		onStatusEndret: (status: IASak["status"]) => void;
 	}) {
 	const destruktiveHendelser = hendelser
 		.filter(hendelse => erHendelsenDestruktiv(hendelse.saksHendelsestype));
@@ -54,10 +56,10 @@ export function Statusknapper(
 						key={index}
 						hendelse={hendelse}
 						sak={sak}
-						setVisKonfetti={setVisKonfetti}
 						nesteSteg={nesteSteg.nesteSteg}
 						setNesteSteg={setNesteSteg}
 						variant="primary-neutral"
+						onStatusEndret={onStatusEndret}
 					/>
 				))}
 				<Innerknappecontainer>
@@ -66,10 +68,10 @@ export function Statusknapper(
 							key={index}
 							hendelse={hendelse}
 							sak={sak}
-							setVisKonfetti={setVisKonfetti}
 							nesteSteg={nesteSteg.nesteSteg}
 							setNesteSteg={setNesteSteg}
 							variant={index === ikkeDestruktiveHendelser.length - 1 ? "primary" : "secondary"}
+							onStatusEndret={onStatusEndret}
 						/>
 					))}
 				</Innerknappecontainer>

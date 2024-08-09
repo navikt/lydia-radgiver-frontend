@@ -37,6 +37,9 @@ export default function EndreStatusModal({
 					<Historikk sak={sak} />
 				</Modal.Body>
 				<Statusknapper
+					onStatusEndret={() => {
+						setOpen(false);
+					}}
 					hendelser={hendelser}
 					sak={sak}
 					setModalOpen={setOpen}
