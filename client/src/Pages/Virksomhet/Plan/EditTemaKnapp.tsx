@@ -5,9 +5,10 @@ import styled from "styled-components";
 import { mobileAndUp } from "../../../styling/breakpoints";
 import { DocPencilIcon } from "@navikt/aksel-icons";
 import UndertemaSetup from "./UndertemaSetup";
-import { PlanTema, PlanUndertema } from "../../../domenetyper/plan";
+import { Plan, PlanTema, PlanUndertema } from "../../../domenetyper/plan";
 import { endreTema } from "../../../api/lydia-api";
 import { lagRequest, UndertemaRequest } from "./Requests";
+import { KeyedMutator } from "swr";
 
 const EditTemaModal = styled(Modal)`
     padding: 0;
@@ -25,12 +26,12 @@ export default function EditTemaKnapp({
     tema,
     orgnummer,
     saksnummer,
-    muterPlan,
+    hentPlanIgjen,
 }: {
     tema: PlanTema;
     orgnummer: string;
     saksnummer: string;
-    muterPlan: () => void;
+    hentPlanIgjen: KeyedMutator<Plan>;
 }) {
     const [modalOpen, setModalOpen] = React.useState(false);
 
@@ -41,7 +42,7 @@ export default function EditTemaKnapp({
             redigertTema.undertemaer,
         );
         endreTema(orgnummer, saksnummer, tema.id, undertemaer).then(() => {
-            muterPlan();
+            hentPlanIgjen();
         });
     };
 

@@ -7,6 +7,7 @@ import VerktøyConfig from "./VerktøyConfig";
 import React from "react";
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
+import { KeyedMutator } from "swr";
 
 const Container = styled.div`
     height: 100%;
@@ -21,12 +22,12 @@ export function Temaer({
     plan,
     orgnummer,
     saksnummer,
-    muterPlan,
+    hentPlanIgjen,
 }: {
     plan: Plan;
     orgnummer: string;
     saksnummer: string;
-    muterPlan: () => void;
+    hentPlanIgjen: KeyedMutator<Plan>;
 }) {
     return plan.temaer
         .filter((tema) => tema.planlagt)
@@ -41,7 +42,7 @@ export function Temaer({
                             tema={tema}
                             orgnummer={orgnummer}
                             saksnummer={saksnummer}
-                            muterPlan={muterPlan}
+                            hentPlanIgjen={hentPlanIgjen}
                         />
                     </HStack>
                     <PlanGraf undertemaer={tema.undertemaer} />
