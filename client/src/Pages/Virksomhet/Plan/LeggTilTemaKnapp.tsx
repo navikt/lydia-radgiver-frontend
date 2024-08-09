@@ -3,9 +3,10 @@ import { Button, Checkbox, CheckboxGroup, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import UndertemaSetup from "./UndertemaSetup";
 import styled from "styled-components";
-import { PlanTema, PlanUndertema } from "../../../domenetyper/plan";
+import { Plan, PlanTema, PlanUndertema } from "../../../domenetyper/plan";
 import { endrePlan } from "../../../api/lydia-api";
 import { lagRequest, TemaRequest } from "./Requests";
+import { KeyedMutator } from "swr";
 
 const UndertemaSetupContainer = styled.div`
     margin-bottom: 1rem;
@@ -23,12 +24,12 @@ export default function LeggTilTemaKnapp({
     saksnummer,
     orgnummer,
     temaer,
-    muterPlan,
+    hentPlanIgjen,
 }: {
     orgnummer: string;
     saksnummer: string;
     temaer: PlanTema[];
-    muterPlan: () => void;
+    hentPlanIgjen: KeyedMutator<Plan>;
 }) {
     const [modalOpen, setModalOpen] = React.useState(false);
 
@@ -82,7 +83,9 @@ export default function LeggTilTemaKnapp({
             };
         });
 
-        endrePlan(saksnummer, orgnummer, temaer).then(() => muterPlan());
+        endrePlan(saksnummer, orgnummer, temaer).then(() => {
+            hentPlanIgjen();
+        });
     }
 
     return (

@@ -20,7 +20,7 @@ export default function PlanFane({ iaSak }: Props) {
         mutate: hentPlanIgjen,
     } = useHentPlan(iaSak.orgnr, iaSak.saksnummer);
 
-    const { mutate: hentProsesserIgjne } = useHentIaProsesser(
+    const { mutate: hentProsesserIgjen } = useHentIaProsesser(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
@@ -29,7 +29,7 @@ export default function PlanFane({ iaSak }: Props) {
         nyPlanPåSak(iaSak.orgnr, iaSak.saksnummer).then((response) => {
             console.log(response);
             hentPlanIgjen();
-            hentProsesserIgjne();
+            hentProsesserIgjen();
         });
     };
 
@@ -52,13 +52,13 @@ export default function PlanFane({ iaSak }: Props) {
                 plan={iaSakPlan}
                 orgnummer={iaSak.orgnr}
                 saksnummer={iaSak.saksnummer}
-                muterPlan={hentPlanIgjen}
+                hentPlanIgjen={hentPlanIgjen}
             />
             <LeggTilTemaKnapp
                 orgnummer={iaSak.orgnr}
                 saksnummer={iaSak.saksnummer}
                 temaer={iaSakPlan.temaer}
-                muterPlan={hentPlanIgjen}
+                hentPlanIgjen={hentPlanIgjen}
             />
         </>
     );
