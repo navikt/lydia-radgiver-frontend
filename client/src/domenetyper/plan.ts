@@ -40,7 +40,6 @@ export type PlanTema = z.infer<typeof PlanTemaSchema>;
 export const PlanSchema = z.object({
     id: z.string(),
     sistEndret: datoSchema,
-    publisert: z.boolean(),
     sistPublisert: datoSchema.nullable(),
     temaer: z.array(PlanTemaSchema),
 });
