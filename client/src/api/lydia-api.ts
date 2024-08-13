@@ -87,6 +87,8 @@ import {
     PlanStatus,
     PlanTema,
     PlanTemaSchema,
+    PlanUndertema,
+    PlanUndertemaSchema,
 } from "../domenetyper/plan";
 import {
     TemaRequest,
@@ -143,7 +145,7 @@ const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
                 .then((innhold) => {
                     try {
                         return JSON.parse(innhold);
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                        // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     } catch (e) {
                         return {
                             message: innhold,
@@ -751,10 +753,10 @@ export const endrePlanStatus = (
     temaId: number,
     undertemaId: number,
     body: PlanStatus,
-): Promise<PlanTema[]> => {
+): Promise<PlanUndertema> => {
     return put(
         `${planPath}/${orgnummer}/${saksnummer}/${temaId}/${undertemaId}`,
-        PlanTemaSchema.array(),
+        PlanUndertemaSchema,
         body,
     );
 };

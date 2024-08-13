@@ -7,7 +7,7 @@ const PlanStatusSchema = z.enum(IA_PLAN_STATUSER);
 
 export type PlanStatus = z.infer<typeof PlanStatusSchema>;
 
-const PlanUndertemaSchema = z.object({
+export const PlanUndertemaSchema = z.object({
     id: z.number(),
     navn: z.string(),
     målsetning: z.string(),
