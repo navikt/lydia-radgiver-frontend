@@ -765,6 +765,8 @@ export const useHentPlan = (orgnummer: string, saksnummer: string) => {
     return useSwrTemplate<Plan>(
         `${planPath}/${orgnummer}/${saksnummer}`,
         PlanSchema,
+        defaultSwrConfiguration,
+        false,
     );
 };
 

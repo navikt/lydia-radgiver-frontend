@@ -8,6 +8,7 @@ import {
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Temaer } from "./Temaer";
+import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
 
 interface Props {
     iaSak: IASak;
@@ -18,6 +19,7 @@ export default function PlanFane({ iaSak }: Props) {
         data: iaSakPlan,
         loading: lasterPlan,
         mutate: hentPlanIgjen,
+        error: planFeil,
     } = useHentPlan(iaSak.orgnr, iaSak.saksnummer);
 
     const { mutate: hentProsesserIgjen } = useHentIaProsesser(
@@ -26,12 +28,15 @@ export default function PlanFane({ iaSak }: Props) {
     );
 
     const opprettPlan = () => {
-        nyPlanPåSak(iaSak.orgnr, iaSak.saksnummer).then((response) => {
-            console.log(response);
+        nyPlanPåSak(iaSak.orgnr, iaSak.saksnummer).then(() => {
             hentPlanIgjen();
             hentProsesserIgjen();
         });
     };
+
+    if (planFeil && planFeil.message !== "Fant ikke plan") {
+        dispatchFeilmelding({ feilmelding: planFeil.message });
+    }
 
     if (iaSakPlan === undefined || lasterPlan) {
         return (
