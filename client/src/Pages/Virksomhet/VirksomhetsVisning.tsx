@@ -24,6 +24,9 @@ const Container = styled.div`
 
     background-color: ${NavFarger.white};
     ${strekkBakgrunnenHeltUtTilKantenAvSida}
+
+    // Velger å sette denne, da heading bruker xlarge, selv om vi setter dem til å være large.
+    --a-font-size-heading-xlarge: 1.75rem;
 `;
 
 const StyledPanel = styled(Tabs.Panel)`
