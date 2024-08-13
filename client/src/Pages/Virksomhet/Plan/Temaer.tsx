@@ -23,11 +23,13 @@ export function Temaer({
     orgnummer,
     saksnummer,
     hentPlanIgjen,
+    kanOppretteEllerEndrePlan,
 }: {
     plan: Plan;
     orgnummer: string;
     saksnummer: string;
     hentPlanIgjen: KeyedMutator<Plan>;
+    kanOppretteEllerEndrePlan: boolean;
 }) {
     return plan.temaer
         .filter((tema) => tema.planlagt)
@@ -38,12 +40,14 @@ export function Temaer({
                         <Heading level="3" size="medium" spacing={true}>
                             {tema.navn}
                         </Heading>
-                        <EditTemaKnapp
-                            tema={tema}
-                            orgnummer={orgnummer}
-                            saksnummer={saksnummer}
-                            hentPlanIgjen={hentPlanIgjen}
-                        />
+                        {kanOppretteEllerEndrePlan && (
+                            <EditTemaKnapp
+                                tema={tema}
+                                orgnummer={orgnummer}
+                                saksnummer={saksnummer}
+                                hentPlanIgjen={hentPlanIgjen}
+                            />
+                        )}
                     </HStack>
                     <PlanGraf undertemaer={tema.undertemaer} />
                     <UndertemaConfig
@@ -51,6 +55,7 @@ export function Temaer({
                         orgnummer={orgnummer}
                         saksnummer={saksnummer}
                         hentPlanIgjen={hentPlanIgjen}
+                        kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
                     />
                     <VerktøyConfig verktøy={tema.ressurser} />
                 </Container>

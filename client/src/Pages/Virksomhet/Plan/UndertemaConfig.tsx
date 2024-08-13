@@ -57,11 +57,13 @@ export default function UndertemaConfig({
     orgnummer,
     tema,
     hentPlanIgjen,
+    kanOppretteEllerEndrePlan,
 }: {
     orgnummer: string;
     saksnummer: string;
     tema: PlanTema;
     hentPlanIgjen: KeyedMutator<Plan>;
+    kanOppretteEllerEndrePlan: boolean;
 }) {
     return (
         <StyledAccordion>
@@ -76,6 +78,7 @@ export default function UndertemaConfig({
                     <Temalinje
                         key={undertema.id}
                         undertema={undertema}
+                        kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
                         oppdaterStatus={(status: PlanStatus) =>
                             endrePlanStatus(
                                 orgnummer,
@@ -96,15 +99,18 @@ export default function UndertemaConfig({
 function Temalinje({
     undertema,
     oppdaterStatus,
+    kanOppretteEllerEndrePlan,
 }: {
     undertema: PlanUndertema;
     oppdaterStatus: (status: PlanStatus) => void;
+    kanOppretteEllerEndrePlan: boolean;
 }) {
     return (
         <StyledAccordionItem>
             <TemalinjeHeader
                 undertema={undertema}
                 oppdaterStatus={oppdaterStatus}
+                kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
             />
             <StyledAccordionContent>
                 <Heading level="4" size="small">
@@ -119,9 +125,11 @@ function Temalinje({
 function TemalinjeHeader({
     undertema,
     oppdaterStatus,
+    kanOppretteEllerEndrePlan,
 }: {
     undertema: PlanUndertema;
     oppdaterStatus: (status: PlanStatus) => void;
+    kanOppretteEllerEndrePlan: boolean;
 }) {
     return (
         <StyledAccordionHeader>
@@ -133,6 +141,7 @@ function TemalinjeHeader({
             <TemalinjeHeaderStatus
                 status={undertema.status}
                 oppdaterStatus={oppdaterStatus}
+                kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
             />
         </StyledAccordionHeader>
     );
@@ -174,9 +183,11 @@ function PrettyDate({
 function TemalinjeHeaderStatus({
     status,
     oppdaterStatus,
+    kanOppretteEllerEndrePlan,
 }: {
     status: PlanStatus | null;
     oppdaterStatus: (status: PlanStatus) => void;
+    kanOppretteEllerEndrePlan: boolean;
 }) {
     return status ? (
         <span>
@@ -185,6 +196,7 @@ function TemalinjeHeaderStatus({
                 size="small"
                 hideLabel
                 value={status}
+                disabled={!kanOppretteEllerEndrePlan}
                 onClick={(e) => e.stopPropagation()}
                 onChange={(e) => {
                     oppdaterStatus(e.target.value as PlanStatus);

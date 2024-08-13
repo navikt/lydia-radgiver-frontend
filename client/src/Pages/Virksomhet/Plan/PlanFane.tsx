@@ -1,8 +1,9 @@
-import { Button } from "@navikt/ds-react";
+import { Button, Loader } from "@navikt/ds-react";
 import React from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import {
     nyPlanPåSak,
+    useHentBrukerinformasjon,
     useHentIaProsesser,
     useHentPlan,
 } from "../../../api/lydia-api";
@@ -34,11 +35,20 @@ export default function PlanFane({ iaSak }: Props) {
         });
     };
 
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
+    const kanOppretteEllerEndrePlan =
+        brukerErEierAvSak && ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
+
     if (planFeil && planFeil.message !== "Fant ikke plan") {
         dispatchFeilmelding({ feilmelding: planFeil.message });
     }
 
-    if (iaSakPlan === undefined || lasterPlan) {
+    if (lasterPlan) {
+        return <Loader />;
+    }
+
+    if (iaSakPlan === undefined && kanOppretteEllerEndrePlan) {
         return (
             <Button
                 size="small"
@@ -59,13 +69,16 @@ export default function PlanFane({ iaSak }: Props) {
                     orgnummer={iaSak.orgnr}
                     saksnummer={iaSak.saksnummer}
                     hentPlanIgjen={hentPlanIgjen}
+                    kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
                 />
-                <LeggTilTemaKnapp
-                    orgnummer={iaSak.orgnr}
-                    saksnummer={iaSak.saksnummer}
-                    temaer={iaSakPlan.temaer}
-                    hentPlanIgjen={hentPlanIgjen}
-                />
+                {kanOppretteEllerEndrePlan && (
+                    <LeggTilTemaKnapp
+                        orgnummer={iaSak.orgnr}
+                        saksnummer={iaSak.saksnummer}
+                        temaer={iaSakPlan.temaer}
+                        hentPlanIgjen={hentPlanIgjen}
+                    />
+                )}
             </>
         )
     );
