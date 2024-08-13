@@ -3,7 +3,6 @@ import { Heading, HStack } from "@navikt/ds-react";
 import EditTemaKnapp from "./EditTemaKnapp";
 import PlanGraf from "./PlanGraf";
 import UndertemaConfig from "./UndertemaConfig";
-import VerktøyConfig from "./VerktøyConfig";
 import React from "react";
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
@@ -57,7 +56,7 @@ export function Temaer({
                         hentPlanIgjen={hentPlanIgjen}
                         kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
                     />
-                    <VerktøyConfig verktøy={tema.ressurser} />
+                    {/*<VerktøyConfig verktøy={tema.ressurser} />*/}
                 </Container>
             );
         });
