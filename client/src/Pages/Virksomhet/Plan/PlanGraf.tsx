@@ -49,28 +49,23 @@ export default function PlanGraf(props: PølsegrafProps) {
     if (undertemaer.length === 0) {
         return null;
     }
-
-    const fargekoder: (
-        | "success"
-        | "warning"
-        | "danger"
-        | "info"
-        | "neutral"
-    )[] = ["success", "warning", "danger", "info"];
-
     return (
         <>
             <Timeline key={`${earliestStart}-${latestSlutt}`}>
                 <Timeline.Pin date={new Date()} />
-                {undertemaer.map((pølse) => (
-                    <Timeline.Row label={pølse.navn} key={pølse.navn}>
+                {undertemaer.map((undertema) => (
+                    <Timeline.Row label={undertema.navn} key={undertema.navn}>
                         <Timeline.Period
-                            start={new Date(pølse.start)}
-                            end={new Date(pølse.slutt)}
+                            start={new Date(undertema.start)}
+                            end={new Date(undertema.slutt)}
                             status={
-                                fargekoder[(pølse.id - 1) % fargekoder.length]
+                                undertema.status === "PÅGÅR"
+                                    ? "info"
+                                    : undertema.status === "FULLFØRT"
+                                      ? "success"
+                                      : "neutral"
                             }
-                            statusLabel={`${pølse.navn}: ${pølse.status}:`}
+                            statusLabel={`${undertema.navn}: ${undertema.status}:`}
                         />
                     </Timeline.Row>
                 ))}
