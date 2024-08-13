@@ -47,19 +47,21 @@ export default function PlanFane({ iaSak }: Props) {
     }
 
     return (
-        <>
-            <Temaer
-                plan={iaSakPlan}
-                orgnummer={iaSak.orgnr}
-                saksnummer={iaSak.saksnummer}
-                hentPlanIgjen={hentPlanIgjen}
-            />
-            <LeggTilTemaKnapp
-                orgnummer={iaSak.orgnr}
-                saksnummer={iaSak.saksnummer}
-                temaer={iaSakPlan.temaer}
-                hentPlanIgjen={hentPlanIgjen}
-            />
-        </>
+        iaSakPlan && (
+            <>
+                <Temaer
+                    plan={iaSakPlan}
+                    orgnummer={iaSak.orgnr}
+                    saksnummer={iaSak.saksnummer}
+                    hentPlanIgjen={hentPlanIgjen}
+                />
+                <LeggTilTemaKnapp
+                    orgnummer={iaSak.orgnr}
+                    saksnummer={iaSak.saksnummer}
+                    temaer={iaSakPlan.temaer}
+                    hentPlanIgjen={hentPlanIgjen}
+                />
+            </>
+        )
     );
 }
