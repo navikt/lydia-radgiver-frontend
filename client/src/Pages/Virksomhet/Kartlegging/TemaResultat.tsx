@@ -25,11 +25,13 @@ type SpørsmålMedSvar = {
 interface Props {
   navn: string;
   spørsmålMedSvar: SpørsmålMedSvar[];
+  erIPrintMode?: boolean;
 }
 
 export const TemaResultat = ({
   navn,
   spørsmålMedSvar,
+  erIPrintMode = false,
 }: Props) => {
   return (
     <>
@@ -43,9 +45,9 @@ export const TemaResultat = ({
             key={spørsmål.spørsmålId}
           >
             {spørsmål.flervalg ? (
-              <PieChart spørsmål={spørsmål} />
+              <PieChart spørsmål={spørsmål} erIPrintMode={erIPrintMode} />
             ) : (
-              <BarChart spørsmål={spørsmål} />
+              <BarChart spørsmål={spørsmål} erIPrintMode={erIPrintMode} />
             )}
           </TemaGrafContainer>
         ))}

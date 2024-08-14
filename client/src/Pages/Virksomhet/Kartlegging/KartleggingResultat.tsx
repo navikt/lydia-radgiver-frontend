@@ -30,6 +30,8 @@ export const KartleggingResultat = ({
             kartleggingId,
         );
 
+    //const kartleggingResultat = dummyKartleggingResultat;
+
     if (lasterKartleggingResultat) {
         return <Loader />;
     }

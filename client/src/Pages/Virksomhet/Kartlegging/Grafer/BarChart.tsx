@@ -2,7 +2,6 @@ import React from "react";
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 
-
 type SpørsmålMedSvarDTO = {
   spørsmålId: string;
   tekst: string;
@@ -12,13 +11,15 @@ type SpørsmålMedSvarDTO = {
 
 export default function BarChart({
   spørsmål,
+  erIPrintMode = false,
 }: {
   spørsmål: SpørsmålMedSvarDTO;
+  erIPrintMode?: boolean;
 }) {
   const chartComponentRef = React.useRef<HighchartsReact.RefObject>(null);
 
   const options = React.useMemo(
-    () => genererChartOptionsFraSpørsmålOgSvar(spørsmål),
+    () => genererChartOptionsFraSpørsmålOgSvar(spørsmål, erIPrintMode),
     [spørsmål],
   );
 
@@ -34,6 +35,7 @@ export default function BarChart({
 
 function genererChartOptionsFraSpørsmålOgSvar(
   spørsmål: SpørsmålMedSvarDTO,
+  erIPrintMode: boolean,
 ): Highcharts.Options {
   return {
     chart: {
@@ -48,6 +50,9 @@ function genererChartOptionsFraSpørsmålOgSvar(
       text: spørsmål.flervalg ? "(flere valg er mulig)" : undefined,
     },
     plotOptions: {
+      series: {
+        animation: !erIPrintMode,
+      },
       column: {
         borderWidth: 2,
         borderRadius: 0,
@@ -61,9 +66,9 @@ function genererChartOptionsFraSpørsmålOgSvar(
         data: spørsmål.svarListe.map((svar) =>
           svar.antallSvar > 0
             ? {
-                y: svar.antallSvar,
-                color: "var(--a-blue-500)",
-              }
+              y: svar.antallSvar,
+              color: "var(--a-blue-500)",
+            }
             : null,
         ),
       },
