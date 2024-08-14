@@ -138,8 +138,8 @@ function TemalinjeHeader({
         <StyledAccordionHeader>
             <span>{undertema.navn}</span>
             <TemalinjeHeaderPeriode
-                start={undertema.startDato ?? new Date()}
-                slutt={undertema.sluttDato ?? new Date()}
+                start={undertema.startDato}
+                slutt={undertema.sluttDato}
             />
             <TemalinjeHeaderStatus
                 status={undertema.status}
@@ -154,12 +154,13 @@ function TemalinjeHeaderPeriode({
     start,
     slutt,
 }: {
-    start: Date;
-    slutt: Date;
+    start: Date | null;
+    slutt: Date | null;
 }) {
     return (
         <>
-            <PrettyDate date={start} /> - <PrettyDate date={slutt} />
+            {start && <PrettyDate date={start} />} -{" "}
+            {slutt && <PrettyDate date={slutt} />}
         </>
     );
 }
