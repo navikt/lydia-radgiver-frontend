@@ -90,15 +90,7 @@ export default function LeggTilTemaKnapp({
 
     return (
         <>
-            <Button
-                onClick={() => setModalOpen(true)}
-                disabled={
-                    temaer.filter((tema) => tema.planlagt).length ===
-                    temaer.length
-                }
-            >
-                Legg til tema
-            </Button>
+            <Button onClick={() => setModalOpen(true)}>Rediger plan</Button>
             <LeggTilTemaModal
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
