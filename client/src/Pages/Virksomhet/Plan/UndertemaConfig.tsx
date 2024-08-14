@@ -117,7 +117,7 @@ function Temalinje({
             />
             <StyledAccordionContent>
                 <Heading level="4" size="small">
-                    {undertema.målsetning}
+                    Mål: {undertema.målsetning}
                 </Heading>
                 <BodyLong>{undertema.beskrivelse}</BodyLong>
             </StyledAccordionContent>
