@@ -1,4 +1,4 @@
-import { Button, Loader } from "@navikt/ds-react";
+import { BodyShort, Button, Heading, Loader } from "@navikt/ds-react";
 import React from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import {
@@ -10,10 +10,21 @@ import {
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Temaer } from "./Temaer";
 import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
+import styled from "styled-components";
+import { tabInnholdStyling } from "../../../styling/containere";
 
 interface Props {
     iaSak: IASak;
 }
+
+const Container = styled.div`
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+
+    ${tabInnholdStyling};
+`;
 
 export default function PlanFane({ iaSak }: Props) {
     const {
@@ -48,16 +59,40 @@ export default function PlanFane({ iaSak }: Props) {
         return <Loader />;
     }
 
-    if (iaSakPlan === undefined && kanOppretteEllerEndrePlan) {
+    if (iaSakPlan === undefined) {
         return (
-            <Button
-                size="small"
-                iconPosition="right"
-                variant="secondary"
-                onClick={opprettPlan}
-            >
-                Opprett plan
-            </Button>
+            <Container>
+                <div>
+                    <Heading level="3" size="large" spacing={true}>
+                        Samarbeidsplan
+                    </Heading>
+                    <BodyShort>
+                        Denne saken har ikke allerede en plan.
+                    </BodyShort>
+                    {kanOppretteEllerEndrePlan ? (
+                        <>
+                            <br />
+                            <Button
+                                size="small"
+                                iconPosition="right"
+                                variant="secondary"
+                                onClick={opprettPlan}
+                            >
+                                Opprett plan
+                            </Button>
+                        </>
+                    ) : (
+                        <>
+                            <br />
+                            <BodyShort>
+                                For å kunne opprette en plan må du være eier av
+                                saken og saken må være i status Kartlegges eller
+                                Vi Bistår
+                            </BodyShort>
+                        </>
+                    )}
+                </div>
+            </Container>
         );
     }
 
@@ -71,6 +106,31 @@ export default function PlanFane({ iaSak }: Props) {
                     hentPlanIgjen={hentPlanIgjen}
                     kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
                 />
+                {iaSakPlan.temaer.filter((tema) => tema.planlagt).length <
+                    1 && (
+                    <Container>
+                        <div>
+                            <Heading level="3" size="large" spacing={true}>
+                                Samarbeidsplan
+                            </Heading>
+                            <BodyShort>
+                                Denne saken har en tom plan, trykk på Rediger
+                                plan under for å kunne legge til temaer.
+                            </BodyShort>
+                            {!kanOppretteEllerEndrePlan && (
+                                <>
+                                    <br />
+                                    <BodyShort>
+                                        For å kunne redigere planen må du være
+                                        eier av saken og saken må være i status
+                                        Kartlegges eller Vi Bistår
+                                    </BodyShort>
+                                </>
+                            )}
+                        </div>
+                    </Container>
+                )}
+                <br />
                 {kanOppretteEllerEndrePlan && (
                     <LeggTilTemaKnapp
                         orgnummer={iaSak.orgnr}
