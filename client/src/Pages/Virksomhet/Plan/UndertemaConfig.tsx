@@ -74,6 +74,9 @@ export default function UndertemaConfig({
             </LabelRad>
             {tema.undertemaer
                 .filter((undertema) => undertema.planlagt)
+                .sort((a, b) => {
+                    return a.id - b.id;
+                })
                 .map((undertema) => (
                     <Temalinje
                         key={undertema.id}

@@ -32,6 +32,9 @@ export function Temaer({
 }) {
     return plan.temaer
         .filter((tema) => tema.planlagt)
+        .sort((a, b) => {
+            return a.id - b.id;
+        })
         .map((tema, index) => {
             return (
                 <Container key={index}>

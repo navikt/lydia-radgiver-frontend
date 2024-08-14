@@ -53,22 +53,29 @@ export default function PlanGraf(props: PølsegrafProps) {
         <>
             <Timeline key={`${earliestStart}-${latestSlutt}`}>
                 <Timeline.Pin date={new Date()} />
-                {undertemaer.map((undertema) => (
-                    <Timeline.Row label={undertema.navn} key={undertema.navn}>
-                        <Timeline.Period
-                            start={new Date(undertema.start)}
-                            end={new Date(undertema.slutt)}
-                            status={
-                                undertema.status === "PÅGÅR"
-                                    ? "info"
-                                    : undertema.status === "FULLFØRT"
-                                      ? "success"
-                                      : "neutral"
-                            }
-                            statusLabel={`${undertema.navn}: ${undertema.status}:`}
-                        />
-                    </Timeline.Row>
-                ))}
+                {undertemaer
+                    .sort((a, b) => {
+                        return a.id - b.id;
+                    })
+                    .map((undertema) => (
+                        <Timeline.Row
+                            label={undertema.navn}
+                            key={undertema.navn}
+                        >
+                            <Timeline.Period
+                                start={new Date(undertema.start)}
+                                end={new Date(undertema.slutt)}
+                                status={
+                                    undertema.status === "PÅGÅR"
+                                        ? "info"
+                                        : undertema.status === "FULLFØRT"
+                                          ? "success"
+                                          : "neutral"
+                                }
+                                statusLabel={`${undertema.navn}: ${undertema.status}:`}
+                            />
+                        </Timeline.Row>
+                    ))}
             </Timeline>
         </>
     );
