@@ -7,6 +7,8 @@ import React from "react";
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { KeyedMutator } from "swr";
+import EksportVisning from "./EksportVisning";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 const Container = styled.div`
     height: 100%;
@@ -30,37 +32,42 @@ export function Temaer({
     hentPlanIgjen: KeyedMutator<Plan>;
     kanOppretteEllerEndrePlan: boolean;
 }) {
-    return plan.temaer
-        .filter((tema) => tema.planlagt)
-        .sort((a, b) => {
-            return a.id - b.id;
-        })
-        .map((tema, index) => {
-            return (
-                <Container key={index}>
-                    <HStack justify="space-between">
-                        <Heading level="3" size="medium" spacing={true}>
-                            {tema.navn}
-                        </Heading>
-                        {kanOppretteEllerEndrePlan && (
-                            <EditTemaKnapp
+    return (
+        <>
+            {erIDev && <EksportVisning plan={plan} />}
+            {plan.temaer
+                .filter((tema) => tema.planlagt)
+                .sort((a, b) => {
+                    return a.id - b.id;
+                })
+                .map((tema, index) => {
+                    return (
+                        <Container key={index}>
+                            <HStack justify="space-between">
+                                <Heading level="3" size="medium" spacing={true}>
+                                    {tema.navn}
+                                </Heading>
+                                {kanOppretteEllerEndrePlan && (
+                                    <EditTemaKnapp
+                                        tema={tema}
+                                        orgnummer={orgnummer}
+                                        saksnummer={saksnummer}
+                                        hentPlanIgjen={hentPlanIgjen}
+                                    />
+                                )}
+                            </HStack>
+                            <PlanGraf undertemaer={tema.undertemaer} />
+                            <UndertemaConfig
                                 tema={tema}
                                 orgnummer={orgnummer}
                                 saksnummer={saksnummer}
                                 hentPlanIgjen={hentPlanIgjen}
+                                kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
                             />
-                        )}
-                    </HStack>
-                    <PlanGraf undertemaer={tema.undertemaer} />
-                    <UndertemaConfig
-                        tema={tema}
-                        orgnummer={orgnummer}
-                        saksnummer={saksnummer}
-                        hentPlanIgjen={hentPlanIgjen}
-                        kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
-                    />
-                    {/*<VerktøyConfig verktøy={tema.ressurser} />*/}
-                </Container>
-            );
-        });
+                            {/*<VerktøyConfig verktøy={tema.ressurser} />*/}
+                        </Container>
+                    );
+                })}
+        </>
+    );
 }

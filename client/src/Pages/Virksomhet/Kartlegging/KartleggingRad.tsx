@@ -6,6 +6,7 @@ import { KartleggingRadInnhold } from "./KartleggingRadInnhold";
 import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
 import React, { useState } from "react";
 import PrintVisning from "./PrintVisning";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 const AccordionHeader = styled(Accordion.Header)`
     width: 100%;
@@ -60,11 +61,11 @@ export const KartleggingRad = ({
             <AccordionHeader>
                 Behovsvurdering
                 <HeaderRightContent>
-                    <PrintVisning
+                    {erIDev && <PrintVisning
                         iaSak={iaSak}
                         kartlegging={kartlegging}
                         erIPrintMode={erIPrintMode}
-                        setErIPrintMode={setErIPrintMode} />
+                        setErIPrintMode={setErIPrintMode} />}
                     <KartleggingStatusBedge status={kartlegging.status} />
                     <KartleggingDato>{dato}</KartleggingDato>
                 </HeaderRightContent>

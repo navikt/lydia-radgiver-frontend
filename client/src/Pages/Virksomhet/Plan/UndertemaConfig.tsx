@@ -159,13 +159,13 @@ function TemalinjeHeaderPeriode({
 }) {
     return (
         <>
-            {start && <PrettyDate date={start} />} -{" "}
-            {slutt && <PrettyDate date={slutt} />}
+            {start && <PrettyUndertemaDate date={start} />} -{" "}
+            {slutt && <PrettyUndertemaDate date={slutt} />}
         </>
     );
 }
 
-function PrettyDate({
+export function PrettyUndertemaDate({
     date,
     visNesteMåned = false,
 }: {
