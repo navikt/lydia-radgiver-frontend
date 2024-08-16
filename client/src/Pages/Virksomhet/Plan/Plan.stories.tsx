@@ -24,7 +24,6 @@ const dummyPølser: PlanUndertema[] = [
     {
         id: 1,
         målsetning: "Vi har et mål",
-        beskrivelse: "Og en beskrivelse",
         planlagt: true,
         startDato: new Date(2024, 0),
         sluttDato: new Date(2024, 3),
@@ -34,7 +33,6 @@ const dummyPølser: PlanUndertema[] = [
     {
         id: 2,
         målsetning: "Vi har et mål",
-        beskrivelse: "Og en beskrivelse",
         planlagt: true,
         startDato: new Date(2024, 2),
         sluttDato: new Date(2024, 5),
@@ -44,7 +42,6 @@ const dummyPølser: PlanUndertema[] = [
     {
         id: 3,
         målsetning: "Vi har et mål",
-        beskrivelse: "Og en beskrivelse",
         planlagt: true,
         startDato: new Date(2024, 7),
         sluttDato: new Date(2024, 10),
@@ -54,7 +51,6 @@ const dummyPølser: PlanUndertema[] = [
     {
         id: 4,
         målsetning: "Vi har et mål",
-        beskrivelse: "Og en beskrivelse",
         planlagt: true,
         startDato: new Date(2024, 7),
         sluttDato: new Date(2024, 9),
@@ -64,7 +60,6 @@ const dummyPølser: PlanUndertema[] = [
     {
         id: 5,
         målsetning: "Vi har et mål",
-        beskrivelse: "Og en beskrivelse",
         planlagt: true,
         startDato: new Date(2024, 9),
         sluttDato: new Date(2024, 11),
@@ -74,7 +69,6 @@ const dummyPølser: PlanUndertema[] = [
     {
         id: 6,
         målsetning: "Vi har et mål",
-        beskrivelse: "Og en beskrivelse",
         planlagt: true,
         startDato: new Date(2025, 0),
         sluttDato: new Date(2025, 3),
@@ -84,7 +78,6 @@ const dummyPølser: PlanUndertema[] = [
     {
         id: 7,
         målsetning: "Vi har et mål",
-        beskrivelse: "Og en beskrivelse",
         planlagt: true,
         startDato: new Date(2025, 2),
         sluttDato: new Date(2025, 5),
@@ -94,7 +87,6 @@ const dummyPølser: PlanUndertema[] = [
     {
         id: 8,
         målsetning: "Vi har et mål",
-        beskrivelse: "Og en beskrivelse",
         planlagt: true,
         startDato: new Date(2025, 7),
         sluttDato: new Date(2025, 10),
@@ -104,7 +96,6 @@ const dummyPølser: PlanUndertema[] = [
     {
         id: 9,
         målsetning: "Vi har et mål",
-        beskrivelse: "Og en beskrivelse",
         planlagt: true,
         startDato: new Date(2025, 7),
         sluttDato: new Date(2025, 9),
@@ -114,7 +105,6 @@ const dummyPølser: PlanUndertema[] = [
     {
         id: 10,
         målsetning: "Vi har et mål",
-        beskrivelse: "Og en beskrivelse",
         planlagt: true,
         startDato: new Date(2025, 9),
         sluttDato: new Date(2025, 11),

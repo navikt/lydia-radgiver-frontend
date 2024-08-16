@@ -11,7 +11,6 @@ export const PlanUndertemaSchema = z.object({
     id: z.number(),
     navn: z.string(),
     målsetning: z.string(),
-    beskrivelse: z.string(),
     planlagt: z.boolean(),
     status: PlanStatusSchema.nullable(),
     startDato: datoSchema.nullable(),

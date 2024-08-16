@@ -1,4 +1,4 @@
-import { Accordion, Alert, BodyLong, Heading, Select } from "@navikt/ds-react";
+import { Accordion, Alert, Heading, Select } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
 import {
@@ -119,7 +119,6 @@ function Temalinje({
                 <Heading level="4" size="small">
                     Mål: {undertema.målsetning}
                 </Heading>
-                <BodyLong>{undertema.beskrivelse}</BodyLong>
             </StyledAccordionContent>
         </StyledAccordionItem>
     );
