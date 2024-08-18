@@ -83,12 +83,12 @@ export default function UndertemaSetup({
                 undertemaIder.includes(undertema.id)
                     ? { ...undertema, planlagt: true, status: "PLANLAGT" }
                     : {
-                        ...undertema,
-                        planlagt: false,
-                        startDato: null,
-                        sluttDato: null,
-                        status: null,
-                    },
+                          ...undertema,
+                          planlagt: false,
+                          startDato: null,
+                          sluttDato: null,
+                          status: null,
+                      },
             ),
         );
     };
@@ -115,8 +115,7 @@ export default function UndertemaSetup({
 
     return (
         <CheckboxGroup
-            legend={"Undertemaer"}
-            description="Velg hvilke undertemaer dere skal jobbe med og når"
+            legend={"Velg innhold og varighet"}
             value={valgteUndertemaer
                 .filter((undertema) => undertema.planlagt)
                 .map((undertema) => undertema.id)}

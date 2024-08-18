@@ -137,8 +137,7 @@ export default function LeggTilTemaKnapp({
             >
                 <Modal.Body>
                     <CheckboxGroup
-                        legend="Velg tema i samarbeidsplan"
-                        description="Velg hvilke temaer dere skal jobbe med under samarbeidsperioden"
+                        legend="Sett opp samarbeidsplan"
                         value={redigertTemaliste.map((tema) =>
                             tema.planlagt ? tema.id : null,
                         )}
