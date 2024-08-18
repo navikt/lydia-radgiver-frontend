@@ -1,5 +1,11 @@
 import React from "react";
-import { Button, Checkbox, CheckboxGroup, Modal } from "@navikt/ds-react";
+import {
+    BodyShort,
+    Button,
+    Checkbox,
+    CheckboxGroup,
+    Modal,
+} from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import UndertemaSetup from "./UndertemaSetup";
 import styled from "styled-components";
@@ -19,17 +25,24 @@ const UndertemaSetupContainer = styled.div`
 const LeggTilTemaModal = styled(Modal)`
     max-width: 72rem;
 `;
+const FremhevetTekst = styled.span`
+    font-style: italic;
+`;
 
 export default function LeggTilTemaKnapp({
     saksnummer,
     orgnummer,
     temaer,
     hentPlanIgjen,
+    brukerErEierAvSak,
+    sakErIRettStatus,
 }: {
     orgnummer: string;
     saksnummer: string;
     temaer: PlanTema[];
     hentPlanIgjen: KeyedMutator<Plan>;
+    brukerErEierAvSak: boolean;
+    sakErIRettStatus: boolean;
 }) {
     const [modalOpen, setModalOpen] = React.useState(false);
 
@@ -90,7 +103,33 @@ export default function LeggTilTemaKnapp({
 
     return (
         <>
-            <Button onClick={() => setModalOpen(true)}>Rediger plan</Button>
+            {!brukerErEierAvSak && (
+                <>
+                    <BodyShort>
+                        Du må være eier av saken for å kunne gjøre endringer
+                    </BodyShort>
+                    <br />
+                </>
+            )}
+            {!sakErIRettStatus && (
+                <>
+                    <BodyShort>
+                        Status må være i{" "}
+                        <FremhevetTekst>Kartlegges</FremhevetTekst> eller{" "}
+                        <FremhevetTekst>Vi bistår</FremhevetTekst> for å kunne
+                        gjøre endringer
+                    </BodyShort>
+                    <br />
+                </>
+            )}
+            <Button
+                onClick={() => setModalOpen(true)}
+                disabled={!(brukerErEierAvSak && sakErIRettStatus)}
+            >
+                {temaer.filter((tema) => tema.planlagt).length > 0
+                    ? "Rediger plan"
+                    : "Legg til tema"}
+            </Button>
             <LeggTilTemaModal
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}

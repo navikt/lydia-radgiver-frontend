@@ -11,19 +11,14 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { Temaer } from "./Temaer";
 import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
 import styled from "styled-components";
-import { tabInnholdStyling } from "../../../styling/containere";
+import { PlusIcon } from "@navikt/aksel-icons";
 
 interface Props {
     iaSak: IASak;
 }
 
-const Container = styled.div`
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-
-    ${tabInnholdStyling};
+const FremhevetTekst = styled.span`
+    font-style: italic;
 `;
 
 export default function PlanFane({ iaSak }: Props) {
@@ -48,8 +43,8 @@ export default function PlanFane({ iaSak }: Props) {
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
-    const kanOppretteEllerEndrePlan =
-        brukerErEierAvSak && ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
+    const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
+    const kanOppretteEllerEndrePlan = brukerErEierAvSak && sakErIRettStatus;
 
     if (planFeil && planFeil.message !== "Fant ikke plan") {
         dispatchFeilmelding({ feilmelding: planFeil.message });
@@ -61,38 +56,35 @@ export default function PlanFane({ iaSak }: Props) {
 
     if (iaSakPlan === undefined) {
         return (
-            <Container>
-                <div>
-                    <Heading level="3" size="large" spacing={true}>
-                        Samarbeidsplan
-                    </Heading>
+            <>
+                <Heading level="3" size="large" spacing={true}>
+                    Samarbeidsplan
+                </Heading>
+                {!brukerErEierAvSak && (
                     <BodyShort>
-                        Denne saken har ikke allerede en plan.
+                        Du må være eier av saken for å opprette ny plan
                     </BodyShort>
-                    {kanOppretteEllerEndrePlan ? (
-                        <>
-                            <br />
-                            <Button
-                                size="small"
-                                iconPosition="right"
-                                variant="secondary"
-                                onClick={opprettPlan}
-                            >
-                                Opprett plan
-                            </Button>
-                        </>
-                    ) : (
-                        <>
-                            <br />
-                            <BodyShort>
-                                For å kunne opprette en plan må du være eier av
-                                saken og saken må være i status Kartlegges eller
-                                Vi Bistår
-                            </BodyShort>
-                        </>
-                    )}
-                </div>
-            </Container>
+                )}
+                {!sakErIRettStatus && (
+                    <BodyShort>
+                        Status må være i{" "}
+                        <FremhevetTekst>Kartlegges</FremhevetTekst> eller{" "}
+                        <FremhevetTekst>Vi bistår</FremhevetTekst> for å
+                        opprette ny plan
+                    </BodyShort>
+                )}
+                <br />
+                <Button
+                    size="medium"
+                    iconPosition="left"
+                    variant="primary"
+                    onClick={opprettPlan}
+                    icon={<PlusIcon />}
+                    disabled={!kanOppretteEllerEndrePlan}
+                >
+                    Opprett plan
+                </Button>
+            </>
         );
     }
 
@@ -108,37 +100,20 @@ export default function PlanFane({ iaSak }: Props) {
                 />
                 {iaSakPlan.temaer.filter((tema) => tema.planlagt).length <
                     1 && (
-                    <Container>
-                        <div>
-                            <Heading level="3" size="large" spacing={true}>
-                                Samarbeidsplan
-                            </Heading>
-                            <BodyShort>
-                                Denne saken har en tom plan, trykk på Rediger
-                                plan under for å kunne legge til temaer.
-                            </BodyShort>
-                            {!kanOppretteEllerEndrePlan && (
-                                <>
-                                    <br />
-                                    <BodyShort>
-                                        For å kunne redigere planen må du være
-                                        eier av saken og saken må være i status
-                                        Kartlegges eller Vi Bistår
-                                    </BodyShort>
-                                </>
-                            )}
-                        </div>
-                    </Container>
+                    <>
+                        <Heading level="3" size="large" spacing={true}>
+                            Samarbeidsplan
+                        </Heading>
+                    </>
                 )}
-                <br />
-                {kanOppretteEllerEndrePlan && (
-                    <LeggTilTemaKnapp
-                        orgnummer={iaSak.orgnr}
-                        saksnummer={iaSak.saksnummer}
-                        temaer={iaSakPlan.temaer}
-                        hentPlanIgjen={hentPlanIgjen}
-                    />
-                )}
+                <LeggTilTemaKnapp
+                    orgnummer={iaSak.orgnr}
+                    saksnummer={iaSak.saksnummer}
+                    temaer={iaSakPlan.temaer}
+                    hentPlanIgjen={hentPlanIgjen}
+                    brukerErEierAvSak={brukerErEierAvSak}
+                    sakErIRettStatus={sakErIRettStatus}
+                />
             </>
         )
     );
