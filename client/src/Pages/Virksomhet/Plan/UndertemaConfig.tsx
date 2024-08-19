@@ -177,10 +177,12 @@ export function PrettyUndertemaDate({
             nyDato.setDate(nyDato.getDate() - 1);
         }
 
-        return nyDato;
+        const nyDatoTekst = `${nyDato.toLocaleString("nb-NO", { month: "short" })} ${nyDato.getFullYear()}`
+
+        return nyDatoTekst[0].toUpperCase() + nyDatoTekst.substring(1);
     }, [visNesteMåned, date]);
 
-    return `${visningsdato.toLocaleString("default", { month: "short" })} ${visningsdato.getFullYear()}`;
+    return visningsdato;
 }
 
 function TemalinjeHeaderStatus({
