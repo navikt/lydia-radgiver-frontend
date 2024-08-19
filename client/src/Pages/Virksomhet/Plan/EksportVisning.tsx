@@ -8,6 +8,7 @@ import PlanGraf from "./PlanGraf";
 import { PrettyUndertemaDate } from "./UndertemaConfig";
 import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";
 import useEksportFilnavn from "../../../components/pdfEksport/useEksportFilnavn";
+import { useVirksomhetContext } from "../VirksomhetContext";
 
 
 export default function EksportVisning({ plan }: { plan: Plan }) {
@@ -75,22 +76,30 @@ const Container = styled.div`
 
 
 function EksportInnhold({ plan }: { plan: Plan }) {
-	return plan.temaer
-		.filter((tema) => tema.planlagt)
-		.sort((a, b) => {
-			return a.id - b.id;
-		})
-		.map((tema, index) => {
-			return (
-				<Container key={index}>
-					<Heading level="3" size="medium" spacing={true}>
-						{tema.navn}
-					</Heading>
-					<PlanGraf undertemaer={tema.undertemaer} />
-					<UndertemaInnhold tema={tema} />
-				</Container>
-			);
-		});
+	const { virksomhet } = useVirksomhetContext();
+	return (
+		<>
+			<Heading level="3" size="large" spacing={true}>
+				Sammarbeidsplan for {virksomhet.navn}
+			</Heading>
+			{plan.temaer
+				.filter((tema) => tema.planlagt)
+				.sort((a, b) => {
+					return a.id - b.id;
+				})
+				.map((tema, index) => {
+					return (
+						<Container key={index}>
+							<Heading level="3" size="medium" spacing={true}>
+								{tema.navn}
+							</Heading>
+							<PlanGraf undertemaer={tema.undertemaer} />
+							<UndertemaInnhold tema={tema} />
+						</Container>
+					);
+				})}
+		</>
+	);
 }
 
 function UndertemaInnhold({ tema }: { tema: PlanTema }) {
