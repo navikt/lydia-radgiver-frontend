@@ -7,11 +7,13 @@ import styled from "styled-components";
 import PlanGraf from "./PlanGraf";
 import { PrettyUndertemaDate } from "./UndertemaConfig";
 import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";
+import useEksportFilnavn from "../../../components/pdfEksport/useEksportFilnavn";
+
 
 export default function EksportVisning({ plan }: { plan: Plan }) {
 	/* 	toPDF har returntypen void, men i den faktiske koden har den returntypen Promise<void>
 		Må caste til Promise<void> for å sette loadingindikator */
-	const { toPDF, targetRef } = usePDF() as {
+	const { toPDF, targetRef } = usePDF({ filename: useEksportFilnavn("Sammarbeidsplan") }) as {
 		toPDF: () => Promise<void>;
 		targetRef: React.MutableRefObject<HTMLDivElement>;
 	};
@@ -59,6 +61,7 @@ export default function EksportVisning({ plan }: { plan: Plan }) {
 		</>
 	);
 }
+
 const Container = styled.div`
     height: 100%;
     display: flex;

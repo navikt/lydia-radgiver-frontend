@@ -10,6 +10,7 @@ import { TemaResultat } from './TemaResultat';
 import { useVirksomhetContext } from '../VirksomhetContext';
 import { erIDev } from '../../../components/Dekoratør/Dekoratør';
 import VirksomhetsEksportHeader from '../../../components/pdfEksport/VirksomhetsEksportHeader';
+import useEksportFilnavn from '../../../components/pdfEksport/useEksportFilnavn';
 //import { dummyKartleggingResultat } from './dummyKartleggingResultat';
 
 interface EksportVisningProps {
@@ -22,7 +23,7 @@ interface EksportVisningProps {
 const EksportVisning = ({ erIEksportMode, setErIEksportMode, iaSak, kartlegging }: EksportVisningProps) => {
 	/* 	toPDF har returntypen void, men i den faktiske koden har den returntypen Promise<void>
 		Må caste til Promise<void> for å sette loadingindikator */
-	const { toPDF, targetRef } = usePDF() as { toPDF: () => Promise<void>, targetRef: React.MutableRefObject<HTMLDivElement> };
+	const { toPDF, targetRef } = usePDF({ filename: useEksportFilnavn("Behovsvurdering") }) as { toPDF: () => Promise<void>, targetRef: React.MutableRefObject<HTMLDivElement> };
 	const [erLastet, setErLastet] = React.useState(false);
 
 	React.useEffect(() => {
