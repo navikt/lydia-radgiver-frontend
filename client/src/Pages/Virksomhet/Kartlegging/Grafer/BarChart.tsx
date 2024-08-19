@@ -11,15 +11,15 @@ type SpørsmålMedSvarDTO = {
 
 export default function BarChart({
   spørsmål,
-  erIPrintMode = false,
+  erIEksportMode = false,
 }: {
   spørsmål: SpørsmålMedSvarDTO;
-  erIPrintMode?: boolean;
+  erIEksportMode?: boolean;
 }) {
   const chartComponentRef = React.useRef<HighchartsReact.RefObject>(null);
 
   const options = React.useMemo(
-    () => genererChartOptionsFraSpørsmålOgSvar(spørsmål, erIPrintMode),
+    () => genererChartOptionsFraSpørsmålOgSvar(spørsmål, erIEksportMode),
     [spørsmål],
   );
 
@@ -35,7 +35,7 @@ export default function BarChart({
 
 function genererChartOptionsFraSpørsmålOgSvar(
   spørsmål: SpørsmålMedSvarDTO,
-  erIPrintMode: boolean,
+  erIEksportMode: boolean,
 ): Highcharts.Options {
   return {
     chart: {
@@ -51,7 +51,7 @@ function genererChartOptionsFraSpørsmålOgSvar(
     },
     plotOptions: {
       series: {
-        animation: !erIPrintMode,
+        animation: !erIEksportMode,
       },
       column: {
         borderWidth: 2,

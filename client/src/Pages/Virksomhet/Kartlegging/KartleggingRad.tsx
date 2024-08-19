@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { KartleggingRadInnhold } from "./KartleggingRadInnhold";
 import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
 import React, { useState } from "react";
-import PrintVisning from "./PrintVisning";
+import EksportVisning from "./EksportVisning";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 const AccordionHeader = styled(Accordion.Header)`
@@ -48,7 +48,7 @@ export const KartleggingRad = ({
     dato,
 }: KartleggingRadProps) => {
     const [erÅpen, setErÅpen] = useState(defaultOpen);
-    const [erIPrintMode, setErIPrintMode] = useState(false);
+    const [erIEksportMode, setErIEksportMode] = useState(false);
 
     return (
         <Accordion.Item
@@ -61,11 +61,11 @@ export const KartleggingRad = ({
             <AccordionHeader>
                 Behovsvurdering
                 <HeaderRightContent>
-                    {erIDev && <PrintVisning
+                    {erIDev && <EksportVisning
                         iaSak={iaSak}
                         kartlegging={kartlegging}
-                        erIPrintMode={erIPrintMode}
-                        setErIPrintMode={setErIPrintMode} />}
+                        erIEksportMode={erIEksportMode}
+                        setErIEksportMode={setErIEksportMode} />}
                     <KartleggingStatusBedge status={kartlegging.status} />
                     <KartleggingDato>{dato}</KartleggingDato>
                 </HeaderRightContent>

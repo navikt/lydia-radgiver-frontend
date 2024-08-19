@@ -12,15 +12,15 @@ type SpørsmålMedSvarDTO = {
 
 export default function PieChart({
   spørsmål,
-  erIPrintMode = false,
+  erIEksportMode = false,
 }: {
   spørsmål: SpørsmålMedSvarDTO;
-  erIPrintMode?: boolean;
+  erIEksportMode?: boolean;
 }) {
   const chartComponentRef = React.useRef<HighchartsReact.RefObject>(null);
 
   const options = React.useMemo(
-    () => genererChartOptionsFraSpørsmålOgSvar(spørsmål, erIPrintMode),
+    () => genererChartOptionsFraSpørsmålOgSvar(spørsmål, erIEksportMode),
     [spørsmål],
   );
 
@@ -36,7 +36,7 @@ export default function PieChart({
 
 function genererChartOptionsFraSpørsmålOgSvar(
   spørsmål: SpørsmålMedSvarDTO,
-  erIPrintMode: boolean,
+  erIEksportMode: boolean,
 ): Highcharts.Options {
   const farger = [
     { bakgrunn: "var(--a-data-surface-2)", border: undefined },
@@ -85,7 +85,7 @@ function genererChartOptionsFraSpørsmålOgSvar(
         ignoreHiddenPoint: true,
       },
       series: {
-        animation: !erIPrintMode,
+        animation: !erIEksportMode,
         allowPointSelect: true,
         cursor: "pointer",
         dataLabels: [
