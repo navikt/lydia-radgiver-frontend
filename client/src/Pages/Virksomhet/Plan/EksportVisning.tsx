@@ -113,7 +113,7 @@ function UndertemaInnhold({ tema }: { tema: PlanTema }) {
 				.map((undertema) => (
 					<div
 						key={undertema.id}
-						style={{ paddingLeft: "8rem", paddingRight: "8rem" }}
+						style={{ paddingLeft: "8rem", paddingRight: "8rem", paddingBottom: "2rem" }}
 					>
 						<HStack align="baseline">
 							<Heading level="4" size="small" spacing>
