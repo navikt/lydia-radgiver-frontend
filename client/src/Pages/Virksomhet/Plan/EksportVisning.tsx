@@ -6,8 +6,7 @@ import React from "react";
 import styled from "styled-components";
 import PlanGraf from "./PlanGraf";
 import { PrettyUndertemaDate } from "./UndertemaConfig";
-import NAVLogo from "../../../img/NAV_logo_rød.png";
-import { useVirksomhetContext } from "../VirksomhetContext";
+import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";
 
 export default function EksportVisning({ plan }: { plan: Plan }) {
 	/* 	toPDF har returntypen void, men i den faktiske koden har den returntypen Promise<void>
@@ -54,7 +53,7 @@ export default function EksportVisning({ plan }: { plan: Plan }) {
 					padding: "2rem",
 				}}
 			>
-				<ExportHeader />
+				<VirksomhetsEksportHeader type="Sammarbeidsplan" />
 				<EksportInnhold plan={plan} />
 			</div>
 		</>
@@ -71,19 +70,6 @@ const Container = styled.div`
 	padding-top: 2rem;
 `;
 
-function ExportHeader() {
-	const { virksomhet } = useVirksomhetContext();
-	const { navn: virksomhetsnavn } = virksomhet;
-	return (
-		<div style={{ marginBottom: "4rem" }}>
-			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-				<BodyShort>Sammarbeidsplan for {virksomhetsnavn}</BodyShort>
-				<BodyShort>Eksportert {new Date().toLocaleDateString()}</BodyShort>
-			</div>
-			<img src={NAVLogo} alt="NAV-logo" style={{ width: "10rem", height: "auto", margin: "auto", display: "block" }} />
-		</div>
-	);
-}
 
 function EksportInnhold({ plan }: { plan: Plan }) {
 	return plan.temaer

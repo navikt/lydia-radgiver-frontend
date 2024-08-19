@@ -8,8 +8,8 @@ import { useHentKartleggingResultat } from '../../../api/lydia-api';
 import styled from 'styled-components';
 import { TemaResultat } from './TemaResultat';
 import { useVirksomhetContext } from '../VirksomhetContext';
-import NAVLogo from "../../../img/NAV_logo_rød.png";
 import { erIDev } from '../../../components/Dekoratør/Dekoratør';
+import VirksomhetsEksportHeader from '../../../components/pdfEksport/VirksomhetsEksportHeader';
 //import { dummyKartleggingResultat } from './dummyKartleggingResultat';
 
 interface EksportVisningProps {
@@ -54,7 +54,7 @@ const EksportVisning = ({ erIEksportMode, setErIEksportMode, iaSak, kartlegging 
 				Eksporter
 			</Button>
 			<div ref={targetRef} style={{ display: "none", position: "absolute", width: 1280, left: 0, top: 0, padding: "2rem" }}>
-				<EksportHeader />
+				<VirksomhetsEksportHeader type="Behovsvurdering" dato={kartlegging.endretTidspunkt} />
 				<EksportInnhold erLastet={erLastet} setErLastet={setErLastet} kartlegging={kartlegging} iaSak={iaSak} />
 			</div>
 		</>
@@ -72,19 +72,6 @@ const Container = styled.div`
 `;
 
 
-function EksportHeader() {
-	const { virksomhet } = useVirksomhetContext();
-	const { navn: virksomhetsnavn } = virksomhet;
-	return (
-		<div style={{ marginBottom: "4rem" }}>
-			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
-				<BodyShort>Behovsvurdering for {virksomhetsnavn}</BodyShort>
-				<BodyShort>Eksportert {new Date().toLocaleDateString()}</BodyShort>
-			</div>
-			<img src={NAVLogo} alt="NAV-logo" style={{ width: "10rem", height: "auto", margin: "auto", display: "block" }} />
-		</div>
-	);
-}
 
 
 function EksportInnhold({ kartlegging, iaSak, erLastet, setErLastet }: { kartlegging: IASakKartlegging, iaSak: IASak, erLastet: boolean, setErLastet: (erLastet: boolean) => void }) {
