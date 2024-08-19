@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { TemaResultat } from './TemaResultat';
 import { useVirksomhetContext } from '../VirksomhetContext';
 import NAVLogo from "../../../img/NAV_logo_rød.png";
+import { erIDev } from '../../../components/Dekoratør/Dekoratør';
 //import { dummyKartleggingResultat } from './dummyKartleggingResultat';
 
 interface PrintVisningProps {
@@ -34,7 +35,7 @@ const PrintVisning = ({ erIPrintMode, setErIPrintMode, iaSak, kartlegging }: Pri
 		}
 	}, [erIPrintMode, erLastet]);
 
-	if (kartlegging.status !== "AVSLUTTET") {
+	if (kartlegging.status !== "AVSLUTTET" || !erIDev) {
 		return null;
 	}
 
