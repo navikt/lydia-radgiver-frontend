@@ -8,6 +8,8 @@ import { useHentKartleggingResultat } from '../../../api/lydia-api';
 import styled from 'styled-components';
 import { TemaResultat } from './TemaResultat';
 import { useVirksomhetContext } from '../VirksomhetContext';
+import NAVLogo from "../../../img/NAV_logo_rød.png";
+//import { dummyKartleggingResultat } from './dummyKartleggingResultat';
 
 interface PrintVisningProps {
 	erIPrintMode: boolean;
@@ -50,7 +52,8 @@ const PrintVisning = ({ erIPrintMode, setErIPrintMode, iaSak, kartlegging }: Pri
 				}}>
 				Eksporter
 			</Button>
-			<div ref={targetRef} style={{ display: "none", position: "absolute", width: 1280, left: 0, top: 0 }}>
+			<div ref={targetRef} style={{ display: "none", position: "absolute", width: 1280, left: 0, top: 0, padding: "2rem" }}>
+				<ExportHeader />
 				<PrintInnhold erLastet={erLastet} setErLastet={setErLastet} kartlegging={kartlegging} iaSak={iaSak} />
 			</div>
 		</>
@@ -64,9 +67,27 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
+	padding: 2rem;
 `;
 
+
+function ExportHeader() {
+	const { virksomhet } = useVirksomhetContext();
+	const { navn: virksomhetsnavn } = virksomhet;
+	return (
+		<div style={{ marginBottom: "4rem" }}>
+			<div style={{ display: "flex", justifyContent: "space-between", alignItems: "baseline" }}>
+				<BodyShort>Behovsvurdering for {virksomhetsnavn}</BodyShort>
+				<BodyShort>Eksportert {new Date().toLocaleDateString()}</BodyShort>
+			</div>
+			<img src={NAVLogo} alt="NAV-logo" style={{ width: "10rem", height: "auto", margin: "auto", display: "block" }} />
+		</div>
+	);
+}
+
+
 function PrintInnhold({ kartlegging, iaSak, erLastet, setErLastet }: { kartlegging: IASakKartlegging, iaSak: IASak, erLastet: boolean, setErLastet: (erLastet: boolean) => void }) {
+	//const { loading: lasterKartleggingResultat } =
 	const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
 		useHentKartleggingResultat(
 			iaSak.orgnr,
@@ -74,7 +95,7 @@ function PrintInnhold({ kartlegging, iaSak, erLastet, setErLastet }: { kartleggi
 			kartlegging.kartleggingId,
 		);
 
-	//const kartleggingResultat = dummyKartleggingResultat;
+	// const kartleggingResultat = dummyKartleggingResultat;
 	const { virksomhet } = useVirksomhetContext();
 
 	React.useEffect(() => {
