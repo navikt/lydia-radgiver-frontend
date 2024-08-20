@@ -17,7 +17,9 @@ import { mobileAndUp } from "../../../../styling/breakpoints";
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import { TeamModal } from "../../../MineSaker/TeamModal";
 import { useHentTeam } from "../../../../api/lydia-api";
-import VirksomhetContext, { VirksomhetContextType } from "../../VirksomhetContext";
+import VirksomhetContext, {
+    VirksomhetContextType,
+} from "../../VirksomhetContext";
 
 export const IASakOversiktContainer = styled.div`
     flex: 1 ${300 / 16}rem;
@@ -80,7 +82,9 @@ export const IASakOversikt = ({
     iaSak: sak,
 }: IASakOversiktProps) => {
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { visKonfetti, setVisKonfetti } = React.useContext(VirksomhetContext) as VirksomhetContextType;
+    const { visKonfetti, setVisKonfetti } = React.useContext(
+        VirksomhetContext,
+    ) as VirksomhetContextType;
 
     const { data: følgere = [] } = useHentTeam(sak?.saksnummer);
 
@@ -95,7 +99,9 @@ export const IASakOversikt = ({
         sak.gyldigeNesteHendelser.filter(
             (hendelse) =>
                 hendelse.saksHendelsestype !==
-                IASakshendelseTypeEnum.Enum.ENDRE_PROSESS,
+                    IASakshendelseTypeEnum.Enum.ENDRE_PROSESS &&
+                hendelse.saksHendelsestype !==
+                    IASakshendelseTypeEnum.Enum.NY_PROSESS,
         );
     return (
         <IASakOversiktContainer>

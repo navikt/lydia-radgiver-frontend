@@ -17,8 +17,10 @@ export const penskrivIASakshendelsestype = (
     hendelsestype: IASakshendelseType,
 ): string => {
     switch (hendelsestype) {
+        case IASakshendelseTypeEnum.enum.NY_PROSESS:
+            return "Ny prosess";
         case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
-            return "Endre prosess"
+            return "Endre prosess";
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
             return "Vurder";
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
@@ -63,6 +65,7 @@ export const knappeTypeFraSakshendelsesType = (
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
         case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
         case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
+        case IASakshendelseTypeEnum.enum.NY_PROSESS:
             return "primary";
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
         case IASakshendelseTypeEnum.enum.SLETT_SAK:
