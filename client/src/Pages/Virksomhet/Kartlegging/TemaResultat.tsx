@@ -11,8 +11,8 @@ const TemaContainer = styled.div`
   padding-bottom: 4rem;
 `;
 
-const TemaGrafContainer = styled.div<{ ekstraBredde: boolean }>`
-    grid-column: ${(props) => (props.ekstraBredde ? "span 2" : "span 1")};
+const TemaGrafContainer = styled.div`
+    grid-column: "span 1";
     padding: 2rem;
 `;
 
@@ -39,9 +39,8 @@ export const TemaResultat = ({
         {navn}
       </Heading>
       <TemaContainer>
-        {spørsmålMedSvar.map((spørsmål, index) => (
+        {spørsmålMedSvar.map((spørsmål) => (
           <TemaGrafContainer
-            ekstraBredde={trengerEkstraBredde(spørsmålMedSvar, spørsmål, index)}
             key={spørsmål.spørsmålId}
           >
             {spørsmål.flervalg ? (
@@ -55,32 +54,3 @@ export const TemaResultat = ({
     </>
   );
 };
-
-
-function trengerEkstraBredde(
-  spørsmålMedSvar: SpørsmålMedSvar[],
-  spørsmål: SpørsmålMedSvar,
-  index: number,
-) {
-  if (spørsmål.flervalg) {
-    return true;
-  }
-  // Tving bar-chart til å ta full row om vi ender opp men en alene.
-  if (index === 0 || spørsmålMedSvar[index - 1].flervalg) {
-    // Hvis vi er første etter start eller flervalg (vi er på en ny linje med ikke-flervalg)
-
-    const nesteFlervalg = spørsmålMedSvar.findIndex(
-      (spm, ind) => spm.flervalg && ind > index,
-    );
-    const nesteLineBreak =
-      nesteFlervalg === -1 ? spørsmålMedSvar.length : nesteFlervalg;
-
-    const antallSpørsmål = nesteLineBreak - index;
-
-    if (antallSpørsmål % 2 === 1) {
-      return true;
-    }
-  }
-
-  return false;
-}
