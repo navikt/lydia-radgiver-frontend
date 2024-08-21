@@ -1,6 +1,6 @@
 import { usePDF } from "react-to-pdf";
 import { Plan, PlanTema } from "../../../domenetyper/plan";
-import { BodyShort, Button, Heading, HStack } from "@navikt/ds-react";
+import { BodyShort, Button, Heading } from "@navikt/ds-react";
 import { FilePdfIcon } from "@navikt/aksel-icons";
 import React from "react";
 import styled from "styled-components";
@@ -104,47 +104,47 @@ function EksportInnhold({ plan }: { plan: Plan }) {
 
 function UndertemaInnhold({ tema }: { tema: PlanTema }) {
 	return (
-		<div>
+		<div
+			style={{
+				paddingBottom: "2rem",
+				display: "grid",
+				gridTemplateColumns: "min-content 1fr 1fr",
+			}}>
 			{tema.undertemaer
 				.filter((undertema) => undertema.planlagt)
 				.sort((a, b) => {
 					return a.id - b.id;
 				})
 				.map((undertema) => (
-					<div
-						key={undertema.id}
-						style={{ paddingLeft: "8rem", paddingRight: "8rem", paddingBottom: "2rem" }}
-					>
-						<HStack align="baseline">
-							<Heading level="4" size="small" spacing>
-								{undertema.navn}:
-							</Heading>
-							<BodyShort style={{ marginLeft: "2rem" }}>
-								{undertema.status
-									?.charAt(0)
-									?.toLocaleUpperCase()}
-								{undertema.status
-									?.substring(1)
-									?.toLocaleLowerCase()}
-							</BodyShort>
-							<BodyShort style={{ marginLeft: "2rem" }}>
-								{undertema.startDato && (
-									<PrettyUndertemaDate
-										date={undertema.startDato}
-									/>
-								)}{" "}
-								-{" "}
-								{undertema.sluttDato && (
-									<PrettyUndertemaDate
-										date={undertema.sluttDato}
-									/>
-								)}
-							</BodyShort>
-						</HStack>
-						<BodyShort spacing>
+					<>
+						<Heading level="4" size="small" spacing>
+							{undertema.navn}:
+						</Heading>
+						<BodyShort style={{ marginLeft: "2rem" }}>
+							{undertema.status
+								?.charAt(0)
+								?.toLocaleUpperCase()}
+							{undertema.status
+								?.substring(1)
+								?.toLocaleLowerCase()}
+						</BodyShort>
+						<BodyShort style={{ marginLeft: "2rem", textAlign: "end" }}>
+							{undertema.startDato && (
+								<PrettyUndertemaDate
+									date={undertema.startDato}
+								/>
+							)}{" "}
+							-{" "}
+							{undertema.sluttDato && (
+								<PrettyUndertemaDate
+									date={undertema.sluttDato}
+								/>
+							)}
+						</BodyShort>
+						<BodyShort spacing style={{ gridColumnStart: 0, gridColumnEnd: "span 3", marginBottom: "2rem" }}>
 							Mål: {undertema.målsetning}
 						</BodyShort>
-					</div>
+					</>
 				))}
 		</div>
 	);
