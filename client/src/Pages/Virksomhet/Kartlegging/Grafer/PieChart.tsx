@@ -71,6 +71,7 @@ function genererChartOptionsFraSpørsmålOgSvar(
     },
     title: {
       text: spørsmål.tekst,
+      align: erIEksportMode ? "left" : "center",
     },
     subtitle: {
       text: spørsmål.flervalg ? "(flere valg er mulig)" : undefined,

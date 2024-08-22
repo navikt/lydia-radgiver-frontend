@@ -11,9 +11,12 @@ const TemaContainer = styled.div`
   padding-bottom: 4rem;
 `;
 
-const TemaGrafContainer = styled.div`
+const TemaGrafContainer = styled.div<{ $brukBorder: boolean }>`
+    border: ${({ $brukBorder }) => $brukBorder ? "1px solid var(--a-gray-300)" : "none"};
+    border-radius: var(--a-border-radius-medium);
     grid-column: "span 1";
-    padding: 2rem;
+    padding: ${({ $brukBorder }) => $brukBorder ? "2rem" : "2rem"};
+    margin: ${({ $brukBorder }) => $brukBorder ? "1rem" : "0rem"};
 `;
 
 type SpørsmålMedSvar = {
@@ -41,6 +44,7 @@ export const TemaResultat = ({
       <TemaContainer>
         {spørsmålMedSvar.map((spørsmål) => (
           <TemaGrafContainer
+            $brukBorder={erIEksportMode}
             key={spørsmål.spørsmålId}
           >
             {spørsmål.flervalg ? (
