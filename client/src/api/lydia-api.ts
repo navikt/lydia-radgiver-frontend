@@ -83,6 +83,9 @@ import { MineSaker, mineSakerListSchema } from "../domenetyper/mineSaker";
 import { BrukerITeamDTO, brukerITeamSchema } from "../domenetyper/brukeriteam";
 import {
     Plan,
+    PlanMal,
+    PlanMalRequest,
+    PlanMalSchema,
     PlanSchema,
     PlanStatus,
     PlanTema,
@@ -719,8 +722,13 @@ export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
 export const nyPlanPåSak = (
     orgnummer: string,
     saksnummer: string,
+    plan: PlanMalRequest,
 ): Promise<Plan> => {
-    return post(`${planPath}/${orgnummer}/${saksnummer}`, PlanSchema);
+    return post(
+        `${planPath}/${orgnummer}/${saksnummer}/opprett`,
+        PlanSchema,
+        plan,
+    );
 };
 
 export const endrePlan = (
@@ -768,6 +776,10 @@ export const useHentPlan = (orgnummer: string, saksnummer: string) => {
         defaultSwrConfiguration,
         false,
     );
+};
+
+export const useHentPlanMal = () => {
+    return useSwrTemplate<PlanMal>(`${planPath}/mal`, PlanMalSchema);
 };
 
 export const useHentKartleggingResultat = (
