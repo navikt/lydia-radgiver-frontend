@@ -7,6 +7,47 @@ const PlanStatusSchema = z.enum(IA_PLAN_STATUSER);
 
 export type PlanStatus = z.infer<typeof PlanStatusSchema>;
 
+export type OpprettInnholdRequest = {
+    rekkefølge: number;
+    navn: string;
+    planlagt: boolean;
+    startDato: string | null;
+    sluttDato: string | null;
+};
+
+export type OpprettTemaRequest = {
+    rekkefølge: number;
+    navn: string;
+    planlagt: boolean;
+    innhold: OpprettInnholdRequest[];
+};
+
+export type PlanMalRequest = {
+    tema: OpprettTemaRequest[];
+};
+
+export type PlanMal = z.infer<typeof PlanMalSchema>;
+export type RedigertInnholdMal = z.infer<typeof RedigertInnholdMalSchema>;
+
+export const RedigertInnholdMalSchema = z.object({
+    rekkefølge: z.number(),
+    navn: z.string(),
+    planlagt: z.boolean(),
+    startDato: datoSchema.nullable(),
+    sluttDato: datoSchema.nullable(),
+});
+
+export const RedigertTemaMalSchema = z.object({
+    rekkefølge: z.number(),
+    navn: z.string(),
+    planlagt: z.boolean(),
+    innhold: z.array(RedigertInnholdMalSchema),
+});
+
+export const PlanMalSchema = z.object({
+    tema: z.array(RedigertTemaMalSchema),
+});
+
 export const PlanUndertemaSchema = z.object({
     id: z.number(),
     navn: z.string(),

@@ -1,17 +1,17 @@
-import { BodyShort, Button, Heading, Loader } from "@navikt/ds-react";
+import { BodyShort, Heading, Loader } from "@navikt/ds-react";
 import React from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import {
-    nyPlanPåSak,
     useHentBrukerinformasjon,
     useHentIaProsesser,
     useHentPlan,
+    useHentPlanMal,
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Temaer } from "./Temaer";
 import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
 import styled from "styled-components";
-import { PlusIcon } from "@navikt/aksel-icons";
+import OpprettPlanKnapp from "./OpprettPlanKnapp";
 
 interface Props {
     iaSak: IASak;
@@ -22,6 +22,8 @@ const FremhevetTekst = styled.span`
 `;
 
 export default function PlanFane({ iaSak }: Props) {
+    const { data: planMal, loading: lasterPlanMal } = useHentPlanMal();
+
     const {
         data: iaSakPlan,
         loading: lasterPlan,
@@ -34,13 +36,6 @@ export default function PlanFane({ iaSak }: Props) {
         iaSak.saksnummer,
     );
 
-    const opprettPlan = () => {
-        nyPlanPåSak(iaSak.orgnr, iaSak.saksnummer).then(() => {
-            hentPlanIgjen();
-            hentProsesserIgjen();
-        });
-    };
-
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
     const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
@@ -50,11 +45,11 @@ export default function PlanFane({ iaSak }: Props) {
         dispatchFeilmelding({ feilmelding: planFeil.message });
     }
 
-    if (lasterPlan) {
+    if (lasterPlan || lasterPlanMal) {
         return <Loader />;
     }
 
-    if (iaSakPlan === undefined) {
+    if (iaSakPlan === undefined && planMal) {
         return (
             <>
                 <Heading level="3" size="large" spacing={true}>
@@ -74,16 +69,15 @@ export default function PlanFane({ iaSak }: Props) {
                     </BodyShort>
                 )}
                 <br />
-                <Button
-                    size="medium"
-                    iconPosition="left"
-                    variant="primary"
-                    onClick={opprettPlan}
-                    icon={<PlusIcon />}
-                    disabled={!kanOppretteEllerEndrePlan}
-                >
-                    Opprett plan
-                </Button>
+                <OpprettPlanKnapp
+                    orgnummer={iaSak.orgnr}
+                    saksnummer={iaSak.saksnummer}
+                    planMal={planMal}
+                    hentPlanIgjen={hentPlanIgjen}
+                    hentProsesserIgjen={hentProsesserIgjen}
+                    brukerErEierAvSak={brukerErEierAvSak}
+                    sakErIRettStatus={sakErIRettStatus}
+                />
             </>
         );
     }
