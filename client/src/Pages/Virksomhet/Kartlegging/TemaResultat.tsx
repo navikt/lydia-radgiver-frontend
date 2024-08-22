@@ -9,14 +9,14 @@ const TemaContainer = styled.div`
   justify-items: stretch;
   width: 100%;
   padding-bottom: 4rem;
+  gap: 2rem;
 `;
 
 const TemaGrafContainer = styled.div<{ $brukBorder: boolean }>`
     border: ${({ $brukBorder }) => $brukBorder ? "1px solid var(--a-gray-300)" : "none"};
-    border-radius: var(--a-border-radius-medium);
-    grid-column: "span 1";
-    padding: ${({ $brukBorder }) => $brukBorder ? "2rem" : "2rem"};
-    margin: ${({ $brukBorder }) => $brukBorder ? "1rem" : "0rem"};
+    border-radius: var(--a-border-radius-large);
+    grid-column: span 1;
+    padding: 2rem;
 `;
 
 type SpørsmålMedSvar = {
@@ -38,7 +38,7 @@ export const TemaResultat = ({
 }: Props) => {
   return (
     <>
-      <Heading spacing={true} level="3" size="medium">
+      <Heading spacing={true} level="3" size="medium" style={{ marginBottom: "2rem" }}>
         {navn}
       </Heading>
       <TemaContainer>

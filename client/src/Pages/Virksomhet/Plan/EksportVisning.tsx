@@ -8,7 +8,6 @@ import PlanGraf from "./PlanGraf";
 import { PrettyUndertemaDate } from "./UndertemaConfig";
 import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";
 import useEksportFilnavn from "../../../components/pdfEksport/useEksportFilnavn";
-import { useVirksomhetContext } from "../VirksomhetContext";
 
 
 export default function EksportVisning({ plan }: { plan: Plan }) {
@@ -68,20 +67,15 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 3rem;
-    margin-bottom: 2rem;
-	border-top: 2px solid #c6c2bf;
-	padding-bottom: 2rem;
-	padding-top: 2rem;
+    margin-top: 2rem;
+	border-top: 1px solid var(--a-gray-300);
+	padding: 2rem;
 `;
 
 
 function EksportInnhold({ plan }: { plan: Plan }) {
-	const { virksomhet } = useVirksomhetContext();
 	return (
 		<>
-			<Heading level="3" size="large" spacing={true}>
-				Sammarbeidsplan for {virksomhet.navn}
-			</Heading>
 			{plan.temaer
 				.filter((tema) => tema.planlagt)
 				.sort((a, b) => {
@@ -115,8 +109,8 @@ function UndertemaInnhold({ tema }: { tema: PlanTema }) {
 				.sort((a, b) => {
 					return a.id - b.id;
 				})
-				.map((undertema) => (
-					<>
+				.map((undertema, index) => (
+					<React.Fragment key={index}>
 						<Heading level="4" size="small" spacing>
 							{undertema.navn}:
 						</Heading>
@@ -144,7 +138,7 @@ function UndertemaInnhold({ tema }: { tema: PlanTema }) {
 						<BodyShort spacing style={{ gridColumnStart: 0, gridColumnEnd: "span 3", marginBottom: "2rem" }}>
 							Mål: {undertema.målsetning}
 						</BodyShort>
-					</>
+					</React.Fragment>
 				))}
 		</div>
 	);

@@ -1,4 +1,4 @@
-import { BodyShort, Button, Heading, Loader } from '@navikt/ds-react';
+import { BodyShort, Button, Loader } from '@navikt/ds-react';
 import React from 'react';
 import { usePDF } from 'react-to-pdf';
 import { FilePdfIcon } from '@navikt/aksel-icons';
@@ -7,7 +7,6 @@ import { IASakKartlegging } from '../../../domenetyper/iaSakKartlegging';
 import { useHentKartleggingResultat } from '../../../api/lydia-api';
 import styled from 'styled-components';
 import { TemaResultat } from './TemaResultat';
-import { useVirksomhetContext } from '../VirksomhetContext';
 import { erIDev } from '../../../components/Dekoratør/Dekoratør';
 import VirksomhetsEksportHeader from '../../../components/pdfEksport/VirksomhetsEksportHeader';
 import useEksportFilnavn from '../../../components/pdfEksport/useEksportFilnavn';
@@ -63,16 +62,18 @@ const EksportVisning = ({ erIEksportMode, setErIEksportMode, iaSak, kartlegging 
 };
 
 const Container = styled.div`
-    padding-top: 1rem;
     height: 100%;
+	padding-left: 2rem;
+	padding-right: 2rem;
 
     display: flex;
     flex-direction: column;
-    gap: 2rem;
-	padding: 2rem;
 `;
 
 
+const StyledBodyShort = styled(BodyShort)`
+	margin-bottom: 2rem;
+`;
 
 
 function EksportInnhold({ kartlegging, iaSak, erLastet, setErLastet }: { kartlegging: IASakKartlegging, iaSak: IASak, erLastet: boolean, setErLastet: (erLastet: boolean) => void }) {
@@ -84,8 +85,7 @@ function EksportInnhold({ kartlegging, iaSak, erLastet, setErLastet }: { kartleg
 			kartlegging.kartleggingId,
 		);
 
-	// const kartleggingResultat = dummyKartleggingResultat;
-	const { virksomhet } = useVirksomhetContext();
+	//const kartleggingResultat = dummyKartleggingResultat;
 
 	React.useEffect(() => {
 		if (!lasterKartleggingResultat && kartleggingResultat && !erLastet) {
@@ -104,12 +104,9 @@ function EksportInnhold({ kartlegging, iaSak, erLastet, setErLastet }: { kartleg
 
 	return (
 		<Container>
-			<Heading level="3" size="large" spacing={true}>
-				Behovsvurdering for {virksomhet.navn}
-			</Heading>
-			<BodyShort>
-				{`Antall deltakere som fullførte behovsvurderingen: ${kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt}`}
-			</BodyShort>
+			<StyledBodyShort>
+				{`Antall deltakere: ${kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt}`}
+			</StyledBodyShort>
 			{kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
 				<TemaResultat
 					key={tema.navn}
