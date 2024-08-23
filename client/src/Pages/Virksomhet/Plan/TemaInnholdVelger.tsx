@@ -2,7 +2,6 @@ import { Checkbox, CheckboxGroup, HStack, MonthPicker } from "@navikt/ds-react";
 import styled from "styled-components";
 import { RedigertInnholdMal } from "../../../domenetyper/plan";
 import React from "react";
-import { undefined, ZodUndefined } from "zod";
 import * as console from "node:console";
 
 const UndertemaRad = styled(HStack)`
@@ -10,13 +9,13 @@ const UndertemaRad = styled(HStack)`
 `;
 
 function StartOgSluttVelger({
+    redigertInnholdMal,
     setNyStartDato,
     setNySluttDato,
-    redigertInnholdMal,
 }: {
+    redigertInnholdMal: RedigertInnholdMal;
     setNyStartDato: (date: Date) => void;
     setNySluttDato: (date: Date) => void;
-    redigertInnholdMal: RedigertInnholdMal;
 }) {
     const lagreStartDato = (date: Date | undefined) => {
         if (date === undefined) {
@@ -94,22 +93,22 @@ export default function TemaInnholdVelger({
         );
     };
 
-    const setNyStartDato = (undertemaId: number, date: Date) => {
+    const setNyStartDato = (rekkefølge: number, date: Date) => {
         velgUndertemaer(
-            valgteUndertemaer.map((undertema) =>
-                undertema.rekkefølge === undertemaId
-                    ? { ...undertema, startDato: date }
-                    : { ...undertema },
+            valgteUndertemaer.map((innhold) =>
+                innhold.rekkefølge === rekkefølge
+                    ? { ...innhold, startDato: date }
+                    : { ...innhold },
             ),
         );
     };
 
-    const setNySluttDato = (undertemaId: number, date: Date) => {
+    const setNySluttDato = (rekkefølge: number, date: Date) => {
         velgUndertemaer(
-            valgteUndertemaer.map((undertema) =>
-                undertema.rekkefølge === undertemaId
-                    ? { ...undertema, sluttDato: date }
-                    : { ...undertema },
+            valgteUndertemaer.map((innhold) =>
+                innhold.rekkefølge === rekkefølge
+                    ? { ...innhold, sluttDato: date }
+                    : { ...innhold },
             ),
         );
     };
