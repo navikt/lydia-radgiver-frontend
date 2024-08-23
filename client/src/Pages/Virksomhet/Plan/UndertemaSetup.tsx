@@ -5,6 +5,7 @@ import React from "react";
 
 const UndertemaRad = styled(HStack)`
     margin-bottom: 0.5rem;
+    min-width: 48rem;
 `;
 
 function StartOgSluttVelger({

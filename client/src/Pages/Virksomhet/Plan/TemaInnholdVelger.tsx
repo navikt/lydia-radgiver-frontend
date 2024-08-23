@@ -6,6 +6,7 @@ import * as console from "node:console";
 
 const UndertemaRad = styled(HStack)`
     margin-bottom: 0.5rem;
+    min-width: 48rem;
 `;
 
 function StartOgSluttVelger({
