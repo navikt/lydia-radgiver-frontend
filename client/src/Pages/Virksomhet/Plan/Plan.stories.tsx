@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react";
 import PlanGraf, { PølsegrafProps } from "./PlanGraf";
-import { PlanUndertema } from "../../../domenetyper/plan";
+import { PlanInnhold } from "../../../domenetyper/plan";
 
 export default {
     title: "Virksomhet/Plan",
@@ -20,7 +20,7 @@ export default {
     },
 } as Meta<typeof PlanGraf>;
 
-const dummyPølser: PlanUndertema[] = [
+const dummyPølser: PlanInnhold[] = [
     {
         id: 1,
         målsetning: "Vi har et mål",

@@ -5,7 +5,7 @@ const IA_PLAN_STATUSER = ["PLANLAGT", "PÅGÅR", "FULLFØRT"] as const;
 
 const PlanStatusSchema = z.enum(IA_PLAN_STATUSER);
 
-export type PlanStatus = z.infer<typeof PlanStatusSchema>;
+export type PlanInnholdStatus = z.infer<typeof PlanStatusSchema>;
 
 export type OpprettInnholdRequest = {
     rekkefølge: number;
@@ -57,7 +57,7 @@ export const PlanUndertemaSchema = z.object({
     startDato: datoSchema.nullable(),
     sluttDato: datoSchema.nullable(),
 });
-export type PlanUndertema = z.infer<typeof PlanUndertemaSchema>;
+export type PlanInnhold = z.infer<typeof PlanUndertemaSchema>;
 
 const PlanRessursSchema = z.object({
     id: z.number(),

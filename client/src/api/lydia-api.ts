@@ -87,10 +87,10 @@ import {
     PlanMalRequest,
     PlanMalSchema,
     PlanSchema,
-    PlanStatus,
+    PlanInnholdStatus,
     PlanTema,
     PlanTemaSchema,
-    PlanUndertema,
+    PlanInnhold,
     PlanUndertemaSchema,
 } from "../domenetyper/plan";
 import {
@@ -760,8 +760,8 @@ export const endrePlanStatus = (
     saksnummer: string,
     temaId: number,
     undertemaId: number,
-    body: PlanStatus,
-): Promise<PlanUndertema> => {
+    body: PlanInnholdStatus,
+): Promise<PlanInnhold> => {
     return put(
         `${planPath}/${orgnummer}/${saksnummer}/${temaId}/${undertemaId}`,
         PlanUndertemaSchema,

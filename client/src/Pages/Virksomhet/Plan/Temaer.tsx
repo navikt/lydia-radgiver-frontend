@@ -2,7 +2,7 @@ import { Plan } from "../../../domenetyper/plan";
 import { Heading, HStack } from "@navikt/ds-react";
 import EditTemaKnapp from "./EditTemaKnapp";
 import PlanGraf from "./PlanGraf";
-import UndertemaConfig from "./UndertemaConfig";
+import InnholdsBlokk from "./InnholdsBlokk";
 import React from "react";
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
@@ -57,12 +57,14 @@ export function Temaer({
                                 )}
                             </HStack>
                             <PlanGraf undertemaer={tema.undertemaer} />
-                            <UndertemaConfig
+                            <InnholdsBlokk
                                 tema={tema}
                                 orgnummer={orgnummer}
                                 saksnummer={saksnummer}
                                 hentPlanIgjen={hentPlanIgjen}
-                                kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
+                                kanOppretteEllerEndrePlan={
+                                    kanOppretteEllerEndrePlan
+                                }
                             />
                             {/*<VerktøyConfig verktøy={tema.ressurser} />*/}
                         </Container>

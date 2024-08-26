@@ -1,8 +1,8 @@
 import { PlanRessurs } from "../../../domenetyper/plan";
-import { Headerrad } from "./Headerrad";
 import { Verktøyrad } from "./Verktøyrad";
 import React from "react";
 import styled from "styled-components";
+import { Label } from "@navikt/ds-react";
 
 const VerktøyListeWrapper = styled.div`
     display: grid;
@@ -31,7 +31,11 @@ export function VerktøyListe({
     };
     return (
         <VerktøyListeWrapper>
-            <Headerrad />
+            <>
+                <Label>Beskrivelse</Label>
+                <Label>Lenke</Label>
+                <span />
+            </>
             {minVerktøyliste.map((verktøy, index) => (
                 <Verktøyrad
                     key={index}

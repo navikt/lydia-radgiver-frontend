@@ -1,6 +1,6 @@
 import { Checkbox, CheckboxGroup, HStack, MonthPicker } from "@navikt/ds-react";
 import styled from "styled-components";
-import { PlanUndertema } from "../../../domenetyper/plan";
+import { PlanInnhold } from "../../../domenetyper/plan";
 import React from "react";
 
 const UndertemaRad = styled(HStack)`
@@ -13,7 +13,7 @@ function StartOgSluttVelger({
     setNyStartDato,
     setNySluttDato,
 }: {
-    undertema: PlanUndertema;
+    undertema: PlanInnhold;
     setNyStartDato: (date: Date) => void;
     setNySluttDato: (date: Date) => void;
 }) {
@@ -70,8 +70,8 @@ function StartOgSluttVelger({
 }
 
 interface UndertemaSetupProps {
-    valgteUndertemaer: PlanUndertema[];
-    velgUndertemaer: (val: PlanUndertema[]) => void;
+    valgteUndertemaer: PlanInnhold[];
+    velgUndertemaer: (val: PlanInnhold[]) => void;
 }
 
 export default function UndertemaSetup({

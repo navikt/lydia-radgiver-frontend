@@ -1,11 +1,5 @@
 import React from "react";
-import {
-    BodyShort,
-    Button,
-    Checkbox,
-    CheckboxGroup,
-    Modal,
-} from "@navikt/ds-react";
+import { Button, Checkbox, CheckboxGroup, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import styled from "styled-components";
 import {
@@ -31,9 +25,6 @@ const TemaInnholdVelgerContainer = styled.div`
 
 const OpprettPlanModal = styled(Modal)`
     max-width: 72rem;
-`;
-const FremhevetTekst = styled.span`
-    font-style: italic;
 `;
 
 export default function OpprettPlanKnapp({
@@ -128,25 +119,6 @@ export default function OpprettPlanKnapp({
 
     return (
         <>
-            {!brukerErEierAvSak && (
-                <>
-                    <BodyShort>
-                        Du må være eier av saken for å kunne gjøre endringer
-                    </BodyShort>
-                    <br />
-                </>
-            )}
-            {!sakErIRettStatus && (
-                <>
-                    <BodyShort>
-                        Status må være i{" "}
-                        <FremhevetTekst>Kartlegges</FremhevetTekst> eller{" "}
-                        <FremhevetTekst>Vi bistår</FremhevetTekst> for å kunne
-                        gjøre endringer
-                    </BodyShort>
-                    <br />
-                </>
-            )}
             <Button
                 size="medium"
                 iconPosition="left"

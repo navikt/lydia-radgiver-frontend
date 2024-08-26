@@ -1,9 +1,9 @@
 import { Timeline } from "@navikt/ds-react";
 import React from "react";
-import { PlanUndertema } from "../../../domenetyper/plan";
+import { PlanInnhold } from "../../../domenetyper/plan";
 
 export type PølsegrafProps = {
-    undertemaer: PlanUndertema[];
+    undertemaer: PlanInnhold[];
 };
 
 export default function PlanGraf(props: PølsegrafProps) {

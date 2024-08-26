@@ -9,7 +9,7 @@ import {
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import UndertemaSetup from "./UndertemaSetup";
 import styled from "styled-components";
-import { Plan, PlanTema, PlanUndertema } from "../../../domenetyper/plan";
+import { Plan, PlanTema, PlanInnhold } from "../../../domenetyper/plan";
 import { endrePlan } from "../../../api/lydia-api";
 import { lagRequest, TemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
@@ -73,7 +73,7 @@ export default function LeggTilTemaKnapp({
 
     function velgUndertema(
         temaId: number,
-        redigerteUndertemaer: PlanUndertema[],
+        redigerteUndertemaer: PlanInnhold[],
     ) {
         setRedigertTemaliste(
             redigertTemaliste.map((tema) =>
@@ -151,7 +151,7 @@ export default function LeggTilTemaKnapp({
                                         <UndertemaSetup
                                             valgteUndertemaer={tema.undertemaer}
                                             velgUndertemaer={(
-                                                val: PlanUndertema[],
+                                                val: PlanInnhold[],
                                             ) => velgUndertema(tema.id, val)}
                                         />
                                     </UndertemaSetupContainer>

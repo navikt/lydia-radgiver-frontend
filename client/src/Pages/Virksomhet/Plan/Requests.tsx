@@ -1,4 +1,4 @@
-import { PlanUndertema } from "../../../domenetyper/plan";
+import { PlanInnhold } from "../../../domenetyper/plan";
 import { isoDato } from "../../../util/dato";
 
 export type TemaRequest = {
@@ -14,7 +14,7 @@ export type UndertemaRequest = {
     sluttDato: string | null;
 };
 
-export function lagRequest(undertemaer: PlanUndertema[]): UndertemaRequest[] {
+export function lagRequest(undertemaer: PlanInnhold[]): UndertemaRequest[] {
     return undertemaer.map((undertema) => {
         return {
             id: undertema.id,

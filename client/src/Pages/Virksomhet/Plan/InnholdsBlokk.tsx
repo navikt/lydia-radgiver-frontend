@@ -1,11 +1,11 @@
-import { Accordion, Alert, Heading, Select } from "@navikt/ds-react";
+import { Accordion, Alert, BodyLong, Heading, Select } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
 import {
     Plan,
-    PlanStatus,
+    PlanInnhold,
+    PlanInnholdStatus,
     PlanTema,
-    PlanUndertema,
 } from "../../../domenetyper/plan";
 import { endrePlanStatus } from "../../../api/lydia-api";
 import { KeyedMutator } from "swr";
@@ -42,17 +42,17 @@ const LabelRad = styled.div`
     font-weight: 600;
 `;
 
-const TemaLabel = styled.span`
+const InnholdLabel = styled.span`
     grid-column: 2/3;
 `;
-const PeriodeLabel = styled.span`
+const VarighetLabel = styled.span`
     grid-column: 3/4;
 `;
 const StatusLabel = styled.span`
     grid-column: 4/5;
 `;
 
-export default function UndertemaConfig({
+export default function InnholdsBlokk({
     saksnummer,
     orgnummer,
     tema,
@@ -68,8 +68,8 @@ export default function UndertemaConfig({
     return (
         <StyledAccordion>
             <LabelRad>
-                <TemaLabel>Tema</TemaLabel>
-                <PeriodeLabel>Periode</PeriodeLabel>
+                <InnholdLabel>Innhold</InnholdLabel>
+                <VarighetLabel>Varighet</VarighetLabel>
                 <StatusLabel>Status</StatusLabel>
             </LabelRad>
             {tema.undertemaer
@@ -78,11 +78,11 @@ export default function UndertemaConfig({
                     return a.id - b.id;
                 })
                 .map((undertema) => (
-                    <Temalinje
+                    <InnholdsRad
                         key={undertema.id}
-                        undertema={undertema}
+                        innhold={undertema}
                         kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
-                        oppdaterStatus={(status: PlanStatus) =>
+                        oppdaterStatus={(status: PlanInnholdStatus) =>
                             endrePlanStatus(
                                 orgnummer,
                                 saksnummer,
@@ -99,49 +99,50 @@ export default function UndertemaConfig({
     );
 }
 
-function Temalinje({
-    undertema,
+function InnholdsRad({
+    innhold,
     oppdaterStatus,
     kanOppretteEllerEndrePlan,
 }: {
-    undertema: PlanUndertema;
-    oppdaterStatus: (status: PlanStatus) => void;
+    innhold: PlanInnhold;
+    oppdaterStatus: (status: PlanInnholdStatus) => void;
     kanOppretteEllerEndrePlan: boolean;
 }) {
     return (
         <StyledAccordionItem>
-            <TemalinjeHeader
-                undertema={undertema}
+            <InnholdsRadHeader
+                innhold={innhold}
                 oppdaterStatus={oppdaterStatus}
                 kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
             />
             <StyledAccordionContent>
                 <Heading level="4" size="small">
-                    Mål: {undertema.målsetning}
+                    Mål:
                 </Heading>
+                <BodyLong>{innhold.målsetning}</BodyLong>
             </StyledAccordionContent>
         </StyledAccordionItem>
     );
 }
 
-function TemalinjeHeader({
-    undertema,
+function InnholdsRadHeader({
+    innhold,
     oppdaterStatus,
     kanOppretteEllerEndrePlan,
 }: {
-    undertema: PlanUndertema;
-    oppdaterStatus: (status: PlanStatus) => void;
+    innhold: PlanInnhold;
+    oppdaterStatus: (status: PlanInnholdStatus) => void;
     kanOppretteEllerEndrePlan: boolean;
 }) {
     return (
         <StyledAccordionHeader>
-            <span>{undertema.navn}</span>
-            <TemalinjeHeaderPeriode
-                start={undertema.startDato}
-                slutt={undertema.sluttDato}
+            <span>{innhold.navn}</span>
+            <InnholdsVarighetHeader
+                start={innhold.startDato}
+                slutt={innhold.sluttDato}
             />
-            <TemalinjeHeaderStatus
-                status={undertema.status}
+            <InnholdsStatusHeader
+                status={innhold.status}
                 oppdaterStatus={oppdaterStatus}
                 kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
             />
@@ -149,7 +150,7 @@ function TemalinjeHeader({
     );
 }
 
-function TemalinjeHeaderPeriode({
+function InnholdsVarighetHeader({
     start,
     slutt,
 }: {
@@ -158,40 +159,38 @@ function TemalinjeHeaderPeriode({
 }) {
     return (
         <>
-            {start && <PrettyUndertemaDate date={start} />} -{" "}
-            {slutt && <PrettyUndertemaDate date={slutt} />}
+            {start && <PrettyInnholdsDato date={start} />} -{" "}
+            {slutt && <PrettyInnholdsDato date={slutt} />}
         </>
     );
 }
 
-export function PrettyUndertemaDate({
+export function PrettyInnholdsDato({
     date,
     visNesteMåned = false,
 }: {
     date: Date;
     visNesteMåned?: boolean;
 }) {
-    const visningsdato = React.useMemo(() => {
+    return React.useMemo(() => {
         const nyDato = new Date(date);
         if (visNesteMåned) {
             nyDato.setDate(nyDato.getDate() - 1);
         }
 
-        const nyDatoTekst = `${nyDato.toLocaleString("nb-NO", { month: "short" })} ${nyDato.getFullYear()}`
+        const nyDatoTekst = `${nyDato.toLocaleString("nb-NO", { month: "short" })} ${nyDato.getFullYear()}`;
 
         return nyDatoTekst[0].toUpperCase() + nyDatoTekst.substring(1);
     }, [visNesteMåned, date]);
-
-    return visningsdato;
 }
 
-function TemalinjeHeaderStatus({
+function InnholdsStatusHeader({
     status,
     oppdaterStatus,
     kanOppretteEllerEndrePlan,
 }: {
-    status: PlanStatus | null;
-    oppdaterStatus: (status: PlanStatus) => void;
+    status: PlanInnholdStatus | null;
+    oppdaterStatus: (status: PlanInnholdStatus) => void;
     kanOppretteEllerEndrePlan: boolean;
 }) {
     return status ? (
@@ -204,7 +203,7 @@ function TemalinjeHeaderStatus({
                 disabled={!kanOppretteEllerEndrePlan}
                 onClick={(e) => e.stopPropagation()}
                 onChange={(e) => {
-                    oppdaterStatus(e.target.value as PlanStatus);
+                    oppdaterStatus(e.target.value as PlanInnholdStatus);
                     e.stopPropagation();
                 }}
             >
