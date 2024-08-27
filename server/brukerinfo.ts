@@ -10,7 +10,7 @@ export type Brukerinformasjon = {
     navn: string;
     ident: string;
     epost: string;
-    tokenUtløper: number;
+    tokenUtloper: number;
     rolle: string;
 };
 
@@ -18,7 +18,7 @@ const lokalMockBruker: Brukerinformasjon = {
     navn: "Ansatt, Lokal",
     ident: "A123456",
     epost: "lokal.ansatt@nav.no",
-    tokenUtløper: Date.now() + 5000,
+    tokenUtloper: Date.now() + 5000,
     rolle: "Superbruker",
 };
 
@@ -60,12 +60,12 @@ export const hentBrukerinfoFraToken = (jwtPayload : JWTPayload) : Brukerinformas
     const ident = jwtPayload["NAVident"] as string;
     const rolle = hentRolleMedHøyestTilgang(jwtPayload["groups"] as string[])
     const epost = jwtPayload["preferred_username"] as string;
-    const tokenUtløper = jwtPayload.exp * 1000 // konverterer fra sekunder til ms
+    const tokenUtloper = jwtPayload.exp * 1000 // konverterer fra sekunder til ms
     return {
         navn,
         ident,
         epost,
-        tokenUtløper,
+        tokenUtloper,
         rolle
     }
 }

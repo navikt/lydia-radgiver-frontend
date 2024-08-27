@@ -8,7 +8,7 @@ export const brukerinformasjonSchema = z.object({
     navn: z.string(),
     ident: z.string(),
     epost: z.string(),
-    tokenUtløper: z.number(),
+    tokenUtloper: z.number(),
     rolle: RolleEnum,
 });
 

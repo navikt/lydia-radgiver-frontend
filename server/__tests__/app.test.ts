@@ -149,9 +149,9 @@ describe("Tester proxy mot lydia-api", () => {
         const jwtPayload = decodeJwt(token)
         const brukerinfo = hentBrukerinfoFraToken(jwtPayload)
         const nå = Date.now()
-        expect(brukerinfo.tokenUtløper < nå).toBeFalsy();
+        expect(brukerinfo.tokenUtloper < nå).toBeFalsy();
         const treTimer = 1000 * 60 * 60 * 3
-        expect(brukerinfo.tokenUtløper < nå + treTimer).toBeTruthy();
+        expect(brukerinfo.tokenUtloper < nå + treTimer).toBeTruthy();
     });
 });
 

@@ -190,15 +190,18 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                                 </BodyShort>
                             </dl>
                             <Dropdown.Menu.List>
-                                <Dropdown.Menu.List.Item onClick={() => loggUt()}>
-                                    Logg ut <LeaveIcon aria-hidden fontSize="1.5rem" />
+                                <Dropdown.Menu.List.Item
+                                    onClick={() => loggUt()}
+                                >
+                                    Logg ut{" "}
+                                    <LeaveIcon aria-hidden fontSize="1.5rem" />
                                 </Dropdown.Menu.List.Item>
                             </Dropdown.Menu.List>
                         </Dropdown.Menu>
                     </Dropdown>
                 </SøkOgBrukerinfoContainer>
             </StyledInternalHeader>
-            <SesjonBanner tokenUtløper={brukerInformasjon.tokenUtløper} />
+            <SesjonBanner tokenUtløper={brukerInformasjon.tokenUtloper} />
             <NyStatistikkPubliseresBanner />
         </>
     );
