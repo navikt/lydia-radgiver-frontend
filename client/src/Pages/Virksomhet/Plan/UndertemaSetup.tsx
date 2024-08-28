@@ -122,31 +122,35 @@ export default function UndertemaSetup({
                 .map((undertema) => undertema.id)}
             onChange={planleggUndertema}
         >
-            {valgteUndertemaer.map((undertema) => {
-                return (
-                    <UndertemaRad
-                        key={undertema.id}
-                        justify="space-between"
-                        gap="4"
-                        align="center"
-                    >
-                        <Checkbox key={undertema.id} value={undertema.id}>
-                            {undertema.navn}
-                        </Checkbox>
-                        {undertema.planlagt ? (
-                            <StartOgSluttVelger
-                                undertema={undertema}
-                                setNyStartDato={(date) =>
-                                    setNyStartDato(undertema.id, date)
-                                }
-                                setNySluttDato={(date) =>
-                                    setNySluttDato(undertema.id, date)
-                                }
-                            />
-                        ) : undefined}
-                    </UndertemaRad>
-                );
-            })}
+            {valgteUndertemaer
+                .sort((a, b) => {
+                    return a.id - b.id;
+                })
+                .map((undertema) => {
+                    return (
+                        <UndertemaRad
+                            key={undertema.id}
+                            justify="space-between"
+                            gap="4"
+                            align="center"
+                        >
+                            <Checkbox key={undertema.id} value={undertema.id}>
+                                {undertema.navn}
+                            </Checkbox>
+                            {undertema.planlagt ? (
+                                <StartOgSluttVelger
+                                    undertema={undertema}
+                                    setNyStartDato={(date) =>
+                                        setNyStartDato(undertema.id, date)
+                                    }
+                                    setNySluttDato={(date) =>
+                                        setNySluttDato(undertema.id, date)
+                                    }
+                                />
+                            ) : undefined}
+                        </UndertemaRad>
+                    );
+                })}
         </CheckboxGroup>
     );
 }

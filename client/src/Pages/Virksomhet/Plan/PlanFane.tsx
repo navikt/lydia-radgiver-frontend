@@ -103,7 +103,7 @@ export default function PlanFane({ iaSak }: Props) {
                 <LeggTilTemaKnapp
                     orgnummer={iaSak.orgnr}
                     saksnummer={iaSak.saksnummer}
-                    temaer={iaSakPlan.temaer}
+                    plan={iaSakPlan}
                     hentPlanIgjen={hentPlanIgjen}
                     brukerErEierAvSak={brukerErEierAvSak}
                     sakErIRettStatus={sakErIRettStatus}

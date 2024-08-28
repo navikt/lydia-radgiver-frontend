@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
     BodyShort,
     Button,
@@ -32,42 +32,51 @@ const FremhevetTekst = styled.span`
 export default function LeggTilTemaKnapp({
     saksnummer,
     orgnummer,
-    temaer,
+    plan,
     hentPlanIgjen,
     brukerErEierAvSak,
     sakErIRettStatus,
 }: {
     orgnummer: string;
     saksnummer: string;
-    temaer: PlanTema[];
+    plan: Plan;
     hentPlanIgjen: KeyedMutator<Plan>;
     brukerErEierAvSak: boolean;
     sakErIRettStatus: boolean;
 }) {
     const [modalOpen, setModalOpen] = React.useState(false);
 
-    const [redigertTemaliste, setRedigertTemaliste] =
-        React.useState<PlanTema[]>(temaer);
+    const [redigertTemaliste, setRedigertTemaliste] = React.useState<
+        PlanTema[]
+    >(plan.temaer);
+
+    useEffect(() => {
+        setRedigertTemaliste(plan.temaer);
+    }, [plan]);
 
     function velgTema(valgteTemaIder: number[]) {
         setRedigertTemaliste(
-            redigertTemaliste.map((tema) =>
-                valgteTemaIder.includes(tema.id)
-                    ? { ...tema, planlagt: true }
-                    : {
-                          ...tema,
-                          planlagt: false,
-                          undertemaer: tema.undertemaer.map((undertema) => {
-                              return {
-                                  ...undertema,
-                                  planlagt: false,
-                                  status: null,
-                                  startDato: null,
-                                  sluttDato: null,
-                              };
-                          }),
-                      },
-            ),
+            redigertTemaliste
+                .sort((a, b) => {
+                    return a.id - b.id;
+                })
+                .map((tema) =>
+                    valgteTemaIder.includes(tema.id)
+                        ? { ...tema, planlagt: true }
+                        : {
+                              ...tema,
+                              planlagt: false,
+                              undertemaer: tema.undertemaer.map((undertema) => {
+                                  return {
+                                      ...undertema,
+                                      planlagt: false,
+                                      status: null,
+                                      startDato: null,
+                                      sluttDato: null,
+                                  };
+                              }),
+                          },
+                ),
         );
     }
 
@@ -126,7 +135,7 @@ export default function LeggTilTemaKnapp({
                 onClick={() => setModalOpen(true)}
                 disabled={!(brukerErEierAvSak && sakErIRettStatus)}
             >
-                {temaer.filter((tema) => tema.planlagt).length > 0
+                {plan.temaer.filter((tema) => tema.planlagt).length > 0
                     ? "Rediger plan"
                     : "Legg til tema"}
             </Button>
@@ -143,21 +152,31 @@ export default function LeggTilTemaKnapp({
                         )}
                         onChange={(val: number[]) => velgTema(val)}
                     >
-                        {redigertTemaliste.map((tema) => (
-                            <div key={tema.id}>
-                                <Checkbox value={tema.id}>{tema.navn}</Checkbox>
-                                {tema.planlagt && (
-                                    <UndertemaSetupContainer>
-                                        <UndertemaSetup
-                                            valgteUndertemaer={tema.undertemaer}
-                                            velgUndertemaer={(
-                                                val: PlanInnhold[],
-                                            ) => velgUndertema(tema.id, val)}
-                                        />
-                                    </UndertemaSetupContainer>
-                                )}
-                            </div>
-                        ))}
+                        {redigertTemaliste
+                            .sort((a, b) => {
+                                return a.id - b.id;
+                            })
+                            .map((tema) => (
+                                <div key={tema.id}>
+                                    <Checkbox value={tema.id}>
+                                        {tema.navn}
+                                    </Checkbox>
+                                    {tema.planlagt && (
+                                        <UndertemaSetupContainer>
+                                            <UndertemaSetup
+                                                valgteUndertemaer={
+                                                    tema.undertemaer
+                                                }
+                                                velgUndertemaer={(
+                                                    val: PlanInnhold[],
+                                                ) =>
+                                                    velgUndertema(tema.id, val)
+                                                }
+                                            />
+                                        </UndertemaSetupContainer>
+                                    )}
+                                </div>
+                            ))}
                     </CheckboxGroup>
                     <br />
                     <ModalKnapper>
