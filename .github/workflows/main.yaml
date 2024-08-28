@@ -74,7 +74,7 @@ jobs:
       id-token: write
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/bytte-fra-dummydata-til-api'
+    if: github.ref == 'refs/heads/nytt-image'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
