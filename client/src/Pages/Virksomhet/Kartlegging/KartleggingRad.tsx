@@ -61,11 +61,13 @@ export const KartleggingRad = ({
             <AccordionHeader>
                 Behovsvurdering
                 <HeaderRightContent>
-                    {erIDev && <EksportVisning
-                        iaSak={iaSak}
-                        kartlegging={kartlegging}
-                        erIEksportMode={erIEksportMode}
-                        setErIEksportMode={setErIEksportMode} />}
+                    {
+                        // Fjern denne når den skal live
+                        erIDev && <EksportVisning
+                            iaSak={iaSak}
+                            kartlegging={kartlegging}
+                            erIEksportMode={erIEksportMode}
+                            setErIEksportMode={setErIEksportMode} />}
                     <KartleggingStatusBedge status={kartlegging.status} />
                     <KartleggingDato>{dato}</KartleggingDato>
                 </HeaderRightContent>
