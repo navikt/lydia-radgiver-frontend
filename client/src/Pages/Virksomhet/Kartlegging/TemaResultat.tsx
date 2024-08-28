@@ -1,4 +1,4 @@
-import { Heading } from "@navikt/ds-react";
+import { Heading, HeadingProps } from "@navikt/ds-react";
 import styled from "styled-components";
 import PieChart from "./Grafer/PieChart";
 import BarChart from "./Grafer/BarChart";
@@ -29,16 +29,18 @@ interface Props {
   navn: string;
   spørsmålMedSvar: SpørsmålMedSvar[];
   erIEksportMode?: boolean;
+  headingSize?: HeadingProps["size"];
 }
 
 export const TemaResultat = ({
   navn,
   spørsmålMedSvar,
   erIEksportMode = false,
+  headingSize = "medium",
 }: Props) => {
   return (
     <>
-      <Heading spacing={true} level="3" size="medium" style={{ marginBottom: "2rem" }}>
+      <Heading spacing={true} level="3" size={headingSize} style={{ marginBottom: "2rem" }}>
         {navn}
       </Heading>
       <TemaContainer>

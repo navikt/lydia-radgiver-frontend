@@ -57,9 +57,9 @@ export const Virksomhetsoversikt = () => {
 }
 
 function NyVirksomhetsoversikt() {
-    /* return (
+    return (
         <VirksomhetinfoHeader />
-    ); */
+    );/*
     const { virksomhet, iaSak } = React.useContext(VirksomhetContext) as VirksomhetContextType;
     return (
         <OversiktsContainer>
@@ -69,5 +69,5 @@ function NyVirksomhetsoversikt() {
                 <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} />
             </VirksomhetsinfoContainer>
         </OversiktsContainer>
-    );
+    );*/
 }

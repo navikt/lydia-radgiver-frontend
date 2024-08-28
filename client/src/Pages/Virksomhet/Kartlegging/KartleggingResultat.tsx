@@ -2,7 +2,6 @@ import { BodyShort, Loader } from "@navikt/ds-react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { useHentKartleggingResultat } from "../../../api/lydia-api";
 import styled from "styled-components";
-import React from "react";
 import { TemaResultat } from "./TemaResultat";
 
 const Container = styled.div`
@@ -23,6 +22,7 @@ export const KartleggingResultat = ({
     iaSak,
     kartleggingId,
 }: Props) => {
+    //const { loading: lasterKartleggingResultat } =
     const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
         useHentKartleggingResultat(
             iaSak.orgnr,
