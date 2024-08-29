@@ -5,18 +5,9 @@ import styled from "styled-components";
 import { KartleggingRadInnhold } from "./KartleggingRadInnhold";
 import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
 import React, { useState } from "react";
-import EksportVisning from "./EksportVisning";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 const AccordionHeader = styled(Accordion.Header)`
     width: 100%;
-
-    .navds-heading {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-    }
 `;
 
 const HeaderRightContent = styled.span`
@@ -48,7 +39,6 @@ export const KartleggingRad = ({
     dato,
 }: KartleggingRadProps) => {
     const [erÅpen, setErÅpen] = useState(defaultOpen);
-    const [erIEksportMode, setErIEksportMode] = useState(false);
 
     return (
         <Accordion.Item
@@ -61,13 +51,6 @@ export const KartleggingRad = ({
             <AccordionHeader>
                 Behovsvurdering
                 <HeaderRightContent>
-                    {
-                        // Fjern denne når den skal live
-                        erIDev && <EksportVisning
-                            iaSak={iaSak}
-                            kartlegging={kartlegging}
-                            erIEksportMode={erIEksportMode}
-                            setErIEksportMode={setErIEksportMode} />}
                     <KartleggingStatusBedge status={kartlegging.status} />
                     <KartleggingDato>{dato}</KartleggingDato>
                 </HeaderRightContent>
