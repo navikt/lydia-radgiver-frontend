@@ -8,6 +8,8 @@ import { KartleggingResultat } from "./KartleggingResultat";
 import { SlettKartleggingModal } from "./SlettKartleggingModal";
 import { StartSpørreundersøkelseModal } from "./StartSpørreundersøkelseModal";
 import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkelseModal";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
+import EksportVisning from "./EksportVisning";
 
 interface KartleggingRadInnhold {
     iaSak: IASak;
@@ -16,6 +18,11 @@ interface KartleggingRadInnhold {
     brukerErEierAvSak: boolean;
     kartleggingstatus: "OPPRETTET" | "PÅBEGYNT" | "AVSLUTTET" | "SLETTET";
 }
+
+const ExportVisningContainer = styled.div`
+    display: flex;
+    justify-content: right;
+`;
 
 const StyledActionButton = styled(Button)`
     margin-right: 1rem;
@@ -41,6 +48,8 @@ export const KartleggingRadInnhold = ({
         setBekreftStartKartleggingModalÅpen,
     ] = useState(false);
 
+    const [erIEksportMode, setErIEksportMode] = useState(false);
+
     const MINIMUM_ANTALL_DELTAKERE = 3;
     const deltakereSomHarFullført = 1; // kartlegging.deltakereSomHarFullført // TODO: Viser altid, Bytt ut etter oppdatert endepunkt er på plass
     const harNokDeltakere = deltakereSomHarFullført >= MINIMUM_ANTALL_DELTAKERE;
@@ -52,6 +61,19 @@ export const KartleggingRadInnhold = ({
     if (kartleggingstatus === "AVSLUTTET") {
         return (
             <Accordion.Content>
+                {
+                    // Fjern denne når den skal live
+                    erIDev && (
+                        <ExportVisningContainer>
+                            <EksportVisning
+                                iaSak={iaSak}
+                                kartlegging={kartlegging}
+                                erIEksportMode={erIEksportMode}
+                                setErIEksportMode={setErIEksportMode}
+                            />
+                        </ExportVisningContainer>
+                    )
+                }
                 <KartleggingResultat
                     iaSak={iaSak}
                     kartleggingId={kartlegging.kartleggingId}
