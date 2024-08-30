@@ -4,17 +4,50 @@ import { IaProsessRad } from "./IaProsessRad";
 import React, { useState } from "react";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { IASak } from "../../../domenetyper/domenetyper";
+import {
+    nyHendelsePåSak,
+    useHentAktivSakForVirksomhet,
+    useHentIaProsesser,
+    useHentSamarbeidshistorikk,
+} from "../../../api/lydia-api";
+import { PlusIcon } from "@navikt/aksel-icons";
+import styled from "styled-components";
 
 interface AdministrerIaProsesserKnappProps {
     iaProsesser: IaSakProsess[];
     iaSak: IASak;
 }
 
+const NyttSamarbeidKnapp = styled(Button)`
+    max-height: 2rem;
+`;
+
 export const AdministrerIaProsesserKnapp = ({
     iaProsesser,
     iaSak,
 }: AdministrerIaProsesserKnappProps) => {
     const [åpen, setÅpen] = useState(false);
+
+    const { mutate: hentSamarbeidshistorikkPåNytt } =
+        useHentSamarbeidshistorikk(iaSak.orgnr);
+    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(
+        iaSak.orgnr,
+    );
+    const { mutate: muterIaProsesser } = useHentIaProsesser(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+    );
+
+    function opprettIaProsess() {
+        nyHendelsePåSak(iaSak, {
+            saksHendelsestype: "NY_PROSESS",
+            gyldigeÅrsaker: [],
+        }).then(() => {
+            mutateHentSaker();
+            hentSamarbeidshistorikkPåNytt();
+            muterIaProsesser();
+        });
+    }
 
     return (
         <>
@@ -40,12 +73,24 @@ export const AdministrerIaProsesserKnapp = ({
                     Husk, aldri skriv personopplysninger. Maks 25 tegn.
                 </Detail>
                 {iaProsesser.map((iaProsess) => (
-                    <IaProsessRad
-                        key={iaProsess.id}
-                        iaProsess={iaProsess}
-                        iaSak={iaSak}
-                    />
+                    <>
+                        <IaProsessRad
+                            key={iaProsess.id}
+                            iaProsess={iaProsess}
+                            iaSak={iaSak}
+                        />
+                        <br />
+                    </>
                 ))}
+                <NyttSamarbeidKnapp
+                    variant={"secondary"}
+                    icon={<PlusIcon />}
+                    iconPosition={"left"}
+                    onClick={opprettIaProsess}
+                >
+                    {" "}
+                    Nytt samarbeid
+                </NyttSamarbeidKnapp>
             </BekreftValgModal>
         </>
     );
