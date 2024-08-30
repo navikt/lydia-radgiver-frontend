@@ -10,16 +10,11 @@ import {
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Temaer } from "./Temaer";
 import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
-import styled from "styled-components";
 import OpprettPlanKnapp from "./OpprettPlanKnapp";
 
 interface Props {
     iaSak: IASak;
 }
-
-const FremhevetTekst = styled.span`
-    font-style: italic;
-`;
 
 export default function PlanFane({ iaSak }: Props) {
     const { data: planMal, loading: lasterPlanMal } = useHentPlanMal();
@@ -62,10 +57,8 @@ export default function PlanFane({ iaSak }: Props) {
                 )}
                 {!sakErIRettStatus && (
                     <BodyShort>
-                        Status må være i{" "}
-                        <FremhevetTekst>Kartlegges</FremhevetTekst> eller{" "}
-                        <FremhevetTekst>Vi bistår</FremhevetTekst> for å
-                        opprette ny plan
+                        Status må være i <i>Kartlegges</i> eller{" "}
+                        <i>Vi bistår</i> for å opprette ny plan
                     </BodyShort>
                 )}
                 <br />

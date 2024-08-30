@@ -25,9 +25,6 @@ const UndertemaSetupContainer = styled.div`
 const LeggTilTemaModal = styled(Modal)`
     max-width: 72rem;
 `;
-const FremhevetTekst = styled.span`
-    font-style: italic;
-`;
 
 export default function LeggTilTemaKnapp({
     saksnummer,
@@ -123,10 +120,8 @@ export default function LeggTilTemaKnapp({
             {!sakErIRettStatus && (
                 <>
                     <BodyShort>
-                        Status må være i{" "}
-                        <FremhevetTekst>Kartlegges</FremhevetTekst> eller{" "}
-                        <FremhevetTekst>Vi bistår</FremhevetTekst> for å kunne
-                        gjøre endringer
+                        Status må være i <i>Kartlegges</i> eller{" "}
+                        <i>Vi bistår</i> for å kunne gjøre endringer
                     </BodyShort>
                     <br />
                 </>
