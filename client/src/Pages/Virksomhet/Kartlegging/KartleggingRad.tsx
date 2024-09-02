@@ -8,6 +8,13 @@ import React, { useState } from "react";
 
 const AccordionHeader = styled(Accordion.Header)`
     width: 100%;
+
+.navds-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
 `;
 
 const HeaderRightContent = styled.span`
