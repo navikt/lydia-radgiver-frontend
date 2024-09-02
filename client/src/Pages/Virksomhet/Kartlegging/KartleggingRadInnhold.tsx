@@ -8,7 +8,6 @@ import { KartleggingResultat } from "./KartleggingResultat";
 import { SlettKartleggingModal } from "./SlettKartleggingModal";
 import { StartSpørreundersøkelseModal } from "./StartSpørreundersøkelseModal";
 import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkelseModal";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 import EksportVisning from "./EksportVisning";
 
 interface KartleggingRadInnhold {
@@ -61,19 +60,14 @@ export const KartleggingRadInnhold = ({
     if (kartleggingstatus === "AVSLUTTET") {
         return (
             <Accordion.Content>
-                {
-                    // Fjern denne når den skal live
-                    erIDev && (
-                        <ExportVisningContainer>
-                            <EksportVisning
-                                iaSak={iaSak}
-                                kartlegging={kartlegging}
-                                erIEksportMode={erIEksportMode}
-                                setErIEksportMode={setErIEksportMode}
-                            />
-                        </ExportVisningContainer>
-                    )
-                }
+                <ExportVisningContainer>
+                    <EksportVisning
+                        iaSak={iaSak}
+                        kartlegging={kartlegging}
+                        erIEksportMode={erIEksportMode}
+                        setErIEksportMode={setErIEksportMode}
+                    />
+                </ExportVisningContainer>
                 <KartleggingResultat
                     iaSak={iaSak}
                     kartleggingId={kartlegging.kartleggingId}

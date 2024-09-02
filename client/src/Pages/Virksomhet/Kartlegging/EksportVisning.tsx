@@ -6,7 +6,6 @@ import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import { useHentKartleggingResultat } from "../../../api/lydia-api";
 import styled from "styled-components";
 import { TemaResultat } from "./TemaResultat";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";
 import useEksportFilnavn from "../../../components/pdfEksport/useEksportFilnavn";
 import jsPDF from "jspdf";
@@ -225,7 +224,7 @@ const EksportVisning = ({
         }
     }, [erIEksportMode, erLastet]);
 
-    if (kartlegging.status !== "AVSLUTTET" || !erIDev) {
+    if (kartlegging.status !== "AVSLUTTET") {
         return null;
     }
 
