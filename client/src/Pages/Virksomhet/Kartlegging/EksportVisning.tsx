@@ -167,8 +167,8 @@ class pdfEksport {
     ) {
         return (
             this.position +
-                header.clientHeight * this.pixelRatio +
-                graph.clientHeight * this.pixelRatio >
+            header.clientHeight * this.pixelRatio +
+            graph.clientHeight * this.pixelRatio >
             this.pageHeight
         );
     }
@@ -181,8 +181,8 @@ class pdfEksport {
             );
             const canvasR = child.childNodes[i + 1]
                 ? await html2canvas(child.childNodes[i + 1] as HTMLElement, {
-                      scale: 1,
-                  })
+                    scale: 1,
+                })
                 : undefined;
             await this.addInlineContent(canvasL, canvasR);
         }
@@ -206,10 +206,10 @@ const EksportVisning = ({
     kartlegging,
 }: EksportVisningProps) => {
     /* 	toPDF har returntypen void, men i den faktiske koden har den returntypen Promise<void>
-		Må caste til Promise<void> for å sette loadingindikator */
+        Må caste til Promise<void> for å sette loadingindikator */
     const targetRef = React.useRef<HTMLDivElement>(null);
     const [erLastet, setErLastet] = React.useState(false);
-    const eksportfilnavn = useEksportFilnavn("Kartlegging");
+    const eksportfilnavn = useEksportFilnavn("Behovsvurdering");
 
     React.useEffect(() => {
         if (targetRef.current !== null && erIEksportMode && erLastet) {
