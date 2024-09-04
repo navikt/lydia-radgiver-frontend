@@ -9,7 +9,9 @@ import { useHentSalesforceUrl } from "../../../../api/lydia-api";
 import { EksternLenke } from "../../../../components/EksternLenke";
 import Navigasjonsknapper from "./Navigasjonsknapper";
 import EierOgStatus from "./EierOgStatus";
-import VirksomhetContext, { VirksomhetContextType } from "../../VirksomhetContext";
+import VirksomhetContext, {
+    VirksomhetContextType,
+} from "../../VirksomhetContext";
 
 const Container = styled.div`
     display: flex;
@@ -38,9 +40,10 @@ const TittelseksjonMedLavFontWeight = styled.span`
     font-weight: 400;
 `;
 
-
-export default function VirksomhetsinfoHeader() {
-    const { virksomhet, iaSak } = React.useContext(VirksomhetContext) as VirksomhetContextType;
+export default function NyVirksomhetsoversikt() {
+    const { virksomhet, iaSak } = React.useContext(
+        VirksomhetContext,
+    ) as VirksomhetContextType;
     const buttonRef = useRef<SVGSVGElement>(null);
     const [openState, setOpenState] = useState(false);
     const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
@@ -57,7 +60,11 @@ export default function VirksomhetsinfoHeader() {
                         )}
                         <NavnOgIkonContainer>
                             <Heading level={"2"} size={"large"}>
-                                {virksomhet.navn}<TittelseksjonMedLavFontWeight> - {virksomhet.orgnr}</TittelseksjonMedLavFontWeight>
+                                {virksomhet.navn}
+                                <TittelseksjonMedLavFontWeight>
+                                    {" "}
+                                    - {virksomhet.orgnr}
+                                </TittelseksjonMedLavFontWeight>
                             </Heading>
                             <VirksomhetsInfoIkon
                                 title={"Se detaljer"}

@@ -1,9 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
-import { Tabs } from "@navikt/ds-react";
+import { HStack, Tabs } from "@navikt/ds-react";
 import { SamarbeidshistorikkFane } from "./Samarbeidshistorikk/SamarbeidshistorikkFane";
-import { Virksomhetsoversikt } from "./Virksomhetsoversikt/Virksomhetsoversikt";
 import {
     contentSpacing,
     strekkBakgrunnenHeltUtTilKantenAvSida,
@@ -14,7 +13,10 @@ import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
 import { KartleggingFane } from "./Kartlegging/KartleggingFane";
+import PlanFane from "./Plan/PlanFane";
+import { AdministrerIaProsesser } from "./Prosesser/AdministrerIaProsesser";
 import VirksomhetContext from "./VirksomhetContext";
+import NyVirksomhetsoversikt from "./Virksomhetsoversikt/VirksomhetsinfoHeader";
 
 const Container = styled.div`
     padding-top: ${contentSpacing.mobileY};
@@ -38,7 +40,7 @@ interface Props {
     virksomhet: Virksomhet;
 }
 
-export const VirksomhetsVisning = ({ virksomhet }: Props) => {
+export const NyVirksomhetsVisning = ({ virksomhet }: Props) => {
     const { data: iaSak, loading: lasterIaSak } = useHentAktivSakForVirksomhet(
         virksomhet.orgnr,
     );
@@ -81,25 +83,34 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
             }}
         >
             <Container>
-                <Virksomhetsoversikt />
+                <NyVirksomhetsoversikt />
                 <br />
+                <HStack gap="4">
+                    {iaSak && (
+                        <AdministrerIaProsesser
+                            orgnummer={virksomhet.orgnr}
+                            iaSak={iaSak}
+                        />
+                    )}
+                </HStack>
                 <Tabs
                     value={fane}
                     onChange={oppdaterTabISearchParam}
                     defaultValue="statistikk"
                 >
                     <Tabs.List style={{ width: "100%" }}>
-                        <Tabs.Tab value="statistikk" label="Statistikk" />
+                        {/*<Tabs.Tab value="statistikk" label="Statistikk" />*/}
                         {iaSak && (
                             <Tabs.Tab value="kartlegging" label="Kartlegging" />
                         )}
+                        {iaSak && <Tabs.Tab value="plan" label="Plan" />}
                         {iaSak && (
                             <Tabs.Tab
                                 value="ia-tjenester"
                                 label="IA-tjenester"
                             />
                         )}
-                        <Tabs.Tab value="historikk" label="Historikk" />
+                        {/*<Tabs.Tab value="historikk" label="Historikk" />*/}
                     </Tabs.List>
                     <StyledPanel value="statistikk">
                         <StatistikkFane virksomhet={virksomhet} />
@@ -114,6 +125,9 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     </StyledPanel>
                     <StyledPanel value="ia-tjenester">
                         {iaSak && <LeveranseFane iaSak={iaSak} />}
+                    </StyledPanel>
+                    <StyledPanel value="plan">
+                        {iaSak && <PlanFane iaSak={iaSak} />}
                     </StyledPanel>
                     <StyledPanel value="historikk">
                         <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />

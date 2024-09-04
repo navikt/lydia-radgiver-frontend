@@ -5,32 +5,42 @@ import { useHentVirksomhetsinformasjon } from "../../api/lydia-api";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { loggSideLastet } from "../../util/amplitude-klient";
+import { erIDev } from "../../components/Dekoratør/Dekoratør";
+import { NyVirksomhetsVisning } from "./NyVirksomhetsVisning";
 
 export const Virksomhetsside = () => {
-    const { oppdaterTittel } = useTittel(statiskeSidetitler.virksomhetsside)
+    const { oppdaterTittel } = useTittel(statiskeSidetitler.virksomhetsside);
     const { orgnummer } = useParams();
 
-    const {
-        data: virksomhetsinformasjon,
-        loading: lasterVirksomhet
-    } = useHentVirksomhetsinformasjon(orgnummer);
+    const { data: virksomhetsinformasjon, loading: lasterVirksomhet } =
+        useHentVirksomhetsinformasjon(orgnummer);
 
     useEffect(() => {
         if (virksomhetsinformasjon) {
             oppdaterTittel(`Fia - ${virksomhetsinformasjon.navn}`);
             loggSideLastet("Virksomhetsside");
         }
-    }, [virksomhetsinformasjon?.navn])
+    }, [virksomhetsinformasjon?.navn]);
 
     if (lasterVirksomhet) {
-        return <LasterVirksomhet />
+        return <LasterVirksomhet />;
     }
 
     if (virksomhetsinformasjon) {
-        return <VirksomhetsVisning virksomhet={virksomhetsinformasjon} />
+        if (erIDev) {
+            return <NyVirksomhetsVisning virksomhet={virksomhetsinformasjon} />;
+        } else {
+            return <VirksomhetsVisning virksomhet={virksomhetsinformasjon} />;
+        }
     } else {
-        return <p>Kunne ikke laste ned informasjon om virksomhet</p>
+        return <p>Kunne ikke laste ned informasjon om virksomhet</p>;
     }
 };
 
-const LasterVirksomhet = () => <Loader title={"Laster inn virksomhet"} variant={"interaction"} size={"xlarge"} />
+const LasterVirksomhet = () => (
+    <Loader
+        title={"Laster inn virksomhet"}
+        variant={"interaction"}
+        size={"xlarge"}
+    />
+);

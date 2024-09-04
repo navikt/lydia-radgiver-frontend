@@ -4,8 +4,6 @@ import { IASakOversikt } from "./IASakStatus/IASakOversikt";
 import { VirksomhetInformasjon } from "./VirksomhetInformasjon";
 import { contentSpacing } from "../../../styling/contentSpacing";
 import { BrregStatus } from "./BrregStatus";
-import VirksomhetinfoHeader from "./VirksomhetsinfoHeader";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 import React from "react";
 import VirksomhetContext, { VirksomhetContextType } from "../VirksomhetContext";
 
@@ -34,11 +32,9 @@ const VirksomhetsinfoContainer = styled.div`
 `;
 
 export const Virksomhetsoversikt = () => {
-    if (erIDev) {
-        // TODO: Fjern "Virksomhetsoversikt" og rename "NyVirksomhetsoversikt" til "Virksomhetsoversikt" når det er klart for produksjon
-        return <NyVirksomhetsoversikt />;
-    }
-    const { virksomhet, iaSak } = React.useContext(VirksomhetContext) as VirksomhetContextType;
+    const { virksomhet, iaSak } = React.useContext(
+        VirksomhetContext,
+    ) as VirksomhetContextType;
 
     return (
         <OversiktsContainer>
@@ -54,20 +50,4 @@ export const Virksomhetsoversikt = () => {
             </VirksomhetsinfoContainer>
         </OversiktsContainer>
     );
-}
-
-function NyVirksomhetsoversikt() {
-    return (
-        <VirksomhetinfoHeader />
-    );/*
-    const { virksomhet, iaSak } = React.useContext(VirksomhetContext) as VirksomhetContextType;
-    return (
-        <OversiktsContainer>
-            <VirksomhetinfoHeader />
-            <VirksomhetsinfoContainer>
-                <VirksomhetInformasjon virksomhet={virksomhet} />
-                <IASakOversikt iaSak={iaSak} orgnummer={virksomhet.orgnr} />
-            </VirksomhetsinfoContainer>
-        </OversiktsContainer>
-    );*/
-}
+};
