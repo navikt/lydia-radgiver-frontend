@@ -83,14 +83,10 @@ export const AdministrerIaProsesserKnapp = ({
                     Husk, aldri skriv personopplysninger. Maks 25 tegn.
                 </Detail>
                 {iaProsesser.map((iaProsess) => (
-                    <>
-                        <IaProsessRad
-                            key={iaProsess.id}
-                            iaProsess={iaProsess}
-                            iaSak={iaSak}
-                        />
+                    <div key={iaProsess.id}>
+                        <IaProsessRad iaProsess={iaProsess} iaSak={iaSak} />
                         <br />
-                    </>
+                    </div>
                 ))}
                 <NyttSamarbeidKnapp
                     variant={"secondary"}
