@@ -93,7 +93,9 @@ export const SamarbeidsVisning = ({
                                     label="Behovsvurdering"
                                 />
                             )}
-                            {iaSak && <Tabs.Tab value="plan" label="Plan" />}
+                            {iaSak && (
+                                <Tabs.Tab value="plan" label="Samarbeidsplan" />
+                            )}
                             {iaSak && (
                                 <Tabs.Tab
                                     value="evaluering"
