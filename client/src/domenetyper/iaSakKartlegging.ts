@@ -3,6 +3,7 @@ import { datoSchema, iaSakKartleggingStatusEnum } from "./domenetyper";
 
 export const iaSakKartleggingSchema = z.object({
     kartleggingId: z.string(),
+    prosessId: z.number(),
     status: iaSakKartleggingStatusEnum,
     opprettetAv: z.string(),
     opprettetTidspunkt: datoSchema,

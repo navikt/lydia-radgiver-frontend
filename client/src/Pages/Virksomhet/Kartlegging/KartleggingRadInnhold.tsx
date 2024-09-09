@@ -9,6 +9,8 @@ import { SlettKartleggingModal } from "./SlettKartleggingModal";
 import { StartSpørreundersøkelseModal } from "./StartSpørreundersøkelseModal";
 import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkelseModal";
 import EksportVisning from "./EksportVisning";
+import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 interface KartleggingRadInnhold {
     iaSak: IASak;
@@ -61,6 +63,13 @@ export const KartleggingRadInnhold = ({
         return (
             <Accordion.Content>
                 <ExportVisningContainer>
+                    {erIDev && (
+                        <FlyttTilAnnenProsess
+                            iaSak={iaSak}
+                            behovsvurdering={kartlegging}
+                            dropdownSize="small"
+                        />
+                    )}
                     <EksportVisning
                         iaSak={iaSak}
                         kartlegging={kartlegging}
@@ -91,7 +100,7 @@ export const KartleggingRadInnhold = ({
                                 Start
                             </StyledActionButton>
                             {brukerErEierAvSak && (
-                                <Button
+                                <StyledActionButton
                                     variant={"secondary"}
                                     onClick={() =>
                                         setSlettSpørreundersøkelseModalÅpen(
@@ -100,7 +109,13 @@ export const KartleggingRadInnhold = ({
                                     }
                                 >
                                     Slett
-                                </Button>
+                                </StyledActionButton>
+                            )}
+                            {erIDev && (
+                                <FlyttTilAnnenProsess
+                                    iaSak={iaSak}
+                                    behovsvurdering={kartlegging}
+                                />
                             )}
                         </>
                     )}
@@ -163,6 +178,12 @@ export const KartleggingRadInnhold = ({
                                     >
                                         Slett
                                     </StyledActionButton>
+                                    {erIDev && (
+                                        <FlyttTilAnnenProsess
+                                            iaSak={iaSak}
+                                            behovsvurdering={kartlegging}
+                                        />
+                                    )}
                                 </>
                             )}
                             <FullførSpørreundersøkelseModal

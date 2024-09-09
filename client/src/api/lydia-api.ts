@@ -821,3 +821,16 @@ export const slettKartlegging = (
         iaSakKartleggingSchema,
     );
 };
+
+export const flyttBehovsvurdering = (
+    orgnummer: string,
+    saksnummer: string,
+    tilProsess: number,
+    kartleggingId: string,
+): Promise<IASakKartlegging> => {
+    return put(`${kartleggingPath}/${kartleggingId}`, iaSakKartleggingSchema, {
+        orgnummer,
+        saksnummer,
+        prosessId: tilProsess,
+    });
+};
