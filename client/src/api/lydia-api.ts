@@ -719,6 +719,17 @@ export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
     );
 };
 
+export const useHentNyeKartlegginger = (
+    orgnummer: string,
+    saksnummer: string,
+    prosessId: number,
+) => {
+    return useSwrTemplate<IASakKartlegging[]>(
+        `${kartleggingPath}/${orgnummer}/${saksnummer}/prosess/${prosessId}`,
+        iaSakKartleggingSchema.array(),
+    );
+};
+
 export const nyPlanPåSak = (
     orgnummer: string,
     saksnummer: string,

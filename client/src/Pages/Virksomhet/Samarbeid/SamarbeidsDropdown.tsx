@@ -73,8 +73,8 @@ export function SamarbeidsDropdown({
                     <>
                         <Dropdown.Menu.List>
                             {iaProsesser.map(({ id, navn }) => (
-                                <>
-                                    <HStack key={id} marginInline={"8"}>
+                                <div key={id}>
+                                    <HStack marginInline={"8"}>
                                         <Heading
                                             variant={"neutral"}
                                             as={Link}
@@ -92,7 +92,7 @@ export function SamarbeidsDropdown({
                                         </Heading>
                                     </HStack>
                                     <br />
-                                </>
+                                </div>
                             ))}
                         </Dropdown.Menu.List>
 

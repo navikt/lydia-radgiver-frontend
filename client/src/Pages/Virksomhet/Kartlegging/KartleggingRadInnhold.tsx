@@ -65,7 +65,6 @@ export const KartleggingRadInnhold = ({
                 <ExportVisningContainer>
                     {erIDev && (
                         <FlyttTilAnnenProsess
-                            iaSak={iaSak}
                             behovsvurdering={kartlegging}
                             dropdownSize="small"
                         />
@@ -113,7 +112,6 @@ export const KartleggingRadInnhold = ({
                             )}
                             {erIDev && (
                                 <FlyttTilAnnenProsess
-                                    iaSak={iaSak}
                                     behovsvurdering={kartlegging}
                                 />
                             )}
@@ -180,7 +178,6 @@ export const KartleggingRadInnhold = ({
                                     </StyledActionButton>
                                     {erIDev && (
                                         <FlyttTilAnnenProsess
-                                            iaSak={iaSak}
                                             behovsvurdering={kartlegging}
                                         />
                                     )}

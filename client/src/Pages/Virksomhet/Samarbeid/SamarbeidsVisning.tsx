@@ -9,7 +9,6 @@ import { Tabs } from "@navikt/ds-react";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useSearchParams } from "react-router-dom";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { KartleggingFane } from "../Kartlegging/KartleggingFane";
 import { LeveranseFane } from "../Leveranser/LeveranseFane";
 import PlanFane from "../Plan/PlanFane";
 
@@ -17,6 +16,7 @@ import SamarbeidsContext from "./SamarbeidsContext";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Samarbeidsoversikt } from "./Samarbeidsoversikt";
 import EvalueringFane from "./Evaluering/EvalueringFane";
+import { NyKartleggingFane } from "./Behovsvurdering/NyKartleggingFane";
 
 const StyledPanel = styled(Tabs.Panel)`
     padding-top: 1.5rem;
@@ -111,9 +111,8 @@ export const SamarbeidsVisning = ({
                         </Tabs.List>
                         <StyledPanel value="behovsvurdering">
                             {iaSak && (
-                                <KartleggingFane
-                                    iaSak={iaSak}
-                                    KartleggingIdFraUrl={null}
+                                <NyKartleggingFane
+                                    KartleggingIdFraUrl={null} //TODO: Sett til noe fra context før prod
                                 />
                             )}
                         </StyledPanel>
