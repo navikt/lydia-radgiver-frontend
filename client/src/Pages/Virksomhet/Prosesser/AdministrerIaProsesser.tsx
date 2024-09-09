@@ -42,6 +42,7 @@ export const AdministrerIaProsesser = ({
                     <AdministrerIaProsesserKnapp
                         iaProsesser={iaProsesser}
                         iaSak={iaSak}
+                        brukerErEierAvSak={brukerErEierAvSak}
                     />
                 )}
             </AdministrerProsesserContainer>

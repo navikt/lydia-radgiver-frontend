@@ -27,18 +27,30 @@ const SakshendelseContainer = styled.div`
 `;
 
 function Sakshendelser({ sakshendelser }: { sakshendelser: Sakshendelse[] }) {
+    const skjulteSakshendelser = [
+        "ENDRE_PROSESS",
+        "NY_PROSESS",
+        "TA_EIERSKAP_I_SAK",
+    ];
     return (
         <SakshendelseContainer>
-            {sakshendelser.map((sakshendelse, index) => (
-                <React.Fragment key={index}>
-                    <StatusBadge status={sakshendelse.status} />
-                    <HendelseDetaljer sakshendelse={sakshendelse} />
-                    <Sakshendelsedatoer
-                        sakshendelse={sakshendelse}
-                        nesteSakshendelse={sakshendelser[index + 1]}
-                    />
-                </React.Fragment>
-            ))}
+            {sakshendelser
+                .filter(
+                    (sakshendelse) =>
+                        !skjulteSakshendelser.includes(
+                            sakshendelse.hendelsestype,
+                        ),
+                )
+                .map((sakshendelse, index) => (
+                    <React.Fragment key={index}>
+                        <StatusBadge status={sakshendelse.status} />
+                        <HendelseDetaljer sakshendelse={sakshendelse} />
+                        <Sakshendelsedatoer
+                            sakshendelse={sakshendelse}
+                            nesteSakshendelse={sakshendelser[index + 1]}
+                        />
+                    </React.Fragment>
+                ))}
         </SakshendelseContainer>
     );
 }

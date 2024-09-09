@@ -16,6 +16,7 @@ import styled from "styled-components";
 interface AdministrerIaProsesserKnappProps {
     iaProsesser: IaSakProsess[];
     iaSak: IASak;
+    brukerErEierAvSak: boolean;
 }
 
 const NyttSamarbeidKnapp = styled(Button)`
@@ -25,7 +26,11 @@ const NyttSamarbeidKnapp = styled(Button)`
 export const AdministrerIaProsesserKnapp = ({
     iaProsesser,
     iaSak,
+    brukerErEierAvSak,
 }: AdministrerIaProsesserKnappProps) => {
+    const kanAdministrereProsesser =
+        brukerErEierAvSak && ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
+
     const [åpen, setÅpen] = useState(false);
 
     const { mutate: hentSamarbeidshistorikkPåNytt } =
@@ -51,8 +56,13 @@ export const AdministrerIaProsesserKnapp = ({
 
     return (
         <>
-            <Button variant="tertiary" onClick={() => setÅpen(true)}>
-                Administrer samarbeid
+            <Button
+                variant="secondary"
+                size={"small"}
+                disabled={!kanAdministrereProsesser}
+                onClick={() => setÅpen(true)}
+            >
+                Opprett og administrer samarbeid
             </Button>
             <BekreftValgModal
                 onConfirm={() => setÅpen(false)}
