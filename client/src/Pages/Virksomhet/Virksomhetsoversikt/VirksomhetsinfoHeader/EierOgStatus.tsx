@@ -29,7 +29,7 @@ export default function EierOgStatus() {
 
     if (iaSak === undefined) {
         return (
-            <HStack gap="4" align="start" justify="end" flexGrow="1">
+            <HStack gap="4" align="center" justify="end" flexGrow="1">
                 <NyttStatusBadge status={IAProsessStatusEnum.Enum.IKKE_AKTIV} />
                 <VurderSeksjon orgnummer={virksomhet.orgnr} />
             </HStack>
@@ -38,7 +38,7 @@ export default function EierOgStatus() {
 
     if (iaSak.status === IAProsessStatusEnum.Enum.VURDERES && !iaSak.eidAv) {
         return (
-            <HStack gap="4" align="start" justify="end" flexGrow="1">
+            <HStack gap="4" align="center" justify="end" flexGrow="1">
                 <Statusseksjon iaSak={iaSak} setVisKonfetti={setVisKonfetti} />
                 <TaEierskapSeksjon iaSak={iaSak} />
             </HStack>

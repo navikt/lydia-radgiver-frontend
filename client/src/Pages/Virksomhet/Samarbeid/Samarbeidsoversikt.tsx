@@ -72,7 +72,7 @@ export function Samarbeidsoversikt() {
                             onClick={() => setOpenState(!openState)}
                             fontSize="2rem"
                         />
-                        <HStack gap={"4"} align={"center"}>
+                        <HStack gap={"2"} align={"center"}>
                             <Heading
                                 as={Link}
                                 level={"2"}
@@ -83,9 +83,8 @@ export function Samarbeidsoversikt() {
                             >
                                 {virksomhet.navn}
                             </Heading>
-                            <ChevronRightIcon fontSize="3rem" />
-
-                            <Heading level={"2"} size={"xlarge"} color={"blue"}>
+                            <ChevronRightIcon fontSize="2rem" />
+                            <Heading level={"3"} size={"large"} color={"blue"}>
                                 {iaProsess.navn !== null
                                     ? iaProsess.navn
                                     : "Samarbeid uten navn"}

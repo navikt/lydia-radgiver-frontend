@@ -5,6 +5,7 @@ import {
     ChevronDownIcon,
     HeartIcon,
     PersonGroupIcon,
+    PersonIcon,
 } from "@navikt/aksel-icons";
 import React, { useState } from "react";
 import { TeamModal } from "../../MineSaker/TeamModal";
@@ -31,17 +32,17 @@ export function NyEierskapKnapp({ iaSak }: { iaSak: IASak }) {
                 <HStack align={"center"} gap={"1"}>
                     {brukerErEierAvSak ? (
                         <>
-                            <PersonGroupIcon />
+                            <PersonIcon />
                             <BodyShort>Du eier saken</BodyShort>
                         </>
                     ) : brukerFølgerSak ? (
                         <>
-                            <PersonGroupIcon />
+                            <HeartIcon />
                             <BodyShort>Du følger saken</BodyShort>
                         </>
                     ) : (
                         <>
-                            <HeartIcon />
+                            <PersonGroupIcon />
                             <BodyShort>Følg eller ta eierskap</BodyShort>
                         </>
                     )}
