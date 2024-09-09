@@ -39,9 +39,7 @@ export const NyVirksomhetsVisning = ({ virksomhet }: Props) => {
         virksomhet.orgnr,
     );
     const [visKonfetti, setVisKonfetti] = React.useState(false);
-
     const [searchParams, setSearchParams] = useSearchParams();
-    const kartleggingId = searchParams.get("kartleggingId");
     const fane = searchParams.get("fane") ?? "statistikk";
 
     const oppdaterTabISearchParam = (tab: string) => {
@@ -50,15 +48,7 @@ export const NyVirksomhetsVisning = ({ virksomhet }: Props) => {
     };
 
     React.useEffect(() => {
-        const ikkeGyldigTab =
-            fane !== "statistikk" &&
-            fane !== "historikk" &&
-            fane !== "kartlegging" &&
-            fane !== "plan" &&
-            fane !== "ia-tjenester";
-        const manglerIaSak = fane === "ia-tjenester" && !iaSak && !lasterIaSak;
-
-        if (ikkeGyldigTab || manglerIaSak) {
+        if (fane !== "statistikk" && fane !== "historikk") {
             oppdaterTabISearchParam("statistikk");
         }
     }, [lasterIaSak]);
@@ -71,7 +61,7 @@ export const NyVirksomhetsVisning = ({ virksomhet }: Props) => {
                 lasterIaSak,
                 fane,
                 setFane: oppdaterTabISearchParam,
-                kartleggingId,
+                kartleggingId: null,
                 setVisKonfetti,
                 visKonfetti,
             }}

@@ -50,13 +50,23 @@ export const SamarbeidsVisning = ({
     );
 
     const [searchParams, setSearchParams] = useSearchParams();
-    const kartleggingId = searchParams.get("kartleggingId");
-    const fane = searchParams.get("fane") ?? "kartlegging";
+    const fane = searchParams.get("fane") ?? "behovsvurdering";
 
     const oppdaterTabISearchParam = (tab: string) => {
         searchParams.set("fane", tab);
         setSearchParams(searchParams, { replace: true });
     };
+
+    React.useEffect(() => {
+        if (
+            fane !== "behovsvurdering" &&
+            fane !== "plan" &&
+            fane !== "evaluering" &&
+            fane !== "ia-tjenester"
+        ) {
+            oppdaterTabISearchParam("behovsvurdering");
+        }
+    }, []);
 
     return (
         iaProsess && (
@@ -74,12 +84,12 @@ export const SamarbeidsVisning = ({
                     <Tabs
                         value={fane}
                         onChange={oppdaterTabISearchParam}
-                        defaultValue="statistikk"
+                        defaultValue="behovsvurdering"
                     >
                         <Tabs.List style={{ width: "100%" }}>
                             {iaSak && (
                                 <Tabs.Tab
-                                    value="kartlegging"
+                                    value="behovsvurdering"
                                     label="Behovsvurdering"
                                 />
                             )}
@@ -97,11 +107,11 @@ export const SamarbeidsVisning = ({
                                 />
                             )}
                         </Tabs.List>
-                        <StyledPanel value="kartlegging">
+                        <StyledPanel value="behovsvurdering">
                             {iaSak && (
                                 <KartleggingFane
                                     iaSak={iaSak}
-                                    KartleggingIdFraUrl={kartleggingId}
+                                    KartleggingIdFraUrl={null}
                                 />
                             )}
                         </StyledPanel>
