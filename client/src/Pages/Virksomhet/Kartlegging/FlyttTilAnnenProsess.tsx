@@ -35,7 +35,7 @@ export const FlyttTilAnnenProsess = ({
 
     return (
         <>
-            {gjeldendeSamarbeid && (
+            {gjeldendeSamarbeid && alleSamarbeid.length > 1 && (
                 <Dropdown>
                     <Button
                         as={Dropdown.Toggle}
