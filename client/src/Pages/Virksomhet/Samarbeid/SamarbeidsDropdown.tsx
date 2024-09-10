@@ -23,7 +23,7 @@ export function SamarbeidsDropdown({
     iaSak: IASak | undefined;
     virksomhet: Virksomhet;
 }) {
-    const { data: iaProsesser } = useHentIaProsesser(
+    const { data: iaProsesser, mutate: muterIaProsesser } = useHentIaProsesser(
         iaSak?.orgnr,
         iaSak?.saksnummer,
     );
@@ -36,6 +36,7 @@ export function SamarbeidsDropdown({
             <Button
                 as={Dropdown.Toggle}
                 icon={<ChevronDownIcon />}
+                onClick={() => muterIaProsesser()}
                 iconPosition={"right"}
                 variant={"primary-neutral"}
                 size={"small"}
