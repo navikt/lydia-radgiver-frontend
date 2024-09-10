@@ -61,7 +61,8 @@ export const FlyttTilAnnenProsess = ({
                                         }
                                         key={samarbeid.id}
                                     >
-                                        {samarbeid.navn}
+                                        {samarbeid.navn ||
+                                            "Samarbeid uten navn"}
                                     </Dropdown.Menu.GroupedList.Item>
                                 ))}
                         </Dropdown.Menu.GroupedList>

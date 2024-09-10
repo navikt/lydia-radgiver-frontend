@@ -80,9 +80,8 @@ export function Samarbeidsoversikt() {
                             </Heading>
                             <ChevronRightIcon fontSize="2rem" />
                             <Heading level={"3"} size={"large"} color={"blue"}>
-                                {gjeldendeSamarbeid.navn !== null
-                                    ? gjeldendeSamarbeid.navn
-                                    : "Samarbeid uten navn"}
+                                {gjeldendeSamarbeid.navn ||
+                                    "Samarbeid uten navn"}
                             </Heading>
                         </HStack>
                         <Popover

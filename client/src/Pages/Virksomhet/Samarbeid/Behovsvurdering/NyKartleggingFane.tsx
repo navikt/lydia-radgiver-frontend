@@ -91,7 +91,7 @@ export const NyKartleggingFane = ({ KartleggingIdFraUrl }: Props) => {
                         Behovsvurderinger
                     </Heading>
                     <Tag variant={"alt3-filled"} size={"small"}>
-                        {gjeldendeSamarbeid?.navn ?? "Samarbeid uten navn"}
+                        {gjeldendeSamarbeid.navn || "Samarbeid uten navn"}
                     </Tag>
                 </HStack>
                 <br />

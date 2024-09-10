@@ -83,9 +83,7 @@ export function SamarbeidsDropdown({
                                             size={"small"}
                                         >
                                             <>
-                                                {navn !== null
-                                                    ? navn
-                                                    : "Samarbeid uten navn"}
+                                                {navn || "Samarbeid uten navn"}
                                                 <ArrowRightIcon />
                                             </>
                                         </Heading>
