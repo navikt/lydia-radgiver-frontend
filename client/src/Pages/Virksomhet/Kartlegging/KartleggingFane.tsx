@@ -13,7 +13,7 @@ import {
     nyKartleggingPåSak,
     useHentBrukerinformasjon,
     useHentKartlegginger,
-    useHentIaProsesser,
+    useHentSamarbeid,
 } from "../../../api/lydia-api";
 import { IngenKartleggingInfoBoks } from "./IngenKartleggingInfoBoks";
 import { PlusCircleIcon } from "@navikt/aksel-icons";
@@ -53,17 +53,19 @@ export const KartleggingFane = ({ iaSak, KartleggingIdFraUrl }: Props) => {
         mutate: muterKartlegginger,
     } = useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
 
-    const { mutate: muterProsesser } = useHentIaProsesser(
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
 
     const opprettKartlegging = () => {
-        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(({ kartleggingId }) => {
-            setSisteOpprettedeKartleggingId(kartleggingId);
-            muterKartlegginger();
-            muterProsesser();
-        });
+        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(
+            ({ kartleggingId }) => {
+                setSisteOpprettedeKartleggingId(kartleggingId);
+                muterKartlegginger();
+                hentSamarbeidPåNytt();
+            },
+        );
     };
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();

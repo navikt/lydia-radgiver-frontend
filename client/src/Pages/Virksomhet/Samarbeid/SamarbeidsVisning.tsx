@@ -36,17 +36,17 @@ const Container = styled.div`
 
 export const SamarbeidsVisning = ({
     virksomhet,
-    iaProsesser,
+    alleSamarbeid,
     iaSak,
     gjeldendeProsessId,
 }: {
-    iaProsesser: IaSakProsess[];
+    alleSamarbeid: IaSakProsess[];
     virksomhet: Virksomhet;
     iaSak: IASak;
     gjeldendeProsessId: number;
 }) => {
-    const iaProsess = iaProsesser.find(
-        (prosess) => prosess.id == gjeldendeProsessId,
+    const gjeldendeSamarbeid = alleSamarbeid.find(
+        (samarbeid) => samarbeid.id == gjeldendeProsessId,
     );
 
     const [searchParams, setSearchParams] = useSearchParams();
@@ -69,13 +69,13 @@ export const SamarbeidsVisning = ({
     }, []);
 
     return (
-        iaProsess && (
+        gjeldendeSamarbeid && (
             <SamarbeidsContext.Provider
                 value={{
                     virksomhet,
                     iaSak,
-                    iaProsesser,
-                    gjeldendeProsessId,
+                    alleSamarbeid,
+                    gjeldendeSamarbeid,
                 }}
             >
                 <Container>

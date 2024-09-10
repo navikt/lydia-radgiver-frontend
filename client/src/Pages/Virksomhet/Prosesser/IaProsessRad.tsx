@@ -6,7 +6,7 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import {
     nyHendelsePåSak,
     useHentAktivSakForVirksomhet,
-    useHentIaProsesser,
+    useHentSamarbeid,
     useHentSamarbeidshistorikk,
 } from "../../../api/lydia-api";
 import { IASak } from "../../../domenetyper/domenetyper";
@@ -48,7 +48,7 @@ export const IaProsessRad = ({ iaProsess, iaSak }: IaProsessRadProps) => {
     const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(
         iaSak.orgnr,
     );
-    const { mutate: muterIaProsesser } = useHentIaProsesser(
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
@@ -69,7 +69,7 @@ export const IaProsessRad = ({ iaProsess, iaSak }: IaProsessRadProps) => {
         ).then(() => {
             mutateHentSaker();
             mutateSamarbeidshistorikk();
-            muterIaProsesser().then(() => setLagrerNavn(false));
+            hentSamarbeidPåNytt().then(() => setLagrerNavn(false));
         });
     };
 

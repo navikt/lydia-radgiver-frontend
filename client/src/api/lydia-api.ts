@@ -804,9 +804,11 @@ export const useHentKartleggingResultat = (
     );
 };
 
-export const useHentIaProsesser = (orgnummer?: string, saksnummer?: string) => {
+export const useHentSamarbeid = (orgnummer?: string, saksnummer?: string) => {
     return useSwrTemplate<IaSakProsess[]>(
-        saksnummer ? `${iaSakPath}/${orgnummer}/${saksnummer}/prosesser` : null,
+        saksnummer && orgnummer
+            ? `${iaSakPath}/${orgnummer}/${saksnummer}/prosesser`
+            : null,
         iaSakProsessSchema.array(),
     );
 };

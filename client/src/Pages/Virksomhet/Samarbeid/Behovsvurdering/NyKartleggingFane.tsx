@@ -13,7 +13,7 @@ import { PlusCircleIcon } from "@navikt/aksel-icons";
 import {
     nyKartleggingPåSak,
     useHentBrukerinformasjon,
-    useHentIaProsesser,
+    useHentSamarbeid,
     useHentNyeKartlegginger,
 } from "../../../../api/lydia-api";
 import { IngenKartleggingInfoBoks } from "../../Kartlegging/IngenKartleggingInfoBoks";
@@ -45,16 +45,12 @@ const NyKartleggingKnapp = (props: { onClick: () => void }) => (
 );
 
 export const NyKartleggingFane = ({ KartleggingIdFraUrl }: Props) => {
-    const { iaSak, iaProsesser, gjeldendeProsessId } = useSamarbeidsContext();
-
-    const iaProsess = iaProsesser.find(
-        (prosess) => prosess.id == gjeldendeProsessId,
-    );
+    const { iaSak, gjeldendeSamarbeid } = useSamarbeidsContext();
 
     const [sisteOpprettedeKartleggingId, setSisteOpprettedeKartleggingId] =
         React.useState("");
 
-    const { mutate: muterProsesser } = useHentIaProsesser(
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
@@ -66,7 +62,7 @@ export const NyKartleggingFane = ({ KartleggingIdFraUrl }: Props) => {
     } = useHentNyeKartlegginger(
         iaSak.orgnr,
         iaSak.saksnummer,
-        gjeldendeProsessId,
+        gjeldendeSamarbeid.id,
     );
 
     const opprettKartlegging = () => {
@@ -74,7 +70,7 @@ export const NyKartleggingFane = ({ KartleggingIdFraUrl }: Props) => {
             ({ kartleggingId }) => {
                 setSisteOpprettedeKartleggingId(kartleggingId);
                 muterKartlegginger();
-                muterProsesser();
+                hentSamarbeidPåNytt();
             },
         );
     };
@@ -95,7 +91,7 @@ export const NyKartleggingFane = ({ KartleggingIdFraUrl }: Props) => {
                         Behovsvurderinger
                     </Heading>
                     <Tag variant={"alt3-filled"} size={"small"}>
-                        {iaProsess?.navn}
+                        {gjeldendeSamarbeid?.navn ?? "Samarbeid uten navn"}
                     </Tag>
                 </HStack>
                 <br />

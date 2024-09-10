@@ -6,8 +6,8 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 export type SamarbeidContextType = {
     virksomhet: Virksomhet;
     iaSak: IASak;
-    iaProsesser: IaSakProsess[];
-    gjeldendeProsessId: number;
+    alleSamarbeid: IaSakProsess[];
+    gjeldendeSamarbeid: IaSakProsess;
 };
 
 const SamarbeidsContext = React.createContext<SamarbeidContextType | null>(

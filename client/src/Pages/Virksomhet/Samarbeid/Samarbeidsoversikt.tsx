@@ -37,17 +37,12 @@ const SalesforceLenke = styled(EksternLenke)`
 export function Samarbeidsoversikt() {
     const buttonRef = useRef<SVGSVGElement>(null);
     const [openState, setOpenState] = useState(false);
-    const { iaSak, iaProsesser, virksomhet, gjeldendeProsessId } =
-        useSamarbeidsContext();
+    const { iaSak, gjeldendeSamarbeid, virksomhet } = useSamarbeidsContext();
 
     const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
 
-    const iaProsess = iaProsesser.find(
-        (prosess) => prosess.id === gjeldendeProsessId,
-    );
-
     return (
-        iaProsess && (
+        gjeldendeSamarbeid && (
             <Container>
                 <VStack gap={"10"}>
                     <HStack justify="space-between" align="start">
@@ -85,8 +80,8 @@ export function Samarbeidsoversikt() {
                             </Heading>
                             <ChevronRightIcon fontSize="2rem" />
                             <Heading level={"3"} size={"large"} color={"blue"}>
-                                {iaProsess.navn !== null
-                                    ? iaProsess.navn
+                                {gjeldendeSamarbeid.navn !== null
+                                    ? gjeldendeSamarbeid.navn
                                     : "Samarbeid uten navn"}
                             </Heading>
                         </HStack>

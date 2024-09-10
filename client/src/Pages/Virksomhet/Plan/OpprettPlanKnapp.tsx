@@ -3,16 +3,17 @@ import { Button, Checkbox, CheckboxGroup, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import styled from "styled-components";
 import {
-    Plan,
     PlanMal,
     PlanMalRequest,
     RedigertInnholdMal,
 } from "../../../domenetyper/plan";
-import { KeyedMutator } from "swr";
 import { PlusIcon } from "@navikt/aksel-icons";
 import TemaInnholdVelger from "./TemaInnholdVelger";
-import { nyPlanPåSak } from "../../../api/lydia-api";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import {
+    nyPlanPåSak,
+    useHentPlan,
+    useHentSamarbeid,
+} from "../../../api/lydia-api";
 import { isoDato } from "../../../util/dato";
 
 const TemaInnholdVelgerContainer = styled.div`
@@ -30,20 +31,21 @@ const OpprettPlanModal = styled(Modal)`
 export default function OpprettPlanKnapp({
     saksnummer,
     orgnummer,
-    hentPlanIgjen,
     brukerErEierAvSak,
     sakErIRettStatus,
     planMal,
-    hentProsesserIgjen,
 }: {
     orgnummer: string;
     saksnummer: string;
-    hentPlanIgjen: KeyedMutator<Plan>;
     brukerErEierAvSak: boolean;
     sakErIRettStatus: boolean;
     planMal: PlanMal;
-    hentProsesserIgjen: KeyedMutator<IaSakProsess[]>;
 }) {
+    const { mutate: hentPlanIgjen } = useHentPlan(orgnummer, saksnummer);
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
+        orgnummer,
+        saksnummer,
+    );
     const [modalOpen, setModalOpen] = React.useState(false);
 
     const [redigertPlanMal, setRedigertPlanMal] =
@@ -90,7 +92,7 @@ export default function OpprettPlanKnapp({
         const nyPlan = lagRequest(redigertPlanMal);
         nyPlanPåSak(orgnummer, saksnummer, nyPlan).then(() => {
             hentPlanIgjen();
-            hentProsesserIgjen();
+            hentSamarbeidPåNytt();
         });
     }
 

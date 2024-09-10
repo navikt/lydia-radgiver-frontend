@@ -7,14 +7,14 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import {
     nyHendelsePåSak,
     useHentAktivSakForVirksomhet,
-    useHentIaProsesser,
+    useHentSamarbeid,
     useHentSamarbeidshistorikk,
 } from "../../../api/lydia-api";
 import { PlusIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 
 interface AdministrerIaProsesserKnappProps {
-    iaProsesser: IaSakProsess[];
+    alleSamarbeid: IaSakProsess[];
     iaSak: IASak;
     brukerErEierAvSak: boolean;
 }
@@ -24,7 +24,7 @@ const NyttSamarbeidKnapp = styled(Button)`
 `;
 
 export const AdministrerIaProsesserKnapp = ({
-    iaProsesser,
+    alleSamarbeid,
     iaSak,
     brukerErEierAvSak,
 }: AdministrerIaProsesserKnappProps) => {
@@ -38,7 +38,7 @@ export const AdministrerIaProsesserKnapp = ({
     const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(
         iaSak.orgnr,
     );
-    const { mutate: muterIaProsesser } = useHentIaProsesser(
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
@@ -50,7 +50,7 @@ export const AdministrerIaProsesserKnapp = ({
         }).then(() => {
             mutateHentSaker();
             hentSamarbeidshistorikkPåNytt();
-            muterIaProsesser();
+            hentSamarbeidPåNytt();
         });
     }
 
@@ -82,7 +82,7 @@ export const AdministrerIaProsesserKnapp = ({
                 <Detail>
                     Husk, aldri skriv personopplysninger. Maks 25 tegn.
                 </Detail>
-                {iaProsesser.map((iaProsess) => (
+                {alleSamarbeid.map((iaProsess) => (
                     <div key={iaProsess.id}>
                         <IaProsessRad iaProsess={iaProsess} iaSak={iaSak} />
                         <br />

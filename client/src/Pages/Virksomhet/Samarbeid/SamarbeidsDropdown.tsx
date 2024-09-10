@@ -2,7 +2,7 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import {
     useHentBrukerinformasjon,
-    useHentIaProsesser,
+    useHentSamarbeid,
 } from "../../../api/lydia-api";
 import {
     BodyShort,
@@ -23,10 +23,8 @@ export function SamarbeidsDropdown({
     iaSak: IASak | undefined;
     virksomhet: Virksomhet;
 }) {
-    const { data: iaProsesser, mutate: muterIaProsesser } = useHentIaProsesser(
-        iaSak?.orgnr,
-        iaSak?.saksnummer,
-    );
+    const { data: alleSamarbeid, mutate: hentSamarbeidPåNytt } =
+        useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
@@ -36,7 +34,7 @@ export function SamarbeidsDropdown({
             <Button
                 as={Dropdown.Toggle}
                 icon={<ChevronDownIcon />}
-                onClick={() => muterIaProsesser()}
+                onClick={() => hentSamarbeidPåNytt()}
                 iconPosition={"right"}
                 variant={"primary-neutral"}
                 size={"small"}
@@ -45,7 +43,7 @@ export function SamarbeidsDropdown({
                 Samarbeid
             </Button>
 
-            {iaSak && iaProsesser && (
+            {iaSak && alleSamarbeid && (
                 <Dropdown.Menu strategy={"fixed"}>
                     <Heading
                         as={Link}
@@ -60,7 +58,7 @@ export function SamarbeidsDropdown({
                             <ArrowRightIcon />
                         </>
                     </Heading>
-                    {iaProsesser.length === 0 && (
+                    {alleSamarbeid.length === 0 && (
                         <>
                             <Heading size={"small"} level={"2"}>
                                 Ingen aktive samarbeid
@@ -73,7 +71,7 @@ export function SamarbeidsDropdown({
                     )}
                     <>
                         <Dropdown.Menu.List>
-                            {iaProsesser.map(({ id, navn }) => (
+                            {alleSamarbeid.map(({ id, navn }) => (
                                 <div key={id}>
                                     <HStack marginInline={"8"}>
                                         <Heading
@@ -98,7 +96,7 @@ export function SamarbeidsDropdown({
                         </Dropdown.Menu.List>
 
                         <AdministrerIaProsesserKnapp
-                            iaProsesser={iaProsesser}
+                            alleSamarbeid={alleSamarbeid}
                             iaSak={iaSak}
                             brukerErEierAvSak={brukerErEierAvSak}
                         />

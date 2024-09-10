@@ -3,7 +3,6 @@ import React from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import {
     useHentBrukerinformasjon,
-    useHentIaProsesser,
     useHentPlan,
     useHentPlanMal,
 } from "../../../api/lydia-api";
@@ -25,11 +24,6 @@ export default function PlanFane({ iaSak }: Props) {
         mutate: hentPlanIgjen,
         error: planFeil,
     } = useHentPlan(iaSak.orgnr, iaSak.saksnummer);
-
-    const { mutate: hentProsesserIgjen } = useHentIaProsesser(
-        iaSak.orgnr,
-        iaSak.saksnummer,
-    );
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
@@ -66,8 +60,6 @@ export default function PlanFane({ iaSak }: Props) {
                     orgnummer={iaSak.orgnr}
                     saksnummer={iaSak.saksnummer}
                     planMal={planMal}
-                    hentPlanIgjen={hentPlanIgjen}
-                    hentProsesserIgjen={hentProsesserIgjen}
                     brukerErEierAvSak={brukerErEierAvSak}
                     sakErIRettStatus={sakErIRettStatus}
                 />

@@ -2,7 +2,7 @@ import { useParams } from "react-router-dom";
 import { statiskeSidetitler, useTittel } from "../../../util/useTittel";
 import {
     useHentAktivSakForVirksomhet,
-    useHentIaProsesser,
+    useHentSamarbeid,
     useHentVirksomhetsinformasjon,
 } from "../../../api/lydia-api";
 import React, { useEffect } from "react";
@@ -20,7 +20,7 @@ export const Samarbeidsside = () => {
 
     const { data: iaSak } = useHentAktivSakForVirksomhet(orgnummer);
 
-    const { data: samarbeid } = useHentIaProsesser(orgnummer, saksnummer);
+    const { data: alleSamarbeid } = useHentSamarbeid(orgnummer, saksnummer);
     useEffect(() => {
         if (virksomhetsinformasjon) {
             oppdaterTittel(`Fia - ${virksomhetsinformasjon.navn}`);
@@ -32,14 +32,14 @@ export const Samarbeidsside = () => {
         return <LasterVirksomhet />;
     }
 
-    if (virksomhetsinformasjon && iaSak && samarbeid) {
+    if (virksomhetsinformasjon && iaSak && alleSamarbeid) {
         if (erIDev) {
             return (
                 <>
                     <SamarbeidsVisning
                         virksomhet={virksomhetsinformasjon}
                         iaSak={iaSak}
-                        iaProsesser={samarbeid}
+                        alleSamarbeid={alleSamarbeid}
                         gjeldendeProsessId={Number(prosessId)}
                     />
                 </>

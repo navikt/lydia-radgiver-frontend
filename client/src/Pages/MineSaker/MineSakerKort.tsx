@@ -4,7 +4,7 @@ import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { Button, HStack } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
 import {
-    useHentIaProsesser,
+    useHentSamarbeid,
     useHentKartlegginger,
     useHentSalesforceUrl,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
@@ -112,7 +112,7 @@ const TeamModalButton = styled(Button)`
     }
 `;
 
-const ProsesserBoks = styled.div`
+const SamarbeidBoks = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
@@ -148,7 +148,7 @@ export const MineSakerKort = ({
     const { data: salesforceInfo } = useHentSalesforceUrl(iaSak.orgnr);
     const { data: følgere = [] } = useHentTeam(iaSak.saksnummer);
 
-    const { data: prosesser = [] } = useHentIaProsesser(
+    const { data: alleSamarbeid = [] } = useHentSamarbeid(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
@@ -157,7 +157,7 @@ export const MineSakerKort = ({
 
     const gåTilSakUrl = `/virksomhet/${iaSak.orgnr}${navFane(iaSak.status)}`;
 
-    const [valgtProsess, setValgtProsess] = useState<number | undefined>();
+    const [valgtSamarbeid, setValgtSamarbeid] = useState<number | undefined>();
 
     return (
         <Card>
@@ -214,32 +214,32 @@ export const MineSakerKort = ({
                     />
                 </HeaderSubskrift>
             </CardHeader>
-            {erIDev && !!prosesser.length && (
-                <ProsesserBoks>
+            {erIDev && !!alleSamarbeid.length && (
+                <SamarbeidBoks>
                     <HStack gap="10" align="start" justify="start">
                         <Chips>
-                            {prosesser.map((prosess, i) => (
+                            {alleSamarbeid.map((samarbeid, i) => (
                                 <Chips.Toggle
-                                    key={prosess.id}
-                                    selected={i === valgtProsess}
+                                    key={samarbeid.id}
+                                    selected={i === valgtSamarbeid}
                                     onClick={() => {
-                                        if (i === valgtProsess) {
-                                            setValgtProsess(undefined);
+                                        if (i === valgtSamarbeid) {
+                                            setValgtSamarbeid(undefined);
                                         } else {
-                                            setValgtProsess(i);
+                                            setValgtSamarbeid(i);
                                         }
                                     }}
                                 >
-                                    {prosess.navn || orgnavn}
+                                    {samarbeid.navn || orgnavn}
                                 </Chips.Toggle>
                             ))}
                         </Chips>
                     </HStack>
-                </ProsesserBoks>
+                </SamarbeidBoks>
             )}
 
             {/* Kommenter ut 'true ||' for å toggle på prosess i dev */}
-            {(true || !erIDev || valgtProsess !== undefined) && (
+            {(true || !erIDev || valgtSamarbeid !== undefined) && (
                 <CardContentBox iaSak={iaSak} gåTilSakUrl={gåTilSakUrl} />
             )}
         </Card>

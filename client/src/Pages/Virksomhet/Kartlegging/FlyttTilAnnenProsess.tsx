@@ -16,26 +16,26 @@ export const FlyttTilAnnenProsess = ({
     behovsvurdering,
     dropdownSize,
 }: Props) => {
-    const { iaSak, iaProsesser, gjeldendeProsessId } = useSamarbeidsContext();
+    const { iaSak, gjeldendeSamarbeid, alleSamarbeid } = useSamarbeidsContext();
 
     const { mutate: muterKartlegginger } = useHentNyeKartlegginger(
         iaSak.orgnr,
         iaSak.saksnummer,
-        gjeldendeProsessId,
+        gjeldendeSamarbeid.id,
     );
 
-    const flyttTilValgtProsess = (flyttTilProsess: number) => {
+    const flyttTilValgtSamarbeid = (samarbeidId: number) => {
         flyttBehovsvurdering(
             iaSak.orgnr,
             iaSak.saksnummer,
-            flyttTilProsess,
+            samarbeidId,
             behovsvurdering.kartleggingId,
         ).then(() => muterKartlegginger?.());
     };
 
     return (
         <>
-            {iaProsesser && (
+            {gjeldendeSamarbeid && (
                 <Dropdown>
                     <Button
                         as={Dropdown.Toggle}
@@ -49,19 +49,19 @@ export const FlyttTilAnnenProsess = ({
                             <Dropdown.Menu.GroupedList.Heading>
                                 Flytt behovsvurdering til:
                             </Dropdown.Menu.GroupedList.Heading>
-                            {iaProsesser
+                            {alleSamarbeid
                                 .filter(
-                                    (prosess) =>
-                                        prosess.id !== gjeldendeProsessId,
+                                    (samarbeid) =>
+                                        samarbeid.id !== gjeldendeSamarbeid.id,
                                 )
-                                .map((prosess) => (
+                                .map((samarbeid) => (
                                     <Dropdown.Menu.GroupedList.Item
                                         onClick={() =>
-                                            flyttTilValgtProsess(prosess.id)
+                                            flyttTilValgtSamarbeid(samarbeid.id)
                                         }
-                                        key={prosess.id}
+                                        key={samarbeid.id}
                                     >
-                                        {prosess.navn}
+                                        {samarbeid.navn}
                                     </Dropdown.Menu.GroupedList.Item>
                                 ))}
                         </Dropdown.Menu.GroupedList>

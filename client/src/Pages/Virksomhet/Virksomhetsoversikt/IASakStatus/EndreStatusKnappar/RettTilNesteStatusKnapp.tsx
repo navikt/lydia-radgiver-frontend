@@ -7,7 +7,7 @@ import {
 import {
     nyHendelsePåSak,
     useHentAktivSakForVirksomhet,
-    useHentIaProsesser,
+    useHentSamarbeid,
     useHentSamarbeidshistorikk,
 } from "../../../../../api/lydia-api";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
@@ -23,7 +23,7 @@ export const RettTilNesteStatusKnapp = ({ hendelse, sak }: Props) => {
         sak.orgnr,
     );
     const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(sak.orgnr);
-    const { mutate: muterProsesser } = useHentIaProsesser(
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
         sak.orgnr,
         sak.saksnummer,
     );
@@ -31,7 +31,7 @@ export const RettTilNesteStatusKnapp = ({ hendelse, sak }: Props) => {
     const mutateIASakerOgSamarbeidshistorikk = () => {
         mutateHentSaker?.();
         mutateSamarbeidshistorikk?.();
-        muterProsesser?.();
+        hentSamarbeidPåNytt?.();
     };
 
     const trykkPåSakhendelsesknapp = (hendelse: GyldigNesteHendelse) => {
