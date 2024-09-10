@@ -13,7 +13,7 @@ import {
     Link,
 } from "@navikt/ds-react";
 import { ArrowRightIcon, ChevronDownIcon } from "@navikt/aksel-icons";
-import { AdministrerIaProsesserKnapp } from "../Prosesser/AdministrerIaProsesserKnapp";
+import { AdministrerIaProsesserKnapp } from "./AdministrerIaProsesserKnapp";
 import React from "react";
 
 export function SamarbeidsDropdown({
