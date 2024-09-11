@@ -15,6 +15,7 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { Samarbeidsoversikt } from "./Samarbeidsoversikt";
 import EvalueringFane from "./Evaluering/EvalueringFane";
 import { KartleggingFane } from "../Kartlegging/KartleggingFane";
+import VirksomhetContext from "../VirksomhetContext";
 
 const StyledPanel = styled(Tabs.Panel)`
     padding-top: 1.5rem;
@@ -35,6 +36,7 @@ const Container = styled.div`
 export const SamarbeidsVisning = ({
     alleSamarbeid,
     iaSak,
+    virksomhet,
     gjeldendeProsessId,
 }: {
     alleSamarbeid: IaSakProsess[];
@@ -45,14 +47,17 @@ export const SamarbeidsVisning = ({
     const gjeldendeSamarbeid = alleSamarbeid.find(
         (samarbeid) => samarbeid.id == gjeldendeProsessId,
     );
+    const [visKonfetti, setVisKonfetti] = React.useState(false);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const fane = searchParams.get("fane") ?? "behovsvurdering";
+    const kartleggingId = searchParams.get("kartleggingId");
 
     const oppdaterTabISearchParam = (tab: string) => {
         searchParams.set("fane", tab);
         setSearchParams(searchParams, { replace: true });
     };
+    const lasterIaSak = false;
 
     React.useEffect(() => {
         if (
@@ -67,53 +72,74 @@ export const SamarbeidsVisning = ({
 
     return (
         gjeldendeSamarbeid && (
-            <Container>
-                <Samarbeidsoversikt />
-                <br />
-                <Tabs
-                    value={fane}
-                    onChange={oppdaterTabISearchParam}
-                    defaultValue="behovsvurdering"
-                >
-                    <Tabs.List style={{ width: "100%" }}>
-                        {iaSak && (
-                            <Tabs.Tab
-                                value="behovsvurdering"
-                                label="Behovsvurdering"
-                            />
-                        )}
-                        {iaSak && (
-                            <Tabs.Tab value="plan" label="Samarbeidsplan" />
-                        )}
-                        {iaSak && (
-                            <Tabs.Tab value="evaluering" label="Evaluering" />
-                        )}
-                        {iaSak && (
-                            <Tabs.Tab
-                                value="ia-tjenester"
-                                label="IA-tjenester"
-                            />
-                        )}
-                    </Tabs.List>
-                    <StyledPanel value="behovsvurdering">
-                        {iaSak && (
-                            <KartleggingFane
-                                iaSak={iaSak}
-                                KartleggingIdFraUrl={null} //TODO: Sett til noe fra context før prod
-                            />
-                        )}
-                    </StyledPanel>
-                    <StyledPanel value="plan">
-                        {iaSak && <PlanFane iaSak={iaSak} />}
-                    </StyledPanel>
-                    <StyledPanel value="evaluering">
-                        {iaSak && <EvalueringFane />}
-                    </StyledPanel>
-                    <StyledPanel value="ia-tjenester">
-                        {iaSak && <LeveranseFane iaSak={iaSak} />}
-                    </StyledPanel>
-                </Tabs>
-            </Container>
+            <VirksomhetContext.Provider
+                value={{
+                    virksomhet,
+                    iaSak,
+                    lasterIaSak,
+                    fane,
+                    setFane: oppdaterTabISearchParam,
+                    kartleggingId,
+                    setVisKonfetti,
+                    visKonfetti,
+                }}
+            >
+                <Container>
+                    <Samarbeidsoversikt
+                        virksomhet={virksomhet}
+                        iaSak={iaSak}
+                        gjeldendeSamarbeid={gjeldendeSamarbeid}
+                    />
+                    <br />
+                    <Tabs
+                        value={fane}
+                        onChange={oppdaterTabISearchParam}
+                        defaultValue="behovsvurdering"
+                    >
+                        <Tabs.List style={{ width: "100%" }}>
+                            {iaSak && (
+                                <Tabs.Tab
+                                    value="behovsvurdering"
+                                    label="Behovsvurdering"
+                                />
+                            )}
+                            {iaSak && (
+                                <Tabs.Tab value="plan" label="Samarbeidsplan" />
+                            )}
+                            {iaSak && (
+                                <Tabs.Tab
+                                    value="evaluering"
+                                    label="Evaluering"
+                                />
+                            )}
+                            {iaSak && (
+                                <Tabs.Tab
+                                    value="ia-tjenester"
+                                    label="IA-tjenester"
+                                />
+                            )}
+                        </Tabs.List>
+                        <StyledPanel value="behovsvurdering">
+                            {iaSak && (
+                                <KartleggingFane
+                                    iaSak={iaSak}
+                                    gjeldendeSamarbeid={gjeldendeSamarbeid}
+                                    KartleggingIdFraUrl={null} //TODO: Sett til noe fra context før prod
+                                />
+                            )}
+                        </StyledPanel>
+                        <StyledPanel value="plan">
+                            {iaSak && <PlanFane iaSak={iaSak} />}
+                        </StyledPanel>
+                        <StyledPanel value="evaluering">
+                            {iaSak && <EvalueringFane />}
+                        </StyledPanel>
+                        <StyledPanel value="ia-tjenester">
+                            {iaSak && <LeveranseFane iaSak={iaSak} />}
+                        </StyledPanel>
+                    </Tabs>
+                </Container>
+            </VirksomhetContext.Provider>
         )
     );
 };

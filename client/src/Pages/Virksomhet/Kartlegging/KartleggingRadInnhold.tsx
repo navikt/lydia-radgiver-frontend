@@ -67,6 +67,8 @@ export const KartleggingRadInnhold = ({
                     <ExportVisningContainer>
                         {erIDev && (
                             <FlyttTilAnnenProsess
+                                gjeldendeSamarbeid={samarbeid}
+                                iaSak={iaSak}
                                 behovsvurdering={kartlegging}
                                 dropdownSize="small"
                             />
@@ -116,6 +118,8 @@ export const KartleggingRadInnhold = ({
                                 )}
                                 {erIDev && (
                                     <FlyttTilAnnenProsess
+                                        gjeldendeSamarbeid={samarbeid}
+                                        iaSak={iaSak}
                                         behovsvurdering={kartlegging}
                                     />
                                 )}
@@ -186,6 +190,8 @@ export const KartleggingRadInnhold = ({
                                         </StyledActionButton>
                                         {erIDev && (
                                             <FlyttTilAnnenProsess
+                                                gjeldendeSamarbeid={samarbeid}
+                                                iaSak={iaSak}
                                                 behovsvurdering={kartlegging}
                                             />
                                         )}
