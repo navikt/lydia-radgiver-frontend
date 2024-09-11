@@ -3,11 +3,12 @@ import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import styled from "styled-components";
 import {
     avsluttKartlegging,
-    useHentKartlegginger,
+    useHentNyeKartlegginger,
 } from "../../../api/lydia-api";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { BodyLong } from "@navikt/ds-react";
 import React from "react";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const EkstraInfoTekstIModal = styled.div`
     margin-top: 1rem;
@@ -15,27 +16,30 @@ const EkstraInfoTekstIModal = styled.div`
 
 export function FullførSpørreundersøkelseModal({
     iaSak,
-    spørreundersøkelse,
+    samarbeid,
+    behovsvurdering,
     erModalÅpen,
     lukkModal,
     harNokDeltakere,
 }: {
     iaSak: IASak;
-    spørreundersøkelse: IASakKartlegging;
+    samarbeid: IaSakProsess;
+    behovsvurdering: IASakKartlegging;
     erModalÅpen: boolean;
     harNokDeltakere: boolean;
     lukkModal: () => void;
 }) {
-    const { mutate: muterKartlegginger } = useHentKartlegginger(
+    const { mutate: muterKartlegginger } = useHentNyeKartlegginger(
         iaSak.orgnr,
         iaSak.saksnummer,
+        samarbeid.id,
     );
 
     const fullførSpørreundersøkelse = () => {
         avsluttKartlegging(
             iaSak.orgnr,
             iaSak.saksnummer,
-            spørreundersøkelse.kartleggingId,
+            behovsvurdering.kartleggingId,
         ).then(() => {
             muterKartlegginger();
         });
