@@ -29,6 +29,7 @@ const Container = styled.div`
 
 interface Props {
     iaSak: IASak;
+    gjeldendeSamarbeid?: IaSakProsess;
     KartleggingIdFraUrl: string | null;
 }
 
@@ -45,7 +46,11 @@ const NyKartleggingKnapp = (props: { onClick: () => void }) => (
     </Button>
 );
 
-export const KartleggingFane = ({ iaSak, KartleggingIdFraUrl }: Props) => {
+export const KartleggingFane = ({
+    iaSak,
+    gjeldendeSamarbeid,
+    KartleggingIdFraUrl,
+}: Props) => {
     const { data: samarbeid } = useHentSamarbeid(iaSak.orgnr, iaSak.saksnummer);
 
     return (
@@ -64,7 +69,7 @@ export const KartleggingFane = ({ iaSak, KartleggingIdFraUrl }: Props) => {
                 {samarbeid && samarbeid.length > 0 && (
                     <KartleggingerMedSamarbeid
                         iaSak={iaSak}
-                        samarbeid={samarbeid[0]}
+                        samarbeid={gjeldendeSamarbeid || samarbeid[0]}
                         KartleggingIdFraUrl={KartleggingIdFraUrl}
                     />
                 )}
@@ -95,7 +100,7 @@ export const KartleggingerMedSamarbeid = ({
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
 
     const opprettKartlegging = () => {
-        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(
+        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer, samarbeid.id).then(
             ({ kartleggingId }) => {
                 setSisteOpprettedeKartleggingId(kartleggingId);
                 muterKartlegginger();
