@@ -11,14 +11,7 @@ import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkels
 import EksportVisning from "./EksportVisning";
 import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
-
-interface KartleggingRadInnhold {
-    iaSak: IASak;
-    kartlegging: IASakKartlegging;
-    brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
-    brukerErEierAvSak: boolean;
-    kartleggingstatus: "OPPRETTET" | "PÅBEGYNT" | "AVSLUTTET" | "SLETTET";
-}
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const ExportVisningContainer = styled.div`
     display: flex;
@@ -32,10 +25,18 @@ const StyledActionButton = styled(Button)`
 export const KartleggingRadInnhold = ({
     iaSak,
     kartlegging,
+    samarbeid,
     brukerRolle,
     brukerErEierAvSak,
     kartleggingstatus,
-}: KartleggingRadInnhold) => {
+}: {
+    iaSak: IASak;
+    kartlegging: IASakKartlegging;
+    samarbeid: IaSakProsess;
+    brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
+    brukerErEierAvSak: boolean;
+    kartleggingstatus: "OPPRETTET" | "PÅBEGYNT" | "AVSLUTTET" | "SLETTET";
+}) => {
     const [
         bekreftFullførKartleggingModalÅpen,
         setBekreftFullførKartleggingModalÅpen,
@@ -55,119 +56,55 @@ export const KartleggingRadInnhold = ({
     const deltakereSomHarFullført = 1; // kartlegging.deltakereSomHarFullført // TODO: Viser altid, Bytt ut etter oppdatert endepunkt er på plass
     const harNokDeltakere = deltakereSomHarFullført >= MINIMUM_ANTALL_DELTAKERE;
 
-    if (kartleggingstatus === "SLETTET") {
-        return null;
-    }
+    if (iaSak !== undefined) {
+        if (kartleggingstatus === "SLETTET") {
+            return null;
+        }
 
-    if (kartleggingstatus === "AVSLUTTET") {
-        return (
-            <Accordion.Content>
-                <ExportVisningContainer>
-                    {erIDev && (
-                        <FlyttTilAnnenProsess
-                            behovsvurdering={kartlegging}
-                            dropdownSize="small"
+        if (kartleggingstatus === "AVSLUTTET") {
+            return (
+                <Accordion.Content>
+                    <ExportVisningContainer>
+                        {erIDev && (
+                            <FlyttTilAnnenProsess
+                                behovsvurdering={kartlegging}
+                                dropdownSize="small"
+                            />
+                        )}
+                        <EksportVisning
+                            iaSak={iaSak}
+                            kartlegging={kartlegging}
+                            erIEksportMode={erIEksportMode}
+                            setErIEksportMode={setErIEksportMode}
                         />
-                    )}
-                    <EksportVisning
+                    </ExportVisningContainer>
+                    <KartleggingResultat
                         iaSak={iaSak}
-                        kartlegging={kartlegging}
-                        erIEksportMode={erIEksportMode}
-                        setErIEksportMode={setErIEksportMode}
+                        kartleggingId={kartlegging.kartleggingId}
                     />
-                </ExportVisningContainer>
-                <KartleggingResultat
-                    iaSak={iaSak}
-                    kartleggingId={kartlegging.kartleggingId}
-                />
-            </Accordion.Content>
-        );
-    }
+                </Accordion.Content>
+            );
+        }
 
-    if (kartleggingstatus === "OPPRETTET") {
-        return (
-            <Accordion.Content>
-                {(iaSak.status === "KARTLEGGES" ||
-                    iaSak.status === "VI_BISTÅR") &&
-                    brukerRolle !== "Lesetilgang" && (
-                        <>
-                            <StyledActionButton
-                                onClick={() =>
-                                    setBekreftStartKartleggingModalÅpen(true)
-                                }
-                            >
-                                Start
-                            </StyledActionButton>
-                            {brukerErEierAvSak && (
+        if (kartleggingstatus === "OPPRETTET") {
+            return (
+                <Accordion.Content>
+                    {(iaSak.status === "KARTLEGGES" ||
+                        iaSak.status === "VI_BISTÅR") &&
+                        brukerRolle !== "Lesetilgang" && (
+                            <>
                                 <StyledActionButton
-                                    variant={"secondary"}
                                     onClick={() =>
-                                        setSlettSpørreundersøkelseModalÅpen(
+                                        setBekreftStartKartleggingModalÅpen(
                                             true,
                                         )
                                     }
                                 >
-                                    Slett
+                                    Start
                                 </StyledActionButton>
-                            )}
-                            {erIDev && (
-                                <FlyttTilAnnenProsess
-                                    behovsvurdering={kartlegging}
-                                />
-                            )}
-                        </>
-                    )}
-                <StartSpørreundersøkelseModal
-                    iaSak={iaSak}
-                    spørreundersøkelse={kartlegging}
-                    erModalÅpen={bekreftStartKartleggingModalÅpen}
-                    lukkModal={() => setBekreftStartKartleggingModalÅpen(false)}
-                />
-                {brukerRolle && (
-                    <SlettKartleggingModal
-                        iaSak={iaSak}
-                        spørreundersøkelse={kartlegging}
-                        erModalÅpen={slettSpørreundersøkelseModalÅpen}
-                        lukkModal={() =>
-                            setSlettSpørreundersøkelseModalÅpen(false)
-                        }
-                    />
-                )}
-            </Accordion.Content>
-        );
-    }
-
-    if (kartleggingstatus === "PÅBEGYNT") {
-        return (
-            <Accordion.Content>
-                {(iaSak.status === "KARTLEGGES" ||
-                    iaSak.status === "VI_BISTÅR") &&
-                    brukerRolle !== "Lesetilgang" && (
-                        <>
-                            <StyledActionButton
-                                variant={"secondary"}
-                                onClick={() =>
-                                    åpneKartleggingINyFane(
-                                        kartlegging.kartleggingId,
-                                        "PÅBEGYNT",
-                                    )
-                                }
-                            >
-                                Fortsett
-                            </StyledActionButton>
-                            {brukerErEierAvSak && (
-                                <>
+                                {brukerErEierAvSak && (
                                     <StyledActionButton
-                                        onClick={() =>
-                                            setBekreftFullførKartleggingModalÅpen(
-                                                true,
-                                            )
-                                        }
-                                    >
-                                        Fullfør
-                                    </StyledActionButton>
-                                    <StyledActionButton
-                                        variant={"danger"}
+                                        variant={"secondary"}
                                         onClick={() =>
                                             setSlettSpørreundersøkelseModalÅpen(
                                                 true,
@@ -176,35 +113,113 @@ export const KartleggingRadInnhold = ({
                                     >
                                         Slett
                                     </StyledActionButton>
-                                    {erIDev && (
-                                        <FlyttTilAnnenProsess
-                                            behovsvurdering={kartlegging}
-                                        />
-                                    )}
-                                </>
-                            )}
-                            <FullførSpørreundersøkelseModal
-                                iaSak={iaSak}
-                                harNokDeltakere={harNokDeltakere}
-                                spørreundersøkelse={kartlegging}
-                                erModalÅpen={bekreftFullførKartleggingModalÅpen}
-                                lukkModal={() =>
-                                    setBekreftFullførKartleggingModalÅpen(false)
-                                }
-                            />
-                        </>
-                    )}
-                {brukerRolle && (
-                    <SlettKartleggingModal
+                                )}
+                                {erIDev && (
+                                    <FlyttTilAnnenProsess
+                                        behovsvurdering={kartlegging}
+                                    />
+                                )}
+                            </>
+                        )}
+                    <StartSpørreundersøkelseModal
                         iaSak={iaSak}
                         spørreundersøkelse={kartlegging}
-                        erModalÅpen={slettSpørreundersøkelseModalÅpen}
+                        samarbeid={samarbeid}
+                        erModalÅpen={bekreftStartKartleggingModalÅpen}
                         lukkModal={() =>
-                            setSlettSpørreundersøkelseModalÅpen(false)
+                            setBekreftStartKartleggingModalÅpen(false)
                         }
                     />
-                )}
-            </Accordion.Content>
-        );
+                    {brukerRolle && (
+                        <SlettKartleggingModal
+                            iaSak={iaSak}
+                            samarbeid={samarbeid}
+                            spørreundersøkelse={kartlegging}
+                            erModalÅpen={slettSpørreundersøkelseModalÅpen}
+                            lukkModal={() =>
+                                setSlettSpørreundersøkelseModalÅpen(false)
+                            }
+                        />
+                    )}
+                </Accordion.Content>
+            );
+        }
+
+        if (kartleggingstatus === "PÅBEGYNT") {
+            return (
+                <Accordion.Content>
+                    {(iaSak.status === "KARTLEGGES" ||
+                        iaSak.status === "VI_BISTÅR") &&
+                        brukerRolle !== "Lesetilgang" && (
+                            <>
+                                <StyledActionButton
+                                    variant={"secondary"}
+                                    onClick={() =>
+                                        åpneKartleggingINyFane(
+                                            kartlegging.kartleggingId,
+                                            "PÅBEGYNT",
+                                        )
+                                    }
+                                >
+                                    Fortsett
+                                </StyledActionButton>
+                                {brukerErEierAvSak && (
+                                    <>
+                                        <StyledActionButton
+                                            onClick={() =>
+                                                setBekreftFullførKartleggingModalÅpen(
+                                                    true,
+                                                )
+                                            }
+                                        >
+                                            Fullfør
+                                        </StyledActionButton>
+                                        <StyledActionButton
+                                            variant={"danger"}
+                                            onClick={() =>
+                                                setSlettSpørreundersøkelseModalÅpen(
+                                                    true,
+                                                )
+                                            }
+                                        >
+                                            Slett
+                                        </StyledActionButton>
+                                        {erIDev && (
+                                            <FlyttTilAnnenProsess
+                                                behovsvurdering={kartlegging}
+                                            />
+                                        )}
+                                    </>
+                                )}
+                                <FullførSpørreundersøkelseModal
+                                    iaSak={iaSak}
+                                    samarbeid={samarbeid}
+                                    harNokDeltakere={harNokDeltakere}
+                                    behovsvurdering={kartlegging}
+                                    erModalÅpen={
+                                        bekreftFullførKartleggingModalÅpen
+                                    }
+                                    lukkModal={() =>
+                                        setBekreftFullførKartleggingModalÅpen(
+                                            false,
+                                        )
+                                    }
+                                />
+                            </>
+                        )}
+                    {brukerRolle && (
+                        <SlettKartleggingModal
+                            iaSak={iaSak}
+                            samarbeid={samarbeid}
+                            spørreundersøkelse={kartlegging}
+                            erModalÅpen={slettSpørreundersøkelseModalÅpen}
+                            lukkModal={() =>
+                                setSlettSpørreundersøkelseModalÅpen(false)
+                            }
+                        />
+                    )}
+                </Accordion.Content>
+            );
+        }
     }
 };
