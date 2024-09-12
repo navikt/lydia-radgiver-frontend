@@ -78,8 +78,8 @@ export function Samarbeidsoversikt({
                         <HStack gap={"2"} align={"center"}>
                             <Heading
                                 as={Link}
-                                level={"2"}
-                                size={"xlarge"}
+                                level={"1"}
+                                size={"large"}
                                 variant={"neutral"}
                                 href={`/virksomhet/${virksomhet.orgnr}`}
                                 title="Gå til virksomhet"
@@ -87,7 +87,7 @@ export function Samarbeidsoversikt({
                                 {virksomhet.navn}
                             </Heading>
                             <ChevronRightIcon fontSize="2rem" />
-                            <Heading level={"3"} size={"large"} color={"blue"}>
+                            <Heading level={"1"} size={"large"} color={"blue"}>
                                 {gjeldendeSamarbeid.navn ||
                                     "Samarbeid uten navn"}
                             </Heading>

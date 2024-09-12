@@ -43,7 +43,7 @@ export default function PlanFane({ iaSak, samarbeid }: Props) {
     if (iaSakPlan === undefined && planMal) {
         return (
             <>
-                <Heading level="3" size="large" spacing={true}>
+                <Heading level="2" size="medium" spacing={true}>
                     Samarbeidsplan
                 </Heading>
                 {!brukerErEierAvSak && (

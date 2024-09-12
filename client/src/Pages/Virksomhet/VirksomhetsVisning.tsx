@@ -91,7 +91,10 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     <Tabs.List style={{ width: "100%" }}>
                         <Tabs.Tab value="statistikk" label="Statistikk" />
                         {iaSak && (
-                            <Tabs.Tab value="kartlegging" label="Kartlegging" />
+                            <Tabs.Tab
+                                value="kartlegging"
+                                label="Behovsvurdering"
+                            />
                         )}
                         {iaSak && (
                             <Tabs.Tab
