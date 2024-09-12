@@ -1,4 +1,5 @@
 import React, { useRef, useState } from "react";
+import { useSamarbeidsContext } from "./SamarbeidsContext";
 import { useHentSalesforceUrl } from "../../../api/lydia-api";
 import { Heading, HStack, Link, Popover, VStack } from "@navikt/ds-react";
 import { SamarbeidsDropdown } from "./SamarbeidsDropdown";
@@ -14,9 +15,6 @@ import { EksternLenke } from "../../../components/EksternLenke";
 import { NyEierskapKnapp } from "./NyEierskapKnapp";
 
 import { Statusseksjon } from "../Virksomhetsoversikt/VirksomhetsinfoHeader/Statusseksjon";
-import { Virksomhet } from "../../../domenetyper/virksomhet";
-import { IASak } from "../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const VirksomhetsInfoIkon = styled(InformationSquareIcon)`
     display: flex;
@@ -36,17 +34,11 @@ const SalesforceLenke = styled(EksternLenke)`
     font-size: 1.125rem;
 `;
 
-export function Samarbeidsoversikt({
-    virksomhet,
-    iaSak,
-    gjeldendeSamarbeid,
-}: {
-    virksomhet: Virksomhet;
-    iaSak: IASak;
-    gjeldendeSamarbeid: IaSakProsess;
-}) {
+export function Samarbeidsoversikt() {
     const buttonRef = useRef<SVGSVGElement>(null);
     const [openState, setOpenState] = useState(false);
+    const { iaSak, gjeldendeSamarbeid, virksomhet } = useSamarbeidsContext();
+
     const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
 
     return (

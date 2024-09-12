@@ -694,10 +694,9 @@ export const fjernBrukerFraTeam = (
 export const nyKartleggingPåSak = (
     orgnummer: string,
     saksnummer: string,
-    samarbeidsId: number,
 ): Promise<IASakKartlegging> => {
     return post(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
+        `${kartleggingPath}/${orgnummer}/${saksnummer}/opprett`,
         iaSakKartleggingSchema,
     );
 };

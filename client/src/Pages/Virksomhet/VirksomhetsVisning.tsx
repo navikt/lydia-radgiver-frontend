@@ -11,10 +11,14 @@ import {
 import { NavFarger } from "../../styling/farger";
 import { LeveranseFane } from "./Leveranser/LeveranseFane";
 import { Virksomhet } from "../../domenetyper/virksomhet";
-import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
+import {
+    useHentAktivSakForVirksomhet,
+    useHentSamarbeid,
+} from "../../api/lydia-api";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
 import { KartleggingFane } from "./Kartlegging/KartleggingFane";
 import VirksomhetContext from "./VirksomhetContext";
+import SamarbeidsContext from "./Samarbeid/SamarbeidsContext";
 
 const Container = styled.div`
     padding-top: ${contentSpacing.mobileY};
@@ -109,6 +113,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                         {iaSak && (
                             <KartleggingFane
                                 iaSak={iaSak}
+                                samarbeid={samarbeid}
                                 KartleggingIdFraUrl={kartleggingId}
                             />
                         )}
