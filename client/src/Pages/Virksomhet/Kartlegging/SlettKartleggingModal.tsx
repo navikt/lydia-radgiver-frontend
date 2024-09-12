@@ -1,31 +1,24 @@
 import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import {
-    slettKartlegging,
-    useHentNyeKartlegginger,
-} from "../../../api/lydia-api";
+import { slettKartlegging, useHentKartlegginger } from "../../../api/lydia-api";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 import React from "react";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 export function SlettKartleggingModal({
     iaSak,
     spørreundersøkelse,
-    samarbeid,
     erModalÅpen,
     lukkModal,
 }: {
     iaSak: IASak;
-    samarbeid: IaSakProsess;
     spørreundersøkelse: IASakKartlegging;
     erModalÅpen: boolean;
     lukkModal: () => void;
 }) {
-    const { mutate: muterKartlegginger } = useHentNyeKartlegginger(
+    const { mutate: muterKartlegginger } = useHentKartlegginger(
         iaSak.orgnr,
         iaSak.saksnummer,
-        samarbeid.id,
     );
     const slett = () => {
         slettKartlegging(

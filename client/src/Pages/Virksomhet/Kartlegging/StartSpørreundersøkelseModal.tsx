@@ -1,32 +1,25 @@
 import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import {
-    startKartlegging,
-    useHentNyeKartlegginger,
-} from "../../../api/lydia-api";
+import { startKartlegging, useHentKartlegginger } from "../../../api/lydia-api";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { åpneKartleggingINyFane } from "../../../util/navigasjon";
 import { BodyShort, List } from "@navikt/ds-react";
 import React from "react";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 export function StartSpørreundersøkelseModal({
     iaSak,
     spørreundersøkelse,
     erModalÅpen,
     lukkModal,
-    samarbeid,
 }: {
     iaSak: IASak;
     spørreundersøkelse: IASakKartlegging;
     erModalÅpen: boolean;
     lukkModal: () => void;
-    samarbeid: IaSakProsess;
 }) {
-    const { mutate: muterKartlegginger } = useHentNyeKartlegginger(
+    const { mutate: muterKartlegginger } = useHentKartlegginger(
         iaSak.orgnr,
         iaSak.saksnummer,
-        samarbeid.id,
     );
 
     const startKartleggingen = () => {

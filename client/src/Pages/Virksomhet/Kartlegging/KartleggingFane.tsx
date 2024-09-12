@@ -12,7 +12,7 @@ import {
 import {
     nyKartleggingPåSak,
     useHentBrukerinformasjon,
-    useHentNyeKartlegginger,
+    useHentKartlegginger,
     useHentSamarbeid,
 } from "../../../api/lydia-api";
 import { IngenKartleggingInfoBoks } from "./IngenKartleggingInfoBoks";
@@ -20,7 +20,6 @@ import { PlusCircleIcon } from "@navikt/aksel-icons";
 import { KartleggingRad } from "./KartleggingRad";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import { erSammeDato } from "../../../util/dato";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const Container = styled.div`
     ${tabInnholdStyling};
@@ -46,7 +45,36 @@ const NyKartleggingKnapp = (props: { onClick: () => void }) => (
 );
 
 export const KartleggingFane = ({ iaSak, KartleggingIdFraUrl }: Props) => {
-    const { data: samarbeid } = useHentSamarbeid(iaSak.orgnr, iaSak.saksnummer);
+    const [sisteOpprettedeKartleggingId, setSisteOpprettedeKartleggingId] =
+        React.useState("");
+    const {
+        data: iaSakKartlegginger,
+        loading: lasterIASakKartlegging,
+        mutate: muterKartlegginger,
+    } = useHentKartlegginger(iaSak.orgnr, iaSak.saksnummer);
+
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+    );
+
+    const opprettKartlegging = () => {
+        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(
+            ({ kartleggingId }) => {
+                setSisteOpprettedeKartleggingId(kartleggingId);
+                muterKartlegginger();
+                hentSamarbeidPåNytt();
+            },
+        );
+    };
+
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
+
+    const harKartlegginger =
+        !lasterIASakKartlegging &&
+        iaSakKartlegginger &&
+        iaSakKartlegginger.length > 0;
 
     return (
         <>
@@ -61,90 +89,42 @@ export const KartleggingFane = ({ iaSak, KartleggingIdFraUrl }: Props) => {
                     saken for å opprette eller gjøre endringer.
                 </BodyShort>
 
-                {samarbeid && samarbeid.length > 0 && (
-                    <KartleggingerMedSamarbeid
-                        iaSak={iaSak}
-                        samarbeid={samarbeid[0]}
-                        KartleggingIdFraUrl={KartleggingIdFraUrl}
-                    />
-                )}
-            </Container>
-        </>
-    );
-};
-
-export const KartleggingerMedSamarbeid = ({
-    iaSak,
-    samarbeid,
-    KartleggingIdFraUrl,
-}: {
-    iaSak: IASak;
-    samarbeid: IaSakProsess;
-    KartleggingIdFraUrl?: string | null;
-}) => {
-    const {
-        data: iaSakKartlegginger,
-        loading: lasterIASakKartlegging,
-        mutate: muterKartlegginger,
-    } = useHentNyeKartlegginger(iaSak.orgnr, iaSak.saksnummer, samarbeid.id);
-
-    const [sisteOpprettedeKartleggingId, setSisteOpprettedeKartleggingId] =
-        React.useState("");
-
-    const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
-
-    const opprettKartlegging = () => {
-        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer).then(
-            ({ kartleggingId }) => {
-                setSisteOpprettedeKartleggingId(kartleggingId);
-                muterKartlegginger();
-            },
-        );
-    };
-
-    const harKartlegginger =
-        !lasterIASakKartlegging &&
-        iaSakKartlegginger &&
-        iaSakKartlegginger.length > 0;
-
-    return (
-        <>
-            {(iaSak.status === "KARTLEGGES" || iaSak.status === "VI_BISTÅR") &&
-                brukerErEierAvSak && (
-                    <NyKartleggingKnapp onClick={opprettKartlegging} />
-                )}
-            {!harKartlegginger && <IngenKartleggingInfoBoks />}
-
-            <br />
-
-            <Accordion style={{ marginTop: "1rem" }}>
-                {harKartlegginger &&
-                    samarbeid &&
-                    sorterPåDato(iaSakKartlegginger).map(
-                        (kartlegging, index, originalArray) => (
-                            <KartleggingRad
-                                key={kartlegging.kartleggingId}
-                                iaSak={iaSak}
-                                samarbeid={samarbeid}
-                                kartlegging={kartlegging}
-                                brukerRolle={brukerInformasjon?.rolle}
-                                brukerErEierAvSak={brukerErEierAvSak}
-                                dato={formaterDatoForKartlegging(
-                                    kartlegging,
-                                    index,
-                                    originalArray,
-                                )}
-                                defaultOpen={
-                                    kartlegging.kartleggingId ===
-                                        sisteOpprettedeKartleggingId ||
-                                    kartlegging.kartleggingId ===
-                                        KartleggingIdFraUrl
-                                }
-                            />
-                        ),
+                {(iaSak.status === "KARTLEGGES" ||
+                    iaSak.status === "VI_BISTÅR") &&
+                    brukerErEierAvSak && (
+                        <NyKartleggingKnapp onClick={opprettKartlegging} />
                     )}
-            </Accordion>
+
+                {!harKartlegginger && <IngenKartleggingInfoBoks />}
+
+                <br />
+
+                <Accordion style={{ marginTop: "1rem" }}>
+                    {harKartlegginger &&
+                        sorterPåDato(iaSakKartlegginger).map(
+                            (kartlegging, index, originalArray) => (
+                                <KartleggingRad
+                                    key={kartlegging.kartleggingId}
+                                    iaSak={iaSak}
+                                    kartlegging={kartlegging}
+                                    brukerRolle={brukerInformasjon?.rolle}
+                                    brukerErEierAvSak={brukerErEierAvSak}
+                                    dato={formaterDatoForKartlegging(
+                                        kartlegging,
+                                        index,
+                                        originalArray,
+                                    )}
+                                    defaultOpen={
+                                        kartlegging.kartleggingId ===
+                                            sisteOpprettedeKartleggingId ||
+                                        kartlegging.kartleggingId ===
+                                            KartleggingIdFraUrl
+                                    }
+                                />
+                            ),
+                        )}
+                </Accordion>
+            </Container>
         </>
     );
 };
