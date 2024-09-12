@@ -119,6 +119,8 @@ export const useTrengerÅFullføreKartleggingerFørst = (
 
     switch (hendelsesType) {
         case IASakshendelseTypeEnum.enum.TILBAKE:
+        case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
+        case IASakshendelseTypeEnum.enum.NY_PROSESS:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
         case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
             return harKartleggingerSomErUnderArbeid;
@@ -160,6 +162,7 @@ export const IASakshendelseKnapp = ({
     );
     const trengerÅFullføreKartleggingerFørst =
         useTrengerÅFullføreKartleggingerFørst(hendelsesType, sak);
+
     const [visFullførLeveranserFørstModal, setVisFullførLeveranserFørstModal] =
         useState(false);
     const [
