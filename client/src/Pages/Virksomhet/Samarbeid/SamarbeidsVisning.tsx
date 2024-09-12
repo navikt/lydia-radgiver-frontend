@@ -14,7 +14,7 @@ import PlanFane from "../Plan/PlanFane";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Samarbeidsoversikt } from "./Samarbeidsoversikt";
 import EvalueringFane from "./Evaluering/EvalueringFane";
-import { KartleggingFane } from "../Kartlegging/KartleggingFane";
+import { BehovsvurderingFane } from "../Kartlegging/BehovsvurderingFane";
 import VirksomhetContext from "../VirksomhetContext";
 
 const StyledPanel = styled(Tabs.Panel)`
@@ -121,7 +121,7 @@ export const SamarbeidsVisning = ({
                         </Tabs.List>
                         <StyledPanel value="behovsvurdering">
                             {iaSak && (
-                                <KartleggingFane
+                                <BehovsvurderingFane
                                     iaSak={iaSak}
                                     gjeldendeSamarbeid={gjeldendeSamarbeid}
                                     KartleggingIdFraUrl={null} //TODO: Sett til noe fra context før prod

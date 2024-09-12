@@ -3,7 +3,7 @@ import { useHentBrukerinformasjon, useHentTeam } from "../../../api/lydia-api";
 import { BodyShort, Button, HStack } from "@navikt/ds-react";
 import {
     ChevronDownIcon,
-    HeartIcon,
+    HeartFillIcon,
     PersonGroupIcon,
     PersonIcon,
 } from "@navikt/aksel-icons";
@@ -37,7 +37,7 @@ export function NyEierskapKnapp({ iaSak }: { iaSak: IASak }) {
                         </>
                     ) : brukerFølgerSak ? (
                         <>
-                            <HeartIcon />
+                            <HeartFillIcon />
                             <BodyShort>Du følger saken</BodyShort>
                         </>
                     ) : (

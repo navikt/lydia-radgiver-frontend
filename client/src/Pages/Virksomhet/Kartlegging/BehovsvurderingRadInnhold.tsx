@@ -4,8 +4,8 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import styled from "styled-components";
 import { åpneKartleggingINyFane } from "../../../util/navigasjon";
-import { KartleggingResultat } from "./KartleggingResultat";
-import { SlettKartleggingModal } from "./SlettKartleggingModal";
+import { BehovsvurderingResultat } from "./BehovsvurderingResultat";
+import { SlettBehovsvurderingModal } from "./SlettBehovsvurderingModal";
 import { StartSpørreundersøkelseModal } from "./StartSpørreundersøkelseModal";
 import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkelseModal";
 import EksportVisning from "./EksportVisning";
@@ -22,20 +22,20 @@ const StyledActionButton = styled(Button)`
     margin-right: 1rem;
 `;
 
-export const KartleggingRadInnhold = ({
+export const BehovsvurderingRadInnhold = ({
     iaSak,
-    kartlegging,
+    behovsvurdering,
     samarbeid,
     brukerRolle,
     brukerErEierAvSak,
-    kartleggingstatus,
+    behovsvurderingStatus,
 }: {
     iaSak: IASak;
-    kartlegging: IASakKartlegging;
+    behovsvurdering: IASakKartlegging;
     samarbeid: IaSakProsess;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
     brukerErEierAvSak: boolean;
-    kartleggingstatus: "OPPRETTET" | "PÅBEGYNT" | "AVSLUTTET" | "SLETTET";
+    behovsvurderingStatus: "OPPRETTET" | "PÅBEGYNT" | "AVSLUTTET" | "SLETTET";
 }) => {
     const [
         bekreftFullførKartleggingModalÅpen,
@@ -57,11 +57,11 @@ export const KartleggingRadInnhold = ({
     const harNokDeltakere = deltakereSomHarFullført >= MINIMUM_ANTALL_DELTAKERE;
 
     if (iaSak !== undefined) {
-        if (kartleggingstatus === "SLETTET") {
+        if (behovsvurderingStatus === "SLETTET") {
             return null;
         }
 
-        if (kartleggingstatus === "AVSLUTTET") {
+        if (behovsvurderingStatus === "AVSLUTTET") {
             return (
                 <Accordion.Content>
                     <ExportVisningContainer>
@@ -69,26 +69,26 @@ export const KartleggingRadInnhold = ({
                             <FlyttTilAnnenProsess
                                 gjeldendeSamarbeid={samarbeid}
                                 iaSak={iaSak}
-                                behovsvurdering={kartlegging}
+                                behovsvurdering={behovsvurdering}
                                 dropdownSize="small"
                             />
                         )}
                         <EksportVisning
                             iaSak={iaSak}
-                            kartlegging={kartlegging}
+                            kartlegging={behovsvurdering}
                             erIEksportMode={erIEksportMode}
                             setErIEksportMode={setErIEksportMode}
                         />
                     </ExportVisningContainer>
-                    <KartleggingResultat
+                    <BehovsvurderingResultat
                         iaSak={iaSak}
-                        kartleggingId={kartlegging.kartleggingId}
+                        behovsvurderingId={behovsvurdering.kartleggingId}
                     />
                 </Accordion.Content>
             );
         }
 
-        if (kartleggingstatus === "OPPRETTET") {
+        if (behovsvurderingStatus === "OPPRETTET") {
             return (
                 <Accordion.Content>
                     {(iaSak.status === "KARTLEGGES" ||
@@ -120,14 +120,14 @@ export const KartleggingRadInnhold = ({
                                     <FlyttTilAnnenProsess
                                         gjeldendeSamarbeid={samarbeid}
                                         iaSak={iaSak}
-                                        behovsvurdering={kartlegging}
+                                        behovsvurdering={behovsvurdering}
                                     />
                                 )}
                             </>
                         )}
                     <StartSpørreundersøkelseModal
                         iaSak={iaSak}
-                        spørreundersøkelse={kartlegging}
+                        spørreundersøkelse={behovsvurdering}
                         samarbeid={samarbeid}
                         erModalÅpen={bekreftStartKartleggingModalÅpen}
                         lukkModal={() =>
@@ -135,10 +135,10 @@ export const KartleggingRadInnhold = ({
                         }
                     />
                     {brukerRolle && (
-                        <SlettKartleggingModal
+                        <SlettBehovsvurderingModal
                             iaSak={iaSak}
                             samarbeid={samarbeid}
-                            spørreundersøkelse={kartlegging}
+                            behovsvurdering={behovsvurdering}
                             erModalÅpen={slettSpørreundersøkelseModalÅpen}
                             lukkModal={() =>
                                 setSlettSpørreundersøkelseModalÅpen(false)
@@ -149,7 +149,7 @@ export const KartleggingRadInnhold = ({
             );
         }
 
-        if (kartleggingstatus === "PÅBEGYNT") {
+        if (behovsvurderingStatus === "PÅBEGYNT") {
             return (
                 <Accordion.Content>
                     {(iaSak.status === "KARTLEGGES" ||
@@ -160,7 +160,7 @@ export const KartleggingRadInnhold = ({
                                     variant={"secondary"}
                                     onClick={() =>
                                         åpneKartleggingINyFane(
-                                            kartlegging.kartleggingId,
+                                            behovsvurdering.kartleggingId,
                                             "PÅBEGYNT",
                                         )
                                     }
@@ -192,7 +192,9 @@ export const KartleggingRadInnhold = ({
                                             <FlyttTilAnnenProsess
                                                 gjeldendeSamarbeid={samarbeid}
                                                 iaSak={iaSak}
-                                                behovsvurdering={kartlegging}
+                                                behovsvurdering={
+                                                    behovsvurdering
+                                                }
                                             />
                                         )}
                                     </>
@@ -201,7 +203,7 @@ export const KartleggingRadInnhold = ({
                                     iaSak={iaSak}
                                     samarbeid={samarbeid}
                                     harNokDeltakere={harNokDeltakere}
-                                    behovsvurdering={kartlegging}
+                                    behovsvurdering={behovsvurdering}
                                     erModalÅpen={
                                         bekreftFullførKartleggingModalÅpen
                                     }
@@ -214,10 +216,10 @@ export const KartleggingRadInnhold = ({
                             </>
                         )}
                     {brukerRolle && (
-                        <SlettKartleggingModal
+                        <SlettBehovsvurderingModal
                             iaSak={iaSak}
                             samarbeid={samarbeid}
-                            spørreundersøkelse={kartlegging}
+                            behovsvurdering={behovsvurdering}
                             erModalÅpen={slettSpørreundersøkelseModalÅpen}
                             lukkModal={() =>
                                 setSlettSpørreundersøkelseModalÅpen(false)

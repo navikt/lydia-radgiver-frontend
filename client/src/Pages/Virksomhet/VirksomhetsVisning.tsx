@@ -13,7 +13,7 @@ import { LeveranseFane } from "./Leveranser/LeveranseFane";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
-import { KartleggingFane } from "./Kartlegging/KartleggingFane";
+import { BehovsvurderingFane } from "./Kartlegging/BehovsvurderingFane";
 import VirksomhetContext from "./VirksomhetContext";
 
 const Container = styled.div`
@@ -110,7 +110,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
 
                     <StyledPanel value="kartlegging">
                         {iaSak && (
-                            <KartleggingFane
+                            <BehovsvurderingFane
                                 iaSak={iaSak}
                                 KartleggingIdFraUrl={kartleggingId}
                             />

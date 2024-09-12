@@ -2,7 +2,7 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import {
     startKartlegging,
-    useHentNyeKartlegginger,
+    useHentBehovsvurderingerMedProsess,
 } from "../../../api/lydia-api";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { åpneKartleggingINyFane } from "../../../util/navigasjon";
@@ -23,7 +23,7 @@ export function StartSpørreundersøkelseModal({
     lukkModal: () => void;
     samarbeid: IaSakProsess;
 }) {
-    const { mutate: muterKartlegginger } = useHentNyeKartlegginger(
+    const { mutate: muterKartlegginger } = useHentBehovsvurderingerMedProsess(
         iaSak.orgnr,
         iaSak.saksnummer,
         samarbeid.id,

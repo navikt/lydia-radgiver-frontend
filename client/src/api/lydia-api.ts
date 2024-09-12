@@ -720,7 +720,7 @@ export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
     );
 };
 
-export const useHentNyeKartlegginger = (
+export const useHentBehovsvurderingerMedProsess = (
     orgnummer: string,
     saksnummer: string,
     prosessId: number,

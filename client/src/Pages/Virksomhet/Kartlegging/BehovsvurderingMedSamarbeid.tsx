@@ -7,11 +7,11 @@ import { erSammeDato } from "../../../util/dato";
 import React from "react";
 import {
     nyKartleggingPåSak,
-    useHentNyeKartlegginger,
+    useHentBehovsvurderingerMedProsess,
 } from "../../../api/lydia-api";
 import { Accordion, Loader } from "@navikt/ds-react";
 import { BehovsvurderingOpprettNyKnapp } from "./BehovsvurderingOpprettNyKnapp";
-import { KartleggingRad } from "./KartleggingRad";
+import { BehovsvurderingRad } from "./BehovsvurderingRad";
 import { sorterPåDatoStigende } from "../../../util/sortering";
 
 const Container = styled.div`
@@ -84,7 +84,11 @@ export const BehovsvurderingMedSamarbeid = ({
         data: behovsvurderinger,
         loading: lasterBehovsvurderinger,
         mutate: hentBehovsvurderingerPåNytt,
-    } = useHentNyeKartlegginger(iaSak.orgnr, iaSak.saksnummer, samarbeid.id);
+    } = useHentBehovsvurderingerMedProsess(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+        samarbeid.id,
+    );
 
     const opprettBehovsvurdering = () => {
         nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer, samarbeid.id).then(
@@ -114,11 +118,11 @@ export const BehovsvurderingMedSamarbeid = ({
                             {behovsvurderinger.length > 0 &&
                                 sorterPåDato(behovsvurderinger).map(
                                     (behovsvurdering, index, originalArray) => (
-                                        <KartleggingRad
+                                        <BehovsvurderingRad
                                             key={behovsvurdering.kartleggingId}
                                             iaSak={iaSak}
                                             samarbeid={samarbeid}
-                                            kartlegging={behovsvurdering}
+                                            behovsvurdering={behovsvurdering}
                                             brukerRolle={brukerRolle}
                                             brukerErEierAvSak={
                                                 brukerErEierAvSak

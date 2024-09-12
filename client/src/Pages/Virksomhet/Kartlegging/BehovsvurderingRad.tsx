@@ -2,7 +2,7 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import { Accordion } from "@navikt/ds-react";
 import styled from "styled-components";
-import { KartleggingRadInnhold } from "./KartleggingRadInnhold";
+import { BehovsvurderingRadInnhold } from "./BehovsvurderingRadInnhold";
 import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
 import React, { useState } from "react";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
@@ -29,9 +29,9 @@ const KartleggingDato = styled.span`
     text-align: right;
 `;
 
-export const KartleggingRad = ({
+export const BehovsvurderingRad = ({
     iaSak,
-    kartlegging,
+    behovsvurdering,
     brukerRolle,
     samarbeid,
     defaultOpen,
@@ -40,7 +40,7 @@ export const KartleggingRad = ({
 }: {
     iaSak: IASak;
     samarbeid: IaSakProsess;
-    kartlegging: IASakKartlegging;
+    behovsvurdering: IASakKartlegging;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
     dato?: string;
     brukerErEierAvSak: boolean;
@@ -59,16 +59,16 @@ export const KartleggingRad = ({
             <AccordionHeader>
                 Behovsvurdering
                 <HeaderRightContent>
-                    <KartleggingStatusBedge status={kartlegging.status} />
+                    <KartleggingStatusBedge status={behovsvurdering.status} />
                     <KartleggingDato>{dato}</KartleggingDato>
                 </HeaderRightContent>
             </AccordionHeader>
             {erÅpen && (
-                <KartleggingRadInnhold
+                <BehovsvurderingRadInnhold
                     iaSak={iaSak}
                     samarbeid={samarbeid}
-                    kartleggingstatus={kartlegging.status}
-                    kartlegging={kartlegging}
+                    behovsvurderingStatus={behovsvurdering.status}
+                    behovsvurdering={behovsvurdering}
                     brukerRolle={brukerRolle}
                     brukerErEierAvSak={brukerErEierAvSak}
                 />

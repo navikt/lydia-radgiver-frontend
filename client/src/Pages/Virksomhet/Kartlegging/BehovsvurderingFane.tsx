@@ -9,7 +9,7 @@ import { BehovsvurderingHeading } from "./BehovsvurderingHeading";
 import { BehovsvurderingHjelpetekst } from "./BehovsvurderingHjelpetekst";
 import { BehovsvurderingMedSamarbeid } from "./BehovsvurderingMedSamarbeid";
 
-export const KartleggingFane = ({
+export const BehovsvurderingFane = ({
     iaSak,
     gjeldendeSamarbeid,
     KartleggingIdFraUrl,

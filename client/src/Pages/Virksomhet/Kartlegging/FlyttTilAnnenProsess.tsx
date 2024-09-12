@@ -2,7 +2,7 @@ import { Button, Dropdown } from "@navikt/ds-react";
 import React from "react";
 import {
     flyttBehovsvurdering,
-    useHentNyeKartlegginger,
+    useHentBehovsvurderingerMedProsess,
     useHentSamarbeid,
 } from "../../../api/lydia-api";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
@@ -26,7 +26,7 @@ export const FlyttTilAnnenProsess = ({
         iaSak.orgnr,
         iaSak.saksnummer,
     );
-    const { mutate: muterKartlegginger } = useHentNyeKartlegginger(
+    const { mutate: muterKartlegginger } = useHentBehovsvurderingerMedProsess(
         iaSak.orgnr,
         iaSak.saksnummer,
         gjeldendeSamarbeid.id,
