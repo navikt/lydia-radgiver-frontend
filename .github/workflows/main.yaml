@@ -53,7 +53,7 @@ jobs:
       id-token: write
     strategy:
       matrix:
-        cluster: [dev, prod]
+        cluster: [prod]
     name: Deploy app to ${{ matrix.cluster }}
     needs: build
     if: github.ref == 'refs/heads/main'
