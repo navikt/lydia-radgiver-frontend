@@ -15,6 +15,7 @@ import {
     useHentSamarbeid,
 } from "../../../api/lydia-api";
 import { isoDato } from "../../../util/dato";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const TemaInnholdVelgerContainer = styled.div`
     margin-bottom: 1rem;
@@ -31,17 +32,23 @@ const OpprettPlanModal = styled(Modal)`
 export default function OpprettPlanKnapp({
     saksnummer,
     orgnummer,
+    samarbeid,
     brukerErEierAvSak,
     sakErIRettStatus,
     planMal,
 }: {
     orgnummer: string;
     saksnummer: string;
+    samarbeid: IaSakProsess;
     brukerErEierAvSak: boolean;
     sakErIRettStatus: boolean;
     planMal: PlanMal;
 }) {
-    const { mutate: hentPlanIgjen } = useHentPlan(orgnummer, saksnummer);
+    const { mutate: hentPlanIgjen } = useHentPlan(
+        orgnummer,
+        saksnummer,
+        samarbeid.id,
+    );
     const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
         orgnummer,
         saksnummer,
@@ -90,7 +97,7 @@ export default function OpprettPlanKnapp({
 
     function lagreEndring() {
         const nyPlan = lagRequest(redigertPlanMal);
-        nyPlanPåSak(orgnummer, saksnummer, nyPlan).then(() => {
+        nyPlanPåSak(orgnummer, saksnummer, samarbeid.id, nyPlan).then(() => {
             hentPlanIgjen();
             hentSamarbeidPåNytt();
         });

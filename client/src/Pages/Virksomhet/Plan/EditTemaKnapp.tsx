@@ -5,10 +5,11 @@ import styled from "styled-components";
 import { mobileAndUp } from "../../../styling/breakpoints";
 import { DocPencilIcon } from "@navikt/aksel-icons";
 import UndertemaSetup from "./UndertemaSetup";
-import { Plan, PlanTema, PlanInnhold } from "../../../domenetyper/plan";
+import { Plan, PlanInnhold, PlanTema } from "../../../domenetyper/plan";
 import { endrePlanTema } from "../../../api/lydia-api";
 import { lagRequest, UndertemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const EditTemaModal = styled(Modal)`
     padding: 0;
@@ -26,11 +27,13 @@ export default function EditTemaKnapp({
     tema,
     orgnummer,
     saksnummer,
+    samarbeid,
     hentPlanIgjen,
 }: {
     tema: PlanTema;
     orgnummer: string;
     saksnummer: string;
+    samarbeid: IaSakProsess;
     hentPlanIgjen: KeyedMutator<Plan>;
 }) {
     const [modalOpen, setModalOpen] = React.useState(false);
@@ -41,7 +44,13 @@ export default function EditTemaKnapp({
         const undertemaer: UndertemaRequest[] = lagRequest(
             redigertTema.undertemaer,
         );
-        endrePlanTema(orgnummer, saksnummer, tema.id, undertemaer).then(() => {
+        endrePlanTema(
+            orgnummer,
+            saksnummer,
+            samarbeid.id,
+            tema.id,
+            undertemaer,
+        ).then(() => {
             hentPlanIgjen();
         });
     };

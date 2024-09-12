@@ -129,7 +129,12 @@ export const SamarbeidsVisning = ({
                             )}
                         </StyledPanel>
                         <StyledPanel value="plan">
-                            {iaSak && <PlanFane iaSak={iaSak} />}
+                            {iaSak && (
+                                <PlanFane
+                                    iaSak={iaSak}
+                                    samarbeid={gjeldendeSamarbeid}
+                                />
+                            )}
                         </StyledPanel>
                         <StyledPanel value="evaluering">
                             {iaSak && <EvalueringFane />}

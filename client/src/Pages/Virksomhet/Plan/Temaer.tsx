@@ -9,6 +9,7 @@ import { tabInnholdStyling } from "../../../styling/containere";
 import { KeyedMutator } from "swr";
 import EksportVisning from "./EksportVisning";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const Container = styled.div`
     height: 100%;
@@ -23,12 +24,14 @@ export function Temaer({
     plan,
     orgnummer,
     saksnummer,
+    samarbeid,
     hentPlanIgjen,
     kanOppretteEllerEndrePlan,
 }: {
     plan: Plan;
     orgnummer: string;
     saksnummer: string;
+    samarbeid: IaSakProsess;
     hentPlanIgjen: KeyedMutator<Plan>;
     kanOppretteEllerEndrePlan: boolean;
 }) {
@@ -52,6 +55,7 @@ export function Temaer({
                                         tema={tema}
                                         orgnummer={orgnummer}
                                         saksnummer={saksnummer}
+                                        samarbeid={samarbeid}
                                         hentPlanIgjen={hentPlanIgjen}
                                     />
                                 )}
@@ -61,6 +65,7 @@ export function Temaer({
                                 tema={tema}
                                 orgnummer={orgnummer}
                                 saksnummer={saksnummer}
+                                samarbeid={samarbeid}
                                 hentPlanIgjen={hentPlanIgjen}
                                 kanOppretteEllerEndrePlan={
                                     kanOppretteEllerEndrePlan

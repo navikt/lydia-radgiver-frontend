@@ -13,6 +13,7 @@ import { Plan, PlanTema, PlanInnhold } from "../../../domenetyper/plan";
 import { endrePlan } from "../../../api/lydia-api";
 import { lagRequest, TemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const UndertemaSetupContainer = styled.div`
     margin-bottom: 1rem;
@@ -29,6 +30,7 @@ const LeggTilTemaModal = styled(Modal)`
 export default function LeggTilTemaKnapp({
     saksnummer,
     orgnummer,
+    samarbeid,
     plan,
     hentPlanIgjen,
     brukerErEierAvSak,
@@ -36,6 +38,7 @@ export default function LeggTilTemaKnapp({
 }: {
     orgnummer: string;
     saksnummer: string;
+    samarbeid: IaSakProsess;
     plan: Plan;
     hentPlanIgjen: KeyedMutator<Plan>;
     brukerErEierAvSak: boolean;
@@ -102,7 +105,7 @@ export default function LeggTilTemaKnapp({
             };
         });
 
-        endrePlan(orgnummer, saksnummer, temaer).then(() => {
+        endrePlan(orgnummer, saksnummer, samarbeid.id, temaer).then(() => {
             hentPlanIgjen();
         });
     }

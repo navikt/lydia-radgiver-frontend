@@ -734,10 +734,11 @@ export const useHentNyeKartlegginger = (
 export const nyPlanPåSak = (
     orgnummer: string,
     saksnummer: string,
+    samarbeidsId: number,
     plan: PlanMalRequest,
 ): Promise<Plan> => {
     return post(
-        `${planPath}/${orgnummer}/${saksnummer}/opprett`,
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/opprett`,
         PlanSchema,
         plan,
     );
@@ -746,10 +747,11 @@ export const nyPlanPåSak = (
 export const endrePlan = (
     orgnummer: string,
     saksnummer: string,
+    samarbeidsId: number,
     body: TemaRequest[],
 ): Promise<PlanTema[]> => {
     return put(
-        `${planPath}/${orgnummer}/${saksnummer}`,
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
         PlanTemaSchema.array(),
         body,
     );
@@ -757,11 +759,12 @@ export const endrePlan = (
 export const endrePlanTema = (
     orgnummer: string,
     saksnummer: string,
+    samarbeidsId: number,
     temaId: number,
     body: UndertemaRequest[],
 ): Promise<PlanTema> => {
     return put(
-        `${planPath}/${orgnummer}/${saksnummer}/${temaId}`,
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/${temaId}`,
         PlanTemaSchema,
         body,
     );
@@ -770,20 +773,25 @@ export const endrePlanTema = (
 export const endrePlanStatus = (
     orgnummer: string,
     saksnummer: string,
+    samarbeidsId: number,
     temaId: number,
     undertemaId: number,
     body: PlanInnholdStatus,
 ): Promise<PlanInnhold> => {
     return put(
-        `${planPath}/${orgnummer}/${saksnummer}/${temaId}/${undertemaId}`,
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/${temaId}/${undertemaId}`,
         PlanUndertemaSchema,
         body,
     );
 };
 
-export const useHentPlan = (orgnummer: string, saksnummer: string) => {
+export const useHentPlan = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidsId: number,
+) => {
     return useSwrTemplate<Plan>(
-        `${planPath}/${orgnummer}/${saksnummer}`,
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
         PlanSchema,
         defaultSwrConfiguration,
         false,

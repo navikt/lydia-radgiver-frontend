@@ -9,6 +9,7 @@ import {
 } from "../../../domenetyper/plan";
 import { endrePlanStatus } from "../../../api/lydia-api";
 import { KeyedMutator } from "swr";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const StyledAccordion = styled(Accordion)`
     width: 100%;
@@ -55,12 +56,14 @@ const StatusLabel = styled.span`
 export default function InnholdsBlokk({
     saksnummer,
     orgnummer,
+    samarbeid,
     tema,
     hentPlanIgjen,
     kanOppretteEllerEndrePlan,
 }: {
     orgnummer: string;
     saksnummer: string;
+    samarbeid: IaSakProsess;
     tema: PlanTema;
     hentPlanIgjen: KeyedMutator<Plan>;
     kanOppretteEllerEndrePlan: boolean;
@@ -86,6 +89,7 @@ export default function InnholdsBlokk({
                             endrePlanStatus(
                                 orgnummer,
                                 saksnummer,
+                                samarbeid.id,
                                 tema.id,
                                 undertema.id,
                                 status,

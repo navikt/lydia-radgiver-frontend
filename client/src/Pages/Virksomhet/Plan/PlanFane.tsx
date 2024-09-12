@@ -10,12 +10,14 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { Temaer } from "./Temaer";
 import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
 import OpprettPlanKnapp from "./OpprettPlanKnapp";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 interface Props {
     iaSak: IASak;
+    samarbeid: IaSakProsess;
 }
 
-export default function PlanFane({ iaSak }: Props) {
+export default function PlanFane({ iaSak, samarbeid }: Props) {
     const { data: planMal, loading: lasterPlanMal } = useHentPlanMal();
 
     const {
@@ -23,7 +25,7 @@ export default function PlanFane({ iaSak }: Props) {
         loading: lasterPlan,
         mutate: hentPlanIgjen,
         error: planFeil,
-    } = useHentPlan(iaSak.orgnr, iaSak.saksnummer);
+    } = useHentPlan(iaSak.orgnr, iaSak.saksnummer, samarbeid.id);
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
@@ -59,6 +61,7 @@ export default function PlanFane({ iaSak }: Props) {
                 <OpprettPlanKnapp
                     orgnummer={iaSak.orgnr}
                     saksnummer={iaSak.saksnummer}
+                    samarbeid={samarbeid}
                     planMal={planMal}
                     brukerErEierAvSak={brukerErEierAvSak}
                     sakErIRettStatus={sakErIRettStatus}
@@ -74,6 +77,7 @@ export default function PlanFane({ iaSak }: Props) {
                     plan={iaSakPlan}
                     orgnummer={iaSak.orgnr}
                     saksnummer={iaSak.saksnummer}
+                    samarbeid={samarbeid}
                     hentPlanIgjen={hentPlanIgjen}
                     kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
                 />
@@ -88,6 +92,7 @@ export default function PlanFane({ iaSak }: Props) {
                 <LeggTilTemaKnapp
                     orgnummer={iaSak.orgnr}
                     saksnummer={iaSak.saksnummer}
+                    samarbeid={samarbeid}
                     plan={iaSakPlan}
                     hentPlanIgjen={hentPlanIgjen}
                     brukerErEierAvSak={brukerErEierAvSak}
