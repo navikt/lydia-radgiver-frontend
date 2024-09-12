@@ -27,6 +27,10 @@ const Container = styled.div`
     margin-bottom: 2rem;
 `;
 
+interface Props {
+    KartleggingIdFraUrl: string | null;
+}
+
 const NyKartleggingKnapp = (props: { onClick: () => void }) => (
     <Button
         onClick={props.onClick}
@@ -40,11 +44,7 @@ const NyKartleggingKnapp = (props: { onClick: () => void }) => (
     </Button>
 );
 
-export const NyKartleggingFane = ({
-    KartleggingIdFraUrl,
-}: {
-    KartleggingIdFraUrl: string | null;
-}) => {
+export const NyKartleggingFane = ({ KartleggingIdFraUrl }: Props) => {
     const { iaSak, gjeldendeSamarbeid } = useSamarbeidsContext();
 
     const [sisteOpprettedeKartleggingId, setSisteOpprettedeKartleggingId] =
@@ -83,8 +83,6 @@ export const NyKartleggingFane = ({
         iaSakKartlegginger &&
         iaSakKartlegginger.length > 0;
 
-    const erIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
-
     return (
         <>
             <Container>
@@ -121,7 +119,6 @@ export const NyKartleggingFane = ({
                                 <KartleggingRad
                                     key={kartlegging.kartleggingId}
                                     iaSak={iaSak}
-                                    samarbeid={gjeldendeSamarbeid}
                                     kartlegging={kartlegging}
                                     brukerRolle={brukerInformasjon?.rolle}
                                     brukerErEierAvSak={brukerErEierAvSak}

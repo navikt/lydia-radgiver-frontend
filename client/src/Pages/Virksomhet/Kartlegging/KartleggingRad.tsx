@@ -5,17 +5,16 @@ import styled from "styled-components";
 import { KartleggingRadInnhold } from "./KartleggingRadInnhold";
 import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
 import React, { useState } from "react";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const AccordionHeader = styled(Accordion.Header)`
     width: 100%;
 
-    .navds-heading {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
-    }
+.navds-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+}
 `;
 
 const HeaderRightContent = styled.span`
@@ -29,23 +28,23 @@ const KartleggingDato = styled.span`
     text-align: right;
 `;
 
-export const KartleggingRad = ({
-    iaSak,
-    kartlegging,
-    brukerRolle,
-    samarbeid,
-    defaultOpen,
-    brukerErEierAvSak,
-    dato,
-}: {
+interface KartleggingRadProps {
     iaSak: IASak;
-    samarbeid: IaSakProsess;
     kartlegging: IASakKartlegging;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
     dato?: string;
     brukerErEierAvSak: boolean;
     defaultOpen?: boolean;
-}) => {
+}
+
+export const KartleggingRad = ({
+    iaSak,
+    kartlegging,
+    brukerRolle,
+    defaultOpen,
+    brukerErEierAvSak,
+    dato,
+}: KartleggingRadProps) => {
     const [erÅpen, setErÅpen] = useState(defaultOpen);
 
     return (
@@ -66,7 +65,6 @@ export const KartleggingRad = ({
             {erÅpen && (
                 <KartleggingRadInnhold
                     iaSak={iaSak}
-                    samarbeid={samarbeid}
                     kartleggingstatus={kartlegging.status}
                     kartlegging={kartlegging}
                     brukerRolle={brukerRolle}
