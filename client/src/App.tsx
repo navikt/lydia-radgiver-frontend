@@ -7,7 +7,7 @@ import { Prioriteringsside } from "./Pages/Prioritering/Prioriteringsside";
 import { desktopAndUp, largeDesktopAndUp } from "./styling/breakpoints";
 import { Virksomhetsside } from "./Pages/Virksomhet/Virksomhetsside";
 import { FeilmeldingBanner } from "./components/Banner/FeilmeldingBanner";
-import { Dekoratør, erIDemo, erIDev } from "./components/Dekoratør/Dekoratør";
+import { Dekoratør, erIDev } from "./components/Dekoratør/Dekoratør";
 import { contentSpacing } from "./styling/contentSpacing";
 import { Footer } from "./components/Footer/Footer";
 import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
@@ -46,7 +46,7 @@ const AppContent = () => {
 
     useEffect(() => {
         // Gjør favicon rød i dev og demo
-        if (erIDemo || erIDev) {
+        if (erIDev) {
             let link_prod = document.querySelector(
                 "link[rel~='icon']",
             ) as HTMLLinkElement | null;
@@ -63,7 +63,7 @@ const AppContent = () => {
                 link_prod.href = link_dev.href;
             }
         }
-    }, [erIDemo, erIDev]);
+    }, [erIDev]);
 
     if (loading) {
         return <Loader size="xlarge" />;

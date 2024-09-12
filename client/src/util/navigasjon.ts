@@ -1,10 +1,10 @@
-import { erIDemo, erIDev } from "../components/Dekoratør/Dekoratør";
+import { erIDev } from "../components/Dekoratør/Dekoratør";
 
 export const åpneKartleggingINyFane = (
     kartleggingId: string,
     kartleggingStatus: string,
 ) => {
-    const kartleggingHost = (erIDev || erIDemo)
+    const kartleggingHost = erIDev
         ? `https://fia-arbeidsgiver.ekstern.dev.nav.no`
         : `https://fia-arbeidsgiver.nav.no`;
     const baseUrl = `${kartleggingHost}/${kartleggingId}/vert`;
