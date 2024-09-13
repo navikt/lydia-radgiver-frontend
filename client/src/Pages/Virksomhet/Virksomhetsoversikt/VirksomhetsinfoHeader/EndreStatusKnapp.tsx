@@ -10,7 +10,7 @@ import { NyttStatusBadge } from "../../../../components/Badge/StatusBadge";
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import EndreStatusModal from "../IASakStatus/EndreStatusModal/EndreStatusModal";
 
-export function Statusseksjon({
+export function EndreStatusKnapp({
     iaSak,
     setVisKonfetti,
 }: {
