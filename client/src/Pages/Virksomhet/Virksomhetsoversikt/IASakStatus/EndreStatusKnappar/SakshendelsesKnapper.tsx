@@ -61,6 +61,7 @@ const rendreKnappForHendelse = (
             );
         case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
         case IASakshendelseTypeEnum.enum.NY_PROSESS:
+        case IASakshendelseTypeEnum.enum.SLETT_PROSESS:
             return <></>;
     }
 };
