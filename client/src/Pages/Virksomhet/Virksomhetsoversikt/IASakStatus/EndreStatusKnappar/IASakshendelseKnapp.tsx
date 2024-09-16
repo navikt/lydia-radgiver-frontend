@@ -21,6 +21,8 @@ export const penskrivIASakshendelsestype = (
             return "Ny prosess";
         case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
             return "Endre prosess";
+        case IASakshendelseTypeEnum.enum.SLETT_PROSESS:
+            return "Slett prosess";
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
             return "Vurder";
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
@@ -66,6 +68,7 @@ export const knappeTypeFraSakshendelsesType = (
         case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
         case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
         case IASakshendelseTypeEnum.enum.NY_PROSESS:
+        case IASakshendelseTypeEnum.enum.SLETT_PROSESS:
             return "primary";
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
         case IASakshendelseTypeEnum.enum.SLETT_SAK:
@@ -119,8 +122,6 @@ export const useTrengerÅFullføreKartleggingerFørst = (
 
     switch (hendelsesType) {
         case IASakshendelseTypeEnum.enum.TILBAKE:
-        case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
-        case IASakshendelseTypeEnum.enum.NY_PROSESS:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
         case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
             return harKartleggingerSomErUnderArbeid;
@@ -162,7 +163,6 @@ export const IASakshendelseKnapp = ({
     );
     const trengerÅFullføreKartleggingerFørst =
         useTrengerÅFullføreKartleggingerFørst(hendelsesType, sak);
-
     const [visFullførLeveranserFørstModal, setVisFullførLeveranserFørstModal] =
         useState(false);
     const [

@@ -107,7 +107,6 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     <StyledPanel value="statistikk">
                         <StatistikkFane virksomhet={virksomhet} />
                     </StyledPanel>
-
                     <StyledPanel value="kartlegging">
                         {iaSak && (
                             <BehovsvurderingFane
