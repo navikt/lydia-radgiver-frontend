@@ -57,12 +57,14 @@ export const AdministrerIaProsesserKnapp = ({
     return (
         <>
             <Button
+                style={{ maxWidth: "12rem" }}
                 variant="secondary"
                 size={"small"}
                 disabled={!kanAdministrereProsesser}
+                icon={<PlusIcon />}
                 onClick={() => setÅpen(true)}
             >
-                Opprett og administrer samarbeid
+                Nytt samarbeid
             </Button>
             <BekreftValgModal
                 onConfirm={() => setÅpen(false)}
