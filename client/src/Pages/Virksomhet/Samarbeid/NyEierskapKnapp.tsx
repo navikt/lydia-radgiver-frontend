@@ -3,15 +3,34 @@ import { useHentBrukerinformasjon, useHentTeam } from "../../../api/lydia-api";
 import { BodyShort, Button, HStack } from "@navikt/ds-react";
 import {
     ChevronDownIcon,
+    CircleSlashIcon,
     HeartFillIcon,
+    PersonFillIcon,
     PersonGroupIcon,
-    PersonIcon,
 } from "@navikt/aksel-icons";
 import React, { useState } from "react";
 import { TeamModal } from "../../MineSaker/TeamModal";
 
-export function NyEierskapKnapp({ iaSak }: { iaSak: IASak }) {
+export function EierskapKnapp({ iaSak }: { iaSak?: IASak }) {
+    if (iaSak === undefined) {
+        return (
+            <Button
+                onClick={() => setIsModalOpen(true)}
+                icon={<ChevronDownIcon />}
+                iconPosition={"right"}
+                variant={"tertiary"}
+                size={"small"}
+                disabled={true}
+            >
+                <HStack align={"center"} gap={"1"}>
+                    <CircleSlashIcon />
+                    <BodyShort>Ingen aktiv sak</BodyShort>
+                </HStack>
+            </Button>
+        );
+    }
     const { data: følgere = [] } = useHentTeam(iaSak.saksnummer);
+
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
     const brukerFølgerSak = !!følgere?.some(
@@ -32,7 +51,7 @@ export function NyEierskapKnapp({ iaSak }: { iaSak: IASak }) {
                 <HStack align={"center"} gap={"1"}>
                     {brukerErEierAvSak ? (
                         <>
-                            <PersonIcon />
+                            <PersonFillIcon />
                             <BodyShort>Du eier saken</BodyShort>
                         </>
                     ) : brukerFølgerSak ? (

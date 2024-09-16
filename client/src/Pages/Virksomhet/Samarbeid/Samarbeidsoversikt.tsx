@@ -11,9 +11,9 @@ import {
 } from "../../../styling/contentSpacing";
 import { NavFarger } from "../../../styling/farger";
 import { EksternLenke } from "../../../components/EksternLenke";
-import { NyEierskapKnapp } from "./NyEierskapKnapp";
+import { EierskapKnapp } from "./NyEierskapKnapp";
 
-import { Statusseksjon } from "../Virksomhetsoversikt/VirksomhetsinfoHeader/Statusseksjon";
+import { EndreStatusKnapp } from "../Virksomhetsoversikt/VirksomhetsinfoHeader/EndreStatusKnapp";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
@@ -59,8 +59,11 @@ export function Samarbeidsoversikt({
                                 iaSak={iaSak}
                                 virksomhet={virksomhet}
                             />
-                            <Statusseksjon iaSak={iaSak} />
-                            <NyEierskapKnapp iaSak={iaSak} />
+                            <EndreStatusKnapp
+                                virksomhet={virksomhet}
+                                iaSak={iaSak}
+                            />
+                            <EierskapKnapp iaSak={iaSak} />
                         </HStack>
                         {salesforceInfo && (
                             <SalesforceLenke href={salesforceInfo?.url}>

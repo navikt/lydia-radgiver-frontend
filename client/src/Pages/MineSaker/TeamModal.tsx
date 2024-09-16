@@ -1,7 +1,12 @@
-import { Button, Modal } from "@navikt/ds-react";
+import { BodyShort, Button, HStack, Modal } from "@navikt/ds-react";
 import styled from "styled-components";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
-import { HeartFillIcon, HeartIcon } from "@navikt/aksel-icons";
+import {
+    HeartFillIcon,
+    HeartIcon,
+    PersonFillIcon,
+    PersonIcon,
+} from "@navikt/aksel-icons";
 import {
     fjernBrukerFraTeam,
     leggBrukerTilTeam,
@@ -24,11 +29,6 @@ const EierBoks = styled.div`
     display: flex;
     flex-direction: column;
     gap: 1rem;
-`;
-
-const EierTekst = styled.div`
-    font-style: italic;
-    color: var(--Surface-Action, #0067c5);
 `;
 
 const EierKnappBoks = styled.div`
@@ -134,17 +134,19 @@ export const TeamModal = ({ open, setOpen, iaSak }: TeamModalProps) => {
                                         muterMineSaker();
                                     }}
                                 >
-                                    Ta eierskap
+                                    <HStack gap={"2"} align={"center"}>
+                                        {iaSak.eidAv !== brukerIdent ? (
+                                            <PersonIcon />
+                                        ) : (
+                                            <PersonFillIcon />
+                                        )}
+                                        {iaSak.eidAv !== brukerIdent ? (
+                                            <BodyShort>Ta eierskap</BodyShort>
+                                        ) : (
+                                            <BodyShort>Du eier saken</BodyShort>
+                                        )}
+                                    </HStack>
                                 </Button>
-                                <EierTekst>
-                                    {iaSak.eidAv === brukerIdent
-                                        ? `Du er allerede eier av denne saken.`
-                                        : /* !kanTaEierskap && iaSak.lukket
-                                          ? `Kan ikke bli eier på en lukket sak` : */
-                                          !kanTaEierskap
-                                          ? `Kan ikke bli eier`
-                                          : ``}
-                                </EierTekst>
                             </EierKnappBoks>
                         </EierBoks>
                         <FølgereBoks>
@@ -167,7 +169,7 @@ export const TeamModal = ({ open, setOpen, iaSak }: TeamModalProps) => {
                                 <Button
                                     size="small"
                                     icon={<HeartFillIcon />}
-                                    iconPosition="right"
+                                    iconPosition="left"
                                     variant="secondary"
                                     onClick={async () => {
                                         await fjernBrukerFraTeam(
@@ -183,7 +185,7 @@ export const TeamModal = ({ open, setOpen, iaSak }: TeamModalProps) => {
                                 <Button
                                     icon={<HeartIcon />}
                                     size="small"
-                                    iconPosition="right"
+                                    iconPosition="left"
                                     onClick={async () => {
                                         await leggBrukerTilTeam(
                                             iaSak.saksnummer,

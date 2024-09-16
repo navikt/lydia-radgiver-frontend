@@ -7,12 +7,13 @@ import { InformationSquareIcon } from "@navikt/aksel-icons";
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
 import { useHentSalesforceUrl } from "../../../../api/lydia-api";
 import { EksternLenke } from "../../../../components/EksternLenke";
-import EierOgStatus from "./EierOgStatus";
 import VirksomhetContext, {
     VirksomhetContextType,
 } from "../../VirksomhetContext";
 
 import { SamarbeidsDropdown } from "../../Samarbeid/SamarbeidsDropdown";
+import { EndreStatusKnapp } from "./EndreStatusKnapp";
+import { EierskapKnapp } from "../../Samarbeid/NyEierskapKnapp";
 
 const Container = styled.div`
     display: flex;
@@ -48,7 +49,11 @@ export default function NyVirksomhetsoversikt() {
                             iaSak={iaSak}
                             virksomhet={virksomhet}
                         />
-                        <EierOgStatus />
+                        <EndreStatusKnapp
+                            virksomhet={virksomhet}
+                            iaSak={iaSak}
+                        />
+                        <EierskapKnapp iaSak={iaSak} />
                     </HStack>
                     {salesforceInfo && (
                         <SalesforceLenke href={salesforceInfo?.url}>
