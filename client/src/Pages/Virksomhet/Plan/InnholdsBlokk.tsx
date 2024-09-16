@@ -182,7 +182,7 @@ export function PrettyInnholdsDato({
             nyDato.setDate(nyDato.getDate() - 1);
         }
 
-        const nyDatoTekst = `${nyDato.toLocaleString("nb-NO", { month: "short" })} ${nyDato.getFullYear()}`;
+        const nyDatoTekst = nyDato.toLocaleDateString("nb-NO", { month: "short", day: "numeric", year: "2-digit" });
 
         return nyDatoTekst[0].toUpperCase() + nyDatoTekst.substring(1);
     }, [visNesteMåned, date]);

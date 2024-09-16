@@ -1,4 +1,4 @@
-import { Checkbox, CheckboxGroup, HStack, MonthPicker } from "@navikt/ds-react";
+import { Checkbox, CheckboxGroup, HStack, DatePicker, useDatepicker } from "@navikt/ds-react";
 import styled from "styled-components";
 import { PlanInnhold } from "../../../domenetyper/plan";
 import React from "react";
@@ -7,6 +7,15 @@ const UndertemaRad = styled(HStack)`
     margin-bottom: 0.5rem;
     min-width: 48rem;
 `;
+
+
+// Noe ødelegger --a-spacing-6 så vi setter det manuelt. Bør ta en titt og finne ut hva som ødelegger det senere.
+const StyledHStack = styled(HStack)`
+    --a-spacing-6: 1.5rem;
+`;
+
+const FIRST_VALID_DATE = "Jan 1 2023";
+const LAST_VALID_DATE = "Jan 1 2028";
 
 function StartOgSluttVelger({
     undertema,
@@ -17,55 +26,46 @@ function StartOgSluttVelger({
     setNyStartDato: (date: Date) => void;
     setNySluttDato: (date: Date) => void;
 }) {
-    const lagreStartDato = (date: Date | undefined) => {
-        if (date === undefined) {
-            console.log("dato ikke valgt");
-        } else {
-            setNyStartDato(date);
+    const datepickerFrom = useDatepicker({
+        defaultSelected: undertema.startDato ?? undefined,
+        fromDate: new Date(FIRST_VALID_DATE),
+        toDate: new Date(undertema.sluttDato ?? LAST_VALID_DATE),
+        onDateChange: (date) => {
+            if (date) {
+                setNyStartDato(date);
+            }
         }
-    };
-    const lagreSluttDato = (date: Date | undefined) => {
-        if (date === undefined) {
-            console.log("dato ikke valgt");
-        } else {
-            setNySluttDato(date);
-        }
-    };
+    });
+    const datepickerTo = useDatepicker({
+        defaultSelected: undertema.sluttDato ?? undefined,
+        fromDate: new Date(undertema.startDato ?? FIRST_VALID_DATE),
+        toDate: new Date(LAST_VALID_DATE),
+        onDateChange: (date) => {
+            if (date) {
+                setNySluttDato(date);
+            }
+        },
+    });
 
     return (
-        <HStack align="center" gap="3">
-            <MonthPicker onMonthSelect={lagreStartDato}>
-                <MonthPicker.Input
+        <StyledHStack wrap gap="4" justify="center">
+            <DatePicker {...datepickerFrom.datepickerProps} dropdownCaption>
+                <DatePicker.Input
                     hideLabel
                     size="small"
                     label={`Startdato for ${undertema.navn}`}
-                    value={
-                        undertema?.startDato === null
-                            ? ""
-                            : `${undertema.startDato.toLocaleString("default", { month: "short" })} ${undertema.startDato.getFullYear()}`
-                    }
-                    onChange={(date) => console.log(date)}
+                    {...datepickerFrom.inputProps}
                 />
-            </MonthPicker>
-            {" - "}
-            <MonthPicker
-                selected={undertema.sluttDato ?? new Date()}
-                defaultSelected={undertema.sluttDato ?? new Date()}
-                onMonthSelect={lagreSluttDato}
-            >
-                <MonthPicker.Input
+            </DatePicker>
+            <DatePicker {...datepickerTo.datepickerProps} dropdownCaption>
+                <DatePicker.Input
                     hideLabel
                     size="small"
                     label={`Sluttdato for ${undertema.navn}`}
-                    value={
-                        undertema.sluttDato === null
-                            ? ""
-                            : `${undertema.sluttDato.toLocaleString("default", { month: "short" })} ${undertema.sluttDato.getFullYear()}`
-                    }
-                    onChange={(date) => console.log(date)}
+                    {...datepickerTo.inputProps}
                 />
-            </MonthPicker>
-        </HStack>
+            </DatePicker>
+        </StyledHStack>
     );
 }
 
@@ -84,12 +84,12 @@ export default function UndertemaSetup({
                 undertemaIder.includes(undertema.id)
                     ? { ...undertema, planlagt: true, status: "PLANLAGT" }
                     : {
-                          ...undertema,
-                          planlagt: false,
-                          startDato: null,
-                          sluttDato: null,
-                          status: null,
-                      },
+                        ...undertema,
+                        planlagt: false,
+                        startDato: null,
+                        sluttDato: null,
+                        status: null,
+                    },
             ),
         );
     };
