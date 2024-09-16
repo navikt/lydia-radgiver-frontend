@@ -13,7 +13,7 @@ import VirksomhetContext, {
 
 import { SamarbeidsDropdown } from "../../Samarbeid/SamarbeidsDropdown";
 import { EndreStatusKnapp } from "./EndreStatusKnapp";
-import { EierskapKnapp } from "../../Samarbeid/NyEierskapKnapp";
+import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
 
 const Container = styled.div`
     display: flex;

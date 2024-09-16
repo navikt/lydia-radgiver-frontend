@@ -11,7 +11,7 @@ import {
 } from "../../../styling/contentSpacing";
 import { NavFarger } from "../../../styling/farger";
 import { EksternLenke } from "../../../components/EksternLenke";
-import { EierskapKnapp } from "./NyEierskapKnapp";
+import { EierskapKnapp } from "./EierskapKnapp";
 
 import { EndreStatusKnapp } from "../Virksomhetsoversikt/VirksomhetsinfoHeader/EndreStatusKnapp";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
