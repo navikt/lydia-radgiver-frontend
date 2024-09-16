@@ -65,7 +65,7 @@ export const BehovsvurderingRadInnhold = ({
             return (
                 <Accordion.Content>
                     <ExportVisningContainer>
-                        {erIDev && (
+                        {erIDev && brukerErEierAvSak && (
                             <FlyttTilAnnenProsess
                                 gjeldendeSamarbeid={samarbeid}
                                 iaSak={iaSak}
