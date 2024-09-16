@@ -85,6 +85,7 @@ export const TeamModal = ({ open, setOpen, iaSak }: TeamModalProps) => {
     return (
         <>
             <Modal
+                closeOnBackdropClick={true}
                 open={open}
                 onClose={() => {
                     muterMineSaker();
