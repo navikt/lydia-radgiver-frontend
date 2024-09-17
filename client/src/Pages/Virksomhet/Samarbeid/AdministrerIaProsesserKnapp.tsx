@@ -16,12 +16,14 @@ interface AdministrerIaProsesserKnappProps {
     alleSamarbeid: IaSakProsess[];
     iaSak: IASak;
     brukerErEierAvSak: boolean;
+    variant?: ButtonProps["variant"];
 }
 
 export const AdministrerIaProsesserKnapp = ({
     alleSamarbeid,
     iaSak,
     brukerErEierAvSak,
+    variant = "secondary",
 }: AdministrerIaProsesserKnappProps) => {
     const kanAdministrereProsesser =
         brukerErEierAvSak && ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
@@ -32,7 +34,7 @@ export const AdministrerIaProsesserKnapp = ({
         <>
             <Button
                 style={{ maxWidth: "12rem" }}
-                variant="secondary"
+                variant={variant}
                 size={"small"}
                 disabled={!kanAdministrereProsesser}
                 icon={<PlusIcon />}
@@ -70,13 +72,7 @@ export const AdministrerIaProsesserKnapp = ({
     );
 };
 
-export const NyttSamarbeidKnapp = ({
-    iaSak,
-    variant = "secondary",
-}: {
-    iaSak: IASak;
-    variant?: ButtonProps["variant"];
-}) => {
+export const NyttSamarbeidKnapp = ({ iaSak }: { iaSak: IASak }) => {
     const { mutate: hentSamarbeidshistorikkPåNytt } =
         useHentSamarbeidshistorikk(iaSak.orgnr);
     const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(
@@ -100,7 +96,7 @@ export const NyttSamarbeidKnapp = ({
 
     return (
         <Button
-            variant={variant}
+            variant={"secondary"}
             size={"small"}
             icon={<PlusIcon />}
             iconPosition={"left"}
