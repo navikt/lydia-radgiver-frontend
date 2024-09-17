@@ -4,7 +4,6 @@ import {
     slettetVirksomhetMock,
     virksomhetMock,
 } from "../Prioritering/mocks/virksomhetMock";
-import { VirksomhetsVisning } from "./VirksomhetsVisning";
 import { http, HttpResponse } from "msw";
 import {
     historiskStatistikkPath,
@@ -14,7 +13,8 @@ import {
 import { iaSakFullførtOgLukket, iaSakKontaktes } from "./mocks/iaSakMock";
 import { mswHandlers } from "../../../.storybook/mswHandlers";
 import { historiskStatistikkMock } from "../Prioritering/mocks/sykefraværsstatistikkMock";
-import { MemoryRouter, Routes, Route } from "react-router-dom";
+import { MemoryRouter, Route, Routes } from "react-router-dom";
+import { VirksomhetsVisning } from "./VirksomhetsVisning";
 
 const meta = {
     title: "Virksomhet/Visning av en virksomhet",

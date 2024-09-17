@@ -2,11 +2,9 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Loader } from "@navikt/ds-react";
 import { useHentVirksomhetsinformasjon } from "../../api/lydia-api";
-import { VirksomhetsVisning } from "./VirksomhetsVisning";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { loggSideLastet } from "../../util/amplitude-klient";
-import { erIDev } from "../../components/Dekoratør/Dekoratør";
-import { NyVirksomhetsVisning } from "./NyVirksomhetsVisning";
+import { VirksomhetsVisning } from "./VirksomhetsVisning";
 
 export const Virksomhetsside = () => {
     const { oppdaterTittel } = useTittel(statiskeSidetitler.virksomhetsside);
@@ -27,11 +25,7 @@ export const Virksomhetsside = () => {
     }
 
     if (virksomhetsinformasjon) {
-        if (erIDev) {
-            return <NyVirksomhetsVisning virksomhet={virksomhetsinformasjon} />;
-        } else {
-            return <VirksomhetsVisning virksomhet={virksomhetsinformasjon} />;
-        }
+        return <VirksomhetsVisning virksomhet={virksomhetsinformasjon} />;
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>;
     }
