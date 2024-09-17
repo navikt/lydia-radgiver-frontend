@@ -179,9 +179,11 @@ export function SamarbeidsDropdown({
                     </DropdownMenuContainer>
                 </Dropdown>
             </DropdownContainer>
-            {valgtSamarbeid && (
+
+            {valgtSamarbeid && iaSak && (
                 <EndreSamarbeidModal
                     samarbeid={valgtSamarbeid}
+                    iaSak={iaSak}
                     open={isEndreSamarbeidModalÅpen}
                     setOpen={setEndreSamarbeidModalÅpen}
                 />
