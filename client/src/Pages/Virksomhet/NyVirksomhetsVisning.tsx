@@ -12,7 +12,7 @@ import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
 import VirksomhetContext from "./VirksomhetContext";
-import NyVirksomhetsoversikt from "./Virksomhetsoversikt/VirksomhetsinfoHeader/NyVirksomhetsoversikt";
+import VirksomhetOgSamarbeidsHeader from "./Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
 
 const Container = styled.div`
     padding-top: ${contentSpacing.mobileY};
@@ -67,7 +67,10 @@ export const NyVirksomhetsVisning = ({ virksomhet }: Props) => {
             }}
         >
             <Container>
-                <NyVirksomhetsoversikt />
+                <VirksomhetOgSamarbeidsHeader
+                    virksomhet={virksomhet}
+                    iaSak={iaSak}
+                />
                 <br />
                 <Tabs
                     value={fane}

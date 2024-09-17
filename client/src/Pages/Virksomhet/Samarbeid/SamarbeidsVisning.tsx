@@ -12,10 +12,10 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { LeveranseFane } from "../Leveranser/LeveranseFane";
 import PlanFane from "../Plan/PlanFane";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { Samarbeidsoversikt } from "./Samarbeidsoversikt";
 import EvalueringFane from "./Evaluering/EvalueringFane";
 import { BehovsvurderingFane } from "../Kartlegging/BehovsvurderingFane";
 import VirksomhetContext from "../VirksomhetContext";
+import VirksomhetOgSamarbeidsHeader from "../Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
 
 const StyledPanel = styled(Tabs.Panel)`
     padding-top: 1.5rem;
@@ -85,7 +85,7 @@ export const SamarbeidsVisning = ({
                 }}
             >
                 <Container>
-                    <Samarbeidsoversikt
+                    <VirksomhetOgSamarbeidsHeader
                         virksomhet={virksomhet}
                         iaSak={iaSak}
                         gjeldendeSamarbeid={gjeldendeSamarbeid}
