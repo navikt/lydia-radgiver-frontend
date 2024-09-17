@@ -1,4 +1,4 @@
-import { BodyLong, Button, Detail, Label } from "@navikt/ds-react";
+import { BodyLong, Button, ButtonProps, Detail, Label } from "@navikt/ds-react";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { IaProsessRad } from "./IaProsessRad";
 import React, { useState } from "react";
@@ -11,17 +11,12 @@ import {
     useHentSamarbeidshistorikk,
 } from "../../../api/lydia-api";
 import { PlusIcon } from "@navikt/aksel-icons";
-import styled from "styled-components";
 
 interface AdministrerIaProsesserKnappProps {
     alleSamarbeid: IaSakProsess[];
     iaSak: IASak;
     brukerErEierAvSak: boolean;
 }
-
-const NyttSamarbeidKnapp = styled(Button)`
-    max-height: 2rem;
-`;
 
 export const AdministrerIaProsesserKnapp = ({
     alleSamarbeid,
@@ -32,27 +27,6 @@ export const AdministrerIaProsesserKnapp = ({
         brukerErEierAvSak && ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
 
     const [åpen, setÅpen] = useState(false);
-
-    const { mutate: hentSamarbeidshistorikkPåNytt } =
-        useHentSamarbeidshistorikk(iaSak.orgnr);
-    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(
-        iaSak.orgnr,
-    );
-    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
-        iaSak.orgnr,
-        iaSak.saksnummer,
-    );
-
-    function opprettIaProsess() {
-        nyHendelsePåSak(iaSak, {
-            saksHendelsestype: "NY_PROSESS",
-            gyldigeÅrsaker: [],
-        }).then(() => {
-            mutateHentSaker();
-            hentSamarbeidshistorikkPåNytt();
-            hentSamarbeidPåNytt();
-        });
-    }
 
     return (
         <>
@@ -90,16 +64,49 @@ export const AdministrerIaProsesserKnapp = ({
                         <br />
                     </div>
                 ))}
-                <NyttSamarbeidKnapp
-                    variant={"secondary"}
-                    icon={<PlusIcon />}
-                    iconPosition={"left"}
-                    onClick={opprettIaProsess}
-                >
-                    {" "}
-                    Nytt samarbeid
-                </NyttSamarbeidKnapp>
+                <NyttSamarbeidKnapp iaSak={iaSak} />
             </BekreftValgModal>
         </>
+    );
+};
+
+export const NyttSamarbeidKnapp = ({
+    iaSak,
+    variant = "secondary",
+}: {
+    iaSak: IASak;
+    variant?: ButtonProps["variant"];
+}) => {
+    const { mutate: hentSamarbeidshistorikkPåNytt } =
+        useHentSamarbeidshistorikk(iaSak.orgnr);
+    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(
+        iaSak.orgnr,
+    );
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+    );
+
+    function opprettIaProsess() {
+        nyHendelsePåSak(iaSak, {
+            saksHendelsestype: "NY_PROSESS",
+            gyldigeÅrsaker: [],
+        }).then(() => {
+            mutateHentSaker();
+            hentSamarbeidshistorikkPåNytt();
+            hentSamarbeidPåNytt();
+        });
+    }
+
+    return (
+        <Button
+            variant={variant}
+            size={"small"}
+            icon={<PlusIcon />}
+            iconPosition={"left"}
+            onClick={opprettIaProsess}
+        >
+            Nytt samarbeid
+        </Button>
     );
 };

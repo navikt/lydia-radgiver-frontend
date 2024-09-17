@@ -10,16 +10,18 @@ import {
     useHentAktivSakForVirksomhet,
     useHentKartlegginger,
     useHentLeveranser,
+    useHentSamarbeid,
     useHentSamarbeidshistorikk,
 } from "../../../../../api/lydia-api";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { StatusHendelseSteg } from "./Statusknapper";
-import { penskrivIASakshendelsestype } from "../EndreStatusKnappar/IASakshendelseKnapp";
-import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
 import {
-    useTrengerÅFullføreLeveranserFørst,
+    penskrivIASakshendelsestype,
     useTrengerÅFullføreKartleggingerFørst,
+    useTrengerÅFullføreLeveranserFørst,
 } from "../EndreStatusKnappar/IASakshendelseKnapp";
+import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
+import { NyttSamarbeidKnapp } from "../../../Samarbeid/AdministrerIaProsesserKnapp";
 
 export default function KnappForHendelse({
     hendelse,
@@ -68,7 +70,6 @@ export default function KnappForHendelse({
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
         case IASakshendelseTypeEnum.enum.SLETT_SAK:
             return (
                 <RettTilNesteStatusKnapp
@@ -79,11 +80,50 @@ export default function KnappForHendelse({
                     onStatusEndret={onStatusEndret}
                 />
             );
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
+            return (
+                <BiståEllerSamarbeidKnapp
+                    hendelse={hendelse}
+                    sak={sak}
+                    variant={variant}
+                    onStatusEndret={onStatusEndret}
+                />
+            );
         case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
         case IASakshendelseTypeEnum.enum.NY_PROSESS:
         default:
             return <></>;
     }
+}
+
+function BiståEllerSamarbeidKnapp({
+    sak,
+    hendelse,
+    variant,
+    onStatusEndret,
+}: {
+    hendelse: GyldigNesteHendelse;
+    sak: IASak;
+    variant: ButtonProps["variant"];
+    onStatusEndret: (status: IASak["status"]) => void;
+}) {
+    const { data: alleSamarbeid } = useHentSamarbeid(sak.orgnr, sak.saksnummer);
+
+    if (alleSamarbeid === undefined || alleSamarbeid.length === 0) {
+        return <NyttSamarbeidKnapp iaSak={sak} variant={"primary"} />;
+    }
+
+    return (
+        alleSamarbeid && (
+            <RettTilNesteStatusKnapp
+                sak={sak}
+                hendelse={hendelse}
+                disabled={false}
+                variant={variant}
+                onStatusEndret={onStatusEndret}
+            />
+        )
+    );
 }
 
 function IkkeAktuellKnapp({

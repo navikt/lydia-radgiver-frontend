@@ -8,13 +8,56 @@ import { ChevronDownIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 import Historikk from "../IASakStatus/EndreStatusModal/Historikk";
 import {
-    StatusHendelseSteg,
     Statusknapper,
+    StatusHendelseSteg,
 } from "../IASakStatus/EndreStatusModal/Statusknapper";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { penskrivIAStatus } from "../../../../components/Badge/StatusBadge";
 import { FiaFarger } from "../../../../styling/farger";
 import { useHentAktivSakForVirksomhet } from "../../../../api/lydia-api";
+
+const RegularSortTekstKnapp = styled(Button)`
+    color: black;
+
+    & > span {
+        font-weight: var(--a-font-weight-regular);
+    }
+`;
+const IkkeAktivKnapp = styled(RegularSortTekstKnapp)`
+    background-color: ${FiaFarger.grå};
+
+    &:hover {
+        background-color: #969696; // HSB for grå med -20% Brightness
+    }
+`;
+const VurderesKnapp = styled(RegularSortTekstKnapp)`
+    background-color: ${FiaFarger.lyseBlå};
+
+    &:hover {
+        background-color: #adc7cc; // HSB for lyseBlå med -20% Brightness
+    }
+`;
+const KontaktesKnapp = styled(RegularSortTekstKnapp)`
+    background-color: ${FiaFarger.mørkeBlå};
+
+    &:hover {
+        background-color: #a3b4cc; // HSB for mørkeBlå med -20% Brightness
+    }
+`;
+const KartleggesKnapp = styled(RegularSortTekstKnapp)`
+    background-color: ${FiaFarger.gul};
+
+    &:hover {
+        background-color: #ccab7a; // HSB for gul med -20% Brightness
+    }
+`;
+const ViBistårKnapp = styled(RegularSortTekstKnapp)`
+    background-color: ${FiaFarger.grønn};
+
+    &:hover {
+        background-color: #76ab85; // HSB for grønn med -20% Brightness
+    }
+`;
 
 export function EndreStatusKnapp({
     virksomhet,
@@ -36,50 +79,7 @@ export function EndreStatusKnapp({
         virksomhet.orgnr,
     );
 
-    function StatusKnapp({ iaSak }: { iaSak?: IASak | undefined }) {
-        const StyledStatusKnapp = styled(Button)`
-            color: black;
-
-            & > span {
-                font-weight: var(--a-font-weight-regular);
-            }
-        `;
-        const IkkeAktivKnapp = styled(StyledStatusKnapp)`
-            background-color: ${FiaFarger.grå};
-
-            &:hover {
-                background-color: #969696; // HSB for grå med -20% Brightness
-            }
-        `;
-        const VurderesKnapp = styled(StyledStatusKnapp)`
-            background-color: ${FiaFarger.lyseBlå};
-
-            &:hover {
-                background-color: #adc7cc; // HSB for lyseBlå med -20% Brightness
-            }
-        `;
-        const KontaktesKnapp = styled(StyledStatusKnapp)`
-            background-color: ${FiaFarger.mørkeBlå};
-
-            &:hover {
-                background-color: #a3b4cc; // HSB for mørkeBlå med -20% Brightness
-            }
-        `;
-        const KartleggesKnapp = styled(StyledStatusKnapp)`
-            background-color: ${FiaFarger.gul};
-
-            &:hover {
-                background-color: #ccab7a; // HSB for gul med -20% Brightness
-            }
-        `;
-        const ViBistårKnapp = styled(StyledStatusKnapp)`
-            background-color: ${FiaFarger.grønn};
-
-            &:hover {
-                background-color: #76ab85; // HSB for grønn med -20% Brightness
-            }
-        `;
-
+    function StyledStatusKnapp({ iaSak }: { iaSak?: IASak | undefined }) {
         switch (iaSak?.status) {
             case undefined:
                 return (
@@ -162,7 +162,7 @@ export function EndreStatusKnapp({
                         icon={<ChevronDownIcon />}
                         onClick={() => setOpen(true)}
                     >
-                        {iaSak?.status}
+                        Uventet status {iaSak?.status}
                     </Button>
                 );
         }
@@ -170,7 +170,8 @@ export function EndreStatusKnapp({
 
     return (
         <>
-            <StatusKnapp iaSak={iaSak}></StatusKnapp>
+            <StyledStatusKnapp iaSak={iaSak}></StyledStatusKnapp>
+
             <Modal
                 open={open}
                 closeOnBackdropClick={true}
