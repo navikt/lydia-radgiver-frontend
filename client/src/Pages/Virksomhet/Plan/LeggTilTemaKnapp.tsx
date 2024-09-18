@@ -7,7 +7,7 @@ import {
     Modal,
 } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
-import UndertemaSetup from "./UndertemaSetup";
+import InnholdOppsett from "./InnholdOppsett";
 import styled from "styled-components";
 import { Plan, PlanTema, PlanInnhold } from "../../../domenetyper/plan";
 import { endrePlan } from "../../../api/lydia-api";
@@ -161,11 +161,9 @@ export default function LeggTilTemaKnapp({
                                     </Checkbox>
                                     {tema.planlagt && (
                                         <UndertemaSetupContainer>
-                                            <UndertemaSetup
-                                                valgteUndertemaer={
-                                                    tema.undertemaer
-                                                }
-                                                velgUndertemaer={(
+                                            <InnholdOppsett
+                                                valgteInnhold={tema.undertemaer}
+                                                velgInnhold={(
                                                     val: PlanInnhold[],
                                                 ) =>
                                                     velgUndertema(tema.id, val)

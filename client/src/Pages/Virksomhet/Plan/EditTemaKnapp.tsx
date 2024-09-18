@@ -4,7 +4,7 @@ import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import styled from "styled-components";
 import { mobileAndUp } from "../../../styling/breakpoints";
 import { DocPencilIcon } from "@navikt/aksel-icons";
-import UndertemaSetup from "./UndertemaSetup";
+import InnholdOppsett from "./InnholdOppsett";
 import { Plan, PlanInnhold, PlanTema } from "../../../domenetyper/plan";
 import { endrePlanTema } from "../../../api/lydia-api";
 import { lagRequest, UndertemaRequest } from "./Requests";
@@ -70,11 +70,9 @@ export default function EditTemaKnapp({
                 aria-label="Rediger tema"
             >
                 <Modal.Body>
-                    <UndertemaSetup
-                        valgteUndertemaer={redigertTema.undertemaer}
-                        velgUndertemaer={(
-                            redigerteUndertemaer: PlanInnhold[],
-                        ) => {
+                    <InnholdOppsett
+                        valgteInnhold={redigertTema.undertemaer}
+                        velgInnhold={(redigerteUndertemaer: PlanInnhold[]) => {
                             setRedigertTema({
                                 ...redigertTema,
                                 undertemaer: redigerteUndertemaer,
