@@ -82,7 +82,6 @@ export const MineSakerside = () => {
         loggSideLastet("Minesakerside");
     }, []);
 
-    // TODO: Loading and error states
     const { data: mineSaker } = useHentMineSaker();
     const { data: brukerInfo } = useHentBrukerinformasjon();
 

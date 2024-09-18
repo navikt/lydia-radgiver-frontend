@@ -126,7 +126,7 @@ export const TeamModal = ({ open, setOpen, iaSak }: TeamModalProps) => {
                                             {
                                                 saksHendelsestype:
                                                     "TA_EIERSKAP_I_SAK",
-                                                gyldigeÅrsaker: [], // TODO: trengs dette å defineres
+                                                gyldigeÅrsaker: [],
                                             },
                                             null,
                                             null,
