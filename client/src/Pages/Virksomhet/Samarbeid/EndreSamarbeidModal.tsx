@@ -8,7 +8,7 @@ import {
     Modal,
     TextField,
 } from "@navikt/ds-react";
-import { IASak } from "../../../domenetyper/domenetyper";
+import { IASak, IASakshendelseType } from "../../../domenetyper/domenetyper";
 import React, { useEffect, useState } from "react";
 import {
     nyHendelsePåSak,
@@ -73,11 +73,21 @@ export const EndreSamarbeidModal = ({
         });
     };
 
+    const slettSamarbeid = () => {
+        nyHendelse("SLETT_PROSESS").then(() => {
+            setOpen(false);
+        });
+    };
+
     const endreNavn = () => {
-        nyHendelsePåSak(
+        nyHendelse("ENDRE_PROSESS");
+    };
+
+    const nyHendelse = (hendelsestype: IASakshendelseType) => {
+        return nyHendelsePåSak(
             iaSak,
             {
-                saksHendelsestype: "ENDRE_PROSESS",
+                saksHendelsestype: hendelsestype,
                 gyldigeÅrsaker: [],
             },
             null,
@@ -128,7 +138,9 @@ export const EndreSamarbeidModal = ({
                         }}
                         hideLabel
                     />
-                    {/*<Button variant={"danger"}>Slett</Button>*/}
+                    <Button variant={"danger"} onClick={slettSamarbeid}>
+                        Slett
+                    </Button>
                 </HStack>
                 <Detail style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>
                     {antallTegn}/25 tegn

@@ -70,6 +70,9 @@ export const SamarbeidsVisning = ({
         }
     }, []);
 
+    if (gjeldendeSamarbeid === undefined)
+        location.href = `/virksomhet/${iaSak.orgnr}`;
+
     return (
         <VirksomhetContext.Provider
             value={{

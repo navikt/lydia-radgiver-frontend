@@ -87,6 +87,12 @@ export const SakshistorikkTabell = ({
                                                 "NY_PROSESS" && (
                                                 <Detail>Nytt samarbeid</Detail>
                                             )}
+                                            {sakSnapshot.hendelsestype ===
+                                                "SLETT_PROSESS" && (
+                                                <Detail>
+                                                    Slettet samarbeid
+                                                </Detail>
+                                            )}
                                         </Table.DataCell>
                                         <Table.DataCell>
                                             <NavIdentMedLenke
