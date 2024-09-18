@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@navikt/ds-react";
+import { Button, ButtonProps, Detail } from "@navikt/ds-react";
 import React from "react";
 import {
     GyldigNesteHendelse,
@@ -8,7 +8,6 @@ import {
 import {
     nyHendelsePåSak,
     useHentAktivSakForVirksomhet,
-    useHentBrukerinformasjon,
     useHentKartlegginger,
     useHentLeveranser,
     useHentSamarbeid,
@@ -22,7 +21,6 @@ import {
     useTrengerÅFullføreLeveranserFørst,
 } from "../EndreStatusKnappar/IASakshendelseKnapp";
 import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
-import { AdministrerIaProsesserKnapp } from "../../../Samarbeid/AdministrerIaProsesserKnapp";
 
 export default function KnappForHendelse({
     hendelse,
@@ -109,20 +107,12 @@ function BiståEllerSamarbeidKnapp({
     onStatusEndret: (status: IASak["status"]) => void;
 }) {
     const { data: alleSamarbeid } = useHentSamarbeid(sak.orgnr, sak.saksnummer);
-    const { data: brukerInformasjon } = useHentBrukerinformasjon();
 
     if (alleSamarbeid === undefined) {
         return <></>;
     }
     if (alleSamarbeid.length === 0) {
-        return (
-            <AdministrerIaProsesserKnapp
-                alleSamarbeid={alleSamarbeid}
-                iaSak={sak}
-                variant={"primary"}
-                brukerErEierAvSak={sak.eidAv === brukerInformasjon?.ident}
-            />
-        );
+        return <Detail>Du må opprette ett samarbeid først</Detail>;
     }
 
     return (

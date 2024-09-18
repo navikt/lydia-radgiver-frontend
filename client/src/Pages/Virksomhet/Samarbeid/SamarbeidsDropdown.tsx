@@ -13,11 +13,11 @@ import {
     Link,
 } from "@navikt/ds-react";
 import { ArrowRightIcon, ChevronDownIcon } from "@navikt/aksel-icons";
-import { AdministrerIaProsesserKnapp } from "./AdministrerIaProsesserKnapp";
 import React, { useState } from "react";
 import { EndreSamarbeidModal } from "./EndreSamarbeidModal";
 import styled from "styled-components";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { NyttSamarbeidModal } from "./NyttSamarbeidModal";
 
 const DropdownContainer = styled.div`
     display: flex;
@@ -29,7 +29,7 @@ const DropdownMenuContainer = styled.div`
     padding: 1rem;
 `;
 
-const SomethingContainer = styled.div`
+const InnholdMedEkstraPadding = styled.div`
     display: flex;
     flex-direction: column;
     padding: 1.5rem;
@@ -55,6 +55,7 @@ export function SamarbeidsDropdown({
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
     const [isEndreSamarbeidModalÅpen, setEndreSamarbeidModalÅpen] =
         useState(false);
+    const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] = useState(false);
     const [valgtSamarbeid, setValgtSamarbeid] = useState<IaSakProsess | null>(
         null,
     );
@@ -80,7 +81,7 @@ export function SamarbeidsDropdown({
                                 placement={"top-start"}
                                 style={{ width: "32rem" }}
                             >
-                                <SomethingContainer>
+                                <InnholdMedEkstraPadding>
                                     <Heading
                                         as={Link}
                                         level={"4"}
@@ -161,24 +162,33 @@ export function SamarbeidsDropdown({
                                             </Dropdown.Menu.List>
 
                                             <OpprettKnappWrapper>
-                                                <AdministrerIaProsesserKnapp
-                                                    alleSamarbeid={
-                                                        alleSamarbeid
+                                                <Button
+                                                    variant={"secondary"}
+                                                    onClick={() =>
+                                                        setNyttSamarbeidModalÅpen(
+                                                            true,
+                                                        )
                                                     }
-                                                    iaSak={iaSak}
-                                                    brukerErEierAvSak={
-                                                        brukerErEierAvSak
-                                                    }
-                                                />
+                                                >
+                                                    Nytt samarbeid
+                                                </Button>
                                             </OpprettKnappWrapper>
                                         </>
                                     )}
-                                </SomethingContainer>
+                                </InnholdMedEkstraPadding>
                             </Dropdown.Menu>
                         }
                     </DropdownMenuContainer>
                 </Dropdown>
             </DropdownContainer>
+
+            {iaSak && brukerErEierAvSak && (
+                <NyttSamarbeidModal
+                    iaSak={iaSak}
+                    åpen={nyttSamarbeidModalÅpen}
+                    setÅpen={setNyttSamarbeidModalÅpen}
+                />
+            )}
 
             {valgtSamarbeid && iaSak && (
                 <EndreSamarbeidModal

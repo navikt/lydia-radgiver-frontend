@@ -19,7 +19,7 @@ import {
 import styled from "styled-components";
 import { StyledModal } from "../../../components/Modal/StyledModal";
 
-const NavngiSamarbeidInfo = styled.div`
+export const NavngiSamarbeidInfo = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
@@ -27,7 +27,7 @@ const NavngiSamarbeidInfo = styled.div`
     padding: 0rem 1rem 0rem 1rem;
 `;
 
-const IaSamarbeidNavnfelt = styled.div`
+export const IaSamarbeidNavnfelt = styled.div`
     min-width: fit-content;
     max-width: 100%;
     padding: 0rem 1rem 0rem 1rem;
