@@ -9,11 +9,12 @@ import {
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import InnholdOppsett from "./InnholdOppsett";
 import styled from "styled-components";
-import { Plan, PlanTema, PlanInnhold } from "../../../domenetyper/plan";
+import { Plan, PlanInnhold, PlanTema } from "../../../domenetyper/plan";
 import { endrePlan } from "../../../api/lydia-api";
 import { lagRequest, TemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { NotePencilIcon } from "@navikt/aksel-icons";
 
 const UndertemaSetupContainer = styled.div`
     margin-bottom: 1rem;
@@ -130,12 +131,15 @@ export default function LeggTilTemaKnapp({
                 </>
             )}
             <Button
+                size="medium"
+                iconPosition="left"
+                variant="primary"
+                icon={<NotePencilIcon />}
+                style={{ margin: "1rem", minWidth: "10.5rem" }}
                 onClick={() => setModalOpen(true)}
                 disabled={!(brukerErEierAvSak && sakErIRettStatus)}
             >
-                {plan.temaer.filter((tema) => tema.planlagt).length > 0
-                    ? "Rediger plan"
-                    : "Legg til tema"}
+                Rediger plan
             </Button>
             <LeggTilTemaModal
                 open={modalOpen}

@@ -1,4 +1,4 @@
-import { BodyShort, Heading, Loader } from "@navikt/ds-react";
+import { BodyShort, Heading, HStack, Loader, Tag } from "@navikt/ds-react";
 import React from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import {
@@ -11,17 +11,48 @@ import { Temaer } from "./Temaer";
 import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
 import OpprettPlanKnapp from "./OpprettPlanKnapp";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import EksportVisning from "./EksportVisning";
+import { Plan } from "../../../domenetyper/plan";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
-interface Props {
-    iaSak: IASak;
+function SamarbeidsplanHeading({
+    samarbeid,
+    samarbeidsplan,
+}: {
     samarbeid: IaSakProsess;
+    samarbeidsplan?: Plan;
+}) {
+    return (
+        <HStack align={"center"} justify={"space-between"}>
+            <HStack align={"center"} gap={"8"}>
+                <Heading level="2" size="medium" style={{ width: "11rem" }}>
+                    Samarbeidsplan
+                </Heading>
+                {samarbeid && (
+                    <Tag variant={"alt3-filled"}>
+                        {samarbeid.navn || "Samarbeid uten navn"}
+                    </Tag>
+                )}
+            </HStack>
+
+            {samarbeidsplan && erIDev && (
+                <EksportVisning samarbeidsplan={samarbeidsplan} />
+            )}
+        </HStack>
+    );
 }
 
-export default function PlanFane({ iaSak, samarbeid }: Props) {
+export default function PlanFane({
+    iaSak,
+    samarbeid,
+}: {
+    iaSak: IASak;
+    samarbeid: IaSakProsess;
+}) {
     const { data: planMal, loading: lasterPlanMal } = useHentPlanMal();
 
     const {
-        data: iaSakPlan,
+        data: samarbeidsplan,
         loading: lasterPlan,
         mutate: hentPlanIgjen,
         error: planFeil,
@@ -40,12 +71,10 @@ export default function PlanFane({ iaSak, samarbeid }: Props) {
         return <Loader />;
     }
 
-    if (iaSakPlan === undefined && planMal) {
+    if (samarbeidsplan === undefined && planMal) {
         return (
             <>
-                <Heading level="2" size="medium" spacing={true}>
-                    Samarbeidsplan
-                </Heading>
+                <SamarbeidsplanHeading samarbeid={samarbeid} />
                 {!brukerErEierAvSak && (
                     <BodyShort>
                         Du må være eier av saken for å opprette ny plan
@@ -57,7 +86,6 @@ export default function PlanFane({ iaSak, samarbeid }: Props) {
                         <i>Vi bistår</i> for å opprette ny plan
                     </BodyShort>
                 )}
-                <br />
                 <OpprettPlanKnapp
                     orgnummer={iaSak.orgnr}
                     saksnummer={iaSak.saksnummer}
@@ -71,29 +99,25 @@ export default function PlanFane({ iaSak, samarbeid }: Props) {
     }
 
     return (
-        iaSakPlan && (
+        samarbeidsplan && (
             <>
+                <SamarbeidsplanHeading
+                    samarbeid={samarbeid}
+                    samarbeidsplan={samarbeidsplan}
+                />
                 <Temaer
-                    plan={iaSakPlan}
+                    plan={samarbeidsplan}
                     orgnummer={iaSak.orgnr}
                     saksnummer={iaSak.saksnummer}
                     samarbeid={samarbeid}
                     hentPlanIgjen={hentPlanIgjen}
                     kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
                 />
-                {iaSakPlan.temaer.filter((tema) => tema.planlagt).length <
-                    1 && (
-                    <>
-                        <Heading level="3" size="large" spacing={true}>
-                            Samarbeidsplan
-                        </Heading>
-                    </>
-                )}
                 <LeggTilTemaKnapp
                     orgnummer={iaSak.orgnr}
                     saksnummer={iaSak.saksnummer}
                     samarbeid={samarbeid}
-                    plan={iaSakPlan}
+                    plan={samarbeidsplan}
                     hentPlanIgjen={hentPlanIgjen}
                     brukerErEierAvSak={brukerErEierAvSak}
                     sakErIRettStatus={sakErIRettStatus}

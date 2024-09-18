@@ -12,7 +12,7 @@ export const BehovsvurderingOpprettNyKnapp = ({
     <Button
         onClick={onClick}
         variant={"primary"}
-        style={{ margin: "1rem" }}
+        style={{ margin: "1rem", minWidth: "10.5rem" }}
         disabled={disabled}
     >
         <HStack align={"center"} gap={"2"}>

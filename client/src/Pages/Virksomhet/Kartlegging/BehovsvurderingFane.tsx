@@ -15,7 +15,7 @@ export const BehovsvurderingFane = ({
     KartleggingIdFraUrl,
 }: {
     iaSak: IASak;
-    gjeldendeSamarbeid?: IaSakProsess;
+    gjeldendeSamarbeid: IaSakProsess;
     KartleggingIdFraUrl: string | null;
 }) => {
     const { data: alleSamarbeid } = useHentSamarbeid(

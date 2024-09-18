@@ -5,16 +5,18 @@ import React from "react";
 export const BehovsvurderingHeading = ({
     samarbeid,
 }: {
-    samarbeid?: IaSakProsess;
+    samarbeid: IaSakProsess;
 }) => (
-    <HStack align={"center"} gap={"8"}>
-        <Heading level="2" size="medium">
-            Behovsvurdering
-        </Heading>
-        {samarbeid && (
-            <Tag variant={"alt3-filled"}>
-                {samarbeid.navn || "Samarbeid uten navn"}
-            </Tag>
-        )}
+    <HStack align={"center"} justify={"space-between"}>
+        <HStack align={"center"} gap={"8"}>
+            <Heading level="2" size="medium" style={{ width: "11rem" }}>
+                Behovsvurdering
+            </Heading>
+            {samarbeid && (
+                <Tag variant={"alt3-filled"}>
+                    {samarbeid.navn || "Samarbeid uten navn"}
+                </Tag>
+            )}
+        </HStack>
     </HStack>
 );

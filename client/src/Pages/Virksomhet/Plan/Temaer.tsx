@@ -7,8 +7,6 @@ import React from "react";
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { KeyedMutator } from "swr";
-import EksportVisning from "./EksportVisning";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const Container = styled.div`
@@ -16,7 +14,7 @@ const Container = styled.div`
     display: flex;
     flex-direction: column;
     gap: 3rem;
-    margin-bottom: 2rem;
+    margin: 1rem 0 2rem;
 
     ${tabInnholdStyling};
 `;
@@ -37,7 +35,6 @@ export function Temaer({
 }) {
     return (
         <>
-            {erIDev && <EksportVisning plan={plan} />}
             {plan.temaer
                 .filter((tema) => tema.planlagt)
                 .sort((a, b) => {
