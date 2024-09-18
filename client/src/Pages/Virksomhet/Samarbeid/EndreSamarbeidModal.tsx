@@ -24,12 +24,13 @@ const NavngiSamarbeidInfo = styled.div`
     flex-direction: column;
     align-items: flex-start;
     margin: 1rem 0;
+    padding: 0rem 1rem 0rem 1rem;
 `;
 
 const IaSamarbeidNavnfelt = styled.div`
     min-width: fit-content;
-    width: 50%;
     max-width: 100%;
+    padding: 0rem 1rem 0rem 1rem;
 `;
 
 interface EndreSamarbeidModalProps {
@@ -50,6 +51,7 @@ export const EndreSamarbeidModal = ({
     const [lagreNavnVellykket, setLagreNavnVellykket] = useState(false);
     useEffect(() => {
         setNavn(samarbeid.navn ?? "Samarbeid uten navn");
+        setAntallTegn(samarbeid.navn?.length ?? 0);
     }, [samarbeid]);
 
     const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
@@ -99,11 +101,11 @@ export const EndreSamarbeidModal = ({
                 avbrytEndring();
             }}
             header={{
-                heading: `Endre samarbeid "${samarbeid.navn}"`,
+                heading: `Endre samarbeid "${samarbeid.navn || "Samarbeid uten navn"}"`,
                 size: "medium",
                 closeButton: true,
             }}
-            width="medium"
+            width="small"
         >
             <NavngiSamarbeidInfo>
                 <Label>Navngi samarbeid</Label>
@@ -113,18 +115,21 @@ export const EndreSamarbeidModal = ({
             </NavngiSamarbeidInfo>
 
             <IaSamarbeidNavnfelt>
-                <TextField
-                    maxLength={25}
-                    size="small"
-                    label="Navngi samarbeid"
-                    value={navn}
-                    onChange={(nyttnavn) => {
-                        setNavn(nyttnavn.target.value);
-                        setLagreNavnVellykket(false);
-                        setAntallTegn(nyttnavn.target.value.length);
-                    }}
-                    hideLabel
-                />
+                <HStack justify={"space-between"}>
+                    <TextField
+                        maxLength={25}
+                        size="small"
+                        label="Navngi samarbeid"
+                        value={navn}
+                        onChange={(nyttnavn) => {
+                            setNavn(nyttnavn.target.value);
+                            setLagreNavnVellykket(false);
+                            setAntallTegn(nyttnavn.target.value.length);
+                        }}
+                        hideLabel
+                    />
+                    {/*<Button variant={"danger"}>Slett</Button>*/}
+                </HStack>
                 <Detail style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>
                     {antallTegn}/25 tegn
                 </Detail>
