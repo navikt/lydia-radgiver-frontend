@@ -71,19 +71,19 @@ export const SamarbeidsVisning = ({
     }, []);
 
     return (
-        gjeldendeSamarbeid && (
-            <VirksomhetContext.Provider
-                value={{
-                    virksomhet,
-                    iaSak,
-                    lasterIaSak,
-                    fane,
-                    setFane: oppdaterTabISearchParam,
-                    kartleggingId,
-                    setVisKonfetti,
-                    visKonfetti,
-                }}
-            >
+        <VirksomhetContext.Provider
+            value={{
+                virksomhet,
+                iaSak,
+                lasterIaSak,
+                fane,
+                setFane: oppdaterTabISearchParam,
+                kartleggingId,
+                setVisKonfetti,
+                visKonfetti,
+            }}
+        >
+            {gjeldendeSamarbeid && (
                 <Container>
                     <VirksomhetOgSamarbeidsHeader
                         virksomhet={virksomhet}
@@ -144,7 +144,7 @@ export const SamarbeidsVisning = ({
                         </StyledPanel>
                     </Tabs>
                 </Container>
-            </VirksomhetContext.Provider>
-        )
+            )}
+        </VirksomhetContext.Provider>
     );
 };
