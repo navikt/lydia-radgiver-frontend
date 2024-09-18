@@ -70,15 +70,17 @@ function StartOgSluttVelger({
     );
 }
 
-interface UndertemaSetupProps {
-    valgteUndertemaer: RedigertInnholdMal[];
-    velgUndertemaer: (val: RedigertInnholdMal[]) => void;
-}
-
 export default function TemaInnholdVelger({
     valgteUndertemaer,
     velgUndertemaer,
-}: UndertemaSetupProps) {
+    setVisInnholdFeil,
+    visInnholdFeil,
+}: {
+    valgteUndertemaer: RedigertInnholdMal[];
+    velgUndertemaer: (val: RedigertInnholdMal[]) => void;
+    setVisInnholdFeil: (val: boolean) => void;
+    visInnholdFeil: boolean;
+}) {
     const planleggUndertema = (undertemaIder: number[]) => {
         velgUndertemaer(
             valgteUndertemaer.map((redigertInnholdMal) =>
@@ -120,7 +122,15 @@ export default function TemaInnholdVelger({
             value={valgteUndertemaer
                 .filter((undertema) => undertema.planlagt)
                 .map((undertema) => undertema.rekkefølge)}
-            onChange={planleggUndertema}
+            error={
+                visInnholdFeil
+                    ? "Du må velge noe innhold for å opprette en plan"
+                    : null
+            }
+            onChange={(val: number[]) => {
+                planleggUndertema(val);
+                setVisInnholdFeil(false);
+            }}
         >
             {valgteUndertemaer.map((redigertInnholdMal) => {
                 return (

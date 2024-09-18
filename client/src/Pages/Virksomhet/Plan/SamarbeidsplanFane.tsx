@@ -42,7 +42,7 @@ function SamarbeidsplanHeading({
     );
 }
 
-export default function PlanFane({
+export default function SamarbeidsplanFane({
     iaSak,
     samarbeid,
 }: {
@@ -106,7 +106,7 @@ export default function PlanFane({
                     samarbeidsplan={samarbeidsplan}
                 />
                 <Temaer
-                    plan={samarbeidsplan}
+                    samarbeidsplan={samarbeidsplan}
                     orgnummer={iaSak.orgnr}
                     saksnummer={iaSak.saksnummer}
                     samarbeid={samarbeid}
@@ -117,7 +117,7 @@ export default function PlanFane({
                     orgnummer={iaSak.orgnr}
                     saksnummer={iaSak.saksnummer}
                     samarbeid={samarbeid}
-                    plan={samarbeidsplan}
+                    samarbeidsplan={samarbeidsplan}
                     hentPlanIgjen={hentPlanIgjen}
                     brukerErEierAvSak={brukerErEierAvSak}
                     sakErIRettStatus={sakErIRettStatus}

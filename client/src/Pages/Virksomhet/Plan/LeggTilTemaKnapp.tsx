@@ -32,7 +32,7 @@ export default function LeggTilTemaKnapp({
     saksnummer,
     orgnummer,
     samarbeid,
-    plan,
+    samarbeidsplan,
     hentPlanIgjen,
     brukerErEierAvSak,
     sakErIRettStatus,
@@ -40,7 +40,7 @@ export default function LeggTilTemaKnapp({
     orgnummer: string;
     saksnummer: string;
     samarbeid: IaSakProsess;
-    plan: Plan;
+    samarbeidsplan: Plan;
     hentPlanIgjen: KeyedMutator<Plan>;
     brukerErEierAvSak: boolean;
     sakErIRettStatus: boolean;
@@ -49,11 +49,11 @@ export default function LeggTilTemaKnapp({
 
     const [redigertTemaliste, setRedigertTemaliste] = React.useState<
         PlanTema[]
-    >(plan.temaer);
+    >(samarbeidsplan.temaer);
 
     useEffect(() => {
-        setRedigertTemaliste(plan.temaer);
-    }, [plan]);
+        setRedigertTemaliste(samarbeidsplan.temaer);
+    }, [samarbeidsplan]);
 
     function velgTema(valgteTemaIder: number[]) {
         setRedigertTemaliste(

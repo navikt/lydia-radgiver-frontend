@@ -19,14 +19,14 @@ const Container = styled.div`
     ${tabInnholdStyling};
 `;
 export function Temaer({
-    plan,
+    samarbeidsplan,
     orgnummer,
     saksnummer,
     samarbeid,
     hentPlanIgjen,
     kanOppretteEllerEndrePlan,
 }: {
-    plan: Plan;
+    samarbeidsplan: Plan;
     orgnummer: string;
     saksnummer: string;
     samarbeid: IaSakProsess;
@@ -35,7 +35,7 @@ export function Temaer({
 }) {
     return (
         <>
-            {plan.temaer
+            {samarbeidsplan.temaer
                 .filter((tema) => tema.planlagt)
                 .sort((a, b) => {
                     return a.id - b.id;

@@ -10,7 +10,7 @@ import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useSearchParams } from "react-router-dom";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { LeveranseFane } from "../Leveranser/LeveranseFane";
-import PlanFane from "../Plan/PlanFane";
+import SamarbeidsplanFane from "../Plan/SamarbeidsplanFane";
 import { IASak } from "../../../domenetyper/domenetyper";
 import EvalueringFane from "./Evaluering/EvalueringFane";
 import { BehovsvurderingFane } from "../Kartlegging/BehovsvurderingFane";
@@ -130,7 +130,7 @@ export const SamarbeidsVisning = ({
                         </StyledPanel>
                         <StyledPanel value="plan">
                             {iaSak && (
-                                <PlanFane
+                                <SamarbeidsplanFane
                                     iaSak={iaSak}
                                     samarbeid={gjeldendeSamarbeid}
                                 />
