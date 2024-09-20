@@ -38,7 +38,6 @@ const SalesforceLenke = styled(EksternLenke)`
 
 const VirksomhetsInfoIkon = styled(InformationSquareIcon)`
     display: flex;
-    margin-right: 0.5rem;
     cursor: pointer;
 `;
 
@@ -84,6 +83,14 @@ export default function VirksomhetOgSamarbeidsHeader({
                 <HStack align={"center"}>
                     <VStack>
                         <HStack gap={"2"} align={"center"}>
+                            {gjeldendeSamarbeid === undefined && (
+                                <VirksomhetsInfoIkon
+                                    title={"Se detaljer"}
+                                    ref={buttonRef}
+                                    onClick={() => setOpenState(!openState)}
+                                    fontSize="2rem"
+                                />
+                            )}
                             <Heading
                                 as={Link}
                                 level={"1"}
@@ -103,14 +110,6 @@ export default function VirksomhetOgSamarbeidsHeader({
                                             "Samarbeid uten navn"}
                                     </Heading>
                                 </>
-                            )}
-                            {gjeldendeSamarbeid === undefined && (
-                                <VirksomhetsInfoIkon
-                                    title={"Se detaljer"}
-                                    ref={buttonRef}
-                                    onClick={() => setOpenState(!openState)}
-                                    fontSize="2rem"
-                                />
                             )}
                         </HStack>
 
