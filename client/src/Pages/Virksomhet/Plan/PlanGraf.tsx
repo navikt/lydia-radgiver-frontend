@@ -65,7 +65,9 @@ export default function PlanGraf(props: PølsegrafProps) {
                             <Timeline.Period
                                 start={new Date(undertema.start)}
                                 end={new Date(undertema.slutt)}
-                                status={timelineColorFromStatus(undertema.status)}
+                                status={timelineColorFromStatus(
+                                    undertema.status,
+                                )}
                                 statusLabel={`${undertema.navn}: ${undertema.status}:`}
                             />
                         </Timeline.Row>
@@ -82,7 +84,7 @@ function timelineColorFromStatus(status: string | null) {
         case "FULLFØRT":
             return "success";
         case "AVBRUTT":
-            return "neutral";
+            return "danger";
         case "PLANLAGT":
             return "warning";
 

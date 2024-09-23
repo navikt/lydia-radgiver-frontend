@@ -120,7 +120,10 @@ function InnholdsRad({
                 kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
             />
             <StyledAccordionContent>
-                <BodyLong><b>Mål: </b>{innhold.målsetning}</BodyLong>
+                <BodyLong>
+                    <b>Mål: </b>
+                    {innhold.målsetning}
+                </BodyLong>
             </StyledAccordionContent>
         </StyledAccordionItem>
     );
@@ -179,7 +182,11 @@ export function PrettyInnholdsDato({
             nyDato.setDate(nyDato.getDate() - 1);
         }
 
-        const nyDatoTekst = nyDato.toLocaleDateString("nb-NO", { month: "short", day: "numeric", year: "2-digit" });
+        const nyDatoTekst = nyDato.toLocaleDateString("nb-NO", {
+            month: "short",
+            day: "numeric",
+            year: "2-digit",
+        });
 
         return nyDatoTekst[0].toUpperCase() + nyDatoTekst.substring(1);
     }, [visNesteMåned, date]);
@@ -211,6 +218,7 @@ function InnholdsStatusHeader({
                 <option value="FULLFØRT">Fullført</option>
                 <option value="PÅGÅR">Pågår</option>
                 <option value="PLANLAGT">Planlagt</option>
+                <option value="AVBRUTT">Avbrutt</option>
             </Select>
         </span>
     ) : (
