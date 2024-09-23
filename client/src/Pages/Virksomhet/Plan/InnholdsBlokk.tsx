@@ -1,4 +1,4 @@
-import { Accordion, Alert, BodyLong, Heading, Select } from "@navikt/ds-react";
+import { Accordion, Alert, BodyLong, Select } from "@navikt/ds-react";
 import React from "react";
 import styled from "styled-components";
 import {
@@ -120,10 +120,7 @@ function InnholdsRad({
                 kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
             />
             <StyledAccordionContent>
-                <Heading level="4" size="small">
-                    Mål:
-                </Heading>
-                <BodyLong>{innhold.målsetning}</BodyLong>
+                <BodyLong><b>Mål: </b>{innhold.målsetning}</BodyLong>
             </StyledAccordionContent>
         </StyledAccordionItem>
     );
