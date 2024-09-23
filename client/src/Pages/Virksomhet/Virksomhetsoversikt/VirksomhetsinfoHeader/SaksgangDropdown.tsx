@@ -3,13 +3,19 @@ import {
     IASak,
 } from "../../../../domenetyper/domenetyper";
 import React from "react";
-import { Button, ButtonProps, Dropdown, Heading, HStack } from "@navikt/ds-react";
+import {
+    Button,
+    ButtonProps,
+    Dropdown,
+    Heading,
+    HStack,
+} from "@navikt/ds-react";
 import { ChevronDownIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 import Historikk from "../IASakStatus/EndreStatusModal/Historikk";
 import {
-    Statusknapper,
     StatusHendelseSteg,
+    Statusknapper,
 } from "../IASakStatus/EndreStatusModal/Statusknapper";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { penskrivIAStatus } from "../../../../components/Badge/StatusBadge";
@@ -63,7 +69,7 @@ const ViBistårKnapp = styled(RegularSortTekstKnapp)`
     }
 `;
 
-const HistorikkContainer = styled(HStack) <{ $begrensHøyde: boolean }>`
+const HistorikkContainer = styled(HStack)<{ $begrensHøyde: boolean }>`
     max-height: ${(props) => (props.$begrensHøyde ? "20rem" : "auto")};
     overflow-y: auto;
     padding-left: 1.5rem;
@@ -77,7 +83,7 @@ const DropdownHeader = styled(Heading)`
     padding-bottom: 1rem;
 `;
 
-export function EndreStatusKnapp({
+export function SaksgangDropdown({
     virksomhet,
     iaSak,
     setVisKonfetti,
@@ -98,30 +104,36 @@ export function EndreStatusKnapp({
     );
 
     return (
-        <>
-            <Dropdown open={open} onOpenChange={(newOpen) => {
+        <Dropdown
+            open={open}
+            onOpenChange={(newOpen) => {
                 setOpen(newOpen);
-            }}>
-                <StyledStatusKnapp iaSak={iaSak} />
-                <Dropdown.Menu style={{ maxWidth: "auto", width: "36rem" }}>
-                    <DropdownHeader size="medium">Endre status</DropdownHeader>
-                    <HistorikkContainer $begrensHøyde={nesteSteg.nesteSteg !== null}>
-                        {iaSak && <Historikk sak={iaSak} />}
-                    </HistorikkContainer>
-                    <Statusknapper
-                        virksomhet={virksomhet}
-                        onStatusEndret={() => {
-                            mutateIaSaker();
-                        }}
-                        setModalOpen={setOpen}
-                        iaSak={iaSak}
-                        setVisKonfetti={setVisKonfetti}
-                        nesteSteg={nesteSteg}
-                        setNesteSteg={setNesteSteg}
-                    />
-                </Dropdown.Menu>
-            </Dropdown>
-        </>
+            }}
+        >
+            <StyledStatusKnapp iaSak={iaSak} />
+            <Dropdown.Menu
+                style={{ maxWidth: "auto", width: "36rem" }}
+                placement="bottom-start"
+            >
+                <DropdownHeader size="medium">Endre status</DropdownHeader>
+                <HistorikkContainer
+                    $begrensHøyde={nesteSteg.nesteSteg !== null}
+                >
+                    {iaSak && <Historikk sak={iaSak} />}
+                </HistorikkContainer>
+                <Statusknapper
+                    virksomhet={virksomhet}
+                    onStatusEndret={() => {
+                        mutateIaSaker();
+                    }}
+                    setModalOpen={setOpen}
+                    iaSak={iaSak}
+                    setVisKonfetti={setVisKonfetti}
+                    nesteSteg={nesteSteg}
+                    setNesteSteg={setNesteSteg}
+                />
+            </Dropdown.Menu>
+        </Dropdown>
     );
 }
 

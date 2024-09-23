@@ -19,7 +19,7 @@ import {
 import { EksternLenke } from "../../../../components/EksternLenke";
 
 import { SamarbeidsDropdown } from "../../Samarbeid/SamarbeidsDropdown";
-import { EndreStatusKnapp } from "./EndreStatusKnapp";
+import { SaksgangDropdown } from "./SaksgangDropdown";
 import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { IASak } from "../../../../domenetyper/domenetyper";
@@ -68,7 +68,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                             iaSak={iaSak}
                             virksomhet={virksomhet}
                         />
-                        <EndreStatusKnapp
+                        <SaksgangDropdown
                             virksomhet={virksomhet}
                             iaSak={iaSak}
                         />

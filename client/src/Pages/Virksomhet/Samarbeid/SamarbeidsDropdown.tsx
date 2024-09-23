@@ -71,96 +71,90 @@ export function SamarbeidsDropdown({
                     </Button>
 
                     <DropdownMenuContainer>
-                        {
-                            <Dropdown.Menu
-                                placement={"top-start"}
-                                style={{ width: "32rem" }}
+                        <Dropdown.Menu
+                            placement="bottom-start"
+                            style={{ width: "32rem" }}
+                        >
+                            <Heading
+                                as={Link}
+                                level={"4"}
+                                href={`/virksomhet/${virksomhet.orgnr}`}
+                                variant={"neutral"}
+                                title="Gå til virksomhet"
+                                size={"medium"}
+                                style={{ marginBottom: "2rem" }}
                             >
-                                <Heading
-                                    as={Link}
-                                    level={"4"}
-                                    href={`/virksomhet/${virksomhet.orgnr}`}
-                                    variant={"neutral"}
-                                    title="Gå til virksomhet"
-                                    size={"medium"}
-                                    style={{ marginBottom: "2rem" }}
-                                >
-                                    {virksomhet.navn}
-                                </Heading>
-                                {(alleSamarbeid === undefined ||
-                                    alleSamarbeid?.length === 0) && (
-                                    <>
-                                        <Heading size={"small"} level={"2"}>
-                                            Ingen aktive samarbeid
-                                        </Heading>
-                                        <BodyShort>
-                                            Du kan opprette og administrere
-                                            samarbeid når saken er i status{" "}
-                                            <i>Kartlegges</i> eller{" "}
-                                            <i>Vi bistår</i>.
-                                        </BodyShort>
-                                    </>
-                                )}
-                                {iaSak && alleSamarbeid && (
-                                    <>
-                                        <Dropdown.Menu.List>
-                                            <VStack gap={"3"}>
-                                                {alleSamarbeid.map(
-                                                    (samarbeid) => (
-                                                        <HStack
-                                                            marginInline={"8"}
-                                                            align="center"
-                                                            justify="space-between"
-                                                            key={samarbeid.id}
-                                                        >
-                                                            <Dropdown.Menu.List.Item
-                                                                as={"a"}
-                                                                href={`/virksomhet/${iaSak.orgnr}/sak/${iaSak.saksnummer}/samarbeid/${samarbeid.id}`}
-                                                                title={
-                                                                    "Gå til samarbeid"
-                                                                }
-                                                            >
-                                                                <div>
-                                                                    {samarbeid.navn ||
-                                                                        "Samarbeid uten navn"}
-                                                                </div>
-                                                            </Dropdown.Menu.List.Item>
-                                                            <Button
-                                                                size={"small"}
-                                                                onClick={() => {
-                                                                    setEndreSamarbeidModalÅpen(
-                                                                        true,
-                                                                    );
-                                                                    setValgtSamarbeid(
-                                                                        samarbeid,
-                                                                    );
-                                                                }}
-                                                            >
-                                                                Endre
-                                                            </Button>
-                                                        </HStack>
-                                                    ),
-                                                )}
-                                            </VStack>
-                                        </Dropdown.Menu.List>
-                                        <br />
+                                {virksomhet.navn}
+                            </Heading>
+                            {(alleSamarbeid === undefined ||
+                                alleSamarbeid?.length === 0) && (
+                                <>
+                                    <Heading size={"small"} level={"2"}>
+                                        Ingen aktive samarbeid
+                                    </Heading>
+                                    <BodyShort>
+                                        Du kan opprette og administrere
+                                        samarbeid når saken er i status{" "}
+                                        <i>Kartlegges</i> eller <i>Vi bistår</i>
+                                        .
+                                    </BodyShort>
+                                </>
+                            )}
+                            {iaSak && alleSamarbeid && (
+                                <>
+                                    <Dropdown.Menu.List>
+                                        <VStack gap={"3"}>
+                                            {alleSamarbeid.map((samarbeid) => (
+                                                <HStack
+                                                    marginInline={"8"}
+                                                    align="center"
+                                                    justify="space-between"
+                                                    key={samarbeid.id}
+                                                >
+                                                    <Dropdown.Menu.List.Item
+                                                        as={"a"}
+                                                        href={`/virksomhet/${iaSak.orgnr}/sak/${iaSak.saksnummer}/samarbeid/${samarbeid.id}`}
+                                                        title={
+                                                            "Gå til samarbeid"
+                                                        }
+                                                    >
+                                                        <div>
+                                                            {samarbeid.navn ||
+                                                                "Samarbeid uten navn"}
+                                                        </div>
+                                                    </Dropdown.Menu.List.Item>
+                                                    <Button
+                                                        size={"small"}
+                                                        onClick={() => {
+                                                            setEndreSamarbeidModalÅpen(
+                                                                true,
+                                                            );
+                                                            setValgtSamarbeid(
+                                                                samarbeid,
+                                                            );
+                                                        }}
+                                                    >
+                                                        Endre
+                                                    </Button>
+                                                </HStack>
+                                            ))}
+                                        </VStack>
+                                    </Dropdown.Menu.List>
+                                    <br />
 
-                                        <OpprettKnappWrapper>
-                                            <Button
-                                                variant={"secondary"}
-                                                onClick={() =>
-                                                    setNyttSamarbeidModalÅpen(
-                                                        true,
-                                                    )
-                                                }
-                                            >
-                                                Nytt samarbeid
-                                            </Button>
-                                        </OpprettKnappWrapper>
-                                    </>
-                                )}
-                            </Dropdown.Menu>
-                        }
+                                    <OpprettKnappWrapper>
+                                        <Button
+                                            variant={"secondary"}
+                                            onClick={() =>
+                                                setNyttSamarbeidModalÅpen(true)
+                                            }
+                                        >
+                                            Nytt samarbeid
+                                        </Button>
+                                    </OpprettKnappWrapper>
+                                </>
+                            )}
+                        </Dropdown.Menu>
                     </DropdownMenuContainer>
                 </Dropdown>
             </DropdownContainer>
