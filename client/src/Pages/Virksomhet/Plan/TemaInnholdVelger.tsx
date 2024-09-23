@@ -1,13 +1,15 @@
-import { Checkbox, CheckboxGroup, HStack, MonthPicker } from "@navikt/ds-react";
+import { Checkbox, CheckboxGroup, DatePicker, HStack, useDatepicker } from "@navikt/ds-react";
 import styled from "styled-components";
 import { RedigertInnholdMal } from "../../../domenetyper/plan";
 import React from "react";
-import * as console from "node:console";
 
 const UndertemaRad = styled(HStack)`
     margin-bottom: 0.5rem;
     min-width: 48rem;
 `;
+
+const FIRST_VALID_DATE = "Jan 1 2023";
+const LAST_VALID_DATE = "Jan 1 2028";
 
 function StartOgSluttVelger({
     redigertInnholdMal,
@@ -18,54 +20,46 @@ function StartOgSluttVelger({
     setNyStartDato: (date: Date) => void;
     setNySluttDato: (date: Date) => void;
 }) {
-    const lagreStartDato = (date: Date | undefined) => {
-        if (date === undefined) {
-            console.log("dato ikke valgt");
-        } else {
-            setNyStartDato(date);
-        }
-    };
-    const lagreSluttDato = (date: Date | undefined) => {
-        if (date === undefined) {
-            console.log("dato ikke valgt");
-        } else {
-            setNySluttDato(date);
-        }
-    };
+    const datepickerFrom = useDatepicker({
+        defaultSelected: redigertInnholdMal.startDato ?? undefined,
+        fromDate: new Date(FIRST_VALID_DATE),
+        toDate: new Date(redigertInnholdMal.sluttDato ?? LAST_VALID_DATE),
+        onDateChange: (date) => {
+            if (date) {
+                setNyStartDato(date);
+            }
+        },
+    });
+
+    const datepickerTo = useDatepicker({
+        defaultSelected: redigertInnholdMal.sluttDato ?? undefined,
+        fromDate: new Date(redigertInnholdMal.startDato ?? FIRST_VALID_DATE),
+        toDate: new Date(LAST_VALID_DATE),
+        onDateChange: (date) => {
+            if (date) {
+                setNySluttDato(date);
+            }
+        },
+    });
 
     return (
         <HStack align="center" gap="3">
-            <MonthPicker onMonthSelect={lagreStartDato}>
-                <MonthPicker.Input
+            <DatePicker {...datepickerFrom.datepickerProps} dropdownCaption>
+                <DatePicker.Input
                     hideLabel
                     size="small"
                     label={`Startdato for ${redigertInnholdMal.navn}`}
-                    value={
-                        redigertInnholdMal?.startDato === null
-                            ? ""
-                            : `${redigertInnholdMal.startDato.toLocaleString("default", { month: "short" })} ${redigertInnholdMal.startDato.getFullYear()}`
-                    }
-                    onChange={(date) => console.log(date)}
+                    {...datepickerFrom.inputProps}
                 />
-            </MonthPicker>
-            {" - "}
-            <MonthPicker
-                selected={redigertInnholdMal.sluttDato ?? new Date()}
-                defaultSelected={redigertInnholdMal.sluttDato ?? new Date()}
-                onMonthSelect={lagreSluttDato}
-            >
-                <MonthPicker.Input
+            </DatePicker>
+            <DatePicker {...datepickerTo.datepickerProps} dropdownCaption>
+                <DatePicker.Input
                     hideLabel
                     size="small"
                     label={`Sluttdato for ${redigertInnholdMal.navn}`}
-                    value={
-                        redigertInnholdMal.sluttDato === null
-                            ? ""
-                            : `${redigertInnholdMal.sluttDato.toLocaleString("default", { month: "short" })} ${redigertInnholdMal.sluttDato.getFullYear()}`
-                    }
-                    onChange={(date) => console.log(date)}
+                    {...datepickerTo.inputProps}
                 />
-            </MonthPicker>
+            </DatePicker>
         </HStack>
     );
 }
@@ -87,11 +81,11 @@ export default function TemaInnholdVelger({
                 undertemaIder.includes(redigertInnholdMal.rekkefølge)
                     ? { ...redigertInnholdMal, planlagt: true }
                     : {
-                          ...redigertInnholdMal,
-                          planlagt: false,
-                          startDato: null,
-                          sluttDato: null,
-                      },
+                        ...redigertInnholdMal,
+                        planlagt: false,
+                        startDato: null,
+                        sluttDato: null,
+                    },
             ),
         );
     };
