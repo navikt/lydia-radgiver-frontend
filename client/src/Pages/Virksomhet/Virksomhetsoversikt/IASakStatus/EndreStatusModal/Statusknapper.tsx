@@ -48,15 +48,7 @@ export type StatusHendelseSteg =
     | "LEGG_TIL_LEVERANSE"
     | "BEKREFT";
 
-export function Statusknapper({
-    virksomhet,
-    iaSak,
-    setModalOpen,
-    setVisKonfetti,
-    setNesteSteg,
-    nesteSteg,
-    onStatusEndret,
-}: {
+interface StatusknapperProps {
     virksomhet: Virksomhet;
     iaSak?: IASak;
     setModalOpen: (modalOpen: boolean) => void;
@@ -70,7 +62,17 @@ export function Statusknapper({
         hendelse: GyldigNesteHendelse | null;
     };
     onStatusEndret: () => void;
-}) {
+}
+
+export function Statusknapper({
+    virksomhet,
+    iaSak,
+    setModalOpen,
+    setVisKonfetti,
+    setNesteSteg,
+    nesteSteg,
+    onStatusEndret,
+}: StatusknapperProps) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
 
     if (iaSak === undefined) {
