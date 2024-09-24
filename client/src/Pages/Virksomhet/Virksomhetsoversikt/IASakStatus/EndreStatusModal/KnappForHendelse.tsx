@@ -111,7 +111,7 @@ function BiståEllerSamarbeidKnapp({
         return <></>;
     }
     if (alleSamarbeid.length === 0) {
-        return <Detail>Du må opprette ett samarbeid først</Detail>;
+        return <Detail>Du må opprette et samarbeid først</Detail>;
     }
 
     return (

@@ -183,7 +183,7 @@ export default function OpprettPlanKnapp({
                             tema.planlagt ? tema.rekkefølge : null,
                         )}
                         error={
-                            visTemaFeil ? "Du må velge minst ett tema." : null
+                            visTemaFeil ? "Du må velge minst et tema." : null
                         }
                         onChange={(val: number[]) => {
                             velgTema(val);
