@@ -37,7 +37,8 @@ import { penskrivIAStatus } from "../../../../../components/Badge/StatusBadge";
 
 const Knappecontainer = styled.div`
     display: flex;
-    justify-content: space-between;
+    gap: 1rem;
+    justify-content: flex-end;
     align-items: center;
 `;
 
