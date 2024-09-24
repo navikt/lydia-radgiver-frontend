@@ -29,7 +29,7 @@ function SamarbeidsplanHeading({
                     Samarbeidsplan
                 </Heading>
                 {samarbeid && (
-                    <Tag variant={"alt3-filled"}>
+                    <Tag variant={"alt3-filled"} size="small">
                         {samarbeid.navn || "Samarbeid uten navn"}
                     </Tag>
                 )}
