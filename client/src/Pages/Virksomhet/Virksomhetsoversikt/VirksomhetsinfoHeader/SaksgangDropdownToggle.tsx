@@ -18,10 +18,10 @@ const RegularSortTekstKnapp = styled(DropdownToggleButton)`
     }
 `;
 const IkkeAktivKnapp = styled(RegularSortTekstKnapp)`
-    background-color: ${FiaFarger.grå};
+    background-color: ${FiaFarger.gul};
 
     &:hover {
-        background-color: #969696; // HSB for grå med -20% Brightness
+        background-color: #ffdfad; // HSB for grå med -20% Brightness
     }
 `;
 const VurderesKnapp = styled(RegularSortTekstKnapp)`
