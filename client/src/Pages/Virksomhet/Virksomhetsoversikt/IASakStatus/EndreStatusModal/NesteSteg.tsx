@@ -13,7 +13,6 @@ import React from "react";
 import {
     GyldigNesteHendelse,
     IAProsessStatusEnum,
-    IAProsessStatusType,
     IASak,
     IASakshendelseTypeEnum,
     ValgtÅrsakDto,
@@ -403,14 +402,14 @@ function BekreftelsesSeksjon({
             });
     };
 
-    const tekst = modalTekstForHendelse({ hendelse, saksstatus: sak.status });
+    const tekst = modalTekstForHendelse({ hendelse, sak });
 
     return (
         <Modal.Body>
             <Heading level="2" size="medium">
                 {tekst.tittel}
             </Heading>
-            <BodyLong>{tekst.beskrivelse}</BodyLong>
+            {tekst.beskrivelse ?? <BodyLong>{tekst.beskrivelse}</BodyLong>}
             <br />
             <Knappecontainer>
                 <Button variant="secondary" onClick={clearNesteSteg}>
@@ -428,17 +427,17 @@ const DEFAULT_TITTEL_FOR_MODAL = "Er du sikker på at du vil gjøre dette?";
 
 interface ModalTekst {
     tittel: string;
-    beskrivelse: string;
+    beskrivelse?: string;
 }
 
 interface ModalTekstForHendelseProps {
     hendelse: GyldigNesteHendelse | null;
-    saksstatus: IAProsessStatusType;
+    sak: IASak;
 }
 
 const modalTekstForHendelse = ({
     hendelse,
-    saksstatus,
+    sak,
 }: ModalTekstForHendelseProps): ModalTekst => {
     if (!hendelse)
         return {
@@ -454,13 +453,13 @@ const modalTekstForHendelse = ({
                     "Dette vil lukke saken og skal gjøres når avtalt IA-oppfølging er fullført.",
             };
         case "TILBAKE": {
-            if (saksstatus === IAProsessStatusEnum.enum.FULLFØRT) {
+            if (sak.status === IAProsessStatusEnum.enum.FULLFØRT) {
                 return {
                     tittel: "Er du sikker på at du vil gjenåpne saken?",
                     beskrivelse: `Dette setter saken tilbake til "${penskrivIAStatus(IAProsessStatusEnum.enum.VI_BISTÅR)}"`,
                 };
             }
-            if (saksstatus === IAProsessStatusEnum.enum.IKKE_AKTUELL) {
+            if (sak.status === IAProsessStatusEnum.enum.IKKE_AKTUELL) {
                 return {
                     tittel: "Er du sikker på at du vil gjenåpne saken?",
                     beskrivelse:
@@ -473,8 +472,13 @@ const modalTekstForHendelse = ({
             };
         }
         case IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK:
+            if (sak.eidAv === null) {
+                return {
+                    tittel: "Ønsker du å ta eierskap til saken?",
+                };
+            }
             return {
-                tittel: "Er du sikker på at du vil ta eierskap til saken?",
+                tittel: "Ønsker du å ta eierskap til saken?",
                 beskrivelse: "Nåværende eier blir automatisk fjernet.",
             };
         default:
