@@ -53,6 +53,14 @@ const ViBistårKnapp = styled(RegularSortTekstKnapp)`
     }
 `;
 
+const IkkeAktuellKnapp = styled(RegularSortTekstKnapp)`
+    background-color: ${FiaFarger.rød};
+
+    &:hover {
+        background-color: #f2b9b1; // HSB for grønn med -20% Brightness
+    }
+`;
+
 export function SaksgangDropdownToggle({
     iaSak,
 }: {
@@ -124,6 +132,17 @@ export function SaksgangDropdownToggle({
                 >
                     {penskrivIAStatus(iaSak.status)}
                 </IkkeAktivKnapp>
+            );
+        case "IKKE_AKTUELL":
+            return (
+                <IkkeAktuellKnapp
+                    size={"small"}
+                    variant={"primary"}
+                    iconPosition={"right"}
+                    icon={<ChevronDownIcon />}
+                >
+                    {penskrivIAStatus(iaSak.status)}
+                </IkkeAktuellKnapp>
             );
     }
 }
