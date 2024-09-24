@@ -8,6 +8,7 @@ import {
 import styled from "styled-components";
 import { PlanInnhold } from "../../../domenetyper/plan";
 import React from "react";
+import { FIRST_VALID_DATE, LAST_VALID_DATE, defaultEndDate, defaultStartDate } from "./planconster";
 
 const InnholdsRad = styled(HStack)`
     margin-bottom: 0.5rem;
@@ -19,8 +20,6 @@ const StyledHStack = styled(HStack)`
     --a-spacing-6: 1.5rem;
 `;
 
-const FIRST_VALID_DATE = "Jan 1 2023";
-const LAST_VALID_DATE = "Jan 1 2028";
 
 function StartOgSluttVelger({
     innhold,
@@ -33,6 +32,7 @@ function StartOgSluttVelger({
 }) {
     const datepickerFrom = useDatepicker({
         defaultSelected: innhold.startDato ?? undefined,
+        required: true,
         fromDate: new Date(FIRST_VALID_DATE),
         toDate: new Date(innhold.sluttDato ?? LAST_VALID_DATE),
         onDateChange: (date) => {
@@ -43,6 +43,7 @@ function StartOgSluttVelger({
     });
     const datepickerTo = useDatepicker({
         defaultSelected: innhold.sluttDato ?? undefined,
+        required: true,
         fromDate: new Date(innhold.startDato ?? FIRST_VALID_DATE),
         toDate: new Date(LAST_VALID_DATE),
         onDateChange: (date) => {
@@ -85,14 +86,20 @@ export default function InnholdOppsett({
         velgInnhold(
             valgteInnhold.map((innhold) =>
                 innholdIder.includes(innhold.id)
-                    ? { ...innhold, planlagt: true, status: "PLANLAGT" }
+                    ? {
+                        ...innhold,
+                        planlagt: true,
+                        status: "PLANLAGT",
+                        startDato: innhold.startDato ?? defaultStartDate,
+                        sluttDato: innhold.sluttDato ?? defaultEndDate,
+                    }
                     : {
-                          ...innhold,
-                          planlagt: false,
-                          startDato: null,
-                          sluttDato: null,
-                          status: null,
-                      },
+                        ...innhold,
+                        planlagt: false,
+                        startDato: null,
+                        sluttDato: null,
+                        status: null,
+                    },
             ),
         );
     };

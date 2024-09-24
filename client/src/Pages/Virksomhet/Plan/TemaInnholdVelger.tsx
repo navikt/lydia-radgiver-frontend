@@ -1,15 +1,13 @@
 import { Checkbox, CheckboxGroup, DatePicker, HStack, useDatepicker } from "@navikt/ds-react";
 import styled from "styled-components";
 import { RedigertInnholdMal } from "../../../domenetyper/plan";
-import React from "react";
+import { FIRST_VALID_DATE, LAST_VALID_DATE, defaultEndDate, defaultStartDate } from "./planconster";
 
 const UndertemaRad = styled(HStack)`
     margin-bottom: 0.5rem;
     min-width: 48rem;
 `;
 
-const FIRST_VALID_DATE = "Jan 1 2023";
-const LAST_VALID_DATE = "Jan 1 2028";
 
 function StartOgSluttVelger({
     redigertInnholdMal,
@@ -22,6 +20,7 @@ function StartOgSluttVelger({
 }) {
     const datepickerFrom = useDatepicker({
         defaultSelected: redigertInnholdMal.startDato ?? undefined,
+        required: true,
         fromDate: new Date(FIRST_VALID_DATE),
         toDate: new Date(redigertInnholdMal.sluttDato ?? LAST_VALID_DATE),
         onDateChange: (date) => {
@@ -33,6 +32,7 @@ function StartOgSluttVelger({
 
     const datepickerTo = useDatepicker({
         defaultSelected: redigertInnholdMal.sluttDato ?? undefined,
+        required: true,
         fromDate: new Date(redigertInnholdMal.startDato ?? FIRST_VALID_DATE),
         toDate: new Date(LAST_VALID_DATE),
         onDateChange: (date) => {
@@ -79,8 +79,12 @@ export default function TemaInnholdVelger({
         velgUndertemaer(
             valgteUndertemaer.map((redigertInnholdMal) =>
                 undertemaIder.includes(redigertInnholdMal.rekkefølge)
-                    ? { ...redigertInnholdMal, planlagt: true }
-                    : {
+                    ? {
+                        ...redigertInnholdMal,
+                        planlagt: true,
+                        startDato: redigertInnholdMal.startDato ?? defaultStartDate,
+                        sluttDato: redigertInnholdMal.sluttDato ?? defaultEndDate,
+                    } : {
                         ...redigertInnholdMal,
                         planlagt: false,
                         startDato: null,

@@ -64,17 +64,17 @@ export default function OpprettPlanKnapp({
                 valgteTemaIder.includes(tema.rekkefølge)
                     ? { ...tema, planlagt: true }
                     : {
-                          ...tema,
-                          planlagt: false,
-                          innhold: tema.innhold.map((innhold) => {
-                              return {
-                                  ...innhold,
-                                  planlagt: false,
-                                  startDato: null,
-                                  sluttDato: null,
-                              };
-                          }),
-                      },
+                        ...tema,
+                        planlagt: false,
+                        innhold: tema.innhold.map((innhold) => {
+                            return {
+                                ...innhold,
+                                planlagt: false,
+                                startDato: null,
+                                sluttDato: null,
+                            };
+                        }),
+                    },
             ),
         });
     }
@@ -87,9 +87,9 @@ export default function OpprettPlanKnapp({
             tema: redigertPlanMal.tema.map((tema) =>
                 tema.rekkefølge === temaId
                     ? {
-                          ...tema,
-                          innhold: redigerteInnholdMal,
-                      }
+                        ...tema,
+                        innhold: redigerteInnholdMal,
+                    }
                     : { ...tema },
             ),
         });
