@@ -20,7 +20,10 @@ import {
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { penskrivIAStatus } from "../../../../components/Badge/StatusBadge";
 import { FiaFarger } from "../../../../styling/farger";
-import { useHentAktivSakForVirksomhet } from "../../../../api/lydia-api";
+import {
+    useHentAktivSakForVirksomhet,
+    useHentSamarbeidshistorikk,
+} from "../../../../api/lydia-api";
 
 const DropdownToggleButton = (props: ButtonProps) => (
     <Button {...props} as={Dropdown.Toggle} />
@@ -99,9 +102,17 @@ export function SaksgangDropdown({
         hendelse: GyldigNesteHendelse | null;
     }>({ nesteSteg: null, hendelse: null });
 
-    const { mutate: mutateIaSaker } = useHentAktivSakForVirksomhet(
+    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
         virksomhet.orgnr,
     );
+    const { mutate: mutateAktivSak } = useHentAktivSakForVirksomhet(
+        virksomhet.orgnr,
+    );
+
+    const mutateIASakerOgSamarbeidshistorikk = () => {
+        mutateAktivSak?.();
+        mutateSamarbeidshistorikk?.();
+    };
 
     return (
         <Dropdown
@@ -124,7 +135,7 @@ export function SaksgangDropdown({
                 <Statusknapper
                     virksomhet={virksomhet}
                     onStatusEndret={() => {
-                        mutateIaSaker();
+                        mutateIASakerOgSamarbeidshistorikk();
                     }}
                     setModalOpen={setOpen}
                     iaSak={iaSak}

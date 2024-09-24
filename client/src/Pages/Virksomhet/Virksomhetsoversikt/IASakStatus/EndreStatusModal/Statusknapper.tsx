@@ -13,9 +13,7 @@ import KnappForHendelse from "./KnappForHendelse";
 import { Virksomhet } from "../../../../../domenetyper/virksomhet";
 import {
     opprettSak,
-    useHentAktivSakForVirksomhet,
     useHentBrukerinformasjon,
-    useHentSamarbeidshistorikk,
 } from "../../../../../api/lydia-api";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { RolleEnum } from "../../../../../domenetyper/brukerinformasjon";
@@ -71,20 +69,9 @@ export function Statusknapper({
         nesteSteg: StatusHendelseSteg | null;
         hendelse: GyldigNesteHendelse | null;
     };
-    onStatusEndret: (status: IASak["status"]) => void;
+    onStatusEndret: () => void;
 }) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
-        virksomhet.orgnr,
-    );
-    const { mutate: mutateAktivSak } = useHentAktivSakForVirksomhet(
-        virksomhet.orgnr,
-    );
-
-    const mutateIASakerOgSamarbeidshistorikk = () => {
-        mutateAktivSak?.();
-        mutateSamarbeidshistorikk?.();
-    };
 
     if (iaSak === undefined) {
         return (
@@ -94,7 +81,7 @@ export function Statusknapper({
                         <VurderVirksomhetKnapp
                             onClick={() => {
                                 opprettSak(virksomhet.orgnr).then(() =>
-                                    mutateIASakerOgSamarbeidshistorikk(),
+                                    onStatusEndret(),
                                 );
                                 loggStatusendringPåSak(
                                     IASakshendelseTypeEnum.enum
