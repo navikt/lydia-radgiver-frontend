@@ -24,13 +24,11 @@ export const NavngiSamarbeidInfo = styled.div`
     flex-direction: column;
     align-items: flex-start;
     margin: 1rem 0;
-    padding: 0rem 1rem 0rem 1rem;
 `;
 
 export const IaSamarbeidNavnfelt = styled.div`
     min-width: fit-content;
     max-width: 100%;
-    padding: 0rem 1rem 0rem 1rem;
 `;
 
 interface EndreSamarbeidModalProps {
@@ -117,36 +115,37 @@ export const EndreSamarbeidModal = ({
             }}
             width="small"
         >
-            <NavngiSamarbeidInfo>
-                <Label>Navngi samarbeid</Label>
-                <Detail>
-                    Husk, aldri skriv personopplysninger. Maks 25 tegn.
-                </Detail>
-            </NavngiSamarbeidInfo>
+            <Modal.Body>
+                <NavngiSamarbeidInfo>
+                    <Label>Navngi samarbeid</Label>
+                    <Detail>
+                        Husk, aldri skriv personopplysninger. Maks 25 tegn.
+                    </Detail>
+                </NavngiSamarbeidInfo>
 
-            <IaSamarbeidNavnfelt>
-                <HStack justify={"space-between"}>
-                    <TextField
-                        maxLength={25}
-                        size="small"
-                        label="Navngi samarbeid"
-                        value={navn}
-                        onChange={(nyttnavn) => {
-                            setNavn(nyttnavn.target.value);
-                            setLagreNavnVellykket(false);
-                            setAntallTegn(nyttnavn.target.value.length);
-                        }}
-                        hideLabel
-                    />
-                    <Button variant={"danger"} onClick={slettSamarbeid}>
-                        Slett
-                    </Button>
-                </HStack>
-                <Detail style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>
-                    {antallTegn}/25 tegn
-                </Detail>
-            </IaSamarbeidNavnfelt>
-
+                <IaSamarbeidNavnfelt>
+                    <HStack justify={"space-between"}>
+                        <TextField
+                            maxLength={25}
+                            size="small"
+                            label="Navngi samarbeid"
+                            value={navn}
+                            onChange={(nyttnavn) => {
+                                setNavn(nyttnavn.target.value);
+                                setLagreNavnVellykket(false);
+                                setAntallTegn(nyttnavn.target.value.length);
+                            }}
+                            hideLabel
+                        />
+                        <Button variant={"danger"} onClick={slettSamarbeid}>
+                            Slett
+                        </Button>
+                    </HStack>
+                    <Detail style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>
+                        {antallTegn}/25 tegn
+                    </Detail>
+                </IaSamarbeidNavnfelt>
+            </Modal.Body>
             <Modal.Footer>
                 <Button
                     variant="primary"

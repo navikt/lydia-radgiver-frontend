@@ -85,16 +85,14 @@ export const NyttSamarbeidModal = ({
             <Modal.Body>
                 <BodyLong>
                     Her kan du opprette og navngi ulike samarbeid med
-                    virksomheten. Navnet vises på <i>Min Side Arbeidsgiver</i>
+                    virksomheten. Navnet vises på <i>Min Side Arbeidsgiver </i>
                     og må gjenspeile det virksomheten bruker selv.
                 </BodyLong>
-
                 <NavngiSamarbeidInfo>
                     <Detail>
                         Husk, aldri skriv personopplysninger. Maks 25 tegn.
                     </Detail>
                 </NavngiSamarbeidInfo>
-
                 <IaSamarbeidNavnfelt>
                     <HStack justify={"space-between"}>
                         <TextField
