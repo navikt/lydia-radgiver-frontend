@@ -15,12 +15,10 @@ import {
 } from "../../../../../api/lydia-api";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { StatusHendelseSteg } from "./Statusknapper";
-import {
-    penskrivIASakshendelsestype,
-    useTrengerÅFullføreKartleggingerFørst,
-    useTrengerÅFullføreLeveranserFørst,
-} from "../EndreStatusKnappar/IASakshendelseKnapp";
 import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
+import { useTrengerÅFullføreKartleggingerFørst } from "./useTrengerÅFullføreKartleggingerFørst";
+import { useTrengerÅFullføreLeveranserFørst } from "./useTrengerÅFullføreLeveranserFørst";
+import { penskrivIASakshendelsestype } from "./penskrivIASakshendelsestype";
 
 export default function KnappForHendelse({
     hendelse,
@@ -272,7 +270,9 @@ function RettTilNesteStatusKnapp({
             });
     };
 
-    const erTilbake = hendelse.saksHendelsestype === "TILBAKE";
+    const erTilbake =
+        hendelse.saksHendelsestype === "TILBAKE" ||
+        hendelse.saksHendelsestype === "SLETT_SAK";
     const Chevron = erTilbake ? ChevronLeftIcon : ChevronRightIcon;
 
     return (

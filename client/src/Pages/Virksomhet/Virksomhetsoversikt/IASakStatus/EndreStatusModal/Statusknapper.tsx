@@ -3,12 +3,10 @@ import {
     GyldigNesteHendelse,
     IAProsessStatusEnum,
     IASak,
+    IASakshendelseType,
     IASakshendelseTypeEnum,
 } from "../../../../../domenetyper/domenetyper";
-import {
-    erHendelsenDestruktiv,
-    IASakshendelseKnapp,
-} from "../EndreStatusKnappar/IASakshendelseKnapp";
+import { VurderVirksomhetKnapp } from "./VurderVirksomhetKnapp";
 import styled from "styled-components";
 import NesteSteg from "./NesteSteg";
 import KnappForHendelse from "./KnappForHendelse";
@@ -21,6 +19,7 @@ import {
 } from "../../../../../api/lydia-api";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { RolleEnum } from "../../../../../domenetyper/brukerinformasjon";
+import { knappeTypeFraSakshendelsesType } from "./knappeTypeFraSakshendelsesType";
 
 const Statuscontainer = styled.div`
     display: flex;
@@ -92,10 +91,7 @@ export function Statusknapper({
             brukerInformasjon?.rolle === RolleEnum.enum.Superbruker && (
                 <Statuscontainer>
                     <EnkeltKnappContainer>
-                        <IASakshendelseKnapp
-                            hendelsesType={
-                                IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES
-                            }
+                        <VurderVirksomhetKnapp
                             onClick={() => {
                                 opprettSak(virksomhet.orgnr).then(() =>
                                     mutateIASakerOgSamarbeidshistorikk(),
@@ -112,6 +108,9 @@ export function Statusknapper({
             )
         );
     }
+
+    const erHendelsenDestruktiv = (hendelsesType: IASakshendelseType) =>
+        knappeTypeFraSakshendelsesType(hendelsesType) === "danger";
 
     const hendelser: GyldigNesteHendelse[] = iaSak.gyldigeNesteHendelser.filter(
         (hendelse) =>
