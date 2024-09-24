@@ -64,7 +64,7 @@ export function StartSpørreundersøkelseModal({
                 </List.Item>
                 <List.Item>Det må være minst tre deltakere</List.Item>
                 <List.Item>
-                    For å se resultater må minst tre deltakere ha svart
+                    For å se resultater må minst tre deltakere ha svart på
                     spørsmålene.
                 </List.Item>
             </List>
