@@ -18,10 +18,14 @@ const EditTemaModal = styled(Modal)`
 
     ${mobileAndUp} {
         padding: 1.5rem;
-        --a-spacing-6: var(--a-spacing-6);
+        --a-spacing-6: var(--a-spacing-6); //TODO: Sette til originalverdien frå designsystemet
         // Vi prøver å hente ut originalverdien frå designsystemet
     }
 `;
+
+const EditTemaModalBody = styled(Modal.Body)`
+    overflow: visible;
+    `;
 
 export default function EditTemaKnapp({
     tema,
@@ -69,7 +73,7 @@ export default function EditTemaKnapp({
                 onClose={() => setModalOpen(false)}
                 aria-label="Rediger tema"
             >
-                <Modal.Body>
+                <EditTemaModalBody>
                     <InnholdOppsett
                         valgteInnhold={redigertTema.undertemaer}
                         velgInnhold={(redigerteUndertemaer: PlanInnhold[]) => {
@@ -98,7 +102,7 @@ export default function EditTemaKnapp({
                             Lagre
                         </Button>
                     </ModalKnapper>
-                </Modal.Body>
+                </EditTemaModalBody>
             </EditTemaModal>
         </>
     );
