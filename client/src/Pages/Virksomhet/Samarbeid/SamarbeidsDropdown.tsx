@@ -1,163 +1,137 @@
-import { IASak } from "../../../domenetyper/domenetyper";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
+import { IASak } from "../../../domenetyper/domenetyper";
+import { BodyShort, Button, Dropdown, Heading, Link } from "@navikt/ds-react";
+import { ChevronDownIcon } from "@navikt/aksel-icons";
+import React, { useState } from "react";
+import { SamarbeidsRad } from "./SamarbeidsRad";
+import { SamarbeidsDropdownFooter } from "./SamarbeidsDropdownFooter";
 import {
     useHentBrukerinformasjon,
     useHentSamarbeid,
 } from "../../../api/lydia-api";
-import {
-    BodyShort,
-    Button,
-    Dropdown,
-    Heading,
-    HStack,
-    Link,
-    VStack,
-} from "@navikt/ds-react";
-import { ChevronDownIcon } from "@navikt/aksel-icons";
-import React, { useState } from "react";
-import { EndreSamarbeidModal } from "./EndreSamarbeidModal";
-import styled from "styled-components";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { NyttSamarbeidModal } from "./NyttSamarbeidModal";
+import { EndreSamarbeidModal } from "./EndreSamarbeidModal";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import styled from "styled-components";
 
-const DropdownContainer = styled.div`
+const DropdownMenuInnholdStyled = styled.div`
     display: flex;
-    flex-wrap: wrap;
-    align-content: flex-start;
+    flex-direction: column;
+    gap: 2rem;
 `;
 
-const DropdownMenuContainer = styled.div`
-    padding: 1rem;
-`;
-
-const OpprettKnappWrapper = styled.div`
+const DropdownMenuListStyled = styled(Dropdown.Menu.List)`
     display: flex;
-    align-self: center;
-    margin-top: 2rem;
+    flex-direction: column;
 `;
 
-export function SamarbeidsDropdown({
-    virksomhet,
-    iaSak,
-}: {
+const DropdownMenuListItemStyled = styled(Dropdown.Menu.List.Item)`
+    padding-left: 1rem;
+    padding-right: 1rem;
+`;
+
+interface SamarbeidsDropdown2Props {
     iaSak: IASak | undefined;
     virksomhet: Virksomhet;
-}) {
+}
+
+export const SamarbeidsDropdown = ({
+    iaSak,
+    virksomhet,
+}: SamarbeidsDropdown2Props) => {
     const { data: alleSamarbeid, mutate: hentSamarbeidPåNytt } =
         useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
 
+    const harIngenAktiveSamarbeid =
+        alleSamarbeid === undefined || alleSamarbeid?.length === 0;
+
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
-    const [isEndreSamarbeidModalÅpen, setEndreSamarbeidModalÅpen] =
+    const [endreSamarbeidModalÅpen, setEndreSamarbeidModalÅpen] =
         useState(false);
-    const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] = useState(false);
     const [valgtSamarbeid, setValgtSamarbeid] = useState<IaSakProsess | null>(
         null,
     );
-
+    const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] = useState(false);
     return (
         <>
-            <DropdownContainer>
-                <Dropdown>
-                    <Button
-                        as={Dropdown.Toggle}
-                        icon={<ChevronDownIcon />}
-                        onClick={() => hentSamarbeidPåNytt()}
-                        iconPosition={"right"}
-                        variant={"primary-neutral"}
-                        size={"small"}
-                    >
-                        Samarbeid
-                    </Button>
+            <Dropdown>
+                <Button
+                    as={Dropdown.Toggle}
+                    icon={<ChevronDownIcon />}
+                    iconPosition="right"
+                    variant="primary-neutral"
+                    size="small"
+                    onClick={() => hentSamarbeidPåNytt()}
+                >
+                    Samarbeid
+                </Button>
 
-                    <DropdownMenuContainer>
-                        <Dropdown.Menu
-                            placement="bottom-start"
-                            style={{ width: "32rem" }}
+                <Dropdown.Menu
+                    style={{ minWidth: "22rem", marginTop: "0.3rem" }}
+                    placement={"bottom-start"}
+                >
+                    <DropdownMenuInnholdStyled>
+                        <Heading
+                            as={Link}
+                            href={`/virksomhet/${virksomhet.orgnr}`}
+                            size={"medium"}
+                            variant={"neutral"}
+                            title="Gå til virksomhet"
                         >
-                            <Heading
-                                as={Link}
-                                level={"4"}
-                                href={`/virksomhet/${virksomhet.orgnr}`}
-                                variant={"neutral"}
-                                title="Gå til virksomhet"
-                                size={"medium"}
-                                style={{ marginBottom: "2rem" }}
-                            >
-                                {virksomhet.navn}
-                            </Heading>
-                            {(alleSamarbeid === undefined ||
-                                alleSamarbeid?.length === 0) && (
-                                <>
-                                    <Heading size={"small"} level={"2"}>
-                                        Ingen aktive samarbeid
-                                    </Heading>
-                                    <BodyShort>
-                                        Du kan opprette og administrere
-                                        samarbeid når saken er i status{" "}
-                                        <i>Kartlegges</i> eller <i>Vi bistår</i>
-                                        .
-                                    </BodyShort>
-                                </>
-                            )}
-                            {iaSak && alleSamarbeid && (
-                                <>
-                                    <Dropdown.Menu.List>
-                                        <VStack gap={"3"}>
-                                            {alleSamarbeid.map((samarbeid) => (
-                                                <HStack
-                                                    marginInline={"8"}
-                                                    align="center"
-                                                    justify="space-between"
-                                                    key={samarbeid.id}
-                                                >
-                                                    <Dropdown.Menu.List.Item
-                                                        as={"a"}
-                                                        href={`/virksomhet/${iaSak.orgnr}/sak/${iaSak.saksnummer}/samarbeid/${samarbeid.id}`}
-                                                        title={
-                                                            "Gå til samarbeid"
-                                                        }
-                                                    >
-                                                        <div>
-                                                            {samarbeid.navn ||
-                                                                "Samarbeid uten navn"}
-                                                        </div>
-                                                    </Dropdown.Menu.List.Item>
-                                                    <Button
-                                                        size={"small"}
-                                                        onClick={() => {
-                                                            setEndreSamarbeidModalÅpen(
-                                                                true,
-                                                            );
-                                                            setValgtSamarbeid(
-                                                                samarbeid,
-                                                            );
-                                                        }}
-                                                    >
-                                                        Endre
-                                                    </Button>
-                                                </HStack>
-                                            ))}
-                                        </VStack>
-                                    </Dropdown.Menu.List>
-                                    <br />
+                            {virksomhet.navn}
+                        </Heading>
 
-                                    <OpprettKnappWrapper>
-                                        <Button
-                                            variant={"secondary"}
-                                            onClick={() =>
-                                                setNyttSamarbeidModalÅpen(true)
-                                            }
+                        {harIngenAktiveSamarbeid ? (
+                            <BodyShort style={{ paddingLeft: "1rem" }}>
+                                <b>Ingen aktive samarbeid </b>
+                            </BodyShort>
+                        ) : (
+                            iaSak &&
+                            alleSamarbeid && (
+                                <DropdownMenuListStyled>
+                                    {alleSamarbeid.map((samarbeid) => (
+                                        <DropdownMenuListItemStyled
+                                            as={"div"}
+                                            key={samarbeid.id}
                                         >
-                                            Nytt samarbeid
-                                        </Button>
-                                    </OpprettKnappWrapper>
-                                </>
-                            )}
-                        </Dropdown.Menu>
-                    </DropdownMenuContainer>
-                </Dropdown>
-            </DropdownContainer>
+                                            <SamarbeidsRad
+                                                orgnr={iaSak.orgnr}
+                                                saksnummer={iaSak.saksnummer}
+                                                samarbeid={samarbeid}
+                                                brukerErEierAvSak={
+                                                    brukerErEierAvSak
+                                                }
+                                                setÅpen={
+                                                    setEndreSamarbeidModalÅpen
+                                                }
+                                                setValgtSamarbeid={
+                                                    setValgtSamarbeid
+                                                }
+                                            />
+                                        </DropdownMenuListItemStyled>
+                                    ))}
+                                </DropdownMenuListStyled>
+                            )
+                        )}
+
+                        <SamarbeidsDropdownFooter
+                            setÅpen={setNyttSamarbeidModalÅpen}
+                            brukerErEierAvSak={brukerErEierAvSak}
+                            iaSakStatus={iaSak?.status}
+                        />
+                    </DropdownMenuInnholdStyled>
+                </Dropdown.Menu>
+            </Dropdown>
+
+            {valgtSamarbeid && iaSak && (
+                <EndreSamarbeidModal
+                    samarbeid={valgtSamarbeid}
+                    iaSak={iaSak}
+                    open={endreSamarbeidModalÅpen}
+                    setOpen={setEndreSamarbeidModalÅpen}
+                />
+            )}
 
             {iaSak && brukerErEierAvSak && (
                 <NyttSamarbeidModal
@@ -166,15 +140,6 @@ export function SamarbeidsDropdown({
                     setÅpen={setNyttSamarbeidModalÅpen}
                 />
             )}
-
-            {valgtSamarbeid && iaSak && (
-                <EndreSamarbeidModal
-                    samarbeid={valgtSamarbeid}
-                    iaSak={iaSak}
-                    open={isEndreSamarbeidModalÅpen}
-                    setOpen={setEndreSamarbeidModalÅpen}
-                />
-            )}
         </>
     );
-}
+};
