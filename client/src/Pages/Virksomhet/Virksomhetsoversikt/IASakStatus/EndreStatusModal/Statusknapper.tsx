@@ -44,8 +44,8 @@ const Innerknappecontainer = styled.div`
 export type StatusHendelseSteg =
     | "FULLFØR_LEVERANSE"
     | "FULLFØR_KARTLEGGINGER"
+    | "FULLFØR_SAMARBEIDSPLAN"
     | "BEGRUNNELSE"
-    | "LEGG_TIL_LEVERANSE"
     | "BEKREFT";
 
 interface StatusknapperProps {

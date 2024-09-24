@@ -3,9 +3,9 @@ import {
     IASakshendelseType,
     IASakshendelseTypeEnum,
 } from "../../../../../domenetyper/domenetyper";
-import { useHentKartlegginger } from "../../../../../api/lydia-api";
+import { useHentIASaksStatus } from "../../../../../api/lydia-api";
 
-export const useTrengerÅFullføreKartleggingerFørst = (
+export const useTrengerÅFullføreBehovsvurderingerFørst = (
     hendelsesType: IASakshendelseType,
     sak?: IASak,
 ): boolean => {
@@ -13,14 +13,18 @@ export const useTrengerÅFullføreKartleggingerFørst = (
         return false;
     }
 
-    const { data: kartleggingerPåSak } = useHentKartlegginger(
+    const { data: iaSaksStatus } = useHentIASaksStatus(
         sak.orgnr,
         sak.saksnummer,
     );
+
     const harKartleggingerSomErUnderArbeid =
-        kartleggingerPåSak
-            ?.flatMap((kartlegging) => kartlegging.status)
-            .some((status) => status !== "AVSLUTTET") || false;
+        iaSaksStatus?.årsaker.some((årsak) =>
+            [
+                "BEHOVSVURDERING_IKKE_FULLFØRT",
+                "INGEN_FULLFØRT_BEHOVSVURDERING",
+            ].includes(årsak.type),
+        ) || false;
 
     switch (hendelsesType) {
         case IASakshendelseTypeEnum.enum.TILBAKE:

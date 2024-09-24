@@ -72,19 +72,18 @@ export default function NesteSteg({
                     clearNesteSteg={clearNesteSteg}
                 />
             );
+        case "FULLFØR_SAMARBEIDSPLAN":
+            return (
+                <FullførSamarbeidsplanFørstSeksjon
+                    clearNesteSteg={clearNesteSteg}
+                />
+            );
         case "BEGRUNNELSE":
             return (
                 <BegrunnelseFørstSeksjon
                     lukkModal={lukkModal}
                     hendelse={nesteSteg.hendelse}
                     sak={sak}
-                    clearNesteSteg={clearNesteSteg}
-                />
-            );
-        case "LEGG_TIL_LEVERANSE":
-            return (
-                <LeggTilLeveranseSeksjon
-                    lukkModal={lukkModal}
                     clearNesteSteg={clearNesteSteg}
                 />
             );
@@ -136,6 +135,31 @@ function FullførLeveranserFørstSeksjon({
                     }}
                 >
                     Ta meg til IA-tjenester
+                </Button>
+            </Knappecontainer>
+        </Modal.Body>
+    );
+}
+
+function FullførSamarbeidsplanFørstSeksjon({
+    clearNesteSteg,
+}: {
+    clearNesteSteg: () => void;
+}) {
+    return (
+        <Modal.Body>
+            <Heading level="2" size="medium">
+                Saken har ingen fullførte samarbeidsplaner
+            </Heading>
+            <BodyLong>
+                For å gå videre må du fullføre samarbeidsplanen. Hvis en
+                behovsvurdering ikke skal eller kan gjennomføres likevel må du
+                slette den før du kan gå videre.
+            </BodyLong>
+            <br />
+            <Knappecontainer>
+                <Button variant="secondary" onClick={clearNesteSteg}>
+                    Den er grei
                 </Button>
             </Knappecontainer>
         </Modal.Body>
@@ -328,44 +352,6 @@ function BegrunnelseFørstSeksjon({
                     }}
                 >
                     Lagre
-                </Button>
-            </Knappecontainer>
-        </Modal.Body>
-    );
-}
-
-function LeggTilLeveranseSeksjon({
-    lukkModal,
-    clearNesteSteg,
-}: {
-    lukkModal: () => void;
-    clearNesteSteg: () => void;
-}) {
-    const { sendBrukerTilIATjenesterTab } = useSendTilIATjenesterTab();
-
-    return (
-        <Modal.Body>
-            <Heading level="2" size="medium">
-                Saken har ingen IA-tjenester
-            </Heading>
-            <BodyLong>
-                For å gå videre må du registrere og levere minst én IA-tjeneste
-                på saken.
-            </BodyLong>
-            <br />
-            <Knappecontainer>
-                <Button variant="secondary" onClick={clearNesteSteg}>
-                    Den er grei
-                </Button>
-                <Button
-                    variant="primary"
-                    onClick={() => {
-                        sendBrukerTilIATjenesterTab();
-                        loggSendBrukerTilIATjenesterTab("legg til leveranser");
-                        lukkModal();
-                    }}
-                >
-                    Ta meg til IA-tjenester
                 </Button>
             </Knappecontainer>
         </Modal.Body>

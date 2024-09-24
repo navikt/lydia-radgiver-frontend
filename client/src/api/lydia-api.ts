@@ -97,6 +97,7 @@ import {
     TemaRequest,
     UndertemaRequest,
 } from "../Pages/Virksomhet/Plan/Requests";
+import { IaSakStatus, iaSakStatusSchema } from "../domenetyper/iaSakStatus";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
@@ -665,6 +666,13 @@ export const useHentSalesforceUrl = (orgnr: string) => {
         salesforceInfoSchema,
         defaultSwrConfiguration,
         false,
+    );
+};
+
+export const useHentIASaksStatus = (orgnummer: string, saksnummer: string) => {
+    return useSwrTemplate<IaSakStatus>(
+        `${iaSakPath}/${orgnummer}/${saksnummer}/status`,
+        iaSakStatusSchema,
     );
 };
 

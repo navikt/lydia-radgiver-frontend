@@ -16,9 +16,10 @@ import {
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { StatusHendelseSteg } from "./Statusknapper";
 import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
-import { useTrengerÅFullføreKartleggingerFørst } from "./useTrengerÅFullføreKartleggingerFørst";
 import { useTrengerÅFullføreLeveranserFørst } from "./useTrengerÅFullføreLeveranserFørst";
 import { penskrivIASakshendelsestype } from "./penskrivIASakshendelsestype";
+import { useTrengerÅFullføreBehovsvurderingerFørst } from "./useTrengerÅFullføreBehovsvurderingerFørst";
+import { useTrengerÅFullføreSamarbeidsplanFørst } from "./useTrengerÅFullføreSamarbeidsplanFørst";
 
 export default function KnappForHendelse({
     hendelse,
@@ -196,25 +197,29 @@ function HendelseMåBekreftesKnapp({
     disabled: boolean;
     variant?: ButtonProps["variant"];
 }) {
-    const { data: leveranserPåSak } = useHentLeveranser(
-        sak.orgnr,
-        sak.saksnummer,
-    );
-    const ingenLeveranser = !leveranserPåSak?.length;
     const trengerÅFullføreLeveranserFørst = useTrengerÅFullføreLeveranserFørst(
         hendelse.saksHendelsestype,
         sak,
     );
+
     const trengerÅFullføreKartleggingerFørst =
-        useTrengerÅFullføreKartleggingerFørst(hendelse.saksHendelsestype, sak);
+        useTrengerÅFullføreBehovsvurderingerFørst(
+            hendelse.saksHendelsestype,
+            sak,
+        );
+
+    const trengerÅFullførePlanFørst = useTrengerÅFullføreSamarbeidsplanFørst(
+        hendelse.saksHendelsestype,
+        sak,
+    );
 
     let nesteSteg: StatusHendelseSteg | null = "BEKREFT";
-    if (hendelse.saksHendelsestype === "FULLFØR_BISTAND" && ingenLeveranser) {
-        nesteSteg = "LEGG_TIL_LEVERANSE";
-    } else if (trengerÅFullføreLeveranserFørst) {
+    if (trengerÅFullføreLeveranserFørst) {
         nesteSteg = "FULLFØR_LEVERANSE";
     } else if (trengerÅFullføreKartleggingerFørst) {
         nesteSteg = "FULLFØR_KARTLEGGINGER";
+    } else if (trengerÅFullførePlanFørst) {
+        nesteSteg = "FULLFØR_SAMARBEIDSPLAN";
     }
 
     const bekreftNyHendelsePåSak = () => {
