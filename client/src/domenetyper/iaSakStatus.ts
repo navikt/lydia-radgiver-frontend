@@ -12,7 +12,7 @@ export const KanIkkeFullføresÅrsaksTypeEnum = z.enum(
 
 const kanIkkeFullføresÅrsak = z.object({
     samarbeidsId: z.number(),
-    samarbeidsNavn: z.string(),
+    samarbeidsNavn: z.string().nullable(),
     type: KanIkkeFullføresÅrsaksTypeEnum,
     id: z.string().nullable(),
 });
