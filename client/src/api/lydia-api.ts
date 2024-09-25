@@ -97,6 +97,7 @@ import {
     TemaRequest,
     UndertemaRequest,
 } from "../Pages/Virksomhet/Plan/Requests";
+import { IaSakStatus, iaSakStatusSchema } from "../domenetyper/iaSakStatus";
 
 const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
@@ -668,6 +669,13 @@ export const useHentSalesforceUrl = (orgnr: string) => {
     );
 };
 
+export const useHentIASaksStatus = (orgnummer: string, saksnummer: string) => {
+    return useSwrTemplate<IaSakStatus>(
+        `${iaSakPath}/${orgnummer}/${saksnummer}/status`,
+        iaSakStatusSchema,
+    );
+};
+
 export const useHentMineSaker = () => {
     return useSwrTemplate<MineSaker[]>(`${mineSakerPath}`, mineSakerListSchema);
 };
@@ -694,9 +702,10 @@ export const fjernBrukerFraTeam = (
 export const nyKartleggingPåSak = (
     orgnummer: string,
     saksnummer: string,
+    samarbeidsId: number,
 ): Promise<IASakKartlegging> => {
     return post(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}/opprett`,
+        `${kartleggingPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
         iaSakKartleggingSchema,
     );
 };
@@ -719,7 +728,7 @@ export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
     );
 };
 
-export const useHentNyeKartlegginger = (
+export const useHentBehovsvurderingerMedProsess = (
     orgnummer: string,
     saksnummer: string,
     prosessId: number,
@@ -733,10 +742,11 @@ export const useHentNyeKartlegginger = (
 export const nyPlanPåSak = (
     orgnummer: string,
     saksnummer: string,
+    samarbeidsId: number,
     plan: PlanMalRequest,
 ): Promise<Plan> => {
     return post(
-        `${planPath}/${orgnummer}/${saksnummer}/opprett`,
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/opprett`,
         PlanSchema,
         plan,
     );
@@ -745,10 +755,11 @@ export const nyPlanPåSak = (
 export const endrePlan = (
     orgnummer: string,
     saksnummer: string,
+    samarbeidsId: number,
     body: TemaRequest[],
 ): Promise<PlanTema[]> => {
     return put(
-        `${planPath}/${orgnummer}/${saksnummer}`,
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
         PlanTemaSchema.array(),
         body,
     );
@@ -756,11 +767,12 @@ export const endrePlan = (
 export const endrePlanTema = (
     orgnummer: string,
     saksnummer: string,
+    samarbeidsId: number,
     temaId: number,
     body: UndertemaRequest[],
 ): Promise<PlanTema> => {
     return put(
-        `${planPath}/${orgnummer}/${saksnummer}/${temaId}`,
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/${temaId}`,
         PlanTemaSchema,
         body,
     );
@@ -769,20 +781,25 @@ export const endrePlanTema = (
 export const endrePlanStatus = (
     orgnummer: string,
     saksnummer: string,
+    samarbeidsId: number,
     temaId: number,
     undertemaId: number,
     body: PlanInnholdStatus,
 ): Promise<PlanInnhold> => {
     return put(
-        `${planPath}/${orgnummer}/${saksnummer}/${temaId}/${undertemaId}`,
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/${temaId}/${undertemaId}`,
         PlanUndertemaSchema,
         body,
     );
 };
 
-export const useHentPlan = (orgnummer: string, saksnummer: string) => {
+export const useHentPlan = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidsId: number,
+) => {
     return useSwrTemplate<Plan>(
-        `${planPath}/${orgnummer}/${saksnummer}`,
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
         PlanSchema,
         defaultSwrConfiguration,
         false,

@@ -9,14 +9,12 @@ import { Tabs } from "@navikt/ds-react";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useSearchParams } from "react-router-dom";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { LeveranseFane } from "../Leveranser/LeveranseFane";
-import PlanFane from "../Plan/PlanFane";
-
-import SamarbeidsContext from "./SamarbeidsContext";
+import SamarbeidsplanFane from "../Plan/SamarbeidsplanFane";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { Samarbeidsoversikt } from "./Samarbeidsoversikt";
 import EvalueringFane from "./Evaluering/EvalueringFane";
-import { NyKartleggingFane } from "./Behovsvurdering/NyKartleggingFane";
+import { BehovsvurderingFane } from "../Kartlegging/BehovsvurderingFane";
+import VirksomhetContext from "../VirksomhetContext";
+import VirksomhetOgSamarbeidsHeader from "../Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
 
 const StyledPanel = styled(Tabs.Panel)`
     padding-top: 1.5rem;
@@ -30,14 +28,14 @@ const Container = styled.div`
     padding-top: ${contentSpacing.mobileY};
 
     background-color: ${NavFarger.white};
-    ${strekkBakgrunnenHeltUtTilKantenAvSida} // Velger å sette denne, da heading bruker xlarge, selv om vi setter dem til å være large.
+    ${strekkBakgrunnenHeltUtTilKantenAvSida}; // Velger å sette denne, da heading bruker xlarge, selv om vi setter dem til å være large.
     --a-font-size-heading-xlarge: 1.75rem;
 `;
 
 export const SamarbeidsVisning = ({
-    virksomhet,
     alleSamarbeid,
     iaSak,
+    virksomhet,
     gjeldendeProsessId,
 }: {
     alleSamarbeid: IaSakProsess[];
@@ -48,14 +46,17 @@ export const SamarbeidsVisning = ({
     const gjeldendeSamarbeid = alleSamarbeid.find(
         (samarbeid) => samarbeid.id == gjeldendeProsessId,
     );
+    const [visKonfetti, setVisKonfetti] = React.useState(false);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const fane = searchParams.get("fane") ?? "behovsvurdering";
+    const kartleggingId = searchParams.get("kartleggingId");
 
     const oppdaterTabISearchParam = (tab: string) => {
         searchParams.set("fane", tab);
         setSearchParams(searchParams, { replace: true });
     };
+    const lasterIaSak = false;
 
     React.useEffect(() => {
         if (
@@ -68,18 +69,29 @@ export const SamarbeidsVisning = ({
         }
     }, []);
 
+    if (gjeldendeSamarbeid === undefined)
+        location.href = `/virksomhet/${iaSak.orgnr}`;
+
     return (
-        gjeldendeSamarbeid && (
-            <SamarbeidsContext.Provider
-                value={{
-                    virksomhet,
-                    iaSak,
-                    alleSamarbeid,
-                    gjeldendeSamarbeid,
-                }}
-            >
+        <VirksomhetContext.Provider
+            value={{
+                virksomhet,
+                iaSak,
+                lasterIaSak,
+                fane,
+                setFane: oppdaterTabISearchParam,
+                kartleggingId,
+                setVisKonfetti,
+                visKonfetti,
+            }}
+        >
+            {gjeldendeSamarbeid && (
                 <Container>
-                    <Samarbeidsoversikt />
+                    <VirksomhetOgSamarbeidsHeader
+                        virksomhet={virksomhet}
+                        iaSak={iaSak}
+                        gjeldendeSamarbeid={gjeldendeSamarbeid}
+                    />
                     <br />
                     <Tabs
                         value={fane}
@@ -102,32 +114,30 @@ export const SamarbeidsVisning = ({
                                     label="Evaluering"
                                 />
                             )}
-                            {iaSak && (
-                                <Tabs.Tab
-                                    value="ia-tjenester"
-                                    label="IA-tjenester"
-                                />
-                            )}
                         </Tabs.List>
                         <StyledPanel value="behovsvurdering">
                             {iaSak && (
-                                <NyKartleggingFane
+                                <BehovsvurderingFane
+                                    iaSak={iaSak}
+                                    gjeldendeSamarbeid={gjeldendeSamarbeid}
                                     KartleggingIdFraUrl={null} //TODO: Sett til noe fra context før prod
                                 />
                             )}
                         </StyledPanel>
                         <StyledPanel value="plan">
-                            {iaSak && <PlanFane iaSak={iaSak} />}
+                            {iaSak && (
+                                <SamarbeidsplanFane
+                                    iaSak={iaSak}
+                                    samarbeid={gjeldendeSamarbeid}
+                                />
+                            )}
                         </StyledPanel>
                         <StyledPanel value="evaluering">
                             {iaSak && <EvalueringFane />}
                         </StyledPanel>
-                        <StyledPanel value="ia-tjenester">
-                            {iaSak && <LeveranseFane iaSak={iaSak} />}
-                        </StyledPanel>
                     </Tabs>
                 </Container>
-            </SamarbeidsContext.Provider>
-        )
+            )}
+        </VirksomhetContext.Provider>
     );
 };

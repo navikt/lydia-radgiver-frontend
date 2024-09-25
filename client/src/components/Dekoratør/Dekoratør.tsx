@@ -118,10 +118,8 @@ export const erIDev = [
     "fia.intern.dev.nav.no",
     "fia.ekstern.dev.nav.no",
     "fia.ansatt.dev.nav.no",
+    "demo-fia.ansatt.dev.nav.no",
 ].includes(window.location.hostname);
-export const erIDemo = ["demo-fia.ansatt.dev.nav.no"].includes(
-    window.location.hostname,
-);
 
 const loggUt = () => {
     window.location.assign("/oauth2/logout");
@@ -131,7 +129,7 @@ interface Props {
     brukerInformasjon: BrukerinformasjonType;
 }
 
-const visDemoBanner = erIDemo || erIDev;
+const visDemoBanner = erIDev;
 
 export const Dekoratør = ({ brukerInformasjon }: Props) => {
     return (

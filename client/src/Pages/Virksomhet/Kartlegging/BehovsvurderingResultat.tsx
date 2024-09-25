@@ -13,24 +13,19 @@ const Container = styled.div`
     gap: 2rem;
 `;
 
-interface Props {
-    iaSak: IASak;
-    kartleggingId: string;
-}
-
-export const KartleggingResultat = ({
+export const BehovsvurderingResultat = ({
     iaSak,
-    kartleggingId,
-}: Props) => {
-    //const { loading: lasterKartleggingResultat } =
+    behovsvurderingId,
+}: {
+    iaSak: IASak;
+    behovsvurderingId: string;
+}) => {
     const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
         useHentKartleggingResultat(
             iaSak.orgnr,
             iaSak.saksnummer,
-            kartleggingId,
+            behovsvurderingId,
         );
-
-    //const kartleggingResultat = dummyKartleggingResultat;
 
     if (lasterKartleggingResultat) {
         return <Loader />;

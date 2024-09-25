@@ -1,8 +1,10 @@
 import { IASak } from "../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../domenetyper/iaSakProsess";
+import {
+    defaultNavnHvisTomt,
+    IaSakProsess,
+} from "../../domenetyper/iaSakProsess";
 import { useState } from "react";
 import { Chips, VStack } from "@navikt/ds-react";
-import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import { SamarbeidsInnhold } from "./SamarbeidsInnhold";
 
 export const SamarbeidsKort = ({
@@ -21,21 +23,19 @@ export const SamarbeidsKort = ({
         valgtSamarbeid && (
             <VStack gap="4" width={"100%"}>
                 <>
-                    {erIDev && (
-                        <Chips>
-                            {alleSamarbeid.map((samarbeid) => (
-                                <Chips.Toggle
-                                    key={samarbeid.id}
-                                    selected={
-                                        samarbeid.id === valgtSamarbeid?.id
-                                    }
-                                    onClick={() => setValgtSamarbeid(samarbeid)}
-                                >
-                                    {samarbeid.navn || "Samarbeid uten navn"}
-                                </Chips.Toggle>
-                            ))}
-                        </Chips>
-                    )}
+                    <Chips>
+                        {alleSamarbeid.map((samarbeid) => (
+                            <Chips.Toggle
+                                key={samarbeid.id}
+                                selected={
+                                    samarbeid.id === valgtSamarbeid?.id
+                                }
+                                onClick={() => setValgtSamarbeid(samarbeid)}
+                            >
+                                {defaultNavnHvisTomt(samarbeid.navn)}
+                            </Chips.Toggle>
+                        ))}
+                    </Chips>
                 </>
                 <SamarbeidsInnhold
                     iaSak={iaSak}

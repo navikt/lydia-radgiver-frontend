@@ -2,19 +2,20 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import { Accordion } from "@navikt/ds-react";
 import styled from "styled-components";
-import { KartleggingRadInnhold } from "./KartleggingRadInnhold";
+import { BehovsvurderingRadInnhold } from "./BehovsvurderingRadInnhold";
 import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
 import React, { useState } from "react";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const AccordionHeader = styled(Accordion.Header)`
     width: 100%;
 
-.navds-heading {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-}
+    .navds-heading {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        width: 100%;
+    }
 `;
 
 const HeaderRightContent = styled.span`
@@ -28,23 +29,23 @@ const KartleggingDato = styled.span`
     text-align: right;
 `;
 
-interface KartleggingRadProps {
+export const BehovsvurderingRad = ({
+    iaSak,
+    behovsvurdering,
+    brukerRolle,
+    samarbeid,
+    defaultOpen,
+    brukerErEierAvSak,
+    dato,
+}: {
     iaSak: IASak;
-    kartlegging: IASakKartlegging;
+    samarbeid: IaSakProsess;
+    behovsvurdering: IASakKartlegging;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
     dato?: string;
     brukerErEierAvSak: boolean;
     defaultOpen?: boolean;
-}
-
-export const KartleggingRad = ({
-    iaSak,
-    kartlegging,
-    brukerRolle,
-    defaultOpen,
-    brukerErEierAvSak,
-    dato,
-}: KartleggingRadProps) => {
+}) => {
     const [erÅpen, setErÅpen] = useState(defaultOpen);
 
     return (
@@ -58,15 +59,16 @@ export const KartleggingRad = ({
             <AccordionHeader>
                 Behovsvurdering
                 <HeaderRightContent>
-                    <KartleggingStatusBedge status={kartlegging.status} />
+                    <KartleggingStatusBedge status={behovsvurdering.status} />
                     <KartleggingDato>{dato}</KartleggingDato>
                 </HeaderRightContent>
             </AccordionHeader>
             {erÅpen && (
-                <KartleggingRadInnhold
+                <BehovsvurderingRadInnhold
                     iaSak={iaSak}
-                    kartleggingstatus={kartlegging.status}
-                    kartlegging={kartlegging}
+                    samarbeid={samarbeid}
+                    behovsvurderingStatus={behovsvurdering.status}
+                    behovsvurdering={behovsvurdering}
                     brukerRolle={brukerRolle}
                     brukerErEierAvSak={brukerErEierAvSak}
                 />

@@ -1,32 +1,40 @@
 import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import { slettKartlegging, useHentKartlegginger } from "../../../api/lydia-api";
+import {
+    slettKartlegging,
+    useHentBehovsvurderingerMedProsess,
+} from "../../../api/lydia-api";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 import React from "react";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
-export function SlettKartleggingModal({
+export function SlettBehovsvurderingModal({
     iaSak,
-    spørreundersøkelse,
+    behovsvurdering,
+    samarbeid,
     erModalÅpen,
     lukkModal,
 }: {
     iaSak: IASak;
-    spørreundersøkelse: IASakKartlegging;
+    samarbeid: IaSakProsess;
+    behovsvurdering: IASakKartlegging;
     erModalÅpen: boolean;
     lukkModal: () => void;
 }) {
-    const { mutate: muterKartlegginger } = useHentKartlegginger(
-        iaSak.orgnr,
-        iaSak.saksnummer,
-    );
+    const { mutate: muterBehovsvurderinger } =
+        useHentBehovsvurderingerMedProsess(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            samarbeid.id,
+        );
     const slett = () => {
         slettKartlegging(
             iaSak.orgnr,
             iaSak.saksnummer,
-            spørreundersøkelse.kartleggingId,
+            behovsvurdering.kartleggingId,
         ).then(() => {
-            muterKartlegginger();
+            muterBehovsvurderinger();
             lukkModal();
         });
     };
@@ -37,7 +45,7 @@ export function SlettKartleggingModal({
             onCancel={() => lukkModal()}
             åpen={erModalÅpen}
             title="Er du sikker på at du vil slette denne behovsvurderingen?"
-            description={`Behovsvurderingen som slettes er "Behovsvurdering opprettet ${lokalDatoMedKlokkeslett(spørreundersøkelse.opprettetTidspunkt)}".`}
+            description={`Behovsvurderingen som slettes er "Behovsvurdering opprettet ${lokalDatoMedKlokkeslett(behovsvurdering.opprettetTidspunkt)}".`}
         />
     );
 }

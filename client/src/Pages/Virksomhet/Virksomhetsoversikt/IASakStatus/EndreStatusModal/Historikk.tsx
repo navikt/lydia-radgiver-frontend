@@ -24,6 +24,7 @@ const SakshendelseContainer = styled.div`
     display: grid;
     grid-template-columns: 1fr max-content max-content;
     gap: 1rem;
+    width: 100%;
 `;
 
 function Sakshendelser({ sakshendelser }: { sakshendelser: Sakshendelse[] }) {

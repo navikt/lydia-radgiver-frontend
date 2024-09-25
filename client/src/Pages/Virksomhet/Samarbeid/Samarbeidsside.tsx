@@ -7,7 +7,6 @@ import {
 } from "../../../api/lydia-api";
 import React, { useEffect } from "react";
 import { loggSideLastet } from "../../../util/amplitude-klient";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 import { Loader } from "@navikt/ds-react";
 import { SamarbeidsVisning } from "./SamarbeidsVisning";
 
@@ -33,20 +32,16 @@ export const Samarbeidsside = () => {
     }
 
     if (virksomhetsinformasjon && iaSak && alleSamarbeid) {
-        if (erIDev) {
-            return (
-                <>
-                    <SamarbeidsVisning
-                        virksomhet={virksomhetsinformasjon}
-                        iaSak={iaSak}
-                        alleSamarbeid={alleSamarbeid}
-                        gjeldendeProsessId={Number(prosessId)}
-                    />
-                </>
-            );
-        } else {
-            return null;
-        }
+        return (
+            <>
+                <SamarbeidsVisning
+                    virksomhet={virksomhetsinformasjon}
+                    iaSak={iaSak}
+                    alleSamarbeid={alleSamarbeid}
+                    gjeldendeProsessId={Number(prosessId)}
+                />
+            </>
+        );
     } else {
         return <p>Kunne ikke laste ned informasjon om virksomhet</p>;
     }

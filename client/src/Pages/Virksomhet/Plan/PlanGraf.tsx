@@ -4,6 +4,7 @@ import { PlanInnhold } from "../../../domenetyper/plan";
 
 export type PølsegrafProps = {
     undertemaer: PlanInnhold[];
+    hidePin?: boolean;
 };
 
 export default function PlanGraf(props: PølsegrafProps) {
@@ -52,7 +53,7 @@ export default function PlanGraf(props: PølsegrafProps) {
     return (
         <>
             <Timeline key={`${earliestStart}-${latestSlutt}`}>
-                <Timeline.Pin date={new Date()} />
+                {props.hidePin ? undefined : <Timeline.Pin date={new Date()} />}
                 {undertemaer
                     .sort((a, b) => {
                         return a.id - b.id;
@@ -65,13 +66,9 @@ export default function PlanGraf(props: PølsegrafProps) {
                             <Timeline.Period
                                 start={new Date(undertema.start)}
                                 end={new Date(undertema.slutt)}
-                                status={
-                                    undertema.status === "PÅGÅR"
-                                        ? "info"
-                                        : undertema.status === "FULLFØRT"
-                                          ? "success"
-                                          : "neutral"
-                                }
+                                status={timelineColorFromStatus(
+                                    undertema.status,
+                                )}
                                 statusLabel={`${undertema.navn}: ${undertema.status}:`}
                             />
                         </Timeline.Row>
@@ -79,4 +76,20 @@ export default function PlanGraf(props: PølsegrafProps) {
             </Timeline>
         </>
     );
+}
+
+function timelineColorFromStatus(status: string | null) {
+    switch (status) {
+        case "PÅGÅR":
+            return "info";
+        case "FULLFØRT":
+            return "success";
+        case "AVBRUTT":
+            return "danger";
+        case "PLANLAGT":
+            return "warning";
+
+        default:
+            return "neutral";
+    }
 }

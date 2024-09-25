@@ -1,6 +1,6 @@
 import { IAProsessStatusType, IASak } from "../../domenetyper/domenetyper";
 import { useNavigate } from "react-router-dom";
-import { useHentNyeKartlegginger } from "../../api/lydia-api";
+import { useHentBehovsvurderingerMedProsess } from "../../api/lydia-api";
 import { penskrivKartleggingStatus } from "../../components/Badge/KartleggingStatusBadge";
 import { Button } from "@navikt/ds-react";
 import { loggGåTilSakFraMineSaker } from "../../util/amplitude-klient";
@@ -52,7 +52,11 @@ export const SamarbeidsInnhold = ({
     const navigate = useNavigate();
 
     const { data: behovsvurderinger, loading: lasterKartlegginger } =
-        useHentNyeKartlegginger(iaSak.orgnr, iaSak.saksnummer, iaSamarbeid.id);
+        useHentBehovsvurderingerMedProsess(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            iaSamarbeid.id,
+        );
 
     const sisteVurdering = behovsvurderinger?.sort(
         (a, b) =>

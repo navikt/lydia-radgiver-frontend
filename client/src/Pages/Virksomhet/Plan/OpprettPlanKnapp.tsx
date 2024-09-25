@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Button, Checkbox, CheckboxGroup, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import styled from "styled-components";
@@ -15,6 +15,7 @@ import {
     useHentSamarbeid,
 } from "../../../api/lydia-api";
 import { isoDato } from "../../../util/dato";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const TemaInnholdVelgerContainer = styled.div`
     margin-bottom: 1rem;
@@ -31,17 +32,23 @@ const OpprettPlanModal = styled(Modal)`
 export default function OpprettPlanKnapp({
     saksnummer,
     orgnummer,
+    samarbeid,
     brukerErEierAvSak,
     sakErIRettStatus,
     planMal,
 }: {
     orgnummer: string;
     saksnummer: string;
+    samarbeid: IaSakProsess;
     brukerErEierAvSak: boolean;
     sakErIRettStatus: boolean;
     planMal: PlanMal;
 }) {
-    const { mutate: hentPlanIgjen } = useHentPlan(orgnummer, saksnummer);
+    const { mutate: hentPlanIgjen } = useHentPlan(
+        orgnummer,
+        saksnummer,
+        samarbeid.id,
+    );
     const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
         orgnummer,
         saksnummer,
@@ -57,17 +64,17 @@ export default function OpprettPlanKnapp({
                 valgteTemaIder.includes(tema.rekkefølge)
                     ? { ...tema, planlagt: true }
                     : {
-                          ...tema,
-                          planlagt: false,
-                          innhold: tema.innhold.map((innhold) => {
-                              return {
-                                  ...innhold,
-                                  planlagt: false,
-                                  startDato: null,
-                                  sluttDato: null,
-                              };
-                          }),
-                      },
+                        ...tema,
+                        planlagt: false,
+                        innhold: tema.innhold.map((innhold) => {
+                            return {
+                                ...innhold,
+                                planlagt: false,
+                                startDato: null,
+                                sluttDato: null,
+                            };
+                        }),
+                    },
             ),
         });
     }
@@ -80,22 +87,13 @@ export default function OpprettPlanKnapp({
             tema: redigertPlanMal.tema.map((tema) =>
                 tema.rekkefølge === temaId
                     ? {
-                          ...tema,
-                          innhold: redigerteInnholdMal,
-                      }
+                        ...tema,
+                        innhold: redigerteInnholdMal,
+                    }
                     : { ...tema },
             ),
         });
     }
-
-    function lagreEndring() {
-        const nyPlan = lagRequest(redigertPlanMal);
-        nyPlanPåSak(orgnummer, saksnummer, nyPlan).then(() => {
-            hentPlanIgjen();
-            hentSamarbeidPåNytt();
-        });
-    }
-
     function lagRequest(plan: PlanMal): PlanMalRequest {
         return {
             tema: plan.tema.map((tema) => {
@@ -119,6 +117,47 @@ export default function OpprettPlanKnapp({
         };
     }
 
+    const [visTemaFeil, setVisTemaFeil] = useState<boolean>(false);
+    const [visInnholdFeil, setVisInnholdFeil] = useState<boolean>(false);
+
+    function håndterLagre() {
+        if (!planErGyldig()) {
+            return;
+        }
+
+        const nyPlan = lagRequest(redigertPlanMal);
+
+        nyPlanPåSak(orgnummer, saksnummer, samarbeid.id, nyPlan).then(() => {
+            hentPlanIgjen();
+            hentSamarbeidPåNytt();
+        });
+
+        setModalOpen(false);
+    }
+
+    function planErGyldig(): boolean {
+        const minstEttTemaValgt = redigertPlanMal.tema.some(
+            (tema) => tema.planlagt,
+        );
+        const minstEttInnholdForValgtTemaValgt = redigertPlanMal.tema.every(
+            (tema) =>
+                (tema.planlagt &&
+                    tema.innhold.some((innhold) => innhold.planlagt)) ||
+                !tema.planlagt,
+        );
+
+        if (!minstEttTemaValgt) {
+            setVisTemaFeil(true);
+            return false;
+        }
+
+        if (!minstEttInnholdForValgtTemaValgt) {
+            setVisInnholdFeil(true);
+            return false;
+        }
+        return true;
+    }
+
     return (
         <>
             <Button
@@ -126,6 +165,7 @@ export default function OpprettPlanKnapp({
                 iconPosition="left"
                 variant="primary"
                 icon={<PlusIcon />}
+                style={{ margin: "1rem", minWidth: "10.5rem" }}
                 onClick={() => setModalOpen(true)}
                 disabled={!(brukerErEierAvSak && sakErIRettStatus)}
             >
@@ -142,7 +182,14 @@ export default function OpprettPlanKnapp({
                         value={redigertPlanMal.tema.map((tema) =>
                             tema.planlagt ? tema.rekkefølge : null,
                         )}
-                        onChange={(val: number[]) => velgTema(val)}
+                        error={
+                            visTemaFeil ? "Du må velge minst et tema." : null
+                        }
+                        onChange={(val: number[]) => {
+                            velgTema(val);
+                            setVisTemaFeil(false);
+                            setVisInnholdFeil(false);
+                        }}
                     >
                         {redigertPlanMal.tema.map((tema) => (
                             <div key={tema.rekkefølge}>
@@ -152,6 +199,10 @@ export default function OpprettPlanKnapp({
                                 {tema.planlagt && (
                                     <TemaInnholdVelgerContainer>
                                         <TemaInnholdVelger
+                                            setVisInnholdFeil={
+                                                setVisInnholdFeil
+                                            }
+                                            visInnholdFeil={visInnholdFeil}
                                             valgteUndertemaer={tema.innhold}
                                             velgUndertemaer={(
                                                 val: RedigertInnholdMal[],
@@ -179,8 +230,7 @@ export default function OpprettPlanKnapp({
                         </Button>
                         <Button
                             onClick={() => {
-                                lagreEndring();
-                                setModalOpen(false);
+                                håndterLagre();
                             }}
                         >
                             Lagre

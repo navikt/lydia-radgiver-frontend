@@ -1,4 +1,4 @@
-import {z} from "zod";
+import { z } from "zod";
 
 export const iaSakProsessSchema = z.object({
     id: z.number(),
@@ -8,3 +8,9 @@ export const iaSakProsessSchema = z.object({
 });
 
 export type IaSakProsess = z.infer<typeof iaSakProsessSchema>;
+export const DEFAULT_SAMARBEIDSNAVN = "Samarbeid uten navn";
+export const defaultNavnHvisTomt = (
+    navn: string | null | undefined,
+): string => {
+    return navn?.trim() || DEFAULT_SAMARBEIDSNAVN;
+};

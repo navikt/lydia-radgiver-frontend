@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { datoSchema } from "./domenetyper";
 
-const IA_PLAN_STATUSER = ["PLANLAGT", "PÅGÅR", "FULLFØRT"] as const;
+const IA_PLAN_STATUSER = ["PLANLAGT", "PÅGÅR", "FULLFØRT", "AVBRUTT"] as const;
 
 const PlanStatusSchema = z.enum(IA_PLAN_STATUSER);
 

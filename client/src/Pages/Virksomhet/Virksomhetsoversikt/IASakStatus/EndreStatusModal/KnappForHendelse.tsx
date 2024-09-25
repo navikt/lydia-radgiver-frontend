@@ -1,4 +1,4 @@
-import { Button, ButtonProps } from "@navikt/ds-react";
+import { Button, ButtonProps, Detail } from "@navikt/ds-react";
 import React from "react";
 import {
     GyldigNesteHendelse,
@@ -10,16 +10,15 @@ import {
     useHentAktivSakForVirksomhet,
     useHentKartlegginger,
     useHentLeveranser,
+    useHentSamarbeid,
     useHentSamarbeidshistorikk,
 } from "../../../../../api/lydia-api";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { StatusHendelseSteg } from "./Statusknapper";
-import { penskrivIASakshendelsestype } from "../EndreStatusKnappar/IASakshendelseKnapp";
 import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
-import {
-    useTrengerÅFullføreLeveranserFørst,
-    useTrengerÅFullføreKartleggingerFørst,
-} from "../EndreStatusKnappar/IASakshendelseKnapp";
+import { useTrengerÅFullføreLeveranserFørst } from "./useTrengerÅFullføreLeveranserFørst";
+import { penskrivIASakshendelsestype } from "./penskrivIASakshendelsestype";
+import { useTrengerÅFullføreBehovsvurderingerFørst } from "./useTrengerÅFullføreBehovsvurderingerFørst";
 
 export default function KnappForHendelse({
     hendelse,
@@ -68,7 +67,6 @@ export default function KnappForHendelse({
         case IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_KARTLEGGES:
-        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
         case IASakshendelseTypeEnum.enum.SLETT_SAK:
             return (
                 <RettTilNesteStatusKnapp
@@ -79,11 +77,53 @@ export default function KnappForHendelse({
                     onStatusEndret={onStatusEndret}
                 />
             );
+        case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
+            return (
+                <BiståEllerSamarbeidKnapp
+                    hendelse={hendelse}
+                    sak={sak}
+                    variant={variant}
+                    onStatusEndret={onStatusEndret}
+                />
+            );
         case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
         case IASakshendelseTypeEnum.enum.NY_PROSESS:
         default:
             return <></>;
     }
+}
+
+function BiståEllerSamarbeidKnapp({
+    sak,
+    hendelse,
+    variant,
+    onStatusEndret,
+}: {
+    hendelse: GyldigNesteHendelse;
+    sak: IASak;
+    variant: ButtonProps["variant"];
+    onStatusEndret: (status: IASak["status"]) => void;
+}) {
+    const { data: alleSamarbeid } = useHentSamarbeid(sak.orgnr, sak.saksnummer);
+
+    if (alleSamarbeid === undefined) {
+        return <></>;
+    }
+    if (alleSamarbeid.length === 0) {
+        return <Detail>Du må opprette et samarbeid først</Detail>;
+    }
+
+    return (
+        alleSamarbeid && (
+            <RettTilNesteStatusKnapp
+                sak={sak}
+                hendelse={hendelse}
+                disabled={false}
+                variant={variant}
+                onStatusEndret={onStatusEndret}
+            />
+        )
+    );
 }
 
 function IkkeAktuellKnapp({
@@ -156,25 +196,30 @@ function HendelseMåBekreftesKnapp({
     disabled: boolean;
     variant?: ButtonProps["variant"];
 }) {
-    const { data: leveranserPåSak } = useHentLeveranser(
-        sak.orgnr,
-        sak.saksnummer,
-    );
-    const ingenLeveranser = !leveranserPåSak?.length;
     const trengerÅFullføreLeveranserFørst = useTrengerÅFullføreLeveranserFørst(
         hendelse.saksHendelsestype,
         sak,
     );
+
     const trengerÅFullføreKartleggingerFørst =
-        useTrengerÅFullføreKartleggingerFørst(hendelse.saksHendelsestype, sak);
+        useTrengerÅFullføreBehovsvurderingerFørst(
+            hendelse.saksHendelsestype,
+            sak,
+        );
+
+    const trengerÅFullførePlanFørst = false;
+    // useTrengerÅFullføreSamarbeidsplanFørst(
+    //     hendelse.saksHendelsestype,
+    //     sak,
+    // );
 
     let nesteSteg: StatusHendelseSteg | null = "BEKREFT";
-    if (hendelse.saksHendelsestype === "FULLFØR_BISTAND" && ingenLeveranser) {
-        nesteSteg = "LEGG_TIL_LEVERANSE";
-    } else if (trengerÅFullføreLeveranserFørst) {
+    if (trengerÅFullføreLeveranserFørst) {
         nesteSteg = "FULLFØR_LEVERANSE";
     } else if (trengerÅFullføreKartleggingerFørst) {
         nesteSteg = "FULLFØR_KARTLEGGINGER";
+    } else if (trengerÅFullførePlanFørst) {
+        nesteSteg = "FULLFØR_SAMARBEIDSPLAN";
     }
 
     const bekreftNyHendelsePåSak = () => {
@@ -230,7 +275,9 @@ function RettTilNesteStatusKnapp({
             });
     };
 
-    const erTilbake = hendelse.saksHendelsestype === "TILBAKE";
+    const erTilbake =
+        hendelse.saksHendelsestype === "TILBAKE" ||
+        hendelse.saksHendelsestype === "SLETT_SAK";
     const Chevron = erTilbake ? ChevronLeftIcon : ChevronRightIcon;
 
     return (
