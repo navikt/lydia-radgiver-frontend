@@ -64,7 +64,7 @@ export const SamarbeidsDropdown = ({
                     size="small"
                     onClick={() => hentSamarbeidPåNytt()}
                 >
-                    Samarbeid
+                    Samarbeid{harIngenAktiveSamarbeid ? "" : ` (${alleSamarbeid?.length})`}
                 </Button>
 
                 <Dropdown.Menu
