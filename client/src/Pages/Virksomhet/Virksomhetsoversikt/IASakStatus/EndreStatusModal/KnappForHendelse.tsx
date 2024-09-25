@@ -19,7 +19,6 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
 import { useTrengerÅFullføreLeveranserFørst } from "./useTrengerÅFullføreLeveranserFørst";
 import { penskrivIASakshendelsestype } from "./penskrivIASakshendelsestype";
 import { useTrengerÅFullføreBehovsvurderingerFørst } from "./useTrengerÅFullføreBehovsvurderingerFørst";
-import { useTrengerÅFullføreSamarbeidsplanFørst } from "./useTrengerÅFullføreSamarbeidsplanFørst";
 
 export default function KnappForHendelse({
     hendelse,
@@ -208,10 +207,11 @@ function HendelseMåBekreftesKnapp({
             sak,
         );
 
-    const trengerÅFullførePlanFørst = useTrengerÅFullføreSamarbeidsplanFørst(
-        hendelse.saksHendelsestype,
-        sak,
-    );
+    const trengerÅFullførePlanFørst = false;
+    // useTrengerÅFullføreSamarbeidsplanFørst(
+    //     hendelse.saksHendelsestype,
+    //     sak,
+    // );
 
     let nesteSteg: StatusHendelseSteg | null = "BEKREFT";
     if (trengerÅFullføreLeveranserFørst) {
