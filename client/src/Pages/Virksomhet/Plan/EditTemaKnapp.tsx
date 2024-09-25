@@ -59,6 +59,8 @@ export default function EditTemaKnapp({
         });
     };
 
+    const harNoenValgteUndertema = redigertTema.undertemaer.some((undertema) => undertema.planlagt);
+
     return (
         <>
             <Button
@@ -94,6 +96,7 @@ export default function EditTemaKnapp({
                             Avbryt
                         </Button>
                         <Button
+                            disabled={!harNoenValgteUndertema}
                             onClick={() => {
                                 setModalOpen(false);
                                 lagreEndring();
