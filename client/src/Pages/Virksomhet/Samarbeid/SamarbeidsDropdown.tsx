@@ -18,16 +18,20 @@ const DropdownMenuInnholdStyled = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
+    
+    margin-top: 0 !important;
+    margin-right: 1.5rem !important;
+    margin-bottom: 1.5rem !important;
+    margin-left: 1.5rem !important;
 `;
 
 const DropdownMenuListStyled = styled(Dropdown.Menu.List)`
     display: flex;
     flex-direction: column;
+    gap: 0.5rem;
 `;
 
 const DropdownMenuListItemStyled = styled(Dropdown.Menu.List.Item)`
-    padding-left: 1rem;
-    padding-right: 1rem;
 `;
 
 interface SamarbeidsDropdown2Props {
@@ -68,7 +72,7 @@ export const SamarbeidsDropdown = ({
                 </Button>
 
                 <Dropdown.Menu
-                    style={{ minWidth: "22rem", marginTop: "0.3rem" }}
+                    style={{ minWidth: "22rem", marginTop: "0.3rem", padding: 0 }}
                     placement={"bottom-start"}
                 >
                     <DropdownMenuInnholdStyled>

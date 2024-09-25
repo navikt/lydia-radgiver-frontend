@@ -17,17 +17,17 @@ import {
 } from "../../../../api/lydia-api";
 import { SaksgangDropdownToggle } from "./SaksgangDropdownToggle";
 
-const HistorikkContainer = styled(HStack)<{ $begrensHøyde: boolean }>`
+const HistorikkContainer = styled(HStack) <{ $begrensHøyde: boolean }>`
     max-height: ${(props) => (props.$begrensHøyde ? "20rem" : "auto")};
     overflow-y: auto;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
 `;
 
 const DropdownHeader = styled(Heading)`
-    padding-top: 1.5rem;
-    padding-left: 1.5rem;
-    padding-right: 1.5rem;
+    padding-top: 0.5rem;
+    padding-left: 0.5rem;
+    padding-right: 0.5rem;
     padding-bottom: 1rem;
 `;
 
@@ -68,7 +68,9 @@ export function SaksgangDropdown({
         >
             <SaksgangDropdownToggle iaSak={iaSak} />
             <Dropdown.Menu
-                style={{ maxWidth: "auto", width: "36rem" }}
+                style={{
+                    maxWidth: "auto", width: "36rem", marginTop: "0.3rem"
+                }}
                 placement="bottom-start"
             >
                 <DropdownHeader size="medium">Endre status</DropdownHeader>
@@ -87,6 +89,7 @@ export function SaksgangDropdown({
                     setVisKonfetti={setVisKonfetti}
                     nesteSteg={nesteSteg}
                     setNesteSteg={setNesteSteg}
+                    redusertPadding
                 />
             </Dropdown.Menu>
         </Dropdown>

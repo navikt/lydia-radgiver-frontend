@@ -67,10 +67,15 @@ export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
                     </HStack>
                 </Button>
                 <Dropdown.Menu
-                    style={{ maxWidth: "auto", width: "24rem" }}
+                    style={{ maxWidth: "auto", width: "24rem", marginTop: "0.3rem" }}
                     placement="bottom-start">
-                    <Heading size="small" level="4">Administrer gruppe</Heading>
-                    <TeamInnhold iaSak={iaSak} />
+                    <div style={{
+                        margin: "1.5rem",
+                        marginTop: "0.5rem"
+                    }}>
+                        <Heading size="small" level="4">Administrer gruppe</Heading>
+                        <TeamInnhold iaSak={iaSak} />
+                    </div>
                 </Dropdown.Menu>
             </Dropdown>
         </>

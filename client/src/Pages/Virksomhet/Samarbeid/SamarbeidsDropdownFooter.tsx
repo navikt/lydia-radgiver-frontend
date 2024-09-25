@@ -5,7 +5,6 @@ import { PlusIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 
 const OpprettSamarbeidKnapp = styled.div`
-    padding-left: 1rem;
 `;
 
 interface SamarbeidsDropdownFooterProps {

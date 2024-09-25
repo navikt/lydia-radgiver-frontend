@@ -24,11 +24,11 @@ const Statuscontainer = styled.div`
     flex-direction: column;
 `;
 
-const Knappecontainer = styled.div`
+const Knappecontainer = styled.div<{ $redusertPadding: boolean }>`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 1.5rem;
+    padding: ${props => props.$redusertPadding ? "0.5rem" : "1.5rem"};
 `;
 
 const EnkeltKnappContainer = styled(Knappecontainer)`
@@ -62,6 +62,7 @@ interface StatusknapperProps {
         hendelse: GyldigNesteHendelse | null;
     };
     onStatusEndret: () => void;
+    redusertPadding?: boolean;
 }
 
 export function Statusknapper({
@@ -72,6 +73,7 @@ export function Statusknapper({
     setNesteSteg,
     nesteSteg,
     onStatusEndret,
+    redusertPadding = false,
 }: StatusknapperProps) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
 
@@ -79,7 +81,7 @@ export function Statusknapper({
         return (
             brukerInformasjon?.rolle === RolleEnum.enum.Superbruker && (
                 <Statuscontainer>
-                    <EnkeltKnappContainer>
+                    <EnkeltKnappContainer $redusertPadding={redusertPadding}>
                         <VurderVirksomhetKnapp
                             onClick={() => {
                                 opprettSak(virksomhet.orgnr).then(() =>
@@ -104,9 +106,9 @@ export function Statusknapper({
     const hendelser: GyldigNesteHendelse[] = iaSak.gyldigeNesteHendelser.filter(
         (hendelse) =>
             hendelse.saksHendelsestype !==
-                IASakshendelseTypeEnum.Enum.ENDRE_PROSESS &&
+            IASakshendelseTypeEnum.Enum.ENDRE_PROSESS &&
             hendelse.saksHendelsestype !==
-                IASakshendelseTypeEnum.Enum.NY_PROSESS,
+            IASakshendelseTypeEnum.Enum.NY_PROSESS,
     );
     const destruktiveHendelser = hendelser.filter((hendelse) =>
         erHendelsenDestruktiv(hendelse.saksHendelsestype),
@@ -119,7 +121,7 @@ export function Statusknapper({
 
     return (
         <Statuscontainer>
-            <Knappecontainer>
+            <Knappecontainer $redusertPadding={redusertPadding}>
                 {destruktiveHendelser.map((hendelse, index) => (
                     <KnappForHendelse
                         key={index}
