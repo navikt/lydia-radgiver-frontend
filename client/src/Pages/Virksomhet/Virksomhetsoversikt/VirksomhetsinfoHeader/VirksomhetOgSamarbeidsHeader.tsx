@@ -2,7 +2,6 @@ import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
 import {
-    Detail,
     Heading,
     HStack,
     Link,
@@ -14,7 +13,6 @@ import { ChevronRightIcon, InformationSquareIcon } from "@navikt/aksel-icons";
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
 import {
     useHentSalesforceUrl,
-    useHentSamarbeid,
 } from "../../../../api/lydia-api";
 import { EksternLenke } from "../../../../components/EksternLenke";
 
@@ -56,11 +54,6 @@ export default function VirksomhetOgSamarbeidsHeader({
     const buttonRef = useRef<SVGSVGElement>(null);
     const [openState, setOpenState] = useState(false);
     const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
-
-    const { data: alleSamarbeid } = useHentSamarbeid(
-        iaSak?.orgnr,
-        iaSak?.saksnummer,
-    );
 
     return (
         <Container>
@@ -116,15 +109,6 @@ export default function VirksomhetOgSamarbeidsHeader({
                                 </>
                             )}
                         </HStack>
-
-                        {alleSamarbeid !== undefined && (
-                            <Detail>
-                                {alleSamarbeid.length >= 1
-                                    ? alleSamarbeid.length
-                                    : "Ingen"}{" "}
-                                samarbeid
-                            </Detail>
-                        )}
                     </VStack>
 
                     <Popover
