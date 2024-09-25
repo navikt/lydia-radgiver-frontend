@@ -39,7 +39,7 @@ function SamarbeidsplanHeading({
             </HStack>
 
             {samarbeidsplan && erIDev && (
-                <EksportVisning samarbeidsplan={samarbeidsplan} />
+                <EksportVisning samarbeidsplan={samarbeidsplan} samarbeid={samarbeid} />
             )}
         </HStack>
     );

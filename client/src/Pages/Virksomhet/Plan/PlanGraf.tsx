@@ -4,6 +4,7 @@ import { PlanInnhold } from "../../../domenetyper/plan";
 
 export type PølsegrafProps = {
     undertemaer: PlanInnhold[];
+    hidePin?: boolean;
 };
 
 export default function PlanGraf(props: PølsegrafProps) {
@@ -52,7 +53,7 @@ export default function PlanGraf(props: PølsegrafProps) {
     return (
         <>
             <Timeline key={`${earliestStart}-${latestSlutt}`}>
-                <Timeline.Pin date={new Date()} />
+                {props.hidePin ? undefined : <Timeline.Pin date={new Date()} />}
                 {undertemaer
                     .sort((a, b) => {
                         return a.id - b.id;
