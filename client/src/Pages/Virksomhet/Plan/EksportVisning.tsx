@@ -1,4 +1,3 @@
-"use client";
 import { Plan, PlanTema } from "../../../domenetyper/plan";
 import { BodyShort, Button, Heading } from "@navikt/ds-react";
 import { FilePdfIcon } from "@navikt/aksel-icons";
