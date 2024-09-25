@@ -13,6 +13,7 @@ import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
 import VirksomhetContext from "./VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "./Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
+import { LeveranseFane } from "./Leveranser/LeveranseFane";
 
 const Container = styled.div`
     padding-top: ${contentSpacing.mobileY};
@@ -80,12 +81,16 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     <Tabs.List style={{ width: "100%" }}>
                         <Tabs.Tab value="statistikk" label="Statistikk" />
                         <Tabs.Tab value="historikk" label="Historikk" />
+                        <Tabs.Tab value="ia-tjenester" label="IA-tjenester" />
                     </Tabs.List>
                     <StyledPanel value="statistikk">
                         <StatistikkFane virksomhet={virksomhet} />
                     </StyledPanel>
                     <StyledPanel value="historikk">
                         <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />
+                    </StyledPanel>
+                    <StyledPanel value="ia-tjenester">
+                        {iaSak && <LeveranseFane iaSak={iaSak} />}
                     </StyledPanel>
                 </Tabs>
             </Container>

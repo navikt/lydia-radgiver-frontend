@@ -9,7 +9,6 @@ import { Tabs } from "@navikt/ds-react";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useSearchParams } from "react-router-dom";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { LeveranseFane } from "../Leveranser/LeveranseFane";
 import SamarbeidsplanFane from "../Plan/SamarbeidsplanFane";
 import { IASak } from "../../../domenetyper/domenetyper";
 import EvalueringFane from "./Evaluering/EvalueringFane";
@@ -115,12 +114,6 @@ export const SamarbeidsVisning = ({
                                     label="Evaluering"
                                 />
                             )}
-                            {iaSak && (
-                                <Tabs.Tab
-                                    value="ia-tjenester"
-                                    label="IA-tjenester"
-                                />
-                            )}
                         </Tabs.List>
                         <StyledPanel value="behovsvurdering">
                             {iaSak && (
@@ -141,9 +134,6 @@ export const SamarbeidsVisning = ({
                         </StyledPanel>
                         <StyledPanel value="evaluering">
                             {iaSak && <EvalueringFane />}
-                        </StyledPanel>
-                        <StyledPanel value="ia-tjenester">
-                            {iaSak && <LeveranseFane iaSak={iaSak} />}
                         </StyledPanel>
                     </Tabs>
                 </Container>
