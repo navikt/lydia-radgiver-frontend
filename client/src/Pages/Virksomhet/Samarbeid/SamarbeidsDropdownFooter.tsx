@@ -80,7 +80,7 @@ export const SamarbeidsDropdownFooter = ({
                     size={"small"}
                     title={"Opprett samarbeid"}
                 >
-                    Opprett Samarbeid
+                    Opprett samarbeid
                 </Button>
             ) : (
                 <BodyShort>{kravTilOppretteSamarbeid()}</BodyShort>
