@@ -38,7 +38,7 @@ export const SamarbeidsRad = ({
             <Link
                 style={{ width: "100%" }}
                 href={`/virksomhet/${orgnr}/sak/${saksnummer}/samarbeid/${samarbeid.id}`}
-                title={`Gå til samarbeid '${samarbeid.navn}'`}
+                title={`Gå til samarbeid '${defaultNavnHvisTomt(samarbeid.navn)}'`}
             >
                 {defaultNavnHvisTomt(samarbeid.navn)}
             </Link>
