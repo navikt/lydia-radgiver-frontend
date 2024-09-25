@@ -14,6 +14,17 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const EXPORT_INTERNAL_WIDTH = 1280;
 
+const EksportStyleContainer = styled.div` // Vi må override litt farger før eksport.
+    --ac-timeline-period-danger-border: #c30000;
+    --ac-timeline-period-danger-bg: #c30000;
+    --ac-timeline-period-success-border: #06893a;
+    --ac-timeline-period-success-bg: #06893a;
+    --ac-timeline-period-info-border: #368da8;
+    --ac-timeline-period-info-bg: #368da8;
+    --ac-timeline-period-warning-border: #c77300;
+    --ac-timeline-period-warning-bg: #c77300;
+`
+
 export default function EksportVisning({
     samarbeidsplan,
     samarbeid,
@@ -28,7 +39,9 @@ export default function EksportVisning({
     const Eksportside = (
         <VirksomhetContext.Provider value={virksomhetdata}>
             <div style={{ width: EXPORT_INTERNAL_WIDTH, padding: "2rem" }}>
-                <EksportInnhold plan={samarbeidsplan} samarbeid={samarbeid} />
+                <EksportStyleContainer>
+                    <EksportInnhold plan={samarbeidsplan} samarbeid={samarbeid} />
+                </EksportStyleContainer>
             </div>
         </VirksomhetContext.Provider>
     );
