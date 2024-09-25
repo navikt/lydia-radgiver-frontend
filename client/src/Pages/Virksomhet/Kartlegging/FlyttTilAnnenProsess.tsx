@@ -7,7 +7,10 @@ import {
 } from "../../../api/lydia-api";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import {
+    defaultNavnHvisTomt,
+    IaSakProsess,
+} from "../../../domenetyper/iaSakProsess";
 
 interface Props {
     iaSak: IASak;
@@ -74,8 +77,9 @@ export const FlyttTilAnnenProsess = ({
                                             }
                                             key={samarbeid.id}
                                         >
-                                            {samarbeid.navn ||
-                                                "Samarbeid uten navn"}
+                                            {defaultNavnHvisTomt(
+                                                samarbeid.navn,
+                                            )}
                                         </Dropdown.Menu.GroupedList.Item>
                                     ))}
                             </Dropdown.Menu.GroupedList>

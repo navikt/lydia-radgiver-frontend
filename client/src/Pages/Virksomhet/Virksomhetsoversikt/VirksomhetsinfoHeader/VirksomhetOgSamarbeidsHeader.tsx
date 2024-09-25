@@ -23,7 +23,10 @@ import { SaksgangDropdown } from "./SaksgangDropdown";
 import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { IASak } from "../../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+import {
+    defaultNavnHvisTomt,
+    IaSakProsess,
+} from "../../../../domenetyper/iaSakProsess";
 
 const Container = styled.div`
     display: flex;
@@ -106,8 +109,9 @@ export default function VirksomhetOgSamarbeidsHeader({
                                 <>
                                     <ChevronRightIcon fontSize="2rem" />
                                     <Heading level={"1"} size={"large"}>
-                                        {gjeldendeSamarbeid.navn ||
-                                            "Samarbeid uten navn"}
+                                        {defaultNavnHvisTomt(
+                                            gjeldendeSamarbeid.navn,
+                                        )}
                                     </Heading>
                                 </>
                             )}

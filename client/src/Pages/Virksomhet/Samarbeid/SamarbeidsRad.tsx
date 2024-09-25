@@ -1,6 +1,9 @@
 import { Button, Link } from "@navikt/ds-react";
 import React from "react";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import {
+    defaultNavnHvisTomt,
+    IaSakProsess,
+} from "../../../domenetyper/iaSakProsess";
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 
@@ -37,7 +40,7 @@ export const SamarbeidsRad = ({
                 href={`/virksomhet/${orgnr}/sak/${saksnummer}/samarbeid/${samarbeid.id}`}
                 title={`Gå til samarbeid '${samarbeid.navn}'`}
             >
-                {samarbeid.navn}
+                {defaultNavnHvisTomt(samarbeid.navn)}
             </Link>
 
             {brukerErEierAvSak && (

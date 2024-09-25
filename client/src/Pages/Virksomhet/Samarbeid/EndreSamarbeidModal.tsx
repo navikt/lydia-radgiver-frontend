@@ -1,4 +1,7 @@
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import {
+    defaultNavnHvisTomt,
+    IaSakProsess,
+} from "../../../domenetyper/iaSakProsess";
 import {
     Alert,
     Button,
@@ -45,10 +48,10 @@ export const EndreSamarbeidModal = ({
     iaSak,
 }: EndreSamarbeidModalProps) => {
     const [antallTegn, setAntallTegn] = useState(samarbeid.navn?.length ?? 0);
-    const [navn, setNavn] = useState(samarbeid.navn ?? "Samarbeid uten navn");
+    const [navn, setNavn] = useState(defaultNavnHvisTomt(samarbeid.navn));
     const [lagreNavnVellykket, setLagreNavnVellykket] = useState(false);
     useEffect(() => {
-        setNavn(samarbeid.navn ?? "Samarbeid uten navn");
+        setNavn(defaultNavnHvisTomt(samarbeid.navn));
         setAntallTegn(samarbeid.navn?.length ?? 0);
     }, [samarbeid]);
 
@@ -67,7 +70,7 @@ export const EndreSamarbeidModal = ({
         setOpen(false);
         setLagreNavnVellykket(false);
         hentSamarbeidPåNytt().then(() => {
-            setNavn(samarbeid.navn ?? "Samarbeid uten navn");
+            setNavn(defaultNavnHvisTomt(samarbeid.navn));
         });
     };
 
@@ -109,7 +112,7 @@ export const EndreSamarbeidModal = ({
                 avbrytEndring();
             }}
             header={{
-                heading: `Endre samarbeid "${samarbeid.navn || "Samarbeid uten navn"}"`,
+                heading: `Endre samarbeid "${defaultNavnHvisTomt(samarbeid.navn)}"`,
                 size: "medium",
                 closeButton: true,
             }}
@@ -141,7 +144,9 @@ export const EndreSamarbeidModal = ({
                             Slett
                         </Button>
                     </HStack>
-                    <Detail style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>
+                    <Detail
+                        style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}
+                    >
                         {antallTegn}/25 tegn
                     </Detail>
                 </IaSamarbeidNavnfelt>

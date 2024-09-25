@@ -1,4 +1,7 @@
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import {
+    defaultNavnHvisTomt,
+    IaSakProsess,
+} from "../../../domenetyper/iaSakProsess";
 import { Heading, HStack, Tag } from "@navikt/ds-react";
 import React from "react";
 
@@ -14,7 +17,7 @@ export const BehovsvurderingHeading = ({
             </Heading>
             {samarbeid && (
                 <Tag variant={"alt3-filled"} size="small">
-                    {samarbeid.navn || "Samarbeid uten navn"}
+                    {defaultNavnHvisTomt(samarbeid.navn)}
                 </Tag>
             )}
         </HStack>

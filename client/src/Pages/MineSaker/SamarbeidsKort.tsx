@@ -1,5 +1,8 @@
 import { IASak } from "../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../domenetyper/iaSakProsess";
+import {
+    defaultNavnHvisTomt,
+    IaSakProsess,
+} from "../../domenetyper/iaSakProsess";
 import { useState } from "react";
 import { Chips, VStack } from "@navikt/ds-react";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
@@ -31,7 +34,7 @@ export const SamarbeidsKort = ({
                                     }
                                     onClick={() => setValgtSamarbeid(samarbeid)}
                                 >
-                                    {samarbeid.navn || "Samarbeid uten navn"}
+                                    {defaultNavnHvisTomt(samarbeid.navn)}
                                 </Chips.Toggle>
                             ))}
                         </Chips>

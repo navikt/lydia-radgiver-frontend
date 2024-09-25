@@ -10,7 +10,10 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { Temaer } from "./Temaer";
 import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
 import OpprettPlanKnapp from "./OpprettPlanKnapp";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import {
+    defaultNavnHvisTomt,
+    IaSakProsess,
+} from "../../../domenetyper/iaSakProsess";
 import EksportVisning from "./EksportVisning";
 import { Plan } from "../../../domenetyper/plan";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
@@ -30,7 +33,7 @@ function SamarbeidsplanHeading({
                 </Heading>
                 {samarbeid && (
                     <Tag variant={"alt3-filled"} size="small">
-                        {samarbeid.navn || "Samarbeid uten navn"}
+                        {defaultNavnHvisTomt(samarbeid.navn)}
                     </Tag>
                 )}
             </HStack>

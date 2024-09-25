@@ -75,9 +75,13 @@ export const SamarbeidsDropdown = ({
                         <Heading
                             as={Link}
                             href={`/virksomhet/${virksomhet.orgnr}`}
+                            title="Gå til virksomhet"
                             size={"medium"}
                             variant={"neutral"}
-                            title="Gå til virksomhet"
+                            style={{
+                                marginTop: "1rem",
+                                textDecoration: "none",
+                            }}
                         >
                             {virksomhet.navn}
                         </Heading>

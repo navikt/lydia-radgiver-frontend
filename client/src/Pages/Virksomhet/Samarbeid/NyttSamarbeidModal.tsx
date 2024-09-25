@@ -100,7 +100,6 @@ export const NyttSamarbeidModal = ({
                             size="small"
                             label="Navngi samarbeid"
                             value={navn}
-                            placeholder={"Samarbeid uten navn"}
                             onChange={(event) => {
                                 const nyttNavn = event.target.value;
                                 setNavn(nyttNavn);
