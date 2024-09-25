@@ -65,7 +65,7 @@ export const BehovsvurderingRadInnhold = ({
             return (
                 <Accordion.Content>
                     <ExportVisningContainer>
-                        {erIDev && brukerErEierAvSak && (
+                        {brukerErEierAvSak && (
                             <FlyttTilAnnenProsess
                                 gjeldendeSamarbeid={samarbeid}
                                 iaSak={iaSak}
@@ -116,13 +116,11 @@ export const BehovsvurderingRadInnhold = ({
                                         Slett
                                     </StyledActionButton>
                                 )}
-                                {erIDev && (
-                                    <FlyttTilAnnenProsess
-                                        gjeldendeSamarbeid={samarbeid}
-                                        iaSak={iaSak}
-                                        behovsvurdering={behovsvurdering}
-                                    />
-                                )}
+                                <FlyttTilAnnenProsess
+                                    gjeldendeSamarbeid={samarbeid}
+                                    iaSak={iaSak}
+                                    behovsvurdering={behovsvurdering}
+                                />
                             </>
                         )}
                     <StartSpørreundersøkelseModal
