@@ -10,11 +10,9 @@ import { SamarbeidsInnhold } from "./SamarbeidsInnhold";
 export const SamarbeidsKort = ({
     iaSak,
     alleSamarbeid,
-    gåTilSakUrl,
 }: {
     iaSak: IASak;
     alleSamarbeid: IaSakProsess[];
-    gåTilSakUrl: string;
 }) => {
     const [valgtSamarbeid, setValgtSamarbeid] = useState<IaSakProsess>(
         alleSamarbeid[0],
@@ -27,9 +25,7 @@ export const SamarbeidsKort = ({
                         {alleSamarbeid.map((samarbeid) => (
                             <Chips.Toggle
                                 key={samarbeid.id}
-                                selected={
-                                    samarbeid.id === valgtSamarbeid?.id
-                                }
+                                selected={samarbeid.id === valgtSamarbeid?.id}
                                 onClick={() => setValgtSamarbeid(samarbeid)}
                             >
                                 {defaultNavnHvisTomt(samarbeid.navn)}
@@ -37,11 +33,7 @@ export const SamarbeidsKort = ({
                         ))}
                     </Chips>
                 </>
-                <SamarbeidsInnhold
-                    iaSak={iaSak}
-                    gåTilSakUrl={gåTilSakUrl}
-                    iaSamarbeid={valgtSamarbeid}
-                />
+                <SamarbeidsInnhold iaSak={iaSak} iaSamarbeid={valgtSamarbeid} />
             </VStack>
         )
     );

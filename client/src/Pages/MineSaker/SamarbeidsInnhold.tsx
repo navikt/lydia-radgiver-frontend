@@ -43,12 +43,11 @@ const VIS_VURDERINGSSTATUSER: readonly IAProsessStatusType[] = [
 export const SamarbeidsInnhold = ({
     iaSak,
     iaSamarbeid,
-    gåTilSakUrl,
 }: {
     iaSak: IASak;
     iaSamarbeid: IaSakProsess;
-    gåTilSakUrl: string;
 }) => {
+    const gåTilSamarbeidUrl = `/virksomhet/${iaSak.orgnr}/sak/${iaSamarbeid.saksnummer}/samarbeid/${iaSamarbeid.id}`;
     const navigate = useNavigate();
 
     const { data: behovsvurderinger, loading: lasterKartlegginger } =
@@ -107,9 +106,9 @@ export const SamarbeidsInnhold = ({
                         e.stopPropagation();
                         loggGåTilSakFraMineSaker(
                             "gå-til-sak-knapp",
-                            gåTilSakUrl,
+                            gåTilSamarbeidUrl,
                         );
-                        navigate(gåTilSakUrl);
+                        navigate(gåTilSamarbeidUrl);
                     }}
                 >
                     Gå til samarbeid

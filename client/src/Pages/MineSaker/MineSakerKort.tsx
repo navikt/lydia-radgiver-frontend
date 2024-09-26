@@ -170,7 +170,6 @@ export const MineSakerKort = ({
                         <SamarbeidsKort
                             iaSak={iaSak}
                             alleSamarbeid={alleSamarbeid}
-                            gåTilSakUrl={gåTilSakUrl}
                         />
                     </>
                 )}
