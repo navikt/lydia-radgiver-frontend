@@ -30,9 +30,18 @@ const StyledAccordionHeader = styled(Accordion.Header)`
         display: grid;
         grid-template-columns: subgrid;
     }
+
+    &:hover {
+        text-decoration: none;
+    }
 `;
 const StyledAccordionContent = styled(Accordion.Content)`
     grid-column: 1/5;
+`;
+const StyledInnholdsTittel = styled.span`
+    ${StyledAccordionHeader}:hover & {
+        text-decoration: underline;
+    }
 `;
 
 const LabelRad = styled.div`
@@ -140,7 +149,7 @@ function InnholdsRadHeader({
 }) {
     return (
         <StyledAccordionHeader>
-            <span>{innhold.navn}</span>
+            <StyledInnholdsTittel>{innhold.navn}</StyledInnholdsTittel>
             <InnholdsVarighetHeader
                 start={innhold.startDato}
                 slutt={innhold.sluttDato}
