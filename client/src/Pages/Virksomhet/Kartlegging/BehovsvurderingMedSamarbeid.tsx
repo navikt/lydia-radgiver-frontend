@@ -8,6 +8,7 @@ import React from "react";
 import {
     nyKartleggingPåSak,
     useHentBehovsvurderingerMedProsess,
+    useHentIASaksStatus,
 } from "../../../api/lydia-api";
 import { Accordion, Loader } from "@navikt/ds-react";
 import { BehovsvurderingOpprettNyKnapp } from "./BehovsvurderingOpprettNyKnapp";
@@ -89,12 +90,17 @@ export const BehovsvurderingMedSamarbeid = ({
         iaSak.saksnummer,
         samarbeid.id,
     );
+    const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+    );
 
     const opprettBehovsvurdering = () => {
         nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer, samarbeid.id).then(
             ({ kartleggingId }) => {
                 setSisteOpprettedeKartleggingId(kartleggingId);
                 hentBehovsvurderingerPåNytt();
+                oppdaterSaksStatus();
             },
         );
     };

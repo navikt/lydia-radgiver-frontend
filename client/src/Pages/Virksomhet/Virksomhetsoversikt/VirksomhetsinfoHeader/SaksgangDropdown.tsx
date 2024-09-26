@@ -17,7 +17,7 @@ import {
 } from "../../../../api/lydia-api";
 import { SaksgangDropdownToggle } from "./SaksgangDropdownToggle";
 
-const HistorikkContainer = styled(HStack) <{ $begrensHøyde: boolean }>`
+const HistorikkContainer = styled(HStack)<{ $begrensHøyde: boolean }>`
     max-height: ${(props) => (props.$begrensHøyde ? "20rem" : "auto")};
     overflow-y: auto;
     padding-left: 0.5rem;
@@ -64,12 +64,17 @@ export function SaksgangDropdown({
             open={open}
             onOpenChange={(newOpen) => {
                 setOpen(newOpen);
+                if (!newOpen) {
+                    setNesteSteg({ nesteSteg: null, hendelse: null });
+                }
             }}
         >
             <SaksgangDropdownToggle iaSak={iaSak} />
             <Dropdown.Menu
                 style={{
-                    maxWidth: "auto", width: "36rem", marginTop: "0.3rem"
+                    maxWidth: "auto",
+                    width: "36rem",
+                    marginTop: "0.3rem",
                 }}
                 placement="bottom-start"
             >

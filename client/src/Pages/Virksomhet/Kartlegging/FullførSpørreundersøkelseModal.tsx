@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {
     avsluttKartlegging,
     useHentBehovsvurderingerMedProsess,
+    useHentIASaksStatus,
 } from "../../../api/lydia-api";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { BodyLong } from "@navikt/ds-react";
@@ -34,6 +35,10 @@ export function FullførSpørreundersøkelseModal({
         iaSak.saksnummer,
         samarbeid.id,
     );
+    const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+    );
 
     const fullførSpørreundersøkelse = () => {
         avsluttKartlegging(
@@ -42,6 +47,7 @@ export function FullførSpørreundersøkelseModal({
             behovsvurdering.kartleggingId,
         ).then(() => {
             muterKartlegginger();
+            oppdaterSaksStatus();
         });
     };
 

@@ -3,6 +3,7 @@ import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import {
     slettKartlegging,
     useHentBehovsvurderingerMedProsess,
+    useHentIASaksStatus,
 } from "../../../api/lydia-api";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
@@ -28,6 +29,11 @@ export function SlettBehovsvurderingModal({
             iaSak.saksnummer,
             samarbeid.id,
         );
+    const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+    );
+
     const slett = () => {
         slettKartlegging(
             iaSak.orgnr,
@@ -35,6 +41,7 @@ export function SlettBehovsvurderingModal({
             behovsvurdering.kartleggingId,
         ).then(() => {
             muterBehovsvurderinger();
+            oppdaterSaksStatus();
             lukkModal();
         });
     };
