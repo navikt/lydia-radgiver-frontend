@@ -16,7 +16,6 @@ import {
 } from "../../../domenetyper/iaSakProsess";
 import EksportVisning from "./EksportVisning";
 import { Plan } from "../../../domenetyper/plan";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 function SamarbeidsplanHeading({
     samarbeid,
@@ -38,7 +37,7 @@ function SamarbeidsplanHeading({
                 )}
             </HStack>
 
-            {samarbeidsplan && erIDev && (
+            {samarbeidsplan && (
                 <EksportVisning samarbeidsplan={samarbeidsplan} samarbeid={samarbeid} />
             )}
         </HStack>
