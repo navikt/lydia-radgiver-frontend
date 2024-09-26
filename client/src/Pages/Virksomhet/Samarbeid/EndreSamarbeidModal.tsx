@@ -4,10 +4,10 @@ import {
 } from "../../../domenetyper/iaSakProsess";
 import {
     Alert,
+    BodyShort,
     Button,
     Detail,
-    HStack,
-    Label,
+    Heading,
     Modal,
     TextField,
 } from "@navikt/ds-react";
@@ -21,17 +21,26 @@ import {
 } from "../../../api/lydia-api";
 import styled from "styled-components";
 import { StyledModal } from "../../../components/Modal/StyledModal";
+import { TrashIcon } from "@navikt/aksel-icons";
 
 export const NavngiSamarbeidInfo = styled.div`
     display: flex;
     flex-direction: column;
     align-items: flex-start;
-    margin: 1rem 0;
+    margin-bottom: 1rem;
 `;
 
-export const IaSamarbeidNavnfelt = styled.div`
+const HeaderStylet = styled.div``;
+
+export const ModalBodyStyled = styled.div`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+`;
+
+const TextFieldStyled = styled(TextField)`
     min-width: fit-content;
-    max-width: 100%;
+    width: 100%;
 `;
 
 interface EndreSamarbeidModalProps {
@@ -50,10 +59,15 @@ export const EndreSamarbeidModal = ({
     const [antallTegn, setAntallTegn] = useState(samarbeid.navn?.length ?? 0);
     const [navn, setNavn] = useState(defaultNavnHvisTomt(samarbeid.navn));
     const [lagreNavnVellykket, setLagreNavnVellykket] = useState(false);
+
     useEffect(() => {
         setNavn(defaultNavnHvisTomt(samarbeid.navn));
         setAntallTegn(samarbeid.navn?.length ?? 0);
     }, [samarbeid]);
+
+    useEffect(() => {
+        setLagreNavnVellykket(false);
+    }, [open]);
 
     const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
         iaSak.orgnr,
@@ -111,24 +125,33 @@ export const EndreSamarbeidModal = ({
             onClose={() => {
                 avbrytEndring();
             }}
-            header={{
-                heading: `Endre samarbeid "${defaultNavnHvisTomt(samarbeid.navn)}"`,
-                size: "medium",
-                closeButton: true,
-            }}
-            width="small"
+            width={"small"}
+            aria-label={"Endre samarbeid"}
         >
-            <Modal.Body>
-                <NavngiSamarbeidInfo>
-                    <Label>Navngi samarbeid</Label>
-                    <Detail>
-                        Husk, aldri skriv personopplysninger. Maks 25 tegn.
-                    </Detail>
-                </NavngiSamarbeidInfo>
-
-                <IaSamarbeidNavnfelt>
-                    <HStack justify={"space-between"}>
-                        <TextField
+            <Modal.Header closeButton={true}>
+                <HeaderStylet>
+                    <Heading size="medium">Administrer samarbeid</Heading>
+                </HeaderStylet>
+            </Modal.Header>
+            <ModalBodyStyled>
+                <Modal.Body>
+                    <div
+                        style={{
+                            display: "grid",
+                            gridTemplateColumns: "1fr min-content",
+                            gap: "0.5rem",
+                        }}
+                    >
+                        <BodyShort
+                            style={{
+                                gridColumn: "1 / span 2",
+                                marginBottom: "0.25rem",
+                            }}
+                        >
+                            Her kan du endre navn på samarbeidet &quot;
+                            {defaultNavnHvisTomt(samarbeid.navn)}&quot;
+                        </BodyShort>
+                        <TextFieldStyled
                             maxLength={25}
                             size="small"
                             label="Navngi samarbeid"
@@ -140,23 +163,46 @@ export const EndreSamarbeidModal = ({
                             }}
                             hideLabel
                         />
-                        <Button variant={"danger"} onClick={slettSamarbeid}>
-                            Slett
-                        </Button>
-                    </HStack>
-                    <Detail
-                        style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}
-                    >
-                        {antallTegn}/25 tegn
-                    </Detail>
-                </IaSamarbeidNavnfelt>
-            </Modal.Body>
+                        <Button
+                            icon={
+                                <TrashIcon
+                                    focusable="true"
+                                    title={`Slett "${samarbeid.navn}"`}
+                                    fontSize="2rem"
+                                />
+                            }
+                            size={"small"}
+                            variant="tertiary"
+                            title={`Slett "${samarbeid.navn}"`}
+                            onClick={slettSamarbeid}
+                        />
+                        <div
+                            style={{
+                                display: "flex",
+                                flexDirection: "row",
+                                justifyContent: "space-between",
+                                gap: "0.5rem",
+                            }}
+                        >
+                            <Detail>
+                                Husk, aldri skriv personopplysninger.
+                            </Detail>
+                            <Detail>{antallTegn}/25 tegn</Detail>
+                        </div>
+                        <Detail style={{ gridColumn: "1" }}>
+                            Navnet kan vises på <i>Min Side Arbeidsgiver </i>
+                            og må gjenspeile det virksomheten bruker selv.
+                        </Detail>
+                    </div>
+                </Modal.Body>
+            </ModalBodyStyled>
             <Modal.Footer>
                 <Button
                     variant="primary"
                     onClick={() => {
                         endreNavn();
                     }}
+                    disabled={navn === defaultNavnHvisTomt(samarbeid.navn)}
                 >
                     Lagre
                 </Button>
@@ -169,11 +215,11 @@ export const EndreSamarbeidModal = ({
                     Avbryt
                 </Button>
                 {lagreNavnVellykket && (
-                    <HStack align="center">
+                    <div style={{ display: "flex", alignItems: "center" }}>
                         <Alert inline variant="success" size="small">
                             Lagret
                         </Alert>
-                    </HStack>
+                    </div>
                 )}
             </Modal.Footer>
         </StyledModal>
