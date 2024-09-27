@@ -79,7 +79,7 @@ export default function SamarbeidsplanFane({
                 <SamarbeidsplanHeading samarbeid={samarbeid} />
                 {!brukerErEierAvSak && (
                     <BodyShort>
-                        Du må være eier av saken for å opprette ny plan
+                        Du må være eier av saken for å opprette ny behovsvurdering
                     </BodyShort>
                 )}
                 {!sakErIRettStatus && (

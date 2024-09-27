@@ -33,7 +33,7 @@ export const BehovsvurderingHjelpetekst = ({
             <>
                 <br />
                 <BodyShort>
-                    Du må være eier av saken for å opprette ny plan
+                    Du må være eier av saken for å opprette ny behovsvurdering
                 </BodyShort>
             </>
         );
