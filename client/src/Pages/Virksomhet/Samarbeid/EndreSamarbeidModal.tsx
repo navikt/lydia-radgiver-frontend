@@ -62,7 +62,7 @@ export const EndreSamarbeidModal = ({
 
     useEffect(() => {
         setNavn(defaultNavnHvisTomt(samarbeid.navn));
-        setAntallTegn(samarbeid.navn?.length ?? 0);
+        setAntallTegn(defaultNavnHvisTomt(samarbeid.navn)?.length ?? 0);
     }, [samarbeid]);
 
     useEffect(() => {
@@ -148,7 +148,8 @@ export const EndreSamarbeidModal = ({
                                 marginBottom: "0.25rem",
                             }}
                         >
-                            Her kan du endre navn på samarbeidet &quot;
+                            Her kan du endre navn på samarbeidet <br />
+                            &quot;
                             {defaultNavnHvisTomt(samarbeid.navn)}&quot;
                         </BodyShort>
                         <TextFieldStyled
