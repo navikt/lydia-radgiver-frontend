@@ -35,7 +35,7 @@ export default function EksportVisning({
     const [lagrer, setLagrer] = React.useState(false);
     const virksomhetdata = useVirksomhetContext();
     const doc = new jsPDF("p", "mm", "a4");
-    const eksportfilnavn = useEksportFilnavn("Sammarbeidsplan");
+    const eksportfilnavn = useEksportFilnavn("Samarbeidsplan");
     const Eksportside = (
         <VirksomhetContext.Provider value={virksomhetdata}>
             <div style={{ width: EXPORT_INTERNAL_WIDTH, padding: "2rem" }}>
@@ -88,7 +88,7 @@ const Container = styled.div`
 function EksportInnhold({ plan, samarbeid }: { plan: Plan, samarbeid: IaSakProsess }) {
     return (
         <>
-            <VirksomhetsEksportHeader type="Sammarbeidsplan" samarbeid={samarbeid} />
+            <VirksomhetsEksportHeader type="Samarbeidsplan" samarbeid={samarbeid} />
             {plan.temaer
                 .filter((tema) => tema.planlagt)
                 .sort((a, b) => {
