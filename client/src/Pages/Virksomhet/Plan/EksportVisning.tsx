@@ -23,6 +23,7 @@ const EksportStyleContainer = styled.div` // Vi må override litt farger før ek
     --ac-timeline-period-info-bg: #368da8;
     --ac-timeline-period-warning-border: #c77300;
     --ac-timeline-period-warning-bg: #c77300;
+    font-family: Arial, sans-serif;
 `
 
 export default function EksportVisning({
