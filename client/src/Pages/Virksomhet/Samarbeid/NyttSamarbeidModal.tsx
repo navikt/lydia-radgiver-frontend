@@ -1,12 +1,5 @@
 import { IASak } from "../../../domenetyper/domenetyper";
-import {
-    BodyShort,
-    Button,
-    Detail,
-    HStack,
-    Modal,
-    TextField,
-} from "@navikt/ds-react";
+import { BodyShort, Button, Detail, Heading, Modal } from "@navikt/ds-react";
 import { StyledModal } from "../../../components/Modal/StyledModal";
 import React, { useState } from "react";
 import {
@@ -15,6 +8,11 @@ import {
     useHentSamarbeid,
     useHentSamarbeidshistorikk,
 } from "../../../api/lydia-api";
+import {
+    DetaljerWrapper,
+    ModalBodyInnholdGrid,
+    TextFieldStyled,
+} from "./EndreSamarbeidModal";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
@@ -71,31 +69,31 @@ export const NyttSamarbeidModal = ({
         <StyledModal
             open={åpen}
             onClose={lukkModal}
-            header={{
-                heading: "Opprett nytt samarbeid",
-                size: "medium",
-                closeButton: true,
-            }}
             width={"small"}
+            aria-label={"Opprett nytt samarbeid"}
         >
+            <Modal.Header closeButton={true}>
+                <Heading size="medium">Opprett nytt samarbeid</Heading>
+            </Modal.Header>
             <Modal.Body>
-                <BodyShort>
-                    Her kan du opprette og navngi ulike samarbeid med
-                    virksomheten.
-                </BodyShort>
-                <br />
-                <BodyShort>
-                    Navnet kan vises på <i>Min Side Arbeidsgiver </i>
-                    og må gjenspeile det virksomheten bruker selv.
-                </BodyShort>
-                <>
-                    <Detail>
-                        Husk, aldri skriv personopplysninger. Maks 25 tegn.
-                    </Detail>
-                </>
-                <>
-                    <HStack justify={"space-between"}>
-                        <TextField
+                <ModalBodyInnholdGrid>
+                    <BodyShort
+                        style={{
+                            gridColumn: "1 / span 2",
+                            marginBottom: "0.75rem",
+                        }}
+                    >
+                        Her kan du opprette og navngi ulike samarbeid med
+                        virksomheten.
+                    </BodyShort>
+
+                    <div
+                        style={{
+                            gridColumn: "1 / span 2",
+                            marginBottom: "0.25rem",
+                        }}
+                    >
+                        <TextFieldStyled
                             maxLength={25}
                             size="small"
                             label="Navngi samarbeid"
@@ -106,25 +104,26 @@ export const NyttSamarbeidModal = ({
                             }}
                             hideLabel
                         />
-                    </HStack>
-                    <Detail
-                        style={{
-                            marginTop: "0.5rem",
-                            marginBottom: "0.5rem",
-                        }}
-                    >
-                        {antallTegn}/25 tegn
+                    </div>
+
+                    <DetaljerWrapper>
+                        <Detail>Husk, aldri skriv personopplysninger.</Detail>
+                        <Detail>{antallTegn}/25 tegn</Detail>
+                    </DetaljerWrapper>
+                    <Detail style={{ gridColumn: "1", marginTop: "1.25rem" }}>
+                        Navnet kan vises på <i>Min Side Arbeidsgiver </i>
+                        og må gjenspeile det virksomheten bruker selv.
                     </Detail>
-                </>
-                <Modal.Footer>
-                    <Button variant={"primary"} onClick={nyttSamarbeid}>
-                        Lagre
-                    </Button>
-                    <Button variant={"secondary"} onClick={lukkModal}>
-                        Avbryt
-                    </Button>
-                </Modal.Footer>
+                </ModalBodyInnholdGrid>
             </Modal.Body>
+            <Modal.Footer>
+                <Button variant={"primary"} onClick={nyttSamarbeid}>
+                    Opprett
+                </Button>
+                <Button variant={"secondary"} onClick={lukkModal}>
+                    Avbryt
+                </Button>
+            </Modal.Footer>
         </StyledModal>
     );
 };
