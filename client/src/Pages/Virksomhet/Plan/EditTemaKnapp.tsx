@@ -44,6 +44,10 @@ export default function EditTemaKnapp({
 
     const [redigertTema, setRedigertTema] = React.useState<PlanTema>(tema);
 
+    React.useEffect(() => {
+        setRedigertTema(tema);
+    }, [tema]);
+
     const lagreEndring = () => {
         const undertemaer: UndertemaRequest[] = lagRequest(
             redigertTema.undertemaer,
@@ -75,37 +79,41 @@ export default function EditTemaKnapp({
                 onClose={() => setModalOpen(false)}
                 aria-label="Rediger tema"
             >
-                <EditTemaModalBody>
-                    <InnholdOppsett
-                        valgteInnhold={redigertTema.undertemaer}
-                        velgInnhold={(redigerteUndertemaer: PlanInnhold[]) => {
-                            setRedigertTema({
-                                ...redigertTema,
-                                undertemaer: redigerteUndertemaer,
-                            });
-                        }}
-                    />
-                    <br />
-                    <ModalKnapper>
-                        <Button
-                            variant="secondary"
-                            onClick={() => {
-                                setModalOpen(false);
-                            }}
-                        >
-                            Avbryt
-                        </Button>
-                        <Button
-                            disabled={!harNoenValgteUndertema}
-                            onClick={() => {
-                                setModalOpen(false);
-                                lagreEndring();
-                            }}
-                        >
-                            Lagre
-                        </Button>
-                    </ModalKnapper>
-                </EditTemaModalBody>
+                {
+                    modalOpen && (
+                        <EditTemaModalBody>
+                            <InnholdOppsett
+                                valgteInnhold={redigertTema.undertemaer}
+                                velgInnhold={(redigerteUndertemaer: PlanInnhold[]) => {
+                                    setRedigertTema({
+                                        ...redigertTema,
+                                        undertemaer: redigerteUndertemaer,
+                                    });
+                                }}
+                            />
+                            <br />
+                            <ModalKnapper>
+                                <Button
+                                    variant="secondary"
+                                    onClick={() => {
+                                        setModalOpen(false);
+                                    }}
+                                >
+                                    Avbryt
+                                </Button>
+                                <Button
+                                    disabled={!harNoenValgteUndertema}
+                                    onClick={() => {
+                                        setModalOpen(false);
+                                        lagreEndring();
+                                    }}
+                                >
+                                    Lagre
+                                </Button>
+                            </ModalKnapper>
+                        </EditTemaModalBody>
+                    )
+                }
             </EditTemaModal>
         </>
     );

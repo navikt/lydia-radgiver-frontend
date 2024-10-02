@@ -154,7 +154,7 @@ export default function LeggTilTemaKnapp({
                         )}
                         onChange={(val: number[]) => velgTema(val)}
                     >
-                        {redigertTemaliste
+                        {modalOpen && redigertTemaliste
                             .sort((a, b) => {
                                 return a.id - b.id;
                             })

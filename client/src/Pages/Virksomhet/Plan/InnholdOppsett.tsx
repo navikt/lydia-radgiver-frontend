@@ -139,12 +139,12 @@ export default function InnholdOppsett({
                 .map((innhold) => {
                     return (
                         <InnholdsRad
-                            key={innhold.id}
+                            key={`${innhold.sluttDato}${innhold.startDato}${innhold.id}`}
                             justify="space-between"
                             gap="4"
                             align="center"
                         >
-                            <Checkbox key={innhold.id} value={innhold.id}>
+                            <Checkbox value={innhold.id}>
                                 {innhold.navn}
                             </Checkbox>
                             {innhold.planlagt ? (
