@@ -1,0 +1,30 @@
+name: Deploy redirect ingresses to dev
+run-name: Deploy fia redirect ingresses | ${{ github.event.head_commit.message }}
+on:
+  push:
+    paths:
+      - "deploy-redirects.yaml"
+      - ".nais/dev-redirect-fra-ekstern-til-ansatt.yaml"
+      - ".nais/prod-redirect-fra-ekstern-til-ansatt.yaml"
+      - ".nais/dev-redirect-fra-intern-til-ansatt.yaml"
+      - ".nais/prod-redirect-fra-intern-til-ansatt.yaml"
+
+permissions:
+  id-token: write
+
+jobs:
+  deploy:
+    strategy:
+      matrix:
+        cluster: [dev, prod]
+    name: Deploy redirect ingresses to ${{ matrix.cluster }}-gcp
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Deploy fia redirect ingress to ${{ matrix.cluster }}
+        uses: nais/deploy/actions/deploy@v2
+        env:
+          CLUSTER: ${{ matrix.cluster }}-gcp
+          RESOURCE: "\
+          .nais/${{ matrix.cluster }}-redirect-fra-intern-til-ansatt.yaml,\
+          .nais/${{ matrix.cluster }}-redirect-fra-ekstern-til-ansatt.yaml"

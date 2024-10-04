@@ -1,0 +1,25 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    nginx.ingress.kubernetes.io/use-regex: "true"
+    nginx.ingress.kubernetes.io/rewrite-target: "https://fia.ansatt.nav.no/$1"
+    prometheus.io/scrape: "false"
+  labels:
+    app: lydia-radgiver-frontend
+    team: pia
+  name: prod-redirect-fia-intern-til-ansatt
+  namespace: pia
+spec:
+  ingressClassName: nais-ingress
+  rules:
+    - host: fia.intern.nav.no
+      http:
+        paths:
+          - backend:
+              service:
+                name: lydia-radgiver-frontend
+                port:
+                  number: 80
+            path: /(.*)
+            pathType: ImplementationSpecific
