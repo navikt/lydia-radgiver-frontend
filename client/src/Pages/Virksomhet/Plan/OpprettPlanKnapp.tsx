@@ -16,6 +16,7 @@ import {
 } from "../../../api/lydia-api";
 import { isoDato } from "../../../util/dato";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { loggModalÅpnet } from "../../../util/amplitude-klient";
 
 const TemaInnholdVelgerContainer = styled.div`
     margin-bottom: 1rem;
@@ -166,7 +167,10 @@ export default function OpprettPlanKnapp({
                 variant="primary"
                 icon={<PlusIcon />}
                 style={{ margin: "1rem", minWidth: "10.5rem" }}
-                onClick={() => setModalOpen(true)}
+                onClick={() => {
+                    loggModalÅpnet("Opprett plan");
+                    setModalOpen(true);
+                }}
                 disabled={!(brukerErEierAvSak && sakErIRettStatus)}
             >
                 Opprett plan

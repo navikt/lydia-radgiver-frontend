@@ -25,6 +25,7 @@ import {
     defaultNavnHvisTomt,
     IaSakProsess,
 } from "../../../../domenetyper/iaSakProsess";
+import { loggÅpnetVirksomhetsinfo } from "../../../../util/amplitude-klient";
 
 const Container = styled.div`
     display: flex;
@@ -83,7 +84,12 @@ export default function VirksomhetOgSamarbeidsHeader({
                                 <VirksomhetsInfoIkon
                                     title={"Se detaljer"}
                                     ref={buttonRef}
-                                    onClick={() => setOpenState(!openState)}
+                                    onClick={() => {
+                                        setOpenState(!openState);
+                                        if (!openState) {
+                                            loggÅpnetVirksomhetsinfo();
+                                        }
+                                    }}
                                     fontSize="2rem"
                                 />
                             )}

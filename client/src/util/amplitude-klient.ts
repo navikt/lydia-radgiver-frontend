@@ -38,7 +38,11 @@ type NavsAmplitudeTopologiEventer =
     | "opprette leveranse med frist"
     | "aktivitet på IA-tjenesteoversikt"
     | "skrudde av eller på autosøk"
-    | "fulgte sak";
+    | "fulgte sak"
+    | "popover åpnet"
+    | "exportert til pdf"
+    | "endret tab virksomhetsvisning"
+    | "endring i plan";
 
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
@@ -266,14 +270,41 @@ export const enum MineSakerFilterKategorier {
     ARKIVERTE_SAKER = "_arkiverte-saker",
 }
 
-
-export const loggMineSakerFilter = (
-    typer: MineSakerFilterKategorier[],
-
-) => {
+export const loggMineSakerFilter = (typer: MineSakerFilterKategorier[]) => {
     logAmplitudeEvent("søk", {
         destinasjon: Søkekomponenter.MINESAKER,
         søkeord: typer,
         komponent: Søkekomponenter.MINESAKER,
-    })
-}
+    });
+};
+
+export const loggÅpnetVirksomhetsinfo = () => {
+    logAmplitudeEvent("popover åpnet", {
+        tekst: "Virksomhetsinfo",
+        underskrift: "Virksomhetsinfo",
+    });
+};
+
+export const loggEksportertTilPdf = (type: "plan" | "kartlegging") => {
+    logAmplitudeEvent("exportert til pdf", { type });
+};
+
+export const loggNavigertTilNyTab = (tab: string) => {
+    logAmplitudeEvent("endret tab virksomhetsvisning", { tab });
+};
+
+export const loggModalÅpnet = (tittel: string) => {
+    logAmplitudeEvent("modal åpnet", { tittel });
+};
+
+export const loggEndringAvPlan = (
+    tema: string,
+    undertema: string,
+    type: "fra" | "til" | "valgt" | "fjernet",
+) => {
+    logAmplitudeEvent("endring i plan", {
+        tema,
+        undertema,
+        type,
+    });
+};

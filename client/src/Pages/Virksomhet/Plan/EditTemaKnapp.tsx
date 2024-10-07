@@ -10,6 +10,7 @@ import { endrePlanTema } from "../../../api/lydia-api";
 import { lagRequest, UndertemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { loggModalÅpnet } from "../../../util/amplitude-klient";
 
 const EditTemaModal = styled(Modal)`
     padding: 0;
@@ -69,7 +70,10 @@ export default function EditTemaKnapp({
         <>
             <Button
                 variant="tertiary"
-                onClick={() => setModalOpen(true)}
+                onClick={() => {
+                    loggModalÅpnet("Rediger tema");
+                    setModalOpen(true);
+                }}
                 icon={<DocPencilIcon />}
             >
                 Rediger tema
@@ -83,6 +87,7 @@ export default function EditTemaKnapp({
                     modalOpen && (
                         <EditTemaModalBody>
                             <InnholdOppsett
+                                temaNavn={redigertTema.navn}
                                 valgteInnhold={redigertTema.undertemaer}
                                 velgInnhold={(redigerteUndertemaer: PlanInnhold[]) => {
                                     setRedigertTema({

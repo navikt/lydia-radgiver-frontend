@@ -11,6 +11,7 @@ import jsPDF from "jspdf";
 import VirksomhetContext, { useVirksomhetContext } from "../VirksomhetContext";
 import ReactDOMServer from "react-dom/server";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
 
 const EXPORT_INTERNAL_WIDTH = 1280;
 
@@ -56,6 +57,7 @@ export default function EksportVisning({
             onClick={(e) => {
                 setLagrer(true);
                 e.stopPropagation();
+                loggEksportertTilPdf("plan");
                 doc.html(ReactDOMServer.renderToStaticMarkup(Eksportside), {
                     callback: () => {
                         doc.save(eksportfilnavn);

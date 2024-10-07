@@ -11,6 +11,7 @@ import useEksportFilnavn from "../../../components/pdfEksport/useEksportFilnavn"
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useVirksomhetContext } from "../VirksomhetContext";
+import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
 
 interface EksportVisningProps {
     erIEksportMode: boolean;
@@ -237,6 +238,7 @@ const EksportVisning = ({
                 size="small"
                 onClick={(e) => {
                     e.stopPropagation();
+                    loggEksportertTilPdf("kartlegging");
                     setErIEksportMode(true);
                 }}
             >

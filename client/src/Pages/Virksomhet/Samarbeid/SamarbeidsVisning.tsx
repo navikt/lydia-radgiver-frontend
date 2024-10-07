@@ -15,6 +15,7 @@ import EvalueringFane from "./Evaluering/EvalueringFane";
 import { BehovsvurderingFane } from "../Kartlegging/BehovsvurderingFane";
 import VirksomhetContext from "../VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "../Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
+import { loggNavigertTilNyTab } from "../../../util/amplitude-klient";
 
 const StyledPanel = styled(Tabs.Panel)`
     padding-top: 1.5rem;
@@ -54,6 +55,7 @@ export const SamarbeidsVisning = ({
 
     const oppdaterTabISearchParam = (tab: string) => {
         searchParams.set("fane", tab);
+        loggNavigertTilNyTab(tab);
         setSearchParams(searchParams, { replace: true });
     };
     const lasterIaSak = false;

@@ -9,6 +9,7 @@ import styled from "styled-components";
 import { PlanInnhold } from "../../../domenetyper/plan";
 import React from "react";
 import { FIRST_VALID_DATE, LAST_VALID_DATE, defaultEndDate, defaultStartDate } from "./planconster";
+import { loggEndringAvPlan } from "../../../util/amplitude-klient";
 
 const InnholdsRad = styled(HStack)`
     margin-bottom: 0.5rem;
@@ -78,11 +79,41 @@ function StartOgSluttVelger({
 export default function InnholdOppsett({
     valgteInnhold,
     velgInnhold,
+    temaNavn,
 }: {
     valgteInnhold: PlanInnhold[];
     velgInnhold: (val: PlanInnhold[]) => void;
+    temaNavn: string;
 }) {
+    const valgteIder = React.useMemo(() => {
+        return valgteInnhold
+            .filter((innhold) => innhold.planlagt)
+            .map((innhold) => innhold.id);
+    }, [valgteInnhold]);
+
     const planleggInnhold = (innholdIder: number[]) => {
+        const lagtTil = innholdIder.filter(
+            (innholdId) => !valgteIder.includes(innholdId),
+        );
+        const fjernet = valgteIder.filter(
+            (innholdId) => !innholdIder.includes(innholdId),
+        );
+
+        for (const innholdId of lagtTil) {
+            const innholdNavn = valgteInnhold.find((innhold) => innhold.id === innholdId)?.navn;
+            if (innholdNavn !== null && innholdNavn !== undefined) {
+                loggEndringAvPlan(temaNavn, innholdNavn, "valgt");
+            }
+        }
+
+        for (const innholdId of fjernet) {
+            const innholdNavn = valgteInnhold.find((innhold) => innhold.id === innholdId)?.navn;
+            if (innholdNavn !== null && innholdNavn !== undefined) {
+                loggEndringAvPlan(temaNavn, innholdNavn, "fjernet");
+            }
+        }
+
+
         velgInnhold(
             valgteInnhold.map((innhold) =>
                 innholdIder.includes(innhold.id)
@@ -105,6 +136,10 @@ export default function InnholdOppsett({
     };
 
     const setNyStartDato = (innholdId: number, date: Date) => {
+        const innholdNavn = valgteInnhold.find((innhold) => innhold.id === innholdId)?.navn;
+        if (innholdNavn) {
+            loggEndringAvPlan(temaNavn, innholdNavn, "fra");
+        }
         velgInnhold(
             valgteInnhold.map((innhold) =>
                 innhold.id === innholdId
@@ -115,6 +150,10 @@ export default function InnholdOppsett({
     };
 
     const setNySluttDato = (innholdId: number, date: Date) => {
+        const innholdNavn = valgteInnhold.find((innhold) => innhold.id === innholdId)?.navn;
+        if (innholdNavn) {
+            loggEndringAvPlan(temaNavn, innholdNavn, "til");
+        }
         velgInnhold(
             valgteInnhold.map((innhold) =>
                 innhold.id === innholdId

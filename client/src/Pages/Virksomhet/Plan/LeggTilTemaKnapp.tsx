@@ -15,6 +15,7 @@ import { lagRequest, TemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { NotePencilIcon } from "@navikt/aksel-icons";
+import { loggModalÅpnet } from "../../../util/amplitude-klient";
 
 const UndertemaSetupContainer = styled.div`
     margin-bottom: 1rem;
@@ -65,18 +66,18 @@ export default function LeggTilTemaKnapp({
                     valgteTemaIder.includes(tema.id)
                         ? { ...tema, planlagt: true }
                         : {
-                              ...tema,
-                              planlagt: false,
-                              undertemaer: tema.undertemaer.map((undertema) => {
-                                  return {
-                                      ...undertema,
-                                      planlagt: false,
-                                      status: null,
-                                      startDato: null,
-                                      sluttDato: null,
-                                  };
-                              }),
-                          },
+                            ...tema,
+                            planlagt: false,
+                            undertemaer: tema.undertemaer.map((undertema) => {
+                                return {
+                                    ...undertema,
+                                    planlagt: false,
+                                    status: null,
+                                    startDato: null,
+                                    sluttDato: null,
+                                };
+                            }),
+                        },
                 ),
         );
     }
@@ -89,9 +90,9 @@ export default function LeggTilTemaKnapp({
             redigertTemaliste.map((tema) =>
                 tema.id === temaId
                     ? {
-                          ...tema,
-                          undertemaer: redigerteUndertemaer,
-                      }
+                        ...tema,
+                        undertemaer: redigerteUndertemaer,
+                    }
                     : { ...tema },
             ),
         );
@@ -136,7 +137,10 @@ export default function LeggTilTemaKnapp({
                 variant="primary"
                 icon={<NotePencilIcon />}
                 style={{ margin: "1rem", minWidth: "10.5rem" }}
-                onClick={() => setModalOpen(true)}
+                onClick={() => {
+                    loggModalÅpnet("Rediger plan");
+                    setModalOpen(true);
+                }}
                 disabled={!(brukerErEierAvSak && sakErIRettStatus)}
             >
                 Rediger plan
@@ -166,6 +170,7 @@ export default function LeggTilTemaKnapp({
                                     {tema.planlagt && (
                                         <UndertemaSetupContainer>
                                             <InnholdOppsett
+                                                temaNavn={tema.navn}
                                                 valgteInnhold={tema.undertemaer}
                                                 velgInnhold={(
                                                     val: PlanInnhold[],
