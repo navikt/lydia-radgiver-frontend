@@ -83,14 +83,14 @@ import { MineSaker, mineSakerListSchema } from "../domenetyper/mineSaker";
 import { BrukerITeamDTO, brukerITeamSchema } from "../domenetyper/brukeriteam";
 import {
     Plan,
+    PlanInnhold,
+    PlanInnholdStatus,
     PlanMal,
     PlanMalRequest,
     PlanMalSchema,
     PlanSchema,
-    PlanInnholdStatus,
     PlanTema,
     PlanTemaSchema,
-    PlanInnhold,
     PlanUndertemaSchema,
 } from "../domenetyper/plan";
 import {
@@ -718,13 +718,6 @@ export const startKartlegging = (
     return post(
         `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}/start`,
         iaSakKartleggingSchema,
-    );
-};
-
-export const useHentKartlegginger = (orgnummer: string, saksnummer: string) => {
-    return useSwrTemplate<IASakKartlegging[]>(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}`,
-        iaSakKartleggingSchema.array(),
     );
 };
 
