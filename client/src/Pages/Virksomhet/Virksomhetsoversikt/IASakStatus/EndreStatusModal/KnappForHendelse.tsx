@@ -8,7 +8,6 @@ import {
 import {
     nyHendelsePåSak,
     useHentAktivSakForVirksomhet,
-    useHentKartlegginger,
     useHentLeveranser,
     useHentSamarbeid,
     useHentSamarbeidshistorikk,
@@ -146,16 +145,15 @@ function IkkeAktuellKnapp({
         sak.orgnr,
         sak.saksnummer,
     );
-    const { data: kartleggingerPåSak } = useHentKartlegginger(
-        sak.orgnr,
-        sak.saksnummer,
-    );
     const harLeveranserSomErUnderArbeid = leveranserPåSak
         ?.flatMap((iaTjeneste) => iaTjeneste.leveranser)
         .some((leveranse) => leveranse.status === "UNDER_ARBEID");
-    const harKartleggingerSomErUnderArbeid = kartleggingerPåSak
-        ?.flatMap((kartlegging) => kartlegging.status)
-        .some((status) => status !== "AVSLUTTET");
+
+    const harKartleggingerSomErUnderArbeid =
+        useTrengerÅFullføreBehovsvurderingerFørst(
+            hendelse.saksHendelsestype,
+            sak,
+        );
 
     return (
         <Button
