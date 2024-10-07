@@ -13,6 +13,7 @@ import {
     ModalBodyInnholdGrid,
     TextFieldStyled,
 } from "./EndreSamarbeidModal";
+import { useNavigate } from "react-router-dom";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
@@ -41,6 +42,7 @@ export const NyttSamarbeidModal = ({
         iaSak.orgnr,
         iaSak.saksnummer,
     );
+    const navigate = useNavigate();
 
     const nyttSamarbeid = () => {
         nyHendelsePåSak(
@@ -60,9 +62,19 @@ export const NyttSamarbeidModal = ({
             .then(() => {
                 hentAktivSakPåNytt();
                 hentHistorikkPåNytt();
-                hentSamarbeidPåNytt();
+                hentSamarbeidPåNytt().then((alleSamarbeidListe) => {
+                    const sisteNyeSamarbeid = alleSamarbeidListe
+                        ?.filter((s) => s.navn === navn)
+                        .sort((a, b) => b.id - a.id)[0];
+
+                    navigate(
+                        sisteNyeSamarbeid
+                            ? `/virksomhet/${iaSak.orgnr}/sak/${iaSak.saksnummer}/samarbeid/${sisteNyeSamarbeid.id}`
+                            : `/virksomhet/${iaSak.orgnr}`,
+                    );
+                });
             })
-            .then(lukkModal);
+            .finally(lukkModal);
     };
 
     return (

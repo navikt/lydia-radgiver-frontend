@@ -34,7 +34,7 @@ export const TextFieldStyled = styled(TextField)`
     width: 100%;
 `;
 
-export const DetaljerWrapper = styled(Detail)`
+export const DetaljerWrapper = styled.div`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
