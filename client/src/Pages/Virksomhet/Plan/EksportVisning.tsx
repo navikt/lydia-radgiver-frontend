@@ -15,7 +15,8 @@ import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
 
 const EXPORT_INTERNAL_WIDTH = 1280;
 
-const EksportStyleContainer = styled.div` // Vi må override litt farger før eksport.
+const EksportStyleContainer = styled.div`
+    // Vi må override litt farger før eksport.
     --ac-timeline-period-danger-border: #c30000;
     --ac-timeline-period-danger-bg: #c30000;
     --ac-timeline-period-success-border: #06893a;
@@ -25,7 +26,7 @@ const EksportStyleContainer = styled.div` // Vi må override litt farger før ek
     --ac-timeline-period-warning-border: #c77300;
     --ac-timeline-period-warning-bg: #c77300;
     font-family: Arial, sans-serif;
-`
+`;
 
 export default function EksportVisning({
     samarbeidsplan,
@@ -42,7 +43,10 @@ export default function EksportVisning({
         <VirksomhetContext.Provider value={virksomhetdata}>
             <div style={{ width: EXPORT_INTERNAL_WIDTH, padding: "2rem" }}>
                 <EksportStyleContainer>
-                    <EksportInnhold plan={samarbeidsplan} samarbeid={samarbeid} />
+                    <EksportInnhold
+                        plan={samarbeidsplan}
+                        samarbeid={samarbeid}
+                    />
                 </EksportStyleContainer>
             </div>
         </VirksomhetContext.Provider>
@@ -88,12 +92,21 @@ const Container = styled.div`
     padding: 2rem;
 `;
 
-function EksportInnhold({ plan, samarbeid }: { plan: Plan, samarbeid: IaSakProsess }) {
+function EksportInnhold({
+    plan,
+    samarbeid,
+}: {
+    plan: Plan;
+    samarbeid: IaSakProsess;
+}) {
     return (
         <>
-            <VirksomhetsEksportHeader type="Samarbeidsplan" samarbeid={samarbeid} />
+            <VirksomhetsEksportHeader
+                type="Samarbeidsplan"
+                samarbeid={samarbeid}
+            />
             {plan.temaer
-                .filter((tema) => tema.planlagt)
+                .filter((tema) => tema.inkludert)
                 .sort((a, b) => {
                     return a.id - b.id;
                 })
@@ -122,13 +135,18 @@ function UndertemaInnhold({ tema }: { tema: PlanTema }) {
             }}
         >
             {tema.undertemaer
-                .filter((undertema) => undertema.planlagt)
+                .filter((undertema) => undertema.inkludert)
                 .sort((a, b) => {
                     return a.id - b.id;
                 })
                 .map((undertema, index) => (
                     <React.Fragment key={index}>
-                        <Heading level="4" size="small" spacing style={{ minWidth: "20rem" }}>
+                        <Heading
+                            level="4"
+                            size="small"
+                            spacing
+                            style={{ minWidth: "20rem" }}
+                        >
                             {undertema.navn}:
                         </Heading>
                         <BodyShort style={{ marginLeft: "2rem" }}>

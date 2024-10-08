@@ -1,13 +1,23 @@
-import { Checkbox, CheckboxGroup, DatePicker, HStack, useDatepicker } from "@navikt/ds-react";
+import {
+    Checkbox,
+    CheckboxGroup,
+    DatePicker,
+    HStack,
+    useDatepicker,
+} from "@navikt/ds-react";
 import styled from "styled-components";
 import { RedigertInnholdMal } from "../../../domenetyper/plan";
-import { FIRST_VALID_DATE, LAST_VALID_DATE, defaultEndDate, defaultStartDate } from "./planconster";
+import {
+    FIRST_VALID_DATE,
+    LAST_VALID_DATE,
+    defaultEndDate,
+    defaultStartDate,
+} from "./planconster";
 
 const UndertemaRad = styled(HStack)`
     margin-bottom: 0.5rem;
     min-width: 48rem;
 `;
-
 
 function StartOgSluttVelger({
     redigertInnholdMal,
@@ -80,16 +90,19 @@ export default function TemaInnholdVelger({
             valgteUndertemaer.map((redigertInnholdMal) =>
                 undertemaIder.includes(redigertInnholdMal.rekkefølge)
                     ? {
-                        ...redigertInnholdMal,
-                        planlagt: true,
-                        startDato: redigertInnholdMal.startDato ?? defaultStartDate,
-                        sluttDato: redigertInnholdMal.sluttDato ?? defaultEndDate,
-                    } : {
-                        ...redigertInnholdMal,
-                        planlagt: false,
-                        startDato: null,
-                        sluttDato: null,
-                    },
+                          ...redigertInnholdMal,
+                          inkludert: true,
+                          startDato:
+                              redigertInnholdMal.startDato ?? defaultStartDate,
+                          sluttDato:
+                              redigertInnholdMal.sluttDato ?? defaultEndDate,
+                      }
+                    : {
+                          ...redigertInnholdMal,
+                          inkludert: false,
+                          startDato: null,
+                          sluttDato: null,
+                      },
             ),
         );
     };
@@ -118,7 +131,7 @@ export default function TemaInnholdVelger({
         <CheckboxGroup
             legend={"Velg innhold og varighet"}
             value={valgteUndertemaer
-                .filter((undertema) => undertema.planlagt)
+                .filter((undertema) => undertema.inkludert)
                 .map((undertema) => undertema.rekkefølge)}
             error={
                 visInnholdFeil
@@ -144,7 +157,7 @@ export default function TemaInnholdVelger({
                         >
                             {redigertInnholdMal.navn}
                         </Checkbox>
-                        {redigertInnholdMal.planlagt ? (
+                        {redigertInnholdMal.inkludert ? (
                             <StartOgSluttVelger
                                 redigertInnholdMal={redigertInnholdMal}
                                 setNyStartDato={(date) =>

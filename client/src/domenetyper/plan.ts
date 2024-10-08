@@ -10,7 +10,7 @@ export type PlanInnholdStatus = z.infer<typeof PlanStatusSchema>;
 export type OpprettInnholdRequest = {
     rekkefølge: number;
     navn: string;
-    planlagt: boolean;
+    inkludert: boolean;
     startDato: string | null;
     sluttDato: string | null;
 };
@@ -18,7 +18,7 @@ export type OpprettInnholdRequest = {
 export type OpprettTemaRequest = {
     rekkefølge: number;
     navn: string;
-    planlagt: boolean;
+    inkludert: boolean;
     innhold: OpprettInnholdRequest[];
 };
 
@@ -32,7 +32,7 @@ export type RedigertInnholdMal = z.infer<typeof RedigertInnholdMalSchema>;
 export const RedigertInnholdMalSchema = z.object({
     rekkefølge: z.number(),
     navn: z.string(),
-    planlagt: z.boolean(),
+    inkludert: z.boolean(),
     startDato: datoSchema.nullable(),
     sluttDato: datoSchema.nullable(),
 });
@@ -40,7 +40,7 @@ export const RedigertInnholdMalSchema = z.object({
 export const RedigertTemaMalSchema = z.object({
     rekkefølge: z.number(),
     navn: z.string(),
-    planlagt: z.boolean(),
+    inkludert: z.boolean(),
     innhold: z.array(RedigertInnholdMalSchema),
 });
 
@@ -52,7 +52,7 @@ export const PlanUndertemaSchema = z.object({
     id: z.number(),
     navn: z.string(),
     målsetning: z.string(),
-    planlagt: z.boolean(),
+    inkludert: z.boolean(),
     status: PlanStatusSchema.nullable(),
     startDato: datoSchema.nullable(),
     sluttDato: datoSchema.nullable(),
@@ -70,7 +70,7 @@ export type PlanRessurs = z.infer<typeof PlanRessursSchema>;
 export const PlanTemaSchema = z.object({
     id: z.number(),
     navn: z.string(),
-    planlagt: z.boolean(),
+    inkludert: z.boolean(),
     undertemaer: z.array(PlanUndertemaSchema),
     ressurser: z.array(PlanRessursSchema),
 });

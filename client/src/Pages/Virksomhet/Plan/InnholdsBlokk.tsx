@@ -85,7 +85,7 @@ export default function InnholdsBlokk({
                 <StatusLabel>Status</StatusLabel>
             </LabelRad>
             {tema.undertemaer
-                .filter((undertema) => undertema.planlagt)
+                .filter((undertema) => undertema.inkludert)
                 .sort((a, b) => {
                     return a.id - b.id;
                 })

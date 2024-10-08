@@ -24,7 +24,7 @@ const dummyPølser: PlanInnhold[] = [
     {
         id: 1,
         målsetning: "Vi har et mål",
-        planlagt: true,
+        inkludert: true,
         startDato: new Date(2024, 0),
         sluttDato: new Date(2024, 3),
         navn: "Sykefraværsrutiner",
@@ -33,7 +33,7 @@ const dummyPølser: PlanInnhold[] = [
     {
         id: 2,
         målsetning: "Vi har et mål",
-        planlagt: true,
+        inkludert: true,
         startDato: new Date(2024, 2),
         sluttDato: new Date(2024, 5),
         navn: "Oppfølgingssamtaler",
@@ -42,7 +42,7 @@ const dummyPølser: PlanInnhold[] = [
     {
         id: 3,
         målsetning: "Vi har et mål",
-        planlagt: true,
+        inkludert: true,
         startDato: new Date(2024, 7),
         sluttDato: new Date(2024, 10),
         navn: "Tilretteleggings- og medvirkningsplikt",
@@ -51,7 +51,7 @@ const dummyPølser: PlanInnhold[] = [
     {
         id: 4,
         målsetning: "Vi har et mål",
-        planlagt: true,
+        inkludert: true,
         startDato: new Date(2024, 7),
         sluttDato: new Date(2024, 9),
         navn: "Gjentagende sykefravær",
@@ -60,7 +60,7 @@ const dummyPølser: PlanInnhold[] = [
     {
         id: 5,
         målsetning: "Vi har et mål",
-        planlagt: true,
+        inkludert: true,
         startDato: new Date(2024, 9),
         sluttDato: new Date(2024, 11),
         navn: "Enda en greie",
@@ -69,7 +69,7 @@ const dummyPølser: PlanInnhold[] = [
     {
         id: 6,
         målsetning: "Vi har et mål",
-        planlagt: true,
+        inkludert: true,
         startDato: new Date(2025, 0),
         sluttDato: new Date(2025, 3),
         navn: "Sykefraværsrutiner 2",
@@ -78,7 +78,7 @@ const dummyPølser: PlanInnhold[] = [
     {
         id: 7,
         målsetning: "Vi har et mål",
-        planlagt: true,
+        inkludert: true,
         startDato: new Date(2025, 2),
         sluttDato: new Date(2025, 5),
         navn: "Oppfølgingssamtaler 2",
@@ -87,7 +87,7 @@ const dummyPølser: PlanInnhold[] = [
     {
         id: 8,
         målsetning: "Vi har et mål",
-        planlagt: true,
+        inkludert: true,
         startDato: new Date(2025, 7),
         sluttDato: new Date(2025, 10),
         navn: "Tilretteleggings- og medvirkningsplikt 2",
@@ -96,7 +96,7 @@ const dummyPølser: PlanInnhold[] = [
     {
         id: 9,
         målsetning: "Vi har et mål",
-        planlagt: true,
+        inkludert: true,
         startDato: new Date(2025, 7),
         sluttDato: new Date(2025, 9),
         navn: "Gjentagende sykefravær 2",
@@ -105,7 +105,7 @@ const dummyPølser: PlanInnhold[] = [
     {
         id: 10,
         målsetning: "Vi har et mål",
-        planlagt: true,
+        inkludert: true,
         startDato: new Date(2025, 9),
         sluttDato: new Date(2025, 11),
         navn: "Enda en greie 2",

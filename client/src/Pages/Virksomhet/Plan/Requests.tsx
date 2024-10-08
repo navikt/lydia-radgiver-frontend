@@ -3,13 +3,13 @@ import { isoDato } from "../../../util/dato";
 
 export type TemaRequest = {
     id: number;
-    planlagt: boolean;
+    inkludert: boolean;
     undertemaer: UndertemaRequest[];
 };
 
 export type UndertemaRequest = {
     id: number;
-    planlagt: boolean;
+    inkludert: boolean;
     startDato: string | null;
     sluttDato: string | null;
 };
@@ -18,7 +18,7 @@ export function lagRequest(undertemaer: PlanInnhold[]): UndertemaRequest[] {
     return undertemaer.map((undertema) => {
         return {
             id: undertema.id,
-            planlagt: undertema.planlagt,
+            inkludert: undertema.inkludert,
             startDato:
                 undertema.startDato === null
                     ? null

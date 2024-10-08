@@ -64,20 +64,20 @@ export default function LeggTilTemaKnapp({
                 })
                 .map((tema) =>
                     valgteTemaIder.includes(tema.id)
-                        ? { ...tema, planlagt: true }
+                        ? { ...tema, inkludert: true }
                         : {
-                            ...tema,
-                            planlagt: false,
-                            undertemaer: tema.undertemaer.map((undertema) => {
-                                return {
-                                    ...undertema,
-                                    planlagt: false,
-                                    status: null,
-                                    startDato: null,
-                                    sluttDato: null,
-                                };
-                            }),
-                        },
+                              ...tema,
+                              inkludert: false,
+                              undertemaer: tema.undertemaer.map((undertema) => {
+                                  return {
+                                      ...undertema,
+                                      inkludert: false,
+                                      status: null,
+                                      startDato: null,
+                                      sluttDato: null,
+                                  };
+                              }),
+                          },
                 ),
         );
     }
@@ -90,9 +90,9 @@ export default function LeggTilTemaKnapp({
             redigertTemaliste.map((tema) =>
                 tema.id === temaId
                     ? {
-                        ...tema,
-                        undertemaer: redigerteUndertemaer,
-                    }
+                          ...tema,
+                          undertemaer: redigerteUndertemaer,
+                      }
                     : { ...tema },
             ),
         );
@@ -102,7 +102,7 @@ export default function LeggTilTemaKnapp({
         const temaer: TemaRequest[] = redigertTemaliste.map((tema) => {
             return {
                 id: tema.id,
-                planlagt: tema.planlagt,
+                inkludert: tema.inkludert,
                 undertemaer: lagRequest(tema.undertemaer),
             };
         });
@@ -154,34 +154,40 @@ export default function LeggTilTemaKnapp({
                     <CheckboxGroup
                         legend="Sett opp samarbeidsplan"
                         value={redigertTemaliste.map((tema) =>
-                            tema.planlagt ? tema.id : null,
+                            tema.inkludert ? tema.id : null,
                         )}
                         onChange={(val: number[]) => velgTema(val)}
                     >
-                        {modalOpen && redigertTemaliste
-                            .sort((a, b) => {
-                                return a.id - b.id;
-                            })
-                            .map((tema) => (
-                                <div key={tema.id}>
-                                    <Checkbox value={tema.id}>
-                                        {tema.navn}
-                                    </Checkbox>
-                                    {tema.planlagt && (
-                                        <UndertemaSetupContainer>
-                                            <InnholdOppsett
-                                                temaNavn={tema.navn}
-                                                valgteInnhold={tema.undertemaer}
-                                                velgInnhold={(
-                                                    val: PlanInnhold[],
-                                                ) =>
-                                                    velgUndertema(tema.id, val)
-                                                }
-                                            />
-                                        </UndertemaSetupContainer>
-                                    )}
-                                </div>
-                            ))}
+                        {modalOpen &&
+                            redigertTemaliste
+                                .sort((a, b) => {
+                                    return a.id - b.id;
+                                })
+                                .map((tema) => (
+                                    <div key={tema.id}>
+                                        <Checkbox value={tema.id}>
+                                            {tema.navn}
+                                        </Checkbox>
+                                        {tema.inkludert && (
+                                            <UndertemaSetupContainer>
+                                                <InnholdOppsett
+                                                    temaNavn={tema.navn}
+                                                    valgteInnhold={
+                                                        tema.undertemaer
+                                                    }
+                                                    velgInnhold={(
+                                                        val: PlanInnhold[],
+                                                    ) =>
+                                                        velgUndertema(
+                                                            tema.id,
+                                                            val,
+                                                        )
+                                                    }
+                                                />
+                                            </UndertemaSetupContainer>
+                                        )}
+                                    </div>
+                                ))}
                     </CheckboxGroup>
                     <br />
                     <ModalKnapper>

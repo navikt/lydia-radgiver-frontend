@@ -19,14 +19,16 @@ const EditTemaModal = styled(Modal)`
 
     ${mobileAndUp} {
         padding: 1.5rem;
-        --a-spacing-6: var(--a-spacing-6); //TODO: Sette til originalverdien frå designsystemet
+        --a-spacing-6: var(
+            --a-spacing-6
+        ); //TODO: Sette til originalverdien frå designsystemet
         // Vi prøver å hente ut originalverdien frå designsystemet
     }
 `;
 
 const EditTemaModalBody = styled(Modal.Body)`
     overflow: visible;
-    `;
+`;
 
 export default function EditTemaKnapp({
     tema,
@@ -64,7 +66,9 @@ export default function EditTemaKnapp({
         });
     };
 
-    const harNoenValgteUndertema = redigertTema.undertemaer.some((undertema) => undertema.planlagt);
+    const harNoenValgteUndertema = redigertTema.undertemaer.some(
+        (undertema) => undertema.inkludert,
+    );
 
     return (
         <>
@@ -83,42 +87,42 @@ export default function EditTemaKnapp({
                 onClose={() => setModalOpen(false)}
                 aria-label="Rediger tema"
             >
-                {
-                    modalOpen && (
-                        <EditTemaModalBody>
-                            <InnholdOppsett
-                                temaNavn={redigertTema.navn}
-                                valgteInnhold={redigertTema.undertemaer}
-                                velgInnhold={(redigerteUndertemaer: PlanInnhold[]) => {
-                                    setRedigertTema({
-                                        ...redigertTema,
-                                        undertemaer: redigerteUndertemaer,
-                                    });
+                {modalOpen && (
+                    <EditTemaModalBody>
+                        <InnholdOppsett
+                            temaNavn={redigertTema.navn}
+                            valgteInnhold={redigertTema.undertemaer}
+                            velgInnhold={(
+                                redigerteUndertemaer: PlanInnhold[],
+                            ) => {
+                                setRedigertTema({
+                                    ...redigertTema,
+                                    undertemaer: redigerteUndertemaer,
+                                });
+                            }}
+                        />
+                        <br />
+                        <ModalKnapper>
+                            <Button
+                                variant="secondary"
+                                onClick={() => {
+                                    setModalOpen(false);
                                 }}
-                            />
-                            <br />
-                            <ModalKnapper>
-                                <Button
-                                    variant="secondary"
-                                    onClick={() => {
-                                        setModalOpen(false);
-                                    }}
-                                >
-                                    Avbryt
-                                </Button>
-                                <Button
-                                    disabled={!harNoenValgteUndertema}
-                                    onClick={() => {
-                                        setModalOpen(false);
-                                        lagreEndring();
-                                    }}
-                                >
-                                    Lagre
-                                </Button>
-                            </ModalKnapper>
-                        </EditTemaModalBody>
-                    )
-                }
+                            >
+                                Avbryt
+                            </Button>
+                            <Button
+                                disabled={!harNoenValgteUndertema}
+                                onClick={() => {
+                                    setModalOpen(false);
+                                    lagreEndring();
+                                }}
+                            >
+                                Lagre
+                            </Button>
+                        </ModalKnapper>
+                    </EditTemaModalBody>
+                )}
             </EditTemaModal>
         </>
     );

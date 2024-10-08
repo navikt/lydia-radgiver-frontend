@@ -8,7 +8,12 @@ import {
 import styled from "styled-components";
 import { PlanInnhold } from "../../../domenetyper/plan";
 import React from "react";
-import { FIRST_VALID_DATE, LAST_VALID_DATE, defaultEndDate, defaultStartDate } from "./planconster";
+import {
+    FIRST_VALID_DATE,
+    LAST_VALID_DATE,
+    defaultEndDate,
+    defaultStartDate,
+} from "./planconster";
 import { loggEndringAvPlan } from "../../../util/amplitude-klient";
 
 const InnholdsRad = styled(HStack)`
@@ -20,7 +25,6 @@ const InnholdsRad = styled(HStack)`
 const StyledHStack = styled(HStack)`
     --a-spacing-6: 1.5rem;
 `;
-
 
 function StartOgSluttVelger({
     innhold,
@@ -87,7 +91,7 @@ export default function InnholdOppsett({
 }) {
     const valgteIder = React.useMemo(() => {
         return valgteInnhold
-            .filter((innhold) => innhold.planlagt)
+            .filter((innhold) => innhold.inkludert)
             .map((innhold) => innhold.id);
     }, [valgteInnhold]);
 
@@ -100,43 +104,48 @@ export default function InnholdOppsett({
         );
 
         for (const innholdId of lagtTil) {
-            const innholdNavn = valgteInnhold.find((innhold) => innhold.id === innholdId)?.navn;
+            const innholdNavn = valgteInnhold.find(
+                (innhold) => innhold.id === innholdId,
+            )?.navn;
             if (innholdNavn !== null && innholdNavn !== undefined) {
                 loggEndringAvPlan(temaNavn, innholdNavn, "valgt");
             }
         }
 
         for (const innholdId of fjernet) {
-            const innholdNavn = valgteInnhold.find((innhold) => innhold.id === innholdId)?.navn;
+            const innholdNavn = valgteInnhold.find(
+                (innhold) => innhold.id === innholdId,
+            )?.navn;
             if (innholdNavn !== null && innholdNavn !== undefined) {
                 loggEndringAvPlan(temaNavn, innholdNavn, "fjernet");
             }
         }
 
-
         velgInnhold(
             valgteInnhold.map((innhold) =>
                 innholdIder.includes(innhold.id)
                     ? {
-                        ...innhold,
-                        planlagt: true,
-                        status: "PLANLAGT",
-                        startDato: innhold.startDato ?? defaultStartDate,
-                        sluttDato: innhold.sluttDato ?? defaultEndDate,
-                    }
+                          ...innhold,
+                          inkludert: true,
+                          status: "PLANLAGT",
+                          startDato: innhold.startDato ?? defaultStartDate,
+                          sluttDato: innhold.sluttDato ?? defaultEndDate,
+                      }
                     : {
-                        ...innhold,
-                        planlagt: false,
-                        startDato: null,
-                        sluttDato: null,
-                        status: null,
-                    },
+                          ...innhold,
+                          inkludert: false,
+                          startDato: null,
+                          sluttDato: null,
+                          status: null,
+                      },
             ),
         );
     };
 
     const setNyStartDato = (innholdId: number, date: Date) => {
-        const innholdNavn = valgteInnhold.find((innhold) => innhold.id === innholdId)?.navn;
+        const innholdNavn = valgteInnhold.find(
+            (innhold) => innhold.id === innholdId,
+        )?.navn;
         if (innholdNavn) {
             loggEndringAvPlan(temaNavn, innholdNavn, "fra");
         }
@@ -150,7 +159,9 @@ export default function InnholdOppsett({
     };
 
     const setNySluttDato = (innholdId: number, date: Date) => {
-        const innholdNavn = valgteInnhold.find((innhold) => innhold.id === innholdId)?.navn;
+        const innholdNavn = valgteInnhold.find(
+            (innhold) => innhold.id === innholdId,
+        )?.navn;
         if (innholdNavn) {
             loggEndringAvPlan(temaNavn, innholdNavn, "til");
         }
@@ -167,7 +178,7 @@ export default function InnholdOppsett({
         <CheckboxGroup
             legend={"Velg innhold og varighet"}
             value={valgteInnhold
-                .filter((innhold) => innhold.planlagt)
+                .filter((innhold) => innhold.inkludert)
                 .map((innhold) => innhold.id)}
             onChange={planleggInnhold}
         >
@@ -186,7 +197,7 @@ export default function InnholdOppsett({
                             <Checkbox value={innhold.id}>
                                 {innhold.navn}
                             </Checkbox>
-                            {innhold.planlagt ? (
+                            {innhold.inkludert ? (
                                 <StartOgSluttVelger
                                     innhold={innhold}
                                     setNyStartDato={(date) =>

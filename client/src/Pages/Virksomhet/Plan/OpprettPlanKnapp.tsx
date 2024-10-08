@@ -63,19 +63,19 @@ export default function OpprettPlanKnapp({
         setRedigertPlanMal({
             tema: redigertPlanMal.tema.map((tema) =>
                 valgteTemaIder.includes(tema.rekkefølge)
-                    ? { ...tema, planlagt: true }
+                    ? { ...tema, inkludert: true }
                     : {
-                        ...tema,
-                        planlagt: false,
-                        innhold: tema.innhold.map((innhold) => {
-                            return {
-                                ...innhold,
-                                planlagt: false,
-                                startDato: null,
-                                sluttDato: null,
-                            };
-                        }),
-                    },
+                          ...tema,
+                          inkludert: false,
+                          innhold: tema.innhold.map((innhold) => {
+                              return {
+                                  ...innhold,
+                                  inkludert: false,
+                                  startDato: null,
+                                  sluttDato: null,
+                              };
+                          }),
+                      },
             ),
         });
     }
@@ -88,9 +88,9 @@ export default function OpprettPlanKnapp({
             tema: redigertPlanMal.tema.map((tema) =>
                 tema.rekkefølge === temaId
                     ? {
-                        ...tema,
-                        innhold: redigerteInnholdMal,
-                    }
+                          ...tema,
+                          innhold: redigerteInnholdMal,
+                      }
                     : { ...tema },
             ),
         });
@@ -138,13 +138,13 @@ export default function OpprettPlanKnapp({
 
     function planErGyldig(): boolean {
         const minstEttTemaValgt = redigertPlanMal.tema.some(
-            (tema) => tema.planlagt,
+            (tema) => tema.inkludert,
         );
         const minstEttInnholdForValgtTemaValgt = redigertPlanMal.tema.every(
             (tema) =>
-                (tema.planlagt &&
-                    tema.innhold.some((innhold) => innhold.planlagt)) ||
-                !tema.planlagt,
+                (tema.inkludert &&
+                    tema.innhold.some((innhold) => innhold.inkludert)) ||
+                !tema.inkludert,
         );
 
         if (!minstEttTemaValgt) {
@@ -184,7 +184,7 @@ export default function OpprettPlanKnapp({
                     <CheckboxGroup
                         legend="Sett opp samarbeidsplan"
                         value={redigertPlanMal.tema.map((tema) =>
-                            tema.planlagt ? tema.rekkefølge : null,
+                            tema.inkludert ? tema.rekkefølge : null,
                         )}
                         error={
                             visTemaFeil ? "Du må velge minst et tema." : null
@@ -200,7 +200,7 @@ export default function OpprettPlanKnapp({
                                 <Checkbox value={tema.rekkefølge}>
                                     {tema.navn}
                                 </Checkbox>
-                                {tema.planlagt && (
+                                {tema.inkludert && (
                                     <TemaInnholdVelgerContainer>
                                         <TemaInnholdVelger
                                             setVisInnholdFeil={

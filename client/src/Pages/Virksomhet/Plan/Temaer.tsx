@@ -36,7 +36,7 @@ export function Temaer({
     return (
         <>
             {samarbeidsplan.temaer
-                .filter((tema) => tema.planlagt)
+                .filter((tema) => tema.inkludert)
                 .sort((a, b) => {
                     return a.id - b.id;
                 })
