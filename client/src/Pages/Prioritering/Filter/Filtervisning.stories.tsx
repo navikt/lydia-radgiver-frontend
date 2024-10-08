@@ -8,17 +8,19 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 export default {
     title: "Prioritering/Filtervisning",
     component: Filtervisning,
-    decorators: [(Story) => (
-        <MemoryRouter
-            initialEntries={["/?sykefravarsprosentFra=0.00&sykefravarsprosentTil=100.00&ansatteFra=5&side=1"]}>
-            <Routes>
-                <Route
-                    path={"/"}
-                    element={<Story />}
-                />
-            </Routes>
-        </MemoryRouter>
-    )]
+    decorators: [
+        (Story) => (
+            <MemoryRouter
+                initialEntries={[
+                    "/?sykefravarsprosentFra=0.00&sykefravarsprosentTil=100.00&ansatteFra=5&side=1",
+                ]}
+            >
+                <Routes>
+                    <Route path={"/"} element={<Story />} />
+                </Routes>
+            </MemoryRouter>
+        ),
+    ],
 } as Meta<typeof Filtervisning>;
 
 export const Hovedstory = () => {

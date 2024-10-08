@@ -1,10 +1,25 @@
 import { useState } from "react";
-import { Alert, Box, Button, Checkbox, CheckboxGroup, Modal, Select } from "@navikt/ds-react";
-import { GyldigNesteHendelse, ValgtÅrsakDto, Årsak } from "../../../../domenetyper/domenetyper";
+import {
+    Alert,
+    Box,
+    Button,
+    Checkbox,
+    CheckboxGroup,
+    Modal,
+    Select,
+} from "@navikt/ds-react";
+import {
+    GyldigNesteHendelse,
+    ValgtÅrsakDto,
+    Årsak,
+} from "../../../../domenetyper/domenetyper";
 import { StyledModal } from "../../../../components/Modal/StyledModal";
 import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
 
-const hentÅrsakFraÅrsakType = (type: string, { gyldigeÅrsaker }: GyldigNesteHendelse) => {
+const hentÅrsakFraÅrsakType = (
+    type: string,
+    { gyldigeÅrsaker }: GyldigNesteHendelse,
+) => {
     return gyldigeÅrsaker.find((årsak) => årsak.type === type);
 };
 
@@ -15,7 +30,12 @@ interface BegrunnelseModalProps {
     onClose: () => void;
 }
 
-export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: BegrunnelseModalProps) => {
+export const BegrunnelseModal = ({
+    hendelse,
+    åpen,
+    onClose,
+    lagre,
+}: BegrunnelseModalProps) => {
     const [valgtÅrsak, setValgtÅrsak] = useState<Årsak | undefined>(() => {
         return hendelse.gyldigeÅrsaker.length
             ? hendelse.gyldigeÅrsaker[0]
@@ -24,19 +44,25 @@ export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: Begrunnels
     const [valgteBegrunnelser, setValgteBegrunnelser] = useState<string[]>([]);
     const [valideringsfeil, setValideringsfeil] = useState<string[]>([]);
 
-    const begrunnelserCheckboxId = "begrunnelser-checkbox"
+    const begrunnelserCheckboxId = "begrunnelser-checkbox";
 
     return (
-        <StyledModal header={{ heading: 'Er du sikker på at du vil sette saken til "Ikke aktuell"?' }}
-                     open={åpen}
-                     onClose={onClose}
+        <StyledModal
+            header={{
+                heading:
+                    'Er du sikker på at du vil sette saken til "Ikke aktuell"?',
+            }}
+            open={åpen}
+            onClose={onClose}
         >
             <Modal.Body>
                 <form onSubmit={(e) => e.preventDefault()}>
                     <Select
                         label="Begrunnelse for at samarbeid ikke er aktuelt:"
                         onChange={(e) => {
-                            setValgtÅrsak(hentÅrsakFraÅrsakType(e.target.value, hendelse));
+                            setValgtÅrsak(
+                                hentÅrsakFraÅrsakType(e.target.value, hendelse),
+                            );
                             setValgteBegrunnelser([]);
                         }}
                         value={valgtÅrsak?.type}
@@ -55,17 +81,20 @@ export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: Begrunnels
                         hideLegend
                         value={valgteBegrunnelser}
                         onChange={(v) => {
-                            setValgteBegrunnelser(v)
-                            setValideringsfeil([])
+                            setValgteBegrunnelser(v);
+                            setValideringsfeil([]);
                         }}
                     >
                         {valgtÅrsak?.begrunnelser.map((begrunnelse) => (
-                            <Checkbox value={begrunnelse.type} key={begrunnelse.type}>
+                            <Checkbox
+                                value={begrunnelse.type}
+                                key={begrunnelse.type}
+                            >
                                 {begrunnelse.navn}
                             </Checkbox>
                         ))}
                     </CheckboxGroup>
-                    {valideringsfeil.length > 0 &&
+                    {valideringsfeil.length > 0 && (
                         <Box
                             background={"bg-default"}
                             borderColor="border-danger"
@@ -73,29 +102,39 @@ export const BegrunnelseModal = ({ hendelse, åpen, onClose, lagre }: Begrunnels
                             borderWidth="2"
                             borderRadius="xlarge"
                         >
-                            {valideringsfeil.map(feil =>
-                                (<Alert key={feil} inline variant="error">
+                            {valideringsfeil.map((feil) => (
+                                <Alert key={feil} inline variant="error">
                                     {feil}
-                                </Alert>)
-                            )}
-                        </Box>}
+                                </Alert>
+                            ))}
+                        </Box>
+                    )}
                 </form>
                 <ModalKnapper>
-                    <Button variant="secondary" onClick={onClose}>Avbryt</Button>
+                    <Button variant="secondary" onClick={onClose}>
+                        Avbryt
+                    </Button>
                     <Button
                         onClick={() => {
                             if (!valgtÅrsak || valgteBegrunnelser.length == 0) {
-                                if (!valideringsfeil.includes("Du må velge minst én begrunnelse")) {
-                                    setValideringsfeil([...valideringsfeil, "Du må velge minst én begrunnelse"])
+                                if (
+                                    !valideringsfeil.includes(
+                                        "Du må velge minst én begrunnelse",
+                                    )
+                                ) {
+                                    setValideringsfeil([
+                                        ...valideringsfeil,
+                                        "Du må velge minst én begrunnelse",
+                                    ]);
                                 }
                                 return;
                             }
                             const valgtÅrsakDto: ValgtÅrsakDto = {
                                 type: valgtÅrsak.type,
-                                begrunnelser: valgteBegrunnelser
-                            }
-                            lagre(valgtÅrsakDto)
-                            setValideringsfeil([])
+                                begrunnelser: valgteBegrunnelser,
+                            };
+                            lagre(valgtÅrsakDto);
+                            setValideringsfeil([]);
                         }}
                     >
                         Lagre

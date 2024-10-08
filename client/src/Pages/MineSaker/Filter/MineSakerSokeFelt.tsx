@@ -7,7 +7,6 @@ const SearchContainer = styled.div`
     border-radius: 0.25rem;
 `;
 
-
 export const MineSakerSøkefelt = ({
     setSøkFilter,
 }: {

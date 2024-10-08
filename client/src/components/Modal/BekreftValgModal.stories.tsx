@@ -8,26 +8,31 @@ export default {
 } as Meta<typeof BekreftValgModal>;
 
 export const ModalStory = () => {
-    const [open, setOpen] = useState(false)
+    const [open, setOpen] = useState(false);
     return (
         <>
-            <button onClick={() => {
-                setOpen(true)
-            }}>Åpne modal
+            <button
+                onClick={() => {
+                    setOpen(true);
+                }}
+            >
+                Åpne modal
             </button>
             <BekreftValgModal
                 onConfirm={() => {
-                    setOpen(false)
-                    console.log('Confirmed')
+                    setOpen(false);
+                    console.log("Confirmed");
                 }}
                 onCancel={() => {
-                    setOpen(false)
-                    console.log('Canceled')
+                    setOpen(false);
+                    console.log("Canceled");
                 }}
                 åpen={open}
                 title={"Er du sikker på at du vil lukke dialogboksen?"}
-                description={"Ved å lukke dialogboksen vil den bli lukket, og må åpnes på nytt for å åpnes."} />
+                description={
+                    "Ved å lukke dialogboksen vil den bli lukket, og må åpnes på nytt for å åpnes."
+                }
+            />
         </>
-
     );
-}
+};

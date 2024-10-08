@@ -18,7 +18,7 @@ const DropdownMenuInnholdStyled = styled.div`
     display: flex;
     flex-direction: column;
     gap: 2rem;
-    
+
     margin-top: 0 !important;
     margin-right: 1.5rem !important;
     margin-bottom: 1.5rem !important;
@@ -31,8 +31,7 @@ const DropdownMenuListStyled = styled(Dropdown.Menu.List)`
     gap: 0.5rem;
 `;
 
-const DropdownMenuListItemStyled = styled(Dropdown.Menu.List.Item)`
-`;
+const DropdownMenuListItemStyled = styled(Dropdown.Menu.List.Item)``;
 
 interface SamarbeidsDropdown2Props {
     iaSak: IASak | undefined;
@@ -68,11 +67,18 @@ export const SamarbeidsDropdown = ({
                     size="small"
                     onClick={() => hentSamarbeidPåNytt()}
                 >
-                    Samarbeid{harIngenAktiveSamarbeid ? "" : ` (${alleSamarbeid?.length})`}
+                    Samarbeid
+                    {harIngenAktiveSamarbeid
+                        ? ""
+                        : ` (${alleSamarbeid?.length})`}
                 </Button>
 
                 <Dropdown.Menu
-                    style={{ minWidth: "22rem", marginTop: "0.3rem", padding: 0 }}
+                    style={{
+                        minWidth: "22rem",
+                        marginTop: "0.3rem",
+                        padding: 0,
+                    }}
                     placement={"bottom-start"}
                 >
                     <DropdownMenuInnholdStyled>

@@ -10,7 +10,7 @@ export const filterverdierSchema = z.object({
     statuser: IAProsessStatusEnum.array(),
     bransjeprogram: z.string().array(),
     filtrerbareEiere: z.array(eierSchema),
-    sektorer: z.array(sektorSchema)
+    sektorer: z.array(sektorSchema),
 });
 
 export type Filterverdier = z.infer<typeof filterverdierSchema>;
@@ -28,7 +28,7 @@ const sorteringsverdier = {
 export type Sorteringsverdi = keyof typeof sorteringsverdier;
 
 export enum ValgtSnittFilter {
-    BRANSJE_NÆRING_OVER = 'BRANSJE_NÆRING_OVER',
+    BRANSJE_NÆRING_OVER = "BRANSJE_NÆRING_OVER",
     BRANSJE_NÆRING_UNDER_ELLER_LIK = "BRANSJE_NÆRING_UNDER_ELLER_LIK",
     ALLE = "",
 }

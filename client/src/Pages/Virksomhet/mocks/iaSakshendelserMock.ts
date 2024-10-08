@@ -14,7 +14,7 @@ const sekund = Date.now();
 
 const nyHendelse = (
     hendelsestype: IASakshendelseType,
-    interval = 0
+    interval = 0,
 ): IASakshendelse => ({
     id: tilfeldigId(),
     saksnummer: saksnummer,
@@ -25,19 +25,19 @@ const nyHendelse = (
 });
 
 const opprettelseHendelse = nyHendelse(
-    IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET
+    IASakshendelseTypeEnum.enum.OPPRETT_SAK_FOR_VIRKSOMHET,
 );
 const vurderesHendelse = nyHendelse(
     IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES,
-    1000
+    1000,
 );
 const taEierskapHendelse = nyHendelse(
     IASakshendelseTypeEnum.enum.TA_EIERSKAP_I_SAK,
-    2000
+    2000,
 );
 const kontaktesHendelse = nyHendelse(
     IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_KONTAKTES,
-    3000
+    3000,
 );
 
 export const sakshendelserMock = [

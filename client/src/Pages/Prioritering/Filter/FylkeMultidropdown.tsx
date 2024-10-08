@@ -1,6 +1,9 @@
 import { CSSProperties } from "react";
 import { Label } from "@navikt/ds-react";
-import { reactSelectStyle, StyledReactSelect } from "../../../components/ReactSelect/StyledReactSelect";
+import {
+    reactSelectStyle,
+    StyledReactSelect,
+} from "../../../components/ReactSelect/StyledReactSelect";
 import { sorterAlfabetisk } from "../../../util/sortering";
 import { FylkeMedKommuner } from "../../../domenetyper/fylkeOgKommune";
 
@@ -13,11 +16,15 @@ interface Props {
     style?: CSSProperties;
 }
 
-export const FylkeMultidropdown = ({ fylkerOgKommuner, valgteFylker, endreFylker, style }: Props) => {
-    const sorterteFylker =
-        fylkerOgKommuner
-            .sort((a, b) =>
-                sorterAlfabetisk(a.fylke.navn, b.fylke.navn));
+export const FylkeMultidropdown = ({
+    fylkerOgKommuner,
+    valgteFylker,
+    endreFylker,
+    style,
+}: Props) => {
+    const sorterteFylker = fylkerOgKommuner.sort((a, b) =>
+        sorterAlfabetisk(a.fylke.navn, b.fylke.navn),
+    );
 
     return (
         <div style={style}>
@@ -34,7 +41,7 @@ export const FylkeMultidropdown = ({ fylkerOgKommuner, valgteFylker, endreFylker
                 styles={reactSelectStyle()}
                 placeholder=""
                 onChange={(verdier) => {
-                    console.log("Verdier!", verdier)
+                    console.log("Verdier!", verdier);
                     endreFylker(verdier as FylkeMedKommuner[]);
                 }}
             />

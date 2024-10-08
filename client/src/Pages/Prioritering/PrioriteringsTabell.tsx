@@ -3,7 +3,10 @@ import styled from "styled-components";
 import { Link, SortState, Table } from "@navikt/ds-react";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
-import { formaterSomHeltall, formaterSomProsentMedEnDesimal } from "../../util/tallFormatering";
+import {
+    formaterSomHeltall,
+    formaterSomProsentMedEnDesimal,
+} from "../../util/tallFormatering";
 import { SøkeresultatFooter } from "./SøkeresultatFooter";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
@@ -12,10 +15,10 @@ import { IAProsessStatusEnum } from "../../domenetyper/domenetyper";
 import { ScrollUtTilKantenContainer } from "../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 
 interface Kolonne {
-    key: string,
-    name: string,
-    sortable?: boolean,
-    textAlignment: "left" | "right"
+    key: string;
+    name: string;
+    sortable?: boolean;
+    textAlignment: "left" | "right";
 }
 
 // \u00AD-tegnet setter et punkt der et ord kan deles om det ikke får plass
@@ -24,150 +27,189 @@ const kolonner: Kolonne[] = [
     {
         key: "status",
         name: "Status",
-        textAlignment: "left"
+        textAlignment: "left",
     },
     {
         key: "sist_endret",
         name: "Endret",
         sortable: true,
-        textAlignment: "left"
+        textAlignment: "left",
     },
     {
         key: "navn",
         name: "Virksomhets\u00ADnavn",
         sortable: true,
-        textAlignment: "left"
+        textAlignment: "left",
     },
     {
         key: "antall_personer",
         name: "Arbeids\u00ADforhold",
         sortable: true,
-        textAlignment: "right"
+        textAlignment: "right",
     },
     {
         key: "sykefravarsprosent",
         name: "Syke\u00ADfravær",
         sortable: true,
-        textAlignment: "right"
+        textAlignment: "right",
     },
     {
         key: "tapte_dagsverk",
         name: "Tapte dagsverk",
         sortable: true,
-        textAlignment: "right"
+        textAlignment: "right",
     },
     {
         key: "mulige_dagsverk",
         name: "Mulige dagsverk",
         sortable: true,
-        textAlignment: "right"
+        textAlignment: "right",
     },
     {
         key: "eier",
         name: "Eier",
-        textAlignment: "left"
+        textAlignment: "left",
     },
-]
+];
 
 const Container = styled.div`
-  width: fit-content;
-  ${hvitBoksMedSkygge}
+    width: fit-content;
+    ${hvitBoksMedSkygge}
 `;
 
 const RightAllignedDataCell = styled(Table.DataCell)`
-  text-align: right;
+    text-align: right;
 `;
 
 interface Props {
     virksomhetsoversiktListe: Virksomhetsoversikt[];
     side: number;
     endreSide: (side: number) => void;
-    sortering: SortState
-    endreSortering: (sortering: SortState) => void
+    sortering: SortState;
+    endreSortering: (sortering: SortState) => void;
     totaltAntallTreff?: number;
     className?: string;
 }
 
 export const PrioriteringsTabell = ({
-                                        virksomhetsoversiktListe,
-                                        className,
-                                        side,
-                                        sortering,
-                                        endreSortering,
-                                        endreSide,
-                                        totaltAntallTreff,
-                                    }: Props) => {
+    virksomhetsoversiktListe,
+    className,
+    side,
+    sortering,
+    endreSortering,
+    endreSide,
+    totaltAntallTreff,
+}: Props) => {
     const onSortChange = (sortKey: string | undefined) => {
         if (sortKey == sortering.orderBy) {
             endreSortering({
                 orderBy: sortKey ?? "tapte_dagsverk",
-                direction: sortering.direction === "descending" ? "ascending" : "descending"
-            })
+                direction:
+                    sortering.direction === "descending"
+                        ? "ascending"
+                        : "descending",
+            });
             return;
         }
         endreSortering({
             orderBy: sortKey ?? "tapte_dagsverk",
-            direction: "descending"
-        })
-    }
+            direction: "descending",
+        });
+    };
 
     return (
         <ScrollUtTilKantenContainer $offsetRight={0} $offsetLeft={0}>
             <Container className={className}>
-                <Table zebraStripes size={"small"} sort={sortering} onSortChange={onSortChange}>
+                <Table
+                    zebraStripes
+                    size={"small"}
+                    sort={sortering}
+                    onSortChange={onSortChange}
+                >
                     <Table.Header className={"table-header"}>
                         <Table.Row>
-                            {kolonner.map(({ sortable = false, name, key, textAlignment }) => (
-                                <Table.ColumnHeader
-                                    scope="col"
-                                    key={key}
-                                    sortable={sortable}
-                                    sortKey={key}
-                                    align={textAlignment}
-                                >
-                                    {name}
-                                </Table.ColumnHeader>
-                            ))}
+                            {kolonner.map(
+                                ({
+                                    sortable = false,
+                                    name,
+                                    key,
+                                    textAlignment,
+                                }) => (
+                                    <Table.ColumnHeader
+                                        scope="col"
+                                        key={key}
+                                        sortable={sortable}
+                                        sortKey={key}
+                                        align={textAlignment}
+                                    >
+                                        {name}
+                                    </Table.ColumnHeader>
+                                ),
+                            )}
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
                         {virksomhetsoversiktListe.map((virksomhetsoversikt) => (
-                            <Table.Row key={virksomhetsoversikt.virksomhetsnavn}>
+                            <Table.Row
+                                key={virksomhetsoversikt.virksomhetsnavn}
+                            >
                                 <Table.DataCell>
-                                    <StatusBadge status={virksomhetsoversikt.status} />
+                                    <StatusBadge
+                                        status={virksomhetsoversikt.status}
+                                    />
                                 </Table.DataCell>
-                                <EndretDataCell sistEndret={virksomhetsoversikt.sistEndret}
-                                                lukket={virksomhetsoversikt.status === IAProsessStatusEnum.enum.IKKE_AKTIV} />
+                                <EndretDataCell
+                                    sistEndret={virksomhetsoversikt.sistEndret}
+                                    lukket={
+                                        virksomhetsoversikt.status ===
+                                        IAProsessStatusEnum.enum.IKKE_AKTIV
+                                    }
+                                />
                                 <Table.HeaderCell scope="row">
-                                    <Link href={`virksomhet/${virksomhetsoversikt.orgnr}`}>
+                                    <Link
+                                        href={`virksomhet/${virksomhetsoversikt.orgnr}`}
+                                    >
                                         {virksomhetsoversikt.virksomhetsnavn}
                                     </Link>
                                 </Table.HeaderCell>
                                 <RightAllignedDataCell>
-                                    {formaterSomHeltall(virksomhetsoversikt.antallPersoner)}
+                                    {formaterSomHeltall(
+                                        virksomhetsoversikt.antallPersoner,
+                                    )}
                                 </RightAllignedDataCell>
                                 <RightAllignedDataCell>
-                                    {formaterSomProsentMedEnDesimal(virksomhetsoversikt.sykefraværsprosent)}
+                                    {formaterSomProsentMedEnDesimal(
+                                        virksomhetsoversikt.sykefraværsprosent,
+                                    )}
                                 </RightAllignedDataCell>
                                 <RightAllignedDataCell>
-                                    {formaterSomHeltall(virksomhetsoversikt.tapteDagsverk)}
+                                    {formaterSomHeltall(
+                                        virksomhetsoversikt.tapteDagsverk,
+                                    )}
                                 </RightAllignedDataCell>
                                 <RightAllignedDataCell>
-                                    {formaterSomHeltall(virksomhetsoversikt.muligeDagsverk)}
+                                    {formaterSomHeltall(
+                                        virksomhetsoversikt.muligeDagsverk,
+                                    )}
                                 </RightAllignedDataCell>
                                 <Table.DataCell>
-                                    <NavIdentMedLenke navIdent={virksomhetsoversikt.eidAv} />
+                                    <NavIdentMedLenke
+                                        navIdent={virksomhetsoversikt.eidAv}
+                                    />
                                 </Table.DataCell>
                             </Table.Row>
                         ))}
                     </Table.Body>
                 </Table>
-                {!!virksomhetsoversiktListe.length &&
-                    <SøkeresultatFooter side={side} endreSide={endreSide}
-                                        antallTreffPåSide={virksomhetsoversiktListe.length}
-                                        totaltAntallTreff={totaltAntallTreff} />
-                }
+                {!!virksomhetsoversiktListe.length && (
+                    <SøkeresultatFooter
+                        side={side}
+                        endreSide={endreSide}
+                        antallTreffPåSide={virksomhetsoversiktListe.length}
+                        totaltAntallTreff={totaltAntallTreff}
+                    />
+                )}
             </Container>
         </ScrollUtTilKantenContainer>
-    )
-}
+    );
+};

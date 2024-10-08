@@ -5,23 +5,23 @@ import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
 import { Paginering } from "./Paginering";
 
 const Container = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-  gap: 1rem;
-  padding: 0.5rem 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
 `;
 
 const PagineringsContainer = styled.div`
-  display: flex;
-  align-items: center;
+    display: flex;
+    align-items: center;
 `;
 
 const ResultatInfo = styled(Detail)`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 `;
 
 interface Props {
@@ -31,20 +31,34 @@ interface Props {
     totaltAntallTreff?: number;
 }
 
-export const SøkeresultatFooter = ({side, antallTreffPåSide, endreSide, totaltAntallTreff}: Props) => {
-    const sideOffset = (side - 1) * ANTALL_RESULTATER_PER_SIDE
+export const SøkeresultatFooter = ({
+    side,
+    antallTreffPåSide,
+    endreSide,
+    totaltAntallTreff,
+}: Props) => {
+    const sideOffset = (side - 1) * ANTALL_RESULTATER_PER_SIDE;
     const resultatFra = sideOffset + 1;
-    const resultatTil = Math.min(sideOffset + antallTreffPåSide, side * ANTALL_RESULTATER_PER_SIDE);
+    const resultatTil = Math.min(
+        sideOffset + antallTreffPåSide,
+        side * ANTALL_RESULTATER_PER_SIDE,
+    );
 
     return (
         <Container>
             <PagineringsContainer>
-                <Paginering side={side} endreSide={endreSide} antallTreffPåSide={antallTreffPåSide} />
+                <Paginering
+                    side={side}
+                    endreSide={endreSide}
+                    antallTreffPåSide={antallTreffPåSide}
+                />
                 <ResultatInfo size="small">
-                    Viser resultat {resultatFra} - {resultatTil} av {totaltAntallTreff ??
-                    <Loader size="xsmall" title="henter antall treff" />}
+                    Viser resultat {resultatFra} - {resultatTil} av{" "}
+                    {totaltAntallTreff ?? (
+                        <Loader size="xsmall" title="henter antall treff" />
+                    )}
                 </ResultatInfo>
             </PagineringsContainer>
         </Container>
-    )
-}
+    );
+};

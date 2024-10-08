@@ -9,16 +9,16 @@ import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
 const meta = {
     title: "Virksomhet/Leveranser/Leveranseoversikt",
     component: LeveranseOversikt,
-} satisfies Meta<typeof LeveranseOversikt>
+} satisfies Meta<typeof LeveranseOversikt>;
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Hovedstory: Story = {
     args: {
         iaSak: iaSakViBistår,
         lasterLeveranserPerIATjeneste: false,
-        leveranserPerIATjeneste: leveranserPerIATjeneste
+        leveranserPerIATjeneste: leveranserPerIATjeneste,
     },
     parameters: {
         msw: [
@@ -28,4 +28,4 @@ export const Hovedstory: Story = {
             ...mswHandlers,
         ],
     },
-}
+};

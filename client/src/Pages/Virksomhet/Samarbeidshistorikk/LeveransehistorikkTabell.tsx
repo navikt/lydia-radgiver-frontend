@@ -9,52 +9,58 @@ interface LeveransehistorikkProps {
     saksnummer: string;
 }
 
-export const LeveransehistorikkTabell = ({ orgnr, saksnummer }: LeveransehistorikkProps) => {
+export const LeveransehistorikkTabell = ({
+    orgnr,
+    saksnummer,
+}: LeveransehistorikkProps) => {
     const {
         data: leveranserPerIATjeneste,
-        loading: lasterLeveranserPerIATjeneste
+        loading: lasterLeveranserPerIATjeneste,
     } = useHentLeveranser(orgnr, saksnummer);
 
     if (lasterLeveranserPerIATjeneste) {
-        return <Loader />
+        return <Loader />;
     }
 
     if (!leveranserPerIATjeneste) {
-        return <BodyShort>Kunne ikke hente leveranser</BodyShort>
+        return <BodyShort>Kunne ikke hente leveranser</BodyShort>;
     }
 
-    const leveranser = leveranserPerIATjeneste
-        .flatMap((iaTjenesteMedLeveranser) => iaTjenesteMedLeveranser.leveranser
-            .map(leveranse => {
-                return { tjeneste: iaTjenesteMedLeveranser.iaTjeneste.navn, ...leveranse }
-            }))
+    const leveranser = leveranserPerIATjeneste.flatMap(
+        (iaTjenesteMedLeveranser) =>
+            iaTjenesteMedLeveranser.leveranser.map((leveranse) => {
+                return {
+                    tjeneste: iaTjenesteMedLeveranser.iaTjeneste.navn,
+                    ...leveranse,
+                };
+            }),
+    );
 
-    const fullførteLeveranser = leveranser
-        .filter(leveranse => leveranse.status === "LEVERT")
+    const fullførteLeveranser = leveranser.filter(
+        (leveranse) => leveranse.status === "LEVERT",
+    );
 
     return (
         <>
             <h3>Leverte IA-tjenester</h3>
 
-            {fullførteLeveranser.length
-                ?
-                <ScrollUtTilKantenContainer $offsetLeft={1.5 + 2.75} $offsetRight={1.5 + 0.75}>
+            {fullførteLeveranser.length ? (
+                <ScrollUtTilKantenContainer
+                    $offsetLeft={1.5 + 2.75}
+                    $offsetRight={1.5 + 0.75}
+                >
                     <StyledTable>
                         <Table.Header>
                             <Table.Row>
-                                <Table.HeaderCell>
-                                    IA-Tjeneste
-                                </Table.HeaderCell>
-                                <Table.HeaderCell>
-                                    Modul
-                                </Table.HeaderCell>
+                                <Table.HeaderCell>IA-Tjeneste</Table.HeaderCell>
+                                <Table.HeaderCell>Modul</Table.HeaderCell>
                                 <Table.HeaderCell>
                                     Levert tidspunkt
                                 </Table.HeaderCell>
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            {fullførteLeveranser.map(leveranse =>
+                            {fullførteLeveranser.map((leveranse) => (
                                 <Table.Row key={leveranse.id}>
                                     <Table.DataCell>
                                         {leveranse.tjeneste}
@@ -63,15 +69,19 @@ export const LeveransehistorikkTabell = ({ orgnr, saksnummer }: Leveransehistori
                                         {leveranse.modul.navn}
                                     </Table.DataCell>
                                     <Table.DataCell>
-                                        {leveranse.fullført && lokalDato(leveranse.fullført)}
+                                        {leveranse.fullført &&
+                                            lokalDato(leveranse.fullført)}
                                     </Table.DataCell>
-                                </Table.Row>)}
+                                </Table.Row>
+                            ))}
                         </Table.Body>
                     </StyledTable>
                 </ScrollUtTilKantenContainer>
-                :
-                <BodyShort>Denne saken har ingen leveranser som er levert.</BodyShort>
-            }
+            ) : (
+                <BodyShort>
+                    Denne saken har ingen leveranser som er levert.
+                </BodyShort>
+            )}
         </>
-    )
+    );
 };

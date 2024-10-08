@@ -4,8 +4,7 @@ import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { PlusIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 
-const OpprettSamarbeidKnapp = styled.div`
-`;
+const OpprettSamarbeidKnapp = styled.div``;
 
 interface SamarbeidsDropdownFooterProps {
     setÅpen: React.Dispatch<React.SetStateAction<boolean>>;

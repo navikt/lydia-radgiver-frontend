@@ -28,7 +28,7 @@ const Knappecontainer = styled.div<{ $redusertPadding: boolean }>`
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: ${props => props.$redusertPadding ? "0.5rem" : "1.5rem"};
+    padding: ${(props) => (props.$redusertPadding ? "0.5rem" : "1.5rem")};
 `;
 
 const EnkeltKnappContainer = styled(Knappecontainer)`
@@ -106,9 +106,9 @@ export function Statusknapper({
     const hendelser: GyldigNesteHendelse[] = iaSak.gyldigeNesteHendelser.filter(
         (hendelse) =>
             hendelse.saksHendelsestype !==
-            IASakshendelseTypeEnum.Enum.ENDRE_PROSESS &&
+                IASakshendelseTypeEnum.Enum.ENDRE_PROSESS &&
             hendelse.saksHendelsestype !==
-            IASakshendelseTypeEnum.Enum.NY_PROSESS,
+                IASakshendelseTypeEnum.Enum.NY_PROSESS,
     );
     const destruktiveHendelser = hendelser.filter((hendelse) =>
         erHendelsenDestruktiv(hendelse.saksHendelsestype),

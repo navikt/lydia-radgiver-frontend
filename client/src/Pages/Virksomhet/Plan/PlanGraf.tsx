@@ -26,44 +26,47 @@ export default function PlanGraf(props: PølsegrafProps) {
     );
     const iDag = new Date();
 
-    const { earliestStart, latestSlutt } = React.useMemo(
-        () => {
-            const undertemaStartOgSlutt = undertemaer.reduce(
-                (acc, pølse) => {
-                    const start = new Date(pølse.start);
-                    const slutt = new Date(pølse.slutt);
-                    if (acc.earliestStart > start) {
-                        acc.earliestStart = start;
-                    }
-                    if (acc.latestSlutt < slutt) {
-                        acc.latestSlutt = slutt;
-                    }
-                    return acc;
-                },
-                {
-                    earliestStart: new Date(8640000000000000),
-                    latestSlutt: new Date(-8640000000000000),
-                },
-            );
+    const { earliestStart, latestSlutt } = React.useMemo(() => {
+        const undertemaStartOgSlutt = undertemaer.reduce(
+            (acc, pølse) => {
+                const start = new Date(pølse.start);
+                const slutt = new Date(pølse.slutt);
+                if (acc.earliestStart > start) {
+                    acc.earliestStart = start;
+                }
+                if (acc.latestSlutt < slutt) {
+                    acc.latestSlutt = slutt;
+                }
+                return acc;
+            },
+            {
+                earliestStart: new Date(8640000000000000),
+                latestSlutt: new Date(-8640000000000000),
+            },
+        );
 
-            // Vis opptil en uke før eller etter perioden, dersom det tar med dagens dato. Ellers vis +-1 dag.
-            const ukeFørStart = new Date(undertemaStartOgSlutt.earliestStart);
-            ukeFørStart.setDate(ukeFørStart.getDate() - 7);
-            const dagFørStart = new Date(undertemaStartOgSlutt.earliestStart);
-            dagFørStart.setDate(dagFørStart.getDate() - 1);
+        // Vis opptil en uke før eller etter perioden, dersom det tar med dagens dato. Ellers vis +-1 dag.
+        const ukeFørStart = new Date(undertemaStartOgSlutt.earliestStart);
+        ukeFørStart.setDate(ukeFørStart.getDate() - 7);
+        const dagFørStart = new Date(undertemaStartOgSlutt.earliestStart);
+        dagFørStart.setDate(dagFørStart.getDate() - 1);
 
-            const ukeEtterStart = new Date(undertemaStartOgSlutt.latestSlutt);
-            ukeEtterStart.setDate(ukeEtterStart.getDate() - 7);
-            const dagEtterStart = new Date(undertemaStartOgSlutt.latestSlutt);
-            dagEtterStart.setDate(dagEtterStart.getDate() + 1)
+        const ukeEtterStart = new Date(undertemaStartOgSlutt.latestSlutt);
+        ukeEtterStart.setDate(ukeEtterStart.getDate() - 7);
+        const dagEtterStart = new Date(undertemaStartOgSlutt.latestSlutt);
+        dagEtterStart.setDate(dagEtterStart.getDate() + 1);
 
-            return {
-                earliestStart: (ukeFørStart < iDag && undertemaStartOgSlutt.earliestStart > iDag) ? ukeFørStart : dagFørStart,
-                latestSlutt: (ukeEtterStart > iDag && undertemaStartOgSlutt.latestSlutt < iDag) ? ukeEtterStart : dagEtterStart
-            };
-        },
-        [undertemaer],
-    );
+        return {
+            earliestStart:
+                ukeFørStart < iDag && undertemaStartOgSlutt.earliestStart > iDag
+                    ? ukeFørStart
+                    : dagFørStart,
+            latestSlutt:
+                ukeEtterStart > iDag && undertemaStartOgSlutt.latestSlutt < iDag
+                    ? ukeEtterStart
+                    : dagEtterStart,
+        };
+    }, [undertemaer]);
 
     if (undertemaer.length === 0) {
         return null;
@@ -71,7 +74,11 @@ export default function PlanGraf(props: PølsegrafProps) {
     return (
         <>
             <Timeline startDate={earliestStart} endDate={latestSlutt}>
-                {props.hidePin || iDag < earliestStart || iDag > latestSlutt ? undefined : <Timeline.Pin date={new Date()} />}
+                {props.hidePin ||
+                iDag < earliestStart ||
+                iDag > latestSlutt ? undefined : (
+                    <Timeline.Pin date={new Date()} />
+                )}
                 {undertemaer
                     .sort((a, b) => {
                         return a.id - b.id;

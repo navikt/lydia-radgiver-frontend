@@ -32,9 +32,7 @@ export const hentBakgrunnsFargeForIAStatus = (
     }
 };
 
-export function penskrivIAStatus(
-    status: IAProsessStatusType,
-): string {
+export function penskrivIAStatus(status: IAProsessStatusType): string {
     switch (status) {
         case IAProsessStatusEnum.enum.NY:
             return "Opprettet";
@@ -72,7 +70,6 @@ const StatusBadgeWrapper = styled.div`
     }
 `;
 
-
 export const hentBakgrunnsFargeForIAStatusNy = (
     status: IAProsessStatusType,
 ): TagProps["variant"] => {
@@ -102,8 +99,8 @@ export const NyttStatusBadge = ({ status }: Props) => {
         <Tag size="small" variant={hentBakgrunnsFargeForIAStatusNy(status)}>
             {penskrivIAStatus(status)}
         </Tag>
-    )
-}
+    );
+};
 
 export const StatusBadge = ({ status, ariaLive, ariaLabel }: Props) => (
     <StatusBadgeWrapper>

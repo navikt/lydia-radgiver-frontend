@@ -1,23 +1,23 @@
 export enum FiaFarger {
-    hvit = "#FFFFFF",       // white
-    lyseBlå = "#D8F9FF",    // lightblue300
-    mørkeBlå = "#CCE1FF",   // blue100
-    rød = "#EFA89D",        // red200
+    hvit = "#FFFFFF", // white
+    lyseBlå = "#D8F9FF", // lightblue300
+    mørkeBlå = "#CCE1FF", // blue100
+    rød = "#EFA89D", // red200
     grå = "#C9C9C9",
     lysGrå = "var(--surface-neutral-moderate, rgba(17, 41, 64, 0.13))",
-    grønn = "#99DEAD",      // green200
+    grønn = "#99DEAD", // green200
     lysGrønn = "var(--surface-success-moderate, #99DEAD)",
-    gul = "#FFD799",        // orange200
-    lilla = "var(--surface-alt-1-moderate, #C0B2D2)",      // purple100
+    gul = "#FFD799", // orange200
+    lilla = "var(--surface-alt-1-moderate, #C0B2D2)", // purple100
 }
 
 export enum GrafFarger {
-    data_1 = 'var(--a-data-surface-1)',
-    data_2 = 'var(--a-data-surface-2)',
-    data_3 = 'var(--a-data-surface-3)',
-    data_4 = 'var(--a-data-surface-4)',
-    data_5 = 'var(--a-data-surface-5)',
-    data_6 = 'var(--a-data-surface-6)',
+    data_1 = "var(--a-data-surface-1)",
+    data_2 = "var(--a-data-surface-2)",
+    data_3 = "var(--a-data-surface-3)",
+    data_4 = "var(--a-data-surface-4)",
+    data_5 = "var(--a-data-surface-5)",
+    data_6 = "var(--a-data-surface-6)",
 }
 
 // https://aksel.nav.no/designsystem/side/color

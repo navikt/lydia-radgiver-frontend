@@ -16,7 +16,12 @@ interface InputProps {
     onChange: EndreSykefraværsprosent;
 }
 
-function SykefraværsprosentInput({ value, label, hideLabel = false, onChange }: InputProps) {
+function SykefraværsprosentInput({
+    value,
+    label,
+    hideLabel = false,
+    onChange,
+}: InputProps) {
     return (
         <TallInput
             type={"number"}
@@ -28,8 +33,12 @@ function SykefraværsprosentInput({ value, label, hideLabel = false, onChange }:
             hideLabel={hideLabel}
             onChange={(e) => {
                 const inputString = e.target.value;
-                const regexForTallMellom0Og100MedEnDesimal = /^(100(\.0{1,2})?|[0-9]?\d(\.\d)?)$/;
-                if (regexForTallMellom0Og100MedEnDesimal.test(inputString) || inputString=== "") {
+                const regexForTallMellom0Og100MedEnDesimal =
+                    /^(100(\.0{1,2})?|[0-9]?\d(\.\d)?)$/;
+                if (
+                    regexForTallMellom0Og100MedEnDesimal.test(inputString) ||
+                    inputString === ""
+                ) {
                     onChange(parseFloat(inputString));
                 }
             }}
@@ -42,7 +51,10 @@ interface SykefraværsProsentProps {
     endre: EndreSykefraværsprosentRange;
 }
 
-export const SykefraværsprosentVelger = ({ sykefraværsprosentRange, endre }: SykefraværsProsentProps) => (
+export const SykefraværsprosentVelger = ({
+    sykefraværsprosentRange,
+    endre,
+}: SykefraværsProsentProps) => (
     <FraTilFieldset legend="Sykefravær (%)">
         <SykefraværsprosentInput
             value={sykefraværsprosentRange.fra}

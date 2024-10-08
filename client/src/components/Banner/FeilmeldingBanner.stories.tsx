@@ -12,7 +12,7 @@ export const Story = () => (
         <FeilmeldingBanner />
         <Button
             onClick={() => {
-                dispatchFeilmelding({feilmelding: "Det har skjedd en feil"});
+                dispatchFeilmelding({ feilmelding: "Det har skjedd en feil" });
             }}
         >
             Trigg feilmelding
@@ -25,7 +25,9 @@ export const SkikkeligLangFeilmelding = () => (
         <FeilmeldingBanner />
         <Button
             onClick={() => {
-                dispatchFeilmelding({feilmelding: "ChatGPT, oh ChatGPT\n" +
+                dispatchFeilmelding({
+                    feilmelding:
+                        "ChatGPT, oh ChatGPT\n" +
                         "With AI so smart\n" +
                         "But alas, it’s at capacity\n" +
                         "Leaving us to wait\n" +
@@ -39,7 +41,8 @@ export const SkikkeligLangFeilmelding = () => (
                         "For the day\n" +
                         "When ChatGPT\n" +
                         "Is ready to play\n" +
-                        "Again."});
+                        "Again.",
+                });
             }}
         >
             Trigg feilmelding

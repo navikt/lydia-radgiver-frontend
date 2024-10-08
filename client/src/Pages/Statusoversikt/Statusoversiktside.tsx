@@ -1,7 +1,10 @@
 import { useEffect, useState } from "react";
 import { BodyShort, Loader } from "@navikt/ds-react";
 import { Filtervisning } from "../Prioritering/Filter/Filtervisning";
-import { sammenliknFilterverdier, useFiltervisningState } from "../Prioritering/Filter/filtervisning-reducer";
+import {
+    sammenliknFilterverdier,
+    useFiltervisningState,
+} from "../Prioritering/Filter/filtervisning-reducer";
 import { useFilterverdier, useHentStatusoversikt } from "../../api/lydia-api";
 import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
@@ -11,7 +14,7 @@ import { loggSideLastet, Søkekomponenter } from "../../util/amplitude-klient";
 import { loggSøkMedFilterIAmplitude } from "../Prioritering/loggSøkMedFilterIAmplitude";
 
 export const Statusoversiktside = () => {
-    useTittel(statiskeSidetitler.statusoversiktside)
+    useTittel(statiskeSidetitler.statusoversiktside);
 
     const [skalSøke, setSkalSøke] = useState(false);
     const [statusoversiktListe, setStatusoversiktListe] =
@@ -25,7 +28,9 @@ export const Statusoversiktside = () => {
 
     const { data: filterverdier } = useFilterverdier();
     const filtervisning = useFiltervisningState();
-    const [gammelFilterState, setGammelFilterState] = useState(filtervisning.state);
+    const [gammelFilterState, setGammelFilterState] = useState(
+        filtervisning.state,
+    );
 
     const {
         data: statusoversiktResultatFraApi,
@@ -36,7 +41,6 @@ export const Statusoversiktside = () => {
         filterstate: filtervisning.state,
         initierSøk: skalSøke,
     });
-
 
     useEffect(() => {
         if (filterverdier && !filtervisningLoaded) {
@@ -54,15 +58,27 @@ export const Statusoversiktside = () => {
     }, [statusoversiktResultatFraApi]);
 
     const søkPåNytt = () => {
-        loggSøkMedFilterIAmplitude(filtervisning.state, Søkekomponenter.STATUSOVERSIKT)
+        loggSøkMedFilterIAmplitude(
+            filtervisning.state,
+            Søkekomponenter.STATUSOVERSIKT,
+        );
         setSkalSøke(true);
-    }
+    };
 
-    const harEndringIFilterverdi = sammenliknFilterverdier(gammelFilterState, filtervisning.state);
-    const [autosøktimer, setAutosøktimer] = useState<NodeJS.Timeout | undefined>();
+    const harEndringIFilterverdi = sammenliknFilterverdier(
+        gammelFilterState,
+        filtervisning.state,
+    );
+    const [autosøktimer, setAutosøktimer] = useState<
+        NodeJS.Timeout | undefined
+    >();
 
     useEffect(() => {
-        if (!harEndringIFilterverdi && !skalSøke && filtervisning.state.autosøk) {
+        if (
+            !harEndringIFilterverdi &&
+            !skalSøke &&
+            filtervisning.state.autosøk
+        ) {
             setGammelFilterState(filtervisning.state);
             clearTimeout(autosøktimer);
             setAutosøktimer(setTimeout(() => setSkalSøke(true), 500));
@@ -73,16 +89,21 @@ export const Statusoversiktside = () => {
         <SideContainer>
             <Filtervisning
                 filtervisning={filtervisning}
-                laster={validererStatusoversiktResultatFraApi || lasterStatusoversiktResultatFraApi}
+                laster={
+                    validererStatusoversiktResultatFraApi ||
+                    lasterStatusoversiktResultatFraApi
+                }
                 søkPåNytt={søkPåNytt}
                 maskerteFiltre={["IA_STATUS", "SNITTFILTER"]}
-                søkeknappTittel={'Hent statistikk'}
+                søkeknappTittel={"Hent statistikk"}
             />
             <br />
             {skalViseTabell ? (
                 <StatistikkTabell lederstatistikkListe={statusoversiktListe} />
             ) : (
-                harSøktMinstEnGang && !lasterStatusoversiktResultatFraApi && !error && <BodyShort>Søket ga ingen resultater</BodyShort>
+                harSøktMinstEnGang &&
+                !lasterStatusoversiktResultatFraApi &&
+                !error && <BodyShort>Søket ga ingen resultater</BodyShort>
             )}
             {lasterStatusoversiktResultatFraApi && (
                 <Loader
@@ -97,5 +118,5 @@ export const Statusoversiktside = () => {
                 </BodyShort>
             )}
         </SideContainer>
-    )
-}
+    );
+};

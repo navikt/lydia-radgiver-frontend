@@ -1,9 +1,6 @@
 import { IASak } from "../../../domenetyper/domenetyper";
 import { BodyShort, Button, HStack } from "@navikt/ds-react";
-import {
-    ChevronDownIcon,
-    CircleSlashIcon
-} from "@navikt/aksel-icons";
+import { ChevronDownIcon, CircleSlashIcon } from "@navikt/aksel-icons";
 import React, { useState } from "react";
 import TeamDropdown from "../../MineSaker/TeamDropdown";
 

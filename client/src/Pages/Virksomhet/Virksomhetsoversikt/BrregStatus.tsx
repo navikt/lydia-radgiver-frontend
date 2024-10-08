@@ -1,9 +1,12 @@
 import styled from "styled-components";
 import { Tag } from "@navikt/ds-react";
-import { VirksomhetStatusBrreg, VirksomhetStatusBrregEnum } from "../../../domenetyper/virksomhet";
+import {
+    VirksomhetStatusBrreg,
+    VirksomhetStatusBrregEnum,
+} from "../../../domenetyper/virksomhet";
 
 const BrregStatusTag = styled(Tag)`
-  align-self: center;
+    align-self: center;
 `;
 
 interface Props {
@@ -17,11 +20,11 @@ export const BrregStatus = ({ status }: Props) => {
 
     const capitalizeFirstLetterOnly = (string: string) => {
         return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-    }
+    };
 
     return (
         <BrregStatusTag variant="neutral">
             {`${capitalizeFirstLetterOnly(status)} hos Brønnøysundregistrene`}
         </BrregStatusTag>
     );
-}
+};

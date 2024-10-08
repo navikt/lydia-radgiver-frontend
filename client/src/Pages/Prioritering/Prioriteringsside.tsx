@@ -2,9 +2,16 @@ import { useEffect, useState } from "react";
 import { BodyShort, Loader, SortState } from "@navikt/ds-react";
 import { Filtervisning } from "./Filter/Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
-import { useFilterverdier, useHentAntallTreff, useHentVirksomhetsoversiktListe, } from "../../api/lydia-api";
+import {
+    useFilterverdier,
+    useHentAntallTreff,
+    useHentVirksomhetsoversiktListe,
+} from "../../api/lydia-api";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
-import { sammenliknFilterverdier, useFiltervisningState } from "./Filter/filtervisning-reducer";
+import {
+    sammenliknFilterverdier,
+    useFiltervisningState,
+} from "./Filter/filtervisning-reducer";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { SideContainer } from "../../styling/containere";
 import { loggSideLastet, Søkekomponenter } from "../../util/amplitude-klient";
@@ -21,14 +28,18 @@ export const Prioriteringsside = () => {
     });
 
     const [skalSøke, setSkalSøke] = useState(false);
-    const [virksomhetsoversiktListe, setVirksomhetsoversiktListe] = useState<Virksomhetsoversikt[]>();
-    const [totaltAntallTreff, setTotaltAntallTreff] = useState<number>()
+    const [virksomhetsoversiktListe, setVirksomhetsoversiktListe] =
+        useState<Virksomhetsoversikt[]>();
+    const [totaltAntallTreff, setTotaltAntallTreff] = useState<number>();
     const [filtervisningLoaded, setFiltervisningLoaded] = useState(false);
-    const {data: filterverdier} = useFilterverdier();
+    const { data: filterverdier } = useFilterverdier();
     const filtervisning = useFiltervisningState();
     const harSøktMinstEnGang = virksomhetsoversiktListe !== undefined;
-    const fantResultaterISøk = harSøktMinstEnGang && virksomhetsoversiktListe.length > 0;
-    const [gammelFilterState, setGammelFilterState] = useState(filtervisning.state);
+    const fantResultaterISøk =
+        harSøktMinstEnGang && virksomhetsoversiktListe.length > 0;
+    const [gammelFilterState, setGammelFilterState] = useState(
+        filtervisning.state,
+    );
 
     const {
         data: virksomhetsoversiktListeRespons,
@@ -40,11 +51,10 @@ export const Prioriteringsside = () => {
         initierSøk: skalSøke,
     });
 
-    const skalViseTabell = fantResultaterISøk && !lasterVirksomhetsoversiktListe;
+    const skalViseTabell =
+        fantResultaterISøk && !lasterVirksomhetsoversiktListe;
 
-    const {
-        data: antallTreff,
-    } = useHentAntallTreff({
+    const { data: antallTreff } = useHentAntallTreff({
         filterstate: filtervisning.state,
         initierSøk: skalSøke,
     });
@@ -53,11 +63,11 @@ export const Prioriteringsside = () => {
         if (virksomhetsoversiktListeRespons && antallTreff !== undefined) {
             setSkalSøke(false);
         }
-    }
+    };
 
     useEffect(() => {
         if (filterverdier && !filtervisningLoaded) {
-            filtervisning.lastData({filterverdier});
+            filtervisning.lastData({ filterverdier });
             setFiltervisningLoaded(true);
             loggSideLastet("Prioriteringsside");
         }
@@ -66,20 +76,23 @@ export const Prioriteringsside = () => {
     useEffect(() => {
         if (virksomhetsoversiktListeRespons) {
             setVirksomhetsoversiktListe(virksomhetsoversiktListeRespons.data);
-            stoppSøkingOmViHarFåttSvarPåAlt()
+            stoppSøkingOmViHarFåttSvarPåAlt();
         }
     }, [virksomhetsoversiktListeRespons]);
 
     useEffect(() => {
         if (antallTreff !== undefined) {
             setTotaltAntallTreff(antallTreff);
-            stoppSøkingOmViHarFåttSvarPåAlt()
+            stoppSøkingOmViHarFåttSvarPåAlt();
         }
     }, [antallTreff]);
 
     function oppdaterSide(side: number, sortering?: SortState) {
-        loggSøkMedFilterIAmplitude(filtervisning.state, Søkekomponenter.PRIORITERING)
-        setVirksomhetsoversiktListe(undefined)
+        loggSøkMedFilterIAmplitude(
+            filtervisning.state,
+            Søkekomponenter.PRIORITERING,
+        );
+        setVirksomhetsoversiktListe(undefined);
 
         filtervisning.oppdaterSide({
             side,
@@ -88,24 +101,35 @@ export const Prioriteringsside = () => {
         setSkalSøke(true);
     }
 
-    const harEndringIFilterverdi = sammenliknFilterverdier(gammelFilterState, filtervisning.state);
-    const [autosøktimer, setAutosøktimer] = useState<NodeJS.Timeout | undefined>();
+    const harEndringIFilterverdi = sammenliknFilterverdier(
+        gammelFilterState,
+        filtervisning.state,
+    );
+    const [autosøktimer, setAutosøktimer] = useState<
+        NodeJS.Timeout | undefined
+    >();
 
     useEffect(() => {
-        if (!harEndringIFilterverdi && !skalSøke && filtervisning.state.autosøk) {
+        if (
+            !harEndringIFilterverdi &&
+            !skalSøke &&
+            filtervisning.state.autosøk
+        ) {
             const gammelSide = gammelFilterState.side;
             setGammelFilterState(filtervisning.state);
             clearTimeout(autosøktimer);
-            setAutosøktimer(setTimeout(() => {
-                setVirksomhetsoversiktListe(undefined);
+            setAutosøktimer(
+                setTimeout(() => {
+                    setVirksomhetsoversiktListe(undefined);
 
-                if (gammelSide === filtervisning.state.side) {
-                    filtervisning.oppdaterSide({
-                        side: 1,
-                    });
-                }
-                setSkalSøke(true);
-            }, 500));
+                    if (gammelSide === filtervisning.state.side) {
+                        filtervisning.oppdaterSide({
+                            side: 1,
+                        });
+                    }
+                    setSkalSøke(true);
+                }, 500),
+            );
         }
     }, [harEndringIFilterverdi, skalSøke, filtervisning.state.autosøk]);
 
@@ -113,9 +137,12 @@ export const Prioriteringsside = () => {
         <SideContainer>
             <Filtervisning
                 filtervisning={filtervisning}
-                laster={validererVirksomhetsoversiktListe || lasterVirksomhetsoversiktListe}
+                laster={
+                    validererVirksomhetsoversiktListe ||
+                    lasterVirksomhetsoversiktListe
+                }
                 søkPåNytt={() => {
-                    setTotaltAntallTreff(undefined)
+                    setTotaltAntallTreff(undefined);
                     oppdaterSide(1);
                 }}
             />
@@ -135,8 +162,10 @@ export const Prioriteringsside = () => {
                     totaltAntallTreff={totaltAntallTreff}
                 />
             ) : (
-                harSøktMinstEnGang && !lasterVirksomhetsoversiktListe &&
-                <BodyShort>Søket ga ingen resultater</BodyShort>
+                harSøktMinstEnGang &&
+                !lasterVirksomhetsoversiktListe && (
+                    <BodyShort>Søket ga ingen resultater</BodyShort>
+                )
             )}
             <div>
                 {lasterVirksomhetsoversiktListe && (

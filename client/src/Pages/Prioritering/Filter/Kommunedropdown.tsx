@@ -1,6 +1,9 @@
 import { CSSProperties } from "react";
 import { Label } from "@navikt/ds-react";
-import { reactSelectStyle, StyledReactSelect } from "../../../components/ReactSelect/StyledReactSelect";
+import {
+    reactSelectStyle,
+    StyledReactSelect,
+} from "../../../components/ReactSelect/StyledReactSelect";
 import { sorterAlfabetisk } from "../../../util/sortering";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 
@@ -13,14 +16,19 @@ interface Props {
     style?: CSSProperties;
 }
 
-export const Kommunedropdown = ({ relevanteFylkerMedKommuner, endreKommuner, valgteKommuner = [], style, }: Props) => {
+export const Kommunedropdown = ({
+    relevanteFylkerMedKommuner,
+    endreKommuner,
+    valgteKommuner = [],
+    style,
+}: Props) => {
     const sorterteKommuner = relevanteFylkerMedKommuner.map(
         (fylkeMedKommuner) => ({
             label: fylkeMedKommuner.fylke.navn,
             options: fylkeMedKommuner.kommuner.sort((k1, k2) =>
-                sorterAlfabetisk(k1.navn, k2.navn)
+                sorterAlfabetisk(k1.navn, k2.navn),
             ),
-        })
+        }),
     );
 
     return (
@@ -33,9 +41,9 @@ export const Kommunedropdown = ({ relevanteFylkerMedKommuner, endreKommuner, val
                 noOptionsMessage={() => "Ingen kommuner å velge"}
                 options={sorterteKommuner}
                 getOptionLabel={(v) => {
-                    const kommune = (v as Kommune)
+                    const kommune = v as Kommune;
                     if (kommune.navn !== kommune.navnNorsk)
-                        return `${kommune.navn} (${kommune.navnNorsk})`
+                        return `${kommune.navn} (${kommune.navnNorsk})`;
                     return kommune.navn;
                 }}
                 getOptionValue={(v) => (v as Kommune).nummer}

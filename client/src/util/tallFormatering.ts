@@ -1,7 +1,7 @@
 const integerFormatter = new Intl.NumberFormat("nb-NO", {
     maximumFractionDigits: 0,
-    style: "decimal"
-})
+    style: "decimal",
+});
 
 const enDesimalFormatter = new Intl.NumberFormat("nb-NO", {
     minimumFractionDigits: 1,
@@ -9,5 +9,7 @@ const enDesimalFormatter = new Intl.NumberFormat("nb-NO", {
     style: "decimal",
 });
 
-export const formaterSomHeltall = (value: number) => integerFormatter.format(value)
-export const formaterSomProsentMedEnDesimal = (value: number) => `${enDesimalFormatter.format(value)} %`
+export const formaterSomHeltall = (value: number) =>
+    integerFormatter.format(value);
+export const formaterSomProsentMedEnDesimal = (value: number) =>
+    `${enDesimalFormatter.format(value)} %`;

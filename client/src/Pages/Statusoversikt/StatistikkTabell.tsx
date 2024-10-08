@@ -9,7 +9,7 @@ const Tabell = styled(Table)`
 `;
 
 interface Props {
-    lederstatistikkListe: Statusoversikt[]
+    lederstatistikkListe: Statusoversikt[];
 }
 
 export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
@@ -18,18 +18,23 @@ export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Status</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">Antall bedrifter</Table.HeaderCell>
+                    <Table.HeaderCell scope="col">
+                        Antall bedrifter
+                    </Table.HeaderCell>
                 </Table.Row>
             </Table.Header>
             <Table.Body>
                 {lederstatistikkListe?.map(({ status, antall }, i) => {
                     return (
                         <Table.Row key={i + status}>
-                            <Table.HeaderCell scope="row"><StatusBadge status={status} /></Table.HeaderCell>
+                            <Table.HeaderCell scope="row">
+                                <StatusBadge status={status} />
+                            </Table.HeaderCell>
                             <Table.DataCell>{antall}</Table.DataCell>
                         </Table.Row>
                     );
                 })}
             </Table.Body>
-        </Tabell>)
-}
+        </Tabell>
+    );
+};

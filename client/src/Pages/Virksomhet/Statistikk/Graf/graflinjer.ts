@@ -10,10 +10,10 @@ export const enum Grafer {
 }
 
 export interface Graflinje {
-    navn: string,
-    farge: GrafFarger,
-    symbol: GrafSymboler,
-    rekkefølge: number,
+    navn: string;
+    farge: GrafFarger;
+    symbol: GrafSymboler;
+    rekkefølge: number;
 }
 
 export const graflinjer: { [key: string]: Graflinje } = {
@@ -47,10 +47,13 @@ export const graflinjer: { [key: string]: Graflinje } = {
         symbol: "square",
         rekkefølge: 4,
     },
-}
+};
 
-export const grafrekkefølge = (a: [string, Graflinje], b: [string, Graflinje]) => {
+export const grafrekkefølge = (
+    a: [string, Graflinje],
+    b: [string, Graflinje],
+) => {
     // a og b er ei liste av key:string og value:Graflinje laga med Object.entries(graflinjer)
     // for å samanlikne sortering må vi sjå på indeks 1 i a og b.
-    return b[1].rekkefølge - a[1].rekkefølge
-}
+    return b[1].rekkefølge - a[1].rekkefølge;
+};

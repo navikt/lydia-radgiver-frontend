@@ -19,13 +19,15 @@ export const FullførKartleggingerFørstModal = ({
         <StyledModal
             open={visModal}
             onClose={lukkModal}
-            header={{ heading: "Saken har behovsvurderinger som ikke er fullført" }}
+            header={{
+                heading: "Saken har behovsvurderinger som ikke er fullført",
+            }}
         >
             <Modal.Body>
                 <BodyLong>
                     For å gå videre må du fullføre behovsvurderingene. Hvis en
-                    behovsvurdering ikke skal eller kan gjennomføres likevel må du
-                    slette den før du kan gå videre.
+                    behovsvurdering ikke skal eller kan gjennomføres likevel må
+                    du slette den før du kan gå videre.
                 </BodyLong>
                 <br />
                 <ModalKnapper>

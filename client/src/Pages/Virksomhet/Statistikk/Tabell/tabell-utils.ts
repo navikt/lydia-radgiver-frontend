@@ -1,9 +1,12 @@
-export const formaterProsent = (prosent?: {erMaskert: boolean, prosent: number}): string => {
+export const formaterProsent = (prosent?: {
+    erMaskert: boolean;
+    prosent: number;
+}): string => {
     if (prosent?.erMaskert) {
-        return '***';
+        return "***";
     } else if (prosent?.prosent === undefined) {
-        return '';
+        return "";
     } else {
-        return (prosent?.prosent + ' %')?.replace('.', ',');
+        return (prosent?.prosent + " %")?.replace(".", ",");
     }
 };

@@ -9,7 +9,7 @@ const sistePubliserteKvartalSchema = z.object({
     muligeDagsverk: z.number().nullable(),
     antallPersoner: z.number().int().nullable(),
     erMaskert: z.boolean(),
-})
+});
 
 const siste4KvartalSchema = z.object({
     prosent: z.number().nullable(),
@@ -17,7 +17,7 @@ const siste4KvartalSchema = z.object({
     muligeDagsverk: z.number().nullable(),
     erMaskert: z.boolean(),
     kvartaler: z.array(kvartalSchema),
-})
+});
 
 export const bransjestatistikkSchema = z.object({
     bransje: z.string(),
@@ -25,7 +25,7 @@ export const bransjestatistikkSchema = z.object({
     siste4Kvartal: siste4KvartalSchema,
 });
 
-export type Bransjestatistikk = z.infer<typeof bransjestatistikkSchema>
+export type Bransjestatistikk = z.infer<typeof bransjestatistikkSchema>;
 
 export const næringsstatistikkSchema = z.object({
     næring: z.string(),
@@ -33,4 +33,4 @@ export const næringsstatistikkSchema = z.object({
     siste4Kvartal: siste4KvartalSchema,
 });
 
-export type Næringsstatistikk = z.infer<typeof næringsstatistikkSchema>
+export type Næringsstatistikk = z.infer<typeof næringsstatistikkSchema>;

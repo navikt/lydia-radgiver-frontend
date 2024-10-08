@@ -8,13 +8,17 @@ const meta = {
 } satisfies Meta<typeof BegrunnelseModal>;
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Hovedstory: Story = {
     args: {
         hendelse: ikkeAktuellHendelseMock,
         åpen: true,
-        lagre: () => {return},
-        onClose: () => {return}
-    }
-}
+        lagre: () => {
+            return;
+        },
+        onClose: () => {
+            return;
+        },
+    },
+};

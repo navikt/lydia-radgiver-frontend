@@ -19,25 +19,32 @@ import { contentSpacing } from "../../styling/contentSpacing";
  *
  * */
 export const ScrollUtTilKantenContainer = styled.div<OffsetProps>`
-  overflow-x: auto;
+    overflow-x: auto;
 
-  /* Vi strekk komponenten heilt ut til venstre kant med margin, 
+    /* Vi strekk komponenten heilt ut til venstre kant med margin, 
    * og dyttar innhaldet tilbake til startpunktet med padding */
-  margin-left: calc(-${contentSpacing.mobileX} + ${(props) => props.$offsetLeft * -1}rem);
-  padding-left: calc(${contentSpacing.mobileX} + ${(props) => props.$offsetLeft}rem);
+    margin-left: calc(
+        -${contentSpacing.mobileX} + ${(props) => props.$offsetLeft * -1}rem
+    );
+    padding-left: calc(
+        ${contentSpacing.mobileX} + ${(props) => props.$offsetLeft}rem
+    );
 
-  margin-right: calc(-${contentSpacing.mobileX} + ${(props) => props.$offsetRight * -1}rem);
-  padding-right: calc(${contentSpacing.mobileX} + ${(props) => props.$offsetRight}rem);
-  
-  // For at div-en ikkje skal kutte skuggar har vi lagt på 24px "minus-margin-plus-padding". 
-  // Den største skuggen i designsystemet per 2023-12-19 er 24px, difor er denne verdien brukt.
-  margin-top: -24px;
-  padding-top: 24px;
-  margin-bottom: -24px;
-  padding-bottom: 24px;
+    margin-right: calc(
+        -${contentSpacing.mobileX} + ${(props) => props.$offsetRight * -1}rem
+    );
+    padding-right: calc(
+        ${contentSpacing.mobileX} + ${(props) => props.$offsetRight}rem
+    );
 
-  
-  /* Firefox har per 2023-12-15 ein bug som gjer at padding ikkje vert inkludert i den utrekna breidda av element,
+    // For at div-en ikkje skal kutte skuggar har vi lagt på 24px "minus-margin-plus-padding".
+    // Den største skuggen i designsystemet per 2023-12-19 er 24px, difor er denne verdien brukt.
+    margin-top: -24px;
+    padding-top: 24px;
+    margin-bottom: -24px;
+    padding-bottom: 24px;
+
+    /* Firefox har per 2023-12-15 ein bug som gjer at padding ikkje vert inkludert i den utrekna breidda av element,
    * til trass for at ein bruker border-box som boksmodell. 
    * Den fyrste registreringa av buggen er frå 2012: https://bugzilla.mozilla.org/show_bug.cgi?id=748518. 
    *
@@ -47,15 +54,15 @@ export const ScrollUtTilKantenContainer = styled.div<OffsetProps>`
    * Dette er reint pirk, brukarane av Fia brukar per 2023 Chrome eller Edge. 
    * Sidan eg sjølv testar i Firefox syntes eg dette var ei spanande utfordring å løyse.
    */
-  @-moz-document url-prefix() {
-    display: flex; // viser innhaldet som ei flex-rad.
+    @-moz-document url-prefix() {
+        display: flex; // viser innhaldet som ei flex-rad.
 
-    & > *::after {
-      content: "";
-      width: ${(props) => props.$offsetRight}rem;
-      visibility: hidden;
+        & > *::after {
+            content: "";
+            width: ${(props) => props.$offsetRight}rem;
+            visibility: hidden;
+        }
     }
-  }
 `;
 
 interface OffsetProps {

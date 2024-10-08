@@ -20,29 +20,31 @@ const dummyLocalStorage: FiltervisningState = {
             nummer: "3452",
         },
     ],
-    valgteFylker: [{
-        fylke: {
-            nummer: "34",
-            navn: "Innlandet",
+    valgteFylker: [
+        {
+            fylke: {
+                nummer: "34",
+                navn: "Innlandet",
+            },
+            kommuner: [
+                {
+                    navn: "Nord-Aurdal",
+                    navnNorsk: "Nord-Aurdal",
+                    nummer: "3451",
+                },
+                {
+                    navn: "Vestre Slidre",
+                    navnNorsk: "Vestre Slidre",
+                    nummer: "3452",
+                },
+                {
+                    navn: "Øystre Slidre",
+                    navnNorsk: "Øystre Slidre",
+                    nummer: "3453",
+                },
+            ],
         },
-        kommuner: [
-            {
-                navn: "Nord-Aurdal",
-                navnNorsk: "Nord-Aurdal",
-                nummer: "3451",
-            },
-            {
-                navn: "Vestre Slidre",
-                navnNorsk: "Vestre Slidre",
-                nummer: "3452",
-            },
-            {
-                navn: "Øystre Slidre",
-                navnNorsk: "Øystre Slidre",
-                nummer: "3453",
-            },
-        ],
-    }],
+    ],
     antallArbeidsforhold: {
         fra: 5,
         til: 25,
@@ -138,7 +140,7 @@ describe("Lasting av søkeparametre fra localstorage", () => {
                             },
                         ],
                     },
-                ]
+                ],
             }),
         );
         filterstateFraLokalstorage(filterverdierMock);
@@ -152,7 +154,9 @@ describe("Lasting av søkeparametre fra localstorage", () => {
             JSON.stringify(dummyLocalStorage),
         );
         filterstateFraLokalstorage(filterverdierMock);
-        const fraLS = JSON.parse(window.localStorage.getItem("lokalFiltervisningState") ?? "");
+        const fraLS = JSON.parse(
+            window.localStorage.getItem("lokalFiltervisningState") ?? "",
+        );
         expect(fraLS).toEqual(dummyLocalStorage);
     });
 });

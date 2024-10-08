@@ -3,27 +3,31 @@ import { Virksomhet } from "../../domenetyper/virksomhet";
 import { IASak } from "../../domenetyper/domenetyper";
 
 export type VirksomhetContextType = {
-	virksomhet: Virksomhet;
-	iaSak?: IASak;
-	lasterIaSak: boolean;
-	fane: string;
-	setFane: (fane: string) => void;
-	kartleggingId: string | null;
-	setVisKonfetti: (visKonfetti: boolean) => void;
-	visKonfetti: boolean;
+    virksomhet: Virksomhet;
+    iaSak?: IASak;
+    lasterIaSak: boolean;
+    fane: string;
+    setFane: (fane: string) => void;
+    kartleggingId: string | null;
+    setVisKonfetti: (visKonfetti: boolean) => void;
+    visKonfetti: boolean;
 };
 
-const VirksomhetContext = React.createContext<VirksomhetContextType | null>(null);
+const VirksomhetContext = React.createContext<VirksomhetContextType | null>(
+    null,
+);
 
 export function useVirksomhetContext(): VirksomhetContextType {
-	const context = React.useContext(VirksomhetContext);
+    const context = React.useContext(VirksomhetContext);
 
-	if (!context) {
-		//TODO: Trenger vi noe error boundary her?
-		throw new Error("useVirksomhetContext må brukes innenfor en VirksomhetContextProvider");
-	}
+    if (!context) {
+        //TODO: Trenger vi noe error boundary her?
+        throw new Error(
+            "useVirksomhetContext må brukes innenfor en VirksomhetContextProvider",
+        );
+    }
 
-	return context;
+    return context;
 }
 
 export default VirksomhetContext;

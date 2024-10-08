@@ -38,7 +38,10 @@ function SamarbeidsplanHeading({
             </HStack>
 
             {samarbeidsplan && (
-                <EksportVisning samarbeidsplan={samarbeidsplan} samarbeid={samarbeid} />
+                <EksportVisning
+                    samarbeidsplan={samarbeidsplan}
+                    samarbeid={samarbeid}
+                />
             )}
         </HStack>
     );
@@ -79,7 +82,8 @@ export default function SamarbeidsplanFane({
                 <SamarbeidsplanHeading samarbeid={samarbeid} />
                 {!brukerErEierAvSak && (
                     <BodyShort>
-                        Du må være eier av saken for å opprette ny behovsvurdering
+                        Du må være eier av saken for å opprette ny
+                        behovsvurdering
                     </BodyShort>
                 )}
                 {!sakErIRettStatus && (

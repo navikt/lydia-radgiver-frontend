@@ -33,7 +33,6 @@ const TittelMedHelpTextContainer = styled(BodyShort).attrs({ as: "dt" })`
     gap: 0.5rem;
 `;
 
-
 interface PopoverInnholdProps {
     virksomhet: Virksomhet;
     iaSak?: IASak;
@@ -50,16 +49,27 @@ export const VirksomhetsInfoPopoverInnhold = ({
         return lowerCasedLabel[0].toUpperCase() + lowerCasedLabel.slice(1);
     };
 
-
-
     return (
         <Popover.Content>
             <Info className={className}>
                 <Infolinje tittel="Saksnummer" data={sak?.saksnummer} />
                 <Infolinje tittel="Orgnummer" data={virksomhet.orgnr} />
-                <Infolinje tittel="Adresse" data={`${adresse}, ${virksomhet.postnummer} ${virksomhet.poststed}`} />
-                <Infolinje tittel="Bransje" data={virksomhet.bransje ? capitalizedLabel(virksomhet.bransje) : undefined} />
-                <Infolinje tittel="Næring" data={`${virksomhet.næring.navn} (${virksomhet.næring.kode})`} />
+                <Infolinje
+                    tittel="Adresse"
+                    data={`${adresse}, ${virksomhet.postnummer} ${virksomhet.poststed}`}
+                />
+                <Infolinje
+                    tittel="Bransje"
+                    data={
+                        virksomhet.bransje
+                            ? capitalizedLabel(virksomhet.bransje)
+                            : undefined
+                    }
+                />
+                <Infolinje
+                    tittel="Næring"
+                    data={`${virksomhet.næring.navn} (${virksomhet.næring.kode})`}
+                />
                 <NæringsgruppeInfolinje virksomhet={virksomhet} />
                 <Infolinje tittel="Sektor" data={virksomhet.sektor} />
                 <PartneravtaleInfolinje virksomhet={virksomhet} />
@@ -68,8 +78,13 @@ export const VirksomhetsInfoPopoverInnhold = ({
     );
 };
 
-
-function Infolinje({ tittel, data }: { tittel: string; data?: string | string[] }) {
+function Infolinje({
+    tittel,
+    data,
+}: {
+    tittel: string;
+    data?: string | string[];
+}) {
     if (!data) {
         return null;
     }
@@ -78,11 +93,12 @@ function Infolinje({ tittel, data }: { tittel: string; data?: string | string[] 
         return (
             <>
                 <InfoTittel>{tittel}</InfoTittel>
-                {
-                    data.map((d, i) => (
-                        <InfoData key={i}>{d}{i + 1 < data.length ? "," : undefined}</InfoData>
-                    ))
-                }
+                {data.map((d, i) => (
+                    <InfoData key={i}>
+                        {d}
+                        {i + 1 < data.length ? "," : undefined}
+                    </InfoData>
+                ))}
             </>
         );
     }
@@ -96,17 +112,25 @@ function Infolinje({ tittel, data }: { tittel: string; data?: string | string[] 
 }
 
 function NæringsgruppeInfolinje({ virksomhet }: { virksomhet: Virksomhet }) {
-    const næringsgrupper = [`${virksomhet.næringsundergruppe1.navn} (${virksomhet.næringsundergruppe1.kode})`];
+    const næringsgrupper = [
+        `${virksomhet.næringsundergruppe1.navn} (${virksomhet.næringsundergruppe1.kode})`,
+    ];
     if (virksomhet.næringsundergruppe2) {
-        næringsgrupper.push(`${virksomhet.næringsundergruppe2.navn} (${virksomhet.næringsundergruppe2.kode})`);
+        næringsgrupper.push(
+            `${virksomhet.næringsundergruppe2.navn} (${virksomhet.næringsundergruppe2.kode})`,
+        );
 
         if (virksomhet.næringsundergruppe3) {
-            næringsgrupper.push(`${virksomhet.næringsundergruppe3.navn} (${virksomhet.næringsundergruppe3.kode})`);
-
+            næringsgrupper.push(
+                `${virksomhet.næringsundergruppe3.navn} (${virksomhet.næringsundergruppe3.kode})`,
+            );
         }
     }
     return (
-        <Infolinje tittel={`Næringsundergruppe${virksomhet.næringsundergruppe2 ? "r" : ""}`} data={næringsgrupper} />
+        <Infolinje
+            tittel={`Næringsundergruppe${virksomhet.næringsundergruppe2 ? "r" : ""}`}
+            data={næringsgrupper}
+        />
     );
 }
 
@@ -118,7 +142,6 @@ function PartneravtaleInfolinje({ virksomhet }: { virksomhet: Virksomhet }) {
     }
 
     return (
-
         <>
             <TittelMedHelpTextContainer>
                 <span>Partner avtale</span>

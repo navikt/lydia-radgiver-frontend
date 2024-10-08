@@ -9,6 +9,8 @@ export const virksomhetsstatistikkSiste4KvartalerSchema = z.object({
     tapteDagsverk: z.number(),
     antallKvartaler: z.number(),
     kvartaler: z.array(kvartalSchema),
-})
+});
 
-export type VirksomhetsstatistikkSiste4Kvartaler = z.infer<typeof virksomhetsstatistikkSiste4KvartalerSchema>;
+export type VirksomhetsstatistikkSiste4Kvartaler = z.infer<
+    typeof virksomhetsstatistikkSiste4KvartalerSchema
+>;

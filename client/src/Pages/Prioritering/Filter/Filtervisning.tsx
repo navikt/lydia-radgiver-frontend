@@ -14,39 +14,42 @@ import { SektorDropdown } from "./SektorDropdown";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { useSearchParams } from "react-router-dom";
-import { loggTogglingAvAutosøk, loggTømmingAvFilterverdier } from "../../../util/amplitude-klient";
+import {
+    loggTogglingAvAutosøk,
+    loggTømmingAvFilterverdier,
+} from "../../../util/amplitude-klient";
 import { FylkeMultidropdown } from "./FylkeMultidropdown";
 
 const Skjema = styled.form`
-  padding: 1rem;
-  ${hvitBoksMedSkygge}
+    padding: 1rem;
+    ${hvitBoksMedSkygge}
 `;
 
 const Rad = styled.div`
-  display: flex;
-  column-gap: 3rem;
-  row-gap: ${24 / 16}rem;
-  flex-wrap: wrap;
-  flex-direction: column;
+    display: flex;
+    column-gap: 3rem;
+    row-gap: ${24 / 16}rem;
+    flex-wrap: wrap;
+    flex-direction: column;
 
-  ${tabletAndUp} {
-    flex-direction: row;
-    align-items: start;
-  }
+    ${tabletAndUp} {
+        flex-direction: row;
+        align-items: start;
+    }
 `;
 
 const KnappeWrapper = styled.div`
-  align-self: end;
-  margin-left: auto;
+    align-self: end;
+    margin-left: auto;
 
-  display: flex;
-  gap: 1.5rem;
+    display: flex;
+    gap: 1.5rem;
 
-  height: fit-content;
+    height: fit-content;
 `;
 
 const Søkeknapp = styled(Button)`
-  width: 10rem;
+    width: 10rem;
 `;
 
 type Filtervisning = Omit<
@@ -62,7 +65,7 @@ interface FiltervisningProps {
     maskerteFiltre?: Filter[];
     søkeknappTittel?: string;
     className?: string;
-    laster?: boolean,
+    laster?: boolean;
 }
 
 export const Filtervisning = ({
@@ -90,9 +93,8 @@ export const Filtervisning = ({
     } = filtervisning;
 
     const endreSektor = (sektor: string) => {
-        oppdaterSektorer({ sektor })
-    }
-
+        oppdaterSektorer({ sektor });
+    };
 
     const endrerFylker = (fylker: FylkeMedKommuner[]) => {
         oppdaterFylker({ fylker });
@@ -134,16 +136,14 @@ export const Filtervisning = ({
     };
 
     const skalFilterVises = (filter: Filter): boolean => {
-        return maskerteFiltre ?
-            !maskerteFiltre.includes(filter)
-            : true;
-    }
+        return maskerteFiltre ? !maskerteFiltre.includes(filter) : true;
+    };
 
     const harFilterÅTømme = søkeparametre.size > 0;
     const tømFilter = () => {
-        tilbakestill()
-        loggTømmingAvFilterverdier()
-    }
+        tilbakestill();
+        loggTømmingAvFilterverdier();
+    };
 
     return (
         <Skjema className={className} onSubmit={(e) => e.preventDefault()}>
@@ -166,7 +166,7 @@ export const Filtervisning = ({
                     relevanteFylkerMedKommuner={
                         state.valgteFylker && state.valgteFylker.length > 0
                             ? state.valgteFylker
-                            : state.filterverdier?.fylker ?? []
+                            : (state.filterverdier?.fylker ?? [])
                     }
                     valgteKommuner={state.kommuner}
                     endreKommuner={endreKommuner}
@@ -194,10 +194,12 @@ export const Filtervisning = ({
                     sykefraværsprosentRange={state.sykefraværsprosent}
                     endre={endreSykefraværsprosent}
                 />
-                {skalFilterVises("SNITTFILTER") &&
-                    <BransjeEllerNæringDropdown valgtSnittfilter={state.valgtSnittfilter}
-                        endreSnittfilter={endreSnittfilter} />
-                }
+                {skalFilterVises("SNITTFILTER") && (
+                    <BransjeEllerNæringDropdown
+                        valgtSnittfilter={state.valgtSnittfilter}
+                        endreSnittfilter={endreSnittfilter}
+                    />
+                )}
                 <AntallArbeidsforholdVelger
                     antallArbeidsforhold={state.antallArbeidsforhold}
                     endreAntallArbeidsforhold={endreAntallArbeidsforhold}
@@ -205,14 +207,14 @@ export const Filtervisning = ({
             </Rad>
             <br />
             <Rad>
-                {skalFilterVises("IA_STATUS") &&
+                {skalFilterVises("IA_STATUS") && (
                     <IAStatusDropdown
                         endreStatus={endreStatus}
                         statuser={state.filterverdier?.statuser ?? []}
                         valgtStatus={state.iaStatus}
                     />
-                }
-                {skalFilterVises("EIER") &&
+                )}
+                {skalFilterVises("EIER") && (
                     <EierDropdown
                         filtrerbareEiere={
                             state.filterverdier?.filtrerbareEiere ?? []
@@ -220,21 +222,32 @@ export const Filtervisning = ({
                         eiere={state.eiere}
                         onEierBytteCallback={endreEiere}
                     />
-                }
+                )}
                 <KnappeWrapper>
-                    {harFilterÅTømme &&
-                        <Button type="button" size="medium" variant="tertiary" onClick={tømFilter}>
+                    {harFilterÅTømme && (
+                        <Button
+                            type="button"
+                            size="medium"
+                            variant="tertiary"
+                            onClick={tømFilter}
+                        >
                             Tøm filter
                         </Button>
-                    }
-                    <Checkbox checked={state.autosøk} onClick={
-
-                        () => {
+                    )}
+                    <Checkbox
+                        checked={state.autosøk}
+                        onClick={() => {
                             endreAutosøk(!state.autosøk);
-                        }
-                    }>Autosøk</Checkbox>
-                    <Søkeknapp size="medium" onClick={søkPåNytt} loading={laster}>
-                        {søkeknappTittel ? søkeknappTittel : 'Søk'}
+                        }}
+                    >
+                        Autosøk
+                    </Checkbox>
+                    <Søkeknapp
+                        size="medium"
+                        onClick={søkPåNytt}
+                        loading={laster}
+                    >
+                        {søkeknappTittel ? søkeknappTittel : "Søk"}
                     </Søkeknapp>
                 </KnappeWrapper>
             </Rad>

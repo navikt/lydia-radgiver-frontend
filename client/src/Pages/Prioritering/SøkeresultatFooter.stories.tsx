@@ -15,38 +15,46 @@ interface Props {
     totaltAntallTreff?: number;
 }
 
-const Template: StoryFn<typeof SøkeresultatFooter> = ({totaltAntallTreff}: Props) => {
+const Template: StoryFn<typeof SøkeresultatFooter> = ({
+    totaltAntallTreff,
+}: Props) => {
     const [side, setSide] = useState(1);
     const antallTreffPåSide = side === 10 ? 10 : ANTALL_RESULTATER_PER_SIDE;
 
     const endreSide = (side: number) => {
-        setSide(side)
-    }
+        setSide(side);
+    };
 
-    return <SøkeresultatFooter side={side} endreSide={endreSide} antallTreffPåSide={antallTreffPåSide}
-                               totaltAntallTreff={totaltAntallTreff} />
-}
+    return (
+        <SøkeresultatFooter
+            side={side}
+            endreSide={endreSide}
+            antallTreffPåSide={antallTreffPåSide}
+            totaltAntallTreff={totaltAntallTreff}
+        />
+    );
+};
 
 export const Hovedstory = Template.bind({});
-Hovedstory.args = {totaltAntallTreff: 910};
+Hovedstory.args = { totaltAntallTreff: 910 };
 
 export const MedSpinner = Template.bind({});
-MedSpinner.args = {totaltAntallTreff: undefined}
+MedSpinner.args = { totaltAntallTreff: undefined };
 
 export const TreffKommerEtterHvert = () => {
     const [side, setSide] = useState(1);
-    const [antallTreff, setAntallTreff] = useState<number>()
+    const [antallTreff, setAntallTreff] = useState<number>();
     const antallTreffPåSide = side === 10 ? 10 : ANTALL_RESULTATER_PER_SIDE;
 
     const endreSide = (side: number) => {
-        setSide(side)
-    }
+        setSide(side);
+    };
 
     useEffect(() => {
         setTimeout(() => {
-            setAntallTreff(910)
-        }, 3000)
-    }, [])
+            setAntallTreff(910);
+        }, 3000);
+    }, []);
 
     return (
         <SøkeresultatFooter
@@ -55,5 +63,5 @@ export const TreffKommerEtterHvert = () => {
             antallTreffPåSide={antallTreffPåSide}
             totaltAntallTreff={antallTreff}
         />
-    )
-}
+    );
+};

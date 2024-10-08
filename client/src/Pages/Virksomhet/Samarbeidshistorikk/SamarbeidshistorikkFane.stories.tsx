@@ -11,7 +11,7 @@ const meta = {
 } satisfies Meta<typeof SamarbeidshistorikkFane>;
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const FlereSaker: Story = {
     args: {
@@ -30,7 +30,7 @@ export const FlereSaker: Story = {
 };
 
 export const IngenSaker: Story = {
-    args: {...FlereSaker.args},
+    args: { ...FlereSaker.args },
     parameters: {
         msw: {
             handlers: [
@@ -43,21 +43,21 @@ export const IngenSaker: Story = {
 };
 
 export const LasterSaker: Story = {
-    args: {...FlereSaker.args},
+    args: { ...FlereSaker.args },
     parameters: {
         msw: {
             handlers: [
                 http.get(`${iaSakHistorikkPath}/:orgnummer`, async () => {
-                    await new Promise(resolve => setTimeout(resolve, 3000));
+                    await new Promise((resolve) => setTimeout(resolve, 3000));
 
-                    return  HttpResponse.json([]);
+                    return HttpResponse.json([]);
                 }),
             ],
         },
     },
 };
 export const FeilVedLastingAvSaker: Story = {
-    args: {...FlereSaker.args},
+    args: { ...FlereSaker.args },
     parameters: {
         msw: {
             handlers: [

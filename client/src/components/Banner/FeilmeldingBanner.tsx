@@ -9,7 +9,7 @@ export const dispatchFeilmelding = (data: EventData) => {
     document.dispatchEvent(
         new CustomEvent("feilmeldingFraBackend", {
             detail: data,
-        })
+        }),
     );
 };
 
@@ -18,17 +18,16 @@ export const FeilmeldingBanner = () => {
     const [synlig, setSynlig] = useState(false);
 
     const nullstillBanner = () => {
-
         setMelding("");
         setSynlig(false);
-    }
+    };
 
     useEffect(() => {
         if (!melding) {
             return;
         }
         return () => {
-            nullstillBanner()
+            nullstillBanner();
         };
     }, [melding]);
 
@@ -45,11 +44,9 @@ export const FeilmeldingBanner = () => {
         };
     }, []);
 
-    return synlig
-        ? (
-            <BannerMedLukkeknapp variant="error" role="alert">
-                {melding}
-            </BannerMedLukkeknapp>
-        )
-        : null;
+    return synlig ? (
+        <BannerMedLukkeknapp variant="error" role="alert">
+            {melding}
+        </BannerMedLukkeknapp>
+    ) : null;
 };

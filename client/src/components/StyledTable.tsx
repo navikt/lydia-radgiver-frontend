@@ -4,8 +4,11 @@ import { NavFarger } from "../styling/farger";
 import { Skygger } from "../styling/skygger";
 import { BorderRadius } from "../styling/borderRadius";
 
-export const StyledTable = styled(Table).attrs({zebraStripes: true, size:"small"})`
-  background-color: ${NavFarger.white};
-  box-shadow: ${Skygger.small};
-  border-radius: ${BorderRadius.medium};
+export const StyledTable = styled(Table).attrs({
+    zebraStripes: true,
+    size: "small",
+})`
+    background-color: ${NavFarger.white};
+    box-shadow: ${Skygger.small};
+    border-radius: ${BorderRadius.medium};
 `;

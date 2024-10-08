@@ -1,8 +1,6 @@
 import { Button, Modal } from "@navikt/ds-react";
 import styled from "styled-components";
-import {
-    useHentMineSaker,
-} from "../../api/lydia-api";
+import { useHentMineSaker } from "../../api/lydia-api";
 import { IASak } from "../../domenetyper/domenetyper";
 import TeamInnhold from "./TeamInnhold";
 
@@ -17,7 +15,6 @@ interface TeamModalProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     iaSak: IASak;
 }
-
 
 export const TeamModal = ({ open, setOpen, iaSak }: TeamModalProps) => {
     const { mutate: muterMineSaker } = useHentMineSaker();

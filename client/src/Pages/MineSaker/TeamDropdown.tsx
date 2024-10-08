@@ -5,13 +5,9 @@ import {
     PersonFillIcon,
     PersonGroupIcon,
 } from "@navikt/aksel-icons";
-import {
-    useHentBrukerinformasjon,
-    useHentTeam,
-} from "../../api/lydia-api";
+import { useHentBrukerinformasjon, useHentTeam } from "../../api/lydia-api";
 import { IASak } from "../../domenetyper/domenetyper";
 import TeamInnhold from "./TeamInnhold";
-
 
 interface TeamModalProps {
     open: boolean;
@@ -22,9 +18,7 @@ interface TeamModalProps {
 export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
 
-    const { data: følgere = [] } = useHentTeam(
-        iaSak.saksnummer,
-    );
+    const { data: følgere = [] } = useHentTeam(iaSak.saksnummer);
 
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
     const brukerFølgerSak = !!følgere?.some(
@@ -67,13 +61,22 @@ export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
                     </HStack>
                 </Button>
                 <Dropdown.Menu
-                    style={{ maxWidth: "auto", width: "24rem", marginTop: "0.3rem" }}
-                    placement="bottom-start">
-                    <div style={{
-                        margin: "1.5rem",
-                        marginTop: "0.5rem"
-                    }}>
-                        <Heading size="small" level="4">Administrer gruppe</Heading>
+                    style={{
+                        maxWidth: "auto",
+                        width: "24rem",
+                        marginTop: "0.3rem",
+                    }}
+                    placement="bottom-start"
+                >
+                    <div
+                        style={{
+                            margin: "1.5rem",
+                            marginTop: "0.5rem",
+                        }}
+                    >
+                        <Heading size="small" level="4">
+                            Administrer gruppe
+                        </Heading>
                         <TeamInnhold iaSak={iaSak} />
                     </div>
                 </Dropdown.Menu>

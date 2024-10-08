@@ -2,22 +2,35 @@ import { useCallback, useEffect, useReducer } from "react";
 import { useSearchParams } from "react-router-dom";
 import { SortState } from "@navikt/ds-react";
 import { Range } from "./SykefraværsprosentVelger";
-import { Eier, IAProsessStatusType, Periode, } from "../../../domenetyper/domenetyper";
+import {
+    Eier,
+    IAProsessStatusType,
+    Periode,
+} from "../../../domenetyper/domenetyper";
 import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { Næringsgruppe } from "../../../domenetyper/virksomhet";
-import { Filterverdier, Sorteringsverdi, ValgtSnittFilter } from "../../../domenetyper/filterverdier";
+import {
+    Filterverdier,
+    Sorteringsverdi,
+    ValgtSnittFilter,
+} from "../../../domenetyper/filterverdier";
 
-const næringsgruppeKoderTilNæringsgrupper = (næringsgruppeKoder: string[], næringsgrupper: Næringsgruppe[]) =>
-    næringsgrupper.filter(({ kode }) => næringsgruppeKoder.includes(kode));
+const næringsgruppeKoderTilNæringsgrupper = (
+    næringsgruppeKoder: string[],
+    næringsgrupper: Næringsgruppe[],
+) => næringsgrupper.filter(({ kode }) => næringsgruppeKoder.includes(kode));
 
 const finnBransjeprogram = (næringsgrupper: string[]) =>
     næringsgrupper.filter((gruppe) => isNaN(+gruppe));
 
-
-const finnFylker = (filterverdier: Filterverdier, fylkesnummer: string[]): FylkeMedKommuner[] => 
-    filterverdier.fylker
-        .filter(({ fylke }) => fylkesnummer.includes(fylke.nummer)) ?? [];
+const finnFylker = (
+    filterverdier: Filterverdier,
+    fylkesnummer: string[],
+): FylkeMedKommuner[] =>
+    filterverdier.fylker.filter(({ fylke }) =>
+        fylkesnummer.includes(fylke.nummer),
+    ) ?? [];
 
 const parametere = [
     "kommuner",
@@ -36,12 +49,15 @@ const parametere = [
     "bransjeprogram",
     "eiere",
     "datoFra",
-    "datoTil"
+    "datoTil",
 ] as const;
 
-type Søkeparametere = Partial<Record<typeof parametere[number], string>>;
+type Søkeparametere = Partial<Record<(typeof parametere)[number], string>>;
 
-function hentKommunerFraParametere(kommuner: string, filterverdier: Filterverdier): Kommune[] {
+function hentKommunerFraParametere(
+    kommuner: string,
+    filterverdier: Filterverdier,
+): Kommune[] {
     const kommuneliste = kommuner.split(",").filter((v) => v.trim().length);
     return filterverdier.fylker
         .map((fylke) => fylke.kommuner)
@@ -49,95 +65,140 @@ function hentKommunerFraParametere(kommuner: string, filterverdier: Filterverdie
         .filter((kommune) => kommuneliste.includes(kommune.nummer));
 }
 
-const søkeparametereTilFilterstate = (parametere: Søkeparametere, filterverdier: Filterverdier): FiltervisningState => {
+const søkeparametereTilFilterstate = (
+    parametere: Søkeparametere,
+    filterverdier: Filterverdier,
+): FiltervisningState => {
     return {
         kommuner: hentKommunerFraParametere(
             parametere?.kommuner ?? "",
-            filterverdier
+            filterverdier,
         ),
-        valgteFylker: finnFylker(filterverdier, parametere.fylker?.split(",") ?? []),
+        valgteFylker: finnFylker(
+            filterverdier,
+            parametere.fylker?.split(",") ?? [],
+        ),
 
         antallArbeidsforhold: {
             fra: Number(
-                parametere.ansatteFra ?? initialFiltervisningState.antallArbeidsforhold.fra
+                parametere.ansatteFra ??
+                    initialFiltervisningState.antallArbeidsforhold.fra,
             ),
             til: Number(
-                parametere.ansatteTil ?? initialFiltervisningState.antallArbeidsforhold.til
+                parametere.ansatteTil ??
+                    initialFiltervisningState.antallArbeidsforhold.til,
             ),
         },
         sykefraværsprosent: {
             fra: Number(
-                parametere.sykefravarsprosentFra ?? initialFiltervisningState.sykefraværsprosent.fra
+                parametere.sykefravarsprosentFra ??
+                    initialFiltervisningState.sykefraværsprosent.fra,
             ),
             til: Number(
-                parametere.sykefravarsprosentTil ?? initialFiltervisningState.sykefraværsprosent.til
+                parametere.sykefravarsprosentTil ??
+                    initialFiltervisningState.sykefraværsprosent.til,
             ),
         },
         valgtSnittfilter: parametere.snittfilter as ValgtSnittFilter,
         eiere: filterverdier.filtrerbareEiere.filter((eier) =>
-            parametere.eiere?.includes(eier.navIdent)
+            parametere.eiere?.includes(eier.navIdent),
         ),
 
         sektor: parametere.sektor,
 
         iaStatus: filterverdier.statuser.find(
-            (status) => status === parametere.iaStatus
+            (status) => status === parametere.iaStatus,
         ),
         bransjeprogram: finnBransjeprogram(
-            parametere.bransjeprogram?.split(",") ?? []
+            parametere.bransjeprogram?.split(",") ?? [],
         ),
 
         næringsgrupper: næringsgruppeKoderTilNæringsgrupper(
             parametere?.naringsgrupper?.split(",") ?? [],
-            filterverdier.naringsgrupper
+            filterverdier.naringsgrupper,
         ),
         side: initialFiltervisningState.side,
     };
 };
 
-const erUtryggFraLocalStorage = (localState: FiltervisningState, filterverdier: Filterverdier) => {
+const erUtryggFraLocalStorage = (
+    localState: FiltervisningState,
+    filterverdier: Filterverdier,
+) => {
     if (localState === undefined) {
         return true;
     }
-    const tilgjengeligeKommuner = filterverdier.fylker.flatMap((fylke) => fylke.kommuner);
-    const lovligeKommunerFraLocalStorage = localState.kommuner.filter((kommune) => tilgjengeligeKommuner.find((k) => k.nummer === kommune.nummer && k.navn === kommune.navn && k.navnNorsk === kommune.navnNorsk) !== undefined);
+    const tilgjengeligeKommuner = filterverdier.fylker.flatMap(
+        (fylke) => fylke.kommuner,
+    );
+    const lovligeKommunerFraLocalStorage = localState.kommuner.filter(
+        (kommune) =>
+            tilgjengeligeKommuner.find(
+                (k) =>
+                    k.nummer === kommune.nummer &&
+                    k.navn === kommune.navn &&
+                    k.navnNorsk === kommune.navnNorsk,
+            ) !== undefined,
+    );
     if (lovligeKommunerFraLocalStorage.length !== localState.kommuner.length) {
         return true;
     }
 
-    const lovligeFylkerFraLocalstorage = 
-        localState.valgteFylker?.find(
-            (lokaltFylke) => filterverdier.fylker.find(
-                (fylke) => 
-                fylke.fylke.nummer === lokaltFylke.fylke.nummer
-                && fylke.fylke.navn === lokaltFylke.fylke.navn) === undefined
-        );
-    
+    const lovligeFylkerFraLocalstorage = localState.valgteFylker?.find(
+        (lokaltFylke) =>
+            filterverdier.fylker.find(
+                (fylke) =>
+                    fylke.fylke.nummer === lokaltFylke.fylke.nummer &&
+                    fylke.fylke.navn === lokaltFylke.fylke.navn,
+            ) === undefined,
+    );
+
     if (lovligeFylkerFraLocalstorage !== undefined) {
         return true;
     }
 
-    const lovligBransjeprogram = localState.bransjeprogram.filter((bransjeprogram) => filterverdier.bransjeprogram.includes(bransjeprogram));
+    const lovligBransjeprogram = localState.bransjeprogram.filter(
+        (bransjeprogram) =>
+            filterverdier.bransjeprogram.includes(bransjeprogram),
+    );
     if (lovligBransjeprogram.length !== localState.bransjeprogram.length) {
         return true;
     }
 
-    const lovligNæringsgrupper = localState.næringsgrupper.filter((næringsgruppe) => filterverdier.naringsgrupper.find((n) => n.kode === næringsgruppe.kode && n.navn === næringsgruppe.navn) !== undefined);
+    const lovligNæringsgrupper = localState.næringsgrupper.filter(
+        (næringsgruppe) =>
+            filterverdier.naringsgrupper.find(
+                (n) =>
+                    n.kode === næringsgruppe.kode &&
+                    n.navn === næringsgruppe.navn,
+            ) !== undefined,
+    );
     if (lovligNæringsgrupper.length !== localState.næringsgrupper.length) {
         return true;
     }
 
-    const lovligEier = localState.eiere.filter((eier) => filterverdier.filtrerbareEiere.find((e) => e.navIdent === eier.navIdent && e.navn === eier.navn) !== undefined);
+    const lovligEier = localState.eiere.filter(
+        (eier) =>
+            filterverdier.filtrerbareEiere.find(
+                (e) => e.navIdent === eier.navIdent && e.navn === eier.navn,
+            ) !== undefined,
+    );
     if (lovligEier.length !== localState.eiere.length) {
         return true;
     }
 
     return false;
-}
+};
 
-export const filterstateFraLokalstorage = (filterverdier: Filterverdier): FiltervisningState => {
-    const localstorageFilter = window.localStorage.getItem("lokalFiltervisningState");
-    const parsedLocalstorageFilter = localstorageFilter ? JSON.parse(localstorageFilter) : undefined;
+export const filterstateFraLokalstorage = (
+    filterverdier: Filterverdier,
+): FiltervisningState => {
+    const localstorageFilter = window.localStorage.getItem(
+        "lokalFiltervisningState",
+    );
+    const parsedLocalstorageFilter = localstorageFilter
+        ? JSON.parse(localstorageFilter)
+        : undefined;
 
     if (erUtryggFraLocalStorage(parsedLocalstorageFilter, filterverdier)) {
         window.localStorage.removeItem("lokalFiltervisningState");
@@ -208,7 +269,7 @@ type EndreSektorAction = {
 type EndrePeriodeAction = {
     type: "ENDRE_PERIODE";
     payload: {
-        periode?: { fraDato: Date, tilDato: Date };
+        periode?: { fraDato: Date; tilDato: Date };
     };
 };
 type TilbakestillAction = {
@@ -250,7 +311,7 @@ type Action =
     | OppdaterAutosøkAction;
 
 export interface FiltervisningState {
-    autosøk?: boolean,
+    autosøk?: boolean;
     readonly filterverdier?: Filterverdier;
     valgteFylker?: FylkeMedKommuner[];
     kommuner: Kommune[];
@@ -289,36 +350,59 @@ export const initialFiltervisningState: FiltervisningState = {
     side: 1,
 };
 
-export const sammenliknFilterverdier = (filterstateA: FiltervisningState, filterstateB: FiltervisningState, ignorerSide: boolean = true) => {
+export const sammenliknFilterverdier = (
+    filterstateA: FiltervisningState,
+    filterstateB: FiltervisningState,
+    ignorerSide: boolean = true,
+) => {
     const sammenlignbarFilterstateA = {
         ...filterstateA,
-        side: ignorerSide ? filterstateA.side : undefined
+        side: ignorerSide ? filterstateA.side : undefined,
     };
     const sammenlignbarFilterstateB = {
         ...filterstateB,
-        side: ignorerSide ? filterstateB.side : undefined
+        side: ignorerSide ? filterstateB.side : undefined,
     };
 
-    return JSON.stringify(sammenlignbarFilterstateA) === JSON.stringify(sammenlignbarFilterstateB);
-}
+    return (
+        JSON.stringify(sammenlignbarFilterstateA) ===
+        JSON.stringify(sammenlignbarFilterstateB)
+    );
+};
 
-const endreKommune = (state: FiltervisningState, action: EndreKommuneAction): FiltervisningState => ({
+const endreKommune = (
+    state: FiltervisningState,
+    action: EndreKommuneAction,
+): FiltervisningState => ({
     ...state,
     kommuner: action.payload.kommuner,
 });
 
-export const erSammeFylker = (liste1: FylkeMedKommuner[], liste2: FylkeMedKommuner[]) => {
-    return liste1.length === liste2.length &&
-        liste1.reduce(
-            (previousValue, fylke) => {
-                return previousValue &&
-                    (liste2.findIndex( (fylke2) => fylke2.fylke.nummer === fylke.fylke.nummer)
-                        !== -1)
+export const erSammeFylker = (
+    liste1: FylkeMedKommuner[],
+    liste2: FylkeMedKommuner[],
+) => {
+    return (
+        liste1.length === liste2.length &&
+        liste1.reduce((previousValue, fylke) => {
+            return (
+                previousValue &&
+                liste2.findIndex(
+                    (fylke2) => fylke2.fylke.nummer === fylke.fylke.nummer,
+                ) !== -1
+            );
         }, true)
-}
+    );
+};
 
-function endreFylker(state: FiltervisningState, action: EndreFylkerAction): FiltervisningState {
-    if (state.valgteFylker && erSammeFylker(action.payload.fylker, state.valgteFylker))
+function endreFylker(
+    state: FiltervisningState,
+    action: EndreFylkerAction,
+): FiltervisningState {
+    if (
+        state.valgteFylker &&
+        erSammeFylker(action.payload.fylker, state.valgteFylker)
+    )
         return state;
 
     return {
@@ -327,10 +411,13 @@ function endreFylker(state: FiltervisningState, action: EndreFylkerAction): Filt
     };
 }
 
-const endreNæringsgruppe = (state: FiltervisningState, action: EndreNæringsgruppeAction): FiltervisningState => {
+const endreNæringsgruppe = (
+    state: FiltervisningState,
+    action: EndreNæringsgruppeAction,
+): FiltervisningState => {
     const endretNæringsgrupper = næringsgruppeKoderTilNæringsgrupper(
         action.payload.næringsgrupper,
-        state.filterverdier?.naringsgrupper ?? []
+        state.filterverdier?.naringsgrupper ?? [],
     );
     const bransjeprogram = finnBransjeprogram(action.payload.næringsgrupper);
     return {
@@ -342,7 +429,7 @@ const endreNæringsgruppe = (state: FiltervisningState, action: EndreNæringsgru
 
 const endreSykefraværsprosent = (
     state: FiltervisningState,
-    action: EndreSykefraværsprosentAction
+    action: EndreSykefraværsprosentAction,
 ): FiltervisningState => ({
     ...state,
     sykefraværsprosent: action.payload.sykefraværsprosent,
@@ -350,7 +437,7 @@ const endreSykefraværsprosent = (
 
 const endreSnittfilter = (
     state: FiltervisningState,
-    action: EndreSnittfilterAction
+    action: EndreSnittfilterAction,
 ): FiltervisningState => ({
     ...state,
     valgtSnittfilter: action.payload.snittfilter as ValgtSnittFilter,
@@ -358,25 +445,34 @@ const endreSnittfilter = (
 
 const endreAntallArbeidsforhold = (
     state: FiltervisningState,
-    action: EndreAntallArbeidsforholdAction
+    action: EndreAntallArbeidsforholdAction,
 ): FiltervisningState => ({
     ...state,
     antallArbeidsforhold: action.payload.arbeidsforhold,
 });
 
-const endreIastatus = (state: FiltervisningState, action: EndreIAStatusAction): FiltervisningState => ({
+const endreIastatus = (
+    state: FiltervisningState,
+    action: EndreIAStatusAction,
+): FiltervisningState => ({
     ...state,
     iaStatus: action.payload.iastatus,
 });
 
-const endreSektor = (state: FiltervisningState, action: EndreSektorAction): FiltervisningState => ({
+const endreSektor = (
+    state: FiltervisningState,
+    action: EndreSektorAction,
+): FiltervisningState => ({
     ...state,
     sektor: action.payload.sektor,
 });
 
-const endreSide = (state: FiltervisningState, action: OppdaterSideAction): FiltervisningState => {
+const endreSide = (
+    state: FiltervisningState,
+    action: OppdaterSideAction,
+): FiltervisningState => {
     const tilSorteringsretning = (
-        direction: SortState["direction"] = "descending"
+        direction: SortState["direction"] = "descending",
     ) => {
         switch (direction) {
             case "ascending":
@@ -393,28 +489,40 @@ const endreSide = (state: FiltervisningState, action: OppdaterSideAction): Filte
             sorteringsnokkel: action.payload.sortering
                 .orderBy as Sorteringsverdi,
             sorteringsretning: tilSorteringsretning(
-                action.payload.sortering.direction
+                action.payload.sortering.direction,
             ),
         }),
     };
 };
 
-const endreEiere = (state: FiltervisningState, action: OppdaterEiereAction): FiltervisningState => ({
+const endreEiere = (
+    state: FiltervisningState,
+    action: OppdaterEiereAction,
+): FiltervisningState => ({
     ...state,
-    eiere: action.payload.eiere
+    eiere: action.payload.eiere,
 });
 
-const endrePeriode = (state: FiltervisningState, action: EndrePeriodeAction): FiltervisningState => ({
+const endrePeriode = (
+    state: FiltervisningState,
+    action: EndrePeriodeAction,
+): FiltervisningState => ({
     ...state,
-    periode: action.payload.periode
+    periode: action.payload.periode,
 });
 
-const oppdaterAutosøk = (state: FiltervisningState, action: OppdaterAutosøkAction): FiltervisningState => ({
+const oppdaterAutosøk = (
+    state: FiltervisningState,
+    action: OppdaterAutosøkAction,
+): FiltervisningState => ({
     ...state,
-    autosøk: action.payload.autosøk
+    autosøk: action.payload.autosøk,
 });
 
-const settInnFilterverdier = (state: FiltervisningState, action: SettInnFilterverdierAction): FiltervisningState => {
+const settInnFilterverdier = (
+    state: FiltervisningState,
+    action: SettInnFilterverdierAction,
+): FiltervisningState => {
     return {
         ...state,
         ...action.payload.filterstate,
@@ -464,7 +572,6 @@ const storedReducer = (state: FiltervisningState, action: Action) => {
 
     if (action.type === "TILBAKESTILL") {
         window.localStorage.removeItem("lokalFiltervisningState");
-
     } else if (action.type !== "SETT_INN_FILTERVERDIER") {
         oppdaterLagretSøk(newState);
     }
@@ -472,18 +579,24 @@ const storedReducer = (state: FiltervisningState, action: Action) => {
 };
 
 function oppdaterLagretSøk(state: FiltervisningState) {
-    window.localStorage.setItem("lokalFiltervisningState", JSON.stringify({
-        ...state,
-        filterverdier: undefined,
-        sorteringsnokkel: undefined,
-        sorteringsretning: undefined,
-        periode: undefined,
-        side: initialFiltervisningState.side
-    }));
+    window.localStorage.setItem(
+        "lokalFiltervisningState",
+        JSON.stringify({
+            ...state,
+            filterverdier: undefined,
+            sorteringsnokkel: undefined,
+            sorteringsretning: undefined,
+            periode: undefined,
+            side: initialFiltervisningState.side,
+        }),
+    );
 }
 
 export const useFiltervisningState = () => {
-    const [state, dispatch] = useReducer(storedReducer, initialFiltervisningState);
+    const [state, dispatch] = useReducer(
+        storedReducer,
+        initialFiltervisningState,
+    );
     const [search, setSearch] = useSearchParams();
 
     useEffect(() => {
@@ -503,7 +616,7 @@ export const useFiltervisningState = () => {
                 }),
             };
         },
-        {}
+        {},
     );
 
     const oppdaterKommuner = useCallback(
@@ -513,7 +626,7 @@ export const useFiltervisningState = () => {
                 payload,
             });
         },
-        []
+        [],
     );
 
     const oppdaterFylker = useCallback(
@@ -523,7 +636,7 @@ export const useFiltervisningState = () => {
                 payload,
             });
         },
-        []
+        [],
     );
 
     const oppdaterNæringsgruppe = useCallback(
@@ -533,7 +646,7 @@ export const useFiltervisningState = () => {
                 payload,
             });
         },
-        []
+        [],
     );
 
     const oppdaterSykefraværsprosent = useCallback(
@@ -543,7 +656,7 @@ export const useFiltervisningState = () => {
                 payload,
             });
         },
-        []
+        [],
     );
 
     const oppdaterSnittfilter = useCallback(
@@ -553,7 +666,7 @@ export const useFiltervisningState = () => {
                 payload,
             });
         },
-        []
+        [],
     );
 
     const oppdaterAntallArbeidsforhold = useCallback(
@@ -563,7 +676,7 @@ export const useFiltervisningState = () => {
                 payload,
             });
         },
-        []
+        [],
     );
 
     const oppdaterIastatus = useCallback(
@@ -573,16 +686,18 @@ export const useFiltervisningState = () => {
                 payload,
             });
         },
-        []
+        [],
     );
 
     const oppdaterSektorer = useCallback(
         (payload: EndreSektorAction["payload"]) => {
             dispatch({
                 type: "ENDRE_SEKTOR",
-                payload
-            })
-        }, [])
+                payload,
+            });
+        },
+        [],
+    );
 
     const tilbakestill = useCallback(() => {
         dispatch({
@@ -597,7 +712,7 @@ export const useFiltervisningState = () => {
                 payload,
             });
         },
-        []
+        [],
     );
 
     const oppdaterEiere = useCallback(
@@ -607,7 +722,7 @@ export const useFiltervisningState = () => {
                 payload,
             });
         },
-        []
+        [],
     );
 
     const oppdaterAutosøk = useCallback(
@@ -617,15 +732,15 @@ export const useFiltervisningState = () => {
                 payload,
             });
         },
-        []
+        [],
     );
     const lastData = useCallback(
         (payload: { filterverdier: Filterverdier }) => {
             if (Object.keys(gyldigeSøkeparametereIUrlen).length > 0) {
                 const filterstate = søkeparametereTilFilterstate(
                     gyldigeSøkeparametereIUrlen,
-                    payload.filterverdier
-                    );
+                    payload.filterverdier,
+                );
 
                 dispatch({
                     type: "SETT_INN_FILTERVERDIER",
@@ -635,7 +750,9 @@ export const useFiltervisningState = () => {
                     },
                 });
             } else {
-                const localFilterState = filterstateFraLokalstorage(payload.filterverdier);
+                const localFilterState = filterstateFraLokalstorage(
+                    payload.filterverdier,
+                );
 
                 dispatch({
                     type: "SETT_INN_FILTERVERDIER",
@@ -645,9 +762,8 @@ export const useFiltervisningState = () => {
                     },
                 });
             }
-
         },
-        []
+        [],
     );
 
     return {

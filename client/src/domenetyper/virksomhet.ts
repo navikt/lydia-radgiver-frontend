@@ -16,8 +16,8 @@ export type Næring = z.infer<typeof næringSchema>;
 
 export const sektorSchema = z.object({
     kode: z.string(),
-    beskrivelse: z.string()
-})
+    beskrivelse: z.string(),
+});
 
 export type Sektor = z.infer<typeof sektorSchema>;
 

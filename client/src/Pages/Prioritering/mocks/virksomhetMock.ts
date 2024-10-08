@@ -1,5 +1,8 @@
-import {VirksomhetSøkeresultat} from "../../../domenetyper/domenetyper";
-import { Virksomhet, VirksomhetStatusBrregEnum } from "../../../domenetyper/virksomhet";
+import { VirksomhetSøkeresultat } from "../../../domenetyper/domenetyper";
+import {
+    Virksomhet,
+    VirksomhetStatusBrregEnum,
+} from "../../../domenetyper/virksomhet";
 
 export const virksomhetMock: Virksomhet = {
     orgnr: "999123456",
@@ -9,54 +12,54 @@ export const virksomhetMock: Virksomhet = {
     navn: "Sjøfart stål og stell AS",
     næring: {
         navn: "Sjøfart",
-        kode: "50"
+        kode: "50",
     },
     næringsundergruppe1: {
         navn: "Offentlig administrasjon og forsvar, og trygdeordninger underlagt offentlig forvaltning",
-        kode: "50.221"
+        kode: "50.221",
     },
     næringsundergruppe2: {
         navn: "Barnehager",
-        kode: "88.911"
+        kode: "88.911",
     },
     næringsundergruppe3: {
         navn: "Produksjon av ikke-jernholdige metaller ellers", // sannsynligvis kvikksølv
-        kode: "24.450"
+        kode: "24.450",
     },
     sektor: "Privat og offentlig næringsvirksomhet",
     bransje: null,
     status: "AKTIV",
-}
+};
 
 export const virksomhetAutocompleteMock: VirksomhetSøkeresultat[] = [
     {
         navn: "Kebabbiten",
-        orgnr: "123123123"
+        orgnr: "123123123",
     },
     {
         navn: "NAV",
-        orgnr: "333333333"
+        orgnr: "333333333",
     },
     {
         navn: "Polizen",
-        orgnr: "666666666"
+        orgnr: "666666666",
     },
     {
         navn: "Kongens undersotter",
-        orgnr: "232323232"
+        orgnr: "232323232",
     },
     {
         navn: "Haugenstua Kro",
-        orgnr: "999999999"
-    }
-]
+        orgnr: "999999999",
+    },
+];
 
 export const slettetVirksomhetMock: Virksomhet = {
     ...virksomhetMock,
-    status: VirksomhetStatusBrregEnum.enum.SLETTET
-}
+    status: VirksomhetStatusBrregEnum.enum.SLETTET,
+};
 
 export const fjernetVirksomhetMock: Virksomhet = {
     ...virksomhetMock,
-    status: VirksomhetStatusBrregEnum.enum.FJERNET
-}
+    status: VirksomhetStatusBrregEnum.enum.FJERNET,
+};

@@ -8,4 +8,4 @@ export const useSendTilIATjenesterTab = () => {
         setSearchParams(searchParams, { replace: true });
     };
     return { erPåIaTjenesterFane, sendBrukerTilIATjenesterTab };
-}
+};

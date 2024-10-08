@@ -1,7 +1,14 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { LeveranseFane } from "./LeveranseFane";
-import { iaSakFullført, iaSakKartlegges, iaSakViBistår } from "../mocks/iaSakMock";
-import { brukerSomErSaksbehandler, brukerSomHarLesetilgang } from "../../Prioritering/mocks/innloggetAnsattMock";
+import {
+    iaSakFullført,
+    iaSakKartlegges,
+    iaSakViBistår,
+} from "../mocks/iaSakMock";
+import {
+    brukerSomErSaksbehandler,
+    brukerSomHarLesetilgang,
+} from "../../Prioritering/mocks/innloggetAnsattMock";
 import { http, HttpResponse } from "msw";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
 import { iaSakPath, innloggetAnsattPath } from "../../../api/lydia-api";
@@ -9,13 +16,13 @@ import { iaSakPath, innloggetAnsattPath } from "../../../api/lydia-api";
 const meta = {
     title: "Virksomhet/Leveranser/Leveransefane",
     component: LeveranseFane,
-} satisfies Meta<typeof LeveranseFane>
+} satisfies Meta<typeof LeveranseFane>;
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const Hovedstory: Story = {
     args: {
-        iaSak: iaSakViBistår
+        iaSak: iaSakViBistår,
     },
     parameters: {
         msw: [
@@ -23,27 +30,30 @@ export const Hovedstory: Story = {
                 return HttpResponse.json(iaSakViBistår);
             }),
             ...mswHandlers,
-        ]
-    }
-}
+        ],
+    },
+};
 
 export const BrukerEierIkkeSak: Story = {
     args: {
-        iaSak: {...iaSakViBistår, eidAv: brukerSomErSaksbehandler.ident}
+        iaSak: { ...iaSakViBistår, eidAv: brukerSomErSaksbehandler.ident },
     },
     parameters: {
         msw: [
             http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
-                return HttpResponse.json({ ...iaSakViBistår, eidAv: brukerSomErSaksbehandler.ident });
+                return HttpResponse.json({
+                    ...iaSakViBistår,
+                    eidAv: brukerSomErSaksbehandler.ident,
+                });
             }),
             ...mswHandlers,
-        ]
-    }
-}
+        ],
+    },
+};
 
 export const SakErIkkeIViBistaar: Story = {
     args: {
-        iaSak: iaSakKartlegges
+        iaSak: iaSakKartlegges,
     },
     parameters: {
         msw: [
@@ -51,13 +61,13 @@ export const SakErIkkeIViBistaar: Story = {
                 return HttpResponse.json(iaSakKartlegges);
             }),
             ...mswHandlers,
-        ]
-    }
-}
+        ],
+    },
+};
 
 export const SakErIFullført: Story = {
     args: {
-        iaSak: iaSakFullført
+        iaSak: iaSakFullført,
     },
     parameters: {
         msw: [
@@ -65,13 +75,13 @@ export const SakErIFullført: Story = {
                 return HttpResponse.json(iaSakFullført);
             }),
             ...mswHandlers,
-        ]
-    }
-}
+        ],
+    },
+};
 
 export const BrukerHarLesetilgang: Story = {
     args: {
-        iaSak: iaSakFullført
+        iaSak: iaSakFullført,
     },
     parameters: {
         msw: [
@@ -82,6 +92,6 @@ export const BrukerHarLesetilgang: Story = {
                 return HttpResponse.json(brukerSomHarLesetilgang);
             }),
             ...mswHandlers,
-        ]
-    }
-}
+        ],
+    },
+};

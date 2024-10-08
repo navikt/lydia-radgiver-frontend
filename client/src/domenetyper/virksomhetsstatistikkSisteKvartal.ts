@@ -12,4 +12,6 @@ export const virksomhetsstatistikkSisteKvartalSchema = z.object({
     maskert: z.boolean(),
 });
 
-export type VirkomshetsstatistikkSisteKvartal = z.infer<typeof virksomhetsstatistikkSisteKvartalSchema>;
+export type VirkomshetsstatistikkSisteKvartal = z.infer<
+    typeof virksomhetsstatistikkSisteKvartalSchema
+>;

@@ -5,23 +5,21 @@ const config: StorybookConfig = {
     addons: ["@storybook/addon-links", "@storybook/addon-essentials"],
     framework: {
         name: "@storybook/react-vite",
-        options: {}
+        options: {},
     },
     staticDirs: ["../public"],
-    async viteFinal(config, {
-        configType
-    }) {
+    async viteFinal(config, { configType }) {
         if (configType === "PRODUCTION") {
             return {
                 ...config,
-                base: "/lydia-radgiver-frontend/"
+                base: "/lydia-radgiver-frontend/",
             };
         }
         return config;
     },
     docs: {
-        autodocs: true
-    }
+        autodocs: true,
+    },
 };
 
 export default config;

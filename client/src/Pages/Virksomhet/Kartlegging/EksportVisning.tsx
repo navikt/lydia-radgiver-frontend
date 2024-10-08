@@ -168,8 +168,8 @@ class pdfEksport {
     ) {
         return (
             this.position +
-            header.clientHeight * this.pixelRatio +
-            graph.clientHeight * this.pixelRatio >
+                header.clientHeight * this.pixelRatio +
+                graph.clientHeight * this.pixelRatio >
             this.pageHeight
         );
     }
@@ -182,8 +182,8 @@ class pdfEksport {
             );
             const canvasR = child.childNodes[i + 1]
                 ? await html2canvas(child.childNodes[i + 1] as HTMLElement, {
-                    scale: 1,
-                })
+                      scale: 1,
+                  })
                 : undefined;
             await this.addInlineContent(canvasL, canvasR);
         }

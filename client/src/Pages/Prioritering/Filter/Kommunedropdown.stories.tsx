@@ -7,7 +7,9 @@ export default {
     component: Kommunedropdown,
 } as Meta<typeof Kommunedropdown>;
 
-export const Hovedstory = () => (<Kommunedropdown relevanteFylkerMedKommuner={
-    filterverdierMock.fylker
-    }
- endreKommuner={console.log}/>)
+export const Hovedstory = () => (
+    <Kommunedropdown
+        relevanteFylkerMedKommuner={filterverdierMock.fylker}
+        endreKommuner={console.log}
+    />
+);

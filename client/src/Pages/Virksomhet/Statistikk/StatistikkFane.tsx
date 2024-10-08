@@ -6,7 +6,7 @@ import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import { Historiskstatistikk } from "./Graf/Historiskstatistikk";
 
 const Container = styled.div`
-  ${tabInnholdStyling}
+    ${tabInnholdStyling}
 `;
 
 interface Props {
@@ -16,12 +16,15 @@ interface Props {
 export const StatistikkFane = ({ virksomhet }: Props) => {
     return (
         <Container>
-            <Heading level="3" size="large" spacing={true}>Statistikk</Heading>
-            <Sykefraværsstatistikk orgnummer={virksomhet.orgnr}
-                                   bransje={virksomhet.bransje}
-                                   næring={virksomhet.næring}
+            <Heading level="3" size="large" spacing={true}>
+                Statistikk
+            </Heading>
+            <Sykefraværsstatistikk
+                orgnummer={virksomhet.orgnr}
+                bransje={virksomhet.bransje}
+                næring={virksomhet.næring}
             />
             <Historiskstatistikk orgnr={virksomhet.orgnr} />
         </Container>
-    )
-}
+    );
+};

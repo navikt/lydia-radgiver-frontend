@@ -55,7 +55,9 @@ export const EierFølgerFilter = ({
 
     // vis antall basert på aktive saker
     const aktiveSaker =
-        mineSaker?.filter((sak) => !ARKIV_STATUSER.includes(sak.iaSak.status)) ?? [];
+        mineSaker?.filter(
+            (sak) => !ARKIV_STATUSER.includes(sak.iaSak.status),
+        ) ?? [];
     const antallEier = aktiveSaker.filter(
         (sak) => sak.iaSak.eidAv == brukerInfo?.ident,
     ).length;

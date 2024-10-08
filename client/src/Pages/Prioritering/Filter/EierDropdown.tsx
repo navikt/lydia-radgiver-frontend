@@ -1,5 +1,8 @@
 import { Label } from "@navikt/ds-react";
-import { reactSelectStyle, StyledReactSelect, } from "../../../components/ReactSelect/StyledReactSelect";
+import {
+    reactSelectStyle,
+    StyledReactSelect,
+} from "../../../components/ReactSelect/StyledReactSelect";
 import { sorterAlfabetisk } from "../../../util/sortering";
 import { Eier } from "../../../domenetyper/domenetyper";
 
@@ -9,9 +12,13 @@ interface Props {
     eiere: Eier[];
 }
 
-export const EierDropdown = ({ onEierBytteCallback, filtrerbareEiere, eiere }: Props) => {
+export const EierDropdown = ({
+    onEierBytteCallback,
+    filtrerbareEiere,
+    eiere,
+}: Props) => {
     const options = filtrerbareEiere.sort((a, b) =>
-        sorterAlfabetisk(a.navn, b.navn)
+        sorterAlfabetisk(a.navn, b.navn),
     );
 
     const eierDropdownId = "EierDropdown";

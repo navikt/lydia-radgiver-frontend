@@ -10,7 +10,12 @@ interface Props {
     style?: CSSProperties;
 }
 
-export const Fylkedropdown = ({ fylkerOgKommuner, valgtFylke, endreFylke, style }: Props) => {
+export const Fylkedropdown = ({
+    fylkerOgKommuner,
+    valgtFylke,
+    endreFylke,
+    style,
+}: Props) => {
     return (
         <Select
             label="Fylke"
@@ -30,7 +35,10 @@ export const Fylkedropdown = ({ fylkerOgKommuner, valgtFylke, endreFylke, style 
     );
 };
 
-export const kommunenummerTilKommune = (kommunenummer: string, fylkerMedKommuner: FylkeMedKommuner[]) => {
+export const kommunenummerTilKommune = (
+    kommunenummer: string,
+    fylkerMedKommuner: FylkeMedKommuner[],
+) => {
     return fylkerMedKommuner
         .find(({ fylke }) => fylke.nummer === kommunenummer.substring(0, 2))
         ?.kommuner.find(({ nummer }) => nummer === kommunenummer);

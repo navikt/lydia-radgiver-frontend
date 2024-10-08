@@ -9,7 +9,7 @@ export type GrafSymboler =
     | "square"
     | "star"
     | "triangle"
-    | "wye"
+    | "wye";
 
 interface Props {
     size: number;
@@ -26,7 +26,7 @@ export const SymbolSvg = ({ size, fill, symbol, ...rest }: Props) => {
             {...rest}
             width={size}
             height={size}
-            viewBox={'0 0 ' + size + ' ' + size}
+            viewBox={"0 0 " + size + " " + size}
             aria-hidden={true}
         >
             <Symbols

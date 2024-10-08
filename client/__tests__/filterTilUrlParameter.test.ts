@@ -6,7 +6,7 @@ describe("Få rette parametrar i url", () => {
         const skjulDefaultParametre = false;
         const defaultverdi = 5;
         const forventaParams = new URLSearchParams();
-        forventaParams.append("ansatteFra", defaultverdi.toString())
+        forventaParams.append("ansatteFra", defaultverdi.toString());
 
         appendIfNotDefaultValue(
             "ansatteFra",
@@ -15,10 +15,10 @@ describe("Få rette parametrar i url", () => {
             (verdi: number) => (Number.isNaN(verdi) ? "" : `${verdi}`),
             params,
             skjulDefaultParametre,
-        )
+        );
 
-        expect(params).toEqual(forventaParams)
-    })
+        expect(params).toEqual(forventaParams);
+    });
 
     test("Skal ikkje returnere default-parameterar når skjulDefaultParametre=true", () => {
         const params = new URLSearchParams();
@@ -33,10 +33,10 @@ describe("Få rette parametrar i url", () => {
             (verdi: number) => (Number.isNaN(verdi) ? "" : `${verdi}`),
             params,
             skjulDefaultParametre,
-        )
+        );
 
-        expect(params).toEqual(forventaParams)
-    })
+        expect(params).toEqual(forventaParams);
+    });
 
     test("Skal returnere default-parameterar som default når skjulDefaultParametre=false", () => {
         const params = new URLSearchParams();
@@ -44,7 +44,7 @@ describe("Få rette parametrar i url", () => {
         const verdi = NaN;
         const defaultverdi = 5;
         const forventaParams = new URLSearchParams();
-        forventaParams.append("ansatteFra", defaultverdi.toString())
+        forventaParams.append("ansatteFra", defaultverdi.toString());
 
         appendIfNotDefaultValue(
             "ansatteFra",
@@ -53,8 +53,8 @@ describe("Få rette parametrar i url", () => {
             (verdi: number) => (Number.isNaN(verdi) ? "" : `${verdi}`),
             params,
             skjulDefaultParametre,
-        )
+        );
 
-        expect(params).toEqual(forventaParams)
-    })
-})
+        expect(params).toEqual(forventaParams);
+    });
+});

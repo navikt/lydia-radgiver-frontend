@@ -110,3 +110,9 @@ dist
 
 # Storybook build output
 storybook-static/
+
+# Ting vi har i prosjektet, men ikke vil gjøre for pene
+package-lock.json
+index.html
+public/
+src/index.css

@@ -5,7 +5,7 @@ import { Kvartal } from "../../../../../domenetyper/kvartal";
  * */
 export const finnKvartalsNummer = (dato: Date): number => {
     return Math.floor((dato.getMonth() + 3) / 3);
-}
+};
 
 /**
  * Tek inn ein dato, returnerer eit objekt med årstall og kvartal
@@ -14,8 +14,8 @@ export const datoTilKvartal = (dato: Date): Kvartal => {
     return {
         årstall: dato.getFullYear(),
         kvartal: finnKvartalsNummer(dato),
-    }
-}
+    };
+};
 
 /**
  * Tek inn to datoar og finn differansen mellom dei.
@@ -28,11 +28,16 @@ export const kvartalDifferanse = (a: Kvartal, b: Kvartal): number => {
     antallKvartal += b.kvartal - a.kvartal; // Legg til kvartal frå differanse i kvartalsnummer
 
     return antallKvartal;
-}
+};
 
 /**
  *  Tek inn to datoar og finn ut om det har gått eit heilt kvartal mellom dei.
  *  */
-export const aktivitetIForrigeKvartalEllerNyere = (nå: Date, sistEndret: Date): boolean => {
-    return kvartalDifferanse(datoTilKvartal(nå), datoTilKvartal(sistEndret)) >= -1;
-}
+export const aktivitetIForrigeKvartalEllerNyere = (
+    nå: Date,
+    sistEndret: Date,
+): boolean => {
+    return (
+        kvartalDifferanse(datoTilKvartal(nå), datoTilKvartal(sistEndret)) >= -1
+    );
+};

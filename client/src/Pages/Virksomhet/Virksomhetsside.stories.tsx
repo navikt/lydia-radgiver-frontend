@@ -5,7 +5,7 @@ import { virksomhetMock } from "../Prioritering/mocks/virksomhetMock";
 import {
     historiskStatistikkMock,
     sykefraværsstatistikkSisteKvartalMock,
-    virksomhetsstatistikkSiste4KvartalerMock
+    virksomhetsstatistikkSiste4KvartalerMock,
 } from "../Prioritering/mocks/sykefraværsstatistikkMock";
 import { iaSakKontaktes } from "./mocks/iaSakMock";
 import { Virksomhetsside } from "./Virksomhetsside";
@@ -16,7 +16,7 @@ import {
     siste4kvartalerPath,
     sistekvartalPath,
     sykefraværsstatistikkPath,
-    virksomhetsPath
+    virksomhetsPath,
 } from "../../api/lydia-api";
 import { samarbeidshistorikkMock } from "./mocks/iaSakHistorikkMock";
 import { mswHandlers } from "../../../.storybook/mswHandlers";
@@ -24,24 +24,26 @@ import { mswHandlers } from "../../../.storybook/mswHandlers";
 const meta = {
     title: "Virksomhet/Virksomhetside",
     component: Virksomhetsside,
-    decorators: [(Story) => (
-        <MemoryRouter initialEntries={["/virksomhet/123456789"]}>
-            <Routes>
-                <Route
-                    path={"/virksomhet/:orgnummer"}
-                    element={<Story />}
-                />
-            </Routes>
-        </MemoryRouter>
-    )]
+    decorators: [
+        (Story) => (
+            <MemoryRouter initialEntries={["/virksomhet/123456789"]}>
+                <Routes>
+                    <Route
+                        path={"/virksomhet/:orgnummer"}
+                        element={<Story />}
+                    />
+                </Routes>
+            </MemoryRouter>
+        ),
+    ],
 } satisfies Meta<typeof Virksomhetsside>;
 
 export default meta;
-type Story = StoryObj<typeof meta>
+type Story = StoryObj<typeof meta>;
 
 export const VirksomhetssideStory: Story = {
-    args: {}
-}
+    args: {},
+};
 
 VirksomhetssideStory.parameters = {
     msw: {
@@ -50,21 +52,34 @@ VirksomhetssideStory.parameters = {
             http.get(`${virksomhetsPath}/:orgnummer`, () => {
                 return HttpResponse.json(virksomhetMock);
             }),
-            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`, () => {
-                return HttpResponse.json(sykefraværsstatistikkSisteKvartalMock[0]);
-            }),
-            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`, () => {
-                return HttpResponse.json(virksomhetsstatistikkSiste4KvartalerMock[1]);
-            }),
+            http.get(
+                `${sykefraværsstatistikkPath}/:orgnummer/${sistekvartalPath}`,
+                () => {
+                    return HttpResponse.json(
+                        sykefraværsstatistikkSisteKvartalMock[0],
+                    );
+                },
+            ),
+            http.get(
+                `${sykefraværsstatistikkPath}/:orgnummer/${siste4kvartalerPath}`,
+                () => {
+                    return HttpResponse.json(
+                        virksomhetsstatistikkSiste4KvartalerMock[1],
+                    );
+                },
+            ),
             http.get(`${iaSakPath}/:orgnummer/aktiv`, () => {
                 return HttpResponse.json(iaSakKontaktes);
             }),
             http.get(`${iaSakHistorikkPath}/:orgnummer`, () => {
                 return HttpResponse.json(samarbeidshistorikkMock);
             }),
-            http.get(`${sykefraværsstatistikkPath}/:orgnummer/${historiskStatistikkPath}`, () => {
-                return HttpResponse.json(historiskStatistikkMock);
-            }),
+            http.get(
+                `${sykefraværsstatistikkPath}/:orgnummer/${historiskStatistikkPath}`,
+                () => {
+                    return HttpResponse.json(historiskStatistikkMock);
+                },
+            ),
         ],
     },
 };

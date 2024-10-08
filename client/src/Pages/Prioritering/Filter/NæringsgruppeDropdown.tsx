@@ -1,5 +1,8 @@
 import { Label } from "@navikt/ds-react";
-import { reactSelectStyle, StyledReactSelect } from "../../../components/ReactSelect/StyledReactSelect";
+import {
+    reactSelectStyle,
+    StyledReactSelect,
+} from "../../../components/ReactSelect/StyledReactSelect";
 import { Næringsgruppe } from "../../../domenetyper/virksomhet";
 
 interface ReactSelectOptions {
@@ -12,14 +15,17 @@ const mapbransjeprogramTilReactSelect = (bransjeprogram: string) => ({
     value: bransjeprogram.toUpperCase(),
 });
 
-function mapnæringsGruppeTilReactSelectOptions(gruppe: Næringsgruppe): ReactSelectOptions {
+function mapnæringsGruppeTilReactSelectOptions(
+    gruppe: Næringsgruppe,
+): ReactSelectOptions {
     return {
         label: `${gruppe.kode} - ${gruppe.navn}`,
         value: gruppe.kode,
     };
 }
 
-const penskriv = (s: string) => `${s.charAt(0).toUpperCase()}${s.slice(1).toLowerCase()}`;
+const penskriv = (s: string) =>
+    `${s.charAt(0).toUpperCase()}${s.slice(1).toLowerCase()}`;
 
 interface Props {
     næringsgrupper: Næringsgruppe[];
@@ -66,8 +72,8 @@ export const Næringsgruppedropdown = ({
                 onChange={(verdier) => {
                     endreNæringsgrupper(
                         (verdier as ReactSelectOptions[]).map(
-                            ({ value: næringsgruppe }) => næringsgruppe
-                        )
+                            ({ value: næringsgruppe }) => næringsgruppe,
+                        ),
                     );
                 }}
             />

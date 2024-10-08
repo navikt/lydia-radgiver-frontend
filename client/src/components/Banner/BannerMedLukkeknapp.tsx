@@ -6,8 +6,10 @@ export const BannerMedLukkeknapp = ({ children, ...props }: AlertProps) => {
     const [visBanner, setVisBanner] = useState(true);
 
     return (
-        visBanner && <Banner {...props} closeButton onClose={() => setVisBanner(false)}>
-            {children}
-        </Banner>
-    )
-}
+        visBanner && (
+            <Banner {...props} closeButton onClose={() => setVisBanner(false)}>
+                {children}
+            </Banner>
+        )
+    );
+};

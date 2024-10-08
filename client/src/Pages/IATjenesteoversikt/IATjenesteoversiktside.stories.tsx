@@ -5,7 +5,6 @@ import { mineIATjenesterPath } from "../../api/lydia-api";
 import { mswHandlers } from "../../../.storybook/mswHandlers";
 import { mineIATjenesterMock } from "./mineIATjenesterMock";
 
-
 const meta = {
     title: "IATjenesteoversikt/Mine IA-tjenester",
     component: IATjenesteoversiktside,
@@ -21,6 +20,6 @@ export const Hovedstory: Story = {
                 return HttpResponse.json(mineIATjenesterMock);
             }),
             ...mswHandlers,
-        ]
-    }
-}
+        ],
+    },
+};

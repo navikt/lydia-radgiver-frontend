@@ -15,9 +15,7 @@ export const virksomhetsoversiktSchema = z.object({
 
 export type Virksomhetsoversikt = z.infer<typeof virksomhetsoversiktSchema>;
 
-const virksomhetsoversiktListeSchema = z.array(
-    virksomhetsoversiktSchema
-);
+const virksomhetsoversiktListeSchema = z.array(virksomhetsoversiktSchema);
 
 export const virksomhetsoversiktListeResponsSchema = z.object({
     data: virksomhetsoversiktListeSchema,
