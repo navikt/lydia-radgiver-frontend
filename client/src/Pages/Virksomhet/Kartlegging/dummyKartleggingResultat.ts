@@ -1,7 +1,5 @@
 export const dummyKartleggingResultat = {
     kartleggingId: "ef8ec62b-48d2-4985-991b-ec4ec7bd46d4",
-    antallUnikeDeltakereMedMinstEttSvar: 5,
-    antallUnikeDeltakereSomHarSvartPåAlt: 3,
     spørsmålMedSvarPerTema: [
         {
             temaId: 4,

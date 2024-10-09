@@ -3,7 +3,7 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import { erSammeDato } from "../../../util/dato";
+import { erSammeDato, lokalDato } from "../../../util/dato";
 import React from "react";
 import {
     nyKartleggingPåSak,
@@ -42,11 +42,11 @@ export const BehovsvurderingMedSamarbeid = ({
     }
 
     function formaterDatoUtenKlokkeslett(dato: Date): string {
-        return dato.toLocaleDateString("nb-NO");
+        return lokalDato(dato);
     }
 
     function formaterDatoMedKlokkeslett(dato: Date): string {
-        return `${dato.toLocaleDateString("nb-NO")}, ${dato.getHours()}:${dato.getMinutes().toString().padStart(2, "0")}`;
+        return `${lokalDato(dato)}, ${dato.getHours().toString().padStart(2, "0")}:${dato.getMinutes().toString().padStart(2, "0")}`;
     }
 
     function formaterDatoForKartlegging(
@@ -140,9 +140,9 @@ export const BehovsvurderingMedSamarbeid = ({
                                             )}
                                             defaultOpen={
                                                 behovsvurdering.kartleggingId ===
-                                                    sisteOpprettedeKartleggingId ||
+                                                sisteOpprettedeKartleggingId ||
                                                 behovsvurdering.kartleggingId ===
-                                                    KartleggingIdFraUrl
+                                                KartleggingIdFraUrl
                                             }
                                         />
                                     ),

@@ -20,6 +20,8 @@ export const BehovsvurderingResultat = ({
     iaSak: IASak;
     behovsvurderingId: string;
 }) => {
+    //const kartleggingResultat = dummyKartleggingResultat;
+    //const { loading: lasterKartleggingResultat } =
     const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
         useHentKartleggingResultat(
             iaSak.orgnr,
@@ -37,9 +39,6 @@ export const BehovsvurderingResultat = ({
 
     return (
         <Container>
-            <BodyShort>
-                {`Antall deltakere som fullførte behovsvurderingen: ${kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt}`}
-            </BodyShort>
             {kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
                 <TemaResultat
                     key={tema.navn}

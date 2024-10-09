@@ -319,8 +319,6 @@ function EksportInnhold({
     return (
         <Container>
             <BodyShort>
-                {`Antall deltakere: ${kartleggingResultat.antallUnikeDeltakereSomHarSvartPåAlt}`}
-                <br />
                 {virksomhetsnavn}
             </BodyShort>
             {kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
