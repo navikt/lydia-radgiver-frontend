@@ -10,7 +10,6 @@ import { StartSpørreundersøkelseModal } from "./StartSpørreundersøkelseModal
 import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkelseModal";
 import EksportVisning from "./EksportVisning";
 import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 const ExportVisningContainer = styled.div`
@@ -186,15 +185,11 @@ export const BehovsvurderingRadInnhold = ({
                                         >
                                             Slett
                                         </StyledActionButton>
-                                        {erIDev && (
-                                            <FlyttTilAnnenProsess
-                                                gjeldendeSamarbeid={samarbeid}
-                                                iaSak={iaSak}
-                                                behovsvurdering={
-                                                    behovsvurdering
-                                                }
-                                            />
-                                        )}
+                                        <FlyttTilAnnenProsess
+                                            gjeldendeSamarbeid={samarbeid}
+                                            iaSak={iaSak}
+                                            behovsvurdering={behovsvurdering}
+                                        />
                                     </>
                                 )}
                                 <FullførSpørreundersøkelseModal
