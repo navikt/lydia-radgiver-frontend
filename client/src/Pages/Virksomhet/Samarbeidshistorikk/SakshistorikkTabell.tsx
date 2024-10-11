@@ -93,6 +93,14 @@ export const SakshistorikkTabell = ({
                                                     Slettet samarbeid
                                                 </Detail>
                                             )}
+                                            {sakSnapshot.hendelseOpprettetAv && (
+                                                <Detail>
+                                                    {
+                                                        sakSnapshot.hendelseOpprettetAv
+                                                    }{" "}
+                                                    opprettet sak
+                                                </Detail>
+                                            )}
                                         </Table.DataCell>
                                         <Table.DataCell>
                                             <NavIdentMedLenke
