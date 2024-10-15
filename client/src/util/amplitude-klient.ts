@@ -17,7 +17,7 @@ const apiKeys = {
 
 const isProduction = () =>
     typeof window !== "undefined" &&
-    window.location.hostname === "fia.intern.nav.no";
+    window.location.hostname === "fia.ansatt.nav.no";
 
 /**
  *  Gyldige events: https://github.com/navikt/analytics-taxonomy/tree/main/events
