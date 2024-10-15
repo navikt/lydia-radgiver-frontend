@@ -84,6 +84,7 @@ export function SaksgangDropdown({
                 >
                     {iaSak && <Historikk sak={iaSak} />}
                 </HistorikkContainer>
+                <br />
                 <Statusknapper
                     virksomhet={virksomhet}
                     onStatusEndret={() => {

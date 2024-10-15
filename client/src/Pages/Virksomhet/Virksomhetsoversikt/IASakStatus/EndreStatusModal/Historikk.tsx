@@ -32,6 +32,7 @@ function Sakshendelser({ sakshendelser }: { sakshendelser: Sakshendelse[] }) {
         "ENDRE_PROSESS",
         "NY_PROSESS",
         "TA_EIERSKAP_I_SAK",
+        "SLETT_PROSESS",
     ];
     return (
         <SakshendelseContainer>
