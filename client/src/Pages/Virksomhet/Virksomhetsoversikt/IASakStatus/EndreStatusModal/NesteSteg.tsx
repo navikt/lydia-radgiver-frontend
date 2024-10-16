@@ -5,11 +5,12 @@ import {
     Button,
     Checkbox,
     CheckboxGroup,
+    ConfirmationPanel,
     Heading,
     Modal,
     Select,
 } from "@navikt/ds-react";
-import React from "react";
+import React, { useState } from "react";
 import {
     GyldigNesteHendelse,
     IAProsessStatusEnum,
@@ -403,24 +404,61 @@ function BekreftelsesSeksjon({
     };
 
     const tekst = modalTekstForHendelse({ hendelse, sak });
+    const [bekreftet, setBekreftet] = useState(
+        hendelse.saksHendelsestype !== "FULLFØR_BISTAND",
+    );
 
     return (
         <Modal.Body>
             <Heading level="2" size="medium">
                 {tekst.tittel}
             </Heading>
-            {tekst.beskrivelse ?? <BodyLong>{tekst.beskrivelse}</BodyLong>}
+            <BekreftelsesInnhold
+                hendelse={hendelse}
+                bekreftet={bekreftet}
+                setBekreftet={setBekreftet}
+                tekst={tekst}
+            />
             <br />
             <Knappecontainer>
                 <Button variant="secondary" onClick={clearNesteSteg}>
                     Avbryt
                 </Button>
-                <Button variant="primary" onClick={onConfirm}>
-                    Ja
+                <Button
+                    variant="primary"
+                    onClick={onConfirm}
+                    disabled={!bekreftet}
+                >
+                    {tekst.bekreftendeTekst || "Ja"}
                 </Button>
             </Knappecontainer>
         </Modal.Body>
     );
+}
+
+function BekreftelsesInnhold({
+    hendelse,
+    bekreftet,
+    setBekreftet,
+    tekst,
+}: {
+    hendelse: GyldigNesteHendelse;
+    bekreftet: boolean;
+    setBekreftet: (a: boolean) => void;
+    tekst: ModalTekst;
+}) {
+    if (hendelse.saksHendelsestype === "FULLFØR_BISTAND") {
+        return (
+            <ConfirmationPanel
+                checked={bekreftet}
+                onChange={() => setBekreftet(!bekreftet)}
+                label="Jeg bekrefter at saken skal avsluttes"
+            >
+                {tekst.beskrivelse}
+            </ConfirmationPanel>
+        );
+    }
+    return <BodyLong>{tekst.beskrivelse}</BodyLong>;
 }
 
 const DEFAULT_TITTEL_FOR_MODAL = "Er du sikker på at du vil gjøre dette?";
@@ -428,6 +466,7 @@ const DEFAULT_TITTEL_FOR_MODAL = "Er du sikker på at du vil gjøre dette?";
 interface ModalTekst {
     tittel: string;
     beskrivelse?: string;
+    bekreftendeTekst?: string;
 }
 
 interface ModalTekstForHendelseProps {
@@ -448,9 +487,10 @@ const modalTekstForHendelse = ({
     switch (hendelse.saksHendelsestype) {
         case "FULLFØR_BISTAND":
             return {
-                tittel: "Er du sikker på at du vil fullføre saken?",
+                tittel: "Er du sikker på at du vil fullføre?",
                 beskrivelse:
                     "Dette vil lukke saken og skal gjøres når avtalt IA-oppfølging er fullført.",
+                bekreftendeTekst: "Fullfør",
             };
         case "TILBAKE": {
             if (sak.status === IAProsessStatusEnum.enum.FULLFØRT) {
