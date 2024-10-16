@@ -2,6 +2,18 @@ const dateFormatDato = new Intl.DateTimeFormat("nb-NO", {
     dateStyle: "short",
 });
 
+export const lokalDato = (input: Date) =>
+    dateFormatDato.format(new Date(input));
+
+const dateFormatDatoMedKortTekstmåned = new Intl.DateTimeFormat("nb-NO", {
+    month: "short",
+    day: "numeric",
+    year: "2-digit",
+});
+
+export const lokalDatoMedKortTekstmåned = (input: Date) =>
+    dateFormatDatoMedKortTekstmåned.format(new Date(input));
+
 const dateFormatDatoMedKlokke = new Intl.DateTimeFormat("nb-NO", {
     dateStyle: "medium",
     timeStyle: "short",
@@ -9,9 +21,6 @@ const dateFormatDatoMedKlokke = new Intl.DateTimeFormat("nb-NO", {
 
 export const lokalDatoMedKlokkeslett = (input: Date) =>
     dateFormatDatoMedKlokke.format(new Date(input));
-
-export const lokalDato = (input: Date) =>
-    dateFormatDato.format(new Date(input));
 
 export const isoDato = (dato: Date) => {
     dato.setHours(12);

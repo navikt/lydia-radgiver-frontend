@@ -8,6 +8,7 @@ import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKante
 import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 
 interface LeveransehistorikkProps {
     orgnr: string;
@@ -92,12 +93,12 @@ const BehovsVurderingISamarbeid = ({
                             {avsluttedeKarltegginger.map((kartlegging) => (
                                 <Table.Row key={kartlegging.kartleggingId}>
                                     <Table.DataCell>
-                                        {formaterDatoMedKlokkeslett(
+                                        {lokalDatoMedKlokkeslett(
                                             kartlegging.opprettetTidspunkt,
                                         )}
                                     </Table.DataCell>
                                     <Table.DataCell>
-                                        {formaterDatoMedKlokkeslett(
+                                        {lokalDatoMedKlokkeslett(
                                             kartlegging.endretTidspunkt!,
                                         )}
                                     </Table.DataCell>
@@ -119,7 +120,3 @@ const BehovsVurderingISamarbeid = ({
         </>
     );
 };
-
-function formaterDatoMedKlokkeslett(dato: Date): string {
-    return `${dato.toLocaleDateString("nb-NO")}, ${dato.getHours()}:${dato.getMinutes().toString().padStart(2, "0")}`;
-}

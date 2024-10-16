@@ -10,6 +10,7 @@ import {
 import { endrePlanStatus } from "../../../api/lydia-api";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { lokalDatoMedKortTekstmåned } from "../../../util/dato";
 
 const StyledAccordion = styled(Accordion)`
     width: 100%;
@@ -191,13 +192,7 @@ export function PrettyInnholdsDato({
             nyDato.setDate(nyDato.getDate() - 1);
         }
 
-        const nyDatoTekst = nyDato.toLocaleDateString("nb-NO", {
-            month: "short",
-            day: "numeric",
-            year: "2-digit",
-        });
-
-        return nyDatoTekst[0].toUpperCase() + nyDatoTekst.substring(1);
+        return lokalDatoMedKortTekstmåned(nyDato);
     }, [visNesteMåned, date]);
 }
 

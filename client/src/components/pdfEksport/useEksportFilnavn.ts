@@ -1,5 +1,6 @@
 import React from "react";
 import { useVirksomhetContext } from "../../Pages/Virksomhet/VirksomhetContext";
+import { lokalDato } from "../../util/dato";
 
 const FILNAVN_DEL_MAKS = 25;
 
@@ -31,9 +32,9 @@ export default function useEksportFilnavn(
         }
 
         if (dato) {
-            filnavn += `_${dato.toLocaleDateString()}`;
+            filnavn += `_${lokalDato(dato)}`;
         } else {
-            filnavn += `_${new Date().toLocaleDateString()}`;
+            filnavn += `_${lokalDato(new Date())}`;
         }
 
         filnavn += ".pdf";

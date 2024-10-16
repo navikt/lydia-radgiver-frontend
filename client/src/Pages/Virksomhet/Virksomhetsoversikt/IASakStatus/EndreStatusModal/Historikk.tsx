@@ -5,6 +5,7 @@ import { Sakshendelse } from "../../../../../domenetyper/sakshistorikk";
 import { StatusBadge } from "../../../../../components/Badge/StatusBadge";
 import { Detail, Loader } from "@navikt/ds-react";
 import React from "react";
+import { lokalDato } from "../../../../../util/dato";
 
 export default function Historikk({ sak }: { sak: IASak }) {
     const { data: samarbeidshistorikk, loading: lasterSamarbeidshistorikk } =
@@ -94,17 +95,10 @@ function Sakshendelsedatoer({
 }) {
     return (
         <div>
-            {sakshendelse.tidspunktForSnapshot.toLocaleString("default", {
-                month: "numeric",
-                day: "numeric",
-                year: "numeric",
-            })}{" "}
-            -{" "}
-            {nesteSakshendelse?.tidspunktForSnapshot.toLocaleString("default", {
-                month: "numeric",
-                day: "numeric",
-                year: "numeric",
-            })}
+            {lokalDato(sakshendelse.tidspunktForSnapshot)}
+            {" - "}
+            {nesteSakshendelse &&
+                lokalDato(nesteSakshendelse.tidspunktForSnapshot)}
         </div>
     );
 }
