@@ -13,7 +13,7 @@ import {
 import { Accordion, Loader } from "@navikt/ds-react";
 import { BehovsvurderingOpprettNyKnapp } from "./BehovsvurderingOpprettNyKnapp";
 import { BehovsvurderingRad } from "./BehovsvurderingRad";
-import { sorterPåDatoStigende } from "../../../util/sortering";
+import { sorterPåDatoSynkende } from "../../../util/sortering";
 
 const Container = styled.div`
     ${tabInnholdStyling};
@@ -37,7 +37,7 @@ export const BehovsvurderingMedSamarbeid = ({
 }) => {
     function sorterPåDato(behovsvurderinger: IASakKartlegging[]) {
         return behovsvurderinger.sort((a, b) =>
-            sorterPåDatoStigende(a.opprettetTidspunkt, b.opprettetTidspunkt),
+            sorterPåDatoSynkende(a.opprettetTidspunkt, b.opprettetTidspunkt),
         );
     }
 

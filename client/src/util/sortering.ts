@@ -9,3 +9,7 @@ export const sorterKvartalStigende = (a: Kvartal, b: Kvartal) =>
 export const sorterPåDatoStigende = (a: Date, b: Date) => {
     return a.getTime() - b.getTime();
 };
+
+export const sorterPåDatoSynkende = (a: Date, b: Date) => {
+    return b.getTime() - a.getTime();
+};
