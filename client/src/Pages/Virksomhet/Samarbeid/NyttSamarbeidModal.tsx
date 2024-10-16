@@ -27,6 +27,7 @@ export const NyttSamarbeidModal = ({
     setÅpen,
 }: NyttSamarbeidProps) => {
     const [navn, setNavn] = useState("");
+    const inputRef = React.useRef<HTMLInputElement>(null);
     const antallTegn = navn.length;
     const lukkModal = () => {
         setNavn("");
@@ -77,6 +78,13 @@ export const NyttSamarbeidModal = ({
             .finally(lukkModal);
     };
 
+    React.useEffect(() => {
+        // Fokus på inputfeltet når modalen åpnes
+        if (åpen) {
+            inputRef.current?.focus();
+        }
+    }, [åpen]);
+
     return (
         <StyledModal
             open={åpen}
@@ -106,6 +114,7 @@ export const NyttSamarbeidModal = ({
                         }}
                     >
                         <TextFieldStyled
+                            ref={inputRef}
                             maxLength={25}
                             size="small"
                             label="Navngi samarbeid"
@@ -115,6 +124,12 @@ export const NyttSamarbeidModal = ({
                                 setNavn(nyttNavn);
                             }}
                             hideLabel
+                            onKeyDown={(event) => {
+                                // Submit på enter.
+                                if (event.key === "Enter") {
+                                    nyttSamarbeid();
+                                }
+                            }}
                         />
                     </div>
 
