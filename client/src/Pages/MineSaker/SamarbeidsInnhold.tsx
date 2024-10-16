@@ -6,6 +6,7 @@ import { Button } from "@navikt/ds-react";
 import { loggGåTilSakFraMineSaker } from "../../util/amplitude-klient";
 import styled from "styled-components";
 import { IaSakProsess } from "../../domenetyper/iaSakProsess";
+import { lokalDato } from "../../util/dato";
 
 const Innhold = styled.div`
     background-color: #e6f0ff;
@@ -64,11 +65,8 @@ export const SamarbeidsInnhold = ({
     )[0];
 
     const visVurdering = VIS_VURDERINGSSTATUSER.includes(iaSak.status);
-    const vurderingSistEndret = (
-        sisteVurdering?.endretTidspunkt || sisteVurdering?.opprettetTidspunkt
-    )?.toLocaleDateString("no", {
-        dateStyle: "short",
-    });
+    const sistEndret = sisteVurdering?.endretTidspunkt || sisteVurdering?.opprettetTidspunkt;
+    const vurderingSistEndret = sistEndret && lokalDato(sistEndret);
 
     return (
         <Innhold>
@@ -81,20 +79,18 @@ export const SamarbeidsInnhold = ({
                                 ? `${penskrivKartleggingStatus(sisteVurdering.status)}
                                     ${vurderingSistEndret}`
                                 : !lasterKartlegginger
-                                  ? "Ikke gjennomført i Fia"
-                                  : null}
+                                    ? "Ikke gjennomført i Fia"
+                                    : null}
                         </ContentData>
                     </div>
                 ) : (
                     <div>
                         <ContentText>Sist endret: </ContentText>
                         <ContentData>
-                            {(
+                            {lokalDato(
                                 iaSak.endretTidspunkt ??
                                 iaSak.opprettetTidspunkt
-                            ).toLocaleDateString("no", {
-                                dateStyle: "short",
-                            })}
+                            )}
                         </ContentData>
                     </div>
                 )}

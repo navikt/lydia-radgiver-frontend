@@ -2,6 +2,7 @@ import { BodyShort, Heading } from "@navikt/ds-react";
 import NAVLogo from "../../img/NAV_logo_rød.png";
 import { useVirksomhetContext } from "../../Pages/Virksomhet/VirksomhetContext";
 import { IaSakProsess } from "../../domenetyper/iaSakProsess";
+import { lokalDato } from "../../util/dato";
 
 export default function VirksomhetsEksportHeader({
     type,
@@ -12,7 +13,7 @@ export default function VirksomhetsEksportHeader({
     dato?: Date | null;
     samarbeid?: IaSakProsess;
 }) {
-    const vistDato = (dato ?? new Date()).toLocaleDateString("nb-NO");
+    const vistDato = lokalDato(dato ?? new Date());
     const virksomhetsdata = useVirksomhetContext();
 
     return (
