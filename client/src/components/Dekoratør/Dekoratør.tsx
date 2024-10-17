@@ -151,14 +151,6 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                         </InternalHeader.Title>
                     </Navigasjonslenke>
                     <Navigasjonslenke
-                        href="/iatjenesteoversikt"
-                        title="Gå til mine IA-tjenester"
-                    >
-                        <InternalHeader.Title as="span">
-                            Mine IA-tjenester
-                        </InternalHeader.Title>
-                    </Navigasjonslenke>
-                    <Navigasjonslenke
                         href="/minesaker"
                         title="Gå til mine saker"
                     >
