@@ -40,14 +40,9 @@ export const TemaResultat = ({
                     {navn}
                 </Heading>
                 <AntallDeltakere
-                    antallDeltakere={spørsmålResultat
-                        .map(
-                            (spørsmål: SpørsmålResultatDto) =>
-                                spørsmål.antallDeltakereSomHarSvart,
-                        )
-                        .reduce(
-                            (accumulator, current) => accumulator + current,
-                        )}
+                    antallDeltakere={
+                        spørsmålResultat[0]?.antallDeltakereSomHarSvart
+                    }
                 />
             </HStack>
             <TemaContainer>
