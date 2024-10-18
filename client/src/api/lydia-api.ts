@@ -76,7 +76,7 @@ import {
 } from "../domenetyper/iaSakKartlegging";
 import {
     IASakKartleggingResultat,
-    iaSakKartleggingResultatSchema,
+    behovsvurderingResultatSchema,
 } from "../domenetyper/iaSakKartleggingResultat";
 import { IaSakProsess, iaSakProsessSchema } from "../domenetyper/iaSakProsess";
 import { MineSaker, mineSakerListSchema } from "../domenetyper/mineSaker";
@@ -810,7 +810,7 @@ export const useHentKartleggingResultat = (
 ) => {
     return useSwrTemplate<IASakKartleggingResultat>(
         `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}`,
-        iaSakKartleggingResultatSchema,
+        behovsvurderingResultatSchema,
     );
 };
 

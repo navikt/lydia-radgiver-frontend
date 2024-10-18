@@ -3,6 +3,7 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { useHentKartleggingResultat } from "../../../api/lydia-api";
 import styled from "styled-components";
 import { TemaResultat } from "./TemaResultat";
+import { TemaResultatDto } from "../../../domenetyper/iaSakKartleggingResultat";
 
 const Container = styled.div`
     padding-top: 1rem;
@@ -20,8 +21,6 @@ export const BehovsvurderingResultat = ({
     iaSak: IASak;
     behovsvurderingId: string;
 }) => {
-    //const kartleggingResultat = dummyKartleggingResultat;
-    //const { loading: lasterKartleggingResultat } =
     const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
         useHentKartleggingResultat(
             iaSak.orgnr,
@@ -39,13 +38,15 @@ export const BehovsvurderingResultat = ({
 
     return (
         <Container>
-            {kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
-                <TemaResultat
-                    key={tema.navn}
-                    spørsmålMedSvar={tema.spørsmålMedSvar}
-                    navn={tema.navn}
-                />
-            ))}
+            {kartleggingResultat.spørsmålMedSvarPerTema.map(
+                (tema: TemaResultatDto) => (
+                    <TemaResultat
+                        key={tema.navn}
+                        spørsmålResultat={tema.spørsmålMedSvar}
+                        navn={tema.navn}
+                    />
+                ),
+            )}
         </Container>
     );
 };

@@ -2,6 +2,7 @@ import { Heading, HeadingProps, HStack } from "@navikt/ds-react";
 import styled from "styled-components";
 import BarChart from "./Grafer/BarChart";
 import { PersonGroupFillIcon } from "@navikt/aksel-icons";
+import { SpørsmålResultatDto } from "../../../domenetyper/iaSakKartleggingResultat";
 
 const TemaContainer = styled.div`
     display: grid;
@@ -19,41 +20,39 @@ const TemaGrafContainer = styled.div`
     padding: 2rem;
 `;
 
-type SpørsmålMedSvar = {
-    spørsmålId: string;
-    tekst: string;
-    flervalg: boolean;
-    svarListe: { tekst: string; svarId: string; antallSvar: number }[];
-};
 interface Props {
     navn: string;
-    spørsmålMedSvar: SpørsmålMedSvar[];
+    spørsmålResultat: SpørsmålResultatDto[];
     erIEksportMode?: boolean;
     headingSize?: HeadingProps["size"];
 }
 
 export const TemaResultat = ({
     navn,
-    spørsmålMedSvar,
+    spørsmålResultat,
     erIEksportMode = false,
     headingSize = "medium",
 }: Props) => {
     return (
         <>
             <HStack justify="space-between" align="center">
-                <Heading
-                    level="3"
-                    size={headingSize}
-                >
+                <Heading level="3" size={headingSize}>
                     {navn}
                 </Heading>
-                <AntallDeltakere antallDeltakere={3} />
+                <AntallDeltakere
+                    antallDeltakere={spørsmålResultat
+                        .map(
+                            (spørsmål: SpørsmålResultatDto) =>
+                                spørsmål.antallDeltakereSomHarSvart,
+                        )
+                        .reduce(
+                            (accumulator, current) => accumulator + current,
+                        )}
+                />
             </HStack>
             <TemaContainer>
-                {spørsmålMedSvar.map((spørsmål) => (
-                    <TemaGrafContainer
-                        key={spørsmål.spørsmålId}
-                    >
+                {spørsmålResultat.map((spørsmål: SpørsmålResultatDto) => (
+                    <TemaGrafContainer key={spørsmål.spørsmålId}>
                         <BarChart
                             horizontal={spørsmål.flervalg}
                             spørsmål={spørsmål}
@@ -74,7 +73,7 @@ const StyledDeltakere = styled(HStack)`
 `;
 
 export function AntallDeltakere({
-    antallDeltakere
+    antallDeltakere,
 }: {
     antallDeltakere: number;
 }) {

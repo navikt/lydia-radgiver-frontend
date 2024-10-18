@@ -318,13 +318,11 @@ function EksportInnhold({
 
     return (
         <Container>
-            <BodyShort>
-                {virksomhetsnavn}
-            </BodyShort>
+            <BodyShort>{virksomhetsnavn}</BodyShort>
             {kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
                 <TemaResultat
                     key={tema.navn}
-                    spørsmålMedSvar={tema.spørsmålMedSvar}
+                    spørsmålResultat={tema.spørsmålMedSvar}
                     navn={tema.navn}
                     erIEksportMode={true}
                     headingSize="large"
