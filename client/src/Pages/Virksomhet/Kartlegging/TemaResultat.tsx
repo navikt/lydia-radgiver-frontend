@@ -6,7 +6,7 @@ import { SpørsmålResultatDto } from "../../../domenetyper/iaSakKartleggingResu
 
 const TemaContainer = styled.div`
     display: grid;
-    grid-template-columns: calc(50% - 2rem) calc(50% - 2rem);
+    grid-template-columns: calc(50% - 1rem) calc(50% - 1rem);
     justify-items: stretch;
     width: 100%;
     padding-bottom: 4rem;
