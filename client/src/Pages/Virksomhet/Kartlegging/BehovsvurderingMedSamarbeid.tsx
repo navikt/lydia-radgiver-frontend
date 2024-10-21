@@ -1,7 +1,5 @@
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { IASak } from "../../../domenetyper/domenetyper";
-import styled from "styled-components";
-import { tabInnholdStyling } from "../../../styling/containere";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import { erSammeDato, lokalDato } from "../../../util/dato";
 import React from "react";
@@ -10,15 +8,11 @@ import {
     useHentBehovsvurderingerMedProsess,
     useHentIASaksStatus,
 } from "../../../api/lydia-api";
-import { Accordion, Loader } from "@navikt/ds-react";
+import { Loader } from "@navikt/ds-react";
 import { BehovsvurderingOpprettNyKnapp } from "./BehovsvurderingOpprettNyKnapp";
 import { BehovsvurderingRad } from "./BehovsvurderingRad";
 import { sorterPåDatoSynkende } from "../../../util/sortering";
 
-const Container = styled.div`
-    ${tabInnholdStyling};
-    margin-bottom: 2rem;
-`;
 
 export const BehovsvurderingMedSamarbeid = ({
     iaSak,
@@ -116,40 +110,33 @@ export const BehovsvurderingMedSamarbeid = ({
                     onClick={opprettBehovsvurdering}
                     disabled={!(sakErIRettStatus && brukerErEierAvSak)}
                 />
-                <br />
-                <br />
-                {behovsvurderinger.length > 0 && (
-                    <Container>
-                        <Accordion style={{ marginTop: "1rem" }}>
-                            {behovsvurderinger.length > 0 &&
-                                sorterPåDato(behovsvurderinger).map(
-                                    (behovsvurdering, index, originalArray) => (
-                                        <BehovsvurderingRad
-                                            key={behovsvurdering.kartleggingId}
-                                            iaSak={iaSak}
-                                            samarbeid={samarbeid}
-                                            behovsvurdering={behovsvurdering}
-                                            brukerRolle={brukerRolle}
-                                            brukerErEierAvSak={
-                                                brukerErEierAvSak
-                                            }
-                                            dato={formaterDatoForKartlegging(
-                                                behovsvurdering,
-                                                index,
-                                                originalArray,
-                                            )}
-                                            defaultOpen={
-                                                behovsvurdering.kartleggingId ===
-                                                sisteOpprettedeKartleggingId ||
-                                                behovsvurdering.kartleggingId ===
-                                                KartleggingIdFraUrl
-                                            }
-                                        />
-                                    ),
+                {behovsvurderinger.length > 0 &&
+                    sorterPåDato(behovsvurderinger).map(
+                        (behovsvurdering, index, originalArray) => (
+                            <BehovsvurderingRad
+                                key={behovsvurdering.kartleggingId}
+                                iaSak={iaSak}
+                                samarbeid={samarbeid}
+                                behovsvurdering={behovsvurdering}
+                                brukerRolle={brukerRolle}
+                                avstandFraSiste={behovsvurderinger.length - index}
+                                brukerErEierAvSak={
+                                    brukerErEierAvSak
+                                }
+                                dato={formaterDatoForKartlegging(
+                                    behovsvurdering,
+                                    index,
+                                    originalArray,
                                 )}
-                        </Accordion>
-                    </Container>
-                )}
+                                defaultOpen={
+                                    behovsvurdering.kartleggingId ===
+                                    sisteOpprettedeKartleggingId ||
+                                    behovsvurdering.kartleggingId ===
+                                    KartleggingIdFraUrl
+                                }
+                            />
+                        ),
+                    )}
             </>
         )
     );

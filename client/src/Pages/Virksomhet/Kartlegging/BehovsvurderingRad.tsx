@@ -1,33 +1,20 @@
 import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import { Accordion } from "@navikt/ds-react";
+import { ExpansionCard } from "@navikt/ds-react";
 import styled from "styled-components";
 import { BehovsvurderingRadInnhold } from "./BehovsvurderingRadInnhold";
-import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
 import React, { useState } from "react";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { BehovsvurderingCardHeaderInnhold } from "./BehovsvurderingCardHeaderInnhold";
 
-const AccordionHeader = styled(Accordion.Header)`
-    width: 100%;
+const StyledExpansionCard = styled(ExpansionCard) <{ $avstandFraSiste: number }>`
+    margin-bottom: 1rem;
 
-    .navds-heading {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        width: 100%;
+    &>div {
+        z-index: ${(props) => props.$avstandFraSiste + 5};
     }
 `;
 
-const HeaderRightContent = styled.span`
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-`;
-
-const KartleggingDato = styled.span`
-    width: 8rem;
-    text-align: right;
-`;
 
 export const BehovsvurderingRad = ({
     iaSak,
@@ -37,6 +24,7 @@ export const BehovsvurderingRad = ({
     defaultOpen,
     brukerErEierAvSak,
     dato,
+    avstandFraSiste,
 }: {
     iaSak: IASak;
     samarbeid: IaSakProsess;
@@ -45,25 +33,28 @@ export const BehovsvurderingRad = ({
     dato?: string;
     brukerErEierAvSak: boolean;
     defaultOpen?: boolean;
+    avstandFraSiste: number;
 }) => {
     const [erÅpen, setErÅpen] = useState(defaultOpen);
 
     return (
-        <Accordion.Item
+        <StyledExpansionCard
+            aria-label="Behovsvurdering"
             open={erÅpen}
-            defaultOpen={defaultOpen}
-            onOpenChange={(open: boolean) => {
+            onToggle={(open: boolean) => {
                 setErÅpen(open);
             }}
+            $avstandFraSiste={avstandFraSiste}
         >
-            <AccordionHeader>
-                Behovsvurdering
-                <HeaderRightContent>
-                    <KartleggingStatusBedge status={behovsvurdering.status} />
-                    <KartleggingDato>{dato}</KartleggingDato>
-                </HeaderRightContent>
-            </AccordionHeader>
-            {erÅpen && (
+            <BehovsvurderingCardHeaderInnhold
+                iaSak={iaSak}
+                samarbeid={samarbeid}
+                behovsvurderingStatus={behovsvurdering.status}
+                behovsvurdering={behovsvurdering}
+                brukerRolle={brukerRolle}
+                brukerErEierAvSak={brukerErEierAvSak}
+                dato={dato} />
+            {erÅpen && behovsvurdering.status === "AVSLUTTET" && (
                 <BehovsvurderingRadInnhold
                     iaSak={iaSak}
                     samarbeid={samarbeid}
@@ -73,6 +64,6 @@ export const BehovsvurderingRad = ({
                     brukerErEierAvSak={brukerErEierAvSak}
                 />
             )}
-        </Accordion.Item>
+        </StyledExpansionCard>
     );
 };

@@ -1,4 +1,4 @@
-import { Accordion, Button } from "@navikt/ds-react";
+import { ExpansionCard, Button } from "@navikt/ds-react";
 import React, { useState } from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
@@ -62,7 +62,7 @@ export const BehovsvurderingRadInnhold = ({
 
         if (behovsvurderingStatus === "AVSLUTTET") {
             return (
-                <Accordion.Content>
+                <ExpansionCard.Content>
                     <ExportVisningContainer>
                         {brukerErEierAvSak && (
                             <FlyttTilAnnenProsess
@@ -83,13 +83,13 @@ export const BehovsvurderingRadInnhold = ({
                         iaSak={iaSak}
                         behovsvurderingId={behovsvurdering.kartleggingId}
                     />
-                </Accordion.Content>
+                </ExpansionCard.Content>
             );
         }
 
         if (behovsvurderingStatus === "OPPRETTET") {
             return (
-                <Accordion.Content>
+                <ExpansionCard.Content>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
                         brukerRolle !== "Lesetilgang" && (
@@ -142,13 +142,13 @@ export const BehovsvurderingRadInnhold = ({
                             }
                         />
                     )}
-                </Accordion.Content>
+                </ExpansionCard.Content>
             );
         }
 
         if (behovsvurderingStatus === "PÅBEGYNT") {
             return (
-                <Accordion.Content>
+                <ExpansionCard.Content>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
                         brukerRolle !== "Lesetilgang" && (
@@ -219,7 +219,7 @@ export const BehovsvurderingRadInnhold = ({
                             }
                         />
                     )}
-                </Accordion.Content>
+                </ExpansionCard.Content>
             );
         }
     }

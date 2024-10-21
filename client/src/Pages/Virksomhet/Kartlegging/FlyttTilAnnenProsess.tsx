@@ -11,6 +11,7 @@ import {
     defaultNavnHvisTomt,
     IaSakProsess,
 } from "../../../domenetyper/iaSakProsess";
+import styled from "styled-components";
 
 interface Props {
     iaSak: IASak;
@@ -18,6 +19,10 @@ interface Props {
     behovsvurdering: IASakKartlegging;
     dropdownSize?: "small" | "medium" | "xsmall" | undefined;
 }
+
+const StyledDropdownMenu = styled(Dropdown.Menu)`
+    z-index: 3;
+`;
 
 export const FlyttTilAnnenProsess = ({
     iaSak,
@@ -57,7 +62,7 @@ export const FlyttTilAnnenProsess = ({
                         >
                             Endre samarbeid
                         </Button>
-                        <Dropdown.Menu>
+                        <StyledDropdownMenu>
                             <Dropdown.Menu.GroupedList>
                                 <Dropdown.Menu.GroupedList.Heading>
                                     Flytt behovsvurdering til:
@@ -83,7 +88,7 @@ export const FlyttTilAnnenProsess = ({
                                         </Dropdown.Menu.GroupedList.Item>
                                     ))}
                             </Dropdown.Menu.GroupedList>
-                        </Dropdown.Menu>
+                        </StyledDropdownMenu>
                     </Dropdown>
                 )}
         </>
