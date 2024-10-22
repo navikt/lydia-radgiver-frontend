@@ -7,16 +7,14 @@ import {
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { BehovsvurderingHeading } from "./BehovsvurderingHeading";
 import { BehovsvurderingHjelpetekst } from "./BehovsvurderingHjelpetekst";
-import { BehovsvurderingMedSamarbeid } from "./BehovsvurderingMedSamarbeid";
+import { Behovsvurdering } from "./Behovsvurdering";
 
 export const BehovsvurderingFane = ({
     iaSak,
     gjeldendeSamarbeid,
-    KartleggingIdFraUrl,
 }: {
     iaSak: IASak;
     gjeldendeSamarbeid: IaSakProsess;
-    KartleggingIdFraUrl: string | null;
 }) => {
     const { data: alleSamarbeid } = useHentSamarbeid(
         iaSak.orgnr,
@@ -49,13 +47,12 @@ export const BehovsvurderingFane = ({
                 brukerErEierAvSak={brukerErEierAvSak}
                 sakErIRettStatus={sakErIRettStatus}
             />
-            <BehovsvurderingMedSamarbeid
+            <Behovsvurdering
                 brukerRolle={brukerInformasjon?.rolle}
                 samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]}
                 brukerErEierAvSak={brukerErEierAvSak}
                 sakErIRettStatus={sakErIRettStatus}
                 iaSak={iaSak}
-                KartleggingIdFraUrl={KartleggingIdFraUrl}
             />
         </>
     );

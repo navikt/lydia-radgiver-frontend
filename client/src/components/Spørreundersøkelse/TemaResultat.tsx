@@ -2,7 +2,7 @@ import { Heading, HeadingProps, HStack } from "@navikt/ds-react";
 import styled from "styled-components";
 import BarChart from "./Grafer/BarChart";
 import { PersonGroupFillIcon } from "@navikt/aksel-icons";
-import { SpørsmålResultatDto } from "../../../domenetyper/iaSakKartleggingResultat";
+import { SpørsmålResultatDto } from "../../domenetyper/iaSakKartleggingResultat";
 
 const TemaContainer = styled.div`
     display: grid;

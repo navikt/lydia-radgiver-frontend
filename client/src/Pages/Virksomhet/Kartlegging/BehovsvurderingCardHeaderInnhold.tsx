@@ -1,6 +1,5 @@
 import { Button, ExpansionCard } from "@navikt/ds-react";
 import React, { useState } from "react";
-import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import styled from "styled-components";
 import { åpneKartleggingINyFane } from "../../../util/navigasjon";
@@ -9,9 +8,9 @@ import { StartSpørreundersøkelseModal } from "./StartSpørreundersøkelseModal
 import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkelseModal";
 import EksportVisning from "./EksportVisning";
 import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
 import { TrashIcon } from "@navikt/aksel-icons";
+import { useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 
 const ActionButtonContainer = styled.div`
     display: flex;
@@ -69,20 +68,10 @@ const KartleggingStatusWrapper = styled.div`
 `;
 
 export const BehovsvurderingCardHeaderInnhold = ({
-	iaSak,
 	behovsvurdering,
-	samarbeid,
-	brukerRolle,
-	brukerErEierAvSak,
-	behovsvurderingStatus,
 	dato,
 }: {
-	iaSak: IASak;
 	behovsvurdering: IASakKartlegging;
-	samarbeid: IaSakProsess;
-	brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
-	brukerErEierAvSak: boolean;
-	behovsvurderingStatus: "OPPRETTET" | "PÅBEGYNT" | "AVSLUTTET" | "SLETTET";
 	dato?: string;
 }) => {
 	const [
@@ -103,6 +92,14 @@ export const BehovsvurderingCardHeaderInnhold = ({
 	const MINIMUM_ANTALL_DELTAKERE = 3;
 	const deltakereSomHarFullført = 1;
 	const harNokDeltakere = deltakereSomHarFullført >= MINIMUM_ANTALL_DELTAKERE;
+	const behovsvurderingStatus = behovsvurdering.status;
+
+	const {
+		iaSak,
+		brukerRolle,
+		samarbeid,
+		brukerErEierAvSak,
+	} = useSpørreundersøkelse();
 
 	if (iaSak !== undefined) {
 		if (behovsvurderingStatus === "SLETTET") {

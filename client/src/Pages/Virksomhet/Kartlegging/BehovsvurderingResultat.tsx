@@ -1,11 +1,10 @@
-import { BodyShort, Loader } from "@navikt/ds-react";
-import { IASak } from "../../../domenetyper/domenetyper";
-import { useHentKartleggingResultat } from "../../../api/lydia-api";
 import styled from "styled-components";
-import { TemaResultat } from "./TemaResultat";
-import { TemaResultatDto } from "../../../domenetyper/iaSakKartleggingResultat";
+import { Loader, BodyShort } from "@navikt/ds-react";
+import { useHentKartleggingResultat } from "../../../api/lydia-api";
+import { IASak } from "../../../domenetyper/domenetyper";
+import Resultatvisning from "../../../components/Spørreundersøkelse/Resultatvisning";
 
-const Container = styled.div`
+export const Container = styled.div`
     padding-top: 1rem;
     height: 100%;
 
@@ -15,18 +14,16 @@ const Container = styled.div`
 `;
 
 export const BehovsvurderingResultat = ({
-    iaSak,
-    behovsvurderingId,
+    iaSak, behovsvurderingId,
 }: {
     iaSak: IASak;
     behovsvurderingId: string;
 }) => {
-    const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
-        useHentKartleggingResultat(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            behovsvurderingId,
-        );
+    const { data: kartleggingResultat, loading: lasterKartleggingResultat } = useHentKartleggingResultat(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+        behovsvurderingId
+    );
 
     if (lasterKartleggingResultat) {
         return <Loader />;
@@ -37,16 +34,6 @@ export const BehovsvurderingResultat = ({
     }
 
     return (
-        <Container>
-            {kartleggingResultat.spørsmålMedSvarPerTema.map(
-                (tema: TemaResultatDto) => (
-                    <TemaResultat
-                        key={tema.navn}
-                        spørsmålResultat={tema.spørsmålMedSvar}
-                        navn={tema.navn}
-                    />
-                ),
-            )}
-        </Container>
+        <Resultatvisning kartleggingResultat={kartleggingResultat} />
     );
 };
