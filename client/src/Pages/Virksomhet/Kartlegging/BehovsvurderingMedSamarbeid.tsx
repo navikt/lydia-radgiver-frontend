@@ -13,7 +13,8 @@ import { BehovsvurderingOpprettNyKnapp } from "./BehovsvurderingOpprettNyKnapp";
 import { BehovsvurderingRad } from "./BehovsvurderingRad";
 import { sorterPåDatoSynkende } from "../../../util/sortering";
 
-export const Behovsvurderinger = ({
+
+export const BehovsvurderingMedSamarbeid = ({
     iaSak,
     samarbeid,
     brukerErEierAvSak,
@@ -118,10 +119,10 @@ export const Behovsvurderinger = ({
                                 samarbeid={samarbeid}
                                 behovsvurdering={behovsvurdering}
                                 brukerRolle={brukerRolle}
-                                avstandFraSiste={
-                                    behovsvurderinger.length - index
+                                avstandFraSiste={behovsvurderinger.length - index}
+                                brukerErEierAvSak={
+                                    brukerErEierAvSak
                                 }
-                                brukerErEierAvSak={brukerErEierAvSak}
                                 dato={formaterDatoForKartlegging(
                                     behovsvurdering,
                                     index,
@@ -129,9 +130,9 @@ export const Behovsvurderinger = ({
                                 )}
                                 defaultOpen={
                                     behovsvurdering.kartleggingId ===
-                                        sisteOpprettedeKartleggingId ||
+                                    sisteOpprettedeKartleggingId ||
                                     behovsvurdering.kartleggingId ===
-                                        KartleggingIdFraUrl
+                                    KartleggingIdFraUrl
                                 }
                             />
                         ),

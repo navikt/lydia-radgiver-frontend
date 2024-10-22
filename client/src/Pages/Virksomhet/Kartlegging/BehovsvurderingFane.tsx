@@ -7,7 +7,7 @@ import {
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { BehovsvurderingHeading } from "./BehovsvurderingHeading";
 import { BehovsvurderingHjelpetekst } from "./BehovsvurderingHjelpetekst";
-import { Behovsvurderinger } from "./Behovsvurderinger";
+import { BehovsvurderingMedSamarbeid } from "./BehovsvurderingMedSamarbeid";
 
 export const BehovsvurderingFane = ({
     iaSak,
@@ -49,7 +49,7 @@ export const BehovsvurderingFane = ({
                 brukerErEierAvSak={brukerErEierAvSak}
                 sakErIRettStatus={sakErIRettStatus}
             />
-            <Behovsvurderinger
+            <BehovsvurderingMedSamarbeid
                 brukerRolle={brukerInformasjon?.rolle}
                 samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]}
                 brukerErEierAvSak={brukerErEierAvSak}

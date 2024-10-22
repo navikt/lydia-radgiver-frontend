@@ -122,7 +122,7 @@ export const SamarbeidsVisning = ({
                                 <BehovsvurderingFane
                                     iaSak={iaSak}
                                     gjeldendeSamarbeid={gjeldendeSamarbeid}
-                                    KartleggingIdFraUrl={kartleggingId}
+                                    KartleggingIdFraUrl={null} //TODO: Sett til noe fra context før prod
                                 />
                             )}
                         </StyledPanel>
