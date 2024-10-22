@@ -1,3 +1,4 @@
+import { useVirksomhetContext } from "../../Pages/Virksomhet/VirksomhetContext";
 import { sorterPåDato, formaterDatoForSpørreundersøkelse } from "./dato";
 import { useSpørreundersøkelse } from "./SpørreundersøkelseContext";
 import SpørreundersøkelseRad from "./SpørreundersøkelseRad";
@@ -7,6 +8,8 @@ export default function Spørreundersøkelseliste() {
 		spørreundersøkelseliste,
 		sisteOpprettedeSpørreundersøkelseId,
 	} = useSpørreundersøkelse();
+
+	const { kartleggingId } = useVirksomhetContext();
 
 	return spørreundersøkelseliste.length > 0 &&
 		sorterPåDato(spørreundersøkelseliste).map(
@@ -22,7 +25,9 @@ export default function Spørreundersøkelseliste() {
 					)}
 					defaultOpen={
 						behovsvurdering.kartleggingId ===
-						sisteOpprettedeSpørreundersøkelseId
+						sisteOpprettedeSpørreundersøkelseId ||
+						behovsvurdering.kartleggingId ===
+						kartleggingId
 					}
 				/>
 			),
