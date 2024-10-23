@@ -24,8 +24,6 @@ export type TemaResultatDto = z.infer<typeof temaResultatSchema>;
 
 export const behovsvurderingResultatSchema = z.object({
     kartleggingId: z.string(),
-    antallUnikeDeltakereMedMinstEttSvar: z.number(),
-    antallUnikeDeltakereSomHarSvartPåAlt: z.number(),
     spørsmålMedSvarPerTema: z.array(temaResultatSchema),
 });
 
