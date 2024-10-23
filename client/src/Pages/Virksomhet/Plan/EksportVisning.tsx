@@ -37,7 +37,8 @@ export default function EksportVisning({
 }) {
     const [lagrer, setLagrer] = React.useState(false);
     const virksomhetdata = useVirksomhetContext();
-    const doc = new jsPDF("p", "mm", "a4");
+    const doc = new jsPDF("p", "mm", "a4", true);
+    const doc2 = doc;
     const eksportfilnavn = useEksportFilnavn("Samarbeidsplan");
     const Eksportside = (
         <VirksomhetContext.Provider value={virksomhetdata}>
@@ -71,6 +72,23 @@ export default function EksportVisning({
                         scale:
                             doc.internal.pageSize.getWidth() /
                             EXPORT_INTERNAL_WIDTH,
+                        onclone: (doc) => {
+                            const target = doc.querySelector("#eksportdiv");
+                            if (target !== null) {
+                                const images = target.querySelectorAll("img");
+
+                                const targetRect = target.getBoundingClientRect();
+
+                                images.forEach((img) => {
+                                    if (!img.classList.contains("nav-logo")) {
+                                        const rect = img.getBoundingClientRect();
+                                        doc2.addImage(img, "JPEG", targetRect.x - rect.x, targetRect.y - rect.y, rect.width, rect.height, undefined, "FAST");
+                                        img.remove();
+                                    }
+                                });
+                            }
+                        }
+
                     },
                 }).then(() => {
                     setLagrer(false);
@@ -100,7 +118,7 @@ function EksportInnhold({
     samarbeid: IaSakProsess;
 }) {
     return (
-        <>
+        <div id="eksportdiv">
             <VirksomhetsEksportHeader
                 type="Samarbeidsplan"
                 samarbeid={samarbeid}
@@ -121,7 +139,7 @@ function EksportInnhold({
                         </Container>
                     );
                 })}
-        </>
+        </div>
     );
 }
 

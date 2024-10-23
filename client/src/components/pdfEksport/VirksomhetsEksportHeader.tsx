@@ -1,5 +1,5 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
-import NAVLogo from "../../img/NAV_logo_rød.png";
+import NAVLogo from "../../img/NAV_logo_rød.jpg";
 import { useVirksomhetContext } from "../../Pages/Virksomhet/VirksomhetContext";
 import { IaSakProsess } from "../../domenetyper/iaSakProsess";
 import { lokalDato } from "../../util/dato";
@@ -26,7 +26,8 @@ export default function VirksomhetsEksportHeader({
                     marginBottom: "2rem",
                 }}
             >
-                <img src={NAVLogo} alt="NAV-logo" style={{ width: "6rem" }} />
+                {/* className="nav-logo" er her for pdf-eksporten */}
+                <img className="nav-logo" src={NAVLogo} alt="NAV-logo" style={{ width: "6rem" }} />
                 <BodyShort>{vistDato}</BodyShort>
             </div>
             <BodyShort style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>

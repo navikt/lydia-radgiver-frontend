@@ -37,7 +37,7 @@ class pdfEksport {
         eksportfilnavn: string,
         width: number,
     ) {
-        this.pdf = new jsPDF("p", "mm", "a4");
+        this.pdf = new jsPDF("p", "mm", "a4", true);
         this.pageHeight =
             this.pdf.internal.pageSize.getHeight() - pdfEksport.H_PADDING * 2;
         this.pageWidth =
