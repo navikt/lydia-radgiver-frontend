@@ -5,9 +5,9 @@ import {
     useHentSamarbeid,
 } from "../../../api/lydia-api";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { BehovsvurderingHeading } from "./BehovsvurderingHeading";
-import { BehovsvurderingHjelpetekst } from "./BehovsvurderingHjelpetekst";
 import { Behovsvurdering } from "./Behovsvurdering";
+import { SpørreundersøkelseHeading } from "../../../components/Spørreundersøkelse/SpørreundersøkelseHeading";
+import { SpørreundersøkelseHjelpetekst } from "../../../components/Spørreundersøkelse/SpørreundersøkelseHjelpetekst";
 
 export const BehovsvurderingFane = ({
     iaSak,
@@ -29,8 +29,9 @@ export const BehovsvurderingFane = ({
     if (alleSamarbeid === undefined || alleSamarbeid.length === 0) {
         return (
             <>
-                <BehovsvurderingHeading samarbeid={gjeldendeSamarbeid} />
-                <BehovsvurderingHjelpetekst
+                <SpørreundersøkelseHeading type="Behovsvurdering" samarbeid={gjeldendeSamarbeid} />
+                <SpørreundersøkelseHjelpetekst
+                    type="behovsvurdering"
                     brukerErEierAvSak={brukerErEierAvSak}
                     sakErIRettStatus={sakErIRettStatus}
                 />
@@ -40,10 +41,9 @@ export const BehovsvurderingFane = ({
 
     return (
         <>
-            <BehovsvurderingHeading
-                samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]}
-            />
-            <BehovsvurderingHjelpetekst
+            <SpørreundersøkelseHeading type="Behovsvurdering" samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]} />
+            <SpørreundersøkelseHjelpetekst
+                type="behovsvurdering"
                 brukerErEierAvSak={brukerErEierAvSak}
                 sakErIRettStatus={sakErIRettStatus}
             />

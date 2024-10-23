@@ -134,7 +134,9 @@ export const SamarbeidsVisning = ({
                             )}
                         </StyledPanel>
                         <StyledPanel value="evaluering">
-                            {iaSak && <EvalueringFane />}
+                            {iaSak && <EvalueringFane
+                                iaSak={iaSak}
+                                gjeldendeSamarbeid={gjeldendeSamarbeid} />}
                         </StyledPanel>
                     </Tabs>
                 </Container>

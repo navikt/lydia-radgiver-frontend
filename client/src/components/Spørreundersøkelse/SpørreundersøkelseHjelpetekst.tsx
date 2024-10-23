@@ -1,12 +1,13 @@
 import { BodyShort } from "@navikt/ds-react";
-import React from "react";
 
-export const BehovsvurderingHjelpetekst = ({
+export const SpørreundersøkelseHjelpetekst = ({
     brukerErEierAvSak,
     sakErIRettStatus,
+    type,
 }: {
     brukerErEierAvSak: boolean;
     sakErIRettStatus: boolean;
+    type: "evaluering" | "behovsvurdering";
 }) => {
     if (!brukerErEierAvSak && !sakErIRettStatus) {
         return (
@@ -14,7 +15,7 @@ export const BehovsvurderingHjelpetekst = ({
                 <br />
                 <BodyShort>
                     Du må være eier av saken og være i status <i>Kartlegges</i>{" "}
-                    eller <i>Vi bistår</i> for å opprette ny behovsvurdering
+                    eller <i>Vi bistår</i> for å opprette ny {type}
                 </BodyShort>
             </>
         );
@@ -24,7 +25,7 @@ export const BehovsvurderingHjelpetekst = ({
                 <br />
                 <BodyShort>
                     Status må være i <i>Kartlegges</i> eller <i>Vi bistår</i>{" "}
-                    for å kunne opprette en behovsvurdering
+                    for å kunne opprette en {type}
                 </BodyShort>
             </>
         );
@@ -33,7 +34,7 @@ export const BehovsvurderingHjelpetekst = ({
             <>
                 <br />
                 <BodyShort>
-                    Du må være eier av saken for å opprette ny behovsvurdering
+                    Du må være eier av saken for å opprette ny {type}
                 </BodyShort>
             </>
         );

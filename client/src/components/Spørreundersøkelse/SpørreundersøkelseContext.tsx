@@ -4,6 +4,8 @@ import { IASak } from '../../domenetyper/domenetyper';
 import { IaSakProsess } from '../../domenetyper/iaSakProsess';
 import { BehovsvurderingCardHeaderInnhold } from '../../Pages/Virksomhet/Kartlegging/BehovsvurderingCardHeaderInnhold';
 import { BehovsvurderingRadInnhold } from '../../Pages/Virksomhet/Kartlegging/BehovsvurderingRadInnhold';
+import { EvalueringCardHeaderInnhold } from '../../Pages/Virksomhet/Samarbeid/Evaluering/EvalueringCardHeaderInnhold';
+import { EvalueringRadInnhold } from '../../Pages/Virksomhet/Samarbeid/Evaluering/EvalueringRadInnhold';
 
 interface SpørreundersøkelseProviderProps {
 	spørreundersøkelseliste: IASakKartlegging[];
@@ -30,8 +32,8 @@ function getComponents(spørreundersøkelseType: "Behovsvurdering" | "Evaluering
 			};
 		case 'Evaluering':
 			return {
-				CardHeader: BehovsvurderingCardHeaderInnhold, //TODO: Bytt ut med riktig komponent
-				CardInnhold: BehovsvurderingRadInnhold //TODO: Bytt ut med riktig komponent
+				CardHeader: EvalueringCardHeaderInnhold,
+				CardInnhold: EvalueringRadInnhold
 			};
 	}
 }
