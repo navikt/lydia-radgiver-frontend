@@ -1,8 +1,15 @@
 import styled from "styled-components";
-import { Table } from "@navikt/ds-react";
+import { Button, HStack, Table } from "@navikt/ds-react";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { hvitBoksMedSkygge } from "../../styling/containere";
+import { IAProsessStatusType } from "../../domenetyper/domenetyper";
+import { erIDev } from "../../components/Dekoratør/Dekoratør";
+import {
+    createSearchParams,
+    useNavigate,
+    useSearchParams,
+} from "react-router-dom";
 
 const Tabell = styled(Table)`
     ${hvitBoksMedSkygge};
@@ -13,6 +20,18 @@ interface Props {
 }
 
 export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
+    const navigate = useNavigate();
+    const [søkeparametre, setSøkeparametre] = useSearchParams();
+
+    function gåTilSøk(status: IAProsessStatusType) {
+        søkeparametre.set("iaStatus", status);
+        setSøkeparametre(søkeparametre, { replace: true });
+        navigate({
+            pathname: "/..",
+            search: createSearchParams(søkeparametre).toString(),
+        });
+    }
+
     return (
         <Tabell size={"small"}>
             <Table.Header>
@@ -30,7 +49,19 @@ export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
                             <Table.HeaderCell scope="row">
                                 <StatusBadge status={status} />
                             </Table.HeaderCell>
-                            <Table.DataCell>{antall}</Table.DataCell>
+                            <Table.DataCell>
+                                <HStack justify={"space-between"}>
+                                    <span>{antall}</span>
+                                    {erIDev && (
+                                        <Button
+                                            size={"xsmall"}
+                                            onClick={() => gåTilSøk(status)}
+                                        >
+                                            Åpne i søk
+                                        </Button>
+                                    )}
+                                </HStack>
+                            </Table.DataCell>
                         </Table.Row>
                     );
                 })}
