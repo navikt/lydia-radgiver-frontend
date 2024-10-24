@@ -4,7 +4,7 @@ import { NavFarger } from "../../styling/farger";
 import { contentSpacing } from "../../styling/contentSpacing";
 import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoints";
 import { BodyShort } from "@navikt/ds-react";
-import { useHentPubliseringsinfo } from "../../api/lydia-api";
+import { useHentPubliseringsinfo } from "../../api/lydia-api/virksomhet";
 import { getGjeldendePeriodeTekst } from "../../util/gjeldendePeriodeSisteFireKvartal";
 import {
     EksternNavigeringKategorier,

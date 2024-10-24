@@ -5,9 +5,10 @@ import {
     PersonFillIcon,
     PersonGroupIcon,
 } from "@navikt/aksel-icons";
-import { useHentBrukerinformasjon, useHentTeam } from "../../api/lydia-api";
+import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
 import { IASak } from "../../domenetyper/domenetyper";
 import TeamInnhold from "./TeamInnhold";
+import { useHentTeam } from "../../api/lydia-api/team";
 
 interface TeamModalProps {
     open: boolean;

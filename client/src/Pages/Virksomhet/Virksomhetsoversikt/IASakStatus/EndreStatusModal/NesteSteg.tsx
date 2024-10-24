@@ -20,11 +20,9 @@ import {
     Årsak,
 } from "../../../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import {
-    nyHendelsePåSak,
-    useHentAktivSakForVirksomhet,
-    useHentSamarbeidshistorikk,
-} from "../../../../../api/lydia-api";
+import { useHentSamarbeidshistorikk } from "../../../../../api/lydia-api/virksomhet";
+import { useHentAktivSakForVirksomhet } from "../../../../../api/lydia-api/virksomhet";
+import { nyHendelsePåSak } from "../../../../../api/lydia-api/sak";
 import {
     loggSendBrukerTilIATjenesterTab,
     loggSendBrukerTilKartleggingerTab,

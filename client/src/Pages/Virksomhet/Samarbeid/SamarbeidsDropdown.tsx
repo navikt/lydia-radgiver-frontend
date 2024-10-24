@@ -6,9 +6,9 @@ import React, { useState } from "react";
 import { SamarbeidsRad } from "./SamarbeidsRad";
 import { SamarbeidsDropdownFooter } from "./SamarbeidsDropdownFooter";
 import {
-    useHentBrukerinformasjon,
     useHentSamarbeid,
-} from "../../../api/lydia-api";
+} from "../../../api/lydia-api/kartlegging";
+import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
 import { NyttSamarbeidModal } from "./NyttSamarbeidModal";
 import { EndreSamarbeidModal } from "./EndreSamarbeidModal";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";

@@ -7,7 +7,7 @@ import {
     IAProsessStatusType,
     Periode,
 } from "../../../domenetyper/domenetyper";
-import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api";
+import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api/sok";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { Næringsgruppe } from "../../../domenetyper/virksomhet";
 import {

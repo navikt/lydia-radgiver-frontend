@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Loader, BodyShort } from "@navikt/ds-react";
-import { useHentKartleggingResultat } from "../../../api/lydia-api";
+import { useHentKartleggingResultat } from "../../../api/lydia-api/kartlegging";
 import { IASak } from "../../../domenetyper/domenetyper";
 import Resultatvisning from "../../../components/Spørreundersøkelse/Resultatvisning";
 

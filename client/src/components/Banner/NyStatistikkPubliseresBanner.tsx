@@ -1,6 +1,6 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
 import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
-import { useHentPubliseringsinfo } from "../../api/lydia-api";
+import { useHentPubliseringsinfo } from "../../api/lydia-api/virksomhet";
 import {
     skalViseStatistikkKommer,
     skjulNyStatistikkBanner,

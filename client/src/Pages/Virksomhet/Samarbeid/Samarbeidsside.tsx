@@ -1,10 +1,9 @@
 import { useParams } from "react-router-dom";
 import { statiskeSidetitler, useTittel } from "../../../util/useTittel";
 import {
-    useHentAktivSakForVirksomhet,
     useHentSamarbeid,
-    useHentVirksomhetsinformasjon,
-} from "../../../api/lydia-api";
+} from "../../../api/lydia-api/kartlegging";
+import { useHentAktivSakForVirksomhet, useHentVirksomhetsinformasjon } from "../../../api/lydia-api/virksomhet";
 import React, { useEffect } from "react";
 import { loggSideLastet } from "../../../util/amplitude-klient";
 import { Loader } from "@navikt/ds-react";

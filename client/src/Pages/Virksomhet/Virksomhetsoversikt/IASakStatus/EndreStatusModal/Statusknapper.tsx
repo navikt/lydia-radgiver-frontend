@@ -11,10 +11,8 @@ import styled from "styled-components";
 import NesteSteg from "./NesteSteg";
 import KnappForHendelse from "./KnappForHendelse";
 import { Virksomhet } from "../../../../../domenetyper/virksomhet";
-import {
-    opprettSak,
-    useHentBrukerinformasjon,
-} from "../../../../../api/lydia-api";
+import { useHentBrukerinformasjon } from "../../../../../api/lydia-api/bruker";
+import { opprettSak } from "../../../../../api/lydia-api/sak";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { RolleEnum } from "../../../../../domenetyper/brukerinformasjon";
 import { knappeTypeFraSakshendelsesType } from "./knappeTypeFraSakshendelsesType";
@@ -106,9 +104,9 @@ export function Statusknapper({
     const hendelser: GyldigNesteHendelse[] = iaSak.gyldigeNesteHendelser.filter(
         (hendelse) =>
             hendelse.saksHendelsestype !==
-                IASakshendelseTypeEnum.Enum.ENDRE_PROSESS &&
+            IASakshendelseTypeEnum.Enum.ENDRE_PROSESS &&
             hendelse.saksHendelsestype !==
-                IASakshendelseTypeEnum.Enum.NY_PROSESS,
+            IASakshendelseTypeEnum.Enum.NY_PROSESS,
     );
     const destruktiveHendelser = hendelser.filter((hendelse) =>
         erHendelsenDestruktiv(hendelse.saksHendelsestype),

@@ -1,7 +1,7 @@
 import {
-    useHentBehovsvurderingerMedProsess,
     useHentSamarbeid,
-} from "../../../api/lydia-api";
+} from "../../../api/lydia-api/kartlegging";
+import { useHentBehovsvurderingerMedProsess } from "../../../api/lydia-api/kartlegging";
 import { BodyShort, Loader, Table } from "@navikt/ds-react";
 import { StyledTable } from "../../../components/StyledTable";
 import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";

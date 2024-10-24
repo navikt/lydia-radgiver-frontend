@@ -1,9 +1,7 @@
 import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import {
-    startKartlegging,
-    useHentBehovsvurderingerMedProsess,
-} from "../../../api/lydia-api";
+import { startKartlegging } from "../../../api/lydia-api/kartlegging";
+import { useHentBehovsvurderingerMedProsess } from "../../../api/lydia-api/kartlegging";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { åpneKartleggingINyFane } from "../../../util/navigasjon";
 import { BodyShort, List } from "@navikt/ds-react";

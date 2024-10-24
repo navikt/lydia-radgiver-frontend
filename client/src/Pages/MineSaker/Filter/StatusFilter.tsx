@@ -1,7 +1,8 @@
 import { Accordion, Checkbox, CheckboxGroup } from "@navikt/ds-react";
 import { useState } from "react";
 import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
-import { useFilterverdier, useHentMineSaker } from "../../../api/lydia-api";
+import { useFilterverdier } from "../../../api/lydia-api/sok";
+import { useHentMineSaker } from "../../../api/lydia-api/sak";
 import { penskrivIAStatus } from "../../../components/Badge/StatusBadge";
 import styled from "styled-components";
 import { BorderRadius } from "../../../styling/borderRadius";

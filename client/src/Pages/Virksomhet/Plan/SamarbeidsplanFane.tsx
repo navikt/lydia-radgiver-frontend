@@ -2,10 +2,10 @@ import { BodyShort, Heading, HStack, Loader, Tag } from "@navikt/ds-react";
 import React from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import {
-    useHentBrukerinformasjon,
     useHentPlan,
     useHentPlanMal,
-} from "../../../api/lydia-api";
+} from "../../../api/lydia-api/plan";
+import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Temaer } from "./Temaer";
 import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";

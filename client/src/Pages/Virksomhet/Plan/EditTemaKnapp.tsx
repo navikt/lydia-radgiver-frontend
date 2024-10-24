@@ -6,7 +6,7 @@ import { mobileAndUp } from "../../../styling/breakpoints";
 import { DocPencilIcon } from "@navikt/aksel-icons";
 import InnholdOppsett from "./InnholdOppsett";
 import { Plan, PlanInnhold, PlanTema } from "../../../domenetyper/plan";
-import { endrePlanTema } from "../../../api/lydia-api";
+import { endrePlanTema } from "../../../api/lydia-api/plan";
 import { lagRequest, UndertemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";

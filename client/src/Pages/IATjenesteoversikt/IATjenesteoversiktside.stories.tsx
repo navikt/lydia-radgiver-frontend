@@ -1,7 +1,7 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { IATjenesteoversiktside } from "./IATjenesteoversiktside";
 import { http, HttpResponse } from "msw";
-import { mineIATjenesterPath } from "../../api/lydia-api";
+import { mineIATjenesterPath } from "../../api/lydia-api/paths";
 import { mswHandlers } from "../../../.storybook/mswHandlers";
 import { mineIATjenesterMock } from "./mineIATjenesterMock";
 

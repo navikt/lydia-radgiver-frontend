@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { http, HttpResponse } from "msw";
 import { iaSakViBistår } from "../mocks/iaSakMock";
 import { LeveranseOversikt } from "./LeveranseOversikt";
-import { iaSakPath } from "../../../api/lydia-api";
+import { iaSakPath } from "../../../api/lydia-api/paths";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
 import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
 

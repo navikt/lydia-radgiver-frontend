@@ -7,7 +7,7 @@ import {
     PlanInnholdStatus,
     PlanTema,
 } from "../../../domenetyper/plan";
-import { endrePlanStatus } from "../../../api/lydia-api";
+import { endrePlanStatus } from "../../../api/lydia-api/plan";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { lokalDatoMedKortTekstmåned } from "../../../util/dato";

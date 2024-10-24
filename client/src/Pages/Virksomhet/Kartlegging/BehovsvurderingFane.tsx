@@ -1,13 +1,11 @@
 import React from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
-import {
-    useHentBrukerinformasjon,
-    useHentSamarbeid,
-} from "../../../api/lydia-api";
+import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { Behovsvurdering } from "./Behovsvurdering";
 import { SpørreundersøkelseHeading } from "../../../components/Spørreundersøkelse/SpørreundersøkelseHeading";
 import { SpørreundersøkelseHjelpetekst } from "../../../components/Spørreundersøkelse/SpørreundersøkelseHjelpetekst";
+import { useHentSamarbeid } from "../../../api/lydia-api/kartlegging";
 
 export const BehovsvurderingFane = ({
     iaSak,

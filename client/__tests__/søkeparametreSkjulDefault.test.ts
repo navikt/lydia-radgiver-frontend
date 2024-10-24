@@ -1,4 +1,4 @@
-import { søkeverdierTilUrlSearchParams } from "../src/api/lydia-api";
+import { søkeverdierTilUrlSearchParams } from "../src/api/lydia-api/sok";
 import {
     FiltervisningState,
     initialFiltervisningState,

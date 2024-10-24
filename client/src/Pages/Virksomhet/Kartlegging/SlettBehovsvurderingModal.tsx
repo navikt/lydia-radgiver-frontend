@@ -2,9 +2,9 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import {
     slettKartlegging,
-    useHentBehovsvurderingerMedProsess,
-    useHentIASaksStatus,
-} from "../../../api/lydia-api";
+} from "../../../api/lydia-api/kartlegging";
+import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
+import { useHentBehovsvurderingerMedProsess } from "../../../api/lydia-api/kartlegging";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 import React from "react";

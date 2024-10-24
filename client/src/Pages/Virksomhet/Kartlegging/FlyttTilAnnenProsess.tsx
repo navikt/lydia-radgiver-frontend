@@ -1,10 +1,6 @@
 import { Button, Dropdown } from "@navikt/ds-react";
 import React from "react";
-import {
-    flyttBehovsvurdering,
-    useHentBehovsvurderingerMedProsess,
-    useHentSamarbeid,
-} from "../../../api/lydia-api";
+import { flyttBehovsvurdering, useHentBehovsvurderingerMedProsess, useHentSamarbeid } from "../../../api/lydia-api/kartlegging";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import { IASak } from "../../../domenetyper/domenetyper";
 import {

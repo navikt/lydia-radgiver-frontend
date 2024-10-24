@@ -9,7 +9,7 @@ import {
     EksternNavigeringKategorier,
     loggNavigeringMedEksternLenke,
 } from "../../../util/amplitude-klient";
-import { useHentLeveranser } from "../../../api/lydia-api";
+import { useHentLeveranser } from "../../../api/lydia-api/leveranse";
 
 const Container = styled.div`
     height: 100%;

@@ -2,7 +2,7 @@ import { Meta, StoryObj } from "@storybook/react";
 import { http, HttpResponse } from "msw";
 import { SamarbeidshistorikkFane } from "./SamarbeidshistorikkFane";
 import { samarbeidshistorikkMock } from "../mocks/iaSakHistorikkMock";
-import { iaSakHistorikkPath } from "../../../api/lydia-api";
+import { iaSakHistorikkPath } from "../../../api/lydia-api/paths";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
 
 const meta = {

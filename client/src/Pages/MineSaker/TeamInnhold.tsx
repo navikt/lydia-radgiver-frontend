@@ -9,15 +9,11 @@ import {
     PersonFillIcon,
     PersonIcon,
 } from "@navikt/aksel-icons";
-import {
-    fjernBrukerFraTeam,
-    leggBrukerTilTeam,
-    nyHendelsePåSak,
-    useHentAktivSakForVirksomhet,
-    useHentBrukerinformasjon,
-    useHentMineSaker,
-    useHentTeam,
-} from "../../api/lydia-api";
+import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
+import { useHentAktivSakForVirksomhet } from "../../api/lydia-api/virksomhet";
+import { useHentMineSaker } from "../../api/lydia-api/sak";
+import { nyHendelsePåSak } from "../../api/lydia-api/sak";
+import { fjernBrukerFraTeam, leggBrukerTilTeam, useHentTeam } from "../../api/lydia-api/team";
 
 const EierBoks = styled.div`
     display: flex;

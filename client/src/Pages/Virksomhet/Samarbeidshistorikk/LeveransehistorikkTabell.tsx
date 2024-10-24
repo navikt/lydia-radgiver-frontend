@@ -1,4 +1,4 @@
-import { useHentLeveranser } from "../../../api/lydia-api";
+import { useHentLeveranser } from "../../../api/lydia-api/leveranse";
 import { BodyShort, Loader, Table } from "@navikt/ds-react";
 import { lokalDato } from "../../../util/dato";
 import { StyledTable } from "../../../components/StyledTable";

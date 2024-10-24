@@ -6,7 +6,7 @@ import { Prioriteringsside } from "./Prioriteringsside";
 import {
     filterverdierPath,
     sykefraværsstatistikkPath,
-} from "../../api/lydia-api";
+} from "../../api/lydia-api/paths";
 import { filterverdierMock } from "./mocks/filterverdierMock";
 import { sykefraværsstatistikkMock } from "./mocks/sykefraværsstatistikkMock";
 

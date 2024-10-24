@@ -3,11 +3,7 @@ import styled from "styled-components";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { Button, HStack, VStack } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
-import {
-    useHentSalesforceUrl,
-    useHentSamarbeid,
-    useHentTeam,
-} from "../../api/lydia-api";
+import { useHentSalesforceUrl } from "../../api/lydia-api/virksomhet";
 import { NavFarger } from "../../styling/farger";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import { NotePencilIcon } from "@navikt/aksel-icons";
@@ -16,6 +12,8 @@ import { TeamModal } from "./TeamModal";
 import { IAProsessStatusType, IASak } from "../../domenetyper/domenetyper";
 import { loggGåTilSakFraMineSaker } from "../../util/amplitude-klient";
 import { SamarbeidsKort } from "./SamarbeidsKort";
+import { useHentTeam } from "../../api/lydia-api/team";
+import { useHentSamarbeid } from "../../api/lydia-api/kartlegging";
 
 const SaksKort = styled(VStack)`
     background-color: white;

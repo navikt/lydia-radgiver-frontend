@@ -1,6 +1,6 @@
 import { IAProsessStatusType, IASak } from "../../domenetyper/domenetyper";
 import { useNavigate } from "react-router-dom";
-import { useHentBehovsvurderingerMedProsess } from "../../api/lydia-api";
+import { useHentBehovsvurderingerMedProsess } from "../../api/lydia-api/kartlegging";
 import { penskrivKartleggingStatus } from "../../components/Badge/KartleggingStatusBadge";
 import { Button } from "@navikt/ds-react";
 import { loggGåTilSakFraMineSaker } from "../../util/amplitude-klient";

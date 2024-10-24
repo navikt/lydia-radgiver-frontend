@@ -4,7 +4,7 @@ import { lokalDato } from "../../../util/dato";
 import { StatusBadge } from "../../../components/Badge/StatusBadge";
 import { SakshistorikkTabell } from "./SakshistorikkTabell";
 import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
-import { useHentSamarbeidshistorikk } from "../../../api/lydia-api";
+import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { LeveransehistorikkTabell } from "./LeveransehistorikkTabell";
 import { KartlegginghistorikkTabell } from "./KartlegginghistorikkTabell";

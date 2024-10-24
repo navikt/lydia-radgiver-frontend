@@ -4,11 +4,11 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import {
-    nyHendelsePåSak,
-    useHentAktivSakForVirksomhet,
     useHentSamarbeid,
-    useHentSamarbeidshistorikk,
-} from "../../../api/lydia-api";
+} from "../../../api/lydia-api/kartlegging";
+import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
+import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
+import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { NavFarger } from "../../../styling/farger";
 

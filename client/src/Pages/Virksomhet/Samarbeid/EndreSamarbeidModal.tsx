@@ -13,15 +13,13 @@ import {
 } from "@navikt/ds-react";
 import { IASak, IASakshendelseType } from "../../../domenetyper/domenetyper";
 import React, { useEffect, useState } from "react";
-import {
-    nyHendelsePåSak,
-    useHentAktivSakForVirksomhet,
-    useHentSamarbeid,
-    useHentSamarbeidshistorikk,
-} from "../../../api/lydia-api";
+import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
+import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
+import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import styled from "styled-components";
 import { StyledModal } from "../../../components/Modal/StyledModal";
 import { TrashIcon } from "@navikt/aksel-icons";
+import { useHentSamarbeid } from "../../../api/lydia-api/kartlegging";
 
 export const ModalBodyInnholdGrid = styled.div`
     display: grid;

@@ -4,7 +4,7 @@ import { http, HttpResponse } from "msw";
 import {
     publiseringsinfoPath,
     sykefraværsstatistikkPath,
-} from "../../api/lydia-api";
+} from "../../api/lydia-api/paths";
 import { gjeldendePeriodePubliseringsinfo } from "../../Pages/Prioritering/mocks/sykefraværsstatistikkMock";
 
 export default {

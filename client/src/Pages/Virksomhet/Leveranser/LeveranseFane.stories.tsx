@@ -11,7 +11,7 @@ import {
 } from "../../Prioritering/mocks/innloggetAnsattMock";
 import { http, HttpResponse } from "msw";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
-import { iaSakPath, innloggetAnsattPath } from "../../../api/lydia-api";
+import { iaSakPath, innloggetAnsattPath } from "../../../api/lydia-api/paths";
 
 const meta = {
     title: "Virksomhet/Leveranser/Leveransefane",

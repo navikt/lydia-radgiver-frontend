@@ -1,9 +1,7 @@
 import styled from "styled-components";
 import { SideContainer } from "../../styling/containere";
-import {
-    useHentBrukerinformasjon,
-    useHentMineSaker,
-} from "../../api/lydia-api";
+import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
+import { useHentMineSaker } from "../../api/lydia-api/sak";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
 import { useEffect, useMemo, useState } from "react";
@@ -104,9 +102,9 @@ export const MineSakerside = () => {
                 .filter((sak) =>
                     eierFølgerFilter.length
                         ? (sak.iaSak.eidAv == brukerInfo?.ident &&
-                              eierFølgerFilter.includes("eier")) ||
-                          (eierFølgerFilter.includes("følger") &&
-                              sak.iaSak.eidAv != brukerInfo?.ident)
+                            eierFølgerFilter.includes("eier")) ||
+                        (eierFølgerFilter.includes("følger") &&
+                            sak.iaSak.eidAv != brukerInfo?.ident)
                         : true,
                 )
                 .filter(

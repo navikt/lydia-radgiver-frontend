@@ -13,10 +13,10 @@ import { NavFarger } from "../../../styling/farger";
 import {
     merkLeveranseSomLevert,
     slettLeveranse,
-    useHentAktivSakForVirksomhet,
-    useHentBrukerinformasjon,
     useHentLeveranser,
-} from "../../../api/lydia-api";
+} from "../../../api/lydia-api/leveranse";
+import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
+import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { useState } from "react";

@@ -3,7 +3,7 @@ import {
     IASakshendelseType,
     IASakshendelseTypeEnum,
 } from "../../../../../domenetyper/domenetyper";
-import { useHentIASaksStatus } from "../../../../../api/lydia-api";
+import { useHentIASaksStatus } from "../../../../../api/lydia-api/sak";
 
 export const useTrengerÅFullføreSamarbeidsplanFørst = (
     hendelsesType: IASakshendelseType,

@@ -9,7 +9,7 @@ import {
 } from "../../styling/contentSpacing";
 import { NavFarger } from "../../styling/farger";
 import { Virksomhet } from "../../domenetyper/virksomhet";
-import { useHentAktivSakForVirksomhet } from "../../api/lydia-api";
+import { useHentAktivSakForVirksomhet } from "../../api/lydia-api/virksomhet";
 import { StatistikkFane } from "./Statistikk/StatistikkFane";
 import VirksomhetContext from "./VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "./Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";

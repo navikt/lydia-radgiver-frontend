@@ -5,13 +5,11 @@ import {
     formaterSomProsentMedEnDesimal,
 } from "../../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
-import {
-    useHentBransjestatistikk,
-    useHentNæringsstatistikk,
-    useHentPubliseringsinfo,
-    useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
-    useHentVirksomhetsstatistikkSiste4Kvartaler,
-} from "../../../api/lydia-api";
+import { useHentNæringsstatistikk } from "../../../api/lydia-api/virksomhet";
+import { useHentBransjestatistikk } from "../../../api/lydia-api/virksomhet";
+import { useHentSykefraværsstatistikkForVirksomhetSisteKvartal } from "../../../api/lydia-api/virksomhet";
+import { useHentPubliseringsinfo } from "../../../api/lydia-api/virksomhet";
+import { useHentVirksomhetsstatistikkSiste4Kvartaler } from "../../../api/lydia-api/virksomhet";
 import { sorterKvartalStigende } from "../../../util/sortering";
 import { getGjeldendePeriodeTekst } from "../../../util/gjeldendePeriodeSisteFireKvartal";
 import { Kvartal } from "../../../domenetyper/kvartal";
@@ -95,13 +93,13 @@ export const Sykefraværsstatistikk = ({
                     verdiSisteKvartal={
                         sykefraværsstatistikkSisteKvartal?.muligeDagsverk
                             ? {
-                                  verdi: formaterSomHeltall(
-                                      sykefraværsstatistikkSisteKvartal.muligeDagsverk,
-                                  ),
-                                  år: sykefraværsstatistikkSisteKvartal.arstall,
-                                  kvartal:
-                                      sykefraværsstatistikkSisteKvartal.kvartal,
-                              }
+                                verdi: formaterSomHeltall(
+                                    sykefraværsstatistikkSisteKvartal.muligeDagsverk,
+                                ),
+                                år: sykefraværsstatistikkSisteKvartal.arstall,
+                                kvartal:
+                                    sykefraværsstatistikkSisteKvartal.kvartal,
+                            }
                             : undefined
                     }
                 />
@@ -114,13 +112,13 @@ export const Sykefraværsstatistikk = ({
                     verdiSisteKvartal={
                         sykefraværsstatistikkSisteKvartal?.tapteDagsverk
                             ? {
-                                  verdi: formaterSomHeltall(
-                                      sykefraværsstatistikkSisteKvartal.tapteDagsverk,
-                                  ),
-                                  år: sykefraværsstatistikkSisteKvartal.arstall,
-                                  kvartal:
-                                      sykefraværsstatistikkSisteKvartal.kvartal,
-                              }
+                                verdi: formaterSomHeltall(
+                                    sykefraværsstatistikkSisteKvartal.tapteDagsverk,
+                                ),
+                                år: sykefraværsstatistikkSisteKvartal.arstall,
+                                kvartal:
+                                    sykefraværsstatistikkSisteKvartal.kvartal,
+                            }
                             : undefined
                     }
                 />
@@ -133,13 +131,13 @@ export const Sykefraværsstatistikk = ({
                     verdiSisteKvartal={
                         sykefraværsstatistikkSisteKvartal?.sykefraværsprosent
                             ? {
-                                  verdi: formaterSomProsentMedEnDesimal(
-                                      sykefraværsstatistikkSisteKvartal.sykefraværsprosent,
-                                  ),
-                                  år: sykefraværsstatistikkSisteKvartal.arstall,
-                                  kvartal:
-                                      sykefraværsstatistikkSisteKvartal.kvartal,
-                              }
+                                verdi: formaterSomProsentMedEnDesimal(
+                                    sykefraværsstatistikkSisteKvartal.sykefraværsprosent,
+                                ),
+                                år: sykefraværsstatistikkSisteKvartal.arstall,
+                                kvartal:
+                                    sykefraværsstatistikkSisteKvartal.kvartal,
+                            }
                             : undefined
                     }
                 />
@@ -153,16 +151,16 @@ export const Sykefraværsstatistikk = ({
                         verdiSisteKvartal={
                             bransjestatistikk?.sisteGjeldendeKvartal.prosent
                                 ? {
-                                      verdi: formaterSomProsentMedEnDesimal(
-                                          bransjestatistikk
-                                              ?.sisteGjeldendeKvartal.prosent,
-                                      ),
-                                      år: bransjestatistikk
-                                          ?.sisteGjeldendeKvartal.årstall,
-                                      kvartal:
-                                          bransjestatistikk
-                                              ?.sisteGjeldendeKvartal.kvartal,
-                                  }
+                                    verdi: formaterSomProsentMedEnDesimal(
+                                        bransjestatistikk
+                                            ?.sisteGjeldendeKvartal.prosent,
+                                    ),
+                                    år: bransjestatistikk
+                                        ?.sisteGjeldendeKvartal.årstall,
+                                    kvartal:
+                                        bransjestatistikk
+                                            ?.sisteGjeldendeKvartal.kvartal,
+                                }
                                 : undefined
                         }
                     />
@@ -173,30 +171,30 @@ export const Sykefraværsstatistikk = ({
                     verdi={
                         næringsstatistikk?.siste4Kvartal.prosent
                             ? formaterSomProsentMedEnDesimal(
-                                  næringsstatistikk?.siste4Kvartal.prosent,
-                              )
+                                næringsstatistikk?.siste4Kvartal.prosent,
+                            )
                             : "Ikke funnet"
                     }
                     verdiSisteKvartal={
                         næringsstatistikk?.sisteGjeldendeKvartal.prosent
                             ? {
-                                  verdi: formaterSomProsentMedEnDesimal(
-                                      næringsstatistikk?.sisteGjeldendeKvartal
-                                          .prosent,
-                                  ),
-                                  år: næringsstatistikk?.sisteGjeldendeKvartal
-                                      .årstall,
-                                  kvartal:
-                                      næringsstatistikk?.sisteGjeldendeKvartal
-                                          .kvartal,
-                              }
+                                verdi: formaterSomProsentMedEnDesimal(
+                                    næringsstatistikk?.sisteGjeldendeKvartal
+                                        .prosent,
+                                ),
+                                år: næringsstatistikk?.sisteGjeldendeKvartal
+                                    .årstall,
+                                kvartal:
+                                    næringsstatistikk?.sisteGjeldendeKvartal
+                                        .kvartal,
+                            }
                             : undefined
                     }
                 />
                 {virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent !=
                     null &&
                     virksomhetsstatistikkSiste4Kvartaler?.graderingsprosent >=
-                        0 && (
+                    0 && (
                         <Statistikkboks
                             tittel="Gradert sykefravær"
                             helpTekst={`Andelen av sykefraværet som var gradert ${sisteFireKvartalInfo}`}
@@ -206,16 +204,16 @@ export const Sykefraværsstatistikk = ({
                             verdiSisteKvartal={
                                 sykefraværsstatistikkSisteKvartal?.graderingsprosent !=
                                     null &&
-                                sykefraværsstatistikkSisteKvartal?.graderingsprosent >=
+                                    sykefraværsstatistikkSisteKvartal?.graderingsprosent >=
                                     0
                                     ? {
-                                          verdi: formaterSomProsentMedEnDesimal(
-                                              sykefraværsstatistikkSisteKvartal.graderingsprosent!,
-                                          ),
-                                          år: sykefraværsstatistikkSisteKvartal.arstall,
-                                          kvartal:
-                                              sykefraværsstatistikkSisteKvartal.kvartal,
-                                      }
+                                        verdi: formaterSomProsentMedEnDesimal(
+                                            sykefraværsstatistikkSisteKvartal.graderingsprosent!,
+                                        ),
+                                        år: sykefraværsstatistikkSisteKvartal.arstall,
+                                        kvartal:
+                                            sykefraværsstatistikkSisteKvartal.kvartal,
+                                    }
                                     : undefined
                             }
                         />

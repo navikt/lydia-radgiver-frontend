@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { BodyShort, Heading, ToggleGroup } from "@navikt/ds-react";
-import { useHentHistoriskstatistikk } from "../../../../api/lydia-api";
+import { useHentHistoriskstatistikk } from "../../../../api/lydia-api/virksomhet";
 import Graf from "./Graf";
 import React from "react";
 import Tabell from "../Tabell/Tabell";

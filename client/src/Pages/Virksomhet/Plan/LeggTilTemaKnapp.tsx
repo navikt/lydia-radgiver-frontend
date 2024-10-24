@@ -10,7 +10,7 @@ import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import InnholdOppsett from "./InnholdOppsett";
 import styled from "styled-components";
 import { Plan, PlanInnhold, PlanTema } from "../../../domenetyper/plan";
-import { endrePlan } from "../../../api/lydia-api";
+import { endrePlan } from "../../../api/lydia-api/plan";
 import { lagRequest, TemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
@@ -66,18 +66,18 @@ export default function LeggTilTemaKnapp({
                     valgteTemaIder.includes(tema.id)
                         ? { ...tema, inkludert: true }
                         : {
-                              ...tema,
-                              inkludert: false,
-                              undertemaer: tema.undertemaer.map((undertema) => {
-                                  return {
-                                      ...undertema,
-                                      inkludert: false,
-                                      status: null,
-                                      startDato: null,
-                                      sluttDato: null,
-                                  };
-                              }),
-                          },
+                            ...tema,
+                            inkludert: false,
+                            undertemaer: tema.undertemaer.map((undertema) => {
+                                return {
+                                    ...undertema,
+                                    inkludert: false,
+                                    status: null,
+                                    startDato: null,
+                                    sluttDato: null,
+                                };
+                            }),
+                        },
                 ),
         );
     }
@@ -90,9 +90,9 @@ export default function LeggTilTemaKnapp({
             redigertTemaliste.map((tema) =>
                 tema.id === temaId
                     ? {
-                          ...tema,
-                          undertemaer: redigerteUndertemaer,
-                      }
+                        ...tema,
+                        undertemaer: redigerteUndertemaer,
+                    }
                     : { ...tema },
             ),
         );

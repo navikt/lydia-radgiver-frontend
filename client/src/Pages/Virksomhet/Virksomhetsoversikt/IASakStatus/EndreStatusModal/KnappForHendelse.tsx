@@ -5,19 +5,17 @@ import {
     IASak,
     IASakshendelseTypeEnum,
 } from "../../../../../domenetyper/domenetyper";
-import {
-    nyHendelsePåSak,
-    useHentAktivSakForVirksomhet,
-    useHentLeveranser,
-    useHentSamarbeid,
-    useHentSamarbeidshistorikk,
-} from "../../../../../api/lydia-api";
+import { useHentSamarbeidshistorikk } from "../../../../../api/lydia-api/virksomhet";
+import { useHentAktivSakForVirksomhet } from "../../../../../api/lydia-api/virksomhet";
+import { nyHendelsePåSak } from "../../../../../api/lydia-api/sak";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { StatusHendelseSteg } from "./Statusknapper";
 import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
 import { useTrengerÅFullføreLeveranserFørst } from "./useTrengerÅFullføreLeveranserFørst";
 import { penskrivIASakshendelsestype } from "./penskrivIASakshendelsestype";
 import { useTrengerÅFullføreBehovsvurderingerFørst } from "./useTrengerÅFullføreBehovsvurderingerFørst";
+import { useHentSamarbeid } from "../../../../../api/lydia-api/kartlegging";
+import { useHentLeveranser } from "../../../../../api/lydia-api/leveranse";
 
 export default function KnappForHendelse({
     hendelse,

@@ -13,7 +13,7 @@ import {
     sistekvartalPath,
     sykefraværsstatistikkPath,
     tjenesterPath,
-} from "../src/api/lydia-api";
+} from "../src/api/lydia-api/paths";
 import {
     gjeldendePeriodePubliseringsinfo,
     sykefraværsstatistikkNæringMock,

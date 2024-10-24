@@ -6,7 +6,7 @@ import { Leveranse as LeveranseType } from "../../../domenetyper/leveranse";
 import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
 import { brukerSomHarLesetilgang } from "../../Prioritering/mocks/innloggetAnsattMock";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
-import { iaSakPath, innloggetAnsattPath } from "../../../api/lydia-api";
+import { iaSakPath, innloggetAnsattPath } from "../../../api/lydia-api/paths";
 
 const meta = {
     title: "Virksomhet/Leveranser/Leveranse",

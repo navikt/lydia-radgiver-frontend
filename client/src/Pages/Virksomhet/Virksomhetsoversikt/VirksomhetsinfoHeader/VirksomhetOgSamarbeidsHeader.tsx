@@ -5,7 +5,7 @@ import { Heading, HStack, Link, Popover, VStack } from "@navikt/ds-react";
 import { ChevronRightIcon, InformationSquareIcon } from "@navikt/aksel-icons";
 
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
-import { useHentSalesforceUrl } from "../../../../api/lydia-api";
+import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
 import { EksternLenke } from "../../../../components/EksternLenke";
 
 import { SamarbeidsDropdown } from "../../Samarbeid/SamarbeidsDropdown";

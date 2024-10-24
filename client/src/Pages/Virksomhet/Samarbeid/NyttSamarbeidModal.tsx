@@ -3,11 +3,11 @@ import { BodyShort, Button, Detail, Heading, Modal } from "@navikt/ds-react";
 import { StyledModal } from "../../../components/Modal/StyledModal";
 import React, { useState } from "react";
 import {
-    nyHendelsePåSak,
-    useHentAktivSakForVirksomhet,
     useHentSamarbeid,
-    useHentSamarbeidshistorikk,
-} from "../../../api/lydia-api";
+} from "../../../api/lydia-api/kartlegging";
+import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
+import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
+import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import {
     DetaljerWrapper,
     ModalBodyInnholdGrid,

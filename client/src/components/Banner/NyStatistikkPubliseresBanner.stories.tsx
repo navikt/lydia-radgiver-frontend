@@ -4,8 +4,8 @@ import { http, HttpResponse } from "msw";
 import {
     publiseringsinfoPath,
     sykefraværsstatistikkPath,
-    useHentPubliseringsinfo,
-} from "../../api/lydia-api";
+} from "../../api/lydia-api/paths";
+import { useHentPubliseringsinfo } from "../../api/lydia-api/virksomhet";
 import {
     forrigePeriodePubliseringsinfo,
     gjeldendePeriodePubliseringsinfo,

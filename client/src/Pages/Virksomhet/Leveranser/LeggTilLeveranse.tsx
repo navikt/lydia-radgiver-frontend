@@ -7,14 +7,10 @@ import {
     Select,
     useDatepicker,
 } from "@navikt/ds-react";
-import {
-    nyLeveransePåSak,
-    useHentAktivSakForVirksomhet,
-    useHentBrukerinformasjon,
-    useHentIATjenester,
-    useHentLeveranser,
-    useHentModuler,
-} from "../../../api/lydia-api";
+import { useHentModuler } from "../../../api/lydia-api/virksomhet";
+import { useHentIATjenester } from "../../../api/lydia-api/virksomhet";
+import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
+import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 import {
@@ -24,6 +20,7 @@ import {
 import { RolleEnum } from "../../../domenetyper/brukerinformasjon";
 import { loggLeveranseFristKategori } from "../../../util/amplitude-klient";
 import { finnAktivModulFraIATjeneste } from "./finnAktivModulFraIATjeneste";
+import { nyLeveransePåSak, useHentLeveranser } from "../../../api/lydia-api/leveranse";
 
 const Form = styled.form`
     display: flex;

@@ -3,9 +3,9 @@ import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import styled from "styled-components";
 import {
     avsluttKartlegging,
-    useHentBehovsvurderingerMedProsess,
-    useHentIASaksStatus,
-} from "../../../api/lydia-api";
+} from "../../../api/lydia-api/kartlegging";
+import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
+import { useHentBehovsvurderingerMedProsess } from "../../../api/lydia-api/kartlegging";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { BodyLong } from "@navikt/ds-react";
 import React from "react";

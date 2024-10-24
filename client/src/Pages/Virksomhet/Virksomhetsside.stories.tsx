@@ -17,7 +17,7 @@ import {
     sistekvartalPath,
     sykefraværsstatistikkPath,
     virksomhetsPath,
-} from "../../api/lydia-api";
+} from "../../api/lydia-api/paths";
 import { samarbeidshistorikkMock } from "./mocks/iaSakHistorikkMock";
 import { mswHandlers } from "../../../.storybook/mswHandlers";
 

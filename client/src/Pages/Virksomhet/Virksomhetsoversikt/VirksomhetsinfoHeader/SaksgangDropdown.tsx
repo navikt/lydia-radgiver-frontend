@@ -11,13 +11,11 @@ import {
     Statusknapper,
 } from "../IASakStatus/EndreStatusModal/Statusknapper";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import {
-    useHentAktivSakForVirksomhet,
-    useHentSamarbeidshistorikk,
-} from "../../../../api/lydia-api";
+import { useHentSamarbeidshistorikk } from "../../../../api/lydia-api/virksomhet";
+import { useHentAktivSakForVirksomhet } from "../../../../api/lydia-api/virksomhet";
 import { SaksgangDropdownToggle } from "./SaksgangDropdownToggle";
 
-const HistorikkContainer = styled(HStack)<{ $begrensHøyde: boolean }>`
+const HistorikkContainer = styled(HStack) <{ $begrensHøyde: boolean }>`
     max-height: ${(props) => (props.$begrensHøyde ? "20rem" : "auto")};
     overflow-y: auto;
     padding-left: 0.5rem;

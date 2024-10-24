@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useHentSamarbeidshistorikk } from "../../../../../api/lydia-api";
+import { useHentSamarbeidshistorikk } from "../../../../../api/lydia-api/virksomhet";
 import { IASak } from "../../../../../domenetyper/domenetyper";
 import { Sakshendelse } from "../../../../../domenetyper/sakshistorikk";
 import { StatusBadge } from "../../../../../components/Badge/StatusBadge";

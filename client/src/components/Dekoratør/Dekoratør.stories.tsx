@@ -1,7 +1,7 @@
 import { Meta } from "@storybook/react";
 import { Dekoratør } from "./Dekoratør";
 import { http, HttpResponse } from "msw";
-import { virksomhetAutocompletePath } from "../../api/lydia-api";
+import { virksomhetAutocompletePath } from "../../api/lydia-api/paths";
 import { virksomhetAutocompleteMock } from "../../Pages/Prioritering/mocks/virksomhetMock";
 import {
     brukerMedGyldigToken,

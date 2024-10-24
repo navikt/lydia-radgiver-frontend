@@ -11,7 +11,7 @@ import {
     siste4kvartalerPath,
     sistekvartalPath,
     sykefraværsstatistikkPath,
-} from "../../../api/lydia-api";
+} from "../../../api/lydia-api/paths";
 import { Næring } from "../../../domenetyper/virksomhet";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
 

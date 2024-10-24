@@ -3,7 +3,7 @@ import React from "react";
 import { FilePdfIcon } from "@navikt/aksel-icons";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import { useHentKartleggingResultat } from "../../../api/lydia-api";
+import { useHentKartleggingResultat } from "../../../api/lydia-api/kartlegging";
 import styled from "styled-components";
 import { TemaResultat } from "../../../components/Spørreundersøkelse/TemaResultat";
 import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";

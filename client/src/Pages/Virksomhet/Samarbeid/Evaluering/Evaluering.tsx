@@ -1,11 +1,9 @@
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import React from "react";
-import {
-    nyKartleggingPåSak,
-    useHentBehovsvurderingerMedProsess,
-    useHentIASaksStatus,
-} from "../../../../api/lydia-api";
+import { useHentIASaksStatus } from "../../../../api/lydia-api/sak";
+import { nyKartleggingPåSak } from "../../../../api/lydia-api/kartlegging";
+import { useHentBehovsvurderingerMedProsess } from "../../../../api/lydia-api/kartlegging";
 import { Loader } from "@navikt/ds-react";
 import OpprettNySpørreundersøkelseKnapp from "../../../../components/Spørreundersøkelse/OpprettNySpørreundersøkelseKnapp";
 import Spørreundersøkelseliste from "../../../../components/Spørreundersøkelse/Spørreundersøkelseliste";

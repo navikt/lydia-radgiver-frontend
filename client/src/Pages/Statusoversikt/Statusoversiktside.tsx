@@ -5,7 +5,8 @@ import {
     sammenliknFilterverdier,
     useFiltervisningState,
 } from "../Prioritering/Filter/filtervisning-reducer";
-import { useFilterverdier, useHentStatusoversikt } from "../../api/lydia-api";
+import { useHentStatusoversikt } from "../../api/lydia-api/sok";
+import { useFilterverdier } from "../../api/lydia-api/sok";
 import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { StatistikkTabell } from "./StatistikkTabell";

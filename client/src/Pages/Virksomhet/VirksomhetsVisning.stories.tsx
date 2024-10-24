@@ -9,7 +9,7 @@ import {
     historiskStatistikkPath,
     iaSakPath,
     sykefraværsstatistikkPath,
-} from "../../api/lydia-api";
+} from "../../api/lydia-api/paths";
 import { iaSakFullførtOgLukket, iaSakKontaktes } from "./mocks/iaSakMock";
 import { mswHandlers } from "../../../.storybook/mswHandlers";
 import { historiskStatistikkMock } from "../Prioritering/mocks/sykefraværsstatistikkMock";

@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import styled from "styled-components";
 import { BodyShort, Heading, Loader } from "@navikt/ds-react";
 import { IATjenestekort } from "./IATjenestekort";
-import { useMineIATjenester } from "../../api/lydia-api";
+import { useMineIATjenester } from "../../api/lydia-api/sok";
 import {
     loggAntallIATjenesterPåIATjenesteoversikt,
     loggSideLastet,

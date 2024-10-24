@@ -4,7 +4,7 @@ import { iaSakViBistår } from "../mocks/iaSakMock";
 import { IATjeneste } from "./IATjeneste";
 import { leveranserPerIATjeneste } from "../mocks/leveranseMock";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
-import { iaSakPath } from "../../../api/lydia-api";
+import { iaSakPath } from "../../../api/lydia-api/paths";
 
 const meta = {
     title: "Virksomhet/Leveranser/Leveranser per IATjeneste",
