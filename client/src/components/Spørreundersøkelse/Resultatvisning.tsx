@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import { TemaResultat } from "./TemaResultat";
-import { IASakKartleggingResultat, TemaResultatDto } from "../../domenetyper/iaSakKartleggingResultat";
+import { IASakKartleggingResultat } from "../../domenetyper/iaSakKartleggingResultat";
+import { TemaResultatDto } from "../../domenetyper/iaSakSpørreundersøkelse";
 
 export const Container = styled.div`
     padding-top: 1rem;

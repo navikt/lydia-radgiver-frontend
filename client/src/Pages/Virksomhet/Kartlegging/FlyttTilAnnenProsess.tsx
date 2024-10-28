@@ -1,19 +1,19 @@
 import { Button, Dropdown } from "@navikt/ds-react";
 import React from "react";
-import { flyttBehovsvurdering, useHentBehovsvurderingerMedProsess, useHentSamarbeid } from "../../../api/lydia-api/kartlegging";
-import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
+import { useHentSamarbeid } from "../../../api/lydia-api/kartlegging";
 import { IASak } from "../../../domenetyper/domenetyper";
 import {
     defaultNavnHvisTomt,
     IaSakProsess,
 } from "../../../domenetyper/iaSakProsess";
 import styled from "styled-components";
+import { useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 
 interface Props {
     iaSak: IASak;
     gjeldendeSamarbeid: IaSakProsess;
-    behovsvurdering: IASakKartlegging;
     dropdownSize?: "small" | "medium" | "xsmall" | undefined;
+    flyttTilValgtSamarbeid: (samarbeidId: number) => void;
 }
 
 const StyledDropdownMenu = styled(Dropdown.Menu)`
@@ -23,27 +23,17 @@ const StyledDropdownMenu = styled(Dropdown.Menu)`
 export const FlyttTilAnnenProsess = ({
     iaSak,
     gjeldendeSamarbeid,
-    behovsvurdering,
     dropdownSize,
+    flyttTilValgtSamarbeid,
 }: Props) => {
     const { data: alleSamarbeid } = useHentSamarbeid(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
-    const { mutate: muterKartlegginger } = useHentBehovsvurderingerMedProsess(
-        iaSak.orgnr,
-        iaSak.saksnummer,
-        gjeldendeSamarbeid.id,
-    );
 
-    const flyttTilValgtSamarbeid = (samarbeidId: number) => {
-        flyttBehovsvurdering(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            samarbeidId,
-            behovsvurdering.kartleggingId,
-        ).then(() => muterKartlegginger?.());
-    };
+    const { spørreundersøkelseType } = useSpørreundersøkelse();
+
+
 
     return (
         <>
@@ -61,7 +51,7 @@ export const FlyttTilAnnenProsess = ({
                         <StyledDropdownMenu>
                             <Dropdown.Menu.GroupedList>
                                 <Dropdown.Menu.GroupedList.Heading>
-                                    Flytt behovsvurdering til:
+                                    Flytt {spørreundersøkelseType.toLocaleLowerCase()} til:
                                 </Dropdown.Menu.GroupedList.Heading>
                                 {alleSamarbeid
                                     .filter(

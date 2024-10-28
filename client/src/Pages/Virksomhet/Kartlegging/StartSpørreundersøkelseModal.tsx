@@ -1,47 +1,26 @@
-import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import { startKartlegging } from "../../../api/lydia-api/kartlegging";
-import { useHentBehovsvurderingerMedProsess } from "../../../api/lydia-api/kartlegging";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { åpneKartleggingINyFane } from "../../../util/navigasjon";
 import { BodyShort, List } from "@navikt/ds-react";
 import React from "react";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 export function StartSpørreundersøkelseModal({
-    iaSak,
     spørreundersøkelse,
     erModalÅpen,
     lukkModal,
-    samarbeid,
+    startSpørreundersøkelsen,
 }: {
-    iaSak: IASak;
     spørreundersøkelse: IASakKartlegging;
     erModalÅpen: boolean;
     lukkModal: () => void;
-    samarbeid: IaSakProsess;
+    startSpørreundersøkelsen: () => void;
 }) {
-    const { mutate: muterKartlegginger } = useHentBehovsvurderingerMedProsess(
-        iaSak.orgnr,
-        iaSak.saksnummer,
-        samarbeid.id,
-    );
-
-    const startKartleggingen = () => {
-        startKartlegging(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            spørreundersøkelse.kartleggingId,
-        ).then(() => {
-            muterKartlegginger();
-        });
-    };
 
     return (
         <BekreftValgModal
             jaTekst={"Start"}
             onConfirm={() => {
-                startKartleggingen();
+                startSpørreundersøkelsen();
                 åpneKartleggingINyFane(
                     spørreundersøkelse.kartleggingId,
                     "OPPRETTET",

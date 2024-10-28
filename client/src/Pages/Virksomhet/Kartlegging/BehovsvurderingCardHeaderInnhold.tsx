@@ -11,6 +11,8 @@ import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
 import { KartleggingStatusBedge } from "../../../components/Badge/KartleggingStatusBadge";
 import { TrashIcon } from "@navikt/aksel-icons";
 import { useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+import { avsluttKartlegging, flyttBehovsvurdering, slettKartlegging, startKartlegging, useHentBehovsvurderingerMedProsess } from "../../../api/lydia-api/kartlegging";
+import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
 
 const ActionButtonContainer = styled.div`
     display: flex;
@@ -100,6 +102,59 @@ export const BehovsvurderingCardHeaderInnhold = ({
 		samarbeid,
 		brukerErEierAvSak,
 	} = useSpørreundersøkelse();
+	const { mutate: muterKartlegginger } = useHentBehovsvurderingerMedProsess(
+		iaSak.orgnr,
+		iaSak.saksnummer,
+		samarbeid.id,
+	);
+
+	const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
+		iaSak.orgnr,
+		iaSak.saksnummer,
+	);
+
+	const flyttTilValgtSamarbeid = (samarbeidId: number) => {
+		flyttBehovsvurdering(
+			iaSak.orgnr,
+			iaSak.saksnummer,
+			samarbeidId,
+			behovsvurdering.kartleggingId,
+		).then(() => muterKartlegginger?.());
+	};
+
+	const startSpørreundersøkelsen = () => {
+		startKartlegging(
+			iaSak.orgnr,
+			iaSak.saksnummer,
+			behovsvurdering.kartleggingId,
+		).then(() => {
+			muterKartlegginger();
+		});
+	};
+
+	const slettSpørreundersøkelsen = () => {
+		slettKartlegging(
+			iaSak.orgnr,
+			iaSak.saksnummer,
+			behovsvurdering.kartleggingId,
+		).then(() => {
+			muterKartlegginger();
+			oppdaterSaksStatus();
+			setSlettSpørreundersøkelseModalÅpen(false)
+		});
+	};
+
+	const fullførSpørreundersøkelse = () => {
+		avsluttKartlegging(
+			iaSak.orgnr,
+			iaSak.saksnummer,
+			behovsvurdering.kartleggingId,
+		).then(() => {
+			muterKartlegginger();
+			oppdaterSaksStatus();
+		});
+	};
+
 
 	if (iaSak !== undefined) {
 		if (behovsvurderingStatus === "SLETTET") {
@@ -124,7 +179,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
 								<FlyttTilAnnenProsess
 									gjeldendeSamarbeid={samarbeid}
 									iaSak={iaSak}
-									behovsvurdering={behovsvurdering}
+									flyttTilValgtSamarbeid={flyttTilValgtSamarbeid}
 									dropdownSize="small"
 								/>
 							)}
@@ -166,23 +221,21 @@ export const BehovsvurderingCardHeaderInnhold = ({
 								</>
 							)}
 						<StartSpørreundersøkelseModal
-							iaSak={iaSak}
 							spørreundersøkelse={behovsvurdering}
-							samarbeid={samarbeid}
 							erModalÅpen={bekreftStartKartleggingModalÅpen}
 							lukkModal={() =>
 								setBekreftStartKartleggingModalÅpen(false)
 							}
+							startSpørreundersøkelsen={startSpørreundersøkelsen}
 						/>
 						{brukerRolle && (
 							<SlettBehovsvurderingModal
-								iaSak={iaSak}
-								samarbeid={samarbeid}
 								behovsvurdering={behovsvurdering}
 								erModalÅpen={slettSpørreundersøkelseModalÅpen}
 								lukkModal={() =>
 									setSlettSpørreundersøkelseModalÅpen(false)
 								}
+								slettSpørreundersøkelsen={slettSpørreundersøkelsen}
 							/>
 						)}
 					</ActionButtonContainer>
@@ -191,8 +244,8 @@ export const BehovsvurderingCardHeaderInnhold = ({
 							<FlyttTilAnnenProsess
 								gjeldendeSamarbeid={samarbeid}
 								iaSak={iaSak}
-								behovsvurdering={behovsvurdering}
 								dropdownSize="small"
+								flyttTilValgtSamarbeid={flyttTilValgtSamarbeid}
 							/>
 						</ActionButtonContainer>
 						<KartleggingStatusWrapper><KartleggingStatusBedge status={behovsvurdering.status} /></KartleggingStatusWrapper>
@@ -243,10 +296,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
 										</>
 									)}
 									<FullførSpørreundersøkelseModal
-										iaSak={iaSak}
-										samarbeid={samarbeid}
 										harNokDeltakere={harNokDeltakere}
-										behovsvurdering={behovsvurdering}
 										erModalÅpen={
 											bekreftFullførKartleggingModalÅpen
 										}
@@ -255,29 +305,28 @@ export const BehovsvurderingCardHeaderInnhold = ({
 												false,
 											)
 										}
+										fullførSpørreundersøkelse={fullførSpørreundersøkelse}
 									/>
 								</>
 							)}
 						{brukerRolle && (
 							<SlettBehovsvurderingModal
-								iaSak={iaSak}
-								samarbeid={samarbeid}
 								behovsvurdering={behovsvurdering}
 								erModalÅpen={slettSpørreundersøkelseModalÅpen}
 								lukkModal={() =>
 									setSlettSpørreundersøkelseModalÅpen(false)
 								}
+								slettSpørreundersøkelsen={slettSpørreundersøkelsen}
 							/>
 						)}
 					</ActionButtonContainer>
 					<HeaderRightContent>
 						<ActionButtonContainer>
-
 							<FlyttTilAnnenProsess
 								gjeldendeSamarbeid={samarbeid}
 								iaSak={iaSak}
-								behovsvurdering={behovsvurdering}
 								dropdownSize="small"
+								flyttTilValgtSamarbeid={flyttTilValgtSamarbeid}
 							/>
 						</ActionButtonContainer>
 						<KartleggingStatusWrapper><KartleggingStatusBedge status={behovsvurdering.status} /></KartleggingStatusWrapper>

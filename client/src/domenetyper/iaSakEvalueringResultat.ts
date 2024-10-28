@@ -1,11 +1,9 @@
 import { z } from "zod";
 import { temaResultatSchema } from "./iaSakSpørreundersøkelse";
 
-export const behovsvurderingResultatSchema = z.object({
+export const evalueringResultatSchema = z.object({
     kartleggingId: z.string(),
     spørsmålMedSvarPerTema: z.array(temaResultatSchema),
 });
 
-export type IASakKartleggingResultat = z.infer<
-    typeof behovsvurderingResultatSchema
->;
+export type IASakEvalueringResultat = z.infer<typeof evalueringResultatSchema>;
