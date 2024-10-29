@@ -14,7 +14,6 @@ import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
 import { BodyShort, Link, Loader } from "@navikt/ds-react";
 import { redirectUrl } from "./components/Banner/SesjonBanner";
 import { setTilgangsnivå } from "./util/amplitude-klient";
-import { IATjenesteoversiktside } from "./Pages/IATjenesteoversikt/IATjenesteoversiktside";
 import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
 import { Samarbeidsside } from "./Pages/Virksomhet/Samarbeid/Samarbeidsside";
 
@@ -105,10 +104,6 @@ const AppContent = () => {
                             "/virksomhet/:orgnummer/sak/:saksnummer/samarbeid/:prosessId"
                         }
                         element={<Samarbeidsside />}
-                    />
-                    <Route
-                        path={"/iatjenesteoversikt"}
-                        element={<IATjenesteoversiktside />}
                     />
                     <Route path={"/minesaker"} element={<MineSakerside />} />
                 </Routes>

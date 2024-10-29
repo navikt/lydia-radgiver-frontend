@@ -1,7 +1,6 @@
 import {
     getStatusoversiktUrl,
     getSykefraværsstatistikkAntallTreffUrl,
-    mineIATjenesterPath,
 } from "./paths";
 import { getSykefraværsstatistikkUrl } from "./paths";
 import {
@@ -14,10 +13,6 @@ import { FiltervisningState } from "../../Pages/Prioritering/Filter/filtervisnin
 import { useSwrTemplate } from "./networkRequests";
 import { filterverdierPath } from "./paths";
 import { z } from "zod";
-import {
-    MineIATjenester,
-    mineIATjenesterSchema,
-} from "../../domenetyper/leveranse";
 
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);
@@ -53,11 +48,7 @@ export function useHentAntallTreff({
     const antallTreffUrl = getSykefraværsstatistikkAntallTreffUrl(filterstate);
     return useSwrTemplate(initierSøk ? antallTreffUrl : null, z.number());
 }
-export const useMineIATjenester = () =>
-    useSwrTemplate<MineIATjenester[]>(
-        mineIATjenesterPath,
-        mineIATjenesterSchema.array(),
-    );
+
 export const appendIfNotDefaultValue = <T>(
     key: string,
     value: T | undefined,

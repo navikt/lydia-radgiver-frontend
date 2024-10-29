@@ -19,7 +19,6 @@ export const næringPath = "naring";
 export const bransjePath = "bransje";
 export const publiseringsinfoPath = "publiseringsinfo";
 export const leveransePath = `${iaSakPath}/leveranse`;
-export const mineIATjenesterPath = `${basePath}/iatjenesteoversikt/mine-iatjenester`;
 export const tjenesterPath = `${leveransePath}/tjenester`;
 export const modulerPath = `${leveransePath}/moduler`;
 export const statusoversiktPath = `${basePath}/statusoversikt`;

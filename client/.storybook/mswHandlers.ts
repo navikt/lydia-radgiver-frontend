@@ -4,7 +4,6 @@ import {
     iaSakHistorikkPath,
     innloggetAnsattPath,
     leveransePath,
-    mineIATjenesterPath,
     modulerPath,
     næringPath,
     publiseringsinfoPath,
@@ -26,7 +25,6 @@ import {
     leveranserPerIATjeneste,
     moduler,
 } from "../src/Pages/Virksomhet/mocks/leveranseMock";
-import { mineIATjenesterMock } from "../src/Pages/IATjenesteoversikt/mineIATjenesterMock";
 
 export const mswHandlers = [
     http.get(`${innloggetAnsattPath}`, () => {
@@ -54,9 +52,6 @@ export const mswHandlers = [
     }),
     http.get(`${leveransePath}/:orgnummer/:saksnummer`, () => {
         return HttpResponse.json(leveranserPerIATjeneste);
-    }),
-    http.get(`${mineIATjenesterPath}`, () => {
-        return HttpResponse.json(mineIATjenesterMock);
     }),
     http.get(tjenesterPath, () => {
         return HttpResponse.json(iaTjenester);
