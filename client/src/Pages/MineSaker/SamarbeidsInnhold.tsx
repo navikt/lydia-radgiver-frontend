@@ -1,6 +1,6 @@
 import { IAProsessStatusType, IASak } from "../../domenetyper/domenetyper";
 import { useNavigate } from "react-router-dom";
-import { penskrivKartleggingStatus } from "../../components/Badge/KartleggingStatusBadge";
+import { penskrivSpørreundersøkelseStatus } from "../../components/Badge/BehovsvurderingStatusBadge";
 import { Button } from "@navikt/ds-react";
 import { loggGåTilSakFraMineSaker } from "../../util/amplitude-klient";
 import styled from "styled-components";
@@ -78,7 +78,7 @@ export const SamarbeidsInnhold = ({
                         <ContentText>Behovsvurdering: </ContentText>
                         <ContentData>
                             {sisteVurdering?.status && vurderingSistEndret
-                                ? `${penskrivKartleggingStatus(sisteVurdering.status)}
+                                ? `${penskrivSpørreundersøkelseStatus(sisteVurdering.status)}
                                     ${vurderingSistEndret}`
                                 : !lasterKartlegginger
                                   ? "Ikke gjennomført i Fia"

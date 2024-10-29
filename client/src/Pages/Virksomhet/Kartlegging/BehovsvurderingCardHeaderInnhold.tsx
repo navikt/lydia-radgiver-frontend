@@ -8,7 +8,7 @@ import { StartSpørreundersøkelseModal } from "./StartSpørreundersøkelseModal
 import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkelseModal";
 import EksportVisning from "./EksportVisning";
 import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
-import { BehovsvurderingStatusBadge } from "../../../components/Badge/KartleggingStatusBadge";
+import { BehovsvurderingStatusBadge } from "../../../components/Badge/BehovsvurderingStatusBadge";
 import { TrashIcon } from "@navikt/aksel-icons";
 import { useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { useHentIASaksStatus } from "../../../api/lydia-api/sak";

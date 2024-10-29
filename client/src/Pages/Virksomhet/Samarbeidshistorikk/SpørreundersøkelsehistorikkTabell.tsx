@@ -18,7 +18,7 @@ interface LeveransehistorikkProps {
 export const sorterPåDato = (a: Spørreundersøkelse, b: Spørreundersøkelse) => {
     return b.endretTidspunkt!.getTime() - a.endretTidspunkt!.getTime();
 };
-export const KartlegginghistorikkTabell = ({
+export const SpørreundersøkelsehistorikkTabell = ({
     orgnr,
     saksnummer,
 }: LeveransehistorikkProps) => {

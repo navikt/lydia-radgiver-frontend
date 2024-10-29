@@ -29,7 +29,7 @@ import {
     loggStatusendringPåSak,
 } from "../../../../../util/amplitude-klient";
 import { useSendTilIATjenesterTab } from "../../../../../util/useSendTilIATjenesterTab";
-import { useSendTilKartleggingerTab } from "../../../../../util/useSendTilKartleggingerTab";
+import { useSendTilBehovsvurderingFane } from "../../../../../util/useSendTilBehovsvurderingFane";
 import { StatusHendelseSteg } from "./Statusknapper";
 import { penskrivIAStatus } from "../../../../../components/Badge/StatusBadge";
 
@@ -172,7 +172,8 @@ function FullførKartleggingerFørstSeksjon({
     lukkModal: () => void;
     clearNesteSteg: () => void;
 }) {
-    const { sendBrukerTilKartleggingerTab } = useSendTilKartleggingerTab();
+    const { sendBrukerTilBehovsvurderingFane } =
+        useSendTilBehovsvurderingFane();
 
     return (
         <Modal.Body>
@@ -192,7 +193,7 @@ function FullførKartleggingerFørstSeksjon({
                 <Button
                     variant="primary"
                     onClick={() => {
-                        sendBrukerTilKartleggingerTab();
+                        sendBrukerTilBehovsvurderingFane();
                         loggSendBrukerTilKartleggingerTab(
                             "fullfør kartlegginger",
                         );

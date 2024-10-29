@@ -7,7 +7,7 @@ import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { LeveransehistorikkTabell } from "./LeveransehistorikkTabell";
-import { KartlegginghistorikkTabell } from "./KartlegginghistorikkTabell";
+import { SpørreundersøkelsehistorikkTabell } from "./SpørreundersøkelsehistorikkTabell";
 
 const Container = styled.div`
     ${tabInnholdStyling};
@@ -83,7 +83,7 @@ export const SamarbeidshistorikkFane = ({
                             </Accordion.Header>
                             <Accordion.Content>
                                 <br />
-                                <KartlegginghistorikkTabell
+                                <SpørreundersøkelsehistorikkTabell
                                     orgnr={orgnr}
                                     saksnummer={sakshistorikk.saksnummer}
                                 />

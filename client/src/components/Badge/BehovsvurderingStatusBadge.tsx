@@ -8,7 +8,7 @@ import {
 import { FiaFarger } from "../../styling/farger";
 import styled from "styled-components";
 
-export const hentBakgrunnsFargeForKartleggingStatus = (
+export const hentBakgrunnsFargeForSpørreundersøkelseStatus = (
     status: SpørreundersøkelseStatus,
 ): FiaFarger => {
     switch (status) {
@@ -23,7 +23,7 @@ export const hentBakgrunnsFargeForKartleggingStatus = (
     }
 };
 
-export function penskrivKartleggingStatus(
+export function penskrivSpørreundersøkelseStatus(
     status: SpørreundersøkelseStatus,
 ): string {
     switch (status) {
@@ -61,14 +61,16 @@ export const BehovsvurderingStatusBadge = ({
 }: Props) => (
     <StatusBadgeWrapper>
         <Badge
-            backgroundColor={hentBakgrunnsFargeForKartleggingStatus(status)}
+            backgroundColor={hentBakgrunnsFargeForSpørreundersøkelseStatus(
+                status,
+            )}
             ariaLive={ariaLive}
             ariaLabel={ariaLabel}
             variant="neutral-moderate"
             size="small"
             minWidth="1em"
         >
-            {penskrivKartleggingStatus(status)}
+            {penskrivSpørreundersøkelseStatus(status)}
         </Badge>
     </StatusBadgeWrapper>
 );
