@@ -11,7 +11,7 @@ const sakshendelseSchema = z.object({
     tidspunktForSnapshot: datoSchema,
     begrunnelser: z.string().array(),
     eier: z.string().nullable(),
-    hendelseOpprettetAv: z.string().optional().nullable(),
+    hendelseOpprettetAv: z.string(),
 });
 export const sakshistorikkSchema = z.object({
     saksnummer: z.string(),

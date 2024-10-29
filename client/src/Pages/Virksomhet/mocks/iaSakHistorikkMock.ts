@@ -21,6 +21,7 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [
                 tidspunktForSnapshot: new Date(nå),
                 begrunnelser: [],
                 eier: null,
+                hendelseOpprettetAv: eier,
             },
             {
                 status: IAProsessStatusEnum.enum.VURDERES,
@@ -28,6 +29,7 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [
                 tidspunktForSnapshot: new Date(nå + 5000),
                 begrunnelser: [],
                 eier: null,
+                hendelseOpprettetAv: eier,
             },
         ],
     },
@@ -43,6 +45,7 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [
                 tidspunktForSnapshot: new Date(nå),
                 begrunnelser: [],
                 eier: null,
+                hendelseOpprettetAv: eier,
             },
             {
                 status: IAProsessStatusEnum.enum.VURDERES,
@@ -50,6 +53,7 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [
                 tidspunktForSnapshot: new Date(nå + 5000),
                 begrunnelser: [],
                 eier: null,
+                hendelseOpprettetAv: eier,
             },
             {
                 status: IAProsessStatusEnum.enum.VURDERES,
@@ -57,6 +61,7 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [
                 tidspunktForSnapshot: new Date(nå + 10000),
                 begrunnelser: [],
                 eier: eier,
+                hendelseOpprettetAv: eier,
             },
             {
                 status: IAProsessStatusEnum.enum.IKKE_AKTUELL,
@@ -69,6 +74,7 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [
                     "En kjeeeee eeee eeeee eeee eeeee eeee eeeee eeee eeeee eeee eeeee eeee mpe lang begrunnelse",
                 ],
                 eier: eier,
+                hendelseOpprettetAv: eier,
             },
         ],
     },

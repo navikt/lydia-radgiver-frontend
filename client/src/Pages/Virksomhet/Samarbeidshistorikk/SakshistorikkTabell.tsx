@@ -13,7 +13,7 @@ interface SakshistorikkTabellProps {
 export const SakshistorikkTabell = ({
     sakshistorikk,
 }: SakshistorikkTabellProps) => {
-    const kolonneNavn = ["Status", "Tidspunkt", "Detaljer", "Eier"];
+    const kolonneNavn = ["Status", "Tidspunkt", "Detaljer", "Endret av"];
 
     return (
         <>
@@ -74,7 +74,10 @@ export const SakshistorikkTabell = ({
                                             {sakSnapshot.hendelsestype ===
                                                 "TA_EIERSKAP_I_SAK" && (
                                                 <Detail>
-                                                    Tok eierskap i sak
+                                                    {
+                                                        sakSnapshot.hendelseOpprettetAv
+                                                    }{" "}
+                                                    tok eierskap
                                                 </Detail>
                                             )}
                                             {sakSnapshot.hendelsestype ===
@@ -104,7 +107,9 @@ export const SakshistorikkTabell = ({
                                         </Table.DataCell>
                                         <Table.DataCell>
                                             <NavIdentMedLenke
-                                                navIdent={sakSnapshot.eier}
+                                                navIdent={
+                                                    sakSnapshot.hendelseOpprettetAv
+                                                }
                                             />
                                         </Table.DataCell>
                                     </Table.Row>
