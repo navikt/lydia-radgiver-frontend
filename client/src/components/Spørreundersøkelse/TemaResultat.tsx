@@ -2,7 +2,7 @@ import { Heading, HeadingProps, HStack } from "@navikt/ds-react";
 import styled from "styled-components";
 import BarChart from "./Grafer/BarChart";
 import { PersonGroupFillIcon } from "@navikt/aksel-icons";
-import { SpørsmålResultatDto } from "../../domenetyper/iaSakSpørreundersøkelse";
+import { SpørsmålResultat } from "../../domenetyper/spørreundersøkelseResultat";
 
 const TemaContainer = styled.div`
     display: grid;
@@ -22,7 +22,7 @@ const TemaGrafContainer = styled.div`
 
 interface Props {
     navn: string;
-    spørsmålResultat: SpørsmålResultatDto[];
+    spørsmålResultat: SpørsmålResultat[];
     erIEksportMode?: boolean;
     headingSize?: HeadingProps["size"];
 }
@@ -42,15 +42,15 @@ export const TemaResultat = ({
                 <AntallDeltakere
                     antallDeltakere={Math.min(
                         ...spørsmålResultat.map(
-                            (spørsmål: SpørsmålResultatDto) =>
+                            (spørsmål: SpørsmålResultat) =>
                                 spørsmål.antallDeltakereSomHarSvart,
                         ),
                     )}
                 />
             </HStack>
             <TemaContainer>
-                {spørsmålResultat.map((spørsmål: SpørsmålResultatDto) => (
-                    <TemaGrafContainer key={spørsmål.spørsmålId}>
+                {spørsmålResultat.map((spørsmål: SpørsmålResultat) => (
+                    <TemaGrafContainer key={spørsmål.id}>
                         <BarChart
                             horizontal={spørsmål.flervalg}
                             spørsmål={spørsmål}

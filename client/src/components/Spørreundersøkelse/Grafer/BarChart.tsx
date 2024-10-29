@@ -1,27 +1,26 @@
 import React from "react";
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
-
-type SpørsmålMedSvarDTO = {
-    spørsmålId: string;
-    tekst: string;
-    flervalg: boolean;
-    svarListe: { tekst: string; svarId: string; antallSvar: number }[];
-};
+import { SpørsmålResultat } from "../../../domenetyper/spørreundersøkelseResultat";
 
 export default function BarChart({
     spørsmål,
     erIEksportMode = false,
     horizontal = false,
 }: {
-    spørsmål: SpørsmålMedSvarDTO;
+    spørsmål: SpørsmålResultat;
     erIEksportMode?: boolean;
     horizontal?: boolean;
 }) {
     const chartComponentRef = React.useRef<HighchartsReact.RefObject>(null);
 
     const options = React.useMemo(
-        () => genererChartOptionsFraSpørsmålOgSvar(spørsmål, erIEksportMode, horizontal),
+        () =>
+            genererChartOptionsFraSpørsmålOgSvar(
+                spørsmål,
+                erIEksportMode,
+                horizontal,
+            ),
         [spørsmål],
     );
 
@@ -36,7 +35,7 @@ export default function BarChart({
 }
 
 function genererChartOptionsFraSpørsmålOgSvar(
-    spørsmål: SpørsmålMedSvarDTO,
+    spørsmål: SpørsmålResultat,
     erIEksportMode: boolean,
     horizontal: boolean,
 ): Highcharts.Options {
@@ -70,9 +69,9 @@ function genererChartOptionsFraSpørsmålOgSvar(
                 data: spørsmål.svarListe.map((svar) =>
                     svar.antallSvar > 0
                         ? {
-                            y: svar.antallSvar,
-                            color: "var(--a-blue-500)",
-                        }
+                              y: svar.antallSvar,
+                              color: "var(--a-blue-500)",
+                          }
                         : null,
                 ),
             },

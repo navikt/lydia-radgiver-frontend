@@ -7,7 +7,7 @@ export default function Spørreundersøkelseliste() {
     const { spørreundersøkelseliste, sisteOpprettedeSpørreundersøkelseId } =
         useSpørreundersøkelse();
 
-    const { kartleggingId } = useVirksomhetContext();
+    const { spørreundersøkelseId } = useVirksomhetContext();
 
     return (
         spørreundersøkelseliste.length > 0 &&
@@ -25,7 +25,7 @@ export default function Spørreundersøkelseliste() {
                     defaultOpen={
                         behovsvurdering.id ===
                             sisteOpprettedeSpørreundersøkelseId ||
-                        behovsvurdering.id === kartleggingId
+                        behovsvurdering.id === spørreundersøkelseId
                     }
                 />
             ),

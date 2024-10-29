@@ -290,11 +290,9 @@ function EksportInnhold({
     erLastet: boolean;
     setErLastet: (erLastet: boolean) => void;
 }) {
-    //const { loading: lasterKartleggingResultat } =
     const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
         useHentResultat(iaSak.orgnr, iaSak.saksnummer, spørreundersøkelse.id);
 
-    //const kartleggingResultat = dummyKartleggingResultat;
     const { virksomhet } = useVirksomhetContext();
     const { navn: virksomhetsnavn } = virksomhet;
 

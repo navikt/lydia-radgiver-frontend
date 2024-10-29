@@ -8,7 +8,7 @@ export type VirksomhetContextType = {
     lasterIaSak: boolean;
     fane: string;
     setFane: (fane: string) => void;
-    kartleggingId: string | null;
+    spørreundersøkelseId: string | null;
     setVisKonfetti: (visKonfetti: boolean) => void;
     visKonfetti: boolean;
 };

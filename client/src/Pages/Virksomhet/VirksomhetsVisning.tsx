@@ -62,7 +62,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                 lasterIaSak,
                 fane,
                 setFane: oppdaterTabISearchParam,
-                kartleggingId: null,
+                spørreundersøkelseId: null,
                 setVisKonfetti,
                 visKonfetti,
             }}

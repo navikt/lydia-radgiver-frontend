@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { TemaResultat } from "./TemaResultat";
-import { IASakKartleggingResultat } from "../../domenetyper/iaSakKartleggingResultat";
-import { TemaResultatDto } from "../../domenetyper/iaSakSpørreundersøkelse";
+import { SpørreundersøkelseResultat } from "../../domenetyper/spørreundersøkelseResultat";
 
 export const Container = styled.div`
     padding-top: 1rem;
@@ -12,18 +11,20 @@ export const Container = styled.div`
     gap: 2rem;
 `;
 
-export default function Resultatvisning({ kartleggingResultat }:
-	{ kartleggingResultat: IASakKartleggingResultat }) {
-	return (
-		<Container>
-			{kartleggingResultat.spørsmålMedSvarPerTema.map(
-				(tema: TemaResultatDto) => (
-					<TemaResultat
-						key={tema.navn}
-						spørsmålResultat={tema.spørsmålMedSvar}
-						navn={tema.navn} />
-				)
-			)}
-		</Container>
-	);
+export default function Resultatvisning({
+    kartleggingResultat,
+}: {
+    kartleggingResultat: SpørreundersøkelseResultat;
+}) {
+    return (
+        <Container>
+            {kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
+                <TemaResultat
+                    key={tema.navn}
+                    spørsmålResultat={tema.spørsmålMedSvar}
+                    navn={tema.navn}
+                />
+            ))}
+        </Container>
+    );
 }

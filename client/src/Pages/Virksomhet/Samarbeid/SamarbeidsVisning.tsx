@@ -51,7 +51,7 @@ export const SamarbeidsVisning = ({
 
     const [searchParams, setSearchParams] = useSearchParams();
     const fane = searchParams.get("fane") ?? "behovsvurdering";
-    const kartleggingId = searchParams.get("kartleggingId");
+    const spørreundersøkelseId = searchParams.get("kartleggingId");
 
     const oppdaterTabISearchParam = (tab: string) => {
         searchParams.set("fane", tab);
@@ -82,7 +82,7 @@ export const SamarbeidsVisning = ({
                 lasterIaSak,
                 fane,
                 setFane: oppdaterTabISearchParam,
-                kartleggingId,
+                spørreundersøkelseId: spørreundersøkelseId,
                 setVisKonfetti,
                 visKonfetti,
             }}
@@ -134,9 +134,12 @@ export const SamarbeidsVisning = ({
                             )}
                         </StyledPanel>
                         <StyledPanel value="evaluering">
-                            {iaSak && <EvalueringFane
-                                iaSak={iaSak}
-                                gjeldendeSamarbeid={gjeldendeSamarbeid} />}
+                            {iaSak && (
+                                <EvalueringFane
+                                    iaSak={iaSak}
+                                    gjeldendeSamarbeid={gjeldendeSamarbeid}
+                                />
+                            )}
                         </StyledPanel>
                     </Tabs>
                 </Container>

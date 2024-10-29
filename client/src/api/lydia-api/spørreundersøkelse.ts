@@ -3,9 +3,9 @@ import {
     spørreundersøkelseSchema,
 } from "../../domenetyper/spørreundersøkelse";
 import {
-    IASakKartleggingResultat,
-    behovsvurderingResultatSchema,
-} from "../../domenetyper/iaSakKartleggingResultat";
+    SpørreundersøkelseResultat,
+    spørreundersøkelseResultatSchema,
+} from "../../domenetyper/spørreundersøkelseResultat";
 import {
     IaSakProsess,
     iaSakProsessSchema,
@@ -18,9 +18,9 @@ export const useHentResultat = (
     saksnummer: string,
     spørreundersøkelseId: string,
 ) => {
-    return useSwrTemplate<IASakKartleggingResultat>(
+    return useSwrTemplate<SpørreundersøkelseResultat>(
         `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}`,
-        behovsvurderingResultatSchema,
+        spørreundersøkelseResultatSchema,
     );
 };
 
