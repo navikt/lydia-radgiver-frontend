@@ -93,7 +93,7 @@ export const SakshistorikkTabell = ({
                                                     Slettet samarbeid
                                                 </Detail>
                                             )}
-                                            {sakSnapshot.hendelseOpprettetAv && (
+                                            {sakSnapshot.status === "NY" && (
                                                 <Detail>
                                                     {
                                                         sakSnapshot.hendelseOpprettetAv
