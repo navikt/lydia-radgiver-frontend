@@ -74,10 +74,7 @@ export const SakshistorikkTabell = ({
                                             {sakSnapshot.hendelsestype ===
                                                 "TA_EIERSKAP_I_SAK" && (
                                                 <Detail>
-                                                    {
-                                                        sakSnapshot.hendelseOpprettetAv
-                                                    }{" "}
-                                                    tok eierskap
+                                                    Tok eierskap i sak
                                                 </Detail>
                                             )}
                                             {sakSnapshot.hendelsestype ===
@@ -97,12 +94,7 @@ export const SakshistorikkTabell = ({
                                                 </Detail>
                                             )}
                                             {sakSnapshot.status === "NY" && (
-                                                <Detail>
-                                                    {
-                                                        sakSnapshot.hendelseOpprettetAv
-                                                    }{" "}
-                                                    opprettet sak
-                                                </Detail>
+                                                <Detail>Opprettet sak</Detail>
                                             )}
                                         </Table.DataCell>
                                         <Table.DataCell>
