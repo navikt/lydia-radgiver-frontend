@@ -6,8 +6,10 @@ import { Loader } from "@navikt/ds-react";
 import OpprettNySpørreundersøkelseKnapp from "../../../../components/Spørreundersøkelse/OpprettNySpørreundersøkelseKnapp";
 import Spørreundersøkelseliste from "../../../../components/Spørreundersøkelse/Spørreundersøkelseliste";
 import { SpørreundersøkelseProvider } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
-import { nyEvalueringPåSak, useHentEvalueringerMedProsess } from "../../../../api/lydia-api/evaluering";
-
+import {
+    opprettSpørreundersøkelse,
+    useHentSpørreundersøkelser,
+} from "../../../../api/lydia-api/spørreundersøkelse";
 
 export const Evaluering = ({
     iaSak,
@@ -22,31 +24,34 @@ export const Evaluering = ({
     iaSak: IASak;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
 }) => {
-    const [sisteOpprettedeId, setSisteOpprettedeId] =
-        React.useState("");
+    const [sisteOpprettedeId, setSisteOpprettedeId] = React.useState("");
 
     const {
         data: spørreundersøkelseListe,
         loading: lasterSpørreundersøkelser,
         mutate: hentSpørreundersøkelserPåNytt,
-    } = useHentEvalueringerMedProsess(
+    } = useHentSpørreundersøkelser(
         iaSak.orgnr,
         iaSak.saksnummer,
         samarbeid.id,
+        "Evaluering",
     );
     const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
 
-    const opprettBehovsvurdering = () => {
-        nyEvalueringPåSak(iaSak.orgnr, iaSak.saksnummer, samarbeid.id).then(
-            ({ kartleggingId }) => {
-                setSisteOpprettedeId(kartleggingId);
-                hentSpørreundersøkelserPåNytt();
-                oppdaterSaksStatus();
-            },
-        );
+    const opprettEvaluering = () => {
+        opprettSpørreundersøkelse(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            samarbeid.id,
+            "Evaluering",
+        ).then(({ kartleggingId }) => {
+            setSisteOpprettedeId(kartleggingId);
+            hentSpørreundersøkelserPåNytt();
+            oppdaterSaksStatus();
+        });
     };
 
     if (lasterSpørreundersøkelser) {
@@ -65,7 +70,7 @@ export const Evaluering = ({
                 sisteOpprettedeSpørreundersøkelseId={sisteOpprettedeId}
             >
                 <OpprettNySpørreundersøkelseKnapp
-                    onClick={opprettBehovsvurdering}
+                    onClick={opprettEvaluering}
                     disabled={!(sakErIRettStatus && brukerErEierAvSak)}
                 />
                 <Spørreundersøkelseliste />

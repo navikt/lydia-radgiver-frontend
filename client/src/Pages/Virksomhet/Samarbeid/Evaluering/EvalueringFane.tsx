@@ -3,11 +3,11 @@ import React from "react";
 import { VIS_EVALUERING } from "../../../../util/feature-toggles";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { useHentSamarbeid } from "../../../../api/lydia-api/kartlegging";
 import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 import { SpørreundersøkelseHeading } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseHeading";
 import { SpørreundersøkelseHjelpetekst } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseHjelpetekst";
 import { Evaluering } from "./Evaluering";
+import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 
 export default function EvalueringFane({
     iaSak,
@@ -27,7 +27,12 @@ export default function EvalueringFane({
         );
     }
 
-    return <NyEvalueringFane iaSak={iaSak} gjeldendeSamarbeid={gjeldendeSamarbeid} />;
+    return (
+        <NyEvalueringFane
+            iaSak={iaSak}
+            gjeldendeSamarbeid={gjeldendeSamarbeid}
+        />
+    );
 }
 
 function NyEvalueringFane({
@@ -50,7 +55,10 @@ function NyEvalueringFane({
     if (alleSamarbeid === undefined || alleSamarbeid.length === 0) {
         return (
             <>
-                <SpørreundersøkelseHeading type="Evaluering" samarbeid={gjeldendeSamarbeid} />
+                <SpørreundersøkelseHeading
+                    type="Evaluering"
+                    samarbeid={gjeldendeSamarbeid}
+                />
                 <SpørreundersøkelseHjelpetekst
                     type="evaluering"
                     brukerErEierAvSak={brukerErEierAvSak}
@@ -63,7 +71,8 @@ function NyEvalueringFane({
     return (
         <>
             <Alert variant="warning">
-                Viser for øyeblikket bare behovsvurderinger for testformål, evaluering kommer snart!
+                Viser for øyeblikket bare behovsvurderinger for testformål,
+                evaluering kommer snart!
             </Alert>
             <SpørreundersøkelseHeading
                 type="Evaluering"

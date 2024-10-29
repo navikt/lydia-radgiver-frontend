@@ -13,7 +13,7 @@ import { IAProsessStatusType, IASak } from "../../domenetyper/domenetyper";
 import { loggGåTilSakFraMineSaker } from "../../util/amplitude-klient";
 import { SamarbeidsKort } from "./SamarbeidsKort";
 import { useHentTeam } from "../../api/lydia-api/team";
-import { useHentSamarbeid } from "../../api/lydia-api/kartlegging";
+import { useHentSamarbeid } from "../../api/lydia-api/spørreundersøkelse";
 
 const SaksKort = styled(VStack)`
     background-color: white;

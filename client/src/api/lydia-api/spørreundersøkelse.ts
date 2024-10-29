@@ -10,16 +10,16 @@ import {
     IaSakProsess,
     iaSakProsessSchema,
 } from "../../domenetyper/iaSakProsess";
-import { iaSakPath, kartleggingPath } from "./paths";
+import { iaSakPath, spørreundersøkelsePath } from "./paths";
 import { httpDelete, post, put, useSwrTemplate } from "./networkRequests";
 
-export const useHentKartleggingResultat = (
+export const useHentResultat = (
     orgnummer: string,
     saksnummer: string,
-    kartleggingId: string,
+    spørreundersøkelseId: string,
 ) => {
     return useSwrTemplate<IASakKartleggingResultat>(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}`,
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}`,
         behovsvurderingResultatSchema,
     );
 };
@@ -33,68 +33,74 @@ export const useHentSamarbeid = (orgnummer?: string, saksnummer?: string) => {
     );
 };
 
-export const avsluttKartlegging = (
+export const avsluttSpørreundersøkelse = (
     orgnummer: string,
     saksnummer: string,
-    kartleggingId: string,
+    spørreundersøkelseId: string,
 ): Promise<IASakKartlegging> => {
     return post(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}/avslutt`,
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}/avslutt`,
         iaSakKartleggingSchema,
     );
 };
 
-export const slettKartlegging = (
+export const slettSpørreundersøkelse = (
     orgnummer: string,
     saksnummer: string,
-    kartleggingId: string,
+    spørreundersøkelseId: string,
 ): Promise<IASakKartlegging> => {
     return httpDelete(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}`,
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}`,
         iaSakKartleggingSchema,
     );
 };
 
-export const flyttBehovsvurdering = (
+export const flyttSpørreundersøkelse = (
     orgnummer: string,
     saksnummer: string,
     tilProsess: number,
-    kartleggingId: string,
+    spørreundersøkelseId: string,
 ): Promise<IASakKartlegging> => {
-    return put(`${kartleggingPath}/${kartleggingId}`, iaSakKartleggingSchema, {
-        orgnummer,
-        saksnummer,
-        prosessId: tilProsess,
-    });
+    return put(
+        `${spørreundersøkelsePath}/${spørreundersøkelseId}`,
+        iaSakKartleggingSchema,
+        {
+            orgnummer,
+            saksnummer,
+            prosessId: tilProsess,
+        },
+    );
 };
-export const useHentBehovsvurderingerMedProsess = (
+export const useHentSpørreundersøkelser = (
     orgnummer: string,
     saksnummer: string,
     prosessId: number,
+    type: "Evaluering" | "Behovsvurdering",
 ) => {
     return useSwrTemplate<IASakKartlegging[]>(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}/prosess/${prosessId}`,
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${type}`,
         iaSakKartleggingSchema.array(),
     );
 };
-export const nyKartleggingPåSak = (
+export const opprettSpørreundersøkelse = (
     orgnummer: string,
     saksnummer: string,
     samarbeidsId: number,
+    type: "Evaluering" | "Behovsvurdering",
 ): Promise<IASakKartlegging> => {
     return post(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/type/${type}`,
         iaSakKartleggingSchema,
     );
 };
 
-export const startKartlegging = (
+export const startSpørreundersøkelse = (
     orgnummer: string,
     saksnummer: string,
-    kartleggingId: string,
+    spørreundersøkelseId: string,
 ): Promise<IASakKartlegging> => {
     return post(
-        `${kartleggingPath}/${orgnummer}/${saksnummer}/${kartleggingId}/start`,
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}/start`,
         iaSakKartleggingSchema,
     );
 };

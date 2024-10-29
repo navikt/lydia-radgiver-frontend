@@ -1,13 +1,14 @@
 import { useParams } from "react-router-dom";
 import { statiskeSidetitler, useTittel } from "../../../util/useTittel";
 import {
-    useHentSamarbeid,
-} from "../../../api/lydia-api/kartlegging";
-import { useHentAktivSakForVirksomhet, useHentVirksomhetsinformasjon } from "../../../api/lydia-api/virksomhet";
+    useHentAktivSakForVirksomhet,
+    useHentVirksomhetsinformasjon,
+} from "../../../api/lydia-api/virksomhet";
 import React, { useEffect } from "react";
 import { loggSideLastet } from "../../../util/amplitude-klient";
 import { Loader } from "@navikt/ds-react";
 import { SamarbeidsVisning } from "./SamarbeidsVisning";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 export const Samarbeidsside = () => {
     const { oppdaterTittel } = useTittel(statiskeSidetitler.virksomhetsside);

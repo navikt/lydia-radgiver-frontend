@@ -19,7 +19,7 @@ import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import styled from "styled-components";
 import { StyledModal } from "../../../components/Modal/StyledModal";
 import { TrashIcon } from "@navikt/aksel-icons";
-import { useHentSamarbeid } from "../../../api/lydia-api/kartlegging";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 export const ModalBodyInnholdGrid = styled.div`
     display: grid;

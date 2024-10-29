@@ -6,14 +6,10 @@ import { useSpørreundersøkelse } from "../../../components/Spørreundersøkels
 export const BehovsvurderingRadInnhold = ({
     behovsvurdering,
 }: {
-
     behovsvurdering: IASakKartlegging;
 }) => {
-
     const behovsvurderingStatus = behovsvurdering.status;
-    const {
-        iaSak,
-    } = useSpørreundersøkelse();
+    const { iaSak } = useSpørreundersøkelse();
 
     if (iaSak !== undefined) {
         if (behovsvurderingStatus === "AVSLUTTET") {

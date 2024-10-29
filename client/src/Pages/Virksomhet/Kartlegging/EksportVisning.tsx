@@ -3,7 +3,6 @@ import React from "react";
 import { FilePdfIcon } from "@navikt/aksel-icons";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
-import { useHentKartleggingResultat } from "../../../api/lydia-api/kartlegging";
 import styled from "styled-components";
 import { TemaResultat } from "../../../components/Spørreundersøkelse/TemaResultat";
 import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";
@@ -12,12 +11,13 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { useVirksomhetContext } from "../VirksomhetContext";
 import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
+import { useHentResultat } from "../../../api/lydia-api/spørreundersøkelse";
 
 interface EksportVisningProps {
     erIEksportMode: boolean;
     setErIEksportMode: (erIEksportMode: boolean) => void;
     iaSak: IASak;
-    kartlegging: IASakKartlegging;
+    behovsvurdering: IASakKartlegging;
 }
 const EXPORT_INTERNAL_WIDTH = 1280;
 
@@ -168,8 +168,8 @@ class pdfEksport {
     ) {
         return (
             this.position +
-            header.clientHeight * this.pixelRatio +
-            graph.clientHeight * this.pixelRatio >
+                header.clientHeight * this.pixelRatio +
+                graph.clientHeight * this.pixelRatio >
             this.pageHeight
         );
     }
@@ -182,8 +182,8 @@ class pdfEksport {
             );
             const canvasR = child.childNodes[i + 1]
                 ? await html2canvas(child.childNodes[i + 1] as HTMLElement, {
-                    scale: 1,
-                })
+                      scale: 1,
+                  })
                 : undefined;
             await this.addInlineContent(canvasL, canvasR);
         }
@@ -204,7 +204,7 @@ const EksportVisning = ({
     erIEksportMode,
     setErIEksportMode,
     iaSak,
-    kartlegging,
+    behovsvurdering,
 }: EksportVisningProps) => {
     /* 	toPDF har returntypen void, men i den faktiske koden har den returntypen Promise<void>
         Må caste til Promise<void> for å sette loadingindikator */
@@ -225,7 +225,7 @@ const EksportVisning = ({
         }
     }, [erIEksportMode, erLastet]);
 
-    if (kartlegging.status !== "AVSLUTTET") {
+    if (behovsvurdering.status !== "AVSLUTTET") {
         return null;
     }
 
@@ -256,12 +256,12 @@ const EksportVisning = ({
                 >
                     <VirksomhetsEksportHeader
                         type="Behovsvurdering"
-                        dato={kartlegging.endretTidspunkt}
+                        dato={behovsvurdering.endretTidspunkt}
                     />
                     <EksportInnhold
                         erLastet={erLastet}
                         setErLastet={setErLastet}
-                        kartlegging={kartlegging}
+                        kartlegging={behovsvurdering}
                         iaSak={iaSak}
                     />
                 </div>
@@ -292,7 +292,7 @@ function EksportInnhold({
 }) {
     //const { loading: lasterKartleggingResultat } =
     const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
-        useHentKartleggingResultat(
+        useHentResultat(
             iaSak.orgnr,
             iaSak.saksnummer,
             kartlegging.kartleggingId,

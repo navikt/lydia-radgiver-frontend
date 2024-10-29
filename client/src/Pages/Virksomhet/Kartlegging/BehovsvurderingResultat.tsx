@@ -1,8 +1,8 @@
 import styled from "styled-components";
 import { Loader, BodyShort } from "@navikt/ds-react";
-import { useHentKartleggingResultat } from "../../../api/lydia-api/kartlegging";
 import { IASak } from "../../../domenetyper/domenetyper";
 import Resultatvisning from "../../../components/Spørreundersøkelse/Resultatvisning";
+import { useHentResultat } from "../../../api/lydia-api/spørreundersøkelse";
 
 export const Container = styled.div`
     padding-top: 1rem;
@@ -14,16 +14,14 @@ export const Container = styled.div`
 `;
 
 export const BehovsvurderingResultat = ({
-    iaSak, behovsvurderingId,
+    iaSak,
+    behovsvurderingId,
 }: {
     iaSak: IASak;
     behovsvurderingId: string;
 }) => {
-    const { data: kartleggingResultat, loading: lasterKartleggingResultat } = useHentKartleggingResultat(
-        iaSak.orgnr,
-        iaSak.saksnummer,
-        behovsvurderingId
-    );
+    const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
+        useHentResultat(iaSak.orgnr, iaSak.saksnummer, behovsvurderingId);
 
     if (lasterKartleggingResultat) {
         return <Loader />;
@@ -33,7 +31,5 @@ export const BehovsvurderingResultat = ({
         return <BodyShort>Kunne ikke hente resultater</BodyShort>;
     }
 
-    return (
-        <Resultatvisning kartleggingResultat={kartleggingResultat} />
-    );
+    return <Resultatvisning kartleggingResultat={kartleggingResultat} />;
 };

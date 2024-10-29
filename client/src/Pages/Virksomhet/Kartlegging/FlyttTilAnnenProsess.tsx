@@ -1,6 +1,5 @@
 import { Button, Dropdown } from "@navikt/ds-react";
 import React from "react";
-import { useHentSamarbeid } from "../../../api/lydia-api/kartlegging";
 import { IASak } from "../../../domenetyper/domenetyper";
 import {
     defaultNavnHvisTomt,
@@ -8,6 +7,7 @@ import {
 } from "../../../domenetyper/iaSakProsess";
 import styled from "styled-components";
 import { useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 interface Props {
     iaSak: IASak;
@@ -33,8 +33,6 @@ export const FlyttTilAnnenProsess = ({
 
     const { spørreundersøkelseType } = useSpørreundersøkelse();
 
-
-
     return (
         <>
             {gjeldendeSamarbeid &&
@@ -51,7 +49,9 @@ export const FlyttTilAnnenProsess = ({
                         <StyledDropdownMenu>
                             <Dropdown.Menu.GroupedList>
                                 <Dropdown.Menu.GroupedList.Heading>
-                                    Flytt {spørreundersøkelseType.toLocaleLowerCase()} til:
+                                    Flytt{" "}
+                                    {spørreundersøkelseType.toLocaleLowerCase()}{" "}
+                                    til:
                                 </Dropdown.Menu.GroupedList.Heading>
                                 {alleSamarbeid
                                     .filter(

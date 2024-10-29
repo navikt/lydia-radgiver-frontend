@@ -1,6 +1,6 @@
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
-import { åpneKartleggingINyFane } from "../../../util/navigasjon";
+import { åpneSpørreundersøkelseINyFane } from "../../../util/navigasjon";
 import { BodyShort, List } from "@navikt/ds-react";
 import React from "react";
 
@@ -15,13 +15,12 @@ export function StartSpørreundersøkelseModal({
     lukkModal: () => void;
     startSpørreundersøkelsen: () => void;
 }) {
-
     return (
         <BekreftValgModal
             jaTekst={"Start"}
             onConfirm={() => {
                 startSpørreundersøkelsen();
-                åpneKartleggingINyFane(
+                åpneSpørreundersøkelseINyFane(
                     spørreundersøkelse.kartleggingId,
                     "OPPRETTET",
                 );

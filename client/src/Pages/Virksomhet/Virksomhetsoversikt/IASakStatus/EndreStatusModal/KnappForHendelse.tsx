@@ -14,8 +14,8 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
 import { useTrengerÅFullføreLeveranserFørst } from "./useTrengerÅFullføreLeveranserFørst";
 import { penskrivIASakshendelsestype } from "./penskrivIASakshendelsestype";
 import { useTrengerÅFullføreBehovsvurderingerFørst } from "./useTrengerÅFullføreBehovsvurderingerFørst";
-import { useHentSamarbeid } from "../../../../../api/lydia-api/kartlegging";
 import { useHentLeveranser } from "../../../../../api/lydia-api/leveranse";
+import { useHentSamarbeid } from "../../../../../api/lydia-api/spørreundersøkelse";
 
 export default function KnappForHendelse({
     hendelse,

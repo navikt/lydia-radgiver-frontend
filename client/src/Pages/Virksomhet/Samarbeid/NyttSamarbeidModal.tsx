@@ -2,9 +2,7 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { BodyShort, Button, Detail, Heading, Modal } from "@navikt/ds-react";
 import { StyledModal } from "../../../components/Modal/StyledModal";
 import React, { useState } from "react";
-import {
-    useHentSamarbeid,
-} from "../../../api/lydia-api/kartlegging";
+
 import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
@@ -14,6 +12,7 @@ import {
     TextFieldStyled,
 } from "./EndreSamarbeidModal";
 import { useNavigate } from "react-router-dom";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;

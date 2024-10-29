@@ -1,7 +1,3 @@
-import {
-    useHentSamarbeid,
-} from "../../../api/lydia-api/kartlegging";
-import { useHentBehovsvurderingerMedProsess } from "../../../api/lydia-api/kartlegging";
 import { BodyShort, Loader, Table } from "@navikt/ds-react";
 import { StyledTable } from "../../../components/StyledTable";
 import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
@@ -9,6 +5,10 @@ import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
 import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
+import {
+    useHentSpørreundersøkelser,
+    useHentSamarbeid,
+} from "../../../api/lydia-api/spørreundersøkelse";
 
 interface LeveransehistorikkProps {
     orgnr: string;
@@ -57,7 +57,12 @@ const BehovsVurderingISamarbeid = ({
     prosess,
 }: BehovsVurderingISamarbeidProps) => {
     const { data: iaSakKartlegginger, loading: lasterKartlegginger } =
-        useHentBehovsvurderingerMedProsess(orgnummer, saksnummer, prosess.id);
+        useHentSpørreundersøkelser(
+            orgnummer,
+            saksnummer,
+            prosess.id,
+            "Behovsvurdering",
+        );
 
     if (lasterKartlegginger) {
         return <Loader />;

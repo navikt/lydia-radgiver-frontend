@@ -3,14 +3,13 @@ import { FloppydiskIcon } from "@navikt/aksel-icons";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import {
-    useHentSamarbeid,
-} from "../../../api/lydia-api/kartlegging";
+
 import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { NavFarger } from "../../../styling/farger";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 const IaProsessRadContainer = styled.div`
     display: flex;

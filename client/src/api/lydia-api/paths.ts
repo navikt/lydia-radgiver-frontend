@@ -25,8 +25,7 @@ export const modulerPath = `${leveransePath}/moduler`;
 export const statusoversiktPath = `${basePath}/statusoversikt`;
 export const historiskStatistikkPath = "historiskstatistikk";
 export const salesforceUrlPath = `${virksomhetsPath}/salesforce`;
-export const kartleggingPath = `${iaSakPath}/kartlegging`;
-export const evalueringPath = `${iaSakPath}/evaluering`;
+export const spørreundersøkelsePath = `${iaSakPath}/kartlegging`;
 export const planPath = `${iaSakPath}/plan`;
 export const getSykefraværsstatistikkUrl = (søkeverdier: FiltervisningState) =>
     `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(

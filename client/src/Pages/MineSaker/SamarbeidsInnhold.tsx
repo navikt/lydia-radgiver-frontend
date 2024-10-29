@@ -1,12 +1,12 @@
 import { IAProsessStatusType, IASak } from "../../domenetyper/domenetyper";
 import { useNavigate } from "react-router-dom";
-import { useHentBehovsvurderingerMedProsess } from "../../api/lydia-api/kartlegging";
 import { penskrivKartleggingStatus } from "../../components/Badge/KartleggingStatusBadge";
 import { Button } from "@navikt/ds-react";
 import { loggGåTilSakFraMineSaker } from "../../util/amplitude-klient";
 import styled from "styled-components";
 import { IaSakProsess } from "../../domenetyper/iaSakProsess";
 import { lokalDato } from "../../util/dato";
+import { useHentSpørreundersøkelser } from "../../api/lydia-api/spørreundersøkelse";
 
 const Innhold = styled.div`
     background-color: #e6f0ff;
@@ -52,10 +52,11 @@ export const SamarbeidsInnhold = ({
     const navigate = useNavigate();
 
     const { data: behovsvurderinger, loading: lasterKartlegginger } =
-        useHentBehovsvurderingerMedProsess(
+        useHentSpørreundersøkelser(
             iaSak.orgnr,
             iaSak.saksnummer,
             iaSamarbeid.id,
+            "Behovsvurdering",
         );
 
     const sisteVurdering = behovsvurderinger?.sort(
@@ -65,7 +66,8 @@ export const SamarbeidsInnhold = ({
     )[0];
 
     const visVurdering = VIS_VURDERINGSSTATUSER.includes(iaSak.status);
-    const sistEndret = sisteVurdering?.endretTidspunkt || sisteVurdering?.opprettetTidspunkt;
+    const sistEndret =
+        sisteVurdering?.endretTidspunkt || sisteVurdering?.opprettetTidspunkt;
     const vurderingSistEndret = sistEndret && lokalDato(sistEndret);
 
     return (
@@ -79,8 +81,8 @@ export const SamarbeidsInnhold = ({
                                 ? `${penskrivKartleggingStatus(sisteVurdering.status)}
                                     ${vurderingSistEndret}`
                                 : !lasterKartlegginger
-                                    ? "Ikke gjennomført i Fia"
-                                    : null}
+                                  ? "Ikke gjennomført i Fia"
+                                  : null}
                         </ContentData>
                     </div>
                 ) : (
@@ -89,7 +91,7 @@ export const SamarbeidsInnhold = ({
                         <ContentData>
                             {lokalDato(
                                 iaSak.endretTidspunkt ??
-                                iaSak.opprettetTidspunkt
+                                    iaSak.opprettetTidspunkt,
                             )}
                         </ContentData>
                     </div>

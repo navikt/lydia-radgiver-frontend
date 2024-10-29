@@ -5,7 +5,7 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { Behovsvurdering } from "./Behovsvurdering";
 import { SpørreundersøkelseHeading } from "../../../components/Spørreundersøkelse/SpørreundersøkelseHeading";
 import { SpørreundersøkelseHjelpetekst } from "../../../components/Spørreundersøkelse/SpørreundersøkelseHjelpetekst";
-import { useHentSamarbeid } from "../../../api/lydia-api/kartlegging";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 export const BehovsvurderingFane = ({
     iaSak,
@@ -27,7 +27,10 @@ export const BehovsvurderingFane = ({
     if (alleSamarbeid === undefined || alleSamarbeid.length === 0) {
         return (
             <>
-                <SpørreundersøkelseHeading type="Behovsvurdering" samarbeid={gjeldendeSamarbeid} />
+                <SpørreundersøkelseHeading
+                    type="Behovsvurdering"
+                    samarbeid={gjeldendeSamarbeid}
+                />
                 <SpørreundersøkelseHjelpetekst
                     type="behovsvurdering"
                     brukerErEierAvSak={brukerErEierAvSak}
@@ -39,7 +42,10 @@ export const BehovsvurderingFane = ({
 
     return (
         <>
-            <SpørreundersøkelseHeading type="Behovsvurdering" samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]} />
+            <SpørreundersøkelseHeading
+                type="Behovsvurdering"
+                samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]}
+            />
             <SpørreundersøkelseHjelpetekst
                 type="behovsvurdering"
                 brukerErEierAvSak={brukerErEierAvSak}

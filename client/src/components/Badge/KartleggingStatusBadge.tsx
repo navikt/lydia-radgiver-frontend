@@ -54,7 +54,7 @@ const StatusBadgeWrapper = styled.div`
     }
 `;
 
-export const KartleggingStatusBedge = ({
+export const BehovsvurderingStatusBadge = ({
     status,
     ariaLive,
     ariaLabel,

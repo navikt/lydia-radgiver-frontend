@@ -9,14 +9,11 @@ import {
 } from "../../../domenetyper/plan";
 import { PlusIcon } from "@navikt/aksel-icons";
 import TemaInnholdVelger from "./TemaInnholdVelger";
-import {
-    nyPlanPåSak,
-    useHentPlan,
-} from "../../../api/lydia-api/plan";
+import { nyPlanPåSak, useHentPlan } from "../../../api/lydia-api/plan";
 import { isoDato } from "../../../util/dato";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { loggModalÅpnet } from "../../../util/amplitude-klient";
-import { useHentSamarbeid } from "../../../api/lydia-api/kartlegging";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 const TemaInnholdVelgerContainer = styled.div`
     margin-bottom: 1rem;
@@ -65,17 +62,17 @@ export default function OpprettPlanKnapp({
                 valgteTemaIder.includes(tema.rekkefølge)
                     ? { ...tema, inkludert: true }
                     : {
-                        ...tema,
-                        inkludert: false,
-                        innhold: tema.innhold.map((innhold) => {
-                            return {
-                                ...innhold,
-                                inkludert: false,
-                                startDato: null,
-                                sluttDato: null,
-                            };
-                        }),
-                    },
+                          ...tema,
+                          inkludert: false,
+                          innhold: tema.innhold.map((innhold) => {
+                              return {
+                                  ...innhold,
+                                  inkludert: false,
+                                  startDato: null,
+                                  sluttDato: null,
+                              };
+                          }),
+                      },
             ),
         });
     }
@@ -88,9 +85,9 @@ export default function OpprettPlanKnapp({
             tema: redigertPlanMal.tema.map((tema) =>
                 tema.rekkefølge === temaId
                     ? {
-                        ...tema,
-                        innhold: redigerteInnholdMal,
-                    }
+                          ...tema,
+                          innhold: redigerteInnholdMal,
+                      }
                     : { ...tema },
             ),
         });

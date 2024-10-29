@@ -2,13 +2,14 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { IASak } from "../../../domenetyper/domenetyper";
 import React from "react";
 import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
-import { nyKartleggingPåSak } from "../../../api/lydia-api/kartlegging";
-import { useHentBehovsvurderingerMedProsess } from "../../../api/lydia-api/kartlegging";
 import { Loader } from "@navikt/ds-react";
 import OpprettNySpørreundersøkelseKnapp from "../../../components/Spørreundersøkelse/OpprettNySpørreundersøkelseKnapp";
 import Spørreundersøkelseliste from "../../../components/Spørreundersøkelse/Spørreundersøkelseliste";
 import { SpørreundersøkelseProvider } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
-
+import {
+    opprettSpørreundersøkelse,
+    useHentSpørreundersøkelser,
+} from "../../../api/lydia-api/spørreundersøkelse";
 
 export const Behovsvurdering = ({
     iaSak,
@@ -23,17 +24,20 @@ export const Behovsvurdering = ({
     iaSak: IASak;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
 }) => {
-    const [sisteOpprettedeKartleggingId, setSisteOpprettedeKartleggingId] =
-        React.useState("");
+    const [
+        idForSistOpprettetBehovsvurdering,
+        setIdForSistOpprettetBehovsvurdering,
+    ] = React.useState("");
 
     const {
         data: behovsvurderinger,
         loading: lasterBehovsvurderinger,
         mutate: hentBehovsvurderingerPåNytt,
-    } = useHentBehovsvurderingerMedProsess(
+    } = useHentSpørreundersøkelser(
         iaSak.orgnr,
         iaSak.saksnummer,
         samarbeid.id,
+        "Behovsvurdering",
     );
     const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
         iaSak.orgnr,
@@ -41,13 +45,16 @@ export const Behovsvurdering = ({
     );
 
     const opprettBehovsvurdering = () => {
-        nyKartleggingPåSak(iaSak.orgnr, iaSak.saksnummer, samarbeid.id).then(
-            ({ kartleggingId }) => {
-                setSisteOpprettedeKartleggingId(kartleggingId);
-                hentBehovsvurderingerPåNytt();
-                oppdaterSaksStatus();
-            },
-        );
+        opprettSpørreundersøkelse(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            samarbeid.id,
+            "Behovsvurdering",
+        ).then(({ kartleggingId }) => {
+            setIdForSistOpprettetBehovsvurdering(kartleggingId);
+            hentBehovsvurderingerPåNytt();
+            oppdaterSaksStatus();
+        });
     };
 
     if (lasterBehovsvurderinger) {
@@ -63,7 +70,9 @@ export const Behovsvurdering = ({
                 samarbeid={samarbeid}
                 brukerRolle={brukerRolle}
                 brukerErEierAvSak={brukerErEierAvSak}
-                sisteOpprettedeSpørreundersøkelseId={sisteOpprettedeKartleggingId}
+                sisteOpprettedeSpørreundersøkelseId={
+                    idForSistOpprettetBehovsvurdering
+                }
             >
                 <OpprettNySpørreundersøkelseKnapp
                     onClick={opprettBehovsvurdering}
