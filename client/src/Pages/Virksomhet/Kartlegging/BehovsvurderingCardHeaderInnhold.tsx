@@ -1,6 +1,6 @@
 import { Button, ExpansionCard } from "@navikt/ds-react";
 import React, { useState } from "react";
-import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
+import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import styled from "styled-components";
 import { åpneSpørreundersøkelseINyFane } from "../../../util/navigasjon";
 import { SlettBehovsvurderingModal } from "./SlettBehovsvurderingModal";
@@ -83,7 +83,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
     behovsvurdering,
     dato,
 }: {
-    behovsvurdering: IASakKartlegging;
+    behovsvurdering: Spørreundersøkelse;
     dato?: string;
 }) => {
     const [
@@ -125,7 +125,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
             iaSak.orgnr,
             iaSak.saksnummer,
             samarbeidId,
-            behovsvurdering.kartleggingId,
+            behovsvurdering.id,
         ).then(() => hentBehovsvurderingPåNytt?.());
     };
 
@@ -133,7 +133,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
         startSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
-            behovsvurdering.kartleggingId,
+            behovsvurdering.id,
         ).then(() => {
             hentBehovsvurderingPåNytt();
         });
@@ -143,7 +143,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
         slettSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
-            behovsvurdering.kartleggingId,
+            behovsvurdering.id,
         ).then(() => {
             hentBehovsvurderingPåNytt();
             oppdaterSaksStatus();
@@ -155,7 +155,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
         avsluttSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
-            behovsvurdering.kartleggingId,
+            behovsvurdering.id,
         ).then(() => {
             hentBehovsvurderingPåNytt();
             oppdaterSaksStatus();
@@ -284,7 +284,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                         variant={"secondary"}
                                         onClick={() =>
                                             åpneSpørreundersøkelseINyFane(
-                                                behovsvurdering.kartleggingId,
+                                                behovsvurdering.id,
                                                 "PÅBEGYNT",
                                             )
                                         }

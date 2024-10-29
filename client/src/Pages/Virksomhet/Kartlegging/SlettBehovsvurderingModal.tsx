@@ -1,4 +1,4 @@
-import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
+import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 import React from "react";
@@ -9,7 +9,7 @@ export function SlettBehovsvurderingModal({
     lukkModal,
     slettSpørreundersøkelsen,
 }: {
-    behovsvurdering: IASakKartlegging;
+    behovsvurdering: Spørreundersøkelse;
     erModalÅpen: boolean;
     lukkModal: () => void;
     slettSpørreundersøkelsen: () => void;

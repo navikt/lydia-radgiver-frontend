@@ -34,15 +34,15 @@ export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER);
 
 export type IAProsessStatusType = z.infer<typeof IAProsessStatusEnum>;
 
-const IA_KARTLEGGING_STATUSER = [
+const SPØRREUNDERSØKELSE_STATUSER = [
     "OPPRETTET",
     "PÅBEGYNT",
     "AVSLUTTET",
     "SLETTET",
 ] as const;
-export const iaSakKartleggingStatusEnum = z.enum(IA_KARTLEGGING_STATUSER);
-export type IASakKartleggingStatusType = z.infer<
-    typeof iaSakKartleggingStatusEnum
+export const spørreundersøkelseStatusEnum = z.enum(SPØRREUNDERSØKELSE_STATUSER);
+export type SpørreundersøkelseStatus = z.infer<
+    typeof spørreundersøkelseStatusEnum
 >;
 
 export type VirksomhetSøkeresultat = {

@@ -50,8 +50,8 @@ export const Behovsvurdering = ({
             iaSak.saksnummer,
             samarbeid.id,
             "Behovsvurdering",
-        ).then(({ kartleggingId }) => {
-            setIdForSistOpprettetBehovsvurdering(kartleggingId);
+        ).then(({ id }) => {
+            setIdForSistOpprettetBehovsvurdering(id);
             hentBehovsvurderingerPåNytt();
             oppdaterSaksStatus();
         });

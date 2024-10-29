@@ -1,4 +1,4 @@
-import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
+import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { åpneSpørreundersøkelseINyFane } from "../../../util/navigasjon";
 import { BodyShort, List } from "@navikt/ds-react";
@@ -10,7 +10,7 @@ export function StartSpørreundersøkelseModal({
     lukkModal,
     startSpørreundersøkelsen,
 }: {
-    spørreundersøkelse: IASakKartlegging;
+    spørreundersøkelse: Spørreundersøkelse;
     erModalÅpen: boolean;
     lukkModal: () => void;
     startSpørreundersøkelsen: () => void;
@@ -21,7 +21,7 @@ export function StartSpørreundersøkelseModal({
             onConfirm={() => {
                 startSpørreundersøkelsen();
                 åpneSpørreundersøkelseINyFane(
-                    spørreundersøkelse.kartleggingId,
+                    spørreundersøkelse.id,
                     "OPPRETTET",
                 );
                 lukkModal();

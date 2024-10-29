@@ -1,7 +1,7 @@
 import {
-    IASakKartlegging,
-    iaSakKartleggingSchema,
-} from "../../domenetyper/iaSakKartlegging";
+    Spørreundersøkelse,
+    spørreundersøkelseSchema,
+} from "../../domenetyper/spørreundersøkelse";
 import {
     IASakKartleggingResultat,
     behovsvurderingResultatSchema,
@@ -37,10 +37,10 @@ export const avsluttSpørreundersøkelse = (
     orgnummer: string,
     saksnummer: string,
     spørreundersøkelseId: string,
-): Promise<IASakKartlegging> => {
+): Promise<Spørreundersøkelse> => {
     return post(
         `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}/avslutt`,
-        iaSakKartleggingSchema,
+        spørreundersøkelseSchema,
     );
 };
 
@@ -48,10 +48,10 @@ export const slettSpørreundersøkelse = (
     orgnummer: string,
     saksnummer: string,
     spørreundersøkelseId: string,
-): Promise<IASakKartlegging> => {
+): Promise<Spørreundersøkelse> => {
     return httpDelete(
         `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}`,
-        iaSakKartleggingSchema,
+        spørreundersøkelseSchema,
     );
 };
 
@@ -60,10 +60,10 @@ export const flyttSpørreundersøkelse = (
     saksnummer: string,
     tilProsess: number,
     spørreundersøkelseId: string,
-): Promise<IASakKartlegging> => {
+): Promise<Spørreundersøkelse> => {
     return put(
         `${spørreundersøkelsePath}/${spørreundersøkelseId}`,
-        iaSakKartleggingSchema,
+        spørreundersøkelseSchema,
         {
             orgnummer,
             saksnummer,
@@ -77,9 +77,9 @@ export const useHentSpørreundersøkelser = (
     prosessId: number,
     type: "Evaluering" | "Behovsvurdering",
 ) => {
-    return useSwrTemplate<IASakKartlegging[]>(
+    return useSwrTemplate<Spørreundersøkelse[]>(
         `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${type}`,
-        iaSakKartleggingSchema.array(),
+        spørreundersøkelseSchema.array(),
     );
 };
 export const opprettSpørreundersøkelse = (
@@ -87,10 +87,10 @@ export const opprettSpørreundersøkelse = (
     saksnummer: string,
     samarbeidsId: number,
     type: "Evaluering" | "Behovsvurdering",
-): Promise<IASakKartlegging> => {
+): Promise<Spørreundersøkelse> => {
     return post(
         `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/type/${type}`,
-        iaSakKartleggingSchema,
+        spørreundersøkelseSchema,
     );
 };
 
@@ -98,9 +98,9 @@ export const startSpørreundersøkelse = (
     orgnummer: string,
     saksnummer: string,
     spørreundersøkelseId: string,
-): Promise<IASakKartlegging> => {
+): Promise<Spørreundersøkelse> => {
     return post(
         `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}/start`,
-        iaSakKartleggingSchema,
+        spørreundersøkelseSchema,
     );
 };

@@ -2,7 +2,7 @@ import { BodyShort, Loader, Table } from "@navikt/ds-react";
 import { StyledTable } from "../../../components/StyledTable";
 import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
-import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
+import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 import {
@@ -15,7 +15,7 @@ interface LeveransehistorikkProps {
     saksnummer: string;
 }
 
-export const sorterPåDato = (a: IASakKartlegging, b: IASakKartlegging) => {
+export const sorterPåDato = (a: Spørreundersøkelse, b: Spørreundersøkelse) => {
     return b.endretTidspunkt!.getTime() - a.endretTidspunkt!.getTime();
 };
 export const KartlegginghistorikkTabell = ({
@@ -56,7 +56,7 @@ const BehovsVurderingISamarbeid = ({
     saksnummer,
     prosess,
 }: BehovsVurderingISamarbeidProps) => {
-    const { data: iaSakKartlegginger, loading: lasterKartlegginger } =
+    const { data: behovsvurderinger, loading: lasterBehovsvurderinger } =
         useHentSpørreundersøkelser(
             orgnummer,
             saksnummer,
@@ -64,14 +64,14 @@ const BehovsVurderingISamarbeid = ({
             "Behovsvurdering",
         );
 
-    if (lasterKartlegginger) {
+    if (lasterBehovsvurderinger) {
         return <Loader />;
     }
 
-    if (!iaSakKartlegginger) {
+    if (!behovsvurderinger) {
         return <BodyShort>Kunne ikke hente behovsvurderinger</BodyShort>;
     }
-    const avsluttedeKarltegginger = iaSakKartlegginger
+    const avsluttedeBehovsvurderinger = behovsvurderinger
         .filter((kartlegging) => kartlegging.status === "AVSLUTTET")
         .sort(sorterPåDato);
 
@@ -79,7 +79,7 @@ const BehovsVurderingISamarbeid = ({
         <>
             <h3>Gjennomførte behovsvurderinger for {prosess.navn}</h3>
 
-            {avsluttedeKarltegginger.length ? (
+            {avsluttedeBehovsvurderinger.length ? (
                 <ScrollUtTilKantenContainer
                     $offsetLeft={1.5 + 2.75}
                     $offsetRight={1.5 + 0.75}
@@ -95,25 +95,29 @@ const BehovsVurderingISamarbeid = ({
                             </Table.Row>
                         </Table.Header>
                         <Table.Body>
-                            {avsluttedeKarltegginger.map((kartlegging) => (
-                                <Table.Row key={kartlegging.kartleggingId}>
-                                    <Table.DataCell>
-                                        {lokalDatoMedKlokkeslett(
-                                            kartlegging.opprettetTidspunkt,
-                                        )}
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        {lokalDatoMedKlokkeslett(
-                                            kartlegging.endretTidspunkt!,
-                                        )}
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        <NavIdentMedLenke
-                                            navIdent={kartlegging.opprettetAv}
-                                        />
-                                    </Table.DataCell>
-                                </Table.Row>
-                            ))}
+                            {avsluttedeBehovsvurderinger.map(
+                                (behovsvurdering) => (
+                                    <Table.Row key={behovsvurdering.id}>
+                                        <Table.DataCell>
+                                            {lokalDatoMedKlokkeslett(
+                                                behovsvurdering.opprettetTidspunkt,
+                                            )}
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            {lokalDatoMedKlokkeslett(
+                                                behovsvurdering.endretTidspunkt!,
+                                            )}
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            <NavIdentMedLenke
+                                                navIdent={
+                                                    behovsvurdering.opprettetAv
+                                                }
+                                            />
+                                        </Table.DataCell>
+                                    </Table.Row>
+                                ),
+                            )}
                         </Table.Body>
                     </StyledTable>
                 </ScrollUtTilKantenContainer>

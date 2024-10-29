@@ -1,9 +1,9 @@
 import { erIDev } from "../components/Dekoratør/Dekoratør";
-import { IASakKartleggingStatusType } from "../domenetyper/domenetyper";
+import { SpørreundersøkelseStatus } from "../domenetyper/domenetyper";
 
 export const åpneSpørreundersøkelseINyFane = (
     spørreundersøkelseId: string,
-    status: IASakKartleggingStatusType,
+    status: SpørreundersøkelseStatus,
 ) => {
     const kartleggingHost = erIDev
         ? `https://fia-arbeidsgiver.ekstern.dev.nav.no`

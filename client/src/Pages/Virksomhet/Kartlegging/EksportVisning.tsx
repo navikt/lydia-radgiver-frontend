@@ -2,7 +2,7 @@ import { BodyShort, Button, Loader } from "@navikt/ds-react";
 import React from "react";
 import { FilePdfIcon } from "@navikt/aksel-icons";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { IASakKartlegging } from "../../../domenetyper/iaSakKartlegging";
+import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import styled from "styled-components";
 import { TemaResultat } from "../../../components/Spørreundersøkelse/TemaResultat";
 import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";
@@ -17,7 +17,7 @@ interface EksportVisningProps {
     erIEksportMode: boolean;
     setErIEksportMode: (erIEksportMode: boolean) => void;
     iaSak: IASak;
-    behovsvurdering: IASakKartlegging;
+    behovsvurdering: Spørreundersøkelse;
 }
 const EXPORT_INTERNAL_WIDTH = 1280;
 
@@ -261,7 +261,7 @@ const EksportVisning = ({
                     <EksportInnhold
                         erLastet={erLastet}
                         setErLastet={setErLastet}
-                        kartlegging={behovsvurdering}
+                        spørreundersøkelse={behovsvurdering}
                         iaSak={iaSak}
                     />
                 </div>
@@ -280,23 +280,19 @@ const Container = styled.div`
 `;
 
 function EksportInnhold({
-    kartlegging,
+    spørreundersøkelse,
     iaSak,
     erLastet,
     setErLastet,
 }: {
-    kartlegging: IASakKartlegging;
+    spørreundersøkelse: Spørreundersøkelse;
     iaSak: IASak;
     erLastet: boolean;
     setErLastet: (erLastet: boolean) => void;
 }) {
     //const { loading: lasterKartleggingResultat } =
     const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
-        useHentResultat(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            kartlegging.kartleggingId,
-        );
+        useHentResultat(iaSak.orgnr, iaSak.saksnummer, spørreundersøkelse.id);
 
     //const kartleggingResultat = dummyKartleggingResultat;
     const { virksomhet } = useVirksomhetContext();

@@ -2,44 +2,44 @@ import "@navikt/ds-css";
 import React from "react";
 import { Badge } from "./Badge";
 import {
-    iaSakKartleggingStatusEnum,
-    IASakKartleggingStatusType,
+    spørreundersøkelseStatusEnum,
+    SpørreundersøkelseStatus,
 } from "../../domenetyper/domenetyper";
 import { FiaFarger } from "../../styling/farger";
 import styled from "styled-components";
 
 export const hentBakgrunnsFargeForKartleggingStatus = (
-    status: IASakKartleggingStatusType,
+    status: SpørreundersøkelseStatus,
 ): FiaFarger => {
     switch (status) {
-        case iaSakKartleggingStatusEnum.enum.PÅBEGYNT:
+        case spørreundersøkelseStatusEnum.enum.PÅBEGYNT:
             return FiaFarger.lilla;
-        case iaSakKartleggingStatusEnum.enum.OPPRETTET:
+        case spørreundersøkelseStatusEnum.enum.OPPRETTET:
             return FiaFarger.lysGrå;
-        case iaSakKartleggingStatusEnum.enum.AVSLUTTET:
+        case spørreundersøkelseStatusEnum.enum.AVSLUTTET:
             return FiaFarger.lysGrønn;
-        case iaSakKartleggingStatusEnum.enum.SLETTET:
+        case spørreundersøkelseStatusEnum.enum.SLETTET:
             return FiaFarger.rød;
     }
 };
 
 export function penskrivKartleggingStatus(
-    status: IASakKartleggingStatusType,
+    status: SpørreundersøkelseStatus,
 ): string {
     switch (status) {
-        case iaSakKartleggingStatusEnum.enum.OPPRETTET:
+        case spørreundersøkelseStatusEnum.enum.OPPRETTET:
             return "Opprettet";
-        case iaSakKartleggingStatusEnum.enum.PÅBEGYNT:
+        case spørreundersøkelseStatusEnum.enum.PÅBEGYNT:
             return "Påbegynt";
-        case iaSakKartleggingStatusEnum.enum.AVSLUTTET:
+        case spørreundersøkelseStatusEnum.enum.AVSLUTTET:
             return "Fullført";
-        case iaSakKartleggingStatusEnum.enum.SLETTET:
+        case spørreundersøkelseStatusEnum.enum.SLETTET:
             return "Slettet";
     }
 }
 
 interface Props {
-    status: IASakKartleggingStatusType;
+    status: SpørreundersøkelseStatus;
     ariaLive?: "off" | "polite" | "assertive";
     ariaLabel?: string;
 }

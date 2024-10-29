@@ -1,6 +1,6 @@
 import { ExpansionCard } from "@navikt/ds-react";
 import styled from "styled-components";
-import { IASakKartlegging } from "../../domenetyper/iaSakKartlegging";
+import { Spørreundersøkelse } from "../../domenetyper/spørreundersøkelse";
 import React from "react";
 import {
     useSpørreundersøkelseKomponenter,
@@ -21,7 +21,7 @@ export default function SpørreundersøkelseRad({
     defaultOpen,
     avstandFraSiste,
 }: {
-    spørreundersøkelse: IASakKartlegging;
+    spørreundersøkelse: Spørreundersøkelse;
     dato?: string;
     defaultOpen?: boolean;
     avstandFraSiste: number;

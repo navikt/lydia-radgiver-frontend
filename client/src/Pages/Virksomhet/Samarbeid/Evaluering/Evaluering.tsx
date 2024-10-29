@@ -47,8 +47,8 @@ export const Evaluering = ({
             iaSak.saksnummer,
             samarbeid.id,
             "Evaluering",
-        ).then(({ kartleggingId }) => {
-            setSisteOpprettedeId(kartleggingId);
+        ).then(({ id }) => {
+            setSisteOpprettedeId(id);
             hentSpørreundersøkelserPåNytt();
             oppdaterSaksStatus();
         });
