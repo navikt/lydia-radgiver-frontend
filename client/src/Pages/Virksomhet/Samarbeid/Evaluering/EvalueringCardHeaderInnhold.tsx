@@ -216,7 +216,7 @@ export const EvalueringCardHeaderInnhold = ({
                                     </StyledActionButton>
                                     {brukerErEierAvSak && (
                                         <StyledActionButton
-                                            variant={"danger"}
+                                            variant="tertiary"
                                             onClick={() =>
                                                 setSlettSpørreundersøkelseModalÅpen(
                                                     true,
