@@ -91,7 +91,9 @@ export const EndreSamarbeidModal = ({
     };
 
     const endreNavn = () => {
-        nyHendelse("ENDRE_PROSESS");
+        nyHendelse("ENDRE_PROSESS").then(() => {
+            setOpen(false);
+        });
     };
 
     const nyHendelse = (hendelsestype: IASakshendelseType) => {
