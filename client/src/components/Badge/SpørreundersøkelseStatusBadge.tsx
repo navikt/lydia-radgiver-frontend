@@ -54,7 +54,7 @@ const StatusBadgeWrapper = styled.div`
     }
 `;
 
-export const BehovsvurderingStatusBadge = ({
+export const SpørreundersøkelseStatusBadge = ({
     status,
     ariaLive,
     ariaLabel,

@@ -1,13 +1,10 @@
 import { ExpansionCard } from "@navikt/ds-react";
-import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
-import { BehovsvurderingResultat } from "./BehovsvurderingResultat";
-import { useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+import { SpørreundersøkelseResultat } from "./SpørreundersøkelseResultat";
+import { CardInnholdProps, useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 
 export const BehovsvurderingRadInnhold = ({
-    behovsvurdering,
-}: {
-    behovsvurdering: Spørreundersøkelse;
-}) => {
+    spørreundersøkelse: behovsvurdering,
+}: CardInnholdProps) => {
     const behovsvurderingStatus = behovsvurdering.status;
     const { iaSak } = useSpørreundersøkelse();
 
@@ -15,9 +12,9 @@ export const BehovsvurderingRadInnhold = ({
         if (behovsvurderingStatus === "AVSLUTTET") {
             return (
                 <ExpansionCard.Content>
-                    <BehovsvurderingResultat
+                    <SpørreundersøkelseResultat
                         iaSak={iaSak}
-                        behovsvurderingId={behovsvurdering.id}
+                        spørreundersøkelseId={behovsvurdering.id}
                     />
                 </ExpansionCard.Content>
             );

@@ -1,4 +1,4 @@
-import { Alert, BodyShort, Heading } from "@navikt/ds-react";
+import { BodyShort, Heading } from "@navikt/ds-react";
 import React from "react";
 import { VIS_EVALUERING } from "../../../../util/feature-toggles";
 import { IASak } from "../../../../domenetyper/domenetyper";
@@ -70,10 +70,6 @@ function NyEvalueringFane({
 
     return (
         <>
-            <Alert variant="warning">
-                Viser for øyeblikket bare behovsvurderinger for testformål,
-                evaluering kommer snart!
-            </Alert>
             <SpørreundersøkelseHeading
                 type="Evaluering"
                 samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]}

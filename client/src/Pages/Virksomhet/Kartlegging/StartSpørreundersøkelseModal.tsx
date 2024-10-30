@@ -3,6 +3,7 @@ import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { åpneSpørreundersøkelseINyFane } from "../../../util/navigasjon";
 import { BodyShort, List } from "@navikt/ds-react";
 import React from "react";
+import { useSpørreundersøkelseType } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 
 export function StartSpørreundersøkelseModal({
     spørreundersøkelse,
@@ -15,6 +16,7 @@ export function StartSpørreundersøkelseModal({
     lukkModal: () => void;
     startSpørreundersøkelsen: () => void;
 }) {
+    const type = useSpørreundersøkelseType();
     return (
         <BekreftValgModal
             jaTekst={"Start"}
@@ -28,11 +30,11 @@ export function StartSpørreundersøkelseModal({
             }}
             onCancel={() => lukkModal()}
             åpen={erModalÅpen}
-            title={"Start behovsvurdering"}
+            title={`Start ${type.toLowerCase()}`}
         >
             <br />
             <BodyShort weight={"semibold"}>
-                Før du starter behovsvurderingen, husk at:
+                Før du starter {type.toLowerCase()}en, husk at:
             </BodyShort>
             <List>
                 <List.Item>

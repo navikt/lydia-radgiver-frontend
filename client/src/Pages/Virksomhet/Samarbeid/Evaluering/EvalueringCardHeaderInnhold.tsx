@@ -1,16 +1,15 @@
 import { Button, ExpansionCard } from "@navikt/ds-react";
 import React, { useState } from "react";
-import { Spørreundersøkelse } from "../../../../domenetyper/spørreundersøkelse";
 import styled from "styled-components";
 import { åpneSpørreundersøkelseINyFane } from "../../../../util/navigasjon";
-import { SlettBehovsvurderingModal } from "../../Kartlegging/SlettBehovsvurderingModal";
+import { SlettSpørreundersøkelseModal } from "../../Kartlegging/SlettSpørreundersøkelseModal";
 import { StartSpørreundersøkelseModal } from "../../Kartlegging/StartSpørreundersøkelseModal";
 import { FullførSpørreundersøkelseModal } from "../../Kartlegging/FullførSpørreundersøkelseModal";
 import EksportVisning from "../../Kartlegging/EksportVisning";
 import { FlyttTilAnnenProsess } from "../../Kartlegging/FlyttTilAnnenProsess";
-import { BehovsvurderingStatusBadge } from "../../../../components/Badge/BehovsvurderingStatusBadge";
+import { SpørreundersøkelseStatusBadge } from "../../../../components/Badge/SpørreundersøkelseStatusBadge";
 import { TrashIcon } from "@navikt/aksel-icons";
-import { useSpørreundersøkelse } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+import { CardHeaderProps, useSpørreundersøkelse } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { useHentIASaksStatus } from "../../../../api/lydia-api/sak";
 import {
     avsluttSpørreundersøkelse,
@@ -80,12 +79,9 @@ const KartleggingStatusWrapper = styled.div`
 `;
 
 export const EvalueringCardHeaderInnhold = ({
-    behovsvurdering,
+    spørreundersøkelse,
     dato,
-}: {
-    behovsvurdering: Spørreundersøkelse;
-    dato?: string;
-}) => {
+}: CardHeaderProps) => {
     const [
         bekreftFullførKartleggingModalÅpen,
         setBekreftFullførKartleggingModalÅpen,
@@ -104,7 +100,7 @@ export const EvalueringCardHeaderInnhold = ({
     const MINIMUM_ANTALL_DELTAKERE = 3;
     const deltakereSomHarFullført = 1;
     const harNokDeltakere = deltakereSomHarFullført >= MINIMUM_ANTALL_DELTAKERE;
-    const behovsvurderingStatus = behovsvurdering.status;
+    const spørreundersøkelseStatus = spørreundersøkelse.status;
 
     const { iaSak, brukerRolle, samarbeid, brukerErEierAvSak } =
         useSpørreundersøkelse();
@@ -125,7 +121,7 @@ export const EvalueringCardHeaderInnhold = ({
             iaSak.orgnr,
             iaSak.saksnummer,
             samarbeidId,
-            behovsvurdering.id,
+            spørreundersøkelse.id,
         ).then(() => muterEvalueringer?.());
     };
 
@@ -133,7 +129,7 @@ export const EvalueringCardHeaderInnhold = ({
         startSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
-            behovsvurdering.id,
+            spørreundersøkelse.id,
         ).then(() => {
             muterEvalueringer();
         });
@@ -143,7 +139,7 @@ export const EvalueringCardHeaderInnhold = ({
         slettSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
-            behovsvurdering.id,
+            spørreundersøkelse.id,
         ).then(() => {
             muterEvalueringer();
             oppdaterSaksStatus();
@@ -155,7 +151,7 @@ export const EvalueringCardHeaderInnhold = ({
         avsluttSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
-            behovsvurdering.id,
+            spørreundersøkelse.id,
         ).then(() => {
             muterEvalueringer();
             oppdaterSaksStatus();
@@ -163,11 +159,11 @@ export const EvalueringCardHeaderInnhold = ({
     };
 
     if (iaSak !== undefined) {
-        if (behovsvurderingStatus === "SLETTET") {
+        if (spørreundersøkelseStatus === "SLETTET") {
             return null;
         }
 
-        if (behovsvurderingStatus === "AVSLUTTET") {
+        if (spørreundersøkelseStatus === "AVSLUTTET") {
             return (
                 <StyledExpansionCardHeader>
                     <ExpansionCard.Title>Evaluering</ExpansionCard.Title>
@@ -175,7 +171,7 @@ export const EvalueringCardHeaderInnhold = ({
                         <ActionButtonContainer>
                             <EksportVisning
                                 iaSak={iaSak}
-                                behovsvurdering={behovsvurdering}
+                                spørreundersøkelse={spørreundersøkelse}
                                 erIEksportMode={erIEksportMode}
                                 setErIEksportMode={setErIEksportMode}
                             />
@@ -191,8 +187,8 @@ export const EvalueringCardHeaderInnhold = ({
                             )}
                         </ActionButtonContainer>
                         <KartleggingStatusWrapper>
-                            <BehovsvurderingStatusBadge
-                                status={behovsvurdering.status}
+                            <SpørreundersøkelseStatusBadge
+                                status={spørreundersøkelse.status}
                             />
                         </KartleggingStatusWrapper>
                         <KartleggingDato>{dato}</KartleggingDato>
@@ -201,7 +197,7 @@ export const EvalueringCardHeaderInnhold = ({
             );
         }
 
-        if (behovsvurderingStatus === "OPPRETTET") {
+        if (spørreundersøkelseStatus === "OPPRETTET") {
             return (
                 <StyledEmptyCardHeader>
                     <ActionButtonContainer>
@@ -232,7 +228,7 @@ export const EvalueringCardHeaderInnhold = ({
                                 </>
                             )}
                         <StartSpørreundersøkelseModal
-                            spørreundersøkelse={behovsvurdering}
+                            spørreundersøkelse={spørreundersøkelse}
                             erModalÅpen={bekreftStartKartleggingModalÅpen}
                             lukkModal={() =>
                                 setBekreftStartKartleggingModalÅpen(false)
@@ -240,8 +236,8 @@ export const EvalueringCardHeaderInnhold = ({
                             startSpørreundersøkelsen={startEvaluering}
                         />
                         {brukerRolle && (
-                            <SlettBehovsvurderingModal
-                                behovsvurdering={behovsvurdering}
+                            <SlettSpørreundersøkelseModal
+                                spørreundersøkelse={spørreundersøkelse}
                                 erModalÅpen={slettSpørreundersøkelseModalÅpen}
                                 lukkModal={() =>
                                     setSlettSpørreundersøkelseModalÅpen(false)
@@ -260,8 +256,8 @@ export const EvalueringCardHeaderInnhold = ({
                             />
                         </ActionButtonContainer>
                         <KartleggingStatusWrapper>
-                            <BehovsvurderingStatusBadge
-                                status={behovsvurdering.status}
+                            <SpørreundersøkelseStatusBadge
+                                status={spørreundersøkelse.status}
                             />
                         </KartleggingStatusWrapper>
                         <KartleggingDato>{dato}</KartleggingDato>
@@ -270,7 +266,7 @@ export const EvalueringCardHeaderInnhold = ({
             );
         }
 
-        if (behovsvurderingStatus === "PÅBEGYNT") {
+        if (spørreundersøkelseStatus === "PÅBEGYNT") {
             return (
                 <StyledEmptyCardHeader>
                     <ActionButtonContainer>
@@ -282,7 +278,7 @@ export const EvalueringCardHeaderInnhold = ({
                                         variant={"secondary"}
                                         onClick={() =>
                                             åpneSpørreundersøkelseINyFane(
-                                                behovsvurdering.id,
+                                                spørreundersøkelse.id,
                                                 "PÅBEGYNT",
                                             )
                                         }
@@ -328,8 +324,8 @@ export const EvalueringCardHeaderInnhold = ({
                                 </>
                             )}
                         {brukerRolle && (
-                            <SlettBehovsvurderingModal
-                                behovsvurdering={behovsvurdering}
+                            <SlettSpørreundersøkelseModal
+                                spørreundersøkelse={spørreundersøkelse}
                                 erModalÅpen={slettSpørreundersøkelseModalÅpen}
                                 lukkModal={() =>
                                     setSlettSpørreundersøkelseModalÅpen(false)
@@ -348,8 +344,8 @@ export const EvalueringCardHeaderInnhold = ({
                             />
                         </ActionButtonContainer>
                         <KartleggingStatusWrapper>
-                            <BehovsvurderingStatusBadge
-                                status={behovsvurdering.status}
+                            <SpørreundersøkelseStatusBadge
+                                status={spørreundersøkelse.status}
                             />
                         </KartleggingStatusWrapper>
                         <KartleggingDato>{dato}</KartleggingDato>

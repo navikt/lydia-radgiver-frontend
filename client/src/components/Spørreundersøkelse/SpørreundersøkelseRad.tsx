@@ -7,7 +7,7 @@ import {
     useSpørreundersøkelseType,
 } from "./SpørreundersøkelseContext";
 
-const StyledExpansionCard = styled(ExpansionCard)<{ $avstandFraSiste: number }>`
+const StyledExpansionCard = styled(ExpansionCard) <{ $avstandFraSiste: number }>`
     margin-bottom: 1rem;
 
     & > div {
@@ -40,9 +40,9 @@ export default function SpørreundersøkelseRad({
             }}
             $avstandFraSiste={avstandFraSiste}
         >
-            <CardHeader behovsvurdering={spørreundersøkelse} dato={dato} />
+            <CardHeader spørreundersøkelse={spørreundersøkelse} dato={dato} />
             {erÅpen && spørreundersøkelse.status === "AVSLUTTET" && (
-                <CardInnhold behovsvurdering={spørreundersøkelse} />
+                <CardInnhold spørreundersøkelse={spørreundersøkelse} />
             )}
         </StyledExpansionCard>
     );

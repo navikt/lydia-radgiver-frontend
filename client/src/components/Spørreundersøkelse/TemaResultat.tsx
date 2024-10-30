@@ -35,7 +35,7 @@ export const TemaResultat = ({
 }: Props) => {
     return (
         <>
-            <HStack justify="space-between" align="center">
+            <HStack justify="space-between" align="center" as="span">
                 <Heading level="3" size={headingSize}>
                     {navn}
                 </Heading>

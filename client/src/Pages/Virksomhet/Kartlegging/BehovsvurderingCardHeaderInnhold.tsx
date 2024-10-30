@@ -1,16 +1,15 @@
 import { Button, ExpansionCard } from "@navikt/ds-react";
 import React, { useState } from "react";
-import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import styled from "styled-components";
 import { åpneSpørreundersøkelseINyFane } from "../../../util/navigasjon";
-import { SlettBehovsvurderingModal } from "./SlettBehovsvurderingModal";
+import { SlettSpørreundersøkelseModal } from "./SlettSpørreundersøkelseModal";
 import { StartSpørreundersøkelseModal } from "./StartSpørreundersøkelseModal";
 import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkelseModal";
 import EksportVisning from "./EksportVisning";
 import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
-import { BehovsvurderingStatusBadge } from "../../../components/Badge/BehovsvurderingStatusBadge";
+import { SpørreundersøkelseStatusBadge } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
 import { TrashIcon } from "@navikt/aksel-icons";
-import { useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+import { CardHeaderProps, useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
 import {
     avsluttSpørreundersøkelse,
@@ -80,12 +79,9 @@ const BehovsvurderingStatusWrapper = styled.div`
 `;
 
 export const BehovsvurderingCardHeaderInnhold = ({
-    behovsvurdering,
+    spørreundersøkelse,
     dato,
-}: {
-    behovsvurdering: Spørreundersøkelse;
-    dato?: string;
-}) => {
+}: CardHeaderProps) => {
     const [
         bekreftFullførBehovsvurderingModalÅpen,
         setBekreftFullførBehovsvurderingModalÅpen,
@@ -104,7 +100,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
     const MINIMUM_ANTALL_DELTAKERE = 3;
     const deltakereSomHarFullført = 1;
     const harNokDeltakere = deltakereSomHarFullført >= MINIMUM_ANTALL_DELTAKERE;
-    const behovsvurderingStatus = behovsvurdering.status;
+    const spørreundersøkelseStatus = spørreundersøkelse.status;
 
     const { iaSak, brukerRolle, samarbeid, brukerErEierAvSak } =
         useSpørreundersøkelse();
@@ -125,7 +121,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
             iaSak.orgnr,
             iaSak.saksnummer,
             samarbeidId,
-            behovsvurdering.id,
+            spørreundersøkelse.id,
         ).then(() => hentBehovsvurderingPåNytt?.());
     };
 
@@ -133,7 +129,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
         startSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
-            behovsvurdering.id,
+            spørreundersøkelse.id,
         ).then(() => {
             hentBehovsvurderingPåNytt();
         });
@@ -143,7 +139,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
         slettSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
-            behovsvurdering.id,
+            spørreundersøkelse.id,
         ).then(() => {
             hentBehovsvurderingPåNytt();
             oppdaterSaksStatus();
@@ -155,7 +151,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
         avsluttSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
-            behovsvurdering.id,
+            spørreundersøkelse.id,
         ).then(() => {
             hentBehovsvurderingPåNytt();
             oppdaterSaksStatus();
@@ -163,11 +159,11 @@ export const BehovsvurderingCardHeaderInnhold = ({
     };
 
     if (iaSak !== undefined) {
-        if (behovsvurderingStatus === "SLETTET") {
+        if (spørreundersøkelseStatus === "SLETTET") {
             return null;
         }
 
-        if (behovsvurderingStatus === "AVSLUTTET") {
+        if (spørreundersøkelseStatus === "AVSLUTTET") {
             return (
                 <StyledExpansionCardHeader>
                     <ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
@@ -175,7 +171,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                         <ActionButtonContainer>
                             <EksportVisning
                                 iaSak={iaSak}
-                                behovsvurdering={behovsvurdering}
+                                spørreundersøkelse={spørreundersøkelse}
                                 erIEksportMode={erIEksportMode}
                                 setErIEksportMode={setErIEksportMode}
                             />
@@ -191,8 +187,8 @@ export const BehovsvurderingCardHeaderInnhold = ({
                             )}
                         </ActionButtonContainer>
                         <BehovsvurderingStatusWrapper>
-                            <BehovsvurderingStatusBadge
-                                status={behovsvurdering.status}
+                            <SpørreundersøkelseStatusBadge
+                                status={spørreundersøkelse.status}
                             />
                         </BehovsvurderingStatusWrapper>
                         <BehovsvurderingDato>{dato}</BehovsvurderingDato>
@@ -201,7 +197,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
             );
         }
 
-        if (behovsvurderingStatus === "OPPRETTET") {
+        if (spørreundersøkelseStatus === "OPPRETTET") {
             return (
                 <StyledEmptyCardHeader>
                     <ActionButtonContainer>
@@ -232,7 +228,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                 </>
                             )}
                         <StartSpørreundersøkelseModal
-                            spørreundersøkelse={behovsvurdering}
+                            spørreundersøkelse={spørreundersøkelse}
                             erModalÅpen={bekreftStartBehovsvurderingModalÅpen}
                             lukkModal={() =>
                                 setBekreftStartBehovsvurderingModalÅpen(false)
@@ -240,8 +236,8 @@ export const BehovsvurderingCardHeaderInnhold = ({
                             startSpørreundersøkelsen={startSpørreundersøkelsen}
                         />
                         {brukerRolle && (
-                            <SlettBehovsvurderingModal
-                                behovsvurdering={behovsvurdering}
+                            <SlettSpørreundersøkelseModal
+                                spørreundersøkelse={spørreundersøkelse}
                                 erModalÅpen={slettSpørreundersøkelseModalÅpen}
                                 lukkModal={() =>
                                     setSlettSpørreundersøkelseModalÅpen(false)
@@ -262,8 +258,8 @@ export const BehovsvurderingCardHeaderInnhold = ({
                             />
                         </ActionButtonContainer>
                         <BehovsvurderingStatusWrapper>
-                            <BehovsvurderingStatusBadge
-                                status={behovsvurdering.status}
+                            <SpørreundersøkelseStatusBadge
+                                status={spørreundersøkelse.status}
                             />
                         </BehovsvurderingStatusWrapper>
                         <BehovsvurderingDato>{dato}</BehovsvurderingDato>
@@ -272,7 +268,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
             );
         }
 
-        if (behovsvurderingStatus === "PÅBEGYNT") {
+        if (spørreundersøkelseStatus === "PÅBEGYNT") {
             return (
                 <StyledEmptyCardHeader>
                     <ActionButtonContainer>
@@ -284,7 +280,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                         variant={"secondary"}
                                         onClick={() =>
                                             åpneSpørreundersøkelseINyFane(
-                                                behovsvurdering.id,
+                                                spørreundersøkelse.id,
                                                 "PÅBEGYNT",
                                             )
                                         }
@@ -330,8 +326,8 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                 </>
                             )}
                         {brukerRolle && (
-                            <SlettBehovsvurderingModal
-                                behovsvurdering={behovsvurdering}
+                            <SlettSpørreundersøkelseModal
+                                spørreundersøkelse={spørreundersøkelse}
                                 erModalÅpen={slettSpørreundersøkelseModalÅpen}
                                 lukkModal={() =>
                                     setSlettSpørreundersøkelseModalÅpen(false)
@@ -352,8 +348,8 @@ export const BehovsvurderingCardHeaderInnhold = ({
                             />
                         </ActionButtonContainer>
                         <BehovsvurderingStatusWrapper>
-                            <BehovsvurderingStatusBadge
-                                status={behovsvurdering.status}
+                            <SpørreundersøkelseStatusBadge
+                                status={spørreundersøkelse.status}
                             />
                         </BehovsvurderingStatusWrapper>
                         <BehovsvurderingDato>{dato}</BehovsvurderingDato>

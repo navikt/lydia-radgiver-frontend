@@ -16,19 +16,28 @@ interface SpørreundersøkelseProviderProps {
     sisteOpprettedeSpørreundersøkelseId: string;
     spørreundersøkelseType: "Behovsvurdering" | "Evaluering";
 }
+export interface CardHeaderProps {
+    spørreundersøkelse: Spørreundersøkelse;
+    dato?: string;
+}
+
+export interface CardInnholdProps {
+    spørreundersøkelse: Spørreundersøkelse;
+}
 interface SpørreundersøkelseContextState {
     komponenter: {
-        CardHeader: React.FC<{
-            behovsvurdering: Spørreundersøkelse;
-            dato?: string;
-        }>;
-        CardInnhold: React.FC<{ behovsvurdering: Spørreundersøkelse }>;
+        CardHeader: React.FC<CardHeaderProps>;
+        CardInnhold: React.FC<CardInnholdProps>;
     };
 }
 
+
 function getComponents(
     spørreundersøkelseType: "Behovsvurdering" | "Evaluering",
-) {
+): ({
+    CardHeader: React.FC<CardHeaderProps>;
+    CardInnhold: React.FC<CardInnholdProps>;
+}) {
     switch (spørreundersøkelseType) {
         case "Behovsvurdering":
             return {

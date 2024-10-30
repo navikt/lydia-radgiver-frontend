@@ -9,15 +9,15 @@ import VirksomhetsEksportHeader from "../../../components/pdfEksport/Virksomhets
 import useEksportFilnavn from "../../../components/pdfEksport/useEksportFilnavn";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { useVirksomhetContext } from "../VirksomhetContext";
 import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
 import { useHentResultat } from "../../../api/lydia-api/spørreundersøkelse";
+import { useSpørreundersøkelse, useSpørreundersøkelseType } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 
 interface EksportVisningProps {
     erIEksportMode: boolean;
     setErIEksportMode: (erIEksportMode: boolean) => void;
     iaSak: IASak;
-    behovsvurdering: Spørreundersøkelse;
+    spørreundersøkelse: Spørreundersøkelse;
 }
 const EXPORT_INTERNAL_WIDTH = 1280;
 
@@ -120,17 +120,10 @@ class pdfEksport {
 
     private async addHeader() {
         const headerTopCanvas = await html2canvas(
-            this?.targetRef?.current?.childNodes[0]
-                ?.childNodes?.[0] as HTMLElement,
+            this?.targetRef?.current?.childNodes[0] as HTMLElement,
             { scale: 1 },
         );
-        const headerBottomCanvas = await html2canvas(
-            this?.targetRef?.current?.childNodes[0]
-                ?.childNodes?.[1] as HTMLElement,
-            { scale: 1 },
-        );
-        await this.addContent(headerTopCanvas, true, true);
-        await this.addContent(headerBottomCanvas, false, true);
+        await this.addContent(headerTopCanvas, false, false);
     }
 
     private async addBody() {
@@ -168,8 +161,8 @@ class pdfEksport {
     ) {
         return (
             this.position +
-                header.clientHeight * this.pixelRatio +
-                graph.clientHeight * this.pixelRatio >
+            header.clientHeight * this.pixelRatio +
+            graph.clientHeight * this.pixelRatio >
             this.pageHeight
         );
     }
@@ -182,8 +175,8 @@ class pdfEksport {
             );
             const canvasR = child.childNodes[i + 1]
                 ? await html2canvas(child.childNodes[i + 1] as HTMLElement, {
-                      scale: 1,
-                  })
+                    scale: 1,
+                })
                 : undefined;
             await this.addInlineContent(canvasL, canvasR);
         }
@@ -204,13 +197,13 @@ const EksportVisning = ({
     erIEksportMode,
     setErIEksportMode,
     iaSak,
-    behovsvurdering,
+    spørreundersøkelse,
 }: EksportVisningProps) => {
-    /* 	toPDF har returntypen void, men i den faktiske koden har den returntypen Promise<void>
-        Må caste til Promise<void> for å sette loadingindikator */
     const targetRef = React.useRef<HTMLDivElement>(null);
     const [erLastet, setErLastet] = React.useState(false);
-    const eksportfilnavn = useEksportFilnavn("Behovsvurdering");
+    const type = useSpørreundersøkelseType();
+    const eksportfilnavn = useEksportFilnavn(type);
+    const { samarbeid } = useSpørreundersøkelse();
 
     React.useEffect(() => {
         if (targetRef.current !== null && erIEksportMode && erLastet) {
@@ -225,7 +218,7 @@ const EksportVisning = ({
         }
     }, [erIEksportMode, erLastet]);
 
-    if (behovsvurdering.status !== "AVSLUTTET") {
+    if (spørreundersøkelse.status !== "AVSLUTTET") {
         return null;
     }
 
@@ -255,13 +248,14 @@ const EksportVisning = ({
                     }}
                 >
                     <VirksomhetsEksportHeader
-                        type="Behovsvurdering"
-                        dato={behovsvurdering.endretTidspunkt}
+                        type={type}
+                        dato={spørreundersøkelse.endretTidspunkt}
+                        samarbeid={samarbeid}
                     />
                     <EksportInnhold
                         erLastet={erLastet}
                         setErLastet={setErLastet}
-                        spørreundersøkelse={behovsvurdering}
+                        spørreundersøkelse={spørreundersøkelse}
                         iaSak={iaSak}
                     />
                 </div>
@@ -293,9 +287,6 @@ function EksportInnhold({
     const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
         useHentResultat(iaSak.orgnr, iaSak.saksnummer, spørreundersøkelse.id);
 
-    const { virksomhet } = useVirksomhetContext();
-    const { navn: virksomhetsnavn } = virksomhet;
-
     React.useEffect(() => {
         if (!lasterKartleggingResultat && kartleggingResultat && !erLastet) {
             setErLastet(true);
@@ -312,7 +303,6 @@ function EksportInnhold({
 
     return (
         <Container>
-            <BodyShort>{virksomhetsnavn}</BodyShort>
             {kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
                 <TemaResultat
                     key={tema.navn}

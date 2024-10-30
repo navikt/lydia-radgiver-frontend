@@ -13,15 +13,15 @@ export const Container = styled.div`
     gap: 2rem;
 `;
 
-export const BehovsvurderingResultat = ({
+export const SpørreundersøkelseResultat = ({
     iaSak,
-    behovsvurderingId,
+    spørreundersøkelseId,
 }: {
     iaSak: IASak;
-    behovsvurderingId: string;
+    spørreundersøkelseId: string;
 }) => {
     const { data: kartleggingResultat, loading: lasterKartleggingResultat } =
-        useHentResultat(iaSak.orgnr, iaSak.saksnummer, behovsvurderingId);
+        useHentResultat(iaSak.orgnr, iaSak.saksnummer, spørreundersøkelseId);
 
     if (lasterKartleggingResultat) {
         return <Loader />;
