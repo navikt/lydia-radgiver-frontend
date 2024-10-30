@@ -61,6 +61,7 @@ interface StatusknapperProps {
     };
     onStatusEndret: () => void;
     redusertPadding?: boolean;
+    loading?: boolean;
 }
 
 export function Statusknapper({
@@ -72,8 +73,10 @@ export function Statusknapper({
     nesteSteg,
     onStatusEndret,
     redusertPadding = false,
+    loading: eksternLoading,
 }: StatusknapperProps) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const [loading, setLoading] = React.useState(false);
 
     if (iaSak === undefined) {
         return (
@@ -82,8 +85,11 @@ export function Statusknapper({
                     <EnkeltKnappContainer $redusertPadding={redusertPadding}>
                         <VurderVirksomhetKnapp
                             onClick={() => {
-                                opprettSak(virksomhet.orgnr).then(() =>
-                                    onStatusEndret(),
+                                setLoading(true);
+                                opprettSak(virksomhet.orgnr).then(() => {
+                                    onStatusEndret();
+                                    setLoading(false);
+                                }
                                 );
                                 loggStatusendringPåSak(
                                     IASakshendelseTypeEnum.enum
@@ -91,6 +97,7 @@ export function Statusknapper({
                                     IAProsessStatusEnum.enum.NY,
                                 );
                             }}
+                            loading={loading || eksternLoading}
                         />
                     </EnkeltKnappContainer>
                 </Statuscontainer>
@@ -129,6 +136,7 @@ export function Statusknapper({
                         setNesteSteg={setNesteSteg}
                         variant={"danger"}
                         onStatusEndret={onStatusEndret}
+                        loading={loading || eksternLoading}
                     />
                 ))}
                 <Innerknappecontainer>
@@ -145,6 +153,7 @@ export function Statusknapper({
                                     : "secondary"
                             }
                             onStatusEndret={onStatusEndret}
+                            loading={loading || eksternLoading}
                         />
                     ))}
                 </Innerknappecontainer>

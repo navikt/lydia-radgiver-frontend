@@ -24,6 +24,7 @@ export default function KnappForHendelse({
     setNesteSteg,
     variant = "secondary",
     onStatusEndret,
+    loading,
 }: {
     hendelse: GyldigNesteHendelse;
     sak: IASak;
@@ -34,6 +35,7 @@ export default function KnappForHendelse({
     }) => void;
     variant?: ButtonProps["variant"];
     onStatusEndret: (status: IASak["status"]) => void;
+    loading?: ButtonProps["loading"];
 }) {
     const disabled = nesteSteg !== null;
 
@@ -46,6 +48,7 @@ export default function KnappForHendelse({
                     setNesteSteg={setNesteSteg}
                     disabled={disabled}
                     variant={variant}
+                    loading={loading}
                 />
             );
         case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
@@ -58,6 +61,7 @@ export default function KnappForHendelse({
                     setNesteSteg={setNesteSteg}
                     disabled={disabled}
                     variant={variant}
+                    loading={loading}
                 />
             );
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_VURDERES:
@@ -72,6 +76,7 @@ export default function KnappForHendelse({
                     disabled={disabled}
                     variant={variant}
                     onStatusEndret={onStatusEndret}
+                    loading={loading}
                 />
             );
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
@@ -81,6 +86,7 @@ export default function KnappForHendelse({
                     sak={sak}
                     variant={variant}
                     onStatusEndret={onStatusEndret}
+                    loading={loading}
                 />
             );
         case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
@@ -95,11 +101,13 @@ function BiståEllerSamarbeidKnapp({
     hendelse,
     variant,
     onStatusEndret,
+    loading,
 }: {
     hendelse: GyldigNesteHendelse;
     sak: IASak;
     variant: ButtonProps["variant"];
     onStatusEndret: (status: IASak["status"]) => void;
+    loading?: ButtonProps["loading"];
 }) {
     const { data: alleSamarbeid } = useHentSamarbeid(sak.orgnr, sak.saksnummer);
 
@@ -118,6 +126,7 @@ function BiståEllerSamarbeidKnapp({
                 disabled={false}
                 variant={variant}
                 onStatusEndret={onStatusEndret}
+                loading={loading}
             />
         )
     );
@@ -129,6 +138,7 @@ function IkkeAktuellKnapp({
     setNesteSteg,
     disabled,
     variant,
+    loading
 }: {
     sak: IASak;
     hendelse: GyldigNesteHendelse;
@@ -138,6 +148,7 @@ function IkkeAktuellKnapp({
     }) => void;
     disabled: boolean;
     variant?: ButtonProps["variant"];
+    loading?: ButtonProps["loading"];
 }) {
     const { data: leveranserPåSak } = useHentLeveranser(
         sak.orgnr,
@@ -170,6 +181,7 @@ function IkkeAktuellKnapp({
                     setNesteSteg({ nesteSteg: "BEGRUNNELSE", hendelse });
                 }
             }}
+            loading={loading}
         >
             {penskrivIASakshendelsestype(hendelse.saksHendelsestype)}
         </Button>
@@ -182,6 +194,7 @@ function HendelseMåBekreftesKnapp({
     disabled,
     variant,
     sak,
+    loading,
 }: {
     sak: IASak;
     hendelse: GyldigNesteHendelse;
@@ -191,6 +204,7 @@ function HendelseMåBekreftesKnapp({
     }) => void;
     disabled: boolean;
     variant?: ButtonProps["variant"];
+    loading?: ButtonProps["loading"];
 }) {
     const trengerÅFullføreLeveranserFørst = useTrengerÅFullføreLeveranserFørst(
         hendelse.saksHendelsestype,
@@ -233,6 +247,7 @@ function HendelseMåBekreftesKnapp({
             variant={variant}
             size="small"
             onClick={bekreftNyHendelsePåSak}
+            loading={loading}
         >
             {penskrivIASakshendelsestype(hendelse.saksHendelsestype)}
         </Button>
@@ -245,12 +260,14 @@ function RettTilNesteStatusKnapp({
     disabled,
     variant,
     onStatusEndret,
+    loading,
 }: {
     sak: IASak;
     hendelse: GyldigNesteHendelse;
     disabled: boolean;
     variant?: ButtonProps["variant"];
     onStatusEndret: (status: IASak["status"]) => void;
+    loading?: ButtonProps["loading"];
 }) {
     const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
         sak.orgnr,
@@ -284,6 +301,7 @@ function RettTilNesteStatusKnapp({
             variant={variant}
             size="small"
             onClick={trykkPåSakhendelsesknapp}
+            loading={loading}
         >
             {penskrivIASakshendelsestype(hendelse.saksHendelsestype)}
         </Button>

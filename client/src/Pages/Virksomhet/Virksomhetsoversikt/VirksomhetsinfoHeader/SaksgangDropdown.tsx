@@ -45,12 +45,14 @@ export function SaksgangDropdown({
         hendelse: GyldigNesteHendelse | null;
     }>({ nesteSteg: null, hendelse: null });
 
-    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
+    const { mutate: mutateSamarbeidshistorikk, validating: validatingSamarbeidshistorikk, loading: loadingSamarbeidshistorikk } = useHentSamarbeidshistorikk(
         virksomhet.orgnr,
     );
-    const { mutate: mutateAktivSak } = useHentAktivSakForVirksomhet(
+    const { mutate: mutateAktivSak, validating: validatingSak, loading: loadingSak } = useHentAktivSakForVirksomhet(
         virksomhet.orgnr,
     );
+
+    const lasterEllerRevaliderer = validatingSamarbeidshistorikk || loadingSamarbeidshistorikk || validatingSak || loadingSak;
 
     const mutateIASakerOgSamarbeidshistorikk = () => {
         mutateAktivSak?.();
@@ -94,6 +96,7 @@ export function SaksgangDropdown({
                     nesteSteg={nesteSteg}
                     setNesteSteg={setNesteSteg}
                     redusertPadding
+                    loading={lasterEllerRevaliderer}
                 />
             </Dropdown.Menu>
         </Dropdown>
