@@ -30,19 +30,29 @@ function StartOgSluttVelger({
     innhold,
     setNyStartDato,
     setNySluttDato,
+    setNyStartOgSluttDato,
 }: {
     innhold: PlanInnhold;
     setNyStartDato: (date: Date) => void;
     setNySluttDato: (date: Date) => void;
+    setNyStartOgSluttDato: (startDato: Date, sluttDato: Date) => void;
 }) {
     const datepickerFrom = useDatepicker({
         defaultSelected: innhold.startDato ?? undefined,
         required: true,
         fromDate: new Date(FIRST_VALID_DATE),
-        toDate: new Date(innhold.sluttDato ?? LAST_VALID_DATE),
+        toDate: new Date(LAST_VALID_DATE),
         onDateChange: (date) => {
             if (date) {
-                setNyStartDato(date);
+                if (innhold.sluttDato && date > innhold.sluttDato) {
+                    const nySluttdato = new Date(date);
+                    nySluttdato.setMonth(nySluttdato.getMonth() + 1);
+
+                    setNyStartOgSluttDato(date, nySluttdato);
+                } else {
+                    setNyStartDato(date);
+                }
+
             }
         },
     });
@@ -125,19 +135,19 @@ export default function InnholdOppsett({
             valgteInnhold.map((innhold) =>
                 innholdIder.includes(innhold.id)
                     ? {
-                          ...innhold,
-                          inkludert: true,
-                          status: "PLANLAGT",
-                          startDato: innhold.startDato ?? defaultStartDate,
-                          sluttDato: innhold.sluttDato ?? defaultEndDate,
-                      }
+                        ...innhold,
+                        inkludert: true,
+                        status: "PLANLAGT",
+                        startDato: innhold.startDato ?? defaultStartDate,
+                        sluttDato: innhold.sluttDato ?? defaultEndDate,
+                    }
                     : {
-                          ...innhold,
-                          inkludert: false,
-                          startDato: null,
-                          sluttDato: null,
-                          status: null,
-                      },
+                        ...innhold,
+                        inkludert: false,
+                        startDato: null,
+                        sluttDato: null,
+                        status: null,
+                    },
             ),
         );
     };
@@ -174,6 +184,22 @@ export default function InnholdOppsett({
         );
     };
 
+    const setNyStartOgSluttDato = (innholdId: number, startDato: Date, sluttDato: Date) => {
+        const innholdNavn = valgteInnhold.find(
+            (innhold) => innhold.id === innholdId,
+        )?.navn;
+        if (innholdNavn) {
+            loggEndringAvPlan(temaNavn, innholdNavn, "til");
+        }
+        velgInnhold(
+            valgteInnhold.map((innhold) =>
+                innhold.id === innholdId
+                    ? { ...innhold, sluttDato, startDato }
+                    : { ...innhold },
+            ),
+        );
+    };
+
     return (
         <CheckboxGroup
             legend={"Velg innhold og varighet"}
@@ -205,6 +231,9 @@ export default function InnholdOppsett({
                                     }
                                     setNySluttDato={(date) =>
                                         setNySluttDato(innhold.id, date)
+                                    }
+                                    setNyStartOgSluttDato={(startDato, sluttDato) =>
+                                        setNyStartOgSluttDato(innhold.id, startDato, sluttDato)
                                     }
                                 />
                             ) : undefined}
