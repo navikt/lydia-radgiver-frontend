@@ -80,6 +80,10 @@ export const useHentSpørreundersøkelser = (
     return useSwrTemplate<Spørreundersøkelse[]>(
         `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${type}`,
         spørreundersøkelseSchema.array(),
+        {
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true,
+        },
     );
 };
 export const opprettSpørreundersøkelse = (
