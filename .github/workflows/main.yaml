@@ -74,7 +74,7 @@ jobs:
       id-token: write
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/breaking-changes-update'
+    if: github.ref == 'refs/heads/revalidate-on-focus-for-noen-lister'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4

@@ -9,7 +9,10 @@ import EksportVisning from "./EksportVisning";
 import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
 import { SpørreundersøkelseStatusBadge } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
 import { TrashIcon } from "@navikt/aksel-icons";
-import { CardHeaderProps, useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+import {
+    CardHeaderProps,
+    useSpørreundersøkelse,
+} from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
 import {
     avsluttSpørreundersøkelse,
@@ -104,6 +107,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
 
     const { iaSak, brukerRolle, samarbeid, brukerErEierAvSak } =
         useSpørreundersøkelse();
+
     const { mutate: hentBehovsvurderingPåNytt } = useHentSpørreundersøkelser(
         iaSak.orgnr,
         iaSak.saksnummer,
