@@ -163,7 +163,7 @@ export default function OpprettPlanKnapp({
                 iconPosition="left"
                 variant="primary"
                 icon={<PlusIcon />}
-                style={{ margin: "1rem", minWidth: "10.5rem" }}
+                style={{ margin: "1rem 1rem 1rem 0", minWidth: "10.5rem" }}
                 onClick={() => {
                     loggModalÅpnet("Opprett plan");
                     setModalOpen(true);

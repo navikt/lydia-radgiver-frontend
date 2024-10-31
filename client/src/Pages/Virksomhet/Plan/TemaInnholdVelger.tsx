@@ -23,19 +23,28 @@ function StartOgSluttVelger({
     redigertInnholdMal,
     setNyStartDato,
     setNySluttDato,
+    setNyStartOgSluttDato,
 }: {
     redigertInnholdMal: RedigertInnholdMal;
     setNyStartDato: (date: Date) => void;
     setNySluttDato: (date: Date) => void;
+    setNyStartOgSluttDato: (startDato: Date, sluttDato: Date) => void;
 }) {
     const datepickerFrom = useDatepicker({
         defaultSelected: redigertInnholdMal.startDato ?? undefined,
         required: true,
         fromDate: new Date(FIRST_VALID_DATE),
-        toDate: new Date(redigertInnholdMal.sluttDato ?? LAST_VALID_DATE),
+        toDate: new Date(LAST_VALID_DATE),
         onDateChange: (date) => {
             if (date) {
-                setNyStartDato(date);
+                if (redigertInnholdMal.sluttDato === null || date > redigertInnholdMal.sluttDato) {
+                    const nySluttdato = new Date(date);
+                    nySluttdato.setMonth(nySluttdato.getMonth() + 1);
+
+                    setNyStartOgSluttDato(date, nySluttdato);
+                } else {
+                    setNyStartDato(date);
+                }
             }
         },
     });
@@ -90,19 +99,19 @@ export default function TemaInnholdVelger({
             valgteUndertemaer.map((redigertInnholdMal) =>
                 undertemaIder.includes(redigertInnholdMal.rekkefølge)
                     ? {
-                          ...redigertInnholdMal,
-                          inkludert: true,
-                          startDato:
-                              redigertInnholdMal.startDato ?? defaultStartDate,
-                          sluttDato:
-                              redigertInnholdMal.sluttDato ?? defaultEndDate,
-                      }
+                        ...redigertInnholdMal,
+                        inkludert: true,
+                        startDato:
+                            redigertInnholdMal.startDato ?? defaultStartDate,
+                        sluttDato:
+                            redigertInnholdMal.sluttDato ?? defaultEndDate,
+                    }
                     : {
-                          ...redigertInnholdMal,
-                          inkludert: false,
-                          startDato: null,
-                          sluttDato: null,
-                      },
+                        ...redigertInnholdMal,
+                        inkludert: false,
+                        startDato: null,
+                        sluttDato: null,
+                    },
             ),
         );
     };
@@ -127,6 +136,16 @@ export default function TemaInnholdVelger({
         );
     };
 
+    const setNyStartOgSluttDato = (rekkefølge: number, startDato: Date, sluttDato: Date) => {
+        velgUndertemaer(
+            valgteUndertemaer.map((innhold) =>
+                innhold.rekkefølge === rekkefølge
+                    ? { ...innhold, sluttDato, startDato }
+                    : { ...innhold },
+            ),
+        );
+    };
+
     return (
         <CheckboxGroup
             legend={"Velg innhold og varighet"}
@@ -146,13 +165,12 @@ export default function TemaInnholdVelger({
             {valgteUndertemaer.map((redigertInnholdMal) => {
                 return (
                     <UndertemaRad
-                        key={redigertInnholdMal.rekkefølge}
+                        key={`${redigertInnholdMal.rekkefølge}${redigertInnholdMal.sluttDato}${redigertInnholdMal.startDato}`}
                         justify="space-between"
                         gap="4"
                         align="center"
                     >
                         <Checkbox
-                            key={redigertInnholdMal.rekkefølge}
                             value={redigertInnholdMal.rekkefølge}
                         >
                             {redigertInnholdMal.navn}
@@ -171,6 +189,9 @@ export default function TemaInnholdVelger({
                                         redigertInnholdMal.rekkefølge,
                                         date,
                                     )
+                                }
+                                setNyStartOgSluttDato={(startDato, sluttDato) =>
+                                    setNyStartOgSluttDato(redigertInnholdMal.rekkefølge, startDato, sluttDato)
                                 }
                             />
                         ) : undefined}
