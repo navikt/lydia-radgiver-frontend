@@ -7,8 +7,6 @@ export const iaTjenesteSchema = z.object({
     deaktivert: z.boolean(),
 });
 
-export type IATjeneste = z.infer<typeof iaTjenesteSchema>;
-
 export const modulSchema = z.object({
     id: z.number(),
     iaTjeneste: z.number(),

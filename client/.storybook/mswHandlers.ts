@@ -3,15 +3,12 @@ import { brukerMedVeldigLangtNavn } from "../src/Pages/Prioritering/mocks/innlog
 import {
     iaSakHistorikkPath,
     innloggetAnsattPath,
-    leveransePath,
-    modulerPath,
     næringPath,
     publiseringsinfoPath,
     salesforceUrlPath,
     siste4kvartalerPath,
     sistekvartalPath,
     sykefraværsstatistikkPath,
-    tjenesterPath,
 } from "../src/api/lydia-api/paths";
 import {
     gjeldendePeriodePubliseringsinfo,
@@ -20,11 +17,6 @@ import {
     virksomhetsstatistikkSiste4KvartalerMock,
 } from "../src/Pages/Prioritering/mocks/sykefraværsstatistikkMock";
 import { samarbeidshistorikkMock } from "../src/Pages/Virksomhet/mocks/iaSakHistorikkMock";
-import {
-    iaTjenester,
-    leveranserPerIATjeneste,
-    moduler,
-} from "../src/Pages/Virksomhet/mocks/leveranseMock";
 
 export const mswHandlers = [
     http.get(`${innloggetAnsattPath}`, () => {
@@ -49,15 +41,6 @@ export const mswHandlers = [
     }),
     http.get(`${iaSakHistorikkPath}/:orgnummer`, () => {
         return HttpResponse.json(samarbeidshistorikkMock);
-    }),
-    http.get(`${leveransePath}/:orgnummer/:saksnummer`, () => {
-        return HttpResponse.json(leveranserPerIATjeneste);
-    }),
-    http.get(tjenesterPath, () => {
-        return HttpResponse.json(iaTjenester);
-    }),
-    http.get(modulerPath, () => {
-        return HttpResponse.json(moduler);
     }),
     http.get(`${sykefraværsstatistikkPath}/${næringPath}/:naringskode`, () => {
         return HttpResponse.json(sykefraværsstatistikkNæringMock);

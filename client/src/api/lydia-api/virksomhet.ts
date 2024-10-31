@@ -10,12 +10,6 @@ import {
     historiskStatistikkSchema,
 } from "../../domenetyper/historiskstatistikk";
 import {
-    IATjeneste,
-    iaTjenesteSchema,
-    Modul,
-    modulSchema,
-} from "../../domenetyper/leveranse";
-import {
     Publiseringsinfo,
     publiseringsinfoSchema,
 } from "../../domenetyper/publiseringsinfo";
@@ -42,19 +36,17 @@ import {
 } from "../../domenetyper/virksomhetsstatistikkSisteKvartal";
 import { defaultSwrConfiguration, useSwrTemplate } from "./networkRequests";
 import {
-    sykefraværsstatistikkPath,
-    siste4kvartalerPath,
-    publiseringsinfoPath,
-    sistekvartalPath,
     bransjePath,
-    næringPath,
-    virksomhetsPath,
-    iaSakPath,
-    iaSakHistorikkPath,
     historiskStatistikkPath,
+    iaSakHistorikkPath,
+    iaSakPath,
+    næringPath,
+    publiseringsinfoPath,
     salesforceUrlPath,
-    tjenesterPath,
-    modulerPath,
+    siste4kvartalerPath,
+    sistekvartalPath,
+    sykefraværsstatistikkPath,
+    virksomhetsPath,
 } from "./paths";
 
 export const useHentVirksomhetsstatistikkSiste4Kvartaler = (
@@ -153,13 +145,4 @@ export const useHentSalesforceUrl = (orgnr: string) => {
         defaultSwrConfiguration,
         false,
     );
-};
-export const useHentIATjenester = () => {
-    return useSwrTemplate<IATjeneste[]>(
-        tjenesterPath,
-        iaTjenesteSchema.array(),
-    );
-};
-export const useHentModuler = () => {
-    return useSwrTemplate<Modul[]>(modulerPath, modulSchema.array());
 };

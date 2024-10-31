@@ -20,15 +20,15 @@ import {
     Årsak,
 } from "../../../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import { useHentSamarbeidshistorikk } from "../../../../../api/lydia-api/virksomhet";
-import { useHentAktivSakForVirksomhet } from "../../../../../api/lydia-api/virksomhet";
+import {
+    useHentAktivSakForVirksomhet,
+    useHentSamarbeidshistorikk,
+} from "../../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../../api/lydia-api/sak";
 import {
-    loggSendBrukerTilIATjenesterTab,
     loggSendBrukerTilKartleggingerTab,
     loggStatusendringPåSak,
 } from "../../../../../util/amplitude-klient";
-import { useSendTilIATjenesterTab } from "../../../../../util/useSendTilIATjenesterTab";
 import { useSendTilBehovsvurderingFane } from "../../../../../util/useSendTilBehovsvurderingFane";
 import { StatusHendelseSteg } from "./Statusknapper";
 import { penskrivIAStatus } from "../../../../../components/Badge/StatusBadge";
@@ -57,13 +57,6 @@ export default function NesteSteg({
     setVisKonfetti?: (visKonfetti: boolean) => void;
 }) {
     switch (nesteSteg.nesteSteg) {
-        case "FULLFØR_LEVERANSE":
-            return (
-                <FullførLeveranserFørstSeksjon
-                    lukkModal={lukkModal}
-                    clearNesteSteg={clearNesteSteg}
-                />
-            );
         case "FULLFØR_KARTLEGGINGER":
             return (
                 <FullførKartleggingerFørstSeksjon
@@ -99,45 +92,6 @@ export default function NesteSteg({
         default:
             return <></>;
     }
-}
-
-function FullførLeveranserFørstSeksjon({
-    lukkModal,
-    clearNesteSteg,
-}: {
-    lukkModal: () => void;
-    clearNesteSteg: () => void;
-}) {
-    const { sendBrukerTilIATjenesterTab } = useSendTilIATjenesterTab();
-
-    return (
-        <Modal.Body>
-            <Heading level="2" size="medium">
-                Saken har IA-tjenester som ikke er levert
-            </Heading>
-            <BodyLong>
-                For å gå videre må du bekrefte at IA-tjenester er levert. Hvis
-                en IA-tjeneste ikke skal utføres likevel må du slette den før du
-                kan gå videre.
-            </BodyLong>
-            <br />
-            <Knappecontainer>
-                <Button variant="secondary" onClick={clearNesteSteg}>
-                    Den er grei
-                </Button>
-                <Button
-                    variant="primary"
-                    onClick={() => {
-                        sendBrukerTilIATjenesterTab();
-                        loggSendBrukerTilIATjenesterTab("fullfør leveranser");
-                        lukkModal();
-                    }}
-                >
-                    Ta meg til IA-tjenester
-                </Button>
-            </Knappecontainer>
-        </Modal.Body>
-    );
 }
 
 function FullførSamarbeidsplanFørstSeksjon({

@@ -5,8 +5,6 @@ import {
     IAProsessStatusType,
     IASakshendelseType,
 } from "../domenetyper/domenetyper";
-import { erSammeDato } from "./dato";
-import { tallTilFemmerintervall } from "./tallTilFemmerintervall";
 
 let initialized = false;
 
@@ -35,8 +33,6 @@ type NavsAmplitudeTopologiEventer =
     | "navigere ut av fia"
     | "endring i valgte linjer i graf"
     | "nullstill filter i søk"
-    | "opprette leveranse med frist"
-    | "aktivitet på IA-tjenesteoversikt"
     | "skrudde av eller på autosøk"
     | "fulgte sak"
     | "popover åpnet"
@@ -141,38 +137,11 @@ export const loggTogglingAvAutosøk = (autosøk: boolean) => {
     });
 };
 
-export const loggSendBrukerTilIATjenesterTab = (fraModal: string) => {
-    logAmplitudeEvent("navigere", {
-        destinasjon: "/virksomhet/[orgnr]?fane=ia-tjenester",
-        lenketekst: "Ta meg til IA-tjenester",
-        fraModal,
-    });
-};
 export const loggSendBrukerTilKartleggingerTab = (fraModal: string) => {
     logAmplitudeEvent("navigere", {
         destinasjon: "/virksomhet/[orgnr]?fane=kartlegging",
         lenketekst: "Ta meg til kartlegginger",
         fraModal,
-    });
-};
-
-export const loggAktvitetPåIATjenesteoversikt = () => {
-    logAmplitudeEvent("aktivitet på IA-tjenesteoversikt", {
-        aktivitetstype: "navigere", // navigere, utføre hendelse (knapper), filtrere/sortere, ...
-        beskrivelse: "følg virksomhetslenke til ia-tjenestefane", // detaljerte kategorier
-        destinasjon: "/virksomhet/[orgnr]?fane=ia-tjenester", // url for navigering, kanskje api-kall for hendelser/sortering?
-        //antallTreff: antallTreff, // antall resultat som vises, for eksempel ved sidelasting eller filtrering/sortering
-    });
-};
-
-export const loggAntallIATjenesterPåIATjenesteoversikt = (
-    antallIATjenester: number,
-) => {
-    logAmplitudeEvent("aktivitet på IA-tjenesteoversikt", {
-        aktivitetstype: "se", // navigere, utføre hendelse (knapper), filtrere/sortere, ...
-        beskrivelse: "antall IA-tjenester brukeren ser i oversikten sin", // detaljerte kategorier
-        //destinasjon: "", // url for navigering, kanskje api-kall for hendelser/sortering?
-        antallTreff: tallTilFemmerintervall(antallIATjenester), // antall resultat som vises, for eksempel ved sidelasting eller filtrering/sortering
     });
 };
 
@@ -218,28 +187,6 @@ export const loggNavigeringMedEksternLenke = (
 export const loggGraflinjeEndringer = (graflinjer: string[]) => {
     logAmplitudeEvent("endring i valgte linjer i graf", {
         graflinjer_array: graflinjer,
-    });
-};
-
-type Tidskategorier = "fortid" | "fremtid" | "i dag";
-
-export const loggLeveranseFristKategori = (frist: Date) => {
-    const finnTidskategoriForDato = (frist: Date): Tidskategorier => {
-        const iDag = new Date();
-
-        if (erSammeDato(frist, iDag)) {
-            return "i dag";
-        } else if (frist < iDag) {
-            return "fortid";
-        } else {
-            return "fremtid";
-        }
-    };
-
-    const fristkategori = finnTidskategoriForDato(frist);
-
-    logAmplitudeEvent("opprette leveranse med frist", {
-        fristKategori: fristkategori,
     });
 };
 

@@ -5,16 +5,16 @@ import {
     IASak,
     IASakshendelseTypeEnum,
 } from "../../../../../domenetyper/domenetyper";
-import { useHentSamarbeidshistorikk } from "../../../../../api/lydia-api/virksomhet";
-import { useHentAktivSakForVirksomhet } from "../../../../../api/lydia-api/virksomhet";
+import {
+    useHentAktivSakForVirksomhet,
+    useHentSamarbeidshistorikk,
+} from "../../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../../api/lydia-api/sak";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { StatusHendelseSteg } from "./Statusknapper";
 import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
-import { useTrengerÅFullføreLeveranserFørst } from "./useTrengerÅFullføreLeveranserFørst";
 import { penskrivIASakshendelsestype } from "./penskrivIASakshendelsestype";
 import { useTrengerÅFullføreBehovsvurderingerFørst } from "./useTrengerÅFullføreBehovsvurderingerFørst";
-import { useHentLeveranser } from "../../../../../api/lydia-api/leveranse";
 import { useHentSamarbeid } from "../../../../../api/lydia-api/spørreundersøkelse";
 
 export default function KnappForHendelse({
@@ -138,7 +138,7 @@ function IkkeAktuellKnapp({
     setNesteSteg,
     disabled,
     variant,
-    loading
+    loading,
 }: {
     sak: IASak;
     hendelse: GyldigNesteHendelse;
@@ -150,14 +150,6 @@ function IkkeAktuellKnapp({
     variant?: ButtonProps["variant"];
     loading?: ButtonProps["loading"];
 }) {
-    const { data: leveranserPåSak } = useHentLeveranser(
-        sak.orgnr,
-        sak.saksnummer,
-    );
-    const harLeveranserSomErUnderArbeid = leveranserPåSak
-        ?.flatMap((iaTjeneste) => iaTjeneste.leveranser)
-        .some((leveranse) => leveranse.status === "UNDER_ARBEID");
-
     const harKartleggingerSomErUnderArbeid =
         useTrengerÅFullføreBehovsvurderingerFørst(
             hendelse.saksHendelsestype,
@@ -170,9 +162,7 @@ function IkkeAktuellKnapp({
             variant={variant}
             size="small"
             onClick={() => {
-                if (harLeveranserSomErUnderArbeid) {
-                    setNesteSteg({ nesteSteg: "FULLFØR_LEVERANSE", hendelse });
-                } else if (harKartleggingerSomErUnderArbeid) {
+                if (harKartleggingerSomErUnderArbeid) {
                     setNesteSteg({
                         nesteSteg: "FULLFØR_KARTLEGGINGER",
                         hendelse,
@@ -206,11 +196,6 @@ function HendelseMåBekreftesKnapp({
     variant?: ButtonProps["variant"];
     loading?: ButtonProps["loading"];
 }) {
-    const trengerÅFullføreLeveranserFørst = useTrengerÅFullføreLeveranserFørst(
-        hendelse.saksHendelsestype,
-        sak,
-    );
-
     const trengerÅFullføreKartleggingerFørst =
         useTrengerÅFullføreBehovsvurderingerFørst(
             hendelse.saksHendelsestype,
@@ -218,15 +203,8 @@ function HendelseMåBekreftesKnapp({
         );
 
     const trengerÅFullførePlanFørst = false;
-    // useTrengerÅFullføreSamarbeidsplanFørst(
-    //     hendelse.saksHendelsestype,
-    //     sak,
-    // );
-
     let nesteSteg: StatusHendelseSteg | null = "BEKREFT";
-    if (trengerÅFullføreLeveranserFørst) {
-        nesteSteg = "FULLFØR_LEVERANSE";
-    } else if (trengerÅFullføreKartleggingerFørst) {
+    if (trengerÅFullføreKartleggingerFørst) {
         nesteSteg = "FULLFØR_KARTLEGGINGER";
     } else if (trengerÅFullførePlanFørst) {
         nesteSteg = "FULLFØR_SAMARBEIDSPLAN";
