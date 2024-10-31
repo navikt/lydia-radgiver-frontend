@@ -1,7 +1,6 @@
 import styled from "styled-components";
 import { BodyShort, Heading } from "@navikt/ds-react";
-import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
-import { LeggTilLeveranse } from "./LeggTilLeveranse";
+import { IASak } from "../../../domenetyper/domenetyper";
 import { LeveranseOversikt } from "./LeveranseOversikt";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { EksternLenke } from "../../../components/EksternLenke";
@@ -25,9 +24,6 @@ interface Props {
 }
 
 export const LeveranseFane = ({ iaSak }: Props) => {
-    const sakenErIViBistår =
-        iaSak.status === IAProsessStatusEnum.enum.VI_BISTÅR;
-
     const {
         data: leveranserPerIATjeneste,
         loading: lasterLeveranserPerIATjeneste,
@@ -64,12 +60,6 @@ export const LeveranseFane = ({ iaSak }: Props) => {
                 leveranserPerIATjeneste={leveranserPerIATjeneste}
                 lasterLeveranserPerIATjeneste={lasterLeveranserPerIATjeneste}
             />
-            {sakenErIViBistår && (
-                <LeggTilLeveranse
-                    iaSak={iaSak}
-                    leveranserPerIATjeneste={leveranserPerIATjeneste}
-                />
-            )}
         </Container>
     );
 };
