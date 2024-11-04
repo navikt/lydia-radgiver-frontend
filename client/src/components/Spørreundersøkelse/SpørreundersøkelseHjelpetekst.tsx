@@ -20,15 +20,27 @@ export const SpørreundersøkelseHjelpetekst = ({
             </>
         );
     } else if (!sakErIRettStatus) {
-        return (
-            <>
-                <br />
-                <BodyShort>
-                    Status må være i <i>Kartlegges</i> eller <i>Vi bistår</i>{" "}
-                    for å kunne opprette en {type}
-                </BodyShort>
-            </>
-        );
+        if (type === "evaluering") {
+            return (
+                <>
+                    <br />
+                    <BodyShort>
+                        Status må være i <i>Vi bistår</i>
+                        for å kunne opprette en {type}
+                    </BodyShort>
+                </>
+            );
+        } else if (type === "behovsvurdering") {
+            return (
+                <>
+                    <br />
+                    <BodyShort>
+                        Status må være i <i>Kartlegges</i> eller{" "}
+                        <i>Vi bistår</i> for å kunne opprette en {type}
+                    </BodyShort>
+                </>
+            );
+        }
     } else if (!brukerErEierAvSak) {
         return (
             <>

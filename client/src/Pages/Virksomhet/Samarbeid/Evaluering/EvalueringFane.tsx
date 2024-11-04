@@ -50,7 +50,7 @@ function NyEvalueringFane({
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
 
-    const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
+    const sakErIRettStatus = ["VI_BISTÅR"].includes(iaSak.status);
 
     if (alleSamarbeid === undefined || alleSamarbeid.length === 0) {
         return (
