@@ -132,6 +132,7 @@ export default function VirksomhetOgSamarbeidsHeader({
             {iaSak && brukerErEierAvSak && (
                 <NyttSamarbeidModal
                     iaSak={iaSak}
+                    virksomhet={virksomhet}
                     åpen={nyttSamarbeidModalÅpen}
                     setÅpen={setNyttSamarbeidModalÅpen}
                 />

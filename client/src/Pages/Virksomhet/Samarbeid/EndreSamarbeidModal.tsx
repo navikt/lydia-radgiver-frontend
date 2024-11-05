@@ -32,11 +32,12 @@ export const TextFieldStyled = styled(TextField)`
     width: 100%;
 `;
 
-export const DetaljerWrapper = styled.div`
+export const DetaljerWrapper = styled.div<{ $disabled?: boolean }>`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     gap: 0.5rem;
+    opacity: ${({ $disabled }) => ($disabled ? 0.25 : 1)};
 `;
 
 interface EndreSamarbeidModalProps {
@@ -45,6 +46,8 @@ interface EndreSamarbeidModalProps {
     samarbeid: IaSakProsess;
     iaSak: IASak;
 }
+
+export const MAX_LENGDE_SAMARBEIDSNAVN = 25;
 
 export const EndreSamarbeidModal = ({
     open,
@@ -143,7 +146,7 @@ export const EndreSamarbeidModal = ({
                         {defaultNavnHvisTomt(samarbeid.navn)}&quot;
                     </BodyShort>
                     <TextFieldStyled
-                        maxLength={25}
+                        maxLength={MAX_LENGDE_SAMARBEIDSNAVN}
                         size="small"
                         label="Navngi samarbeid"
                         value={navn}
@@ -170,7 +173,7 @@ export const EndreSamarbeidModal = ({
 
                     <DetaljerWrapper>
                         <Detail>Husk, aldri skriv personopplysninger.</Detail>
-                        <Detail>{antallTegn}/25 tegn</Detail>
+                        <Detail>{antallTegn}/{MAX_LENGDE_SAMARBEIDSNAVN} tegn</Detail>
                     </DetaljerWrapper>
                     <Detail style={{ gridColumn: "1", marginTop: "1.25rem" }}>
                         Navnet kan vises på <i>Min Side Arbeidsgiver </i>

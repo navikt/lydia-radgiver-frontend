@@ -1,5 +1,5 @@
 import { IASak } from "../../../domenetyper/domenetyper";
-import { BodyShort, Button, Detail, Heading, Modal } from "@navikt/ds-react";
+import { BodyShort, Button, Checkbox, Detail, Heading, Modal } from "@navikt/ds-react";
 import { StyledModal } from "../../../components/Modal/StyledModal";
 import React, { useState } from "react";
 
@@ -8,24 +8,30 @@ import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet"
 import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import {
     DetaljerWrapper,
+    MAX_LENGDE_SAMARBEIDSNAVN,
     ModalBodyInnholdGrid,
     TextFieldStyled,
 } from "./EndreSamarbeidModal";
 import { useNavigate } from "react-router-dom";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import { Virksomhet } from "../../../domenetyper/virksomhet";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
     åpen: boolean;
     setÅpen: React.Dispatch<React.SetStateAction<boolean>>;
+    virksomhet: Virksomhet;
 }
+
 
 export const NyttSamarbeidModal = ({
     iaSak,
     åpen,
     setÅpen,
+    virksomhet,
 }: NyttSamarbeidProps) => {
     const [navn, setNavn] = useState("");
+    const [brukVirksomhetsnavn, setBrukVirksomhetsnavn] = useState(false);
     const inputRef = React.useRef<HTMLInputElement>(null);
     const antallTegn = navn.length;
     const lukkModal = () => {
@@ -38,10 +44,12 @@ export const NyttSamarbeidModal = ({
     const { mutate: hentHistorikkPåNytt } = useHentSamarbeidshistorikk(
         iaSak.orgnr,
     );
-    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
+    const { mutate: hentSamarbeidPåNytt, data: samarbeidData } = useHentSamarbeid(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
+    const samarbeidsnavnBasertPåVirksomhet = virksomhet.navn.length > MAX_LENGDE_SAMARBEIDSNAVN ? `${virksomhet.navn.substring(0, MAX_LENGDE_SAMARBEIDSNAVN - 3)}...` : virksomhet.navn;
+    const kanBrukeVirksomhetsnavn = samarbeidData?.find((s) => s.navn === samarbeidsnavnBasertPåVirksomhet) === undefined;
     const navigate = useNavigate();
 
     const nyttSamarbeid = () => {
@@ -82,6 +90,7 @@ export const NyttSamarbeidModal = ({
         // Fokus på inputfeltet når modalen åpnes
         if (åpen) {
             inputRef.current?.focus();
+            setBrukVirksomhetsnavn(false);
         }
     }, [åpen]);
 
@@ -106,7 +115,20 @@ export const NyttSamarbeidModal = ({
                         Her kan du opprette og navngi ulike samarbeid med
                         virksomheten.
                     </BodyShort>
-
+                    {
+                        kanBrukeVirksomhetsnavn && (
+                            <Checkbox
+                                size="small"
+                                checked={brukVirksomhetsnavn}
+                                onChange={() => {
+                                    setBrukVirksomhetsnavn(!brukVirksomhetsnavn);
+                                    if (!brukVirksomhetsnavn) {
+                                        setNavn(samarbeidsnavnBasertPåVirksomhet);
+                                    }
+                                }}
+                            >Bruk virksomhetsnavn</Checkbox>
+                        )
+                    }
                     <div
                         style={{
                             gridColumn: "1 / span 2",
@@ -115,7 +137,8 @@ export const NyttSamarbeidModal = ({
                     >
                         <TextFieldStyled
                             ref={inputRef}
-                            maxLength={25}
+                            readOnly={brukVirksomhetsnavn}
+                            maxLength={MAX_LENGDE_SAMARBEIDSNAVN}
                             size="small"
                             label="Navngi samarbeid"
                             value={navn}
@@ -132,10 +155,9 @@ export const NyttSamarbeidModal = ({
                             }}
                         />
                     </div>
-
-                    <DetaljerWrapper>
+                    <DetaljerWrapper $disabled={brukVirksomhetsnavn}>
                         <Detail>Husk, aldri skriv personopplysninger.</Detail>
-                        <Detail>{antallTegn}/25 tegn</Detail>
+                        <Detail>{antallTegn}/{MAX_LENGDE_SAMARBEIDSNAVN} tegn</Detail>
                     </DetaljerWrapper>
                     <Detail style={{ gridColumn: "1", marginTop: "1.25rem" }}>
                         Navnet kan vises på <i>Min Side Arbeidsgiver </i>
