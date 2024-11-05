@@ -45,6 +45,7 @@ export const NyttSamarbeidModal = ({
     const navigate = useNavigate();
 
     const nyttSamarbeid = () => {
+        const nyttNavn = navn.trim();
         nyHendelsePåSak(
             iaSak,
             {
@@ -56,7 +57,7 @@ export const NyttSamarbeidModal = ({
                 id: 0,
                 status: "AKTIV",
                 saksnummer: iaSak.saksnummer,
-                navn: navn,
+                navn: nyttNavn,
             },
         )
             .then(() => {
@@ -64,7 +65,7 @@ export const NyttSamarbeidModal = ({
                 hentHistorikkPåNytt();
                 hentSamarbeidPåNytt().then((alleSamarbeidListe) => {
                     const sisteNyeSamarbeid = alleSamarbeidListe
-                        ?.filter((s) => s.navn === navn)
+                        ?.filter((s) => s.navn === nyttNavn)
                         .sort((a, b) => b.id - a.id)[0];
 
                     navigate(

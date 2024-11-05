@@ -97,6 +97,7 @@ export const EndreSamarbeidModal = ({
     };
 
     const nyHendelse = (hendelsestype: IASakshendelseType) => {
+        const nyttNavn = navn.trim();
         return nyHendelsePåSak(
             iaSak,
             {
@@ -106,7 +107,7 @@ export const EndreSamarbeidModal = ({
             null,
             {
                 ...samarbeid,
-                navn: navn,
+                navn: nyttNavn,
             },
         ).then(() => {
             mutateHentSaker();
