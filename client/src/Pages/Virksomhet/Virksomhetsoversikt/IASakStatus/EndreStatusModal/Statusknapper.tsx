@@ -61,6 +61,7 @@ interface StatusknapperProps {
     onStatusEndret: () => void;
     redusertPadding?: boolean;
     loading?: boolean;
+    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function Statusknapper({
@@ -73,6 +74,7 @@ export function Statusknapper({
     onStatusEndret,
     redusertPadding = false,
     loading: eksternLoading,
+    setNyttSamarbeidModalÅpen,
 }: StatusknapperProps) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const [loading, setLoading] = React.useState(false);
@@ -109,9 +111,9 @@ export function Statusknapper({
     const hendelser: GyldigNesteHendelse[] = iaSak.gyldigeNesteHendelser.filter(
         (hendelse) =>
             hendelse.saksHendelsestype !==
-                IASakshendelseTypeEnum.Enum.ENDRE_PROSESS &&
+            IASakshendelseTypeEnum.Enum.ENDRE_PROSESS &&
             hendelse.saksHendelsestype !==
-                IASakshendelseTypeEnum.Enum.NY_PROSESS,
+            IASakshendelseTypeEnum.Enum.NY_PROSESS,
     );
     const destruktiveHendelser = hendelser.filter((hendelse) =>
         erHendelsenDestruktiv(hendelse.saksHendelsestype),
@@ -135,6 +137,7 @@ export function Statusknapper({
                         variant={"danger"}
                         onStatusEndret={onStatusEndret}
                         loading={loading || eksternLoading}
+                        setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
                     />
                 ))}
                 <Innerknappecontainer>
@@ -152,6 +155,7 @@ export function Statusknapper({
                             }
                             onStatusEndret={onStatusEndret}
                             loading={loading || eksternLoading}
+                            setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
                         />
                     ))}
                 </Innerknappecontainer>

@@ -33,10 +33,12 @@ export function SaksgangDropdown({
     virksomhet,
     iaSak,
     setVisKonfetti,
+    setNyttSamarbeidModalÅpen,
 }: {
     virksomhet: Virksomhet;
     iaSak?: IASak;
     setVisKonfetti?: (visKonfetti: boolean) => void;
+    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const [open, setOpen] = React.useState(false);
 
@@ -97,6 +99,7 @@ export function SaksgangDropdown({
                     setNesteSteg={setNesteSteg}
                     redusertPadding
                     loading={lasterEllerRevaliderer}
+                    setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
                 />
             </Dropdown.Menu>
         </Dropdown>

@@ -18,6 +18,8 @@ import {
     IaSakProsess,
 } from "../../../../domenetyper/iaSakProsess";
 import { loggÅpnetVirksomhetsinfo } from "../../../../util/amplitude-klient";
+import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
+import { NyttSamarbeidModal } from "../../Samarbeid/NyttSamarbeidModal";
 
 const Container = styled.div`
     display: flex;
@@ -38,7 +40,7 @@ const VirksomhetsInfoIkon = styled(InformationSquareIcon)`
 export default function VirksomhetOgSamarbeidsHeader({
     virksomhet,
     iaSak,
-    gjeldendeSamarbeid,
+    gjeldendeSamarbeid
 }: {
     virksomhet: Virksomhet;
     iaSak?: IASak;
@@ -46,7 +48,10 @@ export default function VirksomhetOgSamarbeidsHeader({
 }) {
     const buttonRef = useRef<SVGSVGElement>(null);
     const [openState, setOpenState] = useState(false);
+    const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] = useState(false);
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
+    const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
 
     return (
         <Container>
@@ -56,10 +61,12 @@ export default function VirksomhetOgSamarbeidsHeader({
                         <SamarbeidsDropdown
                             iaSak={iaSak}
                             virksomhet={virksomhet}
+                            setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
                         />
                         <SaksgangDropdown
                             virksomhet={virksomhet}
                             iaSak={iaSak}
+                            setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
                         />
                         <EierskapKnapp iaSak={iaSak} />
                     </HStack>
@@ -122,6 +129,13 @@ export default function VirksomhetOgSamarbeidsHeader({
                     </Popover>
                 </HStack>
             </VStack>
+            {iaSak && brukerErEierAvSak && (
+                <NyttSamarbeidModal
+                    iaSak={iaSak}
+                    åpen={nyttSamarbeidModalÅpen}
+                    setÅpen={setNyttSamarbeidModalÅpen}
+                />
+            )}
         </Container>
     );
 }

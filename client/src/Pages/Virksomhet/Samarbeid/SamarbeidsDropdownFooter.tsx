@@ -2,9 +2,6 @@ import { BodyShort, Button } from "@navikt/ds-react";
 import React from "react";
 import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { PlusIcon } from "@navikt/aksel-icons";
-import styled from "styled-components";
-
-const OpprettSamarbeidKnapp = styled.div``;
 
 interface SamarbeidsDropdownFooterProps {
     setÅpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -69,20 +66,18 @@ export const SamarbeidsDropdownFooter = ({
     };
 
     return (
-        <OpprettSamarbeidKnapp>
-            {visOpprettSamarbeidKnapp ? (
-                <Button
-                    icon={<PlusIcon fontSize={"1.5rem"} />}
-                    variant="primary"
-                    onClick={() => setÅpen(true)}
-                    size={"small"}
-                    title={"Opprett samarbeid"}
-                >
-                    Opprett samarbeid
-                </Button>
-            ) : (
-                <BodyShort>{kravTilOppretteSamarbeid()}</BodyShort>
-            )}
-        </OpprettSamarbeidKnapp>
+        visOpprettSamarbeidKnapp ? (
+            <Button
+                icon={<PlusIcon fontSize={"1.5rem"} />}
+                variant="primary"
+                onClick={() => setÅpen(true)}
+                size={"small"}
+                title={"Opprett samarbeid"}
+            >
+                Opprett samarbeid
+            </Button>
+        ) : (
+            <BodyShort>{kravTilOppretteSamarbeid()}</BodyShort>
+        )
     );
 };

@@ -6,7 +6,6 @@ import React, { useState } from "react";
 import { SamarbeidsRad } from "./SamarbeidsRad";
 import { SamarbeidsDropdownFooter } from "./SamarbeidsDropdownFooter";
 import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
-import { NyttSamarbeidModal } from "./NyttSamarbeidModal";
 import { EndreSamarbeidModal } from "./EndreSamarbeidModal";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import styled from "styled-components";
@@ -34,11 +33,13 @@ const DropdownMenuListItemStyled = styled(Dropdown.Menu.List.Item)``;
 interface SamarbeidsDropdown2Props {
     iaSak: IASak | undefined;
     virksomhet: Virksomhet;
+    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const SamarbeidsDropdown = ({
     iaSak,
     virksomhet,
+    setNyttSamarbeidModalÅpen,
 }: SamarbeidsDropdown2Props) => {
     const { data: alleSamarbeid, mutate: hentSamarbeidPåNytt } =
         useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
@@ -53,7 +54,6 @@ export const SamarbeidsDropdown = ({
     const [valgtSamarbeid, setValgtSamarbeid] = useState<IaSakProsess | null>(
         null,
     );
-    const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] = useState(false);
     return (
         <>
             <Dropdown>
@@ -142,14 +142,6 @@ export const SamarbeidsDropdown = ({
                     iaSak={iaSak}
                     open={endreSamarbeidModalÅpen}
                     setOpen={setEndreSamarbeidModalÅpen}
-                />
-            )}
-
-            {iaSak && brukerErEierAvSak && (
-                <NyttSamarbeidModal
-                    iaSak={iaSak}
-                    åpen={nyttSamarbeidModalÅpen}
-                    setÅpen={setNyttSamarbeidModalÅpen}
                 />
             )}
         </>
