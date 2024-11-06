@@ -52,7 +52,7 @@ interface EndreSamarbeidModalProps {
     iaSak: IASak;
 }
 
-export const MAX_LENGDE_SAMARBEIDSNAVN = 25;
+export const MAX_LENGDE_SAMARBEIDSNAVN = 50;
 
 export const EndreSamarbeidModal = ({
     open,
@@ -141,8 +141,12 @@ export const EndreSamarbeidModal = ({
             <Modal.Body>
                 <ModalBodyInnholdFlex>
                     <BodyShort>
-                        Her kan du endre navn på samarbeidet &quot;{defaultNavnHvisTomt(samarbeid.navn)}&quot;<br />
-                        Samarbeidsnavn skal beskrive den avdelingen eller gruppen man samarbeider med. Navnet må være det samme som virksomheten bruker selv.
+                        Her kan du endre navn på samarbeidet &quot;
+                        {defaultNavnHvisTomt(samarbeid.navn)}&quot;
+                        <br />
+                        Samarbeidsnavn skal beskrive den avdelingen eller
+                        gruppen man samarbeider med. Navnet må være det samme
+                        som virksomheten bruker selv.
                     </BodyShort>
                     <TextFieldStyled
                         maxLength={MAX_LENGDE_SAMARBEIDSNAVN}
@@ -157,8 +161,12 @@ export const EndreSamarbeidModal = ({
                         hideLabel
                     />
                     <DetaljerWrapper>
-                        <Detail><b>Husk, aldri skriv personopplysninger.</b></Detail>
-                        <Detail>{antallTegn}/{MAX_LENGDE_SAMARBEIDSNAVN} tegn</Detail>
+                        <Detail>
+                            <b>Husk, aldri skriv personopplysninger.</b>
+                        </Detail>
+                        <Detail>
+                            {antallTegn}/{MAX_LENGDE_SAMARBEIDSNAVN} tegn
+                        </Detail>
                     </DetaljerWrapper>
                 </ModalBodyInnholdFlex>
             </Modal.Body>
