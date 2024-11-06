@@ -17,13 +17,13 @@ import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import styled from "styled-components";
-import { StyledModal } from "../../../components/Modal/StyledModal";
 import { TrashIcon } from "@navikt/aksel-icons";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import { StyledSamarbeidModal } from "./NyttSamarbeidModal";
 
-export const ModalBodyInnholdGrid = styled.div`
-    display: grid;
-    grid-template-columns: 1fr min-content;
+export const ModalBodyInnholdFlex = styled.div`
+    display: flex;
+    flex-direction: column;
     gap: 0.5rem;
 `;
 
@@ -38,6 +38,11 @@ export const DetaljerWrapper = styled.div<{ $disabled?: boolean }>`
     justify-content: space-between;
     gap: 0.5rem;
     opacity: ${({ $disabled }) => ($disabled ? 0.25 : 1)};
+`;
+
+const SquareButton = styled(Button)`
+    width: 3rem;
+    height: 3rem;
 `;
 
 interface EndreSamarbeidModalProps {
@@ -122,7 +127,7 @@ export const EndreSamarbeidModal = ({
     };
 
     return (
-        <StyledModal
+        <StyledSamarbeidModal
             open={open}
             onClose={() => {
                 avbrytEndring();
@@ -134,16 +139,10 @@ export const EndreSamarbeidModal = ({
                 <Heading size="medium">Administrer samarbeid</Heading>
             </Modal.Header>
             <Modal.Body>
-                <ModalBodyInnholdGrid>
-                    <BodyShort
-                        style={{
-                            gridColumn: "1 / span 2",
-                            marginBottom: "0.75rem",
-                        }}
-                    >
-                        Her kan du endre navn på samarbeidet <br />
-                        &quot;
-                        {defaultNavnHvisTomt(samarbeid.navn)}&quot;
+                <ModalBodyInnholdFlex>
+                    <BodyShort>
+                        Her kan du endre navn på samarbeidet &quot;{defaultNavnHvisTomt(samarbeid.navn)}&quot;<br />
+                        Samarbeidsnavn skal beskrive den avdelingen eller gruppen man samarbeider med. Navnet må være det samme som virksomheten bruker selv.
                     </BodyShort>
                     <TextFieldStyled
                         maxLength={MAX_LENGDE_SAMARBEIDSNAVN}
@@ -157,29 +156,11 @@ export const EndreSamarbeidModal = ({
                         }}
                         hideLabel
                     />
-                    <Button
-                        icon={
-                            <TrashIcon
-                                focusable="true"
-                                title={`Slett "${samarbeid.navn}"`}
-                                fontSize="2rem"
-                            />
-                        }
-                        size={"small"}
-                        variant="tertiary"
-                        title={`Slett "${samarbeid.navn}"`}
-                        onClick={slettSamarbeid}
-                    />
-
                     <DetaljerWrapper>
-                        <Detail>Husk, aldri skriv personopplysninger.</Detail>
+                        <Detail><b>Husk, aldri skriv personopplysninger.</b></Detail>
                         <Detail>{antallTegn}/{MAX_LENGDE_SAMARBEIDSNAVN} tegn</Detail>
                     </DetaljerWrapper>
-                    <Detail style={{ gridColumn: "1", marginTop: "1.25rem" }}>
-                        Navnet kan vises på <i>Min Side Arbeidsgiver </i>
-                        og må gjenspeile det virksomheten bruker selv.
-                    </Detail>
-                </ModalBodyInnholdGrid>
+                </ModalBodyInnholdFlex>
             </Modal.Body>
             <Modal.Footer>
                 <Button
@@ -199,6 +180,19 @@ export const EndreSamarbeidModal = ({
                 >
                     Avbryt
                 </Button>
+                <SquareButton
+                    icon={
+                        <TrashIcon
+                            focusable="true"
+                            title={`Slett "${samarbeid.navn}"`}
+                            fontSize="2rem"
+                        />
+                    }
+                    size={"small"}
+                    variant="danger"
+                    title={`Slett "${samarbeid.navn}"`}
+                    onClick={slettSamarbeid}
+                />
                 {lagreNavnVellykket && (
                     <div style={{ display: "flex", alignItems: "center" }}>
                         <Alert inline variant="success" size="small">
@@ -207,6 +201,6 @@ export const EndreSamarbeidModal = ({
                     </div>
                 )}
             </Modal.Footer>
-        </StyledModal>
+        </StyledSamarbeidModal>
     );
 };

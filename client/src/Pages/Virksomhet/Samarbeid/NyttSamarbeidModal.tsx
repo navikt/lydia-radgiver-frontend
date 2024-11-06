@@ -1,6 +1,5 @@
 import { IASak } from "../../../domenetyper/domenetyper";
 import { BodyShort, Button, Checkbox, Detail, Heading, Modal } from "@navikt/ds-react";
-import { StyledModal } from "../../../components/Modal/StyledModal";
 import React, { useState } from "react";
 
 import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
@@ -9,12 +8,13 @@ import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import {
     DetaljerWrapper,
     MAX_LENGDE_SAMARBEIDSNAVN,
-    ModalBodyInnholdGrid,
+    ModalBodyInnholdFlex,
     TextFieldStyled,
 } from "./EndreSamarbeidModal";
 import { useNavigate } from "react-router-dom";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
+import styled from "styled-components";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
@@ -22,6 +22,11 @@ interface NyttSamarbeidProps {
     setÅpen: React.Dispatch<React.SetStateAction<boolean>>;
     virksomhet: Virksomhet;
 }
+
+export const StyledSamarbeidModal = styled(Modal)`
+    max-width: 42rem;
+    width: 100%;
+`;
 
 
 export const NyttSamarbeidModal = ({
@@ -95,7 +100,7 @@ export const NyttSamarbeidModal = ({
     }, [åpen]);
 
     return (
-        <StyledModal
+        <StyledSamarbeidModal
             open={åpen}
             onClose={lukkModal}
             width={"small"}
@@ -105,15 +110,13 @@ export const NyttSamarbeidModal = ({
                 <Heading size="medium">Opprett nytt samarbeid</Heading>
             </Modal.Header>
             <Modal.Body>
-                <ModalBodyInnholdGrid>
+                <ModalBodyInnholdFlex>
                     <BodyShort
                         style={{
-                            gridColumn: "1 / span 2",
                             marginBottom: "0.75rem",
                         }}
                     >
-                        Her kan du opprette og navngi ulike samarbeid med
-                        virksomheten.
+                        Samarbeidsnavn skal beskrive den avdelingen eller gruppen man samarbeider med. Navnet må være det samme som virksomheten bruker selv.  Er det bare ett samarbeid huker du av for <i>Bruk virksomhetens navn</i>.
                     </BodyShort>
                     {
                         kanBrukeVirksomhetsnavn && (
@@ -131,7 +134,6 @@ export const NyttSamarbeidModal = ({
                     }
                     <div
                         style={{
-                            gridColumn: "1 / span 2",
                             marginBottom: "0.25rem",
                         }}
                     >
@@ -156,14 +158,10 @@ export const NyttSamarbeidModal = ({
                         />
                     </div>
                     <DetaljerWrapper $disabled={brukVirksomhetsnavn}>
-                        <Detail>Husk, aldri skriv personopplysninger.</Detail>
+                        <Detail><b>Husk, aldri skriv personopplysninger.</b></Detail>
                         <Detail>{antallTegn}/{MAX_LENGDE_SAMARBEIDSNAVN} tegn</Detail>
                     </DetaljerWrapper>
-                    <Detail style={{ gridColumn: "1", marginTop: "1.25rem" }}>
-                        Navnet kan vises på <i>Min Side Arbeidsgiver </i>
-                        og må gjenspeile det virksomheten bruker selv.
-                    </Detail>
-                </ModalBodyInnholdGrid>
+                </ModalBodyInnholdFlex>
             </Modal.Body>
             <Modal.Footer>
                 <Button variant={"primary"} onClick={nyttSamarbeid}>
@@ -173,6 +171,6 @@ export const NyttSamarbeidModal = ({
                     Avbryt
                 </Button>
             </Modal.Footer>
-        </StyledModal>
+        </StyledSamarbeidModal>
     );
 };
