@@ -32,6 +32,9 @@ import {
 import { useSendTilBehovsvurderingFane } from "../../../../../util/useSendTilBehovsvurderingFane";
 import { StatusHendelseSteg } from "./Statusknapper";
 import { penskrivIAStatus } from "../../../../../components/Badge/StatusBadge";
+import { PlusIcon } from "@navikt/aksel-icons";
+import { useHentSamarbeid } from "../../../../../api/lydia-api/spørreundersøkelse";
+import { useHentBrukerinformasjon } from "../../../../../api/lydia-api/bruker";
 
 const Knappecontainer = styled.div`
     display: flex;
@@ -46,6 +49,7 @@ export default function NesteSteg({
     sak,
     setVisKonfetti,
     clearNesteSteg,
+    setNyttSamarbeidModalÅpen,
 }: {
     nesteSteg: {
         nesteSteg: StatusHendelseSteg | null;
@@ -55,7 +59,12 @@ export default function NesteSteg({
     clearNesteSteg: () => void;
     sak: IASak;
     setVisKonfetti?: (visKonfetti: boolean) => void;
+    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+    const { data: alleSamarbeid } = useHentSamarbeid(sak.orgnr, sak.saksnummer);
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const brukerErEierAvSak = sak?.eidAv === brukerInformasjon?.ident;
+
     switch (nesteSteg.nesteSteg) {
         case "FULLFØR_KARTLEGGINGER":
             return (
@@ -89,9 +98,42 @@ export default function NesteSteg({
                     clearNesteSteg={clearNesteSteg}
                 />
             );
+        case null:
+            if (alleSamarbeid?.length === 0 && brukerErEierAvSak && sak.status === IAProsessStatusEnum.enum.KARTLEGGES) {
+                return <OpprettSamarbeidFørstSeksjon setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen} />;
+            }
+            return null;
         default:
-            return <></>;
+            return null;
     }
+}
+
+const Underseksjon = styled.div`
+    padding: 0.75rem;
+`;
+
+function OpprettSamarbeidFørstSeksjon({ setNyttSamarbeidModalÅpen }: { setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+    return (
+        <Underseksjon>
+            <Heading level="2" size="medium">
+                Opprett samarbeid
+            </Heading>
+            <BodyLong>
+                Du kan nå opprette samarbeid for å gjennomføre behovsvurdering, lage samarbeidsplan og evaluere.
+            </BodyLong>
+            <br />
+            <Knappecontainer>
+                <Button
+                    icon={<PlusIcon fontSize={"1.5rem"} />}
+                    variant="primary"
+                    onClick={() => setNyttSamarbeidModalÅpen(true)}
+                    title={"Opprett samarbeid"}
+                >
+                    Opprett samarbeid
+                </Button>
+            </Knappecontainer>
+        </Underseksjon>
+    );
 }
 
 function FullførSamarbeidsplanFørstSeksjon({

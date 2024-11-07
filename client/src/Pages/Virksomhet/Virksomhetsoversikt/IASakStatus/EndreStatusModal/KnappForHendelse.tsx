@@ -12,7 +12,7 @@ import {
 import { nyHendelsePåSak } from "../../../../../api/lydia-api/sak";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { StatusHendelseSteg } from "./Statusknapper";
-import { ChevronLeftIcon, ChevronRightIcon, PlusIcon } from "@navikt/aksel-icons";
+import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
 import { penskrivIASakshendelsestype } from "./penskrivIASakshendelsestype";
 import { useTrengerÅFullføreBehovsvurderingerFørst } from "./useTrengerÅFullføreBehovsvurderingerFørst";
 import { useHentSamarbeid } from "../../../../../api/lydia-api/spørreundersøkelse";
@@ -25,7 +25,6 @@ export default function KnappForHendelse({
     variant = "secondary",
     onStatusEndret,
     loading,
-    setNyttSamarbeidModalÅpen,
 }: {
     hendelse: GyldigNesteHendelse;
     sak: IASak;
@@ -37,7 +36,6 @@ export default function KnappForHendelse({
     variant?: ButtonProps["variant"];
     onStatusEndret: (status: IASak["status"]) => void;
     loading?: ButtonProps["loading"];
-    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const disabled = nesteSteg !== null;
 
@@ -89,7 +87,6 @@ export default function KnappForHendelse({
                     variant={variant}
                     onStatusEndret={onStatusEndret}
                     loading={loading}
-                    setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
                 />
             );
         case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
@@ -105,14 +102,12 @@ function BiståEllerSamarbeidKnapp({
     variant,
     onStatusEndret,
     loading,
-    setNyttSamarbeidModalÅpen,
 }: {
     hendelse: GyldigNesteHendelse;
     sak: IASak;
     variant: ButtonProps["variant"];
     onStatusEndret: (status: IASak["status"]) => void;
     loading?: ButtonProps["loading"];
-    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const { data: alleSamarbeid } = useHentSamarbeid(sak.orgnr, sak.saksnummer);
 
@@ -121,15 +116,14 @@ function BiståEllerSamarbeidKnapp({
     }
     if (alleSamarbeid.length === 0) {
         return (
-            <Button
-                icon={<PlusIcon fontSize={"1.5rem"} />}
-                variant="primary"
-                onClick={() => setNyttSamarbeidModalÅpen(true)}
-                size={"small"}
-                title={"Opprett samarbeid"}
-            >
-                Opprett samarbeid
-            </Button>
+            <RettTilNesteStatusKnapp
+                sak={sak}
+                hendelse={hendelse}
+                disabled={true}
+                variant={variant}
+                onStatusEndret={onStatusEndret}
+                loading={loading}
+            />
         );
     }
 

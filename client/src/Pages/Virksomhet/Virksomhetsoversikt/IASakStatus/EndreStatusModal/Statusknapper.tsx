@@ -137,7 +137,6 @@ export function Statusknapper({
                         variant={"danger"}
                         onStatusEndret={onStatusEndret}
                         loading={loading || eksternLoading}
-                        setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
                     />
                 ))}
                 <Innerknappecontainer>
@@ -155,7 +154,6 @@ export function Statusknapper({
                             }
                             onStatusEndret={onStatusEndret}
                             loading={loading || eksternLoading}
-                            setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
                         />
                     ))}
                 </Innerknappecontainer>
@@ -171,6 +169,7 @@ export function Statusknapper({
                 }
                 sak={iaSak}
                 setVisKonfetti={setVisKonfetti}
+                setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
             />
         </Statuscontainer>
     );
