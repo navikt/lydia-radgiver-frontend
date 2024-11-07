@@ -88,6 +88,8 @@ jobs:
 
   trivy-scan:
     if: ${{ github.ref == 'refs/heads/main' && github.actor != 'dependabot[bot]' }}
+    env:
+      TRIVY_DB_REPOSITORY: public.ecr.aws/aquasecurity/trivy-db
     name: Scanner docker image med Trivy
     needs: build
     permissions:
