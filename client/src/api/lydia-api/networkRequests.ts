@@ -56,7 +56,21 @@ const fetchNative =
                     },
                 }),
             )
-            .then((res) => (res.ok ? res : Promise.reject(res.text())))
+            .then((res) => {
+                if (res.ok) {
+                    return res;
+                }
+
+                if (res.status === 404) {
+                    return Promise.reject(
+                        Promise.resolve(
+                            `Noe gikk galt. Fant ikke ressursen: ${url}`,
+                        ),
+                    );
+                }
+
+                return Promise.reject(res.text());
+            })
             .then((res) => res.json())
             .catch((e: Promise<string | ZodError>) => {
                 e.then((reason) => {
