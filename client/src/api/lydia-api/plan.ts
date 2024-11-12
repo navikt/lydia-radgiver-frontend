@@ -1,14 +1,10 @@
 import {
     Plan,
-    PlanInnhold,
     PlanInnholdStatus,
     PlanMal,
     PlanMalRequest,
     PlanMalSchema,
     PlanSchema,
-    PlanTema,
-    PlanTemaSchema,
-    PlanUndertemaSchema,
 } from "../../domenetyper/plan";
 import {
     TemaRequest,
@@ -40,10 +36,10 @@ export const endrePlan = (
     saksnummer: string,
     samarbeidsId: number,
     body: TemaRequest[],
-): Promise<PlanTema[]> => {
+): Promise<Plan> => {
     return put(
         `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
-        PlanTemaSchema.array(),
+        PlanSchema,
         body,
     );
 };
@@ -53,10 +49,10 @@ export const endrePlanTema = (
     samarbeidsId: number,
     temaId: number,
     body: UndertemaRequest[],
-): Promise<PlanTema> => {
+): Promise<Plan> => {
     return put(
         `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/${temaId}`,
-        PlanTemaSchema,
+        PlanSchema,
         body,
     );
 };
@@ -68,10 +64,10 @@ export const endrePlanStatus = (
     temaId: number,
     undertemaId: number,
     body: PlanInnholdStatus,
-): Promise<PlanInnhold> => {
+): Promise<Plan> => {
     return put(
         `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/${temaId}/${undertemaId}`,
-        PlanUndertemaSchema,
+        PlanSchema,
         body,
     );
 };
