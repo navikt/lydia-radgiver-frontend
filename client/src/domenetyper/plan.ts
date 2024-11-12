@@ -59,20 +59,11 @@ export const PlanUndertemaSchema = z.object({
 });
 export type PlanInnhold = z.infer<typeof PlanUndertemaSchema>;
 
-const PlanRessursSchema = z.object({
-    id: z.number(),
-    beskrivelse: z.string(),
-    url: z.string().nullable(),
-});
-
-export type PlanRessurs = z.infer<typeof PlanRessursSchema>;
-
 export const PlanTemaSchema = z.object({
     id: z.number(),
     navn: z.string(),
     inkludert: z.boolean(),
     undertemaer: z.array(PlanUndertemaSchema),
-    ressurser: z.array(PlanRessursSchema),
 });
 
 export type PlanTema = z.infer<typeof PlanTemaSchema>;
