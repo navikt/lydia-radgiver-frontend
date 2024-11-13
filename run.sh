@@ -17,7 +17,7 @@ while getopts 'hif' opt; do
       docker-compose up postgres -d
       sleep 3
       DB_DUMP=/tmp/db_script.sql
-      curl -o $DB_DUMP https://raw.githubusercontent.com/navikt/lydia-api/main/scripts/db/lydia-api-container-db_localhost-2024_10_24_16_39_14-dump.sql
+      curl -o $DB_DUMP https://raw.githubusercontent.com/navikt/lydia-api/main/scripts/db/lydia-api-container-db_localhost-2024_11_13_12_42_52-dump.sql
       PGPASSWORD=test psql -h localhost -p 5432 -U postgres -f $DB_DUMP > /dev/null
       rm $DB_DUMP
       sleep 1
