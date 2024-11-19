@@ -55,6 +55,7 @@ export const NyttSamarbeidModal = ({
     );
     const samarbeidsnavnBasertPåVirksomhet = virksomhet.navn.length > MAX_LENGDE_SAMARBEIDSNAVN ? `${virksomhet.navn.substring(0, MAX_LENGDE_SAMARBEIDSNAVN - 3)}...` : virksomhet.navn;
     const kanBrukeVirksomhetsnavn = samarbeidData?.find((s) => s.navn === samarbeidsnavnBasertPåVirksomhet) === undefined;
+    const navnErUbrukt = samarbeidData?.find((s) => s.navn === navn || (navn === "Samarbeid uten navn" && s.navn === "")) === undefined;
     const navigate = useNavigate();
 
     const nyttSamarbeid = () => {
@@ -116,7 +117,7 @@ export const NyttSamarbeidModal = ({
                             marginBottom: "0.75rem",
                         }}
                     >
-                        Samarbeidsnavn skal beskrive den avdelingen eller gruppen man samarbeider med. Navnet må være det samme som virksomheten bruker selv.  Er det bare ett samarbeid huker du av for <i>Bruk virksomhetens navn</i>.
+                        Samarbeidsnavn skal beskrive den avdelingen eller gruppen man samarbeider med. Navnet må være det samme som virksomheten bruker selv. {kanBrukeVirksomhetsnavn && (<>Er det bare ett samarbeid huker du av for <i>Bruk virksomhetens navn</i>.</>)}
                     </BodyShort>
                     {
                         kanBrukeVirksomhetsnavn && (
@@ -148,10 +149,11 @@ export const NyttSamarbeidModal = ({
                                 const nyttNavn = event.target.value;
                                 setNavn(nyttNavn);
                             }}
+                            error={navnErUbrukt ? undefined : (navn === "" || navn === "Samarbeid uten navn" ? `Navnet er allerede i bruk (tomt navn og "Samarbeid uten navn" regnes som like)` : "Navnet er allerede i bruk")}
                             hideLabel
                             onKeyDown={(event) => {
                                 // Submit på enter.
-                                if (event.key === "Enter") {
+                                if (event.key === "Enter" && navnErUbrukt) {
                                     nyttSamarbeid();
                                 }
                             }}
@@ -164,7 +166,7 @@ export const NyttSamarbeidModal = ({
                 </ModalBodyInnholdFlex>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={"primary"} onClick={nyttSamarbeid}>
+                <Button variant={"primary"} onClick={nyttSamarbeid} disabled={!navnErUbrukt}>
                     Opprett
                 </Button>
                 <Button variant={"secondary"} onClick={lukkModal}>
