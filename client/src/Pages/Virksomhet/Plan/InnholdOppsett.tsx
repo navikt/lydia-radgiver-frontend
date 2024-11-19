@@ -203,10 +203,9 @@ export default function InnholdOppsett({
     return (
         <CheckboxGroup
             legend={"Velg innhold og varighet"}
-            value={valgteInnhold
-                .filter((innhold) => innhold.inkludert)
-                .map((innhold) => innhold.id)}
+            value={valgteIder}
             onChange={planleggInnhold}
+            error={valgteIder.length === 0 ? "Tema kan ikke stå tomt. Legg til innhold eller fjern temaet for å lagre." : undefined}
         >
             {valgteInnhold
                 .sort((a, b) => {

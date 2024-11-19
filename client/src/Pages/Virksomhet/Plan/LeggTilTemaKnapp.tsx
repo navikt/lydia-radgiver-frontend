@@ -51,10 +51,20 @@ export default function LeggTilTemaKnapp({
     const [redigertTemaliste, setRedigertTemaliste] = React.useState<
         PlanTema[]
     >(samarbeidsplan.temaer);
+    // Trengs for å se etter endringer i temalisten fra backend.
+    const [gammelTemaliste, setGammelTemaliste] = React.useState<
+        PlanTema[]
+    >(samarbeidsplan.temaer);
+
+    const harTemaUtenUndertema = React.useMemo(() => redigertTemaliste.some((tema) => tema.inkludert && !tema.undertemaer.some((undertema) => undertema.inkludert)), [redigertTemaliste]);
 
     useEffect(() => {
-        setRedigertTemaliste(samarbeidsplan.temaer);
-    }, [samarbeidsplan]);
+        // Hvis innholdet faktisk har endret seg.
+        if (JSON.stringify(gammelTemaliste) !== JSON.stringify(samarbeidsplan.temaer)) {
+            setGammelTemaliste(samarbeidsplan.temaer);
+            setRedigertTemaliste(samarbeidsplan.temaer);
+        }
+    }, [samarbeidsplan, gammelTemaliste]);
 
     function velgTema(valgteTemaIder: number[]) {
         setRedigertTemaliste(
@@ -64,7 +74,11 @@ export default function LeggTilTemaKnapp({
                 })
                 .map((tema) =>
                     valgteTemaIder.includes(tema.id)
-                        ? { ...tema, inkludert: true }
+                        ? {
+                            ...tema,
+                            inkludert: true,
+                            undertemaer: tema.inkludert ? tema.undertemaer : samarbeidsplan.temaer.find((t) => t.id === tema.id)?.undertemaer ?? [],
+                        }
                         : {
                             ...tema,
                             inkludert: false,
@@ -200,6 +214,7 @@ export default function LeggTilTemaKnapp({
                             Avbryt
                         </Button>
                         <Button
+                            disabled={harTemaUtenUndertema}
                             onClick={() => {
                                 lagreEndring();
                                 setModalOpen(false);
