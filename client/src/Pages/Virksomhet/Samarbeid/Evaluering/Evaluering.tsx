@@ -17,12 +17,14 @@ export const Evaluering = ({
     brukerErEierAvSak,
     sakErIRettStatus,
     brukerRolle,
+    harPlan,
 }: {
     samarbeid: IaSakProsess;
     brukerErEierAvSak: boolean;
     sakErIRettStatus: boolean;
     iaSak: IASak;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
+    harPlan?: boolean;
 }) => {
     const [sisteOpprettedeId, setSisteOpprettedeId] = React.useState("");
 
@@ -71,7 +73,7 @@ export const Evaluering = ({
             >
                 <OpprettNySpørreundersøkelseKnapp
                     onClick={opprettEvaluering}
-                    disabled={!(sakErIRettStatus && brukerErEierAvSak)}
+                    disabled={!(sakErIRettStatus && brukerErEierAvSak) || !harPlan}
                 />
                 <Spørreundersøkelseliste />
             </SpørreundersøkelseProvider>

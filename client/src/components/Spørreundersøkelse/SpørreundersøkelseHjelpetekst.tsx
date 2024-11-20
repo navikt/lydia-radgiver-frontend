@@ -4,10 +4,12 @@ export const SpørreundersøkelseHjelpetekst = ({
     brukerErEierAvSak,
     sakErIRettStatus,
     type,
+    harPlan,
 }: {
     brukerErEierAvSak: boolean;
     sakErIRettStatus: boolean;
     type: "evaluering" | "behovsvurdering";
+    harPlan?: boolean;
 }) => {
     if (!brukerErEierAvSak && !sakErIRettStatus) {
         return (
@@ -15,7 +17,7 @@ export const SpørreundersøkelseHjelpetekst = ({
                 <br />
                 <BodyShort>
                     Du må være eier av saken og være i status <i>Kartlegges</i>{" "}
-                    eller <i>Vi bistår</i> for å opprette ny {type}
+                    eller <i>Vi bistår</i>{" "}for å opprette ny {type}
                 </BodyShort>
             </>
         );
@@ -25,7 +27,7 @@ export const SpørreundersøkelseHjelpetekst = ({
                 <>
                     <br />
                     <BodyShort>
-                        Status må være i <i>Vi bistår</i>
+                        Status må være i <i>Vi bistår</i>{" "}
                         for å kunne opprette en {type}
                     </BodyShort>
                 </>
@@ -47,6 +49,15 @@ export const SpørreundersøkelseHjelpetekst = ({
                 <br />
                 <BodyShort>
                     Du må være eier av saken for å opprette ny {type}
+                </BodyShort>
+            </>
+        );
+    } else if (type === "evaluering" && !harPlan) {
+        return (
+            <>
+                <br />
+                <BodyShort>
+                    Du må opprette en plan før du kan opprette en {type}
                 </BodyShort>
             </>
         );

@@ -8,6 +8,7 @@ import { SpørreundersøkelseHeading } from "../../../../components/Spørreunder
 import { SpørreundersøkelseHjelpetekst } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseHjelpetekst";
 import { Evaluering } from "./Evaluering";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
+import { useHentPlan } from "../../../../api/lydia-api/plan";
 
 export default function EvalueringFane({
     iaSak,
@@ -46,7 +47,7 @@ function NyEvalueringFane({
         iaSak.orgnr,
         iaSak.saksnummer,
     );
-
+    const { data: samarbeidsplan } = useHentPlan(iaSak.orgnr, iaSak.saksnummer, gjeldendeSamarbeid.id);
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
 
@@ -78,6 +79,7 @@ function NyEvalueringFane({
                 type="evaluering"
                 brukerErEierAvSak={brukerErEierAvSak}
                 sakErIRettStatus={sakErIRettStatus}
+                harPlan={samarbeidsplan !== undefined}
             />
             <Evaluering
                 brukerRolle={brukerInformasjon?.rolle}
@@ -85,6 +87,7 @@ function NyEvalueringFane({
                 brukerErEierAvSak={brukerErEierAvSak}
                 sakErIRettStatus={sakErIRettStatus}
                 iaSak={iaSak}
+                harPlan={samarbeidsplan !== undefined}
             />
         </>
     );
