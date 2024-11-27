@@ -253,14 +253,6 @@ export const BehovsvurderingCardHeaderInnhold = ({
                         )}
                     </ActionButtonContainer>
                     <HeaderRightContent>
-                        <ActionButtonContainer>
-                            <FlyttTilAnnenProsess
-                                gjeldendeSamarbeid={samarbeid}
-                                iaSak={iaSak}
-                                dropdownSize="small"
-                                flyttTilValgtSamarbeid={flyttTilValgtSamarbeid}
-                            />
-                        </ActionButtonContainer>
                         <BehovsvurderingStatusWrapper>
                             <SpørreundersøkelseStatusBadge
                                 status={spørreundersøkelse.status}
@@ -343,14 +335,6 @@ export const BehovsvurderingCardHeaderInnhold = ({
                         )}
                     </ActionButtonContainer>
                     <HeaderRightContent>
-                        <ActionButtonContainer>
-                            <FlyttTilAnnenProsess
-                                gjeldendeSamarbeid={samarbeid}
-                                iaSak={iaSak}
-                                dropdownSize="small"
-                                flyttTilValgtSamarbeid={flyttTilValgtSamarbeid}
-                            />
-                        </ActionButtonContainer>
                         <BehovsvurderingStatusWrapper>
                             <SpørreundersøkelseStatusBadge
                                 status={spørreundersøkelse.status}
