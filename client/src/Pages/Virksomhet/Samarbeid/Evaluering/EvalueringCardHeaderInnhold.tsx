@@ -6,14 +6,15 @@ import { SlettSpørreundersøkelseModal } from "../../Kartlegging/SlettSpørreun
 import { StartSpørreundersøkelseModal } from "../../Kartlegging/StartSpørreundersøkelseModal";
 import { FullførSpørreundersøkelseModal } from "../../Kartlegging/FullførSpørreundersøkelseModal";
 import EksportVisning from "../../Kartlegging/EksportVisning";
-import { FlyttTilAnnenProsess } from "../../Kartlegging/FlyttTilAnnenProsess";
 import { SpørreundersøkelseStatusBadge } from "../../../../components/Badge/SpørreundersøkelseStatusBadge";
 import { TrashIcon } from "@navikt/aksel-icons";
-import { CardHeaderProps, useSpørreundersøkelse } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+import {
+    CardHeaderProps,
+    useSpørreundersøkelse,
+} from "../../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { useHentIASaksStatus } from "../../../../api/lydia-api/sak";
 import {
     avsluttSpørreundersøkelse,
-    flyttSpørreundersøkelse,
     slettSpørreundersøkelse,
     startSpørreundersøkelse,
     useHentSpørreundersøkelser,
@@ -116,15 +117,6 @@ export const EvalueringCardHeaderInnhold = ({
         iaSak.saksnummer,
     );
 
-    const flyttTilValgtSamarbeid = (samarbeidId: number) => {
-        flyttSpørreundersøkelse(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            samarbeidId,
-            spørreundersøkelse.id,
-        ).then(() => muterEvalueringer?.());
-    };
-
     const startEvaluering = () => {
         startSpørreundersøkelse(
             iaSak.orgnr,
@@ -175,16 +167,6 @@ export const EvalueringCardHeaderInnhold = ({
                                 erIEksportMode={erIEksportMode}
                                 setErIEksportMode={setErIEksportMode}
                             />
-                            {brukerErEierAvSak && (
-                                <FlyttTilAnnenProsess
-                                    gjeldendeSamarbeid={samarbeid}
-                                    iaSak={iaSak}
-                                    dropdownSize="small"
-                                    flyttTilValgtSamarbeid={
-                                        flyttTilValgtSamarbeid
-                                    }
-                                />
-                            )}
                         </ActionButtonContainer>
                         <KartleggingStatusWrapper>
                             <SpørreundersøkelseStatusBadge
@@ -247,14 +229,6 @@ export const EvalueringCardHeaderInnhold = ({
                         )}
                     </ActionButtonContainer>
                     <HeaderRightContent>
-                        <ActionButtonContainer>
-                            <FlyttTilAnnenProsess
-                                gjeldendeSamarbeid={samarbeid}
-                                iaSak={iaSak}
-                                dropdownSize="small"
-                                flyttTilValgtSamarbeid={flyttTilValgtSamarbeid}
-                            />
-                        </ActionButtonContainer>
                         <KartleggingStatusWrapper>
                             <SpørreundersøkelseStatusBadge
                                 status={spørreundersøkelse.status}
@@ -335,14 +309,6 @@ export const EvalueringCardHeaderInnhold = ({
                         )}
                     </ActionButtonContainer>
                     <HeaderRightContent>
-                        <ActionButtonContainer>
-                            <FlyttTilAnnenProsess
-                                gjeldendeSamarbeid={samarbeid}
-                                iaSak={iaSak}
-                                dropdownSize="small"
-                                flyttTilValgtSamarbeid={flyttTilValgtSamarbeid}
-                            />
-                        </ActionButtonContainer>
                         <KartleggingStatusWrapper>
                             <SpørreundersøkelseStatusBadge
                                 status={spørreundersøkelse.status}
