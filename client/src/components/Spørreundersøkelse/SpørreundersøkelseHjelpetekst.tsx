@@ -1,4 +1,5 @@
 import { BodyShort } from "@navikt/ds-react";
+import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 
 export const SpørreundersøkelseHjelpetekst = ({
     brukerErEierAvSak,
@@ -8,7 +9,7 @@ export const SpørreundersøkelseHjelpetekst = ({
 }: {
     brukerErEierAvSak: boolean;
     sakErIRettStatus: boolean;
-    type: "evaluering" | "behovsvurdering";
+    type: SpørreundersøkelseType;
     harPlan?: boolean;
 }) => {
     if (!brukerErEierAvSak && !sakErIRettStatus) {
@@ -17,22 +18,22 @@ export const SpørreundersøkelseHjelpetekst = ({
                 <br />
                 <BodyShort>
                     Du må være eier av saken og være i status <i>Kartlegges</i>{" "}
-                    eller <i>Vi bistår</i>{" "}for å opprette ny {type}
+                    eller <i>Vi bistår</i> for å opprette ny {type}
                 </BodyShort>
             </>
         );
     } else if (!sakErIRettStatus) {
-        if (type === "evaluering") {
+        if (type === "Evaluering") {
             return (
                 <>
                     <br />
                     <BodyShort>
-                        Status må være i <i>Vi bistår</i>{" "}
-                        for å kunne opprette en {type}
+                        Status må være i <i>Vi bistår</i> for å kunne opprette
+                        en {type}
                     </BodyShort>
                 </>
             );
-        } else if (type === "behovsvurdering") {
+        } else if (type === "Behovsvurdering") {
             return (
                 <>
                     <br />
@@ -52,7 +53,7 @@ export const SpørreundersøkelseHjelpetekst = ({
                 </BodyShort>
             </>
         );
-    } else if (type === "evaluering" && !harPlan) {
+    } else if (type === "Evaluering" && !harPlan) {
         return (
             <>
                 <br />

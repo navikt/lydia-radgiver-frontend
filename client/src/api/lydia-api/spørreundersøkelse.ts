@@ -12,6 +12,11 @@ import {
 } from "../../domenetyper/iaSakProsess";
 import { iaSakPath, spørreundersøkelsePath } from "./paths";
 import { httpDelete, post, put, useSwrTemplate } from "./networkRequests";
+import {
+    SpørreundersøkelseMedInnhold,
+    SpørreundersøkelseMedInnholdSchema,
+    SpørreundersøkelseType,
+} from "../../domenetyper/spørreundersøkelseMedInnhold";
 
 export const useHentResultat = (
     orgnummer: string,
@@ -75,7 +80,7 @@ export const useHentSpørreundersøkelser = (
     orgnummer: string,
     saksnummer: string,
     prosessId: number,
-    type: "Evaluering" | "Behovsvurdering",
+    type: SpørreundersøkelseType,
 ) => {
     return useSwrTemplate<Spørreundersøkelse[]>(
         `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${type}`,
@@ -86,11 +91,24 @@ export const useHentSpørreundersøkelser = (
         },
     );
 };
+export const useHentSpørreundersøkelseForhåndsvisning = (
+    orgnummer: string,
+    saksnummer: string,
+    prosessId: number,
+    type: SpørreundersøkelseType,
+    spørreundersøkelseId: string,
+) => {
+    return useSwrTemplate<SpørreundersøkelseMedInnhold>(
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${type}/${spørreundersøkelseId}`,
+        SpørreundersøkelseMedInnholdSchema,
+    );
+};
+
 export const opprettSpørreundersøkelse = (
     orgnummer: string,
     saksnummer: string,
     samarbeidsId: number,
-    type: "Evaluering" | "Behovsvurdering",
+    type: SpørreundersøkelseType,
 ): Promise<Spørreundersøkelse> => {
     return post(
         `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/type/${type}`,

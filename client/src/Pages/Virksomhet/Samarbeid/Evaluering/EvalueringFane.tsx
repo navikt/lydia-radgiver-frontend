@@ -47,7 +47,11 @@ function NyEvalueringFane({
         iaSak.orgnr,
         iaSak.saksnummer,
     );
-    const { data: samarbeidsplan } = useHentPlan(iaSak.orgnr, iaSak.saksnummer, gjeldendeSamarbeid.id);
+    const { data: samarbeidsplan } = useHentPlan(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+        gjeldendeSamarbeid.id,
+    );
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
 
@@ -61,7 +65,7 @@ function NyEvalueringFane({
                     samarbeid={gjeldendeSamarbeid}
                 />
                 <SpørreundersøkelseHjelpetekst
-                    type="evaluering"
+                    type="Evaluering"
                     brukerErEierAvSak={brukerErEierAvSak}
                     sakErIRettStatus={sakErIRettStatus}
                 />
@@ -76,7 +80,7 @@ function NyEvalueringFane({
                 samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]}
             />
             <SpørreundersøkelseHjelpetekst
-                type="evaluering"
+                type="Evaluering"
                 brukerErEierAvSak={brukerErEierAvSak}
                 sakErIRettStatus={sakErIRettStatus}
                 harPlan={samarbeidsplan !== undefined}

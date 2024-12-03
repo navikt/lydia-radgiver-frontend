@@ -6,6 +6,7 @@ import { BehovsvurderingCardHeaderInnhold } from "../../Pages/Virksomhet/Kartleg
 import { BehovsvurderingRadInnhold } from "../../Pages/Virksomhet/Kartlegging/BehovsvurderingRadInnhold";
 import { EvalueringCardHeaderInnhold } from "../../Pages/Virksomhet/Samarbeid/Evaluering/EvalueringCardHeaderInnhold";
 import { EvalueringRadInnhold } from "../../Pages/Virksomhet/Samarbeid/Evaluering/EvalueringRadInnhold";
+import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 
 interface SpørreundersøkelseProviderProps {
     spørreundersøkelseliste: Spørreundersøkelse[];
@@ -14,7 +15,7 @@ interface SpørreundersøkelseProviderProps {
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
     brukerErEierAvSak: boolean;
     sisteOpprettedeSpørreundersøkelseId: string;
-    spørreundersøkelseType: "Behovsvurdering" | "Evaluering";
+    spørreundersøkelseType: SpørreundersøkelseType;
 }
 export interface CardHeaderProps {
     spørreundersøkelse: Spørreundersøkelse;
@@ -31,13 +32,10 @@ interface SpørreundersøkelseContextState {
     };
 }
 
-
-function getComponents(
-    spørreundersøkelseType: "Behovsvurdering" | "Evaluering",
-): ({
+function getComponents(spørreundersøkelseType: SpørreundersøkelseType): {
     CardHeader: React.FC<CardHeaderProps>;
     CardInnhold: React.FC<CardInnholdProps>;
-}) {
+} {
     switch (spørreundersøkelseType) {
         case "Behovsvurdering":
             return {

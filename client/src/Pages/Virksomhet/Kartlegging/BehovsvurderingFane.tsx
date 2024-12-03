@@ -32,7 +32,7 @@ export const BehovsvurderingFane = ({
                     samarbeid={gjeldendeSamarbeid}
                 />
                 <SpørreundersøkelseHjelpetekst
-                    type="behovsvurdering"
+                    type="Behovsvurdering"
                     brukerErEierAvSak={brukerErEierAvSak}
                     sakErIRettStatus={sakErIRettStatus}
                 />
@@ -47,7 +47,7 @@ export const BehovsvurderingFane = ({
                 samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]}
             />
             <SpørreundersøkelseHjelpetekst
-                type="behovsvurdering"
+                type="Behovsvurdering"
                 brukerErEierAvSak={brukerErEierAvSak}
                 sakErIRettStatus={sakErIRettStatus}
             />

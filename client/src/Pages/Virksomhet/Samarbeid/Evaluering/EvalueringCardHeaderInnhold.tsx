@@ -112,6 +112,15 @@ export const EvalueringCardHeaderInnhold = ({
         "Evaluering",
     );
 
+    /*const { data: spørreundersøkelseForhåndsvisning } =
+        useHentSpørreundersøkelseForhåndsvisning(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            samarbeid.id,
+            "Evaluering",
+            spørreundersøkelse.id,
+        );*/
+
     const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
         iaSak.orgnr,
         iaSak.saksnummer,
@@ -196,6 +205,16 @@ export const EvalueringCardHeaderInnhold = ({
                                     >
                                         Start
                                     </StyledActionButton>
+                                    {/*<StyledActionButton
+                                        variant="secondary"
+                                        onClick={() =>
+                                            console.log(
+                                                spørreundersøkelseForhåndsvisning,
+                                            )
+                                        }
+                                    >
+                                        Forhåndsvis
+                                    </StyledActionButton>*/}
                                     {brukerErEierAvSak && (
                                         <StyledActionButton
                                             variant="tertiary"
