@@ -91,7 +91,7 @@ export const useHentSpørreundersøkelser = (
         },
     );
 };
-export const useHentSpørreundersøkelseForhåndsvisning = (
+export const useHentSpørreundersøkelseMedInnhold = (
     orgnummer: string,
     saksnummer: string,
     prosessId: number,
