@@ -17,6 +17,7 @@ import {
     avsluttSpørreundersøkelse,
     slettSpørreundersøkelse,
     startSpørreundersøkelse,
+    useHentSpørreundersøkelseMedInnhold,
     useHentSpørreundersøkelser,
 } from "../../../../api/lydia-api/spørreundersøkelse";
 
@@ -112,14 +113,14 @@ export const EvalueringCardHeaderInnhold = ({
         "Evaluering",
     );
 
-    /*const { data: spørreundersøkelseForhåndsvisning } =
-        useHentSpørreundersøkelseForhåndsvisning(
+    const { data: spørreundersøkelseForhåndsvisning } =
+        useHentSpørreundersøkelseMedInnhold(
             iaSak.orgnr,
             iaSak.saksnummer,
             samarbeid.id,
             "Evaluering",
             spørreundersøkelse.id,
-        );*/
+        );
 
     const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
         iaSak.orgnr,
@@ -205,7 +206,7 @@ export const EvalueringCardHeaderInnhold = ({
                                     >
                                         Start
                                     </StyledActionButton>
-                                    {/*<StyledActionButton
+                                    <StyledActionButton
                                         variant="secondary"
                                         onClick={() =>
                                             console.log(
@@ -214,7 +215,7 @@ export const EvalueringCardHeaderInnhold = ({
                                         }
                                     >
                                         Forhåndsvis
-                                    </StyledActionButton>*/}
+                                    </StyledActionButton>
                                     {brukerErEierAvSak && (
                                         <StyledActionButton
                                             variant="tertiary"
