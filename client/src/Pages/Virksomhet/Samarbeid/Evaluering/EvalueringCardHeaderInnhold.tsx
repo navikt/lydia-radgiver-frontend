@@ -17,9 +17,9 @@ import {
     avsluttSpørreundersøkelse,
     slettSpørreundersøkelse,
     startSpørreundersøkelse,
-    useHentSpørreundersøkelseMedInnhold,
     useHentSpørreundersøkelser,
 } from "../../../../api/lydia-api/spørreundersøkelse";
+import { SpørreundersøkelseMedInnholdVisning } from "../../Kartlegging/SpørreundersøkelseForhåndsvisningModal";
 
 const ActionButtonContainer = styled.div`
     display: flex;
@@ -88,6 +88,7 @@ export const EvalueringCardHeaderInnhold = ({
         bekreftFullførKartleggingModalÅpen,
         setBekreftFullførKartleggingModalÅpen,
     ] = useState(false);
+    const [forhåndsvisModalÅpen, setForhåndsvisModalÅpen] = useState(false);
     const [
         slettSpørreundersøkelseModalÅpen,
         setSlettSpørreundersøkelseModalÅpen,
@@ -112,15 +113,6 @@ export const EvalueringCardHeaderInnhold = ({
         samarbeid.id,
         "Evaluering",
     );
-
-    const { data: spørreundersøkelseForhåndsvisning } =
-        useHentSpørreundersøkelseMedInnhold(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            samarbeid.id,
-            "Evaluering",
-            spørreundersøkelse.id,
-        );
 
     const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
         iaSak.orgnr,
@@ -209,9 +201,7 @@ export const EvalueringCardHeaderInnhold = ({
                                     <StyledActionButton
                                         variant="secondary"
                                         onClick={() =>
-                                            console.log(
-                                                spørreundersøkelseForhåndsvisning,
-                                            )
+                                            setForhåndsvisModalÅpen(true)
                                         }
                                     >
                                         Forhåndsvis
@@ -237,6 +227,10 @@ export const EvalueringCardHeaderInnhold = ({
                             }
                             startSpørreundersøkelsen={startEvaluering}
                         />
+                        <SpørreundersøkelseMedInnholdVisning
+                            erModalÅpen={forhåndsvisModalÅpen}
+                            spørreundersøkelseid={spørreundersøkelse.id}
+                            lukkModal={() => setForhåndsvisModalÅpen(false)} />
                         {brukerRolle && (
                             <SlettSpørreundersøkelseModal
                                 spørreundersøkelse={spørreundersøkelse}
