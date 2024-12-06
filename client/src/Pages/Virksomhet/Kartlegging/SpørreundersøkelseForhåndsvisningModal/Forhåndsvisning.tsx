@@ -187,6 +187,13 @@ const StyledAccordionHeader = styled(Accordion.Header)`
 	--a-font-weight-bold: 400;
 `;
 
+const StyledAccordionItem = styled(Accordion.Item)`
+	&:last-child > :where(.navds-accordion__header) {
+		box-shadow: var(--__ac-accordion-header-shadow),
+    		inset 0 0 0 0 var(--__ac-accordion-header-shadow-color)
+	}
+`;
+
 
 function SpørsmålAccordionItem({
 	spørsmål,
@@ -194,7 +201,7 @@ function SpørsmålAccordionItem({
 	spørsmål: SpørsmålDto;
 }) {
 	return (
-		<Accordion.Item>
+		<StyledAccordionItem>
 			<StyledAccordionHeader>
 				{spørsmål.spørsmål}
 			</StyledAccordionHeader>
@@ -204,7 +211,7 @@ function SpørsmålAccordionItem({
 					flervalg={spørsmål.flervalg}
 				/>
 			</Accordion.Content>
-		</Accordion.Item>
+		</StyledAccordionItem>
 	);
 }
 
