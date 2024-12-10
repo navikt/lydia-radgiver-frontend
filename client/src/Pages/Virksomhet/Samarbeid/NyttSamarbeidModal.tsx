@@ -1,5 +1,13 @@
 import { IASak } from "../../../domenetyper/domenetyper";
-import { BodyShort, Button, Checkbox, Detail, Heading, Modal } from "@navikt/ds-react";
+import {
+    BodyShort,
+    Button,
+    Checkbox,
+    Detail,
+    Heading,
+    Link,
+    Modal,
+} from "@navikt/ds-react";
 import React, { useState } from "react";
 
 import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
@@ -15,6 +23,7 @@ import { useNavigate } from "react-router-dom";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import styled from "styled-components";
+import { ExternalLinkIcon } from "@navikt/aksel-icons";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
@@ -27,7 +36,6 @@ export const StyledSamarbeidModal = styled(Modal)`
     max-width: 42rem;
     width: 100%;
 `;
-
 
 export const NyttSamarbeidModal = ({
     iaSak,
@@ -49,13 +57,22 @@ export const NyttSamarbeidModal = ({
     const { mutate: hentHistorikkPåNytt } = useHentSamarbeidshistorikk(
         iaSak.orgnr,
     );
-    const { mutate: hentSamarbeidPåNytt, data: samarbeidData } = useHentSamarbeid(
-        iaSak.orgnr,
-        iaSak.saksnummer,
-    );
-    const samarbeidsnavnBasertPåVirksomhet = virksomhet.navn.length > MAX_LENGDE_SAMARBEIDSNAVN ? `${virksomhet.navn.substring(0, MAX_LENGDE_SAMARBEIDSNAVN - 3)}...` : virksomhet.navn;
-    const kanBrukeVirksomhetsnavn = samarbeidData?.find((s) => s.navn === samarbeidsnavnBasertPåVirksomhet) === undefined;
-    const navnErUbrukt = samarbeidData?.find((s) => s.navn === navn || (navn === "Samarbeid uten navn" && s.navn === "")) === undefined;
+    const { mutate: hentSamarbeidPåNytt, data: samarbeidData } =
+        useHentSamarbeid(iaSak.orgnr, iaSak.saksnummer);
+    const samarbeidsnavnBasertPåVirksomhet =
+        virksomhet.navn.length > MAX_LENGDE_SAMARBEIDSNAVN
+            ? `${virksomhet.navn.substring(0, MAX_LENGDE_SAMARBEIDSNAVN - 3)}...`
+            : virksomhet.navn;
+    const kanBrukeVirksomhetsnavn =
+        samarbeidData?.find(
+            (s) => s.navn === samarbeidsnavnBasertPåVirksomhet,
+        ) === undefined;
+    const navnErUbrukt =
+        samarbeidData?.find(
+            (s) =>
+                s.navn === navn ||
+                (navn === "Samarbeid uten navn" && s.navn === ""),
+        ) === undefined;
     const navigate = useNavigate();
 
     const nyttSamarbeid = () => {
@@ -117,22 +134,30 @@ export const NyttSamarbeidModal = ({
                             marginBottom: "0.75rem",
                         }}
                     >
-                        Samarbeidsnavn skal beskrive den avdelingen eller gruppen man samarbeider med. Navnet må være det samme som virksomheten bruker selv. {kanBrukeVirksomhetsnavn && (<>Er det bare ett samarbeid huker du av for <i>Bruk virksomhetens navn</i>.</>)}
+                        Samarbeidsnavn skal beskrive den avdelingen eller
+                        gruppen man samarbeider med. Navnet må være det samme
+                        som virksomheten bruker selv.{" "}
+                        {kanBrukeVirksomhetsnavn && (
+                            <>
+                                Er det bare ett samarbeid huker du av for{" "}
+                                <i>Bruk virksomhetens navn</i>.
+                            </>
+                        )}
                     </BodyShort>
-                    {
-                        kanBrukeVirksomhetsnavn && (
-                            <Checkbox
-                                size="small"
-                                checked={brukVirksomhetsnavn}
-                                onChange={() => {
-                                    setBrukVirksomhetsnavn(!brukVirksomhetsnavn);
-                                    if (!brukVirksomhetsnavn) {
-                                        setNavn(samarbeidsnavnBasertPåVirksomhet);
-                                    }
-                                }}
-                            >Bruk virksomhetsnavn</Checkbox>
-                        )
-                    }
+                    {kanBrukeVirksomhetsnavn && (
+                        <Checkbox
+                            size="small"
+                            checked={brukVirksomhetsnavn}
+                            onChange={() => {
+                                setBrukVirksomhetsnavn(!brukVirksomhetsnavn);
+                                if (!brukVirksomhetsnavn) {
+                                    setNavn(samarbeidsnavnBasertPåVirksomhet);
+                                }
+                            }}
+                        >
+                            Bruk virksomhetsnavn
+                        </Checkbox>
+                    )}
                     <div
                         style={{
                             marginBottom: "0.25rem",
@@ -149,7 +174,14 @@ export const NyttSamarbeidModal = ({
                                 const nyttNavn = event.target.value;
                                 setNavn(nyttNavn);
                             }}
-                            error={navnErUbrukt ? undefined : (navn === "" || navn === "Samarbeid uten navn" ? `Navnet er allerede i bruk (tomt navn og "Samarbeid uten navn" regnes som like)` : "Navnet er allerede i bruk")}
+                            error={
+                                navnErUbrukt
+                                    ? undefined
+                                    : navn === "" ||
+                                        navn === "Samarbeid uten navn"
+                                      ? `Navnet er allerede i bruk (tomt navn og "Samarbeid uten navn" regnes som like)`
+                                      : "Navnet er allerede i bruk"
+                            }
                             hideLabel
                             onKeyDown={(event) => {
                                 // Submit på enter.
@@ -160,13 +192,31 @@ export const NyttSamarbeidModal = ({
                         />
                     </div>
                     <DetaljerWrapper $disabled={brukVirksomhetsnavn}>
-                        <Detail><b>Husk, aldri skriv personopplysninger.</b></Detail>
-                        <Detail>{antallTegn}/{MAX_LENGDE_SAMARBEIDSNAVN} tegn</Detail>
+                        <Detail>
+                            <b>
+                                Husk, aldri skriv{" "}
+                                <Link
+                                    href="https://www.datatilsynet.no/rettigheter-og-plikter/personopplysninger/"
+                                    inlineText
+                                >
+                                    personopplysninger
+                                    <ExternalLinkIcon aria-hidden />
+                                </Link>
+                                .
+                            </b>
+                        </Detail>
+                        <Detail>
+                            {antallTegn}/{MAX_LENGDE_SAMARBEIDSNAVN} tegn
+                        </Detail>
                     </DetaljerWrapper>
                 </ModalBodyInnholdFlex>
             </Modal.Body>
             <Modal.Footer>
-                <Button variant={"primary"} onClick={nyttSamarbeid} disabled={!navnErUbrukt}>
+                <Button
+                    variant={"primary"}
+                    onClick={nyttSamarbeid}
+                    disabled={!navnErUbrukt}
+                >
                     Opprett
                 </Button>
                 <Button variant={"secondary"} onClick={lukkModal}>

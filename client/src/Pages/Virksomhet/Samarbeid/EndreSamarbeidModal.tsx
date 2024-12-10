@@ -8,6 +8,7 @@ import {
     Button,
     Detail,
     Heading,
+    Link,
     Modal,
     TextField,
 } from "@navikt/ds-react";
@@ -17,7 +18,7 @@ import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import styled from "styled-components";
-import { TrashIcon } from "@navikt/aksel-icons";
+import { ExternalLinkIcon, TrashIcon } from "@navikt/aksel-icons";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { StyledSamarbeidModal } from "./NyttSamarbeidModal";
 
@@ -143,11 +144,11 @@ export const EndreSamarbeidModal = ({
                     <BodyShort>
                         Her kan du endre navn på samarbeidet &quot;
                         {defaultNavnHvisTomt(samarbeid.navn)}&quot;
-                        <br />
                         Samarbeidsnavn skal beskrive den avdelingen eller
                         gruppen man samarbeider med. Navnet må være det samme
                         som virksomheten bruker selv.
                     </BodyShort>
+                    <br />
                     <TextFieldStyled
                         maxLength={MAX_LENGDE_SAMARBEIDSNAVN}
                         size="small"
@@ -162,7 +163,17 @@ export const EndreSamarbeidModal = ({
                     />
                     <DetaljerWrapper>
                         <Detail>
-                            <b>Husk, aldri skriv personopplysninger.</b>
+                            <b>
+                                Husk, aldri skriv{" "}
+                                <Link
+                                    href="https://www.datatilsynet.no/rettigheter-og-plikter/personopplysninger/"
+                                    inlineText
+                                >
+                                    personopplysninger
+                                    <ExternalLinkIcon aria-hidden />
+                                </Link>
+                                .
+                            </b>
                         </Detail>
                         <Detail>
                             {antallTegn}/{MAX_LENGDE_SAMARBEIDSNAVN} tegn
