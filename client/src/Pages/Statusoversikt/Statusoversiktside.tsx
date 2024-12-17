@@ -5,8 +5,10 @@ import {
     sammenliknFilterverdier,
     useFiltervisningState,
 } from "../Prioritering/Filter/filtervisning-reducer";
-import { useHentStatusoversikt } from "../../api/lydia-api/sok";
-import { useFilterverdier } from "../../api/lydia-api/sok";
+import {
+    useFilterverdier,
+    useHentStatusoversikt,
+} from "../../api/lydia-api/sok";
 import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { StatistikkTabell } from "./StatistikkTabell";
@@ -51,9 +53,27 @@ export const Statusoversiktside = () => {
         }
     });
 
+    const SORTERINGS_REKKEFØLGE = [
+        "IKKE_AKTIV",
+        "VURDERES",
+        "KONTAKTES",
+        "KARTLEGGES",
+        "VI_BISTÅR",
+        "FULLFØRT",
+        "IKKE_AKTUELL",
+    ];
+    const sorterEtterStatus = (liste: Statusoversikt[]) =>
+        liste.sort(
+            (a, b) =>
+                SORTERINGS_REKKEFØLGE.indexOf(a.status) -
+                SORTERINGS_REKKEFØLGE.indexOf(b.status),
+        );
+
     useEffect(() => {
         if (statusoversiktResultatFraApi) {
-            setStatusoversiktListe(statusoversiktResultatFraApi.data);
+            setStatusoversiktListe(
+                sorterEtterStatus(statusoversiktResultatFraApi.data),
+            );
             setSkalSøke(false);
         }
     }, [statusoversiktResultatFraApi]);

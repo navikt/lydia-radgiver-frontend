@@ -17,3 +17,4 @@ export const statusoversiktListeResponsSchema = z.object({
 export type StatusoversiktListeRespons = z.infer<
     typeof statusoversiktListeResponsSchema
 >;
+export type StatusOversiktListe = z.infer<typeof statusoversiktListeSchema>;
