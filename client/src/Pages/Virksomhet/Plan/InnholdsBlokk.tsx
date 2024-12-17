@@ -156,7 +156,7 @@ function InnholdsRadHeader({
                 slutt={innhold.sluttDato}
             />
             <InnholdsStatusHeader
-                status={innhold.status}
+                innhold={innhold}
                 oppdaterStatus={oppdaterStatus}
                 kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
             />
@@ -197,21 +197,21 @@ export function PrettyInnholdsDato({
 }
 
 function InnholdsStatusHeader({
-    status,
     oppdaterStatus,
     kanOppretteEllerEndrePlan,
+    innhold,
 }: {
-    status: PlanInnholdStatus | null;
     oppdaterStatus: (status: PlanInnholdStatus) => void;
     kanOppretteEllerEndrePlan: boolean;
+    innhold: PlanInnhold;
 }) {
-    return status ? (
+    return innhold.status ? (
         <span>
             <Select
-                label="Status"
+                label={`Status for ${innhold.navn}`}
                 size="small"
                 hideLabel
-                value={status}
+                value={innhold.status}
                 disabled={!kanOppretteEllerEndrePlan}
                 onClick={(e) => e.stopPropagation()}
                 onChange={(e) => {
