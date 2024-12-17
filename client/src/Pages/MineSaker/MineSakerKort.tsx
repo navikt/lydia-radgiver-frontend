@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { StatusBadge } from "../../components/Badge/StatusBadge";
-import { Button, HStack, VStack } from "@navikt/ds-react";
+import { Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
 import { useHentSalesforceUrl } from "../../api/lydia-api/virksomhet";
 import { NavFarger } from "../../styling/farger";
@@ -39,12 +39,8 @@ const Skillelinje = styled.div`
     width: 100%;
 `;
 
-const KortHeading = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.25rem;
-    font-size: 1.5rem;
+const KortSubheading = styled.span`
+    font-weight: 400;
 `;
 
 const HeaderVirksomhetLink = styled(Link)`
@@ -108,7 +104,7 @@ export const MineSakerKort = ({
         alleSamarbeid && (
             <SaksKort>
                 <KortHeader>
-                    <KortHeading>
+                    <Heading level="3" size="medium">
                         <HeaderVirksomhetLink
                             to={gåTilSakUrl}
                             onClick={() =>
@@ -120,9 +116,8 @@ export const MineSakerKort = ({
                         >
                             {orgnavn}
                         </HeaderVirksomhetLink>
-                        <span>-</span>
-                        <span>{iaSak.orgnr}</span>
-                    </KortHeading>
+                        <KortSubheading> - {iaSak.orgnr}</KortSubheading>
+                    </Heading>
                     <HStack justify={"space-between"} align={"center"}>
                         <HStack gap={"4"} align={"center"}>
                             <StatusBadge status={iaSak.status} />
@@ -155,10 +150,13 @@ export const MineSakerKort = ({
                                 iaSak={iaSak}
                             />
                         </HStack>
-
-                        <EksternLenke href={salesforceInfo?.url}>
-                            Salesforce
-                        </EksternLenke>
+                        {
+                            salesforceInfo?.url && (
+                                <EksternLenke href={salesforceInfo?.url}>
+                                    Salesforce
+                                </EksternLenke>
+                            )
+                        }
                     </HStack>
                 </KortHeader>
 

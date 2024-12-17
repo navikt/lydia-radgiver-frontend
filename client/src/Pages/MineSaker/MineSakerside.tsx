@@ -6,12 +6,12 @@ import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
 import { useEffect, useMemo, useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
-import { NavFarger } from "../../styling/farger";
 import { desktopAndUp } from "../../styling/breakpoints";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { Sorteringsknapper } from "./Sorteringsknapper";
 import { loggSideLastet } from "../../util/amplitude-klient";
 import { loggMineSakerFilterEndringMedAmplitude } from "./loggFilterEndringMedAmplitude";
+import { Heading } from "@navikt/ds-react";
 
 const FlexContainer = styled.div`
     display: flex;
@@ -36,13 +36,6 @@ const MineSakerListe = styled.div`
     gap: 1rem;
 `;
 
-const Header1 = styled.h1`
-    font-size: 2rem;
-    font-weight: 600;
-    border-bottom: solid 2px ${NavFarger.gray500};
-    margin-bottom: 0;
-    padding-bottom: 1rem;
-`;
 
 const HeaderContainer = styled.div`
     display: flex;
@@ -160,7 +153,7 @@ export const MineSakerside = () => {
     return (
         <SideContainer>
             <HeaderContainer>
-                <Header1>Mine saker</Header1>
+                <Heading level="2" size="large">Mine saker</Heading>
                 <Sorteringsknapper onSortChange={handleSortChange} />
             </HeaderContainer>
             <FlexContainer>
