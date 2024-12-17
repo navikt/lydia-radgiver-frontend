@@ -103,9 +103,9 @@ export default function TeamInnhold({ iaSak }: { iaSak: IASak }) {
                     >
                         <HStack gap={"2"} align={"center"}>
                             {iaSak.eidAv !== brukerIdent ? (
-                                <PersonIcon />
+                                <PersonIcon aria-hidden />
                             ) : (
-                                <PersonFillIcon />
+                                <PersonFillIcon aria-hidden />
                             )}
                             {iaSak.eidAv !== brukerIdent ? (
                                 <BodyShort>Ta eierskap</BodyShort>

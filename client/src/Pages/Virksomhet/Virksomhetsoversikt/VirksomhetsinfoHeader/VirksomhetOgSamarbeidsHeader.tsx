@@ -105,7 +105,7 @@ export default function VirksomhetOgSamarbeidsHeader({
 
                             {gjeldendeSamarbeid && (
                                 <>
-                                    <ChevronRightIcon fontSize="2rem" />
+                                    <ChevronRightIcon fontSize="2rem" aria-hidden />
                                     <Heading level={"1"} size={"large"}>
                                         {defaultNavnHvisTomt(
                                             gjeldendeSamarbeid.navn,

@@ -226,7 +226,7 @@ const EksportVisning = ({
         <>
             <Button
                 loading={erIEksportMode}
-                icon={<FilePdfIcon fontSize="1.5rem" />}
+                icon={<FilePdfIcon fontSize="1.5rem" aria-hidden />}
                 variant="secondary"
                 size="small"
                 onClick={(e) => {

@@ -214,7 +214,8 @@ export const EvalueringCardHeaderInnhold = ({
                                                     true,
                                                 )
                                             }
-                                            icon={<TrashIcon />}
+                                            icon={<TrashIcon aria-hidden />}
+                                            aria-label="Slett behovsvurdering"
                                         />
                                     )}
                                 </>
@@ -291,7 +292,8 @@ export const EvalueringCardHeaderInnhold = ({
                                                         true,
                                                     )
                                                 }
-                                                icon={<TrashIcon />}
+                                                icon={<TrashIcon aria-hidden />}
+                                                aria-label="Slett behovsvurdering"
                                             />
                                         </>
                                     )}

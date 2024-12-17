@@ -59,7 +59,7 @@ export const SamarbeidsDropdown = ({
             <Dropdown>
                 <Button
                     as={Dropdown.Toggle}
-                    icon={<ChevronDownIcon />}
+                    icon={<ChevronDownIcon aria-hidden />}
                     iconPosition="right"
                     variant="primary-neutral"
                     size="small"

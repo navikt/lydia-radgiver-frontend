@@ -40,15 +40,7 @@ export const Sorteringsknapper = ({ onSortChange }: SorteringsknapperProps) => {
         );
     };
 
-    const renderIcon = (type: "date" | "alphabetical") => {
-        if (sortType !== type) {
-            return <ArrowsUpDownIcon />;
-        } else if (isAscending) {
-            return <ArrowUpIcon />;
-        } else {
-            return <ArrowDownIcon />;
-        }
-    };
+
 
     return (
         <ButtonContainer>
@@ -56,8 +48,9 @@ export const Sorteringsknapper = ({ onSortChange }: SorteringsknapperProps) => {
                 size="medium"
                 variant="tertiary"
                 iconPosition="right"
-                icon={renderIcon("alphabetical")}
+                icon={<RenderIcon erSortertPåType={"alphabetical" === sortType} isAscending={isAscending} />}
                 onClick={() => handleSortToggle("alphabetical")}
+                aria-label="Sorter etter alfabetisk rekkefølge"
             >
                 Alfabetisk rekkefølge
             </Button>
@@ -65,11 +58,22 @@ export const Sorteringsknapper = ({ onSortChange }: SorteringsknapperProps) => {
                 size="medium"
                 variant="tertiary"
                 iconPosition="right"
-                icon={renderIcon("date")}
+                icon={<RenderIcon erSortertPåType={"date" === sortType} isAscending={isAscending} />}
                 onClick={() => handleSortToggle("date")}
+                aria-label="Sorter etter sist endret"
             >
                 Sist endret
             </Button>
         </ButtonContainer>
     );
+};
+
+const RenderIcon = ({ erSortertPåType, isAscending }: { erSortertPåType: boolean, isAscending: boolean }) => {
+    if (!erSortertPåType) {
+        return <ArrowsUpDownIcon aria-hidden />;
+    } else if (isAscending) {
+        return <ArrowUpIcon aria-label="Sortert stigende" />;
+    } else {
+        return <ArrowDownIcon aria-label="Sortert synkende" />;
+    }
 };

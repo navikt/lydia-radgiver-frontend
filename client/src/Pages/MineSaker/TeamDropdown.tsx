@@ -36,7 +36,7 @@ export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
             >
                 <Button
                     onClick={() => setOpen(true)}
-                    icon={<ChevronDownIcon />}
+                    icon={<ChevronDownIcon aria-hidden />}
                     iconPosition={"right"}
                     variant={"tertiary"}
                     size={"small"}
@@ -45,17 +45,17 @@ export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
                     <HStack align={"center"} gap={"1"}>
                         {brukerErEierAvSak ? (
                             <>
-                                <PersonFillIcon />
+                                <PersonFillIcon aria-hidden />
                                 <BodyShort>Du eier saken</BodyShort>
                             </>
                         ) : brukerFølgerSak ? (
                             <>
-                                <HeartFillIcon />
+                                <HeartFillIcon aria-hidden />
                                 <BodyShort>Du følger saken</BodyShort>
                             </>
                         ) : (
                             <>
-                                <PersonGroupIcon />
+                                <PersonGroupIcon aria-hidden />
                                 <BodyShort>Følg eller ta eierskap</BodyShort>
                             </>
                         )}

@@ -149,7 +149,7 @@ export default function LeggTilTemaKnapp({
                 size="medium"
                 iconPosition="left"
                 variant="primary"
-                icon={<NotePencilIcon />}
+                icon={<NotePencilIcon aria-hidden />}
                 style={{ margin: "1rem", minWidth: "10.5rem" }}
                 onClick={() => {
                     loggModalÅpnet("Rediger plan");

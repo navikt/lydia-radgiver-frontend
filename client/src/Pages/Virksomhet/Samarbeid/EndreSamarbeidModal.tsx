@@ -202,7 +202,6 @@ export const EndreSamarbeidModal = ({
                 <SquareButton
                     icon={
                         <TrashIcon
-                            focusable="true"
                             title={`Slett "${samarbeid.navn}"`}
                             fontSize="2rem"
                         />

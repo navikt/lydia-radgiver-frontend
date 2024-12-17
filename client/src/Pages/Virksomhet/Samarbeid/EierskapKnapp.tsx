@@ -9,14 +9,14 @@ export function EierskapKnapp({ iaSak }: { iaSak?: IASak }) {
         return (
             <Button
                 onClick={() => setIsModalOpen(true)}
-                icon={<ChevronDownIcon />}
+                icon={<ChevronDownIcon aria-hidden />}
                 iconPosition={"right"}
                 variant={"tertiary"}
                 size={"small"}
                 disabled={true}
             >
                 <HStack align={"center"} gap={"1"}>
-                    <CircleSlashIcon />
+                    <CircleSlashIcon aria-hidden />
                     <BodyShort>Ingen aktiv sak</BodyShort>
                 </HStack>
             </Button>

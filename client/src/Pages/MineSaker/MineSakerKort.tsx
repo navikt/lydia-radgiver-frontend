@@ -140,7 +140,7 @@ export const MineSakerKort = ({
                                 variant="tertiary-neutral"
                                 icon={
                                     <NotePencilIcon
-                                        focusable="true"
+                                        aria-hidden
                                         fontSize={"1.5rem"}
                                     />
                                 }

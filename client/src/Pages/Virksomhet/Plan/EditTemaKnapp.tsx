@@ -78,7 +78,7 @@ export default function EditTemaKnapp({
                     loggModalÅpnet("Rediger tema");
                     setModalOpen(true);
                 }}
-                icon={<DocPencilIcon />}
+                icon={<DocPencilIcon aria-hidden />}
             >
                 Rediger tema
             </Button>

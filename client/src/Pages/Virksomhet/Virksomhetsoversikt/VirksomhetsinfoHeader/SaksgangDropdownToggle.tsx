@@ -73,7 +73,7 @@ export function SaksgangDropdownToggle({
                     size={"small"}
                     variant={"primary"}
                     iconPosition={"right"}
-                    icon={<ChevronDownIcon />}
+                    icon={<ChevronDownIcon aria-hidden />}
                 >
                     Ikke aktiv
                 </IkkeAktivKnapp>
@@ -84,7 +84,7 @@ export function SaksgangDropdownToggle({
                     size={"small"}
                     variant={"primary"}
                     iconPosition={"right"}
-                    icon={<ChevronDownIcon />}
+                    icon={<ChevronDownIcon aria-hidden />}
                 >
                     {penskrivIAStatus(iaSak.status)}
                 </VurderesKnapp>
@@ -95,7 +95,7 @@ export function SaksgangDropdownToggle({
                     size={"small"}
                     variant={"primary"}
                     iconPosition={"right"}
-                    icon={<ChevronDownIcon />}
+                    icon={<ChevronDownIcon aria-hidden />}
                 >
                     {penskrivIAStatus(iaSak.status)}
                 </KontaktesKnapp>
@@ -106,7 +106,7 @@ export function SaksgangDropdownToggle({
                     size={"small"}
                     variant={"primary"}
                     iconPosition={"right"}
-                    icon={<ChevronDownIcon />}
+                    icon={<ChevronDownIcon aria-hidden />}
                 >
                     {penskrivIAStatus(iaSak.status)}
                 </KartleggesKnapp>
@@ -117,7 +117,7 @@ export function SaksgangDropdownToggle({
                     size={"small"}
                     variant={"primary"}
                     iconPosition={"right"}
-                    icon={<ChevronDownIcon />}
+                    icon={<ChevronDownIcon aria-hidden />}
                 >
                     {penskrivIAStatus(iaSak.status)}
                 </ViBistårKnapp>
@@ -128,7 +128,7 @@ export function SaksgangDropdownToggle({
                     size={"small"}
                     variant={"primary"}
                     iconPosition={"right"}
-                    icon={<ChevronDownIcon />}
+                    icon={<ChevronDownIcon aria-hidden />}
                 >
                     {penskrivIAStatus(iaSak.status)}
                 </IkkeAktivKnapp>
@@ -139,7 +139,7 @@ export function SaksgangDropdownToggle({
                     size={"small"}
                     variant={"primary"}
                     iconPosition={"right"}
-                    icon={<ChevronDownIcon />}
+                    icon={<ChevronDownIcon aria-hidden />}
                 >
                     {penskrivIAStatus(iaSak.status)}
                 </IkkeAktuellKnapp>
