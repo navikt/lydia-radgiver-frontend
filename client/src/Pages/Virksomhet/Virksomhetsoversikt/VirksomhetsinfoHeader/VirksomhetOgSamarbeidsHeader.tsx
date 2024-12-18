@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
-import { Heading, HStack, Link, Popover, VStack } from "@navikt/ds-react";
+import { Button, Heading, HStack, Link, Popover, VStack } from "@navikt/ds-react";
 import { ChevronRightIcon, InformationSquareIcon } from "@navikt/aksel-icons";
 
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
@@ -37,6 +37,12 @@ const VirksomhetsInfoIkon = styled(InformationSquareIcon)`
     cursor: pointer;
 `;
 
+const InvisibleButton = styled(Button).attrs({ size: "xsmall", variant: "tertiary-neutral" })`
+    background-color: transparent;
+    border: none;
+    padding: 0;
+`;
+
 export default function VirksomhetOgSamarbeidsHeader({
     virksomhet,
     iaSak,
@@ -46,7 +52,7 @@ export default function VirksomhetOgSamarbeidsHeader({
     iaSak?: IASak;
     gjeldendeSamarbeid?: IaSakProsess;
 }) {
-    const buttonRef = useRef<SVGSVGElement>(null);
+    const buttonRef = useRef<HTMLButtonElement>(null);
     const [openState, setOpenState] = useState(false);
     const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] = useState(false);
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
@@ -80,8 +86,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                     <VStack>
                         <HStack gap={"2"} align={"center"}>
                             {gjeldendeSamarbeid === undefined && (
-                                <VirksomhetsInfoIkon
-                                    title={"Se detaljer"}
+                                <InvisibleButton
                                     ref={buttonRef}
                                     onClick={() => {
                                         setOpenState(!openState);
@@ -89,8 +94,13 @@ export default function VirksomhetOgSamarbeidsHeader({
                                             loggÅpnetVirksomhetsinfo();
                                         }
                                     }}
-                                    fontSize="2rem"
-                                />
+                                    aria-label="Se detaljer"
+                                >
+                                    <VirksomhetsInfoIkon
+                                        fontSize="2rem"
+                                        aria-hidden
+                                    />
+                                </InvisibleButton>
                             )}
                             <Heading
                                 as={Link}
