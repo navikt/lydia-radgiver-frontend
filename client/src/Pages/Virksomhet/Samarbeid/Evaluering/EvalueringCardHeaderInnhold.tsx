@@ -71,7 +71,7 @@ const HeaderRightContent = styled.span`
 `;
 
 const KartleggingDato = styled.span`
-    width: 8rem;
+    width: 9rem;
     text-align: left;
     margin-left: 1rem;
 `;
