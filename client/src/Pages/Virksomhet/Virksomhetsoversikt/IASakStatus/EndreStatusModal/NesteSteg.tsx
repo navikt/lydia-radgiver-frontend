@@ -99,8 +99,16 @@ export default function NesteSteg({
                 />
             );
         case null:
-            if (alleSamarbeid?.length === 0 && brukerErEierAvSak && sak.status === IAProsessStatusEnum.enum.KARTLEGGES) {
-                return <OpprettSamarbeidFørstSeksjon setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen} />;
+            if (
+                alleSamarbeid?.length === 0 &&
+                brukerErEierAvSak &&
+                sak.status === IAProsessStatusEnum.enum.KARTLEGGES
+            ) {
+                return (
+                    <OpprettSamarbeidFørstSeksjon
+                        setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
+                    />
+                );
             }
             return null;
         default:
@@ -112,14 +120,19 @@ const Underseksjon = styled.div`
     padding: 0.75rem;
 `;
 
-function OpprettSamarbeidFørstSeksjon({ setNyttSamarbeidModalÅpen }: { setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+function OpprettSamarbeidFørstSeksjon({
+    setNyttSamarbeidModalÅpen,
+}: {
+    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     return (
         <Underseksjon>
             <Heading level="2" size="medium">
                 Opprett samarbeid
             </Heading>
             <BodyLong>
-                Du kan nå opprette samarbeid for å gjennomføre behovsvurdering, lage samarbeidsplan og evaluere.
+                Du kan nå opprette samarbeid for å gjennomføre behovsvurdering,
+                lage samarbeidsplan og evaluere.
             </BodyLong>
             <br />
             <Knappecontainer>
@@ -409,6 +422,7 @@ function BekreftelsesSeksjon({
                 {tekst.tittel}
             </Heading>
             <BekreftelsesInnhold
+                sak={sak}
                 hendelse={hendelse}
                 bekreftet={bekreftet}
                 setBekreftet={setBekreftet}
@@ -432,24 +446,39 @@ function BekreftelsesSeksjon({
 }
 
 function BekreftelsesInnhold({
+    sak,
     hendelse,
     bekreftet,
     setBekreftet,
     tekst,
 }: {
+    sak: IASak;
     hendelse: GyldigNesteHendelse;
     bekreftet: boolean;
     setBekreftet: (a: boolean) => void;
     tekst: ModalTekst;
 }) {
     if (hendelse.saksHendelsestype === "FULLFØR_BISTAND") {
+        const { data } = useHentSamarbeid(sak.orgnr, sak.saksnummer);
         return (
             <ConfirmationPanel
                 checked={bekreftet}
                 onChange={() => setBekreftet(!bekreftet)}
-                label="Jeg bekrefter at saken skal avsluttes"
+                label="Jeg bekrefter at saken skal fullføres"
             >
-                {tekst.beskrivelse}
+                <BodyLong>
+                    {tekst.beskrivelse}
+                    <ul>
+                        {data &&
+                            data.map((samarbeid) => {
+                                return (
+                                    <li key={samarbeid.id}>
+                                        {samarbeid.navn || "dsa"}
+                                    </li>
+                                );
+                            })}
+                    </ul>
+                </BodyLong>
             </ConfirmationPanel>
         );
     }
@@ -483,8 +512,7 @@ const modalTekstForHendelse = ({
         case "FULLFØR_BISTAND":
             return {
                 tittel: "Er du sikker på at du vil fullføre?",
-                beskrivelse:
-                    "Dette vil lukke saken og skal gjøres når avtalt IA-oppfølging er fullført.",
+                beskrivelse: "Dette vil lukke saken og følgende samarbeid:",
                 bekreftendeTekst: "Fullfør",
             };
         case "TILBAKE": {
