@@ -21,6 +21,7 @@ import styled from "styled-components";
 import { ExternalLinkIcon, TrashIcon } from "@navikt/aksel-icons";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { StyledSamarbeidModal } from "./NyttSamarbeidModal";
+import { useFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
 
 export const ModalBodyInnholdFlex = styled.div`
     display: flex;
@@ -127,6 +128,15 @@ export const EndreSamarbeidModal = ({
         });
     };
 
+    const [melding] = useFeilmelding();
+
+    const feilmelding = React.useMemo(() => {
+        if (melding === "Samarbeidsnavn finnes allerede") {
+            return melding;
+        }
+        return null;
+    }, [melding]);
+
     return (
         <StyledSamarbeidModal
             open={open}
@@ -159,6 +169,7 @@ export const EndreSamarbeidModal = ({
                             setLagreNavnVellykket(false);
                             setAntallTegn(nyttnavn.target.value.length);
                         }}
+                        error={feilmelding && <span aria-live="polite" role="alert">{feilmelding}</span>}
                         hideLabel
                     />
                     <DetaljerWrapper>

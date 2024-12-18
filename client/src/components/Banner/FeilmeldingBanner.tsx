@@ -13,13 +13,11 @@ export const dispatchFeilmelding = (data: EventData) => {
     );
 };
 
-export const FeilmeldingBanner = () => {
+export const useFeilmelding = (onNyMelding?: (melding: string) => void) => {
     const [melding, setMelding] = useState("");
-    const [synlig, setSynlig] = useState(false);
 
     const nullstillBanner = () => {
         setMelding("");
-        setSynlig(false);
     };
 
     useEffect(() => {
@@ -36,13 +34,22 @@ export const FeilmeldingBanner = () => {
             detail: { feilmelding },
         }: CustomEvent<EventData>) => {
             setMelding(feilmelding);
-            setSynlig(true);
+            onNyMelding?.(feilmelding);
         }) as EventListener;
         document.addEventListener("feilmeldingFraBackend", handler);
         return () => {
             document.removeEventListener("feilmeldingFraBackend", handler);
         };
     }, []);
+
+    return [melding, setMelding] as [string, typeof setMelding];
+}
+
+export const FeilmeldingBanner = () => {
+    const [synlig, setSynlig] = useState(false);
+    const [melding] = useFeilmelding(() => {
+        setSynlig(true);
+    });
 
     return synlig ? (
         <BannerMedLukkeknapp variant="error" role="alert">
