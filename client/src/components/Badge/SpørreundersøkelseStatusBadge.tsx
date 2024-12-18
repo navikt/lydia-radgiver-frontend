@@ -1,25 +1,22 @@
 import "@navikt/ds-css";
-import React from "react";
-import { Badge } from "./Badge";
 import {
     spørreundersøkelseStatusEnum,
     SpørreundersøkelseStatus,
 } from "../../domenetyper/domenetyper";
-import { FiaFarger } from "../../styling/farger";
-import styled from "styled-components";
+import { StyledStatusTag } from "./StatusBadge";
 
-export const hentBakgrunnsFargeForSpørreundersøkelseStatus = (
+export const hentVariantForSpørreundersøkelseStatus = (
     status: SpørreundersøkelseStatus,
-): FiaFarger => {
+) => {
     switch (status) {
         case spørreundersøkelseStatusEnum.enum.PÅBEGYNT:
-            return FiaFarger.lilla;
+            return "alt1-moderate";
         case spørreundersøkelseStatusEnum.enum.OPPRETTET:
-            return FiaFarger.lysGrå;
+            return "neutral-moderate";
         case spørreundersøkelseStatusEnum.enum.AVSLUTTET:
-            return FiaFarger.lysGrønn;
+            return "success-moderate";
         case spørreundersøkelseStatusEnum.enum.SLETTET:
-            return FiaFarger.rød;
+            return "error-moderate";
     }
 };
 
@@ -44,33 +41,12 @@ interface Props {
     ariaLabel?: string;
 }
 
-const StatusBadgeWrapper = styled.div`
-    &:focus,
-    &:hover,
-    &:visited,
-    &:link,
-    &:active {
-        text-decoration: none;
-    }
-`;
-
 export const SpørreundersøkelseStatusBadge = ({
     status,
     ariaLive,
     ariaLabel,
 }: Props) => (
-    <StatusBadgeWrapper>
-        <Badge
-            backgroundColor={hentBakgrunnsFargeForSpørreundersøkelseStatus(
-                status,
-            )}
-            ariaLive={ariaLive}
-            ariaLabel={ariaLabel}
-            variant="neutral-moderate"
-            size="small"
-            minWidth="1em"
-        >
-            {penskrivSpørreundersøkelseStatus(status)}
-        </Badge>
-    </StatusBadgeWrapper>
+    <StyledStatusTag variant={hentVariantForSpørreundersøkelseStatus(status)} aria-live={ariaLive} aria-label={ariaLabel}>
+        {penskrivSpørreundersøkelseStatus(status)}
+    </StyledStatusTag>
 );

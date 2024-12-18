@@ -23,7 +23,7 @@ export default function Historikk({ sak }: { sak: IASak }) {
 
 const SakshendelseContainer = styled.div`
     display: grid;
-    grid-template-columns: 1fr max-content max-content;
+    grid-template-columns: max-content 1fr max-content;
     gap: 1rem;
     width: 100%;
 `;
@@ -34,6 +34,7 @@ function Sakshendelser({ sakshendelser }: { sakshendelser: Sakshendelse[] }) {
         "NY_PROSESS",
         "TA_EIERSKAP_I_SAK",
         "SLETT_PROSESS",
+        "OPPRETT_SAK_FOR_VIRKSOMHET",
     ];
     return (
         <SakshendelseContainer>

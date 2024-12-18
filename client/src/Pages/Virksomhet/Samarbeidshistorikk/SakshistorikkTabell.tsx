@@ -5,6 +5,7 @@ import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
 import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 import { StyledTable } from "../../../components/StyledTable";
 import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
+import { IAProsessStatusEnum } from "../../../domenetyper/domenetyper";
 
 interface SakshistorikkTabellProps {
     sakshistorikk: Sakshistorikk;
@@ -33,7 +34,10 @@ export const SakshistorikkTabell = ({
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {sakshistorikk.sakshendelser.map(
+                        {sakshistorikk.sakshendelser.filter(
+                            (sakSnapshot) =>
+                                sakSnapshot.status !== IAProsessStatusEnum.enum.NY,
+                        ).map(
                             (sakSnapshot, index) => {
                                 return (
                                     <Table.Row key={index}>
@@ -50,49 +54,49 @@ export const SakshistorikkTabell = ({
                                         <Table.DataCell>
                                             {sakSnapshot.begrunnelser.length >
                                                 0 && (
-                                                <>
-                                                    <Detail>Begrunnelse</Detail>
-                                                    <ul>
-                                                        {sakSnapshot.begrunnelser.map(
-                                                            (begrunnelse) => (
-                                                                <li
-                                                                    key={
-                                                                        begrunnelse
-                                                                    }
-                                                                >
-                                                                    <Detail>
-                                                                        {
+                                                    <>
+                                                        <Detail>Begrunnelse</Detail>
+                                                        <ul>
+                                                            {sakSnapshot.begrunnelser.map(
+                                                                (begrunnelse) => (
+                                                                    <li
+                                                                        key={
                                                                             begrunnelse
                                                                         }
-                                                                    </Detail>
-                                                                </li>
-                                                            ),
-                                                        )}
-                                                    </ul>
-                                                </>
-                                            )}
+                                                                    >
+                                                                        <Detail>
+                                                                            {
+                                                                                begrunnelse
+                                                                            }
+                                                                        </Detail>
+                                                                    </li>
+                                                                ),
+                                                            )}
+                                                        </ul>
+                                                    </>
+                                                )}
                                             {sakSnapshot.hendelsestype ===
                                                 "TA_EIERSKAP_I_SAK" && (
-                                                <Detail>
-                                                    Tok eierskap i sak
-                                                </Detail>
-                                            )}
+                                                    <Detail>
+                                                        Tok eierskap i sak
+                                                    </Detail>
+                                                )}
                                             {sakSnapshot.hendelsestype ===
                                                 "ENDRE_PROSESS" && (
-                                                <Detail>
-                                                    Endret samarbeidsnavn
-                                                </Detail>
-                                            )}
+                                                    <Detail>
+                                                        Endret samarbeidsnavn
+                                                    </Detail>
+                                                )}
                                             {sakSnapshot.hendelsestype ===
                                                 "NY_PROSESS" && (
-                                                <Detail>Nytt samarbeid</Detail>
-                                            )}
+                                                    <Detail>Nytt samarbeid</Detail>
+                                                )}
                                             {sakSnapshot.hendelsestype ===
                                                 "SLETT_PROSESS" && (
-                                                <Detail>
-                                                    Slettet samarbeid
-                                                </Detail>
-                                            )}
+                                                    <Detail>
+                                                        Slettet samarbeid
+                                                    </Detail>
+                                                )}
                                             {sakSnapshot.status === "NY" && (
                                                 <Detail>Opprettet sak</Detail>
                                             )}
