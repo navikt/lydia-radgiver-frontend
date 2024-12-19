@@ -18,7 +18,8 @@ import { loggEndringAvPlan } from "../../../util/amplitude-klient";
 
 const InnholdsRad = styled(HStack)`
     margin-bottom: 0.5rem;
-    min-width: 48rem;
+    max-width: 100%;
+    flex-wrap: wrap;
 `;
 
 // Noe ødelegger --a-spacing-6 så vi setter det manuelt. Bør ta en titt og finne ut hva som ødelegger det senere.

@@ -15,6 +15,7 @@ const Innhold = styled.div`
     display: flex;
     flex-direction: row;
     align-items: space-between;
+    flex-wrap: wrap;
 `;
 
 const CardContentLeft = styled.div`

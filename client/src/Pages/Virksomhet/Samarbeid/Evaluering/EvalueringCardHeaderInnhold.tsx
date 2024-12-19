@@ -61,6 +61,7 @@ const StyledEmptyCardHeader = styled.div`
     border: var(--__ac-expansioncard-border-width) solid
         var(--__ac-expansioncard-border-color);
     justify-content: space-between;
+    flex-wrap: wrap;
 `;
 
 const HeaderRightContent = styled.span`

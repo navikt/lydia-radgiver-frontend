@@ -27,6 +27,7 @@ const Knappecontainer = styled.div<{ $redusertPadding: boolean }>`
     justify-content: space-between;
     align-items: center;
     padding: ${(props) => (props.$redusertPadding ? "0.5rem" : "1.5rem")};
+    flex-wrap: wrap;
 `;
 
 const EnkeltKnappContainer = styled(Knappecontainer)`

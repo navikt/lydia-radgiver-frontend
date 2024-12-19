@@ -42,6 +42,7 @@ const StyledExpansionCardHeader = styled(ExpansionCard.Header)`
         justify-content: space-between;
         align-items: flex-start;
         flex-grow: 1;
+        flex-wrap: wrap;
     }
 `;
 
@@ -62,6 +63,7 @@ const StyledEmptyCardHeader = styled.div`
     border: var(--__ac-expansioncard-border-width) solid
         var(--__ac-expansioncard-border-color);
     justify-content: space-between;
+    flex-wrap: wrap;
 `;
 
 const HeaderRightContent = styled.span`
@@ -69,6 +71,7 @@ const HeaderRightContent = styled.span`
     align-items: center;
     font-size: 1rem;
     align-self: center;
+    flex-wrap: wrap;
 `;
 
 const BehovsvurderingDato = styled.span`

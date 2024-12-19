@@ -11,6 +11,10 @@ const TemaContainer = styled.div`
     width: 100%;
     padding-bottom: 4rem;
     gap: 2rem;
+
+    @media screen and (max-width: 768px) {
+        grid-template-columns: 1fr;
+    }
 `;
 
 const TemaGrafContainer = styled.div`

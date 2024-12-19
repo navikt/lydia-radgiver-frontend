@@ -131,6 +131,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                         placement="right-start"
                         onClose={() => setOpenState(false)}
                         anchorEl={buttonRef.current}
+                        style={{ overflow: "auto" }}
                     >
                         <VirksomhetsInfoPopoverInnhold
                             iaSak={iaSak}

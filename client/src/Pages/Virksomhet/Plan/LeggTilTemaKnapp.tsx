@@ -27,6 +27,7 @@ const UndertemaSetupContainer = styled.div`
 
 const LeggTilTemaModal = styled(Modal)`
     max-width: 72rem;
+    width: 100%;
 `;
 
 export default function LeggTilTemaKnapp({
@@ -164,7 +165,7 @@ export default function LeggTilTemaKnapp({
                 onClose={() => setModalOpen(false)}
                 aria-label="Legg til tema"
             >
-                <Modal.Body>
+                <Modal.Body style={{ overflowY: "auto" }}>
                     <CheckboxGroup
                         legend="Sett opp samarbeidsplan"
                         value={redigertTemaliste.map((tema) =>
@@ -178,7 +179,7 @@ export default function LeggTilTemaKnapp({
                                     return a.id - b.id;
                                 })
                                 .map((tema) => (
-                                    <div key={tema.id}>
+                                    <React.Fragment key={tema.id}>
                                         <Checkbox value={tema.id}>
                                             {tema.navn}
                                         </Checkbox>
@@ -200,7 +201,7 @@ export default function LeggTilTemaKnapp({
                                                 />
                                             </UndertemaSetupContainer>
                                         )}
-                                    </div>
+                                    </React.Fragment>
                                 ))}
                     </CheckboxGroup>
                     <br />

@@ -73,7 +73,7 @@ export const SamarbeidsDropdown = ({
 
                 <Dropdown.Menu
                     style={{
-                        minWidth: "22rem",
+                        width: "22rem",
                         marginTop: "0.3rem",
                         padding: 0,
                     }}
