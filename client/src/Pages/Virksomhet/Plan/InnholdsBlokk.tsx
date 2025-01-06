@@ -23,7 +23,7 @@ const StyledAccordionItem = styled(Accordion.Item)`
     grid-template-columns: subgrid;
 `;
 const StyledAccordionHeader = styled(Accordion.Header)`
-    grid-column: 1/5;
+    grid-column: 1/4;
     display: grid;
     grid-template-columns: subgrid;
     .navds-accordion__header-content {
@@ -31,9 +31,26 @@ const StyledAccordionHeader = styled(Accordion.Header)`
         display: grid;
         grid-template-columns: subgrid;
     }
-
+    
     &:hover {
         text-decoration: none;
+    }
+`;
+const StatusSelectContainer = styled.div`
+    grid-column: 4/5;
+    display: grid;
+    grid-template-columns: subgrid;
+    align-items: center;
+    justify-content: center;
+    --__ac-accordion-header-shadow: inset 2px 0 0 0 var(--a-transparent), inset -2px 0 0 0 var(--a-transparent), inset 0 2px 0 0 var(--__ac-accordion-header-shadow-color);
+    box-shadow: var(--__ac-accordion-header-shadow), inset 0 -2px 0 0 var(--__ac-accordion-header-shadow-color);
+
+    .navds-accordion__item--open:last-child & {
+        box-shadow: inset 2px 0 0 0 var(--a-transparent), var(--__ac-accordion-header-shadow);
+    }
+
+    ${StyledAccordionItem}:has(${StyledAccordionHeader}:hover) & {
+        background-color: var(--ac-accordion-header-bg-hover, var(--a-surface-hover));;
     }
 `;
 const StyledAccordionContent = styled(Accordion.Content)`
@@ -149,18 +166,22 @@ function InnholdsRadHeader({
     kanOppretteEllerEndrePlan: boolean;
 }) {
     return (
-        <StyledAccordionHeader>
-            <StyledInnholdsTittel>{innhold.navn}</StyledInnholdsTittel>
-            <InnholdsVarighetHeader
-                start={innhold.startDato}
-                slutt={innhold.sluttDato}
-            />
-            <InnholdsStatusHeader
-                innhold={innhold}
-                oppdaterStatus={oppdaterStatus}
-                kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
-            />
-        </StyledAccordionHeader>
+        <>
+            <StyledAccordionHeader>
+                <StyledInnholdsTittel>{innhold.navn}</StyledInnholdsTittel>
+                <InnholdsVarighetHeader
+                    start={innhold.startDato}
+                    slutt={innhold.sluttDato}
+                />
+            </StyledAccordionHeader>
+            <StatusSelectContainer>
+                <InnholdsStatusHeader
+                    innhold={innhold}
+                    oppdaterStatus={oppdaterStatus}
+                    kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
+                />
+            </StatusSelectContainer>
+        </>
     );
 }
 
