@@ -10,7 +10,7 @@ import {
 import { NavFarger } from "../../styling/farger";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../api/lydia-api/virksomhet";
-import { StatistikkFane } from "./Statistikk/StatistikkFane";
+import { SykefraværsstatistikkFane } from "./Statistikk/SykefraværsstatistikkFane";
 import VirksomhetContext from "./VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "./Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
 
@@ -78,11 +78,11 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     defaultValue="statistikk"
                 >
                     <Tabs.List style={{ width: "100%" }}>
-                        <Tabs.Tab value="statistikk" label="Statistikk" />
-                        <Tabs.Tab value="historikk" label="Historikk" />
+                        <Tabs.Tab value="statistikk" label="Sykefraværsstatistikk" />
+                        <Tabs.Tab value="historikk" label="Samarbeidshistorikk" />
                     </Tabs.List>
                     <StyledPanel value="statistikk">
-                        <StatistikkFane virksomhet={virksomhet} />
+                        <SykefraværsstatistikkFane virksomhet={virksomhet} />
                     </StyledPanel>
                     <StyledPanel value="historikk">
                         <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />

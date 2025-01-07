@@ -13,11 +13,11 @@ interface Props {
     virksomhet: Virksomhet;
 }
 
-export const StatistikkFane = ({ virksomhet }: Props) => {
+export const SykefraværsstatistikkFane = ({ virksomhet }: Props) => {
     return (
         <Container>
             <Heading level="3" size="large" spacing={true}>
-                Statistikk
+                Sykefraværsstatistikk
             </Heading>
             <Sykefraværsstatistikk
                 orgnummer={virksomhet.orgnr}
