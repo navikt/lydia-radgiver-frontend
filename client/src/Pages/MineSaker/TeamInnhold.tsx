@@ -10,10 +10,13 @@ import {
     PersonIcon,
 } from "@navikt/aksel-icons";
 import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
-import { useHentAktivSakForVirksomhet } from "../../api/lydia-api/virksomhet";
-import { useHentMineSaker } from "../../api/lydia-api/sak";
-import { nyHendelsePåSak } from "../../api/lydia-api/sak";
-import { fjernBrukerFraTeam, leggBrukerTilTeam, useHentTeam } from "../../api/lydia-api/team";
+import {
+    fjernBrukerFraTeam,
+    leggBrukerTilTeam,
+    useHentTeam,
+} from "../../api/lydia-api/team";
+import { TaEierskapModal } from "./TaEierSkapModal";
+import { useState } from "react";
 
 const EierBoks = styled.div`
     display: flex;
@@ -35,6 +38,7 @@ const FølgereBoks = styled.div`
     align-items: flex-start;
 `;
 const FølgereHeader = styled.div`
+    margin-top: 1rem;
     font-weight: 700;
 `;
 const FølgereListe = styled.div`
@@ -53,8 +57,7 @@ function følgerSak(
 
 export default function TeamInnhold({ iaSak }: { iaSak: IASak }) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const { mutate: muterIaSak } = useHentAktivSakForVirksomhet(iaSak.orgnr);
-    const { mutate: muterMineSaker } = useHentMineSaker();
+    const [taEierskapModalÅpen, setTaEierskapModalÅpen] = useState(false);
 
     const { data: følgere = [], mutate: muterFølgere } = useHentTeam(
         iaSak.saksnummer,
@@ -87,18 +90,8 @@ export default function TeamInnhold({ iaSak }: { iaSak: IASak }) {
                         iconPosition="right"
                         variant="secondary"
                         disabled={!kanTaEierskap}
-                        onClick={async () => {
-                            await nyHendelsePåSak(
-                                iaSak,
-                                {
-                                    saksHendelsestype: "TA_EIERSKAP_I_SAK",
-                                    gyldigeÅrsaker: [],
-                                },
-                                null,
-                                null,
-                            );
-                            muterIaSak();
-                            muterMineSaker();
+                        onClick={() => {
+                            setTaEierskapModalÅpen(true);
                         }}
                     >
                         <HStack gap={"2"} align={"center"}>
@@ -114,6 +107,11 @@ export default function TeamInnhold({ iaSak }: { iaSak: IASak }) {
                             )}
                         </HStack>
                     </Button>
+                    <TaEierskapModal
+                        erModalÅpen={taEierskapModalÅpen}
+                        lukkModal={() => setTaEierskapModalÅpen(false)}
+                        iaSak={iaSak}
+                    />
                 </EierKnappBoks>
             </EierBoks>
             <FølgereBoks>
