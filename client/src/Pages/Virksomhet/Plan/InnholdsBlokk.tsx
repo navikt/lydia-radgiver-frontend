@@ -43,10 +43,16 @@ const StatusSelectContainer = styled.div`
     align-items: center;
     justify-content: center;
     --__ac-accordion-header-shadow: inset 2px 0 0 0 var(--a-transparent), inset -2px 0 0 0 var(--a-transparent), inset 0 2px 0 0 var(--__ac-accordion-header-shadow-color);
-    box-shadow: var(--__ac-accordion-header-shadow), inset 0 -2px 0 0 var(--__ac-accordion-header-shadow-color);
-
+    padding-right: var(--a-spacing-3);
+    .navds-accordion__item:not(:last-child) & {
+        box-shadow: var(--__ac-accordion-header-shadow);
+    }
+    
+    .navds-accordion__item:last-child & {
+        box-shadow: inset 0 -2px 0 0 var(--__ac-accordion-header-shadow-color), var(--__ac-accordion-header-shadow);
+    }
     .navds-accordion__item--open:last-child & {
-        box-shadow: inset 2px 0 0 0 var(--a-transparent), var(--__ac-accordion-header-shadow);
+        box-shadow: inset 0 -2px 0 0 var(--a-transparent), var(--__ac-accordion-header-shadow);
     }
 
     ${StyledAccordionItem}:has(${StyledAccordionHeader}:hover) & {
