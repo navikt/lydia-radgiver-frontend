@@ -1,3 +1,7 @@
+import { TextEncoder, TextDecoder } from "util";
+global.TextEncoder = TextEncoder;
+// @ts-expect-error dette må gjøres for å få testene til å kjøre, da disse ikke er definert i jsdom
+global.TextDecoder = TextDecoder;
 import { søkeverdierTilUrlSearchParams } from "../src/api/lydia-api/sok";
 import {
     FiltervisningState,

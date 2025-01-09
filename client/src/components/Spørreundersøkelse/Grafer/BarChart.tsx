@@ -50,7 +50,9 @@ function genererChartOptionsFraSpørsmålOgSvar(
         },
         subtitle: {
             text: spørsmål.flervalg ? "(flere valg er mulig)" : undefined,
-            align: "left",
+            style: {
+                textAlign: "left",
+            }
         },
         plotOptions: {
             series: {
@@ -69,9 +71,9 @@ function genererChartOptionsFraSpørsmålOgSvar(
                 data: spørsmål.svarListe.map((svar) =>
                     svar.antallSvar > 0
                         ? {
-                              y: svar.antallSvar,
-                              color: "var(--a-blue-500)",
-                          }
+                            y: svar.antallSvar,
+                            color: "var(--a-blue-500)",
+                        }
                         : null,
                 ),
             },
