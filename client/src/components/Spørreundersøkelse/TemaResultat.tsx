@@ -1,4 +1,4 @@
-import { Heading, HeadingProps, HStack } from "@navikt/ds-react";
+import { BodyShort, Heading, HeadingProps, HStack } from "@navikt/ds-react";
 import styled from "styled-components";
 import BarChart from "./Grafer/BarChart";
 import { PersonGroupFillIcon } from "@navikt/aksel-icons";
@@ -22,6 +22,13 @@ const TemaGrafContainer = styled.div`
     border-radius: var(--a-border-radius-large);
     grid-column: span 1;
     padding: 2rem;
+`;
+
+const KategoriTittel = styled(BodyShort) <{ $farge: string }>`
+  color: ${(props) => props.$farge || "var(--a-blue-500)"};
+
+  margin-left: 10px;
+  margin-bottom: 0.5rem;
 `;
 
 interface Props {
@@ -55,10 +62,15 @@ export const TemaResultat = ({
             <TemaContainer>
                 {spørsmålResultat.map((spørsmål: SpørsmålResultat) => (
                     <TemaGrafContainer key={spørsmål.id}>
+                        {spørsmål.kategori ? <KategoriTittel
+                            $farge={getGraffargeFromTema(navn, true)}>
+                            {spørsmål.kategori}
+                        </KategoriTittel> : null}
                         <BarChart
                             horizontal={spørsmål.flervalg}
                             spørsmål={spørsmål}
                             erIEksportMode={erIEksportMode}
+                            farge={getGraffargeFromTema(navn)}
                         />
                     </TemaGrafContainer>
                 ))}
@@ -66,6 +78,18 @@ export const TemaResultat = ({
         </>
     );
 };
+
+function getGraffargeFromTema(navn: string, mørk: boolean = false) {
+    switch (navn?.toLowerCase()) {
+        case "sykefraværsarbeid":
+            return "var(--a-green-500)";
+        case "arbeidsmiljø":
+            return `var(--a-orange-${mørk ? '700' : '600'})`;
+        case "partssamarbeid":
+        default:
+            return "var(--a-blue-500)";
+    }
+}
 
 const StyledDeltakere = styled(HStack)`
     color: var(--a-blue-500);

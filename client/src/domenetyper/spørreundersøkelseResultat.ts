@@ -14,6 +14,7 @@ export const spørsmålResultatSchema = z.object({
     flervalg: z.boolean(),
     antallDeltakereSomHarSvart: z.number(),
     svarListe: z.array(svaralternativResultatSchema),
+    kategori: z.optional(z.string()),
 });
 export type SpørsmålResultat = z.infer<typeof spørsmålResultatSchema>;
 

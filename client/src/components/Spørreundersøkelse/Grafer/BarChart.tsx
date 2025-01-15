@@ -7,10 +7,12 @@ export default function BarChart({
     spørsmål,
     erIEksportMode = false,
     horizontal = false,
+    farge = "var(--a-blue-500)",
 }: {
     spørsmål: SpørsmålResultat;
     erIEksportMode?: boolean;
     horizontal?: boolean;
+    farge?: string;
 }) {
     const chartComponentRef = React.useRef<HighchartsReact.RefObject>(null);
 
@@ -20,6 +22,7 @@ export default function BarChart({
                 spørsmål,
                 erIEksportMode,
                 horizontal,
+                farge,
             ),
         [spørsmål],
     );
@@ -38,6 +41,7 @@ function genererChartOptionsFraSpørsmålOgSvar(
     spørsmål: SpørsmålResultat,
     erIEksportMode: boolean,
     horizontal: boolean,
+    farge: string,
 ): Highcharts.Options {
     return {
         chart: {
@@ -72,7 +76,7 @@ function genererChartOptionsFraSpørsmålOgSvar(
                     svar.antallSvar > 0
                         ? {
                             y: svar.antallSvar,
-                            color: "var(--a-blue-500)",
+                            color: farge,
                         }
                         : null,
                 ),
