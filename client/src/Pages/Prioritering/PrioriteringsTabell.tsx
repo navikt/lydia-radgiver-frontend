@@ -11,7 +11,6 @@ import { SøkeresultatFooter } from "./SøkeresultatFooter";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { EndretDataCell } from "./EndretDataCell";
-import { IAProsessStatusEnum } from "../../domenetyper/domenetyper";
 import { ScrollUtTilKantenContainer } from "../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 
 interface Kolonne {
@@ -160,10 +159,6 @@ export const PrioriteringsTabell = ({
                                 </Table.DataCell>
                                 <EndretDataCell
                                     sistEndret={virksomhetsoversikt.sistEndret}
-                                    lukket={
-                                        virksomhetsoversikt.status ===
-                                        IAProsessStatusEnum.enum.IKKE_AKTIV
-                                    }
                                 />
                                 <Table.HeaderCell scope="row">
                                     <Link
