@@ -1,4 +1,5 @@
 import {
+    DEFAULT_SAMARBEIDSNAVN,
     defaultNavnHvisTomt,
     IaSakProsess,
 } from "../../../domenetyper/iaSakProsess";
@@ -14,14 +15,15 @@ import {
 } from "@navikt/ds-react";
 import { IASak, IASakshendelseType } from "../../../domenetyper/domenetyper";
 import React, { useEffect, useState } from "react";
-import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
-import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
+import {
+    useHentAktivSakForVirksomhet,
+    useHentSamarbeidshistorikk,
+} from "../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import styled from "styled-components";
 import { ExternalLinkIcon, TrashIcon } from "@navikt/aksel-icons";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { StyledSamarbeidModal } from "./NyttSamarbeidModal";
-import { useFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
 
 export const ModalBodyInnholdFlex = styled.div`
     display: flex;
@@ -81,10 +83,16 @@ export const EndreSamarbeidModal = ({
     const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(
         iaSak.orgnr,
     );
-    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
-        iaSak.orgnr,
-        iaSak.saksnummer,
-    );
+    const { mutate: hentSamarbeidPåNytt, data: samarbeidData } =
+        useHentSamarbeid(iaSak.orgnr, iaSak.saksnummer);
+
+    const navnErUbrukt =
+        samarbeidData?.find(
+            (s) =>
+                s.navn?.toLowerCase() === navn.toLowerCase() ||
+                (navn.toLowerCase() === DEFAULT_SAMARBEIDSNAVN.toLowerCase() &&
+                    s.navn === ""),
+        ) === undefined;
 
     const avbrytEndring = () => {
         setOpen(false);
@@ -128,15 +136,6 @@ export const EndreSamarbeidModal = ({
         });
     };
 
-    const [melding] = useFeilmelding();
-
-    const feilmelding = React.useMemo(() => {
-        if (melding === "Samarbeidsnavn finnes allerede") {
-            return melding;
-        }
-        return null;
-    }, [melding]);
-
     return (
         <StyledSamarbeidModal
             open={open}
@@ -169,7 +168,17 @@ export const EndreSamarbeidModal = ({
                             setLagreNavnVellykket(false);
                             setAntallTegn(nyttnavn.target.value.length);
                         }}
-                        error={feilmelding && <span aria-live="polite" role="alert">{feilmelding}</span>}
+                        error={
+                            navnErUbrukt || samarbeid.navn === navn
+                                ? undefined
+                                : "Navnet er allerede i bruk"
+                        }
+                        onKeyDown={(event) => {
+                            // Submit på enter.
+                            if (event.key === "Enter" && navnErUbrukt) {
+                                endreNavn();
+                            }
+                        }}
                         hideLabel
                     />
                     <DetaljerWrapper>
@@ -198,7 +207,10 @@ export const EndreSamarbeidModal = ({
                     onClick={() => {
                         endreNavn();
                     }}
-                    disabled={navn === defaultNavnHvisTomt(samarbeid.navn)}
+                    disabled={
+                        !navnErUbrukt ||
+                        navn === defaultNavnHvisTomt(samarbeid.navn)
+                    }
                 >
                     Lagre
                 </Button>

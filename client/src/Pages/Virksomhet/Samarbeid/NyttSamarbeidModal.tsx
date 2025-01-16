@@ -24,6 +24,7 @@ import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import styled from "styled-components";
 import { ExternalLinkIcon } from "@navikt/aksel-icons";
+import { DEFAULT_SAMARBEIDSNAVN } from "../../../domenetyper/iaSakProsess";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
@@ -70,8 +71,9 @@ export const NyttSamarbeidModal = ({
     const navnErUbrukt =
         samarbeidData?.find(
             (s) =>
-                s.navn === navn ||
-                (navn === "Samarbeid uten navn" && s.navn === ""),
+                s.navn?.toLowerCase() === navn.toLowerCase() ||
+                (navn.toLowerCase() === DEFAULT_SAMARBEIDSNAVN.toLowerCase() &&
+                    s.navn === ""),
         ) === undefined;
     const navigate = useNavigate();
 
