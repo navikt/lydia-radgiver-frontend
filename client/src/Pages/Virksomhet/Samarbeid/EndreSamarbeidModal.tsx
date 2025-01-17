@@ -230,7 +230,7 @@ export const EndreSamarbeidModal = ({
                         />
                     }
                     size={"small"}
-                    variant="danger"
+                    variant="secondary-neutral"
                     title={`Slett "${samarbeid.navn}"`}
                     onClick={slettSamarbeid}
                 />
