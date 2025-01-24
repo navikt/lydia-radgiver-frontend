@@ -93,8 +93,6 @@ export const SamarbeidsInnhold = ({
         data: samarbeidsplan,
     } = useHentPlan(iaSak.orgnr, iaSak.saksnummer, iaSamarbeid.id);
 
-    console.log('samarbeidsplan', samarbeidsplan)
-
 
     return (
         <Innhold>

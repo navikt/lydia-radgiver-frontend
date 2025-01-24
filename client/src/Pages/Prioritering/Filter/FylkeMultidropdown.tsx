@@ -41,7 +41,6 @@ export const FylkeMultidropdown = ({
                 styles={reactSelectStyle()}
                 placeholder=""
                 onChange={(verdier) => {
-                    console.log("Verdier!", verdier);
                     endreFylker(verdier as FylkeMedKommuner[]);
                 }}
             />

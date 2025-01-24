@@ -35,7 +35,6 @@ export const TaEierskapModal = ({
                 <Button
                     variant="primary"
                     onClick={async () => {
-                        console.log("Ta eierskap!");
                         await nyHendelsePåSak(
                             iaSak,
                             {
