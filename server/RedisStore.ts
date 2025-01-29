@@ -1,7 +1,7 @@
-import { RedisStore } from "connect-redis";
-import Redis, { RedisOptions } from "ioredis";
+import Redis, {RedisOptions} from "ioredis";
 import session from "express-session";
-import { inCloudMode } from "./app";
+import {inCloudMode} from "./app";
+import RedisStore from "connect-redis";
 
 export const redisSessionManager = () => {
     const redisConfig: RedisOptions = {
