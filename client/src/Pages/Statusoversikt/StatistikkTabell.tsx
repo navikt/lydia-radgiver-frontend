@@ -4,7 +4,6 @@ import { StatusBadge } from "../../components/Badge/StatusBadge";
 import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
-import { erIDev } from "../../components/Dekoratør/Dekoratør";
 import {
     createSearchParams,
     useNavigate,
@@ -52,14 +51,12 @@ export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
                             <Table.DataCell>
                                 <HStack justify={"space-between"}>
                                     <span>{antall}</span>
-                                    {erIDev && (
-                                        <Button
-                                            size={"xsmall"}
-                                            onClick={() => gåTilSøk(status)}
-                                        >
-                                            Åpne i søk
-                                        </Button>
-                                    )}
+                                    <Button
+                                        size={"xsmall"}
+                                        onClick={() => gåTilSøk(status)}
+                                    >
+                                        Åpne i søk
+                                    </Button>
                                 </HStack>
                             </Table.DataCell>
                         </Table.Row>
