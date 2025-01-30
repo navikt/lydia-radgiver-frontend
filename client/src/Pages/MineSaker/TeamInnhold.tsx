@@ -55,9 +55,20 @@ function følgerSak(
     return !!følgere?.some((følger) => følger === brukerIdent);
 }
 
-export default function TeamInnhold({ iaSak }: { iaSak: IASak }) {
+export default function TeamInnhold({
+    iaSak,
+    taEierskapModalÅpen,
+    setTaEierskapModalÅpen
+}: {
+    iaSak: IASak,
+    taEierskapModalÅpen?: boolean,
+    setTaEierskapModalÅpen?: React.Dispatch<React.SetStateAction<boolean>>
+}) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const [taEierskapModalÅpen, setTaEierskapModalÅpen] = useState(false);
+    const [localTaEierskapModalÅpen, localSetTaEierskapModalÅpen] = useState(false);
+
+    const faktiskSetTaEierskapModalÅpen = setTaEierskapModalÅpen ?? localSetTaEierskapModalÅpen;
+    const faktiskTaEierskapModalÅpen = taEierskapModalÅpen ?? localTaEierskapModalÅpen;
 
     const { data: følgere = [], mutate: muterFølgere } = useHentTeam(
         iaSak.saksnummer,
@@ -91,7 +102,7 @@ export default function TeamInnhold({ iaSak }: { iaSak: IASak }) {
                         variant="secondary"
                         disabled={!kanTaEierskap}
                         onClick={() => {
-                            setTaEierskapModalÅpen(true);
+                            faktiskSetTaEierskapModalÅpen(true);
                         }}
                     >
                         <HStack gap={"2"} align={"center"}>
@@ -107,11 +118,14 @@ export default function TeamInnhold({ iaSak }: { iaSak: IASak }) {
                             )}
                         </HStack>
                     </Button>
-                    <TaEierskapModal
-                        erModalÅpen={taEierskapModalÅpen}
-                        lukkModal={() => setTaEierskapModalÅpen(false)}
-                        iaSak={iaSak}
-                    />
+                    {
+                        setTaEierskapModalÅpen ? null :
+                            <TaEierskapModal
+                                erModalÅpen={faktiskTaEierskapModalÅpen}
+                                lukkModal={() => faktiskSetTaEierskapModalÅpen(false)}
+                                iaSak={iaSak}
+                            />
+                    }
                 </EierKnappBoks>
             </EierBoks>
             <FølgereBoks>
