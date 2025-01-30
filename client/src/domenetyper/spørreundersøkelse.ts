@@ -8,6 +8,9 @@ export const spørreundersøkelseSchema = z.object({
     opprettetAv: z.string(),
     opprettetTidspunkt: datoSchema,
     endretTidspunkt: datoSchema.nullable(),
+    påbegyntTidspunkt: datoSchema.nullable(),
+    fullførtTidspunkt: datoSchema.nullable(),
+    gyldigTilTidspunkt: datoSchema,
 });
 
 export type Spørreundersøkelse = z.infer<typeof spørreundersøkelseSchema>;
