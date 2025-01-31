@@ -15,6 +15,7 @@ interface SpørreundersøkelseProviderProps {
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
     brukerErEierAvSak: boolean;
     sisteOpprettedeSpørreundersøkelseId: string;
+    setSisteOpprettedeSpørreundersøkelseId: (id: string) => void;
     spørreundersøkelseType: SpørreundersøkelseType;
 }
 export interface CardHeaderProps {

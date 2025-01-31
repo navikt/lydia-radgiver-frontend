@@ -73,6 +73,9 @@ export const Behovsvurdering = ({
                 sisteOpprettedeSpørreundersøkelseId={
                     idForSistOpprettetBehovsvurdering
                 }
+                setSisteOpprettedeSpørreundersøkelseId={
+                    setIdForSistOpprettetBehovsvurdering
+                }
             >
                 <OpprettNySpørreundersøkelseKnapp
                     onClick={opprettBehovsvurdering}

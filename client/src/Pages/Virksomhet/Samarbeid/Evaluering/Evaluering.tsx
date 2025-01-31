@@ -70,6 +70,7 @@ export const Evaluering = ({
                 brukerRolle={brukerRolle}
                 brukerErEierAvSak={brukerErEierAvSak}
                 sisteOpprettedeSpørreundersøkelseId={sisteOpprettedeId}
+                setSisteOpprettedeSpørreundersøkelseId={setSisteOpprettedeId}
             >
                 <OpprettNySpørreundersøkelseKnapp
                     onClick={opprettEvaluering}
