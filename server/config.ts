@@ -45,6 +45,7 @@ export const miljøVariabler = {
     fiaSuperbrukerGroupId: "FIA_SUPERBRUKER_GROUP_ID",
     fiaSaksbehandlerGroupId: "FIA_SAKSBEHANDLER_GROUP_ID",
     fiaLesetilgangGroupId: "FIA_LESETILGANG_GROUP_ID",
+    teamPiaGroupId: "TEAM_PIA_GROUP_ID",
     sessionHemmelighet: "SESSION_SECRET",
     csrfHemmelighet: "CSRF_SECRET",
     cookieHemmelighet: "COOKIE_SECRET",

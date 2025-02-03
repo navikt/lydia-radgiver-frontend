@@ -39,6 +39,9 @@ function fiaRoller() {
         lesetilgang: {
             gruppeId: process.env.FIA_LESETILGANG_GROUP_ID,
         },
+        teamPia: {
+            gruppeId: process.env.TEAM_PIA_GROUP_ID
+        }
     }
 }
 
@@ -48,7 +51,10 @@ const hentRolleMedHøyestTilgang = (brukerGrupper: string[]): Rolle => {
         return Rolle.SUPERBRUKER;
     } else if (brukerGrupper.includes(fiaGrupper.saksbehandler.gruppeId)) {
         return Rolle.SAKSBEHANDLER;
-    } else if (brukerGrupper.includes(fiaGrupper.lesetilgang.gruppeId)) {
+    } else if (
+        brukerGrupper.includes(fiaGrupper.lesetilgang.gruppeId) ||
+        brukerGrupper.includes(fiaGrupper.teamPia.gruppeId)
+    ) {
         return Rolle.LESETILGANG;
     } else {
         throw new AuthError("Ikke riktig tilgang");

@@ -31,6 +31,7 @@ const mockEnv = () => {
     process.env[miljøVariabler.fiaSuperbrukerGroupId] = "ensuperbrukerGroupId"
     process.env[miljøVariabler.fiaSaksbehandlerGroupId] = "ensaksbehandlerGroupId"
     process.env[miljøVariabler.fiaLesetilgangGroupId] = "enlesetilgangGroupId"
+    process.env[miljøVariabler.teamPiaGroupId] = "teamPiaGroupId"
     process.env[miljøVariabler.sessionHemmelighet] = "secret"
     process.env[miljøVariabler.csrfHemmelighet] = "csrf"
     process.env[miljøVariabler.cookieHemmelighet] = "cookie"

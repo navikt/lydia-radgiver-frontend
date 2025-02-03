@@ -101,7 +101,7 @@ services:
       FIA_SUPERBRUKER_GROUP_ID: ensuperbrukerGroupId
       FIA_SAKSBEHANDLER_GROUP_ID: ensaksbehandlerGroupId
       FIA_LESETILGANG_GROUP_ID: enlesetilgangGroupId
-      TEAM_PIA_GROUP_ID: enTeamPiaGroupId
+      TEAM_PIA_GROUP_ID: teamPiaGroupId
       # Kafka env
       KAFKA_BROKERS: "BROKER://kafka:9092,PLAINTEXT://kafka:9092"
       KAFKA_TRUSTSTORE_PATH: ""
@@ -200,6 +200,7 @@ services:
       FIA_SUPERBRUKER_GROUP_ID: ensuperbrukerGroupId
       FIA_SAKSBEHANDLER_GROUP_ID: ensaksbehandlerGroupId
       FIA_LESETILGANG_GROUP_ID: enlesetilgangGroupId
+      TEAM_PIA_GROUP_ID: teamPiaGroupId
     volumes:
       - ./server:/home/node/app
       - /home/node/app/node_modules
