@@ -63,7 +63,7 @@ export const SamarbeidshistorikkFane = ({
     return (
         <Container className={className}>
             <Heading level="3" size="large" spacing={true}>
-                Samarbeidshistorikk
+                Historikk
             </Heading>
             {sortertHistorikk.length > 0 ? (
                 <Accordion>

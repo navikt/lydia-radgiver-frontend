@@ -78,8 +78,11 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     defaultValue="statistikk"
                 >
                     <Tabs.List style={{ width: "100%" }}>
-                        <Tabs.Tab value="statistikk" label="Sykefraværsstatistikk" />
-                        <Tabs.Tab value="historikk" label="Samarbeidshistorikk" />
+                        <Tabs.Tab
+                            value="statistikk"
+                            label="Sykefraværsstatistikk"
+                        />
+                        <Tabs.Tab value="historikk" label="Historikk" />
                     </Tabs.List>
                     <StyledPanel value="statistikk">
                         <SykefraværsstatistikkFane virksomhet={virksomhet} />
