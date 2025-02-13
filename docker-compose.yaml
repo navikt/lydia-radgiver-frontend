@@ -6,7 +6,7 @@ services:
       SERVER_PORT: 6969
       JSON_CONFIG: "{\"interactiveLogin\":true,\"tokenCallbacks\":[{\"issuerId\":\"azure\",\"tokenExpiry\":3600,\"requestMappings\":[{\"requestParam\":\"grant_type\",\"claims\":{\"aud\":[\"lydia-api\"],\"NAVident\":\"Z123456\",\"preferred_username\":\"test.testesen@nav.no\",\"name\":\"Test Testesen\",\"groups\":[\"ensuperbrukerGroupId\"]}}]}]}"
     ports:
-      - 6969:6969
+      - "6969:6969"
     restart: unless-stopped
 
   wiremock:
@@ -25,7 +25,7 @@ services:
     environment:
       POSTGRES_PASSWORD: test
     ports:
-      - 5432:5432
+      - "5432:5432"
     volumes:
       - postgres-data:/var/lib/postgresql/data
     restart: unless-stopped
@@ -33,9 +33,9 @@ services:
   kafka:
     image: confluentinc/cp-kafka:7.4.0
     ports:
-      - 9092:9092
-      - 9093:9093
-      - 9094:9094
+      - "9092:9092"
+      - "9093:9093"
+      - "9094:9094"
     environment:
       CLUSTER_ID: 4L6g3nShT-eMCtK--X86sw
       KAFKA_NODE_ID: 1
@@ -68,8 +68,8 @@ services:
       - authserver
       - wiremock
     ports:
-      - 8080:8080
-      - 5005:5005
+      - "8080:8080"
+      - "5005:5005"
     environment:
       # Postgres env
       NAIS_DATABASE_LYDIA_API_LYDIA_API_DB_HOST: postgres
@@ -151,7 +151,7 @@ services:
   redis:
     image: redis:7-alpine
     ports:
-      - 6379:6379
+      - "6379:6379"
     command: ["redis-server", "--user brukernavn on +@all ~* >passord"]
     restart: unless-stopped
 
@@ -179,7 +179,7 @@ services:
       - backend
       - redis
     ports:
-      - 3000:3000
+      - "3000:3000"
     environment:
       REDIS_URI_FIASESSIONS: redis://redis:6379
       REDIS_USERNAME_FIASESSIONS: brukernavn
