@@ -74,7 +74,7 @@ jobs:
       id-token: write
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/vis-sporreundersokelse-med-innhold'
+    if: github.ref == 'refs/heads/node-upgrade'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
