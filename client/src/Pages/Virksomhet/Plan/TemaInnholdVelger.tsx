@@ -37,7 +37,10 @@ function StartOgSluttVelger({
         toDate: new Date(LAST_VALID_DATE),
         onDateChange: (date) => {
             if (date) {
-                if (redigertInnholdMal.sluttDato === null || date > redigertInnholdMal.sluttDato) {
+                if (
+                    redigertInnholdMal.sluttDato === null ||
+                    date > redigertInnholdMal.sluttDato
+                ) {
                     const nySluttdato = new Date(date);
                     nySluttdato.setMonth(nySluttdato.getMonth() + 1);
 
@@ -99,19 +102,19 @@ export default function TemaInnholdVelger({
             valgteUndertemaer.map((redigertInnholdMal) =>
                 undertemaIder.includes(redigertInnholdMal.rekkefølge)
                     ? {
-                        ...redigertInnholdMal,
-                        inkludert: true,
-                        startDato:
-                            redigertInnholdMal.startDato ?? defaultStartDate,
-                        sluttDato:
-                            redigertInnholdMal.sluttDato ?? defaultEndDate,
-                    }
+                          ...redigertInnholdMal,
+                          inkludert: true,
+                          startDato:
+                              redigertInnholdMal.startDato ?? defaultStartDate,
+                          sluttDato:
+                              redigertInnholdMal.sluttDato ?? defaultEndDate,
+                      }
                     : {
-                        ...redigertInnholdMal,
-                        inkludert: false,
-                        startDato: null,
-                        sluttDato: null,
-                    },
+                          ...redigertInnholdMal,
+                          inkludert: false,
+                          startDato: null,
+                          sluttDato: null,
+                      },
             ),
         );
     };
@@ -136,7 +139,11 @@ export default function TemaInnholdVelger({
         );
     };
 
-    const setNyStartOgSluttDato = (rekkefølge: number, startDato: Date, sluttDato: Date) => {
+    const setNyStartOgSluttDato = (
+        rekkefølge: number,
+        startDato: Date,
+        sluttDato: Date,
+    ) => {
         velgUndertemaer(
             valgteUndertemaer.map((innhold) =>
                 innhold.rekkefølge === rekkefølge
@@ -154,7 +161,7 @@ export default function TemaInnholdVelger({
                 .map((undertema) => undertema.rekkefølge)}
             error={
                 visInnholdFeil
-                    ? "Du må velge noe innhold for å opprette en plan"
+                    ? "Du må velge noe innhold for å opprette en samarbeidsplan"
                     : null
             }
             onChange={(val: number[]) => {
@@ -170,9 +177,7 @@ export default function TemaInnholdVelger({
                         gap="4"
                         align="center"
                     >
-                        <Checkbox
-                            value={redigertInnholdMal.rekkefølge}
-                        >
+                        <Checkbox value={redigertInnholdMal.rekkefølge}>
                             {redigertInnholdMal.navn}
                         </Checkbox>
                         {redigertInnholdMal.inkludert ? (
@@ -191,7 +196,11 @@ export default function TemaInnholdVelger({
                                     )
                                 }
                                 setNyStartOgSluttDato={(startDato, sluttDato) =>
-                                    setNyStartOgSluttDato(redigertInnholdMal.rekkefølge, startDato, sluttDato)
+                                    setNyStartOgSluttDato(
+                                        redigertInnholdMal.rekkefølge,
+                                        startDato,
+                                        sluttDato,
+                                    )
                                 }
                             />
                         ) : undefined}

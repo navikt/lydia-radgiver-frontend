@@ -54,13 +54,12 @@ export const SamarbeidsInnhold = ({
     const navigate = useNavigate();
     const visSpørreundersøkelse = VIS_VURDERINGSSTATUSER.includes(iaSak.status);
 
-    const { data: behovsvurderinger } =
-        useHentSpørreundersøkelser(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            iaSamarbeid.id,
-            "Behovsvurdering",
-        );
+    const { data: behovsvurderinger } = useHentSpørreundersøkelser(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+        iaSamarbeid.id,
+        "Behovsvurdering",
+    );
 
     const sisteVurdering = behovsvurderinger?.sort(
         (a, b) =>
@@ -68,9 +67,7 @@ export const SamarbeidsInnhold = ({
             (a.endretTidspunkt?.getTime() ?? a.opprettetTidspunkt.getTime()),
     )[0];
 
-    const {
-        data: evalueringer
-    } = useHentSpørreundersøkelser(
+    const { data: evalueringer } = useHentSpørreundersøkelser(
         iaSak.orgnr,
         iaSak.saksnummer,
         iaSamarbeid.id,
@@ -84,24 +81,32 @@ export const SamarbeidsInnhold = ({
 
     const sistEndretVurdering =
         sisteVurdering?.endretTidspunkt || sisteVurdering?.opprettetTidspunkt;
-    const vurderingSistEndret = sistEndretVurdering && lokalDato(sistEndretVurdering);
+    const vurderingSistEndret =
+        sistEndretVurdering && lokalDato(sistEndretVurdering);
     const sistEndretEvaluering =
         sisteEvaluering?.endretTidspunkt || sisteEvaluering?.opprettetTidspunkt;
-    const evalueringSistEndret = sistEndretEvaluering && lokalDato(sistEndretEvaluering);
+    const evalueringSistEndret =
+        sistEndretEvaluering && lokalDato(sistEndretEvaluering);
 
-    const {
-        data: samarbeidsplan,
-    } = useHentPlan(iaSak.orgnr, iaSak.saksnummer, iaSamarbeid.id);
-
+    const { data: samarbeidsplan } = useHentPlan(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+        iaSamarbeid.id,
+    );
 
     return (
         <Innhold>
             <CardContentLeft>
-                {visSpørreundersøkelse && sisteVurdering?.status && vurderingSistEndret ? (
+                {visSpørreundersøkelse &&
+                sisteVurdering?.status &&
+                vurderingSistEndret ? (
                     <div>
                         <ContentText>Behovsvurdering: </ContentText>
                         <ContentData>
-                            {penskrivSpørreundersøkelseStatus(sisteVurdering.status)} {vurderingSistEndret}
+                            {penskrivSpørreundersøkelseStatus(
+                                sisteVurdering.status,
+                            )}{" "}
+                            {vurderingSistEndret}
                         </ContentData>
                     </div>
                 ) : (
@@ -110,29 +115,32 @@ export const SamarbeidsInnhold = ({
                         <ContentData>
                             {lokalDato(
                                 iaSak.endretTidspunkt ??
-                                iaSak.opprettetTidspunkt,
+                                    iaSak.opprettetTidspunkt,
                             )}
                         </ContentData>
                     </div>
                 )}
                 {samarbeidsplan && (
                     <div>
-                        <ContentText>Plan: </ContentText>
+                        <ContentText>Samarbeidsplan: </ContentText>
                         <ContentData>
                             Sist endret {lokalDato(samarbeidsplan.sistEndret)}
                         </ContentData>
                     </div>
                 )}
-                {
-                    visSpørreundersøkelse && sisteEvaluering?.status && evalueringSistEndret && (
+                {visSpørreundersøkelse &&
+                    sisteEvaluering?.status &&
+                    evalueringSistEndret && (
                         <div>
                             <ContentText>Evaluering: </ContentText>
                             <ContentData>
-                                {penskrivSpørreundersøkelseStatus(sisteEvaluering.status)} {evalueringSistEndret}
+                                {penskrivSpørreundersøkelseStatus(
+                                    sisteEvaluering.status,
+                                )}{" "}
+                                {evalueringSistEndret}
                             </ContentData>
                         </div>
-                    )
-                }
+                    )}
             </CardContentLeft>
             <CardContentRight>
                 <Button
