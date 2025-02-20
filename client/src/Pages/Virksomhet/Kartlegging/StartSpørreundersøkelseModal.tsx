@@ -37,14 +37,8 @@ export function StartSpørreundersøkelseModal({
                 Før du starter {type.toLowerCase()}en, husk at:
             </BodyShort>
             <List>
-                <List.Item>
-                    Deltakere må ha telefon med kamera for å scanne QR-koden.
-                </List.Item>
-                <List.Item>Det må være minst tre deltakere</List.Item>
-                <List.Item>
-                    For å se resultater må minst tre deltakere ha svart på
-                    spørsmålene.
-                </List.Item>
+                <List.Item>Det må være minst tre deltakere for å gjennomføre og for å vise resultatene.</List.Item>
+                <List.Item>Når du starter behovsvurderingen må den fullføres innen 24 timer.</List.Item>
             </List>
         </BekreftValgModal>
     );
