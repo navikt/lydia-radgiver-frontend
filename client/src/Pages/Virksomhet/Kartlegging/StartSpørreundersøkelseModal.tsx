@@ -34,7 +34,7 @@ export function StartSpørreundersøkelseModal({
         >
             <br />
             <BodyShort weight={"semibold"}>
-                Før du starter {type.toLowerCase()}en, husk at:
+                Før du starter, husk at:
             </BodyShort>
             <List>
                 <List.Item>Det må være minst tre deltakere for å gjennomføre og for å vise resultatene.</List.Item>
