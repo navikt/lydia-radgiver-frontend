@@ -40,6 +40,7 @@ const AppContent = () => {
     useEffect(() => {
         if (brukerInformasjon) {
             setTilgangsnivå(brukerInformasjon.rolle);
+            console.log("FJERN DENNE LOGGEN!");
         }
     }, [brukerInformasjon]);
 
