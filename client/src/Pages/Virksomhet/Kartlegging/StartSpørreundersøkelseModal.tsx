@@ -17,6 +17,7 @@ export function StartSpørreundersøkelseModal({
     startSpørreundersøkelsen: () => void;
 }) {
     const type = useSpørreundersøkelseType();
+
     return (
         <BekreftValgModal
             jaTekst={"Start"}
