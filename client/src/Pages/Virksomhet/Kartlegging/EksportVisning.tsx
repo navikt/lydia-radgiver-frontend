@@ -208,7 +208,7 @@ const EksportVisning = ({
     React.useEffect(() => {
         if (targetRef.current !== null && erIEksportMode && erLastet) {
             const pdfe = new pdfEksport(
-                targetRef,
+                targetRef as React.RefObject<HTMLDivElement>,
                 eksportfilnavn,
                 EXPORT_INTERNAL_WIDTH,
             );
