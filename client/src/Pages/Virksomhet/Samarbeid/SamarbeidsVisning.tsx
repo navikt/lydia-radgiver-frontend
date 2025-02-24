@@ -47,7 +47,6 @@ export const SamarbeidsVisning = ({
     const gjeldendeSamarbeid = alleSamarbeid.find(
         (samarbeid) => samarbeid.id == gjeldendeProsessId,
     );
-    const [visKonfetti, setVisKonfetti] = React.useState(false);
 
     const [searchParams, setSearchParams] = useSearchParams();
     const fane = searchParams.get("fane") ?? "behovsvurdering";
@@ -83,8 +82,6 @@ export const SamarbeidsVisning = ({
                 fane,
                 setFane: oppdaterTabISearchParam,
                 spørreundersøkelseId: spørreundersøkelseId,
-                setVisKonfetti,
-                visKonfetti,
             }}
         >
             {gjeldendeSamarbeid && (

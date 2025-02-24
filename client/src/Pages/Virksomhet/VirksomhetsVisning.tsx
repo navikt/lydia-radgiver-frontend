@@ -38,7 +38,6 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     const { data: iaSak, loading: lasterIaSak } = useHentAktivSakForVirksomhet(
         virksomhet.orgnr,
     );
-    const [visKonfetti, setVisKonfetti] = React.useState(false);
     const [searchParams, setSearchParams] = useSearchParams();
     const fane = searchParams.get("fane") ?? "statistikk";
 
@@ -62,8 +61,6 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                 fane,
                 setFane: oppdaterTabISearchParam,
                 spørreundersøkelseId: null,
-                setVisKonfetti,
-                visKonfetti,
             }}
         >
             <Container>

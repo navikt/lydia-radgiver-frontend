@@ -50,7 +50,6 @@ interface StatusknapperProps {
     virksomhet: Virksomhet;
     iaSak?: IASak;
     setModalOpen: (modalOpen: boolean) => void;
-    setVisKonfetti?: (visKonfetti: boolean) => void;
     setNesteSteg: (n: {
         nesteSteg: StatusHendelseSteg | null;
         hendelse: GyldigNesteHendelse | null;
@@ -69,7 +68,6 @@ export function Statusknapper({
     virksomhet,
     iaSak,
     setModalOpen,
-    setVisKonfetti,
     setNesteSteg,
     nesteSteg,
     onStatusEndret,
@@ -169,7 +167,6 @@ export function Statusknapper({
                     setNesteSteg({ nesteSteg: null, hendelse: null })
                 }
                 sak={iaSak}
-                setVisKonfetti={setVisKonfetti}
                 setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
             />
         </Statuscontainer>

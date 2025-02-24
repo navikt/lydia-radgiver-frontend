@@ -32,12 +32,10 @@ const DropdownHeader = styled(Heading)`
 export function SaksgangDropdown({
     virksomhet,
     iaSak,
-    setVisKonfetti,
     setNyttSamarbeidModalÅpen,
 }: {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    setVisKonfetti?: (visKonfetti: boolean) => void;
     setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const [open, setOpen] = React.useState(false);
@@ -94,7 +92,6 @@ export function SaksgangDropdown({
                     }}
                     setModalOpen={setOpen}
                     iaSak={iaSak}
-                    setVisKonfetti={setVisKonfetti}
                     nesteSteg={nesteSteg}
                     setNesteSteg={setNesteSteg}
                     redusertPadding

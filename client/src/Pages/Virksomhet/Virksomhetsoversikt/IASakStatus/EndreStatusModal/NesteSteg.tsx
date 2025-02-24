@@ -47,7 +47,6 @@ export default function NesteSteg({
     nesteSteg,
     lukkModal,
     sak,
-    setVisKonfetti,
     clearNesteSteg,
     setNyttSamarbeidModalÅpen,
 }: {
@@ -58,7 +57,6 @@ export default function NesteSteg({
     lukkModal: () => void;
     clearNesteSteg: () => void;
     sak: IASak;
-    setVisKonfetti?: (visKonfetti: boolean) => void;
     setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const { data: alleSamarbeid } = useHentSamarbeid(sak.orgnr, sak.saksnummer);
@@ -94,7 +92,6 @@ export default function NesteSteg({
                     lukkModal={lukkModal}
                     hendelse={nesteSteg.hendelse}
                     sak={sak}
-                    setVisKonfetti={setVisKonfetti}
                     clearNesteSteg={clearNesteSteg}
                 />
             );
@@ -371,13 +368,11 @@ function BekreftelsesSeksjon({
     lukkModal,
     hendelse,
     sak,
-    setVisKonfetti,
     clearNesteSteg,
 }: {
     lukkModal: () => void;
     hendelse: GyldigNesteHendelse | null;
     sak: IASak;
-    setVisKonfetti?: (visKonfetti: boolean) => void;
     clearNesteSteg: () => void;
 }) {
     const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
@@ -397,14 +392,6 @@ function BekreftelsesSeksjon({
     const onConfirm = () => {
         nyHendelsePåSak(sak, hendelse)
             .then(mutateIASakerOgSamarbeidshistorikk)
-            .then(() => {
-                if (
-                    hendelse.saksHendelsestype ===
-                    IASakshendelseTypeEnum.enum.FULLFØR_BISTAND
-                ) {
-                    setVisKonfetti?.(true);
-                }
-            })
             .finally(() => {
                 loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status);
                 lukkModal();

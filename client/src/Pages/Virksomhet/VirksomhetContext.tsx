@@ -9,8 +9,6 @@ export type VirksomhetContextType = {
     fane: string;
     setFane: (fane: string) => void;
     spørreundersøkelseId: string | null;
-    setVisKonfetti: (visKonfetti: boolean) => void;
-    visKonfetti: boolean;
 };
 
 const VirksomhetContext = React.createContext<VirksomhetContextType | null>(
