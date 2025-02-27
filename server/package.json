@@ -19,7 +19,7 @@
     "follow-redirects": "1.15.9",
     "helmet": "8.0.0",
     "http-proxy-middleware": "3.0.3",
-    "ioredis": "5.5.0",
+    "iovalkey": "^0.3.1",
     "jose": "5.10.0",
     "prometheus-api-metrics": "3.2.2",
     "winston": "3.17.0"
