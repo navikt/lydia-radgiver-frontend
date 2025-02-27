@@ -14,8 +14,10 @@ const valkeyNoTlsConfig: RedisOptions = {
 const valkeyTlsConfig: RedisOptions = {
   username: process.env.VALKEY_USERNAME_FIA_SESSION || "",
   password: process.env.VALKEY_PASSWORD_FIA_SESSION || "",
-  host: process.env.VALKEY_HOST_FIA_SESSION,
-  port: Number(process.env.VALKEY_PORT_FIA_SESSION),
+  tls: {
+    host: process.env.VALKEY_HOST_FIA_SESSION,
+    port: Number(process.env.VALKEY_PORT_FIA_SESSION),
+  },
   maxRetriesPerRequest: 3,
 };
 
