@@ -26,7 +26,7 @@ while getopts 'hif' opt; do
 
     f)
       docker-compose down
-      docker-compose pull authserver azure postgres redis kafka wonderwall
+      docker-compose pull authserver azure postgres valkey  kafka wonderwall
       echo "Sletter gammelt backend og frackend image"
       docker rmi $(docker images | grep -E "lydia-api|lydia-radgiver-frontend" | cut -w -f3)
       ;;

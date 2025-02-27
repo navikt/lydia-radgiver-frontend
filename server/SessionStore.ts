@@ -3,16 +3,28 @@ import session from "express-session";
 import { inCloudMode } from "./app";
 import { RedisStore } from "connect-redis";
 
+const valkeyNoTlsConfig: RedisOptions = {
+  username: process.env.VALKEY_USERNAME_FIA_SESSION || "",
+  password: process.env.VALKEY_PASSWORD_FIA_SESSION || "",
+  host: process.env.VALKEY_HOST_FIA_SESSION,
+  port: Number(process.env.VALKEY_PORT_FIA_SESSION),
+  maxRetriesPerRequest: 3,
+};
+
+const valkeyTlsConfig: RedisOptions = {
+  username: process.env.VALKEY_USERNAME_FIA_SESSION || "",
+  password: process.env.VALKEY_PASSWORD_FIA_SESSION || "",
+  host: process.env.VALKEY_HOST_FIA_SESSION,
+  port: Number(process.env.VALKEY_PORT_FIA_SESSION),
+  maxRetriesPerRequest: 3,
+};
+
+const valkeyClient = () => {
+  return new Redis(inCloudMode() ? valkeyTlsConfig: valkeyNoTlsConfig);
+}
+
 export const sessionManager = () => {
-  const valkeyConfig: RedisOptions = {
-    username: process.env.VALKEY_USERNAME_FIA_SESSION || "brukernavn",
-    password: process.env.VALKEY_PASSWORD_FIA_SESSION || "passord",
-    tls: {
-      host: process.env.VALKEY_HOST_FIA_SESSION,
-      port: Number(process.env.VALKEY_PORT_FIA_SESSION),
-    }
-  };
-  const client = new Redis(valkeyConfig);
+  const client = valkeyClient()
   return session({
     store: new RedisStore({
       client,
