@@ -13,7 +13,7 @@ import { Config } from "./config";
 import logger from "./logging";
 import { AuthError } from "./error";
 import { hentInnloggetAnsattMiddleware } from "./brukerinfo";
-import { memorySessionManager, redisSessionManager } from "./RedisStore";
+import { inMemorySessionManager, sessionManager } from "./SessionStore";
 import { randomUUID } from "crypto";
 import { doubleCsrf } from "csrf-csrf";
 import cookieParser from "cookie-parser";
@@ -60,8 +60,8 @@ export default class Application {
 
         this.expressApp.use(
             ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME) // Treffer både lokal og testkjøring
-                ? memorySessionManager()
-                : redisSessionManager()
+                ? inMemorySessionManager()
+                : sessionManager()
         );
 
         const tokenValidator =

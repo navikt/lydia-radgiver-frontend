@@ -30,8 +30,8 @@ spec:
     outbound:
       rules:
         - application: lydia-api
-  redis:
-    - instance: fiasessions
+  valkey:
+    - instance: fia-session
       access: readwrite
   azure:
     application:
