@@ -181,9 +181,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      VALKEY_URI_FIA_SESSIONS: valkey://valkey:6379
-      VALKEY_USERNAME_FIA_SESSIONS: brukernavn
-      VALKEY_PASSWORD_FIA_SESSIONS: passord
+      VALKEY_URI_FIA_SESSION: valkey://valkey:6379
+      VALKEY_USERNAME_FIA_SESSION: brukernavn
+      VALKEY_PASSWORD_FIA_SESSION: passord
       NAIS_CLUSTER_NAME: dev
       SESSION_SECRET: secret
       CSRF_SECRET: csrf

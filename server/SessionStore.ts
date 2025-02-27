@@ -5,10 +5,10 @@ import { RedisStore } from "connect-redis";
 
 export const sessionManager = () => {
   const valkeyConfig: RedisOptions = {
-    username: process.env.VALKEY_USERNAME_FIA_SESSIONS || "brukernavn",
-    password: process.env.VALKEY_PASSWORD_FIA_SESSIONS || "passord",
+    username: process.env.VALKEY_USERNAME_FIA_SESSION || "brukernavn",
+    password: process.env.VALKEY_PASSWORD_FIA_SESSION || "passord",
   };
-  const client = new Redis(process.env.VALKEY_URI_FIA_SESSIONS, valkeyConfig);
+  const client = new Redis(process.env.VALKEY_URI_FIA_SESSION, valkeyConfig);
   return session({
     store: new RedisStore({
       client,
