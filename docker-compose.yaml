@@ -152,7 +152,10 @@ services:
     image: valkey/valkey
     ports:
       - "6379:6379"
-    command: ["valkey-server", "--user brukernavn on +@all ~* >passord"]
+    environment:
+      # ALLOW_EMPTY_PASSWORD is recommended only for development.
+      - ALLOW_EMPTY_PASSWORD=yes
+      - VALKEY_DISABLE_COMMANDS=FLUSHDB,FLUSHALL
     restart: unless-stopped
 
   wonderwall:
@@ -181,10 +184,9 @@ services:
     ports:
       - "3000:3000"
     environment:
-      VALKEY_URI_FIA_SESSION: valkey://valkey:6379
-      VALKEY_USERNAME_FIA_SESSION: brukernavn
-      VALKEY_PASSWORD_FIA_SESSION: passord
-      NAIS_CLUSTER_NAME: dev
+      VALKEY_PORT_FIA_SESSION: 6379
+      VALKEY_HOST_FIA_SESSION: valkey
+      NAIS_CLUSTER_NAME: compose
       SESSION_SECRET: secret
       CSRF_SECRET: csrf
       COOKIE_SECRET: cookie
