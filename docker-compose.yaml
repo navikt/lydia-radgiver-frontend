@@ -148,11 +148,11 @@ services:
 
     restart: unless-stopped
 
-  redis:
-    image: redis:7-alpine
+  valkey:
+    image: valkey/valkey
     ports:
       - "6379:6379"
-    command: ["redis-server", "--user brukernavn on +@all ~* >passord"]
+    command: ["valkey-server", "--user brukernavn on +@all ~* >passord"]
     restart: unless-stopped
 
   wonderwall:
@@ -177,13 +177,13 @@ services:
       dockerfile: Dockerfile.dev
     depends_on:
       - backend
-      - redis
+      - valkey
     ports:
       - "3000:3000"
     environment:
-      REDIS_URI_FIASESSIONS: redis://redis:6379
-      REDIS_USERNAME_FIASESSIONS: brukernavn
-      REDIS_PASSWORD_FIASESSIONS: passord
+      VALKEY_URI_FIA_SESSIONS: valkey://valkey:6379
+      VALKEY_USERNAME_FIA_SESSIONS: brukernavn
+      VALKEY_PASSWORD_FIA_SESSIONS: passord
       NAIS_CLUSTER_NAME: dev
       SESSION_SECRET: secret
       CSRF_SECRET: csrf

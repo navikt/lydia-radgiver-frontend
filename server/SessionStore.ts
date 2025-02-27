@@ -3,16 +3,16 @@ import session from "express-session";
 import { inCloudMode } from "./app";
 import { RedisStore } from "connect-redis";
 
-export const redisSessionManager = () => {
-  const redisConfig: RedisOptions = {
-    username: process.env.REDIS_USERNAME_FIASESSIONS || "brukernavn",
-    password: process.env.REDIS_PASSWORD_FIASESSIONS || "passord",
+export const sessionManager = () => {
+  const valkeyConfig: RedisOptions = {
+    username: process.env.VALKEY_USERNAME_FIA_SESSIONS || "brukernavn",
+    password: process.env.VALKEY_PASSWORD_FIA_SESSIONS || "passord",
   };
-  const client = new Redis(process.env.REDIS_URI_FIASESSIONS, redisConfig);
+  const client = new Redis(process.env.VALKEY_URI_FIA_SESSIONS, valkeyConfig);
   return session({
     store: new RedisStore({
       client,
-      disableTouch: true, // Gjør slik at man ikke kan endre TTL på redis store
+      disableTouch: true, // Gjør slik at man ikke kan endre TTL på valkey store
     }),
     secret: process.env.SESSION_SECRET, // Hent fra gcp
     saveUninitialized: false,
@@ -26,7 +26,7 @@ export const redisSessionManager = () => {
   });
 };
 
-export const memorySessionManager = () => {
+export const inMemorySessionManager = () => {
   return session({
     saveUninitialized: false,
     resave: false,
