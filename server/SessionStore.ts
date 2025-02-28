@@ -49,6 +49,9 @@ export const inMemorySessionManager = () => {
     saveUninitialized: false,
     resave: false,
     secret: process.env.SESSION_SECRET,
-    cookie: {},
+    cookie: {
+      secure: inCloudMode(),
+      httpOnly: true,
+    },
   });
 };
