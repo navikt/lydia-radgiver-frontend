@@ -137,10 +137,10 @@ export const loggTogglingAvAutosøk = (autosøk: boolean) => {
     });
 };
 
-export const loggSendBrukerTilKartleggingerTab = (fraModal: string) => {
+export const loggSendBrukerTilKartleggingerTab = (fraModal: string, fane: string) => {
     logAmplitudeEvent("navigere", {
-        destinasjon: "/virksomhet/[orgnr]?fane=kartlegging",
-        lenketekst: "Ta meg til kartlegginger",
+        destinasjon: `/virksomhet/[orgnr]/sak/[saksnr]/samarbeid/[samarbeidId]?fane=${fane}`,
+        lenketekst: "[samarbeidsnavn]",
         fraModal,
     });
 };

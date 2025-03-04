@@ -1,14 +1,9 @@
 import {
-    Alert,
     BodyLong,
-    Box,
     Button,
-    Checkbox,
-    CheckboxGroup,
     ConfirmationPanel,
     Heading,
     Modal,
-    Select,
 } from "@navikt/ds-react";
 import React, { useState } from "react";
 import {
@@ -16,27 +11,25 @@ import {
     IAProsessStatusEnum,
     IASak,
     IASakshendelseTypeEnum,
-    ValgtÅrsakDto,
-    Årsak,
-} from "../../../../../domenetyper/domenetyper";
+} from "../../../../../../domenetyper/domenetyper";
 import styled from "styled-components";
 import {
     useHentAktivSakForVirksomhet,
     useHentSamarbeidshistorikk,
-} from "../../../../../api/lydia-api/virksomhet";
-import { nyHendelsePåSak } from "../../../../../api/lydia-api/sak";
+} from "../../../../../../api/lydia-api/virksomhet";
+import { nyHendelsePåSak } from "../../../../../../api/lydia-api/sak";
 import {
-    loggSendBrukerTilKartleggingerTab,
     loggStatusendringPåSak,
-} from "../../../../../util/amplitude-klient";
-import { useSendTilBehovsvurderingFane } from "../../../../../util/useSendTilBehovsvurderingFane";
-import { StatusHendelseSteg } from "./Statusknapper";
-import { penskrivIAStatus } from "../../../../../components/Badge/StatusBadge";
+} from "../../../../../../util/amplitude-klient";
+import { StatusHendelseSteg } from "../Statusknapper";
+import { penskrivIAStatus } from "../../../../../../components/Badge/StatusBadge";
 import { PlusIcon } from "@navikt/aksel-icons";
-import { useHentSamarbeid } from "../../../../../api/lydia-api/spørreundersøkelse";
-import { useHentBrukerinformasjon } from "../../../../../api/lydia-api/bruker";
+import { useHentSamarbeid } from "../../../../../../api/lydia-api/spørreundersøkelse";
+import { useHentBrukerinformasjon } from "../../../../../../api/lydia-api/bruker";
+import { FullførKartleggingerFørstSeksjon } from "./FullførKartleggingerFørstSeksjon";
+import { BegrunnelseFørstSeksjon } from "./BegrunnelseFørstSeksjon";
 
-const Knappecontainer = styled.div`
+export const Knappecontainer = styled.div`
     display: flex;
     gap: 1rem;
     justify-content: flex-end;
@@ -69,6 +62,8 @@ export default function NesteSteg({
                 <FullførKartleggingerFørstSeksjon
                     lukkModal={lukkModal}
                     clearNesteSteg={clearNesteSteg}
+                    alleSamarbeid={alleSamarbeid}
+                    sak={sak}
                 />
             );
         case "FULLFØR_SAMARBEIDSPLAN":
@@ -171,198 +166,12 @@ function FullførSamarbeidsplanFørstSeksjon({
     );
 }
 
-function FullførKartleggingerFørstSeksjon({
-    lukkModal,
-    clearNesteSteg,
-}: {
-    lukkModal: () => void;
-    clearNesteSteg: () => void;
-}) {
-    const { sendBrukerTilBehovsvurderingFane } =
-        useSendTilBehovsvurderingFane();
-
-    return (
-        <Modal.Body>
-            <Heading level="2" size="medium">
-                Saken har behovsvurderinger som ikke er fullført
-            </Heading>
-            <BodyLong>
-                For å gå videre må du fullføre behovsvurderingene. Hvis en
-                behovsvurdering ikke skal eller kan gjennomføres likevel må du
-                slette den før du kan gå videre.
-            </BodyLong>
-            <br />
-            <Knappecontainer>
-                <Button variant="secondary" onClick={clearNesteSteg}>
-                    Den er grei
-                </Button>
-                <Button
-                    variant="primary"
-                    onClick={() => {
-                        sendBrukerTilBehovsvurderingFane();
-                        loggSendBrukerTilKartleggingerTab(
-                            "fullfør kartlegginger",
-                        );
-                        lukkModal();
-                    }}
-                >
-                    Ta meg til kartleggings-fane
-                </Button>
-            </Knappecontainer>
-        </Modal.Body>
-    );
-}
-
-const hentÅrsakFraÅrsakType = (
+export const hentÅrsakFraÅrsakType = (
     type: string,
     { gyldigeÅrsaker }: GyldigNesteHendelse,
 ) => {
     return gyldigeÅrsaker.find((årsak) => årsak.type === type);
 };
-
-function BegrunnelseFørstSeksjon({
-    lukkModal,
-    hendelse,
-    sak,
-    clearNesteSteg,
-}: {
-    lukkModal: () => void;
-    hendelse: GyldigNesteHendelse | null;
-    sak: IASak;
-    clearNesteSteg: () => void;
-}) {
-    const [valgtÅrsak, setValgtÅrsak] = React.useState<Årsak | undefined>(
-        () => {
-            return hendelse?.gyldigeÅrsaker.length
-                ? hendelse.gyldigeÅrsaker[0]
-                : undefined;
-        },
-    );
-    const [valgteBegrunnelser, setValgteBegrunnelser] = React.useState<
-        string[]
-    >([]);
-    const [valideringsfeil, setValideringsfeil] = React.useState<string[]>([]);
-
-    const begrunnelserCheckboxId = "begrunnelser-checkbox";
-
-    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
-        sak.orgnr,
-    );
-    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(sak.orgnr);
-
-    const mutateIASakerOgSamarbeidshistorikk = () => {
-        mutateHentSaker?.();
-        mutateSamarbeidshistorikk?.();
-    };
-
-    const lagreBegrunnelsePåSak = (valgtÅrsak: ValgtÅrsakDto) => {
-        if (hendelse) {
-            nyHendelsePåSak(sak, hendelse, valgtÅrsak)
-                .then(mutateIASakerOgSamarbeidshistorikk)
-                .finally(() => {
-                    lukkModal();
-                });
-            loggStatusendringPåSak(hendelse.saksHendelsestype, sak.status);
-        }
-    };
-
-    if (!hendelse) {
-        return <></>;
-    }
-
-    return (
-        <Modal.Body>
-            <Heading level="2" size="medium">
-                Er du sikker på at du vil sette saken til &quot;Ikke
-                aktuell&quot;?
-            </Heading>
-            <form onSubmit={(e) => e.preventDefault()}>
-                <Select
-                    label="Begrunnelse for at samarbeid ikke er aktuelt:"
-                    onChange={(e) => {
-                        setValgtÅrsak(
-                            hentÅrsakFraÅrsakType(e.target.value, hendelse),
-                        );
-                        setValgteBegrunnelser([]);
-                    }}
-                    value={valgtÅrsak?.type}
-                >
-                    {hendelse.gyldigeÅrsaker.map((årsak) => (
-                        <option key={årsak.type} value={årsak.type}>
-                            {årsak.navn}
-                        </option>
-                    ))}
-                </Select>
-                <br />
-                <CheckboxGroup
-                    size="medium"
-                    id={begrunnelserCheckboxId}
-                    legend="Velg en eller flere begrunnelser"
-                    hideLegend
-                    value={valgteBegrunnelser}
-                    onChange={(v) => {
-                        setValgteBegrunnelser(v);
-                        setValideringsfeil([]);
-                    }}
-                >
-                    {valgtÅrsak?.begrunnelser.map((begrunnelse) => (
-                        <Checkbox
-                            value={begrunnelse.type}
-                            key={begrunnelse.type}
-                        >
-                            {begrunnelse.navn}
-                        </Checkbox>
-                    ))}
-                </CheckboxGroup>
-                {valideringsfeil.length > 0 && (
-                    <Box
-                        background={"bg-default"}
-                        borderColor="border-danger"
-                        padding="4"
-                        borderWidth="2"
-                        borderRadius="xlarge"
-                    >
-                        {valideringsfeil.map((feil) => (
-                            <Alert key={feil} inline variant="error">
-                                {feil}
-                            </Alert>
-                        ))}
-                    </Box>
-                )}
-            </form>
-            <Knappecontainer>
-                <Button variant="secondary" onClick={clearNesteSteg}>
-                    Avbryt
-                </Button>
-                <Button
-                    onClick={() => {
-                        if (!valgtÅrsak || valgteBegrunnelser.length == 0) {
-                            if (
-                                !valideringsfeil.includes(
-                                    "Du må velge minst én begrunnelse",
-                                )
-                            ) {
-                                setValideringsfeil([
-                                    ...valideringsfeil,
-                                    "Du må velge minst én begrunnelse",
-                                ]);
-                            }
-                            return;
-                        }
-                        const valgtÅrsakDto: ValgtÅrsakDto = {
-                            type: valgtÅrsak.type,
-                            begrunnelser: valgteBegrunnelser,
-                        };
-                        lagreBegrunnelsePåSak(valgtÅrsakDto);
-                        setValideringsfeil([]);
-                    }}
-                >
-                    Lagre
-                </Button>
-            </Knappecontainer>
-        </Modal.Body>
-    );
-}
 
 function BekreftelsesSeksjon({
     lukkModal,
