@@ -100,3 +100,4 @@ jobs:
         with:
           image: ${{ needs.build.outputs.image }}
           team: pia
+          upload-artifact: true
