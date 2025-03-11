@@ -67,7 +67,8 @@
         "vite": "6.2.1"
     },
     "optionalDependencies": {
-        "@rollup/rollup-linux-x64-gnu": "*"
+        "@rollup/rollup-linux-x64-gnu": "*",
+        "@esbuild/linux-x64": "*"
     },
     "overrides": {
         "glob-parent": "6.0.2",
