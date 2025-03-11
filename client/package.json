@@ -66,6 +66,9 @@
         "ulid": "2.3.0",
         "vite": "6.2.1"
     },
+    "optionalDependencies": {
+        "@rollup/rollup-linux-x64-gnu": "*"
+    },
     "overrides": {
         "glob-parent": "6.0.2",
         "semver": "7.5.2"
