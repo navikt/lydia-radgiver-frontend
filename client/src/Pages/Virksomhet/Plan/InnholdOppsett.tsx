@@ -4,6 +4,7 @@ import {
     HStack,
     DatePicker,
     useDatepicker,
+    Tooltip,
 } from "@navikt/ds-react";
 import styled from "styled-components";
 import { PlanInnhold } from "../../../domenetyper/plan";
@@ -15,6 +16,7 @@ import {
     defaultStartDate,
 } from "./planconster";
 import { loggEndringAvPlan } from "../../../util/amplitude-klient";
+import { PadlockLockedIcon } from "@navikt/aksel-icons";
 
 const InnholdsRad = styled(HStack)`
     margin-bottom: 0.5rem;
@@ -27,69 +29,7 @@ const StyledHStack = styled(HStack)`
     --a-spacing-6: 1.5rem;
 `;
 
-function StartOgSluttVelger({
-    innhold,
-    setNyStartDato,
-    setNySluttDato,
-    setNyStartOgSluttDato,
-}: {
-    innhold: PlanInnhold;
-    setNyStartDato: (date: Date) => void;
-    setNySluttDato: (date: Date) => void;
-    setNyStartOgSluttDato: (startDato: Date, sluttDato: Date) => void;
-}) {
-    const datepickerFrom = useDatepicker({
-        defaultSelected: innhold.startDato ?? undefined,
-        required: true,
-        fromDate: new Date(FIRST_VALID_DATE),
-        toDate: new Date(LAST_VALID_DATE),
-        onDateChange: (date) => {
-            if (date) {
-                if (innhold.sluttDato && date > innhold.sluttDato) {
-                    const nySluttdato = new Date(date);
-                    nySluttdato.setMonth(nySluttdato.getMonth() + 1);
 
-                    setNyStartOgSluttDato(date, nySluttdato);
-                } else {
-                    setNyStartDato(date);
-                }
-
-            }
-        },
-    });
-    const datepickerTo = useDatepicker({
-        defaultSelected: innhold.sluttDato ?? undefined,
-        required: true,
-        fromDate: new Date(innhold.startDato ?? FIRST_VALID_DATE),
-        toDate: new Date(LAST_VALID_DATE),
-        onDateChange: (date) => {
-            if (date) {
-                setNySluttDato(date);
-            }
-        },
-    });
-
-    return (
-        <StyledHStack wrap gap="4" justify="center">
-            <DatePicker {...datepickerFrom.datepickerProps} dropdownCaption>
-                <DatePicker.Input
-                    hideLabel
-                    size="small"
-                    label={`Startdato for ${innhold.navn}`}
-                    {...datepickerFrom.inputProps}
-                />
-            </DatePicker>
-            <DatePicker {...datepickerTo.datepickerProps} dropdownCaption>
-                <DatePicker.Input
-                    hideLabel
-                    size="small"
-                    label={`Sluttdato for ${innhold.navn}`}
-                    {...datepickerTo.inputProps}
-                />
-            </DatePicker>
-        </StyledHStack>
-    );
-}
 
 export default function InnholdOppsett({
     valgteInnhold,
@@ -212,34 +152,155 @@ export default function InnholdOppsett({
                 .sort((a, b) => {
                     return a.id - b.id;
                 })
-                .map((innhold) => {
-                    return (
-                        <InnholdsRad
-                            key={`${innhold.sluttDato}${innhold.startDato}${innhold.id}`}
-                            justify="space-between"
-                            gap="4"
-                            align="center"
-                        >
-                            <Checkbox value={innhold.id}>
-                                {innhold.navn}
-                            </Checkbox>
-                            {innhold.inkludert ? (
-                                <StartOgSluttVelger
-                                    innhold={innhold}
-                                    setNyStartDato={(date) =>
-                                        setNyStartDato(innhold.id, date)
-                                    }
-                                    setNySluttDato={(date) =>
-                                        setNySluttDato(innhold.id, date)
-                                    }
-                                    setNyStartOgSluttDato={(startDato, sluttDato) =>
-                                        setNyStartOgSluttDato(innhold.id, startDato, sluttDato)
-                                    }
-                                />
-                            ) : undefined}
-                        </InnholdsRad>
-                    );
-                })}
+                .map((innhold) => (
+                    <Undertemarad
+                        key={innhold.id}
+                        innhold={innhold}
+                        setNyStartDato={setNyStartDato}
+                        setNySluttDato={setNySluttDato}
+                        setNyStartOgSluttDato={setNyStartOgSluttDato}
+                    />
+                ))}
         </CheckboxGroup>
+    );
+}
+
+const StyledCheckbox = styled(Checkbox)`
+.navds-checkbox__label {
+    .navds-checkbox__content {
+        .navds-checkbox__label-text {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+}
+`;
+
+function Undertemarad({
+    innhold,
+    setNyStartDato,
+    setNySluttDato,
+    setNyStartOgSluttDato,
+    låst = false,
+}: {
+    innhold: PlanInnhold;
+    setNyStartDato: (innholdId: number, date: Date) => void;
+    setNySluttDato: (innholdId: number, date: Date) => void;
+    setNyStartOgSluttDato: (innholdId: number, startDato: Date, sluttDato: Date) => void;
+    låst?: boolean;
+}) {
+    return (
+        <InnholdsRad
+            key={`${innhold.sluttDato}${innhold.startDato}${innhold.id}`}
+            justify="space-between"
+            gap="4"
+            align="center"
+        >
+            <RadCheckbox innhold={innhold} låst={låst} />
+            {innhold.inkludert ? (
+                <StartOgSluttVelger
+                    innhold={innhold}
+                    setNyStartDato={(date) =>
+                        setNyStartDato(innhold.id, date)
+                    }
+                    setNySluttDato={(date) =>
+                        setNySluttDato(innhold.id, date)
+                    }
+                    setNyStartOgSluttDato={(startDato, sluttDato) =>
+                        setNyStartOgSluttDato(innhold.id, startDato, sluttDato)
+                    }
+                />
+            ) : undefined}
+        </InnholdsRad>
+    );
+}
+
+function RadCheckbox({
+    innhold,
+    låst,
+}: {
+    innhold: PlanInnhold;
+    låst?: boolean;
+}) {
+    if (låst) {
+        return (
+            <Tooltip content="Undertema har aktivitet i Salesforce og kan ikke endres" defaultOpen={false}>
+                <StyledCheckbox value={innhold.id} readOnly>
+                    <PadlockLockedIcon title="rad er låst" fontSize="1.5rem" />
+                    {innhold.navn}
+                </StyledCheckbox>
+            </Tooltip>
+        );
+    }
+    return (
+        <StyledCheckbox value={innhold.id}>
+            {innhold.navn}
+        </StyledCheckbox>
+    );
+}
+
+function StartOgSluttVelger({
+    innhold,
+    setNyStartDato,
+    setNySluttDato,
+    setNyStartOgSluttDato,
+}: {
+    innhold: PlanInnhold;
+    setNyStartDato: (date: Date) => void;
+    setNySluttDato: (date: Date) => void;
+    setNyStartOgSluttDato: (startDato: Date, sluttDato: Date) => void;
+    låst?: boolean;
+}) {
+    const datepickerFrom = useDatepicker({
+        defaultSelected: innhold.startDato ?? undefined,
+        required: true,
+        fromDate: new Date(FIRST_VALID_DATE),
+        toDate: new Date(LAST_VALID_DATE),
+        onDateChange: (date) => {
+            if (date) {
+                if (innhold.sluttDato && date > innhold.sluttDato) {
+                    const nySluttdato = new Date(date);
+                    nySluttdato.setMonth(nySluttdato.getMonth() + 1);
+
+                    setNyStartOgSluttDato(date, nySluttdato);
+                } else {
+                    setNyStartDato(date);
+                }
+
+            }
+        },
+    });
+    const datepickerTo = useDatepicker({
+        defaultSelected: innhold.sluttDato ?? undefined,
+        required: true,
+        fromDate: new Date(innhold.startDato ?? FIRST_VALID_DATE),
+        toDate: new Date(LAST_VALID_DATE),
+        onDateChange: (date) => {
+            if (date) {
+                setNySluttDato(date);
+            }
+        },
+    });
+
+    return (
+        <StyledHStack wrap gap="4" justify="center">
+            <DatePicker {...datepickerFrom.datepickerProps} dropdownCaption>
+                <DatePicker.Input
+                    hideLabel
+                    size="small"
+                    label={`Startdato for ${innhold.navn}`}
+                    {...datepickerFrom.inputProps}
+                />
+            </DatePicker>
+            <DatePicker {...datepickerTo.datepickerProps} dropdownCaption>
+                <DatePicker.Input
+                    hideLabel
+                    size="small"
+                    label={`Sluttdato for ${innhold.navn}`}
+                    {...datepickerTo.inputProps}
+                />
+            </DatePicker>
+        </StyledHStack>
     );
 }
