@@ -23,7 +23,7 @@
         "@navikt/ds-react": "7.17.2",
         "highcharts": "12.1.2",
         "highcharts-react-official": "3.2.1",
-        "jspdf": "3.0.0",
+        "jspdf": "3.0.1",
         "react": "19.0.0",
         "react-dom": "19.0.0",
         "react-router-dom": "7.3.0",
