@@ -25,6 +25,7 @@ import { ExternalLinkIcon, TrashIcon } from "@navikt/aksel-icons";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import { StyledSamarbeidModal } from "../NyttSamarbeidModal";
 /* import KanIkkeSletteModal from "./KanIkkeSletteModal"; */
+/* import BekreftFullførModal from "./BekreftFullførModal"; */
 
 export const ModalBodyInnholdFlex = styled.div`
     display: flex;
@@ -68,6 +69,7 @@ export const EndreSamarbeidModal = ({
     const [antallTegn, setAntallTegn] = useState(samarbeid.navn?.length ?? 0);
     const [navn, setNavn] = useState(defaultNavnHvisTomt(samarbeid.navn));
     const [lagreNavnVellykket, setLagreNavnVellykket] = useState(false);
+    /* const [bekreftSlettModalÅpen, setBekreftSlettModalÅpen] = useState(false); */
     /* const [slettevarselÅpen, setSlettevarselÅpen] = useState(false);
     const sletteresultat = {
         kanSlettes: false,
@@ -262,6 +264,11 @@ export const EndreSamarbeidModal = ({
                 lukkModal={() => setSlettevarselÅpen(false)}
                 samarbeid={samarbeid}
                 begrunnelser={sletteresultat.begrunnelser} /> */}
+            {/* <BekreftFullførModal
+                åpen={bekreftSlettModalÅpen}
+                lukkModal={() => setBekreftSlettModalÅpen(false)}
+                samarbeid={samarbeid}
+            /> */}
         </>
     );
 };

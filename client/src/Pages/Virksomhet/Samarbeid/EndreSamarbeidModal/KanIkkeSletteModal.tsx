@@ -6,7 +6,7 @@ import styled from "styled-components";
 import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
 import { useVirksomhetContext } from "../../VirksomhetContext";
 
-export default function BekreftSlettingModal({
+export default function KanIkkeSletteModal({
 	åpen,
 	lukkModal,
 	samarbeid,
@@ -22,9 +22,9 @@ export default function BekreftSlettingModal({
 	const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
 
 	return (
-		<Modal open={åpen} onClose={lukkModal} aria-labelledby="bekreft-slett-samarbeid-modal-heading" closeOnBackdropClick>
+		<Modal open={åpen} onClose={lukkModal} aria-labelledby="kan-ikke-slette-modal-heading" closeOnBackdropClick>
 			<Modal.Header>
-				<Heading size="medium" id="bekreft-slett-samarbeid-modal-heading">Slett <i>Avdeling</i> {samarbeid.navn}</Heading>
+				<Heading size="medium" id="kan-ikke-slette-modal-heading">Slett <i>Avdeling</i> {samarbeid.navn}</Heading>
 			</Modal.Header>
 			<Modal.Body>
 				<BodyLong spacing>
