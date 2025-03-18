@@ -56,6 +56,7 @@ export const PlanUndertemaSchema = z.object({
     status: PlanStatusSchema.nullable(),
     startDato: datoSchema.nullable(),
     sluttDato: datoSchema.nullable(),
+    harAktiviteterISalesforce: z.boolean(),
 });
 export type PlanInnhold = z.infer<typeof PlanUndertemaSchema>;
 

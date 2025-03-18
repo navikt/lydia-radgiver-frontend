@@ -29,6 +29,7 @@ const dummyPølser: PlanInnhold[] = [
         sluttDato: new Date(2024, 3),
         navn: "Sykefraværsrutiner",
         status: "PÅGÅR",
+        harAktiviteterISalesforce: false,
     },
     {
         id: 2,
@@ -38,6 +39,7 @@ const dummyPølser: PlanInnhold[] = [
         sluttDato: new Date(2024, 5),
         navn: "Oppfølgingssamtaler",
         status: "FULLFØRT",
+        harAktiviteterISalesforce: false,
     },
     {
         id: 3,
@@ -47,6 +49,7 @@ const dummyPølser: PlanInnhold[] = [
         sluttDato: new Date(2024, 10),
         navn: "Tilretteleggings- og medvirkningsplikt",
         status: "PLANLAGT",
+        harAktiviteterISalesforce: false,
     },
     {
         id: 4,
@@ -56,6 +59,7 @@ const dummyPølser: PlanInnhold[] = [
         sluttDato: new Date(2024, 9),
         navn: "Gjentagende sykefravær",
         status: "PÅGÅR",
+        harAktiviteterISalesforce: false,
     },
     {
         id: 5,
@@ -65,6 +69,7 @@ const dummyPølser: PlanInnhold[] = [
         sluttDato: new Date(2024, 11),
         navn: "Enda en greie",
         status: "FULLFØRT",
+        harAktiviteterISalesforce: false,
     },
     {
         id: 6,
@@ -74,6 +79,7 @@ const dummyPølser: PlanInnhold[] = [
         sluttDato: new Date(2025, 3),
         navn: "Sykefraværsrutiner 2",
         status: "PLANLAGT",
+        harAktiviteterISalesforce: false,
     },
     {
         id: 7,
@@ -83,6 +89,7 @@ const dummyPølser: PlanInnhold[] = [
         sluttDato: new Date(2025, 5),
         navn: "Oppfølgingssamtaler 2",
         status: "PÅGÅR",
+        harAktiviteterISalesforce: false,
     },
     {
         id: 8,
@@ -92,6 +99,7 @@ const dummyPølser: PlanInnhold[] = [
         sluttDato: new Date(2025, 10),
         navn: "Tilretteleggings- og medvirkningsplikt 2",
         status: "FULLFØRT",
+        harAktiviteterISalesforce: false,
     },
     {
         id: 9,
@@ -101,6 +109,7 @@ const dummyPølser: PlanInnhold[] = [
         sluttDato: new Date(2025, 9),
         navn: "Gjentagende sykefravær 2",
         status: "PLANLAGT",
+        harAktiviteterISalesforce: false,
     },
     {
         id: 10,
@@ -110,6 +119,7 @@ const dummyPølser: PlanInnhold[] = [
         sluttDato: new Date(2025, 11),
         navn: "Enda en greie 2",
         status: "FULLFØRT",
+        harAktiviteterISalesforce: false,
     },
 ];
 

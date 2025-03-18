@@ -182,13 +182,11 @@ function Undertemarad({
     setNyStartDato,
     setNySluttDato,
     setNyStartOgSluttDato,
-    låst = false,
 }: {
     innhold: PlanInnhold;
     setNyStartDato: (innholdId: number, date: Date) => void;
     setNySluttDato: (innholdId: number, date: Date) => void;
     setNyStartOgSluttDato: (innholdId: number, startDato: Date, sluttDato: Date) => void;
-    låst?: boolean;
 }) {
     return (
         <InnholdsRad
@@ -197,7 +195,7 @@ function Undertemarad({
             gap="4"
             align="center"
         >
-            <RadCheckbox innhold={innhold} låst={låst} />
+            <RadCheckbox innhold={innhold} låst={innhold.harAktiviteterISalesforce} />
             {innhold.inkludert ? (
                 <StartOgSluttVelger
                     innhold={innhold}
