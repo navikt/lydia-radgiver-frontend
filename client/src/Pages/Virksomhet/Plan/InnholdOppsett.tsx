@@ -1,10 +1,8 @@
 import {
-    Checkbox,
     CheckboxGroup,
     HStack,
     DatePicker,
     useDatepicker,
-    Tooltip,
 } from "@navikt/ds-react";
 import styled from "styled-components";
 import { PlanInnhold } from "../../../domenetyper/plan";
@@ -16,7 +14,7 @@ import {
     defaultStartDate,
 } from "./planconster";
 import { loggEndringAvPlan } from "../../../util/amplitude-klient";
-import { PadlockLockedIcon } from "@navikt/aksel-icons";
+import LåsbarCheckbox from "../../../components/LåsbarCheckbox";
 
 const InnholdsRad = styled(HStack)`
     margin-bottom: 0.5rem;
@@ -165,18 +163,6 @@ export default function InnholdOppsett({
     );
 }
 
-const StyledCheckbox = styled(Checkbox)`
-.navds-checkbox__label {
-    .navds-checkbox__content {
-        .navds-checkbox__label-text {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-    }
-}
-`;
-
 function Undertemarad({
     innhold,
     setNyStartDato,
@@ -219,24 +205,19 @@ function RadCheckbox({
     låst,
 }: {
     innhold: PlanInnhold;
-    låst?: boolean;
+    låst: boolean;
 }) {
-    if (låst) {
-        return (
-            <Tooltip content="Undertema har aktivitet i Salesforce og kan ikke endres" defaultOpen={false}>
-                <StyledCheckbox value={innhold.id} readOnly>
-                    <PadlockLockedIcon title="rad er låst" fontSize="1.5rem" />
-                    {innhold.navn}
-                </StyledCheckbox>
-            </Tooltip>
-        );
-    }
     return (
-        <StyledCheckbox value={innhold.id}>
+        <LåsbarCheckbox
+            låst={låst}
+            value={innhold.id}
+            tooltipText="Rad er låst fordi det er aktiviteter i Salesforce"
+        >
             {innhold.navn}
-        </StyledCheckbox>
+        </LåsbarCheckbox>
     );
 }
+
 
 function StartOgSluttVelger({
     innhold,

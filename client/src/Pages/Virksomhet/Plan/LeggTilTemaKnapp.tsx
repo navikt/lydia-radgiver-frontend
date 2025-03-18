@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import {
     BodyShort,
     Button,
-    Checkbox,
     CheckboxGroup,
     Modal,
 } from "@navikt/ds-react";
@@ -16,6 +15,7 @@ import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import { loggModalÅpnet } from "../../../util/amplitude-klient";
+import LåsbarCheckbox from "../../../components/LåsbarCheckbox";
 
 const UndertemaSetupContainer = styled.div`
     margin-bottom: 1rem;
@@ -180,9 +180,12 @@ export default function LeggTilTemaKnapp({
                                 })
                                 .map((tema) => (
                                     <React.Fragment key={tema.id}>
-                                        <Checkbox value={tema.id}>
+                                        <LåsbarCheckbox
+                                            value={tema.id}
+                                            låst={tema.undertemaer.some((undertema) => undertema.harAktiviteterISalesforce)}
+                                            tooltipText="Temaet kan ikke endres fordi undertema har aktiviteter i Salesforce">
                                             {tema.navn}
-                                        </Checkbox>
+                                        </LåsbarCheckbox>
                                         {tema.inkludert && (
                                             <UndertemaSetupContainer>
                                                 <InnholdOppsett
