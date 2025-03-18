@@ -7,7 +7,7 @@ const FILNAVN_DEL_MAKS = 25;
 export default function useEksportFilnavn(
     type: string,
     dato?: Date | null,
-    avdeling?: string,
+    avdeling?: string | null,
 ) {
     const { virksomhet } = useVirksomhetContext();
     const { navn: virksomhetsnavn } = virksomhet;

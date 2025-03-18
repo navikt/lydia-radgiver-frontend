@@ -79,7 +79,7 @@ export const TemaResultat = ({
     );
 };
 
-function getGraffargeFromTema(navn: string, mørk: boolean = false) {
+export function getGraffargeFromTema(navn: string, mørk: boolean = false) {
     switch (navn?.toLowerCase()) {
         case "sykefraværsarbeid":
             return "var(--a-green-500)";

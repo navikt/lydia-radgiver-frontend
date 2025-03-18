@@ -230,6 +230,7 @@ export const EvalueringCardHeaderInnhold = ({
                             startSpørreundersøkelsen={startEvaluering}
                         />
                         <SpørreundersøkelseMedInnholdVisning
+                            spørreundersøkelse={spørreundersøkelse}
                             erModalÅpen={forhåndsvisModalÅpen}
                             spørreundersøkelseid={spørreundersøkelse.id}
                             lukkModal={() => setForhåndsvisModalÅpen(false)} />

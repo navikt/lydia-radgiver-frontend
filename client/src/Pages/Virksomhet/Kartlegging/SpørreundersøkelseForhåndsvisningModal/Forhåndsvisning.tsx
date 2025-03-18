@@ -17,6 +17,7 @@ import { useHentSpørreundersøkelseMedInnhold } from "../../../../api/lydia-api
 import { useSpørreundersøkelse } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { lokalDatoMedKlokkeslett } from "../../../../util/dato";
 import styled from "styled-components";
+import { getGraffargeFromTema } from "../../../../components/Spørreundersøkelse/TemaResultat";
 
 export default function Forhåndsvisning({ spørreundersøkelseid, setModaltittel }: { spørreundersøkelseid: string, setModaltittel: (tittel: string) => void }) {
 	const { iaSak, samarbeid } =
@@ -56,8 +57,8 @@ const Spørsmålsgruppe = styled.div`
 	padding: 1rem;
 `;
 
-function GruppertSpørsmålRenderer({ tema }: { tema: TemaDto }) {
-	const grupperteSpørsmål = tema.spørsmålOgSvaralternativer.reduce(
+function getGrupperteSpørsmål(tema: TemaDto) {
+	return React.useMemo(() => tema.spørsmålOgSvaralternativer.reduce(
 		(acc, spørsmål) => {
 			if (spørsmål.undertemanavn) {
 				acc[spørsmål.undertemanavn] = acc[spørsmål.undertemanavn] || [];
@@ -69,14 +70,29 @@ function GruppertSpørsmålRenderer({ tema }: { tema: TemaDto }) {
 			return acc;
 		},
 		{} as { [key: string]: SpørsmålDto[] },
-	);
+	), [tema]);
+};
+
+export function GruppertSpørsmålRenderer({
+	tema,
+	defaultOpen = false,
+	useFarge = false,
+	ItemRenderer = SpørsmålRenderer,
+}: {
+	tema: TemaDto,
+	useFarge?: boolean,
+	defaultOpen?: boolean,
+	ItemRenderer?: React.ComponentType<{ tema: TemaDto, defaultOpen?: boolean }>
+}) {
+	const grupperteSpørsmål = getGrupperteSpørsmål(tema);
 
 	return (
 		<>
 			{Object.entries(grupperteSpørsmål).map(([kategori, spørsmål]) => (
 				<Spørsmålsgruppe key={kategori}>
-					<Kategori tittel={kategori} />
-					<SpørsmålRenderer
+					<Kategori useFarge={useFarge} tittel={kategori} temanavn={tema.navn} />
+					<ItemRenderer
+						defaultOpen={defaultOpen}
 						tema={{ ...tema, spørsmålOgSvaralternativer: spørsmål }}
 					/>
 				</Spørsmålsgruppe>
@@ -117,7 +133,8 @@ const KategoriHeader = styled.div`
 	margin-bottom: 1rem;
 `;
 
-const Kategoritittel = styled(Heading)`
+const Kategoritittel = styled(Heading) <{ $farge: string }>`
+  color: ${(props) => props.$farge || "var(--a-blue-500)"};
   margin-bottom: 0.25rem;
 `;
 
@@ -125,13 +142,14 @@ const Kategorimål = styled(BodyShort)`
   color: var(--a-text-subtle);
 `;
 
-function Kategori({ tittel }: { tittel: string }) {
+function Kategori({ tittel, useFarge = false, temanavn = "" }: { tittel: string, useFarge?: boolean, temanavn?: string }) {
 	if (KATEGORI_BESKRIVELSER[tittel]) {
 		return (
 			<KategoriHeader>
 				<Kategoritittel
 					level="4"
 					size="xsmall"
+					$farge={useFarge ? getGraffargeFromTema(temanavn) : "var(--a-text-default)"}
 				>
 					{tittel}
 				</Kategoritittel>
@@ -151,6 +169,7 @@ function Kategori({ tittel }: { tittel: string }) {
 			<Kategoritittel
 				level="4"
 				size="xsmall"
+				$farge={useFarge ? getGraffargeFromTema(temanavn) : "var(--a-text-default)"}
 			>
 				{tittel}
 			</Kategoritittel>
@@ -159,7 +178,7 @@ function Kategori({ tittel }: { tittel: string }) {
 }
 
 
-function SpørsmålRenderer({ tema }: { tema: TemaDto }) {
+function SpørsmålRenderer({ tema, defaultOpen = false }: { tema: TemaDto, defaultOpen?: boolean }) {
 	const boxRef = React.useRef<HTMLDivElement>(null);
 	React.useEffect(() => {
 		if (boxRef !== null) {
@@ -176,6 +195,7 @@ function SpørsmålRenderer({ tema }: { tema: TemaDto }) {
 				<SpørsmålAccordionItem
 					key={spørsmål.id}
 					spørsmål={spørsmål}
+					defaultOpen={defaultOpen}
 				/>
 			))}
 		</Accordion>
@@ -197,11 +217,13 @@ const StyledAccordionItem = styled(Accordion.Item)`
 
 function SpørsmålAccordionItem({
 	spørsmål,
+	defaultOpen = false,
 }: {
 	spørsmål: SpørsmålDto;
+	defaultOpen?: boolean;
 }) {
 	return (
-		<StyledAccordionItem>
+		<StyledAccordionItem defaultOpen={defaultOpen}>
 			<StyledAccordionHeader>
 				{spørsmål.spørsmål}
 			</StyledAccordionHeader>
