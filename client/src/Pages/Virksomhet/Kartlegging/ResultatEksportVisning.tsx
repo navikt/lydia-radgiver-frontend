@@ -13,7 +13,7 @@ import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
 import { useHentResultat } from "../../../api/lydia-api/spørreundersøkelse";
 import { useSpørreundersøkelse, useSpørreundersøkelseType } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 
-interface EksportVisningProps {
+interface ResultatEksportVisningProps {
     erIEksportMode: boolean;
     setErIEksportMode: (erIEksportMode: boolean) => void;
     iaSak: IASak;
@@ -193,12 +193,12 @@ class pdfEksport {
     }
 }
 
-const EksportVisning = ({
+const ResultatEksportVisning = ({
     erIEksportMode,
     setErIEksportMode,
     iaSak,
     spørreundersøkelse,
-}: EksportVisningProps) => {
+}: ResultatEksportVisningProps) => {
     const targetRef = React.useRef<HTMLDivElement>(null);
     const [erLastet, setErLastet] = React.useState(false);
     const type = useSpørreundersøkelseType();
@@ -316,4 +316,4 @@ function EksportInnhold({
     );
 }
 
-export default EksportVisning;
+export default ResultatEksportVisning;

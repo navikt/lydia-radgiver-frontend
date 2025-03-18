@@ -5,7 +5,7 @@ import { åpneSpørreundersøkelseINyFane } from "../../../../util/navigasjon";
 import { SlettSpørreundersøkelseModal } from "../../Kartlegging/SlettSpørreundersøkelseModal";
 import { StartSpørreundersøkelseModal } from "../../Kartlegging/StartSpørreundersøkelseModal";
 import { FullførSpørreundersøkelseModal } from "../../Kartlegging/FullførSpørreundersøkelseModal";
-import EksportVisning from "../../Kartlegging/EksportVisning";
+import ResultatEksportVisning from "../../Kartlegging/ResultatEksportVisning";
 import { SpørreundersøkelseStatusBadge } from "../../../../components/Badge/SpørreundersøkelseStatusBadge";
 import { TrashIcon } from "@navikt/aksel-icons";
 import {
@@ -164,7 +164,7 @@ export const EvalueringCardHeaderInnhold = ({
                     <ExpansionCard.Title>Evaluering</ExpansionCard.Title>
                     <HeaderRightContent>
                         <ActionButtonContainer>
-                            <EksportVisning
+                            <ResultatEksportVisning
                                 iaSak={iaSak}
                                 spørreundersøkelse={spørreundersøkelse}
                                 erIEksportMode={erIEksportMode}

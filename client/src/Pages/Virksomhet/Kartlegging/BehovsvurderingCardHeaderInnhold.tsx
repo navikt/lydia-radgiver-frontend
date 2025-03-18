@@ -5,7 +5,7 @@ import { åpneSpørreundersøkelseINyFane } from "../../../util/navigasjon";
 import { SlettSpørreundersøkelseModal } from "./SlettSpørreundersøkelseModal";
 import { StartSpørreundersøkelseModal } from "./StartSpørreundersøkelseModal";
 import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkelseModal";
-import EksportVisning from "./EksportVisning";
+import ResultatEksportVisning from "./ResultatEksportVisning";
 import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
 import { SpørreundersøkelseStatusBadge } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
 import { TrashIcon } from "@navikt/aksel-icons";
@@ -176,7 +176,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                     <ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
                     <HeaderRightContent>
                         <ActionButtonContainer>
-                            <EksportVisning
+                            <ResultatEksportVisning
                                 iaSak={iaSak}
                                 spørreundersøkelse={spørreundersøkelse}
                                 erIEksportMode={erIEksportMode}
