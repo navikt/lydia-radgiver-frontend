@@ -4,6 +4,7 @@ import {
     VirksomhetStatusBrreg,
     VirksomhetStatusBrregEnum,
 } from "../../../domenetyper/virksomhet";
+import capitalizeFirstLetterLowercaseRest from "../../../util/formatering/capitalizeFirstLetterLowercaseRest";
 
 const BrregStatusTag = styled(Tag)`
     align-self: center;
@@ -18,13 +19,9 @@ export const BrregStatus = ({ status }: Props) => {
         return null;
     }
 
-    const capitalizeFirstLetterOnly = (string: string) => {
-        return string.charAt(0).toUpperCase() + string.slice(1).toLowerCase();
-    };
-
     return (
         <BrregStatusTag variant="neutral">
-            {`${capitalizeFirstLetterOnly(status)} hos Brønnøysundregistrene`}
+            {`${capitalizeFirstLetterLowercaseRest(status)} hos Brønnøysundregistrene`}
         </BrregStatusTag>
     );
 };
