@@ -11,9 +11,9 @@ export default function BekreftFullførModal({
 	samarbeid: IaSakProsess;
 }) {
 	return (
-		<Modal open={åpen} onClose={lukkModal} aria-labelledby="bekreft-slett-samarbeid-modal-heading" closeOnBackdropClick>
+		<Modal open={åpen} onClose={lukkModal} aria-labelledby="bekreft-fullfør-samarbeid-modal-heading" closeOnBackdropClick width="small">
 			<Modal.Header>
-				<Heading size="medium" id="bekreft-slett-samarbeid-modal-heading">Fullfør <i>Avdeling</i> {samarbeid.navn}</Heading>
+				<Heading size="medium" id="bekreft-fullfør-samarbeid-modal-heading">Fullfør <i>Avdeling</i> {samarbeid.navn}</Heading>
 			</Modal.Header>
 			<Modal.Body>
 				<BodyLong spacing>
