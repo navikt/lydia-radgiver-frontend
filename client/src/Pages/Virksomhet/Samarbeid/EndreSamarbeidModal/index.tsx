@@ -18,13 +18,15 @@ import React, { useEffect, useState } from "react";
 import {
     useHentAktivSakForVirksomhet,
     useHentSamarbeidshistorikk,
+    getKanSletteSamarbeid,
 } from "../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../api/lydia-api/sak";
 import styled from "styled-components";
 import { ExternalLinkIcon, TrashIcon } from "@navikt/aksel-icons";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import { StyledSamarbeidModal } from "../NyttSamarbeidModal";
-/* import KanIkkeSletteModal from "./KanIkkeSletteModal"; */
+import { KanSletteSamarbeid } from "../../../../domenetyper/kanSletteSamarbeid";
+import KanIkkeSletteModal from "./KanIkkeSletteModal";
 /* import BekreftFullførModal from "./BekreftFullførModal"; */
 
 export const ModalBodyInnholdFlex = styled.div`
@@ -69,17 +71,8 @@ export const EndreSamarbeidModal = ({
     const [antallTegn, setAntallTegn] = useState(samarbeid.navn?.length ?? 0);
     const [navn, setNavn] = useState(defaultNavnHvisTomt(samarbeid.navn));
     const [lagreNavnVellykket, setLagreNavnVellykket] = useState(false);
-    /* const [bekreftSlettModalÅpen, setBekreftSlettModalÅpen] = useState(false); */
-    /* const [slettevarselÅpen, setSlettevarselÅpen] = useState(false);
-    const sletteresultat = {
-        kanSlettes: false,
-        begrunnelser: [
-            "SALESFORCE_ACTIVITET",
-            "FULLFØRT_BEHOVSVURDERING",
-            "AKTIV_SAMARBEIDSPLAN",
-            "PÅBEGYNT_EVALUERING",
-        ]
-    } */
+    const [kanSletteResultat, setKanSletteResultat] = useState<KanSletteSamarbeid>();
+    const [lasterKanSlette, setLasterKanSlette] = useState(false);
 
     useEffect(() => {
         setNavn(defaultNavnHvisTomt(samarbeid.navn));
@@ -116,10 +109,17 @@ export const EndreSamarbeidModal = ({
     };
 
     const slettSamarbeid = () => {
-        //TODO: sjekk om sletting er tillatt, og evt. åpne slettevarsel.
-        // setSlettevarselÅpen(true);
-        nyHendelse("SLETT_PROSESS").then(() => {
-            setOpen(false);
+        setLasterKanSlette(true);
+        getKanSletteSamarbeid(iaSak.orgnr, iaSak.saksnummer, samarbeid.id).then((kanSletteResult) => {
+            if (kanSletteResult.kanSlettes) {
+                return nyHendelse("SLETT_PROSESS").then(() => {
+                    setLasterKanSlette(false);
+                    setOpen(false);
+                });
+            } else {
+                setLasterKanSlette(false);
+                setKanSletteResultat(kanSletteResult);
+            }
         });
     };
 
@@ -249,6 +249,7 @@ export const EndreSamarbeidModal = ({
                         variant="secondary-neutral"
                         title={`Slett "${samarbeid.navn}"`}
                         onClick={slettSamarbeid}
+                        loading={lasterKanSlette}
                     />
                     {lagreNavnVellykket && (
                         <div style={{ display: "flex", alignItems: "center" }}>
@@ -259,16 +260,11 @@ export const EndreSamarbeidModal = ({
                     )}
                 </Modal.Footer>
             </StyledSamarbeidModal>
-            {/* <KanIkkeSletteModal
-                åpen={slettevarselÅpen}
-                lukkModal={() => setSlettevarselÅpen(false)}
+            <KanIkkeSletteModal
+                åpen={kanSletteResultat?.kanSlettes === false}
+                lukkModal={() => setKanSletteResultat(undefined)}
                 samarbeid={samarbeid}
-                begrunnelser={sletteresultat.begrunnelser} /> */}
-            {/* <BekreftFullførModal
-                åpen={bekreftSlettModalÅpen}
-                lukkModal={() => setBekreftSlettModalÅpen(false)}
-                samarbeid={samarbeid}
-            /> */}
+                begrunnelser={kanSletteResultat?.begrunnelser ?? []} />
         </>
     );
 };

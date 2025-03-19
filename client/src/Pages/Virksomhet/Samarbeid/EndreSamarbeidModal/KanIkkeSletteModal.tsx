@@ -5,6 +5,7 @@ import React from "react";
 import styled from "styled-components";
 import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
 import { useVirksomhetContext } from "../../VirksomhetContext";
+import { KanIkkeSletteBegrunnelse } from "../../../../domenetyper/kanSletteSamarbeid";
 
 export default function KanIkkeSletteModal({
 	åpen,
@@ -15,7 +16,7 @@ export default function KanIkkeSletteModal({
 	åpen: boolean;
 	lukkModal: () => void;
 	samarbeid: IaSakProsess;
-	begrunnelser: string[];
+	begrunnelser: KanIkkeSletteBegrunnelse[];
 }) {
 	const prettyBegrunnelser = usePrettyBegrunnelser(begrunnelser);
 	const { virksomhet } = useVirksomhetContext();
@@ -57,16 +58,16 @@ const SalesforceLenke = styled(EksternLenke)`
 	margin-top: 3rem;
 `;
 
-function usePrettyBegrunnelser(begrunnelser: string[]): string[] {
+function usePrettyBegrunnelser(begrunnelser: KanIkkeSletteBegrunnelse[]): string[] {
 	return React.useMemo(() => begrunnelser.map((begrunnelse) => {
 		switch (begrunnelse) {
-			case "SALESFORCE_ACTIVITET":
+			case "FINNES_SALESFORCE_AKTIVITET":
 				return "Aktiviteter i Salesforce";
-			case "FULLFØRT_BEHOVSVURDERING":
+			case "FINNES_BEHOVSVURDERING":
 				return "Fullført behovsvurdering";
-			case "AKTIV_SAMARBEIDSPLAN":
+			case "FINNES_SAMARBEIDSPLAN":
 				return "Aktiv samarbeidsplan";
-			case "PÅBEGYNT_EVALUERING":
+			case "FINNES_EVALUERING":
 				return "Påbegynt evaluering";
 			default:
 				return begrunnelse;

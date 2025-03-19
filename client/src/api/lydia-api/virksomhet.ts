@@ -9,6 +9,7 @@ import {
     HistoriskStatistikk,
     historiskStatistikkSchema,
 } from "../../domenetyper/historiskstatistikk";
+import { KanSletteSamarbeid } from "../../domenetyper/kanSletteSamarbeid";
 import {
     Publiseringsinfo,
     publiseringsinfoSchema,
@@ -146,3 +147,17 @@ export const useHentSalesforceUrl = (orgnr: string) => {
         false,
     );
 };
+
+export const getKanSletteSamarbeid = async (orgnummer: string, saksnummer: string, prosessId: number) => {
+    try {
+        const response = await fetch(`${iaSakPath}/${orgnummer}/${saksnummer}/${prosessId}/kanslettes`);
+        if (!response.ok) {
+            throw new Error("Kunne ikke hente 'kan slette samarbeid'");
+        }
+    
+        return await response.json() as KanSletteSamarbeid;
+    } catch (error) {
+        console.error(error);
+        return Promise.reject(error);
+    }
+}
