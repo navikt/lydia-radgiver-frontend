@@ -1,3 +1,4 @@
+import React from "react";
 import OpprettBehovsvurderingAlert from "../../Pages/Virksomhet/Kartlegging/OpprettetBehovsvurderingAlert";
 import { useVirksomhetContext } from "../../Pages/Virksomhet/VirksomhetContext";
 import { sorterPåDato, formaterDatoForSpørreundersøkelse } from "./dato";
@@ -14,9 +15,8 @@ export default function Spørreundersøkelseliste() {
         spørreundersøkelseliste.length > 0 &&
         sorterPåDato(spørreundersøkelseliste).map(
             (behovsvurdering, index, originalArray) => (
-                <>
+                <React.Fragment key={behovsvurdering.id}>
                     <SpørreundersøkelseRad
-                        key={behovsvurdering.id}
                         spørreundersøkelse={behovsvurdering}
                         avstandFraSiste={spørreundersøkelseliste.length - index}
                         dato={formaterDatoForSpørreundersøkelse(
@@ -36,7 +36,7 @@ export default function Spørreundersøkelseliste() {
                             <OpprettBehovsvurderingAlert onClose={() => setSisteOpprettedeSpørreundersøkelseId("")} />
                         ) : null
                     }
-                </>
+                </React.Fragment>
             ),
         )
     );
