@@ -18,10 +18,10 @@ import { useSpørreundersøkelse } from "../../../../components/Spørreundersøk
 import { lokalDatoMedKlokkeslett } from "../../../../util/dato";
 import styled from "styled-components";
 import { getGraffargeFromTema } from "../../../../components/Spørreundersøkelse/TemaResultat";
+import capitalizeFirstLetterLowercaseRest from "../../../../util/formatering/capitalizeFirstLetterLowercaseRest";
 
 export default function Forhåndsvisning({ spørreundersøkelseid, setModaltittel }: { spørreundersøkelseid: string, setModaltittel: (tittel: string) => void }) {
-	const { iaSak, samarbeid } =
-		useSpørreundersøkelse();
+	const { iaSak, samarbeid, spørreundersøkelseType } = useSpørreundersøkelse();
 	const { data: spørreundersøkelseForhåndsvisning } =
 		useHentSpørreundersøkelseMedInnhold(
 			iaSak.orgnr,
@@ -32,7 +32,7 @@ export default function Forhåndsvisning({ spørreundersøkelseid, setModaltitte
 		);
 	React.useEffect(() => {
 		if (spørreundersøkelseForhåndsvisning) {
-			setModaltittel(`Evaluering opprettet ${lokalDatoMedKlokkeslett(spørreundersøkelseForhåndsvisning.opprettetTidspunkt)}`);
+			setModaltittel(`${capitalizeFirstLetterLowercaseRest(spørreundersøkelseType)} opprettet ${lokalDatoMedKlokkeslett(spørreundersøkelseForhåndsvisning.opprettetTidspunkt)}`);
 		}
 	}, [spørreundersøkelseForhåndsvisning, setModaltittel]);
 
@@ -78,24 +78,27 @@ export function GruppertSpørsmålRenderer({
 	defaultOpen = false,
 	useFarge = false,
 	ItemRenderer = SpørsmålRenderer,
+	Container = Spørsmålsgruppe,
 }: {
 	tema: TemaDto,
 	useFarge?: boolean,
 	defaultOpen?: boolean,
 	ItemRenderer?: React.ComponentType<{ tema: TemaDto, defaultOpen?: boolean }>
+	Container?: React.ComponentType<{ children: React.ReactNode }>
 }) {
+	const { spørreundersøkelseType } = useSpørreundersøkelse();
 	const grupperteSpørsmål = getGrupperteSpørsmål(tema);
 
 	return (
 		<>
 			{Object.entries(grupperteSpørsmål).map(([kategori, spørsmål]) => (
-				<Spørsmålsgruppe key={kategori}>
-					<Kategori useFarge={useFarge} tittel={kategori} temanavn={tema.navn} />
+				<Container key={kategori}>
+					{spørreundersøkelseType !== "Behovsvurdering" && <Kategori useFarge={useFarge} tittel={kategori} temanavn={tema.navn} />}
 					<ItemRenderer
 						defaultOpen={defaultOpen}
 						tema={{ ...tema, spørsmålOgSvaralternativer: spørsmål }}
 					/>
-				</Spørsmålsgruppe>
+				</Container>
 			))}
 		</>
 	);

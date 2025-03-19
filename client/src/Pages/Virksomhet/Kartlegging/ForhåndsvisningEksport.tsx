@@ -13,6 +13,7 @@ import { GruppertSpørsmålRenderer } from "./SpørreundersøkelseForhåndsvisni
 import { SpørsmålDto, TemaDto } from "../../../domenetyper/spørreundersøkelseMedInnhold";
 import { SquareIcon } from '@navikt/aksel-icons';
 import { getGraffargeFromTema } from "../../../components/Spørreundersøkelse/TemaResultat";
+import styled from "styled-components";
 
 interface ResultatEksportVisningProps {
     erIEksportMode: boolean;
@@ -53,7 +54,7 @@ class pdfEksport {
         reducedVpadding = false,
         addHPadding = true,
     ) {
-        const imgData = canvas.toDataURL("image/png");
+        const imgData = canvas.toDataURL("image/jpeg");
         const imgWidth = canvas.width * this.pixelRatio;
         const imgHeight = canvas.height * this.pixelRatio;
         const hPadding = addHPadding ? pdfEksport.H_PADDING : 0;
@@ -62,12 +63,13 @@ class pdfEksport {
             : pdfEksport.V_PADDING;
 
         if (this.position + imgHeight > this.pageHeight) {
-            this.addPage();
+            this.pdf.addPage();
+            this.position = pdfEksport.H_PADDING;
         }
 
         this.pdf.addImage(
             imgData,
-            "PNG",
+            "JPEG",
             vPadding,
             this.position + hPadding,
             imgWidth,
@@ -76,65 +78,30 @@ class pdfEksport {
         this.position += imgHeight + hPadding;
     }
 
-    private async addPage() {
-        this.pdf.addPage();
-        this.position = pdfEksport.H_PADDING;
-    }
-
-    private async addBody() {
+    async runExport() {
         if (this.targetRef.current === null) {
             return false;
         }
+
         const children = this.targetRef.current.childNodes;
+
         for (let i = 0; i < children.length; i++) {
             const child = children[i] as HTMLElement;
 
-            // if child is div it is a graph container
-            if (child.tagName === "DIV") {
-                await this.addGraphs(child);
-            } else {
-                const canvas = await html2canvas(child as HTMLElement, {
-                    scale: 1,
-                });
-                if (
-                    this.nextPageCantFitHeaderAndGraph(
-                        child,
-                        children[i + 1] as HTMLElement,
-                    )
-                ) {
-                    this.addPage();
-                }
-                await this.addContent(canvas);
-            }
+            this.addContent(await html2canvas(child as HTMLElement, { scale: 1 }));
         }
-        return true;
-    }
 
-    private nextPageCantFitHeaderAndGraph(
-        header: HTMLElement,
-        graph: HTMLElement,
-    ) {
-        return (
-            this.position +
-            header.clientHeight * this.pixelRatio +
-            graph.clientHeight * this.pixelRatio >
-            this.pageHeight
-        );
-    }
-
-    private async addGraphs(child: Node) {
-        this.addContent(await html2canvas(child as HTMLElement, { scale: 1 }));
-    }
-
-    private async exportPDF() {
-        return this.pdf.save(this.eksportfilnavn);
-    }
-
-    async runExport() {
-        await this.addBody();
-        await this.exportPDF();
+        this.pdf.save(this.eksportfilnavn);
     }
 }
+
+const ExportDiv = styled.div<{ $erIEksportMode: boolean }>`
+    display: ${({ $erIEksportMode }) => ($erIEksportMode ? "block" : "none")};
+    height: 0;
+    overflow: hidden;
+    position: absolute;
+    width: ${EXPORT_INTERNAL_WIDTH}px;
+`;
 
 const ForhåndsvisningEksport = ({
     erIEksportMode,
@@ -177,28 +144,21 @@ const ForhåndsvisningEksport = ({
             >
                 Last ned
             </Button>
-            <div
-                style={{ height: 0, overflow: "hidden", position: "absolute" }}
+            <ExportDiv
+                $erIEksportMode={erIEksportMode}
+                ref={targetRef}
             >
-                <div
-                    ref={targetRef}
-                    style={{
-                        display: erIEksportMode ? "block" : "none",
-                        width: EXPORT_INTERNAL_WIDTH,
-                    }}
-                >
-                    <VirksomhetsEksportHeader
-                        type={type}
-                        visDato={false}
-                        samarbeid={samarbeid}
-                    />
-                    <EksportInnhold
-                        erLastet={erLastet}
-                        setErLastet={setErLastet}
-                        spørreundersøkelse={spørreundersøkelse}
-                    />
-                </div>
-            </div>
+                <VirksomhetsEksportHeader
+                    type={type}
+                    visDato={false}
+                    samarbeid={samarbeid}
+                />
+                <EksportInnhold
+                    erLastet={erLastet}
+                    setErLastet={setErLastet}
+                    spørreundersøkelse={spørreundersøkelse}
+                />
+            </ExportDiv>
         </>
     );
 };
@@ -212,34 +172,63 @@ function EksportInnhold({
     erLastet: boolean;
     setErLastet: (erLastet: boolean) => void;
 }) {
-    const { iaSak, samarbeid } =
-        useSpørreundersøkelse();
-    const { data: spørreundersøkelseForhåndsvisning } =
-        useHentSpørreundersøkelseMedInnhold(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            samarbeid.id,
-            "Evaluering",
-            spørreundersøkelse.id,
-        );
+    const { iaSak, samarbeid } = useSpørreundersøkelse();
+    const { data: spørreundersøkelseForhåndsvisning } = useHentSpørreundersøkelseMedInnhold(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+        samarbeid.id,
+        "Evaluering",
+        spørreundersøkelse.id,
+    );
+
     React.useEffect(() => {
         if (spørreundersøkelseForhåndsvisning && !erLastet) {
             setErLastet(true);
         }
     }, [spørreundersøkelseForhåndsvisning, erLastet]);
 
-    return (<>
-        {spørreundersøkelseForhåndsvisning?.temaer.map((tema) => (
-            <React.Fragment key={tema.temaId}>
-                <Heading level="3" size="large" style={{ marginBottom: 0, color: getGraffargeFromTema(tema.navn, true) }}>
-                    {tema.navn}
-                </Heading>
-                <GruppertSpørsmålRenderer tema={tema} useFarge defaultOpen ItemRenderer={ItemRenderer} />
-            </React.Fragment>
-        ))}
-
-    </>);
+    return (
+        <>
+            {spørreundersøkelseForhåndsvisning?.temaer.map((tema) => (
+                <React.Fragment key={tema.temaId}>
+                    <Heading level="3" size="large" style={{ marginBottom: 0, color: getGraffargeFromTema(tema.navn, true) }}>
+                        {tema.navn}
+                    </Heading>
+                    <GruppertSpørsmålRenderer tema={tema} useFarge defaultOpen ItemRenderer={ItemRenderer} Container={({ children }) => children} />
+                </React.Fragment>
+            ))}
+        </>
+    );
 }
+
+const SpørsmålParContainer = styled.div`
+    display: flex;
+    flex-direction: row;
+    margin-left: -1rem;
+    margin-right: -1rem;
+`;
+
+const SpørsmålContainer = styled.div`
+    padding: 0 1.5rem;
+    margin: 0 1rem;
+    margin-top: 0;
+    width: 50%;
+`;
+
+const SpørsmålHeading = styled(Heading)`
+    margin-top: 0;
+`;
+
+const SvarBody = styled(BodyShort)`
+    display: flex;
+    align-items: center;
+    margin-top: 0.5rem;
+`;
+
+const SvarIkon = styled(SquareIcon)`
+    margin-right: 0.5rem;
+    font-size: 1.5rem;
+`;
 
 function ItemRenderer({ tema }: { tema: TemaDto }) {
     const spørsmålIPar = React.useMemo(() => {
@@ -256,16 +245,16 @@ function ItemRenderer({ tema }: { tema: TemaDto }) {
     }, [tema]);
 
     return spørsmålIPar.map((par, index) => (
-        <div key={index} style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', flexWrap: 'wrap', marginLeft: '-1rem', marginRight: '-1rem' }}>
+        <SpørsmålParContainer key={index}>
             {par.map((spørsmål: SpørsmålDto) => (
-                <div key={spørsmål.id} style={{ padding: '1.5rem', border: '1px solid #fff', margin: '1rem', borderRadius: "1rem", marginTop: 0 }}>
-                    <Heading level="3" size="small" style={{ marginTop: 0 }}>{spørsmål.spørsmål}</Heading>
+                <SpørsmålContainer key={spørsmål.id}>
+                    <SpørsmålHeading level="3" size="small">{spørsmål.spørsmål}</SpørsmålHeading>
                     {spørsmål.svaralternativer.map((svar) => (
-                        <BodyShort key={svar.svarId} style={{ display: "flex", alignItems: "center", marginTop: "0.5rem" }}><SquareIcon style={{ marginRight: '0.5rem' }} fontSize="1.5rem" />{svar.svartekst}</BodyShort>
+                        <SvarBody key={svar.svarId}><SvarIkon />{svar.svartekst}</SvarBody>
                     ))}
-                </div>
+                </SpørsmålContainer>
             ))}
-        </div>
+        </SpørsmålParContainer>
     ));
 }
 

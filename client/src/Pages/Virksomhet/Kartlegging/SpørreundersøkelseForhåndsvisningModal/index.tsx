@@ -44,7 +44,6 @@ export const SpørreundersøkelseMedInnholdVisning = ({
             width="70rem"
         >
             <Modal.Body>
-
                 <BodyShort>Spørsmålene er basert på innholdet i samarbeidsplanen ved opprettelse</BodyShort>
                 <Forhåndsvisning spørreundersøkelseid={spørreundersøkelseid} setModaltittel={setModaltittel} />
             </Modal.Body>

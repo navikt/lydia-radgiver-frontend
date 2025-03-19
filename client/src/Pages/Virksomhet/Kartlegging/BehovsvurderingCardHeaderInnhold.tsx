@@ -21,6 +21,7 @@ import {
     startSpørreundersøkelse,
     useHentSpørreundersøkelser,
 } from "../../../api/lydia-api/spørreundersøkelse";
+import { SpørreundersøkelseMedInnholdVisning } from "./SpørreundersøkelseForhåndsvisningModal";
 
 const ActionButtonContainer = styled.div`
     display: flex;
@@ -92,6 +93,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
         bekreftFullførBehovsvurderingModalÅpen,
         setBekreftFullførBehovsvurderingModalÅpen,
     ] = useState(false);
+    const [forhåndsvisModalÅpen, setForhåndsvisModalÅpen] = useState(false);
     const [
         slettSpørreundersøkelseModalÅpen,
         setSlettSpørreundersøkelseModalÅpen,
@@ -221,6 +223,14 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                     >
                                         Start
                                     </StyledActionButton>
+                                    <StyledActionButton
+                                        variant="secondary"
+                                        onClick={() =>
+                                            setForhåndsvisModalÅpen(true)
+                                        }
+                                    >
+                                        Forhåndsvis
+                                    </StyledActionButton>
                                     {brukerErEierAvSak && (
                                         <StyledActionButton
                                             variant="tertiary"
@@ -243,6 +253,11 @@ export const BehovsvurderingCardHeaderInnhold = ({
                             }
                             startSpørreundersøkelsen={startSpørreundersøkelsen}
                         />
+                        <SpørreundersøkelseMedInnholdVisning
+                            spørreundersøkelse={spørreundersøkelse}
+                            erModalÅpen={forhåndsvisModalÅpen}
+                            spørreundersøkelseid={spørreundersøkelse.id}
+                            lukkModal={() => setForhåndsvisModalÅpen(false)} />
                         {brukerRolle && (
                             <SlettSpørreundersøkelseModal
                                 spørreundersøkelse={spørreundersøkelse}
