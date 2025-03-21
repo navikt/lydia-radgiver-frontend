@@ -3,6 +3,23 @@ import NAVLogo from "../../img/NAV_logo_rød.jpg";
 import { useVirksomhetContext } from "../../Pages/Virksomhet/VirksomhetContext";
 import { IaSakProsess } from "../../domenetyper/iaSakProsess";
 import { lokalDato } from "../../util/dato";
+import styled from "styled-components";
+
+const ImageContainer = styled.div`
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 2rem;
+`;
+
+const Body = styled(BodyShort)`
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+`;
+
+const Image = styled.img`
+    width: 6rem;
+`;
 
 export default function VirksomhetsEksportHeader({
     type,
@@ -20,28 +37,13 @@ export default function VirksomhetsEksportHeader({
 
     return (
         <div>
-            <div
-                style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    alignItems: "center",
-                    marginBottom: "2rem",
-                }}
-            >
+            <ImageContainer>
                 {/* className="nav-logo" er her for pdf-eksporten */}
-                <img className="nav-logo" src={NAVLogo} alt="NAV-logo" style={{ width: "6rem" }} />
+                <Image className="nav-logo" src={NAVLogo} alt="NAV-logo" />
                 {visDato && <BodyShort>{vistDato}</BodyShort>}
-            </div>
-            <BodyShort style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}>
-                {virksomhetsdata?.virksomhet?.navn}
-            </BodyShort>
-            {samarbeid?.navn ? (
-                <BodyShort
-                    style={{ marginTop: "0.5rem", marginBottom: "0.5rem" }}
-                >
-                    {samarbeid?.navn}
-                </BodyShort>
-            ) : undefined}
+            </ImageContainer>
+            <Body>{virksomhetsdata?.virksomhet?.navn}</Body>
+            {samarbeid?.navn ? (<Body>{samarbeid?.navn}</Body>) : undefined}
             <Heading level="1" size="xlarge" spacing={true}>
                 {type} {visDato ? vistDato : ""}
             </Heading>

@@ -23,6 +23,7 @@
         "@navikt/ds-react": "7.17.2",
         "highcharts": "12.1.2",
         "highcharts-react-official": "3.2.1",
+        "html-to-image": "1.11.13",
         "jspdf": "3.0.1",
         "react": "19.0.0",
         "react-dom": "19.0.0",
@@ -66,8 +67,8 @@
         "vite": "6.2.1"
     },
     "optionalDependencies": {
-        "@rollup/rollup-linux-x64-gnu": "*",
-        "@esbuild/linux-x64": "*"
+        "@esbuild/linux-x64": "*",
+        "@rollup/rollup-linux-x64-gnu": "*"
     },
     "overrides": {
         "glob-parent": "6.0.2",
