@@ -32,8 +32,6 @@ const ActionButtonContainer = styled.div`
     }
 `;
 
-const StyledActionButton = styled(Button)``;
-
 const StyledExpansionCardHeader = styled(ExpansionCard.Header)`
     z-index: 1;
     & > div {
@@ -190,7 +188,8 @@ export const EvalueringCardHeaderInnhold = ({
                             iaSak.status === "VI_BISTÅR") &&
                             brukerRolle !== "Lesetilgang" && (
                                 <>
-                                    <StyledActionButton
+                                    <Button
+                                        variant="primary"
                                         onClick={() =>
                                             setBekreftStartKartleggingModalÅpen(
                                                 true,
@@ -198,18 +197,18 @@ export const EvalueringCardHeaderInnhold = ({
                                         }
                                     >
                                         Start
-                                    </StyledActionButton>
-                                    <StyledActionButton
+                                    </Button>
+                                    <Button
                                         variant="secondary"
                                         onClick={() =>
                                             setForhåndsvisModalÅpen(true)
                                         }
                                     >
                                         Forhåndsvis
-                                    </StyledActionButton>
+                                    </Button>
                                     {brukerErEierAvSak && (
-                                        <StyledActionButton
-                                            variant="tertiary"
+                                        <Button
+                                            variant="secondary-neutral"
                                             onClick={() =>
                                                 setSlettSpørreundersøkelseModalÅpen(
                                                     true,
@@ -265,8 +264,8 @@ export const EvalueringCardHeaderInnhold = ({
                             iaSak.status === "VI_BISTÅR") &&
                             brukerRolle !== "Lesetilgang" && (
                                 <>
-                                    <StyledActionButton
-                                        variant={"secondary"}
+                                    <Button
+                                        variant="primary"
                                         onClick={() =>
                                             åpneSpørreundersøkelseINyFane(
                                                 spørreundersøkelse.id,
@@ -275,10 +274,11 @@ export const EvalueringCardHeaderInnhold = ({
                                         }
                                     >
                                         Fortsett
-                                    </StyledActionButton>
+                                    </Button>
                                     {brukerErEierAvSak && (
                                         <>
-                                            <StyledActionButton
+                                            <Button
+                                                variant="secondary"
                                                 onClick={() =>
                                                     setBekreftFullførKartleggingModalÅpen(
                                                         true,
@@ -286,9 +286,9 @@ export const EvalueringCardHeaderInnhold = ({
                                                 }
                                             >
                                                 Fullfør
-                                            </StyledActionButton>
-                                            <StyledActionButton
-                                                variant={"danger"}
+                                            </Button>
+                                            <Button
+                                                variant="secondary-neutral"
                                                 onClick={() =>
                                                     setSlettSpørreundersøkelseModalÅpen(
                                                         true,

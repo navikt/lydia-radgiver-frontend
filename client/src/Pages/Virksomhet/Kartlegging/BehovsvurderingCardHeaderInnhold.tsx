@@ -34,8 +34,6 @@ const ActionButtonContainer = styled.div`
     }
 `;
 
-const StyledActionButton = styled(Button)``;
-
 const StyledExpansionCardHeader = styled(ExpansionCard.Header)`
     z-index: 1;
     & > div {
@@ -214,7 +212,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                             iaSak.status === "VI_BISTÅR") &&
                             brukerRolle !== "Lesetilgang" && (
                                 <>
-                                    <StyledActionButton
+                                    <Button
                                         onClick={() =>
                                             setBekreftStartBehovsvurderingModalÅpen(
                                                 true,
@@ -222,18 +220,18 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                         }
                                     >
                                         Start
-                                    </StyledActionButton>
-                                    <StyledActionButton
+                                    </Button>
+                                    <Button
                                         variant="secondary"
                                         onClick={() =>
                                             setForhåndsvisModalÅpen(true)
                                         }
                                     >
                                         Forhåndsvis
-                                    </StyledActionButton>
+                                    </Button>
                                     {brukerErEierAvSak && (
-                                        <StyledActionButton
-                                            variant="tertiary"
+                                        <Button
+                                            variant="secondary-neutral"
                                             onClick={() =>
                                                 setSlettSpørreundersøkelseModalÅpen(
                                                     true,
@@ -291,8 +289,8 @@ export const BehovsvurderingCardHeaderInnhold = ({
                             iaSak.status === "VI_BISTÅR") &&
                             brukerRolle !== "Lesetilgang" && (
                                 <>
-                                    <StyledActionButton
-                                        variant={"secondary"}
+                                    <Button
+                                        variant="primary"
                                         onClick={() =>
                                             åpneSpørreundersøkelseINyFane(
                                                 spørreundersøkelse.id,
@@ -301,10 +299,11 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                         }
                                     >
                                         Fortsett
-                                    </StyledActionButton>
+                                    </Button>
                                     {brukerErEierAvSak && (
                                         <>
-                                            <StyledActionButton
+                                            <Button
+                                                variant="secondary"
                                                 onClick={() =>
                                                     setBekreftFullførBehovsvurderingModalÅpen(
                                                         true,
@@ -312,9 +311,9 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                                 }
                                             >
                                                 Fullfør
-                                            </StyledActionButton>
-                                            <StyledActionButton
-                                                variant={"danger"}
+                                            </Button>
+                                            <Button
+                                                variant="secondary-neutral"
                                                 onClick={() =>
                                                     setSlettSpørreundersøkelseModalÅpen(
                                                         true,
