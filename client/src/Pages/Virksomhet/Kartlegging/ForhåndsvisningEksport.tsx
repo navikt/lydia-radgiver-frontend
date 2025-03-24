@@ -150,7 +150,7 @@ const ForhåndsvisningEksport = ({
                 size="small"
                 onClick={(e) => {
                     e.stopPropagation();
-                    loggEksportertTilPdf("kartlegging");
+                    loggEksportertTilPdf(type.toLowerCase(), true);
                     setErIEksportMode(true);
                 }}
             >

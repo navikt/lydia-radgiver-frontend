@@ -232,8 +232,8 @@ export const loggÅpnetVirksomhetsinfo = () => {
     });
 };
 
-export const loggEksportertTilPdf = (type: "plan" | "kartlegging") => {
-    logAmplitudeEvent("exportert til pdf", { type });
+export const loggEksportertTilPdf = (type: string, erForhåndsvisning: boolean = false) => {
+    logAmplitudeEvent("exportert til pdf", { type, erForhåndsvisning });
 };
 
 export const loggNavigertTilNyTab = (tab: string) => {
