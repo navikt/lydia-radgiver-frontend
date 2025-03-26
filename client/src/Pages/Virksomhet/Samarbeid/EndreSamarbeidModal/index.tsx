@@ -27,8 +27,7 @@ import { CheckmarkIcon, ExternalLinkIcon, TrashIcon } from "@navikt/aksel-icons"
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import { StyledSamarbeidModal } from "../NyttSamarbeidModal";
 import { KanFullføreSamarbeid, KanSletteSamarbeid } from "../../../../domenetyper/samarbeidsEndring";
-import KanIkkeSletteModal from "./KanIkkeSletteModal";
-import BekreftFullførModal from "./BekreftFullførModal";
+import BekreftHandlingModal from "./BekreftHandlingModal";
 
 export const ModalBodyInnholdFlex = styled.div`
     display: flex;
@@ -59,11 +58,6 @@ export const DetaljerWrapper = styled.div<{ $disabled?: boolean }>`
     opacity: ${({ $disabled }) => ($disabled ? 0.25 : 1)};
 `;
 
-const SquareButton = styled(Button)`
-    width: 3rem;
-    height: 3rem;
-`;
-
 interface EndreSamarbeidModalProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -85,7 +79,6 @@ export const EndreSamarbeidModal = ({
     const [kanSletteFullføreResultat, setKanSletteFullføreResultat] = useState<KanSletteSamarbeid | KanFullføreSamarbeid>();
     const [lasterKanSlette, setLasterKanSlette] = useState(false);
     const [lasterKanFullføre, setLasterKanFullføre] = useState(false);
-    const [bekreftFullførModalÅpen, setBekreftFullførModalÅpen] = useState(false);
 
     useEffect(() => {
         setNavn(defaultNavnHvisTomt(samarbeid.navn));
@@ -124,29 +117,16 @@ export const EndreSamarbeidModal = ({
     const slettSamarbeid = () => {
         setLasterKanSlette(true);
         getKanSletteSamarbeid(iaSak.orgnr, iaSak.saksnummer, samarbeid.id).then((kanSletteResult) => {
-            if (kanSletteResult.kanSlettes) {
-                return nyHendelse("SLETT_PROSESS").then(() => {
-                    setLasterKanSlette(false);
-                    setOpen(false);
-                });
-            } else {
-                setLasterKanSlette(false);
-                setKanSletteFullføreResultat(kanSletteResult);
-            }
+            setLasterKanSlette(false);
+            setKanSletteFullføreResultat(kanSletteResult);
         });
     };
 
     const fullførSamarbeid = () => {
         setLasterKanFullføre(true);
         getKanFullføreSamarbeid(iaSak.orgnr, iaSak.saksnummer, samarbeid.id).then((kanFullføreResult) => {
-            if (kanFullføreResult.kanFullføres) {
-                setBekreftFullførModalÅpen(true);
-                setOpen(false);
-                setLasterKanFullføre(false);
-            } else {
-                setLasterKanFullføre(false);
-                setKanSletteFullføreResultat(kanFullføreResult);
-            }
+            setLasterKanFullføre(false);
+            setKanSletteFullføreResultat(kanFullføreResult);
         });
     };
 
@@ -287,19 +267,6 @@ export const EndreSamarbeidModal = ({
                     >
                         Avbryt
                     </Button>
-                    <SquareButton
-                        icon={
-                            <TrashIcon
-                                title={`Slett "${samarbeid.navn}"`}
-                                fontSize="2rem"
-                            />
-                        }
-                        size={"small"}
-                        variant="secondary-neutral"
-                        title={`Slett "${samarbeid.navn}"`}
-                        onClick={slettSamarbeid}
-                        loading={lasterKanSlette}
-                    />
                     {lagreNavnVellykket && (
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <Alert inline variant="success" size="small">
@@ -309,22 +276,24 @@ export const EndreSamarbeidModal = ({
                     )}
                 </Modal.Footer>
             </StyledSamarbeidModal>
-            <KanIkkeSletteModal
+            <BekreftHandlingModal
                 type={kanSletteFullføreResultat && "kanSlettes" in kanSletteFullføreResultat ? "slette" : "fullføre"}
-                åpen={kanSletteFullføreResultat && "kanSlettes" in kanSletteFullføreResultat ? kanSletteFullføreResultat.kanSlettes === false : kanSletteFullføreResultat?.kanFullføres === false}
-                lukkModal={() => setKanSletteFullføreResultat(undefined)}
+                open={kanSletteFullføreResultat !== undefined}
+                onCancel={() => setKanSletteFullføreResultat(undefined)}
+                onConfirm={() => {
+                    if (kanSletteFullføreResultat && "kanSlettes" in kanSletteFullføreResultat) {
+                        nyHendelse("SLETT_PROSESS").then(() => {
+                            setKanSletteFullføreResultat(undefined);
+                        });
+                    } else {
+                        nyHendelse("FULLFØR_PROSESS").then(() => {
+                            setKanSletteFullføreResultat(undefined);
+                        });
+                    }
+                }}
+                erTillatt={kanSletteFullføreResultat && "kanSlettes" in kanSletteFullføreResultat ? kanSletteFullføreResultat.kanSlettes : kanSletteFullføreResultat?.kanFullføres ?? false}
                 samarbeid={samarbeid}
                 begrunnelser={kanSletteFullføreResultat?.begrunnelser ?? []} />
-            <BekreftFullførModal
-                åpen={bekreftFullførModalÅpen}
-                lukkModal={() => setBekreftFullførModalÅpen(false)}
-                fullførOgLukkModal={() => {
-                    nyHendelse("FULLFØR_PROSESS").then(() => {
-                        setBekreftFullførModalÅpen(false);
-                    });
-                }}
-                samarbeid={samarbeid}
-            />
         </>
     );
 };
