@@ -5,18 +5,21 @@ import React from "react";
 import styled from "styled-components";
 import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
 import { useVirksomhetContext } from "../../VirksomhetContext";
-import { KanIkkeSletteBegrunnelse } from "../../../../domenetyper/kanSletteSamarbeid";
+import { KanIkkeFullføreBegrunnelse, KanIkkeSletteBegrunnelse } from "../../../../domenetyper/samarbeidsEndring";
+import capitalizeFirstLetterLowercaseRest from "../../../../util/formatering/capitalizeFirstLetterLowercaseRest";
 
 export default function KanIkkeSletteModal({
 	åpen,
 	lukkModal,
 	samarbeid,
 	begrunnelser,
+	type,
 }: {
 	åpen: boolean;
 	lukkModal: () => void;
 	samarbeid: IaSakProsess;
-	begrunnelser: KanIkkeSletteBegrunnelse[];
+	begrunnelser: KanIkkeSletteBegrunnelse[] | KanIkkeFullføreBegrunnelse[];
+	type: "slette" | "fullføre";
 }) {
 	const prettyBegrunnelser = usePrettyBegrunnelser(begrunnelser);
 	const { virksomhet } = useVirksomhetContext();
@@ -25,15 +28,23 @@ export default function KanIkkeSletteModal({
 	return (
 		<Modal open={åpen} onClose={lukkModal} aria-labelledby="kan-ikke-slette-modal-heading" closeOnBackdropClick>
 			<Modal.Header>
-				<Heading size="medium" id="kan-ikke-slette-modal-heading">Slett <i>Avdeling</i> {samarbeid.navn}</Heading>
+				<Heading size="medium" id="kan-ikke-slette-modal-heading">{capitalizeFirstLetterLowercaseRest(type)} <i>Avdeling</i> {samarbeid.navn}</Heading>
 			</Modal.Header>
 			<Modal.Body>
-				<BodyLong spacing>
-					Samarbeid med fullførte behovsvurderinger, evalueringer og aktive planer kan ikke slettes. Aktiviteter i Salesforce må slettes eller flyttes til at annet samarbeid.
-				</BodyLong>
+				{
+					type === "slette" ? (
+						<BodyLong spacing>
+							Samarbeid med fullførte behovsvurderinger, evalueringer og aktive planer kan ikke slettes. Aktiviteter i Salesforce må slettes eller flyttes til at annet samarbeid.
+						</BodyLong>
+					) : (
+						<BodyLong spacing>
+							TODO: BESKRIVELSE AV HVORFOR SAMARBEID IKKE KAN FULLFØRES
+						</BodyLong>
+					)
+				}
 				<Alert variant="warning">
 					<Heading spacing size="small" level="3">
-						Samarbeidet kan ikke slettes:
+						Samarbeidet kan ikke {type}s:
 					</Heading>
 					<List>
 						{
@@ -58,7 +69,7 @@ const SalesforceLenke = styled(EksternLenke)`
 	margin-top: 3rem;
 `;
 
-function usePrettyBegrunnelser(begrunnelser: KanIkkeSletteBegrunnelse[]): string[] {
+function usePrettyBegrunnelser(begrunnelser: KanIkkeSletteBegrunnelse[] | KanIkkeFullføreBegrunnelse[]): string[] {
 	return React.useMemo(() => begrunnelser.map((begrunnelse) => {
 		switch (begrunnelse) {
 			case "FINNES_SALESFORCE_AKTIVITET":
@@ -69,6 +80,16 @@ function usePrettyBegrunnelser(begrunnelser: KanIkkeSletteBegrunnelse[]): string
 				return "Aktiv samarbeidsplan";
 			case "FINNES_EVALUERING":
 				return "Påbegynt evaluering";
+			case "AKTIV_BEHOVSVURDERING":
+				return "Det finnes en påbegynt behovsvurdering";
+			case "SAK_I_FEIL_STATUS":
+				return "Saken må være i status Vi bistår";
+			case "AKTIV_EVALUERING":
+				return "Det finnes en påbegynt evaluering";
+			case "INGEN_EVALUERING":
+				return "Det er ikke gjennomført evaluering, vil du fortsatt fullføre?";
+			case "INGEN_PLAN":
+				return "Mangler samarbeidsplan";
 			default:
 				return begrunnelse;
 		}

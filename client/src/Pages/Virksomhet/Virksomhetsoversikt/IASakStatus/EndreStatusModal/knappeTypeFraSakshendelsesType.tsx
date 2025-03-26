@@ -26,6 +26,7 @@ export const knappeTypeFraSakshendelsesType = (
         case IASakshendelseTypeEnum.enum.ENDRE_PROSESS:
         case IASakshendelseTypeEnum.enum.NY_PROSESS:
         case IASakshendelseTypeEnum.enum.SLETT_PROSESS:
+        case IASakshendelseTypeEnum.enum.FULLFØR_PROSESS:
             return "primary";
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_ER_IKKE_AKTUELL:
         case IASakshendelseTypeEnum.enum.SLETT_SAK:

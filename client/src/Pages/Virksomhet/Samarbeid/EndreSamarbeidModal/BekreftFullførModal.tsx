@@ -4,10 +4,12 @@ import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 export default function BekreftFullførModal({
 	åpen,
 	lukkModal,
+	fullførOgLukkModal,
 	samarbeid,
 }: {
 	åpen: boolean;
 	lukkModal: () => void;
+	fullførOgLukkModal: () => void;
 	samarbeid: IaSakProsess;
 }) {
 	return (
@@ -24,14 +26,8 @@ export default function BekreftFullførModal({
 				</BodyShort>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button variant="secondary" onClick={() => {
-					// TODO: Faktisk gjør noe her.
-					lukkModal();
-				}}>Avbryt</Button>
-				<Button variant="primary" onClick={() => {
-					// TODO: Faktisk gjør noe her.
-					lukkModal();
-				}}>Fullfør</Button>
+				<Button variant="secondary" onClick={lukkModal}>Avbryt</Button>
+				<Button variant="primary" onClick={fullførOgLukkModal}>Fullfør</Button>
 			</Modal.Footer>
 		</Modal>
 	);
