@@ -42,14 +42,14 @@ function BekreftHandlingHeader({ samarbeid, type }: { samarbeid: IaSakProsess, t
 	if (type === "slette") {
 		return (
 			<Modal.Header>
-				<Heading size="medium" id="bekreft-handling-modal-heading">Slett <i>Avdeling</i> {samarbeid.navn}</Heading>
+				<Heading size="medium" id="bekreft-handling-modal-heading">Slett <i>{samarbeid.navn}</i></Heading>
 			</Modal.Header>
 		);
 
 	}
 	return (
 		<Modal.Header>
-			<Heading size="medium" id="bekreft-handling-modal-heading">Fullfør <i>Avdeling</i> {samarbeid.navn}</Heading>
+			<Heading size="medium" id="bekreft-handling-modal-heading">Fullfør <i>{samarbeid.navn}</i></Heading>
 		</Modal.Header>
 	);
 }
@@ -65,7 +65,7 @@ function BekreftHandlingBrødtekst({ type }: { type: "slette" | "fullføre" }) {
 
 	return (
 		<BodyLong spacing>
-			Når du fullfører vil alle dokumenter bli journalført og det vil ikke være mulig å gjøre endringer på samarbeidet.
+			Når du fullfører vil alle dokumenter bli arkivert og det vil ikke være mulig å gjøre endringer på samarbeidet.
 		</BodyLong>
 	);
 }
@@ -125,6 +125,7 @@ function usePrettyBegrunnelser(begrunnelser: KanIkkeSletteBegrunnelse[] | KanIkk
 
 const SalesforceLenke = styled(EksternLenke)`
     font-size: 1.125rem;
+	margin-top: 1rem;
 `;
 
 function SalesforcelenkeHvisNødvendig({ type }: { type: "slette" | "fullføre" }) {
