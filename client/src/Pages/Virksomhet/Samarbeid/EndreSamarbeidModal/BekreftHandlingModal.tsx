@@ -143,13 +143,9 @@ function SalesforcelenkeHvisNødvendig({ type }: { type: "slette" | "fullføre" 
 }
 
 function Handlingsknapper({ onCancel, onConfirm, type, erTillatt }: { onCancel: () => void, onConfirm: () => void, type: "slette" | "fullføre", erTillatt: boolean }) {
-	if (!erTillatt) {
-		return null;
-	}
-
 	return (
 		<Modal.Footer>
-			<Button variant="primary" onClick={onConfirm}>{type === "fullføre" ? "Fullfør" : "Slett"}</Button>
+			<Button variant="primary" onClick={onConfirm} disabled={!erTillatt}>{type === "fullføre" ? "Fullfør" : "Slett"}</Button>
 			<Button variant="secondary" onClick={onCancel}>Avbryt</Button>
 		</Modal.Footer>
 	);
