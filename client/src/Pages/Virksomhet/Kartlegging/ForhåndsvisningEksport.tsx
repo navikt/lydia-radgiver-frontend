@@ -20,7 +20,6 @@ interface ResultatEksportVisningProps {
     setErIEksportMode: (erIEksportMode: boolean) => void;
     spørreundersøkelse: Spørreundersøkelse;
 }
-const EXPORT_INTERNAL_WIDTH = 1280;
 
 class pdfEksport {
     static H_PADDING = 7;
@@ -28,28 +27,22 @@ class pdfEksport {
     pdf!: jsPDF;
     targetRef: React.RefObject<HTMLDivElement>;
     position!: number;
-    pageWidth!: number;
-    pixelRatio!: number;
     pageHeight!: number;
     eksportfilnavn: string;
 
     constructor(
         targetRef: React.RefObject<HTMLDivElement>,
         eksportfilnavn: string,
-        width: number,
     ) {
         this.targetRef = targetRef;
         this.eksportfilnavn = eksportfilnavn;
-        this.initPdf(width);
+        this.initPdf();
     }
 
-    private initPdf(width: number) {
-        this.pdf = new jsPDF("p", "mm", "a4", true);
+    private initPdf() {
+        this.pdf = new jsPDF("p", "px", "a4", true);
         this.pageHeight =
             this.pdf.internal.pageSize.getHeight() - pdfEksport.H_PADDING * 2;
-        this.pageWidth =
-            this.pdf.internal.pageSize.getWidth() - pdfEksport.V_PADDING * 2;
-        this.pixelRatio = this.pageWidth / width;
         this.position = pdfEksport.H_PADDING;
 
     }
@@ -59,13 +52,10 @@ class pdfEksport {
         reducedVpadding = false,
         addHPadding = true,
     ) {
-        const imgData = canvas.toDataURL("image/jpeg");
-        const imgWidth = canvas.width * this.pixelRatio;
-        const imgHeight = canvas.height * this.pixelRatio;
         const hPadding = addHPadding ? pdfEksport.H_PADDING : 0;
-        const vPadding = reducedVpadding
-            ? pdfEksport.V_PADDING * 0.75
-            : pdfEksport.V_PADDING;
+        const vPadding = reducedVpadding ? pdfEksport.V_PADDING * 0.75 : pdfEksport.V_PADDING;
+        const imgWidth = this.pdf.internal.pageSize.getWidth() - vPadding * 2;
+        const imgHeight = imgWidth * (canvas.height / canvas.width);
 
         if (this.position + imgHeight > this.pageHeight) {
             this.pdf.addPage();
@@ -73,18 +63,19 @@ class pdfEksport {
         }
 
         this.pdf.addImage(
-            imgData,
+            canvas,
             "JPEG",
             vPadding,
             this.position + hPadding,
             imgWidth,
             imgHeight,
         );
+
         this.position += imgHeight + hPadding;
     }
 
     async runExport() {
-        this.initPdf(EXPORT_INTERNAL_WIDTH);
+        this.initPdf();
 
         if (this.targetRef.current === null) {
             return false;
@@ -112,7 +103,7 @@ const ExportDiv = styled.div<{ $erIEksportMode: boolean }>`
     height: 0;
     overflow: hidden;
     position: absolute;
-    width: ${EXPORT_INTERNAL_WIDTH}px;
+    width: 1280px;
 `;
 
 const ForhåndsvisningEksport = ({
@@ -131,7 +122,6 @@ const ForhåndsvisningEksport = ({
             const pdfe = new pdfEksport(
                 targetRef as React.RefObject<HTMLDivElement>,
                 eksportfilnavn,
-                EXPORT_INTERNAL_WIDTH,
             );
 
             pdfe.runExport().then(() => {
