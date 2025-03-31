@@ -26,7 +26,34 @@ const alternativRekkefølgeSett = [
 	"Dårlig",
 	"Svært dårlig",
 	"Vet ikke",
-  ]
+  ],
+  // Gamle rekkefølger
+  [
+	"Enig",
+	"Litt enig",
+	"Hverken enig eller uenig",
+	"Litt uenig",
+	"Uenig",
+	"Vet ikke",
+  ],
+  [
+	"Lønnsforhandlinger",
+	"HMS",
+	"Rekruttering og bemanning",
+	"Driftsrelaterte saker (f.eks. utvikling, økonomi)",
+	"Sykefravær (f.eks. rutiner, tilrettelegging, oppfølging)",
+	"Arbeidsmiljø (f.eks. organisering, planlegging)",
+	"Annet",
+	"Vet ikke",
+  ],
+  [
+	"Svært bra",
+	"Bra",
+	"Hverken bra eller dårlig",
+	"Dårlig",
+	"Svært dårlig",
+	"Vet ikke",
+  ],
 ];
 
 function getRekkefølgeSett(svarListe: SpørsmålResultat["svarListe"]) {
