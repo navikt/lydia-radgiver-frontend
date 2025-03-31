@@ -57,7 +57,7 @@ const alternativRekkefølgeSett = [
 ];
 
 function getRekkefølgeSett(svarListe: SpørsmålResultat["svarListe"]) {
-	const svaralternativtekster = svarListe.map(svar => svar.tekst);
+	const svaralternativtekster = svarListe.map(svar => svar.tekst.trim());
 
 	for (const sett of alternativRekkefølgeSett) {
 		if (svaralternativtekster.every(svar => sett.includes(svar))) {
