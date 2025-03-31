@@ -243,9 +243,9 @@ function ItemRenderer({ tema }: { tema: TemaDto }) {
         for (const spørsmål of tema.spørsmålOgSvaralternativer) {
             if (output[output.length - 1]?.length < 2) {
                 output[output.length - 1].push(spørsmål);
-
+            } else {
+                output.push([spørsmål]);
             }
-            output.push([spørsmål]);
         }
 
         return output;
