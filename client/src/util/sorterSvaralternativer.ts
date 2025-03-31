@@ -67,7 +67,7 @@ function getRekkefølgeSett(svarListe: SpørsmålResultat["svarListe"]) {
 }
 
 function getSvaralternativIndex(svar: string, sett: string[]) {
-	return sett.indexOf(svar); // Om det ikke er der havner det i starten
+	return sett.indexOf(svar.trim()); // Om det ikke er der havner det i starten
 }
 
 export function getSortertSvaralternativer(svarListe: SpørsmålResultat["svarListe"]) {
