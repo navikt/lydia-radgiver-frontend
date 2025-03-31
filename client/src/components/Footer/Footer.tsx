@@ -50,7 +50,7 @@ export const Footer = () => {
                     Du finner flere detaljer om statistikk i `}
                 <EksternLenke
                     href={
-                        "https://navno.sharepoint.com/sites/intranett-produktomrader-og-prosjekter/SitePages/FIA-brukerveiledning.aspx"
+                        "https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-inkluderende-arbeidsliv/SitePages/FIA-brukerveiledning.aspx"
                     }
                     onClick={() =>
                         loggNavigeringMedEksternLenke(
