@@ -149,7 +149,7 @@ function usePrettyBegrunnelser(begrunnelser?: KanIkkeGjennomføreBegrunnelse[]):
 }
 
 const SalesforceLenke = styled(EksternLenke)`
-    font-size: 1.125rem;
+	font-size: 1.125rem;
 	margin-top: 1rem;
 `;
 
