@@ -18,15 +18,14 @@ import React, { useEffect, useState } from "react";
 import {
     useHentAktivSakForVirksomhet,
     useHentSamarbeidshistorikk,
-    getKanSletteSamarbeid,
-    getKanFullføreSamarbeid,
+    getKanGjennomføreStatusendring,
 } from "../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../api/lydia-api/sak";
 import styled from "styled-components";
 import { CheckmarkIcon, ExternalLinkIcon, TrashIcon } from "@navikt/aksel-icons";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import { StyledSamarbeidModal } from "../NyttSamarbeidModal";
-import { KanFullføreSamarbeid, KanSletteSamarbeid } from "../../../../domenetyper/samarbeidsEndring";
+import { KanGjennomføreStatusendring, MuligSamarbeidsgandling } from "../../../../domenetyper/samarbeidsEndring";
 import BekreftHandlingModal from "./BekreftHandlingModal";
 
 export const ModalBodyInnholdFlex = styled.div`
@@ -76,9 +75,9 @@ export const EndreSamarbeidModal = ({
     const [antallTegn, setAntallTegn] = useState(samarbeid.navn?.length ?? 0);
     const [navn, setNavn] = useState(defaultNavnHvisTomt(samarbeid.navn));
     const [lagreNavnVellykket, setLagreNavnVellykket] = useState(false);
-    const [kanSletteFullføreResultat, setKanSletteFullføreResultat] = useState<KanSletteSamarbeid | KanFullføreSamarbeid>();
-    const [lasterKanSlette, setLasterKanSlette] = useState(false);
-    const [lasterKanFullføre, setLasterKanFullføre] = useState(false);
+    const [kanGjennomføreResultat, setKanGjennomføreResultat] = useState<KanGjennomføreStatusendring>();
+    const [lasterKanGjennomføreHandling, setLasterKanGjennomføreHandling] = useState<string | null>(null);
+    const [sisteType, setSisteType] = useState<MuligSamarbeidsgandling | null>(null);
 
     useEffect(() => {
         setNavn(defaultNavnHvisTomt(samarbeid.navn));
@@ -114,19 +113,21 @@ export const EndreSamarbeidModal = ({
         });
     };
 
-    const slettSamarbeid = () => {
-        setLasterKanSlette(true);
-        getKanSletteSamarbeid(iaSak.orgnr, iaSak.saksnummer, samarbeid.id).then((kanSletteResult) => {
-            setLasterKanSlette(false);
-            setKanSletteFullføreResultat(kanSletteResult);
-        });
-    };
+    const slettSamarbeid = () => prøvÅGjennomføreHandling("slettes");
 
-    const fullførSamarbeid = () => {
-        setLasterKanFullføre(true);
-        getKanFullføreSamarbeid(iaSak.orgnr, iaSak.saksnummer, samarbeid.id).then((kanFullføreResult) => {
-            setLasterKanFullføre(false);
-            setKanSletteFullføreResultat(kanFullføreResult);
+    const fullførSamarbeid = () => prøvÅGjennomføreHandling("fullfores");
+
+    const prøvÅGjennomføreHandling = (handling: MuligSamarbeidsgandling) => {
+        setLasterKanGjennomføreHandling(handling);
+        setSisteType(handling);
+        getKanGjennomføreStatusendring(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            samarbeid.id,
+            handling,
+        ).then((kanGjennomføreResult) => {
+            setLasterKanGjennomføreHandling(null);
+            setKanGjennomføreResultat(kanGjennomføreResult);
         });
     };
 
@@ -177,7 +178,7 @@ export const EndreSamarbeidModal = ({
                             size="small"
                             onClick={fullførSamarbeid}
                             icon={<CheckmarkIcon aria-hidden />}
-                            loading={lasterKanFullføre}
+                            loading={lasterKanGjennomføreHandling === "fullfores"}
                         >
                             Fullfør samarbeid
                         </Button>
@@ -191,7 +192,7 @@ export const EndreSamarbeidModal = ({
                             variant="secondary-neutral"
                             title={`Slett "${samarbeid.navn}"`}
                             onClick={slettSamarbeid}
-                            loading={lasterKanSlette}
+                            loading={lasterKanGjennomføreHandling === "slettes"}
                         />
                     </SlettFullførFlex>
                     <ModalBodyInnholdFlex>
@@ -277,23 +278,19 @@ export const EndreSamarbeidModal = ({
                 </Modal.Footer>
             </StyledSamarbeidModal>
             <BekreftHandlingModal
-                type={kanSletteFullføreResultat && "kanSlettes" in kanSletteFullføreResultat ? "slette" : "fullføre"}
-                open={kanSletteFullføreResultat !== undefined}
-                onCancel={() => setKanSletteFullføreResultat(undefined)}
+                type={sisteType}
+                open={kanGjennomføreResultat !== undefined}
+                onCancel={() => setKanGjennomføreResultat(undefined)}
                 onConfirm={() => {
-                    if (kanSletteFullføreResultat && "kanSlettes" in kanSletteFullføreResultat) {
-                        nyHendelse("SLETT_PROSESS").then(() => {
-                            setKanSletteFullføreResultat(undefined);
-                        });
-                    } else {
-                        nyHendelse("FULLFØR_PROSESS").then(() => {
-                            setKanSletteFullføreResultat(undefined);
-                        });
-                    }
+                    nyHendelse(sisteType === "slettes" ? "SLETT_PROSESS" : "FULLFØR_PROSESS").then(() => {
+                        setKanGjennomføreResultat(undefined);
+                        setSisteType(null);
+                    });
                 }}
-                erTillatt={kanSletteFullføreResultat && "kanSlettes" in kanSletteFullføreResultat ? kanSletteFullføreResultat.kanSlettes : kanSletteFullføreResultat?.kanFullføres ?? false}
+                erTillatt={kanGjennomføreResultat?.kanGjennomføres}
                 samarbeid={samarbeid}
-                begrunnelser={kanSletteFullføreResultat?.begrunnelser ?? []} />
+                advarsler={kanGjennomføreResultat?.advarsler}
+                blokkerende={kanGjennomføreResultat?.blokkerende} />
         </>
     );
 };
