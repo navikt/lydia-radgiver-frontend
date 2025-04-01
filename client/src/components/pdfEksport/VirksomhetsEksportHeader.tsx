@@ -43,7 +43,7 @@ export default function VirksomhetsEksportHeader({
                 {visDato && <BodyShort>{vistDato}</BodyShort>}
             </ImageContainer>
             <Body>{virksomhetsdata?.virksomhet?.navn}</Body>
-            {samarbeid?.navn ? (<Body>{samarbeid?.navn}</Body>) : undefined}
+            {samarbeid?.navn && samarbeid?.navn !== virksomhetsdata?.virksomhet?.navn ? (<Body>{samarbeid?.navn}</Body>) : undefined}
             <Heading level="1" size="xlarge" spacing={true}>
                 {type} {visDato ? vistDato : ""}
             </Heading>

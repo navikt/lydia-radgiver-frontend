@@ -26,11 +26,38 @@ const alternativRekkefølgeSett = [
 	"Dårlig",
 	"Svært dårlig",
 	"Vet ikke",
-  ]
+  ],
+  // Gamle rekkefølger
+  [
+	"Enig",
+	"Litt enig",
+	"Hverken enig eller uenig",
+	"Litt uenig",
+	"Uenig",
+	"Vet ikke",
+  ],
+  [
+	"Lønnsforhandlinger",
+	"HMS",
+	"Rekruttering og bemanning",
+	"Driftsrelaterte saker (f.eks. utvikling, økonomi)",
+	"Sykefravær (f.eks. rutiner, tilrettelegging, oppfølging)",
+	"Arbeidsmiljø (f.eks. organisering, planlegging)",
+	"Annet",
+	"Vet ikke",
+  ],
+  [
+	"Svært bra",
+	"Bra",
+	"Hverken bra eller dårlig",
+	"Dårlig",
+	"Svært dårlig",
+	"Vet ikke",
+  ],
 ];
 
 function getRekkefølgeSett(svarListe: SpørsmålResultat["svarListe"]) {
-	const svaralternativtekster = svarListe.map(svar => svar.tekst);
+	const svaralternativtekster = svarListe.map(svar => svar.tekst.trim());
 
 	for (const sett of alternativRekkefølgeSett) {
 		if (svaralternativtekster.every(svar => sett.includes(svar))) {
@@ -40,7 +67,7 @@ function getRekkefølgeSett(svarListe: SpørsmålResultat["svarListe"]) {
 }
 
 function getSvaralternativIndex(svar: string, sett: string[]) {
-	return sett.indexOf(svar); // Om det ikke er der havner det i starten
+	return sett.indexOf(svar.trim()); // Om det ikke er der havner det i starten
 }
 
 export function getSortertSvaralternativer(svarListe: SpørsmålResultat["svarListe"]) {
