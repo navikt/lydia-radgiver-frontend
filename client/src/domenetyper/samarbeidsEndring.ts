@@ -7,15 +7,6 @@ export const sletteBegrunnelserSchema = z.enum([
 	"FINNES_EVALUERING",
 ]);
 
-export type KanIkkeSletteBegrunnelse = z.infer<typeof sletteBegrunnelserSchema>;
-
-export const kanSletteSamarbeidDto = z.object({
-	kanSlettes: z.boolean(),
-	begrunnelser: sletteBegrunnelserSchema.array(),
-});
-
-export type KanSletteSamarbeid = z.infer<typeof kanSletteSamarbeidDto>;
-
 export const fullføreBegrunnelserSchema = z.enum([
 	"INGEN_EVALUERING",
 	"INGEN_PLAN",
@@ -24,11 +15,16 @@ export const fullføreBegrunnelserSchema = z.enum([
 	"SAK_I_FEIL_STATUS",
 ]);
 
-export type KanIkkeFullføreBegrunnelse = z.infer<typeof fullføreBegrunnelserSchema>;
+export const muligeHandlinger = z.enum(["slettes", "fullfores"]);
 
-export const kanFullføreSamarbeidDto = z.object({
-	kanFullføres: z.boolean(),
-	begrunnelser: fullføreBegrunnelserSchema.array(),
+export const kanIkkeGjennomføreBegrunnelse = z.enum([...sletteBegrunnelserSchema.options, ...fullføreBegrunnelserSchema.options]);
+
+export const kanGjennomføreStatusendringDto = z.object({
+	advarsler: kanIkkeGjennomføreBegrunnelse.array(),
+	blokkerende: kanIkkeGjennomføreBegrunnelse.array(),
+	kanGjennomføres: z.boolean(),
 });
 
-export type KanFullføreSamarbeid = z.infer<typeof kanFullføreSamarbeidDto>;
+export type MuligSamarbeidsgandling = z.infer<typeof muligeHandlinger>;
+export type KanIkkeGjennomføreBegrunnelse = z.infer<typeof kanIkkeGjennomføreBegrunnelse>;
+export type KanGjennomføreStatusendring = z.infer<typeof kanGjennomføreStatusendringDto>;
