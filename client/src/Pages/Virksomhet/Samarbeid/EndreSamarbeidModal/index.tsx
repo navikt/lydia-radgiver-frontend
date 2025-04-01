@@ -108,14 +108,13 @@ export const EndreSamarbeidModal = ({
     const avbrytEndring = () => {
         setOpen(false);
         setLagreNavnVellykket(false);
+        setLasterKanGjennomføreHandling(null);
+        setSisteType(null);
+        setKanGjennomføreResultat(undefined);
         hentSamarbeidPåNytt().then(() => {
             setNavn(defaultNavnHvisTomt(samarbeid.navn));
         });
     };
-
-    const slettSamarbeid = () => prøvÅGjennomføreHandling("slettes");
-
-    const fullførSamarbeid = () => prøvÅGjennomføreHandling("fullfores");
 
     const prøvÅGjennomføreHandling = (handling: MuligSamarbeidsgandling) => {
         setLasterKanGjennomføreHandling(handling);
@@ -176,7 +175,7 @@ export const EndreSamarbeidModal = ({
                         <Button
                             variant="primary"
                             size="small"
-                            onClick={fullførSamarbeid}
+                            onClick={() => prøvÅGjennomføreHandling("fullfores")}
                             icon={<CheckmarkIcon aria-hidden />}
                             loading={lasterKanGjennomføreHandling === "fullfores"}
                         >
@@ -191,7 +190,7 @@ export const EndreSamarbeidModal = ({
                             size="small"
                             variant="secondary-neutral"
                             title={`Slett "${samarbeid.navn}"`}
-                            onClick={slettSamarbeid}
+                            onClick={() => prøvÅGjennomføreHandling("slettes")}
                             loading={lasterKanGjennomføreHandling === "slettes"}
                         />
                     </SlettFullførFlex>
