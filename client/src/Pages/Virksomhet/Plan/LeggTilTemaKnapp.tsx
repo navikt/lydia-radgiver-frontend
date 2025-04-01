@@ -13,7 +13,7 @@ import { endrePlan } from "../../../api/lydia-api/plan";
 import { lagRequest, TemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { NotePencilIcon } from "@navikt/aksel-icons";
+import { NotePencilIcon, TrashIcon } from "@navikt/aksel-icons";
 import { loggModalÅpnet } from "../../../util/amplitude-klient";
 import LåsbarCheckbox from "../../../components/LåsbarCheckbox";
 
@@ -57,7 +57,6 @@ export default function LeggTilTemaKnapp({
         PlanTema[]
     >(samarbeidsplan.temaer);
 
-    const harTemaUtenUndertema = React.useMemo(() => redigertTemaliste.some((tema) => tema.inkludert && !tema.undertemaer.some((undertema) => undertema.inkludert)), [redigertTemaliste]);
 
     useEffect(() => {
         // Hvis innholdet faktisk har endret seg.
@@ -125,6 +124,11 @@ export default function LeggTilTemaKnapp({
         endrePlan(orgnummer, saksnummer, samarbeid.id, temaer).then(() => {
             hentPlanIgjen();
         });
+    }
+
+    function slettPlan() {
+        // TODO: slettPlan
+        console.log("TODO: Slett plan");
     }
 
     return (
@@ -208,27 +212,76 @@ export default function LeggTilTemaKnapp({
                                 ))}
                     </CheckboxGroup>
                     <br />
-                    <ModalKnapper>
-                        <Button
-                            variant="secondary"
-                            onClick={() => {
-                                setModalOpen(false);
-                            }}
-                        >
-                            Avbryt
-                        </Button>
-                        <Button
-                            disabled={harTemaUtenUndertema}
-                            onClick={() => {
-                                lagreEndring();
-                                setModalOpen(false);
-                            }}
-                        >
-                            Lagre
-                        </Button>
-                    </ModalKnapper>
+                    <ActionButtons
+                        setModalOpen={setModalOpen}
+                        lagreEndring={lagreEndring}
+                        slettPlan={slettPlan}
+                        redigertTemaliste={redigertTemaliste}
+                    />
                 </Modal.Body>
             </LeggTilTemaModal>
         </>
     );
 }
+
+function ActionButtons({
+    setModalOpen,
+    lagreEndring,
+    slettPlan,
+    redigertTemaliste
+}: {
+    setModalOpen: (åpen: boolean) => void;
+    lagreEndring: () => void;
+    slettPlan: () => void;
+    redigertTemaliste: PlanTema[];
+}) {
+    const harTemaUtenUndertema = React.useMemo(() => redigertTemaliste.some((tema) => tema.inkludert && !tema.undertemaer.some((undertema) => undertema.inkludert)), [redigertTemaliste]);
+    const planErTom = React.useMemo(() => !redigertTemaliste.some(({ inkludert }) => inkludert), [redigertTemaliste]);
+
+    if (planErTom) {
+        return (
+            <ModalKnapper>
+                <Button
+                    variant="secondary"
+                    onClick={() => {
+                        setModalOpen(false);
+                    }}
+                >
+                    Avbryt
+                </Button>
+                <Button
+                    onClick={() => {
+                        slettPlan();
+                        setModalOpen(false);
+                    }}
+                    icon={<TrashIcon aria-hidden />}
+                    variant="primary"
+                >
+                    Slett plan
+                </Button>
+            </ModalKnapper>
+        );
+    }
+    return (
+        <ModalKnapper>
+            <Button
+                variant="secondary"
+                onClick={() => {
+                    setModalOpen(false);
+                }}
+            >
+                Avbryt
+            </Button>
+            <Button
+                disabled={harTemaUtenUndertema}
+                onClick={() => {
+                    lagreEndring();
+                    setModalOpen(false);
+                }}
+            >
+                Lagre
+            </Button>
+        </ModalKnapper>
+    );
+}
+
