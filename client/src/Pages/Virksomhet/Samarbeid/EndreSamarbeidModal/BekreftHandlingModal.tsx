@@ -107,7 +107,6 @@ function usePrettyType(type: MuligSamarbeidsgandling) {
 					uncapitalized: "fullfør"
 				}
 			case "slettes":
-			default:
 				return {
 					capitalized: "Slett",
 					uncapitalized: "slett"
@@ -118,7 +117,7 @@ function usePrettyType(type: MuligSamarbeidsgandling) {
 
 function usePrettyBegrunnelser(begrunnelser?: KanIkkeGjennomføreBegrunnelse[]): string[] | null {
 	return React.useMemo(() => {
-		if (!begrunnelser) {
+		if (!begrunnelser || begrunnelser.length === 0) {
 			return null;
 		}
 
