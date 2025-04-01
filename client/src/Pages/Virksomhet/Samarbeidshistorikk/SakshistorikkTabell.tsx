@@ -15,6 +15,18 @@ export const SakshistorikkTabell = ({
     sakshistorikk,
 }: SakshistorikkTabellProps) => {
     const kolonneNavn = ["Status", "Tidspunkt", "Detaljer", "Endret av"];
+    const skjulteSakshendelser = [
+        "ENDRE_PROSESS",
+        "NY_PROSESS",
+        "SLETT_PROSESS",
+        "FULLFØR_PROSESS",
+        IAProsessStatusEnum.enum.NY
+    ];
+
+    const filtrerteSakshendelser = sakshistorikk.sakshendelser.filter(
+        (sakSnapshot) =>
+            !skjulteSakshendelser.includes(sakSnapshot.hendelsestype)
+    );
 
     return (
         <>
@@ -34,10 +46,7 @@ export const SakshistorikkTabell = ({
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {sakshistorikk.sakshendelser.filter(
-                            (sakSnapshot) =>
-                                sakSnapshot.status !== IAProsessStatusEnum.enum.NY,
-                        ).map(
+                        {filtrerteSakshendelser.map(
                             (sakSnapshot, index) => {
                                 return (
                                     <Table.Row key={index}>

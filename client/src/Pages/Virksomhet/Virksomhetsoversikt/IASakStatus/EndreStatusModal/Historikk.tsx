@@ -35,16 +35,18 @@ function Sakshendelser({ sakshendelser }: { sakshendelser: Sakshendelse[] }) {
         "TA_EIERSKAP_I_SAK",
         "SLETT_PROSESS",
         "OPPRETT_SAK_FOR_VIRKSOMHET",
+        "FULLFØR_PROSESS",
     ];
+    const filtrerteHendelser = sakshendelser.filter(
+        (sakshendelse) =>
+            !skjulteSakshendelser.includes(
+                sakshendelse.hendelsestype,
+            ),
+    );
+
     return (
         <SakshendelseContainer>
-            {sakshendelser
-                .filter(
-                    (sakshendelse) =>
-                        !skjulteSakshendelser.includes(
-                            sakshendelse.hendelsestype,
-                        ),
-                )
+            {filtrerteHendelser
                 .map((sakshendelse, index) => (
                     <React.Fragment key={index}>
                         <StatusBadge status={sakshendelse.status} />
