@@ -9,7 +9,7 @@ import {
     HistoriskStatistikk,
     historiskStatistikkSchema,
 } from "../../domenetyper/historiskstatistikk";
-import { KanSletteSamarbeid } from "../../domenetyper/kanSletteSamarbeid";
+import { KanGjennomføreStatusendring, MuligSamarbeidsgandling } from "../../domenetyper/samarbeidsEndring";
 import {
     Publiseringsinfo,
     publiseringsinfoSchema,
@@ -148,14 +148,14 @@ export const useHentSalesforceUrl = (orgnr: string) => {
     );
 };
 
-export const getKanSletteSamarbeid = async (orgnummer: string, saksnummer: string, prosessId: number) => {
+export const getKanGjennomføreStatusendring = async (orgnummer: string, saksnummer: string, prosessId: number, handling: MuligSamarbeidsgandling): Promise<KanGjennomføreStatusendring> => {
     try {
-        const response = await fetch(`${iaSakPath}/${orgnummer}/${saksnummer}/${prosessId}/kanslettes`);
+        const response = await fetch(`${iaSakPath}/${orgnummer}/${saksnummer}/${prosessId}/kan/${handling}`);
         if (!response.ok) {
-            throw new Error("Kunne ikke hente 'kan slette samarbeid'");
+            throw new Error("Kunne ikke hente 'kan gjøre handling'");
         }
     
-        return await response.json() as KanSletteSamarbeid;
+        return await response.json() as KanGjennomføreStatusendring;
     } catch (error) {
         console.error(error);
         return Promise.reject(error);

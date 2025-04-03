@@ -18,23 +18,22 @@ import React, { useEffect, useState } from "react";
 import {
     useHentAktivSakForVirksomhet,
     useHentSamarbeidshistorikk,
-    getKanSletteSamarbeid,
+    getKanGjennomføreStatusendring,
 } from "../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../api/lydia-api/sak";
 import styled from "styled-components";
-import { /* CheckmarkIcon, */ ExternalLinkIcon, TrashIcon } from "@navikt/aksel-icons";
+import { CheckmarkIcon, ExternalLinkIcon, TrashIcon } from "@navikt/aksel-icons";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import { StyledSamarbeidModal } from "../NyttSamarbeidModal";
-import { KanSletteSamarbeid } from "../../../../domenetyper/kanSletteSamarbeid";
-import KanIkkeSletteModal from "./KanIkkeSletteModal";
-/* import BekreftFullførModal from "./BekreftFullførModal"; */
+import { KanGjennomføreStatusendring, MuligSamarbeidsgandling } from "../../../../domenetyper/samarbeidsEndring";
+import BekreftHandlingModal from "./BekreftHandlingModal";
 
 export const ModalBodyInnholdFlex = styled.div`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
 `;
-/* 
+
 export const SlettFullførFlex = styled.div`
     display: flex;
     flex-direction: row;
@@ -44,7 +43,7 @@ export const SlettFullførFlex = styled.div`
     padding-bottom: 2rem;
     margin-bottom: 2rem;
 `;
- */
+
 export const TextFieldStyled = styled(TextField)`
     min-width: fit-content;
     width: 100%;
@@ -56,11 +55,6 @@ export const DetaljerWrapper = styled.div<{ $disabled?: boolean }>`
     justify-content: space-between;
     gap: 0.5rem;
     opacity: ${({ $disabled }) => ($disabled ? 0.25 : 1)};
-`;
-
-const SquareButton = styled(Button)`
-    width: 3rem;
-    height: 3rem;
 `;
 
 interface EndreSamarbeidModalProps {
@@ -81,9 +75,9 @@ export const EndreSamarbeidModal = ({
     const [antallTegn, setAntallTegn] = useState(samarbeid.navn?.length ?? 0);
     const [navn, setNavn] = useState(defaultNavnHvisTomt(samarbeid.navn));
     const [lagreNavnVellykket, setLagreNavnVellykket] = useState(false);
-    const [kanSletteResultat, setKanSletteResultat] = useState<KanSletteSamarbeid>();
-    const [lasterKanSlette, setLasterKanSlette] = useState(false);
-    /* const [bekreftFullførModalÅpen, setBekreftFullførModalÅpen] = useState(false); */
+    const [kanGjennomføreResultat, setKanGjennomføreResultat] = useState<KanGjennomføreStatusendring>();
+    const [lasterKanGjennomføreHandling, setLasterKanGjennomføreHandling] = useState<string | null>(null);
+    const [sisteType, setSisteType] = useState<MuligSamarbeidsgandling | null>(null);
 
     useEffect(() => {
         setNavn(defaultNavnHvisTomt(samarbeid.navn));
@@ -114,23 +108,25 @@ export const EndreSamarbeidModal = ({
     const avbrytEndring = () => {
         setOpen(false);
         setLagreNavnVellykket(false);
+        setLasterKanGjennomføreHandling(null);
+        setSisteType(null);
+        setKanGjennomføreResultat(undefined);
         hentSamarbeidPåNytt().then(() => {
             setNavn(defaultNavnHvisTomt(samarbeid.navn));
         });
     };
 
-    const slettSamarbeid = () => {
-        setLasterKanSlette(true);
-        getKanSletteSamarbeid(iaSak.orgnr, iaSak.saksnummer, samarbeid.id).then((kanSletteResult) => {
-            if (kanSletteResult.kanSlettes) {
-                return nyHendelse("SLETT_PROSESS").then(() => {
-                    setLasterKanSlette(false);
-                    setOpen(false);
-                });
-            } else {
-                setLasterKanSlette(false);
-                setKanSletteResultat(kanSletteResult);
-            }
+    const prøvÅGjennomføreHandling = (handling: MuligSamarbeidsgandling) => {
+        setLasterKanGjennomføreHandling(handling);
+        setSisteType(handling);
+        getKanGjennomføreStatusendring(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            samarbeid.id,
+            handling,
+        ).then((kanGjennomføreResult) => {
+            setLasterKanGjennomføreHandling(null);
+            setKanGjennomføreResultat(kanGjennomføreResult);
         });
     };
 
@@ -175,14 +171,13 @@ export const EndreSamarbeidModal = ({
                     <Heading size="medium">Administrer samarbeid</Heading>
                 </Modal.Header>
                 <Modal.Body>
-                    {/* <SlettFullførFlex>
+                    <SlettFullførFlex>
                         <Button
                             variant="primary"
                             size="small"
-                            onClick={() => {
-                                setBekreftFullførModalÅpen(true);
-                            }}
+                            onClick={() => prøvÅGjennomføreHandling("fullfores")}
                             icon={<CheckmarkIcon aria-hidden />}
+                            loading={lasterKanGjennomføreHandling === "fullfores"}
                         >
                             Fullfør samarbeid
                         </Button>
@@ -195,10 +190,10 @@ export const EndreSamarbeidModal = ({
                             size="small"
                             variant="secondary-neutral"
                             title={`Slett "${samarbeid.navn}"`}
-                            onClick={slettSamarbeid}
-                            loading={lasterKanSlette}
+                            onClick={() => prøvÅGjennomføreHandling("slettes")}
+                            loading={lasterKanGjennomføreHandling === "slettes"}
                         />
-                    </SlettFullførFlex> */}
+                    </SlettFullførFlex>
                     <ModalBodyInnholdFlex>
                         <BodyShort>
                             Her kan du endre navn på samarbeidet &quot;
@@ -272,19 +267,6 @@ export const EndreSamarbeidModal = ({
                     >
                         Avbryt
                     </Button>
-                    <SquareButton
-                        icon={
-                            <TrashIcon
-                                title={`Slett "${samarbeid.navn}"`}
-                                fontSize="2rem"
-                            />
-                        }
-                        size={"small"}
-                        variant="secondary-neutral"
-                        title={`Slett "${samarbeid.navn}"`}
-                        onClick={slettSamarbeid}
-                        loading={lasterKanSlette}
-                    />
                     {lagreNavnVellykket && (
                         <div style={{ display: "flex", alignItems: "center" }}>
                             <Alert inline variant="success" size="small">
@@ -294,16 +276,20 @@ export const EndreSamarbeidModal = ({
                     )}
                 </Modal.Footer>
             </StyledSamarbeidModal>
-            <KanIkkeSletteModal
-                åpen={kanSletteResultat?.kanSlettes === false}
-                lukkModal={() => setKanSletteResultat(undefined)}
+            <BekreftHandlingModal
+                type={sisteType}
+                open={kanGjennomføreResultat !== undefined}
+                onCancel={() => setKanGjennomføreResultat(undefined)}
+                onConfirm={() => {
+                    nyHendelse(sisteType === "slettes" ? "SLETT_PROSESS" : "FULLFØR_PROSESS").then(() => {
+                        setKanGjennomføreResultat(undefined);
+                        setSisteType(null);
+                    });
+                }}
+                erTillatt={kanGjennomføreResultat?.kanGjennomføres}
                 samarbeid={samarbeid}
-                begrunnelser={kanSletteResultat?.begrunnelser ?? []} />
-            {/* <BekreftFullførModal
-                åpen={bekreftFullførModalÅpen}
-                lukkModal={() => setBekreftFullførModalÅpen(false)}
-                samarbeid={samarbeid}
-            /> */}
+                advarsler={kanGjennomføreResultat?.advarsler}
+                blokkerende={kanGjennomføreResultat?.blokkerende} />
         </>
     );
 };

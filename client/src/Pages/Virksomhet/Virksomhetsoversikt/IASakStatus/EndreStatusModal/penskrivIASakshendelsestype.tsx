@@ -33,5 +33,7 @@ export const penskrivIASakshendelsestype = (
             return "Fullfør";
         case IASakshendelseTypeEnum.enum.SLETT_SAK:
             return "Tilbakestill";
+        case IASakshendelseTypeEnum.enum.FULLFØR_PROSESS:
+            return "Fullfør prosess";
     }
 };
