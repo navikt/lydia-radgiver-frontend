@@ -20,6 +20,7 @@ import {
     useHentSpørreundersøkelser,
 } from "../../../../api/lydia-api/spørreundersøkelse";
 import { SpørreundersøkelseMedInnholdVisning } from "../../Kartlegging/SpørreundersøkelseForhåndsvisningModal";
+import { VisHvisSamarbeidErÅpent } from "../SamarbeidContext";
 
 const ActionButtonContainer = styled.div`
     display: flex;
@@ -78,6 +79,17 @@ const KartleggingDato = styled.span`
 const KartleggingStatusWrapper = styled.div`
     min-width: 5rem;
 `;
+
+
+function ActionButtonsHvisSamarbeidIkkeFullført({ children }: { children: React.ReactNode }) {
+    return (
+        <VisHvisSamarbeidErÅpent>
+            <ActionButtonContainer>
+                {children}
+            </ActionButtonContainer>
+        </VisHvisSamarbeidErÅpent>
+    )
+}
 
 export const EvalueringCardHeaderInnhold = ({
     spørreundersøkelse,
@@ -161,14 +173,14 @@ export const EvalueringCardHeaderInnhold = ({
                 <StyledExpansionCardHeader>
                     <ExpansionCard.Title>Evaluering</ExpansionCard.Title>
                     <HeaderRightContent>
-                        <ActionButtonContainer>
+                        <ActionButtonsHvisSamarbeidIkkeFullført>
                             <ResultatEksportVisning
                                 iaSak={iaSak}
                                 spørreundersøkelse={spørreundersøkelse}
                                 erIEksportMode={erIEksportMode}
                                 setErIEksportMode={setErIEksportMode}
                             />
-                        </ActionButtonContainer>
+                        </ActionButtonsHvisSamarbeidIkkeFullført>
                         <KartleggingStatusWrapper>
                             <SpørreundersøkelseStatusBadge
                                 status={spørreundersøkelse.status}
@@ -183,7 +195,7 @@ export const EvalueringCardHeaderInnhold = ({
         if (spørreundersøkelseStatus === "OPPRETTET") {
             return (
                 <StyledEmptyCardHeader>
-                    <ActionButtonContainer>
+                    <ActionButtonsHvisSamarbeidIkkeFullført>
                         {(iaSak.status === "KARTLEGGES" ||
                             iaSak.status === "VI_BISTÅR") &&
                             brukerRolle !== "Lesetilgang" && (
@@ -243,7 +255,7 @@ export const EvalueringCardHeaderInnhold = ({
                                 slettSpørreundersøkelsen={slettEvaluering}
                             />
                         )}
-                    </ActionButtonContainer>
+                    </ActionButtonsHvisSamarbeidIkkeFullført>
                     <HeaderRightContent>
                         <KartleggingStatusWrapper>
                             <SpørreundersøkelseStatusBadge
@@ -259,7 +271,7 @@ export const EvalueringCardHeaderInnhold = ({
         if (spørreundersøkelseStatus === "PÅBEGYNT") {
             return (
                 <StyledEmptyCardHeader>
-                    <ActionButtonContainer>
+                    <ActionButtonsHvisSamarbeidIkkeFullført>
                         {(iaSak.status === "KARTLEGGES" ||
                             iaSak.status === "VI_BISTÅR") &&
                             brukerRolle !== "Lesetilgang" && (
@@ -325,7 +337,7 @@ export const EvalueringCardHeaderInnhold = ({
                                 slettSpørreundersøkelsen={slettEvaluering}
                             />
                         )}
-                    </ActionButtonContainer>
+                    </ActionButtonsHvisSamarbeidIkkeFullført>
                     <HeaderRightContent>
                         <KartleggingStatusWrapper>
                             <SpørreundersøkelseStatusBadge

@@ -16,6 +16,7 @@ import {
 } from "../../../domenetyper/iaSakProsess";
 import EksportVisning from "./EksportVisning";
 import { Plan } from "../../../domenetyper/plan";
+import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
 
 function SamarbeidsplanHeading({
     samarbeid,
@@ -119,15 +120,17 @@ export default function SamarbeidsplanFane({
                     hentPlanIgjen={hentPlanIgjen}
                     kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
                 />
-                <LeggTilTemaKnapp
-                    orgnummer={iaSak.orgnr}
-                    saksnummer={iaSak.saksnummer}
-                    samarbeid={samarbeid}
-                    samarbeidsplan={samarbeidsplan}
-                    hentPlanIgjen={hentPlanIgjen}
-                    brukerErEierAvSak={brukerErEierAvSak}
-                    sakErIRettStatus={sakErIRettStatus}
-                />
+                <VisHvisSamarbeidErÅpent>
+                    <LeggTilTemaKnapp
+                        orgnummer={iaSak.orgnr}
+                        saksnummer={iaSak.saksnummer}
+                        samarbeid={samarbeid}
+                        samarbeidsplan={samarbeidsplan}
+                        hentPlanIgjen={hentPlanIgjen}
+                        brukerErEierAvSak={brukerErEierAvSak}
+                        sakErIRettStatus={sakErIRettStatus}
+                    />
+                </VisHvisSamarbeidErÅpent>
             </>
         )
     );

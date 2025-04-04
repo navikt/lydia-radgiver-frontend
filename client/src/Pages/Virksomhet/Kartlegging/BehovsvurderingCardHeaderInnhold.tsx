@@ -22,8 +22,9 @@ import {
     useHentSpørreundersøkelser,
 } from "../../../api/lydia-api/spørreundersøkelse";
 import { SpørreundersøkelseMedInnholdVisning } from "./SpørreundersøkelseForhåndsvisningModal";
+import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
 
-const ActionButtonContainer = styled.div`
+export const ActionButtonContainer = styled.div`
     display: flex;
     justify-content: right;
     margin-right: 2rem;
@@ -82,6 +83,16 @@ const BehovsvurderingDato = styled.span`
 const BehovsvurderingStatusWrapper = styled.div`
     min-width: 5rem;
 `;
+
+function ActionButtonsHvisSamarbeidIkkeFullført({ children }: { children: React.ReactNode }) {
+    return (
+        <VisHvisSamarbeidErÅpent>
+            <ActionButtonContainer>
+                {children}
+            </ActionButtonContainer>
+        </VisHvisSamarbeidErÅpent>
+    )
+}
 
 export const BehovsvurderingCardHeaderInnhold = ({
     spørreundersøkelse,
@@ -175,7 +186,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                 <StyledExpansionCardHeader>
                     <ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
                     <HeaderRightContent>
-                        <ActionButtonContainer>
+                        <ActionButtonsHvisSamarbeidIkkeFullført>
                             <ResultatEksportVisning
                                 iaSak={iaSak}
                                 spørreundersøkelse={spørreundersøkelse}
@@ -192,7 +203,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                     dropdownSize="small"
                                 />
                             )}
-                        </ActionButtonContainer>
+                        </ActionButtonsHvisSamarbeidIkkeFullført>
                         <BehovsvurderingStatusWrapper>
                             <SpørreundersøkelseStatusBadge
                                 status={spørreundersøkelse.status}
@@ -207,7 +218,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
         if (spørreundersøkelseStatus === "OPPRETTET") {
             return (
                 <StyledEmptyCardHeader>
-                    <ActionButtonContainer>
+                    <ActionButtonsHvisSamarbeidIkkeFullført>
                         {(iaSak.status === "KARTLEGGES" ||
                             iaSak.status === "VI_BISTÅR") &&
                             brukerRolle !== "Lesetilgang" && (
@@ -268,7 +279,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                 }
                             />
                         )}
-                    </ActionButtonContainer>
+                    </ActionButtonsHvisSamarbeidIkkeFullført>
                     <HeaderRightContent>
                         <BehovsvurderingStatusWrapper>
                             <SpørreundersøkelseStatusBadge
@@ -284,7 +295,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
         if (spørreundersøkelseStatus === "PÅBEGYNT") {
             return (
                 <StyledEmptyCardHeader>
-                    <ActionButtonContainer>
+                    <ActionButtonsHvisSamarbeidIkkeFullført>
                         {(iaSak.status === "KARTLEGGES" ||
                             iaSak.status === "VI_BISTÅR") &&
                             brukerRolle !== "Lesetilgang" && (
@@ -352,7 +363,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                 }
                             />
                         )}
-                    </ActionButtonContainer>
+                    </ActionButtonsHvisSamarbeidIkkeFullført>
                     <HeaderRightContent>
                         <BehovsvurderingStatusWrapper>
                             <SpørreundersøkelseStatusBadge

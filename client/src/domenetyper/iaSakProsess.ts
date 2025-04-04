@@ -1,10 +1,11 @@
 import { z } from "zod";
+import { IAProsessStatusEnum } from "./domenetyper";
 
 export const iaSakProsessSchema = z.object({
     id: z.number(),
     saksnummer: z.string(),
     navn: z.string().nullable(),
-    status: z.string(),
+    status: IAProsessStatusEnum,
 });
 
 export type IaSakProsess = z.infer<typeof iaSakProsessSchema>;

@@ -10,6 +10,7 @@ import {
     opprettSpørreundersøkelse,
     useHentSpørreundersøkelser,
 } from "../../../api/lydia-api/spørreundersøkelse";
+import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
 
 export const Behovsvurdering = ({
     iaSak,
@@ -77,10 +78,12 @@ export const Behovsvurdering = ({
                     setIdForSistOpprettetBehovsvurdering
                 }
             >
-                <OpprettNySpørreundersøkelseKnapp
-                    onClick={opprettBehovsvurdering}
-                    disabled={!(sakErIRettStatus && brukerErEierAvSak)}
-                />
+                <VisHvisSamarbeidErÅpent>
+                    <OpprettNySpørreundersøkelseKnapp
+                        onClick={opprettBehovsvurdering}
+                        disabled={!(sakErIRettStatus && brukerErEierAvSak)}
+                    />
+                </VisHvisSamarbeidErÅpent>
                 <Spørreundersøkelseliste />
             </SpørreundersøkelseProvider>
         )

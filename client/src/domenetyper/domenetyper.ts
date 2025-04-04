@@ -19,6 +19,7 @@ export const periodeSchema = z.object({
 export type Periode = z.infer<typeof periodeSchema>;
 
 const IA_PROSESS_STATUSER = [
+    "AKTIV",
     "NY",
     "IKKE_AKTIV",
     "VURDERES",

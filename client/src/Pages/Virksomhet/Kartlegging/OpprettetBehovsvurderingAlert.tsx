@@ -4,7 +4,8 @@ import styled from "styled-components";
 import { useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 
 const StyledAlert = styled(Alert)`
-    margin-bottom: 2rem;
+	margin-top: 1rem;
+    margin-bottom: 1rem;
 	margin-left: auto;
 	margin-right: auto;
 	width: fit-content;

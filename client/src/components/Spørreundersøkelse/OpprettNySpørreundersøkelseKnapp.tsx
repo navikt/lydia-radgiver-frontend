@@ -12,7 +12,7 @@ export default function OpprettNySpørreundersøkelseKnapp({
         <Button
             onClick={onClick}
             variant={"primary"}
-            style={{ margin: "1rem 1rem 1rem 0", minWidth: "10.5rem" }}
+            style={{ marginTop: "1rem", minWidth: "10.5rem" }}
             disabled={disabled}
             icon={
                 <PlusIcon fontSize="1.5rem" aria-hidden />

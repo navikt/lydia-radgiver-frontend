@@ -16,6 +16,7 @@ import { BehovsvurderingFane } from "../Kartlegging/BehovsvurderingFane";
 import VirksomhetContext from "../VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "../Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
 import { loggNavigertTilNyTab } from "../../../util/amplitude-klient";
+import { SamarbeidProvider } from "./SamarbeidContext";
 
 const StyledPanel = styled(Tabs.Panel)`
     padding-top: 1.5rem;
@@ -70,8 +71,10 @@ export const SamarbeidsVisning = ({
         }
     }, []);
 
-    if (gjeldendeSamarbeid === undefined)
+    if (gjeldendeSamarbeid === undefined) {
         location.href = `/virksomhet/${iaSak.orgnr}`;
+        return null;
+    }
 
     return (
         <VirksomhetContext.Provider
@@ -84,63 +87,65 @@ export const SamarbeidsVisning = ({
                 spørreundersøkelseId: spørreundersøkelseId,
             }}
         >
-            {gjeldendeSamarbeid && (
-                <Container>
-                    <VirksomhetOgSamarbeidsHeader
-                        virksomhet={virksomhet}
-                        iaSak={iaSak}
-                        gjeldendeSamarbeid={gjeldendeSamarbeid}
-                    />
-                    <br />
-                    <Tabs
-                        value={fane}
-                        onChange={oppdaterTabISearchParam}
-                        defaultValue="behovsvurdering"
-                    >
-                        <Tabs.List style={{ width: "100%" }}>
-                            {iaSak && (
-                                <Tabs.Tab
-                                    value="behovsvurdering"
-                                    label="Behovsvurdering"
-                                />
-                            )}
-                            {iaSak && (
-                                <Tabs.Tab value="plan" label="Samarbeidsplan" />
-                            )}
-                            {iaSak && (
-                                <Tabs.Tab
-                                    value="evaluering"
-                                    label="Evaluering"
-                                />
-                            )}
-                        </Tabs.List>
-                        <StyledPanel value="behovsvurdering">
-                            {iaSak && (
-                                <BehovsvurderingFane
-                                    iaSak={iaSak}
-                                    gjeldendeSamarbeid={gjeldendeSamarbeid}
-                                />
-                            )}
-                        </StyledPanel>
-                        <StyledPanel value="plan">
-                            {iaSak && (
-                                <SamarbeidsplanFane
-                                    iaSak={iaSak}
-                                    samarbeid={gjeldendeSamarbeid}
-                                />
-                            )}
-                        </StyledPanel>
-                        <StyledPanel value="evaluering">
-                            {iaSak && (
-                                <EvalueringFane
-                                    iaSak={iaSak}
-                                    gjeldendeSamarbeid={gjeldendeSamarbeid}
-                                />
-                            )}
-                        </StyledPanel>
-                    </Tabs>
-                </Container>
-            )}
-        </VirksomhetContext.Provider>
+            <SamarbeidProvider samarbeid={gjeldendeSamarbeid}>
+                {gjeldendeSamarbeid && (
+                    <Container>
+                        <VirksomhetOgSamarbeidsHeader
+                            virksomhet={virksomhet}
+                            iaSak={iaSak}
+                            gjeldendeSamarbeid={gjeldendeSamarbeid}
+                        />
+                        <br />
+                        <Tabs
+                            value={fane}
+                            onChange={oppdaterTabISearchParam}
+                            defaultValue="behovsvurdering"
+                        >
+                            <Tabs.List style={{ width: "100%" }}>
+                                {iaSak && (
+                                    <Tabs.Tab
+                                        value="behovsvurdering"
+                                        label="Behovsvurdering"
+                                    />
+                                )}
+                                {iaSak && (
+                                    <Tabs.Tab value="plan" label="Samarbeidsplan" />
+                                )}
+                                {iaSak && (
+                                    <Tabs.Tab
+                                        value="evaluering"
+                                        label="Evaluering"
+                                    />
+                                )}
+                            </Tabs.List>
+                            <StyledPanel value="behovsvurdering">
+                                {iaSak && (
+                                    <BehovsvurderingFane
+                                        iaSak={iaSak}
+                                        gjeldendeSamarbeid={gjeldendeSamarbeid}
+                                    />
+                                )}
+                            </StyledPanel>
+                            <StyledPanel value="plan">
+                                {iaSak && (
+                                    <SamarbeidsplanFane
+                                        iaSak={iaSak}
+                                        samarbeid={gjeldendeSamarbeid}
+                                    />
+                                )}
+                            </StyledPanel>
+                            <StyledPanel value="evaluering">
+                                {iaSak && (
+                                    <EvalueringFane
+                                        iaSak={iaSak}
+                                        gjeldendeSamarbeid={gjeldendeSamarbeid}
+                                    />
+                                )}
+                            </StyledPanel>
+                        </Tabs>
+                    </Container>
+                )}
+            </SamarbeidProvider>
+        </VirksomhetContext.Provider >
     );
 };
