@@ -12,6 +12,7 @@ import {
 } from "../../Pages/Virksomhet/Plan/Requests";
 import {
     defaultSwrConfiguration,
+    httpDelete,
     post,
     put,
     useSwrTemplate,
@@ -43,6 +44,18 @@ export const endrePlan = (
         body,
     );
 };
+
+export const slettPlan = (
+    orgnummer: string,
+    saksnummer: string,
+    prosessId: number,
+) => {
+    return httpDelete(
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${prosessId}`,
+        PlanSchema,
+    );
+}
+
 export const endrePlanTema = (
     orgnummer: string,
     saksnummer: string,

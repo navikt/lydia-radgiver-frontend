@@ -9,7 +9,7 @@ import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import InnholdOppsett from "./InnholdOppsett";
 import styled from "styled-components";
 import { Plan, PlanInnhold, PlanTema } from "../../../domenetyper/plan";
-import { endrePlan } from "../../../api/lydia-api/plan";
+import { endrePlan, slettPlan } from "../../../api/lydia-api/plan";
 import { lagRequest, TemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
@@ -126,11 +126,6 @@ export default function LeggTilTemaKnapp({
         });
     }
 
-    function slettPlan() {
-        // TODO: slettPlan
-        console.log("TODO: Slett plan");
-    }
-
     return (
         <>
             {!brukerErEierAvSak && (
@@ -215,7 +210,7 @@ export default function LeggTilTemaKnapp({
                     <ActionButtons
                         setModalOpen={setModalOpen}
                         lagreEndring={lagreEndring}
-                        slettPlan={slettPlan}
+                        slettPlan={() => slettPlan(orgnummer, saksnummer, samarbeid.id).then(hentPlanIgjen)}
                         redigertTemaliste={redigertTemaliste}
                     />
                 </Modal.Body>
