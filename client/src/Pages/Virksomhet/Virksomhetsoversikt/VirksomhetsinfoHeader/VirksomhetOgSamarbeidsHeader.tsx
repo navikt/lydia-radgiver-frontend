@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
-import { Button, Heading, HStack, Link, Popover, VStack } from "@navikt/ds-react";
+import { Button, Heading, HStack, Link, Popover, Tag, VStack } from "@navikt/ds-react";
 import { ChevronRightIcon, InformationSquareIcon } from "@navikt/aksel-icons";
 
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
@@ -20,6 +20,8 @@ import {
 import { loggÅpnetVirksomhetsinfo } from "../../../../util/amplitude-klient";
 import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 import { NyttSamarbeidModal } from "../../Samarbeid/NyttSamarbeidModal";
+import { VisHvisSamarbeidErLukket } from "../../Samarbeid/SamarbeidContext";
+import capitalizeFirstLetterLowercaseRest from "../../../../util/formatering/capitalizeFirstLetterLowercaseRest";
 
 const Container = styled.div`
     display: flex;
@@ -121,6 +123,11 @@ export default function VirksomhetOgSamarbeidsHeader({
                                             gjeldendeSamarbeid.navn,
                                         )}
                                     </Heading>
+                                    <VisHvisSamarbeidErLukket>
+                                        <FullførtTag variant="success" size="small">
+                                            {capitalizeFirstLetterLowercaseRest(gjeldendeSamarbeid.status)}
+                                        </FullførtTag>
+                                    </VisHvisSamarbeidErLukket>
                                 </>
                             )}
                         </HStack>
@@ -151,3 +158,7 @@ export default function VirksomhetOgSamarbeidsHeader({
         </Container>
     );
 }
+
+const FullførtTag = styled(Tag)`
+    margin-left: 0.5rem;
+`;
