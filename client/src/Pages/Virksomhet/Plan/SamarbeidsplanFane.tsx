@@ -1,4 +1,4 @@
-import { BodyShort, Heading, HStack, Loader, Tag } from "@navikt/ds-react";
+import { BodyShort, Heading, HStack, Loader } from "@navikt/ds-react";
 import React from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import {
@@ -11,7 +11,6 @@ import { Temaer } from "./Temaer";
 import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
 import OpprettPlanKnapp from "./OpprettPlanKnapp";
 import {
-    defaultNavnHvisTomt,
     IaSakProsess,
 } from "../../../domenetyper/iaSakProsess";
 import EksportVisning from "./EksportVisning";
@@ -31,11 +30,6 @@ function SamarbeidsplanHeading({
                 <Heading level="2" size="medium" style={{ width: "11rem" }}>
                     Samarbeidsplan
                 </Heading>
-                {samarbeid && (
-                    <Tag variant={"alt3-filled"} size="small">
-                        {defaultNavnHvisTomt(samarbeid.navn)}
-                    </Tag>
-                )}
             </HStack>
 
             {samarbeidsplan && (
