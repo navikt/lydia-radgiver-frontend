@@ -21,7 +21,7 @@ export const hentVariantForIAStatus = (
         case IAProsessStatusEnum.enum.KARTLEGGES:
             return "warning-moderate";
         case IAProsessStatusEnum.enum.VI_BISTÅR:
-            return "success-moderate";
+            return "success-filled";
         case IAProsessStatusEnum.enum.NY:
         case IAProsessStatusEnum.enum.FULLFØRT:
             return "alt1-moderate";

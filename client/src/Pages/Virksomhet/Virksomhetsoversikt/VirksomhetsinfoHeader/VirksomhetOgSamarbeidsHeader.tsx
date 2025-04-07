@@ -124,7 +124,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                                         )}
                                     </Heading>
                                     <VisHvisSamarbeidErLukket>
-                                        <FullførtTag variant="success" size="small">
+                                        <FullførtTag variant="success-moderate" size="small">
                                             {capitalizeFirstLetterLowercaseRest(gjeldendeSamarbeid.status)}
                                         </FullførtTag>
                                     </VisHvisSamarbeidErLukket>
