@@ -53,4 +53,8 @@ export function VisHvisSamarbeidErÅpent({ children }: { children: React.ReactNo
 	return samarbeidErFullført() ? null : children;
 }
 
+export function VisHvisSamarbeidErLukket({ children }: { children: React.ReactNode }) {
+	return samarbeidErFullført() ? children : null;
+}
+
 export default SamarbeidContext;
