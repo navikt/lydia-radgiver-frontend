@@ -1,5 +1,5 @@
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { IASak } from "../../../../domenetyper/domenetyper";
+import { IAProsessStatusEnum, IASak } from "../../../../domenetyper/domenetyper";
 import { BodyShort, Button, Dropdown, Heading, Link } from "@navikt/ds-react";
 import { ChevronDownIcon } from "@navikt/aksel-icons";
 import React, { useState } from "react";
@@ -10,6 +10,7 @@ import { EndreSamarbeidModal } from "../EndreSamarbeidModal";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import styled from "styled-components";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
+/* import FullførteSamarbeid from "./FullførteSamarbeid"; */
 
 const DropdownMenuInnholdStyled = styled.div`
     display: flex;
@@ -41,8 +42,9 @@ export const SamarbeidsDropdown = ({
     virksomhet,
     setNyttSamarbeidModalÅpen,
 }: SamarbeidsDropdown2Props) => {
-    const { data: alleSamarbeid, mutate: hentSamarbeidPåNytt } =
+    const { data: uflitrertAlleSamarbeid, mutate: hentSamarbeidPåNytt } =
         useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
+    const alleSamarbeid = uflitrertAlleSamarbeid?.filter((samarbeid) => samarbeid.status === IAProsessStatusEnum.Enum.AKTIV)
 
     const harIngenAktiveSamarbeid =
         alleSamarbeid === undefined || alleSamarbeid?.length === 0;
@@ -70,7 +72,6 @@ export const SamarbeidsDropdown = ({
                         ? ""
                         : ` (${alleSamarbeid?.length})`}
                 </Button>
-
                 <Dropdown.Menu
                     style={{
                         width: "22rem",
@@ -93,7 +94,6 @@ export const SamarbeidsDropdown = ({
                         >
                             {virksomhet.navn}
                         </Heading>
-
                         {harIngenAktiveSamarbeid ? (
                             <BodyShort style={{ paddingLeft: "1rem" }}>
                                 <b>Ingen aktive samarbeid </b>
@@ -126,16 +126,15 @@ export const SamarbeidsDropdown = ({
                                 </DropdownMenuListStyled>
                             )
                         )}
-
                         <SamarbeidsDropdownFooter
                             setÅpen={setNyttSamarbeidModalÅpen}
                             brukerErEierAvSak={brukerErEierAvSak}
                             iaSakStatus={iaSak?.status}
                         />
+                        {/* <FullførteSamarbeid iaSak={iaSak} /> */}
                     </DropdownMenuInnholdStyled>
                 </Dropdown.Menu>
             </Dropdown>
-
             {valgtSamarbeid && iaSak && (
                 <EndreSamarbeidModal
                     samarbeid={valgtSamarbeid}

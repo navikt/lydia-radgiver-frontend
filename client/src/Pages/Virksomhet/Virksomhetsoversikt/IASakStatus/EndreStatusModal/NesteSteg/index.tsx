@@ -22,7 +22,7 @@ import {
     loggStatusendringPåSak,
 } from "../../../../../../util/amplitude-klient";
 import { StatusHendelseSteg } from "../Statusknapper";
-import { penskrivIAStatus } from "../../../../../../components/Badge/StatusBadge";
+import { penskrivIAStatus } from "../../../../../../components/Badge/IAProsessStatusBadge";
 import { PlusIcon } from "@navikt/aksel-icons";
 import { useHentSamarbeid } from "../../../../../../api/lydia-api/spørreundersøkelse";
 import { useHentBrukerinformasjon } from "../../../../../../api/lydia-api/bruker";

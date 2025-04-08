@@ -1,6 +1,6 @@
 import { IAProsessStatusEnum, IAProsessStatusType, IASak } from "../../../../domenetyper/domenetyper";
 import { ChevronDownIcon } from "@navikt/aksel-icons";
-import { penskrivIAStatus } from "../../../../components/Badge/StatusBadge";
+import { penskrivIAStatus } from "../../../../components/Badge/IAProsessStatusBadge";
 import { Button, ButtonProps, Dropdown } from "@navikt/ds-react";
 import styled from "styled-components";
 

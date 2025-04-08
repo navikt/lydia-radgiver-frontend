@@ -3,7 +3,7 @@ import { useState } from "react";
 import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { useFilterverdier } from "../../../api/lydia-api/sok";
 import { useHentMineSaker } from "../../../api/lydia-api/sak";
-import { penskrivIAStatus } from "../../../components/Badge/StatusBadge";
+import { penskrivIAStatus } from "../../../components/Badge/IAProsessStatusBadge";
 import styled from "styled-components";
 import { BorderRadius } from "../../../styling/borderRadius";
 
