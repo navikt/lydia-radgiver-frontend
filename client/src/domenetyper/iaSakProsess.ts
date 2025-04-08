@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { datoSchema } from "./domenetyper";
 
 const IA_SAMARBEID_STATUS = [
     "AKTIV",
@@ -15,6 +16,7 @@ export const iaSakProsessSchema = z.object({
     saksnummer: z.string(),
     navn: z.string().nullable(),
     status: IASamarbeidStatusEnum,
+    sistEndret: datoSchema.nullable(),
 });
 
 export type IaSakProsess = z.infer<typeof iaSakProsessSchema>;

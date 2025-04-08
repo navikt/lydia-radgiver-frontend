@@ -91,6 +91,7 @@ export const NyttSamarbeidModal = ({
                 status: "AKTIV",
                 saksnummer: iaSak.saksnummer,
                 navn: nyttNavn,
+                sistEndret: null,
             },
         )
             .then(() => {
@@ -181,8 +182,8 @@ export const NyttSamarbeidModal = ({
                                     ? undefined
                                     : navn === "" ||
                                         navn === "Samarbeid uten navn"
-                                      ? `Navnet er allerede i bruk (tomt navn og "Samarbeid uten navn" regnes som like)`
-                                      : "Navnet er allerede i bruk"
+                                        ? `Navnet er allerede i bruk (tomt navn og "Samarbeid uten navn" regnes som like)`
+                                        : "Navnet er allerede i bruk"
                             }
                             hideLabel
                             onKeyDown={(event) => {

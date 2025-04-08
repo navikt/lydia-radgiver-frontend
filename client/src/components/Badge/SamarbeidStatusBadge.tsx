@@ -35,7 +35,7 @@ export const hentVariantForIAStatus = (
 		default:
 			return "neutral-moderate";
 		case IASamarbeidStatusEnum.enum.FULLFØRT:
-			return "success-filled";
+			return "success-moderate";
 		case IASamarbeidStatusEnum.enum.AKTIV:
 			return "info-moderate";
 	}
