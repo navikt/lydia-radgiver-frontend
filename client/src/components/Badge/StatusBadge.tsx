@@ -2,24 +2,21 @@ import "@navikt/ds-css";
 import styled from "styled-components";
 import { Tag, TagProps } from "@navikt/ds-react";
 
-export interface GenericProps<T> {
+export interface GenericProps<T> extends Omit<TagProps, "variant" | "children"> {
     status: T;
-    ariaLive?: "off" | "polite" | "assertive";
-    ariaLabel?: string;
     penskrivStatus: (status: T) => string;
     hentVariant: (status: T) => TagProps["variant"];
 }
 
 export function GenericStatusBadge<T>({
     status,
-    ariaLive,
-    ariaLabel,
     penskrivStatus,
     hentVariant,
+    ...remainingProps
 }: GenericProps<T>) {
     return (
         <StatusBadgeWrapper>
-            <StyledStatusTag variant={hentVariant(status)} aria-live={ariaLive} aria-label={ariaLabel}>
+            <StyledStatusTag {...remainingProps} variant={hentVariant(status)}>
                 {penskrivStatus(status)}
             </StyledStatusTag>
         </StatusBadgeWrapper>
