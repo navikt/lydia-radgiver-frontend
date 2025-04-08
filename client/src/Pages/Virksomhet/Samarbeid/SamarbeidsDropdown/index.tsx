@@ -1,15 +1,15 @@
-import { Virksomhet } from "../../../domenetyper/virksomhet";
-import { IASak } from "../../../domenetyper/domenetyper";
+import { Virksomhet } from "../../../../domenetyper/virksomhet";
+import { IASak } from "../../../../domenetyper/domenetyper";
 import { BodyShort, Button, Dropdown, Heading, Link } from "@navikt/ds-react";
 import { ChevronDownIcon } from "@navikt/aksel-icons";
 import React, { useState } from "react";
 import { SamarbeidsRad } from "./SamarbeidsRad";
 import { SamarbeidsDropdownFooter } from "./SamarbeidsDropdownFooter";
-import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
-import { EndreSamarbeidModal } from "./EndreSamarbeidModal";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
+import { EndreSamarbeidModal } from "../EndreSamarbeidModal";
+import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import styled from "styled-components";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 
 const DropdownMenuInnholdStyled = styled.div`
     display: flex;

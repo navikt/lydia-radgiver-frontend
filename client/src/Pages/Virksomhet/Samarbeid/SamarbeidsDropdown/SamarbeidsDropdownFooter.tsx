@@ -1,6 +1,6 @@
 import { BodyShort, Button } from "@navikt/ds-react";
 import React from "react";
-import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
+import { IAProsessStatusType } from "../../../../domenetyper/domenetyper";
 import { PlusIcon } from "@navikt/aksel-icons";
 
 interface SamarbeidsDropdownFooterProps {

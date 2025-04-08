@@ -3,7 +3,7 @@ import React from "react";
 import {
     defaultNavnHvisTomt,
     IaSakProsess,
-} from "../../../domenetyper/iaSakProsess";
+} from "../../../../domenetyper/iaSakProsess";
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 
