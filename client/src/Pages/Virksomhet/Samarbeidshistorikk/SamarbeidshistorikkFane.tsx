@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { Accordion, BodyShort, Heading, Loader } from "@navikt/ds-react";
 import { lokalDato } from "../../../util/dato";
-import { StatusBadge } from "../../../components/Badge/StatusBadge";
+import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 import { SakshistorikkTabell } from "./SakshistorikkTabell";
 import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
@@ -71,7 +71,7 @@ export const SamarbeidshistorikkFane = ({
                         <Accordion.Item key={sakshistorikk.saksnummer}>
                             <Accordion.Header>
                                 <AccordionHeaderContent>
-                                    <StatusBadge
+                                    <IAProsessStatusBadge
                                         status={
                                             sakshistorikk.sakshendelser[0]
                                                 .status

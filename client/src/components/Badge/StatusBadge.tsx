@@ -4,7 +4,7 @@ import {
     IAProsessStatusType,
 } from "../../domenetyper/domenetyper";
 import styled from "styled-components";
-import { Tag } from "@navikt/ds-react";
+import { Tag, TagProps } from "@navikt/ds-react";
 
 export const hentVariantForIAStatus = (
     status: IAProsessStatusType,
@@ -49,13 +49,33 @@ export function penskrivIAStatus(status: IAProsessStatusType) {
             return "Vi bistår";
         case IAProsessStatusEnum.enum.FULLFØRT:
             return "Fullført";
+        default:
+            return status;
     }
 }
 
-interface Props {
-    status: IAProsessStatusType;
+export interface GenericProps<T> {
+    status: T;
     ariaLive?: "off" | "polite" | "assertive";
     ariaLabel?: string;
+    penskrivStatus: (status: T) => string;
+    hentVariant: (status: T) => TagProps["variant"];
+}
+
+export function GenericStatusBadge<T>({
+    status,
+    ariaLive,
+    ariaLabel,
+    penskrivStatus,
+    hentVariant,
+}: GenericProps<T>) {
+    return (
+        <StatusBadgeWrapper>
+            <StyledStatusTag variant={hentVariant(status)} aria-live={ariaLive} aria-label={ariaLabel}>
+                {penskrivStatus(status)}
+            </StyledStatusTag>
+        </StatusBadgeWrapper>
+    );
 }
 
 export const StyledStatusTag = styled(Tag).attrs({ size: "small" })`
@@ -73,11 +93,3 @@ const StatusBadgeWrapper = styled.div`
         text-decoration: none;
     }
 `;
-
-export const StatusBadge = ({ status, ariaLive, ariaLabel }: Props) => (
-    <StatusBadgeWrapper>
-        <StyledStatusTag variant={hentVariantForIAStatus(status)} aria-live={ariaLive} aria-label={ariaLabel}>
-            {penskrivIAStatus(status)}
-        </StyledStatusTag>
-    </StatusBadgeWrapper>
-)

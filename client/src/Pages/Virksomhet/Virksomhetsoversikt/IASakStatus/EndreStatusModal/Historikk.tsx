@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { useHentSamarbeidshistorikk } from "../../../../../api/lydia-api/virksomhet";
 import { IASak } from "../../../../../domenetyper/domenetyper";
 import { Sakshendelse } from "../../../../../domenetyper/sakshistorikk";
-import { StatusBadge } from "../../../../../components/Badge/StatusBadge";
+import { IAProsessStatusBadge } from "../../../../../components/Badge/IAProsessStatusBadge";
 import { Detail, Loader } from "@navikt/ds-react";
 import React from "react";
 import { lokalDato } from "../../../../../util/dato";
@@ -49,7 +49,7 @@ function Sakshendelser({ sakshendelser }: { sakshendelser: Sakshendelse[] }) {
             {filtrerteHendelser
                 .map((sakshendelse, index) => (
                     <React.Fragment key={index}>
-                        <StatusBadge status={sakshendelse.status} />
+                        <IAProsessStatusBadge status={sakshendelse.status} />
                         <HendelseDetaljer sakshendelse={sakshendelse} />
                         <Sakshendelsedatoer
                             sakshendelse={sakshendelse}
