@@ -10,7 +10,7 @@ import {
 } from "@navikt/ds-react";
 import React, { useState } from "react";
 
-import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
+import { useHentSakshistorikk } from "../../../api/lydia-api/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import {
@@ -55,7 +55,7 @@ export const NyttSamarbeidModal = ({
     const { mutate: hentAktivSakPåNytt } = useHentAktivSakForVirksomhet(
         iaSak.orgnr,
     );
-    const { mutate: hentHistorikkPåNytt } = useHentSamarbeidshistorikk(
+    const { mutate: hentHistorikkPåNytt } = useHentSakshistorikk(
         iaSak.orgnr,
     );
     const { mutate: hentSamarbeidPåNytt, data: samarbeidData } =
@@ -92,6 +92,7 @@ export const NyttSamarbeidModal = ({
                 saksnummer: iaSak.saksnummer,
                 navn: nyttNavn,
                 sistEndret: null,
+                opprettet: null,
             },
         )
             .then(() => {

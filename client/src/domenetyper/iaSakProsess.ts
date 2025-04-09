@@ -17,6 +17,7 @@ export const iaSakProsessSchema = z.object({
     navn: z.string().nullable(),
     status: IASamarbeidStatusEnum,
     sistEndret: datoSchema.nullable(),
+    opprettet: datoSchema.nullable(),
 });
 
 export type IaSakProsess = z.infer<typeof iaSakProsessSchema>;

@@ -32,6 +32,7 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [
                 hendelseOpprettetAv: eier,
             },
         ],
+        samarbeid: [],
     },
     {
         saksnummer: ulid(),
@@ -77,5 +78,6 @@ export const samarbeidshistorikkMock: Sakshistorikk[] = [
                 hendelseOpprettetAv: eier,
             },
         ],
+        samarbeid: [],
     },
 ];

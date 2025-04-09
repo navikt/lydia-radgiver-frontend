@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { useHentSamarbeidshistorikk } from "../../../../../api/lydia-api/virksomhet";
+import { useHentSakshistorikk } from "../../../../../api/lydia-api/virksomhet";
 import { IASak } from "../../../../../domenetyper/domenetyper";
 import { Sakshendelse } from "../../../../../domenetyper/sakshistorikk";
 import { IAProsessStatusBadge } from "../../../../../components/Badge/IAProsessStatusBadge";
@@ -9,7 +9,7 @@ import { lokalDato } from "../../../../../util/dato";
 
 export default function Historikk({ sak }: { sak: IASak }) {
     const { data: samarbeidshistorikk, loading: lasterSamarbeidshistorikk } =
-        useHentSamarbeidshistorikk(sak.orgnr);
+        useHentSakshistorikk(sak.orgnr);
     const sakshendelser = samarbeidshistorikk?.find(
         (historikk) => historikk.saksnummer === sak.saksnummer,
     )?.sakshendelser;

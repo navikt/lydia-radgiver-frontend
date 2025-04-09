@@ -4,7 +4,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
-import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
+import { useHentSakshistorikk } from "../../../api/lydia-api/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import { IASak } from "../../../domenetyper/domenetyper";
@@ -41,7 +41,7 @@ interface IaProsessRadProps {
 export const IaProsessRad = ({ iaProsess, iaSak }: IaProsessRadProps) => {
     const [navn, setNavn] = useState(iaProsess.navn ?? "");
     const [lagrerNavn, setLagrerNavn] = useState(false);
-    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
+    const { mutate: mutateSamarbeidshistorikk } = useHentSakshistorikk(
         iaSak.orgnr,
     );
     const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(

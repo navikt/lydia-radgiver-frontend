@@ -4,10 +4,10 @@ import { lokalDato } from "../../../util/dato";
 import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 import { SakshistorikkTabell } from "./SakshistorikkTabell";
 import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
-import { useHentSamarbeidshistorikk } from "../../../api/lydia-api/virksomhet";
+import { useHentSakshistorikk } from "../../../api/lydia-api/virksomhet";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { LeveransehistorikkTabell } from "./LeveransehistorikkTabell";
-import { SpørreundersøkelsehistorikkTabell } from "./SpørreundersøkelsehistorikkTabell";
+import Samarbeidshistorikk from "./Samarbeidshistorikk";
 
 const Container = styled.div`
     ${tabInnholdStyling};
@@ -19,44 +19,42 @@ const AccordionHeaderContent = styled.div`
     gap: 2rem;
 `;
 
-interface SamarbeidshistorikkProps {
+interface SakshistorikkProps {
     orgnr: string;
     className?: string;
 }
 
-export const SamarbeidshistorikkFane = ({
+export const SakshistorikkFane = ({
     orgnr,
     className,
-}: SamarbeidshistorikkProps) => {
-    const { data: samarbeidshistorikk, loading: lasterSamarbeidshistorikk } =
-        useHentSamarbeidshistorikk(orgnr);
+}: SakshistorikkProps) => {
+    const { data: sakshistorikk, loading: lasterSakshistorikk } =
+        useHentSakshistorikk(orgnr);
 
-    if (lasterSamarbeidshistorikk) {
+    if (lasterSakshistorikk) {
         return (
             <Container className={className}>
                 <Heading spacing={true} size="large">
-                    Samarbeidshistorikk
+                    Sakshistorikk
                 </Heading>
                 <Loader />
             </Container>
         );
     }
 
-    if (!samarbeidshistorikk) {
+    if (!sakshistorikk) {
         return (
             <Container className={className}>
                 <Heading spacing={true} size="large">
-                    Samarbeidshistorikk
+                    Sakshistorikk
                 </Heading>
-                <BodyShort>Kunne ikke hente samarbeidshistorikk</BodyShort>
+                <BodyShort>Kunne ikke hente sakshistorikk</BodyShort>
             </Container>
         );
     }
 
-    const sortertHistorikk = samarbeidshistorikk.map((historikk) => ({
-        saksnummer: historikk.saksnummer,
-        opprettet: historikk.opprettet,
-        sistEndret: historikk.sistEndret,
+    const sortertHistorikk = sakshistorikk.map((historikk) => ({
+        ...historikk,
         sakshendelser: sorterSakshistorikkPåTid(historikk),
     }));
 
@@ -82,16 +80,11 @@ export const SamarbeidshistorikkFane = ({
                                 </AccordionHeaderContent>
                             </Accordion.Header>
                             <Accordion.Content>
-                                <br />
-                                <SpørreundersøkelsehistorikkTabell
-                                    orgnr={orgnr}
-                                    saksnummer={sakshistorikk.saksnummer}
-                                />
+                                <Samarbeidshistorikk historikk={sakshistorikk} orgnr={orgnr} />
                                 <LeveransehistorikkTabell
                                     orgnr={orgnr}
                                     saksnummer={sakshistorikk.saksnummer}
                                 />
-                                <br />
                                 <SakshistorikkTabell
                                     key={sakshistorikk.saksnummer}
                                     sakshistorikk={sakshistorikk}
@@ -102,7 +95,7 @@ export const SamarbeidshistorikkFane = ({
                 </Accordion>
             ) : (
                 <BodyShort>
-                    Fant ingen samarbeidshistorikk på denne virksomheten
+                    Fant ingen sakshistorikk på denne virksomheten
                 </BodyShort>
             )}
         </Container>

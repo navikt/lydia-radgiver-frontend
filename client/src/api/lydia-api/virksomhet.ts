@@ -120,7 +120,7 @@ export const useHentAktivSakForVirksomhet = (orgnummer?: string) => {
         revalidateOnFocus: true,
     });
 };
-export const useHentSamarbeidshistorikk = (orgnummer?: string) => {
+export const useHentSakshistorikk = (orgnummer?: string) => {
     return useSwrTemplate<Sakshistorikk[]>(
         () => (orgnummer ? `${iaSakHistorikkPath}/${orgnummer}` : null),
         sakshistorikkSchema.array(),

@@ -7,7 +7,7 @@ import {
 } from "../../../../../domenetyper/domenetyper";
 import {
     useHentAktivSakForVirksomhet,
-    useHentSamarbeidshistorikk,
+    useHentSakshistorikk,
 } from "../../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../../api/lydia-api/sak";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
@@ -256,7 +256,7 @@ function RettTilNesteStatusKnapp({
     onStatusEndret: (status: IASak["status"]) => void;
     loading?: ButtonProps["loading"];
 }) {
-    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
+    const { mutate: mutateSamarbeidshistorikk } = useHentSakshistorikk(
         sak.orgnr,
     );
     const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(sak.orgnr);
