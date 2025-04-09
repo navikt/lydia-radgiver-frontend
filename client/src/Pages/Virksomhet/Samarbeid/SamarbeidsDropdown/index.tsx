@@ -10,7 +10,7 @@ import { EndreSamarbeidModal } from "../EndreSamarbeidModal";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import styled from "styled-components";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
-/* import FullførteSamarbeid from "./FullførteSamarbeid"; */
+import FullførteSamarbeid from "./FullførteSamarbeid";
 
 const DropdownMenuInnholdStyled = styled.div`
     display: flex;
@@ -42,6 +42,7 @@ export const SamarbeidsDropdown = ({
     virksomhet,
     setNyttSamarbeidModalÅpen,
 }: SamarbeidsDropdown2Props) => {
+    const [seFlerSamarbeid, setSeFlerSamarbeid] = React.useState(false);
     const { data: uflitrertAlleSamarbeid, mutate: hentSamarbeidPåNytt } =
         useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
     const alleSamarbeid = uflitrertAlleSamarbeid?.filter((samarbeid) => samarbeid.status === IAProsessStatusEnum.Enum.AKTIV)
@@ -65,7 +66,12 @@ export const SamarbeidsDropdown = ({
                     iconPosition="right"
                     variant="primary-neutral"
                     size="small"
-                    onClick={() => hentSamarbeidPåNytt()}
+                    onClick={() => {
+                        hentSamarbeidPåNytt();
+                        setValgtSamarbeid(null);
+                        setEndreSamarbeidModalÅpen(false);
+                        setSeFlerSamarbeid(false);
+                    }}
                 >
                     Samarbeid
                     {harIngenAktiveSamarbeid
@@ -131,7 +137,7 @@ export const SamarbeidsDropdown = ({
                             brukerErEierAvSak={brukerErEierAvSak}
                             iaSakStatus={iaSak?.status}
                         />
-                        {/* <FullførteSamarbeid iaSak={iaSak} /> */}
+                        <FullførteSamarbeid iaSak={iaSak} alleSamarbeid={uflitrertAlleSamarbeid} erEkspandert={seFlerSamarbeid} setErEkspandert={setSeFlerSamarbeid} />
                     </DropdownMenuInnholdStyled>
                 </Dropdown.Menu>
             </Dropdown>

@@ -35,8 +35,11 @@ const StyledLink = styled(Link)`
 	padding-bottom: 0.5rem;
 `;
 
-export default function FullførteSamarbeid({ iaSak, alleSamarbeid }: { iaSak: IASak | undefined, alleSamarbeid?: IaSakProsess[] }) {
-	const [erEkspandert, setErEkspandert] = React.useState(false);
+const SeMerKnapp = styled(Button)`
+	width: 100%;
+`;
+
+export default function FullførteSamarbeid({ iaSak, alleSamarbeid, erEkspandert, setErEkspandert }: { iaSak: IASak | undefined, alleSamarbeid?: IaSakProsess[], erEkspandert: boolean, setErEkspandert: React.Dispatch<React.SetStateAction<boolean>> }) {
 	const fullførteSamarbeid = alleSamarbeid?.sort(sorterSamarbeidPåSistEndret)?.filter(({ status }) => status === IASamarbeidStatusEnum.Enum.FULLFØRT);
 
 	if (!iaSak || fullførteSamarbeid === undefined || fullførteSamarbeid?.length === 0) {
@@ -60,9 +63,9 @@ export default function FullførteSamarbeid({ iaSak, alleSamarbeid }: { iaSak: I
 					))
 				}
 				<StyledListItemButtonContainer as="li">
-					<Button onClick={() => setErEkspandert(true)} variant="tertiary" icon={<ChevronDownIcon aria-hidden />}>
+					<SeMerKnapp onClick={() => setErEkspandert(true)} variant="tertiary" icon={<ChevronDownIcon aria-hidden />}>
 						Se mer
-					</Button>
+					</SeMerKnapp>
 				</StyledListItemButtonContainer>
 			</StyledDropdownMenuList>
 		);
