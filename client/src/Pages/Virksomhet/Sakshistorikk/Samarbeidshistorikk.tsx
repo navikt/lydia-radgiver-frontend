@@ -34,7 +34,7 @@ export default function Samarbeidshistorikk({
 								{samarbeid.navn}
 							</Link>
 							<SamarbeidStatusBadge status={samarbeid.status} />
-							{samarbeid.sistEndret && <span>{lokalDato(samarbeid.sistEndret)}</span>}
+							{samarbeid.sistEndret ? <span>{lokalDato(samarbeid.sistEndret)}</span> : <div />}
 						</Samarbeidrad>
 					))
 				}
