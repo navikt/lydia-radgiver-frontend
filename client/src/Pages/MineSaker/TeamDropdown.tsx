@@ -9,7 +9,7 @@ import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
 import { IASak } from "../../domenetyper/domenetyper";
 import TeamInnhold from "./TeamInnhold";
 import { useHentTeam } from "../../api/lydia-api/team";
-import { useErPåAktivSak } from "../Virksomhet/VirksomhetContext";
+import { useErPåInaktivSak } from "../Virksomhet/VirksomhetContext";
 
 interface TeamModalProps {
     open: boolean;
@@ -74,12 +74,12 @@ export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
 }
 
 function Knappeinnhold({ brukerErEierAvSak, brukerFølgerSak }: { brukerErEierAvSak: boolean, brukerFølgerSak: boolean }) {
-    const erPåAktivSak = useErPåAktivSak();
-    if (!erPåAktivSak) {
+    const erPåInaktivSak = useErPåInaktivSak();
+    if (erPåInaktivSak) {
         return (
             <HStack align={"center"} gap={"1"}>
                 <PersonGroupIcon aria-hidden />
-                <BodyShort>Eierskap</BodyShort>
+                <BodyShort>Se eier og følgere</BodyShort>
             </HStack>
         );
     }
