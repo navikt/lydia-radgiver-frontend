@@ -17,6 +17,7 @@ import {
 } from "../../api/lydia-api/team";
 import { TaEierskapModal } from "./TaEierSkapModal";
 import { useState } from "react";
+import { useErPåAktivSak } from "../Virksomhet/VirksomhetContext";
 
 const EierBoks = styled.div`
     display: flex;
@@ -75,10 +76,13 @@ export default function TeamInnhold({
     );
 
     const brukerIdent = brukerInformasjon?.ident;
+    const erPåAktivSak = useErPåAktivSak();
 
     const kanTaEierskap = iaSak.gyldigeNesteHendelser
         .map((h) => h.saksHendelsestype)
-        .includes("TA_EIERSKAP_I_SAK");
+        .includes("TA_EIERSKAP_I_SAK") && erPåAktivSak;
+
+
     return (
         <>
             <EierBoks>
@@ -151,6 +155,7 @@ export default function TeamInnhold({
                             muterFølgere();
                             loggFølgeSak(false);
                         }}
+                        disabled={!erPåAktivSak}
                     >
                         Slutt å følge saken
                     </Button>
@@ -164,6 +169,7 @@ export default function TeamInnhold({
                             muterFølgere();
                             loggFølgeSak(true);
                         }}
+                        disabled={!erPåAktivSak}
                     >
                         Følg saken
                     </Button>

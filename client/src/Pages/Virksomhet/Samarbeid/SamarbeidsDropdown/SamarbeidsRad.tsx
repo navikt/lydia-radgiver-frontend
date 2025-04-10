@@ -6,6 +6,7 @@ import {
 } from "../../../../domenetyper/iaSakProsess";
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
+import { useErPåAktivSak } from "../../VirksomhetContext";
 
 const SamarbeidsRadWrapper = styled.div`
     width: 100%;
@@ -33,6 +34,8 @@ export const SamarbeidsRad = ({
     setValgtSamarbeid,
     brukerErEierAvSak,
 }: SamarbeidsRadProps) => {
+    const erPåAktivSak = useErPåAktivSak();
+
     return (
         <SamarbeidsRadWrapper>
             <Link
@@ -43,7 +46,7 @@ export const SamarbeidsRad = ({
                 {defaultNavnHvisTomt(samarbeid.navn)}
             </Link>
 
-            {brukerErEierAvSak && (
+            {brukerErEierAvSak && erPåAktivSak && (
                 <Button
                     icon={
                         <NotePencilIcon

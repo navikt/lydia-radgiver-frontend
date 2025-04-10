@@ -39,11 +39,13 @@ export const SamarbeidsVisning = ({
     iaSak,
     virksomhet,
     gjeldendeProsessId,
+    lasterIaSak,
 }: {
     alleSamarbeid: IaSakProsess[];
     virksomhet: Virksomhet;
     iaSak: IASak;
     gjeldendeProsessId: number;
+    lasterIaSak: boolean;
 }) => {
     const gjeldendeSamarbeid = alleSamarbeid.find(
         (samarbeid) => samarbeid.id == gjeldendeProsessId,
@@ -58,7 +60,6 @@ export const SamarbeidsVisning = ({
         loggNavigertTilNyTab(tab);
         setSearchParams(searchParams, { replace: true });
     };
-    const lasterIaSak = false;
 
     React.useEffect(() => {
         if (

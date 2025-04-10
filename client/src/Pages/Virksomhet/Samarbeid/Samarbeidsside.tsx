@@ -17,7 +17,7 @@ export const Samarbeidsside = () => {
     const { data: virksomhetsinformasjon, loading: lasterVirksomhet } =
         useHentVirksomhetsinformasjon(orgnummer);
 
-    const { data: iaSak } = useHentSakForVirksomhet(orgnummer, saksnummer);
+    const { data: iaSak, loading: lasterIaSak } = useHentSakForVirksomhet(orgnummer, saksnummer);
 
     const { data: alleSamarbeid } = useHentSamarbeid(orgnummer, saksnummer);
     useEffect(() => {
@@ -39,6 +39,7 @@ export const Samarbeidsside = () => {
                     iaSak={iaSak}
                     alleSamarbeid={alleSamarbeid}
                     gjeldendeProsessId={Number(prosessId)}
+                    lasterIaSak={lasterIaSak}
                 />
             </>
         );

@@ -28,4 +28,13 @@ export function useVirksomhetContext(): VirksomhetContextType {
     return context;
 }
 
+export function useErPåAktivSak() {
+    const context = useVirksomhetContext();
+    if (!context) {
+        return false;
+    }
+
+    return context.iaSak?.saksnummer === context.virksomhet.aktivtSaksnummer;
+}
+
 export default VirksomhetContext;

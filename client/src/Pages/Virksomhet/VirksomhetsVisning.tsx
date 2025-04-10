@@ -35,7 +35,6 @@ interface Props {
 }
 
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
-    console.log('virksomhet.aktivtSaksnummer', virksomhet.aktivtSaksnummer);
     const { data: iaSak, loading: lasterIaSak } = useHentSakForVirksomhet(
         virksomhet.orgnr,
         virksomhet.aktivtSaksnummer ?? undefined,
