@@ -29,12 +29,18 @@ export function useVirksomhetContext(): VirksomhetContextType {
 }
 
 export function useErPåAktivSak() {
-    const context = useVirksomhetContext();
-    if (!context) {
+    try {
+        const context = useVirksomhetContext();
+
+        if (!context) {
+            return false;
+        }
+
+        return context.iaSak?.saksnummer === context.virksomhet.aktivtSaksnummer;
+    } catch {
+        // Hvis vi ikke har context så er vi ikke på aktiv sak
         return false;
     }
-
-    return context.iaSak?.saksnummer === context.virksomhet.aktivtSaksnummer;
 }
 
 export function useErPåInaktivSak() {
