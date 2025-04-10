@@ -5,6 +5,7 @@ import { lokalDato } from "../../../util/dato";
 import styled from "styled-components";
 import { Link as ReactRouterLink } from "react-router-dom";
 import React from "react";
+import { defaultNavnHvisTomt } from "../../../domenetyper/iaSakProsess";
 
 export default function Samarbeidshistorikk({
 	historikk,
@@ -31,7 +32,7 @@ export default function Samarbeidshistorikk({
 					sorterteSamarbeid.map((samarbeid) => (
 						<Samarbeidrad key={samarbeid.id}>
 							<Link underline={false} as={ReactRouterLink} to={`/virksomhet/${orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}>
-								{samarbeid.navn}
+								{defaultNavnHvisTomt(samarbeid.navn)}
 							</Link>
 							<SamarbeidStatusBadge status={samarbeid.status} />
 							{samarbeid.sistEndret ? <span>{lokalDato(samarbeid.sistEndret)}</span> : <div />}
