@@ -8,7 +8,7 @@ import {
 } from "./SpørreundersøkelseContext";
 
 const StyledExpansionCard = styled(ExpansionCard) <{ $avstandFraSiste: number }>`
-    margin-bottom: 1rem;
+    margin-top: 1rem;
 
     & > div {
         z-index: ${(props) => props.$avstandFraSiste + 5};

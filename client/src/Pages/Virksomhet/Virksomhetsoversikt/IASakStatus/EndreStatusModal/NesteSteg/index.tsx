@@ -15,14 +15,14 @@ import {
 import styled from "styled-components";
 import {
     useHentAktivSakForVirksomhet,
-    useHentSamarbeidshistorikk,
+    useHentSakshistorikk,
 } from "../../../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../../../api/lydia-api/sak";
 import {
     loggStatusendringPåSak,
 } from "../../../../../../util/amplitude-klient";
 import { StatusHendelseSteg } from "../Statusknapper";
-import { penskrivIAStatus } from "../../../../../../components/Badge/StatusBadge";
+import { penskrivIAStatus } from "../../../../../../components/Badge/IAProsessStatusBadge";
 import { PlusIcon } from "@navikt/aksel-icons";
 import { useHentSamarbeid } from "../../../../../../api/lydia-api/spørreundersøkelse";
 import { useHentBrukerinformasjon } from "../../../../../../api/lydia-api/bruker";
@@ -184,7 +184,7 @@ function BekreftelsesSeksjon({
     sak: IASak;
     clearNesteSteg: () => void;
 }) {
-    const { mutate: mutateSamarbeidshistorikk } = useHentSamarbeidshistorikk(
+    const { mutate: mutateSamarbeidshistorikk } = useHentSakshistorikk(
         sak.orgnr,
     );
     const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(sak.orgnr);

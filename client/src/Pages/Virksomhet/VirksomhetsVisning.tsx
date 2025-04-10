@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import { Tabs } from "@navikt/ds-react";
-import { SamarbeidshistorikkFane } from "./Samarbeidshistorikk/SamarbeidshistorikkFane";
+import { SakshistorikkFane } from "./Sakshistorikk/SakshistorikkFane";
 import {
     contentSpacing,
     strekkBakgrunnenHeltUtTilKantenAvSida,
@@ -85,7 +85,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                         <SykefraværsstatistikkFane virksomhet={virksomhet} />
                     </StyledPanel>
                     <StyledPanel value="historikk">
-                        <SamarbeidshistorikkFane orgnr={virksomhet.orgnr} />
+                        <SakshistorikkFane orgnr={virksomhet.orgnr} />
                     </StyledPanel>
                 </Tabs>
             </Container>

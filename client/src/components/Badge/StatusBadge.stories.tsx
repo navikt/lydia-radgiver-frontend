@@ -1,5 +1,5 @@
 import { Meta } from "@storybook/react";
-import { StatusBadge } from "./StatusBadge";
+import { IAProsessStatusBadge } from "./IAProsessStatusBadge";
 import {
     IAProsessStatusEnum,
     IAProsessStatusType,
@@ -7,8 +7,8 @@ import {
 
 export default {
     title: "Prioritering/StatusBadge",
-    component: StatusBadge,
-} as Meta<typeof StatusBadge>;
+    component: IAProsessStatusBadge,
+} as Meta<typeof IAProsessStatusBadge>;
 
 const statuser = [
     IAProsessStatusEnum.enum.NY,
@@ -32,6 +32,6 @@ interface Props {
 const Story = ({ status }: Props) => (
     <div>
         <p>{`${status}: `}</p>
-        <StatusBadge status={status} />
+        <IAProsessStatusBadge status={status} />
     </div>
 );

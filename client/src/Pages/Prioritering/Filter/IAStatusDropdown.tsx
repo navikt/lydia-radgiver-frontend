@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
 import { Select } from "@navikt/ds-react";
 import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
-import { penskrivIAStatus } from "../../../components/Badge/StatusBadge";
+import { penskrivIAStatus } from "../../../components/Badge/IAProsessStatusBadge";
 
 interface Props {
     valgtStatus?: IAProsessStatusType;
@@ -18,7 +18,7 @@ export const IAStatusDropdown = ({
         endreStatus(
             (!!event.target.value &&
                 (event.target.value as IAProsessStatusType)) ||
-                undefined,
+            undefined,
         );
     };
 

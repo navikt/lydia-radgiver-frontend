@@ -1,15 +1,16 @@
-import { Virksomhet } from "../../../domenetyper/virksomhet";
-import { IASak } from "../../../domenetyper/domenetyper";
+import { Virksomhet } from "../../../../domenetyper/virksomhet";
+import { IAProsessStatusEnum, IASak } from "../../../../domenetyper/domenetyper";
 import { BodyShort, Button, Dropdown, Heading, Link } from "@navikt/ds-react";
 import { ChevronDownIcon } from "@navikt/aksel-icons";
 import React, { useState } from "react";
 import { SamarbeidsRad } from "./SamarbeidsRad";
 import { SamarbeidsDropdownFooter } from "./SamarbeidsDropdownFooter";
-import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
-import { EndreSamarbeidModal } from "./EndreSamarbeidModal";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
+import { EndreSamarbeidModal } from "../EndreSamarbeidModal";
+import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import styled from "styled-components";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
+import FullførteSamarbeid from "./FullførteSamarbeid";
 
 const DropdownMenuInnholdStyled = styled.div`
     display: flex;
@@ -41,8 +42,10 @@ export const SamarbeidsDropdown = ({
     virksomhet,
     setNyttSamarbeidModalÅpen,
 }: SamarbeidsDropdown2Props) => {
-    const { data: alleSamarbeid, mutate: hentSamarbeidPåNytt } =
+    const [seFlerSamarbeid, setSeFlerSamarbeid] = React.useState(false);
+    const { data: uflitrertAlleSamarbeid, mutate: hentSamarbeidPåNytt } =
         useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
+    const alleSamarbeid = uflitrertAlleSamarbeid?.filter((samarbeid) => samarbeid.status === IAProsessStatusEnum.Enum.AKTIV)
 
     const harIngenAktiveSamarbeid =
         alleSamarbeid === undefined || alleSamarbeid?.length === 0;
@@ -63,14 +66,18 @@ export const SamarbeidsDropdown = ({
                     iconPosition="right"
                     variant="primary-neutral"
                     size="small"
-                    onClick={() => hentSamarbeidPåNytt()}
+                    onClick={() => {
+                        hentSamarbeidPåNytt();
+                        setValgtSamarbeid(null);
+                        setEndreSamarbeidModalÅpen(false);
+                        setSeFlerSamarbeid(false);
+                    }}
                 >
                     Samarbeid
                     {harIngenAktiveSamarbeid
                         ? ""
                         : ` (${alleSamarbeid?.length})`}
                 </Button>
-
                 <Dropdown.Menu
                     style={{
                         width: "22rem",
@@ -93,7 +100,6 @@ export const SamarbeidsDropdown = ({
                         >
                             {virksomhet.navn}
                         </Heading>
-
                         {harIngenAktiveSamarbeid ? (
                             <BodyShort style={{ paddingLeft: "1rem" }}>
                                 <b>Ingen aktive samarbeid </b>
@@ -126,16 +132,15 @@ export const SamarbeidsDropdown = ({
                                 </DropdownMenuListStyled>
                             )
                         )}
-
                         <SamarbeidsDropdownFooter
                             setÅpen={setNyttSamarbeidModalÅpen}
                             brukerErEierAvSak={brukerErEierAvSak}
                             iaSakStatus={iaSak?.status}
                         />
+                        <FullførteSamarbeid iaSak={iaSak} alleSamarbeid={uflitrertAlleSamarbeid} erEkspandert={seFlerSamarbeid} setErEkspandert={setSeFlerSamarbeid} />
                     </DropdownMenuInnholdStyled>
                 </Dropdown.Menu>
             </Dropdown>
-
             {valgtSamarbeid && iaSak && (
                 <EndreSamarbeidModal
                     samarbeid={valgtSamarbeid}

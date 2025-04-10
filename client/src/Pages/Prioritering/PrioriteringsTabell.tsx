@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { Link, SortState, Table } from "@navikt/ds-react";
-import { StatusBadge } from "../../components/Badge/StatusBadge";
+import { IAProsessStatusBadge } from "../../components/Badge/IAProsessStatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import {
     formaterSomHeltall,
@@ -153,7 +153,7 @@ export const PrioriteringsTabell = ({
                                 key={virksomhetsoversikt.virksomhetsnavn}
                             >
                                 <Table.DataCell>
-                                    <StatusBadge
+                                    <IAProsessStatusBadge
                                         status={virksomhetsoversikt.status}
                                     />
                                 </Table.DataCell>

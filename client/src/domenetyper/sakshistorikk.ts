@@ -4,6 +4,7 @@ import {
     IAProsessStatusEnum,
     IASakshendelseTypeEnum,
 } from "./domenetyper";
+import { iaSakProsessSchema } from "./iaSakProsess";
 
 const sakshendelseSchema = z.object({
     status: IAProsessStatusEnum,
@@ -18,6 +19,7 @@ export const sakshistorikkSchema = z.object({
     opprettet: datoSchema,
     sistEndret: datoSchema,
     sakshendelser: sakshendelseSchema.array(),
+    samarbeid: iaSakProsessSchema.array(),
 });
 
 export type Sakshendelse = z.infer<typeof sakshendelseSchema>;

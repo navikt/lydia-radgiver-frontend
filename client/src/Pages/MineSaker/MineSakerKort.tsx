@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import styled from "styled-components";
-import { StatusBadge } from "../../components/Badge/StatusBadge";
+import { IAProsessStatusBadge } from "../../components/Badge/IAProsessStatusBadge";
 import { Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import { EksternLenke } from "../../components/EksternLenke";
 import { useHentSalesforceUrl } from "../../api/lydia-api/virksomhet";
@@ -120,7 +120,7 @@ export const MineSakerKort = ({
                     </Heading>
                     <HStack justify={"space-between"} align={"center"}>
                         <HStack gap={"4"} align={"center"}>
-                            <StatusBadge status={iaSak.status} />
+                            <IAProsessStatusBadge status={iaSak.status} />
                             <EierText>
                                 <b>Eier</b>
                                 {iaSak.eidAv ? (

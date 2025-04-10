@@ -3,6 +3,7 @@ import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import { SpørsmålResultat } from "../../../domenetyper/spørreundersøkelseResultat";
 import { useSpørsmålMedSorterteSvaralternativer } from "../../../util/sorterSvaralternativer";
+import "highcharts/modules/accessibility";
 
 export default function BarChart({
     spørsmål,

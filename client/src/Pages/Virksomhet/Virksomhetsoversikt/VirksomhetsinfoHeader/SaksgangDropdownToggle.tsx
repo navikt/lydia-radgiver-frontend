@@ -1,6 +1,6 @@
 import { IAProsessStatusEnum, IAProsessStatusType, IASak } from "../../../../domenetyper/domenetyper";
 import { ChevronDownIcon } from "@navikt/aksel-icons";
-import { penskrivIAStatus } from "../../../../components/Badge/StatusBadge";
+import { penskrivIAStatus } from "../../../../components/Badge/IAProsessStatusBadge";
 import { Button, ButtonProps, Dropdown } from "@navikt/ds-react";
 import styled from "styled-components";
 
@@ -10,13 +10,14 @@ const DropdownToggleButton = (props: ButtonProps) => (
 
 const RegularSortTekstKnapp = styled(DropdownToggleButton) <{
     $farge: string;
+    $tekstfarge: string;
 }>`
-    color: black;
+    color: ${(props) => props.$tekstfarge};
     background-color: ${(props) => props.$farge};
     
     &:hover {
         // Må override hoverfargen fra default. Bittelitt hacky, men den gråfargen klarte ikke å bli mørkere med brightness(80%), så den har edge case her.
-        background-color: ${(props) => props.$farge === hentFargeForIAStatus(IAProsessStatusEnum.enum.IKKE_AKTIV) ? "var(--a-gray-200)" : props.$farge};
+        background-color: ${(props) => props.$farge === hentFargeForIAStatus(IAProsessStatusEnum.enum.IKKE_AKTIV).bakgrunnsfarge ? "var(--a-gray-200)" : props.$farge};
         filter: brightness(80%);
         opacity: 1;
     }
@@ -33,20 +34,41 @@ const hentFargeForIAStatus = (
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
         case IAProsessStatusEnum.enum.SLETTET:
         default:
-            return "var(--ac-tag-neutral-moderate-bg, var(--a-surface-neutral-moderate))";
+            return {
+                bakgrunnsfarge: "var(--ac-tag-neutral-moderate-bg, var(--a-surface-neutral-moderate))",
+                tekstfarge: "var(--a-text-default)",
+            };
         case IAProsessStatusEnum.enum.VURDERES:
-            return "var(--ac-tag-info-moderate-bg, var(--a-surface-info-moderate))";
+            return {
+                bakgrunnsfarge: "var(--ac-tag-info-moderate-bg, var(--a-surface-info-moderate))",
+                tekstfarge: "var(--a-text-default)",
+            };
         case IAProsessStatusEnum.enum.KONTAKTES:
-            return "var(--ac-tag-alt-3-moderate-bg, var(--a-surface-alt-3-moderate))";
+            return {
+                bakgrunnsfarge: "var(--ac-tag-alt-3-moderate-bg, var(--a-surface-alt-3-moderate))",
+                tekstfarge: "var(--a-text-default)",
+            };
         case IAProsessStatusEnum.enum.KARTLEGGES:
-            return "var(--ac-tag-warning-moderate-bg, var(--a-surface-warning-moderate))";
+            return {
+                bakgrunnsfarge: "var(--ac-tag-warning-moderate-bg, var(--a-surface-warning-moderate))",
+                tekstfarge: "var(--a-text-default)",
+            };
         case IAProsessStatusEnum.enum.VI_BISTÅR:
-            return "var(--ac-tag-success-moderate-bg, var(--a-surface-success-moderate))";
+            return {
+                bakgrunnsfarge: "var(--ac-tag-success-filled-bg, var(--a-surface-success));",
+                tekstfarge: "var(--ac-tag-success-filled-text, var(--a-text-on-success))",
+            };
         case IAProsessStatusEnum.enum.NY:
         case IAProsessStatusEnum.enum.FULLFØRT:
-            return "var(--ac-tag-alt-1-moderate-bg, var(--a-surface-alt-1-moderate))";
+            return {
+                bakgrunnsfarge: "var(--ac-tag-alt-1-moderate-bg, var(--a-surface-alt-1-moderate))",
+                tekstfarge: "var(--a-text-default)",
+            };
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
-            return "var(--ac-tag-error-moderate-bg, var(--a-surface-danger-moderate))";
+            return {
+                bakgrunnsfarge: "var(--ac-tag-error-moderate-bg, var(--a-surface-danger-moderate))",
+                tekstfarge: "var(--a-text-default)",
+            };
     }
 };
 
@@ -55,9 +77,11 @@ export function SaksgangDropdownToggle({
 }: {
     iaSak?: IASak | undefined;
 }) {
+    const farger = hentFargeForIAStatus(iaSak?.status ?? "IKKE_AKTIV");
     return (
         <RegularSortTekstKnapp
-            $farge={hentFargeForIAStatus(iaSak?.status ?? "IKKE_AKTIV")}
+            $farge={farger.bakgrunnsfarge}
+            $tekstfarge={farger.tekstfarge}
             size={"small"}
             variant="primary"
             iconPosition={"right"}

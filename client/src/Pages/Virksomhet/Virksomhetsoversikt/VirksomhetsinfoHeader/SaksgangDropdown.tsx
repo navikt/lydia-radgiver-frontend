@@ -11,7 +11,7 @@ import {
     Statusknapper,
 } from "../IASakStatus/EndreStatusModal/Statusknapper";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { useHentSamarbeidshistorikk } from "../../../../api/lydia-api/virksomhet";
+import { useHentSakshistorikk } from "../../../../api/lydia-api/virksomhet";
 import { useHentAktivSakForVirksomhet } from "../../../../api/lydia-api/virksomhet";
 import { SaksgangDropdownToggle } from "./SaksgangDropdownToggle";
 
@@ -45,7 +45,7 @@ export function SaksgangDropdown({
         hendelse: GyldigNesteHendelse | null;
     }>({ nesteSteg: null, hendelse: null });
 
-    const { mutate: mutateSamarbeidshistorikk, validating: validatingSamarbeidshistorikk, loading: loadingSamarbeidshistorikk } = useHentSamarbeidshistorikk(
+    const { mutate: mutateSamarbeidshistorikk, validating: validatingSamarbeidshistorikk, loading: loadingSamarbeidshistorikk } = useHentSakshistorikk(
         virksomhet.orgnr,
     );
     const { mutate: mutateAktivSak, validating: validatingSak, loading: loadingSak } = useHentAktivSakForVirksomhet(

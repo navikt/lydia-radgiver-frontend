@@ -1,9 +1,9 @@
 import "@navikt/ds-css";
 import {
     spørreundersøkelseStatusEnum,
-    SpørreundersøkelseStatus,
+    SpørreundersøkelseStatus
 } from "../../domenetyper/domenetyper";
-import { StyledStatusTag } from "./StatusBadge";
+import { GenericProps, GenericStatusBadge } from "./StatusBadge";
 
 export const hentVariantForSpørreundersøkelseStatus = (
     status: SpørreundersøkelseStatus,
@@ -35,18 +35,11 @@ export function penskrivSpørreundersøkelseStatus(
     }
 }
 
-interface Props {
-    status: SpørreundersøkelseStatus;
-    ariaLive?: "off" | "polite" | "assertive";
-    ariaLabel?: string;
-}
+type Props = Omit<GenericProps<SpørreundersøkelseStatus>, "penskrivStatus" | "hentVariant">;
 
-export const SpørreundersøkelseStatusBadge = ({
-    status,
-    ariaLive,
-    ariaLabel,
-}: Props) => (
-    <StyledStatusTag variant={hentVariantForSpørreundersøkelseStatus(status)} aria-live={ariaLive} aria-label={ariaLabel}>
-        {penskrivSpørreundersøkelseStatus(status)}
-    </StyledStatusTag>
+export const SpørreundersøkelseStatusBadge = (props: Props) => (
+    <GenericStatusBadge
+        {...props}
+        penskrivStatus={penskrivSpørreundersøkelseStatus}
+        hentVariant={hentVariantForSpørreundersøkelseStatus} />
 );

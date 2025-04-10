@@ -11,6 +11,7 @@ import { endrePlanStatus } from "../../../api/lydia-api/plan";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { lokalDatoMedKortTekstmåned } from "../../../util/dato";
+import { samarbeidErFullført } from "../Samarbeid/SamarbeidContext";
 
 const StyledAccordion = styled(Accordion)`
     width: 100%;
@@ -223,6 +224,10 @@ export function PrettyInnholdsDato({
     }, [visNesteMåned, date]);
 }
 
+const IkkeRedigerbarStatus = styled.span`
+    font-weight: 600;
+`;
+
 function InnholdsStatusHeader({
     oppdaterStatus,
     kanOppretteEllerEndrePlan,
@@ -232,6 +237,10 @@ function InnholdsStatusHeader({
     kanOppretteEllerEndrePlan: boolean;
     innhold: PlanInnhold;
 }) {
+    if (samarbeidErFullført()) {
+        return <IkkeRedigerbarStatus>{innhold.status}</IkkeRedigerbarStatus>
+    }
+
     return innhold.status ? (
         <span>
             <Select

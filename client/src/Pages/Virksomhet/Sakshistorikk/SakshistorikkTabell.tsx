@@ -1,5 +1,5 @@
-import { Detail, Table } from "@navikt/ds-react";
-import { StatusBadge } from "../../../components/Badge/StatusBadge";
+import { Detail, Heading, Table } from "@navikt/ds-react";
+import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 import { lokalDato } from "../../../util/dato";
 import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
 import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
@@ -30,7 +30,9 @@ export const SakshistorikkTabell = ({
 
     return (
         <>
-            <h3>Sakshistorikk</h3>
+            <Heading size="small" spacing level="3">
+                Sakshistorikk
+            </Heading>
             <ScrollUtTilKantenContainer
                 $offsetLeft={1.5 + 2.75}
                 $offsetRight={1.5 + 0.75}
@@ -51,7 +53,7 @@ export const SakshistorikkTabell = ({
                                 return (
                                     <Table.Row key={index}>
                                         <Table.DataCell>
-                                            <StatusBadge
+                                            <IAProsessStatusBadge
                                                 status={sakSnapshot.status}
                                             />
                                         </Table.DataCell>

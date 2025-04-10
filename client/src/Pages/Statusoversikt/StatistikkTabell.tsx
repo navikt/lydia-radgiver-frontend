@@ -1,6 +1,6 @@
 import styled from "styled-components";
 import { Button, HStack, Table } from "@navikt/ds-react";
-import { StatusBadge } from "../../components/Badge/StatusBadge";
+import { IAProsessStatusBadge } from "../../components/Badge/IAProsessStatusBadge";
 import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { hvitBoksMedSkygge } from "../../styling/containere";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
@@ -46,7 +46,7 @@ export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
                     return (
                         <Table.Row key={i + status}>
                             <Table.HeaderCell scope="row">
-                                <StatusBadge status={status} />
+                                <IAProsessStatusBadge status={status} />
                             </Table.HeaderCell>
                             <Table.DataCell>
                                 <HStack justify={"space-between"}>

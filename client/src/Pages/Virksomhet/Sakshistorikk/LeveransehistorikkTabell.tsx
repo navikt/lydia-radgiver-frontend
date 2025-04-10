@@ -1,5 +1,5 @@
 import { useHentLeveranser } from "../../../api/lydia-api/leveranse";
-import { BodyShort, Loader, Table } from "@navikt/ds-react";
+import { BodyShort, Heading, Loader, Table } from "@navikt/ds-react";
 import { lokalDato } from "../../../util/dato";
 import { StyledTable } from "../../../components/StyledTable";
 import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
@@ -40,10 +40,18 @@ export const LeveransehistorikkTabell = ({
         (leveranse) => leveranse.status === "LEVERT",
     );
 
+    if (fullførteLeveranser.length === 0) {
+        return (
+            null
+        );
+    }
+
     return (
         <>
-            <h3>Leverte IA-tjenester</h3>
-
+            <br />
+            <Heading size="small" spacing level="3">
+                Leverte IA-tjenester
+            </Heading>
             {fullførteLeveranser.length ? (
                 <ScrollUtTilKantenContainer
                     $offsetLeft={1.5 + 2.75}

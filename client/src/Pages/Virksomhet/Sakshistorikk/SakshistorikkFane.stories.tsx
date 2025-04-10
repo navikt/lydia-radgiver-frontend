@@ -1,14 +1,14 @@
 import { Meta, StoryObj } from "@storybook/react";
 import { http, HttpResponse } from "msw";
-import { SamarbeidshistorikkFane } from "./SamarbeidshistorikkFane";
+import { SakshistorikkFane } from "./SakshistorikkFane";
 import { samarbeidshistorikkMock } from "../mocks/iaSakHistorikkMock";
 import { iaSakHistorikkPath } from "../../../api/lydia-api/paths";
 import { mswHandlers } from "../../../../.storybook/mswHandlers";
 
 const meta = {
     title: "Virksomhet/Samarbeidshistorikkfane",
-    component: SamarbeidshistorikkFane,
-} satisfies Meta<typeof SamarbeidshistorikkFane>;
+    component: SakshistorikkFane,
+} satisfies Meta<typeof SakshistorikkFane>;
 
 export default meta;
 type Story = StoryObj<typeof meta>;

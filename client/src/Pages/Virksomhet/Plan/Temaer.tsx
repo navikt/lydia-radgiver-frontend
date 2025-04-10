@@ -3,11 +3,11 @@ import { Heading, HStack } from "@navikt/ds-react";
 import EditTemaKnapp from "./EditTemaKnapp";
 import PlanGraf from "./PlanGraf";
 import InnholdsBlokk from "./InnholdsBlokk";
-import React from "react";
 import styled from "styled-components";
 import { tabInnholdStyling } from "../../../styling/containere";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
 
 const Container = styled.div`
     height: 100%;
@@ -18,6 +18,7 @@ const Container = styled.div`
 
     ${tabInnholdStyling};
 `;
+
 export function Temaer({
     samarbeidsplan,
     orgnummer,
@@ -47,15 +48,17 @@ export function Temaer({
                                 <Heading level="3" size="medium" spacing={true}>
                                     {tema.navn}
                                 </Heading>
-                                {kanOppretteEllerEndrePlan && (
-                                    <EditTemaKnapp
-                                        tema={tema}
-                                        orgnummer={orgnummer}
-                                        saksnummer={saksnummer}
-                                        samarbeid={samarbeid}
-                                        hentPlanIgjen={hentPlanIgjen}
-                                    />
-                                )}
+                                <VisHvisSamarbeidErÅpent>
+                                    {kanOppretteEllerEndrePlan && (
+                                        <EditTemaKnapp
+                                            tema={tema}
+                                            orgnummer={orgnummer}
+                                            saksnummer={saksnummer}
+                                            samarbeid={samarbeid}
+                                            hentPlanIgjen={hentPlanIgjen}
+                                        />
+                                    )}
+                                </VisHvisSamarbeidErÅpent>
                             </HStack>
                             <PlanGraf undertemaer={tema.undertemaer} />
                             <InnholdsBlokk
@@ -68,7 +71,6 @@ export function Temaer({
                                     kanOppretteEllerEndrePlan
                                 }
                             />
-                            {/*<VerktøyConfig verktøy={tema.ressurser} />*/}
                         </Container>
                     );
                 })}

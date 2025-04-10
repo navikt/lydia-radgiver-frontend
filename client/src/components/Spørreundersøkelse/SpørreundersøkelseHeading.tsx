@@ -1,12 +1,10 @@
-import { Heading, HStack, Tag } from "@navikt/ds-react";
+import { Heading, HStack } from "@navikt/ds-react";
 import {
-    defaultNavnHvisTomt,
     IaSakProsess,
 } from "../../domenetyper/iaSakProsess";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 
 export const SpørreundersøkelseHeading = ({
-    samarbeid,
     type,
 }: {
     samarbeid: IaSakProsess;
@@ -24,11 +22,6 @@ export const SpørreundersøkelseHeading = ({
                 >
                     {type}
                 </Heading>
-                {samarbeid && (
-                    <Tag variant={"alt3-filled"} size="small">
-                        {defaultNavnHvisTomt(samarbeid.navn)}
-                    </Tag>
-                )}
             </HStack>
         </HStack>
     );
