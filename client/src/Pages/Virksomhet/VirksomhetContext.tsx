@@ -37,4 +37,13 @@ export function useErPåAktivSak() {
     return context.iaSak?.saksnummer === context.virksomhet.aktivtSaksnummer;
 }
 
+export function useErPåInaktivSak() {
+    const context = useVirksomhetContext();
+    if (!context) {
+        return false;
+    }
+
+    return context.iaSak?.saksnummer && context.iaSak?.saksnummer !== context.virksomhet.aktivtSaksnummer;
+}
+
 export default VirksomhetContext;

@@ -119,7 +119,7 @@ export const useHentSakForVirksomhet = (orgnummer?: string, saksnummer?: string)
     const iasakUrl = `${iaSakPath}/${orgnummer}/${saksnummer}`;
     return useSwrTemplate<IASak | undefined>(iasakUrl, iaSakSchema.optional(), {
         revalidateOnFocus: true,
-    });
+    }, orgnummer !== undefined && saksnummer !== undefined);
 };
 
 export const useHentSakshistorikk = (orgnummer?: string) => {
