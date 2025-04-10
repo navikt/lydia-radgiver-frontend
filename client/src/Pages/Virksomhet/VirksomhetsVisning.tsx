@@ -9,7 +9,7 @@ import {
 } from "../../styling/contentSpacing";
 import { NavFarger } from "../../styling/farger";
 import { Virksomhet } from "../../domenetyper/virksomhet";
-import { useHentAktivSakForVirksomhet } from "../../api/lydia-api/virksomhet";
+import { useHentSakForVirksomhet } from "../../api/lydia-api/virksomhet";
 import { SykefraværsstatistikkFane } from "./Statistikk/SykefraværsstatistikkFane";
 import VirksomhetContext from "./VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "./Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
@@ -35,8 +35,10 @@ interface Props {
 }
 
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
-    const { data: iaSak, loading: lasterIaSak } = useHentAktivSakForVirksomhet(
+    console.log('virksomhet.aktivtSaksnummer', virksomhet.aktivtSaksnummer);
+    const { data: iaSak, loading: lasterIaSak } = useHentSakForVirksomhet(
         virksomhet.orgnr,
+        virksomhet.aktivtSaksnummer ?? undefined,
     );
     const [searchParams, setSearchParams] = useSearchParams();
     const fane = searchParams.get("fane") ?? "statistikk";

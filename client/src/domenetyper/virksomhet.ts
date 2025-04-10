@@ -38,6 +38,7 @@ export const virksomhetsSchema = z.object({
     bransje: z.string().nullable(),
     sektor: z.string().optional(),
     status: VirksomhetStatusBrregEnum,
+    aktivtSaksnummer: z.string().nullable(),
 });
 
 export type Virksomhet = z.infer<typeof virksomhetsSchema>;

@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 import { useHentSakshistorikk } from "../../../api/lydia-api/virksomhet";
-import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
+import { useHentSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { NavFarger } from "../../../styling/farger";
@@ -44,8 +44,9 @@ export const IaProsessRad = ({ iaProsess, iaSak }: IaProsessRadProps) => {
     const { mutate: mutateSamarbeidshistorikk } = useHentSakshistorikk(
         iaSak.orgnr,
     );
-    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(
+    const { mutate: mutateHentSaker } = useHentSakForVirksomhet(
         iaSak.orgnr,
+        iaSak.saksnummer,
     );
     const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
         iaSak.orgnr,

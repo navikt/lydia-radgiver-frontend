@@ -6,7 +6,7 @@ import {
     IASakshendelseTypeEnum,
 } from "../../../../../domenetyper/domenetyper";
 import {
-    useHentAktivSakForVirksomhet,
+    useHentSakForVirksomhet,
     useHentSakshistorikk,
 } from "../../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../../api/lydia-api/sak";
@@ -259,7 +259,7 @@ function RettTilNesteStatusKnapp({
     const { mutate: mutateSamarbeidshistorikk } = useHentSakshistorikk(
         sak.orgnr,
     );
-    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(sak.orgnr);
+    const { mutate: mutateHentSaker } = useHentSakForVirksomhet(sak.orgnr, sak.saksnummer);
 
     const mutateIASakerOgSamarbeidshistorikk = () => {
         mutateHentSaker?.();

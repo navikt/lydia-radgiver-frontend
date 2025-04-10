@@ -114,12 +114,14 @@ export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
         },
     );
 };
-export const useHentAktivSakForVirksomhet = (orgnummer?: string) => {
-    const iasakUrl = `${iaSakPath}/${orgnummer}/aktiv`;
+
+export const useHentSakForVirksomhet = (orgnummer?: string, saksnummer?: string) => {
+    const iasakUrl = `${iaSakPath}/${orgnummer}/${saksnummer}`;
     return useSwrTemplate<IASak | undefined>(iasakUrl, iaSakSchema.optional(), {
         revalidateOnFocus: true,
     });
 };
+
 export const useHentSakshistorikk = (orgnummer?: string) => {
     return useSwrTemplate<Sakshistorikk[]>(
         () => (orgnummer ? `${iaSakHistorikkPath}/${orgnummer}` : null),

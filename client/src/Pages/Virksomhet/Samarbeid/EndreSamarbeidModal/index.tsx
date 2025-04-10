@@ -16,7 +16,7 @@ import {
 import { IASak, IASakshendelseType } from "../../../../domenetyper/domenetyper";
 import React, { useEffect, useState } from "react";
 import {
-    useHentAktivSakForVirksomhet,
+    useHentSakForVirksomhet,
     useHentSakshistorikk,
     getKanGjennomføreStatusendring,
 } from "../../../../api/lydia-api/virksomhet";
@@ -91,8 +91,9 @@ export const EndreSamarbeidModal = ({
     const { mutate: mutateSamarbeidshistorikk } = useHentSakshistorikk(
         iaSak.orgnr,
     );
-    const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(
+    const { mutate: mutateHentSaker } = useHentSakForVirksomhet(
         iaSak.orgnr,
+        iaSak.saksnummer,
     );
     const { mutate: hentSamarbeidPåNytt, data: samarbeidData } =
         useHentSamarbeid(iaSak.orgnr, iaSak.saksnummer);

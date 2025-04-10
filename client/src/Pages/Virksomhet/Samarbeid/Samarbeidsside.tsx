@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom";
 import { statiskeSidetitler, useTittel } from "../../../util/useTittel";
 import {
-    useHentAktivSakForVirksomhet,
+    useHentSakForVirksomhet,
     useHentVirksomhetsinformasjon,
 } from "../../../api/lydia-api/virksomhet";
 import React, { useEffect } from "react";
@@ -17,7 +17,7 @@ export const Samarbeidsside = () => {
     const { data: virksomhetsinformasjon, loading: lasterVirksomhet } =
         useHentVirksomhetsinformasjon(orgnummer);
 
-    const { data: iaSak } = useHentAktivSakForVirksomhet(orgnummer);
+    const { data: iaSak } = useHentSakForVirksomhet(orgnummer, saksnummer);
 
     const { data: alleSamarbeid } = useHentSamarbeid(orgnummer, saksnummer);
     useEffect(() => {

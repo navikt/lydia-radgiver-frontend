@@ -12,7 +12,7 @@ import {
 } from "../IASakStatus/EndreStatusModal/Statusknapper";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { useHentSakshistorikk } from "../../../../api/lydia-api/virksomhet";
-import { useHentAktivSakForVirksomhet } from "../../../../api/lydia-api/virksomhet";
+import { useHentSakForVirksomhet } from "../../../../api/lydia-api/virksomhet";
 import { SaksgangDropdownToggle } from "./SaksgangDropdownToggle";
 
 const HistorikkContainer = styled(HStack) <{ $begrensHøyde: boolean }>`
@@ -38,6 +38,27 @@ export function SaksgangDropdown({
     iaSak?: IASak;
     setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
+    if (!iaSak) {
+        return null;
+    }
+    return (
+        <SaksgangDropdownInnhold
+            virksomhet={virksomhet}
+            iaSak={iaSak}
+            setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
+        />
+    );
+}
+
+function SaksgangDropdownInnhold({
+    virksomhet,
+    iaSak,
+    setNyttSamarbeidModalÅpen,
+}: {
+    virksomhet: Virksomhet;
+    iaSak: IASak;
+    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
+}) {
     const [open, setOpen] = React.useState(false);
 
     const [nesteSteg, setNesteSteg] = React.useState<{
@@ -48,14 +69,16 @@ export function SaksgangDropdown({
     const { mutate: mutateSamarbeidshistorikk, validating: validatingSamarbeidshistorikk, loading: loadingSamarbeidshistorikk } = useHentSakshistorikk(
         virksomhet.orgnr,
     );
-    const { mutate: mutateAktivSak, validating: validatingSak, loading: loadingSak } = useHentAktivSakForVirksomhet(
+
+    const { mutate: mutateSak, validating: validatingSak, loading: loadingSak } = useHentSakForVirksomhet(
         virksomhet.orgnr,
+        iaSak.saksnummer,
     );
 
     const lasterEllerRevaliderer = validatingSamarbeidshistorikk || loadingSamarbeidshistorikk || validatingSak || loadingSak;
 
     const mutateIASakerOgSamarbeidshistorikk = () => {
-        mutateAktivSak?.();
+        mutateSak?.();
         mutateSamarbeidshistorikk?.();
     };
 
