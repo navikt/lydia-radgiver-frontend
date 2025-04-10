@@ -2,6 +2,7 @@ import { BodyShort, Button } from "@navikt/ds-react";
 import React from "react";
 import { IAProsessStatusType } from "../../../../domenetyper/domenetyper";
 import { PlusIcon } from "@navikt/aksel-icons";
+import { useErPåAktivSak } from "../../VirksomhetContext";
 
 interface SamarbeidsDropdownFooterProps {
     setÅpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -17,6 +18,11 @@ export const SamarbeidsDropdownFooter = ({
     const visOpprettSamarbeidKnapp =
         brukerErEierAvSak &&
         (iaSakStatus === "KARTLEGGES" || iaSakStatus === "VI_BISTÅR");
+
+    const erPåAktivSak = useErPåAktivSak();
+    if (!erPåAktivSak) {
+        return null;
+    }
 
     const kravTilOppretteSamarbeid = () => {
         if (iaSakStatus === undefined || iaSakStatus === "IKKE_AKTIV") {
