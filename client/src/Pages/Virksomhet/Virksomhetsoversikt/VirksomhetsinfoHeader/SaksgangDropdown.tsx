@@ -11,7 +11,7 @@ import {
     Statusknapper,
 } from "../IASakStatus/EndreStatusModal/Statusknapper";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { useHentSakshistorikk } from "../../../../api/lydia-api/virksomhet";
+import { useHentSakshistorikk, useHentVirksomhetsinformasjon } from "../../../../api/lydia-api/virksomhet";
 import { useHentSakForVirksomhet } from "../../../../api/lydia-api/virksomhet";
 import { SaksgangDropdownToggle } from "./SaksgangDropdownToggle";
 
@@ -38,9 +38,6 @@ export function SaksgangDropdown({
     iaSak?: IASak;
     setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-    if (!iaSak) {
-        return null;
-    }
     return (
         <SaksgangDropdownInnhold
             virksomhet={virksomhet}
@@ -56,7 +53,7 @@ function SaksgangDropdownInnhold({
     setNyttSamarbeidModalÅpen,
 }: {
     virksomhet: Virksomhet;
-    iaSak: IASak;
+    iaSak?: IASak;
     setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const [open, setOpen] = React.useState(false);
@@ -66,13 +63,15 @@ function SaksgangDropdownInnhold({
         hendelse: GyldigNesteHendelse | null;
     }>({ nesteSteg: null, hendelse: null });
 
+    const { mutate: mutateVirksomhet } = useHentVirksomhetsinformasjon(virksomhet.orgnr);
+
     const { mutate: mutateSamarbeidshistorikk, validating: validatingSamarbeidshistorikk, loading: loadingSamarbeidshistorikk } = useHentSakshistorikk(
         virksomhet.orgnr,
     );
 
     const { mutate: mutateSak, validating: validatingSak, loading: loadingSak } = useHentSakForVirksomhet(
         virksomhet.orgnr,
-        iaSak.saksnummer,
+        iaSak?.saksnummer,
     );
 
     const lasterEllerRevaliderer = validatingSamarbeidshistorikk || loadingSamarbeidshistorikk || validatingSak || loadingSak;
@@ -80,6 +79,7 @@ function SaksgangDropdownInnhold({
     const mutateIASakerOgSamarbeidshistorikk = () => {
         mutateSak?.();
         mutateSamarbeidshistorikk?.();
+        mutateVirksomhet?.();
     };
 
     return (

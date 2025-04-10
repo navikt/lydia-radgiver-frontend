@@ -80,9 +80,6 @@ export function Statusknapper({
     const [loading, setLoading] = React.useState(false);
     const erPåAktivSak = useErPåAktivSak();
 
-    if (!erPåAktivSak) {
-        return null;
-    }
 
     if (iaSak === undefined) {
         return (
@@ -108,6 +105,10 @@ export function Statusknapper({
                 </Statuscontainer>
             )
         );
+    }
+
+    if (!erPåAktivSak) {
+        return null;
     }
 
     const erHendelsenDestruktiv = (hendelsesType: IASakshendelseType) =>
