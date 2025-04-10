@@ -19,7 +19,7 @@ function AntallArbeidsforholdInput({
         <TallInput
             type={"number"}
             min={"0"}
-            value={`${value}`}
+            value={value || undefined}
             label={label}
             hideLabel={hideLabel}
             onChange={(e) => {
