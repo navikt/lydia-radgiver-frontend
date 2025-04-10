@@ -1,5 +1,5 @@
 import styled from "styled-components";
-import { BodyShort, Dropdown, InternalHeader, Link } from "@navikt/ds-react";
+import { BodyShort, Dropdown, InternalHeader } from "@navikt/ds-react";
 import { Søkefelt } from "./Søkefelt";
 import { NavFarger } from "../../styling/farger";
 import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/brukerinformasjon";
@@ -7,6 +7,7 @@ import { SesjonBanner } from "../Banner/SesjonBanner";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 import { mobileAndUp, tabletAndUp } from "../../styling/breakpoints";
 import { LeaveIcon } from "@navikt/aksel-icons";
+import { InternLenke } from "../InternLenke";
 
 // Stylinga her er tatt fra navikt/nav-dekoratøren (15.12.2023)
 const TilHovedinnhold = styled.a`
@@ -71,7 +72,7 @@ const Navigasjon = styled.nav`
     }
 `;
 
-const Navigasjonslenke = styled(Link)`
+const Navigasjonslenke = styled(InternLenke)`
     color: ${NavFarger.textInverted};
     text-decoration: none;
 
@@ -80,7 +81,7 @@ const Navigasjonslenke = styled(Link)`
     }
 `;
 
-const DemoversjonTekst = styled(BodyShort)<{ hidden: boolean }>`
+const DemoversjonTekst = styled(BodyShort) <{ hidden: boolean }>`
     display: ${(props) => (props.hidden ? "none" : "flex")};
     justify-content: center;
     align-items: center;

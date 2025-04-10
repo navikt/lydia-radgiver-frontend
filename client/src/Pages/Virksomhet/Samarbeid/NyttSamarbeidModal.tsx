@@ -5,7 +5,6 @@ import {
     Checkbox,
     Detail,
     Heading,
-    Link,
     Modal,
 } from "@navikt/ds-react";
 import React, { useState } from "react";
@@ -23,8 +22,8 @@ import { useNavigate } from "react-router-dom";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import styled from "styled-components";
-import { ExternalLinkIcon } from "@navikt/aksel-icons";
 import { DEFAULT_SAMARBEIDSNAVN } from "../../../domenetyper/iaSakProsess";
+import { EksternLenke } from "../../../components/EksternLenke";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
@@ -199,13 +198,12 @@ export const NyttSamarbeidModal = ({
                         <Detail>
                             <b>
                                 Husk, aldri skriv{" "}
-                                <Link
+                                <EksternLenke
                                     href="https://www.datatilsynet.no/rettigheter-og-plikter/personopplysninger/"
                                     inlineText
                                 >
                                     personopplysninger
-                                    <ExternalLinkIcon aria-hidden />
-                                </Link>
+                                </EksternLenke>
                                 .
                             </b>
                         </Detail>

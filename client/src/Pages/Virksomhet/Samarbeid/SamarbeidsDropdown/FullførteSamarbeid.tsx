@@ -1,10 +1,11 @@
 import React from "react";
 import { IASak } from "../../../../domenetyper/domenetyper";
-import { Button, Dropdown, Link } from "@navikt/ds-react";
+import { Button, Dropdown } from "@navikt/ds-react";
 import { SamarbeidStatusBadge } from "../../../../components/Badge/SamarbeidStatusBadge";
 import styled from "styled-components";
 import { defaultNavnHvisTomt, IaSakProsess, IASamarbeidStatusEnum } from "../../../../domenetyper/iaSakProsess";
 import { ChevronDownIcon } from "@navikt/aksel-icons";
+import { InternLenke } from "../../../../components/InternLenke";
 
 const StyledDropdownMenuList = styled(Dropdown.Menu.List)`
 	border-top: 1px solid var(--ac-button-primary-bg, var(--__ac-button-primary-bg, var(--a-surface-action)));
@@ -29,7 +30,7 @@ const StyledListItemButtonContainer = styled(Dropdown.Menu.List.Item)`
 	align-items: center;
 `;
 
-const StyledLink = styled(Link)`
+const StyledLenke = styled(InternLenke)`
 	width: 100%;
 	padding-top: 0.5rem;
 	padding-bottom: 0.5rem;
@@ -39,7 +40,8 @@ const SeMerKnapp = styled(Button)`
 	width: 100%;
 `;
 
-export default function FullførteSamarbeid({ iaSak, alleSamarbeid, erEkspandert, setErEkspandert }: { iaSak: IASak | undefined, alleSamarbeid?: IaSakProsess[], erEkspandert: boolean, setErEkspandert: React.Dispatch<React.SetStateAction<boolean>> }) {
+export default function FullførteSamarbeid({ iaSak, alleSamarbeid, erEkspandert, setErEkspandert, setModalErÅpen }: { iaSak: IASak | undefined, alleSamarbeid?: IaSakProsess[], erEkspandert: boolean, setErEkspandert: React.Dispatch<React.SetStateAction<boolean>>, setModalErÅpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+
 	const fullførteSamarbeid = alleSamarbeid?.sort(sorterSamarbeidPåSistEndret)?.filter(({ status }) => status === IASamarbeidStatusEnum.Enum.FULLFØRT);
 
 	if (!iaSak || fullførteSamarbeid === undefined || fullførteSamarbeid?.length === 0) {
@@ -52,12 +54,16 @@ export default function FullførteSamarbeid({ iaSak, alleSamarbeid, erEkspandert
 				{
 					fullførteSamarbeid.slice(0, 3).map((samarbeid) => (
 						<StyledDropdownMenuListItem key={samarbeid.id} as="li">
-							<StyledLink
+							<StyledLenke
 								href={`/virksomhet/${iaSak.orgnr}/sak/${iaSak.saksnummer}/samarbeid/${samarbeid.id}`}
 								title={`Gå til samarbeid '${defaultNavnHvisTomt(samarbeid.navn)}'`}
+								onClick={() => {
+									setErEkspandert(false);
+									setModalErÅpen(false);
+								}}
 							>
 								{defaultNavnHvisTomt(samarbeid.navn)}
-							</StyledLink>
+							</StyledLenke>
 							<SamarbeidStatusBadge status={samarbeid.status} />
 						</StyledDropdownMenuListItem>
 					))
@@ -76,12 +82,12 @@ export default function FullførteSamarbeid({ iaSak, alleSamarbeid, erEkspandert
 			{
 				fullførteSamarbeid.map((samarbeid) => (
 					<StyledDropdownMenuListItem key={samarbeid.id} as="li">
-						<StyledLink
+						<StyledLenke
 							href={`/virksomhet/${iaSak.orgnr}/sak/${iaSak.saksnummer}/samarbeid/${samarbeid.id}`}
 							title={`Gå til samarbeid '${defaultNavnHvisTomt(samarbeid.navn)}'`}
 						>
 							{defaultNavnHvisTomt(samarbeid.navn)}
-						</StyledLink>
+						</StyledLenke>
 						<SamarbeidStatusBadge status={samarbeid.status} />
 					</StyledDropdownMenuListItem>
 				))
