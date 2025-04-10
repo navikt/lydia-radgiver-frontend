@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Link, SortState, Table } from "@navikt/ds-react";
+import { SortState, Table } from "@navikt/ds-react";
 import { IAProsessStatusBadge } from "../../components/Badge/IAProsessStatusBadge";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import {
@@ -12,6 +12,7 @@ import { hvitBoksMedSkygge } from "../../styling/containere";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { EndretDataCell } from "./EndretDataCell";
 import { ScrollUtTilKantenContainer } from "../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
+import { InternLenke } from "../../components/InternLenke";
 
 interface Kolonne {
     key: string;
@@ -161,11 +162,11 @@ export const PrioriteringsTabell = ({
                                     sistEndret={virksomhetsoversikt.sistEndret}
                                 />
                                 <Table.HeaderCell scope="row">
-                                    <Link
+                                    <InternLenke
                                         href={`virksomhet/${virksomhetsoversikt.orgnr}`}
                                     >
                                         {virksomhetsoversikt.virksomhetsnavn}
-                                    </Link>
+                                    </InternLenke>
                                 </Table.HeaderCell>
                                 <RightAllignedDataCell>
                                     {formaterSomHeltall(

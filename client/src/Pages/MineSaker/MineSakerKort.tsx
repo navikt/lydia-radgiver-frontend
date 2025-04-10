@@ -1,4 +1,3 @@
-import { Link } from "react-router-dom";
 import styled from "styled-components";
 import { IAProsessStatusBadge } from "../../components/Badge/IAProsessStatusBadge";
 import { Button, Heading, HStack, VStack } from "@navikt/ds-react";
@@ -14,6 +13,7 @@ import { loggGåTilSakFraMineSaker } from "../../util/amplitude-klient";
 import { SamarbeidsKort } from "./SamarbeidsKort";
 import { useHentTeam } from "../../api/lydia-api/team";
 import { useHentSamarbeid } from "../../api/lydia-api/spørreundersøkelse";
+import { InternLenke } from "../../components/InternLenke";
 
 const SaksKort = styled(VStack)`
     background-color: white;
@@ -43,7 +43,7 @@ const KortSubheading = styled.span`
     font-weight: 400;
 `;
 
-const HeaderVirksomhetLink = styled(Link)`
+const HeaderVirksomhetLenke = styled(InternLenke)`
     color: ${NavFarger.text};
     text-decoration: none;
     font-weight: 600;
@@ -105,8 +105,8 @@ export const MineSakerKort = ({
             <SaksKort>
                 <KortHeader>
                     <Heading level="3" size="medium">
-                        <HeaderVirksomhetLink
-                            to={gåTilSakUrl}
+                        <HeaderVirksomhetLenke
+                            href={gåTilSakUrl}
                             onClick={() =>
                                 loggGåTilSakFraMineSaker(
                                     "virksomhetslenke",
@@ -115,7 +115,7 @@ export const MineSakerKort = ({
                             }
                         >
                             {orgnavn}
-                        </HeaderVirksomhetLink>
+                        </HeaderVirksomhetLenke>
                         <KortSubheading> - {iaSak.orgnr}</KortSubheading>
                     </Heading>
                     <HStack justify={"space-between"} align={"center"}>

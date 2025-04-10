@@ -1,11 +1,12 @@
-import { Heading, Link } from "@navikt/ds-react";
+import { Heading } from "@navikt/ds-react";
 import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
 import { lokalDato } from "../../../util/dato";
 import styled from "styled-components";
-import { Link as ReactRouterLink } from "react-router-dom";
 import React from "react";
 import { defaultNavnHvisTomt } from "../../../domenetyper/iaSakProsess";
+import { InternLenke } from "../../../components/InternLenke";
+
 
 export default function Samarbeidshistorikk({
 	historikk,
@@ -31,9 +32,9 @@ export default function Samarbeidshistorikk({
 				{
 					sorterteSamarbeid.map((samarbeid) => (
 						<Samarbeidrad key={samarbeid.id}>
-							<Link underline={false} as={ReactRouterLink} to={`/virksomhet/${orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}>
+							<InternLenke underline={false} href={`/virksomhet/${orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}>
 								{defaultNavnHvisTomt(samarbeid.navn)}
-							</Link>
+							</InternLenke>
 							<SamarbeidStatusBadge status={samarbeid.status} />
 							{samarbeid.sistEndret ? <span>{lokalDato(samarbeid.sistEndret)}</span> : <div />}
 						</Samarbeidrad>

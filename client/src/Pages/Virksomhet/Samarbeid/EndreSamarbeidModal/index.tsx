@@ -9,7 +9,6 @@ import {
     Button,
     Detail,
     Heading,
-    Link,
     Modal,
     TextField,
 } from "@navikt/ds-react";
@@ -22,11 +21,12 @@ import {
 } from "../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../api/lydia-api/sak";
 import styled from "styled-components";
-import { CheckmarkIcon, ExternalLinkIcon, TrashIcon } from "@navikt/aksel-icons";
+import { CheckmarkIcon, TrashIcon } from "@navikt/aksel-icons";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import { StyledSamarbeidModal } from "../NyttSamarbeidModal";
 import { KanGjennomføreStatusendring, MuligSamarbeidsgandling } from "../../../../domenetyper/samarbeidsEndring";
 import BekreftHandlingModal from "./BekreftHandlingModal";
+import { EksternLenke } from "../../../../components/EksternLenke";
 
 export const ModalBodyInnholdFlex = styled.div`
     display: flex;
@@ -231,13 +231,12 @@ export const EndreSamarbeidModal = ({
                             <Detail>
                                 <b>
                                     Husk, aldri skriv{" "}
-                                    <Link
+                                    <EksternLenke
                                         href="https://www.datatilsynet.no/rettigheter-og-plikter/personopplysninger/"
                                         inlineText
                                     >
                                         personopplysninger
-                                        <ExternalLinkIcon aria-hidden />
-                                    </Link>
+                                    </EksternLenke>
                                     .
                                 </b>
                             </Detail>

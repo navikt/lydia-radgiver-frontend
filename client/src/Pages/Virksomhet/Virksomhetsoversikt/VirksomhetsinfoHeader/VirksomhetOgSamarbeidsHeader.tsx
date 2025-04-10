@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
-import { Button, Heading, HStack, Link, Popover, Tag, VStack } from "@navikt/ds-react";
+import { Button, Heading, HStack, Popover, Tag, VStack } from "@navikt/ds-react";
 import { ChevronRightIcon, InformationSquareIcon } from "@navikt/aksel-icons";
 
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
@@ -22,6 +22,7 @@ import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 import { NyttSamarbeidModal } from "../../Samarbeid/NyttSamarbeidModal";
 import { VisHvisSamarbeidErLukket } from "../../Samarbeid/SamarbeidContext";
 import capitalizeFirstLetterLowercaseRest from "../../../../util/formatering/capitalizeFirstLetterLowercaseRest";
+import { InternLenke } from "../../../../components/InternLenke";
 
 const Container = styled.div`
     display: flex;
@@ -105,7 +106,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                                 </InvisibleButton>
                             )}
                             <Heading
-                                as={Link}
+                                as={InternLenke}
                                 level={"1"}
                                 size={"large"}
                                 variant={"neutral"}

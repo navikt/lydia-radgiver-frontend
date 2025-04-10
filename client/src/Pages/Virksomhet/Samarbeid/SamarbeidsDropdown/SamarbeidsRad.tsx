@@ -1,4 +1,4 @@
-import { Button, Link } from "@navikt/ds-react";
+import { Button } from "@navikt/ds-react";
 import React from "react";
 import {
     defaultNavnHvisTomt,
@@ -7,6 +7,7 @@ import {
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 import { useErPåAktivSak } from "../../VirksomhetContext";
+import { InternLenke } from "../../../../components/InternLenke";
 
 const SamarbeidsRadWrapper = styled.div`
     width: 100%;
@@ -24,6 +25,7 @@ interface SamarbeidsRadProps {
         React.SetStateAction<IaSakProsess | null>
     >;
     brukerErEierAvSak: boolean;
+    setModalErÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const SamarbeidsRad = ({
@@ -33,18 +35,22 @@ export const SamarbeidsRad = ({
     setÅpen,
     setValgtSamarbeid,
     brukerErEierAvSak,
+    setModalErÅpen,
 }: SamarbeidsRadProps) => {
     const erPåAktivSak = useErPåAktivSak();
 
     return (
         <SamarbeidsRadWrapper>
-            <Link
+            <InternLenke
                 style={{ width: "100%" }}
                 href={`/virksomhet/${orgnr}/sak/${saksnummer}/samarbeid/${samarbeid.id}`}
                 title={`Gå til samarbeid '${defaultNavnHvisTomt(samarbeid.navn)}'`}
+                onClick={() => {
+                    setModalErÅpen(false);
+                }}
             >
                 {defaultNavnHvisTomt(samarbeid.navn)}
-            </Link>
+            </InternLenke>
 
             {brukerErEierAvSak && erPåAktivSak && (
                 <Button

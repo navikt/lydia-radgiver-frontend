@@ -1,6 +1,6 @@
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { IAProsessStatusEnum, IASak } from "../../../../domenetyper/domenetyper";
-import { BodyShort, Button, Dropdown, Heading, Link } from "@navikt/ds-react";
+import { BodyShort, Button, Dropdown, Heading } from "@navikt/ds-react";
 import { ChevronDownIcon } from "@navikt/aksel-icons";
 import React, { useState } from "react";
 import { SamarbeidsRad } from "./SamarbeidsRad";
@@ -11,6 +11,7 @@ import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import styled from "styled-components";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import FullførteSamarbeid from "./FullførteSamarbeid";
+import { InternLenke } from "../../../../components/InternLenke";
 
 const DropdownMenuInnholdStyled = styled.div`
     display: flex;
@@ -42,6 +43,7 @@ export const SamarbeidsDropdown = ({
     virksomhet,
     setNyttSamarbeidModalÅpen,
 }: SamarbeidsDropdown2Props) => {
+    const [erÅpen, setErÅpen] = React.useState(false);
     const [seFlerSamarbeid, setSeFlerSamarbeid] = React.useState(false);
     const { data: uflitrertAlleSamarbeid, mutate: hentSamarbeidPåNytt } =
         useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
@@ -59,7 +61,7 @@ export const SamarbeidsDropdown = ({
     );
     return (
         <>
-            <Dropdown>
+            <Dropdown open={erÅpen} onOpenChange={setErÅpen}>
                 <Button
                     as={Dropdown.Toggle}
                     icon={<ChevronDownIcon aria-hidden />}
@@ -88,7 +90,7 @@ export const SamarbeidsDropdown = ({
                 >
                     <DropdownMenuInnholdStyled>
                         <Heading
-                            as={Link}
+                            as={InternLenke}
                             href={`/virksomhet/${virksomhet.orgnr}`}
                             title="Gå til virksomhet"
                             size={"medium"}
@@ -126,6 +128,7 @@ export const SamarbeidsDropdown = ({
                                                 setValgtSamarbeid={
                                                     setValgtSamarbeid
                                                 }
+                                                setModalErÅpen={setErÅpen}
                                             />
                                         </DropdownMenuListItemStyled>
                                     ))}
@@ -137,7 +140,12 @@ export const SamarbeidsDropdown = ({
                             brukerErEierAvSak={brukerErEierAvSak}
                             iaSakStatus={iaSak?.status}
                         />
-                        <FullførteSamarbeid iaSak={iaSak} alleSamarbeid={uflitrertAlleSamarbeid} erEkspandert={seFlerSamarbeid} setErEkspandert={setSeFlerSamarbeid} />
+                        <FullførteSamarbeid
+                            iaSak={iaSak}
+                            alleSamarbeid={uflitrertAlleSamarbeid}
+                            erEkspandert={seFlerSamarbeid}
+                            setErEkspandert={setSeFlerSamarbeid}
+                            setModalErÅpen={setErÅpen} />
                     </DropdownMenuInnholdStyled>
                 </Dropdown.Menu>
             </Dropdown>
