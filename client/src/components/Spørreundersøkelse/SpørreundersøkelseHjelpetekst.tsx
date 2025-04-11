@@ -1,5 +1,6 @@
 import { BodyShort } from "@navikt/ds-react";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
+import { useErPåAktivSak } from "../../Pages/Virksomhet/VirksomhetContext";
 
 export const SpørreundersøkelseHjelpetekst = ({
     brukerErEierAvSak,
@@ -12,6 +13,10 @@ export const SpørreundersøkelseHjelpetekst = ({
     type: SpørreundersøkelseType;
     harPlan?: boolean;
 }) => {
+    const erPåAktivSak = useErPåAktivSak();
+    if (!erPåAktivSak) {
+        return null;
+    }
     if (!brukerErEierAvSak && !sakErIRettStatus) {
         return (
             <>

@@ -4,7 +4,9 @@ import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusB
 import { lokalDato } from "../../../util/dato";
 import styled from "styled-components";
 import React from "react";
+import { defaultNavnHvisTomt } from "../../../domenetyper/iaSakProsess";
 import { InternLenke } from "../../../components/InternLenke";
+
 
 export default function Samarbeidshistorikk({
 	historikk,
@@ -31,7 +33,7 @@ export default function Samarbeidshistorikk({
 					sorterteSamarbeid.map((samarbeid) => (
 						<Samarbeidrad key={samarbeid.id}>
 							<InternLenke underline={false} href={`/virksomhet/${orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}>
-								{samarbeid.navn}
+								{defaultNavnHvisTomt(samarbeid.navn)}
 							</InternLenke>
 							<SamarbeidStatusBadge status={samarbeid.status} />
 							{samarbeid.sistEndret ? <span>{lokalDato(samarbeid.sistEndret)}</span> : <div />}

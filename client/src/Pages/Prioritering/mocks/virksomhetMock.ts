@@ -10,6 +10,7 @@ export const virksomhetMock: Virksomhet = {
     postnummer: "0187",
     poststed: "Oslo",
     navn: "Sjøfart stål og stell AS",
+    aktivtSaksnummer: "01JQBBBEX850R70BR85PD31AFC",
     næring: {
         navn: "Sjøfart",
         kode: "50",

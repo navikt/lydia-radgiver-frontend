@@ -2,7 +2,7 @@ import { Modal, Heading, Select, CheckboxGroup, Checkbox, Box, Alert, Button } f
 import React from "react";
 import { hentÅrsakFraÅrsakType, Knappecontainer } from ".";
 import { nyHendelsePåSak } from "../../../../../../api/lydia-api/sak";
-import { useHentSakshistorikk, useHentAktivSakForVirksomhet } from "../../../../../../api/lydia-api/virksomhet";
+import { useHentSakshistorikk, useHentSakForVirksomhet } from "../../../../../../api/lydia-api/virksomhet";
 import { GyldigNesteHendelse, IASak, Årsak, ValgtÅrsakDto } from "../../../../../../domenetyper/domenetyper";
 import { loggStatusendringPåSak } from "../../../../../../util/amplitude-klient";
 
@@ -31,7 +31,7 @@ export function BegrunnelseFørstSeksjon({
 	const { mutate: mutateSamarbeidshistorikk } = useHentSakshistorikk(
 		sak.orgnr
 	);
-	const { mutate: mutateHentSaker } = useHentAktivSakForVirksomhet(sak.orgnr);
+	const { mutate: mutateHentSaker } = useHentSakForVirksomhet(sak.orgnr, sak.saksnummer);
 
 	const mutateIASakerOgSamarbeidshistorikk = () => {
 		mutateHentSaker?.();

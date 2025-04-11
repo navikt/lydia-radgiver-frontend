@@ -9,6 +9,7 @@ import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
 import { IASak } from "../../domenetyper/domenetyper";
 import TeamInnhold from "./TeamInnhold";
 import { useHentTeam } from "../../api/lydia-api/team";
+import { useErPåInaktivSak } from "../Virksomhet/VirksomhetContext";
 
 interface TeamModalProps {
     open: boolean;
@@ -42,24 +43,10 @@ export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
                     size={"small"}
                     as={Dropdown.Toggle}
                 >
-                    <HStack align={"center"} gap={"1"}>
-                        {brukerErEierAvSak ? (
-                            <>
-                                <PersonFillIcon aria-hidden />
-                                <BodyShort>Du eier saken</BodyShort>
-                            </>
-                        ) : brukerFølgerSak ? (
-                            <>
-                                <HeartFillIcon aria-hidden />
-                                <BodyShort>Du følger saken</BodyShort>
-                            </>
-                        ) : (
-                            <>
-                                <PersonGroupIcon aria-hidden />
-                                <BodyShort>Følg eller ta eierskap</BodyShort>
-                            </>
-                        )}
-                    </HStack>
+                    <Knappeinnhold
+                        brukerErEierAvSak={brukerErEierAvSak}
+                        brukerFølgerSak={brukerFølgerSak}
+                    />
                 </Button>
                 <Dropdown.Menu
                     style={{
@@ -83,5 +70,42 @@ export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
                 </Dropdown.Menu>
             </Dropdown>
         </>
+    );
+}
+
+function Knappeinnhold({ brukerErEierAvSak, brukerFølgerSak }: { brukerErEierAvSak: boolean, brukerFølgerSak: boolean }) {
+    const erPåInaktivSak = useErPåInaktivSak();
+    if (erPåInaktivSak) {
+        return (
+            <HStack align={"center"} gap={"1"}>
+                <PersonGroupIcon aria-hidden />
+                <BodyShort>Se eier og følgere</BodyShort>
+            </HStack>
+        );
+    }
+
+    if (brukerErEierAvSak) {
+        return (
+            <HStack align={"center"} gap={"1"}>
+                <PersonFillIcon aria-hidden />
+                <BodyShort>Du eier saken</BodyShort>
+            </HStack>
+        );
+    }
+
+    if (brukerFølgerSak) {
+        return (
+            <HStack align={"center"} gap={"1"}>
+                <HeartFillIcon aria-hidden />
+                <BodyShort>Du følger saken</BodyShort>
+            </HStack>
+        );
+    }
+
+    return (
+        <HStack align={"center"} gap={"1"}>
+            <PersonGroupIcon aria-hidden />
+            <BodyShort>Følg eller ta eierskap</BodyShort>
+        </HStack>
     );
 }

@@ -10,7 +10,7 @@ import {
 import React, { useState } from "react";
 
 import { useHentSakshistorikk } from "../../../api/lydia-api/virksomhet";
-import { useHentAktivSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
+import { useHentSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import {
     DetaljerWrapper,
@@ -51,8 +51,9 @@ export const NyttSamarbeidModal = ({
         setNavn("");
         setÅpen(false);
     };
-    const { mutate: hentAktivSakPåNytt } = useHentAktivSakForVirksomhet(
+    const { mutate: hentAktivSakPåNytt } = useHentSakForVirksomhet(
         iaSak.orgnr,
+        iaSak.saksnummer,
     );
     const { mutate: hentHistorikkPåNytt } = useHentSakshistorikk(
         iaSak.orgnr,

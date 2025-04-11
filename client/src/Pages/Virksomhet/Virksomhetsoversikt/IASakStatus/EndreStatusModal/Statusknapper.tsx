@@ -16,6 +16,7 @@ import { opprettSak } from "../../../../../api/lydia-api/sak";
 import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { RolleEnum } from "../../../../../domenetyper/brukerinformasjon";
 import { knappeTypeFraSakshendelsesType } from "./knappeTypeFraSakshendelsesType";
+import { useErPåAktivSak } from "../../../VirksomhetContext";
 
 const Statuscontainer = styled.div`
     display: flex;
@@ -77,6 +78,8 @@ export function Statusknapper({
 }: StatusknapperProps) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const [loading, setLoading] = React.useState(false);
+    const erPåAktivSak = useErPåAktivSak();
+
 
     if (iaSak === undefined) {
         return (
@@ -102,6 +105,10 @@ export function Statusknapper({
                 </Statuscontainer>
             )
         );
+    }
+
+    if (!erPåAktivSak) {
+        return null;
     }
 
     const erHendelsenDestruktiv = (hendelsesType: IASakshendelseType) =>

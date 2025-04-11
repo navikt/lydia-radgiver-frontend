@@ -1,15 +1,14 @@
 import { Link } from "@navikt/ds-react";
 import React from "react";
 import { IaSakProsess } from "../../../../../../domenetyper/iaSakProsess";
-import { NavLink, useParams } from "react-router-dom";
+import { NavLink } from "react-router-dom";
+import { useVirksomhetContext } from "../../../../VirksomhetContext";
 
 
 export default function LenkeTilFanePåSamarbeid({ samarbeidId, fane, children, onClick }: { samarbeidId: number, fane: string, children: React.ReactNode, onClick?: React.MouseEventHandler<HTMLAnchorElement> | undefined }) {
-	const {
-		orgnummer,
-		saksnummer,
-	} = useParams();
-	return <Link as={NavLink} to={`/virksomhet/${orgnummer}/sak/${saksnummer}/samarbeid/${samarbeidId}?fane=${fane}`} onClick={onClick}>{children}</Link>;
+	const { virksomhet } = useVirksomhetContext();
+
+	return <Link as={NavLink} to={`/virksomhet/${virksomhet.orgnr}/sak/${virksomhet.aktivtSaksnummer}/samarbeid/${samarbeidId}?fane=${fane}`} onClick={onClick}>{children}</Link>;
 }
 
 function Samarbeidsnavn({ samarbeidId, alleSamarbeid }: { samarbeidId: number, alleSamarbeid: IaSakProsess[] | undefined }) {
