@@ -5,7 +5,7 @@ import { ArchiveIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
-import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
+import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
 
 export function Samarbeidsvelger({
 	sorterteSamarbeid, valgtSamarbeid, setValgtSamarbeid, iaSak,
@@ -76,7 +76,7 @@ function InaktiveSamarbeidExpand({
 							to={`/virksomhet/${iaSak.orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}
 						>
 							{defaultNavnHvisTomt(samarbeid.navn)}
-							<IAProsessStatusBadge status={samarbeid.status} />
+							<SamarbeidStatusBadge status={samarbeid.status} />
 						</ActionMenu.Item>
 					))}
 				</ActionMenu.Group>
