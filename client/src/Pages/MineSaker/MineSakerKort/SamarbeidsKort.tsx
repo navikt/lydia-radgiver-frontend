@@ -14,16 +14,19 @@ export const SamarbeidsKort = ({
     iaSak: IASak;
     alleSamarbeid: IaSakProsess[];
 }) => {
+    const sorterteSamarbeid = alleSamarbeid.reduce(splitSamarbeid, { aktive: [], avsluttede: [] });
+
     const [valgtSamarbeid, setValgtSamarbeid] = useState<IaSakProsess>(
-        alleSamarbeid[0],
+        sorterteSamarbeid.aktive[0],
     );
     return (
         valgtSamarbeid && (
             <VStack gap="4" width={"100%"}>
                 <Samarbeidsvelger
-                    alleSamarbeid={alleSamarbeid}
+                    sorterteSamarbeid={sorterteSamarbeid}
                     valgtSamarbeid={valgtSamarbeid}
                     setValgtSamarbeid={setValgtSamarbeid}
+                    iaSak={iaSak}
                 />
                 <SamarbeidsInnhold iaSak={iaSak} iaSamarbeid={valgtSamarbeid} />
             </VStack>
@@ -31,3 +34,16 @@ export const SamarbeidsKort = ({
     );
 };
 
+export interface SplittedeSamarbeid {
+    aktive: IaSakProsess[];
+    avsluttede: IaSakProsess[];
+}
+
+function splitSamarbeid(acc: SplittedeSamarbeid, samarbeid: IaSakProsess): SplittedeSamarbeid {
+    if (samarbeid.status === "AKTIV") {
+        acc.aktive.push(samarbeid);
+    } else {
+        acc.avsluttede.push(samarbeid);
+    }
+    return acc;
+}
