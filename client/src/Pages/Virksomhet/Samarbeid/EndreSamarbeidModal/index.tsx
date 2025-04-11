@@ -148,6 +148,8 @@ export const EndreSamarbeidModal = ({
             null,
             {
                 ...samarbeid,
+                sistEndret: null,
+                opprettet: null,
                 navn: nyttNavn,
             },
         ).then(() => {
