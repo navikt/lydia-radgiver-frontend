@@ -1,13 +1,13 @@
-import { IAProsessStatusType, IASak } from "../../domenetyper/domenetyper";
+import { IAProsessStatusType, IASak } from "../../../domenetyper/domenetyper";
 import { useNavigate } from "react-router-dom";
-import { penskrivSpørreundersøkelseStatus } from "../../components/Badge/SpørreundersøkelseStatusBadge";
+import { penskrivSpørreundersøkelseStatus } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
 import { Button } from "@navikt/ds-react";
-import { loggGåTilSakFraMineSaker } from "../../util/amplitude-klient";
+import { loggGåTilSakFraMineSaker } from "../../../util/amplitude-klient";
 import styled from "styled-components";
-import { IaSakProsess } from "../../domenetyper/iaSakProsess";
-import { lokalDato } from "../../util/dato";
-import { useHentSpørreundersøkelser } from "../../api/lydia-api/spørreundersøkelse";
-import { useHentPlan } from "../../api/lydia-api/plan";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { lokalDato } from "../../../util/dato";
+import { useHentSpørreundersøkelser } from "../../../api/lydia-api/spørreundersøkelse";
+import { useHentPlan } from "../../../api/lydia-api/plan";
 
 const Innhold = styled.div`
     background-color: #e6f0ff;
@@ -98,8 +98,8 @@ export const SamarbeidsInnhold = ({
         <Innhold>
             <CardContentLeft>
                 {visSpørreundersøkelse &&
-                sisteVurdering?.status &&
-                vurderingSistEndret ? (
+                    sisteVurdering?.status &&
+                    vurderingSistEndret ? (
                     <div>
                         <ContentText>Behovsvurdering: </ContentText>
                         <ContentData>
@@ -115,7 +115,7 @@ export const SamarbeidsInnhold = ({
                         <ContentData>
                             {lokalDato(
                                 iaSak.endretTidspunkt ??
-                                    iaSak.opprettetTidspunkt,
+                                iaSak.opprettetTidspunkt,
                             )}
                         </ContentData>
                     </div>

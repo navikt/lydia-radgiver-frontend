@@ -1,19 +1,19 @@
 import styled from "styled-components";
-import { IAProsessStatusBadge } from "../../components/Badge/IAProsessStatusBadge";
+import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 import { Button, Heading, HStack, VStack } from "@navikt/ds-react";
-import { EksternLenke } from "../../components/EksternLenke";
-import { useHentSalesforceUrl } from "../../api/lydia-api/virksomhet";
-import { NavFarger } from "../../styling/farger";
-import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
+import { EksternLenke } from "../../../components/EksternLenke";
+import { useHentSalesforceUrl } from "../../../api/lydia-api/virksomhet";
+import { NavFarger } from "../../../styling/farger";
+import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import { useState } from "react";
-import { TeamModal } from "./TeamModal";
-import { IAProsessStatusType, IASak } from "../../domenetyper/domenetyper";
-import { loggGåTilSakFraMineSaker } from "../../util/amplitude-klient";
+import { TeamModal } from "../TeamModal";
+import { IAProsessStatusType, IASak } from "../../../domenetyper/domenetyper";
+import { loggGåTilSakFraMineSaker } from "../../../util/amplitude-klient";
 import { SamarbeidsKort } from "./SamarbeidsKort";
-import { useHentTeam } from "../../api/lydia-api/team";
-import { useHentSamarbeid } from "../../api/lydia-api/spørreundersøkelse";
-import { InternLenke } from "../../components/InternLenke";
+import { useHentTeam } from "../../../api/lydia-api/team";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import { InternLenke } from "../../../components/InternLenke";
 
 const SaksKort = styled(VStack)`
     background-color: white;
