@@ -4,6 +4,8 @@ import { SplittedeSamarbeid } from "./SamarbeidsKort";
 import { ArchiveIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
 import { IASak } from "../../../domenetyper/domenetyper";
+import styled from "styled-components";
+import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 
 export function Samarbeidsvelger({
 	sorterteSamarbeid, valgtSamarbeid, setValgtSamarbeid, iaSak,
@@ -29,20 +31,31 @@ export function Samarbeidsvelger({
 			<Spacer />
 			<InaktiveSamarbeidExpand
 				avsluttedeSamarbeid={sorterteSamarbeid.avsluttede}
-				setValgtSamarbeid={setValgtSamarbeid}
 				iaSak={iaSak}
 			/>
 		</HStack>
 	);
 }
 
+const StyledLenke = styled(Link)`
+	cursor: pointer;
+	display: flex;
+	justify-content: space-between;
+	align-items: center;
+	min-width: 20rem;
+	color: var(--a-text-action);
+	text-decoration: underline;
+
+	&:hover {
+		text-decoration: none;
+	}
+`;
+
 function InaktiveSamarbeidExpand({
 	avsluttedeSamarbeid,
-	setValgtSamarbeid,
 	iaSak,
 }: {
 	avsluttedeSamarbeid: IaSakProsess[],
-	setValgtSamarbeid: React.Dispatch<React.SetStateAction<IaSakProsess>>;
 	iaSak: IASak;
 }) {
 	if (avsluttedeSamarbeid.length === 0) {
@@ -59,27 +72,15 @@ function InaktiveSamarbeidExpand({
 					{avsluttedeSamarbeid.map((samarbeid) => (
 						<ActionMenu.Item
 							key={samarbeid.id}
-							as={Link}
+							as={StyledLenke}
 							to={`/virksomhet/${iaSak.orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}
 						>
 							{defaultNavnHvisTomt(samarbeid.navn)}
+							<IAProsessStatusBadge status={samarbeid.status} />
 						</ActionMenu.Item>
 					))}
 				</ActionMenu.Group>
 			</ActionMenu.Content>
 		</ActionMenu>
 	)
-	return (
-		<Chips>
-			{avsluttedeSamarbeid.map((samarbeid) => (
-				<Chips.Toggle
-					key={samarbeid.id}
-					selected={samarbeid.id === samarbeid.id}
-					onClick={() => setValgtSamarbeid(samarbeid)}
-				>
-					{defaultNavnHvisTomt(samarbeid.navn)}
-				</Chips.Toggle>
-			))}
-		</Chips>
-	);
 }
