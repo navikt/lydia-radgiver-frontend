@@ -16,6 +16,7 @@ import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
 import { penskrivIASakshendelsestype } from "./penskrivIASakshendelsestype";
 import { useTrengerÅFullføreBehovsvurderingerFørst } from "./useTrengerÅFullføreBehovsvurderingerFørst";
 import { useHentSamarbeid } from "../../../../../api/lydia-api/spørreundersøkelse";
+import { useTrengerÅFullføreSamarbeidFørst } from "./useTrengerÅFullføreSamarbeidFørst";
 
 export default function KnappForHendelse({
     hendelse,
@@ -211,12 +212,18 @@ function HendelseMåBekreftesKnapp({
             sak,
         );
 
+    const trengerÅFullføreSamarbeidFørst = useTrengerÅFullføreSamarbeidFørst(
+        hendelse.saksHendelsestype,
+        sak,
+    );
     const trengerÅFullførePlanFørst = false;
     let nesteSteg: StatusHendelseSteg | null = "BEKREFT";
     if (trengerÅFullføreKartleggingerFørst) {
         nesteSteg = "FULLFØR_KARTLEGGINGER";
     } else if (trengerÅFullførePlanFørst) {
         nesteSteg = "FULLFØR_SAMARBEIDSPLAN";
+    } else if (trengerÅFullføreSamarbeidFørst) {
+        nesteSteg = "FULLFØR_SAMARBEID";
     }
 
     const bekreftNyHendelsePåSak = () => {

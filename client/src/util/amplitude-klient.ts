@@ -137,25 +137,14 @@ export const loggTogglingAvAutosøk = (autosøk: boolean) => {
     });
 };
 
-export const loggSendBrukerTilKartleggingerTab = (fraModal: string, fane: string) => {
+export const loggSendBrukerTilKartleggingerTab = (
+    fraModal: string,
+    fane: string,
+) => {
     logAmplitudeEvent("navigere", {
         destinasjon: `/virksomhet/[orgnr]/sak/[saksnr]/samarbeid/[samarbeidId]?fane=${fane}`,
         lenketekst: "[samarbeidsnavn]",
         fraModal,
-    });
-};
-
-export const loggModalTilbakeTilForrigeStatusLukket = (
-    modalTittel: string,
-    modalUnderskrift: string,
-    valg: "ja" | "avbryt",
-    fraStatus: string,
-) => {
-    logAmplitudeEvent("modal lukket", {
-        tekst: modalTittel,
-        underskrift: modalUnderskrift,
-        valg: valg,
-        fraStatus: fraStatus,
     });
 };
 
@@ -232,7 +221,10 @@ export const loggÅpnetVirksomhetsinfo = () => {
     });
 };
 
-export const loggEksportertTilPdf = (type: string, erForhåndsvisning: boolean = false) => {
+export const loggEksportertTilPdf = (
+    type: string,
+    erForhåndsvisning: boolean = false,
+) => {
     logAmplitudeEvent("exportert til pdf", { type, erForhåndsvisning });
 };
 

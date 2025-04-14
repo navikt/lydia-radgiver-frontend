@@ -42,6 +42,7 @@ const Innerknappecontainer = styled.div`
 `;
 
 export type StatusHendelseSteg =
+    | "FULLFØR_SAMARBEID"
     | "FULLFØR_KARTLEGGINGER"
     | "FULLFØR_SAMARBEIDSPLAN"
     | "BEGRUNNELSE"
@@ -117,9 +118,9 @@ export function Statusknapper({
     const hendelser: GyldigNesteHendelse[] = iaSak.gyldigeNesteHendelser.filter(
         (hendelse) =>
             hendelse.saksHendelsestype !==
-            IASakshendelseTypeEnum.Enum.ENDRE_PROSESS &&
+                IASakshendelseTypeEnum.Enum.ENDRE_PROSESS &&
             hendelse.saksHendelsestype !==
-            IASakshendelseTypeEnum.Enum.NY_PROSESS,
+                IASakshendelseTypeEnum.Enum.NY_PROSESS,
     );
     const destruktiveHendelser = hendelser.filter((hendelse) =>
         erHendelsenDestruktiv(hendelse.saksHendelsestype),

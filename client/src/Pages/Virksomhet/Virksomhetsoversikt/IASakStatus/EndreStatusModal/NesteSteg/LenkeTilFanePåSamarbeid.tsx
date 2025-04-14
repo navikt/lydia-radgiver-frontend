@@ -31,3 +31,17 @@ export function LenkeTilEvalueringsFane({ samarbeidId, alleSamarbeid, onClick }:
 		</LenkeTilFanePåSamarbeid>
 	);
 }
+
+export function LenkeTilSamarbeid({
+    samarbeidId,
+    children,
+    onClick,
+}: {
+    samarbeidId: number;
+    children: React.ReactNode;
+    onClick?: React.MouseEventHandler<HTMLAnchorElement> | undefined;
+}) {
+    const { virksomhet } = useVirksomhetContext();
+
+    return <Link as={NavLink} to={`/virksomhet/${virksomhet.orgnr}/sak/${virksomhet.aktivtSaksnummer}/samarbeid/${samarbeidId}`} onClick={onClick}>{children}</Link>;
+}
