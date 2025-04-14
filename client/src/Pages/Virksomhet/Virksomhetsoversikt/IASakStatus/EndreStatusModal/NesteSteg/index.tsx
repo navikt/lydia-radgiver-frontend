@@ -28,6 +28,7 @@ import { useHentSamarbeid } from "../../../../../../api/lydia-api/spørreunders�
 import { useHentBrukerinformasjon } from "../../../../../../api/lydia-api/bruker";
 import { FullførKartleggingerFørstSeksjon } from "./FullførKartleggingerFørstSeksjon";
 import { BegrunnelseFørstSeksjon } from "./BegrunnelseFørstSeksjon";
+import { DEFAULT_SAMARBEIDSNAVN } from "../../../../../../domenetyper/iaSakProsess";
 
 export const Knappecontainer = styled.div`
     display: flex;
@@ -269,7 +270,7 @@ function BekreftelsesInnhold({
                             data.map((samarbeid) => {
                                 return (
                                     <li key={samarbeid.id}>
-                                        {samarbeid.navn || "dsa"}
+                                        {samarbeid.navn || DEFAULT_SAMARBEIDSNAVN}
                                     </li>
                                 );
                             })}
