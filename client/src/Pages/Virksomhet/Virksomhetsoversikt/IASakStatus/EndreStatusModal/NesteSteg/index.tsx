@@ -18,9 +18,7 @@ import {
     useHentSakshistorikk,
 } from "../../../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../../../api/lydia-api/sak";
-import {
-    loggStatusendringPåSak,
-} from "../../../../../../util/amplitude-klient";
+import { loggStatusendringPåSak } from "../../../../../../util/amplitude-klient";
 import { StatusHendelseSteg } from "../Statusknapper";
 import { penskrivIAStatus } from "../../../../../../components/Badge/IAProsessStatusBadge";
 import { PlusIcon } from "@navikt/aksel-icons";
@@ -29,6 +27,7 @@ import { useHentBrukerinformasjon } from "../../../../../../api/lydia-api/bruker
 import { FullførKartleggingerFørstSeksjon } from "./FullførKartleggingerFørstSeksjon";
 import { BegrunnelseFørstSeksjon } from "./BegrunnelseFørstSeksjon";
 import { DEFAULT_SAMARBEIDSNAVN } from "../../../../../../domenetyper/iaSakProsess";
+import { FullførSamarbeidFørstSeksjon } from "./FullførSamarbeidFørstSeksjon";
 
 export const Knappecontainer = styled.div`
     display: flex;
@@ -58,6 +57,14 @@ export default function NesteSteg({
     const brukerErEierAvSak = sak?.eidAv === brukerInformasjon?.ident;
 
     switch (nesteSteg.nesteSteg) {
+        case "FULLFØR_SAMARBEID":
+            return (
+                <FullførSamarbeidFørstSeksjon
+                    lukkModal={lukkModal}
+                    clearNesteSteg={clearNesteSteg}
+                    alleSamarbeid={alleSamarbeid}
+                />
+            );
         case "FULLFØR_KARTLEGGINGER":
             return (
                 <FullførKartleggingerFørstSeksjon
@@ -188,7 +195,10 @@ function BekreftelsesSeksjon({
     const { mutate: mutateSamarbeidshistorikk } = useHentSakshistorikk(
         sak.orgnr,
     );
-    const { mutate: mutateHentSaker } = useHentSakForVirksomhet(sak.orgnr, sak.saksnummer);
+    const { mutate: mutateHentSaker } = useHentSakForVirksomhet(
+        sak.orgnr,
+        sak.saksnummer,
+    );
 
     const mutateIASakerOgSamarbeidshistorikk = () => {
         mutateHentSaker?.();
@@ -270,7 +280,8 @@ function BekreftelsesInnhold({
                             data.map((samarbeid) => {
                                 return (
                                     <li key={samarbeid.id}>
-                                        {samarbeid.navn || DEFAULT_SAMARBEIDSNAVN}
+                                        {samarbeid.navn ||
+                                            DEFAULT_SAMARBEIDSNAVN}
                                     </li>
                                 );
                             })}
