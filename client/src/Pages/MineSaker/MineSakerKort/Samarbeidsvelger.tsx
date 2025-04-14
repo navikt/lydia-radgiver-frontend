@@ -1,4 +1,4 @@
-import { ActionMenu, Button, Chips, HStack, Spacer } from "@navikt/ds-react";
+import { ActionMenu, Button, ButtonProps, Chips, HStack, Spacer } from "@navikt/ds-react";
 import { IaSakProsess, defaultNavnHvisTomt } from "../../../domenetyper/iaSakProsess";
 import { SplittedeSamarbeid } from "./SamarbeidsKort";
 import { ArchiveIcon } from "@navikt/aksel-icons";
@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { IASak } from "../../../domenetyper/domenetyper";
 import styled from "styled-components";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
+import { ARKIV_STATUSER } from "../Filter/StatusFilter";
 
 export function Samarbeidsvelger({
 	sorterteSamarbeid, valgtSamarbeid, setValgtSamarbeid, iaSak,
@@ -15,6 +16,10 @@ export function Samarbeidsvelger({
 	setValgtSamarbeid: React.Dispatch<React.SetStateAction<IaSakProsess>>;
 	iaSak: IASak;
 }) {
+	if (sorterteSamarbeid.aktive.length === 0) {
+		return <KunAvsluttedeSamarbeid sorterteSamarbeid={sorterteSamarbeid} iaSak={iaSak} />;
+	}
+
 	return (
 		<HStack>
 			<Chips>
@@ -54,9 +59,13 @@ const StyledLenke = styled(Link)`
 function InaktiveSamarbeidExpand({
 	avsluttedeSamarbeid,
 	iaSak,
+	variant = "secondary",
+	knappeTekst,
 }: {
 	avsluttedeSamarbeid: IaSakProsess[],
 	iaSak: IASak;
+	variant?: ButtonProps["variant"];
+	knappeTekst?: string;
 }) {
 	if (avsluttedeSamarbeid.length === 0) {
 		return null;
@@ -65,7 +74,9 @@ function InaktiveSamarbeidExpand({
 	return (
 		<ActionMenu>
 			<ActionMenu.Trigger>
-				<Button size="small" variant="secondary" icon={<ArchiveIcon title="Se arkiverte samarbeid" />} />
+				<Button size="small" variant={variant} icon={<ArchiveIcon title="Se arkiverte samarbeid" />}>
+					{knappeTekst}
+				</Button>
 			</ActionMenu.Trigger>
 			<ActionMenu.Content>
 				<ActionMenu.Group label="Avsluttede samarbeid">
@@ -83,4 +94,18 @@ function InaktiveSamarbeidExpand({
 			</ActionMenu.Content>
 		</ActionMenu>
 	)
+}
+
+function KunAvsluttedeSamarbeid({ sorterteSamarbeid, iaSak }: { sorterteSamarbeid: SplittedeSamarbeid; iaSak: IASak }) {
+	if (sorterteSamarbeid.avsluttede.length === 0) {
+		return null;
+	}
+
+	return (
+		<HStack>
+			{ARKIV_STATUSER.includes(iaSak.status) && `Virksomheten har ${sorterteSamarbeid.avsluttede.length} fullførte samarbeid`}
+			<Spacer />
+			<InaktiveSamarbeidExpand avsluttedeSamarbeid={sorterteSamarbeid.avsluttede} iaSak={iaSak} knappeTekst="Se avsluttede samarbeid" variant="primary" />
+		</HStack>
+	);
 }

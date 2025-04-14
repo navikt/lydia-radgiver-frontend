@@ -20,17 +20,15 @@ export const SamarbeidsKort = ({
         sorterteSamarbeid.aktive[0],
     );
     return (
-        valgtSamarbeid && (
-            <VStack gap="4" width={"100%"}>
-                <Samarbeidsvelger
-                    sorterteSamarbeid={sorterteSamarbeid}
-                    valgtSamarbeid={valgtSamarbeid}
-                    setValgtSamarbeid={setValgtSamarbeid}
-                    iaSak={iaSak}
-                />
-                <SamarbeidsInnhold iaSak={iaSak} iaSamarbeid={valgtSamarbeid} />
-            </VStack>
-        )
+        <VStack gap="4" width={"100%"}>
+            <Samarbeidsvelger
+                sorterteSamarbeid={sorterteSamarbeid}
+                valgtSamarbeid={valgtSamarbeid}
+                setValgtSamarbeid={setValgtSamarbeid}
+                iaSak={iaSak}
+            />
+            {valgtSamarbeid && <SamarbeidsInnhold iaSak={iaSak} iaSamarbeid={valgtSamarbeid} />}
+        </VStack>
     );
 };
 
