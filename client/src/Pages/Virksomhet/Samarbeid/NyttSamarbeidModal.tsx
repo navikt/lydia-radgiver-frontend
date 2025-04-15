@@ -17,7 +17,7 @@ import {
     MAX_LENGDE_SAMARBEIDSNAVN,
     ModalBodyInnholdFlex,
     TextFieldStyled,
-} from "./EndreSamarbeidModal";
+} from "./EndreSamarbeidModal/EndreSamarbeidInnhold";
 import { useNavigate } from "react-router-dom";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
