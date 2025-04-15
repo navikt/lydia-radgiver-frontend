@@ -111,6 +111,11 @@ function usePrettyType(type: MuligSamarbeidsgandling) {
 					capitalized: "Slett",
 					uncapitalized: "slett"
 				};
+			case "avbrytes":
+				return {
+					capitalized: "Avbryt",
+					uncapitalized: "avbryt"
+				};
 		}
 	}, [type]);
 }

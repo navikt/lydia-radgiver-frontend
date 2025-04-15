@@ -5,6 +5,7 @@ import {
 import { IASak, IASakshendelseType } from "../../../../domenetyper/domenetyper";
 import React, { useState } from "react";
 import {
+    getKanGjennomføreStatusendring,
     useHentSakForVirksomhet,
     useHentSakshistorikk,
 } from "../../../../api/lydia-api/virksomhet";
@@ -13,6 +14,7 @@ import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse
 import { KanGjennomføreStatusendring, MuligSamarbeidsgandling } from "../../../../domenetyper/samarbeidsEndring";
 import BekreftHandlingModal from "./BekreftHandlingModal";
 import EndreSamarbeidModalInnhold from "./EndreSamarbeidInnhold";
+import AvsluttModal from "./AvsluttModal";
 
 interface EndreSamarbeidModalProps {
     open: boolean;
@@ -31,8 +33,7 @@ export const EndreSamarbeidModal = ({
     const [kanGjennomføreResultat, setKanGjennomføreResultat] = useState<KanGjennomføreStatusendring>();
     const [sisteType, setSisteType] = useState<MuligSamarbeidsgandling | null>(null);
     const [lagreNavnVellykket, setLagreNavnVellykket] = useState(false);
-
-
+    const [avsluttModalÅpen, setAvsluttModalÅpen] = useState(false);
 
     const { mutate: mutateSamarbeidshistorikk } = useHentSakshistorikk(
         iaSak.orgnr,
@@ -69,6 +70,21 @@ export const EndreSamarbeidModal = ({
             });
         });
     };
+    const [lasterKanGjennomføreHandling, setLasterKanGjennomføreHandling] = useState<string | null>(null);
+
+    const prøvÅGjennomføreHandling = (handling: MuligSamarbeidsgandling) => {
+        setLasterKanGjennomføreHandling(handling);
+        setSisteType(handling);
+        getKanGjennomføreStatusendring(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            samarbeid.id,
+            handling,
+        ).then((kanGjennomføreResult) => {
+            setLasterKanGjennomføreHandling(null);
+            setKanGjennomføreResultat(kanGjennomføreResult);
+        });
+    };
 
     return (
         <>
@@ -76,7 +92,6 @@ export const EndreSamarbeidModal = ({
                 open={open}
                 setOpen={setOpen}
                 samarbeid={samarbeid}
-                iaSak={iaSak}
                 samarbeidData={samarbeidData}
                 navn={navn}
                 setNavn={setNavn}
@@ -86,7 +101,16 @@ export const EndreSamarbeidModal = ({
                 hentSamarbeidPåNytt={hentSamarbeidPåNytt}
                 nyHendelse={nyHendelse}
                 lagreNavnVellykket={lagreNavnVellykket}
-            />
+                setLasterKanGjennomføreHandling={setLasterKanGjennomføreHandling}
+                prøvÅGjennomføreHandling={prøvÅGjennomføreHandling}
+                lasterKanGjennomføreHandling={lasterKanGjennomføreHandling}
+                setAvsluttModalÅpen={setAvsluttModalÅpen} />
+            <AvsluttModal
+                iaSak={iaSak}
+                samarbeid={samarbeid}
+                åpen={avsluttModalÅpen}
+                prøvÅGjennomføreHandling={prøvÅGjennomføreHandling}
+                setÅpen={setAvsluttModalÅpen} />
             <BekreftHandlingModal
                 type={sisteType}
                 open={kanGjennomføreResultat !== undefined}

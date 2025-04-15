@@ -12,11 +12,8 @@ import {
 	Modal,
 	TextField,
 } from "@navikt/ds-react";
-import { IASak, IASakshendelseType } from "../../../../domenetyper/domenetyper";
+import { IASakshendelseType } from "../../../../domenetyper/domenetyper";
 import React, { useEffect, useState } from "react";
-import {
-	getKanGjennomføreStatusendring,
-} from "../../../../api/lydia-api/virksomhet";
 import { CheckmarkIcon, TrashIcon } from "@navikt/aksel-icons";
 import { StyledSamarbeidModal } from "../NyttSamarbeidModal";
 import { KanGjennomføreStatusendring, MuligSamarbeidsgandling } from "../../../../domenetyper/samarbeidsEndring";
@@ -59,7 +56,6 @@ export default function EndreSamarbeidModalInnhold({
 	open,
 	setOpen,
 	samarbeid,
-	iaSak,
 	samarbeidData,
 	navn,
 	setNavn,
@@ -69,11 +65,14 @@ export default function EndreSamarbeidModalInnhold({
 	hentSamarbeidPåNytt,
 	nyHendelse,
 	lagreNavnVellykket,
+	setLasterKanGjennomføreHandling,
+	prøvÅGjennomføreHandling,
+	lasterKanGjennomføreHandling,
+	setAvsluttModalÅpen,
 }: {
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
 	samarbeid: IaSakProsess;
-	iaSak: IASak;
 	samarbeidData?: IaSakProsess[];
 	navn: string;
 	setNavn: React.Dispatch<React.SetStateAction<string>>;
@@ -83,9 +82,12 @@ export default function EndreSamarbeidModalInnhold({
 	hentSamarbeidPåNytt: KeyedMutator<IaSakProsess[]>;
 	nyHendelse: (hendelsestype: IASakshendelseType) => Promise<void>;
 	lagreNavnVellykket: boolean;
+	setLasterKanGjennomføreHandling: React.Dispatch<React.SetStateAction<string | null>>;
+	prøvÅGjennomføreHandling: (handling: MuligSamarbeidsgandling) => void;
+	lasterKanGjennomføreHandling: string | null;
+	setAvsluttModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
 	const [antallTegn, setAntallTegn] = useState(samarbeid.navn?.length ?? 0);
-	const [lasterKanGjennomføreHandling, setLasterKanGjennomføreHandling] = useState<string | null>(null);
 	const navnErUbrukt =
 		samarbeidData?.find(
 			(s) =>
@@ -102,20 +104,6 @@ export default function EndreSamarbeidModalInnhold({
 		setKanGjennomføreResultat(undefined);
 		hentSamarbeidPåNytt().then(() => {
 			setNavn(defaultNavnHvisTomt(samarbeid.navn));
-		});
-	};
-
-	const prøvÅGjennomføreHandling = (handling: MuligSamarbeidsgandling) => {
-		setLasterKanGjennomføreHandling(handling);
-		setSisteType(handling);
-		getKanGjennomføreStatusendring(
-			iaSak.orgnr,
-			iaSak.saksnummer,
-			samarbeid.id,
-			handling,
-		).then((kanGjennomføreResult) => {
-			setLasterKanGjennomføreHandling(null);
-			setKanGjennomføreResultat(kanGjennomføreResult);
 		});
 	};
 
@@ -150,11 +138,11 @@ export default function EndreSamarbeidModalInnhold({
 					<Button
 						variant="primary"
 						size="small"
-						onClick={() => prøvÅGjennomføreHandling("fullfores")}
+						onClick={() => setAvsluttModalÅpen(true)}
 						icon={<CheckmarkIcon aria-hidden />}
 						loading={lasterKanGjennomføreHandling === "fullfores"}
 					>
-						Fullfør samarbeid
+						Avslutt samarbeid
 					</Button>
 					<Button
 						icon={

@@ -15,7 +15,7 @@ export const fullføreBegrunnelserSchema = z.enum([
 	"SAK_I_FEIL_STATUS",
 ]);
 
-export const muligeHandlinger = z.enum(["slettes", "fullfores"]);
+export const muligeHandlinger = z.enum(["slettes", "fullfores", "avbrytes"]);
 
 export const kanIkkeGjennomføreBegrunnelse = z.enum([...sletteBegrunnelserSchema.options, ...fullføreBegrunnelserSchema.options]);
 
