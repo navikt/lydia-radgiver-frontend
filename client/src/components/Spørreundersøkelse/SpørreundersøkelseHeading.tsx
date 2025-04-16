@@ -3,6 +3,7 @@ import {
     IaSakProsess,
 } from "../../domenetyper/iaSakProsess";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
+import Samarbeidsfanemeny from "../Samarbeidsfanemeny";
 
 export const SpørreundersøkelseHeading = ({
     type,
@@ -23,6 +24,8 @@ export const SpørreundersøkelseHeading = ({
                     {type}
                 </Heading>
             </HStack>
+            <Samarbeidsfanemeny type={type} />
         </HStack>
     );
 };
+

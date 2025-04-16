@@ -16,6 +16,7 @@ import {
 import EksportVisning from "./EksportVisning";
 import { Plan } from "../../../domenetyper/plan";
 import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
+import Samarbeidsfanemeny from "../../../components/Samarbeidsfanemeny";
 
 function SamarbeidsplanHeading({
     samarbeid,
@@ -24,6 +25,8 @@ function SamarbeidsplanHeading({
     samarbeid: IaSakProsess;
     samarbeidsplan?: Plan;
 }) {
+    const [lagrer, setLagrer] = React.useState(false);
+
     return (
         <HStack align={"center"} justify={"space-between"}>
             <HStack align={"center"} gap={"8"}>
@@ -31,13 +34,15 @@ function SamarbeidsplanHeading({
                     Samarbeidsplan
                 </Heading>
             </HStack>
-
-            {samarbeidsplan && (
-                <EksportVisning
-                    samarbeidsplan={samarbeidsplan}
-                    samarbeid={samarbeid}
-                />
-            )}
+            <Samarbeidsfanemeny type="Samarbeidsplan" laster={lagrer}>
+                {samarbeidsplan && (
+                    <EksportVisning
+                        samarbeidsplan={samarbeidsplan}
+                        samarbeid={samarbeid}
+                        setLagrer={setLagrer}
+                    />
+                )}
+            </Samarbeidsfanemeny>
         </HStack>
     );
 }
