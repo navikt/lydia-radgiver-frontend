@@ -163,6 +163,7 @@ export const enum EksternNavigeringKategorier {
     FIA_BRUKERVEILEDNING = "_fia-brukerveiledning",
     IAVEILEDER = "_iaveileder",
     TEAMKATALOGEN = "_teamkatalogen",
+    PORTEN = "_porten",
 }
 
 export const loggNavigeringMedEksternLenke = (

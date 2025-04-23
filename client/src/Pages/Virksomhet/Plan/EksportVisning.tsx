@@ -1,5 +1,5 @@
 import { Plan, PlanTema } from "../../../domenetyper/plan";
-import { BodyShort, Button, Heading } from "@navikt/ds-react";
+import { ActionMenu, BodyShort, Heading } from "@navikt/ds-react";
 import { FilePdfIcon } from "@navikt/aksel-icons";
 import React from "react";
 import styled from "styled-components";
@@ -31,11 +31,12 @@ const EksportStyleContainer = styled.div`
 export default function EksportVisning({
     samarbeidsplan,
     samarbeid,
+    setLagrer,
 }: {
     samarbeidsplan: Plan;
     samarbeid: IaSakProsess;
+    setLagrer: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
-    const [lagrer, setLagrer] = React.useState(false);
     const virksomhetdata = useVirksomhetContext();
     const doc = new jsPDF("p", "mm", "a4", true);
     const doc2 = doc;
@@ -54,11 +55,7 @@ export default function EksportVisning({
     );
 
     return (
-        <Button
-            loading={lagrer}
-            icon={<FilePdfIcon fontSize="1.5rem" aria-hidden />}
-            variant="secondary"
-            size="small"
+        <ActionMenu.Item
             onClick={(e) => {
                 setLagrer(true);
                 e.stopPropagation();
@@ -95,8 +92,9 @@ export default function EksportVisning({
                 });
             }}
         >
+            <FilePdfIcon aria-hidden fontSize="1.25rem" />
             Eksporter
-        </Button>
+        </ActionMenu.Item>
     );
 }
 

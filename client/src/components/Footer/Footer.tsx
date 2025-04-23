@@ -1,66 +1,100 @@
 import { EksternLenke } from "../EksternLenke";
 import styled from "styled-components";
-import { NavFarger } from "../../styling/farger";
-import { contentSpacing } from "../../styling/contentSpacing";
-import { desktopAndUp, largeDesktopAndUp } from "../../styling/breakpoints";
-import { BodyShort } from "@navikt/ds-react";
+import { Button, Popover } from "@navikt/ds-react";
 import { useHentPubliseringsinfo } from "../../api/lydia-api/virksomhet";
 import { getGjeldendePeriodeTekst } from "../../util/gjeldendePeriodeSisteFireKvartal";
 import {
     EksternNavigeringKategorier,
     loggNavigeringMedEksternLenke,
 } from "../../util/amplitude-klient";
-
-const StyledFooter = styled.footer`
-    background-color: ${NavFarger.deepblue800};
-    color: ${NavFarger.textInverted};
-
-    a {
-        color: ${NavFarger.textInverted};
-    }
-
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-    gap: 1rem;
-
-    padding: 1.5rem ${contentSpacing.mobileX};
-
-    ${desktopAndUp} {
-        padding-left: ${contentSpacing.desktopX};
-        padding-right: ${contentSpacing.desktopX};
-    }
-
-    ${largeDesktopAndUp} {
-        padding-left: ${contentSpacing.largeDesktopX};
-        padding-right: ${contentSpacing.largeDesktopX};
-    }
-`;
+import React from "react";
+import { QuestionmarkCircleIcon } from "@navikt/aksel-icons";
 
 export const Footer = () => {
-    const { data: publiseringsinfo } = useHentPubliseringsinfo();
-
     return (
-        <StyledFooter>
-            <BodyShort>
-                {`Fia viser offisiell sykefraværsstatistikk fra de siste
-                    fire kvartalene${getGjeldendePeriodeTekst(publiseringsinfo)}.
-                    Neste publiseringsdato er ${publiseringsinfo?.nestePubliseringsdato}.
-                    Tall for "arbeidsforhold" er fra siste tilgjengelige kvartal.
-                    Du finner flere detaljer om statistikk i `}
-                <EksternLenke
-                    href={
-                        "https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-inkluderende-arbeidsliv/SitePages/FIA-brukerveiledning.aspx"
-                    }
-                    onClick={() =>
-                        loggNavigeringMedEksternLenke(
-                            EksternNavigeringKategorier.FIA_BRUKERVEILEDNING,
-                        )
-                    }
-                >
-                    Brukerveiledning for Fia på Navet
-                </EksternLenke>
-            </BodyShort>
-        </StyledFooter>
+        <StyledNyFooter>
+            <NyFooterSykefraværsstatistikk />
+            <EksternLenke
+                href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-inkluderende-arbeidsliv/SitePages/FIA-brukerveiledning.aspx"
+                underline={false}
+                onClick={() =>
+                    loggNavigeringMedEksternLenke(
+                        EksternNavigeringKategorier.FIA_BRUKERVEILEDNING,
+                    )
+                }
+            >
+                Brukerveiledning for Fia
+            </EksternLenke>
+            <EksternLenke
+                href="https://jira.adeo.no/plugins/servlet/desk/portal/541/create/4362"
+                underline={false}
+                onClick={() =>
+                    loggNavigeringMedEksternLenke(
+                        EksternNavigeringKategorier.PORTEN,
+                    )
+                }
+            >
+                Send melding i Porten
+            </EksternLenke>
+        </StyledNyFooter>
     );
 };
+
+const StyledNyFooter = styled.footer`
+    background-color: var(--a-blue-100);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem 4rem;
+`;
+
+const StyledPopover = styled(Popover)`
+    --ac-popover-bg: var(--a-surface-inverted);
+    color: var(--a-text-on-inverted);
+`;
+
+const PopoverContentMedMaxWidth = styled(Popover.Content)`
+    max-width: 30rem;
+`;
+
+const Sykefraværsstatistikkknapp = styled(Button)`
+    --a-font-weight-bold: 400;
+    --ac-button-tertiary-hover-bg: var(--a-surface-action-active);
+    --ac-button-tertiary-hover-text: var(--a-surface-default);
+    padding: 0.25rem;
+`;
+
+function NyFooterSykefraværsstatistikk() {
+    const { data: publiseringsinfo } = useHentPubliseringsinfo();
+    const buttonRef = React.useRef<HTMLButtonElement>(null);
+    const [open, setOpen] = React.useState(false);
+
+    return (
+        <>
+            <Sykefraværsstatistikkknapp
+                ref={buttonRef}
+                onClick={() => setOpen(!open)}
+                aria-expanded={open}
+                icon={<QuestionmarkCircleIcon />}
+                variant="tertiary"
+            >
+                Sykefraværsstatistikken
+            </Sykefraværsstatistikkknapp>
+            <StyledPopover
+                open={open}
+                onClose={() => setOpen(false)}
+                anchorEl={buttonRef.current}
+            >
+                <PopoverContentMedMaxWidth>
+                    Fia viser offisiell sykefraværsstatistikk fra de siste
+                    fire kvartalene {getGjeldendePeriodeTekst(publiseringsinfo)}.
+                    Neste publiseringsdato er {publiseringsinfo?.nestePubliseringsdato}.
+                    Tall for &quot;arbeidsforhold&quot; er fra siste tilgjengelige kvartal.
+                    Se mer informasjon i brukerveiledningen.
+                </PopoverContentMedMaxWidth>
+            </StyledPopover>
+        </>
+    );
+}
