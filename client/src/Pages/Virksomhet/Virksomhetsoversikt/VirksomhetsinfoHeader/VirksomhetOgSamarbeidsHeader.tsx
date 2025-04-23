@@ -1,7 +1,7 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
-import { Alert, Button, Heading, HStack, Popover, Tag, VStack } from "@navikt/ds-react";
+import { Alert, Button, Heading, HStack, Popover, VStack } from "@navikt/ds-react";
 import { ChevronRightIcon, InformationSquareIcon } from "@navikt/aksel-icons";
 
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
@@ -21,9 +21,9 @@ import { loggÅpnetVirksomhetsinfo } from "../../../../util/amplitude-klient";
 import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 import { NyttSamarbeidModal } from "../../Samarbeid/NyttSamarbeidModal";
 import { VisHvisSamarbeidErLukket } from "../../Samarbeid/SamarbeidContext";
-import capitalizeFirstLetterLowercaseRest from "../../../../util/formatering/capitalizeFirstLetterLowercaseRest";
 import { InternLenke } from "../../../../components/InternLenke";
 import { useErPåInaktivSak } from "../../VirksomhetContext";
+import { SamarbeidStatusBadge } from "../../../../components/Badge/SamarbeidStatusBadge";
 
 const Container = styled.div`
     display: flex;
@@ -144,9 +144,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                                             )}
                                         </Heading>
                                         <VisHvisSamarbeidErLukket>
-                                            <FullførtTag variant="success-moderate" size="small">
-                                                {capitalizeFirstLetterLowercaseRest(gjeldendeSamarbeid.status)}
-                                            </FullførtTag>
+                                            <SamarbeidStatusBadge status={gjeldendeSamarbeid.status} />
                                         </VisHvisSamarbeidErLukket>
                                     </>
                                 )}
@@ -179,7 +177,3 @@ export default function VirksomhetOgSamarbeidsHeader({
         </>
     );
 }
-
-const FullførtTag = styled(Tag)`
-            margin-left: 0.5rem;
-            `;

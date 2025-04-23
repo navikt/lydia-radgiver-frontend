@@ -8,7 +8,8 @@ export interface SamarbeidContextType extends IaSakProsess {
 
 const STENGTE_STATUSER: IAProsessStatusType[] = [
 	IAProsessStatusEnum.enum.FULLFØRT,
-	IAProsessStatusEnum.enum.SLETTET
+	IAProsessStatusEnum.enum.SLETTET,
+	IAProsessStatusEnum.enum.AVBRUTT,
 ]
 
 const SamarbeidContext = React.createContext<SamarbeidContextType | null>(null);

@@ -23,6 +23,8 @@ export function penskrivIAStatus(status: IASamarbeidStatusType) {
 			return "Fullført";
 		case IASamarbeidStatusEnum.enum.SLETTET:
 			return "Slettet";
+		case IASamarbeidStatusEnum.enum.AVBRUTT:
+			return "Avbrutt";
 		default:
 			return status;
 	}

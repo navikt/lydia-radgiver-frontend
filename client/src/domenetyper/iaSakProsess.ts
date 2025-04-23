@@ -5,6 +5,7 @@ const IA_SAMARBEID_STATUS = [
     "AKTIV",
     "FULLFØRT",
     "SLETTET",
+    "AVBRUTT",
 ] as const;
 
 export const IASamarbeidStatusEnum = z.enum(IA_SAMARBEID_STATUS);

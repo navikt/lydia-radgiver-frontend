@@ -35,5 +35,7 @@ export const penskrivIASakshendelsestype = (
             return "Tilbakestill";
         case IASakshendelseTypeEnum.enum.FULLFØR_PROSESS:
             return "Fullfør prosess";
+        case IASakshendelseTypeEnum.enum.AVBRYT_PROSESS:
+            return "Avbryt prosess";
     }
 };

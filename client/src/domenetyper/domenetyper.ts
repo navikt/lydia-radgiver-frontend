@@ -29,6 +29,7 @@ const IA_PROSESS_STATUSER = [
     "IKKE_AKTUELL",
     "FULLFØRT",
     "SLETTET",
+    "AVBRUTT",
 ] as const;
 
 export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER);
@@ -62,6 +63,7 @@ const IA_SAKSHENDELSE_TYPER = [
     "ENDRE_PROSESS",
     "NY_PROSESS",
     "SLETT_PROSESS",
+    "AVBRYT_PROSESS",
     "FULLFØR_PROSESS",
     "FULLFØR_BISTAND",
     "TILBAKE",

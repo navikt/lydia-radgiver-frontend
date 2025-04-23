@@ -2,7 +2,7 @@ import {
     defaultNavnHvisTomt,
     IaSakProsess,
 } from "../../../../domenetyper/iaSakProsess";
-import { IASak, IASakshendelseType } from "../../../../domenetyper/domenetyper";
+import { IASak, IASakshendelseType, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
 import React, { useState } from "react";
 import {
     getKanGjennomføreStatusendring,
@@ -116,10 +116,12 @@ export const EndreSamarbeidModal = ({
                 open={kanGjennomføreResultat !== undefined}
                 onCancel={() => setKanGjennomføreResultat(undefined)}
                 onConfirm={() => {
-                    nyHendelse(sisteType === "slettes" ? "SLETT_PROSESS" : "FULLFØR_PROSESS").then(() => {
-                        setKanGjennomføreResultat(undefined);
-                        setSisteType(null);
-                    });
+                    if (sisteType) {
+                        nyHendelse(getHendelseFromType(sisteType)).then(() => {
+                            setKanGjennomføreResultat(undefined);
+                            setSisteType(null);
+                        });
+                    }
                 }}
                 erTillatt={kanGjennomføreResultat?.kanGjennomføres}
                 samarbeid={samarbeid}
@@ -128,3 +130,14 @@ export const EndreSamarbeidModal = ({
         </>
     );
 };
+
+function getHendelseFromType(type: MuligSamarbeidsgandling): IASakshendelseType {
+    switch (type) {
+        case "fullfores":
+            return IASakshendelseTypeEnum.enum.FULLFØR_PROSESS;
+        case "avbrytes":
+            return IASakshendelseTypeEnum.enum.AVBRYT_PROSESS;
+        case "slettes":
+            return IASakshendelseTypeEnum.enum.SLETT_PROSESS;
+    }
+}

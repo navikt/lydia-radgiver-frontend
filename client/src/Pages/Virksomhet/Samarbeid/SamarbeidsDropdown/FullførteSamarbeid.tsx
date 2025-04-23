@@ -42,7 +42,9 @@ const SeMerKnapp = styled(Button)`
 
 export default function FullførteSamarbeid({ iaSak, alleSamarbeid, erEkspandert, setErEkspandert, setModalErÅpen }: { iaSak: IASak | undefined, alleSamarbeid?: IaSakProsess[], erEkspandert: boolean, setErEkspandert: React.Dispatch<React.SetStateAction<boolean>>, setModalErÅpen: React.Dispatch<React.SetStateAction<boolean>> }) {
 
-	const fullførteSamarbeid = alleSamarbeid?.sort(sorterSamarbeidPåSistEndret)?.filter(({ status }) => status === IASamarbeidStatusEnum.Enum.FULLFØRT);
+	const fullførteSamarbeid = alleSamarbeid
+		?.sort(sorterSamarbeidPåSistEndret)
+		?.filter(({ status }) => status === IASamarbeidStatusEnum.Enum.FULLFØRT || status === IASamarbeidStatusEnum.Enum.AVBRUTT);
 
 	if (!iaSak || fullførteSamarbeid === undefined || fullførteSamarbeid?.length === 0) {
 		return null;

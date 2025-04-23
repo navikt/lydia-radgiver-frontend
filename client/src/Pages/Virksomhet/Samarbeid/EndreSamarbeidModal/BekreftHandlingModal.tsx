@@ -55,14 +55,19 @@ function BekreftHandlingHeader({ samarbeid, type }: { samarbeid: IaSakProsess, t
 }
 
 function BekreftHandlingBrødtekst({ type }: { type: MuligSamarbeidsgandling }) {
+	const tekst = React.useMemo(() => {
+		switch (type) {
+			case "fullfores":
+				return "Når du fullfører vil alle dokumenter bli arkivert og det vil ikke være mulig å gjøre endringer på samarbeidet.";
+			case "slettes":
+				return "Samarbeid med fullførte behovsvurderinger, evalueringer og aktive planer kan ikke slettes. Aktiviteter i Salesforce må slettes eller flyttes til at annet samarbeid.";
+			case "avbrytes":
+				return "Når du avbryter vil alle dokumenter bli arkivert og det vil ikke være mulig å gjøre endringer på samarbeidet.";
+		}
+	}, [type]);
+
 	return (
-		<BodyLong spacing>
-			{
-				type === "slettes"
-					? "Samarbeid med fullførte behovsvurderinger, evalueringer og aktive planer kan ikke slettes. Aktiviteter i Salesforce må slettes eller flyttes til at annet samarbeid."
-					: "Når du fullfører vil alle dokumenter bli arkivert og det vil ikke være mulig å gjøre endringer på samarbeidet."
-			}
-		</BodyLong>
+		<BodyLong spacing>{tekst}</BodyLong>
 	);
 }
 
