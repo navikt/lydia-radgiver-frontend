@@ -73,17 +73,24 @@ export const EndreSamarbeidModal = ({
     const [lasterKanGjennomføreHandling, setLasterKanGjennomføreHandling] = useState<string | null>(null);
 
     const prøvÅGjennomføreHandling = (handling: MuligSamarbeidsgandling) => {
-        setLasterKanGjennomføreHandling(handling);
-        setSisteType(handling);
-        getKanGjennomføreStatusendring(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            samarbeid.id,
-            handling,
-        ).then((kanGjennomføreResult) => {
-            setLasterKanGjennomføreHandling(null);
-            setKanGjennomføreResultat(kanGjennomføreResult);
-        });
+        if (handling === "avbrytes") {
+            nyHendelse(getHendelseFromType("avbrytes")).then(() => {
+                setKanGjennomføreResultat(undefined);
+                setSisteType(null);
+            });
+        } else {
+            setLasterKanGjennomføreHandling(handling);
+            setSisteType(handling);
+            getKanGjennomføreStatusendring(
+                iaSak.orgnr,
+                iaSak.saksnummer,
+                samarbeid.id,
+                handling,
+            ).then((kanGjennomføreResult) => {
+                setLasterKanGjennomføreHandling(null);
+                setKanGjennomføreResultat(kanGjennomføreResult);
+            });
+        }
     };
 
     return (
