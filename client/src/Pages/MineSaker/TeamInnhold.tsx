@@ -15,6 +15,8 @@ import {
     leggBrukerTilTeam,
     useHentTeam,
 } from "../../api/lydia-api/team";
+import { TaEierskapModal } from "./TaEierSkapModal";
+import { useState } from "react";
 import { useErPåAktivSak } from "../Virksomhet/VirksomhetContext";
 
 const EierBoks = styled.div`
@@ -56,16 +58,18 @@ function følgerSak(
 
 export default function TeamInnhold({
     iaSak,
-    lukkEksternContainer = () => { },
-    erPåMineSaker = false,
-    åpneTaEierskapModal,
+    taEierskapModalÅpen,
+    setTaEierskapModalÅpen
 }: {
     iaSak: IASak,
-    lukkEksternContainer?: () => void;
-    erPåMineSaker?: boolean;
-    åpneTaEierskapModal: () => void;
+    taEierskapModalÅpen?: boolean,
+    setTaEierskapModalÅpen?: React.Dispatch<React.SetStateAction<boolean>>
 }) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const [localTaEierskapModalÅpen, localSetTaEierskapModalÅpen] = useState(false);
+
+    const faktiskSetTaEierskapModalÅpen = setTaEierskapModalÅpen ?? localSetTaEierskapModalÅpen;
+    const faktiskTaEierskapModalÅpen = taEierskapModalÅpen ?? localTaEierskapModalÅpen;
 
     const { data: følgere = [], mutate: muterFølgere } = useHentTeam(
         iaSak.saksnummer,
@@ -76,7 +80,7 @@ export default function TeamInnhold({
 
     const kanTaEierskap = iaSak.gyldigeNesteHendelser
         .map((h) => h.saksHendelsestype)
-        .includes("TA_EIERSKAP_I_SAK") && (erPåAktivSak || erPåMineSaker);
+        .includes("TA_EIERSKAP_I_SAK") && erPåAktivSak;
 
 
     return (
@@ -101,7 +105,9 @@ export default function TeamInnhold({
                         iconPosition="right"
                         variant="secondary"
                         disabled={!kanTaEierskap}
-                        onClick={åpneTaEierskapModal}
+                        onClick={() => {
+                            faktiskSetTaEierskapModalÅpen(true);
+                        }}
                     >
                         <HStack gap={"2"} align={"center"}>
                             {iaSak.eidAv !== brukerIdent ? (
@@ -116,6 +122,14 @@ export default function TeamInnhold({
                             )}
                         </HStack>
                     </Button>
+                    {
+                        setTaEierskapModalÅpen ? null :
+                            <TaEierskapModal
+                                erModalÅpen={faktiskTaEierskapModalÅpen}
+                                lukkModal={() => faktiskSetTaEierskapModalÅpen(false)}
+                                iaSak={iaSak}
+                            />
+                    }
                 </EierKnappBoks>
             </EierBoks>
             <FølgereBoks>
@@ -140,9 +154,8 @@ export default function TeamInnhold({
                             await fjernBrukerFraTeam(iaSak.saksnummer);
                             muterFølgere();
                             loggFølgeSak(false);
-                            lukkEksternContainer();
                         }}
-                        disabled={!(erPåAktivSak || erPåMineSaker)}
+                        disabled={!erPåAktivSak}
                     >
                         Slutt å følge saken
                     </Button>
@@ -155,9 +168,8 @@ export default function TeamInnhold({
                             await leggBrukerTilTeam(iaSak.saksnummer);
                             muterFølgere();
                             loggFølgeSak(true);
-                            lukkEksternContainer();
                         }}
-                        disabled={!(erPåAktivSak || erPåMineSaker)}
+                        disabled={!erPåAktivSak}
                     >
                         Følg saken
                     </Button>

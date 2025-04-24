@@ -77,7 +77,6 @@ export const EndreSamarbeidModal = ({
             nyHendelse(getHendelseFromType("avbrytes")).then(() => {
                 setKanGjennomføreResultat(undefined);
                 setSisteType(null);
-                setOpen(false);
             });
         } else {
             setLasterKanGjennomføreHandling(handling);
@@ -90,7 +89,6 @@ export const EndreSamarbeidModal = ({
             ).then((kanGjennomføreResult) => {
                 setLasterKanGjennomføreHandling(null);
                 setKanGjennomføreResultat(kanGjennomføreResult);
-                setOpen(false);
             });
         }
     };

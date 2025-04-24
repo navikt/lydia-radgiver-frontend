@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { useHentMineSaker } from "../../api/lydia-api/sak";
 import { IASak } from "../../domenetyper/domenetyper";
 import TeamInnhold from "./TeamInnhold";
-import React from "react";
 import { TaEierskapModal } from "./TaEierSkapModal";
+import React from "react";
 
 const ModalBodyWrapper = styled.div`
     display: flex;
@@ -16,10 +16,9 @@ interface TeamModalProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     iaSak: IASak;
-    erPåMineSaker?: boolean;
 }
 
-export const TeamModal = ({ open, setOpen, iaSak, erPåMineSaker = false }: TeamModalProps) => {
+export const TeamModal = ({ open, setOpen, iaSak }: TeamModalProps) => {
     const { mutate: muterMineSaker } = useHentMineSaker();
     const [taEierskapModalÅpen, setTaEierskapModalÅpen] = React.useState(false);
 
@@ -41,7 +40,7 @@ export const TeamModal = ({ open, setOpen, iaSak, erPåMineSaker = false }: Team
             >
                 <Modal.Body>
                     <ModalBodyWrapper>
-                        <TeamInnhold iaSak={iaSak} lukkEksternContainer={() => setOpen(false)} erPåMineSaker={erPåMineSaker} åpneTaEierskapModal={() => setTaEierskapModalÅpen(true)} />
+                        <TeamInnhold iaSak={iaSak} setTaEierskapModalÅpen={setTaEierskapModalÅpen} taEierskapModalÅpen={taEierskapModalÅpen} />
                     </ModalBodyWrapper>
                 </Modal.Body>
                 <Modal.Footer>
@@ -56,10 +55,7 @@ export const TeamModal = ({ open, setOpen, iaSak, erPåMineSaker = false }: Team
             </Modal>
             <TaEierskapModal
                 erModalÅpen={taEierskapModalÅpen}
-                lukkModal={() => {
-                    setTaEierskapModalÅpen(false);
-                    setOpen(false);
-                }}
+                lukkModal={() => setTaEierskapModalÅpen(false)}
                 iaSak={iaSak}
             />
         </>

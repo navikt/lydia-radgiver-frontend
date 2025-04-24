@@ -148,7 +148,6 @@ export const MineSakerKort = ({
                                 open={isModalOpen}
                                 setOpen={setIsModalOpen}
                                 iaSak={iaSak}
-                                erPåMineSaker
                             />
                         </HStack>
                         {
