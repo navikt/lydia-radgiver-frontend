@@ -136,7 +136,7 @@ function usePrettyBegrunnelser(begrunnelser?: KanIkkeGjennomføreBegrunnelse[]):
 				case "FINNES_SALESFORCE_AKTIVITET":
 					return "Aktiviteter i Salesforce";
 				case "FINNES_BEHOVSVURDERING":
-					return "Fullført behovsvurdering";
+					return "Det en påbegynt behovsvurdering";
 				case "FINNES_SAMARBEIDSPLAN":
 					return "Aktiv samarbeidsplan";
 				case "FINNES_EVALUERING":
