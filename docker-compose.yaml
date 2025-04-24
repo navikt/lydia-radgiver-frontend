@@ -137,6 +137,7 @@ services:
       # Spesifikk for remote debugging
       JAVA_TOOL_OPTIONS: -agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=*:5005
       SALESFORCE_TOKEN_HOST: http://host.docker.internal:9090
+      SALESFORCE_TOKEN_BASE_URL: http://host.docker.internal:9090
       SALESFORCE_CLIENT_ID: clientId
       SALESFORCE_CLIENT_SECRET: clientSecret
       SALESFORCE_USERNAME: username
