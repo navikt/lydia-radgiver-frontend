@@ -90,7 +90,6 @@ export const EndreSamarbeidModal = ({
             ).then((kanGjennomføreResult) => {
                 setLasterKanGjennomføreHandling(null);
                 setKanGjennomføreResultat(kanGjennomføreResult);
-                setOpen(false);
             });
         }
     };
@@ -129,6 +128,7 @@ export const EndreSamarbeidModal = ({
                         nyHendelse(getHendelseFromType(sisteType)).then(() => {
                             setKanGjennomføreResultat(undefined);
                             setSisteType(null);
+                            setOpen(false);
                         });
                     }
                 }}
