@@ -19,7 +19,6 @@ export const useTrengerÅFullføreSamarbeidFørst = (
         false;
 
     switch (hendelsesType) {
-        case IASakshendelseTypeEnum.enum.TILBAKE:
         case IASakshendelseTypeEnum.enum.VIRKSOMHET_SKAL_BISTÅS:
         case IASakshendelseTypeEnum.enum.FULLFØR_BISTAND:
             return harAktiveSamarbeid;
