@@ -178,14 +178,7 @@ export const NyttSamarbeidModal = ({
                                 const nyttNavn = event.target.value;
                                 setNavn(nyttNavn);
                             }}
-                            error={
-                                navnErUbrukt
-                                    ? undefined
-                                    : navn === "" ||
-                                        navn === "Samarbeid uten navn"
-                                        ? `Navnet er allerede i bruk (tomt navn og "Samarbeid uten navn" regnes som like)`
-                                        : "Navnet er allerede i bruk"
-                            }
+                            error={navnError(navn, navnErUbrukt)}
                             hideLabel
                             onKeyDown={(event) => {
                                 // Submit på enter.
@@ -218,7 +211,7 @@ export const NyttSamarbeidModal = ({
                 <Button
                     variant={"primary"}
                     onClick={nyttSamarbeid}
-                    disabled={!navnErUbrukt}
+                    disabled={!navnErUbrukt || navn.length === 0}
                 >
                     Opprett
                 </Button>
@@ -229,3 +222,13 @@ export const NyttSamarbeidModal = ({
         </StyledSamarbeidModal>
     );
 };
+
+export function navnError(navn: string, navnErUbrukt: boolean, eksisterendeNavn?: string) {
+    if (navn === "") {
+        return "Navnet kan ikke være tomt";
+    }
+    if (!navnErUbrukt && eksisterendeNavn !== navn) {
+        return "Navnet er allerede i bruk";
+    }
+    return undefined;
+}

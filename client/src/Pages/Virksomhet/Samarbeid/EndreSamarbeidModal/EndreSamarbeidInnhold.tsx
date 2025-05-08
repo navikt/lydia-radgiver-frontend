@@ -15,7 +15,7 @@ import {
 import { IASakshendelseType } from "../../../../domenetyper/domenetyper";
 import React, { useEffect, useState } from "react";
 import { CheckmarkIcon, TrashIcon } from "@navikt/aksel-icons";
-import { StyledSamarbeidModal } from "../NyttSamarbeidModal";
+import { navnError, StyledSamarbeidModal } from "../NyttSamarbeidModal";
 import { KanGjennomføreStatusendring, MuligSamarbeidsgandling } from "../../../../domenetyper/samarbeidsEndring";
 import { EksternLenke } from "../../../../components/EksternLenke";
 import { KeyedMutator } from "swr";
@@ -176,11 +176,7 @@ export default function EndreSamarbeidModalInnhold({
 							setLagreNavnVellykket(false);
 							setAntallTegn(nyttnavn.target.value.length);
 						}}
-						error={
-							navnErUbrukt || samarbeid.navn === navn
-								? undefined
-								: "Navnet er allerede i bruk"
-						}
+						error={navnError(navn, navnErUbrukt, samarbeid.navn ?? undefined)}
 						onKeyDown={(event) => {
 							// Submit på enter.
 							if (event.key === "Enter" && navnErUbrukt) {
@@ -216,7 +212,8 @@ export default function EndreSamarbeidModalInnhold({
 					}}
 					disabled={
 						!navnErUbrukt ||
-						navn === defaultNavnHvisTomt(samarbeid.navn)
+						navn.length === 0 ||
+						navn === samarbeid.navn
 					}
 				>
 					Lagre
