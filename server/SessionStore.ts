@@ -9,6 +9,7 @@ const valkeyNoTlsConfig: RedisOptions = {
   host: process.env.VALKEY_HOST_FIA_SESSION,
   port: Number(process.env.VALKEY_PORT_FIA_SESSION),
   maxRetriesPerRequest: 3,
+  enableReadyCheck: false,
 };
 
 const valkeyTlsConfig: RedisOptions = {
@@ -19,6 +20,7 @@ const valkeyTlsConfig: RedisOptions = {
     port: Number(process.env.VALKEY_PORT_FIA_SESSION),
   },
   maxRetriesPerRequest: 3,
+  enableReadyCheck: false,
 };
 
 const valkeyClient = () => {
