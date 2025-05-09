@@ -12,13 +12,13 @@
     },
     "queryParameters": {
       "q": {
-        "doesNotMatch": "(.*777666555.*$|.*IACooperation__c.*)"
+        "matches": ".*777666555.*$"
       }
     }
   },
   "response" : {
     "status" : 200,
-    "bodyFileName": "salesforce-query-response.json",
+    "bodyFileName": "salesforce-query-strategisk-partner-response.json",
     "headers" : {
       "Content-Type" : "application/json"
     }

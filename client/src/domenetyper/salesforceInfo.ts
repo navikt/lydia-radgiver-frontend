@@ -7,3 +7,10 @@ export const salesforceInfoSchema = z.object({
 });
 
 export type SalesforceInfo = z.infer<typeof salesforceInfoSchema>;
+
+export const salesforceSamarbeidSchema = z.object({
+    samarbeidsId: z.number(),
+    salesforceLenke: z.string(),
+});
+
+export type SalesforceSamarbeid = z.infer<typeof salesforceSamarbeidSchema>;

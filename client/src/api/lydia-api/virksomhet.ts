@@ -9,7 +9,10 @@ import {
     HistoriskStatistikk,
     historiskStatistikkSchema,
 } from "../../domenetyper/historiskstatistikk";
-import { KanGjennomføreStatusendring, MuligSamarbeidsgandling } from "../../domenetyper/samarbeidsEndring";
+import {
+    KanGjennomføreStatusendring,
+    MuligSamarbeidsgandling,
+} from "../../domenetyper/samarbeidsEndring";
 import {
     Publiseringsinfo,
     publiseringsinfoSchema,
@@ -21,6 +24,8 @@ import {
 import {
     SalesforceInfo,
     salesforceInfoSchema,
+    SalesforceSamarbeid,
+    salesforceSamarbeidSchema,
 } from "../../domenetyper/salesforceInfo";
 import {
     Næring,
@@ -115,11 +120,19 @@ export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
     );
 };
 
-export const useHentSakForVirksomhet = (orgnummer?: string, saksnummer?: string) => {
+export const useHentSakForVirksomhet = (
+    orgnummer?: string,
+    saksnummer?: string,
+) => {
     const iasakUrl = `${iaSakPath}/${orgnummer}/${saksnummer}`;
-    return useSwrTemplate<IASak | undefined>(iasakUrl, iaSakSchema.optional(), {
-        revalidateOnFocus: true,
-    }, orgnummer !== undefined && saksnummer !== undefined);
+    return useSwrTemplate<IASak | undefined>(
+        iasakUrl,
+        iaSakSchema.optional(),
+        {
+            revalidateOnFocus: true,
+        },
+        orgnummer !== undefined && saksnummer !== undefined,
+    );
 };
 
 export const useHentSakshistorikk = (orgnummer?: string) => {
@@ -141,6 +154,7 @@ export const useHentHistoriskstatistikk = (orgnummer?: string) => {
         },
     );
 };
+
 export const useHentSalesforceUrl = (orgnr: string) => {
     return useSwrTemplate<SalesforceInfo>(
         `${salesforceUrlPath}/${orgnr}`,
@@ -150,16 +164,32 @@ export const useHentSalesforceUrl = (orgnr: string) => {
     );
 };
 
-export const getKanGjennomføreStatusendring = async (orgnummer: string, saksnummer: string, prosessId: number, handling: MuligSamarbeidsgandling): Promise<KanGjennomføreStatusendring> => {
+export const useHentSalesforceSamarbeidLenke = (samarbeidsId?: number) => {
+    return useSwrTemplate<SalesforceSamarbeid>(
+        samarbeidsId ? `${salesforceUrlPath}/samarbeid/${samarbeidsId}` : null,
+        salesforceSamarbeidSchema,
+        defaultSwrConfiguration,
+        false,
+    );
+};
+
+export const getKanGjennomføreStatusendring = async (
+    orgnummer: string,
+    saksnummer: string,
+    prosessId: number,
+    handling: MuligSamarbeidsgandling,
+): Promise<KanGjennomføreStatusendring> => {
     try {
-        const response = await fetch(`${iaSakPath}/${orgnummer}/${saksnummer}/${prosessId}/kan/${handling}`);
+        const response = await fetch(
+            `${iaSakPath}/${orgnummer}/${saksnummer}/${prosessId}/kan/${handling}`,
+        );
         if (!response.ok) {
             throw new Error("Kunne ikke hente 'kan gjøre handling'");
         }
-    
-        return await response.json() as KanGjennomføreStatusendring;
+
+        return (await response.json()) as KanGjennomføreStatusendring;
     } catch (error) {
         console.error(error);
         return Promise.reject(error);
     }
-}
+};

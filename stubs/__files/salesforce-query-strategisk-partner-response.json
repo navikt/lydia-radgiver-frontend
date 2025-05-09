@@ -61,10 +61,10 @@
       "AccountSource": null,
       "SicDesc": null,
       "CRM_Type2__c": "J",
-      "INT_OrganizationNumber__c": "123456789",
+      "INT_OrganizationNumber__c": "777666555",
       "OrganizationNumberFormula__c": "-",
       "TAG_NumberOfChildAccounts__c": null,
-      "TAG_Partner_Status__c": "Samarbeidspartner"
+      "TAG_Partner_Status__c": "Strategisk Partner"
     }
   ]
 }

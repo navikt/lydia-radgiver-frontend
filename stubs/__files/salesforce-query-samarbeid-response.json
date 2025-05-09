@@ -1,0 +1,13 @@
+{
+  "totalSize": 1,
+  "done": true,
+  "records": [
+    {
+      "attributes": {
+        "type": "IACooperation__c",
+        "url": "/services/data/v63.0/sobjects/IACooperation__c/a2Rds0000002myDEAQ"
+      },
+      "Id": "a2Rds0000002myDEAQ"
+    }
+  ]
+}

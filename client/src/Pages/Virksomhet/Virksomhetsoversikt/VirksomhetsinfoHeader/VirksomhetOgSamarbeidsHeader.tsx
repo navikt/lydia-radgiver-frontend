@@ -1,7 +1,14 @@
 import React, { useRef, useState } from "react";
 import styled from "styled-components";
 
-import { Alert, Button, Heading, HStack, Popover, VStack } from "@navikt/ds-react";
+import {
+    Alert,
+    Button,
+    Heading,
+    HStack,
+    Popover,
+    VStack,
+} from "@navikt/ds-react";
 import { ChevronRightIcon, InformationSquareIcon } from "@navikt/aksel-icons";
 
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
@@ -41,7 +48,10 @@ const VirksomhetsInfoIkon = styled(InformationSquareIcon)`
     cursor: pointer;
 `;
 
-const InvisibleButton = styled(Button).attrs({ size: "xsmall", variant: "tertiary-neutral" })`
+const InvisibleButton = styled(Button).attrs({
+    size: "xsmall",
+    variant: "tertiary-neutral",
+})`
     background-color: transparent;
     border: none;
     padding: 0;
@@ -58,7 +68,7 @@ const StyledAlert = styled(Alert)`
 export default function VirksomhetOgSamarbeidsHeader({
     virksomhet,
     iaSak,
-    gjeldendeSamarbeid
+    gjeldendeSamarbeid,
 }: {
     virksomhet: Virksomhet;
     iaSak?: IASak;
@@ -75,13 +85,11 @@ export default function VirksomhetOgSamarbeidsHeader({
 
     return (
         <>
-            {
-                erPåInaktivSak && (
-                    <StyledAlert variant="info">
-                        Denne saken er arkivert.
-                    </StyledAlert>
-                )
-            }
+            {erPåInaktivSak && (
+                <StyledAlert variant="info">
+                    Denne saken er arkivert.
+                </StyledAlert>
+            )}
             <Container>
                 <VStack gap={"10"}>
                     <HStack justify="space-between" align="start">
@@ -89,18 +97,22 @@ export default function VirksomhetOgSamarbeidsHeader({
                             <SamarbeidsDropdown
                                 iaSak={iaSak}
                                 virksomhet={virksomhet}
-                                setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
+                                setNyttSamarbeidModalÅpen={
+                                    setNyttSamarbeidModalÅpen
+                                }
                             />
                             <SaksgangDropdown
                                 virksomhet={virksomhet}
                                 iaSak={iaSak}
-                                setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
+                                setNyttSamarbeidModalÅpen={
+                                    setNyttSamarbeidModalÅpen
+                                }
                             />
                             <EierskapKnapp iaSak={iaSak} />
                         </HStack>
                         {salesforceInfo && (
                             <SalesforceLenke href={salesforceInfo?.url}>
-                                Salesforce
+                                Salesforce - virksomhet
                             </SalesforceLenke>
                         )}
                     </HStack>
@@ -137,14 +149,21 @@ export default function VirksomhetOgSamarbeidsHeader({
 
                                 {gjeldendeSamarbeid && (
                                     <>
-                                        <ChevronRightIcon fontSize="2rem" aria-hidden />
+                                        <ChevronRightIcon
+                                            fontSize="2rem"
+                                            aria-hidden
+                                        />
                                         <Heading level={"1"} size={"large"}>
                                             {defaultNavnHvisTomt(
                                                 gjeldendeSamarbeid.navn,
                                             )}
                                         </Heading>
                                         <VisHvisSamarbeidErLukket>
-                                            <SamarbeidStatusBadge status={gjeldendeSamarbeid.status} />
+                                            <SamarbeidStatusBadge
+                                                status={
+                                                    gjeldendeSamarbeid.status
+                                                }
+                                            />
                                         </VisHvisSamarbeidErLukket>
                                     </>
                                 )}

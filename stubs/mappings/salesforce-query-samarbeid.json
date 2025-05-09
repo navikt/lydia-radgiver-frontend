@@ -12,13 +12,13 @@
     },
     "queryParameters": {
       "q": {
-        "doesNotMatch": "(.*777666555.*$|.*IACooperation__c.*)"
+        "matches": ".*IACooperation__c.*$"
       }
     }
   },
   "response" : {
     "status" : 200,
-    "bodyFileName": "salesforce-query-response.json",
+    "bodyFileName": "salesforce-query-samarbeid-response.json",
     "headers" : {
       "Content-Type" : "application/json"
     }

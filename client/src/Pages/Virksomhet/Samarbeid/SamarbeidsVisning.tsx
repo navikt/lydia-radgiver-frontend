@@ -5,7 +5,7 @@ import {
     strekkBakgrunnenHeltUtTilKantenAvSida,
 } from "../../../styling/contentSpacing";
 import { NavFarger } from "../../../styling/farger";
-import { Tabs } from "@navikt/ds-react";
+import { Spacer, Tabs } from "@navikt/ds-react";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useSearchParams } from "react-router-dom";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
@@ -17,6 +17,8 @@ import VirksomhetContext from "../VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "../Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
 import { loggNavigertTilNyTab } from "../../../util/amplitude-klient";
 import { SamarbeidProvider } from "./SamarbeidContext";
+import { EksternLenke } from "../../../components/EksternLenke";
+import { useHentSalesforceSamarbeidLenke } from "../../../api/lydia-api/virksomhet";
 
 const StyledPanel = styled(Tabs.Panel)`
     padding-top: 1.5rem;
@@ -54,6 +56,9 @@ export const SamarbeidsVisning = ({
     const [searchParams, setSearchParams] = useSearchParams();
     const fane = searchParams.get("fane") ?? "behovsvurdering";
     const spørreundersøkelseId = searchParams.get("kartleggingId");
+    const { data: salesforceSamarbeidsLenke } = useHentSalesforceSamarbeidLenke(
+        gjeldendeSamarbeid?.id,
+    );
 
     const oppdaterTabISearchParam = (tab: string) => {
         searchParams.set("fane", tab);
@@ -110,13 +115,28 @@ export const SamarbeidsVisning = ({
                                     />
                                 )}
                                 {iaSak && (
-                                    <Tabs.Tab value="plan" label="Samarbeidsplan" />
+                                    <Tabs.Tab
+                                        value="plan"
+                                        label="Samarbeidsplan"
+                                    />
                                 )}
                                 {iaSak && (
                                     <Tabs.Tab
                                         value="evaluering"
                                         label="Evaluering"
                                     />
+                                )}
+                                {iaSak && salesforceSamarbeidsLenke && (
+                                    <>
+                                        <Spacer />
+                                        <EksternLenke
+                                            href={
+                                                salesforceSamarbeidsLenke.salesforceLenke
+                                            }
+                                        >
+                                            Salesforce - samarbeid
+                                        </EksternLenke>
+                                    </>
                                 )}
                             </Tabs.List>
                             <StyledPanel value="behovsvurdering">
@@ -147,6 +167,6 @@ export const SamarbeidsVisning = ({
                     </Container>
                 )}
             </SamarbeidProvider>
-        </VirksomhetContext.Provider >
+        </VirksomhetContext.Provider>
     );
 };
