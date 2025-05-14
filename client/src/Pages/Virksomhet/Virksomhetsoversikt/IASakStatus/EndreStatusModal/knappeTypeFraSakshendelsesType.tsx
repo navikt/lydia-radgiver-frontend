@@ -34,5 +34,8 @@ export const knappeTypeFraSakshendelsesType = (
             return "danger";
         case IASakshendelseTypeEnum.enum.TILBAKE:
             return "secondary";
+        case IASakshendelseTypeEnum.enum
+            .FULLFØR_PROSESS_MASKINELT_PÅ_EN_FULLFØRT_SAK:
+            throw Error("Ikke implementert");
     }
 };

@@ -36,27 +36,25 @@ function Sakshendelser({ sakshendelser }: { sakshendelser: Sakshendelse[] }) {
         "SLETT_PROSESS",
         "OPPRETT_SAK_FOR_VIRKSOMHET",
         "FULLFØR_PROSESS",
+        "FULLFØR_PROSESS_MASKINELT_PÅ_EN_FULLFØRT_SAK",
     ];
     const filtrerteHendelser = sakshendelser.filter(
         (sakshendelse) =>
-            !skjulteSakshendelser.includes(
-                sakshendelse.hendelsestype,
-            ),
+            !skjulteSakshendelser.includes(sakshendelse.hendelsestype),
     );
 
     return (
         <SakshendelseContainer>
-            {filtrerteHendelser
-                .map((sakshendelse, index) => (
-                    <React.Fragment key={index}>
-                        <IAProsessStatusBadge status={sakshendelse.status} />
-                        <HendelseDetaljer sakshendelse={sakshendelse} />
-                        <Sakshendelsedatoer
-                            sakshendelse={sakshendelse}
-                            nesteSakshendelse={sakshendelser[index + 1]}
-                        />
-                    </React.Fragment>
-                ))}
+            {filtrerteHendelser.map((sakshendelse, index) => (
+                <React.Fragment key={index}>
+                    <IAProsessStatusBadge status={sakshendelse.status} />
+                    <HendelseDetaljer sakshendelse={sakshendelse} />
+                    <Sakshendelsedatoer
+                        sakshendelse={sakshendelse}
+                        nesteSakshendelse={sakshendelser[index + 1]}
+                    />
+                </React.Fragment>
+            ))}
         </SakshendelseContainer>
     );
 }
