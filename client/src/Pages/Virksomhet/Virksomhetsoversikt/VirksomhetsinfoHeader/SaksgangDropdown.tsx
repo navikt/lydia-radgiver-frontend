@@ -16,8 +16,8 @@ import { useHentSakForVirksomhet } from "../../../../api/lydia-api/virksomhet";
 import { SaksgangDropdownToggle } from "./SaksgangDropdownToggle";
 
 const HistorikkContainer = styled(HStack) <{ $begrensHøyde: boolean }>`
-    max-height: ${(props) => (props.$begrensHøyde ? "20rem" : "auto")};
-    overflow-y: auto;
+    max-height: ${(props) => (props.$begrensHøyde ? "15rem" : undefined)};
+    overflow-y: ${(props) => (props.$begrensHøyde ? "auto" : undefined)};
     padding-left: 0.5rem;
     padding-right: 0.5rem;
 `;
@@ -57,6 +57,7 @@ function SaksgangDropdownInnhold({
     setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const [open, setOpen] = React.useState(false);
+    const dropdownRef = React.useRef<HTMLDivElement>(null);
 
     const [nesteSteg, setNesteSteg] = React.useState<{
         nesteSteg: StatusHendelseSteg | null;
@@ -100,6 +101,7 @@ function SaksgangDropdownInnhold({
                     marginTop: "0.3rem",
                 }}
                 placement="bottom-start"
+                ref={dropdownRef}
             >
                 <DropdownHeader size="medium">Endre status</DropdownHeader>
                 <HistorikkContainer
@@ -116,7 +118,15 @@ function SaksgangDropdownInnhold({
                     setModalOpen={setOpen}
                     iaSak={iaSak}
                     nesteSteg={nesteSteg}
-                    setNesteSteg={setNesteSteg}
+                    setNesteSteg={(...ns) => {
+                        if (ns[0].nesteSteg !== null) {
+                            dropdownRef.current?.scrollTo({
+                                top: dropdownRef.current.scrollHeight,
+                                behavior: "smooth",
+                            });
+                        }
+                        setNesteSteg(...ns);
+                    }}
                     redusertPadding
                     loading={lasterEllerRevaliderer}
                     setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
