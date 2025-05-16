@@ -48,6 +48,7 @@ const StyledNyFooter = styled.footer`
     align-items: center;
     flex-wrap: wrap;
     gap: 1rem 4rem;
+    font-size: 1rem;
 `;
 
 const StyledPopover = styled(Popover)`
@@ -79,6 +80,7 @@ function NyFooterSykefraværsstatistikk() {
                 aria-expanded={open}
                 icon={<QuestionmarkCircleIcon />}
                 variant="tertiary"
+                size="xsmall"
             >
                 Sykefraværsstatistikken
             </Sykefraværsstatistikkknapp>
