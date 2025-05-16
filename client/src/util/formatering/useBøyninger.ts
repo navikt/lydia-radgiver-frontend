@@ -2,9 +2,9 @@ import React from "react";
 import { muligeHandlinger, MuligSamarbeidsgandling } from "../../domenetyper/samarbeidsEndring";
 
 export type Bøyinger = {
-	infinitiv: string;
-	presensPerfektum: string;
-	imperativ: string;
+	infinitiv: string | null;
+	presensPerfektum: string | null;
+	imperativ: string | null;
 };
 
 export function useBøyningerAvSamarbeidshandling(handling: MuligSamarbeidsgandling): Bøyinger {

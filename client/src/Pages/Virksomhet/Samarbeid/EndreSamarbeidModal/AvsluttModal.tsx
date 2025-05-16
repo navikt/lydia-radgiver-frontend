@@ -12,6 +12,15 @@ const StyledRadioGroup = styled(RadioGroup)`
 	margin-top: 0.75rem;
 `;
 
+const StyledErDuSikker = styled(BodyShort)`
+	min-height: 1.5rem;
+`;
+
+const StyledJaKnapp = styled(Button)`
+	min-width: 14rem;
+	text-align: center;
+`;
+
 export default function AvsluttModal({ samarbeid, åpen, setÅpen, prøvÅGjennomføreHandling }: {
 	iaSak: IASak,
 	samarbeid: IaSakProsess,
@@ -19,8 +28,8 @@ export default function AvsluttModal({ samarbeid, åpen, setÅpen, prøvÅGjenno
 	setÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 	prøvÅGjennomføreHandling: (handling: MuligSamarbeidsgandling) => void;
 }) {
-	const [valgtHandling, setValgtHandling] = React.useState<MuligSamarbeidsgandling>(muligeHandlinger.Enum.fullfores);
-	const bøydHandling = useBøyningerAvSamarbeidshandling(valgtHandling);
+	const [valgtHandling, setValgtHandling] = React.useState<MuligSamarbeidsgandling | null>(null);
+	const bøydHandling = useBøyningerAvSamarbeidshandling(valgtHandling || muligeHandlinger.Enum.fullfores);
 	return (
 		<StyledSamarbeidModal aria-label="Avslutt samarbeid" open={åpen} onClose={() => setÅpen(false)}>
 			<Modal.Header closeButton={true}>
@@ -34,20 +43,23 @@ export default function AvsluttModal({ samarbeid, åpen, setÅpen, prøvÅGjenno
 					<HandlingRadio handling={muligeHandlinger.Enum.fullfores} />
 					<HandlingRadio handling={muligeHandlinger.Enum.avbrytes} />
 				</StyledRadioGroup>
-				<BodyShort weight="semibold">
-					Er du sikker på at du vil {bøydHandling.infinitiv} samarbeidet?
-				</BodyShort>
+				<StyledErDuSikker weight="semibold">
+					{valgtHandling && `Er du sikker på at du vil ${bøydHandling.infinitiv} samarbeidet?`}
+				</StyledErDuSikker>
 			</Modal.Body>
 			<Modal.Footer>
-				<Button
+				<StyledJaKnapp
 					variant="primary"
+					disabled={!valgtHandling}
 					onClick={() => {
-						prøvÅGjennomføreHandling(valgtHandling);
-						setÅpen(false);
+						if (valgtHandling) {
+							prøvÅGjennomføreHandling(valgtHandling);
+							setÅpen(false);
+						}
 					}}
 				>
-					Ja, {bøydHandling.imperativ} samarbeidet
-				</Button>
+					Ja {bøydHandling.imperativ} samarbeidet
+				</StyledJaKnapp>
 				<Button
 					variant="secondary"
 					onClick={() => {
