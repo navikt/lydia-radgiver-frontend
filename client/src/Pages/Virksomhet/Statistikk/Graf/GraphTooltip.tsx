@@ -55,7 +55,6 @@ export const graphTooltip = () => {
                 </TooltipItemWrapper>,
             ]}
             separator={": "}
-            active={true}
             contentStyle={{
                 border: "2px solid #254B6D",
                 borderRadius: "0.25rem",
