@@ -160,6 +160,8 @@ export default function LeggTilTemaKnapp({
                     <ActionButtons
                         setModalOpen={setModalOpen}
                         lagreEndring={lagreEndring}
+                        setRedigertTemaliste={setRedigertTemaliste}
+                        samarbeidsplan={samarbeidsplan}
                         slettPlan={() => slettPlan(orgnummer, saksnummer, samarbeid.id).then(hentPlanIgjen)}
                         redigertTemaliste={redigertTemaliste}
                     />
@@ -173,12 +175,16 @@ function ActionButtons({
     setModalOpen,
     lagreEndring,
     slettPlan,
-    redigertTemaliste
+    redigertTemaliste,
+    setRedigertTemaliste,
+    samarbeidsplan,
 }: {
     setModalOpen: (åpen: boolean) => void;
     lagreEndring: () => void;
     slettPlan: () => void;
     redigertTemaliste: PlanTema[];
+    setRedigertTemaliste: (temaliste: PlanTema[]) => void;
+    samarbeidsplan: Plan;
 }) {
     const harTemaUtenUndertema = React.useMemo(() => redigertTemaliste.some((tema) => tema.inkludert && !tema.undertemaer.some((undertema) => undertema.inkludert)), [redigertTemaliste]);
     const planErTom = React.useMemo(() => !redigertTemaliste.some(({ inkludert }) => inkludert), [redigertTemaliste]);
@@ -189,6 +195,7 @@ function ActionButtons({
                 <Button
                     variant="secondary"
                     onClick={() => {
+                        setRedigertTemaliste(samarbeidsplan.temaer);
                         setModalOpen(false);
                     }}
                 >
@@ -212,6 +219,7 @@ function ActionButtons({
             <Button
                 variant="secondary"
                 onClick={() => {
+                    setRedigertTemaliste(samarbeidsplan.temaer);
                     setModalOpen(false);
                 }}
             >

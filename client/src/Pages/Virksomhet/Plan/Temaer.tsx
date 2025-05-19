@@ -56,6 +56,7 @@ export function Temaer({
                                             saksnummer={saksnummer}
                                             samarbeid={samarbeid}
                                             hentPlanIgjen={hentPlanIgjen}
+                                            samarbeidsplan={samarbeidsplan}
                                         />
                                     )}
                                 </VisHvisSamarbeidErÅpent>
