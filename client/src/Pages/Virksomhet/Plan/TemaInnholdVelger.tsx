@@ -15,8 +15,8 @@ import {
 } from "./planconster";
 
 const UndertemaRad = styled(HStack)`
-    margin-bottom: 0.5rem;
     min-width: 48rem;
+    padding-left: 1.5rem;
 `;
 
 function StartOgSluttVelger({
@@ -91,30 +91,32 @@ export default function TemaInnholdVelger({
     velgUndertemaer,
     setVisInnholdFeil,
     visInnholdFeil,
+    temaNavn,
 }: {
     valgteUndertemaer: RedigertInnholdMal[];
     velgUndertemaer: (val: RedigertInnholdMal[]) => void;
     setVisInnholdFeil: (val: boolean) => void;
     visInnholdFeil: boolean;
+    temaNavn: string;
 }) {
     const planleggUndertema = (undertemaIder: number[]) => {
         velgUndertemaer(
             valgteUndertemaer.map((redigertInnholdMal) =>
                 undertemaIder.includes(redigertInnholdMal.rekkefølge)
                     ? {
-                          ...redigertInnholdMal,
-                          inkludert: true,
-                          startDato:
-                              redigertInnholdMal.startDato ?? defaultStartDate,
-                          sluttDato:
-                              redigertInnholdMal.sluttDato ?? defaultEndDate,
-                      }
+                        ...redigertInnholdMal,
+                        inkludert: true,
+                        startDato:
+                            redigertInnholdMal.startDato ?? defaultStartDate,
+                        sluttDato:
+                            redigertInnholdMal.sluttDato ?? defaultEndDate,
+                    }
                     : {
-                          ...redigertInnholdMal,
-                          inkludert: false,
-                          startDato: null,
-                          sluttDato: null,
-                      },
+                        ...redigertInnholdMal,
+                        inkludert: false,
+                        startDato: null,
+                        sluttDato: null,
+                    },
             ),
         );
     };
@@ -155,7 +157,7 @@ export default function TemaInnholdVelger({
 
     return (
         <CheckboxGroup
-            legend={"Velg innhold og varighet"}
+            legend={temaNavn}
             value={valgteUndertemaer
                 .filter((undertema) => undertema.inkludert)
                 .map((undertema) => undertema.rekkefølge)}

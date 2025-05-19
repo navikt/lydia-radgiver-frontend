@@ -17,9 +17,9 @@ import { loggEndringAvPlan } from "../../../util/amplitude-klient";
 import LåsbarCheckbox from "../../../components/LåsbarCheckbox";
 
 const InnholdsRad = styled(HStack)`
-    margin-bottom: 0.5rem;
     max-width: 100%;
     flex-wrap: wrap;
+    padding-left: 1.5rem;
 `;
 
 // Noe ødelegger --a-spacing-6 så vi setter det manuelt. Bør ta en titt og finne ut hva som ødelegger det senere.
@@ -141,10 +141,9 @@ export default function InnholdOppsett({
 
     return (
         <CheckboxGroup
-            legend={"Velg innhold og varighet"}
+            legend={temaNavn}
             value={valgteIder}
             onChange={planleggInnhold}
-            error={valgteIder.length === 0 ? "Tema kan ikke stå tomt. Legg til innhold eller fjern temaet for å lagre." : undefined}
         >
             {valgteInnhold
                 .sort((a, b) => {

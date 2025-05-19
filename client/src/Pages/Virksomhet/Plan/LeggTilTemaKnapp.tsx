@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import {
     BodyShort,
     Button,
-    CheckboxGroup,
     Modal,
 } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
@@ -15,20 +14,15 @@ import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { NotePencilIcon, TrashIcon } from "@navikt/aksel-icons";
 import { loggModalÅpnet } from "../../../util/amplitude-klient";
-import LåsbarCheckbox from "../../../components/LåsbarCheckbox";
-
-const UndertemaSetupContainer = styled.div`
-    margin-bottom: 1rem;
-    padding: 1rem;
-    margin-left: 2rem;
-    background-color: var(--a-surface-subtle);
-    border-radius: var(--a-border-radius-medium);
-`;
 
 const LeggTilTemaModal = styled(Modal)`
     max-width: 72rem;
     width: 100%;
 `;
+
+const Subheading = styled(BodyShort)`
+    margin-bottom: 1rem;
+`;;
 
 export default function LeggTilTemaKnapp({
     saksnummer,
@@ -66,36 +60,6 @@ export default function LeggTilTemaKnapp({
         }
     }, [samarbeidsplan, gammelTemaliste]);
 
-    function velgTema(valgteTemaIder: number[]) {
-        setRedigertTemaliste(
-            redigertTemaliste
-                .sort((a, b) => {
-                    return a.id - b.id;
-                })
-                .map((tema) =>
-                    valgteTemaIder.includes(tema.id)
-                        ? {
-                            ...tema,
-                            inkludert: true,
-                            undertemaer: tema.inkludert ? tema.undertemaer : samarbeidsplan.temaer.find((t) => t.id === tema.id)?.undertemaer ?? [],
-                        }
-                        : {
-                            ...tema,
-                            inkludert: false,
-                            undertemaer: tema.undertemaer.map((undertema) => {
-                                return {
-                                    ...undertema,
-                                    inkludert: false,
-                                    status: null,
-                                    startDato: null,
-                                    sluttDato: null,
-                                };
-                            }),
-                        },
-                ),
-        );
-    }
-
     function velgUndertema(
         temaId: number,
         redigerteUndertemaer: PlanInnhold[],
@@ -105,6 +69,7 @@ export default function LeggTilTemaKnapp({
                 tema.id === temaId
                     ? {
                         ...tema,
+                        inkludert: redigerteUndertemaer.some(({ inkludert }) => inkludert),
                         undertemaer: redigerteUndertemaer,
                     }
                     : { ...tema },
@@ -163,49 +128,34 @@ export default function LeggTilTemaKnapp({
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
                 aria-label="Legg til tema"
+                header={{ heading: "Sett opp samarbeidsplan" }}
             >
                 <Modal.Body style={{ overflowY: "auto" }}>
-                    <CheckboxGroup
-                        legend="Sett opp samarbeidsplan"
-                        value={redigertTemaliste.map((tema) =>
-                            tema.inkludert ? tema.id : null,
-                        )}
-                        onChange={(val: number[]) => velgTema(val)}
-                    >
-                        {modalOpen &&
-                            redigertTemaliste
-                                .sort((a, b) => {
-                                    return a.id - b.id;
-                                })
-                                .map((tema) => (
-                                    <React.Fragment key={tema.id}>
-                                        <LåsbarCheckbox
-                                            value={tema.id}
-                                            låst={tema.undertemaer.some((undertema) => undertema.harAktiviteterISalesforce)}
-                                            tooltipText="Temaet kan ikke endres fordi undertema har aktiviteter i Salesforce">
-                                            {tema.navn}
-                                        </LåsbarCheckbox>
-                                        {tema.inkludert && (
-                                            <UndertemaSetupContainer>
-                                                <InnholdOppsett
-                                                    temaNavn={tema.navn}
-                                                    valgteInnhold={
-                                                        tema.undertemaer
-                                                    }
-                                                    velgInnhold={(
-                                                        val: PlanInnhold[],
-                                                    ) =>
-                                                        velgUndertema(
-                                                            tema.id,
-                                                            val,
-                                                        )
-                                                    }
-                                                />
-                                            </UndertemaSetupContainer>
-                                        )}
-                                    </React.Fragment>
-                                ))}
-                    </CheckboxGroup>
+                    <Subheading>
+                        Velg innhold og varighet
+                    </Subheading>
+                    {modalOpen &&
+                        redigertTemaliste
+                            .sort((a, b) => {
+                                return a.id - b.id;
+                            })
+                            .map((tema) => (
+                                <InnholdOppsett
+                                    key={tema.id}
+                                    temaNavn={tema.navn}
+                                    valgteInnhold={
+                                        tema.undertemaer
+                                    }
+                                    velgInnhold={(
+                                        val: PlanInnhold[],
+                                    ) =>
+                                        velgUndertema(
+                                            tema.id,
+                                            val,
+                                        )
+                                    }
+                                />
+                            ))}
                     <br />
                     <ActionButtons
                         setModalOpen={setModalOpen}

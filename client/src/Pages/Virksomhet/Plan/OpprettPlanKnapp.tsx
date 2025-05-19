@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Button, Checkbox, CheckboxGroup, Modal } from "@navikt/ds-react";
+import { Alert, Button, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import styled from "styled-components";
 import {
@@ -15,12 +15,8 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { loggModalÅpnet } from "../../../util/amplitude-klient";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
-const TemaInnholdVelgerContainer = styled.div`
-    margin-bottom: 1rem;
-    padding: 1rem;
-    margin-left: 2rem;
-    background-color: var(--a-surface-subtle);
-    border-radius: var(--a-border-radius-medium);
+const DuMåVelgeMinstEttTemaAlert = styled(Alert)`
+    justify-content: end;
 `;
 
 const OpprettPlanModal = styled(Modal)`
@@ -56,27 +52,6 @@ export default function OpprettPlanKnapp({
     const [redigertPlanMal, setRedigertPlanMal] =
         React.useState<PlanMal>(planMal);
 
-    function velgTema(valgteTemaIder: number[]) {
-        setRedigertPlanMal({
-            tema: redigertPlanMal.tema.map((tema) =>
-                valgteTemaIder.includes(tema.rekkefølge)
-                    ? { ...tema, inkludert: true }
-                    : {
-                          ...tema,
-                          inkludert: false,
-                          innhold: tema.innhold.map((innhold) => {
-                              return {
-                                  ...innhold,
-                                  inkludert: false,
-                                  startDato: null,
-                                  sluttDato: null,
-                              };
-                          }),
-                      },
-            ),
-        });
-    }
-
     function velgUndertema(
         temaId: number,
         redigerteInnholdMal: RedigertInnholdMal[],
@@ -85,9 +60,12 @@ export default function OpprettPlanKnapp({
             tema: redigertPlanMal.tema.map((tema) =>
                 tema.rekkefølge === temaId
                     ? {
-                          ...tema,
-                          innhold: redigerteInnholdMal,
-                      }
+                        ...tema,
+                        inkludert: redigerteInnholdMal.some(
+                            ({ inkludert }) => inkludert,
+                        ),
+                        innhold: redigerteInnholdMal,
+                    }
                     : { ...tema },
             ),
         });
@@ -176,50 +154,35 @@ export default function OpprettPlanKnapp({
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
                 aria-label="Opprett plan"
+                header={{ heading: "Sett opp samarbeidsplan" }}
             >
                 <Modal.Body>
-                    <CheckboxGroup
-                        legend="Sett opp samarbeidsplan"
-                        value={redigertPlanMal.tema.map((tema) =>
-                            tema.inkludert ? tema.rekkefølge : null,
-                        )}
-                        error={
-                            visTemaFeil ? "Du må velge minst et tema." : null
-                        }
-                        onChange={(val: number[]) => {
-                            velgTema(val);
-                            setVisTemaFeil(false);
-                            setVisInnholdFeil(false);
-                        }}
-                    >
-                        {redigertPlanMal.tema.map((tema) => (
-                            <div key={tema.rekkefølge}>
-                                <Checkbox value={tema.rekkefølge}>
-                                    {tema.navn}
-                                </Checkbox>
-                                {tema.inkludert && (
-                                    <TemaInnholdVelgerContainer>
-                                        <TemaInnholdVelger
-                                            setVisInnholdFeil={
-                                                setVisInnholdFeil
-                                            }
-                                            visInnholdFeil={visInnholdFeil}
-                                            valgteUndertemaer={tema.innhold}
-                                            velgUndertemaer={(
-                                                val: RedigertInnholdMal[],
-                                            ) =>
-                                                velgUndertema(
-                                                    tema.rekkefølge,
-                                                    val,
-                                                )
-                                            }
-                                        />
-                                    </TemaInnholdVelgerContainer>
-                                )}
-                            </div>
-                        ))}
-                    </CheckboxGroup>
+                    {redigertPlanMal.tema.map((tema) => (
+                        <div key={tema.rekkefølge}>
+                            <TemaInnholdVelger
+                                setVisInnholdFeil={
+                                    setVisInnholdFeil
+                                }
+                                temaNavn={tema.navn}
+                                visInnholdFeil={visInnholdFeil}
+                                valgteUndertemaer={tema.innhold}
+                                velgUndertemaer={(
+                                    val: RedigertInnholdMal[],
+                                ) =>
+                                    velgUndertema(
+                                        tema.rekkefølge,
+                                        val,
+                                    )
+                                }
+                            />
+                        </div>
+                    ))}
                     <br />
+                    {visTemaFeil && (
+                        <DuMåVelgeMinstEttTemaAlert inline variant="error">
+                            Du må velge minst ett tema.
+                        </DuMåVelgeMinstEttTemaAlert>
+                    )}
                     <ModalKnapper>
                         <Button
                             variant="secondary"
@@ -230,6 +193,7 @@ export default function OpprettPlanKnapp({
                             Avbryt
                         </Button>
                         <Button
+                            disabled={visTemaFeil}
                             onClick={() => {
                                 håndterLagre();
                             }}
