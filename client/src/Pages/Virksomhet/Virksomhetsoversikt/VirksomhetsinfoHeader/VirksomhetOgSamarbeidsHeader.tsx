@@ -21,7 +21,6 @@ import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import {
-    defaultNavnHvisTomt,
     IaSakProsess,
 } from "../../../../domenetyper/iaSakProsess";
 import { loggÅpnetVirksomhetsinfo } from "../../../../util/amplitude-klient";
@@ -154,9 +153,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                                             aria-hidden
                                         />
                                         <Heading level={"1"} size={"large"}>
-                                            {defaultNavnHvisTomt(
-                                                gjeldendeSamarbeid.navn,
-                                            )}
+                                            {gjeldendeSamarbeid.navn}
                                         </Heading>
                                         <VisHvisSamarbeidErLukket>
                                             <SamarbeidStatusBadge

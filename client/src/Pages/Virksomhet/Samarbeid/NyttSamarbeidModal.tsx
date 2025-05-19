@@ -22,7 +22,6 @@ import { useNavigate } from "react-router-dom";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import styled from "styled-components";
-import { DEFAULT_SAMARBEIDSNAVN } from "../../../domenetyper/iaSakProsess";
 import { EksternLenke } from "../../../components/EksternLenke";
 
 interface NyttSamarbeidProps {
@@ -68,13 +67,7 @@ export const NyttSamarbeidModal = ({
         samarbeidData?.find(
             (s) => s.navn === samarbeidsnavnBasertPåVirksomhet,
         ) === undefined;
-    const navnErUbrukt =
-        samarbeidData?.find(
-            (s) =>
-                s.navn?.toLowerCase() === navn.toLowerCase() ||
-                (navn.toLowerCase() === DEFAULT_SAMARBEIDSNAVN.toLowerCase() &&
-                    s.navn === ""),
-        ) === undefined;
+    const navnErUbrukt = samarbeidData?.find((s) => s.navn?.toLowerCase() === navn.toLowerCase()) === undefined;
     const navigate = useNavigate();
 
     const nyttSamarbeid = () => {

@@ -1,5 +1,4 @@
 import {
-    defaultNavnHvisTomt,
     IaSakProsess,
 } from "../../../../domenetyper/iaSakProsess";
 import { IASak, IASakshendelseType, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
@@ -29,7 +28,7 @@ export const EndreSamarbeidModal = ({
     samarbeid,
     iaSak,
 }: EndreSamarbeidModalProps) => {
-    const [navn, setNavn] = useState(defaultNavnHvisTomt(samarbeid.navn));
+    const [navn, setNavn] = useState(samarbeid.navn ?? "");
     const [kanGjennomføreResultat, setKanGjennomføreResultat] = useState<KanGjennomføreStatusendring>();
     const [sisteType, setSisteType] = useState<MuligSamarbeidsgandling | null>(null);
     const [lagreNavnVellykket, setLagreNavnVellykket] = useState(false);

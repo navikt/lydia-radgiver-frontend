@@ -1,6 +1,4 @@
 import {
-	DEFAULT_SAMARBEIDSNAVN,
-	defaultNavnHvisTomt,
 	IaSakProsess,
 } from "../../../../domenetyper/iaSakProsess";
 import {
@@ -88,13 +86,7 @@ export default function EndreSamarbeidModalInnhold({
 	setAvsluttModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
 	const [antallTegn, setAntallTegn] = useState(samarbeid.navn?.length ?? 0);
-	const navnErUbrukt =
-		samarbeidData?.find(
-			(s) =>
-				s.navn?.toLowerCase() === navn.toLowerCase() ||
-				(navn.toLowerCase() === DEFAULT_SAMARBEIDSNAVN.toLowerCase() &&
-					s.navn === ""),
-		) === undefined;
+	const navnErUbrukt = samarbeidData?.find((s) => s.navn?.toLowerCase() === navn.toLowerCase()) === undefined;
 
 	const avbrytEndring = () => {
 		setOpen(false);
@@ -103,7 +95,7 @@ export default function EndreSamarbeidModalInnhold({
 		setSisteType(null);
 		setKanGjennomføreResultat(undefined);
 		hentSamarbeidPåNytt().then(() => {
-			setNavn(defaultNavnHvisTomt(samarbeid.navn));
+			setNavn(samarbeid.navn ?? "");
 		});
 	};
 
@@ -114,8 +106,8 @@ export default function EndreSamarbeidModalInnhold({
 	};
 
 	useEffect(() => {
-		setNavn(defaultNavnHvisTomt(samarbeid.navn));
-		setAntallTegn(defaultNavnHvisTomt(samarbeid.navn)?.length ?? 0);
+		setNavn(samarbeid.navn ?? "");
+		setAntallTegn(samarbeid.navn?.length ?? 0);
 	}, [samarbeid]);
 
 	useEffect(() => {
@@ -160,7 +152,7 @@ export default function EndreSamarbeidModalInnhold({
 				<ModalBodyInnholdFlex>
 					<BodyShort>
 						Her kan du endre navn på samarbeidet &quot;
-						{defaultNavnHvisTomt(samarbeid.navn)}&quot;
+						{samarbeid.navn}&quot;
 						Samarbeidsnavn skal beskrive den avdelingen eller
 						gruppen man samarbeider med. Navnet må være det samme
 						som virksomheten bruker selv.

@@ -26,7 +26,6 @@ import { useHentSamarbeid } from "../../../../../../api/lydia-api/spørreunders�
 import { useHentBrukerinformasjon } from "../../../../../../api/lydia-api/bruker";
 import { FullførKartleggingerFørstSeksjon } from "./FullførKartleggingerFørstSeksjon";
 import { BegrunnelseFørstSeksjon } from "./BegrunnelseFørstSeksjon";
-import { DEFAULT_SAMARBEIDSNAVN } from "../../../../../../domenetyper/iaSakProsess";
 import { FullførSamarbeidFørstSeksjon } from "./FullførSamarbeidFørstSeksjon";
 
 export const Knappecontainer = styled.div`
@@ -280,8 +279,7 @@ function BekreftelsesInnhold({
                             data.map((samarbeid) => {
                                 return (
                                     <li key={samarbeid.id}>
-                                        {samarbeid.navn ||
-                                            DEFAULT_SAMARBEIDSNAVN}
+                                        {samarbeid.navn}
                                     </li>
                                 );
                             })}

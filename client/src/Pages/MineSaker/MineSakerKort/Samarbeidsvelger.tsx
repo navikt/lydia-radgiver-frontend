@@ -1,5 +1,5 @@
 import { ActionMenu, Button, ButtonProps, Chips, HStack, Spacer } from "@navikt/ds-react";
-import { IaSakProsess, defaultNavnHvisTomt } from "../../../domenetyper/iaSakProsess";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { SplittedeSamarbeid } from "./SamarbeidsKort";
 import { ArchiveIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
@@ -29,7 +29,7 @@ export function Samarbeidsvelger({
 						selected={samarbeid.id === valgtSamarbeid?.id}
 						onClick={() => setValgtSamarbeid(samarbeid)}
 					>
-						{defaultNavnHvisTomt(samarbeid.navn)}
+						{samarbeid.navn ?? ""}
 					</Chips.Toggle>
 				))}
 			</Chips>
@@ -86,7 +86,7 @@ function InaktiveSamarbeidExpand({
 							as={StyledLenke}
 							to={`/virksomhet/${iaSak.orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}
 						>
-							{defaultNavnHvisTomt(samarbeid.navn)}
+							{samarbeid.navn}
 							<SamarbeidStatusBadge status={samarbeid.status} />
 						</ActionMenu.Item>
 					))}

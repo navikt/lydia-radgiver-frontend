@@ -3,7 +3,7 @@ import { IASak } from "../../../../domenetyper/domenetyper";
 import { Button, Dropdown } from "@navikt/ds-react";
 import { SamarbeidStatusBadge } from "../../../../components/Badge/SamarbeidStatusBadge";
 import styled from "styled-components";
-import { defaultNavnHvisTomt, IaSakProsess, IASamarbeidStatusEnum } from "../../../../domenetyper/iaSakProsess";
+import { IaSakProsess, IASamarbeidStatusEnum } from "../../../../domenetyper/iaSakProsess";
 import { ChevronDownIcon } from "@navikt/aksel-icons";
 import { InternLenke } from "../../../../components/InternLenke";
 
@@ -58,13 +58,13 @@ export default function FullførteSamarbeid({ iaSak, alleSamarbeid, erEkspandert
 						<StyledDropdownMenuListItem key={samarbeid.id} as="li">
 							<StyledLenke
 								href={`/virksomhet/${iaSak.orgnr}/sak/${iaSak.saksnummer}/samarbeid/${samarbeid.id}`}
-								title={`Gå til samarbeid '${defaultNavnHvisTomt(samarbeid.navn)}'`}
+								title={`Gå til samarbeid '${samarbeid.navn}'`}
 								onClick={() => {
 									setErEkspandert(false);
 									setModalErÅpen(false);
 								}}
 							>
-								{defaultNavnHvisTomt(samarbeid.navn)}
+								{samarbeid.navn}
 							</StyledLenke>
 							<SamarbeidStatusBadge status={samarbeid.status} />
 						</StyledDropdownMenuListItem>
@@ -86,9 +86,9 @@ export default function FullførteSamarbeid({ iaSak, alleSamarbeid, erEkspandert
 					<StyledDropdownMenuListItem key={samarbeid.id} as="li">
 						<StyledLenke
 							href={`/virksomhet/${iaSak.orgnr}/sak/${iaSak.saksnummer}/samarbeid/${samarbeid.id}`}
-							title={`Gå til samarbeid '${defaultNavnHvisTomt(samarbeid.navn)}'`}
+							title={`Gå til samarbeid '${samarbeid.navn}'`}
 						>
-							{defaultNavnHvisTomt(samarbeid.navn)}
+							{samarbeid.navn}
 						</StyledLenke>
 						<SamarbeidStatusBadge status={samarbeid.status} />
 					</StyledDropdownMenuListItem>

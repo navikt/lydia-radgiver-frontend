@@ -2,7 +2,6 @@ import { Button, Dropdown } from "@navikt/ds-react";
 import React from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import {
-    defaultNavnHvisTomt,
     IaSakProsess,
 } from "../../../domenetyper/iaSakProsess";
 import styled from "styled-components";
@@ -68,9 +67,7 @@ export const FlyttTilAnnenProsess = ({
                                             }
                                             key={samarbeid.id}
                                         >
-                                            {defaultNavnHvisTomt(
-                                                samarbeid.navn,
-                                            )}
+                                            {samarbeid.navn}
                                         </Dropdown.Menu.GroupedList.Item>
                                     ))}
                             </Dropdown.Menu.GroupedList>
