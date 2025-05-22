@@ -12,6 +12,7 @@ import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { lokalDatoMedKortTekstmåned } from "../../../util/dato";
 import { samarbeidErFullført } from "../Samarbeid/SamarbeidContext";
+import capitalizeFirstLetterLowercaseRest from "../../../util/formatering/capitalizeFirstLetterLowercaseRest";
 
 const StyledAccordion = styled(Accordion)`
     width: 100%;
@@ -238,7 +239,7 @@ function InnholdsStatusHeader({
     innhold: PlanInnhold;
 }) {
     if (samarbeidErFullført()) {
-        return <IkkeRedigerbarStatus>{innhold.status}</IkkeRedigerbarStatus>
+        return <IkkeRedigerbarStatus>{innhold.status ? capitalizeFirstLetterLowercaseRest(innhold.status) : "Malgler status"}</IkkeRedigerbarStatus>
     }
 
     return innhold.status ? (
