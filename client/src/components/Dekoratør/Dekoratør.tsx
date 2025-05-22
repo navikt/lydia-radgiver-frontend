@@ -140,7 +140,7 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                     <TilHovedinnhold href="#maincontent">
                         Hopp til hovedinnhold
                     </TilHovedinnhold>
-                    <Navigasjonslenke href="/" title="Gå til søkesiden">
+                    <Navigasjonslenke href="/" title="Gå til startsiden">
                         <InternalHeader.Title as="h1">Fia</InternalHeader.Title>
                     </Navigasjonslenke>
                     <Navigasjonslenke
@@ -149,6 +149,14 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                     >
                         <InternalHeader.Title as="span">
                             Statusoversikt
+                        </InternalHeader.Title>
+                    </Navigasjonslenke>
+                    <Navigasjonslenke
+                        href="/virksomhetsliste"
+                        title="Gå til virksomhetslisten"
+                    >
+                        <InternalHeader.Title as="span">
+                            Virksomheter
                         </InternalHeader.Title>
                     </Navigasjonslenke>
                     <Navigasjonslenke

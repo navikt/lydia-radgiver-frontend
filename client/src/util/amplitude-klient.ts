@@ -248,3 +248,17 @@ export const loggEndringAvPlan = (
         type,
     });
 };
+
+export const loggBrukerRedirigertMedSøkAlert = () => {
+    logAmplitudeEvent("alert vist", {
+        tekst: "Vi har flyttet virksomhetslisten, så lenker og bokmerker med lagrede søk fungerer kanskje ikke lenger."
+    });
+};
+
+export const loggBrukerFulgteRedirectlenkeMedSøk = () => {
+    logAmplitudeEvent("navigere", {
+        destinasjon: "/virksomhetsliste",
+        lenketekst: "Denne lenken",
+        komponent: "redirect alert"
+    });
+}
