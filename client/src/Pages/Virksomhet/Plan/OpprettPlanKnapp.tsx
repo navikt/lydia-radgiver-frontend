@@ -56,19 +56,24 @@ export default function OpprettPlanKnapp({
         temaId: number,
         redigerteInnholdMal: RedigertInnholdMal[],
     ) {
+        const nyeTema = redigertPlanMal.tema.map((tema) =>
+            tema.rekkefølge === temaId
+                ? {
+                    ...tema,
+                    inkludert: redigerteInnholdMal.some(
+                        ({ inkludert }) => inkludert,
+                    ),
+                    innhold: redigerteInnholdMal,
+                }
+                : { ...tema },
+        )
         setRedigertPlanMal({
-            tema: redigertPlanMal.tema.map((tema) =>
-                tema.rekkefølge === temaId
-                    ? {
-                        ...tema,
-                        inkludert: redigerteInnholdMal.some(
-                            ({ inkludert }) => inkludert,
-                        ),
-                        innhold: redigerteInnholdMal,
-                    }
-                    : { ...tema },
-            ),
+            tema: nyeTema,
         });
+
+        if (visTemaFeil && redigerteInnholdMal.some(({ inkludert }) => inkludert)) {
+            setVisTemaFeil(false);
+        }
     }
     function lagRequest(plan: PlanMal): PlanMalRequest {
         return {
