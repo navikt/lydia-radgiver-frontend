@@ -28,6 +28,7 @@ const EditTemaModal = styled(Modal)`
 
 const EditTemaModalBody = styled(Modal.Body)`
     overflow: visible;
+    min-width: 30rem;
 `;
 
 export default function EditTemaKnapp({
