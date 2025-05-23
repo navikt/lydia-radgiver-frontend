@@ -86,6 +86,10 @@ function StartOgSluttVelger({
     );
 }
 
+const StyledCheckboxGroup = styled(CheckboxGroup)`
+    margin-bottom: 1rem;
+`;
+
 export default function TemaInnholdVelger({
     valgteUndertemaer,
     velgUndertemaer,
@@ -156,7 +160,7 @@ export default function TemaInnholdVelger({
     };
 
     return (
-        <CheckboxGroup
+        <StyledCheckboxGroup
             legend={temaNavn}
             value={valgteUndertemaer
                 .filter((undertema) => undertema.inkludert)
@@ -209,6 +213,6 @@ export default function TemaInnholdVelger({
                     </UndertemaRad>
                 );
             })}
-        </CheckboxGroup>
+        </StyledCheckboxGroup>
     );
 }

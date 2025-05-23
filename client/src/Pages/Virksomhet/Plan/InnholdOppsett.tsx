@@ -27,7 +27,9 @@ const StyledHStack = styled(HStack)`
     --a-spacing-6: 1.5rem;
 `;
 
-
+const StyledCheckboxGroup = styled(CheckboxGroup)`
+    margin-bottom: 1.5rem;
+`;
 
 export default function InnholdOppsett({
     valgteInnhold,
@@ -140,7 +142,7 @@ export default function InnholdOppsett({
     };
 
     return (
-        <CheckboxGroup
+        <StyledCheckboxGroup
             legend={temaNavn}
             value={valgteIder}
             onChange={planleggInnhold}
@@ -158,7 +160,7 @@ export default function InnholdOppsett({
                         setNyStartOgSluttDato={setNyStartOgSluttDato}
                     />
                 ))}
-        </CheckboxGroup>
+        </StyledCheckboxGroup>
     );
 }
 
