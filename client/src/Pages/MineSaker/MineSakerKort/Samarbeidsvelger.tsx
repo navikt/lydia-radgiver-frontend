@@ -56,6 +56,10 @@ const StyledLenke = styled(Link)`
 	}
 `;
 
+const StyledSamarbeidsknapp = styled(Button)`
+	padding-right: 0.5rem;
+`;
+
 function InaktiveSamarbeidExpand({
 	avsluttedeSamarbeid,
 	iaSak,
@@ -74,9 +78,9 @@ function InaktiveSamarbeidExpand({
 	return (
 		<ActionMenu>
 			<ActionMenu.Trigger>
-				<Button size="small" variant={variant} icon={<ArchiveIcon title="Se arkiverte samarbeid" />}>
+				<StyledSamarbeidsknapp size="small" variant={variant} icon={<ArchiveIcon title="Se arkiverte samarbeid" />} iconPosition="right">
 					{knappeTekst}
-				</Button>
+				</StyledSamarbeidsknapp>
 			</ActionMenu.Trigger>
 			<ActionMenu.Content>
 				<ActionMenu.Group label="Avsluttede samarbeid">
