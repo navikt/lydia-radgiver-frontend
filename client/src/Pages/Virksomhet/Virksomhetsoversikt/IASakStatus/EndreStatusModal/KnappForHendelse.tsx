@@ -160,11 +160,10 @@ function IkkeAktuellKnapp({
     variant?: ButtonProps["variant"];
     loading?: ButtonProps["loading"];
 }) {
-    const harKartleggingerSomErUnderArbeid =
-        useTrengerÅFullføreBehovsvurderingerFørst(
-            hendelse.saksHendelsestype,
-            sak,
-        );
+    const trengerÅFullføreSamarbeidFørst = useTrengerÅFullføreSamarbeidFørst(
+        hendelse.saksHendelsestype,
+        sak,
+    );
 
     return (
         <Button
@@ -172,9 +171,9 @@ function IkkeAktuellKnapp({
             variant={variant}
             size="small"
             onClick={() => {
-                if (harKartleggingerSomErUnderArbeid) {
+                if (trengerÅFullføreSamarbeidFørst) {
                     setNesteSteg({
-                        nesteSteg: "FULLFØR_KARTLEGGINGER",
+                        nesteSteg: "FULLFØR_SAMARBEID",
                         hendelse,
                     });
                 } else {
@@ -266,7 +265,10 @@ function RettTilNesteStatusKnapp({
     const { mutate: mutateSamarbeidshistorikk } = useHentSakshistorikk(
         sak.orgnr,
     );
-    const { mutate: mutateHentSaker } = useHentSakForVirksomhet(sak.orgnr, sak.saksnummer);
+    const { mutate: mutateHentSaker } = useHentSakForVirksomhet(
+        sak.orgnr,
+        sak.saksnummer,
+    );
 
     const mutateIASakerOgSamarbeidshistorikk = () => {
         mutateHentSaker?.();
