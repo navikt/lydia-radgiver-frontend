@@ -1,6 +1,6 @@
 import { Meta } from "@storybook/react";
-import { PrioriteringsTabell } from "./PrioriteringsTabell";
-import { sykefraværsstatistikkMock } from "./mocks/sykefraværsstatistikkMock";
+import { PrioriteringsTabell } from ".";
+import { sykefraværsstatistikkMock } from "../mocks/sykefraværsstatistikkMock";
 import { useState } from "react";
 import { SortState } from "@navikt/ds-react";
 

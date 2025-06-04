@@ -165,6 +165,7 @@ export const virksomhetsstatistikkSiste4KvartalerMock: VirksomhetsstatistikkSist
 export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     {
         orgnr: "995428563",
+        saksnummer: "123456789",
         virksomhetsnavn: "SUSHISHAPPA PÅ HJØRNET",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -173,6 +174,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974557746",
+        saksnummer: "123456789",
         virksomhetsnavn: "MUJAFAS BMW",
         ...sykefraværStatiskDataUtenDesimaler,
         status: IAProsessStatusEnum.enum.IKKE_AKTUELL,
@@ -181,6 +183,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974706490",
+        saksnummer: "123456789",
         virksomhetsnavn: "HERMETISKE TOMATER",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.VURDERES,
@@ -189,6 +192,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974589095",
+        saksnummer: "123456789",
         virksomhetsnavn: "RUNE RUDBERGS RÅNEHJØRNE",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.KONTAKTES,
@@ -197,6 +201,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "973861778",
+        saksnummer: "123456789",
         virksomhetsnavn: "ANANAS RINGER",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -205,6 +210,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "874716782",
+        saksnummer: "123456789",
         virksomhetsnavn: "PARADIS PIZZA",
         ...sykefraværStatiskDataUtenDesimaler,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -213,6 +219,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974749025",
+        saksnummer: "123456789",
         virksomhetsnavn: "KONG OLAV DEN HELLIGE",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -221,6 +228,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974703300",
+        saksnummer: "123456789",
         virksomhetsnavn: "JALLA VIRKSOMHET",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -229,6 +237,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974633752",
+        saksnummer: "123456789",
         virksomhetsnavn: "SKATTEFENGSELET",
         ...sykefraværStatiskDataUtenDesimaler,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -237,6 +246,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974795787",
+        saksnummer: "123456789",
         virksomhetsnavn: "VIRKSOMHET AS",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -245,6 +255,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "985674744",
+        saksnummer: "123456789",
         virksomhetsnavn: "SAMMA GAMLA VANLIGA",
         ...sykefraværStatiskDataUtenDesimaler,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -253,6 +264,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974631326",
+        saksnummer: "123456789",
         virksomhetsnavn: "NORTHUG",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -261,6 +273,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974757486",
+        saksnummer: "123456789",
         virksomhetsnavn: "VINDRUER AS",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -269,6 +282,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "998801389",
+        saksnummer: "123456789",
         virksomhetsnavn: "BARCLAYS",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -277,6 +291,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "973851713",
+        saksnummer: "123456789",
         virksomhetsnavn: "CHELSEA FC",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -285,6 +300,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974733013",
+        saksnummer: "123456789",
         virksomhetsnavn: "GODSET FRA DRAMMEN",
         ...sykefraværStatiskDataUtenDesimaler,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -293,6 +309,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "980054756",
+        saksnummer: "123456789",
         virksomhetsnavn: "STATSMINISTERENS KONTOR",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -301,6 +318,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974633574",
+        saksnummer: "123456789",
         virksomhetsnavn: "JØRGEN HATTEMAKER",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -309,6 +327,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974633191",
+        saksnummer: "123456789",
         virksomhetsnavn: "KRITTBUTIKKEN",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTIV,
@@ -317,6 +336,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974747138",
+        saksnummer: "123456789",
         virksomhetsnavn: "NEI AS",
         ...sykefraværStatiskDataUtenDesimaler,
         status: IAProsessStatusEnum.enum.IKKE_AKTUELL,
@@ -325,6 +345,7 @@ export const sykefraværsstatistikkMock: Virksomhetsoversikt[] = [
     },
     {
         orgnr: "974747132",
+        saksnummer: "123456789",
         virksomhetsnavn: "Nummer 21 AS",
         ...sykefraværStatiskData,
         status: IAProsessStatusEnum.enum.IKKE_AKTUELL,

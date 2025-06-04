@@ -5,50 +5,98 @@ import { lokalDato } from "../../../util/dato";
 import styled from "styled-components";
 import React from "react";
 import { InternLenke } from "../../../components/InternLenke";
+import { IASamarbeidStatusEnum } from "../../../domenetyper/iaSakProsess";
 
+const KOMPAKT_MAKS_ANTALL_RADER = 5;
 
 export default function Samarbeidshistorikk({
 	historikk,
 	orgnr,
-}: { historikk: Sakshistorikk, orgnr: string }) {
+	visHeading = true,
+	kompakt = false,
+}: { historikk: Sakshistorikk, orgnr: string, visHeading?: boolean, kompakt?: boolean }) {
 	if (historikk.samarbeid.length === 0) {
 		return null;
 	}
 
-	const sorterteSamarbeid = React.useMemo(() => historikk.samarbeid.sort((a, b) => {
-		if (a.sistEndret && b.sistEndret) {
-			return new Date(b.sistEndret).getTime() - new Date(a.sistEndret).getTime();
-		}
-		return 0;
-	}), [historikk.samarbeid]);
+	const { sorterteSamarbeid, antallSkjulteRader } = React.useMemo(() => {
+		const samarbeid = historikk.samarbeid.sort((a, b) => {
+			if (a.sistEndret && b.sistEndret) {
+				return new Date(b.sistEndret).getTime() - new Date(a.sistEndret).getTime();
+			}
+			return 0;
+		});
+
+		const skalForkorte = kompakt && samarbeid.length > KOMPAKT_MAKS_ANTALL_RADER;
+
+		return {
+			sorterteSamarbeid: skalForkorte ? samarbeid.slice(0, KOMPAKT_MAKS_ANTALL_RADER - 1) : samarbeid,
+			antallSkjulteRader: skalForkorte ? Math.max(0, samarbeid.length - (KOMPAKT_MAKS_ANTALL_RADER - 1)) : 0,
+		};
+	}, [historikk.samarbeid]);
 
 	return (
 		<>
-			<Heading size="small" spacing level="3">
-				Samarbeid
-			</Heading>
-			<Samarbeidgrid>
+			{visHeading && (
+				<Heading size="small" spacing level="3">
+					Samarbeid
+				</Heading>
+			)}
+			<Samarbeidgrid $kompakt={kompakt}>
 				{
 					sorterteSamarbeid.map((samarbeid) => (
 						<Samarbeidrad key={samarbeid.id}>
-							<InternLenke underline={false} href={`/virksomhet/${orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}>
+							<InternLenkeMedEllipse underline={false} href={`/virksomhet/${orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}>
 								{samarbeid.navn}
-							</InternLenke>
+							</InternLenkeMedEllipse>
 							<SamarbeidStatusBadge status={samarbeid.status} />
-							{samarbeid.sistEndret ? <span>{lokalDato(samarbeid.sistEndret)}</span> : <div />}
+							{
+								(samarbeid.status === IASamarbeidStatusEnum.enum.FULLFØRT || samarbeid.status === IASamarbeidStatusEnum.enum.AVBRUTT)
+									&& samarbeid.sistEndret
+									? <span>{lokalDato(samarbeid.sistEndret)}</span>
+									: <div />
+							}
 						</Samarbeidrad>
 					))
 				}
+				<SkjulteRader antallSkjulteRader={antallSkjulteRader} />
 			</Samarbeidgrid>
 		</>
 	);
 }
 
-const Samarbeidgrid = styled.div`
+function SkjulteRader({ antallSkjulteRader }: { antallSkjulteRader: number }) {
+	if (antallSkjulteRader === 0) {
+		return null;
+	}
+
+	if (antallSkjulteRader === 1) {
+		return (
+			<span style={{ columnSpan: "all" }}>
+				{`+ ${antallSkjulteRader} samarbeid`}
+			</span>
+		);
+	}
+
+	return (
+		<span style={{ columnSpan: "all" }}>
+			{`+ ${antallSkjulteRader} flere samarbeid`}
+		</span>
+	);
+}
+
+const InternLenkeMedEllipse = styled(InternLenke)`
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: inline-block;
+`;
+
+const Samarbeidgrid = styled.div<{ $kompakt: boolean }>`
 	display: grid;
-	grid-template-columns: minmax(auto, 20rem) minmax(auto, 8rem) minmax(auto, 8rem);
-	gap: 0.5rem;
-	padding-bottom: 2rem;
+	grid-template-columns: ${({ $kompakt }) => $kompakt ? "minmax(auto, 10rem) auto auto" : "minmax(auto, 20rem) minmax(auto, 8rem) minmax(auto, 8rem)"};
+	gap: 0.5rem 1.5rem;
+	padding-bottom: ${({ $kompakt }) => $kompakt ? "none" : "2rem"};
 `;
 
 const Samarbeidrad = styled.div`

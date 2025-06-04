@@ -1,18 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import { SortState, Table } from "@navikt/ds-react";
-import { IAProsessStatusBadge } from "../../components/Badge/IAProsessStatusBadge";
-import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
+import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
+import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
 import {
     formaterSomHeltall,
     formaterSomProsentMedEnDesimal,
-} from "../../util/tallFormatering";
-import { SøkeresultatFooter } from "./SøkeresultatFooter";
-import { hvitBoksMedSkygge } from "../../styling/containere";
-import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
-import { EndretDataCell } from "./EndretDataCell";
-import { ScrollUtTilKantenContainer } from "../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
-import { InternLenke } from "../../components/InternLenke";
+} from "../../../util/tallFormatering";
+import { SøkeresultatFooter } from "../SøkeresultatFooter";
+import { hvitBoksMedSkygge } from "../../../styling/containere";
+import { Virksomhetsoversikt } from "../../../domenetyper/virksomhetsoversikt";
+import { EndretDataCell } from "../EndretDataCell";
+import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
+import Virksomhetsnavncelle from "./Virksomhetsnavncelle";
 
 interface Kolonne {
     key: string;
@@ -77,7 +77,7 @@ const Container = styled.div`
     ${hvitBoksMedSkygge}
 `;
 
-const RightAllignedDataCell = styled(Table.DataCell)`
+export const RightAllignedDataCell = styled(Table.DataCell)`
     text-align: right;
 `;
 
@@ -161,13 +161,7 @@ export const PrioriteringsTabell = ({
                                 <EndretDataCell
                                     sistEndret={virksomhetsoversikt.sistEndret}
                                 />
-                                <Table.HeaderCell scope="row">
-                                    <InternLenke
-                                        href={`virksomhet/${virksomhetsoversikt.orgnr}`}
-                                    >
-                                        {virksomhetsoversikt.virksomhetsnavn}
-                                    </InternLenke>
-                                </Table.HeaderCell>
+                                <Virksomhetsnavncelle virksomhetsoversikt={virksomhetsoversikt} />
                                 <RightAllignedDataCell>
                                     {formaterSomHeltall(
                                         virksomhetsoversikt.antallPersoner,
