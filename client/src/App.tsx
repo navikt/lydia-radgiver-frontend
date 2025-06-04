@@ -92,7 +92,7 @@ const AppContent = () => {
             <AppRamme id="maincontent">
                 <Routes>
                     <Route path={"/"} element={<SmartStartsideRedirect />} />
-                    <Route path={"/virksomhetsliste"} element={<Prioriteringsside />} />
+                    <Route path={"/prioritering"} element={<Prioriteringsside />} />
                     <Route
                         path={"/statusoversikt"}
                         element={<Statusoversiktside />}
