@@ -41,7 +41,7 @@ export const SamarbeidsRad = ({
     return (
         <SamarbeidsRadWrapper>
             <InternLenke
-                style={{ width: "100%" }}
+                style={{ width: "100%", textOverflow: "ellipsis", overflow: "hidden", display: "inline-block" }}
                 href={`/virksomhet/${orgnr}/sak/${saksnummer}/samarbeid/${samarbeid.id}`}
                 title={`Gå til samarbeid '${samarbeid.navn}'`}
                 onClick={() => {

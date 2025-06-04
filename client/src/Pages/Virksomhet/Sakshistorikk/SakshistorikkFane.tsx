@@ -102,7 +102,7 @@ export const SakshistorikkFane = ({
     );
 };
 
-function sorterSakshistorikkPåTid({ sakshendelser }: Sakshistorikk) {
+export function sorterSakshistorikkPåTid({ sakshendelser }: Sakshistorikk) {
     return sakshendelser.sort(
         (a, b) =>
             b.tidspunktForSnapshot.getTime() - a.tidspunktForSnapshot.getTime(),
