@@ -11,3 +11,77 @@
 .dropdownHeader {
 	padding: 0.5rem 0.5rem 1rem;
 }
+
+.saksgangDropdownToggle {
+	--tekstfarge: var(--a-text-default);
+	--farge: var(--a-color-subtle);
+	--hoverfarge: var(--farge);
+
+	color: var(--tekstfarge);
+	background-color: var(--farge);
+	&:hover {
+		filter: brightness(80%);
+		opacity: 1;
+		background-color: var(--hoverfarge);
+	}
+
+	& > span {
+		font-weight: var(--a-font-weight-regular);
+	}
+}
+
+.virksomhetOgSamarbeidsHeader { //Container
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 2rem;
+    gap: 0.75rem;
+
+	.salesforceLenke {
+		font-size: 1.125rem;
+	}
+
+	
+	.invisibleButton {
+		background-color: transparent;
+		border: none;
+		padding: 0;
+
+		.virksomhetsInfoIkon {
+			display: flex;
+			cursor: pointer;
+		}
+	}
+}
+
+.arkivertSakAlert {
+    margin-bottom: 2rem;
+
+    --a-surface-info-subtle: var(--a-gray-300);
+    --a-border-info: var(--a-gray-600);
+    --a-icon-info: var(--a-gray-600);
+}
+
+.virksomhetsinfoPopoverInnhold {
+    display: grid;
+    grid-template-columns: 1fr min-content;
+    row-gap: 0.5rem;
+    column-gap: 1.5rem;
+
+	.infoTittel {
+		font-weight: bold;
+		grid-column-start: 0;
+		grid-column-end: 1;
+	}
+	.infoData {
+		grid-column-start: 1;
+		max-width: 26rem;
+	}
+	.tittelMedHelpTextContainer {
+		font-weight: bold;
+		grid-column-start: 0;
+		grid-column-end: 1;
+		display: flex;
+		align-items: center;
+		gap: 0.5rem;
+	}
+}

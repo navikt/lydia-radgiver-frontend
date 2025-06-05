@@ -1,31 +1,10 @@
 import { IAProsessStatusEnum, IAProsessStatusType, IASak } from "../../../../domenetyper/domenetyper";
 import { ChevronDownIcon } from "@navikt/aksel-icons";
 import { penskrivIAStatus } from "../../../../components/Badge/IAProsessStatusBadge";
-import { Button, ButtonProps, Dropdown } from "@navikt/ds-react";
-import styled from "styled-components";
+import { Button, Dropdown } from "@navikt/ds-react";
 
-const DropdownToggleButton = (props: ButtonProps) => (
-    <Button {...props} as={Dropdown.Toggle} />
-);
+import styles from "./virksomhetsinfoheader.module.scss";
 
-const RegularSortTekstKnapp = styled(DropdownToggleButton) <{
-    $farge: string;
-    $tekstfarge: string;
-}>`
-    color: ${(props) => props.$tekstfarge};
-    background-color: ${(props) => props.$farge};
-    
-    &:hover {
-        // Må override hoverfargen fra default. Bittelitt hacky, men den gråfargen klarte ikke å bli mørkere med brightness(80%), så den har edge case her.
-        background-color: ${(props) => props.$farge === hentFargeForIAStatus(IAProsessStatusEnum.enum.IKKE_AKTIV).bakgrunnsfarge ? "var(--a-gray-200)" : props.$farge};
-        filter: brightness(80%);
-        opacity: 1;
-    }
-
-    & > span {
-        font-weight: var(--a-font-weight-regular);
-    }
-`;
 
 const hentFargeForIAStatus = (
     status: IAProsessStatusType,
@@ -77,17 +56,26 @@ export function SaksgangDropdownToggle({
 }: {
     iaSak?: IASak | undefined;
 }) {
-    const farger = hentFargeForIAStatus(iaSak?.status ?? "IKKE_AKTIV");
+    const safeStatus = iaSak?.status ?? IAProsessStatusEnum.enum.IKKE_AKTIV;
+    const farger = hentFargeForIAStatus(safeStatus);
     return (
-        <RegularSortTekstKnapp
-            $farge={farger.bakgrunnsfarge}
-            $tekstfarge={farger.tekstfarge}
+        <Button
+            className={styles.saksgangDropdownToggle}
+            style={
+                {
+                    "--farge": farger.bakgrunnsfarge,
+                    "--tekstfarge": farger.tekstfarge,
+                    "--hoverfarge": (safeStatus) === IAProsessStatusEnum.enum.IKKE_AKTIV
+                        ? "var(--a-gray-200)"
+                        : farger.bakgrunnsfarge,
+                } as React.CSSProperties
+            }
+            as={Dropdown.Toggle}
             size={"small"}
             variant="primary"
             iconPosition={"right"}
             icon={<ChevronDownIcon aria-hidden />}>
-            {penskrivIAStatus(iaSak?.status ?? "IKKE_AKTIV")}
-        </RegularSortTekstKnapp>
-
-    );
+            {penskrivIAStatus(safeStatus)}
+        </Button>
+    )
 }
