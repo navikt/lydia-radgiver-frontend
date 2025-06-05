@@ -25,7 +25,7 @@ export default function SmartStartsideRedirect() {
 				case "Saksbehandler":
 				case "Lesetilgang":
 					if (location.search.length > 0) {
-						// Vi sender med det originale søket i state, så vi kan putte en alert med lenke til virksomhetslisten i tilfelle folk har lagret søk som bokmerke.
+						// Vi sender med det originale søket i state, så vi kan putte en alert med lenke til prioriteringssiden i tilfelle folk har lagret søk som bokmerke.
 						navigate("/minesaker", {
 							replace: true,
 							state: {
@@ -43,7 +43,7 @@ export default function SmartStartsideRedirect() {
 				default:
 					if (location.search.length > 0) {
 						navigate({
-							pathname: "/virksomhetsliste",
+							pathname: "/prioritering",
 							search: location.search,
 						}, {
 							replace: true,
@@ -55,7 +55,7 @@ export default function SmartStartsideRedirect() {
 							}
 						});
 					} else {
-						navigate("/virksomhetsliste", { replace: true });
+						navigate("/prioritering", { replace: true });
 					}
 					break;
 			}
