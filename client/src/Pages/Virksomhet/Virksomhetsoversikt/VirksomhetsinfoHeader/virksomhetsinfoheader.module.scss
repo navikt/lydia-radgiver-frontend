@@ -1,0 +1,13 @@
+.historikkContainer {
+	padding-left: 0.5rem;
+	padding-right: 0.5rem;
+
+	&.begrensHøyde {
+		max-height: 15rem;
+		overflow-y: auto;
+	}
+}
+
+.dropdownHeader {
+	padding: 0.5rem 0.5rem 1rem;
+}
