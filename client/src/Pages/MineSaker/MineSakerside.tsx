@@ -201,10 +201,13 @@ function BrukerBleRedirectedBanner() {
 
     if (show && state?.redirected?.search?.length > 0) {
         return (
-            <StyledAlert variant="info" size="small" closeButton onClose={() => setShow(false)}>
-                Vi har flyttet prioriteringssiden, så lenker og bokmerker med lagrede søk fungerer kanskje ikke lenger.
+            <StyledAlert variant="info" size="small" closeButton onClose={() => setShow(false)} contentMaxWidth={false}>
+                <Heading size="small" level="3" spacing>
+                    Ny landingsside for saksbehandler og lesetilgang
+                </Heading>
+                Nå lander alle med rollen saksbehandler og lesetilgang automatisk på Mine saker. Superbrukere vil fortsatt lande på prioriteringssiden.
                 <br />
-                <Link as={NavLink} onClick={() => loggBrukerFulgteRedirectlenkeMedSøk()} to={`/prioritering${state.redirected.search}`}>Denne lenken</Link> går til virksomhetssiden med søket du prøvde å åpne, så du kan lagre bokmerket på nytt.
+                Følg <Link as={NavLink} onClick={() => loggBrukerFulgteRedirectlenkeMedSøk()} to={`/prioritering${state.redirected.search}`}>denne lenken</Link> for å komme til ditt lagrede søk på prioriterinssiden.
                 <br />
             </StyledAlert>
         );
