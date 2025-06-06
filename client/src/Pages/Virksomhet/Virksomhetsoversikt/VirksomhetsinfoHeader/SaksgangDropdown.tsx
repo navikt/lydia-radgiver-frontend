@@ -4,7 +4,6 @@ import {
 } from "../../../../domenetyper/domenetyper";
 import React from "react";
 import { Dropdown, Heading, HStack } from "@navikt/ds-react";
-import styled from "styled-components";
 import Historikk from "../IASakStatus/EndreStatusModal/Historikk";
 import {
     StatusHendelseSteg,
@@ -15,19 +14,7 @@ import { useHentSakshistorikk, useHentVirksomhetsinformasjon } from "../../../..
 import { useHentSakForVirksomhet } from "../../../../api/lydia-api/virksomhet";
 import { SaksgangDropdownToggle } from "./SaksgangDropdownToggle";
 
-const HistorikkContainer = styled(HStack) <{ $begrensHøyde: boolean }>`
-    max-height: ${(props) => (props.$begrensHøyde ? "15rem" : undefined)};
-    overflow-y: ${(props) => (props.$begrensHøyde ? "auto" : undefined)};
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-`;
-
-const DropdownHeader = styled(Heading)`
-    padding-top: 0.5rem;
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-    padding-bottom: 1rem;
-`;
+import styles from "./virksomhetsinfoheader.module.scss";
 
 export function SaksgangDropdown({
     virksomhet,
@@ -103,12 +90,10 @@ function SaksgangDropdownInnhold({
                 placement="bottom-start"
                 ref={dropdownRef}
             >
-                <DropdownHeader size="medium">Endre status</DropdownHeader>
-                <HistorikkContainer
-                    $begrensHøyde={nesteSteg.nesteSteg !== null}
-                >
+                <Heading className={styles.dropdownHeader} size="medium">Endre status</Heading>
+                <HStack className={`${styles.historikkContainer} ${nesteSteg.nesteSteg !== null ? styles.begrensHøyde : ""}`}>
                     {iaSak && <Historikk sak={iaSak} />}
-                </HistorikkContainer>
+                </HStack>
                 <br />
                 <Statusknapper
                     virksomhet={virksomhet}

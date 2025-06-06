@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { BodyShort, HelpText, Popover } from "@navikt/ds-react";
 
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
@@ -6,42 +5,16 @@ import { EksternLenke } from "../../../../components/EksternLenke";
 import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
 import { IASak } from "../../../../domenetyper/domenetyper";
 
-const Info = styled.dl`
-    display: grid;
-    grid-template-columns: 1fr min-content;
-    row-gap: 0.5rem;
-    column-gap: 1.5rem;
-`;
+import styles from "./virksomhetsinfoheader.module.scss";
 
-const InfoTittel = styled(BodyShort).attrs({ as: "dt" })`
-    font-weight: bold;
-    grid-column-start: 0;
-    grid-column-end: 1;
-`;
-
-const InfoData = styled(BodyShort).attrs({ as: "dd" })`
-    grid-column-start: 1;
-    max-width: 26rem;
-`;
-
-const TittelMedHelpTextContainer = styled(BodyShort).attrs({ as: "dt" })`
-    font-weight: bold;
-    grid-column-start: 0;
-    grid-column-end: 1;
-    display: flex;
-    align-items: center;
-    gap: 0.5rem;
-`;
 
 interface PopoverInnholdProps {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    className?: string;
 }
 export const VirksomhetsInfoPopoverInnhold = ({
     virksomhet,
     iaSak: sak,
-    className,
 }: PopoverInnholdProps) => {
     const adresse = virksomhet.adresse.join(", ");
     const capitalizedLabel = (label: string) => {
@@ -51,7 +24,7 @@ export const VirksomhetsInfoPopoverInnhold = ({
 
     return (
         <Popover.Content>
-            <Info className={className}>
+            <dl className={styles.virksomhetsinfoPopoverInnhold}>
                 <Infolinje tittel="Saksnummer" data={sak?.saksnummer} />
                 <Infolinje tittel="Orgnummer" data={virksomhet.orgnr} />
                 <Infolinje
@@ -73,7 +46,7 @@ export const VirksomhetsInfoPopoverInnhold = ({
                 <NæringsgruppeInfolinje virksomhet={virksomhet} />
                 <Infolinje tittel="Sektor" data={virksomhet.sektor} />
                 <PartneravtaleInfolinje virksomhet={virksomhet} />
-            </Info>
+            </dl>
         </Popover.Content>
     );
 };
@@ -92,12 +65,12 @@ function Infolinje({
     if (Array.isArray(data)) {
         return (
             <>
-                <InfoTittel>{tittel}</InfoTittel>
+                <BodyShort as="dt" className={styles.infoTittel}>{tittel}</BodyShort>
                 {data.map((d, i) => (
-                    <InfoData key={i}>
+                    <BodyShort as="dd" className={styles.infoData} key={i}>
                         {d}
                         {i + 1 < data.length ? "," : undefined}
-                    </InfoData>
+                    </BodyShort>
                 ))}
             </>
         );
@@ -105,8 +78,8 @@ function Infolinje({
 
     return (
         <>
-            <InfoTittel>{tittel}</InfoTittel>
-            <InfoData>{data}</InfoData>
+            <BodyShort as="dt" className={styles.infoTittel}>{tittel}</BodyShort>
+            <BodyShort as="dd" className={styles.infoData}>{data}</BodyShort>
         </>
     );
 }
@@ -143,15 +116,15 @@ function PartneravtaleInfolinje({ virksomhet }: { virksomhet: Virksomhet }) {
 
     return (
         <>
-            <TittelMedHelpTextContainer>
+            <BodyShort as="dt" className={styles.tittelMedHelpTextContainer}>
                 <span>Partner avtale</span>
                 <HelpText>
                     <EksternLenke href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-markedsarbeid/SitePages/Strategisk-Rammeverk-for-Markedsarbeid.aspx">
                         Les mer om partner avtaler på navet
                     </EksternLenke>
                 </HelpText>
-            </TittelMedHelpTextContainer>
-            <InfoData>{salesforceInfo.partnerStatus}</InfoData>
+            </BodyShort>
+            <BodyShort as="dd" className={styles.infoData}>{salesforceInfo.partnerStatus}</BodyShort>
         </>
     );
 }

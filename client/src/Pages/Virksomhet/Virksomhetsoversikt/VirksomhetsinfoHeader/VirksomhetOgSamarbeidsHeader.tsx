@@ -1,6 +1,4 @@
 import React, { useRef, useState } from "react";
-import styled from "styled-components";
-
 import {
     Alert,
     Button,
@@ -31,38 +29,7 @@ import { InternLenke } from "../../../../components/InternLenke";
 import { useErPåInaktivSak } from "../../VirksomhetContext";
 import { SamarbeidStatusBadge } from "../../../../components/Badge/SamarbeidStatusBadge";
 
-const Container = styled.div`
-    display: flex;
-    flex-direction: column;
-    margin-bottom: 2rem;
-    gap: 0.75rem;
-`;
-
-const SalesforceLenke = styled(EksternLenke)`
-    font-size: 1.125rem;
-`;
-
-const VirksomhetsInfoIkon = styled(InformationSquareIcon)`
-    display: flex;
-    cursor: pointer;
-`;
-
-const InvisibleButton = styled(Button).attrs({
-    size: "xsmall",
-    variant: "tertiary-neutral",
-})`
-    background-color: transparent;
-    border: none;
-    padding: 0;
-`;
-
-const StyledAlert = styled(Alert)`
-    margin-bottom: 2rem;
-
-    --a-surface-info-subtle: var(--a-gray-300);
-    --a-border-info: var(--a-gray-600);
-    --a-icon-info: var(--a-gray-600);
-`;
+import styles from "./virksomhetsinfoheader.module.scss";
 
 export default function VirksomhetOgSamarbeidsHeader({
     virksomhet,
@@ -85,11 +52,11 @@ export default function VirksomhetOgSamarbeidsHeader({
     return (
         <>
             {erPåInaktivSak && (
-                <StyledAlert variant="info">
+                <Alert variant="info" className={styles.arkivertSakAlert}>
                     Denne saken er arkivert.
-                </StyledAlert>
+                </Alert>
             )}
-            <Container>
+            <div className={styles.virksomhetOgSamarbeidsHeader}>
                 <VStack gap={"10"}>
                     <HStack justify="space-between" align="start">
                         <HStack gap={"4"}>
@@ -110,16 +77,19 @@ export default function VirksomhetOgSamarbeidsHeader({
                             <EierskapKnapp iaSak={iaSak} />
                         </HStack>
                         {salesforceInfo && (
-                            <SalesforceLenke href={salesforceInfo?.url}>
+                            <EksternLenke className={styles.salesforceLenke} href={salesforceInfo?.url}>
                                 Salesforce - virksomhet
-                            </SalesforceLenke>
+                            </EksternLenke>
                         )}
                     </HStack>
                     <HStack align={"center"}>
                         <VStack>
                             <HStack gap={"2"} align={"center"}>
                                 {gjeldendeSamarbeid === undefined && (
-                                    <InvisibleButton
+                                    <Button
+                                        className={styles.invisibleButton}
+                                        size="xsmall"
+                                        variant="tertiary-neutral"
                                         ref={buttonRef}
                                         onClick={() => {
                                             setOpenState(!openState);
@@ -129,11 +99,12 @@ export default function VirksomhetOgSamarbeidsHeader({
                                         }}
                                         aria-label="Se detaljer"
                                     >
-                                        <VirksomhetsInfoIkon
+                                        <InformationSquareIcon
+                                            className={styles.virksomhetsInfoIkon}
                                             fontSize="2rem"
                                             aria-hidden
                                         />
-                                    </InvisibleButton>
+                                    </Button>
                                 )}
                                 <Heading
                                     as={InternLenke}
@@ -189,7 +160,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                         setÅpen={setNyttSamarbeidModalÅpen}
                     />
                 )}
-            </Container>
+            </div>
         </>
     );
 }
