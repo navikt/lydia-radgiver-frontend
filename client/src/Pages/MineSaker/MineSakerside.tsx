@@ -4,14 +4,15 @@ import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
 import { useHentMineSaker } from "../../api/lydia-api/sak";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
-import { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
 import { desktopAndUp } from "../../styling/breakpoints";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { Sorteringsknapper } from "./Sorteringsknapper";
-import { loggSideLastet } from "../../util/amplitude-klient";
+import { loggBrukerFulgteRedirectlenkeMedSøk, loggBrukerRedirigertMedSøkAlert, loggSideLastet } from "../../util/amplitude-klient";
 import { loggMineSakerFilterEndringMedAmplitude } from "./loggFilterEndringMedAmplitude";
-import { Heading } from "@navikt/ds-react";
+import { Alert, Heading, Link } from "@navikt/ds-react";
+import { useLocation, NavLink } from "react-router-dom";
 
 const FlexContainer = styled.div`
     display: flex;
@@ -153,6 +154,7 @@ export const MineSakerside = () => {
 
     return (
         <SideContainer>
+            <BrukerBleRedirectedBanner />
             <HeaderContainer>
                 <Heading level="2" size="large">Mine saker</Heading>
                 <Sorteringsknapper onSortChange={handleSortChange} />
@@ -183,3 +185,33 @@ export const MineSakerside = () => {
         </SideContainer>
     );
 };
+
+const StyledAlert = styled(Alert)`
+    margin-bottom: 1rem;
+`;
+
+function BrukerBleRedirectedBanner() {
+    const [show, setShow] = React.useState(true);
+    const { state } = useLocation();
+    React.useEffect(() => {
+        if (state?.redirected?.search?.length > 0) {
+            loggBrukerRedirigertMedSøkAlert();
+        }
+    }, [state]);
+
+    if (show && state?.redirected?.search?.length > 0) {
+        return (
+            <StyledAlert variant="info" size="small" closeButton onClose={() => setShow(false)} contentMaxWidth={false}>
+                <Heading size="small" level="3" spacing>
+                    Ny landingsside for saksbehandler og lesetilgang
+                </Heading>
+                Nå lander alle med rollen saksbehandler og lesetilgang automatisk på Mine saker. Superbrukere vil fortsatt lande på prioriteringssiden.
+                <br />
+                Følg <Link as={NavLink} onClick={() => loggBrukerFulgteRedirectlenkeMedSøk()} to={`/prioritering${state.redirected.search}`}>denne lenken</Link> for å komme til ditt lagrede søk på prioriterinssiden.
+                <br />
+            </StyledAlert>
+        );
+    }
+
+    return null;
+}

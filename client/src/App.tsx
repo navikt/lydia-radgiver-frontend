@@ -16,6 +16,7 @@ import { redirectUrl } from "./components/Banner/SesjonBanner";
 import { setTilgangsnivå } from "./util/amplitude-klient";
 import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
 import { Samarbeidsside } from "./Pages/Virksomhet/Samarbeid/Samarbeidsside";
+import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
 
 const App = () => (
     <BrowserRouter>
@@ -90,7 +91,8 @@ const AppContent = () => {
             <FeilmeldingBanner />
             <AppRamme id="maincontent">
                 <Routes>
-                    <Route path={"/"} element={<Prioriteringsside />} />
+                    <Route path={"/"} element={<SmartStartsideRedirect />} />
+                    <Route path={"/prioritering"} element={<Prioriteringsside />} />
                     <Route
                         path={"/statusoversikt"}
                         element={<Statusoversiktside />}

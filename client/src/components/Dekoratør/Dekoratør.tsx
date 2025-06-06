@@ -140,7 +140,7 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                     <TilHovedinnhold href="#maincontent">
                         Hopp til hovedinnhold
                     </TilHovedinnhold>
-                    <Navigasjonslenke href="/" title="Gå til søkesiden">
+                    <Navigasjonslenke href="/prioritering" title="Gå til prioriteringsiden">
                         <InternalHeader.Title as="h1">Fia</InternalHeader.Title>
                     </Navigasjonslenke>
                     <Navigasjonslenke

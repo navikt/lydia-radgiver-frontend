@@ -43,7 +43,7 @@ function VirksomhetsnavncelleMedPopover({
 		<Table.DataCell ref={refs.setReference} {...getReferenceProps()}>
 			<InternLenke
 				style={{ fontWeight: "bold" }}
-				href={`virksomhet/${virksomhetsoversikt.orgnr}`}
+				href={`/virksomhet/${virksomhetsoversikt.orgnr}`}
 			>
 				{virksomhetsoversikt.virksomhetsnavn}
 			</InternLenke>
@@ -67,7 +67,7 @@ function BasicVirksomhetsnavncelle({
 	return (
 		<Table.DataCell style={{ fontWeight: "bold" }}>
 			<InternLenke
-				href={`virksomhet/${virksomhetsoversikt.orgnr}`}
+				href={`/virksomhet/${virksomhetsoversikt.orgnr}`}
 			>
 				{virksomhetsoversikt.virksomhetsnavn}
 			</InternLenke>
