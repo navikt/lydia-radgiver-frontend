@@ -1,4 +1,4 @@
-import { Heading } from "@navikt/ds-react";
+import { BodyShort, Heading } from "@navikt/ds-react";
 import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
 import { lokalDato } from "../../../util/dato";
@@ -14,7 +14,8 @@ export default function Samarbeidshistorikk({
 	orgnr,
 	visHeading = true,
 	kompakt = false,
-}: { historikk: Sakshistorikk, orgnr: string, visHeading?: boolean, kompakt?: boolean }) {
+	lenke = true,
+}: { historikk: Sakshistorikk, orgnr: string, visHeading?: boolean, kompakt?: boolean, lenke?: boolean }) {
 	if (historikk.samarbeid.length === 0) {
 		return null;
 	}
@@ -46,9 +47,15 @@ export default function Samarbeidshistorikk({
 				{
 					sorterteSamarbeid.map((samarbeid) => (
 						<Samarbeidrad key={samarbeid.id}>
-							<InternLenkeMedEllipse underline={false} href={`/virksomhet/${orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}>
-								{samarbeid.navn}
-							</InternLenkeMedEllipse>
+							{
+								lenke ? (
+									<InternLenkeMedEllipse underline={false} href={`/virksomhet/${orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}>
+										{samarbeid.navn}
+									</InternLenkeMedEllipse>
+								) : (
+									<BodyShortMedEllipse>{samarbeid.navn}</BodyShortMedEllipse>
+								)
+							}
 							<SamarbeidStatusBadge status={samarbeid.status} />
 							{
 								(samarbeid.status === IASamarbeidStatusEnum.enum.FULLFØRT || samarbeid.status === IASamarbeidStatusEnum.enum.AVBRUTT)
@@ -86,6 +93,13 @@ function SkjulteRader({ antallSkjulteRader }: { antallSkjulteRader: number }) {
 }
 
 const InternLenkeMedEllipse = styled(InternLenke)`
+	overflow: hidden;
+	text-overflow: ellipsis;
+	white-space: nowrap;
+	display: inline-block;
+`;
+
+const BodyShortMedEllipse = styled(BodyShort)`
 	overflow: hidden;
 	text-overflow: ellipsis;
 	white-space: nowrap;

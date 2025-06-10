@@ -140,6 +140,7 @@ function VirksomhetsoversiktPopover({
 			</HeadingMedEllipse>
 			<Samarbeidshistorikk
 				kompakt
+				lenke={false}
 				historikk={aktivSak}
 				visHeading={false}
 				orgnr={virksomhetsoversikt.orgnr} />
