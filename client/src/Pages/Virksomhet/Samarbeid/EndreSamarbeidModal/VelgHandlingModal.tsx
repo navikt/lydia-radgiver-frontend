@@ -1,19 +1,16 @@
-import { Modal, Heading, BodyLong, RadioGroup, Radio, Button, BodyShort } from "@navikt/ds-react";
+import { Modal, Heading, BodyLong, RadioGroup, Radio, Button } from "@navikt/ds-react";
 import React from "react";
 import { StyledSamarbeidModal } from "../NyttSamarbeidModal";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { muligeHandlinger, MuligSamarbeidsgandling } from "../../../../domenetyper/samarbeidsEndring";
+import { KanGjennomføreStatusendring, muligeHandlinger, MuligSamarbeidsgandling } from "../../../../domenetyper/samarbeidsEndring";
 import { useBøyningerAvSamarbeidshandling } from "../../../../util/formatering/useBøyninger";
 import styled from "styled-components";
+import BegrunnelserForIkkeKunne from "./BegrunnelserForIkkeKunne";
 
 const StyledRadioGroup = styled(RadioGroup)`
 	margin-bottom: 1rem;
 	margin-top: 0.75rem;
-`;
-
-const StyledErDuSikker = styled(BodyShort)`
-	min-height: 1.5rem;
 `;
 
 const StyledJaKnapp = styled(Button)`
@@ -21,15 +18,26 @@ const StyledJaKnapp = styled(Button)`
 	text-align: center;
 `;
 
-export default function AvsluttModal({ samarbeid, åpen, setÅpen, prøvÅGjennomføreHandling }: {
+export default function VelgHandlingModal({
+	samarbeid,
+	åpen,
+	setÅpen,
+	hentKanGjennomføreStatusendring,
+	kanGjennomføreResultat,
+	lasterKanGjennomføreHandling,
+	setBekreftType,
+}: {
 	iaSak: IASak,
 	samarbeid: IaSakProsess,
 	åpen: boolean,
 	setÅpen: React.Dispatch<React.SetStateAction<boolean>>;
-	prøvÅGjennomføreHandling: (handling: MuligSamarbeidsgandling) => void;
+	hentKanGjennomføreStatusendring: (handling: MuligSamarbeidsgandling) => void;
+	kanGjennomføreResultat?: KanGjennomføreStatusendring;
+	lasterKanGjennomføreHandling: string | null;
+	setBekreftType: React.Dispatch<React.SetStateAction<MuligSamarbeidsgandling | null>>;
 }) {
 	const [valgtHandling, setValgtHandling] = React.useState<MuligSamarbeidsgandling | null>(null);
-	const bøydHandling = useBøyningerAvSamarbeidshandling(valgtHandling || muligeHandlinger.Enum.fullfores);
+
 	return (
 		<StyledSamarbeidModal aria-label="Avslutt samarbeid" open={åpen} onClose={() => setÅpen(false)}>
 			<Modal.Header closeButton={true}>
@@ -39,36 +47,39 @@ export default function AvsluttModal({ samarbeid, åpen, setÅpen, prøvÅGjenno
 				<BodyLong>
 					Når du avslutter samarbeidet vil alle dokumenter bli journalført og det vil ikke være mulig å gjøre endringer.
 				</BodyLong>
-				<StyledRadioGroup onChange={setValgtHandling} value={valgtHandling} legend="Hva har skjedd med samarbeidet?" hideLegend>
+				<StyledRadioGroup onChange={(handling: MuligSamarbeidsgandling) => {
+					hentKanGjennomføreStatusendring(handling);
+					setValgtHandling(handling);
+				}} value={valgtHandling} legend="Hva har skjedd med samarbeidet?" hideLegend disabled={lasterKanGjennomføreHandling !== null}>
 					<HandlingRadio handling={muligeHandlinger.Enum.fullfores} />
 					<HandlingRadio handling={muligeHandlinger.Enum.avbrytes} />
 				</StyledRadioGroup>
-				<StyledErDuSikker weight="semibold">
-					{valgtHandling && `Er du sikker på at du vil ${bøydHandling.infinitiv} samarbeidet?`}
-				</StyledErDuSikker>
+				{
+					!lasterKanGjennomføreHandling && kanGjennomføreResultat && valgtHandling ? (
+						<BegrunnelserForIkkeKunne begrunnelser={kanGjennomføreResultat?.blokkerende} type={valgtHandling} blokkerende />
+					) : null
+				}
 			</Modal.Body>
 			<Modal.Footer>
 				<StyledJaKnapp
 					variant="primary"
-					disabled={!valgtHandling}
+					disabled={!valgtHandling || lasterKanGjennomføreHandling !== null || !kanGjennomføreResultat?.kanGjennomføres}
 					onClick={() => {
-						if (valgtHandling) {
-							prøvÅGjennomføreHandling(valgtHandling);
-							setÅpen(false);
-						}
+						setBekreftType(valgtHandling);
+						setÅpen(false);
 					}}
 				>
-					Ja {bøydHandling.imperativ} samarbeidet
+					Avslutt samarbeidet
 				</StyledJaKnapp>
 				<Button
 					variant="secondary"
 					onClick={() => {
+						setBekreftType(null);
 						setÅpen(false);
 					}}
 				>
 					Avbryt
 				</Button>
-
 			</Modal.Footer>
 		</StyledSamarbeidModal>
 	);

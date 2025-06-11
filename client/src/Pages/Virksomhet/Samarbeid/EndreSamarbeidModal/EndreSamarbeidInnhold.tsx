@@ -58,15 +58,15 @@ export default function EndreSamarbeidModalInnhold({
 	navn,
 	setNavn,
 	setLagreNavnVellykket,
-	setSisteType,
 	setKanGjennomføreResultat,
 	hentSamarbeidPåNytt,
 	nyHendelse,
 	lagreNavnVellykket,
 	setLasterKanGjennomføreHandling,
-	prøvÅGjennomføreHandling,
+	setBekreftType,
+	hentKanGjennomføreStatusendring,
 	lasterKanGjennomføreHandling,
-	setAvsluttModalÅpen,
+	setVelgHandlingModalÅpen,
 }: {
 	open: boolean;
 	setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -75,15 +75,15 @@ export default function EndreSamarbeidModalInnhold({
 	navn: string;
 	setNavn: React.Dispatch<React.SetStateAction<string>>;
 	setLagreNavnVellykket: React.Dispatch<React.SetStateAction<boolean>>;
-	setSisteType: React.Dispatch<React.SetStateAction<MuligSamarbeidsgandling | null>>;
 	setKanGjennomføreResultat: React.Dispatch<React.SetStateAction<KanGjennomføreStatusendring | undefined>>;
 	hentSamarbeidPåNytt: KeyedMutator<IaSakProsess[]>;
 	nyHendelse: (hendelsestype: IASakshendelseType) => Promise<void>;
 	lagreNavnVellykket: boolean;
 	setLasterKanGjennomføreHandling: React.Dispatch<React.SetStateAction<string | null>>;
-	prøvÅGjennomføreHandling: (handling: MuligSamarbeidsgandling) => void;
+	setBekreftType: React.Dispatch<React.SetStateAction<MuligSamarbeidsgandling | null>>;
+	hentKanGjennomføreStatusendring: (handling: MuligSamarbeidsgandling) => Promise<KanGjennomføreStatusendring>;
 	lasterKanGjennomføreHandling: string | null;
-	setAvsluttModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
+	setVelgHandlingModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
 	const [antallTegn, setAntallTegn] = useState(samarbeid.navn?.length ?? 0);
 	const navnErUbrukt = samarbeidData?.find((s) => s.navn?.toLowerCase() === navn.toLowerCase()) === undefined;
@@ -92,7 +92,6 @@ export default function EndreSamarbeidModalInnhold({
 		setOpen(false);
 		setLagreNavnVellykket(false);
 		setLasterKanGjennomføreHandling(null);
-		setSisteType(null);
 		setKanGjennomføreResultat(undefined);
 		hentSamarbeidPåNytt().then(() => {
 			setNavn(samarbeid.navn ?? "");
@@ -130,7 +129,7 @@ export default function EndreSamarbeidModalInnhold({
 					<Button
 						variant="primary"
 						size="small"
-						onClick={() => setAvsluttModalÅpen(true)}
+						onClick={() => setVelgHandlingModalÅpen(true)}
 						icon={<CheckmarkIcon aria-hidden />}
 						loading={lasterKanGjennomføreHandling === "fullfores"}
 					>
@@ -145,7 +144,12 @@ export default function EndreSamarbeidModalInnhold({
 						size="small"
 						variant="secondary-neutral"
 						title={`Slett "${samarbeid.navn}"`}
-						onClick={() => prøvÅGjennomføreHandling("slettes")}
+						onClick={() => {
+							hentKanGjennomføreStatusendring("slettes")
+								.then(() => {
+									setBekreftType("slettes");
+								});
+						}}
 						loading={lasterKanGjennomføreHandling === "slettes"}
 					/>
 				</SlettFullførFlex>
