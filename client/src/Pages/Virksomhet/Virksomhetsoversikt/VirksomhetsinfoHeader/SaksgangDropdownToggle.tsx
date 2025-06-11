@@ -34,7 +34,7 @@ const hentFargeForIAStatus = (
             };
         case IAProsessStatusEnum.enum.VI_BISTÅR:
             return {
-                bakgrunnsfarge: "var(--ac-tag-success-filled-bg, var(--a-surface-success));",
+                bakgrunnsfarge: "var(--ac-tag-success-filled-bg, var(--a-surface-success))",
                 tekstfarge: "var(--ac-tag-success-filled-text, var(--a-text-on-success))",
             };
         case IAProsessStatusEnum.enum.NY:
