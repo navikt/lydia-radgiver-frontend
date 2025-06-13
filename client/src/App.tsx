@@ -46,7 +46,8 @@ const AppContent = () => {
 
     useEffect(() => {
         // Gjør favicon rød i dev og demo
-        if (erIDev) {
+        const erIPride = new Date().getMonth() === 5; // Juni er pride-måned
+        if (erIDev || erIPride) {
             let link_prod = document.querySelector(
                 "link[rel~='icon']",
             ) as HTMLLinkElement | null;
@@ -56,11 +57,20 @@ const AppContent = () => {
                 document.getElementsByTagName("head")[0].appendChild(link_prod);
             }
 
-            const link_dev = document.querySelector(
-                "link[rel~='icon_red']",
-            ) as HTMLLinkElement | null;
-            if (link_dev !== null) {
-                link_prod.href = link_dev.href;
+            if (erIDev) { // Rød i dev og demo    
+                const link_dev = document.querySelector(
+                    "link[rel~='icon_red']",
+                ) as HTMLLinkElement | null;
+                if (link_dev !== null) {
+                    link_prod.href = link_dev.href;
+                }
+            } else if (erIPride) { // Regnbue i juni i prod
+                const link_rainbow = document.querySelector(
+                    "link[rel~='icon_rainbow']",
+                ) as HTMLLinkElement | null;
+                if (link_rainbow !== null) {
+                    link_prod.href = link_rainbow.href;
+                }
             }
         }
     }, [erIDev]);
