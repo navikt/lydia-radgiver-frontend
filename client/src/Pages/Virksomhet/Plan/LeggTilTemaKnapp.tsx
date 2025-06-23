@@ -1,9 +1,5 @@
 import React, { useEffect } from "react";
-import {
-    BodyShort,
-    Button,
-    Modal,
-} from "@navikt/ds-react";
+import { BodyShort, Button, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import InnholdOppsett from "./InnholdOppsett";
 import styled from "styled-components";
@@ -22,7 +18,7 @@ const LeggTilTemaModal = styled(Modal)`
 
 const Subheading = styled(BodyShort)`
     margin-bottom: 1rem;
-`;;
+`;
 
 export default function LeggTilTemaKnapp({
     saksnummer,
@@ -30,7 +26,7 @@ export default function LeggTilTemaKnapp({
     samarbeid,
     samarbeidsplan,
     hentPlanIgjen,
-    brukerErEierAvSak,
+    kanEndrePlan,
     sakErIRettStatus,
 }: {
     orgnummer: string;
@@ -38,7 +34,7 @@ export default function LeggTilTemaKnapp({
     samarbeid: IaSakProsess;
     samarbeidsplan: Plan;
     hentPlanIgjen: KeyedMutator<Plan>;
-    brukerErEierAvSak: boolean;
+    kanEndrePlan: boolean;
     sakErIRettStatus: boolean;
 }) {
     const [modalOpen, setModalOpen] = React.useState(false);
@@ -47,14 +43,16 @@ export default function LeggTilTemaKnapp({
         PlanTema[]
     >(samarbeidsplan.temaer);
     // Trengs for å se etter endringer i temalisten fra backend.
-    const [gammelTemaliste, setGammelTemaliste] = React.useState<
-        PlanTema[]
-    >(samarbeidsplan.temaer);
-
+    const [gammelTemaliste, setGammelTemaliste] = React.useState<PlanTema[]>(
+        samarbeidsplan.temaer,
+    );
 
     useEffect(() => {
         // Hvis innholdet faktisk har endret seg.
-        if (JSON.stringify(gammelTemaliste) !== JSON.stringify(samarbeidsplan.temaer)) {
+        if (
+            JSON.stringify(gammelTemaliste) !==
+            JSON.stringify(samarbeidsplan.temaer)
+        ) {
             setGammelTemaliste(samarbeidsplan.temaer);
             setRedigertTemaliste(samarbeidsplan.temaer);
         }
@@ -68,10 +66,12 @@ export default function LeggTilTemaKnapp({
             redigertTemaliste.map((tema) =>
                 tema.id === temaId
                     ? {
-                        ...tema,
-                        inkludert: redigerteUndertemaer.some(({ inkludert }) => inkludert),
-                        undertemaer: redigerteUndertemaer,
-                    }
+                          ...tema,
+                          inkludert: redigerteUndertemaer.some(
+                              ({ inkludert }) => inkludert,
+                          ),
+                          undertemaer: redigerteUndertemaer,
+                      }
                     : { ...tema },
             ),
         );
@@ -93,10 +93,11 @@ export default function LeggTilTemaKnapp({
 
     return (
         <>
-            {!brukerErEierAvSak && (
+            {!kanEndrePlan && (
                 <>
                     <BodyShort>
-                        Du må være eier av saken for å kunne gjøre endringer
+                        Du må være eier eller følger av saken for å kunne gjøre
+                        endringer
                     </BodyShort>
                     <br />
                 </>
@@ -120,7 +121,7 @@ export default function LeggTilTemaKnapp({
                     loggModalÅpnet("Rediger plan");
                     setModalOpen(true);
                 }}
-                disabled={!(brukerErEierAvSak && sakErIRettStatus)}
+                disabled={!(kanEndrePlan && sakErIRettStatus)}
             >
                 Rediger plan
             </Button>
@@ -131,9 +132,7 @@ export default function LeggTilTemaKnapp({
                 header={{ heading: "Sett opp samarbeidsplan" }}
             >
                 <Modal.Body style={{ overflowY: "auto" }}>
-                    <Subheading>
-                        Velg innhold og varighet
-                    </Subheading>
+                    <Subheading>Velg innhold og varighet</Subheading>
                     {modalOpen &&
                         redigertTemaliste
                             .sort((a, b) => {
@@ -143,16 +142,9 @@ export default function LeggTilTemaKnapp({
                                 <InnholdOppsett
                                     key={tema.id}
                                     temaNavn={tema.navn}
-                                    valgteInnhold={
-                                        tema.undertemaer
-                                    }
-                                    velgInnhold={(
-                                        val: PlanInnhold[],
-                                    ) =>
-                                        velgUndertema(
-                                            tema.id,
-                                            val,
-                                        )
+                                    valgteInnhold={tema.undertemaer}
+                                    velgInnhold={(val: PlanInnhold[]) =>
+                                        velgUndertema(tema.id, val)
                                     }
                                 />
                             ))}
@@ -162,7 +154,11 @@ export default function LeggTilTemaKnapp({
                         lagreEndring={lagreEndring}
                         setRedigertTemaliste={setRedigertTemaliste}
                         samarbeidsplan={samarbeidsplan}
-                        slettPlan={() => slettPlan(orgnummer, saksnummer, samarbeid.id).then(hentPlanIgjen)}
+                        slettPlan={() =>
+                            slettPlan(orgnummer, saksnummer, samarbeid.id).then(
+                                hentPlanIgjen,
+                            )
+                        }
                         redigertTemaliste={redigertTemaliste}
                     />
                 </Modal.Body>
@@ -186,8 +182,19 @@ function ActionButtons({
     setRedigertTemaliste: (temaliste: PlanTema[]) => void;
     samarbeidsplan: Plan;
 }) {
-    const harTemaUtenUndertema = React.useMemo(() => redigertTemaliste.some((tema) => tema.inkludert && !tema.undertemaer.some((undertema) => undertema.inkludert)), [redigertTemaliste]);
-    const planErTom = React.useMemo(() => !redigertTemaliste.some(({ inkludert }) => inkludert), [redigertTemaliste]);
+    const harTemaUtenUndertema = React.useMemo(
+        () =>
+            redigertTemaliste.some(
+                (tema) =>
+                    tema.inkludert &&
+                    !tema.undertemaer.some((undertema) => undertema.inkludert),
+            ),
+        [redigertTemaliste],
+    );
+    const planErTom = React.useMemo(
+        () => !redigertTemaliste.some(({ inkludert }) => inkludert),
+        [redigertTemaliste],
+    );
 
     if (planErTom) {
         return (
@@ -237,4 +244,3 @@ function ActionButtons({
         </ModalKnapper>
     );
 }
-

@@ -6,17 +6,17 @@ import { useErPåAktivSak } from "../../VirksomhetContext";
 
 interface SamarbeidsDropdownFooterProps {
     setÅpen: React.Dispatch<React.SetStateAction<boolean>>;
-    brukerErEierAvSak: boolean;
+    kanEndreSamarbeid: boolean;
     iaSakStatus?: IAProsessStatusType | undefined;
 }
 
 export const SamarbeidsDropdownFooter = ({
     setÅpen,
-    brukerErEierAvSak,
+    kanEndreSamarbeid,
     iaSakStatus,
 }: SamarbeidsDropdownFooterProps) => {
     const visOpprettSamarbeidKnapp =
-        brukerErEierAvSak &&
+        kanEndreSamarbeid &&
         (iaSakStatus === "KARTLEGGES" || iaSakStatus === "VI_BISTÅR");
 
     const erPåAktivSak = useErPåAktivSak();
@@ -35,20 +35,20 @@ export const SamarbeidsDropdownFooter = ({
         }
         if (
             !(iaSakStatus === "KARTLEGGES" || iaSakStatus === "VI_BISTÅR") &&
-            !brukerErEierAvSak
+            !kanEndreSamarbeid
         ) {
             return (
                 <>
                     Status må være i <i>Kartlegges</i> eller <i>Vi bistår</i> og{" "}
-                    du må være eier av saken for å opprette og administrere
-                    samarbeid.
+                    du må være eier eller følger av saken for å opprette og
+                    administrere samarbeid.
                 </>
             );
         }
 
         if (
             !(iaSakStatus === "KARTLEGGES" || iaSakStatus === "VI_BISTÅR") &&
-            brukerErEierAvSak
+            kanEndreSamarbeid
         ) {
             return (
                 <>
@@ -60,30 +60,28 @@ export const SamarbeidsDropdownFooter = ({
 
         if (
             (iaSakStatus === "KARTLEGGES" || iaSakStatus === "VI_BISTÅR") &&
-            !brukerErEierAvSak
+            !kanEndreSamarbeid
         ) {
             return (
                 <>
-                    Du må være eier av saken for å opprette og administrere{" "}
-                    samarbeid.
+                    Du må være eier eller følger av saken for å opprette og
+                    administrere samarbeid.
                 </>
             );
         }
     };
 
-    return (
-        visOpprettSamarbeidKnapp ? (
-            <Button
-                icon={<PlusIcon fontSize={"1.5rem"} />}
-                variant="primary"
-                onClick={() => setÅpen(true)}
-                size={"small"}
-                title={"Opprett samarbeid"}
-            >
-                Opprett samarbeid
-            </Button>
-        ) : (
-            <BodyShort>{kravTilOppretteSamarbeid()}</BodyShort>
-        )
+    return visOpprettSamarbeidKnapp ? (
+        <Button
+            icon={<PlusIcon fontSize={"1.5rem"} />}
+            variant="primary"
+            onClick={() => setÅpen(true)}
+            size={"small"}
+            title={"Opprett samarbeid"}
+        >
+            Opprett samarbeid
+        </Button>
+    ) : (
+        <BodyShort>{kravTilOppretteSamarbeid()}</BodyShort>
     );
 };

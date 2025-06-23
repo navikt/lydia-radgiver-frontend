@@ -1,5 +1,8 @@
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { IAProsessStatusEnum, IASak } from "../../../../domenetyper/domenetyper";
+import {
+    IAProsessStatusEnum,
+    IASak,
+} from "../../../../domenetyper/domenetyper";
 import { BodyShort, Button, Dropdown, Heading } from "@navikt/ds-react";
 import { ChevronDownIcon } from "@navikt/aksel-icons";
 import React, { useState } from "react";
@@ -12,6 +15,7 @@ import styled from "styled-components";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import FullførteSamarbeid from "./FullførteSamarbeid";
 import { InternLenke } from "../../../../components/InternLenke";
+import { useHentTeam } from "../../../../api/lydia-api/team";
 
 const DropdownMenuInnholdStyled = styled.div`
     display: flex;
@@ -47,13 +51,21 @@ export const SamarbeidsDropdown = ({
     const [seFlerSamarbeid, setSeFlerSamarbeid] = React.useState(false);
     const { data: uflitrertAlleSamarbeid, mutate: hentSamarbeidPåNytt } =
         useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
-    const alleSamarbeid = uflitrertAlleSamarbeid?.filter((samarbeid) => samarbeid.status === IAProsessStatusEnum.Enum.AKTIV)
+    const alleSamarbeid = uflitrertAlleSamarbeid?.filter(
+        (samarbeid) => samarbeid.status === IAProsessStatusEnum.Enum.AKTIV,
+    );
 
     const harIngenAktiveSamarbeid =
         alleSamarbeid === undefined || alleSamarbeid?.length === 0;
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
+    const brukerFølgerSak = følgere.some(
+        (følger) => følger === brukerInformasjon?.ident,
+    );
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
+    const kanEndreSamarbeid = brukerFølgerSak || brukerErEierAvSak;
+
     const [endreSamarbeidModalÅpen, setEndreSamarbeidModalÅpen] =
         useState(false);
     const [valgtSamarbeid, setValgtSamarbeid] = useState<IaSakProsess | null>(
@@ -119,8 +131,8 @@ export const SamarbeidsDropdown = ({
                                                 orgnr={iaSak.orgnr}
                                                 saksnummer={iaSak.saksnummer}
                                                 samarbeid={samarbeid}
-                                                brukerErEierAvSak={
-                                                    brukerErEierAvSak
+                                                kanEndreSamarbeid={
+                                                    kanEndreSamarbeid
                                                 }
                                                 setÅpen={
                                                     setEndreSamarbeidModalÅpen
@@ -137,7 +149,7 @@ export const SamarbeidsDropdown = ({
                         )}
                         <SamarbeidsDropdownFooter
                             setÅpen={setNyttSamarbeidModalÅpen}
-                            brukerErEierAvSak={brukerErEierAvSak}
+                            kanEndreSamarbeid={kanEndreSamarbeid}
                             iaSakStatus={iaSak?.status}
                         />
                         <FullførteSamarbeid
@@ -145,7 +157,8 @@ export const SamarbeidsDropdown = ({
                             alleSamarbeid={uflitrertAlleSamarbeid}
                             erEkspandert={seFlerSamarbeid}
                             setErEkspandert={setSeFlerSamarbeid}
-                            setModalErÅpen={setErÅpen} />
+                            setModalErÅpen={setErÅpen}
+                        />
                     </DropdownMenuInnholdStyled>
                 </Dropdown.Menu>
             </Dropdown>

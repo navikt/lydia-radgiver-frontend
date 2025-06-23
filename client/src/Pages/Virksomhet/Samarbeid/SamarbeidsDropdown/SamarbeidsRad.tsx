@@ -1,8 +1,6 @@
 import { Button } from "@navikt/ds-react";
 import React from "react";
-import {
-    IaSakProsess,
-} from "../../../../domenetyper/iaSakProsess";
+import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import styled from "styled-components";
 import { useErPåAktivSak } from "../../VirksomhetContext";
@@ -23,7 +21,7 @@ interface SamarbeidsRadProps {
     setValgtSamarbeid: React.Dispatch<
         React.SetStateAction<IaSakProsess | null>
     >;
-    brukerErEierAvSak: boolean;
+    kanEndreSamarbeid: boolean;
     setModalErÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
@@ -33,7 +31,7 @@ export const SamarbeidsRad = ({
     samarbeid,
     setÅpen,
     setValgtSamarbeid,
-    brukerErEierAvSak,
+    kanEndreSamarbeid,
     setModalErÅpen,
 }: SamarbeidsRadProps) => {
     const erPåAktivSak = useErPåAktivSak();
@@ -41,7 +39,12 @@ export const SamarbeidsRad = ({
     return (
         <SamarbeidsRadWrapper>
             <InternLenke
-                style={{ width: "100%", textOverflow: "ellipsis", overflow: "hidden", display: "inline-block" }}
+                style={{
+                    width: "100%",
+                    textOverflow: "ellipsis",
+                    overflow: "hidden",
+                    display: "inline-block",
+                }}
                 href={`/virksomhet/${orgnr}/sak/${saksnummer}/samarbeid/${samarbeid.id}`}
                 title={`Gå til samarbeid '${samarbeid.navn}'`}
                 onClick={() => {
@@ -51,7 +54,7 @@ export const SamarbeidsRad = ({
                 {samarbeid.navn}
             </InternLenke>
 
-            {brukerErEierAvSak && erPåAktivSak && (
+            {kanEndreSamarbeid && erPåAktivSak && (
                 <Button
                     icon={
                         <NotePencilIcon

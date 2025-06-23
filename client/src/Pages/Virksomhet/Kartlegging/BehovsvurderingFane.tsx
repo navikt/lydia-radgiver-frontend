@@ -6,6 +6,7 @@ import { Behovsvurdering } from "./Behovsvurdering";
 import { SpørreundersøkelseHeading } from "../../../components/Spørreundersøkelse/SpørreundersøkelseHeading";
 import { SpørreundersøkelseHjelpetekst } from "../../../components/Spørreundersøkelse/SpørreundersøkelseHjelpetekst";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import { useHentTeam } from "../../../api/lydia-api/team";
 
 export const BehovsvurderingFane = ({
     iaSak,
@@ -20,7 +21,12 @@ export const BehovsvurderingFane = ({
     );
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
+    const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
+    const brukerFølgerSak = følgere.some(
+        (følger) => følger === brukerInformasjon?.ident,
+    );
+    const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
+    const kanEndreSpørreundersøkelser = brukerFølgerSak || brukerErEierAvSak;
 
     const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
 
@@ -33,7 +39,7 @@ export const BehovsvurderingFane = ({
                 />
                 <SpørreundersøkelseHjelpetekst
                     type="Behovsvurdering"
-                    brukerErEierAvSak={brukerErEierAvSak}
+                    kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                     sakErIRettStatus={sakErIRettStatus}
                 />
             </>
@@ -48,13 +54,13 @@ export const BehovsvurderingFane = ({
             />
             <SpørreundersøkelseHjelpetekst
                 type="Behovsvurdering"
-                brukerErEierAvSak={brukerErEierAvSak}
+                kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                 sakErIRettStatus={sakErIRettStatus}
             />
             <Behovsvurdering
                 brukerRolle={brukerInformasjon?.rolle}
                 samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]}
-                brukerErEierAvSak={brukerErEierAvSak}
+                kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                 sakErIRettStatus={sakErIRettStatus}
                 iaSak={iaSak}
             />

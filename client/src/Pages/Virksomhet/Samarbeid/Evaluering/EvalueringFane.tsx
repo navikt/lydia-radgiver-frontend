@@ -9,6 +9,7 @@ import { SpørreundersøkelseHjelpetekst } from "../../../../components/Spørreu
 import { Evaluering } from "./Evaluering";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import { useHentPlan } from "../../../../api/lydia-api/plan";
+import { useHentTeam } from "../../../../api/lydia-api/team";
 
 export default function EvalueringFane({
     iaSak,
@@ -53,7 +54,12 @@ function NyEvalueringFane({
         gjeldendeSamarbeid.id,
     );
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
+    const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
+    const brukerFølgerSak = følgere.some(
+        (følger) => følger === brukerInformasjon?.ident,
+    );
+    const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
+    const kanEndreSpørreundersøkelser = brukerFølgerSak || brukerErEierAvSak;
 
     const sakErIRettStatus = ["VI_BISTÅR"].includes(iaSak.status);
 
@@ -66,7 +72,7 @@ function NyEvalueringFane({
                 />
                 <SpørreundersøkelseHjelpetekst
                     type="Evaluering"
-                    brukerErEierAvSak={brukerErEierAvSak}
+                    kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                     sakErIRettStatus={sakErIRettStatus}
                 />
             </>
@@ -81,14 +87,14 @@ function NyEvalueringFane({
             />
             <SpørreundersøkelseHjelpetekst
                 type="Evaluering"
-                brukerErEierAvSak={brukerErEierAvSak}
+                kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                 sakErIRettStatus={sakErIRettStatus}
                 harPlan={samarbeidsplan !== undefined}
             />
             <Evaluering
                 brukerRolle={brukerInformasjon?.rolle}
                 samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]}
-                brukerErEierAvSak={brukerErEierAvSak}
+                kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                 sakErIRettStatus={sakErIRettStatus}
                 iaSak={iaSak}
                 harPlan={samarbeidsplan !== undefined}

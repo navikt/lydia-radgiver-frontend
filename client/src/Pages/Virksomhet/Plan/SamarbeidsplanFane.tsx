@@ -1,22 +1,18 @@
 import { BodyShort, Heading, HStack, Loader } from "@navikt/ds-react";
 import React from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
-import {
-    useHentPlan,
-    useHentPlanMal,
-} from "../../../api/lydia-api/plan";
+import { useHentPlan, useHentPlanMal } from "../../../api/lydia-api/plan";
 import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Temaer } from "./Temaer";
 import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
 import OpprettPlanKnapp from "./OpprettPlanKnapp";
-import {
-    IaSakProsess,
-} from "../../../domenetyper/iaSakProsess";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import EksportVisning from "./EksportVisning";
 import { Plan } from "../../../domenetyper/plan";
 import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
 import Samarbeidsfanemeny from "../../../components/Samarbeidsfanemeny";
+import { useHentTeam } from "../../../api/lydia-api/team";
 
 function SamarbeidsplanHeading({
     samarbeid,
@@ -64,9 +60,15 @@ export default function SamarbeidsplanFane({
     } = useHentPlan(iaSak.orgnr, iaSak.saksnummer, samarbeid.id);
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const brukerErEierAvSak = iaSak.eidAv === brukerInformasjon?.ident;
+    const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
+    const brukerFølgerSak = følgere.some(
+        (følger) => følger === brukerInformasjon?.ident,
+    );
+    const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
+    const eierEllerFølgerSak = brukerFølgerSak || brukerErEierAvSak;
+
     const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
-    const kanOppretteEllerEndrePlan = brukerErEierAvSak && sakErIRettStatus;
+    const kanOppretteEllerEndrePlan = eierEllerFølgerSak && sakErIRettStatus;
 
     if (planFeil && planFeil.message !== "Fant ikke plan") {
         dispatchFeilmelding({ feilmelding: planFeil.message });
@@ -80,10 +82,9 @@ export default function SamarbeidsplanFane({
         return (
             <>
                 <SamarbeidsplanHeading samarbeid={samarbeid} />
-                {!brukerErEierAvSak && (
+                {!eierEllerFølgerSak && (
                     <BodyShort>
-                        Du må være eier av saken for å opprette ny
-                        behovsvurdering
+                        Du må være eier av saken for å opprette ny plan
                     </BodyShort>
                 )}
                 {!sakErIRettStatus && (
@@ -97,7 +98,7 @@ export default function SamarbeidsplanFane({
                     saksnummer={iaSak.saksnummer}
                     samarbeid={samarbeid}
                     planMal={planMal}
-                    brukerErEierAvSak={brukerErEierAvSak}
+                    kanEndrePlan={eierEllerFølgerSak}
                     sakErIRettStatus={sakErIRettStatus}
                 />
             </>
@@ -126,7 +127,7 @@ export default function SamarbeidsplanFane({
                         samarbeid={samarbeid}
                         samarbeidsplan={samarbeidsplan}
                         hentPlanIgjen={hentPlanIgjen}
-                        brukerErEierAvSak={brukerErEierAvSak}
+                        kanEndrePlan={eierEllerFølgerSak}
                         sakErIRettStatus={sakErIRettStatus}
                     />
                 </VisHvisSamarbeidErÅpent>

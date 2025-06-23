@@ -13,7 +13,7 @@ interface SpørreundersøkelseProviderProps {
     iaSak: IASak;
     samarbeid: IaSakProsess;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
-    brukerErEierAvSak: boolean;
+    kanEndreSpørreundersøkelser: boolean;
     sisteOpprettedeSpørreundersøkelseId: string;
     setSisteOpprettedeSpørreundersøkelseId: (id: string) => void;
     spørreundersøkelseType: SpørreundersøkelseType;
@@ -106,7 +106,7 @@ export function useBrukerRolle() {
 
 export function useBrukerErEierAvSak() {
     const context = useSpørreundersøkelse();
-    return context.brukerErEierAvSak;
+    return context.kanEndreSpørreundersøkelser;
 }
 
 export function useSisteOpprettedeSpørreundersøkelseId() {

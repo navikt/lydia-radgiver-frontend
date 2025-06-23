@@ -3,12 +3,12 @@ import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelse
 import { useErPåAktivSak } from "../../Pages/Virksomhet/VirksomhetContext";
 
 export const SpørreundersøkelseHjelpetekst = ({
-    brukerErEierAvSak,
+    kanEndreSpørreundersøkelser,
     sakErIRettStatus,
     type,
     harPlan,
 }: {
-    brukerErEierAvSak: boolean;
+    kanEndreSpørreundersøkelser: boolean;
     sakErIRettStatus: boolean;
     type: SpørreundersøkelseType;
     harPlan?: boolean;
@@ -17,13 +17,14 @@ export const SpørreundersøkelseHjelpetekst = ({
     if (!erPåAktivSak) {
         return null;
     }
-    if (!brukerErEierAvSak && !sakErIRettStatus) {
+    if (!kanEndreSpørreundersøkelser && !sakErIRettStatus) {
         return (
             <>
                 <br />
                 <BodyShort>
-                    Du må være eier av saken og være i status <i>Kartlegges</i>{" "}
-                    eller <i>Vi bistår</i> for å opprette ny {type}
+                    Du må være eier eller følger av saken og være i status{" "}
+                    <i>Kartlegges</i> eller <i>Vi bistår</i> for å opprette ny{" "}
+                    {type}
                 </BodyShort>
             </>
         );
@@ -49,12 +50,13 @@ export const SpørreundersøkelseHjelpetekst = ({
                 </>
             );
         }
-    } else if (!brukerErEierAvSak) {
+    } else if (!kanEndreSpørreundersøkelser) {
         return (
             <>
                 <br />
                 <BodyShort>
-                    Du må være eier av saken for å opprette ny {type}
+                    Du må være eier eller følger av saken for å opprette ny{" "}
+                    {type}
                 </BodyShort>
             </>
         );

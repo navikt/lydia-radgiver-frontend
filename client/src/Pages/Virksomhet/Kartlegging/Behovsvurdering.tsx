@@ -15,12 +15,12 @@ import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
 export const Behovsvurdering = ({
     iaSak,
     samarbeid,
-    brukerErEierAvSak,
+    kanEndreSpørreundersøkelser,
     sakErIRettStatus,
     brukerRolle,
 }: {
     samarbeid: IaSakProsess;
-    brukerErEierAvSak: boolean;
+    kanEndreSpørreundersøkelser: boolean;
     sakErIRettStatus: boolean;
     iaSak: IASak;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
@@ -70,7 +70,7 @@ export const Behovsvurdering = ({
                 iaSak={iaSak}
                 samarbeid={samarbeid}
                 brukerRolle={brukerRolle}
-                brukerErEierAvSak={brukerErEierAvSak}
+                kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                 sisteOpprettedeSpørreundersøkelseId={
                     idForSistOpprettetBehovsvurdering
                 }
@@ -81,7 +81,9 @@ export const Behovsvurdering = ({
                 <VisHvisSamarbeidErÅpent>
                     <OpprettNySpørreundersøkelseKnapp
                         onClick={opprettBehovsvurdering}
-                        disabled={!(sakErIRettStatus && brukerErEierAvSak)}
+                        disabled={
+                            !(sakErIRettStatus && kanEndreSpørreundersøkelser)
+                        }
                     />
                 </VisHvisSamarbeidErÅpent>
                 <Spørreundersøkelseliste />

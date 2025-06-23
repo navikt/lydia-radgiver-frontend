@@ -15,13 +15,13 @@ import { VisHvisSamarbeidErÅpent } from "../SamarbeidContext";
 export const Evaluering = ({
     iaSak,
     samarbeid,
-    brukerErEierAvSak,
+    kanEndreSpørreundersøkelser,
     sakErIRettStatus,
     brukerRolle,
     harPlan,
 }: {
     samarbeid: IaSakProsess;
-    brukerErEierAvSak: boolean;
+    kanEndreSpørreundersøkelser: boolean;
     sakErIRettStatus: boolean;
     iaSak: IASak;
     brukerRolle: "Superbruker" | "Saksbehandler" | "Lesetilgang" | undefined;
@@ -69,14 +69,18 @@ export const Evaluering = ({
                 iaSak={iaSak}
                 samarbeid={samarbeid}
                 brukerRolle={brukerRolle}
-                brukerErEierAvSak={brukerErEierAvSak}
+                kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                 sisteOpprettedeSpørreundersøkelseId={sisteOpprettedeId}
                 setSisteOpprettedeSpørreundersøkelseId={setSisteOpprettedeId}
             >
                 <VisHvisSamarbeidErÅpent>
                     <OpprettNySpørreundersøkelseKnapp
                         onClick={opprettEvaluering}
-                        disabled={!(sakErIRettStatus && brukerErEierAvSak) || !harPlan}
+                        disabled={
+                            !(
+                                sakErIRettStatus && kanEndreSpørreundersøkelser
+                            ) || !harPlan
+                        }
                     />
                 </VisHvisSamarbeidErÅpent>
                 <Spørreundersøkelseliste />

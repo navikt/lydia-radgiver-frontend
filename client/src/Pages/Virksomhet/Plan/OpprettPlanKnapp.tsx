@@ -27,14 +27,14 @@ export default function OpprettPlanKnapp({
     saksnummer,
     orgnummer,
     samarbeid,
-    brukerErEierAvSak,
+    kanEndrePlan,
     sakErIRettStatus,
     planMal,
 }: {
     orgnummer: string;
     saksnummer: string;
     samarbeid: IaSakProsess;
-    brukerErEierAvSak: boolean;
+    kanEndrePlan: boolean;
     sakErIRettStatus: boolean;
     planMal: PlanMal;
 }) {
@@ -59,19 +59,22 @@ export default function OpprettPlanKnapp({
         const nyeTema = redigertPlanMal.tema.map((tema) =>
             tema.rekkefølge === temaId
                 ? {
-                    ...tema,
-                    inkludert: redigerteInnholdMal.some(
-                        ({ inkludert }) => inkludert,
-                    ),
-                    innhold: redigerteInnholdMal,
-                }
+                      ...tema,
+                      inkludert: redigerteInnholdMal.some(
+                          ({ inkludert }) => inkludert,
+                      ),
+                      innhold: redigerteInnholdMal,
+                  }
                 : { ...tema },
-        )
+        );
         setRedigertPlanMal({
             tema: nyeTema,
         });
 
-        if (visTemaFeil && redigerteInnholdMal.some(({ inkludert }) => inkludert)) {
+        if (
+            visTemaFeil &&
+            redigerteInnholdMal.some(({ inkludert }) => inkludert)
+        ) {
             setVisTemaFeil(false);
         }
     }
@@ -151,7 +154,7 @@ export default function OpprettPlanKnapp({
                     loggModalÅpnet("Opprett plan");
                     setModalOpen(true);
                 }}
-                disabled={!(brukerErEierAvSak && sakErIRettStatus)}
+                disabled={!(kanEndrePlan && sakErIRettStatus)}
             >
                 Opprett plan
             </Button>
@@ -165,19 +168,12 @@ export default function OpprettPlanKnapp({
                     {redigertPlanMal.tema.map((tema) => (
                         <div key={tema.rekkefølge}>
                             <TemaInnholdVelger
-                                setVisInnholdFeil={
-                                    setVisInnholdFeil
-                                }
+                                setVisInnholdFeil={setVisInnholdFeil}
                                 temaNavn={tema.navn}
                                 visInnholdFeil={visInnholdFeil}
                                 valgteUndertemaer={tema.innhold}
-                                velgUndertemaer={(
-                                    val: RedigertInnholdMal[],
-                                ) =>
-                                    velgUndertema(
-                                        tema.rekkefølge,
-                                        val,
-                                    )
+                                velgUndertemaer={(val: RedigertInnholdMal[]) =>
+                                    velgUndertema(tema.rekkefølge, val)
                                 }
                             />
                         </div>

@@ -84,14 +84,16 @@ const BehovsvurderingStatusWrapper = styled.div`
     min-width: 5rem;
 `;
 
-function ActionButtonsHvisSamarbeidIkkeFullført({ children }: { children: React.ReactNode }) {
+function ActionButtonsHvisSamarbeidIkkeFullført({
+    children,
+}: {
+    children: React.ReactNode;
+}) {
     return (
         <VisHvisSamarbeidErÅpent>
-            <ActionButtonContainer>
-                {children}
-            </ActionButtonContainer>
+            <ActionButtonContainer>{children}</ActionButtonContainer>
         </VisHvisSamarbeidErÅpent>
-    )
+    );
 }
 
 export const BehovsvurderingCardHeaderInnhold = ({
@@ -119,7 +121,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
     const harNokDeltakere = deltakereSomHarFullført >= MINIMUM_ANTALL_DELTAKERE;
     const spørreundersøkelseStatus = spørreundersøkelse.status;
 
-    const { iaSak, brukerRolle, samarbeid, brukerErEierAvSak } =
+    const { iaSak, brukerRolle, samarbeid, kanEndreSpørreundersøkelser } =
         useSpørreundersøkelse();
 
     const { mutate: hentBehovsvurderingPåNytt } = useHentSpørreundersøkelser(
@@ -176,71 +178,149 @@ export const BehovsvurderingCardHeaderInnhold = ({
         });
     };
 
-    if (iaSak !== undefined) {
-        if (spørreundersøkelseStatus === "SLETTET") {
-            return null;
-        }
+    if (spørreundersøkelseStatus === "SLETTET") {
+        return null;
+    }
 
-        if (spørreundersøkelseStatus === "AVSLUTTET") {
-            return (
-                <StyledExpansionCardHeader>
-                    <ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
-                    <HeaderRightContent>
-                        <ActionButtonsHvisSamarbeidIkkeFullført>
-                            <ResultatEksportVisning
-                                iaSak={iaSak}
-                                spørreundersøkelse={spørreundersøkelse}
-                                erIEksportMode={erIEksportMode}
-                                setErIEksportMode={setErIEksportMode}
-                            />
-                            {brukerErEierAvSak && (
-                                <FlyttTilAnnenProsess
-                                    gjeldendeSamarbeid={samarbeid}
-                                    iaSak={iaSak}
-                                    flyttTilValgtSamarbeid={
-                                        flyttTilValgtSamarbeid
-                                    }
-                                    dropdownSize="small"
-                                />
-                            )}
-                        </ActionButtonsHvisSamarbeidIkkeFullført>
-                        <BehovsvurderingStatusWrapper>
-                            <SpørreundersøkelseStatusBadge
-                                status={spørreundersøkelse.status}
-                            />
-                        </BehovsvurderingStatusWrapper>
-                        <BehovsvurderingDato>{dato}</BehovsvurderingDato>
-                    </HeaderRightContent>
-                </StyledExpansionCardHeader>
-            );
-        }
-
-        if (spørreundersøkelseStatus === "OPPRETTET") {
-            return (
-                <StyledEmptyCardHeader>
+    if (spørreundersøkelseStatus === "AVSLUTTET") {
+        return (
+            <StyledExpansionCardHeader>
+                <ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
+                <HeaderRightContent>
                     <ActionButtonsHvisSamarbeidIkkeFullført>
-                        {(iaSak.status === "KARTLEGGES" ||
-                            iaSak.status === "VI_BISTÅR") &&
-                            brukerRolle !== "Lesetilgang" && (
-                                <>
+                        <ResultatEksportVisning
+                            iaSak={iaSak}
+                            spørreundersøkelse={spørreundersøkelse}
+                            erIEksportMode={erIEksportMode}
+                            setErIEksportMode={setErIEksportMode}
+                        />
+                        {kanEndreSpørreundersøkelser && (
+                            <FlyttTilAnnenProsess
+                                gjeldendeSamarbeid={samarbeid}
+                                iaSak={iaSak}
+                                flyttTilValgtSamarbeid={flyttTilValgtSamarbeid}
+                                dropdownSize="small"
+                            />
+                        )}
+                    </ActionButtonsHvisSamarbeidIkkeFullført>
+                    <BehovsvurderingStatusWrapper>
+                        <SpørreundersøkelseStatusBadge
+                            status={spørreundersøkelse.status}
+                        />
+                    </BehovsvurderingStatusWrapper>
+                    <BehovsvurderingDato>{dato}</BehovsvurderingDato>
+                </HeaderRightContent>
+            </StyledExpansionCardHeader>
+        );
+    }
+
+    if (spørreundersøkelseStatus === "OPPRETTET") {
+        return (
+            <StyledEmptyCardHeader>
+                <ActionButtonsHvisSamarbeidIkkeFullført>
+                    {(iaSak.status === "KARTLEGGES" ||
+                        iaSak.status === "VI_BISTÅR") &&
+                        brukerRolle !== "Lesetilgang" && (
+                            <>
+                                <Button
+                                    onClick={() =>
+                                        setBekreftStartBehovsvurderingModalÅpen(
+                                            true,
+                                        )
+                                    }
+                                >
+                                    Start
+                                </Button>
+                                <Button
+                                    variant="secondary"
+                                    onClick={() =>
+                                        setForhåndsvisModalÅpen(true)
+                                    }
+                                >
+                                    Forhåndsvis
+                                </Button>
+                                {kanEndreSpørreundersøkelser && (
                                     <Button
+                                        variant="secondary-neutral"
                                         onClick={() =>
-                                            setBekreftStartBehovsvurderingModalÅpen(
+                                            setSlettSpørreundersøkelseModalÅpen(
                                                 true,
                                             )
                                         }
-                                    >
-                                        Start
-                                    </Button>
-                                    <Button
-                                        variant="secondary"
-                                        onClick={() =>
-                                            setForhåndsvisModalÅpen(true)
-                                        }
-                                    >
-                                        Forhåndsvis
-                                    </Button>
-                                    {brukerErEierAvSak && (
+                                        icon={<TrashIcon aria-hidden />}
+                                        aria-label="Slett behovsvurdering"
+                                    />
+                                )}
+                            </>
+                        )}
+                    <StartSpørreundersøkelseModal
+                        spørreundersøkelse={spørreundersøkelse}
+                        erModalÅpen={bekreftStartBehovsvurderingModalÅpen}
+                        lukkModal={() =>
+                            setBekreftStartBehovsvurderingModalÅpen(false)
+                        }
+                        startSpørreundersøkelsen={startSpørreundersøkelsen}
+                    />
+                    <SpørreundersøkelseMedInnholdVisning
+                        spørreundersøkelse={spørreundersøkelse}
+                        erModalÅpen={forhåndsvisModalÅpen}
+                        spørreundersøkelseid={spørreundersøkelse.id}
+                        lukkModal={() => setForhåndsvisModalÅpen(false)}
+                    />
+                    {brukerRolle && (
+                        <SlettSpørreundersøkelseModal
+                            spørreundersøkelse={spørreundersøkelse}
+                            erModalÅpen={slettSpørreundersøkelseModalÅpen}
+                            lukkModal={() =>
+                                setSlettSpørreundersøkelseModalÅpen(false)
+                            }
+                            slettSpørreundersøkelsen={slettSpørreundersøkelsen}
+                        />
+                    )}
+                </ActionButtonsHvisSamarbeidIkkeFullført>
+                <HeaderRightContent>
+                    <BehovsvurderingStatusWrapper>
+                        <SpørreundersøkelseStatusBadge
+                            status={spørreundersøkelse.status}
+                        />
+                    </BehovsvurderingStatusWrapper>
+                    <BehovsvurderingDato>{dato}</BehovsvurderingDato>
+                </HeaderRightContent>
+            </StyledEmptyCardHeader>
+        );
+    }
+
+    if (spørreundersøkelseStatus === "PÅBEGYNT") {
+        return (
+            <StyledEmptyCardHeader>
+                <ActionButtonsHvisSamarbeidIkkeFullført>
+                    {(iaSak.status === "KARTLEGGES" ||
+                        iaSak.status === "VI_BISTÅR") &&
+                        brukerRolle !== "Lesetilgang" && (
+                            <>
+                                <Button
+                                    variant="primary"
+                                    onClick={() =>
+                                        åpneSpørreundersøkelseINyFane(
+                                            spørreundersøkelse.id,
+                                            "PÅBEGYNT",
+                                        )
+                                    }
+                                >
+                                    Fortsett
+                                </Button>
+                                {kanEndreSpørreundersøkelser && (
+                                    <>
+                                        <Button
+                                            variant="secondary"
+                                            onClick={() =>
+                                                setBekreftFullførBehovsvurderingModalÅpen(
+                                                    true,
+                                                )
+                                            }
+                                        >
+                                            Fullfør
+                                        </Button>
                                         <Button
                                             variant="secondary-neutral"
                                             onClick={() =>
@@ -251,129 +331,44 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                             icon={<TrashIcon aria-hidden />}
                                             aria-label="Slett behovsvurdering"
                                         />
-                                    )}
-                                </>
-                            )}
-                        <StartSpørreundersøkelseModal
+                                    </>
+                                )}
+                                <FullførSpørreundersøkelseModal
+                                    harNokDeltakere={harNokDeltakere}
+                                    erModalÅpen={
+                                        bekreftFullførBehovsvurderingModalÅpen
+                                    }
+                                    lukkModal={() =>
+                                        setBekreftFullførBehovsvurderingModalÅpen(
+                                            false,
+                                        )
+                                    }
+                                    fullførSpørreundersøkelse={
+                                        fullførSpørreundersøkelse
+                                    }
+                                />
+                            </>
+                        )}
+                    {brukerRolle && (
+                        <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}
-                            erModalÅpen={bekreftStartBehovsvurderingModalÅpen}
+                            erModalÅpen={slettSpørreundersøkelseModalÅpen}
                             lukkModal={() =>
-                                setBekreftStartBehovsvurderingModalÅpen(false)
+                                setSlettSpørreundersøkelseModalÅpen(false)
                             }
-                            startSpørreundersøkelsen={startSpørreundersøkelsen}
+                            slettSpørreundersøkelsen={slettSpørreundersøkelsen}
                         />
-                        <SpørreundersøkelseMedInnholdVisning
-                            spørreundersøkelse={spørreundersøkelse}
-                            erModalÅpen={forhåndsvisModalÅpen}
-                            spørreundersøkelseid={spørreundersøkelse.id}
-                            lukkModal={() => setForhåndsvisModalÅpen(false)} />
-                        {brukerRolle && (
-                            <SlettSpørreundersøkelseModal
-                                spørreundersøkelse={spørreundersøkelse}
-                                erModalÅpen={slettSpørreundersøkelseModalÅpen}
-                                lukkModal={() =>
-                                    setSlettSpørreundersøkelseModalÅpen(false)
-                                }
-                                slettSpørreundersøkelsen={
-                                    slettSpørreundersøkelsen
-                                }
-                            />
-                        )}
-                    </ActionButtonsHvisSamarbeidIkkeFullført>
-                    <HeaderRightContent>
-                        <BehovsvurderingStatusWrapper>
-                            <SpørreundersøkelseStatusBadge
-                                status={spørreundersøkelse.status}
-                            />
-                        </BehovsvurderingStatusWrapper>
-                        <BehovsvurderingDato>{dato}</BehovsvurderingDato>
-                    </HeaderRightContent>
-                </StyledEmptyCardHeader>
-            );
-        }
-
-        if (spørreundersøkelseStatus === "PÅBEGYNT") {
-            return (
-                <StyledEmptyCardHeader>
-                    <ActionButtonsHvisSamarbeidIkkeFullført>
-                        {(iaSak.status === "KARTLEGGES" ||
-                            iaSak.status === "VI_BISTÅR") &&
-                            brukerRolle !== "Lesetilgang" && (
-                                <>
-                                    <Button
-                                        variant="primary"
-                                        onClick={() =>
-                                            åpneSpørreundersøkelseINyFane(
-                                                spørreundersøkelse.id,
-                                                "PÅBEGYNT",
-                                            )
-                                        }
-                                    >
-                                        Fortsett
-                                    </Button>
-                                    {brukerErEierAvSak && (
-                                        <>
-                                            <Button
-                                                variant="secondary"
-                                                onClick={() =>
-                                                    setBekreftFullførBehovsvurderingModalÅpen(
-                                                        true,
-                                                    )
-                                                }
-                                            >
-                                                Fullfør
-                                            </Button>
-                                            <Button
-                                                variant="secondary-neutral"
-                                                onClick={() =>
-                                                    setSlettSpørreundersøkelseModalÅpen(
-                                                        true,
-                                                    )
-                                                }
-                                                icon={<TrashIcon aria-hidden />}
-                                                aria-label="Slett behovsvurdering"
-                                            />
-                                        </>
-                                    )}
-                                    <FullførSpørreundersøkelseModal
-                                        harNokDeltakere={harNokDeltakere}
-                                        erModalÅpen={
-                                            bekreftFullførBehovsvurderingModalÅpen
-                                        }
-                                        lukkModal={() =>
-                                            setBekreftFullførBehovsvurderingModalÅpen(
-                                                false,
-                                            )
-                                        }
-                                        fullførSpørreundersøkelse={
-                                            fullførSpørreundersøkelse
-                                        }
-                                    />
-                                </>
-                            )}
-                        {brukerRolle && (
-                            <SlettSpørreundersøkelseModal
-                                spørreundersøkelse={spørreundersøkelse}
-                                erModalÅpen={slettSpørreundersøkelseModalÅpen}
-                                lukkModal={() =>
-                                    setSlettSpørreundersøkelseModalÅpen(false)
-                                }
-                                slettSpørreundersøkelsen={
-                                    slettSpørreundersøkelsen
-                                }
-                            />
-                        )}
-                    </ActionButtonsHvisSamarbeidIkkeFullført>
-                    <HeaderRightContent>
-                        <BehovsvurderingStatusWrapper>
-                            <SpørreundersøkelseStatusBadge
-                                status={spørreundersøkelse.status}
-                            />
-                        </BehovsvurderingStatusWrapper>
-                        <BehovsvurderingDato>{dato}</BehovsvurderingDato>
-                    </HeaderRightContent>
-                </StyledEmptyCardHeader>
-            );
-        }
+                    )}
+                </ActionButtonsHvisSamarbeidIkkeFullført>
+                <HeaderRightContent>
+                    <BehovsvurderingStatusWrapper>
+                        <SpørreundersøkelseStatusBadge
+                            status={spørreundersøkelse.status}
+                        />
+                    </BehovsvurderingStatusWrapper>
+                    <BehovsvurderingDato>{dato}</BehovsvurderingDato>
+                </HeaderRightContent>
+            </StyledEmptyCardHeader>
+        );
     }
 };

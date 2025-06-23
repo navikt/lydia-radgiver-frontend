@@ -18,9 +18,7 @@ import { SaksgangDropdown } from "./SaksgangDropdown";
 import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { IASak } from "../../../../domenetyper/domenetyper";
-import {
-    IaSakProsess,
-} from "../../../../domenetyper/iaSakProsess";
+import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { loggÅpnetVirksomhetsinfo } from "../../../../util/amplitude-klient";
 import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 import { NyttSamarbeidModal } from "../../Samarbeid/NyttSamarbeidModal";
@@ -30,6 +28,7 @@ import { useErPåInaktivSak } from "../../VirksomhetContext";
 import { SamarbeidStatusBadge } from "../../../../components/Badge/SamarbeidStatusBadge";
 
 import styles from "./virksomhetsinfoheader.module.scss";
+import { useHentTeam } from "../../../../api/lydia-api/team";
 
 export default function VirksomhetOgSamarbeidsHeader({
     virksomhet,
@@ -45,7 +44,13 @@ export default function VirksomhetOgSamarbeidsHeader({
     const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] = useState(false);
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
+
+    const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
+    const brukerFølgerSak = følgere.some(
+        (følger) => følger === brukerInformasjon?.ident,
+    );
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
+    const kanEndreSamarbeid = brukerFølgerSak || brukerErEierAvSak;
 
     const erPåInaktivSak = useErPåInaktivSak();
 
@@ -77,7 +82,10 @@ export default function VirksomhetOgSamarbeidsHeader({
                             <EierskapKnapp iaSak={iaSak} />
                         </HStack>
                         {salesforceInfo && (
-                            <EksternLenke className={styles.salesforceLenke} href={salesforceInfo?.url}>
+                            <EksternLenke
+                                className={styles.salesforceLenke}
+                                href={salesforceInfo?.url}
+                            >
                                 Salesforce - virksomhet
                             </EksternLenke>
                         )}
@@ -100,7 +108,9 @@ export default function VirksomhetOgSamarbeidsHeader({
                                         aria-label="Se detaljer"
                                     >
                                         <InformationSquareIcon
-                                            className={styles.virksomhetsInfoIkon}
+                                            className={
+                                                styles.virksomhetsInfoIkon
+                                            }
                                             fontSize="2rem"
                                             aria-hidden
                                         />
@@ -152,7 +162,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                         </Popover>
                     </HStack>
                 </VStack>
-                {iaSak && brukerErEierAvSak && (
+                {iaSak && kanEndreSamarbeid && (
                     <NyttSamarbeidModal
                         iaSak={iaSak}
                         virksomhet={virksomhet}
