@@ -1,6 +1,9 @@
 import React from "react";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
+import {
+    erSaksbehandler,
+    useHentBrukerinformasjon,
+} from "../../../api/lydia-api/bruker";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { Behovsvurdering } from "./Behovsvurdering";
 import { SpørreundersøkelseHeading } from "../../../components/Spørreundersøkelse/SpørreundersøkelseHeading";
@@ -26,7 +29,9 @@ export const BehovsvurderingFane = ({
         (følger) => følger === brukerInformasjon?.ident,
     );
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
-    const kanEndreSpørreundersøkelser = brukerFølgerSak || brukerErEierAvSak;
+    const kanEndreSpørreundersøkelser =
+        (erSaksbehandler(brukerInformasjon) && brukerFølgerSak) ||
+        brukerErEierAvSak;
 
     const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
 

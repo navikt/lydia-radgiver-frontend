@@ -2,7 +2,10 @@ import { BodyShort, Heading, HStack, Loader } from "@navikt/ds-react";
 import React from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import { useHentPlan, useHentPlanMal } from "../../../api/lydia-api/plan";
-import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
+import {
+    erSaksbehandler,
+    useHentBrukerinformasjon,
+} from "../../../api/lydia-api/bruker";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Temaer } from "./Temaer";
 import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
@@ -65,7 +68,9 @@ export default function SamarbeidsplanFane({
         (følger) => følger === brukerInformasjon?.ident,
     );
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
-    const eierEllerFølgerSak = brukerFølgerSak || brukerErEierAvSak;
+    const eierEllerFølgerSak =
+        (erSaksbehandler(brukerInformasjon) && brukerFølgerSak) ||
+        brukerErEierAvSak;
 
     const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
     const kanOppretteEllerEndrePlan = eierEllerFølgerSak && sakErIRettStatus;

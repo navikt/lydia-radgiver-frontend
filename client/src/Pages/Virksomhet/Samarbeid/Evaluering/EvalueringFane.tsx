@@ -3,7 +3,10 @@ import React from "react";
 import { VIS_EVALUERING } from "../../../../util/feature-toggles";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
+import {
+    erSaksbehandler,
+    useHentBrukerinformasjon,
+} from "../../../../api/lydia-api/bruker";
 import { SpørreundersøkelseHeading } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseHeading";
 import { SpørreundersøkelseHjelpetekst } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseHjelpetekst";
 import { Evaluering } from "./Evaluering";
@@ -59,7 +62,9 @@ function NyEvalueringFane({
         (følger) => følger === brukerInformasjon?.ident,
     );
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
-    const kanEndreSpørreundersøkelser = brukerFølgerSak || brukerErEierAvSak;
+    const kanEndreSpørreundersøkelser =
+        (erSaksbehandler(brukerInformasjon) && brukerFølgerSak) ||
+        brukerErEierAvSak;
 
     const sakErIRettStatus = ["VI_BISTÅR"].includes(iaSak.status);
 

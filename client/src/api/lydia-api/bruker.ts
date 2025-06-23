@@ -10,3 +10,7 @@ export const useHentBrukerinformasjon = () =>
         innloggetAnsattPath,
         brukerinformasjonSchema,
     );
+
+export const erSaksbehandler = (bruker: Brukerinformasjon | undefined) =>
+    bruker &&
+    (bruker.rolle === "Saksbehandler" || bruker.rolle === "Superbruker");
