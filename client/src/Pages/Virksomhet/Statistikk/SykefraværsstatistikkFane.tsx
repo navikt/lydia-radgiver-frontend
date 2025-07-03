@@ -1,13 +1,8 @@
 import { Virksomhet } from "../../../domenetyper/virksomhet";
-import styled from "styled-components";
-import { tabInnholdStyling } from "../../../styling/containere";
 import { Heading } from "@navikt/ds-react";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import { Historiskstatistikk } from "./Graf/Historiskstatistikk";
-
-const Container = styled.div`
-    ${tabInnholdStyling}
-`;
+import styles from "./statistikk.module.scss";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -15,7 +10,7 @@ interface Props {
 
 export const SykefraværsstatistikkFane = ({ virksomhet }: Props) => {
     return (
-        <Container>
+        <div className={styles.statistikkFaneContainer}>
             <Heading level="3" size="large" spacing={true}>
                 Sykefraværsstatistikk
             </Heading>
@@ -25,6 +20,6 @@ export const SykefraværsstatistikkFane = ({ virksomhet }: Props) => {
                 næring={virksomhet.næring}
             />
             <Historiskstatistikk orgnr={virksomhet.orgnr} />
-        </Container>
+        </div>
     );
 };

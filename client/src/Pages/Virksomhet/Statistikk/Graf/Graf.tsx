@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import {
     CartesianGrid,
     Line,
@@ -17,15 +16,7 @@ import { useState } from "react";
 import { SymbolSvg } from "./SymbolSvg";
 import { loggGraflinjeEndringer } from "../../../../util/amplitude-klient";
 import { HistoriskStatistikk } from "../../../../domenetyper/historiskstatistikk";
-
-const SymbolOgTekstWrapper = styled.div`
-    display: flex;
-    align-items: center;
-`;
-
-const LegendSymbol = styled(SymbolSvg)`
-    margin-right: 0.5rem;
-`;
+import styles from "./graf.module.scss";
 
 const kvartalSomTekst = (årstall: number, kvartal: number) =>
     årstall + ", " + kvartal + ". kvartal";
@@ -144,15 +135,16 @@ export default function Graf({
                         }
                         return (
                             <Checkbox value={key} key={key}>
-                                <SymbolOgTekstWrapper>
-                                    <LegendSymbol
+                                <div className={styles.symbolOgTekstWrapper}>
+                                    <SymbolSvg
+                                        className={styles.legendSymbol}
                                         size={18}
                                         fill={value.farge}
                                         symbol={value.symbol}
                                     />
                                     {value.navn}
                                     {legendTekst(key as Grafer)}
-                                </SymbolOgTekstWrapper>
+                                </div>
                             </Checkbox>
                         );
                     })}

@@ -1,46 +1,5 @@
-import styled from "styled-components";
 import { BodyShort, Detail, HelpText } from "@navikt/ds-react";
-import { NavFarger } from "../../../styling/farger";
-import { BorderRadius } from "../../../styling/borderRadius";
-
-const Container = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    flex-wrap: wrap;
-
-    background: ${NavFarger.backgroundSubtle};
-    border-radius: ${BorderRadius.medium};
-
-    padding: ${12 / 16}rem ${24 / 16}rem;
-`;
-
-const TittelMedHelpTextContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    gap: 0.5rem;
-`;
-
-const Tittel = styled(BodyShort)`
-    font-weight: bold;
-    padding-top: ${12 / 16}rem;
-    padding-bottom: ${12 / 16}rem;
-    padding-left: ${24 / 16}rem;
-`;
-
-const Verdi = styled(BodyShort)`
-    font-weight: bold;
-    font-size: 2.5rem;
-    line-height: 1.3;
-`;
-
-const VerdiSisteKvartal = styled(Detail).attrs({ size: "small" })<{
-    hidden: boolean;
-}>`
-    display: ${(props) => (props.hidden ? "none" : "initial")};
-`;
+import styles from "./statistikk.module.scss";
 
 interface VerdiSisteKvartal {
     verdi: string;
@@ -62,16 +21,23 @@ export const Statistikkboks = ({
     verdiSisteKvartal,
 }: Props) => {
     return (
-        <Container>
-            <TittelMedHelpTextContainer>
-                <Tittel as="dt">{tittel}</Tittel>
+        <div className={styles.statistikkboksContainer}>
+            <div className={styles.tittelMedHelpTextContainer}>
+                <BodyShort className={styles.tittel} as="dt">
+                    {tittel}
+                </BodyShort>
                 <HelpText title="Hvor kommer dette fra?">{helpTekst}</HelpText>
-            </TittelMedHelpTextContainer>
+            </div>
 
-            <Verdi as="dd">{verdi}</Verdi>
-            <VerdiSisteKvartal as="dd" hidden={!verdiSisteKvartal}>
+            <BodyShort className={styles.verdi} as="dd">
+                {verdi}
+            </BodyShort>
+            <Detail
+                className={`${styles.verdiSisteKvartal} ${verdiSisteKvartal ? "" : styles.hidden}`}
+                as="dd"
+            >
                 {`${verdiSisteKvartal?.verdi} i ${verdiSisteKvartal?.kvartal}. kvartal ${verdiSisteKvartal?.år}`}
-            </VerdiSisteKvartal>
-        </Container>
+            </Detail>
+        </div>
     );
 };
