@@ -1,4 +1,4 @@
-import { BookIcon, CircleBrokenIcon, HikingTrailSignIcon, MenuHamburgerIcon, PaperplaneIcon } from "@navikt/aksel-icons";
+import { BookIcon, CircleBrokenIcon, FileWordIcon, HikingTrailSignIcon, MenuHamburgerIcon, PaperplaneIcon } from "@navikt/aksel-icons";
 import { ActionMenu, Button } from "@navikt/ds-react";
 import { SpørreundersøkelseType } from "../domenetyper/spørreundersøkelseMedInnhold";
 import styled from "styled-components";
@@ -61,6 +61,11 @@ function Samarbeidsfanelenkeliste({ type, children }: { type: Spørreundersøkel
 						icon={<PaperplaneIcon aria-hidden fontSize="1.25rem" />}
 						tekst="Invitasjonsmal"
 						href="https://navno.sharepoint.com/sites/fag-og-ytelser-veileder-for-inkluderende-arbeidsliv/SitePages/Kartlegge%20med-partssammensatt-gruppe.aspx"
+					/>
+					<Samarbeidsfanelenke
+						icon={<FileWordIcon aria-hidden fontSize="1.25rem" />}
+						tekst="Tips og råd til gjennomføring"
+						href="https://navno.sharepoint.com/:w:/r/sites/fag-og-ytelser-arbeid-inkluderende-arbeidsliv/_layouts/15/Doc.aspx?sourcedoc=%7BDF2337B7-18A8-4F1D-BA41-0D0654D6E5A8%7D&file=Gjennomf%25u00f8ring-av-behovsvurdering.docx"
 					/>
 					<Samarbeidsfanelenke
 						icon={<HikingTrailSignIcon aria-hidden fontSize="1.25rem" />}
