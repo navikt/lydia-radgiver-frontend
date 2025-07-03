@@ -12,7 +12,6 @@ import {
     IASak,
     IASakshendelseTypeEnum,
 } from "../../../../../../domenetyper/domenetyper";
-import styled from "styled-components";
 import {
     useHentSakForVirksomhet,
     useHentSakshistorikk,
@@ -27,13 +26,14 @@ import { useHentBrukerinformasjon } from "../../../../../../api/lydia-api/bruker
 import { FullførKartleggingerFørstSeksjon } from "./FullførKartleggingerFørstSeksjon";
 import { BegrunnelseFørstSeksjon } from "./BegrunnelseFørstSeksjon";
 import { FullførSamarbeidFørstSeksjon } from "./FullførSamarbeidFørstSeksjon";
+import styles from "../endrestatusmodal.module.scss";
 
-export const Knappecontainer = styled.div`
-    display: flex;
-    gap: 1rem;
-    justify-content: flex-end;
-    align-items: center;
-`;
+export const Knappecontainer = ({
+    className,
+    ...props
+}: React.HTMLAttributes<HTMLDivElement>) => (
+    <div {...props} className={`${styles.knappeContainer} ${className}`} />
+);
 
 export default function NesteSteg({
     nesteSteg,
@@ -115,17 +115,13 @@ export default function NesteSteg({
     }
 }
 
-const Underseksjon = styled.div`
-    padding: 0.75rem;
-`;
-
 function OpprettSamarbeidFørstSeksjon({
     setNyttSamarbeidModalÅpen,
 }: {
     setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     return (
-        <Underseksjon>
+        <div className={styles.underseksjon}>
             <Heading level="2" size="medium">
                 Opprett samarbeid
             </Heading>
@@ -144,7 +140,7 @@ function OpprettSamarbeidFørstSeksjon({
                     Opprett samarbeid
                 </Button>
             </Knappecontainer>
-        </Underseksjon>
+        </div>
     );
 }
 
@@ -278,9 +274,7 @@ function BekreftelsesInnhold({
                         {data &&
                             data.map((samarbeid) => {
                                 return (
-                                    <li key={samarbeid.id}>
-                                        {samarbeid.navn}
-                                    </li>
+                                    <li key={samarbeid.id}>{samarbeid.navn}</li>
                                 );
                             })}
                     </ul>

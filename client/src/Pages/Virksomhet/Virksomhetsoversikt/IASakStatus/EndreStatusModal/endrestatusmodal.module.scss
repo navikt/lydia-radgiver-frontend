@@ -1,0 +1,44 @@
+.sakhendelseContainer {
+    display: grid;
+    grid-template-columns: max-content 1fr max-content;
+    gap: 1rem;
+    width: 100%;
+}
+
+.underseksjon {
+    padding: 0.75rem;
+}
+
+.knappeContainer {
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-end;
+    align-items: center;
+}
+
+.statusContainer {
+    display: flex;
+    flex-direction: column;
+
+    .statusKnappeContainer {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        padding: 1rem;
+
+        &.redusertPadding {
+            padding: 0.5rem;
+        }
+
+        &.enkeltKnapp {
+            justify-content: end;
+        }
+    }
+
+    .innerKnappeContainer {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+}

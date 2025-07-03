@@ -7,7 +7,6 @@ import {
     IASakshendelseTypeEnum,
 } from "../../../../../domenetyper/domenetyper";
 import { VurderVirksomhetKnapp } from "./VurderVirksomhetKnapp";
-import styled from "styled-components";
 import NesteSteg from "./NesteSteg";
 import KnappForHendelse from "./KnappForHendelse";
 import { Virksomhet } from "../../../../../domenetyper/virksomhet";
@@ -17,29 +16,7 @@ import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
 import { RolleEnum } from "../../../../../domenetyper/brukerinformasjon";
 import { knappeTypeFraSakshendelsesType } from "./knappeTypeFraSakshendelsesType";
 import { useErPåAktivSak } from "../../../VirksomhetContext";
-
-const Statuscontainer = styled.div`
-    display: flex;
-    flex-direction: column;
-`;
-
-const Knappecontainer = styled.div<{ $redusertPadding: boolean }>`
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: ${(props) => (props.$redusertPadding ? "0.5rem" : "1.5rem")};
-    flex-wrap: wrap;
-`;
-
-const EnkeltKnappContainer = styled(Knappecontainer)`
-    justify-content: end;
-`;
-
-const Innerknappecontainer = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 1rem;
-`;
+import styles from "./endrestatusmodal.module.scss";
 
 export type StatusHendelseSteg =
     | "FULLFØR_SAMARBEID"
@@ -81,12 +58,13 @@ export function Statusknapper({
     const [loading, setLoading] = React.useState(false);
     const erPåAktivSak = useErPåAktivSak();
 
-
     if (iaSak === undefined) {
         return (
             brukerInformasjon?.rolle === RolleEnum.enum.Superbruker && (
-                <Statuscontainer>
-                    <EnkeltKnappContainer $redusertPadding={redusertPadding}>
+                <div className={styles.statusContainer}>
+                    <div
+                        className={`${styles.statusKnappeContainer} ${styles.enkeltKnapp} ${redusertPadding ? styles.redusertPadding : ""}`}
+                    >
                         <VurderVirksomhetKnapp
                             onClick={() => {
                                 setLoading(true);
@@ -102,8 +80,8 @@ export function Statusknapper({
                             }}
                             loading={loading || eksternLoading}
                         />
-                    </EnkeltKnappContainer>
-                </Statuscontainer>
+                    </div>
+                </div>
             )
         );
     }
@@ -132,8 +110,10 @@ export function Statusknapper({
         .sort((a) => (a.saksHendelsestype === "TILBAKE" ? -1 : 1));
 
     return (
-        <Statuscontainer>
-            <Knappecontainer $redusertPadding={redusertPadding}>
+        <div className={styles.statusContainer}>
+            <div
+                className={`${styles.statusKnappeContainer} ${redusertPadding ? styles.redusertPadding : ""}`}
+            >
                 {destruktiveHendelser.map((hendelse, index) => (
                     <KnappForHendelse
                         key={index}
@@ -146,7 +126,7 @@ export function Statusknapper({
                         loading={loading || eksternLoading}
                     />
                 ))}
-                <Innerknappecontainer>
+                <div className={styles.innerKnappeContainer}>
                     {ikkeDestruktiveHendelser.map((hendelse, index) => (
                         <KnappForHendelse
                             key={index}
@@ -163,8 +143,8 @@ export function Statusknapper({
                             loading={loading || eksternLoading}
                         />
                     ))}
-                </Innerknappecontainer>
-            </Knappecontainer>
+                </div>
+            </div>
             <NesteSteg
                 nesteSteg={nesteSteg}
                 lukkModal={() => {
@@ -177,6 +157,6 @@ export function Statusknapper({
                 sak={iaSak}
                 setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
             />
-        </Statuscontainer>
+        </div>
     );
 }

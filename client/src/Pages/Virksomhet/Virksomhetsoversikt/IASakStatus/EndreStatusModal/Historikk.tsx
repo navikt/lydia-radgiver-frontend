@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { useHentSakshistorikk } from "../../../../../api/lydia-api/virksomhet";
 import { IASak } from "../../../../../domenetyper/domenetyper";
 import { Sakshendelse } from "../../../../../domenetyper/sakshistorikk";
@@ -6,6 +5,7 @@ import { IAProsessStatusBadge } from "../../../../../components/Badge/IAProsessS
 import { Detail, Loader } from "@navikt/ds-react";
 import React from "react";
 import { lokalDato } from "../../../../../util/dato";
+import styles from "./endrestatusmodal.module.scss";
 
 export default function Historikk({ sak }: { sak: IASak }) {
     const { data: samarbeidshistorikk, loading: lasterSamarbeidshistorikk } =
@@ -20,13 +20,6 @@ export default function Historikk({ sak }: { sak: IASak }) {
 
     return <Sakshendelser sakshendelser={sakshendelser} />;
 }
-
-const SakshendelseContainer = styled.div`
-    display: grid;
-    grid-template-columns: max-content 1fr max-content;
-    gap: 1rem;
-    width: 100%;
-`;
 
 function Sakshendelser({ sakshendelser }: { sakshendelser: Sakshendelse[] }) {
     const skjulteSakshendelser = [
@@ -44,7 +37,7 @@ function Sakshendelser({ sakshendelser }: { sakshendelser: Sakshendelse[] }) {
     );
 
     return (
-        <SakshendelseContainer>
+        <div className={styles.sakhendelseContainer}>
             {filtrerteHendelser.map((sakshendelse, index) => (
                 <React.Fragment key={index}>
                     <IAProsessStatusBadge status={sakshendelse.status} />
@@ -55,7 +48,7 @@ function Sakshendelser({ sakshendelser }: { sakshendelser: Sakshendelse[] }) {
                     />
                 </React.Fragment>
             ))}
-        </SakshendelseContainer>
+        </div>
     );
 }
 
