@@ -87,13 +87,25 @@ Nokre gonger vil ikkje lydia-api-imaget oppdatere seg. Dette kan du sjekke ved �
 
 ### Køyre frontend lokalt med lokal backend
 
-1. Gå til rett branch i backend.
-2. `./gradlew build -x test` (`-x test` gjer at vi slepp å vente på at alle testane skal køyre)
-3. `docker build . -t <navn-på-nytt-image>`
-4. Gå til fila `docker-compose.yaml` i frontend.
-5. Endre linja som er `backend: image: <her er det eit image>` til å bruke `<navn-på-nytt-image>` i staden
-6. Køyr `./run.sh` fra frontend
-7. Profit 🎉🎉🎉
+1. Åpne terminalvindu i `lydia-api`, sørg for at du har sjekket ut branchen du vil bygge.
+2. Kjør `./gradlew clean build -x test` (`-x test` gjer at vi slepp å vente på at alle testane skal køyre)
+3. Gå til `lydia-radgiver-frontend` og åpne filen som heter `docker-compose.yaml`. 
+4. Finn linjen:
+```
+backend:
+    image: europe-north1-docker.pkg.dev/nais-management-233d/pia/lydia-api:latest
+```
+5. Bytt den ut med dette (sjekk gjerne at det er rett path til `lydia-api` prosjektet ditt):
+```
+backend:
+    build:
+        context: ../lydia-api
+```
+6. Åpne terminalvindu i `lydia-radgiver-frontend` og kjør `docker images`
+7. Finn og kopier image id for `lydia-radgiver-frontend-backend` og eventuelt `lydia-api-backend`
+8. Fjern disse imagene ved å kjøre `docker rmi <kopiert image id> `
+9. Køyr `./run.sh` fra `lydia-radgiver-frontend` som vanlig
+10. Profit 🎉🎉🎉
 
 Hugs å ikkje committe endringa du har gjort i `docker-compose.yaml`.
 

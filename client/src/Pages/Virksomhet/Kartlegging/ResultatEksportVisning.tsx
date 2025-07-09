@@ -1,6 +1,6 @@
 import { BodyShort, Button, Loader } from "@navikt/ds-react";
 import React from "react";
-import { FilePdfIcon } from "@navikt/aksel-icons";
+import { FileExportIcon } from "@navikt/aksel-icons";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import styled from "styled-components";
@@ -11,7 +11,10 @@ import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
 import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
 import { useHentResultat } from "../../../api/lydia-api/spørreundersøkelse";
-import { useSpørreundersøkelse, useSpørreundersøkelseType } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+import {
+    useSpørreundersøkelse,
+    useSpørreundersøkelseType,
+} from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 
 interface ResultatEksportVisningProps {
     erIEksportMode: boolean;
@@ -161,8 +164,8 @@ class pdfEksport {
     ) {
         return (
             this.position +
-            header.clientHeight * this.pixelRatio +
-            graph.clientHeight * this.pixelRatio >
+                header.clientHeight * this.pixelRatio +
+                graph.clientHeight * this.pixelRatio >
             this.pageHeight
         );
     }
@@ -175,8 +178,8 @@ class pdfEksport {
             );
             const canvasR = child.childNodes[i + 1]
                 ? await html2canvas(child.childNodes[i + 1] as HTMLElement, {
-                    scale: 1,
-                })
+                      scale: 1,
+                  })
                 : undefined;
             await this.addInlineContent(canvasL, canvasR);
         }
@@ -226,7 +229,8 @@ const ResultatEksportVisning = ({
         <>
             <Button
                 loading={erIEksportMode}
-                icon={<FilePdfIcon fontSize="1.5rem" aria-hidden />}
+                icon={<FileExportIcon fontSize="1.5rem" aria-hidden />}
+                iconPosition="right"
                 variant="secondary"
                 size="small"
                 onClick={(e) => {
