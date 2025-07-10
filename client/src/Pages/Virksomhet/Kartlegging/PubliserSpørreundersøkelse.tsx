@@ -119,6 +119,10 @@ export const PubliserSpørreundersøkelse = ({
                         </>
                     );
                 }
+            } else {
+                return null;
             }
+        default:
+            return null;
     }
 };
