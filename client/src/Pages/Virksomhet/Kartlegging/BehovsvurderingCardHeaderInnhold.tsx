@@ -23,6 +23,8 @@ import {
 } from "../../../api/lydia-api/spørreundersøkelse";
 import { SpørreundersøkelseMedInnholdVisning } from "./SpørreundersøkelseForhåndsvisningModal";
 import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
+import { PubliserSpørreundersøkelse } from "./PubliserSpørreundersøkelse";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 export const ActionButtonContainer = styled.div`
     display: flex;
@@ -188,20 +190,32 @@ export const BehovsvurderingCardHeaderInnhold = ({
                 <ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
                 <HeaderRightContent>
                     <ActionButtonsHvisSamarbeidIkkeFullført>
+                        {kanEndreSpørreundersøkelser && (
+                            <>
+                                <FlyttTilAnnenProsess
+                                    gjeldendeSamarbeid={samarbeid}
+                                    iaSak={iaSak}
+                                    flyttTilValgtSamarbeid={
+                                        flyttTilValgtSamarbeid
+                                    }
+                                    dropdownSize="small"
+                                />
+                                {erIDev && (
+                                    <PubliserSpørreundersøkelse
+                                        spørreundersøkelse={spørreundersøkelse}
+                                        hentBehovsvurderingPåNytt={
+                                            hentBehovsvurderingPåNytt
+                                        }
+                                    />
+                                )}
+                            </>
+                        )}
                         <ResultatEksportVisning
                             iaSak={iaSak}
                             spørreundersøkelse={spørreundersøkelse}
                             erIEksportMode={erIEksportMode}
                             setErIEksportMode={setErIEksportMode}
                         />
-                        {kanEndreSpørreundersøkelser && (
-                            <FlyttTilAnnenProsess
-                                gjeldendeSamarbeid={samarbeid}
-                                iaSak={iaSak}
-                                flyttTilValgtSamarbeid={flyttTilValgtSamarbeid}
-                                dropdownSize="small"
-                            />
-                        )}
                     </ActionButtonsHvisSamarbeidIkkeFullført>
                     <BehovsvurderingStatusWrapper>
                         <SpørreundersøkelseStatusBadge

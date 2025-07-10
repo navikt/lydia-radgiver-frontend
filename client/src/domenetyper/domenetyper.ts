@@ -47,6 +47,29 @@ export type SpørreundersøkelseStatus = z.infer<
     typeof spørreundersøkelseStatusEnum
 >;
 
+const DOKUMENT_STATUSER = ["OPPRETTET", "PUBLISERT", "IKKE_PUBLISERT"] as const;
+export const DokumentStatusEnum = z.enum(DOKUMENT_STATUSER);
+
+const DOKUMENT_TYPE = [
+    "Evaluering",
+    "Behovsvurdering",
+    "Samarbeidsplan",
+] as const;
+export const DokumentTypeEnum = z.enum(DOKUMENT_TYPE);
+export type DokumentType = z.infer<typeof DokumentTypeEnum>;
+
+export const dokumentpubliseringschema = z.object({
+    dokumentId: z.string().nullable(),
+    referanseId: z.string(),
+    opprettetAv: z.string(),
+    status: DokumentStatusEnum,
+    dokumentType: DokumentTypeEnum,
+    opprettetTidspunkt: datoSchema,
+    publisertTidspunkt: datoSchema.nullable(),
+});
+
+export type DokumentPubliseringDto = z.infer<typeof dokumentpubliseringschema>;
+
 export type VirksomhetSøkeresultat = {
     orgnr: string;
     navn: string;
