@@ -38,12 +38,12 @@ function getComponents(spørreundersøkelseType: SpørreundersøkelseType): {
     CardInnhold: React.FC<CardInnholdProps>;
 } {
     switch (spørreundersøkelseType) {
-        case "Behovsvurdering":
+        case "BEHOVSVURDERING":
             return {
                 CardHeader: BehovsvurderingCardHeaderInnhold,
                 CardInnhold: BehovsvurderingRadInnhold,
             };
-        case "Evaluering":
+        case "EVALUERING":
             return {
                 CardHeader: EvalueringCardHeaderInnhold,
                 CardInnhold: EvalueringRadInnhold,

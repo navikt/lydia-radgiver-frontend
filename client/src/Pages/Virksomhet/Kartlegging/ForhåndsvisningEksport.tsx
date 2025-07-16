@@ -7,10 +7,16 @@ import useEksportFilnavn from "../../../components/pdfEksport/useEksportFilnavn"
 import jsPDF from "jspdf";
 import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
 import { useHentSpørreundersøkelseMedInnhold } from "../../../api/lydia-api/spørreundersøkelse";
-import { useSpørreundersøkelse, useSpørreundersøkelseType } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+import {
+    useSpørreundersøkelse,
+    useSpørreundersøkelseType,
+} from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { GruppertSpørsmålRenderer } from "./SpørreundersøkelseForhåndsvisningModal/Forhåndsvisning";
-import { SpørsmålDto, TemaDto } from "../../../domenetyper/spørreundersøkelseMedInnhold";
-import { SquareIcon } from '@navikt/aksel-icons';
+import {
+    SpørsmålDto,
+    TemaDto,
+} from "../../../domenetyper/spørreundersøkelseMedInnhold";
+import { SquareIcon } from "@navikt/aksel-icons";
 import { getGraffargeFromTema } from "../../../components/Spørreundersøkelse/TemaResultat";
 import styled from "styled-components";
 import { toCanvas } from "html-to-image";
@@ -44,7 +50,6 @@ class pdfEksport {
         this.pageHeight =
             this.pdf.internal.pageSize.getHeight() - pdfEksport.H_PADDING * 2;
         this.position = pdfEksport.H_PADDING;
-
     }
 
     private async addContent(
@@ -53,7 +58,9 @@ class pdfEksport {
         addHPadding = true,
     ) {
         const hPadding = addHPadding ? pdfEksport.H_PADDING : 0;
-        const vPadding = reducedVpadding ? pdfEksport.V_PADDING * 0.75 : pdfEksport.V_PADDING;
+        const vPadding = reducedVpadding
+            ? pdfEksport.V_PADDING * 0.75
+            : pdfEksport.V_PADDING;
         const imgWidth = this.pdf.internal.pageSize.getWidth() - vPadding * 2;
         const imgHeight = imgWidth * (canvas.height / canvas.width);
 
@@ -87,7 +94,9 @@ class pdfEksport {
         for (let i = 0; i < children.length; i++) {
             const child = children[i] as HTMLElement;
 
-            imagePromises.push(toCanvas(child as HTMLElement, { backgroundColor: "white" }));
+            imagePromises.push(
+                toCanvas(child as HTMLElement, { backgroundColor: "white" }),
+            );
         }
 
         for (const image of await Promise.all(imagePromises)) {
@@ -95,7 +104,7 @@ class pdfEksport {
         }
 
         this.pdf.save(this.eksportfilnavn);
-    };
+    }
 }
 
 const ExportDiv = styled.div<{ $erIEksportMode: boolean }>`
@@ -115,7 +124,11 @@ const ForhåndsvisningEksport = ({
     const [erLastet, setErLastet] = React.useState(false);
     const type = useSpørreundersøkelseType();
     const { samarbeid } = useSpørreundersøkelse();
-    const eksportfilnavn = useEksportFilnavn(`${type}_forhandsvisning`, null, samarbeid.navn);
+    const eksportfilnavn = useEksportFilnavn(
+        `${type}_forhandsvisning`,
+        null,
+        samarbeid.navn,
+    );
 
     React.useEffect(() => {
         if (targetRef.current !== null && erIEksportMode && erLastet) {
@@ -127,7 +140,6 @@ const ForhåndsvisningEksport = ({
             pdfe.runExport().then(() => {
                 setErIEksportMode(false);
             });
-
         }
     }, [erIEksportMode, erLastet]);
 
@@ -146,10 +158,7 @@ const ForhåndsvisningEksport = ({
             >
                 Last ned
             </Button>
-            <ExportDiv
-                $erIEksportMode={erIEksportMode}
-                ref={targetRef}
-            >
+            <ExportDiv $erIEksportMode={erIEksportMode} ref={targetRef}>
                 <VirksomhetsEksportHeader
                     type={type}
                     visDato={false}
@@ -165,7 +174,7 @@ const ForhåndsvisningEksport = ({
     );
 };
 
-const TemaHeading = styled(Heading) <{ $temanavn: string }>`
+const TemaHeading = styled(Heading)<{ $temanavn: string }>`
     color: ${({ $temanavn }) => getGraffargeFromTema($temanavn, true)};
     margin-bottom: 0;
 `;
@@ -180,13 +189,14 @@ function EksportInnhold({
     setErLastet: (erLastet: boolean) => void;
 }) {
     const { iaSak, samarbeid } = useSpørreundersøkelse();
-    const { data: spørreundersøkelseForhåndsvisning } = useHentSpørreundersøkelseMedInnhold(
-        iaSak.orgnr,
-        iaSak.saksnummer,
-        samarbeid.id,
-        "Evaluering",
-        spørreundersøkelse.id,
-    );
+    const { data: spørreundersøkelseForhåndsvisning } =
+        useHentSpørreundersøkelseMedInnhold(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            samarbeid.id,
+            "EVALUERING",
+            spørreundersøkelse.id,
+        );
 
     React.useEffect(() => {
         if (spørreundersøkelseForhåndsvisning && !erLastet) {
@@ -201,7 +211,13 @@ function EksportInnhold({
                     <TemaHeading $temanavn={tema.navn} level="3" size="large">
                         {tema.navn}
                     </TemaHeading>
-                    <GruppertSpørsmålRenderer tema={tema} useFarge defaultOpen ItemRenderer={ItemRenderer} Container={({ children }) => children} />
+                    <GruppertSpørsmålRenderer
+                        tema={tema}
+                        useFarge
+                        defaultOpen
+                        ItemRenderer={ItemRenderer}
+                        Container={({ children }) => children}
+                    />
                 </React.Fragment>
             ))}
         </>
@@ -255,9 +271,14 @@ function ItemRenderer({ tema }: { tema: TemaDto }) {
         <SpørsmålParContainer key={index}>
             {par.map((spørsmål: SpørsmålDto) => (
                 <SpørsmålContainer key={spørsmål.id}>
-                    <SpørsmålHeading level="3" size="small">{spørsmål.spørsmål}</SpørsmålHeading>
+                    <SpørsmålHeading level="3" size="small">
+                        {spørsmål.spørsmål}
+                    </SpørsmålHeading>
                     {spørsmål.svaralternativer.map((svar) => (
-                        <SvarBody key={svar.svarId}><SvarIkon />{svar.svartekst}</SvarBody>
+                        <SvarBody key={svar.svarId}>
+                            <SvarIkon />
+                            {svar.svartekst}
+                        </SvarBody>
                     ))}
                 </SpørsmålContainer>
             ))}

@@ -1,7 +1,5 @@
 import { Heading, HStack } from "@navikt/ds-react";
-import {
-    IaSakProsess,
-} from "../../domenetyper/iaSakProsess";
+import { IaSakProsess } from "../../domenetyper/iaSakProsess";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 import Samarbeidsfanemeny from "../Samarbeidsfanemeny";
 
@@ -18,10 +16,10 @@ export const SpørreundersøkelseHeading = ({
                     level="2"
                     size="medium"
                     style={{
-                        width: type === "Behovsvurdering" ? "11rem" : "6rem",
+                        width: type === "BEHOVSVURDERING" ? "11rem" : "6rem",
                     }}
                 >
-                    {type}
+                    {spørreundersøkelseHeading(type)}
                 </Heading>
             </HStack>
             <Samarbeidsfanemeny type={type} />
@@ -29,3 +27,13 @@ export const SpørreundersøkelseHeading = ({
     );
 };
 
+export function spørreundersøkelseHeading(type: SpørreundersøkelseType) {
+    switch (type) {
+        case "EVALUERING":
+            return "Evaluering";
+        case "BEHOVSVURDERING":
+            return "Behovsvurdering";
+        default:
+            return null;
+    }
+}

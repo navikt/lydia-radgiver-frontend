@@ -1,7 +1,7 @@
 import { z } from "zod";
 import { datoSchema, spørreundersøkelseStatusEnum } from "./domenetyper";
 
-const SPØRREUNDERSØKELSE_TYPE = ["Behovsvurdering", "Evaluering"] as const;
+const SPØRREUNDERSØKELSE_TYPE = ["BEHOVSVURDERING", "EVALUERING"] as const;
 export const SpørreundersøkelseTypeEnum = z.enum(SPØRREUNDERSØKELSE_TYPE);
 export type SpørreundersøkelseType = z.infer<typeof SpørreundersøkelseTypeEnum>;
 

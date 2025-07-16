@@ -130,7 +130,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
         iaSak.orgnr,
         iaSak.saksnummer,
         samarbeid.id,
-        "Behovsvurdering",
+        "BEHOVSVURDERING",
     );
 
     const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(

@@ -28,6 +28,7 @@ export type TemaResultat = z.infer<typeof temaResultatSchema>;
 
 export const spørreundersøkelseResultatSchema = z.object({
     id: z.string(),
+    type: z.string(),
     spørsmålMedSvarPerTema: z.array(temaResultatSchema),
 });
 

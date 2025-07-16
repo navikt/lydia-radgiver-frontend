@@ -11,6 +11,7 @@ import {
     useHentSpørreundersøkelser,
 } from "../../../../api/lydia-api/spørreundersøkelse";
 import { VisHvisSamarbeidErÅpent } from "../SamarbeidContext";
+import { SpørreundersøkelseType } from "../../../../domenetyper/spørreundersøkelseMedInnhold";
 
 export const Evaluering = ({
     iaSak,
@@ -28,6 +29,7 @@ export const Evaluering = ({
     harPlan?: boolean;
 }) => {
     const [sisteOpprettedeId, setSisteOpprettedeId] = React.useState("");
+    const spørreundersøkelseType: SpørreundersøkelseType = "EVALUERING";
 
     const {
         data: spørreundersøkelseListe,
@@ -37,7 +39,7 @@ export const Evaluering = ({
         iaSak.orgnr,
         iaSak.saksnummer,
         samarbeid.id,
-        "Evaluering",
+        spørreundersøkelseType,
     );
     const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
         iaSak.orgnr,
@@ -49,7 +51,7 @@ export const Evaluering = ({
             iaSak.orgnr,
             iaSak.saksnummer,
             samarbeid.id,
-            "Evaluering",
+            spørreundersøkelseType,
         ).then(({ id }) => {
             setSisteOpprettedeId(id);
             hentSpørreundersøkelserPåNytt();
@@ -64,7 +66,7 @@ export const Evaluering = ({
     return (
         spørreundersøkelseListe && (
             <SpørreundersøkelseProvider
-                spørreundersøkelseType="Evaluering"
+                spørreundersøkelseType={spørreundersøkelseType}
                 spørreundersøkelseliste={spørreundersøkelseListe}
                 iaSak={iaSak}
                 samarbeid={samarbeid}

@@ -13,6 +13,7 @@ import { Evaluering } from "./Evaluering";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import { useHentPlan } from "../../../../api/lydia-api/plan";
 import { useHentTeam } from "../../../../api/lydia-api/team";
+import { SpørreundersøkelseType } from "../../../../domenetyper/spørreundersøkelseMedInnhold";
 
 export default function EvalueringFane({
     iaSak,
@@ -47,6 +48,7 @@ function NyEvalueringFane({
     iaSak: IASak;
     gjeldendeSamarbeid: IaSakProsess;
 }) {
+    const spørreundersøkelseType: SpørreundersøkelseType = "EVALUERING";
     const { data: alleSamarbeid } = useHentSamarbeid(
         iaSak.orgnr,
         iaSak.saksnummer,
@@ -72,11 +74,11 @@ function NyEvalueringFane({
         return (
             <>
                 <SpørreundersøkelseHeading
-                    type="Evaluering"
+                    type={spørreundersøkelseType}
                     samarbeid={gjeldendeSamarbeid}
                 />
                 <SpørreundersøkelseHjelpetekst
-                    type="Evaluering"
+                    type={spørreundersøkelseType}
                     kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                     sakErIRettStatus={sakErIRettStatus}
                 />
@@ -87,11 +89,11 @@ function NyEvalueringFane({
     return (
         <>
             <SpørreundersøkelseHeading
-                type="Evaluering"
+                type={spørreundersøkelseType}
                 samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]}
             />
             <SpørreundersøkelseHjelpetekst
-                type="Evaluering"
+                type={spørreundersøkelseType}
                 kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                 sakErIRettStatus={sakErIRettStatus}
                 harPlan={samarbeidsplan !== undefined}

@@ -58,7 +58,7 @@ export const SamarbeidsInnhold = ({
         iaSak.orgnr,
         iaSak.saksnummer,
         iaSamarbeid.id,
-        "Behovsvurdering",
+        "BEHOVSVURDERING",
     );
 
     const sisteVurdering = behovsvurderinger?.sort(
@@ -71,7 +71,7 @@ export const SamarbeidsInnhold = ({
         iaSak.orgnr,
         iaSak.saksnummer,
         iaSamarbeid.id,
-        "Evaluering",
+        "EVALUERING",
     );
     const sisteEvaluering = evalueringer?.sort(
         (a, b) =>
@@ -98,8 +98,8 @@ export const SamarbeidsInnhold = ({
         <Innhold>
             <CardContentLeft>
                 {visSpørreundersøkelse &&
-                    sisteVurdering?.status &&
-                    vurderingSistEndret ? (
+                sisteVurdering?.status &&
+                vurderingSistEndret ? (
                     <div>
                         <ContentText>Behovsvurdering: </ContentText>
                         <ContentData>
@@ -115,7 +115,7 @@ export const SamarbeidsInnhold = ({
                         <ContentData>
                             {lokalDato(
                                 iaSak.endretTidspunkt ??
-                                iaSak.opprettetTidspunkt,
+                                    iaSak.opprettetTidspunkt,
                             )}
                         </ContentData>
                     </div>

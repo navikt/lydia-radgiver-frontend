@@ -38,7 +38,7 @@ export const Behovsvurdering = ({
         iaSak.orgnr,
         iaSak.saksnummer,
         samarbeid.id,
-        "Behovsvurdering",
+        "BEHOVSVURDERING",
     );
     const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
         iaSak.orgnr,
@@ -50,7 +50,7 @@ export const Behovsvurdering = ({
             iaSak.orgnr,
             iaSak.saksnummer,
             samarbeid.id,
-            "Behovsvurdering",
+            "BEHOVSVURDERING",
         ).then(({ id }) => {
             setIdForSistOpprettetBehovsvurdering(id);
             hentBehovsvurderingerPåNytt();
@@ -65,7 +65,7 @@ export const Behovsvurdering = ({
     return (
         behovsvurderinger && (
             <SpørreundersøkelseProvider
-                spørreundersøkelseType="Behovsvurdering"
+                spørreundersøkelseType="BEHOVSVURDERING"
                 spørreundersøkelseliste={behovsvurderinger}
                 iaSak={iaSak}
                 samarbeid={samarbeid}

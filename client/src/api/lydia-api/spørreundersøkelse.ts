@@ -17,6 +17,7 @@ import {
     SpørreundersøkelseMedInnholdSchema,
     SpørreundersøkelseType,
 } from "../../domenetyper/spørreundersøkelseMedInnhold";
+import { spørreundersøkelseHeading } from "../../components/Spørreundersøkelse/SpørreundersøkelseHeading";
 
 export const useHentResultat = (
     orgnummer: string,
@@ -83,7 +84,7 @@ export const useHentSpørreundersøkelser = (
     type: SpørreundersøkelseType,
 ) => {
     return useSwrTemplate<Spørreundersøkelse[]>(
-        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${type}`,
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${spørreundersøkelseHeading(type)}`,
         spørreundersøkelseSchema.array(),
         {
             revalidateOnFocus: true,
@@ -99,7 +100,7 @@ export const useHentSpørreundersøkelseMedInnhold = (
     spørreundersøkelseId: string,
 ) => {
     return useSwrTemplate<SpørreundersøkelseMedInnhold>(
-        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${type}/${spørreundersøkelseId}`,
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${spørreundersøkelseHeading(type)}/${spørreundersøkelseId}`,
         SpørreundersøkelseMedInnholdSchema,
     );
 };
@@ -111,7 +112,7 @@ export const opprettSpørreundersøkelse = (
     type: SpørreundersøkelseType,
 ): Promise<Spørreundersøkelse> => {
     return post(
-        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/type/${type}`,
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/type/${spørreundersøkelseHeading(type)}`,
         spørreundersøkelseSchema,
     );
 };

@@ -33,7 +33,7 @@ function SamarbeidsplanHeading({
                     Samarbeidsplan
                 </Heading>
             </HStack>
-            <Samarbeidsfanemeny type="Samarbeidsplan" laster={lagrer}>
+            <Samarbeidsfanemeny type="SAMARBEIDSPLAN" laster={lagrer}>
                 {samarbeidsplan && (
                     <EksportVisning
                         samarbeidsplan={samarbeidsplan}

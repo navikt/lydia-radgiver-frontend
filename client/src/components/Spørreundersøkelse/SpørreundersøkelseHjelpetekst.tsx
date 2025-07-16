@@ -29,7 +29,7 @@ export const SpørreundersøkelseHjelpetekst = ({
             </>
         );
     } else if (!sakErIRettStatus) {
-        if (type === "Evaluering") {
+        if (type === "EVALUERING") {
             return (
                 <>
                     <br />
@@ -39,7 +39,7 @@ export const SpørreundersøkelseHjelpetekst = ({
                     </BodyShort>
                 </>
             );
-        } else if (type === "Behovsvurdering") {
+        } else if (type === "BEHOVSVURDERING") {
             return (
                 <>
                     <br />
@@ -60,7 +60,7 @@ export const SpørreundersøkelseHjelpetekst = ({
                 </BodyShort>
             </>
         );
-    } else if (type === "Evaluering" && !harPlan) {
+    } else if (type === "EVALUERING" && !harPlan) {
         return (
             <>
                 <br />

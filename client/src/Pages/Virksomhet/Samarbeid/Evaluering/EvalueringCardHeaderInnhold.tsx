@@ -123,7 +123,7 @@ export const EvalueringCardHeaderInnhold = ({
         iaSak.orgnr,
         iaSak.saksnummer,
         samarbeid.id,
-        "Evaluering",
+        "EVALUERING",
     );
 
     const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(

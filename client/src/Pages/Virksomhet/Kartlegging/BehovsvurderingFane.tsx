@@ -10,6 +10,7 @@ import { SpørreundersøkelseHeading } from "../../../components/Spørreundersø
 import { SpørreundersøkelseHjelpetekst } from "../../../components/Spørreundersøkelse/SpørreundersøkelseHjelpetekst";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { useHentTeam } from "../../../api/lydia-api/team";
+import { SpørreundersøkelseType } from "../../../domenetyper/spørreundersøkelseMedInnhold";
 
 export const BehovsvurderingFane = ({
     iaSak,
@@ -22,6 +23,7 @@ export const BehovsvurderingFane = ({
         iaSak.orgnr,
         iaSak.saksnummer,
     );
+    const spørreundersøkelseType: SpørreundersøkelseType = "BEHOVSVURDERING";
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
@@ -39,11 +41,11 @@ export const BehovsvurderingFane = ({
         return (
             <>
                 <SpørreundersøkelseHeading
-                    type="Behovsvurdering"
+                    type={spørreundersøkelseType}
                     samarbeid={gjeldendeSamarbeid}
                 />
                 <SpørreundersøkelseHjelpetekst
-                    type="Behovsvurdering"
+                    type={spørreundersøkelseType}
                     kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                     sakErIRettStatus={sakErIRettStatus}
                 />
@@ -54,11 +56,11 @@ export const BehovsvurderingFane = ({
     return (
         <>
             <SpørreundersøkelseHeading
-                type="Behovsvurdering"
+                type={spørreundersøkelseType}
                 samarbeid={gjeldendeSamarbeid || alleSamarbeid[0]}
             />
             <SpørreundersøkelseHjelpetekst
-                type="Behovsvurdering"
+                type={spørreundersøkelseType}
                 kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                 sakErIRettStatus={sakErIRettStatus}
             />
