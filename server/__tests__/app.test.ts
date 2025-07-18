@@ -1,13 +1,12 @@
 import request from "supertest";
 import {Express} from "express";
 import {Config, miljøVariabler} from "../config";
-import Application from "../app";
 import nock from "nock";
 import {generateLocalKeys, setupLocalJwkSet} from "../jwks";
-import {KeyLike} from "jose/dist/types/types";
 import {decodeJwt, SignJWT} from "jose";
 import {register} from "prom-client";
 import {hentBrukerinfoFraToken} from "../brukerinfo";
+import Application from "../app";
 
 const azureOpenidConfigTokenUri = "http://azure.com";
 const azureOpenidConfigTokenPath = "/azure-openid-config/token";
@@ -15,7 +14,7 @@ const azureOpenidConfigTokenEndpoint = `${azureOpenidConfigTokenUri}${azureOpeni
 const lydiaApiUri = "http://lydia-api.lokal";
 const azureClientId = "azureAppClientId";
 
-let privateKey: KeyLike;
+let privateKey: CryptoKey;
 
 const mockEnv = () => {
     process.env[miljøVariabler.clusterName] = "local";
