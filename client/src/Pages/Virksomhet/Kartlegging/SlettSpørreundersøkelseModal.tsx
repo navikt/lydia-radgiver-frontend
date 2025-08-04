@@ -17,13 +17,15 @@ export function SlettSpørreundersøkelseModal({
 }) {
     const type = useSpørreundersøkelseType();
 
+    const penskrevetType = type === "BEHOVSVURDERING" ? "Behovsvurdering" : "Evaluering";
+
     return (
         <BekreftValgModal
             onConfirm={slettSpørreundersøkelsen}
             onCancel={() => lukkModal()}
             åpen={erModalÅpen}
             title={`Er du sikker på at du vil slette denne ${type.toLowerCase()}en?`}
-            description={`${type}gen som slettes er "${type} opprettet ${lokalDatoMedKlokkeslett(spørreundersøkelse.opprettetTidspunkt)}".`}
+            description={`${penskrevetType}gen som slettes er "${penskrevetType} opprettet ${lokalDatoMedKlokkeslett(spørreundersøkelse.opprettetTidspunkt)}".`}
         />
     );
 }
