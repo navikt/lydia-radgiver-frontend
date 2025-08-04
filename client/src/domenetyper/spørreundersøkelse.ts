@@ -10,7 +10,7 @@ export const spørreundersøkelseSchema = z.object({
     id: z.string(),
     samarbeidId: z.number(),
     status: spørreundersøkelseStatusEnum,
-    publiseringStatus: DokumentStatusEnum,
+    publiseringStatus: DokumentStatusEnum.optional(),
     opprettetAv: z.string(),
     type: SpørreundersøkelseTypeEnum,
     opprettetTidspunkt: datoSchema,
@@ -18,7 +18,7 @@ export const spørreundersøkelseSchema = z.object({
     påbegyntTidspunkt: datoSchema.nullable(),
     fullførtTidspunkt: datoSchema.nullable(),
     gyldigTilTidspunkt: datoSchema,
-    harMinstEttResultat: z.boolean(),
+    harMinstEttResultat: z.boolean().optional(),
 });
 
 export type Spørreundersøkelse = z.infer<typeof spørreundersøkelseSchema>;
