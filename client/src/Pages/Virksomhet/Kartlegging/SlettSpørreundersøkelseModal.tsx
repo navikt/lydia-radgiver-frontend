@@ -25,7 +25,7 @@ export function SlettSpørreundersøkelseModal({
             onCancel={() => lukkModal()}
             åpen={erModalÅpen}
             title={`Er du sikker på at du vil slette denne ${type.toLowerCase()}en?`}
-            description={`${penskrevetType}gen som slettes er "${penskrevetType} opprettet ${lokalDatoMedKlokkeslett(spørreundersøkelse.opprettetTidspunkt)}".`}
+            description={`${penskrevetType} opprettet ${lokalDatoMedKlokkeslett(spørreundersøkelse.opprettetTidspunkt)}.`}
         />
     );
 }
