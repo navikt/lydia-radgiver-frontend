@@ -46,7 +46,7 @@ export default class Application {
             }
         }));
 
-        this.expressApp.all("*", (req, res, next) => {
+        this.expressApp.all("/{*any}", (req, res, next) => {
             res.locals.requestId = randomUUID()
             next()
         })
@@ -117,7 +117,7 @@ export default class Application {
         this.expressApp.get("/assets", express.static(`${buildPath}/assets`));
         this.expressApp.use("/", express.static(buildPath));
 
-        this.expressApp.use("/*", express.static(buildPath));
+        this.expressApp.use("/{*any}", express.static(buildPath));
 
         this.expressApp.use(
             // eslint-disable-next-line @typescript-eslint/no-unused-vars
