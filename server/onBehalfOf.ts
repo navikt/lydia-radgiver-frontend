@@ -112,7 +112,7 @@ export const hentOnBehalfOfToken = async (
         }
     }
 
-    if (encryptedObo && await decrypt(req.session.accessToken) === accessToken) {
+    if (encryptedObo && (await decrypt(req.session.accessToken)) === accessToken) {
         redisCacheHitCounter.inc();
         const oboToken = await decrypt(encryptedObo);
         return isValid(decodeJwt(oboToken)) ? oboToken : await fetchOboToken();
