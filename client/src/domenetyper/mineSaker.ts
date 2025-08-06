@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { iaSakSchema } from "./domenetyper";
 
 export const mineSakerSchema = z.object({

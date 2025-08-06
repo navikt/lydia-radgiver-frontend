@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { kvartalSchema } from "./kvartal";
 
 export const virksomhetsstatistikkSiste4KvartalerSchema = z.object({

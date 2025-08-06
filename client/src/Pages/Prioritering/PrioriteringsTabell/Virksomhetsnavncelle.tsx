@@ -14,7 +14,7 @@ export default function Virksomhetsnavncelle({
 }: {
 	virksomhetsoversikt: Virksomhetsoversikt;
 }) {
-	if (!virksomhetsoversikt.saksnummer || virksomhetsoversikt.status === IAProsessStatusEnum.Enum.IKKE_AKTIV) {
+	if (!virksomhetsoversikt.saksnummer || virksomhetsoversikt.status === IAProsessStatusEnum.enum.IKKE_AKTIV) {
 		return <BasicVirksomhetsnavncelle virksomhetsoversikt={virksomhetsoversikt} />;
 	}
 
