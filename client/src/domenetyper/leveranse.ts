@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { datoSchema } from "./domenetyper";
 
 export const iaTjenesteSchema = z.object({

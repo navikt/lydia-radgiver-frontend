@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 const ROLLE = ["Superbruker", "Saksbehandler", "Lesetilgang"] as const;
 export const RolleEnum = z.enum(ROLLE);

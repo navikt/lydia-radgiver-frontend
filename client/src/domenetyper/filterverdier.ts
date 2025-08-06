@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { fylkeMedKommunerSchema } from "./fylkeOgKommune";
 import { næringsgrupperSchema, sektorSchema } from "./virksomhet";
 import { eierSchema, IAProsessStatusEnum } from "./domenetyper";

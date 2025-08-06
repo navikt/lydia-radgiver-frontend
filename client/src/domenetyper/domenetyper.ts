@@ -1,8 +1,8 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 
 export const datoSchema = z.preprocess((arg) => {
     if (typeof arg == "string" || arg instanceof Date) return new Date(arg);
-}, z.date()) as z.ZodEffects<z.ZodDate, Date, Date>;
+}, z.date());
 
 export const eierSchema = z.object({
     navIdent: z.string(),

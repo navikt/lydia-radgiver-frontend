@@ -51,8 +51,8 @@ export default function VelgHandlingModal({
 					hentKanGjennomføreStatusendring(handling);
 					setValgtHandling(handling);
 				}} value={valgtHandling} legend="Hva har skjedd med samarbeidet?" hideLegend disabled={lasterKanGjennomføreHandling !== null}>
-					<HandlingRadio handling={muligeHandlinger.Enum.fullfores} />
-					<HandlingRadio handling={muligeHandlinger.Enum.avbrytes} />
+					<HandlingRadio handling={muligeHandlinger.enum.fullfores} />
+					<HandlingRadio handling={muligeHandlinger.enum.avbrytes} />
 				</StyledRadioGroup>
 				{
 					!lasterKanGjennomføreHandling && kanGjennomføreResultat && valgtHandling ? (

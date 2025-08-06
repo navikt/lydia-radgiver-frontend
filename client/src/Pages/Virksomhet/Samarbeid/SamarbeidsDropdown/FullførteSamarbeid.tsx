@@ -44,7 +44,7 @@ export default function FullførteSamarbeid({ iaSak, alleSamarbeid, erEkspandert
 
 	const fullførteSamarbeid = alleSamarbeid
 		?.sort(sorterSamarbeidPåSistEndret)
-		?.filter(({ status }) => status === IASamarbeidStatusEnum.Enum.FULLFØRT || status === IASamarbeidStatusEnum.Enum.AVBRUTT);
+		?.filter(({ status }) => status === IASamarbeidStatusEnum.enum.FULLFØRT || status === IASamarbeidStatusEnum.enum.AVBRUTT);
 
 	if (!iaSak || fullførteSamarbeid === undefined || fullførteSamarbeid?.length === 0) {
 		return null;

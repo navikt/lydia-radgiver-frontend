@@ -1,4 +1,4 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { IAProsessStatusEnum } from "./domenetyper";
 
 export const statusoversiktSchema = z.object({

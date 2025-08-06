@@ -1,13 +1,13 @@
-import { z } from "zod";
+import { z } from "zod/v4";
 import { kvartalSchema } from "./kvartal";
 
 const sistePubliserteKvartalSchema = z.object({
-    årstall: z.number().int(),
-    kvartal: z.number().int(),
+    årstall: z.int(),
+    kvartal: z.int(),
     prosent: z.number().nullable(),
     tapteDagsverk: z.number().nullable(),
     muligeDagsverk: z.number().nullable(),
-    antallPersoner: z.number().int().nullable(),
+    antallPersoner: z.int().nullable(),
     erMaskert: z.boolean(),
 });
 

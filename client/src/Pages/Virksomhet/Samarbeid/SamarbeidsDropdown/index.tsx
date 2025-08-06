@@ -55,7 +55,7 @@ export const SamarbeidsDropdown = ({
     const { data: uflitrertAlleSamarbeid, mutate: hentSamarbeidPåNytt } =
         useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
     const alleSamarbeid = uflitrertAlleSamarbeid?.filter(
-        (samarbeid) => samarbeid.status === IAProsessStatusEnum.Enum.AKTIV,
+        (samarbeid) => samarbeid.status === IAProsessStatusEnum.enum.AKTIV,
     );
 
     const harIngenAktiveSamarbeid =

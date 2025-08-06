@@ -10,19 +10,19 @@ export type Bøyinger = {
 export function useBøyningerAvSamarbeidshandling(handling: MuligSamarbeidsgandling): Bøyinger {
 	return React.useMemo(() => {
 		switch (handling) {
-			case muligeHandlinger.Enum.fullfores:
+			case muligeHandlinger.enum.fullfores:
 				return {
 					infinitiv: "fullføre",
 					imperativ: "fullfør",
 					presensPerfektum: "fullført",
 				};
-			case muligeHandlinger.Enum.avbrytes:
+			case muligeHandlinger.enum.avbrytes:
 				return {
 					infinitiv: "avbryte",
 					imperativ: "avbryt",
 					presensPerfektum: "avbrutt",
 				};
-			case muligeHandlinger.Enum.slettes:
+			case muligeHandlinger.enum.slettes:
 				return {
 					infinitiv: "slette",
 					imperativ: "slett",
