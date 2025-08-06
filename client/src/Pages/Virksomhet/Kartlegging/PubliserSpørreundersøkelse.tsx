@@ -9,6 +9,7 @@ import {
 } from "@navikt/aksel-icons";
 import { PubliseringModal } from "./PubliseringModal";
 import { MutatorCallback, MutatorOptions } from "swr";
+import styles from "./publiserSpørreundersøkelse.module.scss";
 
 interface Props {
     spørreundersøkelse: Spørreundersøkelse;
@@ -30,12 +31,10 @@ export const PubliserSpørreundersøkelse = ({
     switch (spørreundersøkelse.publiseringStatus) {
         case "OPPRETTET":
             return (
-                <Tooltip content="Denne spørreundersøkelsen er sendt til publisering og kan ikke publiseres på nytt.">
+                <Tooltip content="Denne spørreundersøkelsen er sendt til publisering og kan ikke publiseres på nytt." maxChar={100}>
                     <div>
-                        <Button
-                            iconPosition="right"
-                            size="small"
-                            disabled={true}
+                        <Publiserknapp
+                            disabled
                             icon={
                                 <HourglassTopFilledIcon
                                     fontSize="1.5rem"
@@ -44,7 +43,7 @@ export const PubliserSpørreundersøkelse = ({
                             }
                         >
                             Publiserer
-                        </Button>
+                        </Publiserknapp>
                     </div>
                 </Tooltip>
             );
@@ -52,10 +51,8 @@ export const PubliserSpørreundersøkelse = ({
             return (
                 <Tooltip content="Resultatet har blitt publisert på Min Side Arbeidsgiver">
                     <div>
-                        <Button
-                            iconPosition="right"
-                            size="small"
-                            disabled={true}
+                        <Publiserknapp
+                            disabled
                             icon={
                                 <FileCheckmarkIcon
                                     fontSize="1.5rem"
@@ -64,7 +61,7 @@ export const PubliserSpørreundersøkelse = ({
                             }
                         >
                             Publisert
-                        </Button>
+                        </Publiserknapp>
                     </div>
                 </Tooltip>
             );
@@ -74,10 +71,8 @@ export const PubliserSpørreundersøkelse = ({
                     return (
                         <Tooltip content="Denne spørreundersøkelsen har ingen resultater å publisere">
                             <div>
-                                <Button
-                                    iconPosition="right"
-                                    size="small"
-                                    disabled={true}
+                                <Publiserknapp
+                                    disabled
                                     icon={
                                         <FileXMarkIcon
                                             fontSize="1.5rem"
@@ -86,16 +81,14 @@ export const PubliserSpørreundersøkelse = ({
                                     }
                                 >
                                     Publiser
-                                </Button>
+                                </Publiserknapp>
                             </div>
                         </Tooltip>
                     );
                 } else {
                     return (
                         <>
-                            <Button
-                                iconPosition="right"
-                                size="small"
+                            <Publiserknapp
                                 icon={
                                     <PaperplaneIcon
                                         fontSize="1.5rem"
@@ -107,7 +100,7 @@ export const PubliserSpørreundersøkelse = ({
                                 }}
                             >
                                 Publiser
-                            </Button>
+                            </Publiserknapp>
                             <PubliseringModal
                                 open={publiserModalÅpen}
                                 setOpen={setPubliserModalÅpen}
@@ -126,3 +119,28 @@ export const PubliserSpørreundersøkelse = ({
             return null;
     }
 };
+
+function Publiserknapp({
+    icon,
+    children,
+    disabled,
+    onClick,
+}: {
+    icon: React.ReactNode;
+    children: React.ReactNode;
+    disabled?: boolean;
+    onClick?: () => void;
+}) {
+    return (
+        <Button
+            iconPosition="right"
+            size="small"
+            disabled={disabled}
+            icon={icon}
+            onClick={onClick}
+            className={styles.publiserknapp}
+        >
+            {children}
+        </Button>
+    );
+}
