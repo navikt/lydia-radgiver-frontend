@@ -182,7 +182,7 @@ function Undertemarad({
             gap="4"
             align="center"
         >
-            <RadCheckbox innhold={innhold} låst={innhold.harAktiviteterISalesforce} />
+            <RadCheckbox innhold={innhold} låst={innhold.harAktiviteterISalesforce && innhold.inkludert} />
             {innhold.inkludert ? (
                 <StartOgSluttVelger
                     innhold={innhold}
