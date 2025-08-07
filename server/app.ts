@@ -70,14 +70,15 @@ export default class Application {
                 : validerTokenFraWonderwall(config.azure, config._jwkSet);
 
         const {
-            generateToken, // Use this in your routes to provide a CSRF hash cookie and token.
+            generateCsrfToken, // Use this in your routes to provide a CSRF hash cookie and token.
             doubleCsrfProtection, // This is the default CSRF protection middleware.
         } = doubleCsrf({
             getSecret: () => config.secrets.csrf,
+            getSessionIdentifier: (req: Request) => req.session.id,
             cookieName: "__fia.intern.nav.no-x-csrf-token"
         });
         const csrfTokenRoute = (request: Request, response: Response) => {
-            const csrfToken = generateToken(request, response, true);
+            const csrfToken = generateCsrfToken(request, response, { overwrite: true, validateOnReuse: true });
             response.json({ csrfToken });
         };
         this.expressApp.use(cookieParser(config.secrets.cookie))
