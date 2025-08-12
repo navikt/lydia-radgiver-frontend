@@ -97,6 +97,9 @@ services:
         }
       AZURE_OPENID_CONFIG_ISSUER: http://host.docker.internal:6969/azure
       AZURE_OPENID_CONFIG_JWKS_URI: http://host.docker.internal:6969/azure/jwks
+      TOKEN_X_CLIENT_ID: "tokenx:lydia-api"
+      TOKEN_X_ISSUER: http://host.docker.internal:6969/tokenx
+      TOKEN_X_JWKS_URI: http://host.docker.internal:6969/tokenx/jwks
       AZURE_GRAPH_URL: http://host.docker.internal:9090/v1.0
       FIA_SUPERBRUKER_GROUP_ID: ensuperbrukerGroupId
       FIA_SAKSBEHANDLER_GROUP_ID: ensaksbehandlerGroupId
