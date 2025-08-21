@@ -34,7 +34,7 @@ Installer ein postgresql-klient, for eksempel ved å gjere
 Legg så til psql i PATH. Du vil få instruksjonar på dette frå brew, og det ser litt sånn ut:
 
 > If you need to have libpq first in your PATH, run:  
-> echo 'export PATH="/usr/local/opt/libpq/bin:$PATH"' >> ~/.zshrc
+> echo 'export PATH="/opt/homebrew/opt/libpq/bin:$PATH"' >> ~/.zshrc
 
 Sjekk at du har colima `colima version`  
 Om du ikkje har colima, køyr `brew install colima`
