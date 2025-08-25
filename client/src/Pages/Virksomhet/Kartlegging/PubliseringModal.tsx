@@ -40,12 +40,7 @@ export const PubliseringModal = ({
             </Modal.Header>
             <Modal.Body>
                 <BodyLong>
-                    Når du publiserer til Min side - Arbeidsgiver vil dokumentet
-                    bli tilgjengelig for alle i virksomheten som har
-                    Altinn-tilgangen &quot;Øvelser og verktøy&quot;. Husk å få
-                    bekreftelse fra kontaktperson at det er greit at flere i
-                    organisasjonen får se resultatet på den publiserte
-                    spørreundersøkelsen.
+                    Når du publiserer til Min side - Arbeidsgiver, blir resultatene tilgjengelig for alle i virksomheten med Altinn-tilgangen “Øvelser og verktøy”. Husk å informere din kontaktperson om at flere i organisasjonen kan se resultatene.
                 </BodyLong>
             </Modal.Body>
             <Modal.Footer>
