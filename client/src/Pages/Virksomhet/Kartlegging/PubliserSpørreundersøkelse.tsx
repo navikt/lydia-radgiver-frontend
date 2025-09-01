@@ -2,10 +2,10 @@ import { Button, Tooltip } from "@navikt/ds-react";
 import React, { useState } from "react";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import {
-    FileCheckmarkIcon,
-    FileXMarkIcon,
-    HourglassTopFilledIcon,
+    CheckmarkIcon,
+    CircleBrokenIcon,
     PaperplaneIcon,
+    XMarkOctagonIcon
 } from "@navikt/aksel-icons";
 import { PubliseringModal } from "./PubliseringModal";
 import { MutatorCallback, MutatorOptions } from "swr";
@@ -20,25 +20,44 @@ interface Props {
             | Spørreundersøkelse[],
         opts?: boolean | MutatorOptions<Spørreundersøkelse[], MutationData>,
     ) => Promise<Spørreundersøkelse[] | MutationData | undefined>;
+    pollerPåStatus?: boolean;
 }
 
 export const PubliserSpørreundersøkelse = ({
     spørreundersøkelse,
     hentBehovsvurderingPåNytt,
+    pollerPåStatus = false,
 }: Props) => {
     const [publiserModalÅpen, setPubliserModalÅpen] = useState(false);
 
     switch (spørreundersøkelse.publiseringStatus) {
         case "OPPRETTET":
+            if (pollerPåStatus) {
+                return (
+                    <Publiserknapp
+                        icon={
+                            <CircleBrokenIcon
+                                fontSize="1.5rem"
+                                aria-hidden
+                                className={styles.spinner}
+                            />
+                        }
+                    >
+                        Publiserer
+                    </Publiserknapp>
+                );
+            }
+
             return (
-                <Tooltip content="Denne spørreundersøkelsen er sendt til publisering og kan ikke publiseres på nytt." maxChar={100}>
+                <Tooltip content="Dette tok lengre tid enn forventet. Prøv igjen senere.">
                     <div>
                         <Publiserknapp
                             disabled
                             icon={
-                                <HourglassTopFilledIcon
+                                <XMarkOctagonIcon
                                     fontSize="1.5rem"
                                     aria-hidden
+
                                 />
                             }
                         >
@@ -54,7 +73,7 @@ export const PubliserSpørreundersøkelse = ({
                         <Publiserknapp
                             disabled
                             icon={
-                                <FileCheckmarkIcon
+                                <CheckmarkIcon
                                     fontSize="1.5rem"
                                     aria-hidden
                                 />
@@ -74,7 +93,7 @@ export const PubliserSpørreundersøkelse = ({
                                 <Publiserknapp
                                     disabled
                                     icon={
-                                        <FileXMarkIcon
+                                        <XMarkOctagonIcon
                                             fontSize="1.5rem"
                                             aria-hidden
                                         />

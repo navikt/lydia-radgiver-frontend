@@ -25,6 +25,7 @@ import { SpørreundersøkelseMedInnholdVisning } from "./SpørreundersøkelseFor
 import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
 import { PubliserSpørreundersøkelse } from "./PubliserSpørreundersøkelse";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
+import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 
 export const ActionButtonContainer = styled.div`
     display: flex;
@@ -98,6 +99,32 @@ function ActionButtonsHvisSamarbeidIkkeFullført({
     );
 }
 
+function usePollingAvBehovsvurderingVedAvsluttetStatus(
+    spørreundersøkelseStatus: string,
+    spørreundersøkelse: Spørreundersøkelse,
+    hentBehovsvurderingPåNytt: () => void
+) {
+    const [henterBehovsvurderingPånytt, setHenterBehovsvurderingPåNytt] = useState(false);
+    const [forsøkPåÅHenteBehovsvurdering, setForsøkPåÅHenteBehovsvurdering] = useState(0);
+
+    React.useEffect(() => {
+        if (spørreundersøkelseStatus === "AVSLUTTET") {
+            if (spørreundersøkelse.publiseringStatus === "OPPRETTET") {
+                if (!henterBehovsvurderingPånytt && forsøkPåÅHenteBehovsvurdering < 10) {
+                    setHenterBehovsvurderingPåNytt(true);
+                    setForsøkPåÅHenteBehovsvurdering(forsøkPåÅHenteBehovsvurdering + 1);
+                    setTimeout(() => {
+                        hentBehovsvurderingPåNytt();
+                        setHenterBehovsvurderingPåNytt(false);
+                    }, (forsøkPåÅHenteBehovsvurdering + 1) * 2000);
+                }
+            }
+        }
+    }, [spørreundersøkelseStatus, hentBehovsvurderingPåNytt, henterBehovsvurderingPånytt]);
+
+    return { henterBehovsvurderingPånytt, forsøkPåÅHenteBehovsvurdering };
+}
+
 export const BehovsvurderingCardHeaderInnhold = ({
     spørreundersøkelse,
     dato,
@@ -132,6 +159,14 @@ export const BehovsvurderingCardHeaderInnhold = ({
         samarbeid.id,
         "BEHOVSVURDERING",
     );
+
+    const { henterBehovsvurderingPånytt, forsøkPåÅHenteBehovsvurdering } =
+        usePollingAvBehovsvurderingVedAvsluttetStatus(
+            spørreundersøkelseStatus,
+            spørreundersøkelse,
+            hentBehovsvurderingPåNytt,
+        );
+
 
     const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
         iaSak.orgnr,
@@ -206,6 +241,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                         hentBehovsvurderingPåNytt={
                                             hentBehovsvurderingPåNytt
                                         }
+                                        pollerPåStatus={henterBehovsvurderingPånytt || forsøkPåÅHenteBehovsvurdering < 10}
                                     />
                                 )}
                             </>
