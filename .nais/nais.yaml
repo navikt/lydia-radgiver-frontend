@@ -21,7 +21,7 @@ spec:
     limits:
       memory: 2Gi
     requests:
-      memory: 256Mi
+      memory: 512Mi
       cpu: 100m
   prometheus:
     enabled: true
