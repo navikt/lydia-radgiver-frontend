@@ -103,6 +103,14 @@ export function AntallDeltakere({
 }: {
     antallDeltakere: number;
 }) {
+    if (antallDeltakere === 0) {
+        return (
+            <StyledDeltakere align="center">
+                <PersonGroupFillIcon fontSize="1.5rem" aria-hidden />
+                For få deltakere til å vise resultater
+            </StyledDeltakere>
+        );
+    }
     return (
         <StyledDeltakere align="center">
             <PersonGroupFillIcon fontSize="1.5rem" aria-hidden />

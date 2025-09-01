@@ -4,6 +4,8 @@ import HighchartsReact from "highcharts-react-official";
 import { SpørsmålResultat } from "../../../domenetyper/spørreundersøkelseResultat";
 import { useSpørsmålMedSorterteSvaralternativer } from "../../../util/sorterSvaralternativer";
 import "highcharts/modules/accessibility";
+import { Heading } from "@navikt/ds-react";
+import styles from './grafer.module.scss';
 
 export default function BarChart({
     spørsmål,
@@ -29,6 +31,14 @@ export default function BarChart({
             ),
         [spørsmålMedSorterteAlternativer],
     );
+
+    if (spørsmål.svarListe.some((svar) => svar.antallSvar > 0) === false) {
+        return (
+            <Heading level="4" size="small" spacing className={styles.tomGrafTittel}>
+                {spørsmål.tekst}
+            </Heading>
+        );
+    }
 
     return (
         <HighchartsReact
