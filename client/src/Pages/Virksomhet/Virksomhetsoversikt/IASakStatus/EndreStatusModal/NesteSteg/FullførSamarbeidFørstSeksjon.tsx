@@ -22,7 +22,7 @@ export function FullførSamarbeidFørstSeksjon({
             </Heading>
             <br />
             <BodyLong>
-                For å gå videre må du fullføre følgende samarbeid:
+                For å gå videre må du avslutte følgende samarbeid:
             </BodyLong>
             <br />
             {harAktiveSamarbeid && (
