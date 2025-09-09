@@ -102,25 +102,39 @@ function ActionButtonsHvisSamarbeidIkkeFullført({
 function usePollingAvBehovsvurderingVedAvsluttetStatus(
     spørreundersøkelseStatus: string,
     spørreundersøkelse: Spørreundersøkelse,
-    hentBehovsvurderingPåNytt: () => void
+    hentBehovsvurderingPåNytt: () => void,
 ) {
-    const [henterBehovsvurderingPånytt, setHenterBehovsvurderingPåNytt] = useState(false);
-    const [forsøkPåÅHenteBehovsvurdering, setForsøkPåÅHenteBehovsvurdering] = useState(0);
+    const [henterBehovsvurderingPånytt, setHenterBehovsvurderingPåNytt] =
+        useState(false);
+    const [forsøkPåÅHenteBehovsvurdering, setForsøkPåÅHenteBehovsvurdering] =
+        useState(0);
 
     React.useEffect(() => {
         if (spørreundersøkelseStatus === "AVSLUTTET") {
             if (spørreundersøkelse.publiseringStatus === "OPPRETTET") {
-                if (!henterBehovsvurderingPånytt && forsøkPåÅHenteBehovsvurdering < 10) {
+                if (
+                    !henterBehovsvurderingPånytt &&
+                    forsøkPåÅHenteBehovsvurdering < 10
+                ) {
                     setHenterBehovsvurderingPåNytt(true);
-                    setForsøkPåÅHenteBehovsvurdering(forsøkPåÅHenteBehovsvurdering + 1);
-                    setTimeout(() => {
-                        hentBehovsvurderingPåNytt();
-                        setHenterBehovsvurderingPåNytt(false);
-                    }, (forsøkPåÅHenteBehovsvurdering + 1) * 2000);
+                    setForsøkPåÅHenteBehovsvurdering(
+                        forsøkPåÅHenteBehovsvurdering + 1,
+                    );
+                    setTimeout(
+                        () => {
+                            hentBehovsvurderingPåNytt();
+                            setHenterBehovsvurderingPåNytt(false);
+                        },
+                        (forsøkPåÅHenteBehovsvurdering + 1) * 2000,
+                    );
                 }
             }
         }
-    }, [spørreundersøkelseStatus, hentBehovsvurderingPåNytt, henterBehovsvurderingPånytt]);
+    }, [
+        spørreundersøkelseStatus,
+        hentBehovsvurderingPåNytt,
+        henterBehovsvurderingPånytt,
+    ]);
 
     return { henterBehovsvurderingPånytt, forsøkPåÅHenteBehovsvurdering };
 }
@@ -166,7 +180,6 @@ export const BehovsvurderingCardHeaderInnhold = ({
             spørreundersøkelse,
             hentBehovsvurderingPåNytt,
         );
-
 
     const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
         iaSak.orgnr,
@@ -227,21 +240,27 @@ export const BehovsvurderingCardHeaderInnhold = ({
                     <ActionButtonsHvisSamarbeidIkkeFullført>
                         {kanEndreSpørreundersøkelser && (
                             <>
-                                <FlyttTilAnnenProsess
-                                    gjeldendeSamarbeid={samarbeid}
-                                    iaSak={iaSak}
-                                    flyttTilValgtSamarbeid={
-                                        flyttTilValgtSamarbeid
-                                    }
-                                    dropdownSize="small"
-                                />
+                                {spørreundersøkelse.publiseringStatus !==
+                                    "IKKE_PUBLISERT" && (
+                                    <FlyttTilAnnenProsess
+                                        gjeldendeSamarbeid={samarbeid}
+                                        iaSak={iaSak}
+                                        flyttTilValgtSamarbeid={
+                                            flyttTilValgtSamarbeid
+                                        }
+                                        dropdownSize="small"
+                                    />
+                                )}
                                 {erIDev && (
                                     <PubliserSpørreundersøkelse
                                         spørreundersøkelse={spørreundersøkelse}
                                         hentBehovsvurderingPåNytt={
                                             hentBehovsvurderingPåNytt
                                         }
-                                        pollerPåStatus={henterBehovsvurderingPånytt || forsøkPåÅHenteBehovsvurdering < 10}
+                                        pollerPåStatus={
+                                            henterBehovsvurderingPånytt ||
+                                            forsøkPåÅHenteBehovsvurdering < 10
+                                        }
                                     />
                                 )}
                             </>
