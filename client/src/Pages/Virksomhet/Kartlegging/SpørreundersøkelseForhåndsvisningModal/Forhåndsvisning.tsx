@@ -16,9 +16,9 @@ import {
 import { useHentSpørreundersøkelseMedInnhold } from "../../../../api/lydia-api/spørreundersøkelse";
 import { useSpørreundersøkelse } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { lokalDatoMedKlokkeslett } from "../../../../util/dato";
-import styled from "styled-components";
 import { getGraffargeFromTema } from "../../../../components/Spørreundersøkelse/TemaResultat";
 import capitalizeFirstLetterLowercaseRest from "../../../../util/formatering/capitalizeFirstLetterLowercaseRest";
+import styles from './spørreundersøkelseForhåndsvisningModal.module.scss';
 
 export default function Forhåndsvisning({
     spørreundersøkelseid,
@@ -49,9 +49,9 @@ export default function Forhåndsvisning({
         <>
             {spørreundersøkelseForhåndsvisning?.temaer.map((tema) => (
                 <React.Fragment key={tema.temaId}>
-                    <Tematittel level="3" size="large">
+                    <Heading className={styles.tematittel} level="3" size="large">
                         {tema.navn}
-                    </Tematittel>
+                    </Heading>
                     <GruppertSpørsmålRenderer tema={tema} />
                 </React.Fragment>
             ))}
@@ -59,13 +59,9 @@ export default function Forhåndsvisning({
     );
 }
 
-const Tematittel = styled(Heading)`
-    margin-top: 1rem;
-`;
-
-const Spørsmålsgruppe = styled.div`
-    padding: 1rem;
-`;
+function Spørsmålsgruppe({ className = "", ...props }: { children: React.ReactNode } & React.HTMLAttributes<HTMLDivElement>) {
+    return <div {...props} className={`${styles.spørsmålsgruppe} ${className}`} />;
+}
 
 function getGrupperteSpørsmål(tema: TemaDto) {
     return React.useMemo(
@@ -156,19 +152,6 @@ const KATEGORI_BESKRIVELSER: { [key: string]: string } = {
         "Mål: Styrke og strukturere samarbeidet mellom leder, tillitsvalgt og verneombud, samt øke kunnskap og ferdigheter for å jobbe systematisk og forebyggende med sykefravær og arbeidsmiljø.",
 };
 
-const KategoriHeader = styled.div`
-    margin-bottom: 1rem;
-`;
-
-const Kategoritittel = styled(Heading)<{ $farge: string }>`
-    color: ${(props) => props.$farge || "var(--a-blue-500)"};
-    margin-bottom: 0.25rem;
-`;
-
-const Kategorimål = styled(BodyShort)`
-    color: var(--a-text-subtle);
-`;
-
 function Kategori({
     tittel,
     useFarge = false,
@@ -180,22 +163,19 @@ function Kategori({
 }) {
     if (KATEGORI_BESKRIVELSER[tittel]) {
         return (
-            <KategoriHeader>
-                <Kategoritittel
+            <div className={styles.kategoriheader}>
+                <Heading
+                    className={styles.kategoritittel}
                     level="4"
                     size="xsmall"
-                    $farge={
-                        useFarge
-                            ? getGraffargeFromTema(temanavn)
-                            : "var(--a-text-default)"
-                    }
+                    style={{ color: useFarge ? getGraffargeFromTema(temanavn) : "var(--a-text-default)" }}
                 >
                     {tittel}
-                </Kategoritittel>
-                <Kategorimål size="small">
+                </Heading>
+                <BodyShort className={styles.kategorimål} size="small">
                     {KATEGORI_BESKRIVELSER[tittel]}
-                </Kategorimål>
-            </KategoriHeader>
+                </BodyShort>
+            </div>
         );
     }
 
@@ -204,19 +184,16 @@ function Kategori({
     }
 
     return (
-        <KategoriHeader>
-            <Kategoritittel
+        <div className={styles.kategoriheader}>
+            <Heading
+                className={styles.kategoritittel}
                 level="4"
                 size="xsmall"
-                $farge={
-                    useFarge
-                        ? getGraffargeFromTema(temanavn)
-                        : "var(--a-text-default)"
-                }
+                style={{ color: useFarge ? getGraffargeFromTema(temanavn) : "var(--a-text-default)" }}
             >
                 {tittel}
-            </Kategoritittel>
-        </KategoriHeader>
+            </Heading>
+        </div>
     );
 }
 
@@ -250,19 +227,6 @@ function SpørsmålRenderer({
     );
 }
 
-const StyledAccordionHeader = styled(Accordion.Header)`
-    color: var(--a-blue-500);
-    --a-font-weight-bold: 400;
-`;
-
-const StyledAccordionItem = styled(Accordion.Item)`
-    &:last-child > :where(.navds-accordion__header) {
-        box-shadow:
-            var(--__ac-accordion-header-shadow),
-            inset 0 0 0 0 var(--__ac-accordion-header-shadow-color);
-    }
-`;
-
 function SpørsmålAccordionItem({
     spørsmål,
     defaultOpen = false,
@@ -271,33 +235,17 @@ function SpørsmålAccordionItem({
     defaultOpen?: boolean;
 }) {
     return (
-        <StyledAccordionItem defaultOpen={defaultOpen}>
-            <StyledAccordionHeader>{spørsmål.spørsmål}</StyledAccordionHeader>
+        <Accordion.Item className={styles.accordionItem} defaultOpen={defaultOpen}>
+            <Accordion.Header className={styles.accordionHeader}>{spørsmål.spørsmål}</Accordion.Header>
             <Accordion.Content>
                 <Svaralternativer
                     svaralternativer={spørsmål.svaralternativer}
                     flervalg={spørsmål.flervalg}
                 />
             </Accordion.Content>
-        </StyledAccordionItem>
+        </Accordion.Item>
     );
 }
-
-const DisabletCheckbox = styled(Checkbox)`
-    pointer-events: none;
-
-    label::before {
-        opacity: 0.5;
-    }
-`;
-
-const DisabletRadio = styled(Radio)`
-    pointer-events: none;
-
-    label::before {
-        opacity: 0.5;
-    }
-`;
 
 function Svaralternativer({
     svaralternativer,
@@ -313,22 +261,24 @@ function Svaralternativer({
             {svaralternativer.map((svaralternativ) => {
                 if (flervalg) {
                     return (
-                        <DisabletCheckbox
+                        <Checkbox
                             key={svaralternativ.svarId}
                             value={svaralternativ.svarId}
+                            className={styles.disabledCheckbox}
                             disabled
                         >
                             {svaralternativ.svartekst}
-                        </DisabletCheckbox>
+                        </Checkbox>
                     );
                 }
                 return (
-                    <DisabletRadio
+                    <Radio
                         key={svaralternativ.svarId}
                         value={svaralternativ.svarId}
+                        className={styles.disabledRadio}
                     >
                         {svaralternativ.svartekst}
-                    </DisabletRadio>
+                    </Radio>
                 );
             })}
         </OptionGroup>

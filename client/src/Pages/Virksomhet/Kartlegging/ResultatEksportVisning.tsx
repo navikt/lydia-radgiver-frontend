@@ -3,7 +3,6 @@ import React from "react";
 import { FileExportIcon } from "@navikt/aksel-icons";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
-import styled from "styled-components";
 import { TemaResultat } from "../../../components/Spørreundersøkelse/TemaResultat";
 import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";
 import useEksportFilnavn from "../../../components/pdfEksport/useEksportFilnavn";
@@ -15,6 +14,7 @@ import {
     useSpørreundersøkelse,
     useSpørreundersøkelseType,
 } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+import styles from './resultatEksportVisning.module.scss';
 
 interface ResultatEksportVisningProps {
     erIEksportMode: boolean;
@@ -164,8 +164,8 @@ class pdfEksport {
     ) {
         return (
             this.position +
-                header.clientHeight * this.pixelRatio +
-                graph.clientHeight * this.pixelRatio >
+            header.clientHeight * this.pixelRatio +
+            graph.clientHeight * this.pixelRatio >
             this.pageHeight
         );
     }
@@ -178,8 +178,8 @@ class pdfEksport {
             );
             const canvasR = child.childNodes[i + 1]
                 ? await html2canvas(child.childNodes[i + 1] as HTMLElement, {
-                      scale: 1,
-                  })
+                    scale: 1,
+                })
                 : undefined;
             await this.addInlineContent(canvasL, canvasR);
         }
@@ -268,15 +268,6 @@ const ResultatEksportVisning = ({
     );
 };
 
-const Container = styled.div`
-    height: 100%;
-    padding-left: 2rem;
-    padding-right: 2rem;
-
-    display: flex;
-    flex-direction: column;
-`;
-
 function EksportInnhold({
     spørreundersøkelse,
     iaSak,
@@ -306,7 +297,7 @@ function EksportInnhold({
     }
 
     return (
-        <Container>
+        <div className={styles.container}>
             {kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
                 <TemaResultat
                     key={tema.navn}
@@ -316,7 +307,7 @@ function EksportInnhold({
                     headingSize="large"
                 />
             ))}
-        </Container>
+        </div>
     );
 }
 

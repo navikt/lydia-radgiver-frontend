@@ -1,0 +1,42 @@
+.tematittel {
+    margin-top: 1rem;
+}
+
+.spørsmålsgruppe {
+    padding: 1rem;
+}
+
+.kategoriheader {
+    margin-bottom: 1rem;
+}
+
+.kategoritittel {
+    color: var(--a-blue-500);
+    margin-bottom: 0.25rem;
+}
+
+.kategorimål {
+    color: var(--a-text-subtle);
+}
+
+.accordionHeader {
+    color: var(--a-blue-500);
+    --a-font-weight-bold: 400;
+}
+
+.accordionItem {
+    &:last-child > :where(:global(.navds-accordion__header)) {
+        box-shadow:
+            var(--__ac-accordion-header-shadow),
+            inset 0 0 0 0 var(--__ac-accordion-header-shadow-color);
+    }
+}
+
+.disabledCheckbox,
+.disabledRadio {
+    pointer-events: none;
+
+    label::before {
+        opacity: 0.5;
+    }
+}

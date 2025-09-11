@@ -18,8 +18,9 @@ import {
 } from "../../../domenetyper/spørreundersøkelseMedInnhold";
 import { SquareIcon } from "@navikt/aksel-icons";
 import { getGraffargeFromTema } from "../../../components/Spørreundersøkelse/TemaResultat";
-import styled from "styled-components";
 import { toCanvas } from "html-to-image";
+
+import styles from './forhåndsvisningEksport.module.scss';
 
 interface ResultatEksportVisningProps {
     erIEksportMode: boolean;
@@ -107,14 +108,6 @@ class pdfEksport {
     }
 }
 
-const ExportDiv = styled.div<{ $erIEksportMode: boolean }>`
-    display: ${({ $erIEksportMode }) => ($erIEksportMode ? "block" : "none")};
-    height: 0;
-    overflow: hidden;
-    position: absolute;
-    width: 1280px;
-`;
-
 const ForhåndsvisningEksport = ({
     erIEksportMode,
     setErIEksportMode,
@@ -158,7 +151,7 @@ const ForhåndsvisningEksport = ({
             >
                 Last ned
             </Button>
-            <ExportDiv $erIEksportMode={erIEksportMode} ref={targetRef}>
+            <div className={styles.exportDiv} style={{ display: erIEksportMode ? "block" : "none" }} ref={targetRef}>
                 <VirksomhetsEksportHeader
                     type={type}
                     visDato={false}
@@ -169,15 +162,10 @@ const ForhåndsvisningEksport = ({
                     setErLastet={setErLastet}
                     spørreundersøkelse={spørreundersøkelse}
                 />
-            </ExportDiv>
+            </div>
         </>
     );
 };
-
-const TemaHeading = styled(Heading)<{ $temanavn: string }>`
-    color: ${({ $temanavn }) => getGraffargeFromTema($temanavn, true)};
-    margin-bottom: 0;
-`;
 
 function EksportInnhold({
     spørreundersøkelse,
@@ -208,9 +196,12 @@ function EksportInnhold({
         <>
             {spørreundersøkelseForhåndsvisning?.temaer.map((tema) => (
                 <React.Fragment key={tema.temaId}>
-                    <TemaHeading $temanavn={tema.navn} level="3" size="large">
+                    <Heading style={{
+                        color: getGraffargeFromTema(tema.navn, true),
+                        marginBottom: 0,
+                    }} level="3" size="large">
                         {tema.navn}
-                    </TemaHeading>
+                    </Heading>
                     <GruppertSpørsmålRenderer
                         tema={tema}
                         useFarge
@@ -223,35 +214,6 @@ function EksportInnhold({
         </>
     );
 }
-
-const SpørsmålParContainer = styled.div`
-    display: flex;
-    flex-direction: row;
-    margin-left: -1rem;
-    margin-right: -1rem;
-`;
-
-const SpørsmålContainer = styled.div`
-    padding: 0 1.5rem;
-    margin: 0 1rem;
-    margin-top: 0;
-    width: 50%;
-`;
-
-const SpørsmålHeading = styled(Heading)`
-    margin-top: 0;
-`;
-
-const SvarBody = styled(BodyShort)`
-    display: flex;
-    align-items: center;
-    margin-top: 0.5rem;
-`;
-
-const SvarIkon = styled(SquareIcon)`
-    margin-right: 0.5rem;
-    font-size: 1.5rem;
-`;
 
 function ItemRenderer({ tema }: { tema: TemaDto }) {
     const spørsmålIPar = React.useMemo(() => {
@@ -268,21 +230,21 @@ function ItemRenderer({ tema }: { tema: TemaDto }) {
     }, [tema]);
 
     return spørsmålIPar.map((par, index) => (
-        <SpørsmålParContainer key={index}>
+        <div className={styles.spørsmålParContainer} key={index}>
             {par.map((spørsmål: SpørsmålDto) => (
-                <SpørsmålContainer key={spørsmål.id}>
-                    <SpørsmålHeading level="3" size="small">
+                <div className={styles.spørsålContainer} key={spørsmål.id}>
+                    <Heading className={styles.spørsmålHeading} level="3" size="small">
                         {spørsmål.spørsmål}
-                    </SpørsmålHeading>
+                    </Heading>
                     {spørsmål.svaralternativer.map((svar) => (
-                        <SvarBody key={svar.svarId}>
-                            <SvarIkon />
+                        <BodyShort className={styles.spørsmålBody} key={svar.svarId}>
+                            <SquareIcon className={styles.svarIkon} />
                             {svar.svartekst}
-                        </SvarBody>
+                        </BodyShort>
                     ))}
-                </SpørsmålContainer>
+                </div>
             ))}
-        </SpørsmålParContainer>
+        </div>
     ));
 }
 

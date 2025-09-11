@@ -1,13 +1,9 @@
-import styled from "styled-components";
 import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { BodyLong } from "@navikt/ds-react";
 import React from "react";
 import { useSpørreundersøkelseType } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 
-const EkstraInfoTekstIModal = styled.div`
-    margin-top: 1rem;
-`;
-
+import styles from './fullførSpørreundersøkelseModal.module.scss';
 export function FullførSpørreundersøkelseModal({
     erModalÅpen,
     lukkModal,
@@ -28,12 +24,12 @@ export function FullførSpørreundersøkelseModal({
             title={`Er du sikker på at du vil fullføre ${type.toLowerCase()}en?`}
         >
             {harNokDeltakere && (
-                <EkstraInfoTekstIModal>
+                <div className={styles.ekstraInfoTekstModal}>
                     <BodyLong>
                         Minst 3 deltakere må ha svart for å kunne vise
                         resultater.
                     </BodyLong>
-                </EkstraInfoTekstIModal>
+                </div>
             )}
         </BekreftValgModal>
     );

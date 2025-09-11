@@ -1,6 +1,5 @@
 import { Button, ExpansionCard } from "@navikt/ds-react";
 import React, { useState } from "react";
-import styled from "styled-components";
 import { åpneSpørreundersøkelseINyFane } from "../../../util/navigasjon";
 import { SlettSpørreundersøkelseModal } from "./SlettSpørreundersøkelseModal";
 import { StartSpørreundersøkelseModal } from "./StartSpørreundersøkelseModal";
@@ -27,65 +26,8 @@ import { PubliserSpørreundersøkelse } from "./PubliserSpørreundersøkelse";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 
-export const ActionButtonContainer = styled.div`
-    display: flex;
-    justify-content: right;
-    margin-right: 2rem;
-    gap: 1rem;
-    z-index: 2;
-    & > div {
-        z-index: 3;
-    }
-`;
+import styles from './behovsvurderingCardHeaderInnhold.module.scss';
 
-const StyledExpansionCardHeader = styled(ExpansionCard.Header)`
-    z-index: 1;
-    & > div {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        flex-grow: 1;
-        flex-wrap: wrap;
-    }
-`;
-
-const StyledEmptyCardHeader = styled.div`
-    align-items: center;
-    width: 100%;
-    display: flex;
-    gap: var(--a-spacing-4);
-    padding: var(--__ac-expansioncard-padding-block)
-        var(--__ac-expansioncard-padding-inline);
-    padding-right: 5.5rem;
-    border-radius: var(--__ac-expansioncard-border-radius);
-    background-color: var(
-        --ac-expansioncard-header-bg,
-        var(--a-surface-transparent)
-    );
-    position: relative;
-    border: var(--__ac-expansioncard-border-width) solid
-        var(--__ac-expansioncard-border-color);
-    justify-content: space-between;
-    flex-wrap: wrap;
-`;
-
-const HeaderRightContent = styled.span`
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-    align-self: center;
-    flex-wrap: wrap;
-`;
-
-const BehovsvurderingDato = styled.span`
-    width: 9rem;
-    text-align: left;
-    margin-left: 1rem;
-`;
-
-const BehovsvurderingStatusWrapper = styled.div`
-    min-width: 5rem;
-`;
 
 function ActionButtonsHvisSamarbeidIkkeFullført({
     children,
@@ -94,7 +36,7 @@ function ActionButtonsHvisSamarbeidIkkeFullført({
 }) {
     return (
         <VisHvisSamarbeidErÅpent>
-            <ActionButtonContainer>{children}</ActionButtonContainer>
+            <div className={styles.actionButtonContainer}>{children}</div>
         </VisHvisSamarbeidErÅpent>
     );
 }
@@ -234,23 +176,23 @@ export const BehovsvurderingCardHeaderInnhold = ({
 
     if (spørreundersøkelseStatus === "AVSLUTTET") {
         return (
-            <StyledExpansionCardHeader>
+            <ExpansionCard.Header className={styles.styledExpansionCardHeader}>
                 <ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
-                <HeaderRightContent>
+                <span className={styles.headerRightContent}>
                     <ActionButtonsHvisSamarbeidIkkeFullført>
                         {kanEndreSpørreundersøkelser && (
                             <>
                                 {spørreundersøkelse.publiseringStatus ===
                                     "IKKE_PUBLISERT" && (
-                                    <FlyttTilAnnenProsess
-                                        gjeldendeSamarbeid={samarbeid}
-                                        iaSak={iaSak}
-                                        flyttTilValgtSamarbeid={
-                                            flyttTilValgtSamarbeid
-                                        }
-                                        dropdownSize="small"
-                                    />
-                                )}
+                                        <FlyttTilAnnenProsess
+                                            gjeldendeSamarbeid={samarbeid}
+                                            iaSak={iaSak}
+                                            flyttTilValgtSamarbeid={
+                                                flyttTilValgtSamarbeid
+                                            }
+                                            dropdownSize="small"
+                                        />
+                                    )}
                                 {erIDev && (
                                     <PubliserSpørreundersøkelse
                                         spørreundersøkelse={spørreundersøkelse}
@@ -272,20 +214,20 @@ export const BehovsvurderingCardHeaderInnhold = ({
                             setErIEksportMode={setErIEksportMode}
                         />
                     </ActionButtonsHvisSamarbeidIkkeFullført>
-                    <BehovsvurderingStatusWrapper>
+                    <div className={styles.behovsvurderingStatusWrapper}>
                         <SpørreundersøkelseStatusBadge
                             status={spørreundersøkelse.status}
                         />
-                    </BehovsvurderingStatusWrapper>
-                    <BehovsvurderingDato>{dato}</BehovsvurderingDato>
-                </HeaderRightContent>
-            </StyledExpansionCardHeader>
+                    </div>
+                    <span className={styles.behovsvurderingDato}>{dato}</span>
+                </span>
+            </ExpansionCard.Header>
         );
     }
 
     if (spørreundersøkelseStatus === "OPPRETTET") {
         return (
-            <StyledEmptyCardHeader>
+            <div className={styles.styledEmptyCardHeader}>
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
@@ -347,21 +289,21 @@ export const BehovsvurderingCardHeaderInnhold = ({
                         />
                     )}
                 </ActionButtonsHvisSamarbeidIkkeFullført>
-                <HeaderRightContent>
-                    <BehovsvurderingStatusWrapper>
+                <span className={styles.headerRightContent}>
+                    <div className={styles.behovsvurderingStatusWrapper}>
                         <SpørreundersøkelseStatusBadge
                             status={spørreundersøkelse.status}
                         />
-                    </BehovsvurderingStatusWrapper>
-                    <BehovsvurderingDato>{dato}</BehovsvurderingDato>
-                </HeaderRightContent>
-            </StyledEmptyCardHeader>
+                    </div>
+                    <span className={styles.behovsvurderingDato}>{dato}</span>
+                </span>
+            </div>
         );
     }
 
     if (spørreundersøkelseStatus === "PÅBEGYNT") {
         return (
-            <StyledEmptyCardHeader>
+            <div className={styles.styledEmptyCardHeader}>
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
@@ -429,15 +371,15 @@ export const BehovsvurderingCardHeaderInnhold = ({
                         />
                     )}
                 </ActionButtonsHvisSamarbeidIkkeFullført>
-                <HeaderRightContent>
-                    <BehovsvurderingStatusWrapper>
+                <span className={styles.headerRightContent}>
+                    <div className={styles.behovsvurderingStatusWrapper}>
                         <SpørreundersøkelseStatusBadge
                             status={spørreundersøkelse.status}
                         />
-                    </BehovsvurderingStatusWrapper>
-                    <BehovsvurderingDato>{dato}</BehovsvurderingDato>
-                </HeaderRightContent>
-            </StyledEmptyCardHeader>
+                    </div>
+                    <span className={styles.behovsvurderingDato}>{dato}</span>
+                </span>
+            </div>
         );
     }
 };

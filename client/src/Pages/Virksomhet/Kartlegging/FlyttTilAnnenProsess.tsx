@@ -4,7 +4,6 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import {
     IaSakProsess,
 } from "../../../domenetyper/iaSakProsess";
-import styled from "styled-components";
 import { useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
@@ -14,10 +13,6 @@ interface Props {
     dropdownSize?: "small" | "medium" | "xsmall" | undefined;
     flyttTilValgtSamarbeid: (samarbeidId: number) => void;
 }
-
-const StyledDropdownMenu = styled(Dropdown.Menu)`
-    z-index: 3;
-`;
 
 export const FlyttTilAnnenProsess = ({
     iaSak,
@@ -45,7 +40,7 @@ export const FlyttTilAnnenProsess = ({
                         >
                             Endre samarbeid
                         </Button>
-                        <StyledDropdownMenu>
+                        <Dropdown.Menu style={{ zIndex: 3 }}>
                             <Dropdown.Menu.GroupedList>
                                 <Dropdown.Menu.GroupedList.Heading>
                                     Flytt{" "}
@@ -71,7 +66,7 @@ export const FlyttTilAnnenProsess = ({
                                         </Dropdown.Menu.GroupedList.Item>
                                     ))}
                             </Dropdown.Menu.GroupedList>
-                        </StyledDropdownMenu>
+                        </Dropdown.Menu>
                     </Dropdown>
                 )}
         </>
