@@ -240,7 +240,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                     <ActionButtonsHvisSamarbeidIkkeFullført>
                         {kanEndreSpørreundersøkelser && (
                             <>
-                                {spørreundersøkelse.publiseringStatus !==
+                                {spørreundersøkelse.publiseringStatus ===
                                     "IKKE_PUBLISERT" && (
                                     <FlyttTilAnnenProsess
                                         gjeldendeSamarbeid={samarbeid}
