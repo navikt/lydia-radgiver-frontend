@@ -2,10 +2,10 @@ import { BodyShort, Heading } from "@navikt/ds-react";
 import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
 import { lokalDato } from "../../../util/dato";
-import styled from "styled-components";
 import React from "react";
 import { InternLenke } from "../../../components/InternLenke";
 import { IASamarbeidStatusEnum } from "../../../domenetyper/iaSakProsess";
+import styles from './sakshistorikk.module.scss';
 
 const KOMPAKT_MAKS_ANTALL_RADER = 5;
 
@@ -43,17 +43,17 @@ export default function Samarbeidshistorikk({
 					Samarbeid
 				</Heading>
 			)}
-			<Samarbeidgrid $kompakt={kompakt}>
+			<div className={`${styles.samarbeidGrid} ${kompakt ? styles.kompakt : ""}`}>
 				{
 					sorterteSamarbeid.map((samarbeid) => (
-						<Samarbeidrad key={samarbeid.id}>
+						<div className={styles.samarbeidrad} key={samarbeid.id}>
 							{
 								lenke ? (
-									<InternLenkeMedEllipse underline={false} href={`/virksomhet/${orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}>
+									<InternLenke className={styles.medEllipse} underline={false} href={`/virksomhet/${orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}>
 										{samarbeid.navn}
-									</InternLenkeMedEllipse>
+									</InternLenke>
 								) : (
-									<BodyShortMedEllipse>{samarbeid.navn}</BodyShortMedEllipse>
+									<BodyShort className={styles.medEllipse}>{samarbeid.navn}</BodyShort>
 								)
 							}
 							<SamarbeidStatusBadge status={samarbeid.status} />
@@ -63,11 +63,11 @@ export default function Samarbeidshistorikk({
 									? <span>{lokalDato(samarbeid.sistEndret)}</span>
 									: <div />
 							}
-						</Samarbeidrad>
+						</div>
 					))
 				}
 				<SkjulteRader antallSkjulteRader={antallSkjulteRader} />
-			</Samarbeidgrid>
+			</div>
 		</>
 	);
 }
@@ -91,28 +91,3 @@ function SkjulteRader({ antallSkjulteRader }: { antallSkjulteRader: number }) {
 		</span>
 	);
 }
-
-const InternLenkeMedEllipse = styled(InternLenke)`
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	display: inline-block;
-`;
-
-const BodyShortMedEllipse = styled(BodyShort)`
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	display: inline-block;
-`;
-
-const Samarbeidgrid = styled.div<{ $kompakt: boolean }>`
-	display: grid;
-	grid-template-columns: ${({ $kompakt }) => $kompakt ? "minmax(auto, 10rem) auto auto" : "minmax(auto, 20rem) minmax(auto, 8rem) minmax(auto, 8rem)"};
-	gap: 0.5rem 1.5rem;
-	padding-bottom: ${({ $kompakt }) => $kompakt ? "none" : "2rem"};
-`;
-
-const Samarbeidrad = styled.div`
-	display: contents;
-`;

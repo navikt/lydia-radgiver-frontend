@@ -1,0 +1,24 @@
+.hvisBoksMedSkygge {
+    background-color: var(--a-white);
+    box-shadow: var(--a-shadow-small);
+    border-radius: var(--a-border-radius-medium);
+}
+
+.tabInnholdStyling {
+    padding: 1.5rem;
+    background: var(--a-white);
+    border-radius: var(--a-border-radius-medium);
+    box-shadow: var(--a-shadow-small);
+}
+
+.max75remBreddeOgSentrert {
+    width: clamp(0px, 100%, 75rem);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.sideContainer {
+    padding: 1.5rem 0;
+
+    @extend .max75remBreddeOgSentrert;
+}

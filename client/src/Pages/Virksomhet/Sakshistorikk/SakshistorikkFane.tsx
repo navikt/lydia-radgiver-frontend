@@ -1,23 +1,12 @@
-import styled from "styled-components";
 import { Accordion, BodyShort, Heading, Loader } from "@navikt/ds-react";
 import { lokalDato } from "../../../util/dato";
 import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 import { SakshistorikkTabell } from "./SakshistorikkTabell";
 import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 import { useHentSakshistorikk } from "../../../api/lydia-api/virksomhet";
-import { tabInnholdStyling } from "../../../styling/containere";
 import { LeveransehistorikkTabell } from "./LeveransehistorikkTabell";
 import Samarbeidshistorikk from "./Samarbeidshistorikk";
-
-const Container = styled.div`
-    ${tabInnholdStyling};
-`;
-
-const AccordionHeaderContent = styled.div`
-    display: flex;
-    align-items: center;
-    gap: 2rem;
-`;
+import styles from './sakshistorikk.module.scss';
 
 interface SakshistorikkProps {
     orgnr: string;
@@ -33,23 +22,23 @@ export const SakshistorikkFane = ({
 
     if (lasterSakshistorikk) {
         return (
-            <Container className={className}>
+            <div className={`${styles.samarbeidshistorikkfaneContainer} ${className}`}>
                 <Heading spacing={true} size="large">
                     Sakshistorikk
                 </Heading>
                 <Loader />
-            </Container>
+            </div>
         );
     }
 
     if (!sakshistorikk) {
         return (
-            <Container className={className}>
+            <div className={`${styles.samarbeidshistorikkfaneContainer} ${className}`}>
                 <Heading spacing={true} size="large">
                     Sakshistorikk
                 </Heading>
                 <BodyShort>Kunne ikke hente sakshistorikk</BodyShort>
-            </Container>
+            </div>
         );
     }
 
@@ -59,7 +48,7 @@ export const SakshistorikkFane = ({
     }));
 
     return (
-        <Container className={className}>
+        <div className={`${styles.samarbeidshistorikkfaneContainer} ${className}`}>
             <Heading level="3" size="large" spacing={true}>
                 Historikk
             </Heading>
@@ -68,7 +57,7 @@ export const SakshistorikkFane = ({
                     {sortertHistorikk.map((sakshistorikk) => (
                         <Accordion.Item key={sakshistorikk.saksnummer}>
                             <Accordion.Header>
-                                <AccordionHeaderContent>
+                                <div className={styles.accordionHeaderContent}>
                                     <IAProsessStatusBadge
                                         status={
                                             sakshistorikk.sakshendelser[0]
@@ -77,7 +66,7 @@ export const SakshistorikkFane = ({
                                     />
                                     Sist oppdatert:{" "}
                                     {lokalDato(sakshistorikk.sistEndret)}
-                                </AccordionHeaderContent>
+                                </div>
                             </Accordion.Header>
                             <Accordion.Content>
                                 <Samarbeidshistorikk historikk={sakshistorikk} orgnr={orgnr} />
@@ -98,7 +87,7 @@ export const SakshistorikkFane = ({
                     Fant ingen sakshistorikk på denne virksomheten
                 </BodyShort>
             )}
-        </Container>
+        </div>
     );
 };
 
