@@ -1,0 +1,28 @@
+@use "./_breakpoints.scss" as bp;
+
+$contentSpacingMobileX: 8px;
+$contentSpacingMobileY: #{24 / 16}rem;
+$contentSpacingDesktopX: 5rem;
+$contentSpacingLargeDesktopX: 10rem;
+
+@mixin strekkBakgrunnenHeltUtTilKantenAvSida {
+    // Gjer at eit element dekkjer heile breidda av skjermen
+    margin-left: -#{$contentSpacingMobileX};
+    margin-right: -#{$contentSpacingMobileX};
+    padding-left: #{$contentSpacingMobileX};
+    padding-right: #{$contentSpacingMobileX};
+
+    @include bp.desktopAndUp {
+        margin-left: -#{$contentSpacingDesktopX};
+        margin-right: -#{$contentSpacingDesktopX};
+        padding-left: #{$contentSpacingDesktopX};
+        padding-right: #{$contentSpacingDesktopX};
+    }
+
+    @include bp.largeDesktopAndUp {
+        margin-left: -#{$contentSpacingLargeDesktopX};
+        margin-right: -#{$contentSpacingLargeDesktopX};
+        padding-left: #{$contentSpacingLargeDesktopX};
+        padding-right: #{$contentSpacingLargeDesktopX};
+    }
+}
