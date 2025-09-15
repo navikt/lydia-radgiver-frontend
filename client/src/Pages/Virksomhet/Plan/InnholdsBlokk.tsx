@@ -1,6 +1,5 @@
 import { Accordion, Alert, BodyLong, Select } from "@navikt/ds-react";
 import React from "react";
-import styled from "styled-components";
 import {
     Plan,
     PlanInnhold,
@@ -14,79 +13,7 @@ import { lokalDatoMedKortTekstmåned } from "../../../util/dato";
 import { samarbeidErFullført } from "../Samarbeid/SamarbeidContext";
 import capitalizeFirstLetterLowercaseRest from "../../../util/formatering/capitalizeFirstLetterLowercaseRest";
 
-const StyledAccordion = styled(Accordion)`
-    width: 100%;
-    display: grid;
-    grid-template-columns: min-content 1fr 1fr 8rem;
-`;
-const StyledAccordionItem = styled(Accordion.Item)`
-    grid-column: 1/5;
-    display: grid;
-    grid-template-columns: subgrid;
-`;
-const StyledAccordionHeader = styled(Accordion.Header)`
-    grid-column: 1/4;
-    display: grid;
-    grid-template-columns: subgrid;
-    .navds-accordion__header-content {
-        grid-column: 2/5;
-        display: grid;
-        grid-template-columns: subgrid;
-    }
-    
-    &:hover {
-        text-decoration: none;
-    }
-`;
-const StatusSelectContainer = styled.div`
-    grid-column: 4/5;
-    display: grid;
-    grid-template-columns: subgrid;
-    align-items: center;
-    justify-content: center;
-    --__ac-accordion-header-shadow: inset 2px 0 0 0 var(--a-transparent), inset -2px 0 0 0 var(--a-transparent), inset 0 2px 0 0 var(--__ac-accordion-header-shadow-color);
-    padding-right: var(--a-spacing-3);
-    .navds-accordion__item:not(:last-child) & {
-        box-shadow: var(--__ac-accordion-header-shadow);
-    }
-    
-    .navds-accordion__item:last-child & {
-        box-shadow: inset 0 -2px 0 0 var(--__ac-accordion-header-shadow-color), var(--__ac-accordion-header-shadow);
-    }
-    .navds-accordion__item--open:last-child & {
-        box-shadow: inset 0 -2px 0 0 var(--a-transparent), var(--__ac-accordion-header-shadow);
-    }
-
-    ${StyledAccordionItem}:has(${StyledAccordionHeader}:hover) & {
-        background-color: var(--ac-accordion-header-bg-hover, var(--a-surface-hover));;
-    }
-`;
-const StyledAccordionContent = styled(Accordion.Content)`
-    grid-column: 1/5;
-`;
-const StyledInnholdsTittel = styled.span`
-    ${StyledAccordionHeader}:hover & {
-        text-decoration: underline;
-    }
-`;
-
-const LabelRad = styled.div`
-    grid-column: 1/5;
-    display: grid;
-    grid-template-columns: subgrid;
-    padding-bottom: 0.5rem;
-    font-weight: 600;
-`;
-
-const InnholdLabel = styled.span`
-    grid-column: 2/3;
-`;
-const VarighetLabel = styled.span`
-    grid-column: 3/4;
-`;
-const StatusLabel = styled.span`
-    grid-column: 4/5;
-`;
+import styles from './innholdsBlokk.module.scss';
 
 export default function InnholdsBlokk({
     saksnummer,
@@ -104,12 +31,12 @@ export default function InnholdsBlokk({
     kanOppretteEllerEndrePlan: boolean;
 }) {
     return (
-        <StyledAccordion>
-            <LabelRad>
-                <InnholdLabel>Innhold</InnholdLabel>
-                <VarighetLabel>Varighet</VarighetLabel>
-                <StatusLabel>Status</StatusLabel>
-            </LabelRad>
+        <Accordion className={styles.innholdsblokk}>
+            <div className={styles.labelRad}>
+                <span className={styles.innholdLabel}>Innhold</span>
+                <span className={styles.varighetLabel}>Varighet</span>
+                <span className={styles.statusLabel}>Status</span>
+            </div>
             {tema.undertemaer
                 .filter((undertema) => undertema.inkludert)
                 .sort((a, b) => {
@@ -134,7 +61,7 @@ export default function InnholdsBlokk({
                         }
                     />
                 ))}
-        </StyledAccordion>
+        </Accordion>
     );
 }
 
@@ -148,19 +75,19 @@ function InnholdsRad({
     kanOppretteEllerEndrePlan: boolean;
 }) {
     return (
-        <StyledAccordionItem>
+        <Accordion.Item className={styles.innholdRad}>
             <InnholdsRadHeader
                 innhold={innhold}
                 oppdaterStatus={oppdaterStatus}
                 kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
             />
-            <StyledAccordionContent>
+            <Accordion.Content className={styles.målContainer}>
                 <BodyLong>
                     <b>Mål: </b>
                     {innhold.målsetning}
                 </BodyLong>
-            </StyledAccordionContent>
-        </StyledAccordionItem>
+            </Accordion.Content>
+        </Accordion.Item>
     );
 }
 
@@ -175,20 +102,20 @@ function InnholdsRadHeader({
 }) {
     return (
         <>
-            <StyledAccordionHeader>
-                <StyledInnholdsTittel>{innhold.navn}</StyledInnholdsTittel>
+            <Accordion.Header className={styles.innholdsradheader}>
+                <span className={styles.innholdstittel}>{innhold.navn}</span>
                 <InnholdsVarighetHeader
                     start={innhold.startDato}
                     slutt={innhold.sluttDato}
                 />
-            </StyledAccordionHeader>
-            <StatusSelectContainer>
+            </Accordion.Header>
+            <div className={styles.statusSelectContainer}>
                 <InnholdsStatusHeader
                     innhold={innhold}
                     oppdaterStatus={oppdaterStatus}
                     kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
                 />
-            </StatusSelectContainer>
+            </div>
         </>
     );
 }
@@ -225,10 +152,6 @@ export function PrettyInnholdsDato({
     }, [visNesteMåned, date]);
 }
 
-const IkkeRedigerbarStatus = styled.span`
-    font-weight: 600;
-`;
-
 function InnholdsStatusHeader({
     oppdaterStatus,
     kanOppretteEllerEndrePlan,
@@ -239,7 +162,7 @@ function InnholdsStatusHeader({
     innhold: PlanInnhold;
 }) {
     if (samarbeidErFullført()) {
-        return <IkkeRedigerbarStatus>{innhold.status ? capitalizeFirstLetterLowercaseRest(innhold.status) : "Malgler status"}</IkkeRedigerbarStatus>
+        return <span className={styles.ikkeredigerbarStatus}>{innhold.status ? capitalizeFirstLetterLowercaseRest(innhold.status) : "Malgler status"}</span>
     }
 
     return innhold.status ? (

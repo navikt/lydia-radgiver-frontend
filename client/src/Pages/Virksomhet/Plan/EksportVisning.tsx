@@ -1,8 +1,8 @@
+import styles from './plan.module.scss';
 import { Plan, PlanTema } from "../../../domenetyper/plan";
 import { ActionMenu, BodyShort, Heading } from "@navikt/ds-react";
 import { FilePdfIcon } from "@navikt/aksel-icons";
 import React from "react";
-import styled from "styled-components";
 import PlanGraf from "./PlanGraf";
 import { PrettyInnholdsDato } from "./InnholdsBlokk";
 import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";
@@ -14,19 +14,6 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
 
 const EXPORT_INTERNAL_WIDTH = 1280;
-
-const EksportStyleContainer = styled.div`
-    // Vi må override litt farger før eksport.
-    --ac-timeline-period-danger-border: #c30000;
-    --ac-timeline-period-danger-bg: #c30000;
-    --ac-timeline-period-success-border: #06893a;
-    --ac-timeline-period-success-bg: #06893a;
-    --ac-timeline-period-info-border: #368da8;
-    --ac-timeline-period-info-bg: #368da8;
-    --ac-timeline-period-warning-border: #c77300;
-    --ac-timeline-period-warning-bg: #c77300;
-    font-family: Arial, sans-serif;
-`;
 
 export default function EksportVisning({
     samarbeidsplan,
@@ -44,12 +31,12 @@ export default function EksportVisning({
     const Eksportside = (
         <VirksomhetContext.Provider value={virksomhetdata}>
             <div style={{ width: EXPORT_INTERNAL_WIDTH, padding: "2rem" }}>
-                <EksportStyleContainer>
+                <div className={styles.eksportContainer}>
                     <EksportInnhold
                         plan={samarbeidsplan}
                         samarbeid={samarbeid}
                     />
-                </EksportStyleContainer>
+                </div>
             </div>
         </VirksomhetContext.Provider>
     );
@@ -98,16 +85,6 @@ export default function EksportVisning({
     );
 }
 
-const Container = styled.div`
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-    margin-top: 2rem;
-    border-top: 1px solid var(--a-gray-300);
-    padding: 2rem;
-`;
-
 function EksportInnhold({
     plan,
     samarbeid,
@@ -128,13 +105,13 @@ function EksportInnhold({
                 })
                 .map((tema, index) => {
                     return (
-                        <Container key={index}>
+                        <div className={styles.eksportInnholdTema} key={index}>
                             <Heading level="3" size="medium" spacing={true}>
                                 {tema.navn}
                             </Heading>
                             <PlanGraf undertemaer={tema.undertemaer} hidePin />
                             <UndertemaInnhold tema={tema} />
-                        </Container>
+                        </div>
                     );
                 })}
         </div>

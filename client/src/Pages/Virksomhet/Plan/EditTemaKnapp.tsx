@@ -1,8 +1,6 @@
 import React from "react";
 import { Button, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
-import styled from "styled-components";
-import { mobileAndUp } from "../../../styling/breakpoints";
 import { DocPencilIcon } from "@navikt/aksel-icons";
 import InnholdOppsett from "./InnholdOppsett";
 import { Plan, PlanInnhold, PlanTema } from "../../../domenetyper/plan";
@@ -11,25 +9,8 @@ import { lagRequest, TemaRequest, UndertemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { loggModalÅpnet } from "../../../util/amplitude-klient";
+import styles from "./plan.module.scss";
 
-const EditTemaModal = styled(Modal)`
-    padding: 0;
-    max-width: 64rem;
-    --a-spacing-6: 0.5rem;
-
-    ${mobileAndUp} {
-        padding: 1.5rem;
-        --a-spacing-6: var(
-            --a-spacing-6
-        ); //TODO: Sette til originalverdien frå designsystemet
-        // Vi prøver å hente ut originalverdien frå designsystemet
-    }
-`;
-
-const EditTemaModalBody = styled(Modal.Body)`
-    overflow: visible;
-    min-width: 30rem;
-`;
 
 export default function EditTemaKnapp({
     tema,
@@ -110,13 +91,14 @@ export default function EditTemaKnapp({
             >
                 Rediger tema
             </Button>
-            <EditTemaModal
+            <Modal
+                className={styles.editTemaModal}
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
                 aria-label="Rediger tema"
             >
                 {modalOpen && (
-                    <EditTemaModalBody>
+                    <Modal.Body className={styles.editTemaModalBody}>
                         <InnholdOppsett
                             temaNavn={redigertTema.navn}
                             valgteInnhold={redigertTema.undertemaer}
@@ -150,9 +132,9 @@ export default function EditTemaKnapp({
                                 {harNoenValgteUndertema ? "Lagre" : "Slett"}
                             </Button>
                         </ModalKnapper>
-                    </EditTemaModalBody>
+                    </Modal.Body>
                 )}
-            </EditTemaModal>
+            </Modal>
         </>
     );
 }

@@ -4,7 +4,6 @@ import {
     DatePicker,
     useDatepicker,
 } from "@navikt/ds-react";
-import styled from "styled-components";
 import { PlanInnhold } from "../../../domenetyper/plan";
 import React from "react";
 import {
@@ -15,21 +14,7 @@ import {
 } from "./planconster";
 import { loggEndringAvPlan } from "../../../util/amplitude-klient";
 import LåsbarCheckbox from "../../../components/LåsbarCheckbox";
-
-const InnholdsRad = styled(HStack)`
-    max-width: 100%;
-    flex-wrap: wrap;
-    padding-left: 1.5rem;
-`;
-
-// Noe ødelegger --a-spacing-6 så vi setter det manuelt. Bør ta en titt og finne ut hva som ødelegger det senere.
-const StyledHStack = styled(HStack)`
-    --a-spacing-6: 1.5rem;
-`;
-
-const StyledCheckboxGroup = styled(CheckboxGroup)`
-    margin-bottom: 1.5rem;
-`;
+import styles from './plan.module.scss';
 
 export default function InnholdOppsett({
     valgteInnhold,
@@ -142,7 +127,8 @@ export default function InnholdOppsett({
     };
 
     return (
-        <StyledCheckboxGroup
+        <CheckboxGroup
+            className={styles.innholdsoppsetCheckboxGroup}
             legend={temaNavn}
             value={valgteIder}
             onChange={planleggInnhold}
@@ -160,7 +146,7 @@ export default function InnholdOppsett({
                         setNyStartOgSluttDato={setNyStartOgSluttDato}
                     />
                 ))}
-        </StyledCheckboxGroup>
+        </CheckboxGroup>
     );
 }
 
@@ -176,8 +162,9 @@ function Undertemarad({
     setNyStartOgSluttDato: (innholdId: number, startDato: Date, sluttDato: Date) => void;
 }) {
     return (
-        <InnholdsRad
+        <HStack
             key={`${innhold.sluttDato}${innhold.startDato}${innhold.id}`}
+            className={styles.innholdsrad}
             justify="space-between"
             gap="4"
             align="center"
@@ -197,7 +184,7 @@ function Undertemarad({
                     }
                 />
             ) : undefined}
-        </InnholdsRad>
+        </HStack>
     );
 }
 
@@ -264,7 +251,7 @@ function StartOgSluttVelger({
     });
 
     return (
-        <StyledHStack wrap gap="4" justify="center">
+        <HStack wrap gap="4" justify="center">
             <DatePicker {...datepickerFrom.datepickerProps} dropdownCaption>
                 <DatePicker.Input
                     hideLabel
@@ -281,6 +268,6 @@ function StartOgSluttVelger({
                     {...datepickerTo.inputProps}
                 />
             </DatePicker>
-        </StyledHStack>
+        </HStack>
     );
 }

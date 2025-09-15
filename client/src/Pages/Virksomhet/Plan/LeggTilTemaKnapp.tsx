@@ -2,7 +2,6 @@ import React, { useEffect } from "react";
 import { BodyShort, Button, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import InnholdOppsett from "./InnholdOppsett";
-import styled from "styled-components";
 import { Plan, PlanInnhold, PlanTema } from "../../../domenetyper/plan";
 import { endrePlan, slettPlan } from "../../../api/lydia-api/plan";
 import { lagRequest, TemaRequest } from "./Requests";
@@ -11,14 +10,7 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { NotePencilIcon, TrashIcon } from "@navikt/aksel-icons";
 import { loggModalÅpnet } from "../../../util/amplitude-klient";
 
-const LeggTilTemaModal = styled(Modal)`
-    max-width: 72rem;
-    width: 100%;
-`;
-
-const Subheading = styled(BodyShort)`
-    margin-bottom: 1rem;
-`;
+import styles from './plan.module.scss';
 
 export default function LeggTilTemaKnapp({
     saksnummer,
@@ -66,12 +58,12 @@ export default function LeggTilTemaKnapp({
             redigertTemaliste.map((tema) =>
                 tema.id === temaId
                     ? {
-                          ...tema,
-                          inkludert: redigerteUndertemaer.some(
-                              ({ inkludert }) => inkludert,
-                          ),
-                          undertemaer: redigerteUndertemaer,
-                      }
+                        ...tema,
+                        inkludert: redigerteUndertemaer.some(
+                            ({ inkludert }) => inkludert,
+                        ),
+                        undertemaer: redigerteUndertemaer,
+                    }
                     : { ...tema },
             ),
         );
@@ -125,14 +117,15 @@ export default function LeggTilTemaKnapp({
             >
                 Rediger plan
             </Button>
-            <LeggTilTemaModal
+            <Modal
+                className={styles.leggTilTemaModal}
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
                 aria-label="Legg til tema"
                 header={{ heading: "Sett opp samarbeidsplan" }}
             >
                 <Modal.Body style={{ overflowY: "auto" }}>
-                    <Subheading>Velg innhold og varighet</Subheading>
+                    <BodyShort className={styles.subheading}>Velg innhold og varighet</BodyShort>
                     {modalOpen &&
                         redigertTemaliste
                             .sort((a, b) => {
@@ -162,7 +155,7 @@ export default function LeggTilTemaKnapp({
                         redigertTemaliste={redigertTemaliste}
                     />
                 </Modal.Body>
-            </LeggTilTemaModal>
+            </Modal>
         </>
     );
 }

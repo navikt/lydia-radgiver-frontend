@@ -5,7 +5,6 @@ import {
     HStack,
     useDatepicker,
 } from "@navikt/ds-react";
-import styled from "styled-components";
 import { RedigertInnholdMal } from "../../../domenetyper/plan";
 import {
     FIRST_VALID_DATE,
@@ -13,11 +12,7 @@ import {
     defaultEndDate,
     defaultStartDate,
 } from "./planconster";
-
-const UndertemaRad = styled(HStack)`
-    min-width: 48rem;
-    padding-left: 1.5rem;
-`;
+import styles from './plan.module.scss';
 
 function StartOgSluttVelger({
     redigertInnholdMal,
@@ -85,10 +80,6 @@ function StartOgSluttVelger({
         </HStack>
     );
 }
-
-const StyledCheckboxGroup = styled(CheckboxGroup)`
-    margin-bottom: 1rem;
-`;
 
 export default function TemaInnholdVelger({
     valgteUndertemaer,
@@ -160,7 +151,8 @@ export default function TemaInnholdVelger({
     };
 
     return (
-        <StyledCheckboxGroup
+        <CheckboxGroup
+            className={styles.undertemaCheckboxGroup}
             legend={temaNavn}
             value={valgteUndertemaer
                 .filter((undertema) => undertema.inkludert)
@@ -177,8 +169,9 @@ export default function TemaInnholdVelger({
         >
             {valgteUndertemaer.map((redigertInnholdMal) => {
                 return (
-                    <UndertemaRad
+                    <HStack
                         key={`${redigertInnholdMal.rekkefølge}${redigertInnholdMal.sluttDato}${redigertInnholdMal.startDato}`}
+                        className={styles.undertemaRad}
                         justify="space-between"
                         gap="4"
                         align="center"
@@ -210,9 +203,9 @@ export default function TemaInnholdVelger({
                                 }
                             />
                         ) : undefined}
-                    </UndertemaRad>
+                    </HStack>
                 );
             })}
-        </StyledCheckboxGroup>
+        </CheckboxGroup>
     );
 }

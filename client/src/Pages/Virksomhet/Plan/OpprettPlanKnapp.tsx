@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import { Alert, Button, Modal } from "@navikt/ds-react";
 import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
-import styled from "styled-components";
 import {
     PlanMal,
     PlanMalRequest,
@@ -15,13 +14,7 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { loggModalÅpnet } from "../../../util/amplitude-klient";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
-const DuMåVelgeMinstEttTemaAlert = styled(Alert)`
-    justify-content: end;
-`;
-
-const OpprettPlanModal = styled(Modal)`
-    max-width: 72rem;
-`;
+import styles from './plan.module.scss';
 
 export default function OpprettPlanKnapp({
     saksnummer,
@@ -59,12 +52,12 @@ export default function OpprettPlanKnapp({
         const nyeTema = redigertPlanMal.tema.map((tema) =>
             tema.rekkefølge === temaId
                 ? {
-                      ...tema,
-                      inkludert: redigerteInnholdMal.some(
-                          ({ inkludert }) => inkludert,
-                      ),
-                      innhold: redigerteInnholdMal,
-                  }
+                    ...tema,
+                    inkludert: redigerteInnholdMal.some(
+                        ({ inkludert }) => inkludert,
+                    ),
+                    innhold: redigerteInnholdMal,
+                }
                 : { ...tema },
         );
         setRedigertPlanMal({
@@ -158,7 +151,8 @@ export default function OpprettPlanKnapp({
             >
                 Opprett plan
             </Button>
-            <OpprettPlanModal
+            <Modal
+                className={styles.opprettPlanModal}
                 open={modalOpen}
                 onClose={() => setModalOpen(false)}
                 aria-label="Opprett plan"
@@ -180,9 +174,9 @@ export default function OpprettPlanKnapp({
                     ))}
                     <br />
                     {visTemaFeil && (
-                        <DuMåVelgeMinstEttTemaAlert inline variant="error">
+                        <Alert className={styles.velgMinstEttAlert} inline variant="error">
                             Du må velge minst ett tema.
-                        </DuMåVelgeMinstEttTemaAlert>
+                        </Alert>
                     )}
                     <ModalKnapper>
                         <Button
@@ -203,7 +197,7 @@ export default function OpprettPlanKnapp({
                         </Button>
                     </ModalKnapper>
                 </Modal.Body>
-            </OpprettPlanModal>
+            </Modal>
         </>
     );
 }

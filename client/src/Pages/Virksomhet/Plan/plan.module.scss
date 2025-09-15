@@ -1,0 +1,86 @@
+@import "../../../styling/containere.module.scss";
+
+.editTemaModal {
+    padding: 0;
+    max-width: 64rem;
+    --a-spacing-6: 0.5rem;
+
+    @media (min-width: var(--a-breakpoint-sm)) {
+        padding: 1.5rem;
+        --a-spacing-6: 1.5rem;
+    }
+
+    .editTemaModalBody {
+        overflow: visible;
+        min-width: 30rem;
+    }
+}
+
+.eksportContainer {
+    // Vi må override litt farger før eksport.
+    --ac-timeline-period-danger-border: #c30000;
+    --ac-timeline-period-danger-bg: #c30000;
+    --ac-timeline-period-success-border: #06893a;
+    --ac-timeline-period-success-bg: #06893a;
+    --ac-timeline-period-info-border: #368da8;
+    --ac-timeline-period-info-bg: #368da8;
+    --ac-timeline-period-warning-border: #c77300;
+    --ac-timeline-period-warning-bg: #c77300;
+    font-family: Arial, sans-serif;
+
+    .eksportInnholdTema {
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        gap: 3rem;
+        margin-top: 2rem;
+        border-top: 1px solid var(--a-gray-300);
+        padding: 2rem;
+    }
+}
+
+.innholdsoppsetCheckboxGroup {
+    margin-bottom: 1.5rem;
+
+    .innholdsrad {
+        max-width: 100%;
+        flex-wrap: wrap;
+        padding-left: 1.5rem;
+    }
+}
+
+.leggTilTemaModal {
+    max-width: 72rem;
+    width: 100%;
+
+    .subheading {
+        margin-bottom: 1rem;
+    }
+}
+
+.opprettPlanModal {
+    max-width: 72rem;
+
+    .velgMinstEttAlert {
+        justify-content: end;
+    }
+}
+
+.temaContainer {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+    margin: 1rem 0 2rem;
+
+    @extend .tabInnholdStyling;
+}
+
+.undertemaCheckboxGroup {
+    margin-bottom: 1rem;
+
+    .undertemaRad {
+        min-width: 48rem;
+        padding-left: 1.5rem;
+    }
+}
