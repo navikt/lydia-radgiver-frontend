@@ -1,0 +1,5 @@
+@use "../../styling/_containere.scss" as containere;
+
+.tabell {
+    @include containere.hvitBoksMedSkygge;
+}

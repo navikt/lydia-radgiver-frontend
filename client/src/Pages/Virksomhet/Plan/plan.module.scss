@@ -1,4 +1,4 @@
-@import "../../../styling/containere.module.scss";
+@use "../../../styling/_containere.scss" as containere;
 
 .editTemaModal {
     padding: 0;
@@ -73,7 +73,7 @@
     gap: 3rem;
     margin: 1rem 0 2rem;
 
-    @extend .tabInnholdStyling;
+    @include containere.tabInnholdStyling;
 }
 
 .undertemaCheckboxGroup {

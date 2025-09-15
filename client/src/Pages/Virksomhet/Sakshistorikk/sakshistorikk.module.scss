@@ -1,4 +1,4 @@
-@import "../../../styling/containere.module.scss";
+@use "../../../styling/_containere.scss" as containere;
 
 .medEllipse {
     overflow: hidden;
@@ -27,7 +27,7 @@
 }
 
 .samarbeidshistorikkfaneContainer {
-    @extend .tabInnholdStyling;
+    @include containere.tabInnholdStyling;
 
     .accordionHeaderContent {
         display: flex;

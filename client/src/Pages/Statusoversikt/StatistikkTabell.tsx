@@ -1,18 +1,13 @@
-import styled from "styled-components";
 import { Button, HStack, Table } from "@navikt/ds-react";
 import { IAProsessStatusBadge } from "../../components/Badge/IAProsessStatusBadge";
 import { Statusoversikt } from "../../domenetyper/statusoversikt";
-import { hvitBoksMedSkygge } from "../../styling/containere";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import {
     createSearchParams,
     useNavigate,
     useSearchParams,
 } from "react-router-dom";
-
-const Tabell = styled(Table)`
-    ${hvitBoksMedSkygge};
-`;
+import styles from './statusoversikt.module.scss';
 
 interface Props {
     lederstatistikkListe: Statusoversikt[];
@@ -32,7 +27,7 @@ export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
     }
 
     return (
-        <Tabell size={"small"}>
+        <Table className={styles.tabell} size={"small"}>
             <Table.Header>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Status</Table.HeaderCell>
@@ -63,6 +58,6 @@ export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
                     );
                 })}
             </Table.Body>
-        </Tabell>
+        </Table>
     );
 };
