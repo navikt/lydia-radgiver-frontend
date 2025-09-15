@@ -1,0 +1,22 @@
+@use "../../styling/contentSpacing.scss" as spacing;
+
+.virksomhetsvisning {
+    padding-top: spacing.$contentSpacingMobileY;
+
+    background-color: var(--a-white);
+    @include spacing.strekkBakgrunnenHeltUtTilKantenAvSida;
+
+    --a-font-size-heading-xlarge: 1.75rem;
+
+    .panel {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+
+        background-color: var(--a-gray-100);
+        @include spacing.strekkBakgrunnenHeltUtTilKantenAvSida;
+
+        .nyKodeBanner {
+            margin-bottom: 1rem;
+        }
+    }
+}

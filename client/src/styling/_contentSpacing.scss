@@ -1,7 +1,7 @@
 @use "./_breakpoints.scss" as bp;
 
 $contentSpacingMobileX: 8px;
-$contentSpacingMobileY: #{24 / 16}rem;
+$contentSpacingMobileY: calc(24rem / 16);
 $contentSpacingDesktopX: 5rem;
 $contentSpacingLargeDesktopX: 10rem;
 

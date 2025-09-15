@@ -1,38 +1,13 @@
 import React from "react";
-import styled from "styled-components";
 import { useSearchParams } from "react-router-dom";
 import { Alert, Heading, Tabs } from "@navikt/ds-react";
 import { SakshistorikkFane } from "./Sakshistorikk/SakshistorikkFane";
-import {
-    contentSpacing,
-    strekkBakgrunnenHeltUtTilKantenAvSida,
-} from "../../styling/contentSpacing";
-import { NavFarger } from "../../styling/farger";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentSakForVirksomhet } from "../../api/lydia-api/virksomhet";
 import { SykefraværsstatistikkFane } from "./Statistikk/SykefraværsstatistikkFane";
 import VirksomhetContext from "./VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "./Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
-
-const Container = styled.div`
-    padding-top: ${contentSpacing.mobileY};
-
-    background-color: ${NavFarger.white};
-    ${strekkBakgrunnenHeltUtTilKantenAvSida}; // Velger å sette denne, da heading bruker xlarge, selv om vi setter dem til å være large.
-    --a-font-size-heading-xlarge: 1.75rem;
-`;
-
-const StyledPanel = styled(Tabs.Panel)`
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-
-    background-color: ${NavFarger.gray100};
-    ${strekkBakgrunnenHeltUtTilKantenAvSida}
-`;
-
-const Banner = styled(Alert)`
-    margin-bottom: 1rem;
-`;
+import styles from './virksomhetsvisning.module.scss';
 
 interface Props {
     virksomhet: Virksomhet;
@@ -68,7 +43,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                 spørreundersøkelseId: null,
             }}
         >
-            <Container>
+            <div className={styles.virksomhetsvisning}>
                 <VirksomhetOgSamarbeidsHeader
                     virksomhet={virksomhet}
                     iaSak={iaSak}
@@ -86,15 +61,15 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                         />
                         <Tabs.Tab value="historikk" label="Historikk" />
                     </Tabs.List>
-                    <StyledPanel value="statistikk">
+                    <Tabs.Panel className={styles.panel} value="statistikk">
                         <NyeKoderBanner />
                         <SykefraværsstatistikkFane virksomhet={virksomhet} />
-                    </StyledPanel>
-                    <StyledPanel value="historikk">
+                    </Tabs.Panel>
+                    <Tabs.Panel className={styles.panel} value="historikk">
                         <SakshistorikkFane orgnr={virksomhet.orgnr} />
-                    </StyledPanel>
+                    </Tabs.Panel>
                 </Tabs>
-            </Container>
+            </div>
         </VirksomhetContext.Provider>
     );
 };
@@ -107,13 +82,13 @@ function NyeKoderBanner() {
     }
 
     return (
-        <Banner variant="info" closeButton onClose={() => setVisBanner(false)} contentMaxWidth={false}>
+        <Alert className={styles.nyKodeBanner} variant="info" closeButton onClose={() => setVisBanner(false)} contentMaxWidth={false}>
             <Heading size="xsmall">
                 Nye næringskoder fra 1. september
             </Heading>
             <p>
                 Brønnøysundregistrene har tatt i bruk nye næringskoder som kan påvirke hvilken bransje eller næring virksomheten tilhører. Virksomheter som blir påvirket kan   derfor få nye sammenligningstall med bransjens/næringens sykefravær.
             </p>
-        </Banner>
+        </Alert>
     );
 }
