@@ -1,8 +1,6 @@
-import styled from "styled-components";
 import { Fieldset } from "@navikt/ds-react";
+import styles from './filter.module.scss';
 
-export const FraTilFieldset = styled(Fieldset)`
-    display: flex;
-    gap: 1rem;
-    align-items: center;
-`;
+export function FraTilFieldset({ className, ...remainingProps }: React.ComponentProps<typeof Fieldset>) {
+    return <Fieldset className={className ? `${styles.fraTilFieldset} ${className}` : styles.fraTilFieldset} {...remainingProps} />;
+}

@@ -1,15 +1,9 @@
-import styled from "styled-components";
 import { TextField } from "@navikt/ds-react";
+import styles from './filter.module.scss';
 
-export const TallInput = styled(TextField)`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-
-    label {
-        margin-right: 1rem;
-    }
-    input {
-        width: 5rem;
-    }
-`;
+export function TallInput({
+    className,
+    ...remainingProps
+}: React.ComponentProps<typeof TextField> & { className?: string }) {
+    return <TextField className={className ? `${styles.tallinput} ${className}` : styles.tallinput} {...remainingProps} />;
+}

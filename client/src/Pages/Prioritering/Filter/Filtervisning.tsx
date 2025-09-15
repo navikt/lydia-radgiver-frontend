@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { Button, Checkbox } from "@navikt/ds-react";
 import { Range, SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
 import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
@@ -6,10 +5,8 @@ import { IAStatusDropdown } from "./IAStatusDropdown";
 import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
-import { hvitBoksMedSkygge } from "../../../styling/containere";
 import { Eier, IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
-import { tabletAndUp } from "../../../styling/breakpoints";
 import { SektorDropdown } from "./SektorDropdown";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
@@ -19,38 +16,7 @@ import {
     loggTømmingAvFilterverdier,
 } from "../../../util/amplitude-klient";
 import { FylkeMultidropdown } from "./FylkeMultidropdown";
-
-const Skjema = styled.form`
-    padding: 1rem;
-    ${hvitBoksMedSkygge}
-`;
-
-const Rad = styled.div`
-    display: flex;
-    column-gap: 3rem;
-    row-gap: ${24 / 16}rem;
-    flex-wrap: wrap;
-    flex-direction: column;
-
-    ${tabletAndUp} {
-        flex-direction: row;
-        align-items: start;
-    }
-`;
-
-const KnappeWrapper = styled.div`
-    align-self: end;
-    margin-left: auto;
-
-    display: flex;
-    gap: 1.5rem;
-
-    height: fit-content;
-`;
-
-const Søkeknapp = styled(Button)`
-    width: 10rem;
-`;
+import styles from './filter.module.scss';
 
 type Filtervisning = Omit<
     ReturnType<typeof useFiltervisningState>,
@@ -146,8 +112,8 @@ export const Filtervisning = ({
     };
 
     return (
-        <Skjema className={className} onSubmit={(e) => e.preventDefault()}>
-            <Rad>
+        <form className={className ? `${styles.filtervisningForm} ${className}` : styles.filtervisningForm} onSubmit={(e) => e.preventDefault()}>
+            <div className={styles.rad}>
                 <FylkeMultidropdown
                     fylkerOgKommuner={state.filterverdier?.fylker ?? []}
                     valgteFylker={state.valgteFylker ?? []}
@@ -172,9 +138,9 @@ export const Filtervisning = ({
                     endreKommuner={endreKommuner}
                     style={{ flex: "5" }}
                 />
-            </Rad>
+            </div>
             <br />
-            <Rad>
+            <div className={styles.rad}>
                 <Næringsgruppedropdown
                     bransjeprogram={state.filterverdier?.bransjeprogram ?? []}
                     næringsgrupper={state.filterverdier?.naringsgrupper ?? []}
@@ -187,9 +153,9 @@ export const Filtervisning = ({
                     sektorer={state.filterverdier?.sektorer ?? []}
                     valgtSektor={state.sektor}
                 />
-            </Rad>
+            </div>
             <br />
-            <Rad>
+            <div className={styles.rad}>
                 <SykefraværsprosentVelger
                     sykefraværsprosentRange={state.sykefraværsprosent}
                     endre={endreSykefraværsprosent}
@@ -204,9 +170,9 @@ export const Filtervisning = ({
                     antallArbeidsforhold={state.antallArbeidsforhold}
                     endreAntallArbeidsforhold={endreAntallArbeidsforhold}
                 />
-            </Rad>
+            </div>
             <br />
-            <Rad>
+            <div className={styles.rad}>
                 {skalFilterVises("IA_STATUS") && (
                     <IAStatusDropdown
                         endreStatus={endreStatus}
@@ -223,7 +189,7 @@ export const Filtervisning = ({
                         onEierBytteCallback={endreEiere}
                     />
                 )}
-                <KnappeWrapper>
+                <div className={styles.knappewrapper}>
                     {harFilterÅTømme && (
                         <Button
                             type="button"
@@ -242,15 +208,16 @@ export const Filtervisning = ({
                     >
                         Autosøk
                     </Checkbox>
-                    <Søkeknapp
+                    <Button
+                        className={styles.søkeknapp}
                         size="medium"
                         onClick={søkPåNytt}
                         loading={laster}
                     >
                         {søkeknappTittel ? søkeknappTittel : "Søk"}
-                    </Søkeknapp>
-                </KnappeWrapper>
-            </Rad>
-        </Skjema>
+                    </Button>
+                </div>
+            </div>
+        </form>
     );
 };

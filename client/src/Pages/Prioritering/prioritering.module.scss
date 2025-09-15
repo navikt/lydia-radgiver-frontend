@@ -1,0 +1,25 @@
+.søkeresultatFooter {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    gap: 1rem;
+    padding: 0.5rem 1rem;
+
+    .pagineringsContainer {
+        display: flex;
+        align-items: center;
+
+        .prioriteringPaginator {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .resultatInfo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+    }
+}

@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import cl from "clsx";
 import {
     ChevronLeftIcon as Back,
@@ -7,12 +6,7 @@ import {
 } from "@navikt/aksel-icons";
 import { BodyShort, Pagination } from "@navikt/ds-react";
 import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
-
-const Nav = styled.nav`
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
-`;
+import styles from './prioritering.module.scss';
 
 interface Props {
     side: number;
@@ -21,7 +15,7 @@ interface Props {
 }
 
 export const Paginering = ({ side, antallTreffPåSide, endreSide }: Props) => (
-    <Nav>
+    <nav className={styles.prioriteringPaginator}>
         <Pagination.Item
             className={cl(
                 "navds-pagination__prev-next",
@@ -71,5 +65,5 @@ export const Paginering = ({ side, antallTreffPåSide, endreSide }: Props) => (
                 Neste
             </BodyShort>
         </Pagination.Item>
-    </Nav>
+    </nav>
 );
