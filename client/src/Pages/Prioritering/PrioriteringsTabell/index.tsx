@@ -1,5 +1,4 @@
 import React from "react";
-import styled from "styled-components";
 import { SortState, Table } from "@navikt/ds-react";
 import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
@@ -8,11 +7,11 @@ import {
     formaterSomProsentMedEnDesimal,
 } from "../../../util/tallFormatering";
 import { SøkeresultatFooter } from "../SøkeresultatFooter";
-import { hvitBoksMedSkygge } from "../../../styling/containere";
 import { Virksomhetsoversikt } from "../../../domenetyper/virksomhetsoversikt";
 import { EndretDataCell } from "../EndretDataCell";
 import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 import Virksomhetsnavncelle from "./Virksomhetsnavncelle";
+import styles from './prioriteringstabell.module.scss';
 
 interface Kolonne {
     key: string;
@@ -72,15 +71,6 @@ const kolonner: Kolonne[] = [
     },
 ];
 
-const Container = styled.div`
-    width: fit-content;
-    ${hvitBoksMedSkygge}
-`;
-
-export const RightAllignedDataCell = styled(Table.DataCell)`
-    text-align: right;
-`;
-
 interface Props {
     virksomhetsoversiktListe: Virksomhetsoversikt[];
     side: number;
@@ -119,7 +109,7 @@ export const PrioriteringsTabell = ({
 
     return (
         <ScrollUtTilKantenContainer $offsetRight={0} $offsetLeft={0}>
-            <Container className={className}>
+            <div className={`${styles.prioriteringstabell} ${className ?? ""}`}>
                 <Table
                     zebraStripes
                     size={"small"}
@@ -162,26 +152,26 @@ export const PrioriteringsTabell = ({
                                     sistEndret={virksomhetsoversikt.sistEndret}
                                 />
                                 <Virksomhetsnavncelle virksomhetsoversikt={virksomhetsoversikt} />
-                                <RightAllignedDataCell>
+                                <Table.DataCell className={styles.rightAlignedDataCell}>
                                     {formaterSomHeltall(
                                         virksomhetsoversikt.antallPersoner,
                                     )}
-                                </RightAllignedDataCell>
-                                <RightAllignedDataCell>
+                                </Table.DataCell>
+                                <Table.DataCell className={styles.rightAlignedDataCell}>
                                     {formaterSomProsentMedEnDesimal(
                                         virksomhetsoversikt.sykefraværsprosent,
                                     )}
-                                </RightAllignedDataCell>
-                                <RightAllignedDataCell>
+                                </Table.DataCell>
+                                <Table.DataCell className={styles.rightAlignedDataCell}>
                                     {formaterSomHeltall(
                                         virksomhetsoversikt.tapteDagsverk,
                                     )}
-                                </RightAllignedDataCell>
-                                <RightAllignedDataCell>
+                                </Table.DataCell>
+                                <Table.DataCell className={styles.rightAlignedDataCell}>
                                     {formaterSomHeltall(
                                         virksomhetsoversikt.muligeDagsverk,
                                     )}
-                                </RightAllignedDataCell>
+                                </Table.DataCell>
                                 <Table.DataCell>
                                     <NavIdentMedLenke
                                         navIdent={virksomhetsoversikt.eidAv}
@@ -199,7 +189,7 @@ export const PrioriteringsTabell = ({
                         totaltAntallTreff={totaltAntallTreff}
                     />
                 )}
-            </Container>
+            </div>
         </ScrollUtTilKantenContainer>
     );
 };

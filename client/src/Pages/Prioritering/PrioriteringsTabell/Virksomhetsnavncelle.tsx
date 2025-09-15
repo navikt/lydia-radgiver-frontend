@@ -1,8 +1,8 @@
+import styles from './prioriteringstabell.module.scss';
 import React from "react";
 import { Virksomhetsoversikt } from "../../../domenetyper/virksomhetsoversikt";
 import { Heading, Loader, Table } from "@navikt/ds-react";
 import { InternLenke } from "../../../components/InternLenke";
-import styled from "styled-components";
 
 import { useHentSakshistorikk } from "../../../api/lydia-api/virksomhet";
 import Samarbeidshistorikk from "../../Virksomhet/Sakshistorikk/Samarbeidshistorikk";
@@ -75,25 +75,6 @@ function BasicVirksomhetsnavncelle({
 	);
 }
 
-const PopoverContainer = styled.div`
-	position: absolute;
-	background-color: white;
-	border: 1px solid #ccc;
-	padding: 0.75rem 1rem 1rem;
-	box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-	z-index: 100;
-	pointer-events: none;
-`;
-
-
-const HeadingMedEllipse = styled(Heading)`
-	overflow: hidden;
-	text-overflow: ellipsis;
-	white-space: nowrap;
-	display: inline-block;
-	max-width: 100%;
-`;
-
 function VirksomhetsoversiktPopover({
 	virksomhetsoversikt,
 	setFloatingrefs,
@@ -119,31 +100,31 @@ function VirksomhetsoversiktPopover({
 
 	if (lasterSakshistorikk) {
 		return (
-			<PopoverContainer ref={setFloatingrefs} style={style} {...getFloatingProps()}>
+			<div className={styles.virksomhetsoversiktPopoverContainer} ref={setFloatingrefs} style={style} {...getFloatingProps()}>
 				<Loader size="small" />
-			</PopoverContainer>
+			</div>
 		);
 	}
 
 	if (!aktivSak || aktivSak.samarbeid.length === 0) {
 		return (
-			<PopoverContainer ref={setFloatingrefs} style={style} {...getFloatingProps()}>
+			<div className={styles.virksomhetsoversiktPopoverContainer} ref={setFloatingrefs} style={style} {...getFloatingProps()}>
 				Ingen samarbeid på saken
-			</PopoverContainer>
+			</div>
 		);
 	}
 
 	return (
-		<PopoverContainer ref={setFloatingrefs} style={style} {...getFloatingProps()}>
-			<HeadingMedEllipse size="small" spacing level="3">
+		<div className={styles.virksomhetsoversiktPopoverContainer} ref={setFloatingrefs} style={style} {...getFloatingProps()}>
+			<Heading className={styles.headingMedEllipse} size="small" spacing level="3">
 				{virksomhetsoversikt.virksomhetsnavn}
-			</HeadingMedEllipse>
+			</Heading>
 			<Samarbeidshistorikk
 				kompakt
 				lenke={false}
 				historikk={aktivSak}
 				visHeading={false}
 				orgnr={virksomhetsoversikt.orgnr} />
-		</PopoverContainer>
+		</div>
 	);
 }
