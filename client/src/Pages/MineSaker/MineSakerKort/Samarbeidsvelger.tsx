@@ -4,9 +4,9 @@ import { SplittedeSamarbeid } from "./SamarbeidsKort";
 import { ArchiveIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
 import { IASak } from "../../../domenetyper/domenetyper";
-import styled from "styled-components";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
 import { ARKIV_STATUSER } from "../Filter/StatusFilter";
+import styles from './minesakerkort.module.scss';
 
 export function Samarbeidsvelger({
 	sorterteSamarbeid, valgtSamarbeid, setValgtSamarbeid, iaSak,
@@ -42,24 +42,6 @@ export function Samarbeidsvelger({
 	);
 }
 
-const StyledLenke = styled(Link)`
-	cursor: pointer;
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	min-width: 20rem;
-	color: var(--a-text-action);
-	text-decoration: underline;
-
-	&:hover {
-		text-decoration: none;
-	}
-`;
-
-const StyledSamarbeidsknapp = styled(Button)`
-	padding-right: 0.5rem;
-`;
-
 function InaktiveSamarbeidExpand({
 	avsluttedeSamarbeid,
 	iaSak,
@@ -78,16 +60,17 @@ function InaktiveSamarbeidExpand({
 	return (
 		<ActionMenu>
 			<ActionMenu.Trigger>
-				<StyledSamarbeidsknapp size="small" variant={variant} icon={<ArchiveIcon title="Se arkiverte samarbeid" />} iconPosition="right">
+				<Button className={styles.arkiverteSamarbeidKnapp} size="small" variant={variant} icon={<ArchiveIcon title="Se arkiverte samarbeid" />} iconPosition="right">
 					{knappeTekst}
-				</StyledSamarbeidsknapp>
+				</Button>
 			</ActionMenu.Trigger>
 			<ActionMenu.Content>
 				<ActionMenu.Group label="Avsluttede samarbeid">
 					{avsluttedeSamarbeid.map((samarbeid) => (
 						<ActionMenu.Item
 							key={samarbeid.id}
-							as={StyledLenke}
+							className={styles.avsluttetSamarbeidLenke}
+							as={Link}
 							to={`/virksomhet/${iaSak.orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}
 						>
 							{samarbeid.navn}

@@ -1,42 +1,13 @@
+import styles from './minesakerkort.module.scss';
 import { IAProsessStatusType, IASak } from "../../../domenetyper/domenetyper";
 import { useNavigate } from "react-router-dom";
 import { penskrivSpørreundersøkelseStatus } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
-import { Button } from "@navikt/ds-react";
+import { BodyShort, Button } from "@navikt/ds-react";
 import { loggGåTilSakFraMineSaker } from "../../../util/amplitude-klient";
-import styled from "styled-components";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { lokalDato } from "../../../util/dato";
 import { useHentSpørreundersøkelser } from "../../../api/lydia-api/spørreundersøkelse";
 import { useHentPlan } from "../../../api/lydia-api/plan";
-
-const Innhold = styled.div`
-    background-color: #e6f0ff;
-    border-radius: 10px;
-    padding: 1rem;
-    display: flex;
-    flex-direction: row;
-    align-items: space-between;
-    flex-wrap: wrap;
-`;
-
-const CardContentLeft = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 0.6rem;
-`;
-
-const ContentText = styled.span`
-    font-weight: 600;
-`;
-
-const ContentData = styled(ContentText)`
-    font-weight: 400;
-`;
-
-const CardContentRight = styled.div`
-    margin-top: auto;
-`;
 
 const VIS_VURDERINGSSTATUSER: readonly IAProsessStatusType[] = [
     "VI_BISTÅR",
@@ -95,54 +66,54 @@ export const SamarbeidsInnhold = ({
     );
 
     return (
-        <Innhold>
-            <CardContentLeft>
+        <div className={styles.samarbeidsinnhold}>
+            <div className={styles.cardContentLeft}>
                 {visSpørreundersøkelse &&
-                sisteVurdering?.status &&
-                vurderingSistEndret ? (
+                    sisteVurdering?.status &&
+                    vurderingSistEndret ? (
                     <div>
-                        <ContentText>Behovsvurdering: </ContentText>
-                        <ContentData>
+                        <BodyShort as="span" weight="semibold">Behovsvurdering: </BodyShort>
+                        <BodyShort as="span">
                             {penskrivSpørreundersøkelseStatus(
                                 sisteVurdering.status,
                             )}{" "}
                             {vurderingSistEndret}
-                        </ContentData>
+                        </BodyShort>
                     </div>
                 ) : (
                     <div>
-                        <ContentText>Sist endret: </ContentText>
-                        <ContentData>
+                        <BodyShort as="span" weight="semibold">Sist endret: </BodyShort>
+                        <BodyShort as="span">
                             {lokalDato(
                                 iaSak.endretTidspunkt ??
-                                    iaSak.opprettetTidspunkt,
+                                iaSak.opprettetTidspunkt,
                             )}
-                        </ContentData>
+                        </BodyShort>
                     </div>
                 )}
                 {samarbeidsplan && (
                     <div>
-                        <ContentText>Samarbeidsplan: </ContentText>
-                        <ContentData>
+                        <BodyShort as="span" weight="semibold">Samarbeidsplan: </BodyShort>
+                        <BodyShort as="span">
                             Sist endret {lokalDato(samarbeidsplan.sistEndret)}
-                        </ContentData>
+                        </BodyShort>
                     </div>
                 )}
                 {visSpørreundersøkelse &&
                     sisteEvaluering?.status &&
                     evalueringSistEndret && (
                         <div>
-                            <ContentText>Evaluering: </ContentText>
-                            <ContentData>
+                            <BodyShort as="span" weight="semibold">Evaluering: </BodyShort>
+                            <BodyShort as="span">
                                 {penskrivSpørreundersøkelseStatus(
                                     sisteEvaluering.status,
                                 )}{" "}
                                 {evalueringSistEndret}
-                            </ContentData>
+                            </BodyShort>
                         </div>
                     )}
-            </CardContentLeft>
-            <CardContentRight>
+            </div>
+            <div className={styles.cardContentRight}>
                 <Button
                     size="small"
                     onClick={(e) => {
@@ -156,7 +127,7 @@ export const SamarbeidsInnhold = ({
                 >
                     Gå til samarbeid
                 </Button>
-            </CardContentRight>
-        </Innhold>
+            </div>
+        </div>
     );
 };

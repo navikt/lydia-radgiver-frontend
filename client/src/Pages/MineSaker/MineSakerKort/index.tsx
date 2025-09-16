@@ -1,9 +1,8 @@
-import styled from "styled-components";
+import styles from './minesakerkort.module.scss';
 import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 import { Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import { EksternLenke } from "../../../components/EksternLenke";
 import { useHentSalesforceUrl } from "../../../api/lydia-api/virksomhet";
-import { NavFarger } from "../../../styling/farger";
 import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import { useState } from "react";
@@ -14,55 +13,6 @@ import { SamarbeidsKort } from "./SamarbeidsKort";
 import { useHentTeam } from "../../../api/lydia-api/team";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { InternLenke } from "../../../components/InternLenke";
-
-const SaksKort = styled(VStack)`
-    background-color: white;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    padding: 1.5rem 2rem 1.25rem 2rem;
-    border-radius: 10px;
-    gap: 1rem;
-    width: 100%;
-`;
-
-const KortHeader = styled.div`
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    gap: 1rem;
-    padding: 0 0 1rem 0;
-`;
-
-const Skillelinje = styled.div`
-    border-bottom: solid 1px ${NavFarger.gray500};
-    width: 100%;
-`;
-
-const KortSubheading = styled.span`
-    font-weight: 400;
-`;
-
-const HeaderVirksomhetLenke = styled(InternLenke)`
-    color: ${NavFarger.text};
-    text-decoration: none;
-    font-weight: 600;
-    &:hover,
-    &:focus {
-        text-decoration: underline;
-    }
-`;
-
-const EierText = styled.span`
-    display: flex;
-    gap: 0.5rem;
-`;
-
-const TeamModalButton = styled(Button)`
-    & > .navds-label {
-        font-size: 1.125rem;
-    }
-`;
 
 export const MineSakerKort = ({
     iaSak,
@@ -102,10 +52,11 @@ export const MineSakerKort = ({
 
     return (
         alleSamarbeid && (
-            <SaksKort>
-                <KortHeader>
+            <VStack className={styles.sakskort}>
+                <div className={styles.kortHeader}>
                     <Heading level="3" size="medium">
-                        <HeaderVirksomhetLenke
+                        <InternLenke
+                            className={styles.headerlenke}
                             href={gåTilSakUrl}
                             onClick={() =>
                                 loggGåTilSakFraMineSaker(
@@ -115,22 +66,23 @@ export const MineSakerKort = ({
                             }
                         >
                             {orgnavn}
-                        </HeaderVirksomhetLenke>
-                        <KortSubheading> - {iaSak.orgnr}</KortSubheading>
+                        </InternLenke>
+                        <span className={styles.subheader}> - {iaSak.orgnr}</span>
                     </Heading>
                     <HStack justify={"space-between"} align={"center"}>
                         <HStack gap={"4"} align={"center"}>
                             <IAProsessStatusBadge status={iaSak.status} />
-                            <EierText>
+                            <span className={styles.eiertekst}>
                                 <b>Eier</b>
                                 {iaSak.eidAv ? (
                                     <NavIdentMedLenke navIdent={iaSak.eidAv} />
                                 ) : (
                                     <span>Ingen eier</span>
                                 )}
-                            </EierText>
+                            </span>
 
-                            <TeamModalButton
+                            <Button
+                                className={styles.teamModalButton}
                                 onClick={() => setIsModalOpen(true)}
                                 variant="tertiary-neutral"
                                 icon={
@@ -143,7 +95,7 @@ export const MineSakerKort = ({
                                 iconPosition="right"
                             >
                                 <span>Følgere ({følgere.length})</span>
-                            </TeamModalButton>
+                            </Button>
                             <TeamModal
                                 open={isModalOpen}
                                 setOpen={setIsModalOpen}
@@ -159,18 +111,18 @@ export const MineSakerKort = ({
                             )
                         }
                     </HStack>
-                </KortHeader>
+                </div>
 
                 {alleSamarbeid && alleSamarbeid.length > 0 && (
                     <>
-                        <Skillelinje />
+                        <div className={styles.skillelinje} />
                         <SamarbeidsKort
                             iaSak={iaSak}
                             alleSamarbeid={alleSamarbeid}
                         />
                     </>
                 )}
-            </SaksKort>
+            </VStack>
         )
     );
 };

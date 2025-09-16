@@ -1,0 +1,87 @@
+.arkiverteSamarbeidKnapp {
+    padding-right: 0.5rem;
+}
+
+.avsluttetSamarbeidLenke {
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    min-width: 20rem;
+    color: var(--a-text-action);
+    text-decoration: underline;
+
+    &:hover {
+        text-decoration: none;
+    }
+}
+
+.samarbeidsinnhold {
+    background-color: var(--a-blue-50);
+    border-radius: 10px;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: space-between;
+    flex-wrap: wrap;
+
+    .cardContentLeft {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        gap: 0.6rem;
+    }
+
+    .cardContentRight {
+        margin-top: auto;
+    }
+}
+
+.sakskort {
+    background-color: var(--a-white);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 1.5rem 2rem 1.25rem 2rem;
+    border-radius: 10px;
+    gap: 1rem;
+    width: 100%;
+
+    .kortHeader {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        gap: 1rem;
+        padding: 0 0 1rem 0;
+
+        .headerlenke {
+            color: var(--a-gray-900);
+            text-decoration: none;
+            font-weight: 600;
+            &:hover,
+            &:focus {
+                text-decoration: underline;
+            }
+        }
+
+        .subheader {
+            font-weight: 400;
+        }
+
+        .eiertekst {
+            display: flex;
+            gap: 0.5rem;
+        }
+    }
+
+    .skillelinje {
+        border-bottom: 1px solid var(--a-gray-500);
+        width: 100%;
+    }
+
+    .teamModalButton {
+        & > :global(.navds-label) {
+            font-size: 1.125rem;
+        }
+    }
+}
