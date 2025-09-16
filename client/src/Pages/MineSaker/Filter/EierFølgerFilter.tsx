@@ -1,39 +1,13 @@
 import { Accordion, Checkbox, CheckboxGroup } from "@navikt/ds-react";
 import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
 import { useHentMineSaker } from "../../../api/lydia-api/sak";
-import styled from "styled-components";
 import {
     EIER_FØLGER_FILTER_VALUES,
     EierFølgerFilterType,
 } from "../MineSakerside";
 import { ARKIV_STATUSER } from "./StatusFilter";
+import styles from './mineSakerFilter.module.scss';
 
-const StyledAccordion = styled(Accordion)`
-    box-shadow: none;
-    --__ac-accordion-header-shadow-color: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
-
-const StyledAccordionHeader = styled(Accordion.Header)`
-    flex-direction: row-reverse;
-    & > .navds-accordion__header-content {
-        font-size: 1.125rem;
-        font-weight: 400;
-        flex: 1;
-        padding-left: 1rem;
-    }
-`;
-const StyledAccordionItem = styled(Accordion.Item)`
-    background-color: white;
-    border-radius: 0.25rem;
-
-    & > button:hover {
-        border-radius: 0.25rem;
-        background-color: white;
-    }
-`;
 
 const penskrivEierFølgerMap: Record<
     (typeof EIER_FØLGER_FILTER_VALUES)[number],
@@ -64,9 +38,9 @@ export const EierFølgerFilter = ({
     ).length;
 
     return (
-        <StyledAccordion>
-            <StyledAccordionItem>
-                <StyledAccordionHeader>Tilknytning</StyledAccordionHeader>
+        <Accordion className={styles.eierFølgerAccordion}>
+            <Accordion.Item className={styles.eierFølgerAccordionItem}>
+                <Accordion.Header className={styles.eierFølgerAccordionHeader}>Tilknytning</Accordion.Header>
                 <Accordion.Content>
                     <CheckboxGroup
                         legend="status"
@@ -81,7 +55,7 @@ export const EierFølgerFilter = ({
                             ))}
                     </CheckboxGroup>
                 </Accordion.Content>
-            </StyledAccordionItem>
-        </StyledAccordion>
+            </Accordion.Item>
+        </Accordion>
     );
 };

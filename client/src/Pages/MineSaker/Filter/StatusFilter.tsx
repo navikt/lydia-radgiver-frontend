@@ -4,41 +4,7 @@ import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { useFilterverdier } from "../../../api/lydia-api/sok";
 import { useHentMineSaker } from "../../../api/lydia-api/sak";
 import { penskrivIAStatus } from "../../../components/Badge/IAProsessStatusBadge";
-import styled from "styled-components";
-import { BorderRadius } from "../../../styling/borderRadius";
-
-const StyledAccordion = styled(Accordion)`
-    box-shadow: none;
-    --__ac-accordion-header-shadow-color: none;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
-
-const StyledAccordionHeader = styled(Accordion.Header)`
-    flex-direction: row-reverse;
-    & > .navds-accordion__header-content {
-        font-size: 1.125rem;
-        font-weight: 400;
-        flex: 1;
-        padding-left: 1rem;
-    }
-`;
-const StyledAccordionItem = styled(Accordion.Item)`
-    background-color: white;
-    border-radius: ${BorderRadius.medium};
-
-    & > button:hover {
-        border-radius: ${BorderRadius.medium};
-        background-color: white;
-    }
-`;
-
-const CheckboxgroupStyling = styled.div`
-    background-color: white;
-    padding: 0.125rem 2.75rem;
-    border-radius: ${BorderRadius.medium};
-`;
+import styles from './mineSakerFilter.module.scss';
 
 export const ARKIV_STATUSER: readonly IAProsessStatusType[] = [
     "FULLFØRT",
@@ -94,9 +60,9 @@ export const StatusFilter = ({
 
     return (
         <>
-            <StyledAccordion variant="default">
-                <StyledAccordionItem defaultOpen>
-                    <StyledAccordionHeader>Status</StyledAccordionHeader>
+            <Accordion className={styles.filterAccordion} variant="default">
+                <Accordion.Item className={styles.filterItem} defaultOpen>
+                    <Accordion.Header className={styles.filterHeader}>Status</Accordion.Header>
                     <Accordion.Content>
                         <CheckboxGroup
                             legend="status"
@@ -117,8 +83,8 @@ export const StatusFilter = ({
                                     ))}
                         </CheckboxGroup>
                     </Accordion.Content>
-                </StyledAccordionItem>
-            </StyledAccordion>
+                </Accordion.Item>
+            </Accordion>
         </>
     );
 };
@@ -134,7 +100,7 @@ export const ArkivStatusFilter = ({
     ) => void;
 }) => {
     return (
-        <CheckboxgroupStyling>
+        <div className={styles.aktivStatusFilter}>
             <CheckboxGroup
                 legend="Vis arkiverte saker"
                 hideLegend
@@ -143,6 +109,6 @@ export const ArkivStatusFilter = ({
             >
                 <Checkbox value={"Arkiv"}>{`Se arkiverte saker`}</Checkbox>
             </CheckboxGroup>
-        </CheckboxgroupStyling>
+        </div>
     );
 };

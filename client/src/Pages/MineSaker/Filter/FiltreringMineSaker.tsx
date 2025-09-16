@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { MineSakerSøkefelt } from "./MineSakerSokeFelt";
 import {
     StatusFilter,
@@ -7,25 +6,7 @@ import {
 } from "./StatusFilter";
 import { EierFølgerFilter } from "./EierFølgerFilter";
 import { SetMinesakerFiltreType } from "../MineSakerside";
-
-const FilterContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    border-radius: 0.25rem;
-    gap: 0.5rem;
-`;
-
-const ParentContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-`;
-
-const FilterTitle = styled.div`
-    font-weight: 600;
-    margin-bottom: 0.5rem;
-    font-size: 1.125rem;
-`;
+import styles from './mineSakerFilter.module.scss';
 
 type Props = {
     setFiltre: SetMinesakerFiltreType;
@@ -38,11 +19,11 @@ const FiltreringMineSaker = ({
         useStatusFilter(setStatusFilter);
 
     return (
-        <ParentContainer>
+        <div className={styles.mineSakerFilterParentContainer}>
             <MineSakerSøkefelt setSøkFilter={setSøkFilter} />
             <div>
-                <FilterTitle>Filter</FilterTitle>
-                <FilterContainer>
+                <div className={styles.filterTittel}>Filter</div>
+                <div className={styles.filterContainer}>
                     <StatusFilter
                         aktiveStatusFiltre={aktiveStatusFiltre}
                         arkivStatusFiltre={arkivStatusFiltre}
@@ -55,9 +36,9 @@ const FiltreringMineSaker = ({
                         arkivStatusFiltre={arkivStatusFiltre}
                         handleStatusFilterEndring={handleStatusFilterEndring}
                     />
-                </FilterContainer>
+                </div>
             </div>
-        </ParentContainer>
+        </div>
     );
 };
 
