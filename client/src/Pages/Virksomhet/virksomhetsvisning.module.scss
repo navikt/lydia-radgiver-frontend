@@ -6,7 +6,9 @@
     background-color: var(--a-white);
     @include spacing.strekkBakgrunnenHeltUtTilKantenAvSida;
 
-    --a-font-size-heading-xlarge: 1.75rem;
+    & {
+        --a-font-size-heading-xlarge: 1.75rem;
+    }
 
     .panel {
         padding-top: 1.5rem;
