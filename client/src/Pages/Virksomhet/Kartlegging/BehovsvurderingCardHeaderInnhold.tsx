@@ -23,7 +23,6 @@ import {
 import { SpørreundersøkelseMedInnholdVisning } from "./SpørreundersøkelseForhåndsvisningModal";
 import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
 import { PubliserSpørreundersøkelse } from "./PubliserSpørreundersøkelse";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 
 import styles from './behovsvurderingCardHeaderInnhold.module.scss';
@@ -193,18 +192,16 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                             dropdownSize="small"
                                         />
                                     )}
-                                {erIDev && (
-                                    <PubliserSpørreundersøkelse
-                                        spørreundersøkelse={spørreundersøkelse}
-                                        hentBehovsvurderingPåNytt={
-                                            hentBehovsvurderingPåNytt
-                                        }
-                                        pollerPåStatus={
-                                            henterBehovsvurderingPånytt ||
-                                            forsøkPåÅHenteBehovsvurdering < 10
-                                        }
-                                    />
-                                )}
+                                <PubliserSpørreundersøkelse
+                                    spørreundersøkelse={spørreundersøkelse}
+                                    hentBehovsvurderingPåNytt={
+                                        hentBehovsvurderingPåNytt
+                                    }
+                                    pollerPåStatus={
+                                        henterBehovsvurderingPånytt ||
+                                        forsøkPåÅHenteBehovsvurdering < 10
+                                    }
+                                />
                             </>
                         )}
                         <ResultatEksportVisning
