@@ -1,4 +1,3 @@
-import styled from "styled-components";
 import { IASak } from "../../domenetyper/domenetyper";
 import { loggFølgeSak } from "../../util/amplitude-klient";
 import { BodyShort, Button, HStack } from "@navikt/ds-react";
@@ -16,36 +15,7 @@ import {
     useHentTeam,
 } from "../../api/lydia-api/team";
 import { useErPåAktivSak } from "../Virksomhet/VirksomhetContext";
-
-const EierBoks = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-`;
-
-const EierKnappBoks = styled.div`
-    display: flex;
-    gap: 0.6rem;
-    flex-direction: column;
-    align-items: flex-start;
-`;
-
-const FølgereBoks = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    align-items: flex-start;
-`;
-const FølgereHeader = styled.div`
-    margin-top: 1rem;
-    font-weight: 700;
-`;
-const FølgereListe = styled.div`
-    display: flex;
-    flex-direction: row;
-    gap: 0.5rem;
-    flex-wrap: wrap;
-`;
+import styles from './minesaker.module.scss';
 
 function følgerSak(
     brukerIdent: string | undefined,
@@ -81,7 +51,7 @@ export default function TeamInnhold({
 
     return (
         <>
-            <EierBoks>
+            <div className={styles.eierboks}>
                 <div>
                     <b>Eier:</b>{" "}
                     {iaSak.eidAv ? (
@@ -91,7 +61,7 @@ export default function TeamInnhold({
                     )}
                 </div>
 
-                <EierKnappBoks>
+                <div className={styles.eierknappboks}>
                     <span>
                         Ønsker du å ta eierskap til saken? Nåværende eier blir
                         automatisk fjernet.
@@ -116,16 +86,16 @@ export default function TeamInnhold({
                             )}
                         </HStack>
                     </Button>
-                </EierKnappBoks>
-            </EierBoks>
-            <FølgereBoks>
-                <FølgereHeader>Følgere:</FølgereHeader>
+                </div>
+            </div>
+            <div className={styles.følgereboks}>
+                <div className={styles.følgereheader}>Følgere:</div>
                 {!!følgere.length && (
-                    <FølgereListe>
+                    <div className={styles.følgereliste}>
                         {følgere.map((følger) => (
                             <NavIdentMedLenke key={følger} navIdent={følger} />
                         ))}
-                    </FølgereListe>
+                    </div>
                 )}
                 <span>
                     Følg saken for å se den under &ldquo;Mine saker&rdquo;
@@ -162,7 +132,7 @@ export default function TeamInnhold({
                         Følg saken
                     </Button>
                 )}
-            </FølgereBoks>
+            </div>
         </>
     );
 }

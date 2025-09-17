@@ -1,17 +1,12 @@
 import { Button } from "@navikt/ds-react";
 import { useEffect, useState } from "react";
-import styled from "styled-components";
 import {
     ArrowDownIcon,
     ArrowUpIcon,
     ArrowsUpDownIcon,
 } from "@navikt/aksel-icons";
 
-const ButtonContainer = styled.div`
-    display: flex;
-    justify-content: flex-end;
-`;
-
+import styles from './minesaker.module.scss';
 interface SorteringsknapperProps {
     onSortChange: (
         sortBy: "date" | "alphabetical",
@@ -43,7 +38,7 @@ export const Sorteringsknapper = ({ onSortChange }: SorteringsknapperProps) => {
 
 
     return (
-        <ButtonContainer>
+        <div className={styles.buttonContainer}>
             <Button
                 size="medium"
                 variant="tertiary"
@@ -64,7 +59,7 @@ export const Sorteringsknapper = ({ onSortChange }: SorteringsknapperProps) => {
             >
                 Sist endret
             </Button>
-        </ButtonContainer>
+        </div>
     );
 };
 

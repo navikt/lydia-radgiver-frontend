@@ -1,17 +1,11 @@
 import { Button, Modal } from "@navikt/ds-react";
-import styled from "styled-components";
 import { useHentMineSaker } from "../../api/lydia-api/sak";
 import { IASak } from "../../domenetyper/domenetyper";
 import TeamInnhold from "./TeamInnhold";
 import React from "react";
 import { TaEierskapModal } from "./TaEierSkapModal";
 
-const ModalBodyWrapper = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 3rem;
-`;
-
+import styles from './minesaker.module.scss';
 interface TeamModalProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -40,9 +34,9 @@ export const TeamModal = ({ open, setOpen, iaSak, erPåMineSaker = false }: Team
                 width="small"
             >
                 <Modal.Body>
-                    <ModalBodyWrapper>
+                    <div className={styles.teammodal}>
                         <TeamInnhold iaSak={iaSak} lukkEksternContainer={() => setOpen(false)} erPåMineSaker={erPåMineSaker} åpneTaEierskapModal={() => setTaEierskapModalÅpen(true)} />
-                    </ModalBodyWrapper>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button

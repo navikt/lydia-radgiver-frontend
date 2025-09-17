@@ -1,0 +1,96 @@
+@use "../../styling/breakpoints" as bp;
+@use "../../styling/containere" as containere;
+
+.mineSakerSide {
+    @include containere.sideContainer;
+
+    .styledAlert {
+        margin-bottom: 1rem;
+    }
+
+    .mineSakerHeaderContainer {
+        display: flex;
+        flex-direction: column;
+        gap: 1rem;
+        width: 100%;
+        margin-bottom: 1rem;
+
+        .buttonContainer {
+            display: flex;
+            justify-content: flex-end;
+        }
+    }
+
+    .minesakerFlex {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-direction: column;
+        flex-wrap: wrap;
+        gap: 2rem;
+        width: 100%;
+
+        @include bp.desktopAndUp {
+            flex-direction: row;
+            gap: 4rem;
+            align-items: flex-start;
+        }
+
+        .stickyfilter {
+            position: static;
+            min-width: 18rem;
+
+            @include bp.desktopAndUp {
+                position: sticky;
+                align-items: flex-start;
+                top: 3rem;
+                transform: translateY(-2rem);
+            }
+        }
+
+        .mineSakerListe {
+            flex: 1;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            max-width: 100%;
+        }
+    }
+}
+
+.eierboks {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+
+    .eierknappboks {
+        display: flex;
+        gap: 0.6rem;
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+.følgereboks {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: flex-start;
+
+    .følgereheader {
+        margin-top: 1rem;
+        font-weight: 700;
+    }
+    .følgereliste {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        flex-wrap: wrap;
+    }
+}
+
+.teammodal {
+    display: flex;
+    flex-direction: column;
+    gap: 3rem;
+}

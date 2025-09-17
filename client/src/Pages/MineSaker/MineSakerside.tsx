@@ -1,63 +1,16 @@
-import styled from "styled-components";
-import { SideContainer } from "../../styling/containere";
 import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
 import { useHentMineSaker } from "../../api/lydia-api/sak";
 import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
 import React, { useEffect, useMemo, useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
-import { desktopAndUp } from "../../styling/breakpoints";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { Sorteringsknapper } from "./Sorteringsknapper";
 import { loggBrukerFulgteRedirectlenkeMedSøk, loggBrukerRedirigertMedSøkAlert, loggSideLastet } from "../../util/amplitude-klient";
 import { loggMineSakerFilterEndringMedAmplitude } from "./loggFilterEndringMedAmplitude";
 import { Alert, Heading, Link } from "@navikt/ds-react";
 import { useLocation, NavLink } from "react-router-dom";
-
-const FlexContainer = styled.div`
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    flex-wrap: wrap;
-    gap: 2rem;
-    width: 100%;
-
-    ${desktopAndUp} {
-        flex-direction: row;
-        gap: 4rem;
-        align-items: flex-start;
-    }
-`;
-
-const MineSakerListe = styled.div`
-    flex: 1;
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    max-width: 100%;
-`;
-
-
-const HeaderContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
-    width: 100%;
-    margin-bottom: 1rem;
-`;
-
-const StickyFilterContainer = styled.div`
-    position: static;
-    min-width: 18rem;
-
-    ${desktopAndUp} {
-        position: sticky;
-        align-items: flex-start;
-        top: 3rem;
-        transform: translateY(-2rem);
-    }
-`;
+import styles from './minesaker.module.scss';
 
 export const EIER_FØLGER_FILTER_VALUES = ["eier", "følger"] as const;
 export type EierFølgerFilterType = (typeof EIER_FØLGER_FILTER_VALUES)[number][];
@@ -153,14 +106,14 @@ export const MineSakerside = () => {
     };
 
     return (
-        <SideContainer>
+        <div className={styles.mineSakerSide}>
             <BrukerBleRedirectedBanner />
-            <HeaderContainer>
+            <div className={styles.mineSakerHeaderContainer}>
                 <Heading level="2" size="large">Mine saker</Heading>
                 <Sorteringsknapper onSortChange={handleSortChange} />
-            </HeaderContainer>
-            <FlexContainer>
-                <StickyFilterContainer>
+            </div>
+            <div className={styles.minesakerFlex}>
+                <div className={styles.stickyfilter}>
                     <FiltreringMineSaker
                         setFiltre={{
                             setEierFølgerFilter,
@@ -168,8 +121,8 @@ export const MineSakerside = () => {
                             setSøkFilter,
                         }}
                     />
-                </StickyFilterContainer>
-                <MineSakerListe>
+                </div>
+                <div className={styles.mineSakerListe}>
                     {sorterteSaker.length === 0 ? (
                         <div>Fant ingen saker </div>
                     ) : (
@@ -180,15 +133,11 @@ export const MineSakerside = () => {
                             />
                         ))
                     )}
-                </MineSakerListe>
-            </FlexContainer>
-        </SideContainer>
+                </div>
+            </div>
+        </div>
     );
 };
-
-const StyledAlert = styled(Alert)`
-    margin-bottom: 1rem;
-`;
 
 function BrukerBleRedirectedBanner() {
     const [show, setShow] = React.useState(true);
@@ -201,7 +150,7 @@ function BrukerBleRedirectedBanner() {
 
     if (show && state?.redirected?.search?.length > 0) {
         return (
-            <StyledAlert variant="info" size="small" closeButton onClose={() => setShow(false)} contentMaxWidth={false}>
+            <Alert className={styles.styledAlert} variant="info" size="small" closeButton onClose={() => setShow(false)} contentMaxWidth={false}>
                 <Heading size="small" level="3" spacing>
                     Ny landingsside for saksbehandler og lesetilgang
                 </Heading>
@@ -209,7 +158,7 @@ function BrukerBleRedirectedBanner() {
                 <br />
                 Følg <Link as={NavLink} onClick={() => loggBrukerFulgteRedirectlenkeMedSøk()} to={`/prioritering${state.redirected.search}`}>denne lenken</Link> for å komme til ditt lagrede søk på prioriterinssiden.
                 <br />
-            </StyledAlert>
+            </Alert>
         );
     }
 
