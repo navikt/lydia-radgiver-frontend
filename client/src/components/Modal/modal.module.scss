@@ -1,0 +1,25 @@
+@use "../../styling/breakpoints" as bp;
+
+.styledModal {
+    padding: 0rem;
+    max-width: 42rem;
+    --a-spacing-6: 0.5rem;
+
+    @include bp.mobileAndUp {
+        padding: 1.5rem;
+        --a-spacing-6: var(
+            --a-spacing-6
+        ); // Vi prøver å hente ut originalverdien frå designsystemet
+    }
+}
+
+.modalknapper {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 2rem;
+
+    button {
+        margin-left: 1rem;
+        min-width: 6rem;
+    }
+}

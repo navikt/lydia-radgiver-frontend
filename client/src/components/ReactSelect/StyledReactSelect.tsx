@@ -1,11 +1,12 @@
-import styled from "styled-components";
+import styles from './reactSelect.module.scss';
 import ReactSelect, { CSSObjectWithLabel, StylesConfig } from "react-select";
 import { NavFarger } from "../../styling/farger";
 import { BorderRadius } from "../../styling/borderRadius";
 
-export const StyledReactSelect = styled(ReactSelect)`
-    margin-top: var(--a-spacing-2);
-`;
+export function StyledReactSelect(props: React.ComponentProps<typeof ReactSelect>) {
+    return <ReactSelect className={`${styles.styledSelect}`} {...props} />;
+}
+
 
 export const reactSelectStyle = (): StylesConfig => ({
     control: (provided, state) =>

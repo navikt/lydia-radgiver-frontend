@@ -1,12 +1,5 @@
-import styled from "styled-components";
+import styles from './modal.module.scss';
 
-export const ModalKnapper = styled.div`
-    display: flex;
-    justify-content: flex-end;
-    margin-top: 2rem;
-
-    button {
-        margin-left: 1rem;
-        min-width: 6rem;
-    }
-`;
+export function ModalKnapper({ className = "", ...remainingProps }: React.HTMLAttributes<HTMLDivElement>) {
+    return <div className={`${className} ${styles.modalknapper}`} {...remainingProps} />;
+}
