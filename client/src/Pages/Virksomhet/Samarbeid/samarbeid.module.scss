@@ -1,0 +1,35 @@
+@use "../../../styling/_contentSpacing.scss" as spacing;
+@use "../Samarbeid/_samarbeidModal.scss" as modal;
+
+.samarbeidsvisningContainer {
+    --a-font-size-heading-xlarge: 1.75rem;
+    padding-top: spacing.$contentSpacingMobileY;
+    background-color: var(--a-white);
+    @include spacing.strekkBakgrunnenHeltUtTilKantenAvSida;
+
+    .panel {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        background-color: var(--a-gray-100);
+        @include spacing.strekkBakgrunnenHeltUtTilKantenAvSida;
+    }
+}
+
+.nyttSamarbeidModal {
+    @include modal.samarbeidModal;
+
+    .nyttSamarbeidModalInnhold {
+        @include modal.modalBodyInnholdFlex;
+
+        .textField {
+            @include modal.textFieldStyled;
+        }
+
+        .detaljer {
+            @include modal.detaljerWrapper;
+            &.detaljerDisabled {
+                opacity: 0.25;
+            }
+        }
+    }
+}

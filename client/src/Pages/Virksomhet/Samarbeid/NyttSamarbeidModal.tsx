@@ -6,23 +6,21 @@ import {
     Detail,
     Heading,
     Modal,
+    TextField,
 } from "@navikt/ds-react";
 import React, { useState } from "react";
 
-import { useHentSakshistorikk } from "../../../api/lydia-api/virksomhet";
-import { useHentSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
-import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import {
-    DetaljerWrapper,
-    MAX_LENGDE_SAMARBEIDSNAVN,
-    ModalBodyInnholdFlex,
-    TextFieldStyled,
-} from "./EndreSamarbeidModal/EndreSamarbeidInnhold";
+    useHentSakForVirksomhet,
+    useHentSakshistorikk,
+} from "../../../api/lydia-api/virksomhet";
+import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
+import { MAX_LENGDE_SAMARBEIDSNAVN } from "./EndreSamarbeidModal/EndreSamarbeidInnhold";
 import { useNavigate } from "react-router-dom";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
-import styled from "styled-components";
 import { EksternLenke } from "../../../components/EksternLenke";
+import styles from "./samarbeid.module.scss";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
@@ -30,11 +28,6 @@ interface NyttSamarbeidProps {
     setÅpen: React.Dispatch<React.SetStateAction<boolean>>;
     virksomhet: Virksomhet;
 }
-
-export const StyledSamarbeidModal = styled(Modal)`
-    max-width: 42rem;
-    width: 100%;
-`;
 
 export const NyttSamarbeidModal = ({
     iaSak,
@@ -54,9 +47,7 @@ export const NyttSamarbeidModal = ({
         iaSak.orgnr,
         iaSak.saksnummer,
     );
-    const { mutate: hentHistorikkPåNytt } = useHentSakshistorikk(
-        iaSak.orgnr,
-    );
+    const { mutate: hentHistorikkPåNytt } = useHentSakshistorikk(iaSak.orgnr);
     const { mutate: hentSamarbeidPåNytt, data: samarbeidData } =
         useHentSamarbeid(iaSak.orgnr, iaSak.saksnummer);
     const samarbeidsnavnBasertPåVirksomhet =
@@ -67,7 +58,10 @@ export const NyttSamarbeidModal = ({
         samarbeidData?.find(
             (s) => s.navn === samarbeidsnavnBasertPåVirksomhet,
         ) === undefined;
-    const navnErUbrukt = samarbeidData?.find((s) => s.navn?.toLowerCase() === navn.toLowerCase()) === undefined;
+    const navnErUbrukt =
+        samarbeidData?.find(
+            (s) => s.navn?.toLowerCase() === navn.toLowerCase(),
+        ) === undefined;
     const navigate = useNavigate();
 
     const nyttSamarbeid = () => {
@@ -115,7 +109,8 @@ export const NyttSamarbeidModal = ({
     }, [åpen]);
 
     return (
-        <StyledSamarbeidModal
+        <Modal
+            className={styles.nyttSamarbeidModal}
             open={åpen}
             onClose={lukkModal}
             width={"small"}
@@ -125,7 +120,7 @@ export const NyttSamarbeidModal = ({
                 <Heading size="medium">Opprett nytt samarbeid</Heading>
             </Modal.Header>
             <Modal.Body>
-                <ModalBodyInnholdFlex>
+                <div className={styles.nyttSamarbeidModalInnhold}>
                     <BodyShort
                         style={{
                             marginBottom: "0.75rem",
@@ -160,7 +155,8 @@ export const NyttSamarbeidModal = ({
                             marginBottom: "0.25rem",
                         }}
                     >
-                        <TextFieldStyled
+                        <TextField
+                            className={styles.textField}
                             ref={inputRef}
                             readOnly={brukVirksomhetsnavn}
                             maxLength={MAX_LENGDE_SAMARBEIDSNAVN}
@@ -181,7 +177,9 @@ export const NyttSamarbeidModal = ({
                             }}
                         />
                     </div>
-                    <DetaljerWrapper $disabled={brukVirksomhetsnavn}>
+                    <div
+                        className={`${styles.detaljer} ${brukVirksomhetsnavn ? styles.detaljerDisabled : ""} `}
+                    >
                         <Detail>
                             <b>
                                 Husk, aldri skriv{" "}
@@ -197,8 +195,8 @@ export const NyttSamarbeidModal = ({
                         <Detail>
                             {antallTegn}/{MAX_LENGDE_SAMARBEIDSNAVN} tegn
                         </Detail>
-                    </DetaljerWrapper>
-                </ModalBodyInnholdFlex>
+                    </div>
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button
@@ -212,11 +210,15 @@ export const NyttSamarbeidModal = ({
                     Avbryt
                 </Button>
             </Modal.Footer>
-        </StyledSamarbeidModal>
+        </Modal>
     );
 };
 
-export function navnError(navn: string, navnErUbrukt: boolean, eksisterendeNavn?: string) {
+export function navnError(
+    navn: string,
+    navnErUbrukt: boolean,
+    eksisterendeNavn?: string,
+) {
     if (navn === "") {
         return "Navnet kan ikke være tomt";
     }

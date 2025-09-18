@@ -1,10 +1,4 @@
 import React from "react";
-import styled from "styled-components";
-import {
-    contentSpacing,
-    strekkBakgrunnenHeltUtTilKantenAvSida,
-} from "../../../styling/contentSpacing";
-import { NavFarger } from "../../../styling/farger";
 import { Spacer, Tabs } from "@navikt/ds-react";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useSearchParams } from "react-router-dom";
@@ -19,22 +13,7 @@ import { loggNavigertTilNyTab } from "../../../util/amplitude-klient";
 import { SamarbeidProvider } from "./SamarbeidContext";
 import { EksternLenke } from "../../../components/EksternLenke";
 import { useHentSalesforceSamarbeidLenke } from "../../../api/lydia-api/virksomhet";
-
-const StyledPanel = styled(Tabs.Panel)`
-    padding-top: 1.5rem;
-    padding-bottom: 1.5rem;
-
-    background-color: ${NavFarger.gray100};
-    ${strekkBakgrunnenHeltUtTilKantenAvSida}
-`;
-
-const Container = styled.div`
-    padding-top: ${contentSpacing.mobileY};
-
-    background-color: ${NavFarger.white};
-    ${strekkBakgrunnenHeltUtTilKantenAvSida}; // Velger å sette denne, da heading bruker xlarge, selv om vi setter dem til å være large.
-    --a-font-size-heading-xlarge: 1.75rem;
-`;
+import styles from "./samarbeid.module.scss";
 
 export const SamarbeidsVisning = ({
     alleSamarbeid,
@@ -95,7 +74,7 @@ export const SamarbeidsVisning = ({
         >
             <SamarbeidProvider samarbeid={gjeldendeSamarbeid}>
                 {gjeldendeSamarbeid && (
-                    <Container>
+                    <div className={styles.samarbeidsvisningContainer}>
                         <VirksomhetOgSamarbeidsHeader
                             virksomhet={virksomhet}
                             iaSak={iaSak}
@@ -139,32 +118,38 @@ export const SamarbeidsVisning = ({
                                     </>
                                 )}
                             </Tabs.List>
-                            <StyledPanel value="behovsvurdering">
+                            <Tabs.Panel
+                                className={styles.panel}
+                                value="behovsvurdering"
+                            >
                                 {iaSak && (
                                     <BehovsvurderingFane
                                         iaSak={iaSak}
                                         gjeldendeSamarbeid={gjeldendeSamarbeid}
                                     />
                                 )}
-                            </StyledPanel>
-                            <StyledPanel value="plan">
+                            </Tabs.Panel>
+                            <Tabs.Panel className={styles.panel} value="plan">
                                 {iaSak && (
                                     <SamarbeidsplanFane
                                         iaSak={iaSak}
                                         samarbeid={gjeldendeSamarbeid}
                                     />
                                 )}
-                            </StyledPanel>
-                            <StyledPanel value="evaluering">
+                            </Tabs.Panel>
+                            <Tabs.Panel
+                                className={styles.panel}
+                                value="evaluering"
+                            >
                                 {iaSak && (
                                     <EvalueringFane
                                         iaSak={iaSak}
                                         gjeldendeSamarbeid={gjeldendeSamarbeid}
                                     />
                                 )}
-                            </StyledPanel>
+                            </Tabs.Panel>
                         </Tabs>
-                    </Container>
+                    </div>
                 )}
             </SamarbeidProvider>
         </VirksomhetContext.Provider>

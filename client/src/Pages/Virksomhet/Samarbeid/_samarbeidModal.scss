@@ -1,0 +1,23 @@
+@mixin samarbeidModal {
+    max-width: 42rem;
+    width: 100%;
+}
+
+@mixin modalBodyInnholdFlex {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+@mixin textFieldStyled {
+    min-width: fit-content;
+    width: 100%;
+}
+
+@mixin detaljerWrapper {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 0.5rem;
+    opacity: 1;
+}
