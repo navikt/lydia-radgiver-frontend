@@ -16,6 +16,7 @@ export const spørreundersøkelseSchema = z.object({
     opprettetTidspunkt: datoSchema,
     endretTidspunkt: datoSchema.nullable(),
     påbegyntTidspunkt: datoSchema.nullable(),
+    publisertTidspunkt: datoSchema.nullable(),
     fullførtTidspunkt: datoSchema.nullable(),
     gyldigTilTidspunkt: datoSchema,
     harMinstEttResultat: z.boolean().optional(),

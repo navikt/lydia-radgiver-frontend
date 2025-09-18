@@ -10,6 +10,7 @@ import {
 import { PubliseringModal } from "./PubliseringModal";
 import { MutatorCallback, MutatorOptions } from "swr";
 import styles from "./publiserSpørreundersøkelse.module.scss";
+import { lokalDato } from "../../../util/dato";
 
 interface Props {
     spørreundersøkelse: Spørreundersøkelse;
@@ -68,7 +69,7 @@ export const PubliserSpørreundersøkelse = ({
             );
         case "PUBLISERT":
             return (
-                <Tooltip content="Resultatet har blitt publisert på Min Side Arbeidsgiver">
+                <Tooltip content={`Publisert på Min Side - Arbeidsgiver${spørreundersøkelse.publisertTidspunkt ? ` ${lokalDato(spørreundersøkelse.publisertTidspunkt)}` : ""}`}>
                     <div>
                         <Publiserknapp
                             disabled
