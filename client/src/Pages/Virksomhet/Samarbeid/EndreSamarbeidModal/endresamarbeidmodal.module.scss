@@ -1,0 +1,50 @@
+@use "../../Samarbeid/_samarbeidModal.scss" as modal;
+
+.endreSamarbeidModal {
+    @include modal.samarbeidModal;
+
+    .slettFullførFlex {
+        display: flex;
+        flex-direction: row;
+        gap: 0.5rem;
+        border-bottom: 1px solid var(--a-blue-500);
+        padding-top: 1rem;
+        padding-bottom: 2rem;
+        margin-bottom: 2rem;
+    }
+
+    .endreSamarbeidModalInnhold {
+        @include modal.modalBodyInnholdFlex;
+
+        .textField {
+            @include modal.textFieldStyled;
+        }
+        .detaljer {
+            @include modal.detaljerWrapper;
+        }
+    }
+}
+
+.velgHandlingModal {
+    @include modal.samarbeidModal;
+
+    .radioknapp {
+        margin-bottom: 1rem;
+        margin-top: 0.75rem;
+    }
+
+    .jaKnapp {
+        min-width: 14rem;
+        text-align: center;
+    }
+}
+
+.begrunnelserAlert {
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.salesforceLenke {
+    font-size: 1.125rem;
+    margin-top: 1rem;
+}
