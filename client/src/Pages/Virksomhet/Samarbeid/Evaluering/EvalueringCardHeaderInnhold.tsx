@@ -1,6 +1,5 @@
 import { Button, ExpansionCard } from "@navikt/ds-react";
 import React, { useState } from "react";
-import styled from "styled-components";
 import { åpneSpørreundersøkelseINyFane } from "../../../../util/navigasjon";
 import { SlettSpørreundersøkelseModal } from "../../Kartlegging/SlettSpørreundersøkelseModal";
 import { StartSpørreundersøkelseModal } from "../../Kartlegging/StartSpørreundersøkelseModal";
@@ -21,64 +20,7 @@ import {
 } from "../../../../api/lydia-api/spørreundersøkelse";
 import { SpørreundersøkelseMedInnholdVisning } from "../../Kartlegging/SpørreundersøkelseForhåndsvisningModal";
 import { VisHvisSamarbeidErÅpent } from "../SamarbeidContext";
-
-const ActionButtonContainer = styled.div`
-    display: flex;
-    justify-content: right;
-    margin-right: 2rem;
-    gap: 1rem;
-    z-index: 2;
-    & > div {
-        z-index: 3;
-    }
-`;
-
-const StyledExpansionCardHeader = styled(ExpansionCard.Header)`
-    z-index: 1;
-    & > div {
-        display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        flex-grow: 1;
-    }
-`;
-
-const StyledEmptyCardHeader = styled.div`
-    align-items: center;
-    width: 100%;
-    display: flex;
-    gap: var(--a-spacing-4);
-    padding: var(--__ac-expansioncard-padding-block)
-        var(--__ac-expansioncard-padding-inline);
-    padding-right: 5.5rem;
-    border-radius: var(--__ac-expansioncard-border-radius);
-    background-color: var(
-        --ac-expansioncard-header-bg,
-        var(--a-surface-transparent)
-    );
-    position: relative;
-    border: var(--__ac-expansioncard-border-width) solid
-        var(--__ac-expansioncard-border-color);
-    justify-content: space-between;
-    flex-wrap: wrap;
-`;
-
-const HeaderRightContent = styled.span`
-    display: flex;
-    align-items: center;
-    font-size: 1rem;
-    align-self: center;
-`;
-
-const KartleggingDato = styled.span`
-    width: 9rem;
-    text-align: left;
-    margin-left: 1rem;
-`;
-
-const KartleggingStatusWrapper = styled.div`
-    min-width: 5rem;
-`;
+import styles from "./evaluering.module.scss";
 
 function ActionButtonsHvisSamarbeidIkkeFullført({
     children,
@@ -87,7 +29,7 @@ function ActionButtonsHvisSamarbeidIkkeFullført({
 }) {
     return (
         <VisHvisSamarbeidErÅpent>
-            <ActionButtonContainer>{children}</ActionButtonContainer>
+            <div className={styles.actionButtonContainer}>{children}</div>
         </VisHvisSamarbeidErÅpent>
     );
 }
@@ -170,9 +112,11 @@ export const EvalueringCardHeaderInnhold = ({
 
     if (spørreundersøkelseStatus === "AVSLUTTET") {
         return (
-            <StyledExpansionCardHeader>
+            <ExpansionCard.Header
+                className={styles.avsluttetEvalueringCardHeader}
+            >
                 <ExpansionCard.Title>Evaluering</ExpansionCard.Title>
-                <HeaderRightContent>
+                <span className={styles.avsluttetEvalueringHeaderRightContent}>
                     <ActionButtonsHvisSamarbeidIkkeFullført>
                         <ResultatEksportVisning
                             iaSak={iaSak}
@@ -181,20 +125,20 @@ export const EvalueringCardHeaderInnhold = ({
                             setErIEksportMode={setErIEksportMode}
                         />
                     </ActionButtonsHvisSamarbeidIkkeFullført>
-                    <KartleggingStatusWrapper>
+                    <div className={styles.kartleggingStatusWrapper}>
                         <SpørreundersøkelseStatusBadge
                             status={spørreundersøkelse.status}
                         />
-                    </KartleggingStatusWrapper>
-                    <KartleggingDato>{dato}</KartleggingDato>
-                </HeaderRightContent>
-            </StyledExpansionCardHeader>
+                    </div>
+                    <span className={styles.kartleggingDato}>{dato}</span>
+                </span>
+            </ExpansionCard.Header>
         );
     }
 
     if (spørreundersøkelseStatus === "OPPRETTET") {
         return (
-            <StyledEmptyCardHeader>
+            <div className={styles.evalueringCardHeader}>
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
@@ -257,21 +201,21 @@ export const EvalueringCardHeaderInnhold = ({
                         />
                     )}
                 </ActionButtonsHvisSamarbeidIkkeFullført>
-                <HeaderRightContent>
-                    <KartleggingStatusWrapper>
+                <span className={styles.evalueringHeaderRightContent}>
+                    <div className={styles.kartleggingStatusWrapper}>
                         <SpørreundersøkelseStatusBadge
                             status={spørreundersøkelse.status}
                         />
-                    </KartleggingStatusWrapper>
-                    <KartleggingDato>{dato}</KartleggingDato>
-                </HeaderRightContent>
-            </StyledEmptyCardHeader>
+                    </div>
+                    <span className={styles.kartleggingDato}>{dato}</span>
+                </span>
+            </div>
         );
     }
 
     if (spørreundersøkelseStatus === "PÅBEGYNT") {
         return (
-            <StyledEmptyCardHeader>
+            <div className={styles.evalueringCardHeader}>
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
@@ -339,15 +283,15 @@ export const EvalueringCardHeaderInnhold = ({
                         />
                     )}
                 </ActionButtonsHvisSamarbeidIkkeFullført>
-                <HeaderRightContent>
-                    <KartleggingStatusWrapper>
+                <span className={styles.evalueringHeaderRightContent}>
+                    <div className={styles.kartleggingStatusWrapper}>
                         <SpørreundersøkelseStatusBadge
                             status={spørreundersøkelse.status}
                         />
-                    </KartleggingStatusWrapper>
-                    <KartleggingDato>{dato}</KartleggingDato>
-                </HeaderRightContent>
-            </StyledEmptyCardHeader>
+                    </div>
+                    <span className={styles.kartleggingDato}>{dato}</span>
+                </span>
+            </div>
         );
     }
 };
