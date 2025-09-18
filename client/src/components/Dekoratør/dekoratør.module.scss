@@ -1,0 +1,116 @@
+@use "../../styling/breakpoints" as bp;
+
+.søkefeltlastespinner {
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.internalHeader {
+    min-height: unset; // Motvirkar "min-height: 3rem" frå designsystemet som gjer at boksen ikkje får bakgrunn på alt når den wrapper
+
+    flex-wrap: wrap;
+    flex-direction: column;
+
+    @include bp.mobileAndUp {
+        // Alt utanom pittesmå skjermar
+        flex-direction: row;
+    }
+
+    .navigasjon {
+        display: flex;
+        flex-direction: column;
+        align-items: start;
+
+        // Stylinga her er tatt fra navikt/nav-dekoratøren (15.12.2023)
+        // Flyttet fra styled-components til css-modules 18.09.2025
+        .tilHovedinnhold {
+            clip: rect(0 0 0 0);
+            border: 0;
+            height: 1px;
+            margin: -1px;
+            overflow: hidden;
+            padding: 0;
+            position: absolute;
+            width: 1px;
+            z-index: 1001;
+
+            &:focus {
+                clip: auto;
+                height: 2.625rem;
+                margin: 0;
+                overflow: visible;
+                padding: 0.8rem;
+                position: absolute;
+                width: auto;
+
+                background-color: var(--a-border-focus);
+                box-shadow: 0 0 0 2px var(--a-border-focus);
+                color: #fff;
+                outline: none;
+                text-decoration: none;
+            }
+        }
+
+        .navigasjonslenke {
+            color: var(--a-white);
+            text-decoration: none;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+
+        /* Overskriv border-right når navigasjonslenkene vert vist i kolonne */
+        & :global(.navds-internalheader__title) {
+            border-right: none;
+        }
+
+        @include bp.tabletAndUp {
+            flex-direction: row;
+            align-items: center;
+
+            & :global(.navds-internalheader__title) {
+                /* Stylinga vi overskriv frå designsystemet (2023-12-21) */
+                border-right: 1px solid
+                    var(--ac-internalheader-divider, var(--a-gray-600));
+            }
+        }
+    }
+
+    .demoversjonTekst {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        padding: 0 1.5rem;
+
+        color: var(--a-white);
+        background-color: var(--a-red-500);
+
+        &.hidden {
+            display: none;
+        }
+    }
+
+    .søkOgBrukerinfo {
+        flex: 1;
+
+        display: flex;
+        flex-direction: column;
+
+        @include bp.mobileAndUp {
+            flex-direction: row;
+        }
+
+        .virksomhetssøk {
+            min-width: 16rem;
+            width: 25%;
+
+            align-self: center;
+
+            margin-left: auto;
+            margin-right: auto;
+        }
+    }
+}

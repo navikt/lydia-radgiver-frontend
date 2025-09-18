@@ -1,5 +1,4 @@
 import { EksternLenke } from "../EksternLenke";
-import styled from "styled-components";
 import { Button, Popover } from "@navikt/ds-react";
 import { useHentPubliseringsinfo } from "../../api/lydia-api/virksomhet";
 import { getGjeldendePeriodeTekst } from "../../util/gjeldendePeriodeSisteFireKvartal";
@@ -9,10 +8,11 @@ import {
 } from "../../util/amplitude-klient";
 import React from "react";
 import { QuestionmarkCircleIcon } from "@navikt/aksel-icons";
+import styles from './footer.module.scss';
 
 export const Footer = () => {
     return (
-        <StyledNyFooter>
+        <footer className={styles.styledFooter}>
             <NyFooterSykefraværsstatistikk />
             <EksternLenke
                 href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-inkluderende-arbeidsliv/SitePages/FIA-brukerveiledning.aspx"
@@ -36,36 +36,9 @@ export const Footer = () => {
             >
                 Send melding i Porten
             </EksternLenke>
-        </StyledNyFooter>
+        </footer>
     );
 };
-
-const StyledNyFooter = styled.footer`
-    background-color: var(--a-blue-100);
-    padding: 1rem;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 1rem 4rem;
-    font-size: 1rem;
-`;
-
-const StyledPopover = styled(Popover)`
-    --ac-popover-bg: var(--a-surface-inverted);
-    color: var(--a-text-on-inverted);
-`;
-
-const PopoverContentMedMaxWidth = styled(Popover.Content)`
-    max-width: 30rem;
-`;
-
-const Sykefraværsstatistikkknapp = styled(Button)`
-    --a-font-weight-bold: 400;
-    --ac-button-tertiary-hover-bg: var(--a-surface-action-active);
-    --ac-button-tertiary-hover-text: var(--a-surface-default);
-    padding: 0.25rem;
-`;
 
 function NyFooterSykefraværsstatistikk() {
     const { data: publiseringsinfo } = useHentPubliseringsinfo();
@@ -74,8 +47,9 @@ function NyFooterSykefraværsstatistikk() {
 
     return (
         <>
-            <Sykefraværsstatistikkknapp
+            <Button
                 ref={buttonRef}
+                className={styles.sykefraværsstatistikkknapp}
                 onClick={() => setOpen(!open)}
                 aria-expanded={open}
                 icon={<QuestionmarkCircleIcon />}
@@ -83,20 +57,21 @@ function NyFooterSykefraværsstatistikk() {
                 size="xsmall"
             >
                 Sykefraværsstatistikken
-            </Sykefraværsstatistikkknapp>
-            <StyledPopover
+            </Button>
+            <Popover
                 open={open}
+                className={styles.styledPopover}
                 onClose={() => setOpen(false)}
                 anchorEl={buttonRef.current}
             >
-                <PopoverContentMedMaxWidth>
+                <Popover.Content className={styles.popoverContentMedMaxWidth}>
                     Fia viser offisiell sykefraværsstatistikk fra de siste
                     fire kvartalene {getGjeldendePeriodeTekst(publiseringsinfo)}.
                     Neste publiseringsdato er {publiseringsinfo?.nestePubliseringsdato}.
                     Tall for &quot;arbeidsforhold&quot; er fra siste tilgjengelige kvartal.
                     Se mer informasjon i brukerveiledningen.
-                </PopoverContentMedMaxWidth>
-            </StyledPopover>
+                </Popover.Content>
+            </Popover>
         </>
     );
 }

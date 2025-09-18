@@ -1,17 +1,9 @@
 import { useEffect, useState } from "react";
 import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
 
-interface EventData {
+export interface EventData {
     feilmelding: string;
 }
-
-export const dispatchFeilmelding = (data: EventData) => {
-    document.dispatchEvent(
-        new CustomEvent("feilmeldingFraBackend", {
-            detail: data,
-        }),
-    );
-};
 
 export const useFeilmelding = (onNyMelding?: (melding: string) => void) => {
     const [melding, setMelding] = useState("");

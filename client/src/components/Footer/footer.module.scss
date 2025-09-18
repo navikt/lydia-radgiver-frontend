@@ -1,0 +1,26 @@
+.styledFooter {
+    background-color: var(--a-blue-100);
+    padding: 1rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem 4rem;
+    font-size: 1rem;
+
+    .sykefraværsstatistikkknapp {
+        --a-font-weight-bold: 400;
+        --ac-button-tertiary-hover-bg: var(--a-surface-action-active);
+        --ac-button-tertiary-hover-text: var(--a-surface-default);
+        padding: 0.25rem;
+    }
+
+    .styledPopover {
+        --ac-popover-bg: var(--a-surface-inverted);
+        color: var(--a-text-on-inverted);
+
+        .popoverContentMedMaxWidth {
+            max-width: 30rem;
+        }
+    }
+}

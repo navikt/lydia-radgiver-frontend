@@ -1,5 +1,5 @@
 import useSWR, { SWRConfiguration } from "swr";
-import { dispatchFeilmelding } from "../../components/Banner/FeilmeldingBanner";
+import { dispatchFeilmelding } from "../../components/Banner/dispatchFeilmelding";
 import { ZodError, ZodType } from "zod/v4";
 
 export const defaultSwrConfiguration: SWRConfiguration = {

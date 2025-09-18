@@ -1,118 +1,11 @@
-import styled from "styled-components";
 import { BodyShort, Dropdown, InternalHeader } from "@navikt/ds-react";
 import { Søkefelt } from "./Søkefelt";
-import { NavFarger } from "../../styling/farger";
 import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/brukerinformasjon";
 import { SesjonBanner } from "../Banner/SesjonBanner";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
-import { mobileAndUp, tabletAndUp } from "../../styling/breakpoints";
 import { LeaveIcon } from "@navikt/aksel-icons";
 import { InternLenke } from "../InternLenke";
-
-// Stylinga her er tatt fra navikt/nav-dekoratøren (15.12.2023)
-const TilHovedinnhold = styled.a`
-    clip: rect(0 0 0 0);
-    border: 0;
-    height: 1px;
-    margin: -1px;
-    overflow: hidden;
-    padding: 0;
-    position: absolute;
-    width: 1px;
-    z-index: 1001;
-
-    &:focus {
-        clip: auto;
-        height: 2.625rem;
-        margin: 0;
-        overflow: visible;
-        padding: 0.8rem;
-        position: absolute;
-        width: auto;
-
-        background-color: var(--a-border-focus);
-        box-shadow: 0 0 0 2px var(--a-border-focus);
-        color: #fff;
-        outline: none;
-        text-decoration: none;
-    }
-`;
-
-const StyledInternalHeader = styled(InternalHeader)`
-    min-height: unset; // Motvirkar "min-height: 3rem" frå designsystemet som gjer at boksen ikkje får bakgrunn på alt når den wrapper
-
-    flex-wrap: wrap;
-    flex-direction: column;
-
-    ${mobileAndUp} {
-        // Alt utanom pittesmå skjermar
-        flex-direction: row;
-    }
-`;
-
-const Navigasjon = styled.nav`
-    display: flex;
-    flex-direction: column;
-    align-items: start;
-
-    /* Overskriv border-right når navigasjonslenkene vert vist i kolonne */
-    & .navds-internalheader__title {
-        border-right: none;
-    }
-
-    ${tabletAndUp} {
-        flex-direction: row;
-        align-items: center;
-
-        & .navds-internalheader__title {
-            /* Stylinga vi overskriv frå designsystemet (2023-12-21) */
-            border-right: 1px solid
-                var(--ac-internalheader-divider, var(--a-gray-600));
-        }
-    }
-`;
-
-const Navigasjonslenke = styled(InternLenke)`
-    color: ${NavFarger.textInverted};
-    text-decoration: none;
-
-    &:hover {
-        text-decoration: underline;
-    }
-`;
-
-const DemoversjonTekst = styled(BodyShort) <{ hidden: boolean }>`
-    display: ${(props) => (props.hidden ? "none" : "flex")};
-    justify-content: center;
-    align-items: center;
-
-    padding: 0 1.5rem;
-
-    color: ${NavFarger.white};
-    background: ${NavFarger.red500};
-`;
-
-const SøkOgBrukerinfoContainer = styled.div`
-    flex: 1;
-
-    display: flex;
-    flex-direction: column;
-
-    ${mobileAndUp} {
-        flex-direction: row;
-    }
-`;
-
-const Virksomhetssøk = styled(Søkefelt)`
-    min-width: 16rem;
-    width: 25%;
-
-    align-self: center;
-
-    /* Sentrerer søkeboks i det ledig området */
-    margin-left: auto;
-    margin-right: auto;
-`;
+import styles from './dekoratør.module.scss';
 
 export const erIDev = [
     "localhost",
@@ -135,36 +28,42 @@ const visDemoBanner = erIDev;
 export const Dekoratør = ({ brukerInformasjon }: Props) => {
     return (
         <>
-            <StyledInternalHeader className="w-full" data-theme="light">
-                <Navigasjon>
-                    <TilHovedinnhold href="#maincontent">
+            <InternalHeader className={`w-full ${styles.internalHeader}`} data-theme="light">
+                <nav className={styles.navigasjon}>
+                    <a className={styles['tilHovedinnhold']} href="#maincontent">
                         Hopp til hovedinnhold
-                    </TilHovedinnhold>
-                    <Navigasjonslenke href="/prioritering" title="Gå til prioriteringsiden">
+                    </a>
+                    <InternLenke
+                        className={styles.navigasjonslenke}
+                        href="/prioritering"
+                        title="Gå til prioriteringsiden"
+                    >
                         <InternalHeader.Title as="h1">Fia</InternalHeader.Title>
-                    </Navigasjonslenke>
-                    <Navigasjonslenke
+                    </InternLenke>
+                    <InternLenke
+                        className={styles.navigasjonslenke}
                         href="/statusoversikt"
                         title="Gå til statusoversiktsiden"
                     >
                         <InternalHeader.Title as="span">
                             Statusoversikt
                         </InternalHeader.Title>
-                    </Navigasjonslenke>
-                    <Navigasjonslenke
+                    </InternLenke>
+                    <InternLenke
+                        className={styles.navigasjonslenke}
                         href="/minesaker"
                         title="Gå til mine saker"
                     >
                         <InternalHeader.Title as="span">
                             Mine saker
                         </InternalHeader.Title>
-                    </Navigasjonslenke>
-                </Navigasjon>
-                <DemoversjonTekst hidden={!visDemoBanner}>
+                    </InternLenke>
+                </nav>
+                <BodyShort className={`${styles.demoversjonTekst} ${visDemoBanner ? '' : styles.hidden}`}>
                     Demoutgave
-                </DemoversjonTekst>
-                <SøkOgBrukerinfoContainer>
-                    <Virksomhetssøk />
+                </BodyShort>
+                <div className={styles.søkOgBrukerinfo}>
+                    <Søkefelt className={styles.virksomhetssøk} />
                     <Dropdown>
                         <InternalHeader.UserButton
                             as={Dropdown.Toggle}
@@ -190,8 +89,8 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                             </Dropdown.Menu.List>
                         </Dropdown.Menu>
                     </Dropdown>
-                </SøkOgBrukerinfoContainer>
-            </StyledInternalHeader>
+                </div>
+            </InternalHeader>
             <SesjonBanner tokenUtløper={brukerInformasjon.tokenUtloper} />
             <NyStatistikkPubliseresBanner />
         </>

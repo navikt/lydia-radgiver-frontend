@@ -1,6 +1,7 @@
 import { Button } from "@navikt/ds-react";
 import { Meta } from "@storybook/react";
-import { FeilmeldingBanner, dispatchFeilmelding } from "./FeilmeldingBanner";
+import { FeilmeldingBanner } from "./FeilmeldingBanner";
+import { dispatchFeilmelding } from "./dispatchFeilmelding";
 
 export default {
     title: "FeilmeldingBanner",

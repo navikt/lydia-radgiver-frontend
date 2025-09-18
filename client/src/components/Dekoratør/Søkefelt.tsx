@@ -5,7 +5,7 @@ import { virksomhetAutocompletePath } from "../../api/lydia-api/paths";
 import { VirksomhetSøkeresultat } from "../../domenetyper/domenetyper";
 import { EksternLenke } from "../EksternLenke";
 import { loggSøkPåVirksomhet } from "../../util/amplitude-klient";
-import styled from "styled-components";
+import styles from './dekoratør.module.scss';
 
 interface Props {
     className?: string;
@@ -52,7 +52,7 @@ export const Søkefelt = ({ style, className }: Props) => {
             >
                 {søkLaster && (
                     <Popover.Content>
-                        <Lastespinner />
+                        <Loader className={styles.søkefeltlastespinner} />
                     </Popover.Content>
                 )}
                 {!!firmaer.length && (
@@ -80,9 +80,3 @@ export const Søkefelt = ({ style, className }: Props) => {
         </div>
     );
 };
-
-const Lastespinner = styled(Loader)`
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-`;

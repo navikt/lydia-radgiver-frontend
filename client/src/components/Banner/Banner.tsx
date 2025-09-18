@@ -1,6 +1,6 @@
-import styled from "styled-components";
 import { Alert } from "@navikt/ds-react";
+import styles from './banner.module.scss';
 
-export const Banner = styled(Alert)`
-    margin: 0.5rem;
-`;
+export function Banner({ className = "", ...remainingProps }: React.ComponentProps<typeof Alert>) {
+    return <Alert className={`${styles.banner} ${className}`} {...remainingProps} />;
+}

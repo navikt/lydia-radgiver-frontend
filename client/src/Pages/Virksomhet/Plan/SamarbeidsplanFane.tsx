@@ -8,7 +8,7 @@ import {
 } from "../../../api/lydia-api/bruker";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Temaer } from "./Temaer";
-import { dispatchFeilmelding } from "../../../components/Banner/FeilmeldingBanner";
+import { dispatchFeilmelding } from "../../../components/Banner/dispatchFeilmelding";
 import OpprettPlanKnapp from "./OpprettPlanKnapp";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import EksportVisning from "./EksportVisning";
