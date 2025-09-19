@@ -1,4 +1,4 @@
-import { Button, ExpansionCard } from "@navikt/ds-react";
+import { BodyShort, Button, ExpansionCard } from "@navikt/ds-react";
 import React, { useState } from "react";
 import { åpneSpørreundersøkelseINyFane } from "../../../util/navigasjon";
 import { SlettSpørreundersøkelseModal } from "./SlettSpørreundersøkelseModal";
@@ -7,7 +7,7 @@ import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkels
 import ResultatEksportVisning from "./ResultatEksportVisning";
 import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
 import { SpørreundersøkelseStatusBadge } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
-import { TrashIcon } from "@navikt/aksel-icons";
+import { InformationSquareIcon, TrashIcon } from "@navikt/aksel-icons";
 import {
     CardHeaderProps,
     useSpørreundersøkelse,
@@ -174,6 +174,21 @@ export const BehovsvurderingCardHeaderInnhold = ({
     }
 
     if (spørreundersøkelseStatus === "AVSLUTTET") {
+        if (!spørreundersøkelse.harMinstEttResultat) {
+            return (
+                <>
+                    <ForFåSvarRad spørreundersøkelse={spørreundersøkelse} dato={dato} setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen} />
+                    <SlettSpørreundersøkelseModal
+                        spørreundersøkelse={spørreundersøkelse}
+                        erModalÅpen={slettSpørreundersøkelseModalÅpen}
+                        lukkModal={() =>
+                            setSlettSpørreundersøkelseModalÅpen(false)
+                        }
+                        slettSpørreundersøkelsen={slettSpørreundersøkelsen}
+                    />
+                </>
+            );
+        }
         return (
             <ExpansionCard.Header className={styles.styledExpansionCardHeader}>
                 <ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
@@ -380,3 +395,35 @@ export const BehovsvurderingCardHeaderInnhold = ({
         );
     }
 };
+
+
+function ForFåSvarRad({ spørreundersøkelse, dato, setSlettSpørreundersøkelseModalÅpen }: CardHeaderProps & { setSlettSpørreundersøkelseModalÅpen: React.Dispatch<React.SetStateAction<boolean>> }) {
+    return (
+        <div className={styles.styledEmptyCardHeader}>
+            <span className={styles.headerLeftContent}>
+                <ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
+                <InformationSquareIcon fontSize="1.5rem" aria-hidden />
+                <BodyShort>Behovsvurderingen har for få deltakere til å vise svarresultater.</BodyShort>
+            </span>
+            <span className={styles.headerRightContent}>
+                <ActionButtonsHvisSamarbeidIkkeFullført>
+                    <Button
+                        variant="secondary"
+                        size="small"
+                        iconPosition="right"
+                        onClick={() => setSlettSpørreundersøkelseModalÅpen(true)}
+                        icon={<TrashIcon aria-hidden />}
+                    >
+                        Slett
+                    </Button>
+                </ActionButtonsHvisSamarbeidIkkeFullført>
+                <div className={styles.behovsvurderingStatusWrapper}>
+                    <SpørreundersøkelseStatusBadge
+                        status={spørreundersøkelse.status}
+                    />
+                </div>
+                <span className={styles.behovsvurderingDato}>{dato}</span>
+            </span>
+        </div>
+    );
+}

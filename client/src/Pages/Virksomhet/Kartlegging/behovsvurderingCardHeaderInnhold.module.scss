@@ -12,6 +12,7 @@
 
 .styledExpansionCardHeader {
     z-index: 1;
+    min-height: 82px;
 
     & > div {
         display: flex;
@@ -25,6 +26,7 @@
 .styledEmptyCardHeader {
     align-items: center;
     width: 100%;
+    min-height: 82px;
     display: flex;
     gap: var(--a-spacing-4);
     padding: var(--__ac-expansioncard-padding-block)
@@ -48,6 +50,19 @@
     font-size: 1rem;
     align-self: center;
     flex-wrap: wrap;
+}
+
+.headerLeftContent {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-self: center;
+
+    h3 {
+        margin-top: 0;
+        margin-right: 2rem;
+    }
 }
 
 .behovsvurderingDato {
