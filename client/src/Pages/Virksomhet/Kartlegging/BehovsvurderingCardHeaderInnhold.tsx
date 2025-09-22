@@ -403,7 +403,7 @@ function ForFåSvarRad({ spørreundersøkelse, dato, setSlettSpørreundersøkels
             <span className={styles.headerLeftContent}>
                 <ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
                 <InformationSquareIcon fontSize="1.5rem" aria-hidden />
-                <BodyShort>Behovsvurderingen har for få deltakere til å vise svarresultater.</BodyShort>
+                <BodyShort>Behovsvurderingen har for få besvarelser til å vise svarresultater.</BodyShort>
             </span>
             <span className={styles.headerRightContent}>
                 <ActionButtonsHvisSamarbeidIkkeFullført>

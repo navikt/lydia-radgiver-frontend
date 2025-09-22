@@ -107,7 +107,7 @@ export function AntallDeltakere({
         return (
             <StyledDeltakere align="center">
                 <PersonGroupFillIcon fontSize="1.5rem" aria-hidden />
-                For få deltakere til å vise resultater
+                For få besvarelser til å vise resultater
             </StyledDeltakere>
         );
     }
