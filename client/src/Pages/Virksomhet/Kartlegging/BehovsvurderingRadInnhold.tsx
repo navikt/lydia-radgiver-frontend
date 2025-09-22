@@ -9,7 +9,7 @@ export const BehovsvurderingRadInnhold = ({
     const { iaSak } = useSpørreundersøkelse();
 
     if (iaSak !== undefined) {
-        if (behovsvurderingStatus === "AVSLUTTET") {
+        if (behovsvurderingStatus === "AVSLUTTET" && behovsvurdering.harMinstEttResultat) {
             return (
                 <ExpansionCard.Content>
                     <SpørreundersøkelseResultat
@@ -20,4 +20,6 @@ export const BehovsvurderingRadInnhold = ({
             );
         }
     }
+
+    return null;
 };
