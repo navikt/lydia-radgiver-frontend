@@ -1,15 +1,6 @@
-import styled from "styled-components";
+import styles from './spørreundersøkelse.module.scss';
 import { TemaResultat } from "./TemaResultat";
 import { SpørreundersøkelseResultat } from "../../domenetyper/spørreundersøkelseResultat";
-
-export const Container = styled.div`
-    padding-top: 1rem;
-    height: 100%;
-
-    display: flex;
-    flex-direction: column;
-    gap: 2rem;
-`;
 
 export default function Resultatvisning({
     kartleggingResultat,
@@ -17,7 +8,7 @@ export default function Resultatvisning({
     kartleggingResultat: SpørreundersøkelseResultat;
 }) {
     return (
-        <Container>
+        <div className={styles.resultatvisning}>
             {kartleggingResultat.spørsmålMedSvarPerTema.map((tema) => (
                 <TemaResultat
                     key={tema.navn}
@@ -25,6 +16,6 @@ export default function Resultatvisning({
                     navn={tema.navn}
                 />
             ))}
-        </Container>
+        </div>
     );
 }

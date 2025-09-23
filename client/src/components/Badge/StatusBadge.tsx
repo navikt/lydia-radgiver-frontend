@@ -1,6 +1,6 @@
 import "@navikt/ds-css";
-import styled from "styled-components";
 import { Tag, TagProps } from "@navikt/ds-react";
+import styles from './badge.module.scss';
 
 export interface GenericProps<T> extends Omit<TagProps, "variant" | "children"> {
     status: T;
@@ -17,27 +17,10 @@ export function GenericStatusBadge<T>({
     ...remainingProps
 }: GenericProps<T>) {
     return (
-        <StatusBadgeWrapper>
-            <StyledStatusTag {...remainingProps} variant={hentVariant(status)} $slim={slim}>
+        <div className={styles.statusBadge}>
+            <Tag {...remainingProps} className={`${styles.statusTag} ${slim ? styles.slim : ""}`} variant={hentVariant(status)} size="small">
                 {penskrivStatus(status)}
-            </StyledStatusTag>
-        </StatusBadgeWrapper>
+            </Tag>
+        </div>
     );
 }
-
-export const StyledStatusTag = styled(Tag).attrs({ size: "small" }) <{ $slim?: boolean }>`
-    min-width: ${({ $slim }) => ($slim ? "fit-content" : "6em")};
-    margin: ${({ $slim }) => ($slim ? "0.25em 0.5em" : 0)};
-    width: fit-content;
-    height: fit-content;
-`;
-
-const StatusBadgeWrapper = styled.div`
-    &:focus,
-    &:hover,
-    &:visited,
-    &:link,
-    &:active {
-        text-decoration: none;
-    }
-`;

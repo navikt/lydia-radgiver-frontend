@@ -1,19 +1,11 @@
 import { ExpansionCard } from "@navikt/ds-react";
-import styled from "styled-components";
 import { Spørreundersøkelse } from "../../domenetyper/spørreundersøkelse";
 import React from "react";
 import {
     useSpørreundersøkelseKomponenter,
     useSpørreundersøkelseType,
 } from "./SpørreundersøkelseContext";
-
-const StyledExpansionCard = styled(ExpansionCard) <{ $avstandFraSiste: number }>`
-    margin-top: 1rem;
-
-    & > div {
-        z-index: ${(props) => props.$avstandFraSiste + 5};
-    }
-`;
+import styles from './spørreundersøkelse.module.scss';
 
 export default function SpørreundersøkelseRad({
     spørreundersøkelse,
@@ -32,18 +24,21 @@ export default function SpørreundersøkelseRad({
     const { CardHeader, CardInnhold } = useSpørreundersøkelseKomponenter();
 
     return (
-        <StyledExpansionCard
+        <ExpansionCard
             aria-label={spørreundersøkelseType}
             open={erÅpen}
             onToggle={(open: boolean) => {
                 setErÅpen(open);
             }}
-            $avstandFraSiste={avstandFraSiste}
+            className={styles.spørreundersøkelserad}
+            style={{
+                "--avstand-fra-siste": avstandFraSiste,
+            } as React.CSSProperties}
         >
             <CardHeader spørreundersøkelse={spørreundersøkelse} dato={dato} />
             {erÅpen && spørreundersøkelse.status === "AVSLUTTET" && (
                 <CardInnhold spørreundersøkelse={spørreundersøkelse} />
             )}
-        </StyledExpansionCard>
+        </ExpansionCard>
     );
 }

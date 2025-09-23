@@ -1,35 +1,8 @@
 import { BodyShort, Heading, HeadingProps, HStack } from "@navikt/ds-react";
-import styled from "styled-components";
 import BarChart from "./Grafer/BarChart";
 import { PersonGroupFillIcon } from "@navikt/aksel-icons";
 import { SpørsmålResultat } from "../../domenetyper/spørreundersøkelseResultat";
-
-const TemaContainer = styled.div`
-    display: grid;
-    grid-template-columns: calc(50% - 1rem) calc(50% - 1rem);
-    justify-items: stretch;
-    width: 100%;
-    padding-bottom: 4rem;
-    gap: 2rem;
-
-    @media screen and (max-width: 768px) {
-        grid-template-columns: 1fr;
-    }
-`;
-
-const TemaGrafContainer = styled.div`
-    border: 1px solid var(--a-gray-300);
-    border-radius: var(--a-border-radius-large);
-    grid-column: span 1;
-    padding: 2rem;
-`;
-
-const KategoriTittel = styled(BodyShort) <{ $farge: string }>`
-  color: ${(props) => props.$farge || "var(--a-blue-500)"};
-
-  margin-left: 10px;
-  margin-bottom: 0.5rem;
-`;
+import styles from './spørreundersøkelse.module.scss';
 
 interface Props {
     navn: string;
@@ -59,22 +32,23 @@ export const TemaResultat = ({
                     )}
                 />
             </HStack>
-            <TemaContainer>
+            <div className={styles.temaContainer}>
                 {spørsmålResultat.map((spørsmål: SpørsmålResultat) => (
-                    <TemaGrafContainer key={spørsmål.id}>
-                        {spørsmål.kategori ? <KategoriTittel
-                            $farge={getGraffargeFromTema(navn, true)}>
+                    <div key={spørsmål.id} className={styles.temaGrafContainer}>
+                        {spørsmål.kategori ? <BodyShort
+                            className={styles.kategoriTittel}
+                            style={{ color: getGraffargeFromTema(navn, true) }}>
                             {spørsmål.kategori}
-                        </KategoriTittel> : null}
+                        </BodyShort> : null}
                         <BarChart
                             horizontal={spørsmål.flervalg}
                             spørsmål={spørsmål}
                             erIEksportMode={erIEksportMode}
                             farge={getGraffargeFromTema(navn)}
                         />
-                    </TemaGrafContainer>
+                    </div>
                 ))}
-            </TemaContainer>
+            </div>
         </>
     );
 };
@@ -91,13 +65,6 @@ export function getGraffargeFromTema(navn: string, mørk: boolean = false) {
     }
 }
 
-const StyledDeltakere = styled(HStack)`
-    color: var(--a-blue-500);
-    font-size: 1.25rem;
-    gap: 1rem;
-    margin-right: 2rem;
-`;
-
 export function AntallDeltakere({
     antallDeltakere,
 }: {
@@ -105,16 +72,16 @@ export function AntallDeltakere({
 }) {
     if (antallDeltakere === 0) {
         return (
-            <StyledDeltakere align="center">
+            <HStack align="center" className={styles.antallDeltakere}>
                 <PersonGroupFillIcon fontSize="1.5rem" aria-hidden />
                 For få besvarelser til å vise resultater
-            </StyledDeltakere>
+            </HStack>
         );
     }
     return (
-        <StyledDeltakere align="center">
+        <HStack align="center" className={styles.antallDeltakere}>
             <PersonGroupFillIcon fontSize="1.5rem" aria-hidden />
             {antallDeltakere} deltakere
-        </StyledDeltakere>
+        </HStack>
     );
 }
