@@ -1,7 +1,5 @@
 import styles from './reactSelect.module.scss';
 import ReactSelect, { CSSObjectWithLabel, StylesConfig } from "react-select";
-import { NavFarger } from "../../styling/farger";
-import { BorderRadius } from "../../styling/borderRadius";
 
 export function StyledReactSelect(props: React.ComponentProps<typeof ReactSelect>) {
     return <ReactSelect className={`${styles.styledSelect}`} {...props} />;
@@ -12,11 +10,11 @@ export const reactSelectStyle = (): StylesConfig => ({
     control: (provided, state) =>
         ({
             ...provided,
-            border: `1px solid ${NavFarger.border}`,
-            borderRadius: `${BorderRadius.medium}`,
-            boxShadow: state.isFocused ? `0 0 0 3px ${NavFarger.focus};` : "",
+            border: `1px solid var(--a-gray-600)`,
+            borderRadius: `var(--a-border-radius-medium)`,
+            boxShadow: state.isFocused ? `0 0 0 3px var(--a-blue-800);` : "",
             ":hover": {
-                border: `1px solid ${NavFarger.interactionPrimary}`,
+                border: `1px solid var(--a-blue-500)`,
             },
         }) as CSSObjectWithLabel,
     placeholder: (provided) =>

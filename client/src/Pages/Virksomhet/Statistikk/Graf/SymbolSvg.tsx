@@ -1,6 +1,5 @@
 import { Symbols } from "recharts";
 import React from "react";
-import { GrafFarger } from "../../../../styling/farger";
 
 export type GrafSymboler =
     | "circle"
@@ -13,7 +12,7 @@ export type GrafSymboler =
 
 interface Props {
     size: number;
-    fill: GrafFarger;
+    fill: string;
     symbol: GrafSymboler;
     className?: string;
 }

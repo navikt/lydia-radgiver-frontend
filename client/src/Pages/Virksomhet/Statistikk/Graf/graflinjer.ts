@@ -1,5 +1,4 @@
 import { GrafSymboler } from "./SymbolSvg";
-import { GrafFarger } from "../../../../styling/farger";
 
 export const enum Grafer {
     VIRKSOMHET = "virksomhet",
@@ -11,7 +10,7 @@ export const enum Grafer {
 
 export interface Graflinje {
     navn: string;
-    farge: GrafFarger;
+    farge: string;
     symbol: GrafSymboler;
     rekkefølge: number;
 }
@@ -19,31 +18,31 @@ export interface Graflinje {
 export const graflinjer: { [key: string]: Graflinje } = {
     [Grafer.VIRKSOMHET]: {
         navn: "Virksomhet",
-        farge: GrafFarger.data_3,
+        farge: "var(--a-data-surface-3)",
         symbol: "circle",
         rekkefølge: 0,
     },
     [Grafer.NÆRING]: {
         navn: "Næring",
-        farge: GrafFarger.data_4,
+        farge: "var(--a-data-surface-4)",
         symbol: "wye",
         rekkefølge: 1,
     },
     [Grafer.BRANSJE]: {
         navn: "Bransje",
-        farge: GrafFarger.data_5,
+        farge: "var(--a-data-surface-5)",
         symbol: "diamond",
         rekkefølge: 2,
     },
     [Grafer.SEKTOR]: {
         navn: "Sektor",
-        farge: GrafFarger.data_6,
+        farge: "var(--a-data-surface-6)",
         symbol: "triangle",
         rekkefølge: 3,
     },
     [Grafer.LAND]: {
         navn: "Norge",
-        farge: GrafFarger.data_1,
+        farge: "var(--a-data-surface-1)",
         symbol: "square",
         rekkefølge: 4,
     },

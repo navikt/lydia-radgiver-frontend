@@ -2,14 +2,8 @@ import { useLocation, useNavigate } from "react-router-dom";
 import { useHentBrukerinformasjon } from "../api/lydia-api/bruker";
 import React from "react";
 import { Alert, Loader } from "@navikt/ds-react";
-import styled from "styled-components";
 
-const Lastespinner = styled(Loader)`
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-`;
-
+import styles from './components.module.scss';
 export default function SmartStartsideRedirect() {
 	const navigate = useNavigate();
 	const {
@@ -63,7 +57,7 @@ export default function SmartStartsideRedirect() {
 	}, [brukerInformasjon, navigate]);
 
 	if (loading) {
-		return <Lastespinner />;
+		return <Loader className={styles.lastespinner} />;
 	}
 
 	if (error) {

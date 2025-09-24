@@ -1,12 +1,13 @@
 import { PadlockLockedIcon } from "@navikt/aksel-icons";
 import { Checkbox, Tooltip } from "@navikt/ds-react";
-import styled from "styled-components";
+import styles from './components.module.scss';
 
 export default function LåsbarCheckbox({
 	låst,
 	value,
 	children,
 	tooltipText,
+	className = "",
 	...remainingProps
 }: {
 	låst: boolean;
@@ -15,38 +16,26 @@ export default function LåsbarCheckbox({
 	if (låst && tooltipText) {
 		return (
 			<Tooltip content={tooltipText} defaultOpen={false}>
-				<StyledCheckbox value={value} readOnly {...remainingProps}>
+				<Checkbox className={`${styles.styledLåsbarCheckbox} ${className}`} value={value} readOnly {...remainingProps}>
 					<PadlockLockedIcon title="rad er låst" fontSize="1.5rem" />
 					{children}
-				</StyledCheckbox>
+				</Checkbox>
 			</Tooltip>
 		);
 	}
 
 	if (låst) {
 		return (
-			<StyledCheckbox value={value} readOnly {...remainingProps}>
+			<Checkbox className={`${styles.styledLåsbarCheckbox} ${className}`} value={value} readOnly {...remainingProps}>
 				<PadlockLockedIcon title="rad er låst" fontSize="1.5rem" />
 				{children}
-			</StyledCheckbox>
+			</Checkbox>
 		);
 	}
 
 	return (
-		<StyledCheckbox value={value} {...remainingProps}>
+		<Checkbox className={`${styles.styledLåsbarCheckbox} ${className}`} value={value} {...remainingProps}>
 			{children}
-		</StyledCheckbox>
+		</Checkbox>
 	);
 }
-
-const StyledCheckbox = styled(Checkbox)`
-.navds-checkbox__label {
-	.navds-checkbox__content {
-		.navds-checkbox__label-text {
-			display: flex;
-			align-items: center;
-			justify-content: center;
-		}
-	}
-}
-`;

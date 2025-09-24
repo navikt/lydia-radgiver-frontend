@@ -12,9 +12,9 @@ import {
 import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { StatistikkTabell } from "./StatistikkTabell";
-import { SideContainer } from "../../styling/containere";
 import { loggSideLastet, Søkekomponenter } from "../../util/amplitude-klient";
 import { loggSøkMedFilterIAmplitude } from "../Prioritering/loggSøkMedFilterIAmplitude";
+import SideContainer from "../../components/SideContainer";
 
 export const Statusoversiktside = () => {
     useTittel(statiskeSidetitler.statusoversiktside);

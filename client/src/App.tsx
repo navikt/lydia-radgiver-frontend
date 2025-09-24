@@ -1,14 +1,11 @@
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import styled from "styled-components";
 import "@navikt/ds-css";
 import { useHentBrukerinformasjon } from "./api/lydia-api/bruker";
 import { Prioriteringsside } from "./Pages/Prioritering/Prioriteringsside";
-import { desktopAndUp, largeDesktopAndUp } from "./styling/breakpoints";
 import { Virksomhetsside } from "./Pages/Virksomhet/Virksomhetsside";
 import { FeilmeldingBanner } from "./components/Banner/FeilmeldingBanner";
 import { Dekoratør, erIDev } from "./components/Dekoratør/Dekoratør";
-import { contentSpacing } from "./styling/contentSpacing";
 import { Footer } from "./components/Footer/Footer";
 import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
 import { BodyShort, Link, Loader } from "@navikt/ds-react";
@@ -17,6 +14,7 @@ import { setTilgangsnivå } from "./util/amplitude-klient";
 import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
 import { Samarbeidsside } from "./Pages/Virksomhet/Samarbeid/Samarbeidsside";
 import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
+import styles from './app.module.scss';
 
 const App = () => (
     <BrowserRouter>
@@ -99,7 +97,7 @@ const AppContent = () => {
         <>
             <Dekoratør brukerInformasjon={brukerInformasjon} />
             <FeilmeldingBanner />
-            <AppRamme id="maincontent">
+            <main className={styles.appramme} id="maincontent">
                 <Routes>
                     <Route path={"/"} element={<SmartStartsideRedirect />} />
                     <Route path={"/prioritering"} element={<Prioriteringsside />} />
@@ -119,28 +117,10 @@ const AppContent = () => {
                     />
                     <Route path={"/minesaker"} element={<MineSakerside />} />
                 </Routes>
-            </AppRamme>
+            </main>
             <Footer />
         </>
     );
 };
-
-const AppRamme = styled.main`
-    flex-grow: 1;
-
-    display: flex;
-    flex-direction: column;
-    padding: 0 ${contentSpacing.mobileX} 1.5rem;
-
-    ${desktopAndUp} {
-        padding-left: ${contentSpacing.desktopX};
-        padding-right: ${contentSpacing.desktopX};
-    }
-
-    ${largeDesktopAndUp} {
-        padding-left: ${contentSpacing.largeDesktopX};
-        padding-right: ${contentSpacing.largeDesktopX};
-    }
-`;
 
 export default App;

@@ -1,0 +1,58 @@
+@use "../styling/containere" as containere;
+
+.styledTable {
+	background-color: var(--a-white);
+	box-shadow: var(--a-shadow-small);
+	border-radius: var(--a-border-radius-medium);
+}
+
+.lastespinner {
+	display: block;
+	margin-left: auto;
+	margin-right: auto;
+}
+
+.samarbeidsfanemenyHeading {
+    font-weight: 600;
+    font-size: 1.25rem;
+    color: var(--a-text-default);
+    padding-right: 2rem;
+    margin-bottom: 0.25rem;
+}
+
+.spinner {
+    animation: spin 1s linear infinite;
+    @keyframes spin {
+        0% {
+            transform: rotate(0deg);
+        }
+        100% {
+            transform: rotate(360deg);
+        }
+    }
+}
+
+.animertBurger {
+    transition: transform 0.2s ease-in-out;
+	transform: rotate(0deg);
+
+	&.open {
+		transform: rotate(180deg);
+	}
+}
+
+.styledLåsbarCheckbox {
+	:global(.navds-checkbox__label) {
+		:global(.navds-checkbox__content) {
+			:global(.navds-checkbox__label-text) {
+				display: flex;
+				align-items: center;
+				justify-content: center;
+			}
+		}
+	}
+}
+
+.sidecontainer {
+	@include containere.sideContainer;
+}

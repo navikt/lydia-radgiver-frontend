@@ -7,9 +7,10 @@ import {
     PaperplaneIcon,
 } from "@navikt/aksel-icons";
 import { ActionMenu, Button } from "@navikt/ds-react";
-import styled from "styled-components";
 import React from "react";
 import { DokumentType } from "../domenetyper/domenetyper";
+import capitalizeFirstLetterLowercaseRest from "../util/formatering/capitalizeFirstLetterLowercaseRest";
+import styles from './components.module.scss';
 
 export default function Samarbeidsfanemeny({
     type,
@@ -28,15 +29,15 @@ export default function Samarbeidsfanemeny({
                     variant="tertiary-neutral"
                     icon={
                         laster ? (
-                            <Spinner title="Laster" />
+                            <CircleBrokenIcon className={styles.spinner} title="Laster" />
                         ) : (
-                            <AnimertHamburger $isOpen={open} title="Meny" />
+                            <MenuHamburgerIcon className={`${styles.animertBurger} ${open ? styles.open : ""}`} title="Meny" />
                         )
                     }
                 />
             </ActionMenu.Trigger>
             <ActionMenu.Content>
-                <MenuHeading>{type}</MenuHeading>
+                <ActionMenu.Label className={styles.samarbeidsfanemenyHeading}>{capitalizeFirstLetterLowercaseRest(type)}</ActionMenu.Label>
                 <Samarbeidsfanelenkeliste type={type}>
                     {children}
                 </Samarbeidsfanelenkeliste>
@@ -44,32 +45,6 @@ export default function Samarbeidsfanemeny({
         </ActionMenu>
     );
 }
-
-const MenuHeading = styled(ActionMenu.Label)`
-    font-weight: 600;
-    font-size: 1.25rem;
-    color: var(--a-text-default);
-    padding-right: 2rem;
-    margin-bottom: 0.25rem;
-`;
-
-const Spinner = styled(CircleBrokenIcon)`
-    animation: spin 1s linear infinite;
-    @keyframes spin {
-        0% {
-            transform: rotate(0deg);
-        }
-        100% {
-            transform: rotate(360deg);
-        }
-    }
-`;
-
-const AnimertHamburger = styled(MenuHamburgerIcon)<{ $isOpen: boolean }>`
-    transition: transform 0.2s ease-in-out;
-    transform: ${({ $isOpen }) =>
-        $isOpen ? "rotate(180deg)" : "rotate(0deg)"};
-`;
 
 function Samarbeidsfanelenkeliste({
     type,

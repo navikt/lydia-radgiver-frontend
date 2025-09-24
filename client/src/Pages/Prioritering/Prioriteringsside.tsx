@@ -13,9 +13,9 @@ import {
     useFiltervisningState,
 } from "./Filter/filtervisning-reducer";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
-import { SideContainer } from "../../styling/containere";
 import { loggSideLastet, Søkekomponenter } from "../../util/amplitude-klient";
 import { loggSøkMedFilterIAmplitude } from "./loggSøkMedFilterIAmplitude";
+import SideContainer from "../../components/SideContainer";
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 

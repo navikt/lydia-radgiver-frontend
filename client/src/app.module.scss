@@ -1,0 +1,20 @@
+@use "./styling/contentSpacing" as cs;
+@use "./styling/breakpoints" as bp;
+
+main.appramme {
+    flex-grow: 1;
+
+    display: flex;
+    flex-direction: column;
+    padding: 0 cs.$contentSpacingMobileX 1.5rem;
+
+    @include bp.desktopAndUp {
+        padding-left: cs.$contentSpacingDesktopX;
+        padding-right: cs.$contentSpacingDesktopX;
+    }
+
+    @include bp.largeDesktopAndUp {
+        padding-left: cs.$contentSpacingDesktopX;
+        padding-right: cs.$contentSpacingDesktopX;
+    }
+}
