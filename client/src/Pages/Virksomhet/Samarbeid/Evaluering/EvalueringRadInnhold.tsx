@@ -9,7 +9,7 @@ export const EvalueringRadInnhold = ({
     const { iaSak } = useSpørreundersøkelse();
 
     if (iaSak !== undefined) {
-        if (spørreundersøkelseStatus === "AVSLUTTET") {
+        if (spørreundersøkelseStatus === "AVSLUTTET" && spørreundersøkelse.harMinstEttResultat) {
             return (
                 <ExpansionCard.Content>
                     <SpørreundersøkelseResultat
@@ -20,4 +20,6 @@ export const EvalueringRadInnhold = ({
             );
         }
     }
+
+    return null;
 };

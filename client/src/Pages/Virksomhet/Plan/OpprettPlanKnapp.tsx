@@ -31,7 +31,7 @@ export default function OpprettPlanKnapp({
     sakErIRettStatus: boolean;
     planMal: PlanMal;
 }) {
-    const { mutate: hentPlanIgjen } = useHentPlan(
+    const { mutate: hentPlanIgjen, loading: lasterPlan, validating: validererPlan } = useHentPlan(
         orgnummer,
         saksnummer,
         samarbeid.id,
@@ -96,17 +96,21 @@ export default function OpprettPlanKnapp({
 
     const [visTemaFeil, setVisTemaFeil] = useState<boolean>(false);
     const [visInnholdFeil, setVisInnholdFeil] = useState<boolean>(false);
+    const [harSendtNyPlan, setHarSendtNyPlan] = useState<boolean>(false);
 
     function håndterLagre() {
-        if (!planErGyldig()) {
+        if (!planErGyldig() || harSendtNyPlan) {
             return;
         }
+
+        setHarSendtNyPlan(true);
 
         const nyPlan = lagRequest(redigertPlanMal);
 
         nyPlanPåSak(orgnummer, saksnummer, samarbeid.id, nyPlan).then(() => {
             hentPlanIgjen();
             hentSamarbeidPåNytt();
+            setHarSendtNyPlan(false);
         });
 
         setModalOpen(false);
@@ -148,6 +152,7 @@ export default function OpprettPlanKnapp({
                     setModalOpen(true);
                 }}
                 disabled={!(kanEndrePlan && sakErIRettStatus)}
+                loading={lasterPlan || validererPlan || harSendtNyPlan}
             >
                 Opprett plan
             </Button>

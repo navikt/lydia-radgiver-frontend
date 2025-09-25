@@ -21,6 +21,7 @@ import {
 import { SpørreundersøkelseMedInnholdVisning } from "../../Kartlegging/SpørreundersøkelseForhåndsvisningModal";
 import { VisHvisSamarbeidErÅpent } from "../SamarbeidContext";
 import styles from "./evaluering.module.scss";
+import ForFåSvarRad from "../../Kartlegging/ForFåSvarRad";
 
 function ActionButtonsHvisSamarbeidIkkeFullført({
     children,
@@ -42,6 +43,8 @@ export const EvalueringCardHeaderInnhold = ({
         bekreftFullførKartleggingModalÅpen,
         setBekreftFullførKartleggingModalÅpen,
     ] = useState(false);
+    const [sletterSpørreundersøkelse, setSletterSpørreundersøkelse] = useState(false);
+
     const [forhåndsvisModalÅpen, setForhåndsvisModalÅpen] = useState(false);
     const [
         slettSpørreundersøkelseModalÅpen,
@@ -61,14 +64,14 @@ export const EvalueringCardHeaderInnhold = ({
 
     const { iaSak, brukerRolle, samarbeid, kanEndreSpørreundersøkelser } =
         useSpørreundersøkelse();
-    const { mutate: muterEvalueringer } = useHentSpørreundersøkelser(
+    const { mutate: muterEvalueringer, loading: lasterSpørreundersøkelser, validating: validererSpørreundersøkelser } = useHentSpørreundersøkelser(
         iaSak.orgnr,
         iaSak.saksnummer,
         samarbeid.id,
         "EVALUERING",
     );
 
-    const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
+    const { mutate: oppdaterSaksStatus, loading: lasterIaSakStatus, validating: validererIaSakStatus } = useHentIASaksStatus(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
@@ -84,6 +87,8 @@ export const EvalueringCardHeaderInnhold = ({
     };
 
     const slettEvaluering = () => {
+        if (sletterSpørreundersøkelse) return;
+        setSletterSpørreundersøkelse(true);
         slettSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
@@ -92,6 +97,7 @@ export const EvalueringCardHeaderInnhold = ({
             muterEvalueringer();
             oppdaterSaksStatus();
             setSlettSpørreundersøkelseModalÅpen(false);
+            setSletterSpørreundersøkelse(false);
         });
     };
 
@@ -111,6 +117,26 @@ export const EvalueringCardHeaderInnhold = ({
     }
 
     if (spørreundersøkelseStatus === "AVSLUTTET") {
+        if (!spørreundersøkelse.harMinstEttResultat) {
+            return (
+                <>
+                    <ForFåSvarRad
+                        spørreundersøkelse={spørreundersøkelse}
+                        dato={dato}
+                        setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
+                        loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
+                    />
+                    <SlettSpørreundersøkelseModal
+                        spørreundersøkelse={spørreundersøkelse}
+                        erModalÅpen={slettSpørreundersøkelseModalÅpen}
+                        lukkModal={() =>
+                            setSlettSpørreundersøkelseModalÅpen(false)
+                        }
+                        slettSpørreundersøkelsen={slettEvaluering}
+                    />
+                </>
+            );
+        }
         return (
             <ExpansionCard.Header
                 className={styles.avsluttetEvalueringCardHeader}
@@ -172,6 +198,7 @@ export const EvalueringCardHeaderInnhold = ({
                                         }
                                         icon={<TrashIcon aria-hidden />}
                                         aria-label="Slett behovsvurdering"
+                                        loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
                                     />
                                 )}
                             </>

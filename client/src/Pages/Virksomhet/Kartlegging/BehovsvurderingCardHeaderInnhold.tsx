@@ -1,4 +1,4 @@
-import { BodyShort, Button, ExpansionCard } from "@navikt/ds-react";
+import { Button, ExpansionCard } from "@navikt/ds-react";
 import React, { useState } from "react";
 import { åpneSpørreundersøkelseINyFane } from "../../../util/navigasjon";
 import { SlettSpørreundersøkelseModal } from "./SlettSpørreundersøkelseModal";
@@ -7,7 +7,7 @@ import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkels
 import ResultatEksportVisning from "./ResultatEksportVisning";
 import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
 import { SpørreundersøkelseStatusBadge } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
-import { InformationSquareIcon, TrashIcon } from "@navikt/aksel-icons";
+import { TrashIcon } from "@navikt/aksel-icons";
 import {
     CardHeaderProps,
     useSpørreundersøkelse,
@@ -21,24 +21,15 @@ import {
     useHentSpørreundersøkelser,
 } from "../../../api/lydia-api/spørreundersøkelse";
 import { SpørreundersøkelseMedInnholdVisning } from "./SpørreundersøkelseForhåndsvisningModal";
-import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
 import { PubliserSpørreundersøkelse } from "./PubliserSpørreundersøkelse";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 
 import styles from './behovsvurderingCardHeaderInnhold.module.scss';
+import ActionButtonsHvisSamarbeidIkkeFullført from "./ActionButtonHvisSamarbeidIkkeFullført";
+import ForFåSvarRad from "./ForFåSvarRad";
 
 
-function ActionButtonsHvisSamarbeidIkkeFullført({
-    children,
-}: {
-    children: React.ReactNode;
-}) {
-    return (
-        <VisHvisSamarbeidErÅpent>
-            <div className={styles.actionButtonContainer}>{children}</div>
-        </VisHvisSamarbeidErÅpent>
-    );
-}
+
 
 function usePollingAvBehovsvurderingVedAvsluttetStatus(
     spørreundersøkelseStatus: string,
@@ -47,6 +38,7 @@ function usePollingAvBehovsvurderingVedAvsluttetStatus(
 ) {
     const [henterBehovsvurderingPånytt, setHenterBehovsvurderingPåNytt] =
         useState(false);
+
     const [forsøkPåÅHenteBehovsvurdering, setForsøkPåÅHenteBehovsvurdering] =
         useState(0);
 
@@ -88,6 +80,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
         bekreftFullførBehovsvurderingModalÅpen,
         setBekreftFullførBehovsvurderingModalÅpen,
     ] = useState(false);
+    const [sletterSpørreundersøkelse, setSletterSpørreundersøkelse] = useState(false);
     const [forhåndsvisModalÅpen, setForhåndsvisModalÅpen] = useState(false);
     const [
         slettSpørreundersøkelseModalÅpen,
@@ -108,7 +101,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
     const { iaSak, brukerRolle, samarbeid, kanEndreSpørreundersøkelser } =
         useSpørreundersøkelse();
 
-    const { mutate: hentBehovsvurderingPåNytt } = useHentSpørreundersøkelser(
+    const { mutate: hentBehovsvurderingPåNytt, loading: lasterSpørreundersøkelser, validating: validererSpørreundersøkelser } = useHentSpørreundersøkelser(
         iaSak.orgnr,
         iaSak.saksnummer,
         samarbeid.id,
@@ -122,7 +115,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
             hentBehovsvurderingPåNytt,
         );
 
-    const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
+    const { mutate: oppdaterSaksStatus, loading: lasterIaSakStatus, validating: validererIaSakStatus } = useHentIASaksStatus(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
@@ -147,6 +140,8 @@ export const BehovsvurderingCardHeaderInnhold = ({
     };
 
     const slettSpørreundersøkelsen = () => {
+        if (sletterSpørreundersøkelse) return;
+        setSletterSpørreundersøkelse(true);
         slettSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
@@ -155,6 +150,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
             hentBehovsvurderingPåNytt();
             oppdaterSaksStatus();
             setSlettSpørreundersøkelseModalÅpen(false);
+            setSletterSpørreundersøkelse(false);
         });
     };
 
@@ -177,7 +173,12 @@ export const BehovsvurderingCardHeaderInnhold = ({
         if (!spørreundersøkelse.harMinstEttResultat) {
             return (
                 <>
-                    <ForFåSvarRad spørreundersøkelse={spørreundersøkelse} dato={dato} setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen} />
+                    <ForFåSvarRad
+                        spørreundersøkelse={spørreundersøkelse}
+                        dato={dato}
+                        setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
+                        loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
+                    />
                     <SlettSpørreundersøkelseModal
                         spørreundersøkelse={spørreundersøkelse}
                         erModalÅpen={slettSpørreundersøkelseModalÅpen}
@@ -272,6 +273,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                         }
                                         icon={<TrashIcon aria-hidden />}
                                         aria-label="Slett behovsvurdering"
+                                        loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
                                     />
                                 )}
                             </>
@@ -395,35 +397,3 @@ export const BehovsvurderingCardHeaderInnhold = ({
         );
     }
 };
-
-
-function ForFåSvarRad({ spørreundersøkelse, dato, setSlettSpørreundersøkelseModalÅpen }: CardHeaderProps & { setSlettSpørreundersøkelseModalÅpen: React.Dispatch<React.SetStateAction<boolean>> }) {
-    return (
-        <div className={styles.styledEmptyCardHeader}>
-            <span className={styles.headerLeftContent}>
-                <ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
-                <InformationSquareIcon fontSize="1.5rem" aria-hidden />
-                <BodyShort>Behovsvurderingen har for få besvarelser til å vise svarresultater.</BodyShort>
-            </span>
-            <span className={styles.headerRightContent}>
-                <ActionButtonsHvisSamarbeidIkkeFullført>
-                    <Button
-                        variant="secondary"
-                        size="small"
-                        iconPosition="right"
-                        onClick={() => setSlettSpørreundersøkelseModalÅpen(true)}
-                        icon={<TrashIcon aria-hidden />}
-                    >
-                        Slett
-                    </Button>
-                </ActionButtonsHvisSamarbeidIkkeFullført>
-                <div className={styles.behovsvurderingStatusWrapper}>
-                    <SpørreundersøkelseStatusBadge
-                        status={spørreundersøkelse.status}
-                    />
-                </div>
-                <span className={styles.behovsvurderingDato}>{dato}</span>
-            </span>
-        </div>
-    );
-}

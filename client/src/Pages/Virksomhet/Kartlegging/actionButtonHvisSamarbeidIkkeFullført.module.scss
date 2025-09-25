@@ -1,0 +1,11 @@
+.actionButtonContainer {
+    display: flex;
+    justify-content: right;
+    margin-right: 2rem;
+    gap: 1rem;
+    z-index: 2;
+
+    & > div {
+        z-index: 3;
+    }
+}

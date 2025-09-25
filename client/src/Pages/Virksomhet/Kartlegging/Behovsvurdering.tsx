@@ -29,6 +29,7 @@ export const Behovsvurdering = ({
         idForSistOpprettetBehovsvurdering,
         setIdForSistOpprettetBehovsvurdering,
     ] = React.useState("");
+    const [lasterOppretting, setLasterOppretting] = React.useState(false);
 
     const {
         data: behovsvurderinger,
@@ -40,12 +41,14 @@ export const Behovsvurdering = ({
         samarbeid.id,
         "BEHOVSVURDERING",
     );
-    const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
+    const { mutate: oppdaterSaksStatus, loading: lasterIaSakStatus, validating: revalidererIaSakStatus } = useHentIASaksStatus(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
 
     const opprettBehovsvurdering = () => {
+        if (lasterOppretting) return;
+        setLasterOppretting(true);
         opprettSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
@@ -55,6 +58,7 @@ export const Behovsvurdering = ({
             setIdForSistOpprettetBehovsvurdering(id);
             hentBehovsvurderingerPåNytt();
             oppdaterSaksStatus();
+            setLasterOppretting(false);
         });
     };
 
@@ -84,6 +88,7 @@ export const Behovsvurdering = ({
                         disabled={
                             !(sakErIRettStatus && kanEndreSpørreundersøkelser)
                         }
+                        loading={lasterOppretting || lasterIaSakStatus || revalidererIaSakStatus}
                     />
                 </VisHvisSamarbeidErÅpent>
                 <Spørreundersøkelseliste />

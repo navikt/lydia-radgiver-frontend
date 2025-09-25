@@ -30,6 +30,7 @@ export const Evaluering = ({
 }) => {
     const [sisteOpprettedeId, setSisteOpprettedeId] = React.useState("");
     const spørreundersøkelseType: SpørreundersøkelseType = "EVALUERING";
+    const [lasterOppretting, setLasterOppretting] = React.useState(false);
 
     const {
         data: spørreundersøkelseListe,
@@ -41,12 +42,14 @@ export const Evaluering = ({
         samarbeid.id,
         spørreundersøkelseType,
     );
-    const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
+    const { mutate: oppdaterSaksStatus, loading: lasterIaSakStatus, validating: revalidererIaSakStatus } = useHentIASaksStatus(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
 
     const opprettEvaluering = () => {
+        if (lasterOppretting) return;
+        setLasterOppretting(true);
         opprettSpørreundersøkelse(
             iaSak.orgnr,
             iaSak.saksnummer,
@@ -56,6 +59,7 @@ export const Evaluering = ({
             setSisteOpprettedeId(id);
             hentSpørreundersøkelserPåNytt();
             oppdaterSaksStatus();
+            setLasterOppretting(false);
         });
     };
 
@@ -83,6 +87,7 @@ export const Evaluering = ({
                                 sakErIRettStatus && kanEndreSpørreundersøkelser
                             ) || !harPlan
                         }
+                        loading={lasterOppretting || lasterIaSakStatus || revalidererIaSakStatus}
                     />
                 </VisHvisSamarbeidErÅpent>
                 <Spørreundersøkelseliste />
