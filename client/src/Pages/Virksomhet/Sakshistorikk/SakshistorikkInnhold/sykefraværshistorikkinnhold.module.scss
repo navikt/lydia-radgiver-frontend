@@ -1,0 +1,11 @@
+@use "../../../../styling/_containere.scss" as containere;
+
+.samarbeidshistorikkfaneContainer {
+    @include containere.tabInnholdStyling;
+
+    .accordionHeaderContent {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+}
