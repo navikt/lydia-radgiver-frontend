@@ -7,7 +7,7 @@ import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkels
 import ResultatEksportVisning from "./ResultatEksportVisning";
 import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
 import { SpørreundersøkelseStatusBadge } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
-import { TrashIcon } from "@navikt/aksel-icons";
+import {ClockIcon, TrashIcon} from "@navikt/aksel-icons";
 import {
     CardHeaderProps,
     useSpørreundersøkelse,
@@ -27,6 +27,7 @@ import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse"
 import styles from './behovsvurderingCardHeaderInnhold.module.scss';
 import ActionButtonsHvisSamarbeidIkkeFullført from "./ActionButtonHvisSamarbeidIkkeFullført";
 import ForFåSvarRad from "./ForFåSvarRad";
+import {lokalDatoMedKlokkeslett} from "../../../util/dato";
 
 
 
@@ -70,6 +71,10 @@ function usePollingAvBehovsvurderingVedAvsluttetStatus(
     ]);
 
     return { henterBehovsvurderingPånytt, forsøkPåÅHenteBehovsvurdering };
+}
+
+function GyldigTilTidspunkt(props: { input: Date }) {
+    return <span className={styles.gyldigTilDato}><ClockIcon title="a11y-title" fontSize="1.5rem"/> Åpen frem til {lokalDatoMedKlokkeslett(props.input)}</span>;
 }
 
 export const BehovsvurderingCardHeaderInnhold = ({
@@ -276,6 +281,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                         loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
                                     />
                                 )}
+                                <GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt}/>    
                             </>
                         )}
                     <StartSpørreundersøkelseModal
@@ -374,6 +380,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                 />
                             </>
                         )}
+                    <GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt}/>
                     {brukerRolle && (
                         <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}
