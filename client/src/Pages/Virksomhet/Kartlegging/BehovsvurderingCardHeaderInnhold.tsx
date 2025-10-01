@@ -27,7 +27,7 @@ import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse"
 import styles from './behovsvurderingCardHeaderInnhold.module.scss';
 import ActionButtonsHvisSamarbeidIkkeFullført from "./ActionButtonHvisSamarbeidIkkeFullført";
 import ForFåSvarRad from "./ForFåSvarRad";
-import {lokalDatoMedKlokkeslett} from "../../../util/dato";
+import {erForbiDagensDato, lokalDatoMedKlokkeslett} from "../../../util/dato";
 
 
 
@@ -257,6 +257,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                             true,
                                         )
                                     }
+                                    disabled={erForbiDagensDato(spørreundersøkelse.gyldigTilTidspunkt)}
                                 >
                                     Start
                                 </Button>
@@ -337,6 +338,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                             "PÅBEGYNT",
                                         )
                                     }
+                                    disabled={erForbiDagensDato(spørreundersøkelse.gyldigTilTidspunkt)}
                                 >
                                     Fortsett
                                 </Button>

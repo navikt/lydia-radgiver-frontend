@@ -34,3 +34,8 @@ export const erSammeDato = (dato1: Date, dato2: Date): boolean => {
         dato1.getDay() === dato2.getDay()
     );
 };
+
+export const erForbiDagensDato = (dato: Date): boolean => {
+    const dagensDato = new Date();
+    return dagensDato > dato;
+}
