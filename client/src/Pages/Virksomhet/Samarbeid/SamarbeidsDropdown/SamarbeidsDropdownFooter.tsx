@@ -5,6 +5,7 @@ import { PlusIcon } from "@navikt/aksel-icons";
 import { useErPåAktivSak } from "../../VirksomhetContext";
 
 import styles from "./samarbeidsdropdown.module.scss";
+import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 
 interface SamarbeidsDropdownFooterProps {
     setÅpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,9 +21,11 @@ export const SamarbeidsDropdownFooter = ({
     const visOpprettSamarbeidKnapp =
         kanEndreSamarbeid &&
         (iaSakStatus === "KARTLEGGES" || iaSakStatus === "VI_BISTÅR");
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const erLesebruker = brukerInformasjon?.rolle === "Lesetilgang";
 
     const erPåAktivSak = useErPåAktivSak();
-    if (!erPåAktivSak) {
+    if (!erPåAktivSak || erLesebruker) {
         return null;
     }
 
