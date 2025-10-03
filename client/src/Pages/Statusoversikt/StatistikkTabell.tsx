@@ -21,7 +21,7 @@ export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
         søkeparametre.set("iaStatus", status);
         setSøkeparametre(søkeparametre, { replace: true });
         navigate({
-            pathname: "/..",
+            pathname: "/../prioritering",
             search: createSearchParams(søkeparametre).toString(),
         });
     }
