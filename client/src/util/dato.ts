@@ -35,7 +35,7 @@ export const erSammeDato = (dato1: Date, dato2: Date): boolean => {
     );
 };
 
-export const erForbiDagensDato = (dato: Date): boolean => {
-    const dagensDato = new Date();
-    return dagensDato > dato;
+export const erIFortid = (dato: Date): boolean => {
+    const nå = new Date();
+    return nå > dato;
 }
