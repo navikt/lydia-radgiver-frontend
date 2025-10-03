@@ -15,6 +15,7 @@ export default function ForFåSvarRad({
 	dato,
 	setSlettSpørreundersøkelseModalÅpen,
 	loading = false,
+	erLesebruker = false,
 }: CardHeaderProps & { setSlettSpørreundersøkelseModalÅpen: React.Dispatch<React.SetStateAction<boolean>>, loading?: boolean }) {
 	return (
 		<div className={styles.styledEmptyCardHeader}>
@@ -31,7 +32,7 @@ export default function ForFåSvarRad({
 			</span>
 			<span className={styles.headerRightContent}>
 				<ActionButtonsHvisSamarbeidIkkeFullført>
-					<Button
+					{erLesebruker ? null : <Button
 						variant="secondary"
 						size="small"
 						iconPosition="right"
@@ -40,7 +41,7 @@ export default function ForFåSvarRad({
 						loading={loading}
 					>
 						Slett
-					</Button>
+					</Button>}
 				</ActionButtonsHvisSamarbeidIkkeFullført>
 				<div className={styles.behovsvurderingStatusWrapper}>
 					<SpørreundersøkelseStatusBadge

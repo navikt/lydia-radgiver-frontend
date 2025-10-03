@@ -124,6 +124,7 @@ export const EvalueringCardHeaderInnhold = ({
                         spørreundersøkelse={spørreundersøkelse}
                         dato={dato}
                         setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
+                        erLesebruker={brukerRolle === "Lesetilgang"}
                         loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
                     />
                     <SlettSpørreundersøkelseModal

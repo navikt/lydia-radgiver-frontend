@@ -21,6 +21,7 @@ interface SpørreundersøkelseProviderProps {
 export interface CardHeaderProps {
     spørreundersøkelse: Spørreundersøkelse;
     dato?: string;
+    erLesebruker?: boolean;
 }
 
 export interface CardInnholdProps {
