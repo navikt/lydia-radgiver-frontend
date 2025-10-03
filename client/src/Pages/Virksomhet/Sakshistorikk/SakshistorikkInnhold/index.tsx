@@ -12,6 +12,7 @@ type SakshistorikkInnholdProps = {
 	sakshistorikk?: Sakshistorikk[],
 	lasterSakshistorikk: boolean,
 	orgnr: string,
+	defaultOpenFørste?: boolean,
 }
 
 export default function SakshistorikkMedDatahenting({ orgnr, Innhold = SakshistorikkWrapper }: { orgnr: string, Innhold?: React.ComponentType<SakshistorikkInnholdProps> }) {
@@ -31,7 +32,7 @@ function SakshistorikkWrapper({ sakshistorikk, lasterSakshistorikk, orgnr }: Sak
 	)
 }
 
-function SykefraværshistorikkInnhold({ sakshistorikk, lasterSakshistorikk, orgnr }: SakshistorikkInnholdProps) {
+export function SykefraværshistorikkInnhold({ sakshistorikk, lasterSakshistorikk, orgnr, defaultOpenFørste = false }: SakshistorikkInnholdProps) {
 	if (lasterSakshistorikk) {
 		return (
 			<Loader />
@@ -57,8 +58,8 @@ function SykefraværshistorikkInnhold({ sakshistorikk, lasterSakshistorikk, orgn
 
 	return (
 		<Accordion>
-			{sortertHistorikk.map((sakshistorikk) => (
-				<Accordion.Item key={sakshistorikk.saksnummer}>
+			{sortertHistorikk.map((sakshistorikk, saksindex) => (
+				<Accordion.Item key={sakshistorikk.saksnummer} defaultOpen={defaultOpenFørste && saksindex === 0}>
 					<Accordion.Header>
 						<div className={styles.accordionHeaderContent}>
 							<IAProsessStatusBadge
