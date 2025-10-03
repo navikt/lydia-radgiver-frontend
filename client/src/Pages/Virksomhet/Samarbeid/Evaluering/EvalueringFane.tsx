@@ -67,6 +67,7 @@ function NyEvalueringFane({
     const kanEndreSpørreundersøkelser =
         (erSaksbehandler(brukerInformasjon) && brukerFølgerSak) ||
         brukerErEierAvSak;
+    const erLesebruker = brukerInformasjon?.rolle === "Lesetilgang";
 
     const sakErIRettStatus = ["VI_BISTÅR"].includes(iaSak.status);
 
@@ -81,6 +82,7 @@ function NyEvalueringFane({
                     type={spørreundersøkelseType}
                     kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                     sakErIRettStatus={sakErIRettStatus}
+                    erLesebruker={erLesebruker}
                 />
             </>
         );
@@ -97,6 +99,7 @@ function NyEvalueringFane({
                 kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                 sakErIRettStatus={sakErIRettStatus}
                 harPlan={samarbeidsplan !== undefined}
+                erLesebruker={erLesebruker}
             />
             <Evaluering
                 brukerRolle={brukerInformasjon?.rolle}

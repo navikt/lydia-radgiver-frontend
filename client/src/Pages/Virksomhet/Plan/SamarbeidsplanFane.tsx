@@ -74,6 +74,7 @@ export default function SamarbeidsplanFane({
 
     const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
     const kanOppretteEllerEndrePlan = eierEllerFølgerSak && sakErIRettStatus;
+    const erLesebruker = brukerInformasjon?.rolle === "Lesetilgang";
 
     if (planFeil && planFeil.message !== "Fant ikke plan") {
         dispatchFeilmelding({ feilmelding: planFeil.message });
@@ -84,6 +85,10 @@ export default function SamarbeidsplanFane({
     }
 
     if (samarbeidsplan === undefined && planMal) {
+        if (erLesebruker) {
+            return <BodyShort>Ingen samarbeidsplan er opprettet</BodyShort>;
+        }
+
         return (
             <>
                 <SamarbeidsplanHeading samarbeid={samarbeid} />

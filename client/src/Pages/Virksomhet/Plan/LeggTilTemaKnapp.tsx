@@ -11,6 +11,7 @@ import { NotePencilIcon, TrashIcon } from "@navikt/aksel-icons";
 import { loggModalÅpnet } from "../../../util/amplitude-klient";
 
 import styles from './plan.module.scss';
+import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
 
 export default function LeggTilTemaKnapp({
     saksnummer,
@@ -30,6 +31,7 @@ export default function LeggTilTemaKnapp({
     sakErIRettStatus: boolean;
 }) {
     const [modalOpen, setModalOpen] = React.useState(false);
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
 
     const [redigertTemaliste, setRedigertTemaliste] = React.useState<
         PlanTema[]
@@ -81,6 +83,10 @@ export default function LeggTilTemaKnapp({
         endrePlan(orgnummer, saksnummer, samarbeid.id, temaer).then(() => {
             hentPlanIgjen();
         });
+    }
+
+    if (brukerInformasjon?.rolle === "Lesetilgang") {
+        return null;
     }
 
     return (

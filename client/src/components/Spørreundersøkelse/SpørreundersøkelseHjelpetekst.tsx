@@ -7,14 +7,16 @@ export const SpørreundersøkelseHjelpetekst = ({
     sakErIRettStatus,
     type,
     harPlan,
+    erLesebruker,
 }: {
     kanEndreSpørreundersøkelser: boolean;
     sakErIRettStatus: boolean;
     type: SpørreundersøkelseType;
+    erLesebruker: boolean;
     harPlan?: boolean;
 }) => {
     const erPåAktivSak = useErPåAktivSak();
-    if (!erPåAktivSak) {
+    if (!erPåAktivSak || erLesebruker) {
         return null;
     }
     if (!kanEndreSpørreundersøkelser && !sakErIRettStatus) {
@@ -35,7 +37,7 @@ export const SpørreundersøkelseHjelpetekst = ({
                     <br />
                     <BodyShort>
                         Status må være i <i>Vi bistår</i> for å kunne opprette
-                        en {type}
+                        en evaluering
                     </BodyShort>
                 </>
             );
@@ -45,7 +47,7 @@ export const SpørreundersøkelseHjelpetekst = ({
                     <br />
                     <BodyShort>
                         Status må være i <i>Kartlegges</i> eller{" "}
-                        <i>Vi bistår</i> for å kunne opprette en {type}
+                        <i>Vi bistår</i> for å kunne opprette en behovsvurdering
                     </BodyShort>
                 </>
             );
@@ -56,7 +58,7 @@ export const SpørreundersøkelseHjelpetekst = ({
                 <br />
                 <BodyShort>
                     Du må være eier eller følger av saken for å opprette ny{" "}
-                    {type}
+                    {type.toLowerCase()}
                 </BodyShort>
             </>
         );
@@ -65,7 +67,7 @@ export const SpørreundersøkelseHjelpetekst = ({
             <>
                 <br />
                 <BodyShort>
-                    Du må opprette en plan før du kan opprette en {type}
+                    Du må opprette en plan før du kan opprette en evaluering
                 </BodyShort>
             </>
         );

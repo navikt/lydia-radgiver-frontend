@@ -34,6 +34,7 @@ export const BehovsvurderingFane = ({
     const kanEndreSpørreundersøkelser =
         (erSaksbehandler(brukerInformasjon) && brukerFølgerSak) ||
         brukerErEierAvSak;
+    const erLesebruker = brukerInformasjon?.rolle === "Lesetilgang";
 
     const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
 
@@ -48,6 +49,7 @@ export const BehovsvurderingFane = ({
                     type={spørreundersøkelseType}
                     kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                     sakErIRettStatus={sakErIRettStatus}
+                    erLesebruker={erLesebruker}
                 />
             </>
         );
@@ -63,6 +65,7 @@ export const BehovsvurderingFane = ({
                 type={spørreundersøkelseType}
                 kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                 sakErIRettStatus={sakErIRettStatus}
+                erLesebruker={erLesebruker}
             />
             <Behovsvurdering
                 brukerRolle={brukerInformasjon?.rolle}
