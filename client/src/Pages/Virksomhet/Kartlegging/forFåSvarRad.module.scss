@@ -25,10 +25,20 @@
     flex-wrap: wrap;
     gap: 0.5rem;
     align-self: center;
+    font-size: 1rem;
 
     h3 {
         margin-top: 0;
         margin-right: 2rem;
+    }
+
+    .forFåSvarWarning {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-align: left;
+        margin-left: 1rem;
+        font-size: 1rem;
     }
 }
 

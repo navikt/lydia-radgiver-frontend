@@ -1,4 +1,4 @@
-import { BodyShort, Button, ExpansionCard } from "@navikt/ds-react";
+import { Button, ExpansionCard } from "@navikt/ds-react";
 import React from "react";
 import { SpørreundersøkelseStatusBadge } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
 import { InformationSquareIcon, TrashIcon } from "@navikt/aksel-icons";
@@ -9,6 +9,7 @@ import {
 import styles from './forFåSvarRad.module.scss';
 import ActionButtonsHvisSamarbeidIkkeFullført from "./ActionButtonHvisSamarbeidIkkeFullført";
 import { SpørreundersøkelseTypeEnum } from "../../../domenetyper/spørreundersøkelseMedInnhold";
+import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 
 export default function ForFåSvarRad({
 	spørreundersøkelse,
@@ -21,14 +22,7 @@ export default function ForFåSvarRad({
 		<div className={styles.styledEmptyCardHeader}>
 			<span className={styles.headerLeftContent}>
 				<ExpansionCard.Title>{spørreundersøkelse.type === SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING ? "Behovsvurdering" : "Evaluering"}</ExpansionCard.Title>
-				<InformationSquareIcon fontSize="1.5rem" aria-hidden />
-				<BodyShort>
-					{
-						spørreundersøkelse.type === SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING
-							? "Behovsvurderingen"
-							: "Evalueringen"
-					} har for få besvarelser til å vise svarresultater.
-				</BodyShort>
+				<ForFåSvarWarning spørreundersøkelse={spørreundersøkelse} />
 			</span>
 			<span className={styles.headerRightContent}>
 				<ActionButtonsHvisSamarbeidIkkeFullført>
@@ -52,4 +46,17 @@ export default function ForFåSvarRad({
 			</span>
 		</div>
 	);
+}
+
+function ForFåSvarWarning({ spørreundersøkelse }: { spørreundersøkelse: Spørreundersøkelse }) {
+	return (
+		<span className={styles.forFåSvarWarning}>
+			<InformationSquareIcon aria-hidden fontSize="1.5rem" />
+			{
+				spørreundersøkelse.type === SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING
+					? "Behovsvurderingen"
+					: "Evalueringen"
+			} har for få besvarelser til å vise svarresultater.
+		</span>
+	)
 }

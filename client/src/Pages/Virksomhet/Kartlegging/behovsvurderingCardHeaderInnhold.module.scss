@@ -46,6 +46,14 @@
     .tittelUtenTopMargin {
         margin-top: 0;
     }
+
+    .headerLeftContent {
+        display: flex;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 0.5rem;
+        align-self: center;
+    }
 }
 
 .headerRightContent {

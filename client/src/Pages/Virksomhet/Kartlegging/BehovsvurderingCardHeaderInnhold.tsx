@@ -425,8 +425,13 @@ export function GyldigTilTidspunkt(props: { input: Date }) {
 }
 
 export function IkkeGjennomførtFørFrist({ type }: { type: SpørreundersøkelseType }) {
-    const penskrevetType = `${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()}en`;
-    return <span className={styles.gyldigTilDato}><ExclamationmarkTriangleIcon title="a11y-title" fontSize="1.5rem" /> {penskrevetType} ble ikke gjennomført innen 24 timer</span>;
+    const penskrevetType = `${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()}`;
+    return (
+        <span className={styles.headerLeftContent}>
+            <ExpansionCard.Title className={styles.tittelUtenTopMargin}>{penskrevetType}</ExpansionCard.Title>
+            <span className={styles.gyldigTilDato}><ExclamationmarkTriangleIcon aria-hidden fontSize="1.5rem" /> {penskrevetType}en ble ikke gjennomført innen 24 timer</span>
+        </span>
+    );
 }
 
 export function ErIFortidRad({
