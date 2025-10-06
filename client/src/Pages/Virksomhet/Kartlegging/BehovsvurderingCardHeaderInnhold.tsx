@@ -243,39 +243,15 @@ export const BehovsvurderingCardHeaderInnhold = ({
 
     if (erIFortid(spørreundersøkelse.gyldigTilTidspunkt)) {
         return (
-            <div className={styles.styledEmptyCardHeader}>
-                <IkkeGjennomførtFørFrist type={spørreundersøkelse.type} />
-                <span className={styles.headerRightContent}>
-                    <ActionButtonsHvisSamarbeidIkkeFullført>
-                        {kanEndreSpørreundersøkelser && (
-                            <Button
-                                iconPosition="right"
-                                variant="secondary"
-                                size="small"
-                                icon={<TrashIcon aria-hidden />}
-                                onClick={() => setSlettSpørreundersøkelseModalÅpen(true)}
-                                loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
-                            >
-                                Slett
-                            </Button>
-                        )}
-                    </ActionButtonsHvisSamarbeidIkkeFullført>
-                    <div className={styles.behovsvurderingStatusWrapper}>
-                        <SpørreundersøkelseStatusBadge
-                            status={spørreundersøkelse.status}
-                        />
-                        <SlettSpørreundersøkelseModal
-                            spørreundersøkelse={spørreundersøkelse}
-                            erModalÅpen={slettSpørreundersøkelseModalÅpen}
-                            lukkModal={() =>
-                                setSlettSpørreundersøkelseModalÅpen(false)
-                            }
-                            slettSpørreundersøkelsen={slettSpørreundersøkelsen}
-                        />
-                    </div>
-                    <span className={styles.behovsvurderingDato}>{dato}</span>
-                </span>
-            </div>
+            <ErIFortidRad
+                spørreundersøkelse={spørreundersøkelse}
+                kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
+                setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
+                slettSpørreundersøkelseModalÅpen={slettSpørreundersøkelseModalÅpen}
+                slettSpørreundersøkelsen={slettSpørreundersøkelsen}
+                laster={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
+                dato={dato}
+            />
         );
     }
 
@@ -444,11 +420,65 @@ export const BehovsvurderingCardHeaderInnhold = ({
 };
 
 
-function GyldigTilTidspunkt(props: { input: Date }) {
+export function GyldigTilTidspunkt(props: { input: Date }) {
     return <span className={styles.gyldigTilDato}><ClockIcon title="a11y-title" fontSize="1.5rem" /> Åpen frem til {lokalDatoMedKlokkeslett(props.input)}</span>;
 }
 
-function IkkeGjennomførtFørFrist({ type }: { type: SpørreundersøkelseType }) {
+export function IkkeGjennomførtFørFrist({ type }: { type: SpørreundersøkelseType }) {
     const penskrevetType = `${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()}en`;
     return <span className={styles.gyldigTilDato}><ExclamationmarkTriangleIcon title="a11y-title" fontSize="1.5rem" /> {penskrevetType} ble ikke gjennomført innen 24 timer</span>;
 }
+
+export function ErIFortidRad({
+    spørreundersøkelse,
+    kanEndreSpørreundersøkelser,
+    setSlettSpørreundersøkelseModalÅpen,
+    slettSpørreundersøkelseModalÅpen,
+    slettSpørreundersøkelsen,
+    laster,
+    dato,
+}: {
+    spørreundersøkelse: Spørreundersøkelse;
+    kanEndreSpørreundersøkelser: boolean;
+    setSlettSpørreundersøkelseModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
+    slettSpørreundersøkelseModalÅpen: boolean;
+    slettSpørreundersøkelsen: () => void;
+    laster: boolean;
+    dato?: string;
+}) {
+    return (
+        <div className={styles.styledEmptyCardHeader}>
+            <IkkeGjennomførtFørFrist type={spørreundersøkelse.type} />
+            <span className={styles.headerRightContent}>
+                <ActionButtonsHvisSamarbeidIkkeFullført>
+                    {kanEndreSpørreundersøkelser && (
+                        <Button
+                            iconPosition="right"
+                            variant="secondary"
+                            size="small"
+                            icon={<TrashIcon aria-hidden />}
+                            onClick={() => setSlettSpørreundersøkelseModalÅpen(true)}
+                            loading={laster}
+                        >
+                            Slett
+                        </Button>
+                    )}
+                </ActionButtonsHvisSamarbeidIkkeFullført>
+                <div className={styles.behovsvurderingStatusWrapper}>
+                    <SpørreundersøkelseStatusBadge
+                        status={spørreundersøkelse.status}
+                    />
+                    <SlettSpørreundersøkelseModal
+                        spørreundersøkelse={spørreundersøkelse}
+                        erModalÅpen={slettSpørreundersøkelseModalÅpen}
+                        lukkModal={() =>
+                            setSlettSpørreundersøkelseModalÅpen(false)
+                        }
+                        slettSpørreundersøkelsen={slettSpørreundersøkelsen}
+                    />
+                </div>
+                <span className={styles.behovsvurderingDato}>{dato}</span>
+            </span>
+        </div>
+    );
+};

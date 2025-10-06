@@ -22,6 +22,8 @@ import { SpørreundersøkelseMedInnholdVisning } from "../../Kartlegging/Spørre
 import { VisHvisSamarbeidErÅpent } from "../SamarbeidContext";
 import styles from "./evaluering.module.scss";
 import ForFåSvarRad from "../../Kartlegging/ForFåSvarRad";
+import { ErIFortidRad, GyldigTilTidspunkt } from "../../Kartlegging/BehovsvurderingCardHeaderInnhold";
+import { erIFortid } from "../../../../util/dato";
 
 function ActionButtonsHvisSamarbeidIkkeFullført({
     children,
@@ -163,6 +165,20 @@ export const EvalueringCardHeaderInnhold = ({
         );
     }
 
+    if (erIFortid(spørreundersøkelse.gyldigTilTidspunkt)) {
+        return (
+            <ErIFortidRad
+                spørreundersøkelse={spørreundersøkelse}
+                kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
+                setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
+                slettSpørreundersøkelseModalÅpen={slettSpørreundersøkelseModalÅpen}
+                slettSpørreundersøkelsen={slettEvaluering}
+                laster={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
+                dato={dato}
+            />
+        );
+    }
+
     if (spørreundersøkelseStatus === "OPPRETTET") {
         return (
             <div className={styles.evalueringCardHeader}>
@@ -202,6 +218,7 @@ export const EvalueringCardHeaderInnhold = ({
                                     loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
                                 />
                             )}
+                            <GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt} />
                         </>
                     ) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Evaluering</ExpansionCard.Title>}
                     <StartSpørreundersøkelseModal
@@ -300,6 +317,7 @@ export const EvalueringCardHeaderInnhold = ({
                             />
                         </>
                     ) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Evaluering</ExpansionCard.Title>}
+                    <GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt} />
                     {brukerRolle && (
                         <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}
