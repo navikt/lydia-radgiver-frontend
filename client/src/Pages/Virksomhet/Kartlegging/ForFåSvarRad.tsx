@@ -56,7 +56,7 @@ function ForFåSvarWarning({ spørreundersøkelse }: { spørreundersøkelse: Sp�
 				spørreundersøkelse.type === SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING
 					? "Behovsvurderingen"
 					: "Evalueringen"
-			} har for få besvarelser til å vise svarresultater.
+			} har for få besvarelser til å vise svarresultater
 		</span>
 	)
 }
