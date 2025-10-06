@@ -20,7 +20,7 @@ export default function ForFåSvarRad({
 	return (
 		<div className={styles.styledEmptyCardHeader}>
 			<span className={styles.headerLeftContent}>
-				<ExpansionCard.Title>Behovsvurdering</ExpansionCard.Title>
+				<ExpansionCard.Title>{spørreundersøkelse.type === SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING ? "Behovsvurdering" : "Evaluering"}</ExpansionCard.Title>
 				<InformationSquareIcon fontSize="1.5rem" aria-hidden />
 				<BodyShort>
 					{

@@ -169,41 +169,41 @@ export const EvalueringCardHeaderInnhold = ({
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
-                        brukerRolle !== "Lesetilgang" && (
-                            <>
+                        brukerRolle !== "Lesetilgang" ? (
+                        <>
+                            <Button
+                                variant="primary"
+                                onClick={() =>
+                                    setBekreftStartKartleggingModalÅpen(
+                                        true,
+                                    )
+                                }
+                            >
+                                Start
+                            </Button>
+                            <Button
+                                variant="secondary"
+                                onClick={() =>
+                                    setForhåndsvisModalÅpen(true)
+                                }
+                            >
+                                Forhåndsvis
+                            </Button>
+                            {kanEndreSpørreundersøkelser && (
                                 <Button
-                                    variant="primary"
+                                    variant="secondary-neutral"
                                     onClick={() =>
-                                        setBekreftStartKartleggingModalÅpen(
+                                        setSlettSpørreundersøkelseModalÅpen(
                                             true,
                                         )
                                     }
-                                >
-                                    Start
-                                </Button>
-                                <Button
-                                    variant="secondary"
-                                    onClick={() =>
-                                        setForhåndsvisModalÅpen(true)
-                                    }
-                                >
-                                    Forhåndsvis
-                                </Button>
-                                {kanEndreSpørreundersøkelser && (
-                                    <Button
-                                        variant="secondary-neutral"
-                                        onClick={() =>
-                                            setSlettSpørreundersøkelseModalÅpen(
-                                                true,
-                                            )
-                                        }
-                                        icon={<TrashIcon aria-hidden />}
-                                        aria-label="Slett behovsvurdering"
-                                        loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
-                                    />
-                                )}
-                            </>
-                        )}
+                                    icon={<TrashIcon aria-hidden />}
+                                    aria-label="Slett behovsvurdering"
+                                    loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
+                                />
+                            )}
+                        </>
+                    ) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Evaluering</ExpansionCard.Title>}
                     <StartSpørreundersøkelseModal
                         spørreundersøkelse={spørreundersøkelse}
                         erModalÅpen={bekreftStartKartleggingModalÅpen}
@@ -247,59 +247,59 @@ export const EvalueringCardHeaderInnhold = ({
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
-                        brukerRolle !== "Lesetilgang" && (
-                            <>
-                                <Button
-                                    variant="primary"
-                                    onClick={() =>
-                                        åpneSpørreundersøkelseINyFane(
-                                            spørreundersøkelse.id,
-                                            "PÅBEGYNT",
-                                        )
-                                    }
-                                >
-                                    Fortsett
-                                </Button>
-                                {kanEndreSpørreundersøkelser && (
-                                    <>
-                                        <Button
-                                            variant="secondary"
-                                            onClick={() =>
-                                                setBekreftFullførKartleggingModalÅpen(
-                                                    true,
-                                                )
-                                            }
-                                        >
-                                            Fullfør
-                                        </Button>
-                                        <Button
-                                            variant="secondary-neutral"
-                                            onClick={() =>
-                                                setSlettSpørreundersøkelseModalÅpen(
-                                                    true,
-                                                )
-                                            }
-                                            icon={<TrashIcon aria-hidden />}
-                                            aria-label="Slett behovsvurdering"
-                                        />
-                                    </>
-                                )}
-                                <FullførSpørreundersøkelseModal
-                                    harNokDeltakere={harNokDeltakere}
-                                    erModalÅpen={
-                                        bekreftFullførKartleggingModalÅpen
-                                    }
-                                    lukkModal={() =>
-                                        setBekreftFullførKartleggingModalÅpen(
-                                            false,
-                                        )
-                                    }
-                                    fullførSpørreundersøkelse={
-                                        avsluttEvaluering
-                                    }
-                                />
-                            </>
-                        )}
+                        brukerRolle !== "Lesetilgang" ? (
+                        <>
+                            <Button
+                                variant="primary"
+                                onClick={() =>
+                                    åpneSpørreundersøkelseINyFane(
+                                        spørreundersøkelse.id,
+                                        "PÅBEGYNT",
+                                    )
+                                }
+                            >
+                                Fortsett
+                            </Button>
+                            {kanEndreSpørreundersøkelser && (
+                                <>
+                                    <Button
+                                        variant="secondary"
+                                        onClick={() =>
+                                            setBekreftFullførKartleggingModalÅpen(
+                                                true,
+                                            )
+                                        }
+                                    >
+                                        Fullfør
+                                    </Button>
+                                    <Button
+                                        variant="secondary-neutral"
+                                        onClick={() =>
+                                            setSlettSpørreundersøkelseModalÅpen(
+                                                true,
+                                            )
+                                        }
+                                        icon={<TrashIcon aria-hidden />}
+                                        aria-label="Slett behovsvurdering"
+                                    />
+                                </>
+                            )}
+                            <FullførSpørreundersøkelseModal
+                                harNokDeltakere={harNokDeltakere}
+                                erModalÅpen={
+                                    bekreftFullførKartleggingModalÅpen
+                                }
+                                lukkModal={() =>
+                                    setBekreftFullførKartleggingModalÅpen(
+                                        false,
+                                    )
+                                }
+                                fullførSpørreundersøkelse={
+                                    avsluttEvaluering
+                                }
+                            />
+                        </>
+                    ) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Evaluering</ExpansionCard.Title>}
                     {brukerRolle && (
                         <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}

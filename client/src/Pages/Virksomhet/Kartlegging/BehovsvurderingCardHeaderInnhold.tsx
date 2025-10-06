@@ -285,42 +285,42 @@ export const BehovsvurderingCardHeaderInnhold = ({
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
-                        brukerRolle !== "Lesetilgang" && (
-                            <>
+                        brukerRolle !== "Lesetilgang" ? (
+                        <>
+                            <Button
+                                onClick={() =>
+                                    setBekreftStartBehovsvurderingModalÅpen(
+                                        true,
+                                    )
+                                }
+                                disabled={erIFortid(spørreundersøkelse.gyldigTilTidspunkt)}
+                            >
+                                Start
+                            </Button>
+                            <Button
+                                variant="secondary"
+                                onClick={() =>
+                                    setForhåndsvisModalÅpen(true)
+                                }
+                            >
+                                Forhåndsvis
+                            </Button>
+                            {kanEndreSpørreundersøkelser && (
                                 <Button
+                                    variant="secondary-neutral"
                                     onClick={() =>
-                                        setBekreftStartBehovsvurderingModalÅpen(
+                                        setSlettSpørreundersøkelseModalÅpen(
                                             true,
                                         )
                                     }
-                                    disabled={erIFortid(spørreundersøkelse.gyldigTilTidspunkt)}
-                                >
-                                    Start
-                                </Button>
-                                <Button
-                                    variant="secondary"
-                                    onClick={() =>
-                                        setForhåndsvisModalÅpen(true)
-                                    }
-                                >
-                                    Forhåndsvis
-                                </Button>
-                                {kanEndreSpørreundersøkelser && (
-                                    <Button
-                                        variant="secondary-neutral"
-                                        onClick={() =>
-                                            setSlettSpørreundersøkelseModalÅpen(
-                                                true,
-                                            )
-                                        }
-                                        icon={<TrashIcon aria-hidden />}
-                                        aria-label="Slett behovsvurdering"
-                                        loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
-                                    />
-                                )}
-                                <GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt} />
-                            </>
-                        )}
+                                    icon={<TrashIcon aria-hidden />}
+                                    aria-label="Slett behovsvurdering"
+                                    loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
+                                />
+                            )}
+                            <GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt} />
+                        </>
+                    ) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Behovsvurdering</ExpansionCard.Title>}
                     <StartSpørreundersøkelseModal
                         spørreundersøkelse={spørreundersøkelse}
                         erModalÅpen={bekreftStartBehovsvurderingModalÅpen}
@@ -364,60 +364,60 @@ export const BehovsvurderingCardHeaderInnhold = ({
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
-                        brukerRolle !== "Lesetilgang" && (
-                            <>
-                                <Button
-                                    variant="primary"
-                                    onClick={() =>
-                                        åpneSpørreundersøkelseINyFane(
-                                            spørreundersøkelse.id,
-                                            "PÅBEGYNT",
-                                        )
-                                    }
-                                    disabled={erIFortid(spørreundersøkelse.gyldigTilTidspunkt)}
-                                >
-                                    Fortsett
-                                </Button>
-                                {kanEndreSpørreundersøkelser && (
-                                    <>
-                                        <Button
-                                            variant="secondary"
-                                            onClick={() =>
-                                                setBekreftFullførBehovsvurderingModalÅpen(
-                                                    true,
-                                                )
-                                            }
-                                        >
-                                            Fullfør
-                                        </Button>
-                                        <Button
-                                            variant="secondary-neutral"
-                                            onClick={() =>
-                                                setSlettSpørreundersøkelseModalÅpen(
-                                                    true,
-                                                )
-                                            }
-                                            icon={<TrashIcon aria-hidden />}
-                                            aria-label="Slett behovsvurdering"
-                                        />
-                                    </>
-                                )}
-                                <FullførSpørreundersøkelseModal
-                                    harNokDeltakere={harNokDeltakere}
-                                    erModalÅpen={
-                                        bekreftFullførBehovsvurderingModalÅpen
-                                    }
-                                    lukkModal={() =>
-                                        setBekreftFullførBehovsvurderingModalÅpen(
-                                            false,
-                                        )
-                                    }
-                                    fullførSpørreundersøkelse={
-                                        fullførSpørreundersøkelse
-                                    }
-                                />
-                            </>
-                        )}
+                        brukerRolle !== "Lesetilgang" ? (
+                        <>
+                            <Button
+                                variant="primary"
+                                onClick={() =>
+                                    åpneSpørreundersøkelseINyFane(
+                                        spørreundersøkelse.id,
+                                        "PÅBEGYNT",
+                                    )
+                                }
+                                disabled={erIFortid(spørreundersøkelse.gyldigTilTidspunkt)}
+                            >
+                                Fortsett
+                            </Button>
+                            {kanEndreSpørreundersøkelser && (
+                                <>
+                                    <Button
+                                        variant="secondary"
+                                        onClick={() =>
+                                            setBekreftFullførBehovsvurderingModalÅpen(
+                                                true,
+                                            )
+                                        }
+                                    >
+                                        Fullfør
+                                    </Button>
+                                    <Button
+                                        variant="secondary-neutral"
+                                        onClick={() =>
+                                            setSlettSpørreundersøkelseModalÅpen(
+                                                true,
+                                            )
+                                        }
+                                        icon={<TrashIcon aria-hidden />}
+                                        aria-label="Slett behovsvurdering"
+                                    />
+                                </>
+                            )}
+                            <FullførSpørreundersøkelseModal
+                                harNokDeltakere={harNokDeltakere}
+                                erModalÅpen={
+                                    bekreftFullførBehovsvurderingModalÅpen
+                                }
+                                lukkModal={() =>
+                                    setBekreftFullførBehovsvurderingModalÅpen(
+                                        false,
+                                    )
+                                }
+                                fullførSpørreundersøkelse={
+                                    fullførSpørreundersøkelse
+                                }
+                            />
+                        </>
+                    ) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Behovsvurdering</ExpansionCard.Title>}
                     <GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt} />
                     {brukerRolle && (
                         <SlettSpørreundersøkelseModal

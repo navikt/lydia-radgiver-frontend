@@ -64,6 +64,10 @@
     .evalueringHeaderRightContent {
         @include headerRightContentShared;
     }
+
+    .tittelUtenTopMargin {
+        margin-top: 0;
+    }
 }
 
 .spinningIcon {

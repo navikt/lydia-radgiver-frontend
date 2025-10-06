@@ -42,6 +42,10 @@
         var(--__ac-expansioncard-border-color);
     justify-content: space-between;
     flex-wrap: wrap;
+
+    .tittelUtenTopMargin {
+        margin-top: 0;
+    }
 }
 
 .headerRightContent {
