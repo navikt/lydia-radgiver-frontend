@@ -72,11 +72,11 @@ export type PlanTema = z.infer<typeof PlanTemaSchema>;
 export const PlanSchema = z.object({
     id: z.string(),
     sistEndret: datoSchema,
-    sistPublisert: datoSchema.nullable(),
+    sistPublisert: datoSchema.nullable().optional(),
     temaer: z.array(PlanTemaSchema),
     // TODO: Legg til status
-    publiseringStatus: DokumentStatusEnum.optional(),
-    harEndringerSidenSistPublisert: z.boolean(),
+    publiseringStatus: DokumentStatusEnum.nullable().optional(),
+    harEndringerSidenSistPublisert: z.boolean().optional(),
 });
 
 export type Plan = z.infer<typeof PlanSchema>;
