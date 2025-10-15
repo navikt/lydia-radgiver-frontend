@@ -28,7 +28,7 @@ export const PubliserSpørreundersøkelse = ({
         case "OPPRETTET":
             if (pollerPåStatus) {
                 return (
-                    <Publiserknapp
+                    <PubliserDokumentknapp
                         icon={
                             <CircleBrokenIcon
                                 fontSize="1.5rem"
@@ -38,14 +38,14 @@ export const PubliserSpørreundersøkelse = ({
                         }
                     >
                         Publiserer
-                    </Publiserknapp>
+                    </PubliserDokumentknapp>
                 );
             }
 
             return (
                 <Tooltip content="Dette tok lengre tid enn forventet. Prøv igjen senere.">
                     <div>
-                        <Publiserknapp
+                        <PubliserDokumentknapp
                             disabled
                             icon={
                                 <XMarkOctagonIcon
@@ -56,7 +56,7 @@ export const PubliserSpørreundersøkelse = ({
                             }
                         >
                             Publiserer
-                        </Publiserknapp>
+                        </PubliserDokumentknapp>
                     </div>
                 </Tooltip>
             );
@@ -64,7 +64,7 @@ export const PubliserSpørreundersøkelse = ({
             return (
                 <Tooltip content={`Publisert på Min Side - Arbeidsgiver${spørreundersøkelse.publisertTidspunkt ? ` ${lokalDato(spørreundersøkelse.publisertTidspunkt)}` : ""}`}>
                     <div>
-                        <Publiserknapp
+                        <PubliserDokumentknapp
                             disabled
                             icon={
                                 <CheckmarkIcon
@@ -74,7 +74,7 @@ export const PubliserSpørreundersøkelse = ({
                             }
                         >
                             Publisert
-                        </Publiserknapp>
+                        </PubliserDokumentknapp>
                     </div>
                 </Tooltip>
             );
@@ -84,7 +84,7 @@ export const PubliserSpørreundersøkelse = ({
                     return (
                         <Tooltip content="Denne spørreundersøkelsen har ingen resultater å publisere">
                             <div>
-                                <Publiserknapp
+                                <PubliserDokumentknapp
                                     disabled
                                     icon={
                                         <XMarkOctagonIcon
@@ -94,14 +94,14 @@ export const PubliserSpørreundersøkelse = ({
                                     }
                                 >
                                     Publiser
-                                </Publiserknapp>
+                                </PubliserDokumentknapp>
                             </div>
                         </Tooltip>
                     );
                 } else {
                     return (
                         <>
-                            <Publiserknapp
+                            <PubliserDokumentknapp
                                 icon={
                                     <PaperplaneIcon
                                         fontSize="1.5rem"
@@ -113,7 +113,7 @@ export const PubliserSpørreundersøkelse = ({
                                 }}
                             >
                                 Publiser
-                            </Publiserknapp>
+                            </PubliserDokumentknapp>
                             <PubliseringModal
                                 open={publiserModalÅpen}
                                 setOpen={setPubliserModalÅpen}
@@ -133,7 +133,7 @@ export const PubliserSpørreundersøkelse = ({
     }
 };
 
-export function Publiserknapp({
+export function PubliserDokumentknapp({
     icon,
     children,
     disabled,

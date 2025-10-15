@@ -8,9 +8,9 @@ import {
 } from "@navikt/aksel-icons";
 import styles from "../Kartlegging/publiserSpørreundersøkelse.module.scss";
 import { lokalDato } from "../../../util/dato";
-import {Publiserknapp} from "../Kartlegging/PubliserSpørreundersøkelse";
+import { PubliserDokumentknapp } from "../Kartlegging/PubliserSpørreundersøkelse";
 import { Plan } from "../../../domenetyper/plan";
-import {PubliseringModal} from "./PubliseringModal";
+import { PubliseringModal } from "./PubliseringModal";
 
 interface Props {
     plan: Plan;
@@ -29,7 +29,7 @@ export const PubliserSamarbeidsplan = ({
         case "OPPRETTET":
             if (pollerPåStatus) {
                 return (
-                    <Publiserknapp
+                    <PubliserDokumentknapp
                         icon={
                             <CircleBrokenIcon
                                 fontSize="1.5rem"
@@ -39,14 +39,14 @@ export const PubliserSamarbeidsplan = ({
                         }
                     >
                         Publiserer
-                    </Publiserknapp>
+                    </PubliserDokumentknapp>
                 );
             }
 
             return (
                 <Tooltip content="Dette tok lengre tid enn forventet. Prøv igjen senere.">
                     <div>
-                        <Publiserknapp
+                        <PubliserDokumentknapp
                             disabled
                             icon={
                                 <XMarkOctagonIcon
@@ -57,7 +57,7 @@ export const PubliserSamarbeidsplan = ({
                             }
                         >
                             Publiserer
-                        </Publiserknapp>
+                        </PubliserDokumentknapp>
                     </div>
                 </Tooltip>
             );
@@ -65,7 +65,7 @@ export const PubliserSamarbeidsplan = ({
             if (plan?.harEndringerSidenSistPublisert) {
                 return (
                     <>
-                        <Publiserknapp
+                        <PubliserDokumentknapp
                             icon={
                                 <PaperplaneIcon
                                     fontSize="1.5rem"
@@ -77,7 +77,7 @@ export const PubliserSamarbeidsplan = ({
                             }}
                         >
                             Publiser
-                        </Publiserknapp>
+                        </PubliserDokumentknapp>
                         <PubliseringModal
                             open={publiserModalÅpen}
                             setOpen={setPubliserModalÅpen}
@@ -92,7 +92,7 @@ export const PubliserSamarbeidsplan = ({
                 return (
                     <Tooltip content={`Publisert på Min Side - Arbeidsgiver${plan.sistPublisert ? ` ${lokalDato(plan.sistPublisert)}` : ""}`}>
                         <div>
-                            <Publiserknapp
+                            <PubliserDokumentknapp
                                 disabled
                                 icon={
                                     <CheckmarkIcon
@@ -102,7 +102,7 @@ export const PubliserSamarbeidsplan = ({
                                 }
                             >
                                 Publisert
-                            </Publiserknapp>
+                            </PubliserDokumentknapp>
                         </div>
                     </Tooltip>
                 );
@@ -111,7 +111,7 @@ export const PubliserSamarbeidsplan = ({
         case "IKKE_PUBLISERT":
             return (
                 <>
-                    <Publiserknapp
+                    <PubliserDokumentknapp
                         icon={
                             <PaperplaneIcon
                                 fontSize="1.5rem"
@@ -123,7 +123,7 @@ export const PubliserSamarbeidsplan = ({
                         }}
                     >
                         Publiser
-                    </Publiserknapp>
+                    </PubliserDokumentknapp>
                     <PubliseringModal
                         open={publiserModalÅpen}
                         setOpen={setPubliserModalÅpen}
