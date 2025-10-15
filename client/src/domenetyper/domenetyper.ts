@@ -59,13 +59,13 @@ export const DokumentTypeEnum = z.enum(DOKUMENT_TYPE);
 export type DokumentType = z.infer<typeof DokumentTypeEnum>;
 
 export const dokumentpubliseringschema = z.object({
-    dokumentId: z.string().nullable(),
+    dokumentId: z.string().nullable().optional(),
     referanseId: z.string(),
     opprettetAv: z.string(),
-    status: DokumentStatusEnum,
+    status: DokumentStatusEnum.optional(),
     dokumentType: DokumentTypeEnum,
     opprettetTidspunkt: datoSchema,
-    publisertTidspunkt: datoSchema.nullable(),
+    publisertTidspunkt: datoSchema.nullable().optional(),
 });
 
 export type DokumentPubliseringDto = z.infer<typeof dokumentpubliseringschema>;
