@@ -1,5 +1,5 @@
 import { BodyShort, Heading, HStack, Loader } from "@navikt/ds-react";
-import React, { useState } from "react";
+import React from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import { useHentPlan, useHentPlanMal } from "../../../api/lydia-api/plan";
 import {
@@ -23,11 +23,9 @@ function usePollingAvSamarbeidsplan(
     plan: Plan,
     hentSamarbeidsplanPåNytt: () => void,
 ) {
-    const [henterSamarbeidsplanPånytt, setHenterSamarbeidsplanPåNytt] =
-        useState(false);
+    const [henterSamarbeidsplanPånytt, setHenterSamarbeidsplanPåNytt] = React.useState(false);
 
-    const [forsøkPåÅHenteSamarbeidsplan, setForsøkPåÅHenteSamarbeidsplan] =
-        useState(0);
+    const [forsøkPåÅHenteSamarbeidsplan, setForsøkPåÅHenteSamarbeidsplan] = React.useState(0);
 
     React.useEffect(() => {
         if (plan?.publiseringStatus === "OPPRETTET") {
@@ -51,6 +49,7 @@ function usePollingAvSamarbeidsplan(
     }, [
         hentSamarbeidsplanPåNytt,
         henterSamarbeidsplanPånytt,
+        plan?.publiseringStatus
     ]);
 
     return { henterSamarbeidsplanPånytt, forsøkPåÅHenteSamarbeidsplan };
