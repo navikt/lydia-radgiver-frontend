@@ -1,5 +1,5 @@
 import { z } from "zod/v4";
-import { datoSchema } from "./domenetyper";
+import {datoSchema, DokumentStatusEnum} from "./domenetyper";
 
 const IA_PLAN_STATUSER = ["PLANLAGT", "PÅGÅR", "FULLFØRT", "AVBRUTT"] as const;
 
@@ -74,6 +74,9 @@ export const PlanSchema = z.object({
     sistEndret: datoSchema,
     sistPublisert: datoSchema.nullable(),
     temaer: z.array(PlanTemaSchema),
+    // TODO: Legg til status
+    publiseringStatus: DokumentStatusEnum.optional(),
+    harEndringerSidenSistPublisert: z.boolean(),
 });
 
 export type Plan = z.infer<typeof PlanSchema>;
