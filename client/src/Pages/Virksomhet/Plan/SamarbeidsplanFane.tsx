@@ -1,5 +1,5 @@
 import { BodyShort, Heading, HStack, Loader } from "@navikt/ds-react";
-import React, {useState} from "react";
+import React, { useState } from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import { useHentPlan, useHentPlanMal } from "../../../api/lydia-api/plan";
 import {
@@ -17,6 +17,7 @@ import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
 import Samarbeidsfanemeny from "../../../components/Samarbeidsfanemeny";
 import { useHentTeam } from "../../../api/lydia-api/team";
 import { PubliserSamarbeidsplan } from "./PubliserSamarbeidsplan";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 function usePollingAvSamarbeidsplan(
     plan: Plan,
@@ -29,24 +30,24 @@ function usePollingAvSamarbeidsplan(
         useState(0);
 
     React.useEffect(() => {
-            if (plan?.publiseringStatus === "OPPRETTET") {
-                if (
-                    !henterSamarbeidsplanPånytt &&
-                    forsøkPåÅHenteSamarbeidsplan < 10
-                ) {
-                    setHenterSamarbeidsplanPåNytt(true);
-                    setForsøkPåÅHenteSamarbeidsplan(
-                        forsøkPåÅHenteSamarbeidsplan + 1,
-                    );
-                    setTimeout(
-                        () => {
-                            hentSamarbeidsplanPåNytt();
-                            setHenterSamarbeidsplanPåNytt(false);
-                        },
-                        (forsøkPåÅHenteSamarbeidsplan + 1) * 2000,
-                    );
-                }
+        if (plan?.publiseringStatus === "OPPRETTET") {
+            if (
+                !henterSamarbeidsplanPånytt &&
+                forsøkPåÅHenteSamarbeidsplan < 10
+            ) {
+                setHenterSamarbeidsplanPåNytt(true);
+                setForsøkPåÅHenteSamarbeidsplan(
+                    forsøkPåÅHenteSamarbeidsplan + 1,
+                );
+                setTimeout(
+                    () => {
+                        hentSamarbeidsplanPåNytt();
+                        setHenterSamarbeidsplanPåNytt(false);
+                    },
+                    (forsøkPåÅHenteSamarbeidsplan + 1) * 2000,
+                );
             }
+        }
     }, [
         hentSamarbeidsplanPåNytt,
         henterSamarbeidsplanPånytt,
@@ -84,17 +85,19 @@ function SamarbeidsplanHeading({
                     </Heading>
                 </HStack>
                 <HStack align={"center"} gap={"8"}>
-                    {/* erIDev && */}
-                    <PubliserSamarbeidsplan
-                        plan={samarbeidsplan}
-                        hentSamarbeidsplanPåNytt={
-                            hentSamarbeidsplanPåNytt
-                        }
-                        pollerPåStatus={
-                            henterSamarbeidsplanPånytt ||
-                            forsøkPåÅHenteSamarbeidsplan < 10
-                        }
-                    />
+                    {
+                        erIDev &&
+                        <PubliserSamarbeidsplan
+                            plan={samarbeidsplan}
+                            hentSamarbeidsplanPåNytt={
+                                hentSamarbeidsplanPåNytt
+                            }
+                            pollerPåStatus={
+                                henterSamarbeidsplanPånytt ||
+                                forsøkPåÅHenteSamarbeidsplan < 10
+                            }
+                        />
+                    }
                     <Samarbeidsfanemeny type="SAMARBEIDSPLAN" laster={lagrer}>
                         {samarbeidsplan && (
                             <EksportVisning
