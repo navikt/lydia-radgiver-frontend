@@ -8,19 +8,12 @@ import {
     XMarkOctagonIcon
 } from "@navikt/aksel-icons";
 import { PubliseringModal } from "./PubliseringModal";
-import { MutatorCallback, MutatorOptions } from "swr";
 import styles from "./publiserSpørreundersøkelse.module.scss";
 import { lokalDato } from "../../../util/dato";
 
 interface Props {
     spørreundersøkelse: Spørreundersøkelse;
-    hentBehovsvurderingPåNytt: <MutationData = Spørreundersøkelse[]>(
-        data?:
-            | Promise<Spørreundersøkelse[] | undefined>
-            | MutatorCallback<Spørreundersøkelse[]>
-            | Spørreundersøkelse[],
-        opts?: boolean | MutatorOptions<Spørreundersøkelse[], MutationData>,
-    ) => Promise<Spørreundersøkelse[] | MutationData | undefined>;
+    hentBehovsvurderingPåNytt: () => void;
     pollerPåStatus?: boolean;
 }
 
@@ -140,7 +133,7 @@ export const PubliserSpørreundersøkelse = ({
     }
 };
 
-function Publiserknapp({
+export function Publiserknapp({
     icon,
     children,
     disabled,

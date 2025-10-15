@@ -1,5 +1,5 @@
 import { BodyShort, Heading, HStack, Loader } from "@navikt/ds-react";
-import React from "react";
+import React, {useState} from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import { useHentPlan, useHentPlanMal } from "../../../api/lydia-api/plan";
 import {
@@ -16,33 +16,109 @@ import { Plan } from "../../../domenetyper/plan";
 import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
 import Samarbeidsfanemeny from "../../../components/Samarbeidsfanemeny";
 import { useHentTeam } from "../../../api/lydia-api/team";
+import { PubliserSamarbeidsplan } from "./PubliserSamarbeidsplan";
+
+function usePollingAvSamarbeidsplan(
+    plan: Plan,
+    hentSamarbeidsplanPåNytt: () => void,
+) {
+    const [henterSamarbeidsplanPånytt, setHenterSamarbeidsplanPåNytt] =
+        useState(false);
+
+    const [forsøkPåÅHenteSamarbeidsplan, setForsøkPåÅHenteSamarbeidsplan] =
+        useState(0);
+
+    React.useEffect(() => {
+            if (plan?.publiseringStatus === "OPPRETTET") {
+                if (
+                    !henterSamarbeidsplanPånytt &&
+                    forsøkPåÅHenteSamarbeidsplan < 10
+                ) {
+                    setHenterSamarbeidsplanPåNytt(true);
+                    setForsøkPåÅHenteSamarbeidsplan(
+                        forsøkPåÅHenteSamarbeidsplan + 1,
+                    );
+                    setTimeout(
+                        () => {
+                            hentSamarbeidsplanPåNytt();
+                            setHenterSamarbeidsplanPåNytt(false);
+                        },
+                        (forsøkPåÅHenteSamarbeidsplan + 1) * 2000,
+                    );
+                }
+            }
+    }, [
+        hentSamarbeidsplanPåNytt,
+        henterSamarbeidsplanPånytt,
+    ]);
+
+    return { henterSamarbeidsplanPånytt, forsøkPåÅHenteSamarbeidsplan };
+}
 
 function SamarbeidsplanHeading({
+    iaSak,
     samarbeid,
     samarbeidsplan,
 }: {
+    iaSak: IASak,
     samarbeid: IaSakProsess;
-    samarbeidsplan?: Plan;
+    samarbeidsplan: Plan;
 }) {
     const [lagrer, setLagrer] = React.useState(false);
 
+    const { mutate: hentSamarbeidsplanPåNytt } = useHentPlan(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+        samarbeid.id,
+    );
+
+    const { henterSamarbeidsplanPånytt, forsøkPåÅHenteSamarbeidsplan } =
+        usePollingAvSamarbeidsplan(samarbeidsplan, hentSamarbeidsplanPåNytt);
+
     return (
-        <HStack align={"center"} justify={"space-between"}>
-            <HStack align={"center"} gap={"8"}>
-                <Heading level="2" size="medium" style={{ width: "11rem" }}>
-                    Samarbeidsplan
-                </Heading>
-            </HStack>
-            <Samarbeidsfanemeny type="SAMARBEIDSPLAN" laster={lagrer}>
-                {samarbeidsplan && (
-                    <EksportVisning
-                        samarbeidsplan={samarbeidsplan}
-                        samarbeid={samarbeid}
-                        setLagrer={setLagrer}
+        <>
+            <HStack align={"center"} justify={"space-between"}>
+                <HStack align={"center"} gap={"8"}>
+                    <Heading level="2" size="medium" style={{ width: "11rem" }}>
+                        Samarbeidsplan
+                    </Heading>
+                </HStack>
+                <HStack align={"center"} gap={"8"}>
+                    {/* erIDev && */}
+                    <PubliserSamarbeidsplan
+                        plan={samarbeidsplan}
+                        hentSamarbeidsplanPåNytt={
+                            hentSamarbeidsplanPåNytt
+                        }
+                        pollerPåStatus={
+                            henterSamarbeidsplanPånytt ||
+                            forsøkPåÅHenteSamarbeidsplan < 10
+                        }
                     />
-                )}
-            </Samarbeidsfanemeny>
-        </HStack>
+                    <Samarbeidsfanemeny type="SAMARBEIDSPLAN" laster={lagrer}>
+                        {samarbeidsplan && (
+                            <EksportVisning
+                                samarbeidsplan={samarbeidsplan}
+                                samarbeid={samarbeid}
+                                setLagrer={setLagrer}
+                            />
+                        )}
+                    </Samarbeidsfanemeny>
+                </HStack>
+            </HStack>
+            <HStack align={"center"} justify={"space-between"}>
+                <HStack align={"center"} gap={"8"}>
+                    <p>Oppdatert: {samarbeidsplan?.sistEndret.toLocaleTimeString()}</p>
+                    {samarbeidsplan?.publiseringStatus == "PUBLISERT" &&
+                        (samarbeidsplan?.harEndringerSidenSistPublisert ? (
+                            <p>Planen er oppdatert, men ikke publisert til arbeidsgiver</p>
+                        ) : (
+                            <p>Publisert: {samarbeidsplan?.sistPublisert?.toLocaleTimeString()}</p>
+                        ))
+                    }
+                </HStack>
+            </HStack>
+        </>
     );
 }
 
@@ -91,7 +167,11 @@ export default function SamarbeidsplanFane({
 
         return (
             <>
-                <SamarbeidsplanHeading samarbeid={samarbeid} />
+                {samarbeidsplan && <SamarbeidsplanHeading
+                    iaSak={iaSak}
+                    samarbeid={samarbeid}
+                    samarbeidsplan={samarbeidsplan}
+                />}
                 {!eierEllerFølgerSak && (
                     <BodyShort>
                         Du må være eier av saken for å opprette ny plan
@@ -119,6 +199,7 @@ export default function SamarbeidsplanFane({
         samarbeidsplan && (
             <>
                 <SamarbeidsplanHeading
+                    iaSak={iaSak}
                     samarbeid={samarbeid}
                     samarbeidsplan={samarbeidsplan}
                 />

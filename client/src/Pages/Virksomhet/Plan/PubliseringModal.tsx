@@ -1,24 +1,24 @@
 import { BodyLong, Button, Heading, Modal } from "@navikt/ds-react";
 import React from "react";
-import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
-import { publiserSpørreundersøkelse } from "../../../api/lydia-api/dokumentpublisering";
+import {publiserSamarbeidsplan} from "../../../api/lydia-api/dokumentpublisering";
+import {Plan} from "../../../domenetyper/plan";
 
 interface PubliseringModalProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
-    spørreundersøkelse: Spørreundersøkelse;
-    hentBehovsvurderingPåNytt: () => void;
+    plan: Plan;
+    hentSamarbeidsplanPåNytt: () => void;
 }
 
 export const PubliseringModal = ({
-    open,
-    setOpen,
-    spørreundersøkelse,
-    hentBehovsvurderingPåNytt,
+     open,
+     setOpen,
+     plan,
+     hentSamarbeidsplanPåNytt,
 }: PubliseringModalProps) => {
     const publiser = () => {
-        publiserSpørreundersøkelse(spørreundersøkelse).then(() => {
-            hentBehovsvurderingPåNytt();
+        publiserSamarbeidsplan(plan).then(() => {
+            hentSamarbeidsplanPåNytt();
             setOpen(false);
         });
     };
@@ -26,19 +26,19 @@ export const PubliseringModal = ({
         <Modal
             open={open}
             onClose={() => setOpen(false)}
-            aria-label={"Publiser behovsvurdering"}
+            aria-label={"Publiser samarbeidsplan"}
         >
             <Modal.Header closeButton={true}>
-                <Heading size="medium">Publiser behovsvurdering</Heading>
+                <Heading size="medium">Publiser samarbeidsplan</Heading>
             </Modal.Header>
             <Modal.Body>
                 <BodyLong>
-                    Når du publiserer til Min side - Arbeidsgiver, blir resultatene tilgjengelig for alle i virksomheten med Altinn-tilgangen “Øvelser og verktøy”. Husk å informere din kontaktperson om at flere i organisasjonen kan se resultatene.
+                    Når du publiserer til Min side - Arbeidsgiver, blir samarbeidsplanen tilgjengelig for alle i virksomheten med Altinn-tilgangen “Øvelser og verktøy”.
                 </BodyLong>
             </Modal.Body>
             <Modal.Footer>
                 <Button type="button" onClick={() => publiser()}>
-                    Publiser behovsvurdering
+                    Publiser samarbeidsplan
                 </Button>
                 <Button
                     type="button"
