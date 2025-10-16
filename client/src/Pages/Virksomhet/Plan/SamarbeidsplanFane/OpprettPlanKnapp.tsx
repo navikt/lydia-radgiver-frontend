@@ -1,20 +1,20 @@
 import React, { useState } from "react";
 import { Alert, Button, Modal } from "@navikt/ds-react";
-import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
+import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
 import {
     PlanMal,
     PlanMalRequest,
     RedigertInnholdMal,
-} from "../../../domenetyper/plan";
+} from "../../../../domenetyper/plan";
 import { PlusIcon } from "@navikt/aksel-icons";
-import TemaInnholdVelger from "./TemaInnholdVelger";
-import { nyPlanPåSak, useHentPlan } from "../../../api/lydia-api/plan";
-import { isoDato } from "../../../util/dato";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { loggModalÅpnet } from "../../../util/amplitude-klient";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import TemaInnholdVelger from "../TemaInnholdVelger";
+import { nyPlanPåSak, useHentPlan } from "../../../../api/lydia-api/plan";
+import { isoDato } from "../../../../util/dato";
+import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+import { loggModalÅpnet } from "../../../../util/amplitude-klient";
+import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 
-import styles from './plan.module.scss';
+import styles from '../plan.module.scss';
 
 export default function OpprettPlanKnapp({
     saksnummer,

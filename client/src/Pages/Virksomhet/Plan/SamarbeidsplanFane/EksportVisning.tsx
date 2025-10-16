@@ -1,17 +1,17 @@
-import styles from './plan.module.scss';
-import { Plan, PlanTema } from "../../../domenetyper/plan";
+import { Plan, PlanTema } from "../../../../domenetyper/plan";
 import { ActionMenu, BodyShort, Heading } from "@navikt/ds-react";
 import { FilePdfIcon } from "@navikt/aksel-icons";
 import React from "react";
-import PlanGraf from "./PlanGraf";
+import PlanGraf from "../PlanGraf";
 import { PrettyInnholdsDato } from "./InnholdsBlokk";
-import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";
-import useEksportFilnavn from "../../../components/pdfEksport/useEksportFilnavn";
+import VirksomhetsEksportHeader from "../../../../components/pdfEksport/VirksomhetsEksportHeader";
+import useEksportFilnavn from "../../../../components/pdfEksport/useEksportFilnavn";
 import jsPDF from "jspdf";
-import VirksomhetContext, { useVirksomhetContext } from "../VirksomhetContext";
+import VirksomhetContext, { useVirksomhetContext } from "../../VirksomhetContext";
 import ReactDOMServer from "react-dom/server";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
+import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+import { loggEksportertTilPdf } from "../../../../util/amplitude-klient";
+import styles from '../plan.module.scss';
 
 const EXPORT_INTERNAL_WIDTH = 1280;
 
