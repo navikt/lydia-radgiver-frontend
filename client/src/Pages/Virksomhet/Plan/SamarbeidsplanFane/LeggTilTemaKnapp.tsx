@@ -1,17 +1,17 @@
 import React, { useEffect } from "react";
 import { BodyShort, Button, Modal } from "@navikt/ds-react";
-import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
-import InnholdOppsett from "./InnholdOppsett";
-import { Plan, PlanInnhold, PlanTema } from "../../../domenetyper/plan";
-import { endrePlan, slettPlan } from "../../../api/lydia-api/plan";
-import { lagRequest, TemaRequest } from "./Requests";
+import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
+import InnholdOppsett from "../InnholdOppsett";
+import { Plan, PlanInnhold, PlanTema } from "../../../../domenetyper/plan";
+import { endrePlan, slettPlan } from "../../../../api/lydia-api/plan";
+import { lagRequest, TemaRequest } from "../Requests";
 import { KeyedMutator } from "swr";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { NotePencilIcon, TrashIcon } from "@navikt/aksel-icons";
-import { loggModalÅpnet } from "../../../util/amplitude-klient";
+import { loggModalÅpnet } from "../../../../util/amplitude-klient";
+import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 
-import styles from './plan.module.scss';
-import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
+import styles from '../plan.module.scss';
 
 export default function LeggTilTemaKnapp({
     saksnummer,

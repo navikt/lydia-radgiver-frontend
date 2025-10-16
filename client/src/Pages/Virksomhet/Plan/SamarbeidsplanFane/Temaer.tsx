@@ -1,14 +1,14 @@
-import { Plan } from "../../../domenetyper/plan";
+import { Plan } from "../../../../domenetyper/plan";
 import { Heading, HStack } from "@navikt/ds-react";
-import EditTemaKnapp from "./EditTemaKnapp";
-import PlanGraf from "./PlanGraf";
+import EditTemaKnapp from "../EditTemaKnapp";
+import PlanGraf from "../PlanGraf";
 import InnholdsBlokk from "./InnholdsBlokk";
 import { KeyedMutator } from "swr";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { VisHvisSamarbeidErÅpent } from "../Samarbeid/SamarbeidContext";
+import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+import { VisHvisSamarbeidErÅpent } from "../../Samarbeid/SamarbeidContext";
 
 
-import styles from './plan.module.scss';
+import styles from '../plan.module.scss';
 export function Temaer({
     samarbeidsplan,
     orgnummer,

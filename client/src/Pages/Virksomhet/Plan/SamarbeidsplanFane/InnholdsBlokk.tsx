@@ -5,15 +5,15 @@ import {
     PlanInnhold,
     PlanInnholdStatus,
     PlanTema,
-} from "../../../domenetyper/plan";
-import { endrePlanStatus } from "../../../api/lydia-api/plan";
+} from "../../../../domenetyper/plan";
+import { endrePlanStatus } from "../../../../api/lydia-api/plan";
 import { KeyedMutator } from "swr";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { lokalDatoMedKortTekstmåned } from "../../../util/dato";
-import { samarbeidErFullført } from "../Samarbeid/SamarbeidContext";
-import capitalizeFirstLetterLowercaseRest from "../../../util/formatering/capitalizeFirstLetterLowercaseRest";
+import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+import { lokalDatoMedKortTekstmåned } from "../../../../util/dato";
+import { samarbeidErFullført } from "../../Samarbeid/SamarbeidContext";
+import capitalizeFirstLetterLowercaseRest from "../../../../util/formatering/capitalizeFirstLetterLowercaseRest";
 
-import styles from './innholdsBlokk.module.scss';
+import styles from '../innholdsBlokk.module.scss';
 
 export default function InnholdsBlokk({
     saksnummer,
