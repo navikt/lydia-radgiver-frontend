@@ -44,6 +44,7 @@ export function SamarbeidsplanHeading({
 						erIDev &&
 						<PubliserSamarbeidsplan
 							plan={samarbeidsplan}
+							iaSak={iaSak}
 							hentSamarbeidsplanPåNytt={hentSamarbeidsplanPåNytt}
 							pollerPåStatus={henterSamarbeidsplanPånytt ||
 								forsøkPåÅHenteSamarbeidsplan < 10} />

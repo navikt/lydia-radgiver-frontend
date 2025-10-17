@@ -11,19 +11,32 @@ import { lokalDato } from "../../../util/dato";
 import { PubliserDokumentknapp } from "../Kartlegging/PubliserSpørreundersøkelse";
 import { Plan } from "../../../domenetyper/plan";
 import { PubliseringModal } from "./PubliseringModal";
+import { IASak } from "../../../domenetyper/domenetyper";
+import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
 
 interface Props {
     plan: Plan;
     hentSamarbeidsplanPåNytt: () => void;
     pollerPåStatus?: boolean;
+    iaSak: IASak;
 }
 
 export const PubliserSamarbeidsplan = ({
     plan,
     hentSamarbeidsplanPåNytt,
     pollerPåStatus = false,
+    iaSak,
 }: Props) => {
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+
     const [publiserModalÅpen, setPubliserModalÅpen] = useState(false);
+
+    const brukerErEier = iaSak?.eidAv === brukerInformasjon?.ident;
+    const erLesebruker = brukerInformasjon?.rolle === "Lesetilgang";
+
+    if (erLesebruker) {
+        return null;
+    }
 
     switch (plan?.publiseringStatus) {
         case "OPPRETTET":
@@ -63,6 +76,10 @@ export const PubliserSamarbeidsplan = ({
             );
         case "PUBLISERT":
             if (plan?.harEndringerSidenSistPublisert) {
+                if (!brukerErEier) {
+                    return <BrukerMåVæreEierKnapp />;
+                }
+
                 return (
                     <>
                         <PubliserDokumentknapp
@@ -109,6 +126,10 @@ export const PubliserSamarbeidsplan = ({
             }
 
         case "IKKE_PUBLISERT":
+            if (!brukerErEier) {
+                return <BrukerMåVæreEierKnapp />;
+            }
+
             return (
                 <>
                     <PubliserDokumentknapp
@@ -138,3 +159,23 @@ export const PubliserSamarbeidsplan = ({
             return null;
     }
 };
+
+function BrukerMåVæreEierKnapp() {
+    return (
+        <Tooltip content="Kun eiere og følgere av saken kan publisere planen.">
+            <div>
+                <PubliserDokumentknapp
+                    icon={
+                        <PaperplaneIcon
+                            fontSize="1.5rem"
+                            aria-hidden
+                        />
+                    }
+                    disabled
+                >
+                    Publiser
+                </PubliserDokumentknapp>
+            </div>
+        </Tooltip>
+    );
+}
