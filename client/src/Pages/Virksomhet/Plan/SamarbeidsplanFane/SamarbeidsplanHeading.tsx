@@ -69,15 +69,16 @@ function Publiseringsinformasjon({ samarbeidsplan }: { samarbeidsplan: Plan }) {
 	return (
 		<HStack align="center" gap="8" className={styles.publiseringsinformasjon}>
 			<BodyShort>Oppdatert: {lokalDatoMedKlokkeslett(samarbeidsplan?.sistEndret)}</BodyShort>
-			<HStack gap="2" align="center">
-				<PaperplaneIcon aria-hidden fontSize="1.75rem" />
-				{samarbeidsplan?.publiseringStatus == "PUBLISERT" &&
-					(samarbeidsplan?.harEndringerSidenSistPublisert ? (
+			{samarbeidsplan?.publiseringStatus == "PUBLISERT" && (
+				<HStack gap="2" align="center">
+					<PaperplaneIcon aria-hidden fontSize="1.75rem" />
+					{samarbeidsplan?.harEndringerSidenSistPublisert ? (
 						<BodyShort>Planen er oppdatert og kan publiseres igjen</BodyShort>
 					) : (
 						samarbeidsplan?.sistPublisert && (<BodyShort>Publisert: {lokalDatoMedKlokkeslett(samarbeidsplan?.sistPublisert)}</BodyShort>)
-					))}
-			</HStack>
+					)}
+				</HStack>
+			)}
 		</HStack>
 	);
 }
