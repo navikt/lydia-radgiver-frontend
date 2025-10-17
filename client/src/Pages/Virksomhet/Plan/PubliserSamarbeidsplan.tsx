@@ -13,6 +13,7 @@ import { Plan } from "../../../domenetyper/plan";
 import { PubliseringModal } from "./PubliseringModal";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
+import { useHentTeam } from "../../../api/lydia-api/team";
 
 interface Props {
     plan: Plan;
@@ -28,10 +29,17 @@ export const PubliserSamarbeidsplan = ({
     iaSak,
 }: Props) => {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const { data: følgere = [] } = useHentTeam(
+        iaSak.saksnummer,
+    );
 
     const [publiserModalÅpen, setPubliserModalÅpen] = useState(false);
 
     const brukerErEier = iaSak?.eidAv === brukerInformasjon?.ident;
+    const brukerFølgerSak = følgere.some(
+        (følger) => følger === brukerInformasjon?.ident,
+    );
+
     const erLesebruker = brukerInformasjon?.rolle === "Lesetilgang";
 
     if (erLesebruker) {
@@ -76,7 +84,7 @@ export const PubliserSamarbeidsplan = ({
             );
         case "PUBLISERT":
             if (plan?.harEndringerSidenSistPublisert) {
-                if (!brukerErEier) {
+                if (!brukerErEier && !brukerFølgerSak) {
                     return <BrukerMåVæreEierKnapp />;
                 }
 
@@ -126,7 +134,7 @@ export const PubliserSamarbeidsplan = ({
             }
 
         case "IKKE_PUBLISERT":
-            if (!brukerErEier) {
+            if (!brukerErEier && !brukerFølgerSak) {
                 return <BrukerMåVæreEierKnapp />;
             }
 
