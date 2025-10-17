@@ -1,7 +1,6 @@
 import { BodyShort, HStack, Heading } from "@navikt/ds-react";
 import React from "react";
 import { useHentPlan } from "../../../../api/lydia-api/plan";
-import { erIDev } from "../../../../components/Dekoratør/Dekoratør";
 import Samarbeidsfanemeny from "../../../../components/Samarbeidsfanemeny";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
@@ -40,15 +39,12 @@ export function SamarbeidsplanHeading({
 					</Heading>
 				</HStack>
 				<HStack align="center" gap="8">
-					{ /* TODO: Fjern erIDev */
-						erIDev &&
-						<PubliserSamarbeidsplan
-							plan={samarbeidsplan}
-							iaSak={iaSak}
-							hentSamarbeidsplanPåNytt={hentSamarbeidsplanPåNytt}
-							pollerPåStatus={henterSamarbeidsplanPånytt ||
-								forsøkPåÅHenteSamarbeidsplan < 10} />
-					}
+					<PubliserSamarbeidsplan
+						plan={samarbeidsplan}
+						iaSak={iaSak}
+						hentSamarbeidsplanPåNytt={hentSamarbeidsplanPåNytt}
+						pollerPåStatus={henterSamarbeidsplanPånytt ||
+							forsøkPåÅHenteSamarbeidsplan < 10} />
 					<Samarbeidsfanemeny type="SAMARBEIDSPLAN" laster={lagrer}>
 						{samarbeidsplan && (
 							<EksportVisning
@@ -59,9 +55,7 @@ export function SamarbeidsplanHeading({
 					</Samarbeidsfanemeny>
 				</HStack>
 			</HStack>
-			{ /* TODO: Fjern erIDev */
-				erIDev && <Publiseringsinformasjon samarbeidsplan={samarbeidsplan} />
-			}
+			<Publiseringsinformasjon samarbeidsplan={samarbeidsplan} />
 		</>
 	);
 }
