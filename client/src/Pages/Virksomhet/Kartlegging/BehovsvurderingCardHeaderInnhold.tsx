@@ -67,6 +67,7 @@ function usePollingAvBehovsvurderingVedAvsluttetStatus(
         }
     }, [
         spørreundersøkelseStatus,
+        spørreundersøkelse.publiseringStatus,
         hentBehovsvurderingPåNytt,
         henterBehovsvurderingPånytt,
     ]);
