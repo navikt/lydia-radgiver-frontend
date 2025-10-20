@@ -1,7 +1,7 @@
 import { BodyLong, Button, Heading, Modal } from "@navikt/ds-react";
 import React from "react";
-import {publiserSamarbeidsplan} from "../../../api/lydia-api/dokumentpublisering";
-import {Plan} from "../../../domenetyper/plan";
+import { publiserSamarbeidsplan } from "../../../api/lydia-api/dokumentpublisering";
+import { Plan } from "../../../domenetyper/plan";
 
 interface PubliseringModalProps {
     open: boolean;
@@ -11,10 +11,10 @@ interface PubliseringModalProps {
 }
 
 export const PubliseringModal = ({
-     open,
-     setOpen,
-     plan,
-     hentSamarbeidsplanPåNytt,
+    open,
+    setOpen,
+    plan,
+    hentSamarbeidsplanPåNytt,
 }: PubliseringModalProps) => {
     const publiser = () => {
         publiserSamarbeidsplan(plan).then(() => {
@@ -33,7 +33,7 @@ export const PubliseringModal = ({
             </Modal.Header>
             <Modal.Body>
                 <BodyLong>
-                    Når du publiserer til Min side - Arbeidsgiver, blir samarbeidsplanen tilgjengelig for alle i virksomheten med Altinn-tilgangen “Øvelser og verktøy”.
+                    Når du publiserer til Min side - Arbeidsgiver, blir samarbeidsplanen tilgjengelig for alle i virksomheten med Altinn-tilgangen “Virksomhetens IA-samarbeid”.
                 </BodyLong>
             </Modal.Body>
             <Modal.Footer>

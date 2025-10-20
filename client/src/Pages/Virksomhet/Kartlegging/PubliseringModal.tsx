@@ -33,7 +33,7 @@ export const PubliseringModal = ({
             </Modal.Header>
             <Modal.Body>
                 <BodyLong>
-                    Når du publiserer til Min side - Arbeidsgiver, blir resultatene tilgjengelig for alle i virksomheten med Altinn-tilgangen “Øvelser og verktøy”. Husk å informere din kontaktperson om at flere i organisasjonen kan se resultatene.
+                    Når du publiserer til Min side - Arbeidsgiver, blir resultatene tilgjengelig for alle i virksomheten med Altinn-tilgangen “Virksomhetens IA-samarbeid”. Husk å informere din kontaktperson om at flere i organisasjonen kan se resultatene.
                 </BodyLong>
             </Modal.Body>
             <Modal.Footer>
