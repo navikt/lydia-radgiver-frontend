@@ -15,12 +15,14 @@ interface Props {
     spørreundersøkelse: Spørreundersøkelse;
     hentBehovsvurderingPåNytt: () => void;
     pollerPåStatus?: boolean;
+    type: "BEHOVSVURDERING" | "EVALUERING";
 }
 
 export const PubliserSpørreundersøkelse = ({
     spørreundersøkelse,
     hentBehovsvurderingPåNytt,
     pollerPåStatus = false,
+    type,
 }: Props) => {
     const [publiserModalÅpen, setPubliserModalÅpen] = useState(false);
 
@@ -115,6 +117,7 @@ export const PubliserSpørreundersøkelse = ({
                                 Publiser
                             </PubliserDokumentknapp>
                             <PubliseringModal
+                                type={type}
                                 open={publiserModalÅpen}
                                 setOpen={setPubliserModalÅpen}
                                 spørreundersøkelse={spørreundersøkelse}

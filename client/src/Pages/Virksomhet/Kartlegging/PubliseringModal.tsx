@@ -8,6 +8,7 @@ interface PubliseringModalProps {
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
     spørreundersøkelse: Spørreundersøkelse;
     hentBehovsvurderingPåNytt: () => void;
+    type: "BEHOVSVURDERING" | "EVALUERING";
 }
 
 export const PubliseringModal = ({
@@ -15,6 +16,7 @@ export const PubliseringModal = ({
     setOpen,
     spørreundersøkelse,
     hentBehovsvurderingPåNytt,
+    type,
 }: PubliseringModalProps) => {
     const publiser = () => {
         publiserSpørreundersøkelse(spørreundersøkelse).then(() => {
@@ -29,7 +31,7 @@ export const PubliseringModal = ({
             aria-label={"Publiser behovsvurdering"}
         >
             <Modal.Header closeButton={true}>
-                <Heading size="medium">Publiser behovsvurdering</Heading>
+                <Heading size="medium">Publiser {type.toLocaleLowerCase()}</Heading>
             </Modal.Header>
             <Modal.Body>
                 <BodyLong>
@@ -38,7 +40,7 @@ export const PubliseringModal = ({
             </Modal.Body>
             <Modal.Footer>
                 <Button type="button" onClick={() => publiser()}>
-                    Publiser behovsvurdering
+                    Publiser {type.toLocaleLowerCase()}
                 </Button>
                 <Button
                     type="button"

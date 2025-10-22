@@ -29,51 +29,8 @@ import ActionButtonsHvisSamarbeidIkkeFullført from "./ActionButtonHvisSamarbeid
 import ForFåSvarRad from "./ForFåSvarRad";
 import { erIFortid, lokalDatoMedKlokkeslett } from "../../../util/dato";
 import { SpørreundersøkelseType } from "../../../domenetyper/spørreundersøkelseMedInnhold";
+import { usePollingAvKartleggingVedAvsluttetStatus } from "../../../util/usePollingAvKartleggingVedAvsluttetStatus";
 
-
-
-
-function usePollingAvBehovsvurderingVedAvsluttetStatus(
-    spørreundersøkelseStatus: string,
-    spørreundersøkelse: Spørreundersøkelse,
-    hentBehovsvurderingPåNytt: () => void,
-) {
-    const [henterBehovsvurderingPånytt, setHenterBehovsvurderingPåNytt] =
-        useState(false);
-
-    const [forsøkPåÅHenteBehovsvurdering, setForsøkPåÅHenteBehovsvurdering] =
-        useState(0);
-
-    React.useEffect(() => {
-        if (spørreundersøkelseStatus === "AVSLUTTET") {
-            if (spørreundersøkelse.publiseringStatus === "OPPRETTET") {
-                if (
-                    !henterBehovsvurderingPånytt &&
-                    forsøkPåÅHenteBehovsvurdering < 10
-                ) {
-                    setHenterBehovsvurderingPåNytt(true);
-                    setForsøkPåÅHenteBehovsvurdering(
-                        forsøkPåÅHenteBehovsvurdering + 1,
-                    );
-                    setTimeout(
-                        () => {
-                            hentBehovsvurderingPåNytt();
-                            setHenterBehovsvurderingPåNytt(false);
-                        },
-                        (forsøkPåÅHenteBehovsvurdering + 1) * 2000,
-                    );
-                }
-            }
-        }
-    }, [
-        spørreundersøkelseStatus,
-        spørreundersøkelse.publiseringStatus,
-        hentBehovsvurderingPåNytt,
-        henterBehovsvurderingPånytt,
-    ]);
-
-    return { henterBehovsvurderingPånytt, forsøkPåÅHenteBehovsvurdering };
-}
 
 export const BehovsvurderingCardHeaderInnhold = ({
     spørreundersøkelse,
@@ -111,8 +68,8 @@ export const BehovsvurderingCardHeaderInnhold = ({
         "BEHOVSVURDERING",
     );
 
-    const { henterBehovsvurderingPånytt, forsøkPåÅHenteBehovsvurdering } =
-        usePollingAvBehovsvurderingVedAvsluttetStatus(
+    const { henterKartleggingPånytt, forsøkPåÅHenteKartlegging } =
+        usePollingAvKartleggingVedAvsluttetStatus(
             spørreundersøkelseStatus,
             spørreundersøkelse,
             hentBehovsvurderingPåNytt,
@@ -213,13 +170,14 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                         />
                                     )}
                                 <PubliserSpørreundersøkelse
+                                    type="BEHOVSVURDERING"
                                     spørreundersøkelse={spørreundersøkelse}
                                     hentBehovsvurderingPåNytt={
                                         hentBehovsvurderingPåNytt
                                     }
                                     pollerPåStatus={
-                                        henterBehovsvurderingPånytt ||
-                                        forsøkPåÅHenteBehovsvurdering < 10
+                                        henterKartleggingPånytt ||
+                                        forsøkPåÅHenteKartlegging < 10
                                     }
                                 />
                             </>
