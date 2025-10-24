@@ -1,4 +1,4 @@
-import { sorterPåDatoStigende } from "../src/util/sortering";
+import { sorterPåDatoStigende } from "../../src/util/sortering";
 
 interface TestObjekt {
     navn: string;

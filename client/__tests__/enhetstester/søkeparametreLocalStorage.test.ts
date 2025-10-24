@@ -8,9 +8,9 @@ import {
     FiltervisningState,
     filterstateFraLokalstorage,
     initialFiltervisningState,
-} from "../src/Pages/Prioritering/Filter/filtervisning-reducer";
-import { filterverdierMock } from "../src/Pages/Prioritering/mocks/filterverdierMock";
-import { ValgtSnittFilter } from "../src/domenetyper/filterverdier";
+} from "../../src/Pages/Prioritering/Filter/filtervisning-reducer";
+import { filterverdierMock } from "../../src/Pages/Prioritering/mocks/filterverdierMock";
+import { ValgtSnittFilter } from "../../src/domenetyper/filterverdier";
 
 const dummyLocalStorage: FiltervisningState = {
     autosøk: true,

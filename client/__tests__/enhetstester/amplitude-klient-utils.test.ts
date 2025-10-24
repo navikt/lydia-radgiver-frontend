@@ -1,4 +1,4 @@
-import { maskerOrgnr } from "../src/util/amplitude-klient-utils";
+import { maskerOrgnr } from "../../src/util/amplitude-klient-utils";
 
 describe("Masker orgnr (9 siffer) i url", () => {
     test("URL blir uendret dersom det ikke er noe å maskere", () => {

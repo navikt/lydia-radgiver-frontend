@@ -1,4 +1,4 @@
-import { nesteKvartal } from "../src/domenetyper/kvartal";
+import { nesteKvartal } from "../../src/domenetyper/kvartal";
 
 describe("Utledding av neste kvartal", () => {
     test("Utledd neste kvartal samme år", () => {

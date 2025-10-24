@@ -3,7 +3,7 @@ import {
     iaSakSchema,
     iaSakshendelseSchema,
     IASakshendelseTypeEnum,
-} from "../src/domenetyper/domenetyper";
+} from "../../src/domenetyper/domenetyper";
 
 describe("dato parsing", () => {
     test("ugyldige datoer skal ikke kunne parses", () => {

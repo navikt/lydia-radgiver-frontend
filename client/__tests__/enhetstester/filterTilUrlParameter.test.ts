@@ -1,4 +1,4 @@
-import { appendIfNotDefaultValue } from "../src/api/lydia-api/sok";
+import { appendIfNotDefaultValue } from "../../src/api/lydia-api/sok";
 
 describe("Få rette parametrar i url", () => {
     test("Skal returnere default-parameterar når skjulDefaultParametre=false", () => {

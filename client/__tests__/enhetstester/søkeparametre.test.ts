@@ -3,12 +3,12 @@ import { TextEncoder, TextDecoder } from "util";
 global.TextEncoder = TextEncoder;
 // @ts-expect-error dette må gjøres for å få testene til å kjøre, da disse ikke er definert i jsdom
 global.TextDecoder = TextDecoder;
-import { søkeverdierTilUrlSearchParams } from "../src/api/lydia-api/sok";
+import { søkeverdierTilUrlSearchParams } from "../../src/api/lydia-api/sok";
 import {
     FiltervisningState,
     initialFiltervisningState,
-} from "../src/Pages/Prioritering/Filter/filtervisning-reducer";
-import { Kommune } from "../src/domenetyper/fylkeOgKommune";
+} from "../../src/Pages/Prioritering/Filter/filtervisning-reducer";
+import { Kommune } from "../../src/domenetyper/fylkeOgKommune";
 
 describe("oversettelse fra søkeverdier til URL-parametre mot API", () => {
     test("tomme søkeverdier resulterer i default-verdier for søkeparametre", () => {

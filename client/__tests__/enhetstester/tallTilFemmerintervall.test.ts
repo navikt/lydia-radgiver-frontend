@@ -1,4 +1,4 @@
-import { tallTilFemmerintervall } from "../src/util/tallTilFemmerintervall";
+import { tallTilFemmerintervall } from "../../src/util/tallTilFemmerintervall";
 
 describe("testar at ulike tal havnar i rette femmer-intervall", () => {
     test("Vi får ut rett streng når vi sender inn ulike tall", () => {

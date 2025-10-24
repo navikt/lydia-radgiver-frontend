@@ -1,6 +1,6 @@
-import { filterverdierMock } from "../src/Pages/Prioritering/mocks/filterverdierMock";
-import { finnFylkerForKommuner } from "../src/util/finnFylkeForKommune";
-import { sorterAlfabetisk } from "../src/util/sortering";
+import { filterverdierMock } from "../../src/Pages/Prioritering/mocks/filterverdierMock";
+import { finnFylkerForKommuner } from "../../src/util/finnFylkeForKommune";
+import { sorterAlfabetisk } from "../../src/util/sortering";
 
 const fylkerMedKommuner = filterverdierMock.fylker;
 

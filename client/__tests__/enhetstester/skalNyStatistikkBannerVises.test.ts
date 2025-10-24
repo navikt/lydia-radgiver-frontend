@@ -1,5 +1,5 @@
-import { skjulNyStatistikkBanner } from "../src/util/nyStatistikkBannerUtils";
-import { Publiseringsinfo } from "../src/domenetyper/publiseringsinfo";
+import { skjulNyStatistikkBanner } from "../../src/util/nyStatistikkBannerUtils";
+import { Publiseringsinfo } from "../../src/domenetyper/publiseringsinfo";
 
 const publiseringsinfo: Publiseringsinfo = {
     sistePubliseringsdato: "2023-03-02",

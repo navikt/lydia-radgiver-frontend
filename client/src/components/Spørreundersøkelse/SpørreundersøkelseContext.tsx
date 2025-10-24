@@ -8,7 +8,7 @@ import { EvalueringCardHeaderInnhold } from "../../Pages/Virksomhet/Samarbeid/Ev
 import { EvalueringRadInnhold } from "../../Pages/Virksomhet/Samarbeid/Evaluering/EvalueringRadInnhold";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 
-interface SpørreundersøkelseProviderProps {
+export interface SpørreundersøkelseProviderProps {
     spørreundersøkelseliste: Spørreundersøkelse[];
     iaSak: IASak;
     samarbeid: IaSakProsess;
