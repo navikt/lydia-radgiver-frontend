@@ -26,7 +26,6 @@ import { ErIFortidRad, GyldigTilTidspunkt } from "../../Kartlegging/Behovsvurder
 import { erIFortid } from "../../../../util/dato";
 import { PubliserSpørreundersøkelse } from "../../Kartlegging/PubliserSpørreundersøkelse";
 import { usePollingAvKartleggingVedAvsluttetStatus } from "../../../../util/usePollingAvKartleggingVedAvsluttetStatus";
-import { erIDev } from "../../../../components/Dekoratør/Dekoratør";
 
 function ActionButtonsHvisSamarbeidIkkeFullført({
     children,
@@ -158,7 +157,7 @@ export const EvalueringCardHeaderInnhold = ({
                 <ExpansionCard.Title>Evaluering</ExpansionCard.Title>
                 <span className={styles.avsluttetEvalueringHeaderRightContent}>
                     <ActionButtonsHvisSamarbeidIkkeFullført>
-                        {/* TODO: Fjern erIDev */ erIDev && kanEndreSpørreundersøkelser && (
+                        {kanEndreSpørreundersøkelser && (
                             <PubliserSpørreundersøkelse
                                 type="EVALUERING"
                                 spørreundersøkelse={spørreundersøkelse}
