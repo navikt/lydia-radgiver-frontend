@@ -69,6 +69,7 @@ const logAnalyticsEvent = (
 
 
 export const setTilgangsnivå = (tilgangsnivå: Rolle) => {
+    return null; // TODO: Finn ut av hvordan vi setter tilgangsnivå i umami
     if (!initialized) {
         const apiKey = isProduction() ? apiKeys.fiaProd : apiKeys.fiaDev;
 
