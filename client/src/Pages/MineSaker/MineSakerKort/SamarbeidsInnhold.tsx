@@ -3,7 +3,7 @@ import { IAProsessStatusType, IASak } from "../../../domenetyper/domenetyper";
 import { useNavigate } from "react-router-dom";
 import { penskrivSpørreundersøkelseStatus } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
 import { BodyShort, Button } from "@navikt/ds-react";
-import { loggGåTilSakFraMineSaker } from "../../../util/amplitude-klient";
+import { loggGåTilSakFraMineSaker } from "../../../util/analytics-klient";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { lokalDato } from "../../../util/dato";
 import { useHentSpørreundersøkelser } from "../../../api/lydia-api/spørreundersøkelse";

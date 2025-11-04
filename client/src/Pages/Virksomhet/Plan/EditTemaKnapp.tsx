@@ -8,7 +8,7 @@ import { endrePlan, endrePlanTema } from "../../../api/lydia-api/plan";
 import { lagRequest, TemaRequest, UndertemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { loggModalÅpnet } from "../../../util/amplitude-klient";
+import { loggModalÅpnet } from "../../../util/analytics-klient";
 import styles from "./plan.module.scss";
 
 

@@ -2,7 +2,7 @@ import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import {
     loggMineSakerFilter,
     MineSakerFilterKategorier,
-} from "../../util/amplitude-klient";
+} from "../../util/analytics-klient";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { EierFølgerFilterType } from "./MineSakerside";
 

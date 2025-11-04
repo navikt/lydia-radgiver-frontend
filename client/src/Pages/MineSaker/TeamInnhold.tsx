@@ -1,5 +1,5 @@
 import { IASak } from "../../domenetyper/domenetyper";
-import { loggFølgeSak } from "../../util/amplitude-klient";
+import { loggFølgeSak } from "../../util/analytics-klient";
 import { BodyShort, Button, HStack } from "@navikt/ds-react";
 import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import {

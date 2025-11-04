@@ -10,7 +10,7 @@ import jsPDF from "jspdf";
 import VirksomhetContext, { useVirksomhetContext } from "../../VirksomhetContext";
 import ReactDOMServer from "react-dom/server";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { loggEksportertTilPdf } from "../../../../util/amplitude-klient";
+import { loggEksportertTilPdf } from "../../../../util/analytics-klient";
 import styles from '../plan.module.scss';
 
 const EXPORT_INTERNAL_WIDTH = 1280;

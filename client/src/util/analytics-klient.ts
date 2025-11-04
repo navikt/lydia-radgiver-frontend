@@ -1,5 +1,5 @@
 import * as amplitude from "@amplitude/analytics-browser";
-import { maskerOrgnr } from "./amplitude-klient-utils";
+import { maskerOrgnr } from "./analytics-klient-utils";
 import { Rolle } from "../domenetyper/brukerinformasjon";
 import {
     IAProsessStatusType,
@@ -7,6 +7,14 @@ import {
 } from "../domenetyper/domenetyper";
 
 let initialized = false;
+
+declare global {
+    interface Window {
+        umami: {
+            track: (eventNavn: string, eventData: Record<string, string | boolean | string[]>) => void;
+        };
+    }
+}
 
 const apiKeys = {
     fiaProd: "747d79b00c945cf3e549ae0b197293bf",
@@ -20,7 +28,7 @@ const isProduction = () =>
 /**
  *  Gyldige events: https://github.com/navikt/analytics-taxonomy/tree/main/events
  */
-type NavsAmplitudeTopologiEventer =
+type NavsAnalyticsTopologiEventer =
     | "alert vist"
     | "besøk"
     | "accordion lukket"
@@ -43,24 +51,22 @@ type NavsAmplitudeTopologiEventer =
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
     const maskertUrl = maskerOrgnr(url);
-    logAmplitudeEvent("besøk", { url: maskertUrl, sidetittel: sidetittel });
+    logAnalyticsEvent("besøk", { url: maskertUrl, sidetittel: sidetittel });
 };
 
-const logAmplitudeEvent = (
-    eventNavn: NavsAmplitudeTopologiEventer,
+const logAnalyticsEvent = (
+    eventNavn: NavsAnalyticsTopologiEventer,
     eventData: Record<string, string | boolean | string[]>,
 ) => {
-    if (!initialized) {
-        const apiKey = isProduction() ? apiKeys.fiaProd : apiKeys.fiaDev;
+    const umami = window.umami;
 
-        amplitude.init(apiKey, "", {
-            defaultTracking: false,
-            serverUrl: "https://amplitude.nav.no/collect",
-        });
-        initialized = true;
+    if (umami) {
+        umami.track(eventNavn, eventData);
+    } else {
+        console.warn("Umami er ikke tilgjengelig for å logge event:", eventNavn);
     }
-    amplitude.track(eventNavn, eventData);
 };
+
 
 export const setTilgangsnivå = (tilgangsnivå: Rolle) => {
     if (!initialized) {
@@ -86,7 +92,7 @@ export const enum Søkekomponenter {
 
 export const loggSøkPåVirksomhet = (søkstype: "vanlig" | "med *") => {
     // Dataformat basert på forslag om taksonomi på https://github.com/navikt/analytics-taxonomy/tree/main/events/s%C3%B8k
-    logAmplitudeEvent("søk", {
+    logAnalyticsEvent("søk", {
         destinasjon: "virksomhet/finn",
         søkeord: søkstype,
         komponent: Søkekomponenter.VIRKSOMHETSSØK,
@@ -120,7 +126,7 @@ export const loggFilterverdiKategorier = (
             ? "statusoversikt"
             : "sykefraversstatistikk";
 
-    logAmplitudeEvent("søk", {
+    logAnalyticsEvent("søk", {
         destinasjon: destinasjon,
         søkeord: filterverdiKategorier,
         komponent: søkekomponent,
@@ -128,11 +134,11 @@ export const loggFilterverdiKategorier = (
 };
 
 export const loggTømmingAvFilterverdier = () => {
-    logAmplitudeEvent("nullstill filter i søk", {});
+    logAnalyticsEvent("nullstill filter i søk", {});
 };
 
 export const loggTogglingAvAutosøk = (autosøk: boolean) => {
-    logAmplitudeEvent("skrudde av eller på autosøk", {
+    logAnalyticsEvent("skrudde av eller på autosøk", {
         autosøk: autosøk ? "på" : "av",
     });
 };
@@ -141,7 +147,7 @@ export const loggSendBrukerTilKartleggingerTab = (
     fraModal: string,
     fane: string,
 ) => {
-    logAmplitudeEvent("navigere", {
+    logAnalyticsEvent("navigere", {
         destinasjon: `/virksomhet/[orgnr]/sak/[saksnr]/samarbeid/[samarbeidId]?fane=${fane}`,
         lenketekst: "[samarbeidsnavn]",
         fraModal,
@@ -152,7 +158,7 @@ export const loggStatusendringPåSak = (
     hendelse: IASakshendelseType,
     fraStatus: IAProsessStatusType,
 ) => {
-    logAmplitudeEvent("saksstatus endret", {
+    logAnalyticsEvent("saksstatus endret", {
         hendelse: hendelse,
         fraStatus: fraStatus,
         navEnhet: "",
@@ -169,19 +175,19 @@ export const enum EksternNavigeringKategorier {
 export const loggNavigeringMedEksternLenke = (
     destinasjon: EksternNavigeringKategorier,
 ) => {
-    logAmplitudeEvent("navigere ut av fia", {
+    logAnalyticsEvent("navigere ut av fia", {
         destinasjon: destinasjon,
     });
 };
 
 export const loggGraflinjeEndringer = (graflinjer: string[]) => {
-    logAmplitudeEvent("endring i valgte linjer i graf", {
+    logAnalyticsEvent("endring i valgte linjer i graf", {
         graflinjer_array: graflinjer,
     });
 };
 
 export const loggFølgeSak = (begyntÅFølge: boolean) => {
-    logAmplitudeEvent("fulgte sak", {
+    logAnalyticsEvent("fulgte sak", {
         følgehendelse: begyntÅFølge ? "fulgte" : "sluttet å følge",
     });
 };
@@ -190,7 +196,7 @@ export const loggGåTilSakFraMineSaker = (
     navigertFra: "gå-til-sak-knapp" | "virksomhetslenke",
     url: string,
 ) => {
-    logAmplitudeEvent("navigere", {
+    logAnalyticsEvent("navigere", {
         destinasjon: maskerOrgnr(url),
         lenketekst:
             navigertFra == "gå-til-sak-knapp"
@@ -208,7 +214,7 @@ export const enum MineSakerFilterKategorier {
 }
 
 export const loggMineSakerFilter = (typer: MineSakerFilterKategorier[]) => {
-    logAmplitudeEvent("søk", {
+    logAnalyticsEvent("søk", {
         destinasjon: Søkekomponenter.MINESAKER,
         søkeord: typer,
         komponent: Søkekomponenter.MINESAKER,
@@ -216,7 +222,7 @@ export const loggMineSakerFilter = (typer: MineSakerFilterKategorier[]) => {
 };
 
 export const loggÅpnetVirksomhetsinfo = () => {
-    logAmplitudeEvent("popover åpnet", {
+    logAnalyticsEvent("popover åpnet", {
         tekst: "Virksomhetsinfo",
         underskrift: "Virksomhetsinfo",
     });
@@ -226,15 +232,15 @@ export const loggEksportertTilPdf = (
     type: string,
     erForhåndsvisning: boolean = false,
 ) => {
-    logAmplitudeEvent("exportert til pdf", { type, erForhåndsvisning });
+    logAnalyticsEvent("exportert til pdf", { type, erForhåndsvisning });
 };
 
 export const loggNavigertTilNyTab = (tab: string) => {
-    logAmplitudeEvent("endret tab virksomhetsvisning", { tab });
+    logAnalyticsEvent("endret tab virksomhetsvisning", { tab });
 };
 
 export const loggModalÅpnet = (tittel: string) => {
-    logAmplitudeEvent("modal åpnet", { tittel });
+    logAnalyticsEvent("modal åpnet", { tittel });
 };
 
 export const loggEndringAvPlan = (
@@ -242,7 +248,7 @@ export const loggEndringAvPlan = (
     undertema: string,
     type: "fra" | "til" | "valgt" | "fjernet",
 ) => {
-    logAmplitudeEvent("endring i plan", {
+    logAnalyticsEvent("endring i plan", {
         tema,
         undertema,
         type,
@@ -250,13 +256,13 @@ export const loggEndringAvPlan = (
 };
 
 export const loggBrukerRedirigertMedSøkAlert = () => {
-    logAmplitudeEvent("alert vist", {
+    logAnalyticsEvent("alert vist", {
         tekst: "Vi har flyttet prioriteringssiden, så lenker og bokmerker med lagrede søk fungerer kanskje ikke lenger."
     });
 };
 
 export const loggBrukerFulgteRedirectlenkeMedSøk = () => {
-    logAmplitudeEvent("navigere", {
+    logAnalyticsEvent("navigere", {
         destinasjon: "/prioritering",
         lenketekst: "Denne lenken",
         komponent: "redirect alert"

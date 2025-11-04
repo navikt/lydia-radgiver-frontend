@@ -22,6 +22,7 @@
         "@navikt/aksel-icons": "7.32.1",
         "@navikt/ds-css": "7.32.1",
         "@navikt/ds-react": "7.32.1",
+        "@unhead/react": "2.0.19",
         "highcharts": "12.4.0",
         "highcharts-react-official": "3.2.3",
         "html-to-image": "1.11.13",

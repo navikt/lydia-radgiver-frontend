@@ -9,7 +9,7 @@ import EvalueringFane from "./Evaluering/EvalueringFane";
 import { BehovsvurderingFane } from "../Kartlegging/BehovsvurderingFane";
 import VirksomhetContext from "../VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "../Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
-import { loggNavigertTilNyTab } from "../../../util/amplitude-klient";
+import { loggNavigertTilNyTab } from "../../../util/analytics-klient";
 import { SamarbeidProvider } from "./SamarbeidContext";
 import { EksternLenke } from "../../../components/EksternLenke";
 import { useHentSalesforceSamarbeidLenke } from "../../../api/lydia-api/virksomhet";

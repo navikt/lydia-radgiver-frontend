@@ -12,7 +12,7 @@ import {
     defaultEndDate,
     defaultStartDate,
 } from "./planconster";
-import { loggEndringAvPlan } from "../../../util/amplitude-klient";
+import { loggEndringAvPlan } from "../../../util/analytics-klient";
 import LåsbarCheckbox from "../../../components/LåsbarCheckbox";
 import styles from './plan.module.scss';
 

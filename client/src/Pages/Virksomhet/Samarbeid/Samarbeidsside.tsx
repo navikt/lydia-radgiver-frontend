@@ -5,7 +5,7 @@ import {
     useHentVirksomhetsinformasjon,
 } from "../../../api/lydia-api/virksomhet";
 import React, { useEffect } from "react";
-import { loggSideLastet } from "../../../util/amplitude-klient";
+import { loggSideLastet } from "../../../util/analytics-klient";
 import { Loader } from "@navikt/ds-react";
 import { SamarbeidsVisning } from "./SamarbeidsVisning";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";

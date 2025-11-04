@@ -14,7 +14,7 @@ import { useSearchParams } from "react-router-dom";
 import {
     loggTogglingAvAutosøk,
     loggTømmingAvFilterverdier,
-} from "../../../util/amplitude-klient";
+} from "../../../util/analytics-klient";
 import { FylkeMultidropdown } from "./FylkeMultidropdown";
 import styles from './filter.module.scss';
 

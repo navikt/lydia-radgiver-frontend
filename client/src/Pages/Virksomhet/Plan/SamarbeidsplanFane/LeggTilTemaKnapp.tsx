@@ -8,7 +8,7 @@ import { lagRequest, TemaRequest } from "../Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { NotePencilIcon, TrashIcon } from "@navikt/aksel-icons";
-import { loggModalÅpnet } from "../../../../util/amplitude-klient";
+import { loggModalÅpnet } from "../../../../util/analytics-klient";
 import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 
 import styles from '../plan.module.scss';
