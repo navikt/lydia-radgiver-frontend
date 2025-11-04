@@ -9,6 +9,8 @@ export default defineConfig({
         csp({
             policy: {
                 "script-src": ["'self'", "https://cdn.nav.no"],
+                "font-src": ["'self'", "https://cdn.nav.no"],
+                "connect-src": ["'self'", "https://umami.nav.no"],
             },
         }),
     ],
