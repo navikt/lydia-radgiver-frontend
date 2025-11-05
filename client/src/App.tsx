@@ -97,9 +97,8 @@ const AppContent = () => {
 
     return (
         <>
-
             <Head>
-                <script defer src="https://cdn.nav.no/team-researchops/sporing/sporing.js" data-host-url="https://umami.nav.no" data-website-id="df38cdde-af54-4677-8cba-0b56cb68dcf3"></script>
+                <script defer src="https://cdn.nav.no/team-researchops/sporing/sporing.js" data-host-url="https://umami.nav.no" data-website-id={erIDev ? "df38cdde-af54-4677-8cba-0b56cb68dcf3" : "4f5c1a9c-d06e-40d0-abb0-b375ce339f0e"}></script>
             </Head>
             <Dekoratør brukerInformasjon={brukerInformasjon} />
             <FeilmeldingBanner />
