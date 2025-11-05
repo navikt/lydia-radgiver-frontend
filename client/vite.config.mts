@@ -8,12 +8,12 @@ export default defineConfig({
         react(),
         csp({
             policy: {
-                "script-src": ["'self'", "cdn.nav.no"],
-                "script-src-elem": ["'self'", "cdn.nav.no"],
-                "font-src": ["'self'", "cdn.nav.no"],
-                "connect-src": ["'self'", "umami.nav.no"],
-                "style-src": ["'self'", "'unsafe-inline'", "cdn.nav.no"],
-                "style-src-elem": ["'self'", "'unsafe-inline'", "cdn.nav.no"],
+                "script-src": ["'self'", "https://cdn.nav.no/"],
+                "script-src-elem": ["'self'", "https://cdn.nav.no/"],
+                "font-src": ["'self'", "https://cdn.nav.no/"],
+                "connect-src": ["'self'", "https://umami.nav.no/"],
+                "style-src": ["'self'", "'unsafe-inline'", "https://cdn.nav.no/"],
+                "style-src-elem": ["'self'", "'unsafe-inline'", "https://cdn.nav.no/"],
             },
         }),
     ],
