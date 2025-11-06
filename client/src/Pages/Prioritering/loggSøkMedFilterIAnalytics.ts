@@ -3,10 +3,10 @@ import {
     FilterverdiKategorier,
     loggFilterverdiKategorier,
     Søkekomponenter,
-} from "../../util/amplitude-klient";
+} from "../../util/analytics-klient";
 import { ValgtSnittFilter } from "../../domenetyper/filterverdier";
 
-export const loggSøkMedFilterIAmplitude = (
+export const loggSøkMedFilterIAnalytics = (
     filtervisningstate: FiltervisningState,
     søkekomponent:
         | Søkekomponenter.PRIORITERING

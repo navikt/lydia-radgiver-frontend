@@ -8,7 +8,7 @@ import { NotePencilIcon } from "@navikt/aksel-icons";
 import { useState } from "react";
 import { TeamModal } from "../TeamModal";
 import { IAProsessStatusType, IASak } from "../../../domenetyper/domenetyper";
-import { loggGåTilSakFraMineSaker } from "../../../util/amplitude-klient";
+import { loggGåTilSakFraMineSaker } from "../../../util/analytics-klient";
 import { SamarbeidsKort } from "./SamarbeidsKort";
 import { useHentTeam } from "../../../api/lydia-api/team";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";

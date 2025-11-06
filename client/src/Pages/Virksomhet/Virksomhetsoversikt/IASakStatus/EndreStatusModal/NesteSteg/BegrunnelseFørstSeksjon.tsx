@@ -4,7 +4,7 @@ import { hentÅrsakFraÅrsakType, Knappecontainer } from ".";
 import { nyHendelsePåSak } from "../../../../../../api/lydia-api/sak";
 import { useHentSakshistorikk, useHentSakForVirksomhet } from "../../../../../../api/lydia-api/virksomhet";
 import { GyldigNesteHendelse, IASak, Årsak, ValgtÅrsakDto } from "../../../../../../domenetyper/domenetyper";
-import { loggStatusendringPåSak } from "../../../../../../util/amplitude-klient";
+import { loggStatusendringPåSak } from "../../../../../../util/analytics-klient";
 
 export function BegrunnelseFørstSeksjon({
 	lukkModal, hendelse, sak, clearNesteSteg,

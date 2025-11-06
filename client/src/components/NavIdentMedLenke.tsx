@@ -2,7 +2,7 @@ import { EksternLenke } from "./EksternLenke";
 import {
     EksternNavigeringKategorier,
     loggNavigeringMedEksternLenke,
-} from "../util/amplitude-klient";
+} from "../util/analytics-klient";
 
 export const NavIdentMedLenke = ({ navIdent }: { navIdent: string | null }) =>
     navIdent ? (

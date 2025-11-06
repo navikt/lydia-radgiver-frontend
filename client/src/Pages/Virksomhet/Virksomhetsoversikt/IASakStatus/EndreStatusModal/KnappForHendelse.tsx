@@ -10,7 +10,7 @@ import {
     useHentSakshistorikk,
 } from "../../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../../api/lydia-api/sak";
-import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
+import { loggStatusendringPåSak } from "../../../../../util/analytics-klient";
 import { StatusHendelseSteg } from "./Statusknapper";
 import { ChevronLeftIcon, ChevronRightIcon } from "@navikt/aksel-icons";
 import { penskrivIASakshendelsestype } from "./penskrivIASakshendelsestype";

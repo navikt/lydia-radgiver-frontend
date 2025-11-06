@@ -8,7 +8,7 @@ import VirksomhetsEksportHeader from "../../../components/pdfEksport/Virksomhets
 import useEksportFilnavn from "../../../components/pdfEksport/useEksportFilnavn";
 import jsPDF from "jspdf";
 import html2canvas from "html2canvas";
-import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
+import { loggEksportertTilPdf } from "../../../util/analytics-klient";
 import { useHentResultat } from "../../../api/lydia-api/spørreundersøkelse";
 import {
     useSpørreundersøkelse,

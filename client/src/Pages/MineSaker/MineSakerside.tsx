@@ -6,8 +6,8 @@ import React, { useEffect, useMemo, useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { Sorteringsknapper } from "./Sorteringsknapper";
-import { loggBrukerFulgteRedirectlenkeMedSøk, loggBrukerRedirigertMedSøkAlert, loggSideLastet } from "../../util/amplitude-klient";
-import { loggMineSakerFilterEndringMedAmplitude } from "./loggFilterEndringMedAmplitude";
+import { loggBrukerFulgteRedirectlenkeMedSøk, loggBrukerRedirigertMedSøkAlert, loggSideLastet } from "../../util/analytics-klient";
+import { loggMineSakerFilterEndringMedAnalytics } from "./loggFilterEndringMedAnalytics";
 import { Alert, Heading, Link } from "@navikt/ds-react";
 import { useLocation, NavLink } from "react-router-dom";
 import styles from './minesaker.module.scss';
@@ -68,7 +68,7 @@ export const MineSakerside = () => {
     );
 
     useEffect(() => {
-        loggMineSakerFilterEndringMedAmplitude(
+        loggMineSakerFilterEndringMedAnalytics(
             statusFilter,
             søkFilter,
             eierFølgerFilter,

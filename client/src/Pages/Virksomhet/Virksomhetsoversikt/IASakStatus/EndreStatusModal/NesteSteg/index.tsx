@@ -17,7 +17,7 @@ import {
     useHentSakshistorikk,
 } from "../../../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../../../api/lydia-api/sak";
-import { loggStatusendringPåSak } from "../../../../../../util/amplitude-klient";
+import { loggStatusendringPåSak } from "../../../../../../util/analytics-klient";
 import { StatusHendelseSteg } from "../Statusknapper";
 import { penskrivIAStatus } from "../../../../../../components/Badge/IAProsessStatusBadge";
 import { PlusIcon } from "@navikt/aksel-icons";

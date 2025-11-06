@@ -2,11 +2,11 @@ import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import {
     loggMineSakerFilter,
     MineSakerFilterKategorier,
-} from "../../util/amplitude-klient";
+} from "../../util/analytics-klient";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { EierFølgerFilterType } from "./MineSakerside";
 
-export const loggMineSakerFilterEndringMedAmplitude = (
+export const loggMineSakerFilterEndringMedAnalytics = (
     statusFilter: IAProsessStatusType[],
     søkfilter: string,
     eierfølgerfilter: EierFølgerFilterType,

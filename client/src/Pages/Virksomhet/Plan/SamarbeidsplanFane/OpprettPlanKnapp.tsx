@@ -11,7 +11,7 @@ import TemaInnholdVelger from "../TemaInnholdVelger";
 import { nyPlanPåSak, useHentPlan } from "../../../../api/lydia-api/plan";
 import { isoDato } from "../../../../util/dato";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { loggModalÅpnet } from "../../../../util/amplitude-klient";
+import { loggModalÅpnet } from "../../../../util/analytics-klient";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 
 import styles from '../plan.module.scss';

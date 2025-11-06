@@ -2,7 +2,7 @@ import { Modal, Heading, BodyLong, List, Button } from "@navikt/ds-react";
 import { Knappecontainer } from ".";
 import { IASak } from "../../../../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../../../../domenetyper/iaSakProsess";
-import { loggSendBrukerTilKartleggingerTab } from "../../../../../../util/amplitude-klient";
+import { loggSendBrukerTilKartleggingerTab } from "../../../../../../util/analytics-klient";
 import { useHentSpørreundersøkelser } from "../../../../../../api/lydia-api/spørreundersøkelse";
 import { SpørreundersøkelseType } from "../../../../../../domenetyper/spørreundersøkelseMedInnhold";
 import {
@@ -159,7 +159,7 @@ function FullførFørstHeader({
             <Heading level="2" size="medium">
                 Virksomheten har behovsvurdering
                 {alleSamarbeidMedIkkeFullførteBehovsvurderinger &&
-                alleSamarbeidMedIkkeFullførteBehovsvurderinger.length > 1
+                    alleSamarbeidMedIkkeFullførteBehovsvurderinger.length > 1
                     ? "er"
                     : ""}{" "}
                 som ikke er fullført

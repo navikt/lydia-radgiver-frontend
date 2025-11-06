@@ -10,14 +10,19 @@ import { Footer } from "./components/Footer/Footer";
 import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
 import { BodyShort, Link, Loader } from "@navikt/ds-react";
 import { redirectUrl } from "./components/Banner/SesjonBanner";
-import { setTilgangsnivå } from "./util/amplitude-klient";
+import { setTilgangsnivå } from "./util/analytics-klient";
 import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
 import { Samarbeidsside } from "./Pages/Virksomhet/Samarbeid/Samarbeidsside";
 import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
+import { Head } from "@unhead/react";
 import styles from './app.module.scss';
+
 
 const App = () => (
     <BrowserRouter>
+        <Head>
+            <script defer src="https://cdn.nav.no/team-researchops/sporing/sporing.js" data-host-url="https://umami.nav.no" data-website-id={erIDev ? "df38cdde-af54-4677-8cba-0b56cb68dcf3" : "4f5c1a9c-d06e-40d0-abb0-b375ce339f0e"}></script>
+        </Head>
         <AppContent />
     </BrowserRouter>
 );

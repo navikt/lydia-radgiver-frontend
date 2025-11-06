@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router-dom";
 import { Loader } from "@navikt/ds-react";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
-import { loggSideLastet } from "../../util/amplitude-klient";
+import { loggSideLastet } from "../../util/analytics-klient";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
 import { useHentVirksomhetsinformasjon } from "../../api/lydia-api/virksomhet";
 

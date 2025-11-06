@@ -5,7 +5,7 @@ import { getGjeldendePeriodeTekst } from "../../util/gjeldendePeriodeSisteFireKv
 import {
     EksternNavigeringKategorier,
     loggNavigeringMedEksternLenke,
-} from "../../util/amplitude-klient";
+} from "../../util/analytics-klient";
 import React from "react";
 import { QuestionmarkCircleIcon } from "@navikt/aksel-icons";
 import styles from './footer.module.scss';

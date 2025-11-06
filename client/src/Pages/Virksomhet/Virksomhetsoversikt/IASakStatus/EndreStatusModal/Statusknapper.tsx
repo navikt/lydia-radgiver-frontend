@@ -12,7 +12,7 @@ import KnappForHendelse from "./KnappForHendelse";
 import { Virksomhet } from "../../../../../domenetyper/virksomhet";
 import { useHentBrukerinformasjon } from "../../../../../api/lydia-api/bruker";
 import { opprettSak } from "../../../../../api/lydia-api/sak";
-import { loggStatusendringPåSak } from "../../../../../util/amplitude-klient";
+import { loggStatusendringPåSak } from "../../../../../util/analytics-klient";
 import { RolleEnum } from "../../../../../domenetyper/brukerinformasjon";
 import { knappeTypeFraSakshendelsesType } from "./knappeTypeFraSakshendelsesType";
 import { useErPåAktivSak } from "../../../VirksomhetContext";

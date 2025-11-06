@@ -14,7 +14,7 @@ import { graphTooltip } from "./GraphTooltip";
 import { Grafer, graflinjer, grafrekkefølge } from "./graflinjer";
 import { useState } from "react";
 import { SymbolSvg } from "./SymbolSvg";
-import { loggGraflinjeEndringer } from "../../../../util/amplitude-klient";
+import { loggGraflinjeEndringer } from "../../../../util/analytics-klient";
 import { HistoriskStatistikk } from "../../../../domenetyper/historiskstatistikk";
 import styles from "./graf.module.scss";
 

@@ -5,7 +5,7 @@ import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse"
 import VirksomhetsEksportHeader from "../../../components/pdfEksport/VirksomhetsEksportHeader";
 import useEksportFilnavn from "../../../components/pdfEksport/useEksportFilnavn";
 import jsPDF from "jspdf";
-import { loggEksportertTilPdf } from "../../../util/amplitude-klient";
+import { loggEksportertTilPdf } from "../../../util/analytics-klient";
 import { useHentSpørreundersøkelseMedInnhold } from "../../../api/lydia-api/spørreundersøkelse";
 import {
     useSpørreundersøkelse,

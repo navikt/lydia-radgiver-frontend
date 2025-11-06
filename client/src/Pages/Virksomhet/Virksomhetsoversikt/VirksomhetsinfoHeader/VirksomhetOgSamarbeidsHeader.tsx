@@ -19,7 +19,7 @@ import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { loggÅpnetVirksomhetsinfo } from "../../../../util/amplitude-klient";
+import { loggÅpnetVirksomhetsinfo } from "../../../../util/analytics-klient";
 import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 import { NyttSamarbeidModal } from "../../Samarbeid/NyttSamarbeidModal";
 import { VisHvisSamarbeidErLukket } from "../../Samarbeid/SamarbeidContext";

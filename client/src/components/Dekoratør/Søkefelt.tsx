@@ -4,7 +4,7 @@ import { useDebounce } from "../../util/useDebounce";
 import { virksomhetAutocompletePath } from "../../api/lydia-api/paths";
 import { VirksomhetSøkeresultat } from "../../domenetyper/domenetyper";
 import { EksternLenke } from "../EksternLenke";
-import { loggSøkPåVirksomhet } from "../../util/amplitude-klient";
+import { loggSøkPåVirksomhet } from "../../util/analytics-klient";
 import styles from './dekoratør.module.scss';
 
 interface Props {

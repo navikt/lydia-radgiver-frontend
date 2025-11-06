@@ -12,8 +12,8 @@ import {
 import { Statusoversikt } from "../../domenetyper/statusoversikt";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import { StatistikkTabell } from "./StatistikkTabell";
-import { loggSideLastet, Søkekomponenter } from "../../util/amplitude-klient";
-import { loggSøkMedFilterIAmplitude } from "../Prioritering/loggSøkMedFilterIAmplitude";
+import { loggSideLastet, Søkekomponenter } from "../../util/analytics-klient";
+import { loggSøkMedFilterIAnalytics } from "../Prioritering/loggSøkMedFilterIAnalytics";
 import SideContainer from "../../components/SideContainer";
 
 export const Statusoversiktside = () => {
@@ -79,7 +79,7 @@ export const Statusoversiktside = () => {
     }, [statusoversiktResultatFraApi]);
 
     const søkPåNytt = () => {
-        loggSøkMedFilterIAmplitude(
+        loggSøkMedFilterIAnalytics(
             filtervisning.state,
             Søkekomponenter.STATUSOVERSIKT,
         );

@@ -38,7 +38,7 @@ export default class Application {
             contentSecurityPolicy: {
                 directives: {
                     defaultSrc: ["'self'"],
-                    scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'"],
+                    scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.nav.no/"],
                     connectSrc: ["'self'", "*.nav.no"],
                     styleSrc: ["'self'", "'unsafe-inline'"],
                     imgSrc: ["'self'", "data:", "*.nav.no"],

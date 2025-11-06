@@ -71,7 +71,7 @@ initialize({
             "/index.json",
             "/@react-refresh",
         ];
-        const excludedExternalRoutes = ["cdn.nav.no", "amplitude.nav.no"];
+        const excludedExternalRoutes = ["cdn.nav.no"];
 
         // check if the req.url.pathname contains excludedRoutes
         const isExcluded = excludedRoutes.some((route) =>
