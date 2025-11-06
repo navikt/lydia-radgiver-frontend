@@ -21,7 +21,6 @@
     "http-proxy-middleware": "3.0.5",
     "iovalkey": "^0.3.3",
     "jose": "6.1.0",
-    "npm": "11.6.2",
     "prometheus-api-metrics": "4.0.0",
     "winston": "3.18.3"
   },
