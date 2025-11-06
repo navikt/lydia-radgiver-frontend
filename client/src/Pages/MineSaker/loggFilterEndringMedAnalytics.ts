@@ -6,7 +6,7 @@ import {
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { EierFølgerFilterType } from "./MineSakerside";
 
-export const loggMineSakerFilterEndringMedAmplitude = (
+export const loggMineSakerFilterEndringMedAnalytics = (
     statusFilter: IAProsessStatusType[],
     søkfilter: string,
     eierfølgerfilter: EierFølgerFilterType,

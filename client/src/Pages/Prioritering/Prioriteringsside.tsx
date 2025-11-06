@@ -14,7 +14,7 @@ import {
 } from "./Filter/filtervisning-reducer";
 import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { loggSideLastet, Søkekomponenter } from "../../util/analytics-klient";
-import { loggSøkMedFilterIAmplitude } from "./loggSøkMedFilterIAnalytics";
+import { loggSøkMedFilterIAnalytics } from "./loggSøkMedFilterIAnalytics";
 import SideContainer from "../../components/SideContainer";
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
@@ -88,7 +88,7 @@ export const Prioriteringsside = () => {
     }, [antallTreff]);
 
     function oppdaterSide(side: number, sortering?: SortState) {
-        loggSøkMedFilterIAmplitude(
+        loggSøkMedFilterIAnalytics(
             filtervisning.state,
             Søkekomponenter.PRIORITERING,
         );

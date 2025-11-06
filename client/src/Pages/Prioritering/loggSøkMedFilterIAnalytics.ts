@@ -6,7 +6,7 @@ import {
 } from "../../util/analytics-klient";
 import { ValgtSnittFilter } from "../../domenetyper/filterverdier";
 
-export const loggSøkMedFilterIAmplitude = (
+export const loggSøkMedFilterIAnalytics = (
     filtervisningstate: FiltervisningState,
     søkekomponent:
         | Søkekomponenter.PRIORITERING

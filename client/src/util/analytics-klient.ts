@@ -1,4 +1,3 @@
-import * as amplitude from "@amplitude/analytics-browser";
 import { maskerOrgnr } from "./analytics-klient-utils";
 import { Rolle } from "../domenetyper/brukerinformasjon";
 import {
@@ -6,24 +5,14 @@ import {
     IASakshendelseType,
 } from "../domenetyper/domenetyper";
 
-let initialized = false;
-
 declare global {
     interface Window {
         umami: {
             track: (eventNavn: string, eventData: Record<string, string | boolean | string[]>) => void;
+            identify: (userProperties: Record<string, string>) => void;
         };
     }
 }
-
-const apiKeys = {
-    fiaProd: "747d79b00c945cf3e549ae0b197293bf",
-    fiaDev: "747f1d150abf4cad4248ff1d3f93e999",
-};
-
-const isProduction = () =>
-    typeof window !== "undefined" &&
-    window.location.hostname === "fia.ansatt.nav.no";
 
 /**
  *  Gyldige events: https://github.com/navikt/analytics-taxonomy/tree/main/events
@@ -69,19 +58,12 @@ const logAnalyticsEvent = (
 
 
 export const setTilgangsnivå = (tilgangsnivå: Rolle) => {
-    return null; // TODO: Finn ut av hvordan vi setter tilgangsnivå i umami
-    if (!initialized) {
-        const apiKey = isProduction() ? apiKeys.fiaProd : apiKeys.fiaDev;
-
-        amplitude.init(apiKey, "", {
-            defaultTracking: false,
-            serverUrl: "https://amplitude.nav.no/collect",
-        });
-        initialized = true;
+    const umami = window.umami;
+    if (umami) {
+        umami.identify({ tilgangsnivå });
+    } else {
+        console.warn("Umami er ikke tilgjengelig for å sette tilgangsnivå");
     }
-    const identify = new amplitude.Identify();
-    identify.set("tilgangsnivå", tilgangsnivå);
-    amplitude.identify(identify);
 };
 
 export const enum Søkekomponenter {
