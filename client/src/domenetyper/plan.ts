@@ -1,22 +1,11 @@
 import { z } from "zod/v4";
 import { datoSchema, DokumentStatusEnum } from "./domenetyper";
 
-const IA_PLAN_INNHOLD_STATUSER = [
-    "PLANLAGT",
-    "PÅGÅR",
-    "FULLFØRT",
-    "AVBRUTT",
-] as const;
+const IA_PLAN_STATUSER = ["PLANLAGT", "PÅGÅR", "FULLFØRT", "AVBRUTT"] as const;
 
-const PlanStatusSchema = z.enum(IA_PLAN_INNHOLD_STATUSER);
+const PlanStatusSchema = z.enum(IA_PLAN_STATUSER);
 
 export type PlanInnholdStatus = z.infer<typeof PlanStatusSchema>;
-
-const IA_PLAN_STATUSER = ["AKTIV", "FULLFØRT", "SLETTET", "AVBRUTT"] as const;
-
-const PlanStatusEnum = z.enum(IA_PLAN_STATUSER);
-
-export type PlanStatus = z.infer<typeof PlanStatusEnum>;
 
 export type OpprettInnholdRequest = {
     rekkefølge: number;
@@ -85,7 +74,7 @@ export const PlanSchema = z.object({
     sistEndret: datoSchema,
     sistPublisert: datoSchema.nullable().optional(),
     temaer: z.array(PlanTemaSchema),
-    status: PlanStatusEnum,
+    // TODO: Legg til status
     publiseringStatus: DokumentStatusEnum.nullable().optional(),
     harEndringerSidenSistPublisert: z.boolean().optional(),
 });
