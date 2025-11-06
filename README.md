@@ -109,16 +109,6 @@ backend:
 
 Hugs å ikkje committe endringa du har gjort i `docker-compose.yaml`.
 
-## Storybook
-
-For å raskt kunne teste at ein komponent ser ut som den skal har vi laga stories i Storybook.
-Dette gjer det mogleg å sjå komponenten i ein nøytral eller bestemt kontekst.
-
-For å køyre opp dette gjer du  
-`npm run storybook` i `./client/`
-
-Då kan du nå Storybook i ein nettlesar på adressa [localhost:6006](http://localhost:6006).
-
 ## Deploy til NAIS
 
 // TODO skriv noko om 'frackend' og deploy til NAIS
