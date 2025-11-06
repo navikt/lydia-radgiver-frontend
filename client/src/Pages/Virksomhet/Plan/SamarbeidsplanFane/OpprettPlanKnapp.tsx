@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { Alert, Button, Modal } from "@navikt/ds-react";
-import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
 import {
     PlanMal,
     PlanMalRequest,
@@ -183,25 +182,25 @@ export default function OpprettPlanKnapp({
                             Du må velge minst ett tema.
                         </Alert>
                     )}
-                    <ModalKnapper>
-                        <Button
-                            variant="secondary"
-                            onClick={() => {
-                                setModalOpen(false);
-                            }}
-                        >
-                            Avbryt
-                        </Button>
-                        <Button
-                            disabled={visTemaFeil}
-                            onClick={() => {
-                                håndterLagre();
-                            }}
-                        >
-                            Lagre
-                        </Button>
-                    </ModalKnapper>
                 </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        variant="secondary"
+                        onClick={() => {
+                            setModalOpen(false);
+                        }}
+                    >
+                        Avbryt
+                    </Button>
+                    <Button
+                        disabled={visTemaFeil}
+                        onClick={() => {
+                            håndterLagre();
+                        }}
+                    >
+                        Lagre
+                    </Button>
+                </Modal.Footer>
             </Modal>
         </>
     );

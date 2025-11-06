@@ -1,6 +1,5 @@
 import React, { useEffect } from "react";
 import { BodyShort, Button, Modal } from "@navikt/ds-react";
-import { ModalKnapper } from "../../../../components/Modal/ModalKnapper";
 import InnholdOppsett from "../InnholdOppsett";
 import { Plan, PlanInnhold, PlanTema } from "../../../../domenetyper/plan";
 import { endrePlan, slettPlan } from "../../../../api/lydia-api/plan";
@@ -60,12 +59,12 @@ export default function LeggTilTemaKnapp({
             redigertTemaliste.map((tema) =>
                 tema.id === temaId
                     ? {
-                          ...tema,
-                          inkludert: redigerteUndertemaer.some(
-                              ({ inkludert }) => inkludert,
-                          ),
-                          undertemaer: redigerteUndertemaer,
-                      }
+                        ...tema,
+                        inkludert: redigerteUndertemaer.some(
+                            ({ inkludert }) => inkludert,
+                        ),
+                        undertemaer: redigerteUndertemaer,
+                    }
                     : { ...tema },
             ),
         );
@@ -149,20 +148,19 @@ export default function LeggTilTemaKnapp({
                                     }
                                 />
                             ))}
-                    <br />
-                    <ActionButtons
-                        setModalOpen={setModalOpen}
-                        lagreEndring={lagreEndring}
-                        setRedigertTemaliste={setRedigertTemaliste}
-                        samarbeidsplan={samarbeidsplan}
-                        redigertTemaliste={redigertTemaliste}
-                        slettPlan={() => {
-                            slettPlan(orgnummer, saksnummer, samarbeid.id).then(
-                                () => hentPlanIgjen(undefined),
-                            );
-                        }}
-                    />
                 </Modal.Body>
+                <ActionButtons
+                    setModalOpen={setModalOpen}
+                    lagreEndring={lagreEndring}
+                    setRedigertTemaliste={setRedigertTemaliste}
+                    samarbeidsplan={samarbeidsplan}
+                    redigertTemaliste={redigertTemaliste}
+                    slettPlan={() => {
+                        slettPlan(orgnummer, saksnummer, samarbeid.id).then(
+                            () => hentPlanIgjen(undefined),
+                        );
+                    }}
+                />
             </Modal>
         </>
     );
@@ -199,7 +197,7 @@ function ActionButtons({
 
     if (planErTom) {
         return (
-            <ModalKnapper>
+            <Modal.Footer>
                 <Button
                     variant="secondary"
                     onClick={() => {
@@ -219,11 +217,11 @@ function ActionButtons({
                 >
                     Slett plan
                 </Button>
-            </ModalKnapper>
+            </Modal.Footer>
         );
     }
     return (
-        <ModalKnapper>
+        <Modal.Footer>
             <Button
                 variant="secondary"
                 onClick={() => {
@@ -242,6 +240,6 @@ function ActionButtons({
             >
                 Lagre
             </Button>
-        </ModalKnapper>
+        </Modal.Footer>
     );
 }
