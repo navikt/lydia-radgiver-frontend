@@ -17,7 +17,6 @@
         "tsc": "tsc"
     },
     "dependencies": {
-        "@amplitude/analytics-browser": "2.25.4",
         "@floating-ui/react": "0.27.16",
         "@navikt/aksel-icons": "7.32.1",
         "@navikt/ds-css": "7.32.1",
