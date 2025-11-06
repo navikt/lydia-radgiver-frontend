@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
+import styles from "./banner.module.scss";
 
 export interface EventData {
     feilmelding: string;
@@ -44,7 +45,7 @@ export const FeilmeldingBanner = () => {
     });
 
     return synlig ? (
-        <BannerMedLukkeknapp variant="error" role="alert">
+        <BannerMedLukkeknapp variant="error" role="alert" className={styles.stickyBanner}>
             {melding}
         </BannerMedLukkeknapp>
     ) : null;

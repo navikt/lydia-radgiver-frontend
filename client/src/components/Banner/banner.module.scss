@@ -1,3 +1,9 @@
 .banner {
     margin: 0.5rem;
 }
+
+.stickyBanner {
+    position: sticky;
+    top: 1rem;
+    z-index: 1000;
+}
