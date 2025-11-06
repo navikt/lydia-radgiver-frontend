@@ -11,7 +11,7 @@ import { NotePencilIcon, TrashIcon } from "@navikt/aksel-icons";
 import { loggModalÅpnet } from "../../../../util/amplitude-klient";
 import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 
-import styles from '../plan.module.scss';
+import styles from "../plan.module.scss";
 
 export default function LeggTilTemaKnapp({
     saksnummer,
@@ -60,12 +60,12 @@ export default function LeggTilTemaKnapp({
             redigertTemaliste.map((tema) =>
                 tema.id === temaId
                     ? {
-                        ...tema,
-                        inkludert: redigerteUndertemaer.some(
-                            ({ inkludert }) => inkludert,
-                        ),
-                        undertemaer: redigerteUndertemaer,
-                    }
+                          ...tema,
+                          inkludert: redigerteUndertemaer.some(
+                              ({ inkludert }) => inkludert,
+                          ),
+                          undertemaer: redigerteUndertemaer,
+                      }
                     : { ...tema },
             ),
         );
@@ -131,7 +131,9 @@ export default function LeggTilTemaKnapp({
                 header={{ heading: "Sett opp samarbeidsplan" }}
             >
                 <Modal.Body style={{ overflowY: "auto" }}>
-                    <BodyShort className={styles.subheading}>Velg innhold og varighet</BodyShort>
+                    <BodyShort className={styles.subheading}>
+                        Velg innhold og varighet
+                    </BodyShort>
                     {modalOpen &&
                         redigertTemaliste
                             .sort((a, b) => {
@@ -153,12 +155,12 @@ export default function LeggTilTemaKnapp({
                         lagreEndring={lagreEndring}
                         setRedigertTemaliste={setRedigertTemaliste}
                         samarbeidsplan={samarbeidsplan}
-                        slettPlan={() =>
-                            slettPlan(orgnummer, saksnummer, samarbeid.id).then(
-                                hentPlanIgjen,
-                            )
-                        }
                         redigertTemaliste={redigertTemaliste}
+                        slettPlan={() => {
+                            slettPlan(orgnummer, saksnummer, samarbeid.id).then(
+                                () => hentPlanIgjen(undefined),
+                            );
+                        }}
                     />
                 </Modal.Body>
             </Modal>
