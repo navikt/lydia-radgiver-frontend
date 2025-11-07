@@ -6,7 +6,7 @@ import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentSakForVirksomhet } from "../../api/lydia-api/virksomhet";
 import { SykefraværsstatistikkFane } from "../Virksomhet/Statistikk/SykefraværsstatistikkFane";
 import VirksomhetContext from "../Virksomhet/VirksomhetContext";
-import VirksomhetOgSamarbeidsHeader from "../Virksomhet/Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
+import VirksomhetOgSamarbeidsHeader from "./Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
 import styles from '../Virksomhet/virksomhetsvisning.module.scss';
 
 interface Props {

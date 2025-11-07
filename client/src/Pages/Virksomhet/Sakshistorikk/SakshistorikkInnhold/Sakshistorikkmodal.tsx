@@ -7,7 +7,7 @@ export default function Sakshistorikkmodal({ orgnr, virksomhetsnavn }: { orgnr: 
 	const [open, setOpen] = React.useState(false);
 	return (
 		<>
-			<Button variant="secondary" onClick={() => setOpen(true)}>
+			<Button variant="secondary" size="small" onClick={() => setOpen(true)}>
 				Historikk
 			</Button>
 			<Modal width="64rem" header={{ heading: `Historikk${virksomhetsnavn ? ` for ${virksomhetsnavn}` : ''}` }} open={open} onClose={() => setOpen(false)} closeOnBackdropClick>
