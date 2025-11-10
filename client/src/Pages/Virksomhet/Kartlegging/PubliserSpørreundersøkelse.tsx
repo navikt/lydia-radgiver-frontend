@@ -1,4 +1,4 @@
-import { Button, Tooltip } from "@navikt/ds-react";
+import { Alert, Button, Tooltip } from "@navikt/ds-react";
 import React, { useState } from "react";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import {
@@ -45,22 +45,7 @@ export const PubliserSpørreundersøkelse = ({
             }
 
             return (
-                <Tooltip content="Dette tok lengre tid enn forventet. Prøv igjen senere.">
-                    <div>
-                        <PubliserDokumentknapp
-                            disabled
-                            icon={
-                                <XMarkOctagonIcon
-                                    fontSize="1.5rem"
-                                    aria-hidden
-
-                                />
-                            }
-                        >
-                            Publiserer
-                        </PubliserDokumentknapp>
-                    </div>
-                </Tooltip>
+                <Alert inline variant={"error"}>En feil har oppstått, meld gjerne ifra i Porten</Alert>
             );
         case "PUBLISERT":
             return (
