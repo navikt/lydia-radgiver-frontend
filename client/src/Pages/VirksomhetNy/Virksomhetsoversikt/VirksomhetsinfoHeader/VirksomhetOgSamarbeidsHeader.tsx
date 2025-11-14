@@ -5,6 +5,7 @@ import {
     Heading,
     HStack,
     Popover,
+    Tabs,
     VStack,
 } from "@navikt/ds-react";
 import { ChevronRightIcon, InformationSquareIcon } from "@navikt/aksel-icons";
@@ -13,7 +14,6 @@ import { VirksomhetsInfoPopoverInnhold } from "../../../Virksomhet/Virksomhetsov
 import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
 import { EksternLenke } from "../../../../components/EksternLenke";
 
-import { SamarbeidsDropdown } from "../../../Virksomhet/Samarbeid/SamarbeidsDropdown";
 import { SaksgangDropdown } from "../../../Virksomhet/Virksomhetsoversikt/VirksomhetsinfoHeader/SaksgangDropdown";
 import { EierskapKnapp } from "../../../Virksomhet/Samarbeid/EierskapKnapp";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
@@ -35,11 +35,11 @@ import Sykefraværsstatistikkmodal from "../../Statistikk/Sykefraværsstatistikk
 export default function VirksomhetOgSamarbeidsHeader({
     virksomhet,
     iaSak,
-    gjeldendeSamarbeid,
+    valgtSamarbeid,
 }: {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    gjeldendeSamarbeid?: IaSakProsess;
+    valgtSamarbeid?: IaSakProsess;
 }) {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [openState, setOpenState] = useState(false);
@@ -67,13 +67,13 @@ export default function VirksomhetOgSamarbeidsHeader({
                 <VStack gap={"10"}>
                     <HStack justify="space-between" align="start">
                         <HStack gap={"4"}>
-                            <SamarbeidsDropdown
+                            {/* <SamarbeidsDropdown
                                 iaSak={iaSak}
                                 virksomhet={virksomhet}
                                 setNyttSamarbeidModalÅpen={
                                     setNyttSamarbeidModalÅpen
                                 }
-                            />
+                            /> */}
                             <SaksgangDropdown
                                 virksomhet={virksomhet}
                                 iaSak={iaSak}
@@ -95,7 +95,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                     <HStack align={"center"}>
                         <VStack>
                             <HStack gap={"2"} align={"center"}>
-                                {gjeldendeSamarbeid === undefined && (
+                                {valgtSamarbeid === undefined && (
                                     <Button
                                         className={styles.invisibleButton}
                                         size="xsmall"
@@ -123,25 +123,25 @@ export default function VirksomhetOgSamarbeidsHeader({
                                     level={"1"}
                                     size={"large"}
                                     variant={"neutral"}
-                                    href={`/virksomhet/${virksomhet.orgnr}`}
+                                    href={`/virksomhetNy/${virksomhet.orgnr}`}
                                     title="Gå til virksomhet"
                                 >
                                     {virksomhet.navn}
                                 </Heading>
 
-                                {gjeldendeSamarbeid && (
+                                {valgtSamarbeid && (
                                     <>
                                         <ChevronRightIcon
                                             fontSize="2rem"
                                             aria-hidden
                                         />
                                         <Heading level={"1"} size={"large"}>
-                                            {gjeldendeSamarbeid.navn}
+                                            {valgtSamarbeid.navn}
                                         </Heading>
                                         <VisHvisSamarbeidErLukket>
                                             <SamarbeidStatusBadge
                                                 status={
-                                                    gjeldendeSamarbeid.status
+                                                    valgtSamarbeid.status
                                                 }
                                             />
                                         </VisHvisSamarbeidErLukket>
@@ -149,7 +149,6 @@ export default function VirksomhetOgSamarbeidsHeader({
                                 )}
                             </HStack>
                         </VStack>
-
                         <Popover
                             open={openState}
                             placement="right-start"
@@ -163,10 +162,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                             />
                         </Popover>
                     </HStack>
-                    <HStack gap="4" justify="end">
-                        <Sakshistorikkmodal orgnr={virksomhet.orgnr} virksomhetsnavn={virksomhet.navn} />
-                        <Sykefraværsstatistikkmodal virksomhet={virksomhet} />
-                    </HStack>
+                    <HistorikkStatistikkKnapper valgtSamarbeid={valgtSamarbeid} virksomhet={virksomhet} />
                 </VStack>
                 {iaSak && kanEndreSamarbeid && (
                     <NyttSamarbeidModal
@@ -178,5 +174,38 @@ export default function VirksomhetOgSamarbeidsHeader({
                 )}
             </div>
         </>
+    );
+}
+
+
+function HistorikkStatistikkKnapper({ valgtSamarbeid, virksomhet }: { valgtSamarbeid?: IaSakProsess, virksomhet: Virksomhet }) {
+    if (valgtSamarbeid) {
+        return (
+            <HStack gap="4" justify="end">
+                <Sakshistorikkmodal orgnr={virksomhet.orgnr} virksomhetsnavn={virksomhet.navn} />
+                <Sykefraværsstatistikkmodal virksomhet={virksomhet} />
+            </HStack>
+        );
+    }
+
+    return (
+        <Tabs.List>
+            <HStack gap="4" justify="end">
+                <Tabs.Tab
+                    as={Button}
+                    variant="secondary"
+                    size="small"
+                    value="statistikk"
+                    label="Sykefraværsstatistikk"
+                />
+                <Tabs.Tab
+                    as={Button}
+                    variant="secondary"
+                    size="small"
+                    value="historikk"
+                    label="Historikk"
+                />
+            </HStack>
+        </Tabs.List>
     );
 }

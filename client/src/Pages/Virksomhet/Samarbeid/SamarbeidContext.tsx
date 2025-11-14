@@ -19,15 +19,15 @@ export function SamarbeidProvider({
 	samarbeid,
 }: {
 	children: React.ReactNode;
-	samarbeid: IaSakProsess;
+	samarbeid?: IaSakProsess;
 }) {
 	return (
-		<SamarbeidContext.Provider value={
+		<SamarbeidContext.Provider value={samarbeid ?
 			{
 				...samarbeid,
 				erFullført: STENGTE_STATUSER.includes(samarbeid.status),
 			}
-		}>
+			: null}>
 			{children}
 		</SamarbeidContext.Provider>
 	);

@@ -116,7 +116,11 @@ const AppContent = () => {
                         element={<Virksomhetsside />}
                     />
                     <Route
-                        path={"/virksomhetNy/:orgnummer"}
+                        path={"/virksomhetNy/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"}
+                        element={<NyVirksomhetsside />}
+                    />
+                    <Route
+                        path={"/virksomhetNy/:orgnummer/samarbeid?/:prosessId?"}
                         element={<NyVirksomhetsside />}
                     />
                     <Route

@@ -1,12 +1,17 @@
 import React from "react";
 
-import { Button, ReadMore } from "@navikt/ds-react";
+import { Button, ReadMore, Skeleton } from "@navikt/ds-react";
 import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import styles from "./samarbeidsvelger.module.scss";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
+import { InternLenke } from "../../../components/InternLenke";
+import { NyttSamarbeidModal } from "../../Virksomhet/Samarbeid/NyttSamarbeidModal";
+import { Virksomhet } from "../../../domenetyper/virksomhet";
+import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
+import { useHentTeam } from "../../../api/lydia-api/team";
 
-export default function Samarbeidsvelger({ className, samarbeidsliste, valgtSamarbeid, setValgtSamarbeid }: { iaSak?: IASak, className?: string, samarbeidsliste?: IaSakProsess[], valgtSamarbeid: IaSakProsess | null, setValgtSamarbeid: React.Dispatch<React.SetStateAction<IaSakProsess | null>> }) {
+export default function Samarbeidsvelger({ iaSak, className, samarbeidsliste, valgtSamarbeid, lasterSamarbeid, virksomhet }: { iaSak?: IASak, className?: string, samarbeidsliste?: IaSakProsess[], valgtSamarbeid?: IaSakProsess | null, lasterSamarbeid?: boolean, virksomhet: Virksomhet }) {
 	const aktiveSamarbeid = samarbeidsliste?.filter(
 		(samarbeid) => samarbeid.status === IAProsessStatusEnum.enum.AKTIV,
 	);
@@ -14,47 +19,84 @@ export default function Samarbeidsvelger({ className, samarbeidsliste, valgtSama
 		(samarbeid) => samarbeid.status !== IAProsessStatusEnum.enum.AKTIV,
 	);
 
+	console.log('lasterSamarbeid, aktiveSamarbeid', lasterSamarbeid, aktiveSamarbeid)
+
+	if (lasterSamarbeid) {
+		return (
+			<nav className={`${className} ${styles.samarbeidsvelger}`}>
+				<Samarbeidvelgeroverskrift samarbeid={aktiveSamarbeid} />
+				<div className={styles.liste}>
+					<div className={styles.radCommon}><Skeleton width="80%" /></div>
+					<div className={styles.radCommon}><Skeleton width="80%" /></div>
+					<div className={styles.radCommon}><Skeleton width="80%" /></div>
+					<div className={styles.radCommon}><Skeleton width="80%" /></div>
+				</div>
+			</nav>
+		);
+	}
+
 	return (
 		<nav className={`${className} ${styles.samarbeidsvelger}`}>
 			<Samarbeidvelgeroverskrift samarbeid={aktiveSamarbeid} />
-			<AktiveSamarbeidListe samarbeid={aktiveSamarbeid} valgtSamarbeid={valgtSamarbeid} setValgtSamarbeid={setValgtSamarbeid} />
-			<LeggTilSamarbeidKnapp />
-			<AvsluttedeSamarbeidListe avsluttedeSamarbeid={avsluttedeSamarbeid} valgtSamarbeid={valgtSamarbeid} setValgtSamarbeid={setValgtSamarbeid} />
+			<AktiveSamarbeidListe samarbeid={aktiveSamarbeid} valgtSamarbeid={valgtSamarbeid} orgnr={iaSak?.orgnr} />
+			<LeggTilSamarbeidKnapp iaSak={iaSak} virksomhet={virksomhet} />
+			<AvsluttedeSamarbeidListe avsluttedeSamarbeid={avsluttedeSamarbeid} valgtSamarbeid={valgtSamarbeid} orgnr={iaSak?.orgnr} />
 		</nav>
 	);
 }
 
 function Samarbeidvelgeroverskrift({ samarbeid }: { samarbeid?: IaSakProsess[] }) {
 	return (
-		<h3 className={`${styles.radCommon} ${styles.overskrift}`}>Samarbeid ({samarbeid?.length})</h3>
+		<h3 className={`${styles.radCommon} ${styles.overskrift}`}>Samarbeid{samarbeid && ` (${samarbeid.length})`}</h3>
 	);
 }
 
-function AktiveSamarbeidListe({ samarbeid, valgtSamarbeid, setValgtSamarbeid }: { samarbeid?: IaSakProsess[], valgtSamarbeid: IaSakProsess | null, setValgtSamarbeid: React.Dispatch<React.SetStateAction<IaSakProsess | null>> }) {
+function AktiveSamarbeidListe({ samarbeid, valgtSamarbeid, orgnr }: { samarbeid?: IaSakProsess[], valgtSamarbeid?: IaSakProsess | null, orgnr?: string }) {
+
 	if (!samarbeid || samarbeid.length === 0) {
 		return <IngenAktiveSamarbeid />;
 	}
 
 	return (
-		<ul className={styles.liste}>
+		<div className={styles.liste}>
 			{samarbeid?.map((s) => (
-				<Button as="li" variant="tertiary" key={s.id} className={`${styles.radCommon} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} onClick={() => setValgtSamarbeid(s)}>
+				<InternLenke key={s.id} className={`${styles.radCommon} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} href={`/virksomhetNy/${orgnr}/samarbeid/${s.id}`}>
 					{s.navn}
-				</Button>
+				</InternLenke>
 			))}
-		</ul>
-	);
-}
-
-function LeggTilSamarbeidKnapp() {
-	return (
-		<div className={`${styles.radCommon} ${styles.leggTilSamarbeidKnapp}`}>
-			<Button>+</Button>
 		</div>
 	);
 }
 
-function AvsluttedeSamarbeidListe({ avsluttedeSamarbeid, valgtSamarbeid, setValgtSamarbeid }: { avsluttedeSamarbeid?: IaSakProsess[], valgtSamarbeid: IaSakProsess | null, setValgtSamarbeid: React.Dispatch<React.SetStateAction<IaSakProsess | null>> }) {
+function LeggTilSamarbeidKnapp({ iaSak, virksomhet }: { iaSak?: IASak, virksomhet: Virksomhet }) {
+	const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] = React.useState(false);
+	const { data: brukerInformasjon } = useHentBrukerinformasjon();
+	const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
+	const brukerFølgerSak = følgere.some(
+		(følger) => følger === brukerInformasjon?.ident,
+	);
+
+	const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
+	const kanEndreSamarbeid = brukerFølgerSak || brukerErEierAvSak;
+
+	if (!iaSak || !kanEndreSamarbeid) {
+		return null;
+	}
+
+	return (
+		<div className={styles.radCommon}>
+			<Button onClick={() => setNyttSamarbeidModalÅpen(true)} title="Legg til nytt samarbeid">+</Button>
+			<NyttSamarbeidModal
+				iaSak={iaSak}
+				virksomhet={virksomhet}
+				åpen={nyttSamarbeidModalÅpen}
+				setÅpen={setNyttSamarbeidModalÅpen}
+			/>
+		</div>
+	);
+}
+
+function AvsluttedeSamarbeidListe({ avsluttedeSamarbeid, valgtSamarbeid, orgnr }: { avsluttedeSamarbeid?: IaSakProsess[], valgtSamarbeid?: IaSakProsess | null, orgnr?: string }) {
 	const [åpen, setÅpen] = React.useState(false);
 	if (!avsluttedeSamarbeid || avsluttedeSamarbeid.length === 0) {
 		return null;
@@ -67,9 +109,9 @@ function AvsluttedeSamarbeidListe({ avsluttedeSamarbeid, valgtSamarbeid, setValg
 		<ReadMore size="small" className={styles.inaktiveSamarbeidReadMore} header={`Avsluttede samarbeid (${avsluttedeSamarbeid.length})`} open={åpen || defaultEkspandert} onClick={() => setÅpen(!åpen)}>
 			<ul className={styles.liste}>
 				{avsluttedeSamarbeid?.map((s) => (
-					<Button as="li" variant="tertiary" key={s.id} className={`${styles.radCommon} ${styles.avsluttetSamarbeid} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} onClick={() => setValgtSamarbeid(s)}>
+					<InternLenke key={s.id} className={`${styles.radCommon} ${styles.avsluttetSamarbeid} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} href={`/virksomhetNy/${orgnr}/samarbeid/${s.id}`}>
 						{s.navn} <SamarbeidStatusBadge status={s.status} slim />
-					</Button>
+					</InternLenke>
 				))}
 			</ul>
 		</ReadMore>

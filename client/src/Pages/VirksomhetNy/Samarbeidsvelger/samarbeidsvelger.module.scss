@@ -11,6 +11,7 @@
 	flex-direction: column;
 	align-items: stretch;
 	justify-content: flex-start;
+	background-color: var(--a-surface-default);
 
 	.radCommon {
 		@include radStyling;

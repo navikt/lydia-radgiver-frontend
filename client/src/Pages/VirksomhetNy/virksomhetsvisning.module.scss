@@ -1,26 +1,21 @@
 @use "../../styling/contentSpacing.scss" as spacing;
 
-.virksomhetsvisning {
-    padding-top: spacing.$contentSpacingMobileY;
+.virksomhetsTabs {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 
-    background-color: var(--a-white);
-    @include spacing.strekkInnholdetHeltUtTilKantenAvSida;
-
-    & {
-        --a-font-size-heading-xlarge: 1.75rem;
-    }
-
-    .virksomhetsinnholdContainer {
-        display: flex;
-        flex-direction: row;
-        align-items: stretch;
-        justify-content: center;
-
+    .virksomhetsvisning {
+        flex-grow: 1;
+    
+        background-color: var(--a-white);
+    
         .samarbeidsvelgerSidebar {
             width: 16rem;
+            max-width: 16rem;
             flex-shrink: 0;
         }
-
+    
         .innhold {
             flex-grow: 1;
             display: flex;
@@ -29,19 +24,13 @@
             justify-content: flex-start;
             gap: 2rem;
             background-color: var(--a-gray-100);
-
+    
             .blåTing {
                 background-color: var(--a-blue-100);
                 padding: 1rem;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
-            }
-
-            .panel {
-                .nyKodeBanner {
-                    margin-bottom: 1rem;
-                }
             }
         }
     }
