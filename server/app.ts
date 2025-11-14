@@ -13,7 +13,7 @@ import { Config } from "./config";
 import logger from "./logging";
 import { AuthError } from "./error";
 import { hentInnloggetAnsattMiddleware } from "./brukerinfo";
-import { inMemorySessionManager, sessionManager } from "./SessionStore";
+// import { inMemorySessionManager, sessionManager } from "./SessionStore";
 import { randomUUID } from "crypto";
 import { doubleCsrf } from "csrf-csrf";
 import cookieParser from "cookie-parser";
@@ -58,11 +58,16 @@ export default class Application {
             }
         );
 
-        this.expressApp.use(
-            ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME) // Treffer både lokal og testkjøring
-                ? inMemorySessionManager()
-                : sessionManager()
-        );
+        // const x =
+        //     Promise.resolve(["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME) // Treffer både lokal og testkjøring
+        //     ? inMemorySessionManager()
+        //     : sessionManager())
+        //
+        //
+        //
+        // this.expressApp.use(
+        //
+        // );
 
         const tokenValidator =
             inLocalMode()
