@@ -16,6 +16,9 @@ import { SamarbeidProvider } from "../Virksomhet/Samarbeid/SamarbeidContext";
 import { EndreSamarbeidModal } from "../Virksomhet/Samarbeid/EndreSamarbeidModal";
 import { IASak } from "../../domenetyper/domenetyper";
 import { EksternLenke } from "../../components/EksternLenke";
+import { BehovsvurderingFane } from "../Virksomhet/Kartlegging/BehovsvurderingFane";
+import SamarbeidsplanFane from "../Virksomhet/Plan/SamarbeidsplanFane";
+import EvalueringFane from "../Virksomhet/Samarbeid/Evaluering/EvalueringFane";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -110,9 +113,11 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }
                 <div className={styles.blåTing}>
                     {valgtSamarbeid?.navn ?? <span />}
                     <div>
-                        <Button variant="secondary" onClick={() => setEndreSamarbeidModalÅpen(true)}>Administrer</Button><Salesforcelenke samarbeidId={valgtSamarbeid.id} />
+                        <Button variant="secondary" onClick={() => setEndreSamarbeidModalÅpen(true)}>Administrer</Button>
+                        <Salesforcelenke samarbeidId={valgtSamarbeid.id} />
                     </div>
                 </div>
+                <Samarbeidsinnhold valgtSamarbeid={valgtSamarbeid} iaSak={iaSak} />
             </div>
             {valgtSamarbeid && iaSak && (
                 <EndreSamarbeidModal
@@ -141,5 +146,83 @@ function Salesforcelenke({ samarbeidId }: { samarbeidId: number }) {
         >
             Salesforce - samarbeid
         </EksternLenke>
+    );
+}
+
+function Samarbeidsinnhold({ valgtSamarbeid, iaSak }: { valgtSamarbeid: IaSakProsess, iaSak?: IASak }) {
+    const [searchParams, setSearchParams] = useSearchParams();
+    const oppdaterTabISearchParam = (tab: string) => {
+        searchParams.set("fane", tab);
+        loggNavigertTilNyTab(tab);
+        setSearchParams(searchParams, { replace: true });
+    };
+
+    React.useEffect(() => {
+        if (
+            fane !== "behovsvurdering" &&
+            fane !== "plan" &&
+            fane !== "evaluering" &&
+            fane !== "ia-tjenester"
+        ) {
+            oppdaterTabISearchParam("behovsvurdering");
+        }
+    }, []);
+    const fane = searchParams.get("fane") ?? "behovsvurdering";
+
+    return (
+        <Tabs
+            value={fane}
+            onChange={oppdaterTabISearchParam}
+            defaultValue="behovsvurdering"
+        >
+            <Tabs.List style={{ width: "100%" }}>
+                {iaSak && (
+                    <Tabs.Tab
+                        value="behovsvurdering"
+                        label="Behovsvurdering"
+                    />
+                )}
+                {iaSak && (
+                    <Tabs.Tab
+                        value="plan"
+                        label="Samarbeidsplan"
+                    />
+                )}
+                {iaSak && (
+                    <Tabs.Tab
+                        value="evaluering"
+                        label="Evaluering"
+                    />
+                )}
+            </Tabs.List>
+            <Tabs.Panel
+                value="behovsvurdering"
+            >
+                {iaSak && (
+                    <BehovsvurderingFane
+                        iaSak={iaSak}
+                        gjeldendeSamarbeid={valgtSamarbeid}
+                    />
+                )}
+            </Tabs.Panel>
+            <Tabs.Panel value="plan">
+                {iaSak && (
+                    <SamarbeidsplanFane
+                        iaSak={iaSak}
+                        samarbeid={valgtSamarbeid}
+                    />
+                )}
+            </Tabs.Panel>
+            <Tabs.Panel
+                value="evaluering"
+            >
+                {iaSak && (
+                    <EvalueringFane
+                        iaSak={iaSak}
+                        gjeldendeSamarbeid={valgtSamarbeid}
+                    />
+                )}
+            </Tabs.Panel>
+        </Tabs>
     );
 }

@@ -19,8 +19,6 @@ export default function Samarbeidsvelger({ iaSak, className, samarbeidsliste, va
 		(samarbeid) => samarbeid.status !== IAProsessStatusEnum.enum.AKTIV,
 	);
 
-	console.log('lasterSamarbeid, aktiveSamarbeid', lasterSamarbeid, aktiveSamarbeid)
-
 	if (lasterSamarbeid) {
 		return (
 			<nav className={`${className} ${styles.samarbeidsvelger}`}>
