@@ -10,7 +10,7 @@
     "test": "jest"
   },
   "dependencies": {
-    "connect-redis": "8.1.0",
+    "connect-redis": "9.0.0",
     "cookie-parser": "1.4.7",
     "csrf-csrf": "4.0.3",
     "dotenv": "17.2.3",
@@ -19,7 +19,7 @@
     "follow-redirects": "1.15.11",
     "helmet": "8.1.0",
     "http-proxy-middleware": "3.0.5",
-    "iovalkey": "^0.3.3",
+    "redis": "^5.9.0",
     "jose": "6.1.0",
     "prometheus-api-metrics": "4.0.0",
     "winston": "3.18.3"

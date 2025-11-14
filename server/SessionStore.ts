@@ -1,37 +1,33 @@
-import Redis, { RedisOptions } from "iovalkey";
+import * as redis from 'redis';
 import session from "express-session";
 import { inCloudMode } from "./app";
 import { RedisStore } from "connect-redis";
+import logger from "./logging";
 
-const valkeyNoTlsConfig: RedisOptions = {
-  username: process.env.VALKEY_USERNAME_FIA_SESSION || "",
-  password: process.env.VALKEY_PASSWORD_FIA_SESSION || "",
-  host: process.env.VALKEY_HOST_FIA_SESSION,
-  port: Number(process.env.VALKEY_PORT_FIA_SESSION),
-  maxRetriesPerRequest: 3,
-  enableReadyCheck: false,
+const valkeyConfig = {
+    username: process.env.VALKEY_USERNAME_FIA_SESSION || "",
+    password: process.env.VALKEY_PASSWORD_FIA_SESSION || "",
+    uri: process.env.REDIS_URI_FIA_SESSION
 };
 
-const valkeyTlsConfig: RedisOptions = {
-  username: process.env.VALKEY_USERNAME_FIA_SESSION || "",
-  password: process.env.VALKEY_PASSWORD_FIA_SESSION || "",
-  tls: {
-    host: process.env.VALKEY_HOST_FIA_SESSION,
-    port: Number(process.env.VALKEY_PORT_FIA_SESSION),
-  },
-  maxRetriesPerRequest: 3,
-  enableReadyCheck: false,
-};
-
-const valkeyClient = () => {
-  return new Redis(inCloudMode() ? valkeyTlsConfig: valkeyNoTlsConfig);
+async function getRedisStore() {
+    const redisClient = redis.createClient({
+        url: valkeyConfig.uri,
+        username: valkeyConfig.username,
+        password: valkeyConfig.password,
+        pingInterval: 3000
+    });
+    redisClient.on("error", (err) => {
+      logger.error("Feil fra redis: ", err);
+    });
+    await redisClient.connect();
+    return redisClient;
 }
 
-export const sessionManager = () => {
-  const client = valkeyClient()
+export async function sessionManager(){
   return session({
     store: new RedisStore({
-      client,
+      client: await getRedisStore(),
       disableTouch: true, // Gjør slik at man ikke kan endre TTL på valkey store
     }),
     secret: process.env.SESSION_SECRET, // Hent fra gcp
@@ -44,9 +40,9 @@ export const sessionManager = () => {
       maxAge: 60 * 60 * 1000, // 1 time levetid på session cookie
     },
   });
-};
+}
 
-export const inMemorySessionManager = () => {
+export async function inMemorySessionManager() {
   return session({
     saveUninitialized: false,
     resave: false,
@@ -56,4 +52,4 @@ export const inMemorySessionManager = () => {
       httpOnly: true,
     },
   });
-};
+}
