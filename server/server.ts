@@ -1,7 +1,7 @@
 import http from 'http'
 import Application from './app';
 import { Config } from './config';
-import logger from "./logging"
+import logger from "./logging";
 import { setupRemoteJwkSet } from "./jwks";
 import dotenv from "dotenv"
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

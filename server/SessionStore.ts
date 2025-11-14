@@ -1,7 +1,8 @@
-import redis from "redis";
+import * as redis from 'redis';
 import session from "express-session";
 import { inCloudMode } from "./app";
 import { RedisStore } from "connect-redis";
+import logger from "./logging";
 
 // const valkeyNoTlsConfig = {
 //   username: process.env.VALKEY_USERNAME_FIA_SESSION || "",
@@ -36,9 +37,9 @@ async function getRedisStore() {
         password: valkeyConfig.password,
         pingInterval: 3000
     });
-    // redisClient.on("error", (err) => {
-    //     log.error("Feil med Redis, %s", err);
-    // });
+    redisClient.on("error", (err) => {
+      logger.error("Feil fra redis: ", err);
+    });
     await redisClient.connect();
     return redisClient;
 }

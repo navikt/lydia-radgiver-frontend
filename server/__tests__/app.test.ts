@@ -7,7 +7,7 @@ import {decodeJwt, SignJWT} from "jose";
 import {register} from "prom-client";
 import {hentBrukerinfoFraToken} from "../brukerinfo";
 import Application from "../app";
-import { inMemorySessionManager, sessionManager } from "../SessionStore";
+import { inMemorySessionManager } from "../SessionStore";
 
 const azureOpenidConfigTokenUri = "http://azure.com";
 const azureOpenidConfigTokenPath = "/azure-openid-config/token";
