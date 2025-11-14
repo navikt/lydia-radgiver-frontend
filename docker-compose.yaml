@@ -188,8 +188,7 @@ services:
     ports:
       - "3000:3000"
     environment:
-      VALKEY_PORT_FIA_SESSION: 6379
-      VALKEY_HOST_FIA_SESSION: valkey
+      REDIS_URI_FIA_SESSION: redis://valkey:6379
       NAIS_CLUSTER_NAME: compose
       SESSION_SECRET: secret
       CSRF_SECRET: csrf

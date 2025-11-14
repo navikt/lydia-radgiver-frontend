@@ -4,26 +4,6 @@ import { inCloudMode } from "./app";
 import { RedisStore } from "connect-redis";
 import logger from "./logging";
 
-// const valkeyNoTlsConfig = {
-//   username: process.env.VALKEY_USERNAME_FIA_SESSION || "",
-//   password: process.env.VALKEY_PASSWORD_FIA_SESSION || "",
-//   host: process.env.VALKEY_HOST_FIA_SESSION,
-//   port: Number(process.env.VALKEY_PORT_FIA_SESSION),
-//   maxRetriesPerRequest: 3,
-//   enableReadyCheck: false,
-// };
-//
-// const valkeyTlsConfig = {
-//   username: process.env.VALKEY_USERNAME_FIA_SESSION || "",
-//   password: process.env.VALKEY_PASSWORD_FIA_SESSION || "",
-//   tls: {
-//     host: process.env.VALKEY_HOST_FIA_SESSION,
-//     port: Number(process.env.VALKEY_PORT_FIA_SESSION),
-//   },
-//   maxRetriesPerRequest: 3,
-//   enableReadyCheck: false,
-// };
-
 const valkeyConfig = {
     username: process.env.VALKEY_USERNAME_FIA_SESSION || "",
     password: process.env.VALKEY_PASSWORD_FIA_SESSION || "",
@@ -43,10 +23,6 @@ async function getRedisStore() {
     await redisClient.connect();
     return redisClient;
 }
-
-// const valkeyClient = () => {
-//   return new redis(inCloudMode() ? valkeyTlsConfig: valkeyNoTlsConfig);
-// }
 
 export async function sessionManager(){
   return session({
