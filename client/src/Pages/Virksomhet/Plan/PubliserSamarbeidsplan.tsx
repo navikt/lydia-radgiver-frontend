@@ -1,10 +1,9 @@
-import { Tooltip } from "@navikt/ds-react";
+import { Alert, Tooltip } from "@navikt/ds-react";
 import React, { useState } from "react";
 import {
     CheckmarkIcon,
     CircleBrokenIcon,
-    PaperplaneIcon,
-    XMarkOctagonIcon
+    PaperplaneIcon
 } from "@navikt/aksel-icons";
 import styles from "../Kartlegging/publiserSpørreundersøkelse.module.scss";
 import { lokalDato } from "../../../util/dato";
@@ -65,22 +64,7 @@ export const PubliserSamarbeidsplan = ({
             }
 
             return (
-                <Tooltip content="Dette tok lengre tid enn forventet. Prøv igjen senere.">
-                    <div>
-                        <PubliserDokumentknapp
-                            disabled
-                            icon={
-                                <XMarkOctagonIcon
-                                    fontSize="1.5rem"
-                                    aria-hidden
-
-                                />
-                            }
-                        >
-                            Publiserer
-                        </PubliserDokumentknapp>
-                    </div>
-                </Tooltip>
+                <Alert inline variant={"error"}>En feil har oppstått, meld gjerne ifra i Porten</Alert>
             );
         case "PUBLISERT":
             if (plan?.harEndringerSidenSistPublisert) {

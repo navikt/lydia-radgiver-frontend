@@ -7,6 +7,7 @@ import {decodeJwt, SignJWT} from "jose";
 import {register} from "prom-client";
 import {hentBrukerinfoFraToken} from "../brukerinfo";
 import Application from "../app";
+import { inMemorySessionManager } from "../SessionStore";
 
 const azureOpenidConfigTokenUri = "http://azure.com";
 const azureOpenidConfigTokenPath = "/azure-openid-config/token";
@@ -62,8 +63,9 @@ async function setupJwkSet() {
 const init = async () => {
     mockEnv();
     const jwkSet = await setupJwkSet();
+    const sm = await inMemorySessionManager();
     register.clear();
-    return new Application(new Config({jwkSet})).expressApp;
+    return new Application(new Config({jwkSet}), sm).expressApp;
 };
 
 describe("Tester liveness og readiness", () => {
