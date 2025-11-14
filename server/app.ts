@@ -1,4 +1,4 @@
-import express, { NextFunction, Request, Response } from "express";
+import express, { NextFunction, Request, RequestHandler, Response } from "express";
 import helmet from "helmet";
 import path from "path";
 import apiMetrics from "prometheus-api-metrics";
@@ -13,7 +13,6 @@ import { Config } from "./config";
 import logger from "./logging";
 import { AuthError } from "./error";
 import { hentInnloggetAnsattMiddleware } from "./brukerinfo";
-// import { inMemorySessionManager, sessionManager } from "./SessionStore";
 import { randomUUID } from "crypto";
 import { doubleCsrf } from "csrf-csrf";
 import cookieParser from "cookie-parser";
@@ -26,7 +25,7 @@ export const inLocalMode = () => process.env.NAIS_CLUSTER_NAME === "lokal"
 export default class Application {
     expressApp: express.Express;
 
-    constructor(config: Config = new Config()) {
+    constructor(config: Config = new Config(), sessionManager: RequestHandler) {
         const buildPath = path.resolve(__dirname, "../client/dist");
         this.expressApp = express();
         this.expressApp.set("trust proxy", 1);
@@ -57,17 +56,10 @@ export default class Application {
                 res.sendStatus(200);
             }
         );
-
-        // const x =
-        //     Promise.resolve(["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME) // Treffer både lokal og testkjøring
-        //     ? inMemorySessionManager()
-        //     : sessionManager())
-        //
-        //
-        //
-        // this.expressApp.use(
-        //
-        // );
+        
+         this.expressApp.use(
+            sessionManager
+         );
 
         const tokenValidator =
             inLocalMode()

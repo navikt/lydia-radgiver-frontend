@@ -6,14 +6,21 @@ import { setupRemoteJwkSet } from "./jwks";
 import dotenv from "dotenv"
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as types from "./types"; // nødvendig for at ts-node skal skjønne at disse typene eksisterer
+import { inMemorySessionManager, sessionManager } from './SessionStore';
 
 
 const main = () => {
     dotenv.config({ path: "../env.local"})
     setupRemoteJwkSet()
-        .then(jwkSet => {
+        .then(async (jwkSet) => {
+            const sessonManager = ["local", "lokal"].includes(process.env.NAIS_CLUSTER_NAME) // Treffer både lokal og testkjøring
+             ? await inMemorySessionManager()
+             : await sessionManager();
+            return {jwkSet, sessonManager};
+        })
+        .then(({jwkSet, sessonManager}) => {
             const config = new Config({jwkSet})
-            const application = new Application(config)
+            const application = new Application(config, sessonManager)
             const server = http.createServer(application.expressApp);
 
             const gracefulClose = () => {
