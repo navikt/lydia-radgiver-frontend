@@ -109,7 +109,7 @@ export const MineSakerside = () => {
         <div className={styles.mineSakerSide}>
             <BrukerBleRedirectedBanner />
             <div className={styles.mineSakerHeaderContainer}>
-                <Heading level="2" size="large">Mine saker</Heading>
+                <Heading level="2" size="large">Mine virksomheter</Heading>
                 <Sorteringsknapper onSortChange={handleSortChange} />
             </div>
             <div className={styles.minesakerFlex}>
@@ -154,7 +154,7 @@ function BrukerBleRedirectedBanner() {
                 <Heading size="small" level="3" spacing>
                     Ny landingsside for saksbehandler og lesetilgang
                 </Heading>
-                Nå lander alle med rollen saksbehandler og lesetilgang automatisk på Mine saker. Superbrukere vil fortsatt lande på prioriteringssiden.
+                Nå lander alle med rollen saksbehandler og lesetilgang automatisk på Mine virksomheter. Superbrukere vil fortsatt lande på prioriteringssiden.
                 <br />
                 Følg <Link as={NavLink} onClick={() => loggBrukerFulgteRedirectlenkeMedSøk()} to={`/prioritering${state.redirected.search}`}>denne lenken</Link> for å komme til ditt lagrede søk på prioriterinssiden.
                 <br />

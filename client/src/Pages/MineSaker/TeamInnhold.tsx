@@ -98,7 +98,7 @@ export default function TeamInnhold({
                     </div>
                 )}
                 <span>
-                    Følg saken for å se den under &ldquo;Mine saker&rdquo;
+                    Følg virksomheten for å se den under &ldquo;Mine virksomheter&rdquo;
                 </span>
                 {følgerSak(brukerIdent, følgere) ? (
                     <Button
@@ -114,7 +114,7 @@ export default function TeamInnhold({
                         }}
                         disabled={!(erPåAktivSak || erPåMineSaker)}
                     >
-                        Slutt å følge saken
+                        Slutt å følge virksomheten
                     </Button>
                 ) : (
                     <Button
@@ -129,7 +129,7 @@ export default function TeamInnhold({
                         }}
                         disabled={!(erPåAktivSak || erPåMineSaker)}
                     >
-                        Følg saken
+                        Følg virksomheten
                     </Button>
                 )}
             </div>
