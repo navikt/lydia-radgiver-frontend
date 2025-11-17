@@ -19,6 +19,7 @@ import { EksternLenke } from "../../components/EksternLenke";
 import { BehovsvurderingFane } from "../Virksomhet/Kartlegging/BehovsvurderingFane";
 import SamarbeidsplanFane from "../Virksomhet/Plan/SamarbeidsplanFane";
 import EvalueringFane from "../Virksomhet/Samarbeid/Evaluering/EvalueringFane";
+import { SamarbeidStatusBadge } from "../../components/Badge/SamarbeidStatusBadge";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -111,7 +112,14 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }
         <>
             <div className={styles.innhold}>
                 <div className={styles.blåTing}>
-                    {valgtSamarbeid?.navn ?? <span />}
+                    <HStack gap="4" align="center">
+                        {valgtSamarbeid?.navn ?? <span />}
+                        <SamarbeidStatusBadge
+                            status={
+                                valgtSamarbeid.status
+                            }
+                        />
+                    </HStack>
                     <div>
                         <Button variant="secondary" onClick={() => setEndreSamarbeidModalÅpen(true)}>Administrer</Button>
                         <Salesforcelenke samarbeidId={valgtSamarbeid.id} />

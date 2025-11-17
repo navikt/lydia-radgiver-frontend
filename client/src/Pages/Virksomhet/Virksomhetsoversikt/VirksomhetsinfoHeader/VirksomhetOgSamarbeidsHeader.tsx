@@ -75,9 +75,6 @@ export default function VirksomhetOgSamarbeidsHeader({
                             <SaksgangDropdown
                                 virksomhet={virksomhet}
                                 iaSak={iaSak}
-                                setNyttSamarbeidModalÅpen={
-                                    setNyttSamarbeidModalÅpen
-                                }
                             />
                             <EierskapKnapp iaSak={iaSak} />
                         </HStack>

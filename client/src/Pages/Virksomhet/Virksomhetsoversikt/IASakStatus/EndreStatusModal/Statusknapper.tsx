@@ -40,7 +40,6 @@ interface StatusknapperProps {
     onStatusEndret: () => void;
     redusertPadding?: boolean;
     loading?: boolean;
-    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export function Statusknapper({
@@ -52,7 +51,6 @@ export function Statusknapper({
     onStatusEndret,
     redusertPadding = false,
     loading: eksternLoading,
-    setNyttSamarbeidModalÅpen,
 }: StatusknapperProps) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const [loading, setLoading] = React.useState(false);
@@ -155,7 +153,6 @@ export function Statusknapper({
                     setNesteSteg({ nesteSteg: null, hendelse: null })
                 }
                 sak={iaSak}
-                setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
             />
         </div>
     );

@@ -27,6 +27,8 @@ import { FullførKartleggingerFørstSeksjon } from "./FullførKartleggingerFørs
 import { BegrunnelseFørstSeksjon } from "./BegrunnelseFørstSeksjon";
 import { FullførSamarbeidFørstSeksjon } from "./FullførSamarbeidFørstSeksjon";
 import styles from "../endrestatusmodal.module.scss";
+import { NyttSamarbeidModal } from "../../../../Samarbeid/NyttSamarbeidModal";
+import { useVirksomhetContext } from "../../../../VirksomhetContext";
 
 export const Knappecontainer = ({
     className,
@@ -40,7 +42,6 @@ export default function NesteSteg({
     lukkModal,
     sak,
     clearNesteSteg,
-    setNyttSamarbeidModalÅpen,
 }: {
     nesteSteg: {
         nesteSteg: StatusHendelseSteg | null;
@@ -49,7 +50,6 @@ export default function NesteSteg({
     lukkModal: () => void;
     clearNesteSteg: () => void;
     sak: IASak;
-    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const { data: alleSamarbeid } = useHentSamarbeid(sak.orgnr, sak.saksnummer);
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
@@ -104,9 +104,7 @@ export default function NesteSteg({
                 sak.status === IAProsessStatusEnum.enum.KARTLEGGES
             ) {
                 return (
-                    <OpprettSamarbeidFørstSeksjon
-                        setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
-                    />
+                    <OpprettSamarbeidFørstSeksjon />
                 );
             }
             return null;
@@ -115,11 +113,10 @@ export default function NesteSteg({
     }
 }
 
-function OpprettSamarbeidFørstSeksjon({
-    setNyttSamarbeidModalÅpen,
-}: {
-    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
-}) {
+function OpprettSamarbeidFørstSeksjon() {
+    const { virksomhet, iaSak } = useVirksomhetContext()
+    const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] = useState(false);
+
     return (
         <div className={styles.underseksjon}>
             <Heading level="2" size="medium">
@@ -140,6 +137,16 @@ function OpprettSamarbeidFørstSeksjon({
                     Opprett samarbeid
                 </Button>
             </Knappecontainer>
+            {
+                iaSak && virksomhet && (
+                    <NyttSamarbeidModal
+                        iaSak={iaSak}
+                        virksomhet={virksomhet}
+                        åpen={nyttSamarbeidModalÅpen}
+                        setÅpen={setNyttSamarbeidModalÅpen}
+                    />
+                )
+            }
         </div>
     );
 }
