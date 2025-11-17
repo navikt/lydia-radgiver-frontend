@@ -5,52 +5,41 @@ import {
     Heading,
     HStack,
     Popover,
+    Tabs,
     VStack,
 } from "@navikt/ds-react";
-import { ChevronRightIcon, InformationSquareIcon } from "@navikt/aksel-icons";
+import { InformationSquareIcon } from "@navikt/aksel-icons";
 
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
 import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
 import { EksternLenke } from "../../../../components/EksternLenke";
 
-import { SamarbeidsDropdown } from "../../Samarbeid/SamarbeidsDropdown";
 import { SaksgangDropdown } from "./SaksgangDropdown";
-import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
+import { EierskapKnapp } from "../../../Virksomhet/Samarbeid/EierskapKnapp";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { loggÅpnetVirksomhetsinfo } from "../../../../util/analytics-klient";
-import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
-import { NyttSamarbeidModal } from "../../Samarbeid/NyttSamarbeidModal";
-import { VisHvisSamarbeidErLukket } from "../../Samarbeid/SamarbeidContext";
 import { InternLenke } from "../../../../components/InternLenke";
-import { useErPåInaktivSak } from "../../VirksomhetContext";
-import { SamarbeidStatusBadge } from "../../../../components/Badge/SamarbeidStatusBadge";
+import { useErPåInaktivSak } from "../../../Virksomhet/VirksomhetContext";
 
 import styles from "./virksomhetsinfoheader.module.scss";
-import { useHentTeam } from "../../../../api/lydia-api/team";
+import Sakshistorikkmodal from "../../../Virksomhet/Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
+import Sykefraværsstatistikkmodal from "../../Statistikk/Sykefraværsstatistikkmodal";
 
 export default function VirksomhetOgSamarbeidsHeader({
     virksomhet,
     iaSak,
-    gjeldendeSamarbeid,
+    valgtSamarbeid,
 }: {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    gjeldendeSamarbeid?: IaSakProsess;
+    valgtSamarbeid?: IaSakProsess;
 }) {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [openState, setOpenState] = useState(false);
-    const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] = useState(false);
-    const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
 
-    const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
-    const brukerFølgerSak = følgere.some(
-        (følger) => følger === brukerInformasjon?.ident,
-    );
-    const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
-    const kanEndreSamarbeid = brukerFølgerSak || brukerErEierAvSak;
 
     const erPåInaktivSak = useErPåInaktivSak();
 
@@ -65,13 +54,6 @@ export default function VirksomhetOgSamarbeidsHeader({
                 <VStack gap={"10"}>
                     <HStack justify="space-between" align="start">
                         <HStack gap={"4"}>
-                            <SamarbeidsDropdown
-                                iaSak={iaSak}
-                                virksomhet={virksomhet}
-                                setNyttSamarbeidModalÅpen={
-                                    setNyttSamarbeidModalÅpen
-                                }
-                            />
                             <SaksgangDropdown
                                 virksomhet={virksomhet}
                                 iaSak={iaSak}
@@ -90,29 +72,27 @@ export default function VirksomhetOgSamarbeidsHeader({
                     <HStack align={"center"}>
                         <VStack>
                             <HStack gap={"2"} align={"center"}>
-                                {gjeldendeSamarbeid === undefined && (
-                                    <Button
-                                        className={styles.invisibleButton}
-                                        size="xsmall"
-                                        variant="tertiary-neutral"
-                                        ref={buttonRef}
-                                        onClick={() => {
-                                            setOpenState(!openState);
-                                            if (!openState) {
-                                                loggÅpnetVirksomhetsinfo();
-                                            }
-                                        }}
-                                        aria-label="Se detaljer"
-                                    >
-                                        <InformationSquareIcon
-                                            className={
-                                                styles.virksomhetsInfoIkon
-                                            }
-                                            fontSize="2rem"
-                                            aria-hidden
-                                        />
-                                    </Button>
-                                )}
+                                <Button
+                                    className={styles.invisibleButton}
+                                    size="xsmall"
+                                    variant="tertiary-neutral"
+                                    ref={buttonRef}
+                                    onClick={() => {
+                                        setOpenState(!openState);
+                                        if (!openState) {
+                                            loggÅpnetVirksomhetsinfo();
+                                        }
+                                    }}
+                                    aria-label="Se detaljer"
+                                >
+                                    <InformationSquareIcon
+                                        className={
+                                            styles.virksomhetsInfoIkon
+                                        }
+                                        fontSize="2rem"
+                                        aria-hidden
+                                    />
+                                </Button>
                                 <Heading
                                     as={InternLenke}
                                     level={"1"}
@@ -123,28 +103,8 @@ export default function VirksomhetOgSamarbeidsHeader({
                                 >
                                     {virksomhet.navn}
                                 </Heading>
-
-                                {gjeldendeSamarbeid && (
-                                    <>
-                                        <ChevronRightIcon
-                                            fontSize="2rem"
-                                            aria-hidden
-                                        />
-                                        <Heading level={"1"} size={"large"}>
-                                            {gjeldendeSamarbeid.navn}
-                                        </Heading>
-                                        <VisHvisSamarbeidErLukket>
-                                            <SamarbeidStatusBadge
-                                                status={
-                                                    gjeldendeSamarbeid.status
-                                                }
-                                            />
-                                        </VisHvisSamarbeidErLukket>
-                                    </>
-                                )}
                             </HStack>
                         </VStack>
-
                         <Popover
                             open={openState}
                             placement="right-start"
@@ -158,16 +118,42 @@ export default function VirksomhetOgSamarbeidsHeader({
                             />
                         </Popover>
                     </HStack>
+                    <HistorikkStatistikkKnapper valgtSamarbeid={valgtSamarbeid} virksomhet={virksomhet} />
                 </VStack>
-                {iaSak && kanEndreSamarbeid && (
-                    <NyttSamarbeidModal
-                        iaSak={iaSak}
-                        virksomhet={virksomhet}
-                        åpen={nyttSamarbeidModalÅpen}
-                        setÅpen={setNyttSamarbeidModalÅpen}
-                    />
-                )}
             </div>
         </>
+    );
+}
+
+
+function HistorikkStatistikkKnapper({ valgtSamarbeid, virksomhet }: { valgtSamarbeid?: IaSakProsess, virksomhet: Virksomhet }) {
+    if (valgtSamarbeid) {
+        return (
+            <HStack gap="4" justify="end">
+                <Sakshistorikkmodal orgnr={virksomhet.orgnr} virksomhetsnavn={virksomhet.navn} />
+                <Sykefraværsstatistikkmodal virksomhet={virksomhet} />
+            </HStack>
+        );
+    }
+
+    return (
+        <Tabs.List>
+            <HStack gap="4" justify="end">
+                <Tabs.Tab
+                    as={Button}
+                    variant="secondary"
+                    size="small"
+                    value="statistikk"
+                    label="Sykefraværsstatistikk"
+                />
+                <Tabs.Tab
+                    as={Button}
+                    variant="secondary"
+                    size="small"
+                    value="historikk"
+                    label="Historikk"
+                />
+            </HStack>
+        </Tabs.List>
     );
 }

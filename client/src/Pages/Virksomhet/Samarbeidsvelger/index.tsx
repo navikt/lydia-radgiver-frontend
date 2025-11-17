@@ -58,7 +58,7 @@ function AktiveSamarbeidListe({ samarbeid, valgtSamarbeid, orgnr }: { samarbeid?
 	return (
 		<div className={styles.liste}>
 			{samarbeid?.map((s) => (
-				<InternLenke key={s.id} className={`${styles.radCommon} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} href={`/virksomhetNy/${orgnr}/samarbeid/${s.id}`}>
+				<InternLenke key={s.id} className={`${styles.radCommon} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} href={`/virksomhet/${orgnr}/samarbeid/${s.id}`}>
 					{s.navn}
 				</InternLenke>
 			))}
@@ -107,7 +107,7 @@ function AvsluttedeSamarbeidListe({ avsluttedeSamarbeid, valgtSamarbeid, orgnr }
 		<ReadMore size="small" className={styles.inaktiveSamarbeidReadMore} header={`Avsluttede samarbeid (${avsluttedeSamarbeid.length})`} open={åpen || defaultEkspandert} onClick={() => setÅpen(!åpen)}>
 			<ul className={styles.liste}>
 				{avsluttedeSamarbeid?.map((s) => (
-					<InternLenke key={s.id} className={`${styles.radCommon} ${styles.avsluttetSamarbeid} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} href={`/virksomhetNy/${orgnr}/samarbeid/${s.id}`}>
+					<InternLenke key={s.id} className={`${styles.radCommon} ${styles.avsluttetSamarbeid} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} href={`/virksomhet/${orgnr}/samarbeid/${s.id}`}>
 						{s.navn} <SamarbeidStatusBadge status={s.status} slim />
 					</InternLenke>
 				))}

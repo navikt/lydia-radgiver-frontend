@@ -4,7 +4,6 @@ import "@navikt/ds-css";
 import { useHentBrukerinformasjon } from "./api/lydia-api/bruker";
 import { Prioriteringsside } from "./Pages/Prioritering/Prioriteringsside";
 import { Virksomhetsside } from "./Pages/Virksomhet/Virksomhetsside";
-import { Virksomhetsside as NyVirksomhetsside } from "./Pages/VirksomhetNy";
 import { FeilmeldingBanner } from "./components/Banner/FeilmeldingBanner";
 import { Dekoratør, erIDev } from "./components/Dekoratør/Dekoratør";
 import { Footer } from "./components/Footer/Footer";
@@ -112,16 +111,12 @@ const AppContent = () => {
                         element={<Statusoversiktside />}
                     />
                     <Route
-                        path={"/virksomhet/:orgnummer"}
+                        path={"/virksomhet/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"}
                         element={<Virksomhetsside />}
                     />
                     <Route
-                        path={"/virksomhetNy/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"}
-                        element={<NyVirksomhetsside />}
-                    />
-                    <Route
-                        path={"/virksomhetNy/:orgnummer/samarbeid?/:prosessId?"}
-                        element={<NyVirksomhetsside />}
+                        path={"/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
+                        element={<Virksomhetsside />}
                     />
                     <Route
                         path={

@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, Modal } from "@navikt/ds-react";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
-import { Historiskstatistikk } from "../../Virksomhet/Statistikk/Graf/Historiskstatistikk";
-import { Sykefraværsstatistikk } from "../../Virksomhet/Statistikk/Sykefraværsstatistikk";
+import { Historiskstatistikk } from "./Graf/Historiskstatistikk";
+import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 
 export default function Sykefraværsstatistikkmodal({ virksomhet }: { virksomhet: Virksomhet }) {
 	const [open, setOpen] = React.useState(false);

@@ -78,7 +78,7 @@ export const SamarbeidsVisning = ({
                         <VirksomhetOgSamarbeidsHeader
                             virksomhet={virksomhet}
                             iaSak={iaSak}
-                            gjeldendeSamarbeid={gjeldendeSamarbeid}
+                            valgtSamarbeid={gjeldendeSamarbeid}
                         />
                         <br />
                         <Tabs
