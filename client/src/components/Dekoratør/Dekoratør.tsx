@@ -52,10 +52,10 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                     <InternLenke
                         className={styles.navigasjonslenke}
                         href="/minesaker"
-                        title="Gå til mine saker"
+                        title="Gå til mine virksomheter"
                     >
                         <InternalHeader.Title as="span">
-                            Mine saker
+                            Mine virksomheter
                         </InternalHeader.Title>
                     </InternLenke>
                 </nav>

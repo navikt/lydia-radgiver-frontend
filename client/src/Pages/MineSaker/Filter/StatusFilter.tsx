@@ -107,7 +107,7 @@ export const ArkivStatusFilter = ({
                 onChange={(val) => handleStatusFilterEndring(val, true)}
                 value={arkivStatusFiltre}
             >
-                <Checkbox value={"Arkiv"}>{`Se arkiverte saker`}</Checkbox>
+                <Checkbox value={"Arkiv"}>{`Se arkiverte virksomheter`}</Checkbox>
             </CheckboxGroup>
         </div>
     );
