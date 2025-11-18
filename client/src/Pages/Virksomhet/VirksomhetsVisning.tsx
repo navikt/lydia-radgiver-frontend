@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { Bleed, Box, Button, HStack, Loader, Tabs, VStack } from "@navikt/ds-react";
+import { Button, HStack, Loader, Tabs, VStack } from "@navikt/ds-react";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentSakForVirksomhet, useHentSalesforceSamarbeidLenke } from "../../api/lydia-api/virksomhet";
 import VirksomhetContext from "./VirksomhetContext";
@@ -66,11 +66,6 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     defaultValue="statistikk"
                     className={styles.virksomhetsTabs}
                 >
-                    <Bleed color="red-400">
-                        <Box background="surface-danger-subtle" padding="space-12">
-                            NY VIRKSOMHETSVISNING
-                        </Box>
-                    </Bleed>
                     <VStack className={styles.virksomhetsvisning} gap="0">
                         <VirksomhetOgSamarbeidsHeader
                             valgtSamarbeid={valgtSamarbeid}
