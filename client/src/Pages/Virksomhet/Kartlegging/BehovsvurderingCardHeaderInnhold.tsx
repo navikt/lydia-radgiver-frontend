@@ -7,7 +7,11 @@ import { FullførSpørreundersøkelseModal } from "./FullførSpørreundersøkels
 import ResultatEksportVisning from "./ResultatEksportVisning";
 import { FlyttTilAnnenProsess } from "./FlyttTilAnnenProsess";
 import { SpørreundersøkelseStatusBadge } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
-import { ClockIcon, ExclamationmarkTriangleIcon, TrashIcon } from "@navikt/aksel-icons";
+import {
+    ClockIcon,
+    ExclamationmarkTriangleIcon,
+    TrashIcon,
+} from "@navikt/aksel-icons";
 import {
     CardHeaderProps,
     useSpørreundersøkelse,
@@ -24,13 +28,12 @@ import { SpørreundersøkelseMedInnholdVisning } from "./SpørreundersøkelseFor
 import { PubliserSpørreundersøkelse } from "./PubliserSpørreundersøkelse";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 
-import styles from './behovsvurderingCardHeaderInnhold.module.scss';
+import styles from "./behovsvurderingCardHeaderInnhold.module.scss";
 import ActionButtonsHvisSamarbeidIkkeFullført from "./ActionButtonHvisSamarbeidIkkeFullført";
 import ForFåSvarRad from "./ForFåSvarRad";
 import { erIFortid, lokalDatoMedKlokkeslett } from "../../../util/dato";
 import { SpørreundersøkelseType } from "../../../domenetyper/spørreundersøkelseMedInnhold";
 import { usePollingAvKartleggingVedAvsluttetStatus } from "../../../util/usePollingAvKartleggingVedAvsluttetStatus";
-
 
 export const BehovsvurderingCardHeaderInnhold = ({
     spørreundersøkelse,
@@ -40,7 +43,8 @@ export const BehovsvurderingCardHeaderInnhold = ({
         bekreftFullførBehovsvurderingModalÅpen,
         setBekreftFullførBehovsvurderingModalÅpen,
     ] = useState(false);
-    const [sletterSpørreundersøkelse, setSletterSpørreundersøkelse] = useState(false);
+    const [sletterSpørreundersøkelse, setSletterSpørreundersøkelse] =
+        useState(false);
     const [forhåndsvisModalÅpen, setForhåndsvisModalÅpen] = useState(false);
     const [
         slettSpørreundersøkelseModalÅpen,
@@ -61,7 +65,11 @@ export const BehovsvurderingCardHeaderInnhold = ({
     const { iaSak, brukerRolle, samarbeid, kanEndreSpørreundersøkelser } =
         useSpørreundersøkelse();
 
-    const { mutate: hentBehovsvurderingPåNytt, loading: lasterSpørreundersøkelser, validating: validererSpørreundersøkelser } = useHentSpørreundersøkelser(
+    const {
+        mutate: hentBehovsvurderingPåNytt,
+        loading: lasterSpørreundersøkelser,
+        validating: validererSpørreundersøkelser,
+    } = useHentSpørreundersøkelser(
         iaSak.orgnr,
         iaSak.saksnummer,
         samarbeid.id,
@@ -75,10 +83,11 @@ export const BehovsvurderingCardHeaderInnhold = ({
             hentBehovsvurderingPåNytt,
         );
 
-    const { mutate: oppdaterSaksStatus, loading: lasterIaSakStatus, validating: validererIaSakStatus } = useHentIASaksStatus(
-        iaSak.orgnr,
-        iaSak.saksnummer,
-    );
+    const {
+        mutate: oppdaterSaksStatus,
+        loading: lasterIaSakStatus,
+        validating: validererIaSakStatus,
+    } = useHentIASaksStatus(iaSak.orgnr, iaSak.saksnummer);
 
     const flyttTilValgtSamarbeid = (samarbeidId: number) => {
         flyttSpørreundersøkelse(
@@ -136,9 +145,17 @@ export const BehovsvurderingCardHeaderInnhold = ({
                     <ForFåSvarRad
                         spørreundersøkelse={spørreundersøkelse}
                         dato={dato}
-                        setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
+                        setSlettSpørreundersøkelseModalÅpen={
+                            setSlettSpørreundersøkelseModalÅpen
+                        }
                         erLesebruker={brukerRolle === "Lesetilgang"}
-                        loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
+                        loading={
+                            sletterSpørreundersøkelse ||
+                            lasterSpørreundersøkelser ||
+                            validererSpørreundersøkelser ||
+                            lasterIaSakStatus ||
+                            validererIaSakStatus
+                        }
                     />
                     <SlettSpørreundersøkelseModal
                         spørreundersøkelse={spørreundersøkelse}
@@ -160,15 +177,15 @@ export const BehovsvurderingCardHeaderInnhold = ({
                             <>
                                 {spørreundersøkelse.publiseringStatus ===
                                     "IKKE_PUBLISERT" && (
-                                        <FlyttTilAnnenProsess
-                                            gjeldendeSamarbeid={samarbeid}
-                                            iaSak={iaSak}
-                                            flyttTilValgtSamarbeid={
-                                                flyttTilValgtSamarbeid
-                                            }
-                                            dropdownSize="small"
-                                        />
-                                    )}
+                                    <FlyttTilAnnenProsess
+                                        gjeldendeSamarbeid={samarbeid}
+                                        iaSak={iaSak}
+                                        flyttTilValgtSamarbeid={
+                                            flyttTilValgtSamarbeid
+                                        }
+                                        dropdownSize="small"
+                                    />
+                                )}
                                 <PubliserSpørreundersøkelse
                                     type="BEHOVSVURDERING"
                                     spørreundersøkelse={spørreundersøkelse}
@@ -200,15 +217,28 @@ export const BehovsvurderingCardHeaderInnhold = ({
         );
     }
 
-    if (erIFortid(spørreundersøkelse.gyldigTilTidspunkt)) {
+    if (
+        spørreundersøkelseStatus !== "PÅBEGYNT" &&
+        erIFortid(spørreundersøkelse.gyldigTilTidspunkt)
+    ) {
         return (
             <ErIFortidRad
                 spørreundersøkelse={spørreundersøkelse}
                 kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
-                setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
-                slettSpørreundersøkelseModalÅpen={slettSpørreundersøkelseModalÅpen}
+                setSlettSpørreundersøkelseModalÅpen={
+                    setSlettSpørreundersøkelseModalÅpen
+                }
+                slettSpørreundersøkelseModalÅpen={
+                    slettSpørreundersøkelseModalÅpen
+                }
                 slettSpørreundersøkelsen={slettSpørreundersøkelsen}
-                laster={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
+                laster={
+                    sletterSpørreundersøkelse ||
+                    lasterSpørreundersøkelser ||
+                    validererSpørreundersøkelser ||
+                    lasterIaSakStatus ||
+                    validererIaSakStatus
+                }
                 dato={dato}
             />
         );
@@ -220,7 +250,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
-                        brukerRolle !== "Lesetilgang" ? (
+                    brukerRolle !== "Lesetilgang" ? (
                         <>
                             <Button
                                 onClick={() =>
@@ -228,15 +258,15 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                         true,
                                     )
                                 }
-                                disabled={erIFortid(spørreundersøkelse.gyldigTilTidspunkt)}
+                                disabled={erIFortid(
+                                    spørreundersøkelse.gyldigTilTidspunkt,
+                                )}
                             >
                                 Start
                             </Button>
                             <Button
                                 variant="secondary"
-                                onClick={() =>
-                                    setForhåndsvisModalÅpen(true)
-                                }
+                                onClick={() => setForhåndsvisModalÅpen(true)}
                             >
                                 Forhåndsvis
                             </Button>
@@ -250,12 +280,26 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                     }
                                     icon={<TrashIcon aria-hidden />}
                                     aria-label="Slett behovsvurdering"
-                                    loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
+                                    loading={
+                                        sletterSpørreundersøkelse ||
+                                        lasterSpørreundersøkelser ||
+                                        validererSpørreundersøkelser ||
+                                        lasterIaSakStatus ||
+                                        validererIaSakStatus
+                                    }
                                 />
                             )}
-                            <GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt} />
+                            <GyldigTilTidspunkt
+                                input={spørreundersøkelse.gyldigTilTidspunkt}
+                            />
                         </>
-                    ) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Behovsvurdering</ExpansionCard.Title>}
+                    ) : (
+                        <ExpansionCard.Title
+                            className={styles.tittelUtenTopMargin}
+                        >
+                            Behovsvurdering
+                        </ExpansionCard.Title>
+                    )}
                     <StartSpørreundersøkelseModal
                         spørreundersøkelse={spørreundersøkelse}
                         erModalÅpen={bekreftStartBehovsvurderingModalÅpen}
@@ -299,7 +343,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
-                        brukerRolle !== "Lesetilgang" ? (
+                    brukerRolle !== "Lesetilgang" ? (
                         <>
                             <Button
                                 variant="primary"
@@ -309,7 +353,9 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                         "PÅBEGYNT",
                                     )
                                 }
-                                disabled={erIFortid(spørreundersøkelse.gyldigTilTidspunkt)}
+                                disabled={erIFortid(
+                                    spørreundersøkelse.gyldigTilTidspunkt,
+                                )}
                             >
                                 Fortsett
                             </Button>
@@ -352,8 +398,17 @@ export const BehovsvurderingCardHeaderInnhold = ({
                                 }
                             />
                         </>
-                    ) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Behovsvurdering</ExpansionCard.Title>}
-                    <GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt} />
+                    ) : (
+                        <ExpansionCard.Title
+                            className={styles.tittelUtenTopMargin}
+                        >
+                            Behovsvurdering
+                        </ExpansionCard.Title>
+                    )}
+                    <GyldigTilTidspunkt
+                        input={spørreundersøkelse.gyldigTilTidspunkt}
+                    />
+
                     {brukerRolle && (
                         <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}
@@ -378,17 +433,33 @@ export const BehovsvurderingCardHeaderInnhold = ({
     }
 };
 
-
 export function GyldigTilTidspunkt(props: { input: Date }) {
-    return <span className={styles.gyldigTilDato}><ClockIcon title="a11y-title" fontSize="1.5rem" /> Åpen frem til {lokalDatoMedKlokkeslett(props.input)}</span>;
+    const tekst = erIFortid(props.input)
+        ? `Stengte ${lokalDatoMedKlokkeslett(props.input)}, men du kan fortsatt fullføre`
+        : `Åpen frem til ${lokalDatoMedKlokkeslett(props.input)}`;
+    return (
+        <span className={styles.gyldigTilDato}>
+            <ClockIcon title="a11y-title" fontSize="1.5rem" />
+            {tekst}
+        </span>
+    );
 }
 
-export function IkkeGjennomførtFørFrist({ type }: { type: SpørreundersøkelseType }) {
+export function IkkeGjennomførtFørFrist({
+    type,
+}: {
+    type: SpørreundersøkelseType;
+}) {
     const penskrevetType = `${type.charAt(0).toUpperCase()}${type.slice(1).toLowerCase()}`;
     return (
         <span className={styles.headerLeftContent}>
-            <ExpansionCard.Title className={styles.tittelUtenTopMargin}>{penskrevetType}</ExpansionCard.Title>
-            <span className={styles.gyldigTilDato}><ExclamationmarkTriangleIcon aria-hidden fontSize="1.5rem" /> {penskrevetType}en ble ikke gjennomført innen 24 timer</span>
+            <ExpansionCard.Title className={styles.tittelUtenTopMargin}>
+                {penskrevetType}
+            </ExpansionCard.Title>
+            <span className={styles.gyldigTilDato}>
+                <ExclamationmarkTriangleIcon aria-hidden fontSize="1.5rem" />{" "}
+                {penskrevetType}en ble ikke gjennomført innen 24 timer
+            </span>
         </span>
     );
 }
@@ -404,7 +475,9 @@ export function ErIFortidRad({
 }: {
     spørreundersøkelse: Spørreundersøkelse;
     kanEndreSpørreundersøkelser: boolean;
-    setSlettSpørreundersøkelseModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
+    setSlettSpørreundersøkelseModalÅpen: React.Dispatch<
+        React.SetStateAction<boolean>
+    >;
     slettSpørreundersøkelseModalÅpen: boolean;
     slettSpørreundersøkelsen: () => void;
     laster: boolean;
@@ -421,7 +494,9 @@ export function ErIFortidRad({
                             variant="secondary"
                             size="small"
                             icon={<TrashIcon aria-hidden />}
-                            onClick={() => setSlettSpørreundersøkelseModalÅpen(true)}
+                            onClick={() =>
+                                setSlettSpørreundersøkelseModalÅpen(true)
+                            }
                             loading={laster}
                         >
                             Slett
@@ -445,4 +520,4 @@ export function ErIFortidRad({
             </span>
         </div>
     );
-};
+}
