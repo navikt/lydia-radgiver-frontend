@@ -108,19 +108,21 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }
             <div className={styles.innhold}>
                 <div className={styles.blåTing}>
                     <HStack gap="4" align="center">
-                        {valgtSamarbeid?.navn ?? <span />}
-                        <SamarbeidStatusBadge
+                        <span className={styles.tittel}>{valgtSamarbeid?.navn}</span>
+                        {valgtSamarbeid.status !== "AKTIV" && <SamarbeidStatusBadge
                             status={
                                 valgtSamarbeid.status
                             }
-                        />
+                        />}
                     </HStack>
-                    <div>
-                        <Button variant="secondary" onClick={() => setEndreSamarbeidModalÅpen(true)}>Administrer</Button>
+                    <HStack gap="4" align="center">
+                        <Button variant="secondary" size="small" onClick={() => setEndreSamarbeidModalÅpen(true)}>Administrer</Button>
                         <Salesforcelenke samarbeidId={valgtSamarbeid.id} />
-                    </div>
+                    </HStack>
                 </div>
-                <Samarbeidsinnhold valgtSamarbeid={valgtSamarbeid} iaSak={iaSak} />
+                <div style={{ padding: '1.5rem' }}>
+                    <Samarbeidsinnhold valgtSamarbeid={valgtSamarbeid} iaSak={iaSak} />
+                </div>
             </div>
             {valgtSamarbeid && iaSak && (
                 <EndreSamarbeidModal

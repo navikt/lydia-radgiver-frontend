@@ -22,15 +22,19 @@
             flex-direction: column;
             align-items: stretch;
             justify-content: flex-start;
-            gap: 2rem;
             background-color: var(--a-gray-100);
     
             .blåTing {
                 background-color: var(--a-blue-100);
-                padding: 1rem;
+                padding: 1rem 1.5rem;
                 display: flex;
                 align-items: center;
                 justify-content: space-between;
+
+                .tittel {
+                    color: var(--a-blue-800);
+                    font-weight: var(--a-font-weight-bold);
+                }
             }
         }
     }
