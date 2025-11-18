@@ -8,7 +8,7 @@ import {
     Tabs,
     VStack,
 } from "@navikt/ds-react";
-import { InformationSquareIcon } from "@navikt/aksel-icons";
+import { ClockIcon, InformationSquareIcon, TrendUpIcon } from "@navikt/aksel-icons";
 
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
 import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
@@ -69,8 +69,8 @@ export default function VirksomhetOgSamarbeidsHeader({
                             </EksternLenke>
                         )}
                     </HStack>
-                    <HStack align={"center"}>
-                        <VStack>
+                    <HStack align={"center"} width={"100%"}>
+                        <HStack gap={"4"} align={"center"} justify={"space-between"} width={"100%"}>
                             <HStack gap={"2"} align={"center"}>
                                 <Button
                                     className={styles.invisibleButton}
@@ -104,7 +104,8 @@ export default function VirksomhetOgSamarbeidsHeader({
                                     {virksomhet.navn}
                                 </Heading>
                             </HStack>
-                        </VStack>
+                            <HistorikkStatistikkKnapper valgtSamarbeid={valgtSamarbeid} virksomhet={virksomhet} />
+                        </HStack>
                         <Popover
                             open={openState}
                             placement="right-start"
@@ -118,7 +119,6 @@ export default function VirksomhetOgSamarbeidsHeader({
                             />
                         </Popover>
                     </HStack>
-                    <HistorikkStatistikkKnapper valgtSamarbeid={valgtSamarbeid} virksomhet={virksomhet} />
                 </VStack>
             </div>
         </>
@@ -130,30 +130,32 @@ function HistorikkStatistikkKnapper({ valgtSamarbeid, virksomhet }: { valgtSamar
     if (valgtSamarbeid) {
         return (
             <HStack gap="4" justify="end">
-                <Sakshistorikkmodal orgnr={virksomhet.orgnr} virksomhetsnavn={virksomhet.navn} />
                 <Sykefraværsstatistikkmodal virksomhet={virksomhet} />
+                <Sakshistorikkmodal orgnr={virksomhet.orgnr} virksomhetsnavn={virksomhet.navn} />
             </HStack>
         );
     }
 
     return (
-        <Tabs.List>
+        <>
             <HStack gap="4" justify="end">
                 <Tabs.Tab
                     as={Button}
-                    variant="secondary"
+                    variant="tertiary"
                     size="small"
                     value="statistikk"
                     label="Sykefraværsstatistikk"
+                    icon={<TrendUpIcon aria-hidden fontSize="1.25rem" />}
                 />
                 <Tabs.Tab
                     as={Button}
-                    variant="secondary"
+                    variant="tertiary"
                     size="small"
                     value="historikk"
                     label="Historikk"
+                    icon={<ClockIcon aria-hidden fontSize="1.25rem" />}
                 />
             </HStack>
-        </Tabs.List>
+        </>
     );
 }

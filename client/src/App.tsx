@@ -12,7 +12,6 @@ import { BodyShort, Link, Loader } from "@navikt/ds-react";
 import { redirectUrl } from "./components/Banner/SesjonBanner";
 import { setTilgangsnivå } from "./util/analytics-klient";
 import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
-import { Samarbeidsside } from "./Pages/Virksomhet/Samarbeid/Samarbeidsside";
 import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
 import { Head } from "@unhead/react";
 import styles from './app.module.scss';
@@ -117,12 +116,6 @@ const AppContent = () => {
                     <Route
                         path={"/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
                         element={<Virksomhetsside />}
-                    />
-                    <Route
-                        path={
-                            "/virksomhet/:orgnummer/sak/:saksnummer/samarbeid/:prosessId"
-                        }
-                        element={<Samarbeidsside />}
                     />
                     <Route path={"/minesaker"} element={<MineSakerside />} />
                 </Routes>

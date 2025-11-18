@@ -2,12 +2,13 @@ import React from 'react';
 import { Button, Modal } from "@navikt/ds-react";
 import { useHentSakshistorikk } from '../../../../api/lydia-api/virksomhet';
 import { SykefraværshistorikkInnhold } from '.';
+import { ClockIcon } from '@navikt/aksel-icons';
 
 export default function Sakshistorikkmodal({ orgnr, virksomhetsnavn }: { orgnr: string; virksomhetsnavn?: string; }) {
 	const [open, setOpen] = React.useState(false);
 	return (
 		<>
-			<Button variant="secondary" size="small" onClick={() => setOpen(true)}>
+			<Button variant="tertiary" size="small" onClick={() => setOpen(true)} icon={<ClockIcon aria-hidden fontSize="1.25rem" />}>
 				Historikk
 			</Button>
 			<Modal width="64rem" header={{ heading: `Historikk${virksomhetsnavn ? ` for ${virksomhetsnavn}` : ''}` }} open={open} onClose={() => setOpen(false)} closeOnBackdropClick>
