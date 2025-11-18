@@ -72,7 +72,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                             virksomhet={virksomhet}
                             iaSak={iaSak}
                         />
-                        <HStack gap="4" align="stretch" justify="center" flexGrow={"1"}>
+                        <HStack align="stretch" justify="center" flexGrow={"1"}>
                             <Samarbeidsvelger iaSak={iaSak} className={styles.samarbeidsvelgerSidebar} samarbeidsliste={alleSamarbeid} valgtSamarbeid={valgtSamarbeid} lasterSamarbeid={lasterSamarbeid || validererSamarbeid} virksomhet={virksomhet} />
                             <VirksomhetsvisningsSwitch valgtSamarbeid={valgtSamarbeid} virksomhet={virksomhet} iaSak={iaSak} laster={lasterIaSak || lasterSamarbeid} />
                         </HStack>
@@ -115,7 +115,7 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }
                             }
                         />}
                     </HStack>
-                    <HStack gap="4" align="center">
+                    <HStack gap="8" align="center">
                         <Button variant="secondary" size="small" onClick={() => setEndreSamarbeidModalÅpen(true)}>Administrer</Button>
                         <Salesforcelenke samarbeidId={valgtSamarbeid.id} />
                     </HStack>

@@ -12,6 +12,8 @@
 	align-items: stretch;
 	justify-content: flex-start;
 	background-color: var(--a-surface-default);
+	margin-left: 1rem;
+	margin-right: 1rem;
 
 	.radCommon {
 		@include radStyling;
@@ -35,6 +37,11 @@
 			background-color: var(--a-blue-100);
 			text-decoration: underline;
 			color: var(--a-blue-800);
+		}
+
+		&.overskriftRad {
+			display: flex;
+			height: 4rem
 		}
 	}
 	

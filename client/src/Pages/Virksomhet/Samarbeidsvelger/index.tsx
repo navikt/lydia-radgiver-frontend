@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, ReadMore, Skeleton } from "@navikt/ds-react";
+import { Button, HStack, ReadMore, Skeleton } from "@navikt/ds-react";
 import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import styles from "./samarbeidsvelger.module.scss";
@@ -10,6 +10,7 @@ import { NyttSamarbeidModal } from "../../Virksomhet/Samarbeid/NyttSamarbeidModa
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
 import { useHentTeam } from "../../../api/lydia-api/team";
+import { PlusIcon } from "@navikt/aksel-icons";
 
 export default function Samarbeidsvelger({ iaSak, className, samarbeidsliste, valgtSamarbeid, lasterSamarbeid, virksomhet }: { iaSak?: IASak, className?: string, samarbeidsliste?: IaSakProsess[], valgtSamarbeid?: IaSakProsess | null, lasterSamarbeid?: boolean, virksomhet: Virksomhet }) {
 	const aktiveSamarbeid = samarbeidsliste?.filter(
@@ -35,17 +36,22 @@ export default function Samarbeidsvelger({ iaSak, className, samarbeidsliste, va
 
 	return (
 		<nav className={`${className} ${styles.samarbeidsvelger}`}>
-			<Samarbeidvelgeroverskrift samarbeid={aktiveSamarbeid} />
+			<Samarbeidvelgeroverskrift samarbeid={aktiveSamarbeid} iaSak={iaSak} virksomhet={virksomhet} />
 			<AktiveSamarbeidListe samarbeid={aktiveSamarbeid} valgtSamarbeid={valgtSamarbeid} orgnr={iaSak?.orgnr} />
-			<LeggTilSamarbeidKnapp iaSak={iaSak} virksomhet={virksomhet} />
 			<AvsluttedeSamarbeidListe avsluttedeSamarbeid={avsluttedeSamarbeid} valgtSamarbeid={valgtSamarbeid} orgnr={iaSak?.orgnr} />
 		</nav>
 	);
 }
 
-function Samarbeidvelgeroverskrift({ samarbeid }: { samarbeid?: IaSakProsess[] }) {
+function Samarbeidvelgeroverskrift({ samarbeid, iaSak, virksomhet }: { samarbeid?: IaSakProsess[], iaSak?: IASak, virksomhet?: Virksomhet }) {
 	return (
-		<h3 className={`${styles.radCommon} ${styles.overskrift}`}>Samarbeid{samarbeid && ` (${samarbeid.length})`}</h3>
+		<HStack className={`${styles.radCommon} ${styles.overskriftRad}`} align="center" justify="space-between">
+			<h3 className={`${styles.overskrift}`}>Samarbeid{samarbeid && ` (${samarbeid.length})`}</h3>
+			{
+				iaSak && virksomhet && <LeggTilSamarbeidKnapp iaSak={iaSak} virksomhet={virksomhet} />
+			}
+
+		</HStack>
 	);
 }
 
@@ -82,15 +88,15 @@ function LeggTilSamarbeidKnapp({ iaSak, virksomhet }: { iaSak?: IASak, virksomhe
 	}
 
 	return (
-		<div className={styles.radCommon}>
-			<Button onClick={() => setNyttSamarbeidModalÅpen(true)} title="Legg til nytt samarbeid">+</Button>
+		<>
+			<Button size="xsmall" onClick={() => setNyttSamarbeidModalÅpen(true)} title="Legg til nytt samarbeid" icon={<PlusIcon fontSize="1.5rem" aria-hidden />} />
 			<NyttSamarbeidModal
 				iaSak={iaSak}
 				virksomhet={virksomhet}
 				åpen={nyttSamarbeidModalÅpen}
 				setÅpen={setNyttSamarbeidModalÅpen}
 			/>
-		</div>
+		</>
 	);
 }
 
