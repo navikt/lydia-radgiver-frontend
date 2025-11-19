@@ -9,24 +9,32 @@ import { Dekoratør, erIDev } from "./components/Dekoratør/Dekoratør";
 import { Footer } from "./components/Footer/Footer";
 import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
 import { BodyShort, Link, Loader } from "@navikt/ds-react";
-import { redirectUrl } from "./components/Banner/SesjonBanner";
 import { setTilgangsnivå } from "./util/analytics-klient";
 import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
 import { Samarbeidsside } from "./Pages/Virksomhet/Samarbeid/Samarbeidsside";
 import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
 import { Head } from "@unhead/react";
-import styles from './app.module.scss';
-
+import styles from "./app.module.scss";
 
 const App = () => (
     <BrowserRouter>
         <Head>
-            <script defer src="https://cdn.nav.no/team-researchops/sporing/sporing.js" data-host-url="https://umami.nav.no" data-website-id={erIDev ? "df38cdde-af54-4677-8cba-0b56cb68dcf3" : "4f5c1a9c-d06e-40d0-abb0-b375ce339f0e"}></script>
+            <script
+                defer
+                src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
+                data-host-url="https://umami.nav.no"
+                data-website-id={
+                    erIDev
+                        ? "df38cdde-af54-4677-8cba-0b56cb68dcf3"
+                        : "4f5c1a9c-d06e-40d0-abb0-b375ce339f0e"
+                }
+            ></script>
         </Head>
         <AppContent />
     </BrowserRouter>
 );
 
+const redirectUrl = `${document.location.origin}/oauth2/login?redirect=${document.location.href}`;
 const PrøvÅLoggInnPåNytt = () => (
     <BodyShort>
         Du kan prøve å logge inn på nytt ved å trykke på{" "}
@@ -60,14 +68,16 @@ const AppContent = () => {
                 document.getElementsByTagName("head")[0].appendChild(link_prod);
             }
 
-            if (erIDev) { // Rød i dev og demo    
+            if (erIDev) {
+                // Rød i dev og demo
                 const link_dev = document.querySelector(
                     "link[rel~='icon_red']",
                 ) as HTMLLinkElement | null;
                 if (link_dev !== null) {
                     link_prod.href = link_dev.href;
                 }
-            } else if (erIPride) { // Regnbue i juni i prod
+            } else if (erIPride) {
+                // Regnbue i juni i prod
                 const link_rainbow = document.querySelector(
                     "link[rel~='icon_rainbow']",
                 ) as HTMLLinkElement | null;
@@ -105,7 +115,10 @@ const AppContent = () => {
             <main className={styles.appramme} id="maincontent">
                 <Routes>
                     <Route path={"/"} element={<SmartStartsideRedirect />} />
-                    <Route path={"/prioritering"} element={<Prioriteringsside />} />
+                    <Route
+                        path={"/prioritering"}
+                        element={<Prioriteringsside />}
+                    />
                     <Route
                         path={"/statusoversikt"}
                         element={<Statusoversiktside />}
