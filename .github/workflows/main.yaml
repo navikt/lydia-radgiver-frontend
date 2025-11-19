@@ -72,7 +72,7 @@ jobs:
       id-token: write
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/ny-virksomhetsside'
+    if: github.ref == 'refs/heads/ikke-deploy-noe-sted'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
