@@ -92,6 +92,22 @@ export const useHentSpørreundersøkelser = (
         },
     );
 };
+
+export const useSpørreundersøkelsesliste = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidsId: number | string,
+) => {
+    return useSwrTemplate<Spørreundersøkelse[]>(
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
+        spørreundersøkelseSchema.array(),
+        {
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true,
+        },
+    );
+};
+
 export const useHentSpørreundersøkelseMedInnhold = (
     orgnummer: string,
     saksnummer: string,

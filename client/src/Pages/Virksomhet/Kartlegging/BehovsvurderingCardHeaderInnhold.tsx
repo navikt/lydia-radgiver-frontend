@@ -30,7 +30,7 @@ import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse"
 
 import styles from "./behovsvurderingCardHeaderInnhold.module.scss";
 import ActionButtonsHvisSamarbeidIkkeFullført from "./ActionButtonHvisSamarbeidIkkeFullført";
-import ForFåSvarRad from "./ForFåSvarRad";
+import ForFåSvarRad from "../../../components/Spørreundersøkelse/Spørreundersøkelseliste/ForFåSvarRad";
 import { erIFortid, lokalDatoMedKlokkeslett } from "../../../util/dato";
 import { SpørreundersøkelseType } from "../../../domenetyper/spørreundersøkelseMedInnhold";
 import { usePollingAvKartleggingVedAvsluttetStatus } from "../../../util/usePollingAvKartleggingVedAvsluttetStatus";
@@ -177,15 +177,15 @@ export const BehovsvurderingCardHeaderInnhold = ({
                             <>
                                 {spørreundersøkelse.publiseringStatus ===
                                     "IKKE_PUBLISERT" && (
-                                    <FlyttTilAnnenProsess
-                                        gjeldendeSamarbeid={samarbeid}
-                                        iaSak={iaSak}
-                                        flyttTilValgtSamarbeid={
-                                            flyttTilValgtSamarbeid
-                                        }
-                                        dropdownSize="small"
-                                    />
-                                )}
+                                        <FlyttTilAnnenProsess
+                                            gjeldendeSamarbeid={samarbeid}
+                                            iaSak={iaSak}
+                                            flyttTilValgtSamarbeid={
+                                                flyttTilValgtSamarbeid
+                                            }
+                                            dropdownSize="small"
+                                        />
+                                    )}
                                 <PubliserSpørreundersøkelse
                                     type="BEHOVSVURDERING"
                                     spørreundersøkelse={spørreundersøkelse}
@@ -250,7 +250,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
-                    brukerRolle !== "Lesetilgang" ? (
+                        brukerRolle !== "Lesetilgang" ? (
                         <>
                             <Button
                                 onClick={() =>
@@ -343,7 +343,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                 <ActionButtonsHvisSamarbeidIkkeFullført>
                     {(iaSak.status === "KARTLEGGES" ||
                         iaSak.status === "VI_BISTÅR") &&
-                    brukerRolle !== "Lesetilgang" ? (
+                        brukerRolle !== "Lesetilgang" ? (
                         <>
                             <Button
                                 variant="primary"

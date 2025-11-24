@@ -20,6 +20,7 @@ import { BehovsvurderingFane } from "./Kartlegging/BehovsvurderingFane";
 import SamarbeidsplanFane from "./Plan/SamarbeidsplanFane";
 import EvalueringFane from "./Samarbeid/Evaluering/EvalueringFane";
 import { SamarbeidStatusBadge } from "../../components/Badge/SamarbeidStatusBadge";
+import { Kartleggingsliste } from "./Kartlegging/Kartleggingsliste";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -72,7 +73,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                             virksomhet={virksomhet}
                             iaSak={iaSak}
                         />
-                        <HStack align="stretch" justify="center" flexGrow={"1"}>
+                        <HStack align="stretch" justify="start" flexGrow="1" wrap={false}>
                             <Samarbeidsvelger iaSak={iaSak} className={styles.samarbeidsvelgerSidebar} samarbeidsliste={alleSamarbeid} valgtSamarbeid={valgtSamarbeid} lasterSamarbeid={lasterSamarbeid || validererSamarbeid} virksomhet={virksomhet} />
                             <VirksomhetsvisningsSwitch valgtSamarbeid={valgtSamarbeid} virksomhet={virksomhet} iaSak={iaSak} laster={lasterIaSak || lasterSamarbeid} />
                         </HStack>
@@ -199,10 +200,14 @@ function Samarbeidsinnhold({ valgtSamarbeid, iaSak }: { valgtSamarbeid: IaSakPro
                         label="Evaluering"
                     />
                 )}
+                {iaSak && (
+                    <Tabs.Tab
+                        value="kartlegging"
+                        label="Kartlegginger"
+                    />
+                )}
             </Tabs.List>
-            <Tabs.Panel
-                value="behovsvurdering"
-            >
+            <Tabs.Panel value="behovsvurdering">
                 {iaSak && (
                     <BehovsvurderingFane
                         iaSak={iaSak}
@@ -218,15 +223,19 @@ function Samarbeidsinnhold({ valgtSamarbeid, iaSak }: { valgtSamarbeid: IaSakPro
                     />
                 )}
             </Tabs.Panel>
-            <Tabs.Panel
-                value="evaluering"
-            >
+            <Tabs.Panel value="evaluering">
                 {iaSak && (
                     <EvalueringFane
                         iaSak={iaSak}
                         gjeldendeSamarbeid={valgtSamarbeid}
                     />
                 )}
+            </Tabs.Panel>
+            <Tabs.Panel value="kartlegging">
+                <Kartleggingsliste
+                    iaSak={iaSak}
+                    gjeldendeSamarbeid={valgtSamarbeid}
+                />
             </Tabs.Panel>
         </Tabs>
     );

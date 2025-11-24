@@ -224,6 +224,6 @@ describe("Spørreundersøkelseliste", () => {
 
         expect(
             screen.getAllByRole("heading", { name: "Behovsvurdering" }),
-        ).toHaveLength(5);
+        ).toHaveLength(6);
     });
 });

@@ -1,10 +1,10 @@
 import React from "react";
-import OpprettBehovsvurderingAlert from "../../Pages/Virksomhet/Kartlegging/OpprettetBehovsvurderingAlert";
-import { useVirksomhetContext } from "../../Pages/Virksomhet/VirksomhetContext";
-import { sorterPåDato, formaterDatoForSpørreundersøkelse } from "./dato";
-import { useSpørreundersøkelse } from "./SpørreundersøkelseContext";
+import OpprettBehovsvurderingAlert from "../../../Pages/Virksomhet/Kartlegging/OpprettetBehovsvurderingAlert";
+import { useVirksomhetContext } from "../../../Pages/Virksomhet/VirksomhetContext";
+import { sorterPåDato, formaterDatoForSpørreundersøkelse } from "../dato";
+import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
 import SpørreundersøkelseRad from "./SpørreundersøkelseRad";
-import { VisHvisSamarbeidErLukket } from "../../Pages/Virksomhet/Samarbeid/SamarbeidContext";
+import { VisHvisSamarbeidErLukket } from "../../../Pages/Virksomhet/Samarbeid/SamarbeidContext";
 import { BodyLong } from "@navikt/ds-react";
 
 export default function Spørreundersøkelseliste() {

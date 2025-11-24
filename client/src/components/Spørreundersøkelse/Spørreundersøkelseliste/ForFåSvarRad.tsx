@@ -1,15 +1,16 @@
 import { Button, ExpansionCard } from "@navikt/ds-react";
 import React from "react";
-import { SpørreundersøkelseStatusBadge } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
+import { SpørreundersøkelseStatusBadge } from "../../Badge/SpørreundersøkelseStatusBadge";
 import { InformationSquareIcon, TrashIcon } from "@navikt/aksel-icons";
 import {
 	CardHeaderProps,
-} from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+} from "../SpørreundersøkelseContext";
 
-import styles from './forFåSvarRad.module.scss';
-import ActionButtonsHvisSamarbeidIkkeFullført from "./ActionButtonHvisSamarbeidIkkeFullført";
+import styles from './spørreundersøkelsesliste.module.scss';
+import ActionButtonsHvisSamarbeidIkkeFullført from "../../../Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
 import { SpørreundersøkelseTypeEnum } from "../../../domenetyper/spørreundersøkelseMedInnhold";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
+import { FormatertSpørreundersøkelseType } from "./utils";
 
 export default function ForFåSvarRad({
 	spørreundersøkelse,
@@ -21,7 +22,9 @@ export default function ForFåSvarRad({
 	return (
 		<div className={styles.styledEmptyCardHeader}>
 			<span className={styles.headerLeftContent}>
-				<ExpansionCard.Title>{spørreundersøkelse.type === SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING ? "Behovsvurdering" : "Evaluering"}</ExpansionCard.Title>
+				<ExpansionCard.Title>
+					<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
+				</ExpansionCard.Title>
 				<ForFåSvarWarning spørreundersøkelse={spørreundersøkelse} />
 			</span>
 			<span className={styles.headerRightContent}>
@@ -37,12 +40,10 @@ export default function ForFåSvarRad({
 						Slett
 					</Button>}
 				</ActionButtonsHvisSamarbeidIkkeFullført>
-				<div className={styles.behovsvurderingStatusWrapper}>
-					<SpørreundersøkelseStatusBadge
-						status={spørreundersøkelse.status}
-					/>
-				</div>
-				<span className={styles.behovsvurderingDato}>{dato}</span>
+				<SpørreundersøkelseStatusBadge
+					status={spørreundersøkelse.status}
+				/>
+				<span className={styles.datovisning}>{dato}</span>
 			</span>
 		</div>
 	);
@@ -50,7 +51,7 @@ export default function ForFåSvarRad({
 
 function ForFåSvarWarning({ spørreundersøkelse }: { spørreundersøkelse: Spørreundersøkelse }) {
 	return (
-		<span className={styles.forFåSvarWarning}>
+		<span className={styles.infolinje}>
 			<InformationSquareIcon aria-hidden fontSize="1.5rem" />
 			{
 				spørreundersøkelse.type === SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING

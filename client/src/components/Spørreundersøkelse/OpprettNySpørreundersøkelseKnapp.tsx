@@ -1,8 +1,10 @@
 import { Button, ButtonProps } from "@navikt/ds-react";
 import { PlusIcon } from "@navikt/aksel-icons";
 import React from "react";
+import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
+import { FormatertSpørreundersøkelseType } from "./Spørreundersøkelseliste/utils";
 
-export default function OpprettNySpørreundersøkelseKnapp({ style = {}, ...remainingProps }: Omit<ButtonProps, "variant" | "icon">) {
+export default function OpprettNySpørreundersøkelseKnapp({ style = {}, type, ...remainingProps }: { type?: SpørreundersøkelseType } & Omit<ButtonProps, "variant" | "icon" | "type">) {
     return (
         <Button
             {...remainingProps}
@@ -12,7 +14,7 @@ export default function OpprettNySpørreundersøkelseKnapp({ style = {}, ...rema
                 <PlusIcon fontSize="1.5rem" aria-hidden />
             }
         >
-            Opprett ny
+            Opprett {type ? <FormatertSpørreundersøkelseType type={type} storForbokstav={false} /> : "ny"}
         </Button>
     );
 }

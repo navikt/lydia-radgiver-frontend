@@ -17,6 +17,10 @@ export interface SpørreundersøkelseProviderProps {
     sisteOpprettedeSpørreundersøkelseId: string;
     setSisteOpprettedeSpørreundersøkelseId: (id: string) => void;
     spørreundersøkelseType: SpørreundersøkelseType;
+
+    lasterSpørreundersøkelser?: boolean;
+    validererSpørreundersøkelser?: boolean;
+    hentSpørreundersøkelserPåNytt?: () => void;
 }
 export interface CardHeaderProps {
     spørreundersøkelse: Spørreundersøkelse;

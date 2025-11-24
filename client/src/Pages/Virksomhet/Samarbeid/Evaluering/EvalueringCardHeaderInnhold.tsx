@@ -21,7 +21,7 @@ import {
 import { SpørreundersøkelseMedInnholdVisning } from "../../Kartlegging/SpørreundersøkelseForhåndsvisningModal";
 import { VisHvisSamarbeidErÅpent } from "../SamarbeidContext";
 import styles from "./evaluering.module.scss";
-import ForFåSvarRad from "../../Kartlegging/ForFåSvarRad";
+import ForFåSvarRad from "../../../../components/Spørreundersøkelse/Spørreundersøkelseliste/ForFåSvarRad";
 import { ErIFortidRad, GyldigTilTidspunkt } from "../../Kartlegging/BehovsvurderingCardHeaderInnhold";
 import { erIFortid } from "../../../../util/dato";
 import { PubliserSpørreundersøkelse } from "../../Kartlegging/PubliserSpørreundersøkelse";
