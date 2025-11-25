@@ -1,11 +1,10 @@
 import { BodyShort, Dropdown, InternalHeader } from "@navikt/ds-react";
 import { Søkefelt } from "./Søkefelt";
 import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/brukerinformasjon";
-import { SesjonBanner } from "../Banner/SesjonBanner";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 import { LeaveIcon } from "@navikt/aksel-icons";
 import { InternLenke } from "../InternLenke";
-import styles from './dekoratør.module.scss';
+import styles from "./dekoratør.module.scss";
 
 export const erIDev = [
     "localhost",
@@ -28,9 +27,15 @@ const visDemoBanner = erIDev;
 export const Dekoratør = ({ brukerInformasjon }: Props) => {
     return (
         <>
-            <InternalHeader className={`w-full ${styles.internalHeader}`} data-theme="light">
+            <InternalHeader
+                className={`w-full ${styles.internalHeader}`}
+                data-theme="light"
+            >
                 <nav className={styles.navigasjon}>
-                    <a className={styles['tilHovedinnhold']} href="#maincontent">
+                    <a
+                        className={styles["tilHovedinnhold"]}
+                        href="#maincontent"
+                    >
                         Hopp til hovedinnhold
                     </a>
                     <InternLenke
@@ -59,7 +64,9 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                         </InternalHeader.Title>
                     </InternLenke>
                 </nav>
-                <BodyShort className={`${styles.demoversjonTekst} ${visDemoBanner ? '' : styles.hidden}`}>
+                <BodyShort
+                    className={`${styles.demoversjonTekst} ${visDemoBanner ? "" : styles.hidden}`}
+                >
                     Demoutgave
                 </BodyShort>
                 <div className={styles.søkOgBrukerinfo}>
@@ -91,7 +98,6 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                     </Dropdown>
                 </div>
             </InternalHeader>
-            <SesjonBanner tokenUtløper={brukerInformasjon.tokenUtloper} />
             <NyStatistikkPubliseresBanner />
         </>
     );

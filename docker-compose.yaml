@@ -113,7 +113,6 @@ services:
       # Kafka-topics
       IA_SAK_TOPIC: pia.ia-sak-v1
       IA_SAK_STATISTIKK_TOPIC: pia.ia-sak-statistikk-v1
-      IA_SAK_STATUS_TOPIC: pia.ia-sak-status-v1
       IA_SAK_LEVERANSE_TOPIC: pia.ia-sak-leveranse-v1
       IA_SAK_KARTLEGGING_TOPIC: pia.kartlegging-v1
       SPORREUNDERSOKELSE_SVAR_TOPIC: pia.sporreundersokelse-svar-v1
@@ -146,10 +145,6 @@ services:
       SALESFORCE_USERNAME: username
       SALESFORCE_PASSWORD: password
       SALESFORCE_SECURITY_TOKEN: securityToken
-      PIA_PDFGEN_URL: http://pia-pdfgen
-      JOURNALPOST_V1_URL: http://journal-post
-      JOURNALPOST_SCOPE: lokalt
-
     restart: unless-stopped
 
   valkey:
