@@ -19,7 +19,7 @@ export default function ForFåSvarRad({
 	erLesebruker = false,
 }: CardHeaderProps & { setSlettSpørreundersøkelseModalÅpen: React.Dispatch<React.SetStateAction<boolean>>, loading?: boolean }) {
 	return (
-		<VStack className={styles.styledEmptyCardHeader} justify="space-between" align="start">
+		<VStack className={styles.styledEmptyCardHeader} justify="center" align="start">
 			<HStack justify="space-between" align="center" style={{ width: "100%" }}>
 				<span className={styles.headerLeftContent}>
 					<ExpansionCard.Title>

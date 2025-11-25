@@ -11,7 +11,6 @@ import { StartSpørreundersøkelseModal } from '../../../Pages/Virksomhet/Kartle
 import { useHentIASaksStatus } from '../../../api/lydia-api/sak';
 import styles from './spørreundersøkelsesliste.module.scss';
 import { slettSpørreundersøkelse, startSpørreundersøkelse } from '../../../api/lydia-api/spørreundersøkelse';
-import { GyldigTilTidspunkt } from './Felles';
 import { FormatertSpørreundersøkelseType } from './utils';
 
 export default function OpprettetRad({
@@ -67,7 +66,7 @@ export default function OpprettetRad({
 	};
 
 	return (
-		<VStack className={styles.styledEmptyCardHeader} justify="space-between" align="start">
+		<VStack className={styles.styledEmptyCardHeader} justify="center" align="start">
 			<HStack justify="space-between" align="center" style={{ width: "100%" }}>
 				<div className={styles.headerLeftContent}>
 					<ExpansionCard.Title>
@@ -149,7 +148,6 @@ export default function OpprettetRad({
 					</div>
 				</span>
 			</HStack>
-			<GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt} />
 		</VStack>
 	);
 }

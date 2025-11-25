@@ -61,7 +61,7 @@ export default function PåbegyntRad({
 	};
 
 	return (
-		<VStack className={styles.styledEmptyCardHeader} justify="space-between" align="start">
+		<VStack className={styles.styledEmptyCardHeader} justify="center" align="start">
 			<HStack justify="space-between" align="center" style={{ width: "100%" }}>
 				<div className={styles.headerLeftContent}>
 					<ExpansionCard.Title>

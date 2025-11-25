@@ -26,7 +26,6 @@
 .styledEmptyCardHeader {
     width: 100%;
     min-height: 82px;
-    display: flex;
     gap: var(--a-spacing-4);
     padding: var(--__ac-expansioncard-padding-block)
         var(--__ac-expansioncard-padding-inline);
@@ -39,7 +38,6 @@
     position: relative;
     border: var(--__ac-expansioncard-border-width) solid
         var(--__ac-expansioncard-border-color);
-    justify-content: space-between;
     flex-wrap: wrap;
 
     .tittelUtenTopMargin {

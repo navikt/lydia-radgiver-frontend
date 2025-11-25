@@ -28,7 +28,7 @@ export default function IkkeGjennomførtFørFristRad({
 	dato?: string;
 }) {
 	return (
-		<VStack className={styles.styledEmptyCardHeader} justify="space-between" align="start">
+		<VStack className={styles.styledEmptyCardHeader} justify="center" align="start">
 			<HStack justify="space-between" align="center" style={{ width: "100%" }}>
 				<span className={styles.headerLeftContent}>
 					<ExpansionCard.Title className={styles.tittelUtenTopMargin}>
