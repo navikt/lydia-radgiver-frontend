@@ -24,7 +24,6 @@
 }
 
 .styledEmptyCardHeader {
-    align-items: center;
     width: 100%;
     min-height: 82px;
     display: flex;
@@ -46,39 +45,37 @@
     .tittelUtenTopMargin {
         margin-top: 0;
     }
+}
 
-    .headerLeftContent {
-        display: flex;
-        align-items: center;
-        flex-wrap: wrap;
-        gap: 0.5rem;
-        align-self: center;
-        font-size: 1rem;
+.headerLeftContent {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    align-self: center;
+    font-size: 1rem;
 
-        h3 {
-            margin-top: 0;
-            margin-right: 2rem;
-        }
-
-        .infolinje {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            text-align: left;
-            margin-left: 1rem;
-            font-size: 1rem;
-        }
+    h3 {
+        margin-top: 0;
+        margin-right: 2rem;
     }
+}
 
-    .headerRightContent {
-        display: flex;
-        align-items: center;
-        font-size: 1rem;
-        align-self: center;
-        flex-wrap: wrap;
+.headerRightContent {
+    display: flex;
+    align-items: center;
+    font-size: 1rem;
+    align-self: center;
+    flex-wrap: wrap;
 
-        .datovisning {
-            margin-left: 1rem;
-        }
+    .datovisning {
+        margin-right: 1rem;
     }
+}
+.infolinje {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    text-align: left;
+    font-size: 1rem;
 }

@@ -9,12 +9,14 @@ export default function OpprettNySpørreundersøkelseKnapp({ style = {}, type, .
         <Button
             {...remainingProps}
             variant={"primary"}
-            style={{ marginTop: "1rem", minWidth: "10.5rem", ...style }}
+            style={{ marginTop: "1rem", minWidth: "10.5rem", marginRight: "1rem", ...style }}
             icon={
                 <PlusIcon fontSize="1.5rem" aria-hidden />
             }
         >
-            Opprett {type ? <FormatertSpørreundersøkelseType type={type} storForbokstav={false} /> : "ny"}
+            {
+                type ? <>Ny <FormatertSpørreundersøkelseType type={type} storForbokstav={false} /></> : "Opprett ny"
+            }
         </Button>
     );
 }

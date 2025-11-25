@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ExpansionCard } from '@navikt/ds-react';
+import { Button, ExpansionCard, HStack, VStack } from '@navikt/ds-react';
 import { Spørreundersøkelse } from '../../../domenetyper/spørreundersøkelse';
 import ActionButtonsHvisSamarbeidIkkeFullført from '../../../Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført';
 import { erIFortid } from '../../../util/dato';
@@ -61,98 +61,102 @@ export default function PåbegyntRad({
 	};
 
 	return (
-		<div className={styles.styledEmptyCardHeader}>
-			<div className={styles.headerLeftContent}>
-				<ExpansionCard.Title>
-					<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
-				</ExpansionCard.Title>
-				<ActionButtonsHvisSamarbeidIkkeFullført>
-					{(iaSak.status === "KARTLEGGES" ||
-						iaSak.status === "VI_BISTÅR") &&
-						brukerRolle !== "Lesetilgang" ? (
-						<>
-							<Button
-								variant="primary"
-								onClick={() =>
-									åpneSpørreundersøkelseINyFane(
-										spørreundersøkelse.id,
-										"PÅBEGYNT",
-									)
-								}
-								disabled={erIFortid(
-									spørreundersøkelse.gyldigTilTidspunkt,
+		<VStack className={styles.styledEmptyCardHeader} justify="space-between" align="start">
+			<HStack justify="space-between" align="center" style={{ width: "100%" }}>
+				<div className={styles.headerLeftContent}>
+					<ExpansionCard.Title>
+						<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
+					</ExpansionCard.Title>
+					<ActionButtonsHvisSamarbeidIkkeFullført>
+						{(iaSak.status === "KARTLEGGES" ||
+							iaSak.status === "VI_BISTÅR") &&
+							brukerRolle !== "Lesetilgang" ? (
+							<>
+								<Button
+									variant="primary"
+									size="small"
+									onClick={() =>
+										åpneSpørreundersøkelseINyFane(
+											spørreundersøkelse.id,
+											"PÅBEGYNT",
+										)
+									}
+									disabled={erIFortid(
+										spørreundersøkelse.gyldigTilTidspunkt,
+									)}
+								>
+									Fortsett
+								</Button>
+								{kanEndreSpørreundersøkelser && (
+									<>
+										<Button
+											variant="secondary"
+											size="small"
+											onClick={() =>
+												setBekreftFullførBehovsvurderingModalÅpen(
+													true,
+												)
+											}
+										>
+											Fullfør
+										</Button>
+										<Button
+											variant="secondary-neutral"
+											size="small"
+											onClick={() =>
+												setSlettSpørreundersøkelseModalÅpen(
+													true,
+												)
+											}
+											icon={<TrashIcon aria-hidden />}
+											aria-label="Slett behovsvurdering"
+										/>
+									</>
 								)}
+								<FullførSpørreundersøkelseModal
+									harNokDeltakere={harNokDeltakere}
+									erModalÅpen={
+										bekreftFullførBehovsvurderingModalÅpen
+									}
+									lukkModal={() =>
+										setBekreftFullførBehovsvurderingModalÅpen(
+											false,
+										)
+									}
+									fullførSpørreundersøkelse={
+										fullførSpørreundersøkelse
+									}
+								/>
+							</>
+						) : (
+							<ExpansionCard.Title
+								className={styles.tittelUtenTopMargin}
 							>
-								Fortsett
-							</Button>
-							{kanEndreSpørreundersøkelser && (
-								<>
-									<Button
-										variant="secondary"
-										onClick={() =>
-											setBekreftFullførBehovsvurderingModalÅpen(
-												true,
-											)
-										}
-									>
-										Fullfør
-									</Button>
-									<Button
-										variant="secondary-neutral"
-										onClick={() =>
-											setSlettSpørreundersøkelseModalÅpen(
-												true,
-											)
-										}
-										icon={<TrashIcon aria-hidden />}
-										aria-label="Slett behovsvurdering"
-									/>
-								</>
-							)}
-							<FullførSpørreundersøkelseModal
-								harNokDeltakere={harNokDeltakere}
-								erModalÅpen={
-									bekreftFullførBehovsvurderingModalÅpen
-								}
+								Behovsvurdering
+							</ExpansionCard.Title>
+						)}
+						{brukerRolle && (
+							<SlettSpørreundersøkelseModal
+								spørreundersøkelse={spørreundersøkelse}
+								erModalÅpen={slettSpørreundersøkelseModalÅpen}
 								lukkModal={() =>
-									setBekreftFullførBehovsvurderingModalÅpen(
-										false,
-									)
+									setSlettSpørreundersøkelseModalÅpen(false)
 								}
-								fullførSpørreundersøkelse={
-									fullførSpørreundersøkelse
-								}
+								slettSpørreundersøkelsen={slettSpørreundersøkelsen}
 							/>
-						</>
-					) : (
-						<ExpansionCard.Title
-							className={styles.tittelUtenTopMargin}
-						>
-							Behovsvurdering
-						</ExpansionCard.Title>
-					)}
-					<GyldigTilTidspunkt
-						input={spørreundersøkelse.gyldigTilTidspunkt}
+						)}
+					</ActionButtonsHvisSamarbeidIkkeFullført>
+				</div>
+				<span className={styles.headerRightContent}>
+					<span className={styles.datovisning}>{dato}</span>
+					<SpørreundersøkelseStatusBadge
+						status={spørreundersøkelse.status}
 					/>
-
-					{brukerRolle && (
-						<SlettSpørreundersøkelseModal
-							spørreundersøkelse={spørreundersøkelse}
-							erModalÅpen={slettSpørreundersøkelseModalÅpen}
-							lukkModal={() =>
-								setSlettSpørreundersøkelseModalÅpen(false)
-							}
-							slettSpørreundersøkelsen={slettSpørreundersøkelsen}
-						/>
-					)}
-				</ActionButtonsHvisSamarbeidIkkeFullført>
-			</div>
-			<span className={styles.headerRightContent}>
-				<SpørreundersøkelseStatusBadge
-					status={spørreundersøkelse.status}
-				/>
-				<span className={styles.datovisning}>{dato}</span>
-			</span>
-		</div>
+				</span>
+			</HStack>
+			<GyldigTilTidspunkt
+				input={spørreundersøkelse.gyldigTilTidspunkt}
+			/>
+		</VStack>
 	);
 }

@@ -1,4 +1,4 @@
-import { Button, ExpansionCard } from "@navikt/ds-react";
+import { Button, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
 import React from "react";
 import { SpørreundersøkelseStatusBadge } from "../../Badge/SpørreundersøkelseStatusBadge";
 import { InformationSquareIcon, TrashIcon } from "@navikt/aksel-icons";
@@ -8,7 +8,6 @@ import {
 
 import styles from './spørreundersøkelsesliste.module.scss';
 import ActionButtonsHvisSamarbeidIkkeFullført from "../../../Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
-import { SpørreundersøkelseTypeEnum } from "../../../domenetyper/spørreundersøkelseMedInnhold";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import { FormatertSpørreundersøkelseType } from "./utils";
 
@@ -20,32 +19,34 @@ export default function ForFåSvarRad({
 	erLesebruker = false,
 }: CardHeaderProps & { setSlettSpørreundersøkelseModalÅpen: React.Dispatch<React.SetStateAction<boolean>>, loading?: boolean }) {
 	return (
-		<div className={styles.styledEmptyCardHeader}>
-			<span className={styles.headerLeftContent}>
-				<ExpansionCard.Title>
-					<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
-				</ExpansionCard.Title>
-				<ForFåSvarWarning spørreundersøkelse={spørreundersøkelse} />
-			</span>
-			<span className={styles.headerRightContent}>
-				<ActionButtonsHvisSamarbeidIkkeFullført>
-					{erLesebruker ? null : <Button
-						variant="secondary"
-						size="small"
-						iconPosition="right"
-						onClick={() => setSlettSpørreundersøkelseModalÅpen(true)}
-						icon={<TrashIcon aria-hidden />}
-						loading={loading}
-					>
-						Slett
-					</Button>}
-				</ActionButtonsHvisSamarbeidIkkeFullført>
-				<SpørreundersøkelseStatusBadge
-					status={spørreundersøkelse.status}
-				/>
-				<span className={styles.datovisning}>{dato}</span>
-			</span>
-		</div>
+		<VStack className={styles.styledEmptyCardHeader} justify="space-between" align="start">
+			<HStack justify="space-between" align="center" style={{ width: "100%" }}>
+				<span className={styles.headerLeftContent}>
+					<ExpansionCard.Title>
+						<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
+					</ExpansionCard.Title>
+				</span>
+				<span className={styles.headerRightContent}>
+					<ActionButtonsHvisSamarbeidIkkeFullført>
+						{erLesebruker ? null : <Button
+							variant="secondary"
+							size="small"
+							iconPosition="right"
+							onClick={() => setSlettSpørreundersøkelseModalÅpen(true)}
+							icon={<TrashIcon aria-hidden />}
+							loading={loading}
+						>
+							Slett
+						</Button>}
+					</ActionButtonsHvisSamarbeidIkkeFullført>
+					<span className={styles.datovisning}>{dato}</span>
+					<SpørreundersøkelseStatusBadge
+						status={spørreundersøkelse.status}
+					/>
+				</span>
+			</HStack>
+			<ForFåSvarWarning spørreundersøkelse={spørreundersøkelse} />
+		</VStack>
 	);
 }
 
@@ -53,11 +54,7 @@ function ForFåSvarWarning({ spørreundersøkelse }: { spørreundersøkelse: Sp�
 	return (
 		<span className={styles.infolinje}>
 			<InformationSquareIcon aria-hidden fontSize="1.5rem" />
-			{
-				spørreundersøkelse.type === SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING
-					? "Behovsvurderingen"
-					: "Evalueringen"
-			} har for få besvarelser til å vise svarresultater
+			<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} /> har for få besvarelser til å vise svarresultater
 		</span>
 	)
 }

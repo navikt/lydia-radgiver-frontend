@@ -8,10 +8,10 @@ import { FormatertSpørreundersøkelseType } from "./utils";
 import { SpørreundersøkelseStatusBadge } from "../../Badge/SpørreundersøkelseStatusBadge";
 
 
-export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse, erÅpen }: { spørreundersøkelse: Spørreundersøkelse, erÅpen: boolean }) {
+export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse, erÅpen, dato }: { spørreundersøkelse: Spørreundersøkelse, erÅpen: boolean, dato: string }) {
 	return (
 		<>
-			<SpørreundersøkelseHeader spørreundersøkelse={spørreundersøkelse} />
+			<SpørreundersøkelseHeader spørreundersøkelse={spørreundersøkelse} dato={dato} />
 			{erÅpen && (
 				<SpørreundersøkelseRadInnhold spørreundersøkelse={spørreundersøkelse} />
 			)}
@@ -19,15 +19,16 @@ export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse,
 	)
 }
 
-function SpørreundersøkelseHeader({ spørreundersøkelse }: { spørreundersøkelse: Spørreundersøkelse }) {
+function SpørreundersøkelseHeader({ spørreundersøkelse, dato }: { spørreundersøkelse: Spørreundersøkelse, dato: string }) {
 	return (
 		<ExpansionCard.Header className={styles.styledExpansionCardHeader}>
 			<ExpansionCard.Title>
 				<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
 			</ExpansionCard.Title>
-			<div className={styles.kartleggingStatusWrapper}>
+			<span className={styles.headerRightContent}>
+				<span className={styles.datovisning}>{dato}</span>
 				<SpørreundersøkelseStatusBadge status={spørreundersøkelse.status} />
-			</div>
+			</span>
 		</ExpansionCard.Header>
 	)
 }

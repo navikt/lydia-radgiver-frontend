@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button, ExpansionCard } from '@navikt/ds-react';
+import { Button, ExpansionCard, HStack, VStack } from '@navikt/ds-react';
 import { Spørreundersøkelse } from '../../../domenetyper/spørreundersøkelse';
 import ActionButtonsHvisSamarbeidIkkeFullført from '../../../Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført';
 import { useSpørreundersøkelse } from '../SpørreundersøkelseContext';
@@ -67,85 +67,90 @@ export default function OpprettetRad({
 	};
 
 	return (
-		<div className={styles.styledEmptyCardHeader}>
-			<div className={styles.headerLeftContent}>
-				<ExpansionCard.Title>
-					<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
-				</ExpansionCard.Title>
-				<ActionButtonsHvisSamarbeidIkkeFullført>
-					{(iaSak.status === "KARTLEGGES" ||
-						iaSak.status === "VI_BISTÅR") &&
-						brukerRolle !== "Lesetilgang" ? (
-						<>
-							<Button
-								variant="primary"
-								onClick={() =>
-									setBekreftStartKartleggingModalÅpen(
-										true,
-									)
-								}
-							>
-								Start
-							</Button>
-							<Button
-								variant="secondary"
-								onClick={() =>
-									setForhåndsvisModalÅpen(true)
-								}
-							>
-								Forhåndsvis
-							</Button>
-							{kanEndreSpørreundersøkelser && (
+		<VStack className={styles.styledEmptyCardHeader} justify="space-between" align="start">
+			<HStack justify="space-between" align="center" style={{ width: "100%" }}>
+				<div className={styles.headerLeftContent}>
+					<ExpansionCard.Title>
+						<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
+					</ExpansionCard.Title>
+					<ActionButtonsHvisSamarbeidIkkeFullført>
+						{(iaSak.status === "KARTLEGGES" ||
+							iaSak.status === "VI_BISTÅR") &&
+							brukerRolle !== "Lesetilgang" ? (
+							<>
 								<Button
-									variant="secondary-neutral"
+									variant="primary"
+									size="small"
 									onClick={() =>
-										setSlettSpørreundersøkelseModalÅpen(
+										setBekreftStartKartleggingModalÅpen(
 											true,
 										)
 									}
-									icon={<TrashIcon aria-hidden />}
-									aria-label="Slett behovsvurdering"
-									loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
-								/>
-							)}
-							<GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt} />
-						</>
-					) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Evaluering</ExpansionCard.Title>}
-					<StartSpørreundersøkelseModal
-						spørreundersøkelse={spørreundersøkelse}
-						erModalÅpen={bekreftStartKartleggingModalÅpen}
-						lukkModal={() =>
-							setBekreftStartKartleggingModalÅpen(false)
-						}
-						startSpørreundersøkelsen={startSpørreundersøkelsen}
-					/>
-					<SpørreundersøkelseMedInnholdVisning
-						spørreundersøkelse={spørreundersøkelse}
-						erModalÅpen={forhåndsvisModalÅpen}
-						spørreundersøkelseid={spørreundersøkelse.id}
-						lukkModal={() => setForhåndsvisModalÅpen(false)}
-					/>
-					{brukerRolle && (
-						<SlettSpørreundersøkelseModal
+								>
+									Start
+								</Button>
+								<Button
+									variant="secondary"
+									size="small"
+									onClick={() =>
+										setForhåndsvisModalÅpen(true)
+									}
+								>
+									Forhåndsvis
+								</Button>
+								{kanEndreSpørreundersøkelser && (
+									<Button
+										variant="secondary-neutral"
+										size="small"
+										onClick={() =>
+											setSlettSpørreundersøkelseModalÅpen(
+												true,
+											)
+										}
+										icon={<TrashIcon aria-hidden />}
+										aria-label="Slett behovsvurdering"
+										loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
+									/>
+								)}
+							</>
+						) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Evaluering</ExpansionCard.Title>}
+						<StartSpørreundersøkelseModal
 							spørreundersøkelse={spørreundersøkelse}
-							erModalÅpen={slettSpørreundersøkelseModalÅpen}
+							erModalÅpen={bekreftStartKartleggingModalÅpen}
 							lukkModal={() =>
-								setSlettSpørreundersøkelseModalÅpen(false)
+								setBekreftStartKartleggingModalÅpen(false)
 							}
-							slettSpørreundersøkelsen={slettSpørreundersøkelsen}
+							startSpørreundersøkelsen={startSpørreundersøkelsen}
 						/>
-					)}
-				</ActionButtonsHvisSamarbeidIkkeFullført>
-			</div>
-			<span className={styles.headerRightContent}>
-				<div className={styles.kartleggingStatusWrapper}>
-					<SpørreundersøkelseStatusBadge
-						status={spørreundersøkelse.status}
-					/>
+						<SpørreundersøkelseMedInnholdVisning
+							spørreundersøkelse={spørreundersøkelse}
+							erModalÅpen={forhåndsvisModalÅpen}
+							spørreundersøkelseid={spørreundersøkelse.id}
+							lukkModal={() => setForhåndsvisModalÅpen(false)}
+						/>
+						{brukerRolle && (
+							<SlettSpørreundersøkelseModal
+								spørreundersøkelse={spørreundersøkelse}
+								erModalÅpen={slettSpørreundersøkelseModalÅpen}
+								lukkModal={() =>
+									setSlettSpørreundersøkelseModalÅpen(false)
+								}
+								slettSpørreundersøkelsen={slettSpørreundersøkelsen}
+							/>
+						)}
+					</ActionButtonsHvisSamarbeidIkkeFullført>
 				</div>
-				<span className={styles.datovisning}>{dato}</span>
-			</span>
-		</div >
+				<span className={styles.headerRightContent}>
+					<span className={styles.datovisning}>{dato}</span>
+					<div className={styles.kartleggingStatusWrapper}>
+						<SpørreundersøkelseStatusBadge
+							status={spørreundersøkelse.status}
+						/>
+					</div>
+				</span>
+			</HStack>
+			<GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt} />
+		</VStack>
 	);
 }
 
