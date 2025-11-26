@@ -2,161 +2,13 @@ import {
     SpørreundersøkelseProvider,
     SpørreundersøkelseProviderProps,
 } from "../../../../src/components/Spørreundersøkelse/SpørreundersøkelseContext";
-import { IASak } from "../../../../src/domenetyper/domenetyper";
-import { IaSakProsess } from "../../../../src/domenetyper/iaSakProsess";
 import { render, screen } from "@testing-library/react";
 import Spørreundersøkelseliste from "../../../../src/components/Spørreundersøkelse/Spørreundersøkelseliste";
 import React from "react";
 import VirksomhetContext from "../../../../src/Pages/Virksomhet/VirksomhetContext";
 import { SamarbeidProvider } from "../../../../src/Pages/Virksomhet/Samarbeid/SamarbeidContext";
+import { dummySpørreundersøkelseliste, dummyIaSak, dummySamarbeid, dummyVirksomhet } from "../../../../__mocks__/spørreundersøkelseDummyData";
 import { Virksomhet } from "../../../../src/domenetyper/virksomhet";
-import { Spørreundersøkelse } from "../../../../src/domenetyper/spørreundersøkelse";
-
-const dummyVirksomhet: Virksomhet = {
-    orgnr: "123459876",
-    navn: "SPENSTIG KATTEDYR",
-    adresse: ["adresse"],
-    postnummer: "1234",
-    poststed: "POSTSTED",
-    næring: {
-        navn: "Jordbruk, tilhør. tjenester, jakt",
-        kode: "01",
-    },
-    næringsundergruppe1: {
-        navn: "Dyrking av ris",
-        kode: "01.120",
-    },
-    næringsundergruppe2: {
-        navn: "Utøvende kunstnere og underholdningsvirksomhet innen scenekunst",
-        kode: "90.012",
-    },
-    næringsundergruppe3: {
-        navn: "Bedriftsrådgivning og annen administrativ rådgivning",
-        kode: "70.220",
-    },
-    bransje: null,
-    sektor: "Statlig forvaltning",
-    status: "AKTIV",
-    aktivtSaksnummer: "01K5BFZM3JMXRM1N5682YG1WGF",
-};
-const dummyIaSak: IASak = {
-    saksnummer: "01K5BFZM3JMXRM1N5682YG1WGF",
-    orgnr: "123459876",
-    opprettetTidspunkt: new Date("2025-09-17T09:27:09.682Z"),
-    opprettetAv: "S54321",
-    endretTidspunkt: new Date("2025-09-17T09:27:09.776Z"),
-    endretAv: "X12345",
-    endretAvHendelseId: "01K5BFZM6GSQYJ0904B75G0K3R",
-    eidAv: "X12345",
-    status: "VI_BISTÅR",
-    gyldigeNesteHendelser: [
-        {
-            saksHendelsestype: "TA_EIERSKAP_I_SAK",
-            gyldigeÅrsaker: [],
-        },
-    ],
-    lukket: false,
-};
-const dummySamarbeid: IaSakProsess = {
-    id: 3,
-    saksnummer: "01K5BFZM3JMXRM1N5682YG1WGF",
-    navn: "Avdeling Pusekatt",
-    status: "AKTIV",
-    sistEndret: new Date("2025-09-17T09:27:09.758Z"),
-    opprettet: new Date("2025-09-17T09:27:09.758Z"),
-};
-const dummySpørreundersøkelseliste: Spørreundersøkelse[] = [
-    {
-        id: "0be2f07b-6df3-46db-b187-79760599dd19",
-        samarbeidId: 3,
-        status: "AVSLUTTET",
-        publiseringStatus: "IKKE_PUBLISERT",
-        opprettetAv: "X12345",
-        type: "BEHOVSVURDERING",
-        opprettetTidspunkt: new Date("2025-09-17T09:27:12.408Z"),
-        endretTidspunkt: new Date("2025-09-17T09:27:12.875Z"),
-        påbegyntTidspunkt: new Date("2025-09-17T09:27:12.424Z"),
-        publisertTidspunkt: null,
-        fullførtTidspunkt: new Date("2025-09-17T09:27:12.875Z"),
-        gyldigTilTidspunkt: new Date("2025-09-18T09:27:12.408Z"),
-        harMinstEttResultat: true,
-    },
-    {
-        id: "cfe2aff5-929f-4a1e-b2e7-0fd44038fea1",
-        samarbeidId: 3,
-        status: "AVSLUTTET",
-        publiseringStatus: "OPPRETTET",
-        opprettetAv: "X12345",
-        type: "BEHOVSVURDERING",
-        opprettetTidspunkt: new Date("2025-09-17T09:27:10.782Z"),
-        endretTidspunkt: new Date("2025-09-17T09:27:12.389Z"),
-        påbegyntTidspunkt: new Date("2025-09-17T09:27:10.798Z"),
-        publisertTidspunkt: null,
-        fullførtTidspunkt: new Date("2025-09-17T09:27:12.389Z"),
-        gyldigTilTidspunkt: new Date("2025-09-18T09:27:10.782Z"),
-        harMinstEttResultat: true,
-    },
-    {
-        id: "2f75a5ea-7ad9-46b5-b4e9-37cd167e7958",
-        samarbeidId: 3,
-        status: "AVSLUTTET",
-        publiseringStatus: "IKKE_PUBLISERT",
-        opprettetAv: "X12345",
-        type: "BEHOVSVURDERING",
-        opprettetTidspunkt: new Date("2025-09-17T09:27:10.165Z"),
-        endretTidspunkt: new Date("2025-09-17T09:27:10.767Z"),
-        påbegyntTidspunkt: new Date("2025-09-17T09:27:10.184Z"),
-        publisertTidspunkt: null,
-        fullførtTidspunkt: new Date("2025-09-17T09:27:10.767Z"),
-        gyldigTilTidspunkt: new Date("2025-09-18T09:27:10.165Z"),
-        harMinstEttResultat: true,
-    },
-    {
-        id: "dd583280-6e81-4f3b-a110-f28d095e32e0",
-        samarbeidId: 3,
-        status: "AVSLUTTET",
-        publiseringStatus: "IKKE_PUBLISERT",
-        opprettetAv: "X12345",
-        type: "BEHOVSVURDERING",
-        opprettetTidspunkt: new Date("2025-09-17T09:27:09.912Z"),
-        endretTidspunkt: new Date("2025-09-17T09:27:10.143Z"),
-        påbegyntTidspunkt: new Date("2025-09-17T09:27:09.935Z"),
-        publisertTidspunkt: null,
-        fullførtTidspunkt: new Date("2025-09-17T09:27:10.143Z"),
-        gyldigTilTidspunkt: new Date("2025-09-18T09:27:09.912Z"),
-        harMinstEttResultat: false,
-    },
-    {
-        id: "33ad219d-d864-44e5-ad53-6d7c7e58d834",
-        samarbeidId: 3,
-        status: "PÅBEGYNT",
-        publiseringStatus: "IKKE_PUBLISERT",
-        opprettetAv: "X12345",
-        type: "BEHOVSVURDERING",
-        opprettetTidspunkt: new Date("2025-09-17T09:27:09.862Z"),
-        endretTidspunkt: new Date("2025-09-17T09:27:09.886Z"),
-        påbegyntTidspunkt: new Date("2025-09-17T09:27:09.886Z"),
-        publisertTidspunkt: null,
-        fullførtTidspunkt: null,
-        gyldigTilTidspunkt: new Date("2025-09-18T09:27:09.862Z"),
-        harMinstEttResultat: false,
-    },
-    {
-        id: "0ae3094f-ce08-40cd-9185-e55de51fbcd0",
-        samarbeidId: 3,
-        status: "AVSLUTTET",
-        publiseringStatus: "IKKE_PUBLISERT",
-        opprettetAv: "X12345",
-        type: "BEHOVSVURDERING",
-        opprettetTidspunkt: new Date("2025-09-17T09:27:09.815Z"),
-        endretTidspunkt: null,
-        påbegyntTidspunkt: null,
-        publisertTidspunkt: null,
-        fullførtTidspunkt: null,
-        gyldigTilTidspunkt: new Date("2025-09-18T09:27:09.815Z"),
-        harMinstEttResultat: false,
-    },
-];
 
 function DummySpørreundersøkelseProvider({
     children,
@@ -166,18 +18,20 @@ function DummySpørreundersøkelseProvider({
     brukerRolle = "Superbruker",
     kanEndreSpørreundersøkelser = true,
     sisteOpprettedeSpørreundersøkelseId,
+    fane = "kartlegging",
+    virksomhet = dummyVirksomhet,
     setSisteOpprettedeSpørreundersøkelseId,
     spørreundersøkelseType = "BEHOVSVURDERING",
-}: { children: React.ReactNode } & Partial<SpørreundersøkelseProviderProps>) {
+}: { children: React.ReactNode, fane?: string, virksomhet?: Virksomhet } & Partial<SpørreundersøkelseProviderProps>) {
     const [sisteOpprettedeId, setSisteOpprettedeId] = React.useState("");
     return (
         <SamarbeidProvider samarbeid={dummySamarbeid}>
             <VirksomhetContext.Provider
                 value={{
-                    virksomhet: dummyVirksomhet,
-                    iaSak: iaSak,
+                    virksomhet,
+                    iaSak,
                     lasterIaSak: false,
-                    fane: "behovsvurdering",
+                    fane,
                     spørreundersøkelseId: null,
                     setFane: (fane: string) => {
                         console.log("setter fane til", fane);
@@ -211,19 +65,74 @@ describe("Spørreundersøkelseliste", () => {
         jest.clearAllMocks();
     });
 
-    it("Vi er i riktig univers", () => {
-        expect(2 + 2).toBe(4);
-    });
-
-    it("Rendrer korrekt", () => {
+    it("Rendrer både behovsvurderinger og evalueringer", () => {
         render(
-            <DummySpørreundersøkelseProvider>
+            <DummySpørreundersøkelseProvider fane="kartlegging">
                 <Spørreundersøkelseliste />
             </DummySpørreundersøkelseProvider>,
         );
 
         expect(
             screen.getAllByRole("heading", { name: "Behovsvurdering" }),
-        ).toHaveLength(6);
+        ).toHaveLength(7);
+        expect(
+            screen.getAllByRole("heading", { name: "Evaluering" }),
+        ).toHaveLength(3);
     });
+
+    it.todo("Viser melding når det ikke finnes noen spørreundersøkelser");
+    it.todo("Sorterer spørreundersøkelser riktig etter opprettet dato");
+    it.todo("Hamburgermeny har riktig innhold");
+
+    it.todo("Gir ikke 'ny'-knapper for lesebruker");
+    it.todo("Gir alltid knapp for ny behobsvurdering");
+    it.todo("Gir ikke knapp for ny evaluering hvis det ikke finnes noen plan");
+    it.todo("Gir knapp for ny evaluering hvis det finnes en plan");
+
+    describe("status: OPPRETTET", () => {
+        const antallOpprettet = dummySpørreundersøkelseliste.filter(({ status }) => status === "OPPRETTET").length;
+
+        it("Viser riktig status", () => {
+            render(
+                <DummySpørreundersøkelseProvider>
+                    <Spørreundersøkelseliste />
+                </DummySpørreundersøkelseProvider>,
+            );
+
+            expect(antallOpprettet).toBeGreaterThan(0);
+            expect(screen.getAllByText("Opprettet")).toHaveLength(antallOpprettet);
+        });
+
+        it("Viser riktig knapper", () => {
+            render(
+                <DummySpørreundersøkelseProvider>
+                    <Spørreundersøkelseliste />
+                </DummySpørreundersøkelseProvider>,
+            );
+
+            expect(antallOpprettet).toBeGreaterThan(0);
+            expect(screen.getAllByRole("button", { name: "Start" })).toHaveLength(antallOpprettet);
+            expect(screen.getAllByRole("button", { name: "Forhåndsvis" })).toHaveLength(antallOpprettet);
+        });
+        it.todo("Gir ikke knapp for lesebruker");
+    });
+    /* describe("status: PÅBEGYNT", () => {
+        const antallPåbegynt = dummySpørreundersøkelseliste.filter(({ status }) => status === "PÅBEGYNT").length;
+        it.todo("Viser riktig status");
+        it.todo("Gir riktige knapper");
+        it.todo("Gir ikke knapp for utgått spørreundersøkelse");
+        it.todo("Gir ikke knapp for lesebruker");
+    });
+    describe("status: AVSLUTTET", () => {
+        const antallAvsluttet = dummySpørreundersøkelseliste.filter(({ status }) => status === "AVSLUTTET").length;
+        it.todo("Viser riktig status");
+        it.todo("Gir sletteknapp hvis undersøkelse har for få svar");
+        it.todo("Gir ikke sletteknapp for lesebruker");
+        it.todo("Gir ikke sletteknapp hvis undersøkelse har nok svar");
+        it.todo("Viser resultat");
+    });
+    describe("status: SLETTET", () => {
+        const antallSlettet = dummySpørreundersøkelseliste.filter(({ status }) => status === "SLETTET").length;
+        it.todo("Viser ikke rad");
+    }); */
 });
