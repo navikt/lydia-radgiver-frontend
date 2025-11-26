@@ -11,6 +11,7 @@ import IkkeGjennomførtFørFristRad from "./IkkeGjennomførtFørFristRad";
 import FullførtSpørreundersøkelseRad from "./FullførtSpørreundersøkelseRad";
 import PåbegyntRad from "./PåbegyntRad";
 import OpprettetRad from "./OpprettetRad";
+import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
 
 export default function SpørreundersøkelseRad({
     spørreundersøkelse,
@@ -25,6 +26,7 @@ export default function SpørreundersøkelseRad({
 }) {
     const [erÅpen, setErÅpen] = React.useState(defaultOpen);
     const [slettSpørreundersøkelseModalÅpen, setSlettSpørreundersøkelseModalÅpen] = React.useState(false);
+    const { brukerRolle } = useSpørreundersøkelse();
 
     switch (spørreundersøkelse.status) {
         case spørreundersøkelseStatusEnum.enum.OPPRETTET:
@@ -101,7 +103,11 @@ export default function SpørreundersøkelseRad({
                             "--avstand-fra-siste": avstandFraSiste,
                         } as React.CSSProperties}
                     >
-                        <ForFåSvarRad spørreundersøkelse={spørreundersøkelse} dato={dato} setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen} />
+                        <ForFåSvarRad
+                            spørreundersøkelse={spørreundersøkelse}
+                            dato={dato}
+                            setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
+                            erLesebruker={brukerRolle === "Lesetilgang"} />
                         <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}
                             erModalÅpen={slettSpørreundersøkelseModalÅpen}
