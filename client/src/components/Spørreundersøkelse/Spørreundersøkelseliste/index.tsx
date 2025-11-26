@@ -21,7 +21,6 @@ export default function Spørreundersøkelseliste() {
     }
 
     return (
-        spørreundersøkelseliste.length > 0 &&
         sorterPåDato(spørreundersøkelseliste).map(
             (behovsvurdering, index, originalArray) => (
                 <React.Fragment key={behovsvurdering.id}>

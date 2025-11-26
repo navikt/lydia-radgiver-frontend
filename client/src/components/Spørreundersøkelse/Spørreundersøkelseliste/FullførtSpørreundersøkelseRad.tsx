@@ -6,6 +6,9 @@ import styles from './spørreundersøkelsesliste.module.scss';
 import { SpørreundersøkelseResultat } from "../../../Pages/Virksomhet/Kartlegging/SpørreundersøkelseResultat";
 import { FormatertSpørreundersøkelseType } from "./utils";
 import { SpørreundersøkelseStatusBadge } from "../../Badge/SpørreundersøkelseStatusBadge";
+import { FlyttTilAnnenProsess } from "../../../Pages/Virksomhet/Kartlegging/FlyttTilAnnenProsess";
+import { flyttSpørreundersøkelse } from "../../../api/lydia-api/spørreundersøkelse";
+import ActionButtonsHvisSamarbeidIkkeFullført from "../../../Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
 
 
 export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse, erÅpen, dato }: { spørreundersøkelse: Spørreundersøkelse, erÅpen: boolean, dato: string }) {
@@ -20,12 +23,38 @@ export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse,
 }
 
 function SpørreundersøkelseHeader({ spørreundersøkelse, dato }: { spørreundersøkelse: Spørreundersøkelse, dato: string }) {
+	const { iaSak, samarbeid, hentSpørreundersøkelserPåNytt } = useSpørreundersøkelse();
+	const flyttTilValgtSamarbeid = (samarbeidId: number) => {
+		flyttSpørreundersøkelse(
+			iaSak.orgnr,
+			iaSak.saksnummer,
+			samarbeidId,
+			spørreundersøkelse.id,
+		).then(() => hentSpørreundersøkelserPåNytt?.());
+	};
+
 	return (
 		<ExpansionCard.Header className={styles.styledExpansionCardHeader}>
 			<ExpansionCard.Title>
 				<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
 			</ExpansionCard.Title>
 			<span className={styles.headerRightContent}>
+				{
+					spørreundersøkelse.publiseringStatus === "IKKE_PUBLISERT"
+					&& spørreundersøkelse.type === "BEHOVSVURDERING"
+					&& (
+						<ActionButtonsHvisSamarbeidIkkeFullført>
+							<FlyttTilAnnenProsess
+								gjeldendeSamarbeid={samarbeid}
+								iaSak={iaSak}
+								flyttTilValgtSamarbeid={
+									flyttTilValgtSamarbeid
+								}
+								dropdownSize="small"
+							/>
+						</ActionButtonsHvisSamarbeidIkkeFullført>
+					)
+				}
 				<span className={styles.datovisning}>{dato}</span>
 				<SpørreundersøkelseStatusBadge status={spørreundersøkelse.status} />
 			</span>

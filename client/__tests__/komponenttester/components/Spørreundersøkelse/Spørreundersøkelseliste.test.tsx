@@ -10,6 +10,7 @@ import { SamarbeidProvider } from "../../../../src/Pages/Virksomhet/Samarbeid/Sa
 import { dummySpørreundersøkelseliste, dummyIaSak, dummySamarbeid, dummyVirksomhet, dummySpørreundersøkelseResultat } from "../../../../__mocks__/spørreundersøkelseDummyData";
 import { Virksomhet } from "../../../../src/domenetyper/virksomhet";
 import '@testing-library/jest-dom';
+import { Spørreundersøkelse } from "../../../../src/domenetyper/spørreundersøkelse";
 
 
 jest.mock("../../../../src/api/lydia-api/spørreundersøkelse", () => {
@@ -22,6 +23,14 @@ jest.mock("../../../../src/api/lydia-api/spørreundersøkelse", () => {
             data: dummySpørreundersøkelseResultat,
             loading: false,
         })),
+        useHentSamarbeid: jest.fn(() => ({
+            data: [dummySamarbeid, {
+                ...dummySamarbeid,
+                id: 2,
+                navn: "Annet samarbeid",
+            }],
+        }
+        ))
     };
 });
 
@@ -172,8 +181,6 @@ describe("Spørreundersøkelseliste", () => {
     it.todo("Gir alltid knapp for ny behobsvurdering");
     it.todo("Gir ikke knapp for ny evaluering hvis det ikke finnes noen plan");
     it.todo("Gir knapp for ny evaluering hvis det finnes en plan");
-
-    it.todo("Behovsvurdering har knapp for å flytte");
 
     describe("status: OPPRETTET", () => {
         const antallOpprettet = dummySpørreundersøkelseliste.filter(({ status }) => status === "OPPRETTET").length;
@@ -364,6 +371,29 @@ describe("Spørreundersøkelseliste", () => {
                 screen.getByRole("heading", { name: "Partssamarbeid" }),
             ).toBeInTheDocument();
         });
+
+        it("Behovsvurdering har knapp for å flytte", () => {
+            const listeMedNoenDummySomKanFlyttes: Spørreundersøkelse[] = dummySpørreundersøkelseliste.map((undersøkelse, index) => ({
+                ...undersøkelse,
+                type: "BEHOVSVURDERING",
+                publiseringStatus: index % 2 === 0 ? "IKKE_PUBLISERT" : "PUBLISERT",
+                status: "AVSLUTTET",
+                harMinstEttResultat: true,
+            }));
+            const antallAvsluttetBehovsvurdering = listeMedNoenDummySomKanFlyttes.filter(
+                ({ status, type, publiseringStatus }) => status === "AVSLUTTET" && type === "BEHOVSVURDERING" && publiseringStatus === "IKKE_PUBLISERT",
+            ).length;
+
+            render(
+                <DummySpørreundersøkelseProvider spørreundersøkelseliste={listeMedNoenDummySomKanFlyttes}>
+                    <Spørreundersøkelseliste />
+                </DummySpørreundersøkelseProvider>,
+            );
+
+            expect(antallAvsluttet).toBeGreaterThan(0);
+            expect(screen.getAllByRole("button", { name: "Endre samarbeid" })).toHaveLength(antallAvsluttetBehovsvurdering);
+        });
+
     });
     describe("status: SLETTET", () => {
         const dummySpørreundersøkelselisteMedSlettet = [...dummySpørreundersøkelseliste];
