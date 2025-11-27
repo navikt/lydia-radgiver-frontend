@@ -5,22 +5,26 @@ import Samarbeidsfanemeny from "../Samarbeidsfanemeny";
 
 export const SpørreundersøkelseHeading = ({
     type,
+    children,
 }: {
     samarbeid: IaSakProsess;
     type?: SpørreundersøkelseType;
+    children?: React.ReactNode;
 }) => {
     return (
         <HStack align={"center"} justify={"space-between"}>
             <HStack align={"center"} gap={"8"}>
-                <Heading
-                    level="2"
-                    size="medium"
-                    style={{
-                        width: type === "BEHOVSVURDERING" ? "11rem" : "6rem",
-                    }}
-                >
-                    {spørreundersøkelseHeading(type)}
-                </Heading>
+                {children ?? (
+                    <Heading
+                        level="2"
+                        size="medium"
+                        style={{
+                            width: type === "BEHOVSVURDERING" ? "11rem" : "6rem",
+                        }}
+                    >
+                        spørreundersøkelseHeading(type)
+                    </Heading>
+                )}
             </HStack>
             <Samarbeidsfanemeny type={type} />
         </HStack>

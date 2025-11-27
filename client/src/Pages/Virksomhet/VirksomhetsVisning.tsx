@@ -16,9 +16,7 @@ import { SamarbeidProvider } from "./Samarbeid/SamarbeidContext";
 import { EndreSamarbeidModal } from "./Samarbeid/EndreSamarbeidModal";
 import { IASak } from "../../domenetyper/domenetyper";
 import { EksternLenke } from "../../components/EksternLenke";
-import { BehovsvurderingFane } from "./Kartlegging/BehovsvurderingFane";
 import SamarbeidsplanFane from "./Plan/SamarbeidsplanFane";
-import EvalueringFane from "./Samarbeid/Evaluering/EvalueringFane";
 import { SamarbeidStatusBadge } from "../../components/Badge/SamarbeidStatusBadge";
 import { Kartleggingsliste } from "./Kartlegging/Kartleggingsliste";
 
@@ -165,39 +163,26 @@ function Samarbeidsinnhold({ valgtSamarbeid, iaSak }: { valgtSamarbeid: IaSakPro
 
     React.useEffect(() => {
         if (
-            fane !== "behovsvurdering" &&
-            fane !== "plan" &&
-            fane !== "evaluering" &&
-            fane !== "ia-tjenester"
+            fane !== "kartlegging" &&
+            fane !== "plan"
         ) {
-            oppdaterTabISearchParam("behovsvurdering");
+            oppdaterTabISearchParam("kartlegging");
         }
     }, []);
-    const fane = searchParams.get("fane") ?? "behovsvurdering";
+
+    const fane = searchParams.get("fane") ?? "kartlegging";
 
     return (
         <Tabs
             value={fane}
             onChange={oppdaterTabISearchParam}
-            defaultValue="behovsvurdering"
+            defaultValue="kartlegging"
         >
             <Tabs.List style={{ width: "100%" }}>
                 {iaSak && (
                     <Tabs.Tab
-                        value="behovsvurdering"
-                        label="Behovsvurdering"
-                    />
-                )}
-                {iaSak && (
-                    <Tabs.Tab
                         value="plan"
                         label="Samarbeidsplan"
-                    />
-                )}
-                {iaSak && (
-                    <Tabs.Tab
-                        value="evaluering"
-                        label="Evaluering"
                     />
                 )}
                 {iaSak && (
@@ -207,27 +192,11 @@ function Samarbeidsinnhold({ valgtSamarbeid, iaSak }: { valgtSamarbeid: IaSakPro
                     />
                 )}
             </Tabs.List>
-            <Tabs.Panel value="behovsvurdering">
-                {iaSak && (
-                    <BehovsvurderingFane
-                        iaSak={iaSak}
-                        gjeldendeSamarbeid={valgtSamarbeid}
-                    />
-                )}
-            </Tabs.Panel>
             <Tabs.Panel value="plan">
                 {iaSak && (
                     <SamarbeidsplanFane
                         iaSak={iaSak}
                         samarbeid={valgtSamarbeid}
-                    />
-                )}
-            </Tabs.Panel>
-            <Tabs.Panel value="evaluering">
-                {iaSak && (
-                    <EvalueringFane
-                        iaSak={iaSak}
-                        gjeldendeSamarbeid={valgtSamarbeid}
                     />
                 )}
             </Tabs.Panel>

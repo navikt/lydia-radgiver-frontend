@@ -12,6 +12,7 @@ import { VisHvisSamarbeidErÅpent } from '../../Samarbeid/SamarbeidContext';
 import OpprettNySpørreundersøkelseKnapp from '../../../../components/Spørreundersøkelse/OpprettNySpørreundersøkelseKnapp';
 import { SpørreundersøkelseType, SpørreundersøkelseTypeEnum } from '../../../../domenetyper/spørreundersøkelseMedInnhold';
 import { useHentIASaksStatus } from '../../../../api/lydia-api/sak';
+import { HStack } from '@navikt/ds-react';
 
 export function Kartleggingsliste({ iaSak, gjeldendeSamarbeid }: { iaSak?: IASak; gjeldendeSamarbeid: IaSakProsess; }) {
 	if (!iaSak) {
@@ -74,31 +75,34 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 			validererSpørreundersøkelser={validating}
 			hentSpørreundersøkelserPåNytt={hentSpørreundersøkelserPåNytt}
 		>
-			<SpørreundersøkelseHeading samarbeid={gjeldendeSamarbeid} /> {/* TODO: Drop type her */}
+			<SpørreundersøkelseHeading samarbeid={gjeldendeSamarbeid}>
+				<VisHvisSamarbeidErÅpent>
+					<HStack gap="4">
+						<OpprettNySpørreundersøkelseKnapp
+							onClick={() => opprettSpørreundersøkelseOgMuter(SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING)}
+							disabled={
+								!(sakErIRettStatus && kanEndreSpørreundersøkelser)
+							}
+							loading={false}
+							type={SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING}
+						/>
+						<OpprettNySpørreundersøkelseKnapp
+							onClick={() => opprettSpørreundersøkelseOgMuter(SpørreundersøkelseTypeEnum.enum.EVALUERING)}
+							disabled={
+								!(sakErIRettStatus && kanEndreSpørreundersøkelser)
+							}
+							loading={false}
+							type={SpørreundersøkelseTypeEnum.enum.EVALUERING}
+						/>
+					</HStack>
+				</VisHvisSamarbeidErÅpent>
+			</SpørreundersøkelseHeading>
 			<SpørreundersøkelseHjelpetekst
 				type="BEHOVSVURDERING" {/* TODO: Drop type her */ ...{}}
 				kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
 				sakErIRettStatus={["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status)}
 				erLesebruker={brukerInformasjon?.rolle === "Lesetilgang"}
 			/>
-			<VisHvisSamarbeidErÅpent>
-				<OpprettNySpørreundersøkelseKnapp
-					onClick={() => opprettSpørreundersøkelseOgMuter(SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING)}
-					disabled={
-						!(sakErIRettStatus && kanEndreSpørreundersøkelser)
-					}
-					loading={false}
-					type={SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING}
-				/>
-				<OpprettNySpørreundersøkelseKnapp
-					onClick={() => opprettSpørreundersøkelseOgMuter(SpørreundersøkelseTypeEnum.enum.EVALUERING)}
-					disabled={
-						!(sakErIRettStatus && kanEndreSpørreundersøkelser)
-					}
-					loading={false}
-					type={SpørreundersøkelseTypeEnum.enum.EVALUERING}
-				/>
-			</VisHvisSamarbeidErÅpent>
 			<Spørreundersøkelseliste />
 		</SpørreundersøkelseProvider>
 	);

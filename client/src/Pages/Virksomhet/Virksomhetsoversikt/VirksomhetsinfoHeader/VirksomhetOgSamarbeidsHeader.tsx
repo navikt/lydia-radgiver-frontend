@@ -52,14 +52,12 @@ export default function VirksomhetOgSamarbeidsHeader({
             )}
             <div className={styles.virksomhetOgSamarbeidsHeader}>
                 <VStack gap={"10"}>
-                    <HStack justify="space-between" align="start">
-                        <HStack gap={"4"}>
-                            <SaksgangDropdown
-                                virksomhet={virksomhet}
-                                iaSak={iaSak}
-                            />
-                            <EierskapKnapp iaSak={iaSak} />
-                        </HStack>
+                    <HStack gap={"4"}>
+                        <SaksgangDropdown
+                            virksomhet={virksomhet}
+                            iaSak={iaSak}
+                        />
+                        <EierskapKnapp iaSak={iaSak} />
                         {salesforceInfo && (
                             <EksternLenke
                                 className={styles.salesforceLenke}
