@@ -9,6 +9,8 @@ import { SpørreundersøkelseStatusBadge } from "../../Badge/Spørreundersøkels
 import { FlyttTilAnnenProsess } from "../../../Pages/Virksomhet/Kartlegging/FlyttTilAnnenProsess";
 import { flyttSpørreundersøkelse } from "../../../api/lydia-api/spørreundersøkelse";
 import ActionButtonsHvisSamarbeidIkkeFullført from "../../../Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
+import { PubliserSpørreundersøkelse } from "../../../Pages/Virksomhet/Kartlegging/PubliserSpørreundersøkelse";
+import { usePollingAvKartleggingVedAvsluttetStatus } from "../../../util/usePollingAvKartleggingVedAvsluttetStatus";
 
 
 export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse, erÅpen, dato }: { spørreundersøkelse: Spørreundersøkelse, erÅpen: boolean, dato: string }) {
@@ -31,7 +33,14 @@ function SpørreundersøkelseHeader({ spørreundersøkelse, dato }: { spørreund
 			samarbeidId,
 			spørreundersøkelse.id,
 		).then(() => hentSpørreundersøkelserPåNytt?.());
+
 	};
+	const { henterKartleggingPånytt, forsøkPåÅHenteKartlegging } =
+		usePollingAvKartleggingVedAvsluttetStatus(
+			spørreundersøkelse.status,
+			spørreundersøkelse,
+			() => hentSpørreundersøkelserPåNytt?.(),
+		);
 
 	return (
 		<ExpansionCard.Header className={styles.styledExpansionCardHeader}>
@@ -39,11 +48,11 @@ function SpørreundersøkelseHeader({ spørreundersøkelse, dato }: { spørreund
 				<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
 			</ExpansionCard.Title>
 			<span className={styles.headerRightContent}>
-				{
-					spørreundersøkelse.publiseringStatus === "IKKE_PUBLISERT"
-					&& spørreundersøkelse.type === "BEHOVSVURDERING"
-					&& (
-						<ActionButtonsHvisSamarbeidIkkeFullført>
+				<ActionButtonsHvisSamarbeidIkkeFullført>
+					{
+						spørreundersøkelse.publiseringStatus === "IKKE_PUBLISERT"
+						&& spørreundersøkelse.type === "BEHOVSVURDERING"
+						&& (
 							<FlyttTilAnnenProsess
 								gjeldendeSamarbeid={samarbeid}
 								iaSak={iaSak}
@@ -52,9 +61,20 @@ function SpørreundersøkelseHeader({ spørreundersøkelse, dato }: { spørreund
 								}
 								dropdownSize="small"
 							/>
-						</ActionButtonsHvisSamarbeidIkkeFullført>
-					)
-				}
+						)
+					}
+					<PubliserSpørreundersøkelse
+						type="BEHOVSVURDERING"
+						spørreundersøkelse={spørreundersøkelse}
+						hentBehovsvurderingPåNytt={
+							() => hentSpørreundersøkelserPåNytt?.()
+						}
+						pollerPåStatus={
+							henterKartleggingPånytt ||
+							forsøkPåÅHenteKartlegging < 10
+						}
+					/>
+				</ActionButtonsHvisSamarbeidIkkeFullført>
 				<span className={styles.datovisning}>{dato}</span>
 				<SpørreundersøkelseStatusBadge status={spørreundersøkelse.status} />
 			</span>
