@@ -7,7 +7,7 @@ export const SpørreundersøkelseHeading = ({
     type,
 }: {
     samarbeid: IaSakProsess;
-    type: SpørreundersøkelseType;
+    type?: SpørreundersøkelseType;
 }) => {
     return (
         <HStack align={"center"} justify={"space-between"}>
@@ -27,7 +27,7 @@ export const SpørreundersøkelseHeading = ({
     );
 };
 
-export function spørreundersøkelseHeading(type: SpørreundersøkelseType) {
+export function spørreundersøkelseHeading(type?: SpørreundersøkelseType) {
     switch (type) {
         case "EVALUERING":
             return "Evaluering";

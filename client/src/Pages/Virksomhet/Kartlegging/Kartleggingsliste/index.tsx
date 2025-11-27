@@ -21,7 +21,7 @@ export function Kartleggingsliste({ iaSak, gjeldendeSamarbeid }: { iaSak?: IASak
 }
 
 function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbeid: IaSakProsess; }) {
-	const [lasterOppretting, setLasterOppretting] = React.useState(false);
+	const [sistOpprettetType, setSistOpprettetType] = React.useState<SpørreundersøkelseType | null>(null);
 	const [sisteOpprettedeId, setSisteOpprettedeId] = React.useState("");
 	const { data, loading, validating, mutate: hentSpørreundersøkelserPåNytt } = useSpørreundersøkelsesliste(iaSak.orgnr, iaSak.saksnummer, gjeldendeSamarbeid.id);
 	const {
@@ -40,8 +40,8 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 	const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
 
 	const opprettSpørreundersøkelseOgMuter = (type: SpørreundersøkelseType) => {
-		if (lasterOppretting) return;
-		setLasterOppretting(true);
+		if (sistOpprettetType !== null) return;
+		setSistOpprettetType(type);
 		opprettSpørreundersøkelse(
 			iaSak.orgnr,
 			iaSak.saksnummer,
@@ -51,7 +51,7 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 			setSisteOpprettedeId(id);
 			hentSpørreundersøkelserPåNytt();
 			oppdaterSaksStatus();
-			setLasterOppretting(false);
+			setSistOpprettetType(null);
 		});
 
 	}
@@ -62,7 +62,7 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 
 	return (
 		<SpørreundersøkelseProvider
-			spørreundersøkelseType="BEHOVSVURDERING" {/* TODO: Drop type her */ ...{}}
+			spørreundersøkelseType={sistOpprettetType ?? "EVALUERING"} {/* TODO: Drop type her */ ...{}}
 			spørreundersøkelseliste={data}
 			iaSak={iaSak}
 			samarbeid={gjeldendeSamarbeid}
@@ -74,7 +74,7 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 			validererSpørreundersøkelser={validating}
 			hentSpørreundersøkelserPåNytt={hentSpørreundersøkelserPåNytt}
 		>
-			<SpørreundersøkelseHeading type="BEHOVSVURDERING" samarbeid={gjeldendeSamarbeid} /> {/* TODO: Drop type her */}
+			<SpørreundersøkelseHeading samarbeid={gjeldendeSamarbeid} /> {/* TODO: Drop type her */}
 			<SpørreundersøkelseHjelpetekst
 				type="BEHOVSVURDERING" {/* TODO: Drop type her */ ...{}}
 				kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
