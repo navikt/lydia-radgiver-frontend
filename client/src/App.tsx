@@ -111,28 +111,54 @@ const AppContent = () => {
         <>
             <Dekoratør brukerInformasjon={brukerInformasjon} />
             <FeilmeldingBanner />
-            <main className={styles.appramme} id="maincontent">
-                <Routes>
-                    <Route path={"/"} element={<SmartStartsideRedirect />} />
-                    <Route
-                        path={"/prioritering"}
-                        element={<Prioriteringsside />}
-                    />
-                    <Route
-                        path={"/statusoversikt"}
-                        element={<Statusoversiktside />}
-                    />
-                    <Route
-                        path={"/virksomhet/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"}
-                        element={<Virksomhetsside />}
-                    />
-                    <Route
-                        path={"/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
-                        element={<Virksomhetsside />}
-                    />
-                    <Route path={"/minesaker"} element={<MineSakerside />} />
-                </Routes>
-            </main>
+            <Routes>
+                <Route path={"/"} element={
+                    <main className={styles.appramme} id="maincontent">
+                        <SmartStartsideRedirect />
+                    </main>
+                } />
+                <Route
+                    path={"/prioritering"}
+                    element={
+                        <main className={styles.appramme} id="maincontent">
+                            <Prioriteringsside
+                            />
+                        </main>
+                    }
+                />
+                <Route
+                    path={"/statusoversikt"}
+                    element={
+                        <main className={styles.appramme} id="maincontent">
+                            <Statusoversiktside
+                            />
+                        </main>
+                    }
+                />
+                <Route
+                    path={"/virksomhet/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"}
+                    element={
+                        <main className={styles.fullBreddeAppramme} id="maincontent">
+                            <Virksomhetsside
+                            />
+                        </main>
+                    }
+                />
+                <Route
+                    path={"/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
+                    element={
+                        <main className={styles.fullBreddeAppramme} id="maincontent">
+                            <Virksomhetsside
+                            />
+                        </main>
+                    }
+                />
+                <Route path={"/minesaker"} element={
+                    <main className={styles.appramme} id="maincontent">
+                        <MineSakerside />
+                    </main>
+                } />
+            </Routes>
             <Footer />
         </>
     );
