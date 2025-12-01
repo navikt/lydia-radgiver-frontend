@@ -7,7 +7,7 @@ import VirksomhetContext from "./VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "./Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
 import styles from './virksomhetsvisning.module.scss';
 import Samarbeidsvelger from "./Samarbeidsvelger";
-import { IaSakProsess } from "../../domenetyper/iaSakProsess";
+import { IaSakProsess, IASamarbeidStatusType } from "../../domenetyper/iaSakProsess";
 import { useHentSamarbeid } from "../../api/lydia-api/spørreundersøkelse";
 import { loggNavigertTilNyTab } from "../../util/analytics-klient";
 import { SykefraværsstatistikkFane } from "./Statistikk/SykefraværsstatistikkFane";
@@ -105,7 +105,7 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }
     return (
         <>
             <div className={styles.innhold}>
-                <div className={styles.blåTing}>
+                <div className={`${styles.statuslinje} ${getKlassenavnForSamarbeidsstatus(valgtSamarbeid.status)}`}>
                     <HStack gap="4" align="center">
                         <span className={styles.tittel}>{valgtSamarbeid?.navn}</span>
                         {valgtSamarbeid.status !== "AKTIV" && <SamarbeidStatusBadge
@@ -208,4 +208,19 @@ function Samarbeidsinnhold({ valgtSamarbeid, iaSak }: { valgtSamarbeid: IaSakPro
             </Tabs.Panel>
         </Tabs>
     );
+}
+
+function getKlassenavnForSamarbeidsstatus(status: IASamarbeidStatusType) {
+    switch (status) {
+        case "AKTIV":
+            return styles.aktiv;
+        case "FULLFØRT":
+            return styles.fullført;
+        case "AVBRUTT":
+            return styles.avbrutt;
+        case "SLETTET":
+            return styles.slettet;
+        default:
+            return "";
+    }
 }

@@ -7,15 +7,15 @@
 
     .virksomhetsvisning {
         flex-grow: 1;
-    
+
         background-color: var(--a-white);
-    
+
         .samarbeidsvelgerSidebar {
             width: 16rem;
             max-width: 16rem;
             flex-shrink: 0;
         }
-    
+
         .innhold {
             flex-grow: 1;
             display: flex;
@@ -23,9 +23,8 @@
             align-items: stretch;
             justify-content: flex-start;
             background-color: var(--a-gray-100);
-    
-            .blåTing {
-                background-color: var(--a-blue-100);
+
+            .statuslinje {
                 padding: 1rem 1.5rem;
                 display: flex;
                 align-items: center;
@@ -33,8 +32,35 @@
                 height: 4rem;
 
                 .tittel {
-                    color: var(--a-blue-800);
                     font-weight: var(--a-font-weight-bold);
+                }
+
+                &.aktiv {
+                    background-color: var(--a-blue-100);
+                    .tittel {
+                        color: var(--a-blue-800);
+                    }
+                }
+
+                &.fullført {
+                    background-color: var(--a-green-100);
+                    .tittel {
+                        color: var(--a-green-800);
+                    }
+                }
+
+                &.avbrutt {
+                    background-color: var(--a-orange-100);
+                    .tittel {
+                        color: var(--a-orange-800);
+                    }
+                }
+
+                &.slettet {
+                    background-color: var(--a-red-100);
+                    .tittel {
+                        color: var(--a-red-800);
+                    }
                 }
             }
         }
