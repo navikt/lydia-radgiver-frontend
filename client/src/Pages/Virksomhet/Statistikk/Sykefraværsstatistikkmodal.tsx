@@ -1,16 +1,16 @@
 import React from "react";
-import { Button, Modal } from "@navikt/ds-react";
+import { Button, ButtonProps, Modal } from "@navikt/ds-react";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { Historiskstatistikk } from "./Graf/Historiskstatistikk";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 import { TrendUpIcon } from "@navikt/aksel-icons";
 
-export default function Sykefraværsstatistikkmodal({ virksomhet }: { virksomhet: Virksomhet }) {
+export default function Sykefraværsstatistikkmodal({ virksomhet, className }: { virksomhet: Virksomhet, className?: ButtonProps["className"] }) {
 	const [open, setOpen] = React.useState(false);
 
 	return (
 		<>
-			<Button variant="tertiary" size="small" onClick={() => setOpen(true)} icon={<TrendUpIcon aria-hidden fontSize="1.25rem" />}>
+			<Button className={className} variant="tertiary" size="small" onClick={() => setOpen(true)} icon={<TrendUpIcon aria-hidden fontSize="1.25rem" />}>
 				Sykefraværsstatistikk
 			</Button>
 			<Modal width="64rem" header={{ heading: `Sykefraværsstatistikk for ${virksomhet.navn}` }} open={open} onClose={() => setOpen(false)} closeOnBackdropClick>

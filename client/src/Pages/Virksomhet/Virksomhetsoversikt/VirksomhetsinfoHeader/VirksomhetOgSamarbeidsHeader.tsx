@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import {
     Alert,
     Button,
+    ButtonProps,
     Heading,
     HStack,
     Popover,
@@ -128,8 +129,8 @@ function HistorikkStatistikkKnapper({ valgtSamarbeid, virksomhet }: { valgtSamar
     if (valgtSamarbeid) {
         return (
             <HStack gap="4" justify="end">
-                <Sykefraværsstatistikkmodal virksomhet={virksomhet} />
-                <Sakshistorikkmodal orgnr={virksomhet.orgnr} virksomhetsnavn={virksomhet.navn} />
+                <Sykefraværsstatistikkmodal className={styles.tabButton} virksomhet={virksomhet} />
+                <Sakshistorikkmodal className={styles.tabButton} orgnr={virksomhet.orgnr} virksomhetsnavn={virksomhet.navn} />
             </HStack>
         );
     }
@@ -138,7 +139,8 @@ function HistorikkStatistikkKnapper({ valgtSamarbeid, virksomhet }: { valgtSamar
         <>
             <HStack gap="4" justify="end">
                 <Tabs.Tab
-                    as={Button}
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    as={({ className, ...remainingProps }: ButtonProps) => <Button {...remainingProps} className={styles.tabButton} />}
                     variant="tertiary"
                     size="small"
                     value="statistikk"
@@ -146,7 +148,8 @@ function HistorikkStatistikkKnapper({ valgtSamarbeid, virksomhet }: { valgtSamar
                     icon={<TrendUpIcon aria-hidden fontSize="1.25rem" />}
                 />
                 <Tabs.Tab
-                    as={Button}
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    as={({ className, ...remainingProps }: ButtonProps) => <Button {...remainingProps} className={styles.tabButton} />}
                     variant="tertiary"
                     size="small"
                     value="historikk"
