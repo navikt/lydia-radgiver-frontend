@@ -114,7 +114,7 @@ function AvsluttedeSamarbeidListe({ avsluttedeSamarbeid, valgtSamarbeid, orgnr }
 			<ul className={styles.liste}>
 				{avsluttedeSamarbeid?.map((s) => (
 					<InternLenke key={s.id} className={`${styles.radCommon} ${styles.avsluttetSamarbeid} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} href={`/virksomhet/${orgnr}/samarbeid/${s.id}`}>
-						{s.navn} <SamarbeidStatusBadge status={s.status} slim />
+						{s.navn} <SamarbeidStatusBadge className={styles.avsluttetSamarbeidStatus} status={s.status} slim />
 					</InternLenke>
 				))}
 			</ul>

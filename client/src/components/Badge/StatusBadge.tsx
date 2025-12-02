@@ -14,10 +14,11 @@ export function GenericStatusBadge<T>({
     penskrivStatus,
     hentVariant,
     slim = false,
+    className,
     ...remainingProps
 }: GenericProps<T>) {
     return (
-        <div className={styles.statusBadge}>
+        <div className={`${styles.statusBadge} ${className ? className : ""}`}>
             <Tag {...remainingProps} className={`${styles.statusTag} ${slim ? styles.slim : ""}`} variant={hentVariant(status)} size="small">
                 {penskrivStatus(status)}
             </Tag>
