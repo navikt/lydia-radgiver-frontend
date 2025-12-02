@@ -19,6 +19,8 @@ import { EksternLenke } from "../../components/EksternLenke";
 import SamarbeidsplanFane from "./Plan/SamarbeidsplanFane";
 import { SamarbeidStatusBadge } from "../../components/Badge/SamarbeidStatusBadge";
 import { Kartleggingsliste } from "./Kartlegging/Kartleggingsliste";
+import { useHentTeam } from "../../api/lydia-api/team";
+import { erSaksbehandler, useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -85,6 +87,14 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
 function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }: { valgtSamarbeid?: IaSakProsess | null, virksomhet: Virksomhet, iaSak?: IASak, laster?: boolean }) {
     const [endreSamarbeidModalÅpen, setEndreSamarbeidModalÅpen] = React.useState(false);
 
+    const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const brukerFølgerSak = følgere.some(
+        (følger) => følger === brukerInformasjon?.ident,
+    );
+    const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
+    const kanEndreSpørreundersøkelser = (erSaksbehandler(brukerInformasjon) && (brukerFølgerSak || brukerErEierAvSak) || false);
+
     if (laster) {
         return <Loader />;
     }
@@ -115,7 +125,7 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }
                         />}
                     </HStack>
                     <HStack gap="8" align="center">
-                        <Button variant="secondary" size="small" onClick={() => setEndreSamarbeidModalÅpen(true)}>Administrer</Button>
+                        {kanEndreSpørreundersøkelser && <Button variant="secondary" size="small" onClick={() => setEndreSamarbeidModalÅpen(true)}>Administrer</Button>}
                         <Salesforcelenke samarbeidId={valgtSamarbeid.id} />
                     </HStack>
                 </div>

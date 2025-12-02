@@ -135,7 +135,7 @@ export default function PåbegyntRad({
 								Behovsvurdering
 							</ExpansionCard.Title>
 						)}
-						{brukerRolle && (
+						{brukerRolle && brukerRolle !== "Lesetilgang" && (
 							<SlettSpørreundersøkelseModal
 								spørreundersøkelse={spørreundersøkelse}
 								erModalÅpen={slettSpørreundersøkelseModalÅpen}

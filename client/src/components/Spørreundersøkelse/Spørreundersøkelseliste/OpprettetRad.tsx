@@ -75,44 +75,44 @@ export default function OpprettetRad({
 					<ActionButtonsHvisSamarbeidIkkeFullført>
 						{(iaSak.status === "KARTLEGGES" ||
 							iaSak.status === "VI_BISTÅR") &&
-							brukerRolle !== "Lesetilgang" ? (
-							<>
-								<Button
-									variant="primary"
-									size="small"
-									onClick={() =>
-										setBekreftStartKartleggingModalÅpen(
-											true,
-										)
-									}
-								>
-									Start
-								</Button>
-								<Button
-									variant="secondary"
-									size="small"
-									onClick={() =>
-										setForhåndsvisModalÅpen(true)
-									}
-								>
-									Forhåndsvis
-								</Button>
-								{kanEndreSpørreundersøkelser && (
+							brukerRolle !== "Lesetilgang" && (
+								<>
 									<Button
-										variant="secondary-neutral"
+										variant="primary"
 										size="small"
 										onClick={() =>
-											setSlettSpørreundersøkelseModalÅpen(
+											setBekreftStartKartleggingModalÅpen(
 												true,
 											)
 										}
-										icon={<TrashIcon aria-hidden />}
-										aria-label="Slett behovsvurdering"
-										loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
-									/>
-								)}
-							</>
-						) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Evaluering</ExpansionCard.Title>}
+									>
+										Start
+									</Button>
+									<Button
+										variant="secondary"
+										size="small"
+										onClick={() =>
+											setForhåndsvisModalÅpen(true)
+										}
+									>
+										Forhåndsvis
+									</Button>
+									{kanEndreSpørreundersøkelser && (
+										<Button
+											variant="secondary-neutral"
+											size="small"
+											onClick={() =>
+												setSlettSpørreundersøkelseModalÅpen(
+													true,
+												)
+											}
+											icon={<TrashIcon aria-hidden />}
+											aria-label="Slett behovsvurdering"
+											loading={sletterSpørreundersøkelse || lasterSpørreundersøkelser || validererSpørreundersøkelser || lasterIaSakStatus || validererIaSakStatus}
+										/>
+									)}
+								</>
+							)}
 						<StartSpørreundersøkelseModal
 							spørreundersøkelse={spørreundersøkelse}
 							erModalÅpen={bekreftStartKartleggingModalÅpen}
@@ -127,7 +127,7 @@ export default function OpprettetRad({
 							spørreundersøkelseid={spørreundersøkelse.id}
 							lukkModal={() => setForhåndsvisModalÅpen(false)}
 						/>
-						{brukerRolle && (
+						{brukerRolle && brukerRolle !== "Lesetilgang" && (
 							<SlettSpørreundersøkelseModal
 								spørreundersøkelse={spørreundersøkelse}
 								erModalÅpen={slettSpørreundersøkelseModalÅpen}

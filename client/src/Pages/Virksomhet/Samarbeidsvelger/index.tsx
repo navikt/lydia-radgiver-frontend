@@ -81,7 +81,7 @@ function LeggTilSamarbeidKnapp({ iaSak, virksomhet }: { iaSak?: IASak, virksomhe
 	);
 
 	const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
-	const kanEndreSamarbeid = brukerFølgerSak || brukerErEierAvSak;
+	const kanEndreSamarbeid = (brukerFølgerSak || brukerErEierAvSak) && brukerInformasjon?.rolle !== "Lesetilgang";
 
 	if (!iaSak || !kanEndreSamarbeid) {
 		return null;

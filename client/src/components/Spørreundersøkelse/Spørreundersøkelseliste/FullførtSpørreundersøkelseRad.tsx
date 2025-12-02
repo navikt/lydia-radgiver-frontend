@@ -25,7 +25,7 @@ export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse,
 }
 
 function SpørreundersøkelseHeader({ spørreundersøkelse, dato }: { spørreundersøkelse: Spørreundersøkelse, dato: string }) {
-	const { iaSak, samarbeid, hentSpørreundersøkelserPåNytt } = useSpørreundersøkelse();
+	const { iaSak, samarbeid, hentSpørreundersøkelserPåNytt, kanEndreSpørreundersøkelser } = useSpørreundersøkelse();
 	const flyttTilValgtSamarbeid = (samarbeidId: number) => {
 		flyttSpørreundersøkelse(
 			iaSak.orgnr,
@@ -48,33 +48,35 @@ function SpørreundersøkelseHeader({ spørreundersøkelse, dato }: { spørreund
 				<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
 			</ExpansionCard.Title>
 			<span className={styles.headerRightContent}>
-				<ActionButtonsHvisSamarbeidIkkeFullført>
-					{
-						spørreundersøkelse.publiseringStatus === "IKKE_PUBLISERT"
-						&& spørreundersøkelse.type === "BEHOVSVURDERING"
-						&& (
-							<FlyttTilAnnenProsess
-								gjeldendeSamarbeid={samarbeid}
-								iaSak={iaSak}
-								flyttTilValgtSamarbeid={
-									flyttTilValgtSamarbeid
-								}
-								dropdownSize="small"
-							/>
-						)
-					}
-					<PubliserSpørreundersøkelse
-						type="BEHOVSVURDERING"
-						spørreundersøkelse={spørreundersøkelse}
-						hentBehovsvurderingPåNytt={
-							() => hentSpørreundersøkelserPåNytt?.()
+				{kanEndreSpørreundersøkelser &&
+					<ActionButtonsHvisSamarbeidIkkeFullført>
+						{
+							spørreundersøkelse.publiseringStatus === "IKKE_PUBLISERT"
+							&& spørreundersøkelse.type === "BEHOVSVURDERING"
+							&& (
+								<FlyttTilAnnenProsess
+									gjeldendeSamarbeid={samarbeid}
+									iaSak={iaSak}
+									flyttTilValgtSamarbeid={
+										flyttTilValgtSamarbeid
+									}
+									dropdownSize="small"
+								/>
+							)
 						}
-						pollerPåStatus={
-							henterKartleggingPånytt ||
-							forsøkPåÅHenteKartlegging < 10
-						}
-					/>
-				</ActionButtonsHvisSamarbeidIkkeFullført>
+						<PubliserSpørreundersøkelse
+							type="BEHOVSVURDERING"
+							spørreundersøkelse={spørreundersøkelse}
+							hentBehovsvurderingPåNytt={
+								() => hentSpørreundersøkelserPåNytt?.()
+							}
+							pollerPåStatus={
+								henterKartleggingPånytt ||
+								forsøkPåÅHenteKartlegging < 10
+							}
+						/>
+					</ActionButtonsHvisSamarbeidIkkeFullført>
+				}
 				<span className={styles.datovisning}>{dato}</span>
 				<SpørreundersøkelseStatusBadge status={spørreundersøkelse.status} />
 			</span>

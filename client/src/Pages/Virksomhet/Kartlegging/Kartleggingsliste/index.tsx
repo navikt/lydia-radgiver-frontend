@@ -35,8 +35,8 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 	);
 	const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
 	const kanEndreSpørreundersøkelser =
-		(erSaksbehandler(brukerInformasjon) && brukerFølgerSak) ||
-		brukerErEierAvSak;
+		(erSaksbehandler(brukerInformasjon) && (brukerFølgerSak ||
+			brukerErEierAvSak) || false);
 
 	const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
 

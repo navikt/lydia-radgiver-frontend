@@ -26,7 +26,7 @@ export default function SpørreundersøkelseRad({
 }) {
     const [erÅpen, setErÅpen] = React.useState(defaultOpen);
     const [slettSpørreundersøkelseModalÅpen, setSlettSpørreundersøkelseModalÅpen] = React.useState(false);
-    const { brukerRolle } = useSpørreundersøkelse();
+    const { brukerRolle, kanEndreSpørreundersøkelser } = useSpørreundersøkelse();
 
     switch (spørreundersøkelse.status) {
         case spørreundersøkelseStatusEnum.enum.OPPRETTET:
@@ -62,7 +62,7 @@ export default function SpørreundersøkelseRad({
                     >
                         <IkkeGjennomførtFørFristRad
                             spørreundersøkelse={spørreundersøkelse}
-                            kanEndreSpørreundersøkelser={true} {...{} /* TODO: noe her */}
+                            kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                             setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
                             slettSpørreundersøkelseModalÅpen={slettSpørreundersøkelseModalÅpen}
                             slettSpørreundersøkelsen={() => console.log("TODO: slett")}

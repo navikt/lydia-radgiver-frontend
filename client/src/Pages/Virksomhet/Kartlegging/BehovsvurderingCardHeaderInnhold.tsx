@@ -314,7 +314,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                         spørreundersøkelseid={spørreundersøkelse.id}
                         lukkModal={() => setForhåndsvisModalÅpen(false)}
                     />
-                    {brukerRolle && (
+                    {brukerRolle && brukerRolle !== "Lesetilgang" && (
                         <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}
                             erModalÅpen={slettSpørreundersøkelseModalÅpen}
@@ -409,7 +409,7 @@ export const BehovsvurderingCardHeaderInnhold = ({
                         input={spørreundersøkelse.gyldigTilTidspunkt}
                     />
 
-                    {brukerRolle && (
+                    {brukerRolle && brukerRolle !== "Lesetilgang" && (
                         <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}
                             erModalÅpen={slettSpørreundersøkelseModalÅpen}

@@ -258,7 +258,7 @@ export const EvalueringCardHeaderInnhold = ({
                         spørreundersøkelseid={spørreundersøkelse.id}
                         lukkModal={() => setForhåndsvisModalÅpen(false)}
                     />
-                    {brukerRolle && (
+                    {brukerRolle && brukerRolle !== "Lesetilgang" && (
                         <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}
                             erModalÅpen={slettSpørreundersøkelseModalÅpen}
@@ -341,7 +341,7 @@ export const EvalueringCardHeaderInnhold = ({
                         </>
                     ) : <ExpansionCard.Title className={styles.tittelUtenTopMargin}>Evaluering</ExpansionCard.Title>}
                     <GyldigTilTidspunkt input={spørreundersøkelse.gyldigTilTidspunkt} />
-                    {brukerRolle && (
+                    {brukerRolle && brukerRolle !== "Lesetilgang" && (
                         <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}
                             erModalÅpen={slettSpørreundersøkelseModalÅpen}
