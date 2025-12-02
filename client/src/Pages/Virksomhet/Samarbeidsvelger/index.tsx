@@ -46,9 +46,9 @@ export default function Samarbeidsvelger({ iaSak, className, samarbeidsliste, va
 function Samarbeidvelgeroverskrift({ samarbeid, iaSak, virksomhet }: { samarbeid?: IaSakProsess[], iaSak?: IASak, virksomhet?: Virksomhet }) {
 	return (
 		<HStack className={`${styles.radCommon} ${styles.overskriftRad}`} align="center" justify="space-between">
-			<h3 className={`${styles.overskrift}`}>Samarbeid{samarbeid && ` (${samarbeid.length})`}</h3>
+			<h3 className={`${styles.overskrift}`}>{samarbeid && samarbeid.length ? `Samarbeid${samarbeid && ` (${samarbeid.length})`}` : "Ingen aktive samarbeid"}</h3>
 			{
-				iaSak && virksomhet && <LeggTilSamarbeidKnapp iaSak={iaSak} virksomhet={virksomhet} />
+				iaSak && virksomhet && (iaSak.status === "KARTLEGGES" || iaSak.status === "VI_BISTÅR") && <LeggTilSamarbeidKnapp iaSak={iaSak} virksomhet={virksomhet} />
 			}
 
 		</HStack>
@@ -58,7 +58,7 @@ function Samarbeidvelgeroverskrift({ samarbeid, iaSak, virksomhet }: { samarbeid
 function AktiveSamarbeidListe({ samarbeid, valgtSamarbeid, orgnr }: { samarbeid?: IaSakProsess[], valgtSamarbeid?: IaSakProsess | null, orgnr?: string }) {
 
 	if (!samarbeid || samarbeid.length === 0) {
-		return <IngenAktiveSamarbeid />;
+		return null;
 	}
 
 	return (
@@ -119,11 +119,5 @@ function AvsluttedeSamarbeidListe({ avsluttedeSamarbeid, valgtSamarbeid, orgnr }
 				))}
 			</ul>
 		</ReadMore>
-	);
-}
-
-function IngenAktiveSamarbeid() {
-	return (
-		<p>Ingen aktive samarbeid</p>
 	);
 }
