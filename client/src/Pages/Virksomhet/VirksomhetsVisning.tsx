@@ -21,6 +21,7 @@ import { SamarbeidStatusBadge } from "../../components/Badge/SamarbeidStatusBadg
 import { Kartleggingsliste } from "./Kartlegging/Kartleggingsliste";
 import { useHentTeam } from "../../api/lydia-api/team";
 import { erSaksbehandler, useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
+import { useHarPlan } from "../../api/lydia-api/plan";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -95,7 +96,12 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
     const kanEndreSpørreundersøkelser = (erSaksbehandler(brukerInformasjon) && (brukerFølgerSak || brukerErEierAvSak) || false);
 
-    if (laster) {
+    const {
+        harPlan,
+        lastet: harPlanLastet,
+    } = useHarPlan(iaSak?.orgnr, iaSak?.saksnummer, valgtSamarbeid?.id);
+
+    if (laster || !harPlanLastet) {
         return <Loader />;
     }
 
@@ -130,7 +136,9 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }
                     </HStack>
                 </div>
                 <div style={{ padding: '1.5rem' }}>
-                    <Samarbeidsinnhold valgtSamarbeid={valgtSamarbeid} iaSak={iaSak} />
+                    {
+                        harPlanLastet && <Samarbeidsinnhold valgtSamarbeid={valgtSamarbeid} iaSak={iaSak} harPlan={harPlan} />
+                    }
                 </div>
             </div>
             {valgtSamarbeid && iaSak && (
@@ -163,7 +171,7 @@ function Salesforcelenke({ samarbeidId }: { samarbeidId: number }) {
     );
 }
 
-function Samarbeidsinnhold({ valgtSamarbeid, iaSak }: { valgtSamarbeid: IaSakProsess, iaSak?: IASak }) {
+function Samarbeidsinnhold({ valgtSamarbeid, iaSak, harPlan }: { valgtSamarbeid: IaSakProsess, iaSak?: IASak, harPlan?: boolean }) {
     const [searchParams, setSearchParams] = useSearchParams();
     const oppdaterTabISearchParam = (tab: string) => {
         searchParams.set("fane", tab);
@@ -171,22 +179,24 @@ function Samarbeidsinnhold({ valgtSamarbeid, iaSak }: { valgtSamarbeid: IaSakPro
         setSearchParams(searchParams, { replace: true });
     };
 
+    const defaultFane = harPlan ? "plan" : "kartlegging";
+
     React.useEffect(() => {
         if (
             fane !== "kartlegging" &&
             fane !== "plan"
         ) {
-            oppdaterTabISearchParam("kartlegging");
+            oppdaterTabISearchParam(defaultFane);
         }
     }, []);
 
-    const fane = searchParams.get("fane") ?? "kartlegging";
+    const fane = searchParams.get("fane") ?? defaultFane;
 
     return (
         <Tabs
             value={fane}
             onChange={oppdaterTabISearchParam}
-            defaultValue="kartlegging"
+            defaultValue={defaultFane}
         >
             <Tabs.List style={{ width: "100%" }}>
                 {iaSak && (

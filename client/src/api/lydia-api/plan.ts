@@ -98,6 +98,34 @@ export const useHentPlan = (
     );
 };
 
+export const useHarPlan = (
+    orgnummer?: string,
+    saksnummer?: string,
+    samarbeidsId?: number,
+) => {
+    const { data, loading, validating } = useHentPlan(orgnummer || "", saksnummer || "", samarbeidsId || 0);
+
+    if (!orgnummer || !saksnummer || !samarbeidsId) {
+        return {
+            harPlan: undefined,
+            lastet: true,
+        };
+    }
+
+
+    if (data) {
+        return {
+            harPlan: true,
+            lastet: true,
+        };
+    }
+
+    return {
+        harPlan: false,
+        lastet: !loading && !validating,
+    }
+};
+
 export const useHentPlanMal = () => {
     return useSwrTemplate<PlanMal>(`${planPath}/mal`, PlanMalSchema);
 };
