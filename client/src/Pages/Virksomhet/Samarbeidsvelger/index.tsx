@@ -101,16 +101,15 @@ function LeggTilSamarbeidKnapp({ iaSak, virksomhet }: { iaSak?: IASak, virksomhe
 }
 
 function AvsluttedeSamarbeidListe({ avsluttedeSamarbeid, valgtSamarbeid, orgnr }: { avsluttedeSamarbeid?: IaSakProsess[], valgtSamarbeid?: IaSakProsess | null, orgnr?: string }) {
-	const [åpen, setÅpen] = React.useState(false);
 	if (!avsluttedeSamarbeid || avsluttedeSamarbeid.length === 0) {
 		return null;
 	}
-
-	// Tving åpen dersom valgtSamarbeid er blant de avsluttede samarbeidene
 	const defaultEkspandert = valgtSamarbeid && avsluttedeSamarbeid.some(s => s.id === valgtSamarbeid.id) || false;
+	const [åpen, setÅpen] = React.useState(defaultEkspandert);
+
 
 	return (
-		<ReadMore size="small" className={styles.inaktiveSamarbeidReadMore} header={`Avsluttede samarbeid (${avsluttedeSamarbeid.length})`} open={åpen || defaultEkspandert} onClick={() => setÅpen(!åpen)}>
+		<ReadMore size="small" className={styles.inaktiveSamarbeidReadMore} header={`Avsluttede samarbeid (${avsluttedeSamarbeid.length})`} open={åpen} onClick={() => setÅpen(!åpen)}>
 			<ul className={styles.liste}>
 				{avsluttedeSamarbeid?.map((s) => (
 					<InternLenke key={s.id} className={`${styles.radCommon} ${styles.avsluttetSamarbeid} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} href={`/virksomhet/${orgnr}/samarbeid/${s.id}`}>
