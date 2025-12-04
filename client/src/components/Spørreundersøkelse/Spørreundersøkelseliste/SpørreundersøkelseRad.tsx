@@ -126,9 +126,10 @@ export default function SpørreundersøkelseRad({
                     >
                         <ForFåSvarRad
                             spørreundersøkelse={spørreundersøkelse}
+                            kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                             dato={dato}
-                            setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
-                            erLesebruker={brukerRolle === "Lesetilgang"} />
+                            erLesebruker={brukerRolle === "Lesetilgang"}
+                            setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen} />
                         <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}
                             erModalÅpen={slettSpørreundersøkelseModalÅpen}

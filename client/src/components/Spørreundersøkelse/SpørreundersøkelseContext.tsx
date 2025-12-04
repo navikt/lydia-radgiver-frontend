@@ -2,10 +2,6 @@ import React from "react";
 import { Spørreundersøkelse } from "../../domenetyper/spørreundersøkelse";
 import { IASak } from "../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../domenetyper/iaSakProsess";
-import { BehovsvurderingCardHeaderInnhold } from "../../Pages/Virksomhet/Kartlegging/BehovsvurderingCardHeaderInnhold";
-import { BehovsvurderingRadInnhold } from "../../Pages/Virksomhet/Kartlegging/BehovsvurderingRadInnhold";
-import { EvalueringCardHeaderInnhold } from "../../Pages/Virksomhet/Samarbeid/Evaluering/EvalueringCardHeaderInnhold";
-import { EvalueringRadInnhold } from "../../Pages/Virksomhet/Samarbeid/Evaluering/EvalueringRadInnhold";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 
 export interface SpørreundersøkelseProviderProps {
@@ -31,33 +27,9 @@ export interface CardHeaderProps {
 export interface CardInnholdProps {
     spørreundersøkelse: Spørreundersøkelse;
 }
-interface SpørreundersøkelseContextState {
-    komponenter: {
-        CardHeader: React.FC<CardHeaderProps>;
-        CardInnhold: React.FC<CardInnholdProps>;
-    };
-}
-
-function getComponents(spørreundersøkelseType: SpørreundersøkelseType): {
-    CardHeader: React.FC<CardHeaderProps>;
-    CardInnhold: React.FC<CardInnholdProps>;
-} {
-    switch (spørreundersøkelseType) {
-        case "BEHOVSVURDERING":
-            return {
-                CardHeader: BehovsvurderingCardHeaderInnhold,
-                CardInnhold: BehovsvurderingRadInnhold,
-            };
-        case "EVALUERING":
-            return {
-                CardHeader: EvalueringCardHeaderInnhold,
-                CardInnhold: EvalueringRadInnhold,
-            };
-    }
-}
 
 const SpørreundersøkelseContext = React.createContext<
-    | (SpørreundersøkelseProviderProps & SpørreundersøkelseContextState)
+    | (SpørreundersøkelseProviderProps)
     | undefined
 >(undefined);
 
@@ -68,10 +40,7 @@ export function SpørreundersøkelseProvider({
     return (
         <SpørreundersøkelseContext.Provider
             value={{
-                ...remainingProps,
-                komponenter: getComponents(
-                    remainingProps.spørreundersøkelseType,
-                ),
+                ...remainingProps
             }}
         >
             {children}
@@ -122,9 +91,4 @@ export function useSisteOpprettedeSpørreundersøkelseId() {
 export function useSpørreundersøkelseType() {
     const context = useSpørreundersøkelse();
     return context.spørreundersøkelseType;
-}
-
-export function useSpørreundersøkelseKomponenter() {
-    const context = useSpørreundersøkelse();
-    return context.komponenter;
 }

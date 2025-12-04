@@ -16,8 +16,9 @@ export default function ForFåSvarRad({
 	dato,
 	setSlettSpørreundersøkelseModalÅpen,
 	loading = false,
-	erLesebruker = false,
-}: CardHeaderProps & { setSlettSpørreundersøkelseModalÅpen: React.Dispatch<React.SetStateAction<boolean>>, loading?: boolean }) {
+	kanEndreSpørreundersøkelser,
+	erLesebruker
+}: CardHeaderProps & { setSlettSpørreundersøkelseModalÅpen: React.Dispatch<React.SetStateAction<boolean>>, loading?: boolean, kanEndreSpørreundersøkelser: boolean }) {
 	return (
 		<VStack className={styles.styledEmptyCardHeader} justify="center" align="start">
 			<HStack justify="space-between" align="center" style={{ width: "100%" }}>
@@ -28,7 +29,7 @@ export default function ForFåSvarRad({
 				</span>
 				<span className={styles.headerRightContent}>
 					<ActionButtonsHvisSamarbeidIkkeFullført>
-						{erLesebruker ? null : <Button
+						{kanEndreSpørreundersøkelser && !erLesebruker && <Button
 							variant="secondary"
 							size="small"
 							iconPosition="right"
