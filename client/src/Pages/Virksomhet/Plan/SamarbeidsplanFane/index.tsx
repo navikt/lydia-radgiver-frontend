@@ -1,4 +1,4 @@
-import { BodyShort, Heading, Loader } from "@navikt/ds-react";
+import { BodyShort, Loader } from "@navikt/ds-react";
 import React from "react";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import { useHentPlan, useHentPlanMal } from "../../../../api/lydia-api/plan";
@@ -60,17 +60,16 @@ export default function SamarbeidsplanFane({
 
         return (
             <>
-                <Heading
-                    level="2"
-                    size="medium"
-                    style={{
-                        width: "11rem",
-                        marginTop: "0.5rem",
-                        marginBottom: "0.5rem",
-                    }}
-                >
-                    Samarbeidsplan
-                </Heading>
+                {samarbeid.status === "AKTIV" && (
+                    <OpprettPlanKnapp
+                        orgnummer={iaSak.orgnr}
+                        saksnummer={iaSak.saksnummer}
+                        samarbeid={samarbeid}
+                        planMal={planMal}
+                        kanEndrePlan={eierEllerFølgerSak}
+                        sakErIRettStatus={sakErIRettStatus}
+                    />
+                )}
                 {!eierEllerFølgerSak && (
                     <BodyShort>
                         Du må være eier av saken for å opprette ny plan
@@ -82,16 +81,7 @@ export default function SamarbeidsplanFane({
                         <i>Vi bistår</i> for å opprette ny plan
                     </BodyShort>
                 )}
-                {samarbeid.status === "AKTIV" && (
-                    <OpprettPlanKnapp
-                        orgnummer={iaSak.orgnr}
-                        saksnummer={iaSak.saksnummer}
-                        samarbeid={samarbeid}
-                        planMal={planMal}
-                        kanEndrePlan={eierEllerFølgerSak}
-                        sakErIRettStatus={sakErIRettStatus}
-                    />
-                )}
+
             </>
         );
     }
