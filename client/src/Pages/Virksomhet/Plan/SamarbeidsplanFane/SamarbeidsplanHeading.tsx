@@ -58,14 +58,14 @@ export function SamarbeidsplanHeading({
 function Publiseringsinformasjon({ samarbeidsplan }: { samarbeidsplan: Plan }) {
 	return (
 		<HStack align="center" gap="8" className={styles.publiseringsinformasjon}>
-			<BodyShort>Oppdatert: {lokalDatoMedKlokkeslett(samarbeidsplan?.sistEndret)}</BodyShort>
+			<BodyShort size="small">Oppdatert: {lokalDatoMedKlokkeslett(samarbeidsplan?.sistEndret)}</BodyShort>
 			{samarbeidsplan?.publiseringStatus == "PUBLISERT" && (
 				<HStack gap="2" align="center">
 					<PaperplaneIcon aria-hidden fontSize="1.75rem" />
 					{samarbeidsplan?.harEndringerSidenSistPublisert ? (
-						<BodyShort>Planen er oppdatert og kan publiseres igjen</BodyShort>
+						<BodyShort size="small">Planen er oppdatert og kan publiseres igjen</BodyShort>
 					) : (
-						samarbeidsplan?.sistPublisert && (<BodyShort>Publisert: {lokalDatoMedKlokkeslett(samarbeidsplan?.sistPublisert)}</BodyShort>)
+						samarbeidsplan?.sistPublisert && (<BodyShort size="small">Publisert: {lokalDatoMedKlokkeslett(samarbeidsplan?.sistPublisert)}</BodyShort>)
 					)}
 				</HStack>
 			)}
