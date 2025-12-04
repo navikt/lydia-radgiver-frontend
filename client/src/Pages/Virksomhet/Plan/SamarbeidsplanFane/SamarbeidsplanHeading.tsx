@@ -1,4 +1,4 @@
-import { BodyShort, HStack, Heading } from "@navikt/ds-react";
+import { BodyShort, HStack } from "@navikt/ds-react";
 import React from "react";
 import { useHentPlan } from "../../../../api/lydia-api/plan";
 import Samarbeidsfanemeny from "../../../../components/Samarbeidsfanemeny";
@@ -32,12 +32,8 @@ export function SamarbeidsplanHeading({
 
 	return (
 		<>
-			<HStack align="center" justify="space-between">
-				<HStack align="center" gap="8">
-					<Heading level="2" size="medium" style={{ width: "11rem" }}>
-						Samarbeidsplan
-					</Heading>
-				</HStack>
+			<HStack className={styles.planheading} align="center" justify="space-between">
+				<Publiseringsinformasjon samarbeidsplan={samarbeidsplan} />
 				<HStack align="center" gap="8">
 					<PubliserSamarbeidsplan
 						plan={samarbeidsplan}
@@ -55,7 +51,6 @@ export function SamarbeidsplanHeading({
 					</Samarbeidsfanemeny>
 				</HStack>
 			</HStack>
-			<Publiseringsinformasjon samarbeidsplan={samarbeidsplan} />
 		</>
 	);
 }
