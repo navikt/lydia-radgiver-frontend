@@ -12,6 +12,8 @@ import FullførtSpørreundersøkelseRad from "./FullførtSpørreundersøkelseRad
 import PåbegyntRad from "./PåbegyntRad";
 import OpprettetRad from "./OpprettetRad";
 import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
+import { slettSpørreundersøkelse } from "../../../api/lydia-api/spørreundersøkelse";
+import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
 
 export default function SpørreundersøkelseRad({
     spørreundersøkelse,
@@ -26,7 +28,26 @@ export default function SpørreundersøkelseRad({
 }) {
     const [erÅpen, setErÅpen] = React.useState(defaultOpen);
     const [slettSpørreundersøkelseModalÅpen, setSlettSpørreundersøkelseModalÅpen] = React.useState(false);
-    const { brukerRolle, kanEndreSpørreundersøkelser } = useSpørreundersøkelse();
+    const { brukerRolle, kanEndreSpørreundersøkelser, iaSak, hentSpørreundersøkelserPåNytt } = useSpørreundersøkelse();
+    const [sletterSpørreundersøkelse, setSletterSpørreundersøkelse] = React.useState(false);
+    const {
+        mutate: oppdaterSaksStatus,
+    } = useHentIASaksStatus(iaSak.orgnr, iaSak.saksnummer);
+
+    const slettSpørreundersøkelsen = () => {
+        if (sletterSpørreundersøkelse) return;
+        setSletterSpørreundersøkelse(true);
+        slettSpørreundersøkelse(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            spørreundersøkelse.id,
+        ).then(() => {
+            hentSpørreundersøkelserPåNytt?.();
+            oppdaterSaksStatus();
+            setSlettSpørreundersøkelseModalÅpen(false);
+            setSletterSpørreundersøkelse(false);
+        });
+    };
 
     switch (spørreundersøkelse.status) {
         case spørreundersøkelseStatusEnum.enum.OPPRETTET:
@@ -65,7 +86,7 @@ export default function SpørreundersøkelseRad({
                             kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
                             setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
                             slettSpørreundersøkelseModalÅpen={slettSpørreundersøkelseModalÅpen}
-                            slettSpørreundersøkelsen={() => console.log("TODO: slett")}
+                            slettSpørreundersøkelsen={slettSpørreundersøkelsen}
                             laster={false}
                             dato={dato}
                         />
@@ -114,7 +135,7 @@ export default function SpørreundersøkelseRad({
                             lukkModal={() =>
                                 setSlettSpørreundersøkelseModalÅpen(false)
                             }
-                            slettSpørreundersøkelsen={() => console.log("TODO: slett")}
+                            slettSpørreundersøkelsen={slettSpørreundersøkelsen}
                         />
                     </ExpansionCard>
                 );
