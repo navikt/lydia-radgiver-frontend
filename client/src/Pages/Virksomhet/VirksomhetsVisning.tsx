@@ -125,6 +125,7 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }
                     <HStack gap="4" align="center">
                         <span className={styles.tittel}>{valgtSamarbeid?.navn}</span>
                         {valgtSamarbeid.status !== "AKTIV" && <SamarbeidStatusBadge
+                            slim
                             status={
                                 valgtSamarbeid.status
                             }
