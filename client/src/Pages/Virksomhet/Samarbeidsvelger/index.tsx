@@ -35,7 +35,7 @@ export default function Samarbeidsvelger({ iaSak, className, samarbeidsliste, va
 	}
 
 	if (iaSak?.saksnummer !== virksomhet.aktivtSaksnummer) {
-		return <AvsluttedeSamarbeidVelger samarbeid={samarbeidsliste || []} className={className} />;
+		return <AvsluttedeSamarbeidVelger samarbeid={samarbeidsliste || []} className={className} iaSak={iaSak} />;
 	}
 
 	return (
@@ -47,13 +47,19 @@ export default function Samarbeidsvelger({ iaSak, className, samarbeidsliste, va
 	);
 }
 
-function AvsluttedeSamarbeidVelger({ samarbeid, className }: { samarbeid: IaSakProsess[], className?: string }) {
+function AvsluttedeSamarbeidVelger({ samarbeid, className, iaSak, valgtSamarbeid }: { samarbeid: IaSakProsess[], className?: string, iaSak?: IASak, valgtSamarbeid?: IaSakProsess | null }) {
 	return (
 		<nav className={`${className} ${styles.samarbeidsvelger}`}>
 			<HStack className={`${styles.radCommon} ${styles.overskriftRad}`} align="center" justify="space-between">
 				<h3 className={`${styles.overskrift}`}>{`Avsluttede samarbeid${samarbeid && ` (${samarbeid.length})`}`}</h3>
 			</HStack>
-			<AktiveSamarbeidListe samarbeid={samarbeid} />
+			<ul className={styles.liste}>
+				{samarbeid?.map((s) => (
+					<InternLenke key={s.id} className={`${styles.radCommon} ${styles.avsluttetSamarbeid} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} href={`/virksomhet/${iaSak?.orgnr}/sak/${iaSak?.saksnummer}/samarbeid/${s.id}`}>
+						{s.navn} <SamarbeidStatusBadge className={styles.avsluttetSamarbeidStatus} status={s.status} slim />
+					</InternLenke>
+				))}
+			</ul>
 		</nav>
 	);
 }
