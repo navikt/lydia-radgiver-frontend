@@ -35,7 +35,7 @@ export default function Samarbeidsvelger({ iaSak, className, samarbeidsliste, va
 	}
 
 	if (iaSak?.saksnummer !== virksomhet.aktivtSaksnummer) {
-		return <AvsluttedeSamarbeidVelger samarbeid={samarbeidsliste || []} className={className} iaSak={iaSak} />;
+		return <AvsluttedeSamarbeidVelger samarbeid={samarbeidsliste || []} className={className} iaSak={iaSak} valgtSamarbeid={valgtSamarbeid} />;
 	}
 
 	return (
