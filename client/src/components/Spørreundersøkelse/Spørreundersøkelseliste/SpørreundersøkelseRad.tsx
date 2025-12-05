@@ -153,7 +153,7 @@ export default function SpørreundersøkelseRad({
                         "--avstand-fra-siste": avstandFraSiste,
                     } as React.CSSProperties}
                 >
-                    <FullførtSpørreundersøkelseRad spørreundersøkelse={spørreundersøkelse} erÅpen={erÅpen} dato={dato} />
+                    <FullførtSpørreundersøkelseRad spørreundersøkelse={spørreundersøkelse} erÅpen={erÅpen} setErÅpen={setErÅpen} dato={dato} />
                 </ExpansionCard>
             );
         case spørreundersøkelseStatusEnum.enum.SLETTET:

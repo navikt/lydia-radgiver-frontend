@@ -13,10 +13,10 @@ import { PubliserSpørreundersøkelse } from "../../../Pages/Virksomhet/Kartlegg
 import { usePollingAvKartleggingVedAvsluttetStatus } from "../../../util/usePollingAvKartleggingVedAvsluttetStatus";
 
 
-export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse, erÅpen, dato }: { spørreundersøkelse: Spørreundersøkelse, erÅpen: boolean, dato: string }) {
+export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse, erÅpen, dato, setErÅpen }: { spørreundersøkelse: Spørreundersøkelse, erÅpen: boolean, dato: string, setErÅpen: (åpen: boolean) => void }) {
 	return (
 		<>
-			<SpørreundersøkelseHeader spørreundersøkelse={spørreundersøkelse} dato={dato} />
+			<SpørreundersøkelseHeader spørreundersøkelse={spørreundersøkelse} dato={dato} onClick={() => setErÅpen(!erÅpen)} />
 			{erÅpen && (
 				<SpørreundersøkelseRadInnhold spørreundersøkelse={spørreundersøkelse} />
 			)}
@@ -24,7 +24,7 @@ export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse,
 	)
 }
 
-function SpørreundersøkelseHeader({ spørreundersøkelse, dato }: { spørreundersøkelse: Spørreundersøkelse, dato: string }) {
+function SpørreundersøkelseHeader({ spørreundersøkelse, dato, onClick }: { spørreundersøkelse: Spørreundersøkelse, dato: string, onClick: () => void }) {
 	const { iaSak, samarbeid, hentSpørreundersøkelserPåNytt, kanEndreSpørreundersøkelser } = useSpørreundersøkelse();
 	const flyttTilValgtSamarbeid = (samarbeidId: number) => {
 		flyttSpørreundersøkelse(
@@ -43,13 +43,13 @@ function SpørreundersøkelseHeader({ spørreundersøkelse, dato }: { spørreund
 		);
 
 	return (
-		<ExpansionCard.Header className={styles.styledExpansionCardHeader}>
+		<ExpansionCard.Header className={styles.styledExpansionCardHeader} onClick={onClick}>
 			<ExpansionCard.Title>
 				<FormatertSpørreundersøkelseType type={spørreundersøkelse.type} />
 			</ExpansionCard.Title>
 			<span className={styles.headerRightContent}>
 				{kanEndreSpørreundersøkelser &&
-					<ActionButtonsHvisSamarbeidIkkeFullført>
+					<ActionButtonsHvisSamarbeidIkkeFullført onClick={e => e.stopPropagation()}>
 						{
 							spørreundersøkelse.publiseringStatus === "IKKE_PUBLISERT"
 							&& spørreundersøkelse.type === "BEHOVSVURDERING"

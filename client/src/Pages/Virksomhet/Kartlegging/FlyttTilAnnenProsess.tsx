@@ -40,7 +40,7 @@ export const FlyttTilAnnenProsess = ({
                         >
                             Endre samarbeid
                         </Button>
-                        <Dropdown.Menu style={{ zIndex: 3 }}>
+                        <Dropdown.Menu>
                             <Dropdown.Menu.GroupedList>
                                 <Dropdown.Menu.GroupedList.Heading>
                                     Flytt{" "}

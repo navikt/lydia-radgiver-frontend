@@ -1,12 +1,14 @@
 .spørreundersøkelserad {
     margin-top: 1rem;
+    position: relative;
 
     & > div {
+        position: relative;
         z-index: calc(var(--avstand-fra-siste, 0) + 5);
     }
 
     .styledExpansionCardHeader {
-        z-index: 1;
+        cursor: pointer;
         min-height: 82px;
 
         & > div {
@@ -20,6 +22,10 @@
         .kartleggingStatusWrapper {
             min-width: 5rem;
         }
+    }
+
+    :global(.navds-expansioncard__header-button) {
+        position: relative;
     }
 }
 
