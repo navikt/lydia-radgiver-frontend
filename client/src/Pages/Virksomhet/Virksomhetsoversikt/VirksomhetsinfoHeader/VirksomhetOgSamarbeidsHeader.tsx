@@ -1,6 +1,7 @@
 import React, { useRef, useState } from "react";
 import {
     Alert,
+    BodyShort,
     Button,
     ButtonProps,
     Heading,
@@ -27,6 +28,7 @@ import { useErPåInaktivSak } from "../../../Virksomhet/VirksomhetContext";
 import styles from "./virksomhetsinfoheader.module.scss";
 import Sakshistorikkmodal from "../../../Virksomhet/Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
 import Sykefraværsstatistikkmodal from "../../Statistikk/Sykefraværsstatistikkmodal";
+import { lokalDato } from "../../../../util/dato";
 
 export default function VirksomhetOgSamarbeidsHeader({
     virksomhet,
@@ -120,7 +122,27 @@ export default function VirksomhetOgSamarbeidsHeader({
                     </HStack>
                 </VStack>
             </div>
+            {
+                erPåInaktivSak && iaSak && <DuErPåGammelPeriode iaSak={iaSak} />
+            }
         </>
+    );
+}
+
+function DuErPåGammelPeriode({ iaSak }: { iaSak: IASak }) {
+    // TODO: Bruk fornuftig dato her.
+    const startDato = iaSak?.opprettetTidspunkt ? lokalDato(iaSak?.opprettetTidspunkt) : 'DATO';
+    const sluttDato = iaSak?.endretTidspunkt ? lokalDato(iaSak?.endretTidspunkt) : 'DATO';
+
+    const harAktivIASak = true;
+
+    return (
+        <HStack gap="4" align="center" justify="space-between" className={styles.duErPåGammelPeriodeBanner}>
+            <BodyShort>
+                <b>Du er på en tidligere samarbeidsperiode</b> {startDato} - {sluttDato}
+            </BodyShort>
+            {harAktivIASak && <Button as="a" href={`/virksomhet/${iaSak?.orgnr}`} size="small">Gå til aktiv periode</Button>}
+        </HStack>
     );
 }
 

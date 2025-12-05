@@ -28,13 +28,15 @@ interface Props {
 }
 
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
+    const { saksnummer, prosessId } = useParams();
+
     const { data: iaSak, loading: lasterIaSak } = useHentSakForVirksomhet(
         virksomhet.orgnr,
-        virksomhet.aktivtSaksnummer ?? undefined,
+        saksnummer ?? virksomhet.aktivtSaksnummer ?? undefined,
     );
+
     const { data: alleSamarbeid, loading: lasterSamarbeid } = useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
     const [searchParams, setSearchParams] = useSearchParams();
-    const { /* orgnummer, saksnummer, */ prosessId } = useParams();
     const fane = searchParams.get("fane") ?? "statistikk";
 
     const oppdaterTabISearchParam = (tab: string) => {
