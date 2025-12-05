@@ -1,6 +1,5 @@
 import React, { useRef, useState } from "react";
 import {
-    Alert,
     BodyShort,
     Button,
     ButtonProps,
@@ -48,11 +47,6 @@ export default function VirksomhetOgSamarbeidsHeader({
 
     return (
         <>
-            {erPåInaktivSak && (
-                <Alert variant="info" className={styles.arkivertSakAlert}>
-                    Denne saken er arkivert.
-                </Alert>
-            )}
             <div className={styles.virksomhetOgSamarbeidsHeader}>
                 <VStack gap={"10"}>
                     <HStack gap={"4"}>
@@ -123,18 +117,18 @@ export default function VirksomhetOgSamarbeidsHeader({
                 </VStack>
             </div>
             {
-                erPåInaktivSak && iaSak && <DuErPåGammelPeriode iaSak={iaSak} />
+                erPåInaktivSak && iaSak && <DuErPåGammelPeriode iaSak={iaSak} virksomhet={virksomhet} />
             }
         </>
     );
 }
 
-function DuErPåGammelPeriode({ iaSak }: { iaSak: IASak }) {
+function DuErPåGammelPeriode({ iaSak, virksomhet }: { iaSak: IASak, virksomhet: Virksomhet }) {
     // TODO: Bruk fornuftig dato her.
     const startDato = iaSak?.opprettetTidspunkt ? lokalDato(iaSak?.opprettetTidspunkt) : 'DATO';
     const sluttDato = iaSak?.endretTidspunkt ? lokalDato(iaSak?.endretTidspunkt) : 'DATO';
 
-    const harAktivIASak = true;
+    const harAktivIASak = virksomhet.aktivtSaksnummer && virksomhet.aktivtSaksnummer !== iaSak.saksnummer;
 
     return (
         <HStack gap="4" align="center" justify="space-between" className={styles.duErPåGammelPeriodeBanner}>
