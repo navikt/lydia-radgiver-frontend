@@ -34,11 +34,26 @@ export default function Samarbeidsvelger({ iaSak, className, samarbeidsliste, va
 		);
 	}
 
+	if (iaSak?.saksnummer !== virksomhet.aktivtSaksnummer) {
+		return <AvsluttedeSamarbeidVelger samarbeid={samarbeidsliste || []} className={className} />;
+	}
+
 	return (
 		<nav className={`${className} ${styles.samarbeidsvelger}`}>
 			<Samarbeidvelgeroverskrift samarbeid={aktiveSamarbeid} iaSak={iaSak} virksomhet={virksomhet} />
 			<AktiveSamarbeidListe samarbeid={aktiveSamarbeid} valgtSamarbeid={valgtSamarbeid} orgnr={iaSak?.orgnr} />
 			<AvsluttedeSamarbeidListe avsluttedeSamarbeid={avsluttedeSamarbeid} valgtSamarbeid={valgtSamarbeid} orgnr={iaSak?.orgnr} />
+		</nav>
+	);
+}
+
+function AvsluttedeSamarbeidVelger({ samarbeid, className }: { samarbeid: IaSakProsess[], className?: string }) {
+	return (
+		<nav className={`${className} ${styles.samarbeidsvelger}`}>
+			<HStack className={`${styles.radCommon} ${styles.overskriftRad}`} align="center" justify="space-between">
+				<h3 className={`${styles.overskrift}`}>{`Avsluttede samarbeid${samarbeid && ` (${samarbeid.length})`}`}</h3>
+			</HStack>
+			<AktiveSamarbeidListe samarbeid={samarbeid} />
 		</nav>
 	);
 }
@@ -50,7 +65,6 @@ function Samarbeidvelgeroverskrift({ samarbeid, iaSak, virksomhet }: { samarbeid
 			{
 				iaSak && virksomhet && (iaSak.status === "KARTLEGGES" || iaSak.status === "VI_BISTÅR") && <LeggTilSamarbeidKnapp iaSak={iaSak} virksomhet={virksomhet} />
 			}
-
 		</HStack>
 	);
 }
