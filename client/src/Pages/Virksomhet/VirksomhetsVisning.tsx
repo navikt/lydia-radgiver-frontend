@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { Button, HStack, Loader, Tabs, VStack } from "@navikt/ds-react";
+import { Button, HStack, Tabs, VStack } from "@navikt/ds-react";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentSakForVirksomhet, useHentSalesforceSamarbeidLenke } from "../../api/lydia-api/virksomhet";
 import VirksomhetContext from "./VirksomhetContext";
@@ -32,7 +32,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         virksomhet.orgnr,
         virksomhet.aktivtSaksnummer ?? undefined,
     );
-    const { data: alleSamarbeid, loading: lasterSamarbeid, validating: validererSamarbeid } = useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
+    const { data: alleSamarbeid, loading: lasterSamarbeid } = useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
     const [searchParams, setSearchParams] = useSearchParams();
     const { /* orgnummer, saksnummer, */ prosessId } = useParams();
     const fane = searchParams.get("fane") ?? "statistikk";
@@ -75,8 +75,8 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                             iaSak={iaSak}
                         />
                         <HStack align="stretch" justify="start" flexGrow="1" wrap={false}>
-                            <Samarbeidsvelger iaSak={iaSak} className={styles.samarbeidsvelgerSidebar} samarbeidsliste={alleSamarbeid} valgtSamarbeid={valgtSamarbeid} lasterSamarbeid={lasterSamarbeid || validererSamarbeid} virksomhet={virksomhet} />
-                            <VirksomhetsvisningsSwitch valgtSamarbeid={valgtSamarbeid} virksomhet={virksomhet} iaSak={iaSak} laster={lasterIaSak || lasterSamarbeid} />
+                            <Samarbeidsvelger iaSak={iaSak} className={styles.samarbeidsvelgerSidebar} samarbeidsliste={alleSamarbeid} valgtSamarbeid={valgtSamarbeid} lasterSamarbeid={lasterSamarbeid} virksomhet={virksomhet} />
+                            <VirksomhetsvisningsSwitch valgtSamarbeid={valgtSamarbeid} virksomhet={virksomhet} iaSak={iaSak} />
                         </HStack>
                     </VStack>
                 </Tabs>
@@ -85,7 +85,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     );
 };
 
-function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }: { valgtSamarbeid?: IaSakProsess | null, virksomhet: Virksomhet, iaSak?: IASak, laster?: boolean }) {
+function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak }: { valgtSamarbeid?: IaSakProsess | null, virksomhet: Virksomhet, iaSak?: IASak }) {
     const [endreSamarbeidModalÅpen, setEndreSamarbeidModalÅpen] = React.useState(false);
 
     const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
@@ -100,10 +100,6 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak, laster }
         harPlan,
         lastet: harPlanLastet,
     } = useHarPlan(iaSak?.orgnr, iaSak?.saksnummer, valgtSamarbeid?.id);
-
-    if (laster || !harPlanLastet) {
-        return <Loader />;
-    }
 
     if (!valgtSamarbeid) {
         return (
