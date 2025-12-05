@@ -7,3 +7,8 @@ expect.extend(toHaveNoViolations);
 global.TextEncoder = TextEncoder;
 // @ts-ignore
 global.TextDecoder = TextDecoder;
+
+global.CSS = {
+    // @ts-ignore
+    supports: (k, v) => false,
+};

@@ -36,6 +36,7 @@ export const NyttSamarbeidModal = ({
     virksomhet,
 }: NyttSamarbeidProps) => {
     const [navn, setNavn] = useState("");
+    const [navnHarEndret, setNavnHarEndret] = useState(false);
     const [brukVirksomhetsnavn, setBrukVirksomhetsnavn] = useState(false);
     const inputRef = React.useRef<HTMLInputElement>(null);
     const antallTegn = navn.length;
@@ -166,8 +167,9 @@ export const NyttSamarbeidModal = ({
                             onChange={(event) => {
                                 const nyttNavn = event.target.value;
                                 setNavn(nyttNavn);
+                                setNavnHarEndret(true);
                             }}
-                            error={navnError(navn, navnErUbrukt)}
+                            error={navnHarEndret && navnError(navn, navnErUbrukt)}
                             hideLabel
                             onKeyDown={(event) => {
                                 // Submit på enter.

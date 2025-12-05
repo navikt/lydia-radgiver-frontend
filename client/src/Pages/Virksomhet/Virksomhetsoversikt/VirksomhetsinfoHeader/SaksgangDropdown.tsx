@@ -19,17 +19,14 @@ import styles from "./virksomhetsinfoheader.module.scss";
 export function SaksgangDropdown({
     virksomhet,
     iaSak,
-    setNyttSamarbeidModalÅpen,
 }: {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     return (
         <SaksgangDropdownInnhold
             virksomhet={virksomhet}
             iaSak={iaSak}
-            setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
         />
     );
 }
@@ -37,11 +34,9 @@ export function SaksgangDropdown({
 function SaksgangDropdownInnhold({
     virksomhet,
     iaSak,
-    setNyttSamarbeidModalÅpen,
 }: {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    setNyttSamarbeidModalÅpen: React.Dispatch<React.SetStateAction<boolean>>;
 }) {
     const [open, setOpen] = React.useState(false);
     const dropdownRef = React.useRef<HTMLDivElement>(null);
@@ -114,7 +109,6 @@ function SaksgangDropdownInnhold({
                     }}
                     redusertPadding
                     loading={lasterEllerRevaliderer}
-                    setNyttSamarbeidModalÅpen={setNyttSamarbeidModalÅpen}
                 />
             </Dropdown.Menu>
         </Dropdown>

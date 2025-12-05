@@ -1,4 +1,4 @@
-import { BodyShort, HStack, Heading } from "@navikt/ds-react";
+import { BodyShort, HStack } from "@navikt/ds-react";
 import React from "react";
 import { useHentPlan } from "../../../../api/lydia-api/plan";
 import Samarbeidsfanemeny from "../../../../components/Samarbeidsfanemeny";
@@ -32,12 +32,8 @@ export function SamarbeidsplanHeading({
 
 	return (
 		<>
-			<HStack align="center" justify="space-between">
-				<HStack align="center" gap="8">
-					<Heading level="2" size="medium" style={{ width: "11rem" }}>
-						Samarbeidsplan
-					</Heading>
-				</HStack>
+			<HStack className={styles.planheading} align="center" justify="space-between">
+				<Publiseringsinformasjon samarbeidsplan={samarbeidsplan} />
 				<HStack align="center" gap="8">
 					<PubliserSamarbeidsplan
 						plan={samarbeidsplan}
@@ -55,7 +51,6 @@ export function SamarbeidsplanHeading({
 					</Samarbeidsfanemeny>
 				</HStack>
 			</HStack>
-			<Publiseringsinformasjon samarbeidsplan={samarbeidsplan} />
 		</>
 	);
 }
@@ -63,14 +58,14 @@ export function SamarbeidsplanHeading({
 function Publiseringsinformasjon({ samarbeidsplan }: { samarbeidsplan: Plan }) {
 	return (
 		<HStack align="center" gap="8" className={styles.publiseringsinformasjon}>
-			<BodyShort>Oppdatert: {lokalDatoMedKlokkeslett(samarbeidsplan?.sistEndret)}</BodyShort>
+			<BodyShort size="small">Oppdatert: {lokalDatoMedKlokkeslett(samarbeidsplan?.sistEndret)}</BodyShort>
 			{samarbeidsplan?.publiseringStatus == "PUBLISERT" && (
 				<HStack gap="2" align="center">
 					<PaperplaneIcon aria-hidden fontSize="1.75rem" />
 					{samarbeidsplan?.harEndringerSidenSistPublisert ? (
-						<BodyShort>Planen er oppdatert og kan publiseres igjen</BodyShort>
+						<BodyShort size="small">Planen er oppdatert og kan publiseres igjen</BodyShort>
 					) : (
-						samarbeidsplan?.sistPublisert && (<BodyShort>Publisert: {lokalDatoMedKlokkeslett(samarbeidsplan?.sistPublisert)}</BodyShort>)
+						samarbeidsplan?.sistPublisert && (<BodyShort size="small">Publisert: {lokalDatoMedKlokkeslett(samarbeidsplan?.sistPublisert)}</BodyShort>)
 					)}
 				</HStack>
 			)}

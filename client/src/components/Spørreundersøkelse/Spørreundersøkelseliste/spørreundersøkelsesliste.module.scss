@@ -1,8 +1,37 @@
+.spørreundersøkelserad {
+    margin-top: 1rem;
+    position: relative;
+
+    & > div {
+        position: relative;
+        z-index: calc(var(--avstand-fra-siste, 0) + 5);
+    }
+
+    .styledExpansionCardHeader {
+        cursor: pointer;
+        min-height: 82px;
+
+        & > div {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            flex-grow: 1;
+            flex-wrap: wrap;
+        }
+
+        .kartleggingStatusWrapper {
+            min-width: 5rem;
+        }
+    }
+
+    :global(.navds-expansioncard__header-button) {
+        position: relative;
+    }
+}
+
 .styledEmptyCardHeader {
-    align-items: center;
     width: 100%;
     min-height: 82px;
-    display: flex;
     gap: var(--a-spacing-4);
     padding: var(--__ac-expansioncard-padding-block)
         var(--__ac-expansioncard-padding-inline);
@@ -15,8 +44,11 @@
     position: relative;
     border: var(--__ac-expansioncard-border-width) solid
         var(--__ac-expansioncard-border-color);
-    justify-content: space-between;
     flex-wrap: wrap;
+
+    .tittelUtenTopMargin {
+        margin-top: 0;
+    }
 }
 
 .headerLeftContent {
@@ -31,15 +63,6 @@
         margin-top: 0;
         margin-right: 2rem;
     }
-
-    .forFåSvarWarning {
-        display: flex;
-        align-items: center;
-        gap: 0.5rem;
-        text-align: left;
-        margin-left: 1rem;
-        font-size: 1rem;
-    }
 }
 
 .headerRightContent {
@@ -48,14 +71,19 @@
     font-size: 1rem;
     align-self: center;
     flex-wrap: wrap;
-}
 
-.behovsvurderingStatusWrapper {
-    min-width: 5rem;
+    .datovisning {
+        margin-right: 1rem;
+    }
 }
-
-.behovsvurderingDato {
-    width: 9rem;
+.infolinje {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
     text-align: left;
-    margin-left: 1rem;
+    font-size: 1rem;
+}
+
+.ingenTilgjengeligeSpørreundersøkelser {
+    margin-top: 1rem;
 }

@@ -26,3 +26,19 @@ $contentSpacingLargeDesktopX: 10rem;
         padding-right: #{$contentSpacingLargeDesktopX};
     }
 }
+
+@mixin strekkInnholdetHeltUtTilKantenAvSida {
+    // Gjer at innhaldet i eit element dekkjer heile breidda av skjermen
+    margin-left: -#{$contentSpacingMobileX};
+    margin-right: -#{$contentSpacingMobileX};
+
+    @include bp.desktopAndUp {
+        margin-left: -#{$contentSpacingDesktopX};
+        margin-right: -#{$contentSpacingDesktopX};
+    }
+
+    @include bp.largeDesktopAndUp {
+        margin-left: -#{$contentSpacingLargeDesktopX};
+        margin-right: -#{$contentSpacingLargeDesktopX};
+    }
+}

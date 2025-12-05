@@ -1,7 +1,7 @@
 @use "./styling/contentSpacing" as cs;
 @use "./styling/breakpoints" as bp;
 
-main.appramme {
+.appramme {
     flex-grow: 1;
 
     display: flex;
@@ -17,4 +17,12 @@ main.appramme {
         padding-left: cs.$contentSpacingDesktopX;
         padding-right: cs.$contentSpacingDesktopX;
     }
+}
+
+.fullBreddeAppramme {
+    flex-grow: 1;
+    padding: 0 1rem;
+
+    display: flex;
+    flex-direction: column;
 }

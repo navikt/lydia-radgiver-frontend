@@ -11,7 +11,6 @@ import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
 import { BodyShort, Link, Loader } from "@navikt/ds-react";
 import { setTilgangsnivå } from "./util/analytics-klient";
 import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
-import { Samarbeidsside } from "./Pages/Virksomhet/Samarbeid/Samarbeidsside";
 import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
 import { Head } from "@unhead/react";
 import styles from "./app.module.scss";
@@ -112,30 +111,54 @@ const AppContent = () => {
         <>
             <Dekoratør brukerInformasjon={brukerInformasjon} />
             <FeilmeldingBanner />
-            <main className={styles.appramme} id="maincontent">
-                <Routes>
-                    <Route path={"/"} element={<SmartStartsideRedirect />} />
-                    <Route
-                        path={"/prioritering"}
-                        element={<Prioriteringsside />}
-                    />
-                    <Route
-                        path={"/statusoversikt"}
-                        element={<Statusoversiktside />}
-                    />
-                    <Route
-                        path={"/virksomhet/:orgnummer"}
-                        element={<Virksomhetsside />}
-                    />
-                    <Route
-                        path={
-                            "/virksomhet/:orgnummer/sak/:saksnummer/samarbeid/:prosessId"
-                        }
-                        element={<Samarbeidsside />}
-                    />
-                    <Route path={"/minesaker"} element={<MineSakerside />} />
-                </Routes>
-            </main>
+            <Routes>
+                <Route path={"/"} element={
+                    <main className={styles.appramme} id="maincontent">
+                        <SmartStartsideRedirect />
+                    </main>
+                } />
+                <Route
+                    path={"/prioritering"}
+                    element={
+                        <main className={styles.appramme} id="maincontent">
+                            <Prioriteringsside
+                            />
+                        </main>
+                    }
+                />
+                <Route
+                    path={"/statusoversikt"}
+                    element={
+                        <main className={styles.appramme} id="maincontent">
+                            <Statusoversiktside
+                            />
+                        </main>
+                    }
+                />
+                <Route
+                    path={"/virksomhet/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"}
+                    element={
+                        <main className={styles.fullBreddeAppramme} id="maincontent">
+                            <Virksomhetsside
+                            />
+                        </main>
+                    }
+                />
+                <Route
+                    path={"/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
+                    element={
+                        <main className={styles.fullBreddeAppramme} id="maincontent">
+                            <Virksomhetsside
+                            />
+                        </main>
+                    }
+                />
+                <Route path={"/minesaker"} element={
+                    <main className={styles.appramme} id="maincontent">
+                        <MineSakerside />
+                    </main>
+                } />
+            </Routes>
             <Footer />
         </>
     );
