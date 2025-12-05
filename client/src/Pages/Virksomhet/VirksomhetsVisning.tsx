@@ -97,6 +97,13 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak }: { valg
     );
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
     const kanEndreSpørreundersøkelser = (erSaksbehandler(brukerInformasjon) && (brukerFølgerSak || brukerErEierAvSak) || false);
+    const erIÅpenSak = iaSak && ![
+        "IKKE_AKTIV",
+        "IKKE_AKTUELL",
+        "FULLFØRT",
+        "SLETTET",
+        "AVBRUTT",
+    ].includes(iaSak.status);
 
     const {
         harPlan,
@@ -130,7 +137,7 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak }: { valg
                         />}
                     </HStack>
                     <HStack gap="8" align="center">
-                        {kanEndreSpørreundersøkelser && <Button variant="secondary" size="small" onClick={() => setEndreSamarbeidModalÅpen(true)}>Administrer</Button>}
+                        {kanEndreSpørreundersøkelser && erIÅpenSak && <Button variant="secondary" size="small" onClick={() => setEndreSamarbeidModalÅpen(true)}>Administrer</Button>}
                         <Salesforcelenke samarbeidId={valgtSamarbeid.id} />
                     </HStack>
                 </div>
