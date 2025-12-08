@@ -68,8 +68,6 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 		return <div>Laster kartlegginger...</div>;
 	}
 
-	console.log('samarbeidsplan', samarbeidsplan)
-
 	return (
 		<SpørreundersøkelseProvider
 			spørreundersøkelseType={sistOpprettetType ?? "EVALUERING"} {/* TODO: Drop type her */ ...{}}
