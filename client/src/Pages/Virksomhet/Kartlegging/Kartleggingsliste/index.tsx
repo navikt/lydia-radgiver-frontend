@@ -13,6 +13,7 @@ import OpprettNySpørreundersøkelseKnapp from '../../../../components/Spørreun
 import { SpørreundersøkelseType, SpørreundersøkelseTypeEnum } from '../../../../domenetyper/spørreundersøkelseMedInnhold';
 import { useHentIASaksStatus } from '../../../../api/lydia-api/sak';
 import { HStack } from '@navikt/ds-react';
+import { useHentPlan } from '../../../../api/lydia-api/plan';
 
 export function Kartleggingsliste({ iaSak, gjeldendeSamarbeid }: { iaSak?: IASak; gjeldendeSamarbeid: IaSakProsess; }) {
 	if (!iaSak) {
@@ -32,6 +33,12 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 	const { data: brukerInformasjon } = useHentBrukerinformasjon();
 	const brukerFølgerSak = følgere.some(
 		(følger) => følger === brukerInformasjon?.ident,
+	);
+
+	const { data: samarbeidsplan } = useHentPlan(
+		iaSak.orgnr,
+		iaSak.saksnummer,
+		gjeldendeSamarbeid.id,
 	);
 	const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
 	const kanEndreSpørreundersøkelser =
@@ -61,6 +68,8 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 		return <div>Laster kartlegginger...</div>;
 	}
 
+	console.log('samarbeidsplan', samarbeidsplan)
+
 	return (
 		<SpørreundersøkelseProvider
 			spørreundersøkelseType={sistOpprettetType ?? "EVALUERING"} {/* TODO: Drop type her */ ...{}}
@@ -89,7 +98,7 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 						<OpprettNySpørreundersøkelseKnapp
 							onClick={() => opprettSpørreundersøkelseOgMuter(SpørreundersøkelseTypeEnum.enum.EVALUERING)}
 							disabled={
-								!(sakErIRettStatus && kanEndreSpørreundersøkelser)
+								!(sakErIRettStatus && kanEndreSpørreundersøkelser) || samarbeidsplan === undefined
 							}
 							loading={false}
 							type={SpørreundersøkelseTypeEnum.enum.EVALUERING}
