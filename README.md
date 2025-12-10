@@ -4,6 +4,10 @@ Frontend for IA rådgivere
 
 # Komme i gang
 
+## Kjøre opp lokalt TLDR;
+
+`./run.sh [-if]` i rot mappe
+
 ## Kjøre opp lokalt
 
 Dette let deg køyre opp frontend lokalt med alt av avhengigheitene som trengst.
