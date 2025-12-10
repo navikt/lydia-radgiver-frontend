@@ -11,6 +11,7 @@ import { flyttSpørreundersøkelse } from "../../../api/lydia-api/spørreunders�
 import ActionButtonsHvisSamarbeidIkkeFullført from "../../../Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
 import { PubliserSpørreundersøkelse } from "../../../Pages/Virksomhet/Kartlegging/PubliserSpørreundersøkelse";
 import { usePollingAvKartleggingVedAvsluttetStatus } from "../../../util/usePollingAvKartleggingVedAvsluttetStatus";
+import ResultatEksportVisning from "../../../Pages/Virksomhet/Kartlegging/ResultatEksportVisning";
 
 
 export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse, erÅpen, dato, setErÅpen }: { spørreundersøkelse: Spørreundersøkelse, erÅpen: boolean, dato: string, setErÅpen: (åpen: boolean) => void }) {
@@ -26,6 +27,7 @@ export default function FullførtSpørreundersøkelseRad({ spørreundersøkelse,
 
 function SpørreundersøkelseHeader({ spørreundersøkelse, dato, onClick }: { spørreundersøkelse: Spørreundersøkelse, dato: string, onClick: () => void }) {
 	const { iaSak, samarbeid, hentSpørreundersøkelserPåNytt, kanEndreSpørreundersøkelser } = useSpørreundersøkelse();
+	const [erIEksportMode, setErIEksportMode] = React.useState(false);
 	const flyttTilValgtSamarbeid = (samarbeidId: number) => {
 		flyttSpørreundersøkelse(
 			iaSak.orgnr,
@@ -50,6 +52,12 @@ function SpørreundersøkelseHeader({ spørreundersøkelse, dato, onClick }: { s
 			<span className={styles.headerRightContent}>
 				{kanEndreSpørreundersøkelser &&
 					<ActionButtonsHvisSamarbeidIkkeFullført onClick={e => e.stopPropagation()}>
+						<ResultatEksportVisning
+							spørreundersøkelse={spørreundersøkelse}
+							erIEksportMode={erIEksportMode}
+							setErIEksportMode={setErIEksportMode}
+							iaSak={iaSak}
+						/>
 						{
 							spørreundersøkelse.publiseringStatus === "IKKE_PUBLISERT"
 							&& spørreundersøkelse.type === "BEHOVSVURDERING"
