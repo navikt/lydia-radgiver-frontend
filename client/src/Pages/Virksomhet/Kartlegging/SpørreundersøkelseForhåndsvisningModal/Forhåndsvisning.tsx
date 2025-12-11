@@ -27,7 +27,7 @@ export default function Forhåndsvisning({
     spørreundersøkelseid: string;
     setModaltittel: (tittel: string) => void;
 }) {
-    const { iaSak, samarbeid, spørreundersøkelseType } =
+    const { iaSak, samarbeid } =
         useSpørreundersøkelse();
     const { data: spørreundersøkelseForhåndsvisning } =
         useHentSpørreundersøkelseMedInnhold(
@@ -40,7 +40,7 @@ export default function Forhåndsvisning({
     React.useEffect(() => {
         if (spørreundersøkelseForhåndsvisning) {
             setModaltittel(
-                `${capitalizeFirstLetterLowercaseRest(spørreundersøkelseType)} opprettet ${lokalDatoMedKlokkeslett(spørreundersøkelseForhåndsvisning.opprettetTidspunkt)}`,
+                `${capitalizeFirstLetterLowercaseRest(spørreundersøkelseForhåndsvisning.type)} opprettet ${lokalDatoMedKlokkeslett(spørreundersøkelseForhåndsvisning.opprettetTidspunkt)}`,
             );
         }
     }, [spørreundersøkelseForhåndsvisning, setModaltittel]);

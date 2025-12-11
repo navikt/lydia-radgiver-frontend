@@ -104,18 +104,6 @@ describe("Spørreundersøkelseliste", () => {
         ).toHaveLength(3);
     });
 
-    it("Viser melding når det ikke finnes noen spørreundersøkelser", () => {
-        render(
-            <DummySpørreundersøkelseProvider
-                spørreundersøkelseliste={[]}
-            >
-                <Spørreundersøkelseliste />
-            </DummySpørreundersøkelseProvider>,
-        );
-
-        expect(screen.getByText("Det finnes ingen spørreundersøkelser på dette samarbeidet.")).toBeInTheDocument();
-    });
-
     it("Sorterer spørreundersøkelser riktig etter opprettet dato", () => {
         render(
             <DummySpørreundersøkelseProvider spørreundersøkelseliste={[

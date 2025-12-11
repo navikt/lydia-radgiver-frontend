@@ -7,7 +7,6 @@ import { IASak } from "../../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import Spørreundersøkelseliste from '../../../../components/Spørreundersøkelse/Spørreundersøkelseliste';
 import { SpørreundersøkelseHeading } from '../../../../components/Spørreundersøkelse/SpørreundersøkelseHeading';
-import { SpørreundersøkelseHjelpetekst } from '../../../../components/Spørreundersøkelse/SpørreundersøkelseHjelpetekst';
 import { VisHvisSamarbeidErÅpent } from '../../Samarbeid/SamarbeidContext';
 import OpprettNySpørreundersøkelseKnapp from '../../../../components/Spørreundersøkelse/OpprettNySpørreundersøkelseKnapp';
 import { SpørreundersøkelseType, SpørreundersøkelseTypeEnum } from '../../../../domenetyper/spørreundersøkelseMedInnhold';
@@ -48,8 +47,7 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 	const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
 
 	const opprettSpørreundersøkelseOgMuter = (type: SpørreundersøkelseType) => {
-		if (sistOpprettetType !== null) return;
-		setSistOpprettetType(type);
+		setSistOpprettetType(null);
 		opprettSpørreundersøkelse(
 			iaSak.orgnr,
 			iaSak.saksnummer,
@@ -59,7 +57,7 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 			setSisteOpprettedeId(id);
 			hentSpørreundersøkelserPåNytt();
 			oppdaterSaksStatus();
-			setSistOpprettetType(null);
+			setSistOpprettetType(type);
 		});
 
 	}
@@ -70,7 +68,7 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 
 	return (
 		<SpørreundersøkelseProvider
-			spørreundersøkelseType={sistOpprettetType ?? "EVALUERING"} {/* TODO: Drop type her */ ...{}}
+			spørreundersøkelseType={sistOpprettetType ?? "EVALUERING"}
 			spørreundersøkelseliste={data}
 			iaSak={iaSak}
 			samarbeid={gjeldendeSamarbeid}
@@ -100,16 +98,12 @@ function Innhold({ iaSak, gjeldendeSamarbeid }: { iaSak: IASak; gjeldendeSamarbe
 							}
 							loading={false}
 							type={SpørreundersøkelseTypeEnum.enum.EVALUERING}
+							disabledTooltipTekst={samarbeidsplan === undefined ? "Det må være en samarbeidsplan for å opprette evaluering" : undefined}
 						/>
 					</HStack>
 				</VisHvisSamarbeidErÅpent>
 			</SpørreundersøkelseHeading>
-			<SpørreundersøkelseHjelpetekst
-				type="BEHOVSVURDERING" {/* TODO: Drop type her */ ...{}}
-				kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
-				sakErIRettStatus={["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status)}
-				erLesebruker={brukerInformasjon?.rolle === "Lesetilgang"}
-			/>
+
 			<Spørreundersøkelseliste />
 		</SpørreundersøkelseProvider>
 	);

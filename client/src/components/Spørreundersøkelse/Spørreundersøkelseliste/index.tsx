@@ -4,8 +4,6 @@ import { useVirksomhetContext } from "../../../Pages/Virksomhet/VirksomhetContex
 import { sorterPåDato, formaterDatoForSpørreundersøkelse } from "../dato";
 import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
 import SpørreundersøkelseRad from "./SpørreundersøkelseRad";
-import { BodyLong } from "@navikt/ds-react";
-import styles from './spørreundersøkelsesliste.module.scss';
 
 export default function Spørreundersøkelseliste() {
     const { spørreundersøkelseliste, sisteOpprettedeSpørreundersøkelseId, setSisteOpprettedeSpørreundersøkelseId } =
@@ -14,11 +12,7 @@ export default function Spørreundersøkelseliste() {
     const { spørreundersøkelseId } = useVirksomhetContext();
 
     if (!spørreundersøkelseliste || spørreundersøkelseliste.length === 0) {
-        return (
-            <BodyLong className={styles.ingenTilgjengeligeSpørreundersøkelser}>
-                Det finnes ingen spørreundersøkelser på dette samarbeidet.
-            </BodyLong>
-        )
+        return null;
     }
 
     return (

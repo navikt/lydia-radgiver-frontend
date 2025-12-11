@@ -1,10 +1,23 @@
-import { Button, ButtonProps } from "@navikt/ds-react";
+import { Button, ButtonProps, Tooltip } from "@navikt/ds-react";
 import { PlusIcon } from "@navikt/aksel-icons";
 import React from "react";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 import { FormatertSpørreundersøkelseType } from "./Spørreundersøkelseliste/utils";
 
-export default function OpprettNySpørreundersøkelseKnapp({ style = {}, type, ...remainingProps }: { type?: SpørreundersøkelseType } & Omit<ButtonProps, "variant" | "icon" | "type">) {
+export default function OpprettNySpørreundersøkelseKnapp({ style = {}, type, disabledTooltipTekst, ...remainingProps }: { type?: SpørreundersøkelseType, disabledTooltipTekst?: string } & Omit<ButtonProps, "variant" | "icon" | "type">) {
+    if (disabledTooltipTekst && remainingProps.disabled) {
+        return (
+            <Tooltip content={disabledTooltipTekst}>
+                <span style={{ marginTop: "1rem", marginRight: "1rem", ...style }}>
+                    <OpprettNySpørreundersøkelseKnapp
+                        {...remainingProps}
+                        style={{ marginTop: 0, marginRight: 0, ...style }}
+                        type={type}
+                    />
+                </span>
+            </Tooltip>
+        );
+    }
     return (
         <Button
             {...remainingProps}

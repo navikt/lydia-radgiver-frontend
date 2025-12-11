@@ -73,7 +73,7 @@ function SpørreundersøkelseHeader({ spørreundersøkelse, dato, onClick }: { s
 							)
 						}
 						<PubliserSpørreundersøkelse
-							type="BEHOVSVURDERING"
+							type={spørreundersøkelse.type}
 							spørreundersøkelse={spørreundersøkelse}
 							hentBehovsvurderingPåNytt={
 								() => hentSpørreundersøkelserPåNytt?.()
