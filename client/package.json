@@ -19,7 +19,7 @@
         "@floating-ui/react": "0.27.16",
         "@navikt/aksel-icons": "7.33.3",
         "@navikt/ds-css": "7.33.3",
-        "@navikt/ds-react": "7.33.3",
+        "@navikt/ds-react": "7.35.2",
         "@unhead/react": "2.0.19",
         "highcharts": "12.4.0",
         "highcharts-react-official": "3.2.3",
