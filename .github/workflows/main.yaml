@@ -8,7 +8,7 @@ jobs:
     name: Build, lint, test and push docker image
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Setup node
         uses: actions/setup-node@v4
         with:
@@ -57,7 +57,7 @@ jobs:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Deploy to ${{ matrix.cluster }}
         uses: nais/deploy/actions/deploy@v2
         env:
@@ -75,7 +75,7 @@ jobs:
     if: github.ref == 'refs/heads/pdfeksport'
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - name: Deploy to dev
         uses: nais/deploy/actions/deploy@v2
         env:
