@@ -24,7 +24,7 @@
         "highcharts": "12.4.0",
         "highcharts-react-official": "3.2.3",
         "html-to-image": "1.11.13",
-        "jspdf": "3.0.3",
+        "jspdf": "3.0.4",
         "react": "19.2.1",
         "react-dom": "19.2.1",
         "react-router-dom": "7.10.1",
