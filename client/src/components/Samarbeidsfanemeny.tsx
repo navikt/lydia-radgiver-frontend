@@ -79,7 +79,7 @@ function Samarbeidsfanelenkeliste({
                                 fontSize="1.25rem"
                             />
                         }
-                        tekst="IA-Veileder"
+                        tekst="IA-veileder"
                         href="https://navno.sharepoint.com/sites/fag-og-ytelser-veileder-for-inkluderende-arbeidsliv/SitePages/Kartlegge%20behovet%20for%20tjenester.aspx"
                     />
                 </>
@@ -151,7 +151,7 @@ function Samarbeidsfanelenkeliste({
                                     fontSize="1.25rem"
                                 />
                             }
-                            tekst="IA-Veileder"
+                            tekst="IA-veileder"
                             href="https://navno.sharepoint.com/sites/fag-og-ytelser-veileder-for-inkluderende-arbeidsliv/SitePages/Kartlegge%20behovet%20for%20tjenester.aspx"
                         />
                     </ActionMenu.Group>

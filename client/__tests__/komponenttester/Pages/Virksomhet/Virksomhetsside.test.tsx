@@ -3,7 +3,7 @@ import '@testing-library/jest-dom';
 import { axe } from 'jest-axe';
 
 import { Virksomhetsside } from '../../../../src/Pages/Virksomhet/Virksomhetsside';
-import { BrowserRouter } from 'react-router-dom';
+import { BrowserRouter, useParams, useSearchParams } from 'react-router-dom';
 import {
 	dummyIaSak,
 	dummyPubliseringsinfo,
@@ -14,6 +14,7 @@ import {
 	dummySykefraværsstatistikkSiste4Kvartal,
 	dummyVirksomhetsstatistikkSiste4Kvartal
 } from '../../../../__mocks__/virksomhetsMockData';
+import { dummySpørreundersøkelseliste } from '../../../../__mocks__/spørreundersøkelseDummyData';
 
 jest.mock('../../../../src/api/lydia-api/virksomhet', () => {
 	return {
@@ -64,6 +65,18 @@ jest.mock('../../../../src/api/lydia-api/virksomhet', () => {
 	};
 });
 
+jest.mock('../../../../src/api/lydia-api/plan', () => {
+	return {
+		...jest.requireActual('../../../../src/api/lydia-api/plan'),
+		useHarPlan: jest.fn(() => {
+			return {
+				harPlan: true,
+				lastet: true,
+			};
+		}),
+	};
+});
+
 jest.mock('../../../../src/api/lydia-api/spørreundersøkelse', () => {
 	return {
 		...jest.requireActual('../../../../src/api/lydia-api/spørreundersøkelse'),
@@ -72,6 +85,14 @@ jest.mock('../../../../src/api/lydia-api/spørreundersøkelse', () => {
 				data: dummySamarbeid,
 				loading: false,
 				validating: false,
+			};
+		}),
+		useSpørreundersøkelsesliste: jest.fn(() => {
+			return {
+				data: dummySpørreundersøkelseliste,
+				loading: false,
+				validating: false,
+				mutate: jest.fn(),
 			};
 		}),
 	};
@@ -105,6 +126,44 @@ describe('Virksomhetsside', () => {
 		);
 		expect(screen.getByText('Samarbeid (8)')).toBeInTheDocument();
 	});
+
+	describe('Kartlegging', () => {
+		it("Hamburgermeny har riktig innhold", async () => {
+			const searchParamsSet = jest.fn();
+			jest.mocked(useSearchParams).mockReturnValue([new URLSearchParams({ fane: "kartlegging" }), searchParamsSet]);
+			jest.mocked(useParams).mockReturnValue({ orgnummer: '840623927', prosessId: dummySamarbeid[1].id.toString() });
+			render(
+				<BrowserRouter>
+					<Virksomhetsside />
+				</BrowserRouter>
+			);
+
+			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
+			expect(samarbeidsknapp).toBeInTheDocument();
+			samarbeidsknapp.click();
+
+			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
+			expect(faneKnapp).toBeInTheDocument();
+			faneKnapp.click();
+
+			const hamburgermeny = screen.getByRole('button', { name: 'Meny' });
+			expect(hamburgermeny).toBeInTheDocument();
+			hamburgermeny.click();
+
+			expect(await screen.findAllByRole('menuitem', { name: 'Brukerveileder' })).toHaveLength(2);
+			expect(screen.getByRole('menuitem', { name: 'Invitasjonsmal' })).toBeInTheDocument();
+			expect(screen.getByRole('menuitem', { name: 'Tips og råd til gjennomføring' })).toBeInTheDocument();
+			expect(await screen.findAllByRole('menuitem', { name: 'IA-veileder' })).toHaveLength(2);
+		});
+
+		it.todo("Gir ikke 'ny'-knapper for lesebruker");
+		it.todo("Gir ikke 'administrer'-knapp for lesebruker");
+		it.todo("Gir ikke 'administrer'-knapp på avsluttet samarbeid");
+		it.todo("Gir alltid knapp for ny behobsvurdering");
+		it.todo("Gir ikke knapp for ny evaluering hvis det ikke finnes noen plan");
+		it.todo("Gir knapp for ny evaluering hvis det finnes en plan");
+	});
+
 
 	it.failing('Har ingen accessibilityfeil', async () => {
 		const { container } = render(

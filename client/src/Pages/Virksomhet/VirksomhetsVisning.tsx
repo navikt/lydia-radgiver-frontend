@@ -45,11 +45,6 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         setSearchParams(searchParams, { replace: true });
     };
 
-    React.useEffect(() => {
-        if (fane !== "statistikk" && fane !== "historikk") {
-            oppdaterTabISearchParam("statistikk");
-        }
-    }, [lasterIaSak]);
     const valgtSamarbeid = alleSamarbeid?.find(({ id }) => id && id === Number(prosessId));
 
     return (
@@ -192,15 +187,6 @@ function Samarbeidsinnhold({ valgtSamarbeid, iaSak, harPlan }: { valgtSamarbeid:
     };
 
     const defaultFane = harPlan ? "plan" : "kartlegging";
-
-    React.useEffect(() => {
-        if (
-            fane !== "kartlegging" &&
-            fane !== "plan"
-        ) {
-            oppdaterTabISearchParam(defaultFane);
-        }
-    }, []);
 
     const fane = searchParams.get("fane") ?? defaultFane;
 

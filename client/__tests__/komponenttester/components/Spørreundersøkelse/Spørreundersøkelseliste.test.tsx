@@ -163,13 +163,6 @@ describe("Spørreundersøkelseliste", () => {
         });
     });
 
-    it.todo("Hamburgermeny har riktig innhold");
-
-    it.todo("Gir ikke 'ny'-knapper for lesebruker");
-    it.todo("Gir alltid knapp for ny behobsvurdering");
-    it.todo("Gir ikke knapp for ny evaluering hvis det ikke finnes noen plan");
-    it.todo("Gir knapp for ny evaluering hvis det finnes en plan");
-
     describe("status: OPPRETTET", () => {
         const antallOpprettet = dummySpørreundersøkelseliste.filter(({ status }) => status === "OPPRETTET").length;
 
