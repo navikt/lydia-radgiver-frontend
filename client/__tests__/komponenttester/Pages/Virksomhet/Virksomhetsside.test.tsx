@@ -264,7 +264,33 @@ describe('Virksomhetsside', () => {
 			await waitFor(() => expect(nyEvalueringKnapp).toBeDisabled());
 		});
 
-		it.todo("Gir alltid knapp for ny behobsvurdering");
+		it("Gir alltid knapp for ny behobsvurdering", () => {
+			jest.mocked(useHarPlan).mockReturnValue({ harPlan: false, lastet: true });
+			jest.mocked(useHentPlan).mockReturnValue({
+				data: undefined,
+				loading: false,
+				validating: false,
+				mutate: jest.fn(),
+				error: undefined,
+			});
+			render(
+				<BrowserRouter>
+					<Virksomhetsside />
+				</BrowserRouter>
+			);
+
+			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
+			expect(samarbeidsknapp).toBeInTheDocument();
+			samarbeidsknapp.click();
+
+			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
+			expect(faneKnapp).toBeInTheDocument();
+			faneKnapp.click();
+
+			const nyBehovsvurderingKnapp = screen.getByRole('button', { name: 'Ny behovsvurdering' });
+			expect(nyBehovsvurderingKnapp).toBeInTheDocument();
+			expect(nyBehovsvurderingKnapp).toBeEnabled();
+		});
 
 		describe('Lesebruker', () => {
 			beforeEach(() => {
