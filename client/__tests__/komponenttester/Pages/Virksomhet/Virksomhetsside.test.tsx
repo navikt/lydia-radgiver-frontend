@@ -17,6 +17,8 @@ import {
 import { dummySpørreundersøkelseliste } from '../../../../__mocks__/spørreundersøkelseDummyData';
 import { brukerMedGyldigToken, brukerMedLesetilgang } from '../../../../src/Pages/Prioritering/mocks/innloggetAnsattMock';
 import { useHentBrukerinformasjon } from '../../../../src/api/lydia-api/bruker';
+import { useHarPlan } from '../../../../src/api/lydia-api/plan';
+import { useHentSamarbeid } from '../../../../src/api/lydia-api/spørreundersøkelse';
 
 jest.mock('../../../../src/api/lydia-api/virksomhet', () => {
 	return {
@@ -186,7 +188,7 @@ describe('Virksomhetsside', () => {
 		});
 
 		it("Gir 'administrer'-knapp for vanlig bruker", () => {
-			const { container } = render(
+			render(
 				<BrowserRouter>
 					<Virksomhetsside />
 				</BrowserRouter>
@@ -200,8 +202,50 @@ describe('Virksomhetsside', () => {
 			expect(faneKnapp).toBeInTheDocument();
 			faneKnapp.click();
 
-			waitFor(() => expect(screen.getByRole('button', { name: 'Administrer' })).toBeInTheDocument());
+			expect(screen.getByRole('button', { name: 'Administrer' })).toBeInTheDocument();
 		});
+
+		it("Gir knapp for ny evaluering hvis det finnes en plan", () => {
+			render(
+				<BrowserRouter>
+					<Virksomhetsside />
+				</BrowserRouter>
+			);
+
+			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
+			expect(samarbeidsknapp).toBeInTheDocument();
+			samarbeidsknapp.click();
+
+			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
+			expect(faneKnapp).toBeInTheDocument();
+			faneKnapp.click();
+
+			const nyEvalueringKnapp = screen.getByRole('button', { name: 'Ny evaluering' });
+			expect(nyEvalueringKnapp).toBeInTheDocument();
+			waitFor(() => expect(nyEvalueringKnapp).toBeEnabled());
+		});
+
+		it("Gir ikke knapp for ny evaluering hvis det ikke finnes noen plan", () => {
+			jest.mocked(useHarPlan).mockReturnValue({ harPlan: false, lastet: true });
+			render(
+				<BrowserRouter>
+					<Virksomhetsside />
+				</BrowserRouter>
+			);
+
+			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
+			expect(samarbeidsknapp).toBeInTheDocument();
+			samarbeidsknapp.click();
+
+			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
+			expect(faneKnapp).toBeInTheDocument();
+			faneKnapp.click();
+
+			const nyEvalueringKnapp = screen.queryByRole('button', { name: 'Ny evaluering' });
+			expect(nyEvalueringKnapp).toBeInTheDocument();
+			waitFor(() => expect(nyEvalueringKnapp).toBeDisabled());
+		});
+		it.todo("Gir alltid knapp for ny behobsvurdering");
 
 		describe('Lesebruker', () => {
 			beforeEach(() => {
@@ -251,10 +295,55 @@ describe('Virksomhetsside', () => {
 				expect(screen.queryByRole('button', { name: 'Administrer' })).not.toBeInTheDocument();
 			});
 		});
-		it.todo("Gir ikke 'administrer'-knapp på avsluttet samarbeid");
-		it.todo("Gir alltid knapp for ny behobsvurdering");
-		it.todo("Gir ikke knapp for ny evaluering hvis det ikke finnes noen plan");
-		it.todo("Gir knapp for ny evaluering hvis det finnes en plan");
+
+		describe('Avsluttet samarbeid', () => {
+			beforeEach(() => {
+				jest.mocked(useHentSamarbeid).mockReturnValue({
+					data: [{ ...dummySamarbeid[1], status: 'FULLFØRT' }],
+					loading: false,
+					validating: false,
+					mutate: jest.fn(),
+					error: undefined,
+				});
+			});
+			it("Gir ikke 'administrer'-knapp på avsluttet samarbeid", () => {
+				render(
+					<BrowserRouter>
+						<Virksomhetsside />
+					</BrowserRouter>
+				);
+
+				expect(screen.getAllByText(dummySamarbeid[1].navn as string, { exact: false }).filter(el => el.className === "title")).toHaveLength(0);
+				const samarbeidsknapp = screen.getByRole('link', { name: `${dummySamarbeid[1].navn} Fullført` });
+				expect(samarbeidsknapp).toBeInTheDocument();
+				samarbeidsknapp.click();
+				waitFor(() => expect(screen.getAllByText(dummySamarbeid[1].navn as string, { exact: false }).filter(el => el.className === "title")).toHaveLength(1)); // En i knappen
+
+				const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
+				expect(faneKnapp).toBeInTheDocument();
+				faneKnapp.click();
+
+				expect(screen.queryByRole('button', { name: 'Administrer' })).not.toBeInTheDocument();
+			});
+
+			it("Gir ikke knapp for ny evaluering selv om det finnes en plan", () => {
+				render(
+					<BrowserRouter>
+						<Virksomhetsside />
+					</BrowserRouter>
+				);
+
+				const samarbeidsknapp = screen.getByRole('link', { name: `${dummySamarbeid[1].navn} Fullført` });
+				expect(samarbeidsknapp).toBeInTheDocument();
+				samarbeidsknapp.click();
+
+				const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
+				expect(faneKnapp).toBeInTheDocument();
+				faneKnapp.click();
+
+				expect(screen.queryByRole('button', { name: 'Ny evaluering' })).not.toBeInTheDocument();
+			});
+		});
 	});
 
 
