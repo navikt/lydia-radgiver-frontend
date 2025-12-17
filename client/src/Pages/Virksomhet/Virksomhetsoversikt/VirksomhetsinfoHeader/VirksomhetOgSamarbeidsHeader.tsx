@@ -153,7 +153,7 @@ function HistorikkStatistikkKnapper({ valgtSamarbeid, virksomhet }: { valgtSamar
 
     return (
         <>
-            <HStack gap="4" justify="end">
+            <HStack gap="4" justify="end" role="tablist">
                 <Tabs.Tab
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     as={({ className, ...remainingProps }: ButtonProps) => <Button {...remainingProps} className={styles.tabButton} />}

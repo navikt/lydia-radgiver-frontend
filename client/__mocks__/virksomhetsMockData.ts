@@ -1,6 +1,7 @@
 import { Næringsstatistikk } from "../src/domenetyper/bransjestatistikk";
 import { IASak } from "../src/domenetyper/domenetyper";
 import { IaSakProsess } from "../src/domenetyper/iaSakProsess";
+import { Plan } from "../src/domenetyper/plan";
 import { Publiseringsinfo } from "../src/domenetyper/publiseringsinfo";
 import { Sakshistorikk } from "../src/domenetyper/sakshistorikk";
 import { Virksomhet } from "../src/domenetyper/virksomhet";
@@ -569,34 +570,176 @@ export const dummyPubliseringsinfo: Publiseringsinfo = {
 };
 
 export const dummySykefraværsstatistikkSiste4Kvartal: VirkomshetsstatistikkSisteKvartal =
-    {
-        orgnr: "840623927",
-        arstall: 2025,
-        kvartal: 2,
-        antallPersoner: 470,
-        tapteDagsverk: 3044.95550993731,
-        muligeDagsverk: 125,
-        sykefraværsprosent: 19,
-        graderingsprosent: 37,
-        maskert: false,
-    };
+{
+    orgnr: "840623927",
+    arstall: 2025,
+    kvartal: 2,
+    antallPersoner: 470,
+    tapteDagsverk: 3044.95550993731,
+    muligeDagsverk: 125,
+    sykefraværsprosent: 19,
+    graderingsprosent: 37,
+    maskert: false,
+};
 
 export const dummyVirksomhetsstatistikkSiste4Kvartal: VirksomhetsstatistikkSiste4Kvartaler =
-    {
-        orgnr: "840623927",
-        sykefraværsprosent: 19,
-        graderingsprosent: 37,
-        muligeDagsverk: 500,
-        tapteDagsverk: 12179.8220397492,
-        antallKvartaler: 2,
-        kvartaler: [
-            {
-                kvartal: 1,
-                årstall: 2025,
-            },
-            {
-                kvartal: 2,
-                årstall: 2025,
-            },
-        ],
-    };
+{
+    orgnr: "840623927",
+    sykefraværsprosent: 19,
+    graderingsprosent: 37,
+    muligeDagsverk: 500,
+    tapteDagsverk: 12179.8220397492,
+    antallKvartaler: 2,
+    kvartaler: [
+        {
+            kvartal: 1,
+            årstall: 2025,
+        },
+        {
+            kvartal: 2,
+            årstall: 2025,
+        },
+    ],
+};
+
+export const dummyPlan: Plan = {
+    id: "54af420a-5a38-46de-8346-8f2b616acedf",
+    sistEndret: new Date("2025-12-17T13:15:41.261726"),
+    status: "AKTIV",
+    temaer: [
+        {
+            id: 10,
+            navn: "Partssamarbeid",
+            inkludert: true,
+            undertemaer: [
+                {
+                    id: 34,
+                    navn: "Utvikle partssamarbeidet",
+                    målsetning: "Styrke og strukturere samarbeidet mellom leder, tillitsvalgt og verneombud, samt øke kunnskap og ferdigheter for å jobbe systematisk og forebyggende med sykefravær og arbeidsmiljø.",
+                    inkludert: true,
+                    status: "PLANLAGT",
+                    startDato: new Date("2025-12-17"),
+                    sluttDato: new Date("2026-01-17"),
+                    harAktiviteterISalesforce: false
+                }
+            ]
+        },
+        {
+            id: 11,
+            navn: "Sykefraværsarbeid",
+            inkludert: true,
+            undertemaer: [
+                {
+                    id: 35,
+                    navn: "Sykefraværsrutiner",
+                    målsetning: "Jobbe systematisk og forebyggende med sykefravær, samt forbedre rutiner og oppfølging av ansatte som er sykmeldte eller står i fare for å bli det.",
+                    inkludert: true,
+                    status: "PLANLAGT",
+                    startDato: new Date("2025-12-17"),
+                    sluttDato: new Date("2026-01-17"),
+                    harAktiviteterISalesforce: false
+                },
+                {
+                    id: 36,
+                    navn: "Oppfølgingssamtaler",
+                    målsetning: "Øke kompetanse og ferdigheter for hvordan man gjennomfører gode oppfølgingssamtaler, både gjennom teori og praksis.",
+                    inkludert: false,
+                    status: null,
+                    startDato: null,
+                    sluttDato: null,
+                    harAktiviteterISalesforce: false
+                },
+                {
+                    id: 37,
+                    navn: "Tilretteleggings- og medvirkningsplikt",
+                    målsetning: "Utvikle rutiner og kultur for tilrettelegging og medvirkning, samt kartlegging av tilretteleggingsmuligheter på arbeidsplassen.",
+                    inkludert: true,
+                    status: "PLANLAGT",
+                    startDato: new Date("2025-12-17"),
+                    sluttDato: new Date("2026-01-17"),
+                    harAktiviteterISalesforce: false
+                },
+                {
+                    id: 38,
+                    navn: "Sykefravær - enkeltsaker",
+                    målsetning: "Øke kompetanse og ferdigheter for hvordan man tar tak i, følger opp og løser enkeltsaker.",
+                    inkludert: false,
+                    status: null,
+                    startDato: null,
+                    sluttDato: null,
+                    harAktiviteterISalesforce: false
+                }
+            ]
+        },
+        {
+            id: 12,
+            navn: "Arbeidsmiljø",
+            inkludert: true,
+            undertemaer: [
+                {
+                    id: 39,
+                    navn: "Utvikle arbeidsmiljøet",
+                    målsetning: "Øke anvendelse og kompetanse innen verktøy og bransjerettet kunnskap for å jobbe målrettet og kunnskapsbasert med eget arbeidsmiljø.",
+                    inkludert: false,
+                    status: null,
+                    startDato: null,
+                    sluttDato: null,
+                    harAktiviteterISalesforce: false
+                },
+                {
+                    id: 40,
+                    navn: "Endring og omstilling",
+                    målsetning: "Øke kompetansen for hvordan man ivaretar arbeidsmiljø og forebygger sykefravær under endring og omstilling.",
+                    inkludert: true,
+                    status: "PLANLAGT",
+                    startDato: new Date("2025-12-17"),
+                    sluttDato: new Date("2026-01-17"),
+                    harAktiviteterISalesforce: false
+                },
+                {
+                    id: 41,
+                    navn: "Oppfølging av arbeidsmiljøundersøkelser",
+                    målsetning: "Øke ferdigheter og gi støtte til hvordan man kan jobbe med forhold på arbeidsplassen som belyses i egne arbeidsmiljøundersøkelser.",
+                    inkludert: false,
+                    status: null,
+                    startDato: null,
+                    sluttDato: null,
+                    harAktiviteterISalesforce: false
+                },
+                {
+                    id: 42,
+                    navn: "Livsfaseorientert personalpolitikk",
+                    målsetning: "Utvikle kultur og personalpolitikk som ivaretar medarbeideres ulike behov, krav, begrensninger og muligheter i ulike livsfaser.",
+                    inkludert: true,
+                    status: "PLANLAGT",
+                    startDato: new Date("2025-12-17"),
+                    sluttDato: new Date("2026-01-17"),
+                    harAktiviteterISalesforce: false
+                },
+                {
+                    id: 43,
+                    navn: "Psykisk helse",
+                    målsetning: "Gi innsikt i hvordan psykiske utfordringer kan komme til uttrykk i arbeidshverdagen og øke ferdigheter for hvordan man møter medarbeidere med psykiske helseutfordringer.",
+                    inkludert: false,
+                    status: null,
+                    startDato: null,
+                    sluttDato: null,
+                    harAktiviteterISalesforce: false
+                },
+                {
+                    id: 44,
+                    navn: "HelseIArbeid",
+                    målsetning: "Øke kompetansen og få ansatte til å mestre jobb, selv med muskel/skjelett- og psykiske helseplager.",
+                    inkludert: true,
+                    status: "PLANLAGT",
+                    startDato: new Date("2025-12-17"),
+                    sluttDato: new Date("2026-01-17"),
+                    harAktiviteterISalesforce: false
+                }
+            ]
+        }
+    ],
+    sistPublisert: null,
+    publiseringStatus: "IKKE_PUBLISERT",
+    harEndringerSidenSistPublisert: false
+}

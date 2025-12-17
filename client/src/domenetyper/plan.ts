@@ -1,11 +1,15 @@
 import { z } from "zod/v4";
 import { datoSchema, DokumentStatusEnum } from "./domenetyper";
 
-const IA_PLAN_STATUSER = ["PLANLAGT", "PÅGÅR", "FULLFØRT", "AVBRUTT"] as const;
+const IA_PLAN_STATUSER = ["AKTIV", "SLETTET", "FERDIGSTILT", "AVBRUTT"] as const;
+const IA_PLAN_UNDERTEMA_STATUSER = ["PLANLAGT", "PÅGÅR", "FULLFØRT", "AVBRUTT"] as const;
 
+const PlanUndertemaStatusSchema = z.enum(IA_PLAN_UNDERTEMA_STATUSER).nullable();
 const PlanStatusSchema = z.enum(IA_PLAN_STATUSER);
 
-export type PlanInnholdStatus = z.infer<typeof PlanStatusSchema>;
+export type PlanStatus = z.infer<typeof PlanStatusSchema>;
+
+export type PlanInnholdStatus = z.infer<typeof PlanUndertemaStatusSchema>;
 
 export type OpprettInnholdRequest = {
     rekkefølge: number;
@@ -53,7 +57,7 @@ export const PlanUndertemaSchema = z.object({
     navn: z.string(),
     målsetning: z.string(),
     inkludert: z.boolean(),
-    status: PlanStatusSchema.nullable(),
+    status: PlanUndertemaStatusSchema,
     startDato: datoSchema.nullable(),
     sluttDato: datoSchema.nullable(),
     harAktiviteterISalesforce: z.boolean(),
@@ -69,12 +73,13 @@ export const PlanTemaSchema = z.object({
 
 export type PlanTema = z.infer<typeof PlanTemaSchema>;
 
+
 export const PlanSchema = z.object({
     id: z.string(),
     sistEndret: datoSchema,
     sistPublisert: datoSchema.nullable().optional(),
     temaer: z.array(PlanTemaSchema),
-    // TODO: Legg til status
+    status: PlanStatusSchema,
     publiseringStatus: DokumentStatusEnum.nullable().optional(),
     harEndringerSidenSistPublisert: z.boolean().optional(),
 });

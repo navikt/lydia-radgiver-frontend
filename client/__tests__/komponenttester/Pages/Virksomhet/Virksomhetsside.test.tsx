@@ -12,12 +12,13 @@ import {
 	dummyVirksomhetsinformasjon,
 	dummyNæringsstatistikk,
 	dummySykefraværsstatistikkSiste4Kvartal,
-	dummyVirksomhetsstatistikkSiste4Kvartal
+	dummyVirksomhetsstatistikkSiste4Kvartal,
+	dummyPlan
 } from '../../../../__mocks__/virksomhetsMockData';
 import { dummySpørreundersøkelseliste } from '../../../../__mocks__/spørreundersøkelseDummyData';
 import { brukerMedGyldigToken, brukerMedLesetilgang } from '../../../../src/Pages/Prioritering/mocks/innloggetAnsattMock';
 import { useHentBrukerinformasjon } from '../../../../src/api/lydia-api/bruker';
-import { useHarPlan } from '../../../../src/api/lydia-api/plan';
+import { useHarPlan, useHentPlan } from '../../../../src/api/lydia-api/plan';
 import { useHentSamarbeid } from '../../../../src/api/lydia-api/spørreundersøkelse';
 
 jest.mock('../../../../src/api/lydia-api/virksomhet', () => {
@@ -72,6 +73,14 @@ jest.mock('../../../../src/api/lydia-api/virksomhet', () => {
 jest.mock('../../../../src/api/lydia-api/plan', () => {
 	return {
 		...jest.requireActual('../../../../src/api/lydia-api/plan'),
+		useHentPlan: jest.fn(() => {
+			return {
+				data: dummyPlan,
+				loading: false,
+				validating: false,
+			};
+		}),
+
 		useHarPlan: jest.fn(() => {
 			return {
 				harPlan: true,
@@ -132,6 +141,8 @@ jest.mock('react-router-dom', () => {
 		...originalModule,
 		useParams: jest.fn(() => ({
 			orgnummer: '840623927',
+			saksnummer: dummyIaSak.saksnummer,
+			prosessId: dummySamarbeid[1].id.toString(),
 		})),
 		useSearchParams: jest.fn(() => {
 			const setSearchParams = jest.fn();
@@ -205,7 +216,7 @@ describe('Virksomhetsside', () => {
 			expect(screen.getByRole('button', { name: 'Administrer' })).toBeInTheDocument();
 		});
 
-		it("Gir knapp for ny evaluering hvis det finnes en plan", () => {
+		it("Gir knapp for ny evaluering hvis det finnes en plan", async () => {
 			render(
 				<BrowserRouter>
 					<Virksomhetsside />
@@ -222,11 +233,18 @@ describe('Virksomhetsside', () => {
 
 			const nyEvalueringKnapp = screen.getByRole('button', { name: 'Ny evaluering' });
 			expect(nyEvalueringKnapp).toBeInTheDocument();
-			waitFor(() => expect(nyEvalueringKnapp).toBeEnabled());
+			await waitFor(() => expect(nyEvalueringKnapp).toBeEnabled());
 		});
 
-		it("Gir ikke knapp for ny evaluering hvis det ikke finnes noen plan", () => {
+		it("Gir ikke knapp for ny evaluering hvis det ikke finnes noen plan", async () => {
 			jest.mocked(useHarPlan).mockReturnValue({ harPlan: false, lastet: true });
+			jest.mocked(useHentPlan).mockReturnValue({
+				data: undefined,
+				loading: false,
+				validating: false,
+				mutate: jest.fn(),
+				error: undefined,
+			});
 			render(
 				<BrowserRouter>
 					<Virksomhetsside />
@@ -243,8 +261,9 @@ describe('Virksomhetsside', () => {
 
 			const nyEvalueringKnapp = screen.queryByRole('button', { name: 'Ny evaluering' });
 			expect(nyEvalueringKnapp).toBeInTheDocument();
-			waitFor(() => expect(nyEvalueringKnapp).toBeDisabled());
+			await waitFor(() => expect(nyEvalueringKnapp).toBeDisabled());
 		});
+
 		it.todo("Gir alltid knapp for ny behobsvurdering");
 
 		describe('Lesebruker', () => {
@@ -299,25 +318,37 @@ describe('Virksomhetsside', () => {
 		describe('Avsluttet samarbeid', () => {
 			beforeEach(() => {
 				jest.mocked(useHentSamarbeid).mockReturnValue({
-					data: [{ ...dummySamarbeid[1], status: 'FULLFØRT' }],
+					data: [dummySamarbeid[0], { ...dummySamarbeid[1], status: 'FULLFØRT' }, dummySamarbeid[2]],
 					loading: false,
 					validating: false,
 					mutate: jest.fn(),
 					error: undefined,
 				});
 			});
-			it("Gir ikke 'administrer'-knapp på avsluttet samarbeid", () => {
-				render(
+
+			it("Gir ikke 'administrer'-knapp på avsluttet samarbeid", async () => {
+				jest.mocked(useParams).mockReturnValue({ orgnummer: '840623927', saksnummer: dummyIaSak.saksnummer, prosessId: dummySamarbeid[0].id.toString() });
+				const { rerender } = render(
 					<BrowserRouter>
 						<Virksomhetsside />
 					</BrowserRouter>
 				);
 
-				expect(screen.getAllByText(dummySamarbeid[1].navn as string, { exact: false }).filter(el => el.className === "title")).toHaveLength(0);
+				screen.getByRole('link', { name: `${dummySamarbeid[0].navn}` }).click();
+
+				await waitFor(() => expect(screen.getAllByText(dummySamarbeid[1].navn as string, { exact: false }).filter(el => el.className === "tittel")).toHaveLength(0));
 				const samarbeidsknapp = screen.getByRole('link', { name: `${dummySamarbeid[1].navn} Fullført` });
 				expect(samarbeidsknapp).toBeInTheDocument();
+				jest.mocked(useParams).mockReturnValue({ orgnummer: '840623927', saksnummer: dummyIaSak.saksnummer, prosessId: dummySamarbeid[1].id.toString() });
+
 				samarbeidsknapp.click();
-				waitFor(() => expect(screen.getAllByText(dummySamarbeid[1].navn as string, { exact: false }).filter(el => el.className === "title")).toHaveLength(1)); // En i knappen
+				rerender(
+					<BrowserRouter>
+						<Virksomhetsside />
+					</BrowserRouter>
+				);
+
+				expect(screen.getAllByText(dummySamarbeid[1].navn as string, { exact: false }).filter(el => el.className === "tittel")).toHaveLength(1);
 
 				const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
 				expect(faneKnapp).toBeInTheDocument();
@@ -346,8 +377,7 @@ describe('Virksomhetsside', () => {
 		});
 	});
 
-
-	it.failing('Har ingen accessibilityfeil', async () => {
+	it('Har ingen accessibilityfeil', async () => {
 		const { container } = render(
 			<BrowserRouter>
 				<Virksomhetsside />

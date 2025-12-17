@@ -53,13 +53,13 @@ function AvsluttedeSamarbeidVelger({ samarbeid, className, iaSak, valgtSamarbeid
 			<HStack className={`${styles.radCommon} ${styles.overskriftRad}`} align="center" justify="space-between">
 				<h3 className={`${styles.overskrift}`}>{`Avsluttede samarbeid${samarbeid && ` (${samarbeid.length})`}`}</h3>
 			</HStack>
-			<ul className={styles.liste}>
+			<div className={styles.liste}>
 				{samarbeid?.map((s) => (
 					<InternLenke key={s.id} className={`${styles.radCommon} ${styles.avsluttetSamarbeid} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} href={`/virksomhet/${iaSak?.orgnr}/sak/${iaSak?.saksnummer}/samarbeid/${s.id}`}>
 						{s.navn} <SamarbeidStatusBadge className={styles.avsluttetSamarbeidStatus} status={s.status} slim />
 					</InternLenke>
 				))}
-			</ul>
+			</div>
 		</nav>
 	);
 }
@@ -130,13 +130,13 @@ function AvsluttedeSamarbeidListe({ avsluttedeSamarbeid, valgtSamarbeid, orgnr }
 
 	return (
 		<ReadMore size="small" className={styles.inaktiveSamarbeidReadMore} header={`Avsluttede samarbeid (${avsluttedeSamarbeid.length})`} open={åpen} onClick={() => setÅpen(!åpen)}>
-			<ul className={styles.liste}>
+			<div className={styles.liste}>
 				{avsluttedeSamarbeid?.map((s) => (
 					<InternLenke key={s.id} className={`${styles.radCommon} ${styles.avsluttetSamarbeid} ${styles.klikkbar} ${valgtSamarbeid?.id === s.id ? styles.valgtSamarbeid : ""}`} href={`/virksomhet/${orgnr}/samarbeid/${s.id}`}>
 						{s.navn} <SamarbeidStatusBadge className={styles.avsluttetSamarbeidStatus} status={s.status} slim />
 					</InternLenke>
 				))}
-			</ul>
+			</div>
 		</ReadMore>
 	);
 }

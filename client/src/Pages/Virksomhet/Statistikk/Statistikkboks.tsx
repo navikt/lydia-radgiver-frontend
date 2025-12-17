@@ -22,12 +22,10 @@ export const Statistikkboks = ({
 }: Props) => {
     return (
         <div className={styles.statistikkboksContainer}>
-            <div className={styles.tittelMedHelpTextContainer}>
-                <BodyShort className={styles.tittel} as="dt">
-                    {tittel}
-                </BodyShort>
+            <BodyShort className={`${styles.tittel} ${styles.tittelMedHelpTextContainer}`} as="dt">
+                {tittel}
                 <HelpText title="Hvor kommer dette fra?">{helpTekst}</HelpText>
-            </div>
+            </BodyShort>
 
             <BodyShort className={styles.verdi} as="dd">
                 {verdi}
