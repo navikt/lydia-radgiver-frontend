@@ -6,6 +6,7 @@
     "scripts": {
         "dev": "vite",
         "test": "jest",
+        "test:coverage": "jest --coverage",
         "prebuild": "npm run lint && tsc",
         "build": "vite build",
         "preview": "vite preview",
