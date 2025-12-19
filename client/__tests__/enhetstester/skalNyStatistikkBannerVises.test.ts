@@ -1,4 +1,7 @@
-import { skjulNyStatistikkBanner } from "../../src/util/nyStatistikkBannerUtils";
+import {
+    skjulNyStatistikkBanner,
+    skalViseStatistikkKommer,
+} from "../../src/util/nyStatistikkBannerUtils";
 import { Publiseringsinfo } from "../../src/domenetyper/publiseringsinfo";
 
 const publiseringsinfo: Publiseringsinfo = {
@@ -55,6 +58,22 @@ describe("Sjekker at statistikk banner kan vises", () => {
         expect(
             skjulNyStatistikkBanner(
                 new Date("2023-03-10T00:00:00"),
+                publiseringsinfo,
+            ),
+        ).toBeTruthy();
+    });
+
+    test("Viser at statistikk kommer tett på neste publisering", () => {
+        expect(
+            skalViseStatistikkKommer(
+                new Date("2023-05-27T00:00:00"),
+                publiseringsinfo,
+            ),
+        ).toBeFalsy();
+
+        expect(
+            skalViseStatistikkKommer(
+                new Date("2023-06-01T00:00:00"),
                 publiseringsinfo,
             ),
         ).toBeTruthy();

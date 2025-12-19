@@ -8,6 +8,7 @@ describe("Masker orgnr (9 siffer) i url", () => {
         expect(maskerOrgnr("http://localhost:2222/statusoversikt")).toBe(
             "http://localhost:2222/statusoversikt",
         );
+        expect(maskerOrgnr("12345678")).toBe("12345678");
     });
 
     test("Masker orgnr i url", () => {

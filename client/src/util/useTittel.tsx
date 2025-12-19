@@ -1,15 +1,15 @@
 import React, { useCallback } from "react";
 import { erIDev } from "../components/Dekoratør/Dekoratør";
 
+export function lagSidetittel(tittel: string) {
+    return `Fia - ${erIDev ? "DEV - " : ""}${tittel}`;
+}
+
 export const statiskeSidetitler = {
     prioriteringsside: lagSidetittel("søk"),
     virksomhetsside: lagSidetittel("virksomhet"),
     statusoversiktside: lagSidetittel("statusoversikt"),
 };
-
-function lagSidetittel(tittel: string) {
-    return `Fia - ${erIDev ? "DEV - " : ""}${tittel}`;
-}
 
 export const useTittel = (
     defaultTittel: string = statiskeSidetitler.prioriteringsside,
