@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react';
+import { render, screen, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axe } from 'jest-axe';
 
@@ -31,7 +31,7 @@ describe('Testkomponent', () => {
 		expect(mockfunc).not.toHaveBeenCalled();
 
 		const button = screen.getByText('Klikk meg');
-		button.click();
+		fireEvent.click(button);
 
 		expect(mockfunc).toHaveBeenCalled();
 	});
@@ -42,7 +42,7 @@ describe('Testkomponent', () => {
 		expect(mockfunc).not.toHaveBeenCalled();
 
 		const button = screen.getByText('Klikk meg');
-		button.click();
+		fireEvent.click(button);
 
 		expect(mockfunc).toHaveBeenCalled();
 	});

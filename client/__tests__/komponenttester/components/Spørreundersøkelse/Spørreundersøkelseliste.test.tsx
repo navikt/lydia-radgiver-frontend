@@ -2,15 +2,43 @@ import {
     SpørreundersøkelseProvider,
     SpørreundersøkelseProviderProps,
 } from "../../../../src/components/Spørreundersøkelse/SpørreundersøkelseContext";
-import { act, render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import Spørreundersøkelseliste from "../../../../src/components/Spørreundersøkelse/Spørreundersøkelseliste";
 import React from "react";
 import VirksomhetContext from "../../../../src/Pages/Virksomhet/VirksomhetContext";
 import { SamarbeidProvider } from "../../../../src/Pages/Virksomhet/Samarbeid/SamarbeidContext";
-import { dummySpørreundersøkelseliste, dummyIaSak, dummySamarbeid, dummyVirksomhet, dummySpørreundersøkelseResultat } from "../../../../__mocks__/spørreundersøkelseDummyData";
+import { dummySpørreundersøkelseliste, dummyIaSak, dummySamarbeid, dummyVirksomhet } from "../../../../__mocks__/spørreundersøkelseDummyData";
 import { Virksomhet } from "../../../../src/domenetyper/virksomhet";
 import '@testing-library/jest-dom';
 import { Spørreundersøkelse } from "../../../../src/domenetyper/spørreundersøkelse";
+
+
+const litenSpørreundersøkelseResultat = {
+    id: "test-resultat-id",
+    type: "BEHOVSVURDERING",
+    spørsmålMedSvarPerTema: [
+        {
+            id: 1,
+            navn: "Partssamarbeid",
+            spørsmålMedSvar: [
+                {
+                    id: "spm-1",
+                    tekst: "Dummyspørsmål",
+                    flervalg: false,
+                    antallDeltakereSomHarSvart: 1,
+                    svarListe: [
+                        {
+                            id: "svar-1",
+                            tekst: "Enig",
+                            antallSvar: 1,
+                        },
+                    ],
+                    kategori: "Partssamarbeid",
+                },
+            ],
+        },
+    ],
+};
 
 
 jest.mock("../../../../src/api/lydia-api/spørreundersøkelse", () => {
@@ -20,7 +48,7 @@ jest.mock("../../../../src/api/lydia-api/spørreundersøkelse", () => {
             "../../../../src/api/lydia-api/spørreundersøkelse",
         ),
         useHentResultat: jest.fn(() => ({
-            data: dummySpørreundersøkelseResultat,
+            data: litenSpørreundersøkelseResultat,
             loading: false,
         })),
         useHentSamarbeid: jest.fn(() => ({
@@ -344,9 +372,7 @@ describe("Spørreundersøkelseliste", () => {
             const visMerKnapper = screen.getAllByRole("button", { name: "Vis mer" });
             expect(visMerKnapper).toHaveLength(antallAvsluttetMedResultat);
 
-            act(() => {
-                visMerKnapper[0].click();
-            });
+            fireEvent.click(visMerKnapper[0]);
 
             expect(
                 screen.getByRole("heading", { name: "Partssamarbeid" }),

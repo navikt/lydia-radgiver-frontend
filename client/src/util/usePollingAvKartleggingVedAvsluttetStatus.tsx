@@ -10,6 +10,8 @@ export function usePollingAvKartleggingVedAvsluttetStatus(
 	const [forsøkPåÅHenteKartlegging, setForsøkPåÅHenteKartlegging] = useState(0);
 
 	React.useEffect(() => {
+		let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
 		if (spørreundersøkelseStatus === "AVSLUTTET") {
 			if (spørreundersøkelse.publiseringStatus === "OPPRETTET") {
 				if (!henterKartleggingPånytt &&
@@ -18,7 +20,7 @@ export function usePollingAvKartleggingVedAvsluttetStatus(
 					setForsøkPåÅHenteKartlegging(
 						forsøkPåÅHenteKartlegging + 1
 					);
-					setTimeout(
+					timeoutId = setTimeout(
 						() => {
 							hentKartleggingPåNytt();
 							setHenterKartleggingPåNytt(false);
@@ -28,6 +30,12 @@ export function usePollingAvKartleggingVedAvsluttetStatus(
 				}
 			}
 		}
+
+		return () => {
+			if (timeoutId !== undefined) {
+				clearTimeout(timeoutId);
+			}
+		};
 	}, [
 		spørreundersøkelseStatus,
 		spørreundersøkelse.publiseringStatus,

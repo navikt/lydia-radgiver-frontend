@@ -1,4 +1,4 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { render, screen, waitFor, fireEvent } from '@testing-library/react';
 import '@testing-library/jest-dom';
 import { axe } from 'jest-axe';
 
@@ -20,6 +20,15 @@ import { brukerMedGyldigToken, brukerMedLesetilgang } from '../../../../src/Page
 import { useHentBrukerinformasjon } from '../../../../src/api/lydia-api/bruker';
 import { useHarPlan, useHentPlan } from '../../../../src/api/lydia-api/plan';
 import { useHentSamarbeid } from '../../../../src/api/lydia-api/spørreundersøkelse';
+
+jest.mock('../../../../src/util/analytics-klient', () => {
+	const actual = jest.requireActual('../../../../src/util/analytics-klient');
+	return {
+		...actual,
+		loggSideLastet: jest.fn(),
+		loggNavigertTilNyTab: jest.fn(),
+	};
+});
 
 jest.mock('../../../../src/api/lydia-api/virksomhet', () => {
 	return {
@@ -182,15 +191,15 @@ describe('Virksomhetsside', () => {
 
 			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
 			expect(samarbeidsknapp).toBeInTheDocument();
-			samarbeidsknapp.click();
+			fireEvent.click(samarbeidsknapp);
 
 			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
 			expect(faneKnapp).toBeInTheDocument();
-			faneKnapp.click();
+			fireEvent.click(faneKnapp);
 
 			const hamburgermeny = screen.getByRole('button', { name: 'Meny' });
 			expect(hamburgermeny).toBeInTheDocument();
-			hamburgermeny.click();
+			fireEvent.click(hamburgermeny);
 
 			expect(await screen.findAllByRole('menuitem', { name: 'Brukerveileder' })).toHaveLength(2);
 			expect(screen.getByRole('menuitem', { name: 'Invitasjonsmal' })).toBeInTheDocument();
@@ -207,11 +216,11 @@ describe('Virksomhetsside', () => {
 
 			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
 			expect(samarbeidsknapp).toBeInTheDocument();
-			samarbeidsknapp.click();
+			fireEvent.click(samarbeidsknapp);
 
 			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
 			expect(faneKnapp).toBeInTheDocument();
-			faneKnapp.click();
+			fireEvent.click(faneKnapp);
 
 			expect(screen.getByRole('button', { name: 'Administrer' })).toBeInTheDocument();
 		});
@@ -225,11 +234,11 @@ describe('Virksomhetsside', () => {
 
 			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
 			expect(samarbeidsknapp).toBeInTheDocument();
-			samarbeidsknapp.click();
+			fireEvent.click(samarbeidsknapp);
 
 			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
 			expect(faneKnapp).toBeInTheDocument();
-			faneKnapp.click();
+			fireEvent.click(faneKnapp);
 
 			const nyEvalueringKnapp = screen.getByRole('button', { name: 'Ny evaluering' });
 			expect(nyEvalueringKnapp).toBeInTheDocument();
@@ -253,11 +262,11 @@ describe('Virksomhetsside', () => {
 
 			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
 			expect(samarbeidsknapp).toBeInTheDocument();
-			samarbeidsknapp.click();
+			fireEvent.click(samarbeidsknapp);
 
 			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
 			expect(faneKnapp).toBeInTheDocument();
-			faneKnapp.click();
+			fireEvent.click(faneKnapp);
 
 			const nyEvalueringKnapp = screen.queryByRole('button', { name: 'Ny evaluering' });
 			expect(nyEvalueringKnapp).toBeInTheDocument();
@@ -281,11 +290,11 @@ describe('Virksomhetsside', () => {
 
 			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
 			expect(samarbeidsknapp).toBeInTheDocument();
-			samarbeidsknapp.click();
+			fireEvent.click(samarbeidsknapp);
 
 			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
 			expect(faneKnapp).toBeInTheDocument();
-			faneKnapp.click();
+			fireEvent.click(faneKnapp);
 
 			const nyBehovsvurderingKnapp = screen.getByRole('button', { name: 'Ny behovsvurdering' });
 			expect(nyBehovsvurderingKnapp).toBeInTheDocument();
@@ -312,11 +321,11 @@ describe('Virksomhetsside', () => {
 
 				const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
 				expect(samarbeidsknapp).toBeInTheDocument();
-				samarbeidsknapp.click();
+				fireEvent.click(samarbeidsknapp);
 
 				const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
 				expect(faneKnapp).toBeInTheDocument();
-				faneKnapp.click();
+				fireEvent.click(faneKnapp);
 
 				expect(screen.getByRole('button', { name: 'Ny behovsvurdering' })).toBeDisabled();
 				expect(screen.getByRole('button', { name: 'Ny evaluering' })).toBeDisabled();
@@ -331,11 +340,11 @@ describe('Virksomhetsside', () => {
 
 				const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
 				expect(samarbeidsknapp).toBeInTheDocument();
-				samarbeidsknapp.click();
+				fireEvent.click(samarbeidsknapp);
 
 				const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
 				expect(faneKnapp).toBeInTheDocument();
-				faneKnapp.click();
+				fireEvent.click(faneKnapp);
 
 				expect(screen.queryByRole('button', { name: 'Administrer' })).not.toBeInTheDocument();
 			});
@@ -360,14 +369,14 @@ describe('Virksomhetsside', () => {
 					</BrowserRouter>
 				);
 
-				screen.getByRole('link', { name: `${dummySamarbeid[0].navn}` }).click();
+				fireEvent.click(screen.getByRole('link', { name: `${dummySamarbeid[0].navn}` }));
 
 				await waitFor(() => expect(screen.getAllByText(dummySamarbeid[1].navn as string, { exact: false }).filter(el => el.className === "tittel")).toHaveLength(0));
 				const samarbeidsknapp = screen.getByRole('link', { name: `${dummySamarbeid[1].navn} Fullført` });
 				expect(samarbeidsknapp).toBeInTheDocument();
 				jest.mocked(useParams).mockReturnValue({ orgnummer: '840623927', saksnummer: dummyIaSak.saksnummer, prosessId: dummySamarbeid[1].id.toString() });
 
-				samarbeidsknapp.click();
+				fireEvent.click(samarbeidsknapp);
 				rerender(
 					<BrowserRouter>
 						<Virksomhetsside />
@@ -378,7 +387,7 @@ describe('Virksomhetsside', () => {
 
 				const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
 				expect(faneKnapp).toBeInTheDocument();
-				faneKnapp.click();
+				fireEvent.click(faneKnapp);
 
 				expect(screen.queryByRole('button', { name: 'Administrer' })).not.toBeInTheDocument();
 			});
@@ -392,11 +401,11 @@ describe('Virksomhetsside', () => {
 
 				const samarbeidsknapp = screen.getByRole('link', { name: `${dummySamarbeid[1].navn} Fullført` });
 				expect(samarbeidsknapp).toBeInTheDocument();
-				samarbeidsknapp.click();
+				fireEvent.click(samarbeidsknapp);
 
 				const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
 				expect(faneKnapp).toBeInTheDocument();
-				faneKnapp.click();
+				fireEvent.click(faneKnapp);
 
 				expect(screen.queryByRole('button', { name: 'Ny evaluering' })).not.toBeInTheDocument();
 			});

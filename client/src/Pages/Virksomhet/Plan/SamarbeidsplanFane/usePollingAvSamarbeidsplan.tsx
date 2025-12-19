@@ -9,6 +9,8 @@ export function usePollingAvSamarbeidsplan(
 	const [forsøkPåÅHenteSamarbeidsplan, setForsøkPåÅHenteSamarbeidsplan] = React.useState(0);
 
 	React.useEffect(() => {
+		let timeoutId: ReturnType<typeof setTimeout> | undefined;
+
 		if (plan?.publiseringStatus === "OPPRETTET") {
 			if (!henterSamarbeidsplanPånytt &&
 				forsøkPåÅHenteSamarbeidsplan < 10) {
@@ -16,7 +18,7 @@ export function usePollingAvSamarbeidsplan(
 				setForsøkPåÅHenteSamarbeidsplan(
 					forsøkPåÅHenteSamarbeidsplan + 1
 				);
-				setTimeout(
+				timeoutId = setTimeout(
 					() => {
 						hentSamarbeidsplanPåNytt();
 						setHenterSamarbeidsplanPåNytt(false);
@@ -25,6 +27,12 @@ export function usePollingAvSamarbeidsplan(
 				);
 			}
 		}
+
+		return () => {
+			if (timeoutId !== undefined) {
+				clearTimeout(timeoutId);
+			}
+		};
 	}, [
 		hentSamarbeidsplanPåNytt,
 		henterSamarbeidsplanPånytt,

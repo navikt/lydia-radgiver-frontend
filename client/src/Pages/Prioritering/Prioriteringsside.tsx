@@ -131,6 +131,10 @@ export const Prioriteringsside = () => {
                 }, 500),
             );
         }
+
+        return () => {
+            clearTimeout(autosøktimer);
+        };
     }, [harEndringIFilterverdi, skalSøke, filtervisning.state.autosøk]);
 
     return (

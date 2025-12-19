@@ -104,6 +104,10 @@ export const Statusoversiktside = () => {
             clearTimeout(autosøktimer);
             setAutosøktimer(setTimeout(() => setSkalSøke(true), 500));
         }
+
+        return () => {
+            clearTimeout(autosøktimer);
+        };
     }, [harEndringIFilterverdi, skalSøke, filtervisning.state.autosøk]);
 
     return (

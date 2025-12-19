@@ -12,3 +12,19 @@ global.CSS = {
     // @ts-ignore
     supports: (k, v) => false,
 };
+
+const originalConsoleError = console.error;
+
+console.error = (...args: unknown[]) => {
+    const text = args.map((arg) => String(arg)).join("\n");
+
+    const isActWarning = text.includes(
+        "An update to %s inside a test was not wrapped in act(...).",
+    );
+
+    if (isActWarning) {
+        return;
+    }
+
+    originalConsoleError(...(args as [unknown, ...unknown[]]));
+};
