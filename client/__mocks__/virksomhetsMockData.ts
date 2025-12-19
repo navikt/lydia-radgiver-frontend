@@ -605,7 +605,7 @@ export const dummyVirksomhetsstatistikkSiste4Kvartal: VirksomhetsstatistikkSiste
 export const dummyPlan: Plan = {
     id: "54af420a-5a38-46de-8346-8f2b616acedf",
     sistEndret: new Date("2025-12-17T13:15:41.261726"),
-    status: "AKTIV",
+    //status: "AKTIV",
     temaer: [
         {
             id: 10,
