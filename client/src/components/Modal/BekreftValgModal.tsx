@@ -2,7 +2,7 @@ import { BodyLong, Button, Modal } from "@navikt/ds-react";
 import { StyledModal } from "./StyledModal";
 import { ModalKnapper } from "./ModalKnapper";
 
-interface Props {
+export interface BekreftValgModalProps {
     onConfirm: () => void;
     onCancel: () => void;
     åpen: boolean;
@@ -26,7 +26,7 @@ export const BekreftValgModal = ({
     jaTekst = "Ja",
     neiTekst = "Avbryt",
     ...rest
-}: Props) => {
+}: BekreftValgModalProps) => {
     return (
         <StyledModal
             open={åpen}
