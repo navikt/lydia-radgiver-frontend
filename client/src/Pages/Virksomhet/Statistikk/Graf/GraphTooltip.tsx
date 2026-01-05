@@ -7,7 +7,7 @@ export function graphTooltip() {
     return (
         <Tooltip
             itemSorter={(item) => graflinjer[item.dataKey as Grafer].rekkefølge}
-            formatter={(value: number, name: string) => [
+            formatter={(value: number | undefined, name: string | undefined) => [
                 <span
                     className={styles.graphTooltipItemWrapper}
                     key={`tooltip-${name}`}
@@ -15,12 +15,12 @@ export function graphTooltip() {
                     <SymbolSvg
                         className={styles.ikon}
                         size={30}
-                        fill={graflinjer[name].farge}
-                        symbol={graflinjer[name].symbol}
+                        fill={graflinjer?.[name || ""]?.farge}
+                        symbol={graflinjer?.[name || ""]?.symbol}
                     />
                     <div className={styles.navnOgVerdi}>
                         <span className={styles.navn}>
-                            {graflinjer[name].navn}
+                            {graflinjer?.[name || ""]?.navn}
                         </span>
                         <span className={styles.verdi}>{value + " %"}</span>
                     </div>

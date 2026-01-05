@@ -6,9 +6,37 @@ import "@testing-library/jest-dom";
 import LåsbarCheckbox from "../../../../src/components/LåsbarCheckbox";
 
 jest.mock("@navikt/aksel-icons", () => ({
-	PadlockLockedIcon: ({ title }: { title: string }) => (
+	PadlockLockedIcon: ({ title }: { title?: string }) => (
 		<span data-testid="padlock-icon">{title}</span>
 	),
+}));
+
+jest.mock("@navikt/ds-react", () => ({
+	...jest.requireActual("@navikt/ds-react"),
+	Checkbox: ({
+		children,
+		value,
+		onChange,
+		readOnly,
+		className,
+	}: {
+		children?: React.ReactNode;
+		value?: string;
+		onChange?: () => void;
+		readOnly?: boolean;
+		className?: string;
+	}) => (
+		<label className={className}>
+			<input
+				type="checkbox"
+				value={value}
+				onChange={readOnly ? undefined : onChange}
+				readOnly={readOnly}
+			/>
+			{children}
+		</label>
+	),
+	Tooltip: ({ children }: { children?: React.ReactNode }) => <>{children}</>,
 }));
 
 describe("LåsbarCheckbox", () => {
