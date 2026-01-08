@@ -14,6 +14,7 @@ import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
 import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
 import { Head } from "@unhead/react";
 import styles from "./app.module.scss";
+import Debugside from "./Pages/NyFlyt/Debugside";
 
 const App = () => (
     <BrowserRouter>
@@ -158,6 +159,15 @@ const AppContent = () => {
                         <MineSakerside />
                     </main>
                 } />
+                {
+                    erIDev && (
+                        <Route path={"/nyflyt/debugside/:id"} element={
+                            <main className={styles.appramme} id="maincontent">
+                                <Debugside />
+                            </main>
+                        } />
+                    )
+                }
             </Routes>
             <Footer />
         </>

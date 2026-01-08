@@ -15,6 +15,7 @@ export class LydiaApiProxy {
       "/iatjenesteoversikt",
       "/iasak/minesaker",
       `/iasak/team`,
+      `/iasak/nyflyt`,
     ];
 
     this.options = {

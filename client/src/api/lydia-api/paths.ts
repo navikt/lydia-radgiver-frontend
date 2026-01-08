@@ -25,6 +25,10 @@ export const salesforceUrlPath = `${virksomhetsPath}/salesforce`;
 export const spørreundersøkelsePath = `${iaSakPath}/kartlegging`;
 export const planPath = `${iaSakPath}/plan`;
 export const dokumentPath = `${iaSakPath}/dokument`;
+
+// Ny flyt
+export const nyFlytBasePath = `${basePath}/iasak/nyflyt`;
+
 export const getSykefraværsstatistikkUrl = (søkeverdier: FiltervisningState) =>
     `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(
         søkeverdier,
