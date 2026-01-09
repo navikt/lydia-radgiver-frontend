@@ -22,22 +22,11 @@ export const MineSakerKort = ({
     orgnavn: string;
 }) => {
     const navFane = (status: IAProsessStatusType) => {
-        let toReturn = "?fane=";
-        switch (status) {
-            case "KARTLEGGES":
-                toReturn += "kartlegging";
-                break;
-            case "VI_BISTÅR":
-                toReturn += "ia-tjenester";
-                break;
-            case "FULLFØRT":
-            case "IKKE_AKTUELL":
-                toReturn += "historikk";
-                break;
-            default:
-                return "";
+        if (status === "IKKE_AKTUELL" || status === "AVBRUTT" || status === "FULLFØRT") {
+            return "?fane=historikk";
         }
-        return toReturn;
+
+        return "";
     };
     const { data: salesforceInfo } = useHentSalesforceUrl(iaSak.orgnr);
     const { data: følgere = [] } = useHentTeam(iaSak.saksnummer);
