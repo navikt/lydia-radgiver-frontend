@@ -28,11 +28,11 @@ export const angreVurderingNyFlyt = (
 	return post(`${nyFlytBasePath}/${orgnummer}/angre-vurdering`, iaSakSchema);
 };
 
-export const fullførVurderingNyFlyt = (
+export const avsluttVurderingNyFlyt = (
 	orgnummer: string,
 	årsak: ValgtÅrsakDto
 ): Promise<IASak> => {
-	return post(`${nyFlytBasePath}/${orgnummer}/fullfor-vurdering`, iaSakSchema, årsak);
+	return post(`${nyFlytBasePath}/${orgnummer}/avslutt-vurdering`, iaSakSchema, årsak);
 };
 
 export const opprettSamarbeidNyFlyt = (

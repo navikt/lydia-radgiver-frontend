@@ -2,7 +2,7 @@ import { useState } from "react";
 import {
 	vurderSakNyFlyt,
 	angreVurderingNyFlyt,
-	fullførVurderingNyFlyt,
+	avsluttVurderingNyFlyt,
 	opprettSamarbeidNyFlyt,
 	opprettKartleggingNyFlyt,
 	startKartleggingNyFlyt,
@@ -83,7 +83,7 @@ export function AngreVurdering({ orgnummer, onSuccess }: PostProps) {
 	);
 }
 
-export function FullførVurdering({ orgnummer, onSuccess }: PostProps) {
+export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
 	const [årsakJson, setÅrsakJson] = useState('{"type": "VIRKSOMHETEN_TAKKET_NEI", "begrunnelser": []}');
 	const [response, setResponse] = useState<object | null>(null);
 	const [error, setError] = useState<string | null>(null);
@@ -92,7 +92,7 @@ export function FullførVurdering({ orgnummer, onSuccess }: PostProps) {
 		setError(null);
 		try {
 			const årsak = JSON.parse(årsakJson);
-			const result = await fullførVurderingNyFlyt(orgnummer, årsak);
+			const result = await avsluttVurderingNyFlyt(orgnummer, årsak);
 			setResponse(result);
 			onSuccess();
 		} catch (e) {
@@ -101,7 +101,7 @@ export function FullførVurdering({ orgnummer, onSuccess }: PostProps) {
 	};
 
 	return (
-		<EndpointSection title="POST: fullførVurderingNyFlyt" response={response} error={error}>
+		<EndpointSection title="POST: avsluttVurderingNyFlyt" response={response} error={error}>
 			<div>
 				<span>ValgtÅrsakDto (JSON):</span><br />
 				<textarea

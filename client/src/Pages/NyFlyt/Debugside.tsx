@@ -4,7 +4,7 @@ import Oversikt, { useOversiktMutate } from "./Oversikt";
 import {
 	VurderSak,
 	AngreVurdering,
-	FullførVurdering,
+	AvsluttVurdering,
 	OpprettSamarbeid,
 	OpprettKartlegging,
 	StartKartlegging,
@@ -34,7 +34,7 @@ function DebugContent({ orgnummer }: { orgnummer: string }) {
 			<hr />
 			<AngreVurdering orgnummer={orgnummer} onSuccess={handleSuccess} />
 			<hr />
-			<FullførVurdering orgnummer={orgnummer} onSuccess={handleSuccess} />
+			<AvsluttVurdering orgnummer={orgnummer} onSuccess={handleSuccess} />
 			<hr />
 			<OpprettSamarbeid orgnummer={orgnummer} onSuccess={handleSuccess} />
 			<hr />
