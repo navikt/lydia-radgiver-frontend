@@ -63,8 +63,16 @@ describe("usePollingAvKartleggingVedAvsluttetStatus", () => {
             />,
         );
 
-        // Etter mount skal vi være i "henter"-modus og første forsøk registrert
+        // Etter mount skal vi være i "henter"-modus, men forsøk telles først etter timeout
         expect(screen.getByTestId("henter")).toHaveTextContent("true");
+        expect(screen.getByTestId("forsok")).toHaveTextContent("0");
+
+        // Etter første timeout skal hentKartleggingPåNytt bli kalt og forsøk økes
+        act(() => {
+            jest.advanceTimersByTime(2000);
+        });
+
+        expect(hentKartleggingPåNytt).toHaveBeenCalledTimes(1);
         expect(screen.getByTestId("forsok")).toHaveTextContent("1");
     });
 
