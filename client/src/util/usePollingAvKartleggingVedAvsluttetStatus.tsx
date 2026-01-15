@@ -5,30 +5,20 @@ export function usePollingAvKartleggingVedAvsluttetStatus(
 	spørreundersøkelseStatus: string,
 	spørreundersøkelse: Spørreundersøkelse,
 	hentKartleggingPåNytt: () => void) {
-	const [henterKartleggingPånytt, setHenterKartleggingPåNytt] = useState(false);
-
 	const [forsøkPåÅHenteKartlegging, setForsøkPåÅHenteKartlegging] = useState(0);
 
 	React.useEffect(() => {
 		let timeoutId: ReturnType<typeof setTimeout> | undefined;
 
-		if (spørreundersøkelseStatus === "AVSLUTTET") {
-			if (spørreundersøkelse.publiseringStatus === "OPPRETTET") {
-				if (!henterKartleggingPånytt &&
-					forsøkPåÅHenteKartlegging < 10) {
-					setHenterKartleggingPåNytt(true);
-					setForsøkPåÅHenteKartlegging(
-						forsøkPåÅHenteKartlegging + 1
-					);
-					timeoutId = setTimeout(
-						() => {
-							hentKartleggingPåNytt();
-							setHenterKartleggingPåNytt(false);
-						},
-						(forsøkPåÅHenteKartlegging + 1) * 2000
-					);
-				}
-			}
+		if (spørreundersøkelseStatus === "AVSLUTTET" &&
+			spørreundersøkelse.publiseringStatus === "OPPRETTET" &&
+			forsøkPåÅHenteKartlegging < 10) {
+			console.log(`polling forsøk nummer ${forsøkPåÅHenteKartlegging + 1}`);
+			const delay = (forsøkPåÅHenteKartlegging + 1) * 2000;
+			timeoutId = setTimeout(() => {
+				hentKartleggingPåNytt();
+				setForsøkPåÅHenteKartlegging(prev => prev + 1);
+			}, delay);
 		}
 
 		return () => {
@@ -40,8 +30,14 @@ export function usePollingAvKartleggingVedAvsluttetStatus(
 		spørreundersøkelseStatus,
 		spørreundersøkelse.publiseringStatus,
 		hentKartleggingPåNytt,
-		henterKartleggingPånytt,
+		forsøkPåÅHenteKartlegging,
 	]);
+
+	// Derive henterKartleggingPånytt from the polling conditions
+	const henterKartleggingPånytt =
+		spørreundersøkelseStatus === "AVSLUTTET" &&
+		spørreundersøkelse.publiseringStatus === "OPPRETTET" &&
+		forsøkPåÅHenteKartlegging < 10;
 
 	return { henterKartleggingPånytt, forsøkPåÅHenteKartlegging };
 }
