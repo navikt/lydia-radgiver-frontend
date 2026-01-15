@@ -13,7 +13,6 @@ export function usePollingAvKartleggingVedAvsluttetStatus(
 		if (spørreundersøkelseStatus === "AVSLUTTET" &&
 			spørreundersøkelse.publiseringStatus === "OPPRETTET" &&
 			forsøkPåÅHenteKartlegging < 10) {
-			console.log(`polling forsøk nummer ${forsøkPåÅHenteKartlegging + 1}`);
 			const delay = (forsøkPåÅHenteKartlegging + 1) * 2000;
 			timeoutId = setTimeout(() => {
 				hentKartleggingPåNytt();
