@@ -10,11 +10,55 @@ updates:
     directory: "/"
     schedule:
       interval: daily
+      time: "08:00"
+      timezone: "Europe/Oslo"
 
   - package-ecosystem: npm
     directory: "/client"
     schedule:
       interval: daily
+      time: "08:00"
+      timezone: "Europe/Oslo"
+      groups:
+        "@navikt*":
+          patterns:
+            - "@navikt/*"
+        "@testing-library*":
+          patterns:
+            - "@testing-library/*"
+        "react*":
+          patterns:
+            - "react"
+            - "react-dom"
+            - "react-router-dom"
+            - "react-scripts"
+        "typescript*":
+          patterns:
+            - "typescript"
+            - "ts-node"
+            - "ts-jest"
+            - "@typescript-eslint/*"
+        "jest*":
+          patterns:
+            - "jest"
+            - "jest-*"
+            - "@types/jest"
+            - "babel-jest"
+        "vite*":
+          patterns:
+            - "vite"
+            - "@vitejs/*"
+        "eslint*":
+          patterns:
+            - "eslint-plugin-*"
+        "babel*":
+          patterns:
+            - "@babel/*"
+            - "babel-*"
+        "highcharts*":
+          patterns:
+            - "highcharts"
+            - "highcharts-react-official"
     cooldown:
       default-days: 7
       exclude:
@@ -26,6 +70,29 @@ updates:
     directory: "/server"
     schedule:
       interval: daily
+      time: "08:00"
+      timezone: "Europe/Oslo"
+    groups:
+      "typescript*":
+        patterns:
+          - "typescript"
+          - "ts-node"
+          - "@typescript-eslint/*"
+      "jest*":
+        patterns:
+          - "jest"
+          - "@types/jest"
+          - "babel-jest"
+      "babel*":
+        patterns:
+          - "@babel/*"
+          - "babel-*"
+      "express*":
+        patterns:
+          - "express"
+          - "express-session"
+          - "@types/express"
+          - "@types/express-session"
     cooldown:
       default-days: 7
     registries:
@@ -35,8 +102,12 @@ updates:
     directory: "/client"
     schedule:
       interval: daily
+      time: "08:00"
+      timezone: "Europe/Oslo"
 
   - package-ecosystem: docker
     directory: "/server"
     schedule:
       interval: daily
+      time: "08:00"
+      timezone: "Europe/Oslo"
