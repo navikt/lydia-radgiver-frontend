@@ -19,46 +19,46 @@ updates:
       interval: daily
       time: "08:00"
       timezone: "Europe/Oslo"
-      groups:
-        "@navikt*":
-          patterns:
-            - "@navikt/*"
-        "@testing-library*":
-          patterns:
-            - "@testing-library/*"
-        "react*":
-          patterns:
-            - "react"
-            - "react-dom"
-            - "react-router-dom"
-            - "react-scripts"
-        "typescript*":
-          patterns:
-            - "typescript"
-            - "ts-node"
-            - "ts-jest"
-            - "@typescript-eslint/*"
-        "jest*":
-          patterns:
-            - "jest"
-            - "jest-*"
-            - "@types/jest"
-            - "babel-jest"
-        "vite*":
-          patterns:
-            - "vite"
-            - "@vitejs/*"
-        "eslint*":
-          patterns:
-            - "eslint-plugin-*"
-        "babel*":
-          patterns:
-            - "@babel/*"
-            - "babel-*"
-        "highcharts*":
-          patterns:
-            - "highcharts"
-            - "highcharts-react-official"
+    groups:
+      "@navikt*":
+        patterns:
+          - "@navikt/*"
+      "@testing-library*":
+        patterns:
+          - "@testing-library/*"
+      "react*":
+        patterns:
+          - "react"
+          - "react-dom"
+          - "react-router-dom"
+          - "react-scripts"
+      "typescript*":
+        patterns:
+          - "typescript"
+          - "ts-node"
+          - "ts-jest"
+          - "@typescript-eslint/*"
+      "jest*":
+        patterns:
+          - "jest"
+          - "jest-*"
+          - "@types/jest"
+          - "babel-jest"
+      "vite*":
+        patterns:
+          - "vite"
+          - "@vitejs/*"
+      "eslint*":
+        patterns:
+          - "eslint-plugin-*"
+      "babel*":
+        patterns:
+          - "@babel/*"
+          - "babel-*"
+      "highcharts*":
+        patterns:
+          - "highcharts"
+          - "highcharts-react-official"
     cooldown:
       default-days: 7
       exclude:
