@@ -169,7 +169,9 @@ export const NyttSamarbeidModal = ({
                                 setNavn(nyttNavn);
                                 setNavnHarEndret(true);
                             }}
-                            error={navnHarEndret && navnError(navn, navnErUbrukt)}
+                            error={
+                                navnHarEndret && navnError(navn, navnErUbrukt)
+                            }
                             hideLabel
                             onKeyDown={(event) => {
                                 // Submit på enter.

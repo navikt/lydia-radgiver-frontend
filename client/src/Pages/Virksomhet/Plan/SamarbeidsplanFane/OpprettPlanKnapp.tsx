@@ -13,7 +13,7 @@ import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { loggModalÅpnet } from "../../../../util/analytics-klient";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 
-import styles from '../plan.module.scss';
+import styles from "../plan.module.scss";
 
 export default function OpprettPlanKnapp({
     saksnummer,
@@ -30,11 +30,11 @@ export default function OpprettPlanKnapp({
     sakErIRettStatus: boolean;
     planMal: PlanMal;
 }) {
-    const { mutate: hentPlanIgjen, loading: lasterPlan, validating: validererPlan } = useHentPlan(
-        orgnummer,
-        saksnummer,
-        samarbeid.id,
-    );
+    const {
+        mutate: hentPlanIgjen,
+        loading: lasterPlan,
+        validating: validererPlan,
+    } = useHentPlan(orgnummer, saksnummer, samarbeid.id);
     const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
         orgnummer,
         saksnummer,
@@ -51,12 +51,12 @@ export default function OpprettPlanKnapp({
         const nyeTema = redigertPlanMal.tema.map((tema) =>
             tema.rekkefølge === temaId
                 ? {
-                    ...tema,
-                    inkludert: redigerteInnholdMal.some(
-                        ({ inkludert }) => inkludert,
-                    ),
-                    innhold: redigerteInnholdMal,
-                }
+                      ...tema,
+                      inkludert: redigerteInnholdMal.some(
+                          ({ inkludert }) => inkludert,
+                      ),
+                      innhold: redigerteInnholdMal,
+                  }
                 : { ...tema },
         );
         setRedigertPlanMal({
@@ -178,7 +178,11 @@ export default function OpprettPlanKnapp({
                     ))}
                     <br />
                     {visTemaFeil && (
-                        <Alert className={styles.velgMinstEttAlert} inline variant="error">
+                        <Alert
+                            className={styles.velgMinstEttAlert}
+                            inline
+                            variant="error"
+                        >
                             Du må velge minst ett tema.
                         </Alert>
                     )}

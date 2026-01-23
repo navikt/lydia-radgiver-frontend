@@ -9,7 +9,11 @@ import {
     Tabs,
     VStack,
 } from "@navikt/ds-react";
-import { ClockIcon, InformationSquareIcon, TrendUpIcon } from "@navikt/aksel-icons";
+import {
+    ClockIcon,
+    InformationSquareIcon,
+    TrendUpIcon,
+} from "@navikt/aksel-icons";
 
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
 import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
@@ -42,7 +46,6 @@ export default function VirksomhetOgSamarbeidsHeader({
     const [openState, setOpenState] = useState(false);
     const { data: salesforceInfo } = useHentSalesforceUrl(virksomhet.orgnr);
 
-
     const erPåInaktivSak = useErPåInaktivSak();
 
     return (
@@ -65,7 +68,12 @@ export default function VirksomhetOgSamarbeidsHeader({
                         )}
                     </HStack>
                     <HStack align={"center"} width={"100%"}>
-                        <HStack gap={"4"} align={"center"} justify={"space-between"} width={"100%"}>
+                        <HStack
+                            gap={"4"}
+                            align={"center"}
+                            justify={"space-between"}
+                            width={"100%"}
+                        >
                             <HStack gap={"2"} align={"center"}>
                                 <Button
                                     className={styles.invisibleButton}
@@ -81,9 +89,7 @@ export default function VirksomhetOgSamarbeidsHeader({
                                     aria-label="Se detaljer"
                                 >
                                     <InformationSquareIcon
-                                        className={
-                                            styles.virksomhetsInfoIkon
-                                        }
+                                        className={styles.virksomhetsInfoIkon}
                                         fontSize="2rem"
                                         aria-hidden
                                     />
@@ -99,7 +105,10 @@ export default function VirksomhetOgSamarbeidsHeader({
                                     {virksomhet.navn}
                                 </Heading>
                             </HStack>
-                            <HistorikkStatistikkKnapper valgtSamarbeid={valgtSamarbeid} virksomhet={virksomhet} />
+                            <HistorikkStatistikkKnapper
+                                valgtSamarbeid={valgtSamarbeid}
+                                virksomhet={virksomhet}
+                            />
                         </HStack>
                         <Popover
                             open={openState}
@@ -116,37 +125,75 @@ export default function VirksomhetOgSamarbeidsHeader({
                     </HStack>
                 </VStack>
             </div>
-            {
-                erPåInaktivSak && iaSak && <DuErPåGammelPeriode iaSak={iaSak} virksomhet={virksomhet} />
-            }
+            {erPåInaktivSak && iaSak && (
+                <DuErPåGammelPeriode iaSak={iaSak} virksomhet={virksomhet} />
+            )}
         </>
     );
 }
 
-function DuErPåGammelPeriode({ iaSak, virksomhet }: { iaSak: IASak, virksomhet: Virksomhet }) {
+function DuErPåGammelPeriode({
+    iaSak,
+    virksomhet,
+}: {
+    iaSak: IASak;
+    virksomhet: Virksomhet;
+}) {
     // TODO: Bruk fornuftig dato her.
-    const startDato = iaSak?.opprettetTidspunkt ? lokalDato(iaSak?.opprettetTidspunkt) : 'DATO';
-    const sluttDato = iaSak?.endretTidspunkt ? lokalDato(iaSak?.endretTidspunkt) : 'DATO';
+    const startDato = iaSak?.opprettetTidspunkt
+        ? lokalDato(iaSak?.opprettetTidspunkt)
+        : "DATO";
+    const sluttDato = iaSak?.endretTidspunkt
+        ? lokalDato(iaSak?.endretTidspunkt)
+        : "DATO";
 
-    const harAktivIASak = virksomhet.aktivtSaksnummer && virksomhet.aktivtSaksnummer !== iaSak.saksnummer;
+    const harAktivIASak =
+        virksomhet.aktivtSaksnummer &&
+        virksomhet.aktivtSaksnummer !== iaSak.saksnummer;
 
     return (
-        <HStack gap="4" align="center" justify="space-between" className={styles.duErPåGammelPeriodeBanner}>
+        <HStack
+            gap="4"
+            align="center"
+            justify="space-between"
+            className={styles.duErPåGammelPeriodeBanner}
+        >
             <BodyShort>
-                <b>Du er på en tidligere samarbeidsperiode</b> {startDato} - {sluttDato}
+                <b>Du er på en tidligere samarbeidsperiode</b> {startDato} -{" "}
+                {sluttDato}
             </BodyShort>
-            {harAktivIASak && <Button as="a" href={`/virksomhet/${iaSak?.orgnr}`} size="small">Gå til aktiv periode</Button>}
+            {harAktivIASak && (
+                <Button
+                    as="a"
+                    href={`/virksomhet/${iaSak?.orgnr}`}
+                    size="small"
+                >
+                    Gå til aktiv periode
+                </Button>
+            )}
         </HStack>
     );
 }
 
-
-function HistorikkStatistikkKnapper({ valgtSamarbeid, virksomhet }: { valgtSamarbeid?: IaSakProsess, virksomhet: Virksomhet }) {
+function HistorikkStatistikkKnapper({
+    valgtSamarbeid,
+    virksomhet,
+}: {
+    valgtSamarbeid?: IaSakProsess;
+    virksomhet: Virksomhet;
+}) {
     if (valgtSamarbeid) {
         return (
             <HStack gap="4" justify="end">
-                <Sykefraværsstatistikkmodal className={styles.tabButton} virksomhet={virksomhet} />
-                <Sakshistorikkmodal className={styles.tabButton} orgnr={virksomhet.orgnr} virksomhetsnavn={virksomhet.navn} />
+                <Sykefraværsstatistikkmodal
+                    className={styles.tabButton}
+                    virksomhet={virksomhet}
+                />
+                <Sakshistorikkmodal
+                    className={styles.tabButton}
+                    orgnr={virksomhet.orgnr}
+                    virksomhetsnavn={virksomhet.navn}
+                />
             </HStack>
         );
     }
@@ -156,7 +203,12 @@ function HistorikkStatistikkKnapper({ valgtSamarbeid, virksomhet }: { valgtSamar
             <HStack gap="4" justify="end" role="tablist">
                 <Tabs.Tab
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    as={({ className, ...remainingProps }: ButtonProps) => <Button {...remainingProps} className={styles.tabButton} />}
+                    as={({ className, ...remainingProps }: ButtonProps) => (
+                        <Button
+                            {...remainingProps}
+                            className={styles.tabButton}
+                        />
+                    )}
                     variant="tertiary"
                     size="small"
                     value="statistikk"
@@ -165,7 +217,12 @@ function HistorikkStatistikkKnapper({ valgtSamarbeid, virksomhet }: { valgtSamar
                 />
                 <Tabs.Tab
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
-                    as={({ className, ...remainingProps }: ButtonProps) => <Button {...remainingProps} className={styles.tabButton} />}
+                    as={({ className, ...remainingProps }: ButtonProps) => (
+                        <Button
+                            {...remainingProps}
+                            className={styles.tabButton}
+                        />
+                    )}
                     variant="tertiary"
                     size="small"
                     value="historikk"

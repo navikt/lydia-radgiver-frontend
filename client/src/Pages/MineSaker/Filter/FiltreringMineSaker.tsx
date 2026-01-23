@@ -6,7 +6,7 @@ import {
 } from "./StatusFilter";
 import { EierFølgerFilter } from "./EierFølgerFilter";
 import { SetMinesakerFiltreType } from "../MineSakerside";
-import styles from './mineSakerFilter.module.scss';
+import styles from "./mineSakerFilter.module.scss";
 
 type Props = {
     setFiltre: SetMinesakerFiltreType;

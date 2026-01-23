@@ -6,7 +6,7 @@ import {
 } from "@navikt/aksel-icons";
 import { BodyShort, Pagination } from "@navikt/ds-react";
 import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
-import styles from './prioritering.module.scss';
+import styles from "./prioritering.module.scss";
 
 interface Props {
     side: number;

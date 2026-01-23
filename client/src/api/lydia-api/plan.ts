@@ -54,7 +54,7 @@ export const slettPlan = (
         `${planPath}/${orgnummer}/${saksnummer}/prosess/${prosessId}`,
         PlanSchema,
     );
-}
+};
 
 export const endrePlanTema = (
     orgnummer: string,
@@ -103,7 +103,11 @@ export const useHarPlan = (
     saksnummer?: string,
     samarbeidsId?: number,
 ) => {
-    const { data, loading, validating } = useHentPlan(orgnummer || "", saksnummer || "", samarbeidsId || 0);
+    const { data, loading, validating } = useHentPlan(
+        orgnummer || "",
+        saksnummer || "",
+        samarbeidsId || 0,
+    );
 
     if (!orgnummer || !saksnummer || !samarbeidsId) {
         return {
@@ -111,7 +115,6 @@ export const useHarPlan = (
             lastet: true,
         };
     }
-
 
     if (data) {
         return {
@@ -123,7 +126,7 @@ export const useHarPlan = (
     return {
         harPlan: false,
         lastet: !loading && !validating,
-    }
+    };
 };
 
 export const useHentPlanMal = () => {

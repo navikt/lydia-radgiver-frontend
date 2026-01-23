@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import {
     CheckmarkIcon,
     CircleBrokenIcon,
-    PaperplaneIcon
+    PaperplaneIcon,
 } from "@navikt/aksel-icons";
 import styles from "../Kartlegging/publiserSpørreundersøkelse.module.scss";
 import { lokalDato } from "../../../util/dato";
@@ -28,9 +28,7 @@ export const PubliserSamarbeidsplan = ({
     iaSak,
 }: Props) => {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const { data: følgere = [] } = useHentTeam(
-        iaSak.saksnummer,
-    );
+    const { data: følgere = [] } = useHentTeam(iaSak.saksnummer);
 
     const [publiserModalÅpen, setPubliserModalÅpen] = useState(false);
 
@@ -64,7 +62,9 @@ export const PubliserSamarbeidsplan = ({
             }
 
             return (
-                <Alert inline variant={"error"}>En feil har oppstått, meld gjerne ifra i Porten</Alert>
+                <Alert inline variant={"error"}>
+                    En feil har oppstått, meld gjerne ifra i Porten
+                </Alert>
             );
         case "PUBLISERT":
             if (plan?.harEndringerSidenSistPublisert) {
@@ -76,10 +76,7 @@ export const PubliserSamarbeidsplan = ({
                     <>
                         <PubliserDokumentknapp
                             icon={
-                                <PaperplaneIcon
-                                    fontSize="1.5rem"
-                                    aria-hidden
-                                />
+                                <PaperplaneIcon fontSize="1.5rem" aria-hidden />
                             }
                             onClick={() => {
                                 setPubliserModalÅpen(true);
@@ -91,15 +88,15 @@ export const PubliserSamarbeidsplan = ({
                             open={publiserModalÅpen}
                             setOpen={setPubliserModalÅpen}
                             plan={plan}
-                            hentSamarbeidsplanPåNytt={
-                                hentSamarbeidsplanPåNytt
-                            }
+                            hentSamarbeidsplanPåNytt={hentSamarbeidsplanPåNytt}
                         />
                     </>
-                )
+                );
             } else {
                 return (
-                    <Tooltip content={`Publisert på Min Side - Arbeidsgiver${plan.sistPublisert ? ` ${lokalDato(plan.sistPublisert)}` : ""}`}>
+                    <Tooltip
+                        content={`Publisert på Min Side - Arbeidsgiver${plan.sistPublisert ? ` ${lokalDato(plan.sistPublisert)}` : ""}`}
+                    >
                         <div>
                             <PubliserDokumentknapp
                                 disabled
@@ -125,12 +122,7 @@ export const PubliserSamarbeidsplan = ({
             return (
                 <>
                     <PubliserDokumentknapp
-                        icon={
-                            <PaperplaneIcon
-                                fontSize="1.5rem"
-                                aria-hidden
-                            />
-                        }
+                        icon={<PaperplaneIcon fontSize="1.5rem" aria-hidden />}
                         onClick={() => {
                             setPubliserModalÅpen(true);
                         }}
@@ -141,9 +133,7 @@ export const PubliserSamarbeidsplan = ({
                         open={publiserModalÅpen}
                         setOpen={setPubliserModalÅpen}
                         plan={plan}
-                        hentSamarbeidsplanPåNytt={
-                            hentSamarbeidsplanPåNytt
-                        }
+                        hentSamarbeidsplanPåNytt={hentSamarbeidsplanPåNytt}
                     />
                 </>
             );
@@ -157,12 +147,7 @@ function BrukerMåVæreEierKnapp() {
         <Tooltip content="Kun eiere og følgere av saken kan publisere planen.">
             <div>
                 <PubliserDokumentknapp
-                    icon={
-                        <PaperplaneIcon
-                            fontSize="1.5rem"
-                            aria-hidden
-                        />
-                    }
+                    icon={<PaperplaneIcon fontSize="1.5rem" aria-hidden />}
                     disabled
                 >
                     Publiser

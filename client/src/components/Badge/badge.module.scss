@@ -7,15 +7,15 @@
         text-decoration: none;
     }
 
-	.statusTag {
-		min-width: 6rem;
-		margin: 0;
-		width: fit-content;
-		height: fit-content;
+    .statusTag {
+        min-width: 6rem;
+        margin: 0;
+        width: fit-content;
+        height: fit-content;
 
-		&.slim {
-			min-width: fit-content;
-			margin: 0.25rem 0.5rem;
-		}
-	}
+        &.slim {
+            min-width: fit-content;
+            margin: 0.25rem 0.5rem;
+        }
+    }
 }

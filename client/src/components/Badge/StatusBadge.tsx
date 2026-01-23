@@ -1,8 +1,11 @@
 import "@navikt/ds-css";
 import { Tag, TagProps } from "@navikt/ds-react";
-import styles from './badge.module.scss';
+import styles from "./badge.module.scss";
 
-export interface GenericProps<T> extends Omit<TagProps, "variant" | "children"> {
+export interface GenericProps<T> extends Omit<
+    TagProps,
+    "variant" | "children"
+> {
     status: T;
     penskrivStatus: (status: T) => string;
     hentVariant: (status: T) => TagProps["variant"];
@@ -19,7 +22,12 @@ export function GenericStatusBadge<T>({
 }: GenericProps<T>) {
     return (
         <div className={`${styles.statusBadge} ${className ? className : ""}`}>
-            <Tag {...remainingProps} className={`${styles.statusTag} ${slim ? styles.slim : ""}`} variant={hentVariant(status)} size="small">
+            <Tag
+                {...remainingProps}
+                className={`${styles.statusTag} ${slim ? styles.slim : ""}`}
+                variant={hentVariant(status)}
+                size="small"
+            >
                 {penskrivStatus(status)}
             </Tag>
         </div>

@@ -1,15 +1,15 @@
 @use "../styling/containere" as containere;
 
 .styledTable {
-	background-color: var(--a-white);
-	box-shadow: var(--a-shadow-small);
-	border-radius: var(--a-border-radius-medium);
+    background-color: var(--a-white);
+    box-shadow: var(--a-shadow-small);
+    border-radius: var(--a-border-radius-medium);
 }
 
 .lastespinner {
-	display: block;
-	margin-left: auto;
-	margin-right: auto;
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .samarbeidsfanemenyHeading {
@@ -34,25 +34,25 @@
 
 .animertBurger {
     transition: transform 0.2s ease-in-out;
-	transform: rotate(0deg);
+    transform: rotate(0deg);
 
-	&.open {
-		transform: rotate(180deg);
-	}
+    &.open {
+        transform: rotate(180deg);
+    }
 }
 
 .styledLåsbarCheckbox {
-	:global(.navds-checkbox__label) {
-		:global(.navds-checkbox__content) {
-			:global(.navds-checkbox__label-text) {
-				display: flex;
-				align-items: center;
-				justify-content: center;
-			}
-		}
-	}
+    :global(.navds-checkbox__label) {
+        :global(.navds-checkbox__content) {
+            :global(.navds-checkbox__label-text) {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
 }
 
 .sidecontainer {
-	@include containere.sideContainer;
+    @include containere.sideContainer;
 }

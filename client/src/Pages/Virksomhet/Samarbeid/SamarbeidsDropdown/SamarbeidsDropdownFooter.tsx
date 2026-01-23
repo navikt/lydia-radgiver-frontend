@@ -29,8 +29,6 @@ export const SamarbeidsDropdownFooter = ({
         return null;
     }
 
-
-
     return visOpprettSamarbeidKnapp ? (
         <>
             <Button
@@ -52,12 +50,18 @@ export const SamarbeidsDropdownFooter = ({
     );
 };
 
-function KravTilOppretteSamarbeid({ iaSakStatus, kanEndreSamarbeid }: { iaSakStatus?: IAProsessStatusType, kanEndreSamarbeid: boolean }) {
+function KravTilOppretteSamarbeid({
+    iaSakStatus,
+    kanEndreSamarbeid,
+}: {
+    iaSakStatus?: IAProsessStatusType;
+    kanEndreSamarbeid: boolean;
+}) {
     if (iaSakStatus === undefined || iaSakStatus === "IKKE_AKTIV") {
         return (
             <BodyShort className={styles.actionMenuBegrunnelse}>
-                Du kan opprette og administrere samarbeid når saken er i{" "}
-                status <i>Kartlegges</i> eller <i>Vi bistår</i>.
+                Du kan opprette og administrere samarbeid når saken er i status{" "}
+                <i>Kartlegges</i> eller <i>Vi bistår</i>.
             </BodyShort>
         );
     }
@@ -67,8 +71,8 @@ function KravTilOppretteSamarbeid({ iaSakStatus, kanEndreSamarbeid }: { iaSakSta
     ) {
         return (
             <BodyShort className={styles.actionMenuBegrunnelse}>
-                Status må være i <i>Kartlegges</i> eller <i>Vi bistår</i> og{" "}
-                du må være eier eller følger av saken for å opprette og
+                Status må være i <i>Kartlegges</i> eller <i>Vi bistår</i> og du
+                må være eier eller følger av saken for å opprette og
                 administrere samarbeid.
             </BodyShort>
         );
@@ -80,8 +84,8 @@ function KravTilOppretteSamarbeid({ iaSakStatus, kanEndreSamarbeid }: { iaSakSta
     ) {
         return (
             <BodyShort className={styles.actionMenuBegrunnelse}>
-                Status må være i <i>Kartlegges</i> eller <i>Vi bistår</i>{" "}
-                for å opprette og administrere samarbeid.
+                Status må være i <i>Kartlegges</i> eller <i>Vi bistår</i> for å
+                opprette og administrere samarbeid.
             </BodyShort>
         );
     }
@@ -97,4 +101,4 @@ function KravTilOppretteSamarbeid({ iaSakStatus, kanEndreSamarbeid }: { iaSakSta
             </BodyShort>
         );
     }
-};
+}

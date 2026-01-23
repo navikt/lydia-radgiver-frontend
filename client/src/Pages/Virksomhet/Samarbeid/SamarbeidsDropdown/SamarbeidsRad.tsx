@@ -30,14 +30,14 @@ export const SamarbeidsRad = ({
 
     return (
         <ActionMenu.Item className={styles.actionMenuItem}>
-            <Samarbeidslenke orgnr={orgnr} saksnummer={saksnummer} samarbeid={samarbeid} />
+            <Samarbeidslenke
+                orgnr={orgnr}
+                saksnummer={saksnummer}
+                samarbeid={samarbeid}
+            />
             {kanEndreSamarbeid && erPåAktivSak && (
                 <Button
-                    icon={
-                        <NotePencilIcon
-                            fontSize="1.5rem"
-                        />
-                    }
+                    icon={<NotePencilIcon fontSize="1.5rem" />}
                     variant="tertiary"
                     size="small"
                     title="Endre samarbeid"

@@ -3,7 +3,7 @@ import { BodyLong } from "@navikt/ds-react";
 import React from "react";
 import { useSpørreundersøkelseType } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 
-import styles from './fullførSpørreundersøkelseModal.module.scss';
+import styles from "./fullførSpørreundersøkelseModal.module.scss";
 export function FullførSpørreundersøkelseModal({
     erModalÅpen,
     lukkModal,

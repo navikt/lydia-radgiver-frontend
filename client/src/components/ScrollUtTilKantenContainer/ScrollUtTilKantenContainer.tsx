@@ -23,13 +23,20 @@ export function ScrollUtTilKantenContainer({
     $offsetRight,
     style = {},
     className = "",
-    ...remainingProps }: OffsetProps & React.HTMLAttributes<HTMLDivElement>) {
+    ...remainingProps
+}: OffsetProps & React.HTMLAttributes<HTMLDivElement>) {
     return (
-        <div {...remainingProps} style={{
-            "--scroll-ut-til-kanten-offset-left": `${$offsetLeft}rem`,
-            "--scroll-ut-til-kanten-offset-right": `${$offsetRight}rem`,
-            ...style,
-        } as React.CSSProperties} className={`${styles.scrollUtTilKantenContainer} ${className}`} />
+        <div
+            {...remainingProps}
+            style={
+                {
+                    "--scroll-ut-til-kanten-offset-left": `${$offsetLeft}rem`,
+                    "--scroll-ut-til-kanten-offset-right": `${$offsetRight}rem`,
+                    ...style,
+                } as React.CSSProperties
+            }
+            className={`${styles.scrollUtTilKantenContainer} ${className}`}
+        />
     );
 }
 

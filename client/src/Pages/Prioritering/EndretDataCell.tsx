@@ -6,5 +6,7 @@ interface Props {
 }
 
 export const EndretDataCell = ({ sistEndret }: Props) => {
-    return <Table.DataCell>{sistEndret && lokalDato(sistEndret)}</Table.DataCell>;
+    return (
+        <Table.DataCell>{sistEndret && lokalDato(sistEndret)}</Table.DataCell>
+    );
 };

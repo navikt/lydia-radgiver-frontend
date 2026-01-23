@@ -5,7 +5,7 @@ import { virksomhetAutocompletePath } from "../../api/lydia-api/paths";
 import { VirksomhetSøkeresultat } from "../../domenetyper/domenetyper";
 import { EksternLenke } from "../EksternLenke";
 import { loggSøkPåVirksomhet } from "../../util/analytics-klient";
-import styles from './dekoratør.module.scss';
+import styles from "./dekoratør.module.scss";
 
 interface Props {
     className?: string;

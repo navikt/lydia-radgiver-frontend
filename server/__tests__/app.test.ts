@@ -1,11 +1,11 @@
 import request from "supertest";
-import {Express} from "express";
-import {Config, miljøVariabler} from "../config";
+import { Express } from "express";
+import { Config, miljøVariabler } from "../config";
 import nock from "nock";
-import {generateLocalKeys, setupLocalJwkSet} from "../jwks";
-import {decodeJwt, SignJWT} from "jose";
-import {register} from "prom-client";
-import {hentBrukerinfoFraToken} from "../brukerinfo";
+import { generateLocalKeys, setupLocalJwkSet } from "../jwks";
+import { decodeJwt, SignJWT } from "jose";
+import { register } from "prom-client";
+import { hentBrukerinfoFraToken } from "../brukerinfo";
 import Application from "../app";
 import { inMemorySessionManager } from "../SessionStore";
 
@@ -23,18 +23,20 @@ const mockEnv = () => {
     process.env[miljøVariabler.nameSpace] = "pia";
     process.env[miljøVariabler.azureAppClientId] = azureClientId;
     process.env[miljøVariabler.azureOpenidConfigIssuer] = "azure";
-    process.env[miljøVariabler.azureOpenidConfigTokenEndpoint] = azureOpenidConfigTokenEndpoint;
+    process.env[miljøVariabler.azureOpenidConfigTokenEndpoint] =
+        azureOpenidConfigTokenEndpoint;
     process.env[miljøVariabler.azureAppClientSecret] = "azureAppClientSecret";
     process.env[miljøVariabler.serverPort] = "8080";
     process.env[miljøVariabler.lydiaApiUri] = lydiaApiUri;
     process.env[miljøVariabler.jwkUri] = "hei123";
-    process.env[miljøVariabler.fiaSuperbrukerGroupId] = "ensuperbrukerGroupId"
-    process.env[miljøVariabler.fiaSaksbehandlerGroupId] = "ensaksbehandlerGroupId"
-    process.env[miljøVariabler.fiaLesetilgangGroupId] = "enlesetilgangGroupId"
-    process.env[miljøVariabler.teamPiaGroupId] = "teamPiaGroupId"
-    process.env[miljøVariabler.sessionHemmelighet] = "secret"
-    process.env[miljøVariabler.csrfHemmelighet] = "csrf"
-    process.env[miljøVariabler.cookieHemmelighet] = "cookie"
+    process.env[miljøVariabler.fiaSuperbrukerGroupId] = "ensuperbrukerGroupId";
+    process.env[miljøVariabler.fiaSaksbehandlerGroupId] =
+        "ensaksbehandlerGroupId";
+    process.env[miljøVariabler.fiaLesetilgangGroupId] = "enlesetilgangGroupId";
+    process.env[miljøVariabler.teamPiaGroupId] = "teamPiaGroupId";
+    process.env[miljøVariabler.sessionHemmelighet] = "secret";
+    process.env[miljøVariabler.csrfHemmelighet] = "csrf";
+    process.env[miljøVariabler.cookieHemmelighet] = "cookie";
 };
 
 export async function createMockToken() {
@@ -43,10 +45,10 @@ export async function createMockToken() {
         name: "Testuser Testuser",
         sub: "1",
         NAVident: "hei123",
-        groups: ["ensuperbrukerGroupId"]
+        groups: ["ensuperbrukerGroupId"],
     })
         .setIssuedAt()
-        .setProtectedHeader({alg: "RS256"})
+        .setProtectedHeader({ alg: "RS256" })
         .setIssuer("azure")
         .setAudience(azureClientId)
         .setExpirationTime("2h")
@@ -65,7 +67,7 @@ const init = async () => {
     const jwkSet = await setupJwkSet();
     const sm = await inMemorySessionManager();
     register.clear();
-    return new Application(new Config({jwkSet}), sm).expressApp;
+    return new Application(new Config({ jwkSet }), sm).expressApp;
 };
 
 describe("Tester liveness og readiness", () => {
@@ -80,7 +82,9 @@ describe("Tester liveness og readiness", () => {
             superTest.get("/internal/isAlive"),
             superTest.get("/internal/isReady"),
         ]);
-        const livenessReadynesPassed = responses.every((res) => res.statusCode === 200);
+        const livenessReadynesPassed = responses.every(
+            (res) => res.statusCode === 200,
+        );
         expect(livenessReadynesPassed).toBeTruthy();
     });
 });
@@ -128,7 +132,9 @@ describe("Tester proxy mot lydia-api", () => {
             .post(azureOpenidConfigTokenPath)
             .reply(200, mockOBOToken);
 
-        const lydiaApiNockScope = nock(lydiaApiUri).get("/virksomhet").reply(200);
+        const lydiaApiNockScope = nock(lydiaApiUri)
+            .get("/virksomhet")
+            .reply(200);
 
         const responseForTestEndpoint = await request(expressApp)
             .get("/api/virksomhet")
@@ -147,16 +153,15 @@ describe("Tester proxy mot lydia-api", () => {
     });
 
     test("skal kunne si hvor lenge brukeren har et gyldig token", async () => {
-        const token = await createMockToken()
-        const jwtPayload = decodeJwt(token)
-        const brukerinfo = hentBrukerinfoFraToken(jwtPayload)
-        const nå = Date.now()
+        const token = await createMockToken();
+        const jwtPayload = decodeJwt(token);
+        const brukerinfo = hentBrukerinfoFraToken(jwtPayload);
+        const nå = Date.now();
         expect(brukerinfo.tokenUtloper < nå).toBeFalsy();
-        const treTimer = 1000 * 60 * 60 * 3
+        const treTimer = 1000 * 60 * 60 * 3;
         expect(brukerinfo.tokenUtloper < nå + treTimer).toBeTruthy();
     });
 });
-
 
 describe("Tester uthenting av metrikker", () => {
     let expressApp: Express;
@@ -166,15 +171,29 @@ describe("Tester uthenting av metrikker", () => {
 
     test("Appen skal hente metrics om HTTP kall", async () => {
         const superTest = request(expressApp);
-        const livenessCheck = await superTest.get("/internal/isAlive")
-        expect(livenessCheck.statusCode).toBe(200)
-        const metricsCollection = await superTest.get("/internal/metrics")
-        expect(metricsCollection.text).toContain("process_cpu_user_seconds_total")
-        expect(metricsCollection.text).toContain("http_request_size_bytes_bucket")
-        expect(metricsCollection.text).toContain("http_response_size_bytes_bucket")
-        expect(metricsCollection.text).toContain("http_response_size_bytes_bucket")
-        expect(metricsCollection.text).toContain("http_request_duration_seconds_sum")
-        expect(metricsCollection.text).toContain("http_request_duration_seconds_count")
-        expect(metricsCollection.text).toContain("http_request_duration_seconds_count{method=\"GET\",route=\"/internal/isAlive\",code=\"200\"}")
+        const livenessCheck = await superTest.get("/internal/isAlive");
+        expect(livenessCheck.statusCode).toBe(200);
+        const metricsCollection = await superTest.get("/internal/metrics");
+        expect(metricsCollection.text).toContain(
+            "process_cpu_user_seconds_total",
+        );
+        expect(metricsCollection.text).toContain(
+            "http_request_size_bytes_bucket",
+        );
+        expect(metricsCollection.text).toContain(
+            "http_response_size_bytes_bucket",
+        );
+        expect(metricsCollection.text).toContain(
+            "http_response_size_bytes_bucket",
+        );
+        expect(metricsCollection.text).toContain(
+            "http_request_duration_seconds_sum",
+        );
+        expect(metricsCollection.text).toContain(
+            "http_request_duration_seconds_count",
+        );
+        expect(metricsCollection.text).toContain(
+            'http_request_duration_seconds_count{method="GET",route="/internal/isAlive",code="200"}',
+        );
     });
 });

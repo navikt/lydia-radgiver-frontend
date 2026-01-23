@@ -68,7 +68,13 @@ export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
                         <Heading size="small" level="4">
                             Administrer gruppe
                         </Heading>
-                        <TeamInnhold iaSak={iaSak} lukkEksternContainer={() => setOpen(false)} åpneTaEierskapModal={() => setTaEierskapModalÅpen(true)} />
+                        <TeamInnhold
+                            iaSak={iaSak}
+                            lukkEksternContainer={() => setOpen(false)}
+                            åpneTaEierskapModal={() =>
+                                setTaEierskapModalÅpen(true)
+                            }
+                        />
                     </div>
                 </Dropdown.Menu>
             </Dropdown>
@@ -84,7 +90,13 @@ export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
     );
 }
 
-function Knappeinnhold({ brukerErEierAvSak, brukerFølgerSak }: { brukerErEierAvSak: boolean, brukerFølgerSak: boolean }) {
+function Knappeinnhold({
+    brukerErEierAvSak,
+    brukerFølgerSak,
+}: {
+    brukerErEierAvSak: boolean;
+    brukerFølgerSak: boolean;
+}) {
     const erPåInaktivSak = useErPåInaktivSak();
     if (erPåInaktivSak) {
         return (

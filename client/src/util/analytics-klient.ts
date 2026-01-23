@@ -8,7 +8,10 @@ import {
 declare global {
     interface Window {
         umami: {
-            track: (eventNavn: string, eventData: Record<string, string | boolean | string[]>) => void;
+            track: (
+                eventNavn: string,
+                eventData: Record<string, string | boolean | string[]>,
+            ) => void;
             identify: (userProperties: Record<string, string>) => void;
         };
     }
@@ -52,10 +55,12 @@ const logAnalyticsEvent = (
     if (umami) {
         umami.track(eventNavn, eventData);
     } else {
-        console.warn("Umami er ikke tilgjengelig for å logge event:", eventNavn);
+        console.warn(
+            "Umami er ikke tilgjengelig for å logge event:",
+            eventNavn,
+        );
     }
 };
-
 
 export const setTilgangsnivå = (tilgangsnivå: Rolle) => {
     const umami = window.umami;
@@ -240,7 +245,7 @@ export const loggEndringAvPlan = (
 
 export const loggBrukerRedirigertMedSøkAlert = () => {
     logAnalyticsEvent("alert vist", {
-        tekst: "Vi har flyttet prioriteringssiden, så lenker og bokmerker med lagrede søk fungerer kanskje ikke lenger."
+        tekst: "Vi har flyttet prioriteringssiden, så lenker og bokmerker med lagrede søk fungerer kanskje ikke lenger.",
     });
 };
 
@@ -248,6 +253,6 @@ export const loggBrukerFulgteRedirectlenkeMedSøk = () => {
     logAnalyticsEvent("navigere", {
         destinasjon: "/prioritering",
         lenketekst: "Denne lenken",
-        komponent: "redirect alert"
+        komponent: "redirect alert",
     });
-}
+};

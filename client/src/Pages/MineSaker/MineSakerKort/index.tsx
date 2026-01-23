@@ -1,4 +1,4 @@
-import styles from './minesakerkort.module.scss';
+import styles from "./minesakerkort.module.scss";
 import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 import { Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import { EksternLenke } from "../../../components/EksternLenke";
@@ -22,7 +22,11 @@ export const MineSakerKort = ({
     orgnavn: string;
 }) => {
     const navFane = (status: IAProsessStatusType) => {
-        if (status === "IKKE_AKTUELL" || status === "AVBRUTT" || status === "FULLFØRT") {
+        if (
+            status === "IKKE_AKTUELL" ||
+            status === "AVBRUTT" ||
+            status === "FULLFØRT"
+        ) {
             return "?fane=historikk";
         }
 
@@ -56,7 +60,10 @@ export const MineSakerKort = ({
                         >
                             {orgnavn}
                         </InternLenke>
-                        <span className={styles.subheader}> - {iaSak.orgnr}</span>
+                        <span className={styles.subheader}>
+                            {" "}
+                            - {iaSak.orgnr}
+                        </span>
                     </Heading>
                     <HStack justify={"space-between"} align={"center"}>
                         <HStack gap={"4"} align={"center"}>
@@ -92,13 +99,11 @@ export const MineSakerKort = ({
                                 erPåMineSaker
                             />
                         </HStack>
-                        {
-                            salesforceInfo?.url && (
-                                <EksternLenke href={salesforceInfo?.url}>
-                                    Salesforce
-                                </EksternLenke>
-                            )
-                        }
+                        {salesforceInfo?.url && (
+                            <EksternLenke href={salesforceInfo?.url}>
+                                Salesforce
+                            </EksternLenke>
+                        )}
                     </HStack>
                 </div>
 

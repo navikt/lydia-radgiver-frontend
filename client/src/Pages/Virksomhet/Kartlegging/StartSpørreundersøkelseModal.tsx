@@ -31,12 +31,16 @@ export function StartSpørreundersøkelseModal({
             title={`Start ${spørreundersøkelse.type.toLowerCase()}`}
         >
             <br />
-            <BodyShort weight={"semibold"}>
-                Før du starter, husk at:
-            </BodyShort>
+            <BodyShort weight={"semibold"}>Før du starter, husk at:</BodyShort>
             <List>
-                <List.Item>Det må være minst tre deltakere for å gjennomføre og for å vise resultatene.</List.Item>
-                <List.Item>Når du starter behovsvurderingen må den fullføres innen 24 timer.</List.Item>
+                <List.Item>
+                    Det må være minst tre deltakere for å gjennomføre og for å
+                    vise resultatene.
+                </List.Item>
+                <List.Item>
+                    Når du starter behovsvurderingen må den fullføres innen 24
+                    timer.
+                </List.Item>
             </List>
         </BekreftValgModal>
     );

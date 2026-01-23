@@ -1,4 +1,4 @@
-import styles from './minesakerkort.module.scss';
+import styles from "./minesakerkort.module.scss";
 import { IAProsessStatusType, IASak } from "../../../domenetyper/domenetyper";
 import { useNavigate } from "react-router-dom";
 import { penskrivSpørreundersøkelseStatus } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
@@ -69,10 +69,12 @@ export const SamarbeidsInnhold = ({
         <div className={styles.samarbeidsinnhold}>
             <div className={styles.cardContentLeft}>
                 {visSpørreundersøkelse &&
-                    sisteVurdering?.status &&
-                    vurderingSistEndret ? (
+                sisteVurdering?.status &&
+                vurderingSistEndret ? (
                     <div>
-                        <BodyShort as="span" weight="semibold">Behovsvurdering: </BodyShort>
+                        <BodyShort as="span" weight="semibold">
+                            Behovsvurdering:{" "}
+                        </BodyShort>
                         <BodyShort as="span">
                             {penskrivSpørreundersøkelseStatus(
                                 sisteVurdering.status,
@@ -82,18 +84,22 @@ export const SamarbeidsInnhold = ({
                     </div>
                 ) : (
                     <div>
-                        <BodyShort as="span" weight="semibold">Sist endret: </BodyShort>
+                        <BodyShort as="span" weight="semibold">
+                            Sist endret:{" "}
+                        </BodyShort>
                         <BodyShort as="span">
                             {lokalDato(
                                 iaSak.endretTidspunkt ??
-                                iaSak.opprettetTidspunkt,
+                                    iaSak.opprettetTidspunkt,
                             )}
                         </BodyShort>
                     </div>
                 )}
                 {samarbeidsplan && (
                     <div>
-                        <BodyShort as="span" weight="semibold">Samarbeidsplan: </BodyShort>
+                        <BodyShort as="span" weight="semibold">
+                            Samarbeidsplan:{" "}
+                        </BodyShort>
                         <BodyShort as="span">
                             Sist endret {lokalDato(samarbeidsplan.sistEndret)}
                         </BodyShort>
@@ -103,7 +109,9 @@ export const SamarbeidsInnhold = ({
                     sisteEvaluering?.status &&
                     evalueringSistEndret && (
                         <div>
-                            <BodyShort as="span" weight="semibold">Evaluering: </BodyShort>
+                            <BodyShort as="span" weight="semibold">
+                                Evaluering:{" "}
+                            </BodyShort>
                             <BodyShort as="span">
                                 {penskrivSpørreundersøkelseStatus(
                                     sisteEvaluering.status,

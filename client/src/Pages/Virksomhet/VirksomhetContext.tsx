@@ -36,7 +36,9 @@ export function useErPåAktivSak() {
             return false;
         }
 
-        return context.iaSak?.saksnummer === context.virksomhet.aktivtSaksnummer;
+        return (
+            context.iaSak?.saksnummer === context.virksomhet.aktivtSaksnummer
+        );
     } catch {
         // Hvis vi ikke har context så er vi ikke på aktiv sak
         return false;
@@ -49,7 +51,10 @@ export function useErPåInaktivSak() {
         return false;
     }
 
-    return context.iaSak?.saksnummer && context.iaSak?.saksnummer !== context.virksomhet.aktivtSaksnummer;
+    return (
+        context.iaSak?.saksnummer &&
+        context.iaSak?.saksnummer !== context.virksomhet.aktivtSaksnummer
+    );
 }
 
 export default VirksomhetContext;

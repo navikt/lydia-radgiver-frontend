@@ -20,12 +20,12 @@ export const SakshistorikkTabell = ({
         "NY_PROSESS",
         "SLETT_PROSESS",
         "FULLFØR_PROSESS",
-        IAProsessStatusEnum.enum.NY
+        IAProsessStatusEnum.enum.NY,
     ];
 
     const filtrerteSakshendelser = sakshistorikk.sakshendelser.filter(
         (sakSnapshot) =>
-            !skjulteSakshendelser.includes(sakSnapshot.hendelsestype)
+            !skjulteSakshendelser.includes(sakSnapshot.hendelsestype),
     );
 
     return (
@@ -48,81 +48,75 @@ export const SakshistorikkTabell = ({
                         </Table.Row>
                     </Table.Header>
                     <Table.Body>
-                        {filtrerteSakshendelser.map(
-                            (sakSnapshot, index) => {
-                                return (
-                                    <Table.Row key={index}>
-                                        <Table.DataCell>
-                                            <IAProsessStatusBadge
-                                                status={sakSnapshot.status}
-                                            />
-                                        </Table.DataCell>
-                                        <Table.DataCell>
-                                            {lokalDato(
-                                                sakSnapshot.tidspunktForSnapshot,
-                                            )}
-                                        </Table.DataCell>
-                                        <Table.DataCell>
-                                            {sakSnapshot.begrunnelser.length >
-                                                0 && (
-                                                    <>
-                                                        <Detail>Begrunnelse</Detail>
-                                                        <ul>
-                                                            {sakSnapshot.begrunnelser.map(
-                                                                (begrunnelse) => (
-                                                                    <li
-                                                                        key={
-                                                                            begrunnelse
-                                                                        }
-                                                                    >
-                                                                        <Detail>
-                                                                            {
-                                                                                begrunnelse
-                                                                            }
-                                                                        </Detail>
-                                                                    </li>
-                                                                ),
-                                                            )}
-                                                        </ul>
-                                                    </>
-                                                )}
-                                            {sakSnapshot.hendelsestype ===
-                                                "TA_EIERSKAP_I_SAK" && (
-                                                    <Detail>
-                                                        Tok eierskap i sak
-                                                    </Detail>
-                                                )}
-                                            {sakSnapshot.hendelsestype ===
-                                                "ENDRE_PROSESS" && (
-                                                    <Detail>
-                                                        Endret samarbeidsnavn
-                                                    </Detail>
-                                                )}
-                                            {sakSnapshot.hendelsestype ===
-                                                "NY_PROSESS" && (
-                                                    <Detail>Nytt samarbeid</Detail>
-                                                )}
-                                            {sakSnapshot.hendelsestype ===
-                                                "SLETT_PROSESS" && (
-                                                    <Detail>
-                                                        Slettet samarbeid
-                                                    </Detail>
-                                                )}
-                                            {sakSnapshot.status === "NY" && (
-                                                <Detail>Opprettet sak</Detail>
-                                            )}
-                                        </Table.DataCell>
-                                        <Table.DataCell>
-                                            <NavIdentMedLenke
-                                                navIdent={
-                                                    sakSnapshot.hendelseOpprettetAv
-                                                }
-                                            />
-                                        </Table.DataCell>
-                                    </Table.Row>
-                                );
-                            },
-                        )}
+                        {filtrerteSakshendelser.map((sakSnapshot, index) => {
+                            return (
+                                <Table.Row key={index}>
+                                    <Table.DataCell>
+                                        <IAProsessStatusBadge
+                                            status={sakSnapshot.status}
+                                        />
+                                    </Table.DataCell>
+                                    <Table.DataCell>
+                                        {lokalDato(
+                                            sakSnapshot.tidspunktForSnapshot,
+                                        )}
+                                    </Table.DataCell>
+                                    <Table.DataCell>
+                                        {sakSnapshot.begrunnelser.length >
+                                            0 && (
+                                            <>
+                                                <Detail>Begrunnelse</Detail>
+                                                <ul>
+                                                    {sakSnapshot.begrunnelser.map(
+                                                        (begrunnelse) => (
+                                                            <li
+                                                                key={
+                                                                    begrunnelse
+                                                                }
+                                                            >
+                                                                <Detail>
+                                                                    {
+                                                                        begrunnelse
+                                                                    }
+                                                                </Detail>
+                                                            </li>
+                                                        ),
+                                                    )}
+                                                </ul>
+                                            </>
+                                        )}
+                                        {sakSnapshot.hendelsestype ===
+                                            "TA_EIERSKAP_I_SAK" && (
+                                            <Detail>Tok eierskap i sak</Detail>
+                                        )}
+                                        {sakSnapshot.hendelsestype ===
+                                            "ENDRE_PROSESS" && (
+                                            <Detail>
+                                                Endret samarbeidsnavn
+                                            </Detail>
+                                        )}
+                                        {sakSnapshot.hendelsestype ===
+                                            "NY_PROSESS" && (
+                                            <Detail>Nytt samarbeid</Detail>
+                                        )}
+                                        {sakSnapshot.hendelsestype ===
+                                            "SLETT_PROSESS" && (
+                                            <Detail>Slettet samarbeid</Detail>
+                                        )}
+                                        {sakSnapshot.status === "NY" && (
+                                            <Detail>Opprettet sak</Detail>
+                                        )}
+                                    </Table.DataCell>
+                                    <Table.DataCell>
+                                        <NavIdentMedLenke
+                                            navIdent={
+                                                sakSnapshot.hendelseOpprettetAv
+                                            }
+                                        />
+                                    </Table.DataCell>
+                                </Table.Row>
+                            );
+                        })}
                     </Table.Body>
                 </StyledTable>
             </ScrollUtTilKantenContainer>

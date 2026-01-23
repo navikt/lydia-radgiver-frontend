@@ -7,7 +7,6 @@ import { DokumentStatusEnum } from "../../src/domenetyper/domenetyper";
 import { Spørreundersøkelse } from "../../src/domenetyper/spørreundersøkelse";
 import { usePollingAvKartleggingVedAvsluttetStatus } from "../../src/util/usePollingAvKartleggingVedAvsluttetStatus";
 
-
 type PubliseringStatus = Spørreundersøkelse["publiseringStatus"];
 
 function TestPollingKomponent({
@@ -19,10 +18,7 @@ function TestPollingKomponent({
     publiseringStatus: PubliseringStatus;
     hentKartleggingPåNytt: () => void;
 }) {
-    const spørreundersøkelse: Pick<
-        Spørreundersøkelse,
-        "publiseringStatus"
-    > = {
+    const spørreundersøkelse: Pick<Spørreundersøkelse, "publiseringStatus"> = {
         publiseringStatus,
     };
 
@@ -94,4 +90,4 @@ describe("usePollingAvKartleggingVedAvsluttetStatus", () => {
         expect(hentKartleggingPåNytt).not.toHaveBeenCalled();
         expect(screen.getByTestId("forsok")).toHaveTextContent("0");
     });
-})
+});

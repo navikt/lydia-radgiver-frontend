@@ -31,11 +31,17 @@ export const PubliseringModal = ({
             aria-label={"Publiser behovsvurdering"}
         >
             <Modal.Header closeButton={true}>
-                <Heading size="medium">Publiser {type.toLocaleLowerCase()}</Heading>
+                <Heading size="medium">
+                    Publiser {type.toLocaleLowerCase()}
+                </Heading>
             </Modal.Header>
             <Modal.Body>
                 <BodyLong>
-                    Når du publiserer til Min side - Arbeidsgiver, blir resultatene tilgjengelig for alle i virksomheten med Altinn-tilgangen “Virksomhetens IA-samarbeid”. Husk å informere din kontaktperson om at flere i organisasjonen kan se resultatene.
+                    Når du publiserer til Min side - Arbeidsgiver, blir
+                    resultatene tilgjengelig for alle i virksomheten med
+                    Altinn-tilgangen “Virksomhetens IA-samarbeid”. Husk å
+                    informere din kontaktperson om at flere i organisasjonen kan
+                    se resultatene.
                 </BodyLong>
             </Modal.Body>
             <Modal.Footer>

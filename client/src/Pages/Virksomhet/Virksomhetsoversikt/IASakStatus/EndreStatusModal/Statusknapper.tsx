@@ -94,9 +94,9 @@ export function Statusknapper({
     const hendelser: GyldigNesteHendelse[] = iaSak.gyldigeNesteHendelser.filter(
         (hendelse) =>
             hendelse.saksHendelsestype !==
-            IASakshendelseTypeEnum.enum.ENDRE_PROSESS &&
+                IASakshendelseTypeEnum.enum.ENDRE_PROSESS &&
             hendelse.saksHendelsestype !==
-            IASakshendelseTypeEnum.enum.NY_PROSESS,
+                IASakshendelseTypeEnum.enum.NY_PROSESS,
     );
     const destruktiveHendelser = hendelser.filter((hendelse) =>
         erHendelsenDestruktiv(hendelse.saksHendelsestype),

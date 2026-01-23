@@ -11,9 +11,11 @@ import { redisCacheHitCounter } from "./metrikker";
 const EXPIRY_THRESHOLD_SECONDS = 5;
 
 export const onBehalfOfTokenMiddleware =
-    (config: Config) => async (req: Request, res: Response, next: NextFunction) => {
+    (config: Config) =>
+    async (req: Request, res: Response, next: NextFunction) => {
         const bearerToken = getBearerToken(req);
-        if (!bearerToken) return next(new AuthError("Mangler token i auth header"));
+        if (!bearerToken)
+            return next(new AuthError("Mangler token i auth header"));
         hentOnBehalfOfToken(bearerToken, config, req)
             .then((oboToken) => {
                 res.locals.on_behalf_of_token = oboToken;
@@ -25,7 +27,7 @@ export const onBehalfOfTokenMiddleware =
 export const validerAccessToken = (
     accessToken: string,
     azure: Azure,
-    jwkSet: JWKSetRetriever
+    jwkSet: JWKSetRetriever,
 ): Promise<void> => {
     const options = {
         algorithms: ["RS256"],
@@ -42,12 +44,14 @@ export const validerAccessToken = (
                 feilmelding = "Payload i tokenet må være gyldig JSON!";
             } else if (error instanceof errors.JWTClaimValidationFailed) {
                 logger.error(
-                    `Received error: ${error.message} with claim ${error.claim} and reason ${error.reason}`
+                    `Received error: ${error.message} with claim ${error.claim} and reason ${error.reason}`,
                 );
                 feilmelding = `Token mottatt har ugyldig claim ${error.claim}`;
             } else {
                 feilmelding = "Tokenet er ikke gyldig";
-                logger.error("Ukjent feil under verifisering: " + error.message);
+                logger.error(
+                    "Ukjent feil under verifisering: " + error.message,
+                );
             }
             return Promise.reject(new AuthError(feilmelding));
         });
@@ -61,7 +65,8 @@ export const validerTokenFraWonderwall =
     (azure: Azure, jwkSet: JWKSetRetriever) =>
     async (req: Request, res: Response, next: NextFunction) => {
         const bearerToken = getBearerToken(req);
-        if (!bearerToken) return next(new AuthError("Mangler token i auth header"));
+        if (!bearerToken)
+            return next(new AuthError("Mangler token i auth header"));
         validerAccessToken(bearerToken, azure, jwkSet)
             .then(() => next())
             .catch((e) => next(e));
@@ -77,7 +82,7 @@ export const validerTokenFraFakedings =
 export const hentOnBehalfOfToken = async (
     accessToken: string,
     config: Config,
-    req: Request
+    req: Request,
 ): Promise<string> => {
     const encryptedObo = req.session.azureOboToken;
 
@@ -86,7 +91,10 @@ export const hentOnBehalfOfToken = async (
         // https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow#first-case-access-token-request-with-a-shared-secret
         const scope = config.lydiaApi.scope;
         const params = new URLSearchParams();
-        params.append("grant_type", "urn:ietf:params:oauth:grant-type:jwt-bearer");
+        params.append(
+            "grant_type",
+            "urn:ietf:params:oauth:grant-type:jwt-bearer",
+        );
         params.append("client_id", config.azure.clientId);
         params.append("client_secret", config.azure.clientSecret);
         params.append("assertion", accessToken);
@@ -95,24 +103,30 @@ export const hentOnBehalfOfToken = async (
         try {
             const result = await fetch(config.azure.tokenEndpoint, {
                 method: "POST",
-                headers : {
-                    "content-type": "application/x-www-form-urlencoded"
+                headers: {
+                    "content-type": "application/x-www-form-urlencoded",
                 },
-                body: params
-            }).then((res) => res.json())
-            .then((data) => data as AzureTokenResponse)
+                body: params,
+            })
+                .then((res) => res.json())
+                .then((data) => data as AzureTokenResponse);
 
-            req.session.accessToken = await encrypt(accessToken)
+            req.session.accessToken = await encrypt(accessToken);
             req.session.azureOboToken = await encrypt(result.access_token);
             return result.access_token;
         } catch (error) {
             if (error instanceof Error) {
-                throw new AuthError("Ukjent feil under token exchange: " + error.message);
+                throw new AuthError(
+                    "Ukjent feil under token exchange: " + error.message,
+                );
             }
         }
     }
 
-    if (encryptedObo && (await decrypt(req.session.accessToken)) === accessToken) {
+    if (
+        encryptedObo &&
+        (await decrypt(req.session.accessToken)) === accessToken
+    ) {
         redisCacheHitCounter.inc();
         const oboToken = await decrypt(encryptedObo);
         return isValid(decodeJwt(oboToken)) ? oboToken : await fetchOboToken();

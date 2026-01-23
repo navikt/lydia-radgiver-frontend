@@ -14,30 +14,25 @@ jest.mock("../../../../src/util/navigasjon", () => ({
     åpneSpørreundersøkelseINyFane: jest.fn(),
 }));
 
-jest.mock(
-    "../../../../src/components/Modal/BekreftValgModal",
-    () => ({
-        BekreftValgModal: ({
-            title,
-            description,
-            jaTekst,
-            åpen,
-            onConfirm,
-            onCancel,
-            children,
-        }: BekreftValgModalProps) => (
-            <div>
-                <h1>{title}</h1>
-                {description && <p>{description}</p>}
-                {åpen && (
-                    <button onClick={onConfirm}>{jaTekst ?? "OK"}</button>
-                )}
-                <button onClick={onCancel}>Avbryt</button>
-                {children}
-            </div>
-        ),
-    }),
-);
+jest.mock("../../../../src/components/Modal/BekreftValgModal", () => ({
+    BekreftValgModal: ({
+        title,
+        description,
+        jaTekst,
+        åpen,
+        onConfirm,
+        onCancel,
+        children,
+    }: BekreftValgModalProps) => (
+        <div>
+            <h1>{title}</h1>
+            {description && <p>{description}</p>}
+            {åpen && <button onClick={onConfirm}>{jaTekst ?? "OK"}</button>}
+            <button onClick={onCancel}>Avbryt</button>
+            {children}
+        </div>
+    ),
+}));
 
 jest.mock(
     "../../../../src/components/Spørreundersøkelse/SpørreundersøkelseContext",
@@ -69,8 +64,9 @@ describe("StartSpørreundersøkelseModal", () => {
     test("kaller callbacks og åpner spørreundersøkelse ved bekreftelse", () => {
         const startSpørreundersøkelsen = jest.fn();
         const lukkModal = jest.fn();
-        const { åpneSpørreundersøkelseINyFane } =
-            jest.requireMock("../../../../src/util/navigasjon");
+        const { åpneSpørreundersøkelseINyFane } = jest.requireMock(
+            "../../../../src/util/navigasjon",
+        );
 
         render(
             <StartSpørreundersøkelseModal
@@ -156,9 +152,7 @@ describe("SlettSpørreundersøkelseModal", () => {
             ),
         ).toBeInTheDocument();
         expect(
-            screen.getByText(
-                "Behovsvurdering opprettet 01.01.2023 kl. 10:00.",
-            ),
+            screen.getByText("Behovsvurdering opprettet 01.01.2023 kl. 10:00."),
         ).toBeInTheDocument();
 
         fireEvent.click(screen.getByText("OK"));

@@ -81,7 +81,8 @@ export const SamarbeidsDropdown = ({
                             <b>Ingen aktive samarbeid </b>
                         </BodyShort>
                     ) : (
-                        iaSak && alleSamarbeid && (
+                        iaSak &&
+                        alleSamarbeid && (
                             <ActionMenu.Group label={virksomhet.navn}>
                                 {alleSamarbeid.map((samarbeid) => (
                                     <SamarbeidsRad
@@ -89,15 +90,9 @@ export const SamarbeidsDropdown = ({
                                         orgnr={iaSak.orgnr}
                                         saksnummer={iaSak.saksnummer}
                                         samarbeid={samarbeid}
-                                        kanEndreSamarbeid={
-                                            kanEndreSamarbeid
-                                        }
-                                        setÅpen={
-                                            setEndreSamarbeidModalÅpen
-                                        }
-                                        setValgtSamarbeid={
-                                            setValgtSamarbeid
-                                        }
+                                        kanEndreSamarbeid={kanEndreSamarbeid}
+                                        setÅpen={setEndreSamarbeidModalÅpen}
+                                        setValgtSamarbeid={setValgtSamarbeid}
                                     />
                                 ))}
                             </ActionMenu.Group>

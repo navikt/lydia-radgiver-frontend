@@ -1,10 +1,11 @@
-import styles from './reactSelect.module.scss';
+import styles from "./reactSelect.module.scss";
 import ReactSelect, { CSSObjectWithLabel, StylesConfig } from "react-select";
 
-export function StyledReactSelect(props: React.ComponentProps<typeof ReactSelect>) {
+export function StyledReactSelect(
+    props: React.ComponentProps<typeof ReactSelect>,
+) {
     return <ReactSelect className={`${styles.styledSelect}`} {...props} />;
 }
-
 
 export const reactSelectStyle = (): StylesConfig => ({
     control: (provided, state) =>

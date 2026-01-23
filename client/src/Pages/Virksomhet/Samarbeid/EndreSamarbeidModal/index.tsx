@@ -1,7 +1,9 @@
+import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import {
-    IaSakProsess,
-} from "../../../../domenetyper/iaSakProsess";
-import { IASak, IASakshendelseType, IASakshendelseTypeEnum } from "../../../../domenetyper/domenetyper";
+    IASak,
+    IASakshendelseType,
+    IASakshendelseTypeEnum,
+} from "../../../../domenetyper/domenetyper";
 import React, { useState } from "react";
 import {
     getKanGjennomføreStatusendring,
@@ -10,7 +12,10 @@ import {
 } from "../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../api/lydia-api/sak";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
-import { KanGjennomføreStatusendring, MuligSamarbeidsgandling } from "../../../../domenetyper/samarbeidsEndring";
+import {
+    KanGjennomføreStatusendring,
+    MuligSamarbeidsgandling,
+} from "../../../../domenetyper/samarbeidsEndring";
 import BekreftHandlingModal from "./BekreftHandlingModal";
 import EndreSamarbeidModalInnhold from "./EndreSamarbeidInnhold";
 import VelgHandlingModal from "./VelgHandlingModal";
@@ -29,8 +34,10 @@ export const EndreSamarbeidModal = ({
     iaSak,
 }: EndreSamarbeidModalProps) => {
     const [navn, setNavn] = useState(samarbeid.navn ?? "");
-    const [kanGjennomføreResultat, setKanGjennomføreResultat] = useState<KanGjennomføreStatusendring>();
-    const [bekreftType, setBekreftType] = useState<MuligSamarbeidsgandling | null>(null);
+    const [kanGjennomføreResultat, setKanGjennomføreResultat] =
+        useState<KanGjennomføreStatusendring>();
+    const [bekreftType, setBekreftType] =
+        useState<MuligSamarbeidsgandling | null>(null);
     const [lagreNavnVellykket, setLagreNavnVellykket] = useState(false);
     const [velgHandlingModalÅpen, setVelgHandlingModalÅpen] = useState(false);
 
@@ -43,8 +50,6 @@ export const EndreSamarbeidModal = ({
     );
     const { mutate: hentSamarbeidPåNytt, data: samarbeidData } =
         useHentSamarbeid(iaSak.orgnr, iaSak.saksnummer);
-
-
 
     const nyHendelse = (hendelsestype: IASakshendelseType) => {
         const nyttNavn = navn.trim();
@@ -69,7 +74,8 @@ export const EndreSamarbeidModal = ({
             });
         });
     };
-    const [lasterKanGjennomføreHandling, setLasterKanGjennomføreHandling] = useState<string | null>(null);
+    const [lasterKanGjennomføreHandling, setLasterKanGjennomføreHandling] =
+        useState<string | null>(null);
 
     const hentKanGjennomføreStatusendring = (
         handling: MuligSamarbeidsgandling,
@@ -101,20 +107,30 @@ export const EndreSamarbeidModal = ({
                 hentSamarbeidPåNytt={hentSamarbeidPåNytt}
                 nyHendelse={nyHendelse}
                 lagreNavnVellykket={lagreNavnVellykket}
-                setLasterKanGjennomføreHandling={setLasterKanGjennomføreHandling}
+                setLasterKanGjennomføreHandling={
+                    setLasterKanGjennomføreHandling
+                }
                 setBekreftType={setBekreftType}
-                hentKanGjennomføreStatusendring={hentKanGjennomføreStatusendring}
+                hentKanGjennomføreStatusendring={
+                    hentKanGjennomføreStatusendring
+                }
                 lasterKanGjennomføreHandling={lasterKanGjennomføreHandling}
-                setVelgHandlingModalÅpen={setVelgHandlingModalÅpen} />
-            {velgHandlingModalÅpen && bekreftType === null && <VelgHandlingModal
-                iaSak={iaSak}
-                samarbeid={samarbeid}
-                åpen={velgHandlingModalÅpen && bekreftType === null}
-                hentKanGjennomføreStatusendring={hentKanGjennomføreStatusendring}
-                kanGjennomføreResultat={kanGjennomføreResultat}
-                lasterKanGjennomføreHandling={lasterKanGjennomføreHandling}
-                setBekreftType={setBekreftType}
-                setÅpen={setVelgHandlingModalÅpen} />}
+                setVelgHandlingModalÅpen={setVelgHandlingModalÅpen}
+            />
+            {velgHandlingModalÅpen && bekreftType === null && (
+                <VelgHandlingModal
+                    iaSak={iaSak}
+                    samarbeid={samarbeid}
+                    åpen={velgHandlingModalÅpen && bekreftType === null}
+                    hentKanGjennomføreStatusendring={
+                        hentKanGjennomføreStatusendring
+                    }
+                    kanGjennomføreResultat={kanGjennomføreResultat}
+                    lasterKanGjennomføreHandling={lasterKanGjennomføreHandling}
+                    setBekreftType={setBekreftType}
+                    setÅpen={setVelgHandlingModalÅpen}
+                />
+            )}
             <BekreftHandlingModal
                 type={bekreftType}
                 open={bekreftType !== undefined}
@@ -125,23 +141,28 @@ export const EndreSamarbeidModal = ({
                 }}
                 onConfirm={() => {
                     if (bekreftType) {
-                        nyHendelse(getHendelseFromType(bekreftType)).then(() => {
-                            setKanGjennomføreResultat(undefined);
-                            setBekreftType(null);
-                            setVelgHandlingModalÅpen(false);
-                            setOpen(false);
-                        });
+                        nyHendelse(getHendelseFromType(bekreftType)).then(
+                            () => {
+                                setKanGjennomføreResultat(undefined);
+                                setBekreftType(null);
+                                setVelgHandlingModalÅpen(false);
+                                setOpen(false);
+                            },
+                        );
                     }
                 }}
                 erTillatt={kanGjennomføreResultat?.kanGjennomføres}
                 samarbeid={samarbeid}
                 advarsler={kanGjennomføreResultat?.advarsler}
-                blokkerende={kanGjennomføreResultat?.blokkerende} />
+                blokkerende={kanGjennomføreResultat?.blokkerende}
+            />
         </>
     );
 };
 
-function getHendelseFromType(type: MuligSamarbeidsgandling): IASakshendelseType {
+function getHendelseFromType(
+    type: MuligSamarbeidsgandling,
+): IASakshendelseType {
     switch (type) {
         case "fullfores":
             return IASakshendelseTypeEnum.enum.FULLFØR_PROSESS;

@@ -41,9 +41,7 @@ export const LeveransehistorikkTabell = ({
     );
 
     if (fullførteLeveranser.length === 0) {
-        return (
-            null
-        );
+        return null;
     }
 
     return (

@@ -14,7 +14,10 @@ export function SlettSpørreundersøkelseModal({
     lukkModal: () => void;
     slettSpørreundersøkelsen: () => void;
 }) {
-    const penskrevetType = spørreundersøkelse.type === "BEHOVSVURDERING" ? "Behovsvurdering" : "Evaluering";
+    const penskrevetType =
+        spørreundersøkelse.type === "BEHOVSVURDERING"
+            ? "Behovsvurdering"
+            : "Evaluering";
 
     return (
         <BekreftValgModal

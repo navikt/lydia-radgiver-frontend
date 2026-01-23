@@ -12,7 +12,7 @@ import {
     defaultEndDate,
     defaultStartDate,
 } from "./planconster";
-import styles from './plan.module.scss';
+import styles from "./plan.module.scss";
 
 function StartOgSluttVelger({
     redigertInnholdMal,
@@ -99,19 +99,19 @@ export default function TemaInnholdVelger({
             valgteUndertemaer.map((redigertInnholdMal) =>
                 undertemaIder.includes(redigertInnholdMal.rekkefølge)
                     ? {
-                        ...redigertInnholdMal,
-                        inkludert: true,
-                        startDato:
-                            redigertInnholdMal.startDato ?? defaultStartDate,
-                        sluttDato:
-                            redigertInnholdMal.sluttDato ?? defaultEndDate,
-                    }
+                          ...redigertInnholdMal,
+                          inkludert: true,
+                          startDato:
+                              redigertInnholdMal.startDato ?? defaultStartDate,
+                          sluttDato:
+                              redigertInnholdMal.sluttDato ?? defaultEndDate,
+                      }
                     : {
-                        ...redigertInnholdMal,
-                        inkludert: false,
-                        startDato: null,
-                        sluttDato: null,
-                    },
+                          ...redigertInnholdMal,
+                          inkludert: false,
+                          startDato: null,
+                          sluttDato: null,
+                      },
             ),
         );
     };

@@ -8,7 +8,7 @@ import {
 } from "../../util/analytics-klient";
 import React from "react";
 import { QuestionmarkCircleIcon } from "@navikt/aksel-icons";
-import styles from './footer.module.scss';
+import styles from "./footer.module.scss";
 
 export const Footer = () => {
     return (
@@ -65,11 +65,12 @@ function NyFooterSykefraværsstatistikk() {
                 anchorEl={buttonRef.current}
             >
                 <Popover.Content className={styles.popoverContentMedMaxWidth}>
-                    Fia viser offisiell sykefraværsstatistikk fra de siste
-                    fire kvartalene {getGjeldendePeriodeTekst(publiseringsinfo)}.
-                    Neste publiseringsdato er {publiseringsinfo?.nestePubliseringsdato}.
-                    Tall for &quot;arbeidsforhold&quot; er fra siste tilgjengelige kvartal.
-                    Se mer informasjon i brukerveiledningen.
+                    Fia viser offisiell sykefraværsstatistikk fra de siste fire
+                    kvartalene {getGjeldendePeriodeTekst(publiseringsinfo)}.
+                    Neste publiseringsdato er{" "}
+                    {publiseringsinfo?.nestePubliseringsdato}. Tall for
+                    &quot;arbeidsforhold&quot; er fra siste tilgjengelige
+                    kvartal. Se mer informasjon i brukerveiledningen.
                 </Popover.Content>
             </Popover>
         </>

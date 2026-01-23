@@ -15,7 +15,7 @@ import {
     useHentTeam,
 } from "../../api/lydia-api/team";
 import { useErPåAktivSak } from "../Virksomhet/VirksomhetContext";
-import styles from './minesaker.module.scss';
+import styles from "./minesaker.module.scss";
 
 function følgerSak(
     brukerIdent: string | undefined,
@@ -26,11 +26,11 @@ function følgerSak(
 
 export default function TeamInnhold({
     iaSak,
-    lukkEksternContainer = () => { },
+    lukkEksternContainer = () => {},
     erPåMineSaker = false,
     åpneTaEierskapModal,
 }: {
-    iaSak: IASak,
+    iaSak: IASak;
     lukkEksternContainer?: () => void;
     erPåMineSaker?: boolean;
     åpneTaEierskapModal: () => void;
@@ -44,10 +44,11 @@ export default function TeamInnhold({
     const brukerIdent = brukerInformasjon?.ident;
     const erPåAktivSak = useErPåAktivSak();
 
-    const kanTaEierskap = iaSak.gyldigeNesteHendelser
-        .map((h) => h.saksHendelsestype)
-        .includes("TA_EIERSKAP_I_SAK") && (erPåAktivSak || erPåMineSaker);
-
+    const kanTaEierskap =
+        iaSak.gyldigeNesteHendelser
+            .map((h) => h.saksHendelsestype)
+            .includes("TA_EIERSKAP_I_SAK") &&
+        (erPåAktivSak || erPåMineSaker);
 
     return (
         <>
@@ -98,7 +99,8 @@ export default function TeamInnhold({
                     </div>
                 )}
                 <span>
-                    Følg virksomheten for å se den under &ldquo;Mine virksomheter&rdquo;
+                    Følg virksomheten for å se den under &ldquo;Mine
+                    virksomheter&rdquo;
                 </span>
                 {følgerSak(brukerIdent, følgere) ? (
                     <Button

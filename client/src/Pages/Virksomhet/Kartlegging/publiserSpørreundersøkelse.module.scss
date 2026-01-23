@@ -1,16 +1,16 @@
 .publiserknapp {
-	min-width: 130px;
+    min-width: 130px;
 }
 
 .spinner {
-	animation: spin 1s linear infinite;
+    animation: spin 1s linear infinite;
 }
 
 @keyframes spin {
-	from {
-		transform: rotate(0deg);
-	}
-	to {
-		transform: rotate(360deg);
-	}
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
 }

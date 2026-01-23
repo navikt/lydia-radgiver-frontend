@@ -1,7 +1,7 @@
 import "@navikt/ds-css";
 import {
     spørreundersøkelseStatusEnum,
-    SpørreundersøkelseStatus
+    SpørreundersøkelseStatus,
 } from "../../domenetyper/domenetyper";
 import { GenericProps, GenericStatusBadge } from "./StatusBadge";
 
@@ -35,11 +35,15 @@ export function penskrivSpørreundersøkelseStatus(
     }
 }
 
-type Props = Omit<GenericProps<SpørreundersøkelseStatus>, "penskrivStatus" | "hentVariant">;
+type Props = Omit<
+    GenericProps<SpørreundersøkelseStatus>,
+    "penskrivStatus" | "hentVariant"
+>;
 
 export const SpørreundersøkelseStatusBadge = (props: Props) => (
     <GenericStatusBadge
         {...props}
         penskrivStatus={penskrivSpørreundersøkelseStatus}
-        hentVariant={hentVariantForSpørreundersøkelseStatus} />
+        hentVariant={hentVariantForSpørreundersøkelseStatus}
+    />
 );

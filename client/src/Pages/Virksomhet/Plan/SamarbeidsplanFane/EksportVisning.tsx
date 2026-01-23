@@ -7,11 +7,13 @@ import { PrettyInnholdsDato } from "./InnholdsBlokk";
 import VirksomhetsEksportHeader from "../../../../components/pdfEksport/VirksomhetsEksportHeader";
 import useEksportFilnavn from "../../../../components/pdfEksport/useEksportFilnavn";
 import jsPDF from "jspdf";
-import VirksomhetContext, { useVirksomhetContext } from "../../VirksomhetContext";
+import VirksomhetContext, {
+    useVirksomhetContext,
+} from "../../VirksomhetContext";
 import ReactDOMServer from "react-dom/server";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { loggEksportertTilPdf } from "../../../../util/analytics-klient";
-import styles from '../plan.module.scss';
+import styles from "../plan.module.scss";
 
 const EXPORT_INTERNAL_WIDTH = 1280;
 
@@ -61,18 +63,28 @@ export default function EksportVisning({
                             if (target !== null) {
                                 const images = target.querySelectorAll("img");
 
-                                const targetRect = target.getBoundingClientRect();
+                                const targetRect =
+                                    target.getBoundingClientRect();
 
                                 images.forEach((img) => {
                                     if (!img.classList.contains("nav-logo")) {
-                                        const rect = img.getBoundingClientRect();
-                                        doc2.addImage(img, "JPEG", targetRect.x - rect.x, targetRect.y - rect.y, rect.width, rect.height, undefined, "FAST");
+                                        const rect =
+                                            img.getBoundingClientRect();
+                                        doc2.addImage(
+                                            img,
+                                            "JPEG",
+                                            targetRect.x - rect.x,
+                                            targetRect.y - rect.y,
+                                            rect.width,
+                                            rect.height,
+                                            undefined,
+                                            "FAST",
+                                        );
                                         img.remove();
                                     }
                                 });
                             }
-                        }
-
+                        },
                     },
                 }).then(() => {
                     setLagrer(false);

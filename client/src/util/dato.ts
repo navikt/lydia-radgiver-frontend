@@ -38,4 +38,4 @@ export const erSammeDato = (dato1: Date, dato2: Date): boolean => {
 export const erIFortid = (dato: Date): boolean => {
     const nå = new Date();
     return nå > dato;
-}
+};

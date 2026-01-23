@@ -12,14 +12,19 @@ export const SpørreundersøkelseHeading = ({
     children?: React.ReactNode;
 }) => {
     return (
-        <HStack align={"center"} justify={"space-between"} style={{ marginTop: '0.75rem', marginBottom: '1.5rem' }}>
+        <HStack
+            align={"center"}
+            justify={"space-between"}
+            style={{ marginTop: "0.75rem", marginBottom: "1.5rem" }}
+        >
             <HStack align={"center"} gap={"8"}>
                 {children ?? (
                     <Heading
                         level="2"
                         size="medium"
                         style={{
-                            width: type === "BEHOVSVURDERING" ? "11rem" : "6rem",
+                            width:
+                                type === "BEHOVSVURDERING" ? "11rem" : "6rem",
                         }}
                     >
                         spørreundersøkelseHeading(type)

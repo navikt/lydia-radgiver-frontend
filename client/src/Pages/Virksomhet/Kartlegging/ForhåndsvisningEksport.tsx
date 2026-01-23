@@ -20,7 +20,7 @@ import { SquareIcon } from "@navikt/aksel-icons";
 import { getGraffargeFromTema } from "../../../components/Spørreundersøkelse/TemaResultat";
 import { toCanvas } from "html-to-image";
 
-import styles from './forhåndsvisningEksport.module.scss';
+import styles from "./forhåndsvisningEksport.module.scss";
 
 interface ResultatEksportVisningProps {
     erIEksportMode: boolean;
@@ -151,7 +151,11 @@ const ForhåndsvisningEksport = ({
             >
                 Last ned
             </Button>
-            <div className={styles.exportDiv} style={{ display: erIEksportMode ? "block" : "none" }} ref={targetRef}>
+            <div
+                className={styles.exportDiv}
+                style={{ display: erIEksportMode ? "block" : "none" }}
+                ref={targetRef}
+            >
                 <VirksomhetsEksportHeader
                     type={type}
                     visDato={false}
@@ -196,10 +200,14 @@ function EksportInnhold({
         <>
             {spørreundersøkelseForhåndsvisning?.temaer.map((tema) => (
                 <React.Fragment key={tema.temaId}>
-                    <Heading style={{
-                        color: getGraffargeFromTema(tema.navn, true),
-                        marginBottom: 0,
-                    }} level="3" size="large">
+                    <Heading
+                        style={{
+                            color: getGraffargeFromTema(tema.navn, true),
+                            marginBottom: 0,
+                        }}
+                        level="3"
+                        size="large"
+                    >
                         {tema.navn}
                     </Heading>
                     <GruppertSpørsmålRenderer
@@ -233,11 +241,18 @@ function ItemRenderer({ tema }: { tema: TemaDto }) {
         <div className={styles.spørsmålParContainer} key={index}>
             {par.map((spørsmål: SpørsmålDto) => (
                 <div className={styles.spørsålContainer} key={spørsmål.id}>
-                    <Heading className={styles.spørsmålHeading} level="3" size="small">
+                    <Heading
+                        className={styles.spørsmålHeading}
+                        level="3"
+                        size="small"
+                    >
                         {spørsmål.spørsmål}
                     </Heading>
                     {spørsmål.svaralternativer.map((svar) => (
-                        <BodyShort className={styles.spørsmålBody} key={svar.svarId}>
+                        <BodyShort
+                            className={styles.spørsmålBody}
+                            key={svar.svarId}
+                        >
                             <SquareIcon className={styles.svarIkon} />
                             {svar.svartekst}
                         </BodyShort>

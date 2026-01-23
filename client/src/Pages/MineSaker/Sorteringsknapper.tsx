@@ -6,7 +6,7 @@ import {
     ArrowsUpDownIcon,
 } from "@navikt/aksel-icons";
 
-import styles from './minesaker.module.scss';
+import styles from "./minesaker.module.scss";
 interface SorteringsknapperProps {
     onSortChange: (
         sortBy: "date" | "alphabetical",
@@ -35,15 +35,18 @@ export const Sorteringsknapper = ({ onSortChange }: SorteringsknapperProps) => {
         );
     };
 
-
-
     return (
         <div className={styles.buttonContainer}>
             <Button
                 size="medium"
                 variant="tertiary"
                 iconPosition="right"
-                icon={<RenderIcon erSortertPåType={"alphabetical" === sortType} isAscending={isAscending} />}
+                icon={
+                    <RenderIcon
+                        erSortertPåType={"alphabetical" === sortType}
+                        isAscending={isAscending}
+                    />
+                }
                 onClick={() => handleSortToggle("alphabetical")}
                 aria-label="Sorter etter alfabetisk rekkefølge"
             >
@@ -53,7 +56,12 @@ export const Sorteringsknapper = ({ onSortChange }: SorteringsknapperProps) => {
                 size="medium"
                 variant="tertiary"
                 iconPosition="right"
-                icon={<RenderIcon erSortertPåType={"date" === sortType} isAscending={isAscending} />}
+                icon={
+                    <RenderIcon
+                        erSortertPåType={"date" === sortType}
+                        isAscending={isAscending}
+                    />
+                }
                 onClick={() => handleSortToggle("date")}
                 aria-label="Sorter etter sist endret"
             >
@@ -63,7 +71,13 @@ export const Sorteringsknapper = ({ onSortChange }: SorteringsknapperProps) => {
     );
 };
 
-const RenderIcon = ({ erSortertPåType, isAscending }: { erSortertPåType: boolean, isAscending: boolean }) => {
+const RenderIcon = ({
+    erSortertPåType,
+    isAscending,
+}: {
+    erSortertPåType: boolean;
+    isAscending: boolean;
+}) => {
     if (!erSortertPåType) {
         return <ArrowsUpDownIcon aria-hidden />;
     } else if (isAscending) {

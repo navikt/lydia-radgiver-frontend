@@ -159,7 +159,7 @@ function FullførFørstHeader({
             <Heading level="2" size="medium">
                 Virksomheten har behovsvurdering
                 {alleSamarbeidMedIkkeFullførteBehovsvurderinger &&
-                    alleSamarbeidMedIkkeFullførteBehovsvurderinger.length > 1
+                alleSamarbeidMedIkkeFullførteBehovsvurderinger.length > 1
                     ? "er"
                     : ""}{" "}
                 som ikke er fullført

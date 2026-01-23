@@ -36,7 +36,7 @@ export const useFeilmelding = (onNyMelding?: (melding: string) => void) => {
     }, []);
 
     return [melding, setMelding] as [string, typeof setMelding];
-}
+};
 
 export const FeilmeldingBanner = () => {
     const [synlig, setSynlig] = useState(false);
@@ -45,7 +45,11 @@ export const FeilmeldingBanner = () => {
     });
 
     return synlig ? (
-        <BannerMedLukkeknapp variant="error" role="alert" className={styles.stickyBanner}>
+        <BannerMedLukkeknapp
+            variant="error"
+            role="alert"
+            className={styles.stickyBanner}
+        >
             {melding}
         </BannerMedLukkeknapp>
     ) : null;

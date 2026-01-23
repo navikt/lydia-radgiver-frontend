@@ -1,8 +1,8 @@
-import {NextFunction, Request, Response} from "express";
+import { NextFunction, Request, Response } from "express";
 import { JWTPayload } from "jose";
-import {AuthError} from "./error";
-import {getBearerToken} from "./onBehalfOf";
-import {inLocalMode} from "./app";
+import { AuthError } from "./error";
+import { getBearerToken } from "./onBehalfOf";
+import { inLocalMode } from "./app";
 import { JWKSetRetriever, verifiserAzureToken } from "./jwks";
 import { Azure } from "./config";
 
@@ -25,7 +25,7 @@ const lokalMockBruker: Brukerinformasjon = {
 const enum Rolle {
     SUPERBRUKER = "Superbruker",
     SAKSBEHANDLER = "Saksbehandler",
-    LESETILGANG = "Lesetilgang"
+    LESETILGANG = "Lesetilgang",
 }
 
 function fiaRoller() {
@@ -40,13 +40,13 @@ function fiaRoller() {
             gruppeId: process.env.FIA_LESETILGANG_GROUP_ID,
         },
         teamPia: {
-            gruppeId: process.env.TEAM_PIA_GROUP_ID
-        }
-    }
+            gruppeId: process.env.TEAM_PIA_GROUP_ID,
+        },
+    };
 }
 
 const hentRolleMedHøyestTilgang = (brukerGrupper: string[]): Rolle => {
-    const fiaGrupper = fiaRoller()
+    const fiaGrupper = fiaRoller();
     if (brukerGrupper.includes(fiaGrupper.superbruker.gruppeId)) {
         return Rolle.SUPERBRUKER;
     } else if (brukerGrupper.includes(fiaGrupper.saksbehandler.gruppeId)) {
@@ -59,36 +59,40 @@ const hentRolleMedHøyestTilgang = (brukerGrupper: string[]): Rolle => {
     } else {
         throw new AuthError("Ikke riktig tilgang");
     }
-}
+};
 
-export const hentBrukerinfoFraToken = (jwtPayload : JWTPayload) : Brukerinformasjon => {
+export const hentBrukerinfoFraToken = (
+    jwtPayload: JWTPayload,
+): Brukerinformasjon => {
     const navn = jwtPayload["name"] as string;
     const ident = jwtPayload["NAVident"] as string;
-    const rolle = hentRolleMedHøyestTilgang(jwtPayload["groups"] as string[])
+    const rolle = hentRolleMedHøyestTilgang(jwtPayload["groups"] as string[]);
     const epost = jwtPayload["preferred_username"] as string;
-    const tokenUtloper = jwtPayload.exp * 1000 // konverterer fra sekunder til ms
+    const tokenUtloper = jwtPayload.exp * 1000; // konverterer fra sekunder til ms
     return {
         navn,
         ident,
         epost,
         tokenUtloper,
-        rolle
-    }
-}
-
-export const hentInnloggetAnsattMiddleware = (azure: Azure, jwkSet: JWKSetRetriever) => async (
-    req: Request,
-    res: Response,
-    next: NextFunction
-) => {
-    if (inLocalMode()) {
-        res.send(lokalMockBruker);
-    } else {
-        const bearerToken = getBearerToken(req);
-        if (!bearerToken) {
-            return next(new AuthError("Mangler token i auth header"));
-        }
-        const { payload: jwtPayload } = await verifiserAzureToken(bearerToken, azure, jwkSet);
-        return res.send(hentBrukerinfoFraToken(jwtPayload));
-    }
+        rolle,
+    };
 };
+
+export const hentInnloggetAnsattMiddleware =
+    (azure: Azure, jwkSet: JWKSetRetriever) =>
+    async (req: Request, res: Response, next: NextFunction) => {
+        if (inLocalMode()) {
+            res.send(lokalMockBruker);
+        } else {
+            const bearerToken = getBearerToken(req);
+            if (!bearerToken) {
+                return next(new AuthError("Mangler token i auth header"));
+            }
+            const { payload: jwtPayload } = await verifiserAzureToken(
+                bearerToken,
+                azure,
+                jwkSet,
+            );
+            return res.send(hentBrukerinfoFraToken(jwtPayload));
+        }
+    };

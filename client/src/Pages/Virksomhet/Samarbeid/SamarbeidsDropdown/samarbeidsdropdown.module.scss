@@ -1,58 +1,57 @@
 .samarbeidsDropdown {
-	width: 20rem;
-	max-width: 30rem;
+    width: 20rem;
+    max-width: 30rem;
 
-	.actionMenuItem {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		
-		&:has(button:hover) {
-			background-color: transparent;
-		}
+    .actionMenuItem {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
 
-		:first-child {
-			flex-grow: 1;
-			text-overflow: ellipsis;
-			overflow: hidden;
-			display: inline-block;
-		}
-	}
-	
-	.actionMenuBegrunnelse {
-		padding: 0 1rem 1rem;
-	}
+        &:has(button:hover) {
+            background-color: transparent;
+        }
 
-	.opprettSamarbeidKnapp {
-		margin-top: 1rem;
-		margin-left: 0.5rem;
-		margin-bottom: 0.5rem;
-	}
+        :first-child {
+            flex-grow: 1;
+            text-overflow: ellipsis;
+            overflow: hidden;
+            display: inline-block;
+        }
+    }
+
+    .actionMenuBegrunnelse {
+        padding: 0 1rem 1rem;
+    }
+
+    .opprettSamarbeidKnapp {
+        margin-top: 1rem;
+        margin-left: 0.5rem;
+        margin-bottom: 0.5rem;
+    }
 }
 
 .samarbeidsDropdownAvsluttetListe {
-	min-width: 15rem;
-	max-width: 20rem;
+    min-width: 15rem;
+    max-width: 20rem;
 
-	.samarbeidsDropdownFullførtItem {
-		display: flex;
-		justify-content: space-between;
-		align-items: center;
-		gap: 1rem;
+    .samarbeidsDropdownFullførtItem {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        gap: 1rem;
 
-		:first-child {
-			flex-grow: 1;
-			text-overflow: ellipsis;
-			overflow: hidden;
-		}
-	}
+        :first-child {
+            flex-grow: 1;
+            text-overflow: ellipsis;
+            overflow: hidden;
+        }
+    }
 }
 
 .samarbeidslenke {
-	display: flex;
-	justify-content: space-between;
-	align-items: center;
-	gap: 1rem;
-	cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
 }
-

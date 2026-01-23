@@ -7,7 +7,7 @@ import {
     useNavigate,
     useSearchParams,
 } from "react-router-dom";
-import styles from './statusoversikt.module.scss';
+import styles from "./statusoversikt.module.scss";
 
 interface Props {
     lederstatistikkListe: Statusoversikt[];

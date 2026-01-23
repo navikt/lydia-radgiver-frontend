@@ -1,7 +1,7 @@
 import { ExpansionCard } from "@navikt/ds-react";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import React from "react";
-import styles from './spørreundersøkelsesliste.module.scss';
+import styles from "./spørreundersøkelsesliste.module.scss";
 import { formaterSpørreundersøkelsetype } from "./utils";
 import { spørreundersøkelseStatusEnum } from "../../../domenetyper/domenetyper";
 import { erIFortid } from "../../../util/dato";
@@ -27,12 +27,22 @@ export default function SpørreundersøkelseRad({
     avstandFraSiste: number;
 }) {
     const [erÅpen, setErÅpen] = React.useState(defaultOpen);
-    const [slettSpørreundersøkelseModalÅpen, setSlettSpørreundersøkelseModalÅpen] = React.useState(false);
-    const { brukerRolle, kanEndreSpørreundersøkelser, iaSak, hentSpørreundersøkelserPåNytt } = useSpørreundersøkelse();
-    const [sletterSpørreundersøkelse, setSletterSpørreundersøkelse] = React.useState(false);
+    const [
+        slettSpørreundersøkelseModalÅpen,
+        setSlettSpørreundersøkelseModalÅpen,
+    ] = React.useState(false);
     const {
-        mutate: oppdaterSaksStatus,
-    } = useHentIASaksStatus(iaSak.orgnr, iaSak.saksnummer);
+        brukerRolle,
+        kanEndreSpørreundersøkelser,
+        iaSak,
+        hentSpørreundersøkelserPåNytt,
+    } = useSpørreundersøkelse();
+    const [sletterSpørreundersøkelse, setSletterSpørreundersøkelse] =
+        React.useState(false);
+    const { mutate: oppdaterSaksStatus } = useHentIASaksStatus(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+    );
 
     const slettSpørreundersøkelsen = () => {
         if (sletterSpørreundersøkelse) return;
@@ -59,11 +69,16 @@ export default function SpørreundersøkelseRad({
                         setErÅpen(open);
                     }}
                     className={styles.spørreundersøkelserad}
-                    style={{
-                        "--avstand-fra-siste": avstandFraSiste,
-                    } as React.CSSProperties}
+                    style={
+                        {
+                            "--avstand-fra-siste": avstandFraSiste,
+                        } as React.CSSProperties
+                    }
                 >
-                    <OpprettetRad spørreundersøkelse={spørreundersøkelse} dato={dato} />
+                    <OpprettetRad
+                        spørreundersøkelse={spørreundersøkelse}
+                        dato={dato}
+                    />
                 </ExpansionCard>
             );
 
@@ -77,15 +92,23 @@ export default function SpørreundersøkelseRad({
                             setErÅpen(open);
                         }}
                         className={styles.spørreundersøkelserad}
-                        style={{
-                            "--avstand-fra-siste": avstandFraSiste,
-                        } as React.CSSProperties}
+                        style={
+                            {
+                                "--avstand-fra-siste": avstandFraSiste,
+                            } as React.CSSProperties
+                        }
                     >
                         <IkkeGjennomførtFørFristRad
                             spørreundersøkelse={spørreundersøkelse}
-                            kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
-                            setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen}
-                            slettSpørreundersøkelseModalÅpen={slettSpørreundersøkelseModalÅpen}
+                            kanEndreSpørreundersøkelser={
+                                kanEndreSpørreundersøkelser
+                            }
+                            setSlettSpørreundersøkelseModalÅpen={
+                                setSlettSpørreundersøkelseModalÅpen
+                            }
+                            slettSpørreundersøkelseModalÅpen={
+                                slettSpørreundersøkelseModalÅpen
+                            }
                             slettSpørreundersøkelsen={slettSpørreundersøkelsen}
                             laster={false}
                             dato={dato}
@@ -102,11 +125,16 @@ export default function SpørreundersøkelseRad({
                         setErÅpen(open);
                     }}
                     className={styles.spørreundersøkelserad}
-                    style={{
-                        "--avstand-fra-siste": avstandFraSiste,
-                    } as React.CSSProperties}
+                    style={
+                        {
+                            "--avstand-fra-siste": avstandFraSiste,
+                        } as React.CSSProperties
+                    }
                 >
-                    <PåbegyntRad spørreundersøkelse={spørreundersøkelse} dato={dato} />
+                    <PåbegyntRad
+                        spørreundersøkelse={spørreundersøkelse}
+                        dato={dato}
+                    />
                 </ExpansionCard>
             );
 
@@ -120,16 +148,23 @@ export default function SpørreundersøkelseRad({
                             setErÅpen(open);
                         }}
                         className={styles.spørreundersøkelserad}
-                        style={{
-                            "--avstand-fra-siste": avstandFraSiste,
-                        } as React.CSSProperties}
+                        style={
+                            {
+                                "--avstand-fra-siste": avstandFraSiste,
+                            } as React.CSSProperties
+                        }
                     >
                         <ForFåSvarRad
                             spørreundersøkelse={spørreundersøkelse}
-                            kanEndreSpørreundersøkelser={kanEndreSpørreundersøkelser}
+                            kanEndreSpørreundersøkelser={
+                                kanEndreSpørreundersøkelser
+                            }
                             dato={dato}
                             erLesebruker={brukerRolle === "Lesetilgang"}
-                            setSlettSpørreundersøkelseModalÅpen={setSlettSpørreundersøkelseModalÅpen} />
+                            setSlettSpørreundersøkelseModalÅpen={
+                                setSlettSpørreundersøkelseModalÅpen
+                            }
+                        />
                         <SlettSpørreundersøkelseModal
                             spørreundersøkelse={spørreundersøkelse}
                             erModalÅpen={slettSpørreundersøkelseModalÅpen}
@@ -149,17 +184,21 @@ export default function SpørreundersøkelseRad({
                         setErÅpen(open);
                     }}
                     className={styles.spørreundersøkelserad}
-                    style={{
-                        "--avstand-fra-siste": avstandFraSiste,
-                    } as React.CSSProperties}
+                    style={
+                        {
+                            "--avstand-fra-siste": avstandFraSiste,
+                        } as React.CSSProperties
+                    }
                 >
-                    <FullførtSpørreundersøkelseRad spørreundersøkelse={spørreundersøkelse} erÅpen={erÅpen} setErÅpen={setErÅpen} dato={dato} />
+                    <FullførtSpørreundersøkelseRad
+                        spørreundersøkelse={spørreundersøkelse}
+                        erÅpen={erÅpen}
+                        setErÅpen={setErÅpen}
+                        dato={dato}
+                    />
                 </ExpansionCard>
             );
         case spørreundersøkelseStatusEnum.enum.SLETTET:
             return null;
     }
 }
-
-
-

@@ -4,7 +4,7 @@ import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { useFilterverdier } from "../../../api/lydia-api/sok";
 import { useHentMineSaker } from "../../../api/lydia-api/sak";
 import { penskrivIAStatus } from "../../../components/Badge/IAProsessStatusBadge";
-import styles from './mineSakerFilter.module.scss';
+import styles from "./mineSakerFilter.module.scss";
 
 export const ARKIV_STATUSER: readonly IAProsessStatusType[] = [
     "FULLFØRT",
@@ -62,7 +62,9 @@ export const StatusFilter = ({
         <>
             <Accordion className={styles.filterAccordion} variant="default">
                 <Accordion.Item className={styles.filterItem} defaultOpen>
-                    <Accordion.Header className={styles.filterHeader}>Status</Accordion.Header>
+                    <Accordion.Header className={styles.filterHeader}>
+                        Status
+                    </Accordion.Header>
                     <Accordion.Content>
                         <CheckboxGroup
                             legend="status"
@@ -107,7 +109,9 @@ export const ArkivStatusFilter = ({
                 onChange={(val) => handleStatusFilterEndring(val, true)}
                 value={arkivStatusFiltre}
             >
-                <Checkbox value={"Arkiv"}>{`Se arkiverte virksomheter`}</Checkbox>
+                <Checkbox
+                    value={"Arkiv"}
+                >{`Se arkiverte virksomheter`}</Checkbox>
             </CheckboxGroup>
         </div>
     );

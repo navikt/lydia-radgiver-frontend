@@ -13,7 +13,7 @@ import { lokalDatoMedKortTekstmåned } from "../../../../util/dato";
 import { samarbeidErFullført } from "../../Samarbeid/SamarbeidContext";
 import capitalizeFirstLetterLowercaseRest from "../../../../util/formatering/capitalizeFirstLetterLowercaseRest";
 
-import styles from '../innholdsBlokk.module.scss';
+import styles from "../innholdsBlokk.module.scss";
 
 export default function InnholdsBlokk({
     saksnummer,
@@ -162,7 +162,13 @@ function InnholdsStatusHeader({
     innhold: PlanInnhold;
 }) {
     if (samarbeidErFullført()) {
-        return <span className={styles.ikkeredigerbarStatus}>{innhold.status ? capitalizeFirstLetterLowercaseRest(innhold.status) : "Malgler status"}</span>
+        return (
+            <span className={styles.ikkeredigerbarStatus}>
+                {innhold.status
+                    ? capitalizeFirstLetterLowercaseRest(innhold.status)
+                    : "Malgler status"}
+            </span>
+        );
     }
 
     return innhold.status ? (

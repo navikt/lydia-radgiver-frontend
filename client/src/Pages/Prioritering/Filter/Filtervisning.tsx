@@ -16,7 +16,7 @@ import {
     loggTømmingAvFilterverdier,
 } from "../../../util/analytics-klient";
 import { FylkeMultidropdown } from "./FylkeMultidropdown";
-import styles from './filter.module.scss';
+import styles from "./filter.module.scss";
 
 type Filtervisning = Omit<
     ReturnType<typeof useFiltervisningState>,
@@ -112,7 +112,14 @@ export const Filtervisning = ({
     };
 
     return (
-        <form className={className ? `${styles.filtervisningForm} ${className}` : styles.filtervisningForm} onSubmit={(e) => e.preventDefault()}>
+        <form
+            className={
+                className
+                    ? `${styles.filtervisningForm} ${className}`
+                    : styles.filtervisningForm
+            }
+            onSubmit={(e) => e.preventDefault()}
+        >
             <div className={styles.rad}>
                 <FylkeMultidropdown
                     fylkerOgKommuner={state.filterverdier?.fylker ?? []}

@@ -113,17 +113,19 @@ const AppContent = () => {
             <Dekoratør brukerInformasjon={brukerInformasjon} />
             <FeilmeldingBanner />
             <Routes>
-                <Route path={"/"} element={
-                    <main className={styles.appramme} id="maincontent">
-                        <SmartStartsideRedirect />
-                    </main>
-                } />
+                <Route
+                    path={"/"}
+                    element={
+                        <main className={styles.appramme} id="maincontent">
+                            <SmartStartsideRedirect />
+                        </main>
+                    }
+                />
                 <Route
                     path={"/prioritering"}
                     element={
                         <main className={styles.appramme} id="maincontent">
-                            <Prioriteringsside
-                            />
+                            <Prioriteringsside />
                         </main>
                     }
                 />
@@ -131,43 +133,52 @@ const AppContent = () => {
                     path={"/statusoversikt"}
                     element={
                         <main className={styles.appramme} id="maincontent">
-                            <Statusoversiktside
-                            />
+                            <Statusoversiktside />
                         </main>
                     }
                 />
                 <Route
-                    path={"/virksomhet/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"}
+                    path={
+                        "/virksomhet/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"
+                    }
                     element={
-                        <main className={styles.fullBreddeAppramme} id="maincontent">
-                            <Virksomhetsside
-                            />
+                        <main
+                            className={styles.fullBreddeAppramme}
+                            id="maincontent"
+                        >
+                            <Virksomhetsside />
                         </main>
                     }
                 />
                 <Route
                     path={"/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
                     element={
-                        <main className={styles.fullBreddeAppramme} id="maincontent">
-                            <Virksomhetsside
-                            />
+                        <main
+                            className={styles.fullBreddeAppramme}
+                            id="maincontent"
+                        >
+                            <Virksomhetsside />
                         </main>
                     }
                 />
-                <Route path={"/minesaker"} element={
-                    <main className={styles.appramme} id="maincontent">
-                        <MineSakerside />
-                    </main>
-                } />
-                {
-                    erIDev && (
-                        <Route path={"/nyflyt/debugside/:id"} element={
+                <Route
+                    path={"/minesaker"}
+                    element={
+                        <main className={styles.appramme} id="maincontent">
+                            <MineSakerside />
+                        </main>
+                    }
+                />
+                {erIDev && (
+                    <Route
+                        path={"/nyflyt/debugside/:id"}
+                        element={
                             <main className={styles.appramme} id="maincontent">
                                 <Debugside />
                             </main>
-                        } />
-                    )
-                }
+                        }
+                    />
+                )}
             </Routes>
             <Footer />
         </>

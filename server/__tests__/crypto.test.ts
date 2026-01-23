@@ -10,7 +10,10 @@ describe("crypto", () => {
         ]);
         expect(encryptedFirst).not.toBe(encryptedSecond);
         const allDecryptToSame = await (
-            await Promise.all([decrypt(encryptedFirst), decrypt(encryptedFirst)])
+            await Promise.all([
+                decrypt(encryptedFirst),
+                decrypt(encryptedFirst),
+            ])
         ).every((decrypted) => decrypted === message);
         expect(allDecryptToSame).toBeTruthy();
     });

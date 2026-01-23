@@ -1,424 +1,536 @@
-import { render, screen, waitFor, fireEvent } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import { axe } from 'jest-axe';
+import { render, screen, waitFor, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { axe } from "jest-axe";
 
-import { Virksomhetsside } from '../../../../src/Pages/Virksomhet/Virksomhetsside';
-import { BrowserRouter, useParams, useSearchParams } from 'react-router-dom';
+import { Virksomhetsside } from "../../../../src/Pages/Virksomhet/Virksomhetsside";
+import { BrowserRouter, useParams, useSearchParams } from "react-router-dom";
 import {
-	dummyIaSak,
-	dummyPubliseringsinfo,
-	dummySakshistorikk,
-	dummySamarbeid,
-	dummyVirksomhetsinformasjon,
-	dummyNæringsstatistikk,
-	dummySykefraværsstatistikkSiste4Kvartal,
-	dummyVirksomhetsstatistikkSiste4Kvartal,
-	dummyPlan
-} from '../../../../__mocks__/virksomhetsMockData';
-import { dummySpørreundersøkelseliste } from '../../../../__mocks__/spørreundersøkelseDummyData';
-import { brukerMedGyldigToken, brukerMedLesetilgang } from '../../../../src/Pages/Prioritering/mocks/innloggetAnsattMock';
-import { useHentBrukerinformasjon } from '../../../../src/api/lydia-api/bruker';
-import { useHarPlan, useHentPlan } from '../../../../src/api/lydia-api/plan';
-import { useHentSamarbeid } from '../../../../src/api/lydia-api/spørreundersøkelse';
+    dummyIaSak,
+    dummyPubliseringsinfo,
+    dummySakshistorikk,
+    dummySamarbeid,
+    dummyVirksomhetsinformasjon,
+    dummyNæringsstatistikk,
+    dummySykefraværsstatistikkSiste4Kvartal,
+    dummyVirksomhetsstatistikkSiste4Kvartal,
+    dummyPlan,
+} from "../../../../__mocks__/virksomhetsMockData";
+import { dummySpørreundersøkelseliste } from "../../../../__mocks__/spørreundersøkelseDummyData";
+import {
+    brukerMedGyldigToken,
+    brukerMedLesetilgang,
+} from "../../../../src/Pages/Prioritering/mocks/innloggetAnsattMock";
+import { useHentBrukerinformasjon } from "../../../../src/api/lydia-api/bruker";
+import { useHarPlan, useHentPlan } from "../../../../src/api/lydia-api/plan";
+import { useHentSamarbeid } from "../../../../src/api/lydia-api/spørreundersøkelse";
 
-jest.mock('../../../../src/util/analytics-klient', () => {
-	const actual = jest.requireActual('../../../../src/util/analytics-klient');
-	return {
-		...actual,
-		loggSideLastet: jest.fn(),
-		loggNavigertTilNyTab: jest.fn(),
-	};
+jest.mock("../../../../src/util/analytics-klient", () => {
+    const actual = jest.requireActual("../../../../src/util/analytics-klient");
+    return {
+        ...actual,
+        loggSideLastet: jest.fn(),
+        loggNavigertTilNyTab: jest.fn(),
+    };
 });
 
-jest.mock('../../../../src/api/lydia-api/virksomhet', () => {
-	return {
-		...jest.requireActual('../../../../src/api/lydia-api/virksomhet'),
-		useHentVirksomhetsinformasjon: jest.fn(() => {
-			return {
-				data: dummyVirksomhetsinformasjon,
-				loading: false,
-			};
-		}),
-		useHentSakForVirksomhet: jest.fn(() => {
-			return {
-				data: dummyIaSak,
-				loading: false,
-			};
-		}),
-		useHentSakshistorikk: jest.fn(() => {
-			return {
-				data: dummySakshistorikk,
-				loading: false,
-				validating: false,
-			};
-		}),
-		useHentPubliseringsinfo: jest.fn(() => {
-			return {
-				data: dummyPubliseringsinfo,
-				loading: false,
-			};
-		}),
-		useHentSykefraværsstatistikkForVirksomhetSisteKvartal: jest.fn(() => {
-			return {
-				data: dummySykefraværsstatistikkSiste4Kvartal,
-				loading: false,
-			};
-		}),
-		useHentNæringsstatistikk: jest.fn(() => {
-			return {
-				data: dummyNæringsstatistikk,
-				loading: false,
-			};
-		}),
-		useHentVirksomhetsstatistikkSiste4Kvartaler: jest.fn(() => {
-			return {
-				data: dummyVirksomhetsstatistikkSiste4Kvartal,
-				loading: false,
-			};
-		}),
-	};
+jest.mock("../../../../src/api/lydia-api/virksomhet", () => {
+    return {
+        ...jest.requireActual("../../../../src/api/lydia-api/virksomhet"),
+        useHentVirksomhetsinformasjon: jest.fn(() => {
+            return {
+                data: dummyVirksomhetsinformasjon,
+                loading: false,
+            };
+        }),
+        useHentSakForVirksomhet: jest.fn(() => {
+            return {
+                data: dummyIaSak,
+                loading: false,
+            };
+        }),
+        useHentSakshistorikk: jest.fn(() => {
+            return {
+                data: dummySakshistorikk,
+                loading: false,
+                validating: false,
+            };
+        }),
+        useHentPubliseringsinfo: jest.fn(() => {
+            return {
+                data: dummyPubliseringsinfo,
+                loading: false,
+            };
+        }),
+        useHentSykefraværsstatistikkForVirksomhetSisteKvartal: jest.fn(() => {
+            return {
+                data: dummySykefraværsstatistikkSiste4Kvartal,
+                loading: false,
+            };
+        }),
+        useHentNæringsstatistikk: jest.fn(() => {
+            return {
+                data: dummyNæringsstatistikk,
+                loading: false,
+            };
+        }),
+        useHentVirksomhetsstatistikkSiste4Kvartaler: jest.fn(() => {
+            return {
+                data: dummyVirksomhetsstatistikkSiste4Kvartal,
+                loading: false,
+            };
+        }),
+    };
 });
 
-jest.mock('../../../../src/api/lydia-api/plan', () => {
-	return {
-		...jest.requireActual('../../../../src/api/lydia-api/plan'),
-		useHentPlan: jest.fn(() => {
-			return {
-				data: dummyPlan,
-				loading: false,
-				validating: false,
-			};
-		}),
+jest.mock("../../../../src/api/lydia-api/plan", () => {
+    return {
+        ...jest.requireActual("../../../../src/api/lydia-api/plan"),
+        useHentPlan: jest.fn(() => {
+            return {
+                data: dummyPlan,
+                loading: false,
+                validating: false,
+            };
+        }),
 
-		useHarPlan: jest.fn(() => {
-			return {
-				harPlan: true,
-				lastet: true,
-			};
-		}),
-	};
+        useHarPlan: jest.fn(() => {
+            return {
+                harPlan: true,
+                lastet: true,
+            };
+        }),
+    };
 });
 
-jest.mock('../../../../src/api/lydia-api/spørreundersøkelse', () => {
-	return {
-		...jest.requireActual('../../../../src/api/lydia-api/spørreundersøkelse'),
-		useHentSamarbeid: jest.fn(() => {
-			return {
-				data: dummySamarbeid,
-				loading: false,
-				validating: false,
-			};
-		}),
-		useSpørreundersøkelsesliste: jest.fn(() => {
-			return {
-				data: dummySpørreundersøkelseliste,
-				loading: false,
-				validating: false,
-				mutate: jest.fn(),
-			};
-		}),
-	};
+jest.mock("../../../../src/api/lydia-api/spørreundersøkelse", () => {
+    return {
+        ...jest.requireActual(
+            "../../../../src/api/lydia-api/spørreundersøkelse",
+        ),
+        useHentSamarbeid: jest.fn(() => {
+            return {
+                data: dummySamarbeid,
+                loading: false,
+                validating: false,
+            };
+        }),
+        useSpørreundersøkelsesliste: jest.fn(() => {
+            return {
+                data: dummySpørreundersøkelseliste,
+                loading: false,
+                validating: false,
+                mutate: jest.fn(),
+            };
+        }),
+    };
 });
 
-jest.mock('../../../../src/api/lydia-api/bruker', () => {
-	return {
-		...jest.requireActual('../../../../src/api/lydia-api/bruker'),
-		useHentBrukerinformasjon: jest.fn(() => {
-			return {
-				data: brukerMedGyldigToken,
-				loading: false,
-			};
-		}),
-	};
+jest.mock("../../../../src/api/lydia-api/bruker", () => {
+    return {
+        ...jest.requireActual("../../../../src/api/lydia-api/bruker"),
+        useHentBrukerinformasjon: jest.fn(() => {
+            return {
+                data: brukerMedGyldigToken,
+                loading: false,
+            };
+        }),
+    };
 });
 
-jest.mock('../../../../src/api/lydia-api/team', () => {
-	return {
-		...jest.requireActual('../../../../src/api/lydia-api/team'),
-		useHentTeam: jest.fn(() => {
-			return {
-				data: [brukerMedGyldigToken.ident, brukerMedLesetilgang.ident],
-				loading: false,
-			};
-		}),
-	};
+jest.mock("../../../../src/api/lydia-api/team", () => {
+    return {
+        ...jest.requireActual("../../../../src/api/lydia-api/team"),
+        useHentTeam: jest.fn(() => {
+            return {
+                data: [brukerMedGyldigToken.ident, brukerMedLesetilgang.ident],
+                loading: false,
+            };
+        }),
+    };
 });
 
-jest.mock('react-router-dom', () => {
-	const originalModule = jest.requireActual('react-router-dom');
-	return {
-		...originalModule,
-		useParams: jest.fn(() => ({
-			orgnummer: '840623927',
-			saksnummer: dummyIaSak.saksnummer,
-			prosessId: dummySamarbeid[1].id.toString(),
-		})),
-		useSearchParams: jest.fn(() => {
-			const setSearchParams = jest.fn();
-			return [new URLSearchParams(), setSearchParams];
-		}),
-	};
+jest.mock("react-router-dom", () => {
+    const originalModule = jest.requireActual("react-router-dom");
+    return {
+        ...originalModule,
+        useParams: jest.fn(() => ({
+            orgnummer: "840623927",
+            saksnummer: dummyIaSak.saksnummer,
+            prosessId: dummySamarbeid[1].id.toString(),
+        })),
+        useSearchParams: jest.fn(() => {
+            const setSearchParams = jest.fn();
+            return [new URLSearchParams(), setSearchParams];
+        }),
+    };
 });
 
+describe("Virksomhetsside", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+    });
 
-describe('Virksomhetsside', () => {
-	beforeEach(() => {
-		jest.clearAllMocks();
-	});
+    it("Rendrer korrekt", () => {
+        render(
+            <BrowserRouter>
+                <Virksomhetsside />
+            </BrowserRouter>,
+        );
+        expect(screen.getByText("Samarbeid (8)")).toBeInTheDocument();
+    });
 
-	it('Rendrer korrekt', () => {
-		render(
-			<BrowserRouter>
-				<Virksomhetsside />
-			</BrowserRouter>
-		);
-		expect(screen.getByText('Samarbeid (8)')).toBeInTheDocument();
-	});
+    describe("Kartlegging", () => {
+        beforeEach(() => {
+            const searchParamsSet = jest.fn();
+            jest.mocked(useSearchParams).mockReturnValue([
+                new URLSearchParams({ fane: "kartlegging" }),
+                searchParamsSet,
+            ]);
+            jest.mocked(useParams).mockReturnValue({
+                orgnummer: "840623927",
+                prosessId: dummySamarbeid[1].id.toString(),
+            });
+        });
 
-	describe('Kartlegging', () => {
-		beforeEach(() => {
-			const searchParamsSet = jest.fn();
-			jest.mocked(useSearchParams).mockReturnValue([new URLSearchParams({ fane: "kartlegging" }), searchParamsSet]);
-			jest.mocked(useParams).mockReturnValue({ orgnummer: '840623927', prosessId: dummySamarbeid[1].id.toString() });
-		});
+        it("Hamburgermeny har riktig innhold", async () => {
+            render(
+                <BrowserRouter>
+                    <Virksomhetsside />
+                </BrowserRouter>,
+            );
 
-		it("Hamburgermeny har riktig innhold", async () => {
-			render(
-				<BrowserRouter>
-					<Virksomhetsside />
-				</BrowserRouter>
-			);
+            const samarbeidsknapp = screen.getByRole("link", {
+                name: dummySamarbeid[1].navn as string,
+            });
+            expect(samarbeidsknapp).toBeInTheDocument();
+            fireEvent.click(samarbeidsknapp);
 
-			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
-			expect(samarbeidsknapp).toBeInTheDocument();
-			fireEvent.click(samarbeidsknapp);
+            const faneKnapp = screen.getByRole("tab", {
+                name: "Kartlegginger",
+            });
+            expect(faneKnapp).toBeInTheDocument();
+            fireEvent.click(faneKnapp);
 
-			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
-			expect(faneKnapp).toBeInTheDocument();
-			fireEvent.click(faneKnapp);
+            const hamburgermeny = screen.getByRole("button", { name: "Meny" });
+            expect(hamburgermeny).toBeInTheDocument();
+            fireEvent.click(hamburgermeny);
 
-			const hamburgermeny = screen.getByRole('button', { name: 'Meny' });
-			expect(hamburgermeny).toBeInTheDocument();
-			fireEvent.click(hamburgermeny);
+            expect(
+                await screen.findAllByRole("menuitem", {
+                    name: "Brukerveileder",
+                }),
+            ).toHaveLength(2);
+            expect(
+                screen.getByRole("menuitem", { name: "Invitasjonsmal" }),
+            ).toBeInTheDocument();
+            expect(
+                screen.getByRole("menuitem", {
+                    name: "Tips og råd til gjennomføring",
+                }),
+            ).toBeInTheDocument();
+            expect(
+                await screen.findAllByRole("menuitem", { name: "IA-veileder" }),
+            ).toHaveLength(2);
+        });
 
-			expect(await screen.findAllByRole('menuitem', { name: 'Brukerveileder' })).toHaveLength(2);
-			expect(screen.getByRole('menuitem', { name: 'Invitasjonsmal' })).toBeInTheDocument();
-			expect(screen.getByRole('menuitem', { name: 'Tips og råd til gjennomføring' })).toBeInTheDocument();
-			expect(await screen.findAllByRole('menuitem', { name: 'IA-veileder' })).toHaveLength(2);
-		});
+        it("Gir 'administrer'-knapp for vanlig bruker", () => {
+            render(
+                <BrowserRouter>
+                    <Virksomhetsside />
+                </BrowserRouter>,
+            );
 
-		it("Gir 'administrer'-knapp for vanlig bruker", () => {
-			render(
-				<BrowserRouter>
-					<Virksomhetsside />
-				</BrowserRouter>
-			);
+            const samarbeidsknapp = screen.getByRole("link", {
+                name: dummySamarbeid[1].navn as string,
+            });
+            expect(samarbeidsknapp).toBeInTheDocument();
+            fireEvent.click(samarbeidsknapp);
 
-			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
-			expect(samarbeidsknapp).toBeInTheDocument();
-			fireEvent.click(samarbeidsknapp);
+            const faneKnapp = screen.getByRole("tab", {
+                name: "Kartlegginger",
+            });
+            expect(faneKnapp).toBeInTheDocument();
+            fireEvent.click(faneKnapp);
 
-			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
-			expect(faneKnapp).toBeInTheDocument();
-			fireEvent.click(faneKnapp);
+            expect(
+                screen.getByRole("button", { name: "Administrer" }),
+            ).toBeInTheDocument();
+        });
 
-			expect(screen.getByRole('button', { name: 'Administrer' })).toBeInTheDocument();
-		});
+        it("Gir knapp for ny evaluering hvis det finnes en plan", async () => {
+            render(
+                <BrowserRouter>
+                    <Virksomhetsside />
+                </BrowserRouter>,
+            );
 
-		it("Gir knapp for ny evaluering hvis det finnes en plan", async () => {
-			render(
-				<BrowserRouter>
-					<Virksomhetsside />
-				</BrowserRouter>
-			);
+            const samarbeidsknapp = screen.getByRole("link", {
+                name: dummySamarbeid[1].navn as string,
+            });
+            expect(samarbeidsknapp).toBeInTheDocument();
+            fireEvent.click(samarbeidsknapp);
 
-			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
-			expect(samarbeidsknapp).toBeInTheDocument();
-			fireEvent.click(samarbeidsknapp);
+            const faneKnapp = screen.getByRole("tab", {
+                name: "Kartlegginger",
+            });
+            expect(faneKnapp).toBeInTheDocument();
+            fireEvent.click(faneKnapp);
 
-			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
-			expect(faneKnapp).toBeInTheDocument();
-			fireEvent.click(faneKnapp);
+            const nyEvalueringKnapp = screen.getByRole("button", {
+                name: "Ny evaluering",
+            });
+            expect(nyEvalueringKnapp).toBeInTheDocument();
+            await waitFor(() => expect(nyEvalueringKnapp).toBeEnabled());
+        });
 
-			const nyEvalueringKnapp = screen.getByRole('button', { name: 'Ny evaluering' });
-			expect(nyEvalueringKnapp).toBeInTheDocument();
-			await waitFor(() => expect(nyEvalueringKnapp).toBeEnabled());
-		});
+        it("Gir ikke knapp for ny evaluering hvis det ikke finnes noen plan", async () => {
+            jest.mocked(useHarPlan).mockReturnValue({
+                harPlan: false,
+                lastet: true,
+            });
+            jest.mocked(useHentPlan).mockReturnValue({
+                data: undefined,
+                loading: false,
+                validating: false,
+                mutate: jest.fn(),
+                error: undefined,
+            });
+            render(
+                <BrowserRouter>
+                    <Virksomhetsside />
+                </BrowserRouter>,
+            );
 
-		it("Gir ikke knapp for ny evaluering hvis det ikke finnes noen plan", async () => {
-			jest.mocked(useHarPlan).mockReturnValue({ harPlan: false, lastet: true });
-			jest.mocked(useHentPlan).mockReturnValue({
-				data: undefined,
-				loading: false,
-				validating: false,
-				mutate: jest.fn(),
-				error: undefined,
-			});
-			render(
-				<BrowserRouter>
-					<Virksomhetsside />
-				</BrowserRouter>
-			);
+            const samarbeidsknapp = screen.getByRole("link", {
+                name: dummySamarbeid[1].navn as string,
+            });
+            expect(samarbeidsknapp).toBeInTheDocument();
+            fireEvent.click(samarbeidsknapp);
 
-			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
-			expect(samarbeidsknapp).toBeInTheDocument();
-			fireEvent.click(samarbeidsknapp);
+            const faneKnapp = screen.getByRole("tab", {
+                name: "Kartlegginger",
+            });
+            expect(faneKnapp).toBeInTheDocument();
+            fireEvent.click(faneKnapp);
 
-			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
-			expect(faneKnapp).toBeInTheDocument();
-			fireEvent.click(faneKnapp);
+            const nyEvalueringKnapp = screen.queryByRole("button", {
+                name: "Ny evaluering",
+            });
+            expect(nyEvalueringKnapp).toBeInTheDocument();
+            await waitFor(() => expect(nyEvalueringKnapp).toBeDisabled());
+        });
 
-			const nyEvalueringKnapp = screen.queryByRole('button', { name: 'Ny evaluering' });
-			expect(nyEvalueringKnapp).toBeInTheDocument();
-			await waitFor(() => expect(nyEvalueringKnapp).toBeDisabled());
-		});
+        it("Gir alltid knapp for ny behobsvurdering", () => {
+            jest.mocked(useHarPlan).mockReturnValue({
+                harPlan: false,
+                lastet: true,
+            });
+            jest.mocked(useHentPlan).mockReturnValue({
+                data: undefined,
+                loading: false,
+                validating: false,
+                mutate: jest.fn(),
+                error: undefined,
+            });
+            render(
+                <BrowserRouter>
+                    <Virksomhetsside />
+                </BrowserRouter>,
+            );
 
-		it("Gir alltid knapp for ny behobsvurdering", () => {
-			jest.mocked(useHarPlan).mockReturnValue({ harPlan: false, lastet: true });
-			jest.mocked(useHentPlan).mockReturnValue({
-				data: undefined,
-				loading: false,
-				validating: false,
-				mutate: jest.fn(),
-				error: undefined,
-			});
-			render(
-				<BrowserRouter>
-					<Virksomhetsside />
-				</BrowserRouter>
-			);
+            const samarbeidsknapp = screen.getByRole("link", {
+                name: dummySamarbeid[1].navn as string,
+            });
+            expect(samarbeidsknapp).toBeInTheDocument();
+            fireEvent.click(samarbeidsknapp);
 
-			const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
-			expect(samarbeidsknapp).toBeInTheDocument();
-			fireEvent.click(samarbeidsknapp);
+            const faneKnapp = screen.getByRole("tab", {
+                name: "Kartlegginger",
+            });
+            expect(faneKnapp).toBeInTheDocument();
+            fireEvent.click(faneKnapp);
 
-			const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
-			expect(faneKnapp).toBeInTheDocument();
-			fireEvent.click(faneKnapp);
+            const nyBehovsvurderingKnapp = screen.getByRole("button", {
+                name: "Ny behovsvurdering",
+            });
+            expect(nyBehovsvurderingKnapp).toBeInTheDocument();
+            expect(nyBehovsvurderingKnapp).toBeEnabled();
+        });
 
-			const nyBehovsvurderingKnapp = screen.getByRole('button', { name: 'Ny behovsvurdering' });
-			expect(nyBehovsvurderingKnapp).toBeInTheDocument();
-			expect(nyBehovsvurderingKnapp).toBeEnabled();
-		});
+        describe("Lesebruker", () => {
+            beforeEach(() => {
+                jest.mocked(useHentBrukerinformasjon).mockReturnValue({
+                    data: brukerMedLesetilgang,
+                    loading: false,
+                    error: undefined,
+                    mutate: jest.fn(),
+                    validating: false,
+                });
+            });
 
-		describe('Lesebruker', () => {
-			beforeEach(() => {
-				jest.mocked(useHentBrukerinformasjon).mockReturnValue({
-					data: brukerMedLesetilgang,
-					loading: false,
-					error: undefined,
-					mutate: jest.fn(),
-					validating: false,
-				});
-			});
+            it("Gir ikke 'ny'-knapper for lesebruker", () => {
+                render(
+                    <BrowserRouter>
+                        <Virksomhetsside />
+                    </BrowserRouter>,
+                );
 
-			it("Gir ikke 'ny'-knapper for lesebruker", () => {
-				render(
-					<BrowserRouter>
-						<Virksomhetsside />
-					</BrowserRouter>
-				);
+                const samarbeidsknapp = screen.getByRole("link", {
+                    name: dummySamarbeid[1].navn as string,
+                });
+                expect(samarbeidsknapp).toBeInTheDocument();
+                fireEvent.click(samarbeidsknapp);
 
-				const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
-				expect(samarbeidsknapp).toBeInTheDocument();
-				fireEvent.click(samarbeidsknapp);
+                const faneKnapp = screen.getByRole("tab", {
+                    name: "Kartlegginger",
+                });
+                expect(faneKnapp).toBeInTheDocument();
+                fireEvent.click(faneKnapp);
 
-				const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
-				expect(faneKnapp).toBeInTheDocument();
-				fireEvent.click(faneKnapp);
+                expect(
+                    screen.getByRole("button", { name: "Ny behovsvurdering" }),
+                ).toBeDisabled();
+                expect(
+                    screen.getByRole("button", { name: "Ny evaluering" }),
+                ).toBeDisabled();
+            });
 
-				expect(screen.getByRole('button', { name: 'Ny behovsvurdering' })).toBeDisabled();
-				expect(screen.getByRole('button', { name: 'Ny evaluering' })).toBeDisabled();
-			});
+            it("Gir ikke 'administrer'-knapp for lesebruker", () => {
+                render(
+                    <BrowserRouter>
+                        <Virksomhetsside />
+                    </BrowserRouter>,
+                );
 
-			it("Gir ikke 'administrer'-knapp for lesebruker", () => {
-				render(
-					<BrowserRouter>
-						<Virksomhetsside />
-					</BrowserRouter>
-				);
+                const samarbeidsknapp = screen.getByRole("link", {
+                    name: dummySamarbeid[1].navn as string,
+                });
+                expect(samarbeidsknapp).toBeInTheDocument();
+                fireEvent.click(samarbeidsknapp);
 
-				const samarbeidsknapp = screen.getByRole('link', { name: dummySamarbeid[1].navn as string });
-				expect(samarbeidsknapp).toBeInTheDocument();
-				fireEvent.click(samarbeidsknapp);
+                const faneKnapp = screen.getByRole("tab", {
+                    name: "Kartlegginger",
+                });
+                expect(faneKnapp).toBeInTheDocument();
+                fireEvent.click(faneKnapp);
 
-				const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
-				expect(faneKnapp).toBeInTheDocument();
-				fireEvent.click(faneKnapp);
+                expect(
+                    screen.queryByRole("button", { name: "Administrer" }),
+                ).not.toBeInTheDocument();
+            });
+        });
 
-				expect(screen.queryByRole('button', { name: 'Administrer' })).not.toBeInTheDocument();
-			});
-		});
+        describe("Avsluttet samarbeid", () => {
+            beforeEach(() => {
+                jest.mocked(useHentSamarbeid).mockReturnValue({
+                    data: [
+                        dummySamarbeid[0],
+                        { ...dummySamarbeid[1], status: "FULLFØRT" },
+                        dummySamarbeid[2],
+                    ],
+                    loading: false,
+                    validating: false,
+                    mutate: jest.fn(),
+                    error: undefined,
+                });
+            });
 
-		describe('Avsluttet samarbeid', () => {
-			beforeEach(() => {
-				jest.mocked(useHentSamarbeid).mockReturnValue({
-					data: [dummySamarbeid[0], { ...dummySamarbeid[1], status: 'FULLFØRT' }, dummySamarbeid[2]],
-					loading: false,
-					validating: false,
-					mutate: jest.fn(),
-					error: undefined,
-				});
-			});
+            it("Gir ikke 'administrer'-knapp på avsluttet samarbeid", async () => {
+                jest.mocked(useParams).mockReturnValue({
+                    orgnummer: "840623927",
+                    saksnummer: dummyIaSak.saksnummer,
+                    prosessId: dummySamarbeid[0].id.toString(),
+                });
+                const { rerender } = render(
+                    <BrowserRouter>
+                        <Virksomhetsside />
+                    </BrowserRouter>,
+                );
 
-			it("Gir ikke 'administrer'-knapp på avsluttet samarbeid", async () => {
-				jest.mocked(useParams).mockReturnValue({ orgnummer: '840623927', saksnummer: dummyIaSak.saksnummer, prosessId: dummySamarbeid[0].id.toString() });
-				const { rerender } = render(
-					<BrowserRouter>
-						<Virksomhetsside />
-					</BrowserRouter>
-				);
+                fireEvent.click(
+                    screen.getByRole("link", {
+                        name: `${dummySamarbeid[0].navn}`,
+                    }),
+                );
 
-				fireEvent.click(screen.getByRole('link', { name: `${dummySamarbeid[0].navn}` }));
+                await waitFor(() =>
+                    expect(
+                        screen
+                            .getAllByText(dummySamarbeid[1].navn as string, {
+                                exact: false,
+                            })
+                            .filter((el) => el.className === "tittel"),
+                    ).toHaveLength(0),
+                );
+                const samarbeidsknapp = screen.getByRole("link", {
+                    name: `${dummySamarbeid[1].navn} Fullført`,
+                });
+                expect(samarbeidsknapp).toBeInTheDocument();
+                jest.mocked(useParams).mockReturnValue({
+                    orgnummer: "840623927",
+                    saksnummer: dummyIaSak.saksnummer,
+                    prosessId: dummySamarbeid[1].id.toString(),
+                });
 
-				await waitFor(() => expect(screen.getAllByText(dummySamarbeid[1].navn as string, { exact: false }).filter(el => el.className === "tittel")).toHaveLength(0));
-				const samarbeidsknapp = screen.getByRole('link', { name: `${dummySamarbeid[1].navn} Fullført` });
-				expect(samarbeidsknapp).toBeInTheDocument();
-				jest.mocked(useParams).mockReturnValue({ orgnummer: '840623927', saksnummer: dummyIaSak.saksnummer, prosessId: dummySamarbeid[1].id.toString() });
+                fireEvent.click(samarbeidsknapp);
+                rerender(
+                    <BrowserRouter>
+                        <Virksomhetsside />
+                    </BrowserRouter>,
+                );
 
-				fireEvent.click(samarbeidsknapp);
-				rerender(
-					<BrowserRouter>
-						<Virksomhetsside />
-					</BrowserRouter>
-				);
+                expect(
+                    screen
+                        .getAllByText(dummySamarbeid[1].navn as string, {
+                            exact: false,
+                        })
+                        .filter((el) => el.className === "tittel"),
+                ).toHaveLength(1);
 
-				expect(screen.getAllByText(dummySamarbeid[1].navn as string, { exact: false }).filter(el => el.className === "tittel")).toHaveLength(1);
+                const faneKnapp = screen.getByRole("tab", {
+                    name: "Kartlegginger",
+                });
+                expect(faneKnapp).toBeInTheDocument();
+                fireEvent.click(faneKnapp);
 
-				const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
-				expect(faneKnapp).toBeInTheDocument();
-				fireEvent.click(faneKnapp);
+                expect(
+                    screen.queryByRole("button", { name: "Administrer" }),
+                ).not.toBeInTheDocument();
+            });
 
-				expect(screen.queryByRole('button', { name: 'Administrer' })).not.toBeInTheDocument();
-			});
+            it("Gir ikke knapp for ny evaluering selv om det finnes en plan", () => {
+                render(
+                    <BrowserRouter>
+                        <Virksomhetsside />
+                    </BrowserRouter>,
+                );
 
-			it("Gir ikke knapp for ny evaluering selv om det finnes en plan", () => {
-				render(
-					<BrowserRouter>
-						<Virksomhetsside />
-					</BrowserRouter>
-				);
+                const samarbeidsknapp = screen.getByRole("link", {
+                    name: `${dummySamarbeid[1].navn} Fullført`,
+                });
+                expect(samarbeidsknapp).toBeInTheDocument();
+                fireEvent.click(samarbeidsknapp);
 
-				const samarbeidsknapp = screen.getByRole('link', { name: `${dummySamarbeid[1].navn} Fullført` });
-				expect(samarbeidsknapp).toBeInTheDocument();
-				fireEvent.click(samarbeidsknapp);
+                const faneKnapp = screen.getByRole("tab", {
+                    name: "Kartlegginger",
+                });
+                expect(faneKnapp).toBeInTheDocument();
+                fireEvent.click(faneKnapp);
 
-				const faneKnapp = screen.getByRole('tab', { name: 'Kartlegginger' });
-				expect(faneKnapp).toBeInTheDocument();
-				fireEvent.click(faneKnapp);
+                expect(
+                    screen.queryByRole("button", { name: "Ny evaluering" }),
+                ).not.toBeInTheDocument();
+            });
+        });
+    });
 
-				expect(screen.queryByRole('button', { name: 'Ny evaluering' })).not.toBeInTheDocument();
-			});
-		});
-	});
-
-	it('Har ingen accessibilityfeil', async () => {
-		const { container } = render(
-			<BrowserRouter>
-				<Virksomhetsside />
-			</BrowserRouter>
-		);
-		const results = await axe(container);
-		expect(results).toHaveNoViolations();
-	});
+    it("Har ingen accessibilityfeil", async () => {
+        const { container } = render(
+            <BrowserRouter>
+                <Virksomhetsside />
+            </BrowserRouter>,
+        );
+        const results = await axe(container);
+        expect(results).toHaveNoViolations();
+    });
 });

@@ -29,8 +29,7 @@ export interface CardInnholdProps {
 }
 
 const SpørreundersøkelseContext = React.createContext<
-    | (SpørreundersøkelseProviderProps)
-    | undefined
+    SpørreundersøkelseProviderProps | undefined
 >(undefined);
 
 export function SpørreundersøkelseProvider({
@@ -40,7 +39,7 @@ export function SpørreundersøkelseProvider({
     return (
         <SpørreundersøkelseContext.Provider
             value={{
-                ...remainingProps
+                ...remainingProps,
             }}
         >
             {children}

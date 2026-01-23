@@ -6,8 +6,7 @@ import {
     EierFølgerFilterType,
 } from "../MineSakerside";
 import { ARKIV_STATUSER } from "./StatusFilter";
-import styles from './mineSakerFilter.module.scss';
-
+import styles from "./mineSakerFilter.module.scss";
 
 const penskrivEierFølgerMap: Record<
     (typeof EIER_FØLGER_FILTER_VALUES)[number],
@@ -40,7 +39,9 @@ export const EierFølgerFilter = ({
     return (
         <Accordion className={styles.eierFølgerAccordion}>
             <Accordion.Item className={styles.eierFølgerAccordionItem}>
-                <Accordion.Header className={styles.eierFølgerAccordionHeader}>Tilknytning</Accordion.Header>
+                <Accordion.Header className={styles.eierFølgerAccordionHeader}>
+                    Tilknytning
+                </Accordion.Header>
                 <Accordion.Content>
                     <CheckboxGroup
                         legend="status"

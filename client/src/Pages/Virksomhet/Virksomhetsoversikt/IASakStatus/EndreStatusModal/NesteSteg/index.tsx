@@ -103,9 +103,7 @@ export default function NesteSteg({
                 brukerErEierAvSak &&
                 sak.status === IAProsessStatusEnum.enum.KARTLEGGES
             ) {
-                return (
-                    <OpprettSamarbeidFørstSeksjon />
-                );
+                return <OpprettSamarbeidFørstSeksjon />;
             }
             return null;
         default:
@@ -114,7 +112,7 @@ export default function NesteSteg({
 }
 
 function OpprettSamarbeidFørstSeksjon() {
-    const { virksomhet, iaSak } = useVirksomhetContext()
+    const { virksomhet, iaSak } = useVirksomhetContext();
     const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] = useState(false);
 
     return (
@@ -137,16 +135,14 @@ function OpprettSamarbeidFørstSeksjon() {
                     Opprett samarbeid
                 </Button>
             </Knappecontainer>
-            {
-                iaSak && virksomhet && (
-                    <NyttSamarbeidModal
-                        iaSak={iaSak}
-                        virksomhet={virksomhet}
-                        åpen={nyttSamarbeidModalÅpen}
-                        setÅpen={setNyttSamarbeidModalÅpen}
-                    />
-                )
-            }
+            {iaSak && virksomhet && (
+                <NyttSamarbeidModal
+                    iaSak={iaSak}
+                    virksomhet={virksomhet}
+                    åpen={nyttSamarbeidModalÅpen}
+                    setÅpen={setNyttSamarbeidModalÅpen}
+                />
+            )}
         </div>
     );
 }

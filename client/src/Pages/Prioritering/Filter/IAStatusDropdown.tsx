@@ -18,7 +18,7 @@ export const IAStatusDropdown = ({
         endreStatus(
             (!!event.target.value &&
                 (event.target.value as IAProsessStatusType)) ||
-            undefined,
+                undefined,
         );
     };
 

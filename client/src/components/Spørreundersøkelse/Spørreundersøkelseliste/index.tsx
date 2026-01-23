@@ -6,8 +6,11 @@ import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
 import SpørreundersøkelseRad from "./SpørreundersøkelseRad";
 
 export default function Spørreundersøkelseliste() {
-    const { spørreundersøkelseliste, sisteOpprettedeSpørreundersøkelseId, setSisteOpprettedeSpørreundersøkelseId } =
-        useSpørreundersøkelse();
+    const {
+        spørreundersøkelseliste,
+        sisteOpprettedeSpørreundersøkelseId,
+        setSisteOpprettedeSpørreundersøkelseId,
+    } = useSpørreundersøkelse();
 
     const { spørreundersøkelseId } = useVirksomhetContext();
 
@@ -15,32 +18,31 @@ export default function Spørreundersøkelseliste() {
         return null;
     }
 
-    return (
-        sorterPåDato(spørreundersøkelseliste).map(
-            (behovsvurdering, index, originalArray) => (
-                <React.Fragment key={behovsvurdering.id}>
-                    <SpørreundersøkelseRad
-                        spørreundersøkelse={behovsvurdering}
-                        avstandFraSiste={spørreundersøkelseliste.length - index}
-                        dato={formaterDatoForSpørreundersøkelse(
-                            behovsvurdering,
-                            index,
-                            originalArray,
-                        )}
-                        defaultOpen={
-                            behovsvurdering.id ===
+    return sorterPåDato(spørreundersøkelseliste).map(
+        (behovsvurdering, index, originalArray) => (
+            <React.Fragment key={behovsvurdering.id}>
+                <SpørreundersøkelseRad
+                    spørreundersøkelse={behovsvurdering}
+                    avstandFraSiste={spørreundersøkelseliste.length - index}
+                    dato={formaterDatoForSpørreundersøkelse(
+                        behovsvurdering,
+                        index,
+                        originalArray,
+                    )}
+                    defaultOpen={
+                        behovsvurdering.id ===
                             sisteOpprettedeSpørreundersøkelseId ||
-                            behovsvurdering.id === spørreundersøkelseId
+                        behovsvurdering.id === spørreundersøkelseId
+                    }
+                />
+                {behovsvurdering.id === sisteOpprettedeSpørreundersøkelseId ? (
+                    <OpprettBehovsvurderingAlert
+                        onClose={() =>
+                            setSisteOpprettedeSpørreundersøkelseId("")
                         }
                     />
-                    {
-                        behovsvurdering.id ===
-                            sisteOpprettedeSpørreundersøkelseId ? (
-                            <OpprettBehovsvurderingAlert onClose={() => setSisteOpprettedeSpørreundersøkelseId("")} />
-                        ) : null
-                    }
-                </React.Fragment>
-            ),
-        )
+                ) : null}
+            </React.Fragment>
+        ),
     );
 }

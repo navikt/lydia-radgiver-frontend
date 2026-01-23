@@ -11,7 +11,7 @@ import { Virksomhetsoversikt } from "../../../domenetyper/virksomhetsoversikt";
 import { EndretDataCell } from "../EndretDataCell";
 import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 import Virksomhetsnavncelle from "./Virksomhetsnavncelle";
-import styles from './prioriteringstabell.module.scss';
+import styles from "./prioriteringstabell.module.scss";
 
 interface Kolonne {
     key: string;
@@ -151,23 +151,33 @@ export const PrioriteringsTabell = ({
                                 <EndretDataCell
                                     sistEndret={virksomhetsoversikt.sistEndret}
                                 />
-                                <Virksomhetsnavncelle virksomhetsoversikt={virksomhetsoversikt} />
-                                <Table.DataCell className={styles.rightAlignedDataCell}>
+                                <Virksomhetsnavncelle
+                                    virksomhetsoversikt={virksomhetsoversikt}
+                                />
+                                <Table.DataCell
+                                    className={styles.rightAlignedDataCell}
+                                >
                                     {formaterSomHeltall(
                                         virksomhetsoversikt.antallPersoner,
                                     )}
                                 </Table.DataCell>
-                                <Table.DataCell className={styles.rightAlignedDataCell}>
+                                <Table.DataCell
+                                    className={styles.rightAlignedDataCell}
+                                >
                                     {formaterSomProsentMedEnDesimal(
                                         virksomhetsoversikt.sykefraværsprosent,
                                     )}
                                 </Table.DataCell>
-                                <Table.DataCell className={styles.rightAlignedDataCell}>
+                                <Table.DataCell
+                                    className={styles.rightAlignedDataCell}
+                                >
                                     {formaterSomHeltall(
                                         virksomhetsoversikt.tapteDagsverk,
                                     )}
                                 </Table.DataCell>
-                                <Table.DataCell className={styles.rightAlignedDataCell}>
+                                <Table.DataCell
+                                    className={styles.rightAlignedDataCell}
+                                >
                                     {formaterSomHeltall(
                                         virksomhetsoversikt.muligeDagsverk,
                                     )}

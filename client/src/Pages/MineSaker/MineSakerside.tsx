@@ -6,11 +6,15 @@ import React, { useEffect, useMemo, useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { Sorteringsknapper } from "./Sorteringsknapper";
-import { loggBrukerFulgteRedirectlenkeMedSøk, loggBrukerRedirigertMedSøkAlert, loggSideLastet } from "../../util/analytics-klient";
+import {
+    loggBrukerFulgteRedirectlenkeMedSøk,
+    loggBrukerRedirigertMedSøkAlert,
+    loggSideLastet,
+} from "../../util/analytics-klient";
 import { loggMineSakerFilterEndringMedAnalytics } from "./loggFilterEndringMedAnalytics";
 import { Alert, Heading, Link } from "@navikt/ds-react";
 import { useLocation, NavLink } from "react-router-dom";
-import styles from './minesaker.module.scss';
+import styles from "./minesaker.module.scss";
 
 export const EIER_FØLGER_FILTER_VALUES = ["eier", "følger"] as const;
 export type EierFølgerFilterType = (typeof EIER_FØLGER_FILTER_VALUES)[number][];
@@ -50,9 +54,9 @@ export const MineSakerside = () => {
                 .filter((sak) =>
                     eierFølgerFilter.length
                         ? (sak.iaSak.eidAv == brukerInfo?.ident &&
-                            eierFølgerFilter.includes("eier")) ||
-                        (eierFølgerFilter.includes("følger") &&
-                            sak.iaSak.eidAv != brukerInfo?.ident)
+                              eierFølgerFilter.includes("eier")) ||
+                          (eierFølgerFilter.includes("følger") &&
+                              sak.iaSak.eidAv != brukerInfo?.ident)
                         : true,
                 )
                 .filter(
@@ -109,7 +113,9 @@ export const MineSakerside = () => {
         <div className={styles.mineSakerSide}>
             <BrukerBleRedirectedBanner />
             <div className={styles.mineSakerHeaderContainer}>
-                <Heading level="2" size="large">Mine virksomheter</Heading>
+                <Heading level="2" size="large">
+                    Mine virksomheter
+                </Heading>
                 <Sorteringsknapper onSortChange={handleSortChange} />
             </div>
             <div className={styles.minesakerFlex}>
@@ -150,13 +156,30 @@ function BrukerBleRedirectedBanner() {
 
     if (show && state?.redirected?.search?.length > 0) {
         return (
-            <Alert className={styles.styledAlert} variant="info" size="small" closeButton onClose={() => setShow(false)} contentMaxWidth={false}>
+            <Alert
+                className={styles.styledAlert}
+                variant="info"
+                size="small"
+                closeButton
+                onClose={() => setShow(false)}
+                contentMaxWidth={false}
+            >
                 <Heading size="small" level="3" spacing>
                     Ny landingsside for saksbehandler og lesetilgang
                 </Heading>
-                Nå lander alle med rollen saksbehandler og lesetilgang automatisk på Mine virksomheter. Superbrukere vil fortsatt lande på prioriteringssiden.
+                Nå lander alle med rollen saksbehandler og lesetilgang
+                automatisk på Mine virksomheter. Superbrukere vil fortsatt lande
+                på prioriteringssiden.
                 <br />
-                Følg <Link as={NavLink} onClick={() => loggBrukerFulgteRedirectlenkeMedSøk()} to={`/prioritering${state.redirected.search}`}>denne lenken</Link> for å komme til ditt lagrede søk på prioriterinssiden.
+                Følg{" "}
+                <Link
+                    as={NavLink}
+                    onClick={() => loggBrukerFulgteRedirectlenkeMedSøk()}
+                    to={`/prioritering${state.redirected.search}`}
+                >
+                    denne lenken
+                </Link>{" "}
+                for å komme til ditt lagrede søk på prioriterinssiden.
                 <br />
             </Alert>
         );

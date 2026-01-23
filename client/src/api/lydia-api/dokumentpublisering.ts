@@ -1,5 +1,5 @@
 import { Spørreundersøkelse } from "../../domenetyper/spørreundersøkelse";
-import {Plan} from "../../domenetyper/plan";
+import { Plan } from "../../domenetyper/plan";
 import { post } from "./networkRequests";
 import { dokumentPath } from "./paths";
 import {

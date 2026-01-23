@@ -7,8 +7,7 @@ import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { VisHvisSamarbeidErÅpent } from "../../Samarbeid/SamarbeidContext";
 
-
-import styles from '../plan.module.scss';
+import styles from "../plan.module.scss";
 export function Temaer({
     samarbeidsplan,
     orgnummer,

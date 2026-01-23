@@ -5,7 +5,7 @@ import { SpørsmålResultat } from "../../../domenetyper/spørreundersøkelseRes
 import { useSpørsmålMedSorterteSvaralternativer } from "../../../util/sorterSvaralternativer";
 import "highcharts/modules/accessibility";
 import { Heading } from "@navikt/ds-react";
-import styles from './grafer.module.scss';
+import styles from "./grafer.module.scss";
 
 export default function BarChart({
     spørsmål,
@@ -19,7 +19,8 @@ export default function BarChart({
     farge?: string;
 }) {
     const chartComponentRef = React.useRef<HighchartsReact.RefObject>(null);
-    const spørsmålMedSorterteAlternativer = useSpørsmålMedSorterteSvaralternativer(spørsmål);
+    const spørsmålMedSorterteAlternativer =
+        useSpørsmålMedSorterteSvaralternativer(spørsmål);
 
     const options = React.useMemo(
         () =>
@@ -34,7 +35,12 @@ export default function BarChart({
 
     if (spørsmål.svarListe.some((svar) => svar.antallSvar > 0) === false) {
         return (
-            <Heading level="4" size="small" spacing className={styles.tomGrafTittel}>
+            <Heading
+                level="4"
+                size="small"
+                spacing
+                className={styles.tomGrafTittel}
+            >
                 {spørsmål.tekst}
             </Heading>
         );
@@ -69,7 +75,7 @@ function genererChartOptionsFraSpørsmålOgSvar(
             text: spørsmål.flervalg ? "(flere valg er mulig)" : undefined,
             style: {
                 textAlign: "left",
-            }
+            },
         },
         plotOptions: {
             series: {
@@ -88,9 +94,9 @@ function genererChartOptionsFraSpørsmålOgSvar(
                 data: spørsmål.svarListe.map((svar) =>
                     svar.antallSvar > 0
                         ? {
-                            y: svar.antallSvar,
-                            color: farge,
-                        }
+                              y: svar.antallSvar,
+                              color: farge,
+                          }
                         : null,
                 ),
             },

@@ -59,12 +59,12 @@ export default function LeggTilTemaKnapp({
             redigertTemaliste.map((tema) =>
                 tema.id === temaId
                     ? {
-                        ...tema,
-                        inkludert: redigerteUndertemaer.some(
-                            ({ inkludert }) => inkludert,
-                        ),
-                        undertemaer: redigerteUndertemaer,
-                    }
+                          ...tema,
+                          inkludert: redigerteUndertemaer.some(
+                              ({ inkludert }) => inkludert,
+                          ),
+                          undertemaer: redigerteUndertemaer,
+                      }
                     : { ...tema },
             ),
         );

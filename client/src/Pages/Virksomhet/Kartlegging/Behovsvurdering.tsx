@@ -41,10 +41,11 @@ export const Behovsvurdering = ({
         samarbeid.id,
         "BEHOVSVURDERING",
     );
-    const { mutate: oppdaterSaksStatus, loading: lasterIaSakStatus, validating: revalidererIaSakStatus } = useHentIASaksStatus(
-        iaSak.orgnr,
-        iaSak.saksnummer,
-    );
+    const {
+        mutate: oppdaterSaksStatus,
+        loading: lasterIaSakStatus,
+        validating: revalidererIaSakStatus,
+    } = useHentIASaksStatus(iaSak.orgnr, iaSak.saksnummer);
 
     const opprettBehovsvurdering = () => {
         if (lasterOppretting) return;
@@ -88,7 +89,11 @@ export const Behovsvurdering = ({
                         disabled={
                             !(sakErIRettStatus && kanEndreSpørreundersøkelser)
                         }
-                        loading={lasterOppretting || lasterIaSakStatus || revalidererIaSakStatus}
+                        loading={
+                            lasterOppretting ||
+                            lasterIaSakStatus ||
+                            revalidererIaSakStatus
+                        }
                     />
                 </VisHvisSamarbeidErÅpent>
                 <Spørreundersøkelseliste />

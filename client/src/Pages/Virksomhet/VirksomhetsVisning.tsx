@@ -2,12 +2,18 @@ import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Button, HStack, Tabs, VStack } from "@navikt/ds-react";
 import { Virksomhet } from "../../domenetyper/virksomhet";
-import { useHentSakForVirksomhet, useHentSalesforceSamarbeidLenke } from "../../api/lydia-api/virksomhet";
+import {
+    useHentSakForVirksomhet,
+    useHentSalesforceSamarbeidLenke,
+} from "../../api/lydia-api/virksomhet";
 import VirksomhetContext from "./VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "./Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
-import styles from './virksomhetsvisning.module.scss';
+import styles from "./virksomhetsvisning.module.scss";
 import Samarbeidsvelger from "./Samarbeidsvelger";
-import { IaSakProsess, IASamarbeidStatusType } from "../../domenetyper/iaSakProsess";
+import {
+    IaSakProsess,
+    IASamarbeidStatusType,
+} from "../../domenetyper/iaSakProsess";
 import { useHentSamarbeid } from "../../api/lydia-api/spørreundersøkelse";
 import { loggNavigertTilNyTab } from "../../util/analytics-klient";
 import { SykefraværsstatistikkFane } from "./Statistikk/SykefraværsstatistikkFane";
@@ -20,7 +26,10 @@ import SamarbeidsplanFane from "./Plan/SamarbeidsplanFane";
 import { SamarbeidStatusBadge } from "../../components/Badge/SamarbeidStatusBadge";
 import { Kartleggingsliste } from "./Kartlegging/Kartleggingsliste";
 import { useHentTeam } from "../../api/lydia-api/team";
-import { erSaksbehandler, useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
+import {
+    erSaksbehandler,
+    useHentBrukerinformasjon,
+} from "../../api/lydia-api/bruker";
 import { useHarPlan } from "../../api/lydia-api/plan";
 
 interface Props {
@@ -35,7 +44,10 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         saksnummer ?? virksomhet.aktivtSaksnummer ?? undefined,
     );
 
-    const { data: alleSamarbeid, loading: lasterSamarbeid } = useHentSamarbeid(iaSak?.orgnr, iaSak?.saksnummer);
+    const { data: alleSamarbeid, loading: lasterSamarbeid } = useHentSamarbeid(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
     const [searchParams, setSearchParams] = useSearchParams();
     const fane = searchParams.get("fane") ?? "statistikk";
 
@@ -45,7 +57,9 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         setSearchParams(searchParams, { replace: true });
     };
 
-    const valgtSamarbeid = alleSamarbeid?.find(({ id }) => id && id === Number(prosessId));
+    const valgtSamarbeid = alleSamarbeid?.find(
+        ({ id }) => id && id === Number(prosessId),
+    );
 
     return (
         <VirksomhetContext.Provider
@@ -71,9 +85,25 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                             virksomhet={virksomhet}
                             iaSak={iaSak}
                         />
-                        <HStack align="stretch" justify="start" flexGrow="1" wrap={false}>
-                            <Samarbeidsvelger iaSak={iaSak} className={styles.samarbeidsvelgerSidebar} samarbeidsliste={alleSamarbeid} valgtSamarbeid={valgtSamarbeid} lasterSamarbeid={lasterSamarbeid} virksomhet={virksomhet} />
-                            <VirksomhetsvisningsSwitch valgtSamarbeid={valgtSamarbeid} virksomhet={virksomhet} iaSak={iaSak} />
+                        <HStack
+                            align="stretch"
+                            justify="start"
+                            flexGrow="1"
+                            wrap={false}
+                        >
+                            <Samarbeidsvelger
+                                iaSak={iaSak}
+                                className={styles.samarbeidsvelgerSidebar}
+                                samarbeidsliste={alleSamarbeid}
+                                valgtSamarbeid={valgtSamarbeid}
+                                lasterSamarbeid={lasterSamarbeid}
+                                virksomhet={virksomhet}
+                            />
+                            <VirksomhetsvisningsSwitch
+                                valgtSamarbeid={valgtSamarbeid}
+                                virksomhet={virksomhet}
+                                iaSak={iaSak}
+                            />
                         </HStack>
                     </VStack>
                 </Tabs>
@@ -82,8 +112,17 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     );
 };
 
-function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak }: { valgtSamarbeid?: IaSakProsess | null, virksomhet: Virksomhet, iaSak?: IASak }) {
-    const [endreSamarbeidModalÅpen, setEndreSamarbeidModalÅpen] = React.useState(false);
+function VirksomhetsvisningsSwitch({
+    valgtSamarbeid,
+    virksomhet,
+    iaSak,
+}: {
+    valgtSamarbeid?: IaSakProsess | null;
+    virksomhet: Virksomhet;
+    iaSak?: IASak;
+}) {
+    const [endreSamarbeidModalÅpen, setEndreSamarbeidModalÅpen] =
+        React.useState(false);
 
     const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
@@ -91,20 +130,28 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak }: { valg
         (følger) => følger === brukerInformasjon?.ident,
     );
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
-    const kanEndreSpørreundersøkelser = (erSaksbehandler(brukerInformasjon) && (brukerFølgerSak || brukerErEierAvSak) || false);
-    const samarbeidKanEndres = valgtSamarbeid && !["AVBRUTT", "SLETTET", "FULLFØRT"].includes(valgtSamarbeid.status);
-    const erIÅpenSak = iaSak && ![
-        "IKKE_AKTIV",
-        "IKKE_AKTUELL",
-        "FULLFØRT",
-        "SLETTET",
-        "AVBRUTT",
-    ].includes(iaSak.status);
+    const kanEndreSpørreundersøkelser =
+        (erSaksbehandler(brukerInformasjon) &&
+            (brukerFølgerSak || brukerErEierAvSak)) ||
+        false;
+    const samarbeidKanEndres =
+        valgtSamarbeid &&
+        !["AVBRUTT", "SLETTET", "FULLFØRT"].includes(valgtSamarbeid.status);
+    const erIÅpenSak =
+        iaSak &&
+        ![
+            "IKKE_AKTIV",
+            "IKKE_AKTUELL",
+            "FULLFØRT",
+            "SLETTET",
+            "AVBRUTT",
+        ].includes(iaSak.status);
 
-    const {
-        harPlan,
-        lastet: harPlanLastet,
-    } = useHarPlan(iaSak?.orgnr, iaSak?.saksnummer, valgtSamarbeid?.id);
+    const { harPlan, lastet: harPlanLastet } = useHarPlan(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+        valgtSamarbeid?.id,
+    );
 
     if (!valgtSamarbeid) {
         return (
@@ -122,30 +169,45 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak }: { valg
     return (
         <>
             <div className={styles.innhold}>
-                <div className={`${styles.statuslinje} ${getKlassenavnForSamarbeidsstatus(valgtSamarbeid.status)}`}>
+                <div
+                    className={`${styles.statuslinje} ${getKlassenavnForSamarbeidsstatus(valgtSamarbeid.status)}`}
+                >
                     <HStack gap="4" align="center">
-                        <span className={styles.tittel}>{valgtSamarbeid?.navn}</span>
-                        {valgtSamarbeid.status !== "AKTIV" && <SamarbeidStatusBadge
-                            slim
-                            status={
-                                valgtSamarbeid.status
-                            }
-                        />}
+                        <span className={styles.tittel}>
+                            {valgtSamarbeid?.navn}
+                        </span>
+                        {valgtSamarbeid.status !== "AKTIV" && (
+                            <SamarbeidStatusBadge
+                                slim
+                                status={valgtSamarbeid.status}
+                            />
+                        )}
                     </HStack>
                     <HStack gap="8" align="center">
-                        {
-                            kanEndreSpørreundersøkelser
-                            && erIÅpenSak
-                            && samarbeidKanEndres
-                            && <Button variant="secondary" size="small" onClick={() => setEndreSamarbeidModalÅpen(true)}>Administrer</Button>
-                        }
+                        {kanEndreSpørreundersøkelser &&
+                            erIÅpenSak &&
+                            samarbeidKanEndres && (
+                                <Button
+                                    variant="secondary"
+                                    size="small"
+                                    onClick={() =>
+                                        setEndreSamarbeidModalÅpen(true)
+                                    }
+                                >
+                                    Administrer
+                                </Button>
+                            )}
                         <Salesforcelenke samarbeidId={valgtSamarbeid.id} />
                     </HStack>
                 </div>
-                <div style={{ padding: '1.5rem' }}>
-                    {
-                        harPlanLastet && <Samarbeidsinnhold valgtSamarbeid={valgtSamarbeid} iaSak={iaSak} harPlan={harPlan} />
-                    }
+                <div style={{ padding: "1.5rem" }}>
+                    {harPlanLastet && (
+                        <Samarbeidsinnhold
+                            valgtSamarbeid={valgtSamarbeid}
+                            iaSak={iaSak}
+                            harPlan={harPlan}
+                        />
+                    )}
                 </div>
             </div>
             {valgtSamarbeid && iaSak && (
@@ -161,24 +223,29 @@ function VirksomhetsvisningsSwitch({ valgtSamarbeid, virksomhet, iaSak }: { valg
 }
 
 function Salesforcelenke({ samarbeidId }: { samarbeidId: number }) {
-    const { data: salesforceSamarbeidsLenke } = useHentSalesforceSamarbeidLenke(samarbeidId);
+    const { data: salesforceSamarbeidsLenke } =
+        useHentSalesforceSamarbeidLenke(samarbeidId);
 
     if (!salesforceSamarbeidsLenke) {
         return null;
     }
 
     return (
-        <EksternLenke
-            href={
-                salesforceSamarbeidsLenke.salesforceLenke
-            }
-        >
+        <EksternLenke href={salesforceSamarbeidsLenke.salesforceLenke}>
             Salesforce - samarbeid
         </EksternLenke>
     );
 }
 
-function Samarbeidsinnhold({ valgtSamarbeid, iaSak, harPlan }: { valgtSamarbeid: IaSakProsess, iaSak?: IASak, harPlan?: boolean }) {
+function Samarbeidsinnhold({
+    valgtSamarbeid,
+    iaSak,
+    harPlan,
+}: {
+    valgtSamarbeid: IaSakProsess;
+    iaSak?: IASak;
+    harPlan?: boolean;
+}) {
     const [searchParams, setSearchParams] = useSearchParams();
     const oppdaterTabISearchParam = (tab: string) => {
         searchParams.set("fane", tab);
@@ -197,17 +264,9 @@ function Samarbeidsinnhold({ valgtSamarbeid, iaSak, harPlan }: { valgtSamarbeid:
             defaultValue={defaultFane}
         >
             <Tabs.List style={{ width: "100%" }}>
+                {iaSak && <Tabs.Tab value="plan" label="Samarbeidsplan" />}
                 {iaSak && (
-                    <Tabs.Tab
-                        value="plan"
-                        label="Samarbeidsplan"
-                    />
-                )}
-                {iaSak && (
-                    <Tabs.Tab
-                        value="kartlegging"
-                        label="Kartlegginger"
-                    />
+                    <Tabs.Tab value="kartlegging" label="Kartlegginger" />
                 )}
             </Tabs.List>
             <Tabs.Panel value="plan">

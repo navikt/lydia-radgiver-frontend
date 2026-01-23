@@ -1,7 +1,12 @@
 import { z } from "zod/v4";
 import { datoSchema, DokumentStatusEnum } from "./domenetyper";
 
-const IA_PLAN_UNDERTEMA_STATUSER = ["PLANLAGT", "PÅGÅR", "FULLFØRT", "AVBRUTT"] as const;
+const IA_PLAN_UNDERTEMA_STATUSER = [
+    "PLANLAGT",
+    "PÅGÅR",
+    "FULLFØRT",
+    "AVBRUTT",
+] as const;
 
 const PlanUndertemaStatusSchema = z.enum(IA_PLAN_UNDERTEMA_STATUSER).nullable();
 
@@ -68,7 +73,6 @@ export const PlanTemaSchema = z.object({
 });
 
 export type PlanTema = z.infer<typeof PlanTemaSchema>;
-
 
 export const PlanSchema = z.object({
     id: z.string(),

@@ -11,7 +11,6 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { loggModalÅpnet } from "../../../util/analytics-klient";
 import styles from "./plan.module.scss";
 
-
 export default function EditTemaKnapp({
     tema,
     orgnummer,
@@ -36,7 +35,10 @@ export default function EditTemaKnapp({
     }, [tema]);
 
     const lagreEndring = () => {
-        if (redigertTema.undertemaer.filter(({ inkludert }) => inkludert).length > 0) {
+        if (
+            redigertTema.undertemaer.filter(({ inkludert }) => inkludert)
+                .length > 0
+        ) {
             const undertemaer: UndertemaRequest[] = lagRequest(
                 redigertTema.undertemaer,
             );
@@ -53,23 +55,18 @@ export default function EditTemaKnapp({
             const temaer: TemaRequest[] = samarbeidsplan.temaer.map((t) =>
                 t.id === tema.id
                     ? {
-                        id: t.id,
-                        inkludert: false,
-                        undertemaer: lagRequest(redigertTema.undertemaer),
-                    }
+                          id: t.id,
+                          inkludert: false,
+                          undertemaer: lagRequest(redigertTema.undertemaer),
+                      }
                     : {
-                        id: t.id,
-                        inkludert: t.inkludert,
-                        undertemaer: lagRequest(t.undertemaer),
-                    },
+                          id: t.id,
+                          inkludert: t.inkludert,
+                          undertemaer: lagRequest(t.undertemaer),
+                      },
             );
 
-            endrePlan(
-                orgnummer,
-                saksnummer,
-                samarbeid.id,
-                temaer,
-            ).then(() => {
+            endrePlan(orgnummer, saksnummer, samarbeid.id, temaer).then(() => {
                 hentPlanIgjen();
             });
         }
@@ -127,7 +124,11 @@ export default function EditTemaKnapp({
                                     setModalOpen(false);
                                     lagreEndring();
                                 }}
-                                variant={harNoenValgteUndertema ? "primary" : "danger"}
+                                variant={
+                                    harNoenValgteUndertema
+                                        ? "primary"
+                                        : "danger"
+                                }
                             >
                                 {harNoenValgteUndertema ? "Lagre" : "Slett"}
                             </Button>

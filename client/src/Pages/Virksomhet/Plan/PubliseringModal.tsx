@@ -33,7 +33,9 @@ export const PubliseringModal = ({
             </Modal.Header>
             <Modal.Body>
                 <BodyLong>
-                    Når du publiserer til Min side - Arbeidsgiver, blir samarbeidsplanen tilgjengelig for alle i virksomheten med Altinn-tilgangen “Virksomhetens IA-samarbeid”.
+                    Når du publiserer til Min side - Arbeidsgiver, blir
+                    samarbeidsplanen tilgjengelig for alle i virksomheten med
+                    Altinn-tilgangen “Virksomhetens IA-samarbeid”.
                 </BodyLong>
             </Modal.Body>
             <Modal.Footer>

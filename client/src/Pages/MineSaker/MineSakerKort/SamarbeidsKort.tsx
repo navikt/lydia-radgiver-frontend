@@ -1,7 +1,5 @@
 import { IASak } from "../../../domenetyper/domenetyper";
-import {
-    IaSakProsess,
-} from "../../../domenetyper/iaSakProsess";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { useState } from "react";
 import { VStack } from "@navikt/ds-react";
 import { SamarbeidsInnhold } from "./SamarbeidsInnhold";
@@ -14,7 +12,10 @@ export const SamarbeidsKort = ({
     iaSak: IASak;
     alleSamarbeid: IaSakProsess[];
 }) => {
-    const sorterteSamarbeid = alleSamarbeid.reduce(splitSamarbeid, { aktive: [], avsluttede: [] });
+    const sorterteSamarbeid = alleSamarbeid.reduce(splitSamarbeid, {
+        aktive: [],
+        avsluttede: [],
+    });
 
     const [valgtSamarbeid, setValgtSamarbeid] = useState<IaSakProsess>(
         sorterteSamarbeid.aktive[0],
@@ -27,7 +28,9 @@ export const SamarbeidsKort = ({
                 setValgtSamarbeid={setValgtSamarbeid}
                 iaSak={iaSak}
             />
-            {valgtSamarbeid && <SamarbeidsInnhold iaSak={iaSak} iaSamarbeid={valgtSamarbeid} />}
+            {valgtSamarbeid && (
+                <SamarbeidsInnhold iaSak={iaSak} iaSamarbeid={valgtSamarbeid} />
+            )}
         </VStack>
     );
 };
@@ -37,7 +40,10 @@ export interface SplittedeSamarbeid {
     avsluttede: IaSakProsess[];
 }
 
-function splitSamarbeid(acc: SplittedeSamarbeid, samarbeid: IaSakProsess): SplittedeSamarbeid {
+function splitSamarbeid(
+    acc: SplittedeSamarbeid,
+    samarbeid: IaSakProsess,
+): SplittedeSamarbeid {
     if (samarbeid.status === "AKTIV") {
         acc.aktive.push(samarbeid);
     } else {

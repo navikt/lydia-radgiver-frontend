@@ -5,7 +5,7 @@ import {
     CheckmarkIcon,
     CircleBrokenIcon,
     PaperplaneIcon,
-    XMarkOctagonIcon
+    XMarkOctagonIcon,
 } from "@navikt/aksel-icons";
 import { PubliseringModal } from "./PubliseringModal";
 import styles from "./publiserSpørreundersøkelse.module.scss";
@@ -45,19 +45,20 @@ export const PubliserSpørreundersøkelse = ({
             }
 
             return (
-                <Alert inline variant={"error"}>En feil har oppstått, meld gjerne ifra i Porten</Alert>
+                <Alert inline variant={"error"}>
+                    En feil har oppstått, meld gjerne ifra i Porten
+                </Alert>
             );
         case "PUBLISERT":
             return (
-                <Tooltip content={`Publisert på Min Side - Arbeidsgiver${spørreundersøkelse.publisertTidspunkt ? ` ${lokalDato(spørreundersøkelse.publisertTidspunkt)}` : ""}`}>
+                <Tooltip
+                    content={`Publisert på Min Side - Arbeidsgiver${spørreundersøkelse.publisertTidspunkt ? ` ${lokalDato(spørreundersøkelse.publisertTidspunkt)}` : ""}`}
+                >
                     <div>
                         <PubliserDokumentknapp
                             disabled
                             icon={
-                                <CheckmarkIcon
-                                    fontSize="1.5rem"
-                                    aria-hidden
-                                />
+                                <CheckmarkIcon fontSize="1.5rem" aria-hidden />
                             }
                         >
                             Publisert

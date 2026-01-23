@@ -7,7 +7,6 @@ import { IASak } from "../../../../domenetyper/domenetyper";
 
 import styles from "./virksomhetsinfoheader.module.scss";
 
-
 interface PopoverInnholdProps {
     virksomhet: Virksomhet;
     iaSak?: IASak;
@@ -65,7 +64,9 @@ function Infolinje({
     if (Array.isArray(data)) {
         return (
             <>
-                <BodyShort as="dt" className={styles.infoTittel}>{tittel}</BodyShort>
+                <BodyShort as="dt" className={styles.infoTittel}>
+                    {tittel}
+                </BodyShort>
                 {data.map((d, i) => (
                     <BodyShort as="dd" className={styles.infoData} key={i}>
                         {d}
@@ -78,8 +79,12 @@ function Infolinje({
 
     return (
         <>
-            <BodyShort as="dt" className={styles.infoTittel}>{tittel}</BodyShort>
-            <BodyShort as="dd" className={styles.infoData}>{data}</BodyShort>
+            <BodyShort as="dt" className={styles.infoTittel}>
+                {tittel}
+            </BodyShort>
+            <BodyShort as="dd" className={styles.infoData}>
+                {data}
+            </BodyShort>
         </>
     );
 }
@@ -124,7 +129,9 @@ function PartneravtaleInfolinje({ virksomhet }: { virksomhet: Virksomhet }) {
                     </EksternLenke>
                 </HelpText>
             </BodyShort>
-            <BodyShort as="dd" className={styles.infoData}>{salesforceInfo.partnerStatus}</BodyShort>
+            <BodyShort as="dd" className={styles.infoData}>
+                {salesforceInfo.partnerStatus}
+            </BodyShort>
         </>
     );
 }

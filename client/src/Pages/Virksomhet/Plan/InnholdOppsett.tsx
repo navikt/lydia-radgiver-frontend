@@ -14,7 +14,7 @@ import {
 } from "./planconster";
 import { loggEndringAvPlan } from "../../../util/analytics-klient";
 import LåsbarCheckbox from "../../../components/LåsbarCheckbox";
-import styles from './plan.module.scss';
+import styles from "./plan.module.scss";
 
 export default function InnholdOppsett({
     valgteInnhold,
@@ -61,19 +61,19 @@ export default function InnholdOppsett({
             valgteInnhold.map((innhold) =>
                 innholdIder.includes(innhold.id)
                     ? {
-                        ...innhold,
-                        inkludert: true,
-                        status: "PLANLAGT",
-                        startDato: innhold.startDato ?? defaultStartDate,
-                        sluttDato: innhold.sluttDato ?? defaultEndDate,
-                    }
+                          ...innhold,
+                          inkludert: true,
+                          status: "PLANLAGT",
+                          startDato: innhold.startDato ?? defaultStartDate,
+                          sluttDato: innhold.sluttDato ?? defaultEndDate,
+                      }
                     : {
-                        ...innhold,
-                        inkludert: false,
-                        startDato: null,
-                        sluttDato: null,
-                        status: null,
-                    },
+                          ...innhold,
+                          inkludert: false,
+                          startDato: null,
+                          sluttDato: null,
+                          status: null,
+                      },
             ),
         );
     };
@@ -110,7 +110,11 @@ export default function InnholdOppsett({
         );
     };
 
-    const setNyStartOgSluttDato = (innholdId: number, startDato: Date, sluttDato: Date) => {
+    const setNyStartOgSluttDato = (
+        innholdId: number,
+        startDato: Date,
+        sluttDato: Date,
+    ) => {
         const innholdNavn = valgteInnhold.find(
             (innhold) => innhold.id === innholdId,
         )?.navn;
@@ -159,7 +163,11 @@ function Undertemarad({
     innhold: PlanInnhold;
     setNyStartDato: (innholdId: number, date: Date) => void;
     setNySluttDato: (innholdId: number, date: Date) => void;
-    setNyStartOgSluttDato: (innholdId: number, startDato: Date, sluttDato: Date) => void;
+    setNyStartOgSluttDato: (
+        innholdId: number,
+        startDato: Date,
+        sluttDato: Date,
+    ) => void;
 }) {
     return (
         <HStack
@@ -169,16 +177,15 @@ function Undertemarad({
             gap="4"
             align="center"
         >
-            <RadCheckbox innhold={innhold} låst={innhold.harAktiviteterISalesforce && innhold.inkludert} />
+            <RadCheckbox
+                innhold={innhold}
+                låst={innhold.harAktiviteterISalesforce && innhold.inkludert}
+            />
             {innhold.inkludert ? (
                 <StartOgSluttVelger
                     innhold={innhold}
-                    setNyStartDato={(date) =>
-                        setNyStartDato(innhold.id, date)
-                    }
-                    setNySluttDato={(date) =>
-                        setNySluttDato(innhold.id, date)
-                    }
+                    setNyStartDato={(date) => setNyStartDato(innhold.id, date)}
+                    setNySluttDato={(date) => setNySluttDato(innhold.id, date)}
                     setNyStartOgSluttDato={(startDato, sluttDato) =>
                         setNyStartOgSluttDato(innhold.id, startDato, sluttDato)
                     }
@@ -205,7 +212,6 @@ function RadCheckbox({
         </LåsbarCheckbox>
     );
 }
-
 
 function StartOgSluttVelger({
     innhold,
@@ -234,7 +240,6 @@ function StartOgSluttVelger({
                 } else {
                     setNyStartDato(date);
                 }
-
             }
         },
     });

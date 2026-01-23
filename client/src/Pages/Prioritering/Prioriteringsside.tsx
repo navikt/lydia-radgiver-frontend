@@ -2,9 +2,7 @@ import { useEffect, useState } from "react";
 import { BodyShort, Loader, SortState } from "@navikt/ds-react";
 import { Filtervisning } from "./Filter/Filtervisning";
 import { PrioriteringsTabell } from "./PrioriteringsTabell";
-import {
-    useHentAntallTreff,
-} from "../../api/lydia-api/sok";
+import { useHentAntallTreff } from "../../api/lydia-api/sok";
 import { useHentVirksomhetsoversiktListe } from "../../api/lydia-api/sok";
 import { useFilterverdier } from "../../api/lydia-api/sok";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";

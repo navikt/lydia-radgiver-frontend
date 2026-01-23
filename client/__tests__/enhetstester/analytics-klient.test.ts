@@ -80,7 +80,9 @@ describe("analytics-klient med umami tilgjengelig", () => {
 
         setTilgangsnivå("Superbruker");
 
-        expect(umami.identify).toHaveBeenCalledWith({ tilgangsnivå: "Superbruker" });
+        expect(umami.identify).toHaveBeenCalledWith({
+            tilgangsnivå: "Superbruker",
+        });
     });
 
     test("flere logg*-funksjoner kaller umami.track med forventede payloads", () => {
@@ -98,7 +100,10 @@ describe("analytics-klient med umami tilgjengelig", () => {
         );
         loggGraflinjeEndringer(["linje1", "linje2"]);
         loggFølgeSak(true);
-        loggGåTilSakFraMineSaker("gå-til-sak-knapp", "https://fia.nav.no/virksomhet/123456789");
+        loggGåTilSakFraMineSaker(
+            "gå-til-sak-knapp",
+            "https://fia.nav.no/virksomhet/123456789",
+        );
         loggMineSakerFilter([
             MineSakerFilterKategorier.STATUS,
             MineSakerFilterKategorier.ARKIVERTE_SAKER,

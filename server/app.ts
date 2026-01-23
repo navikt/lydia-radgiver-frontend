@@ -1,4 +1,9 @@
-import express, { NextFunction, Request, RequestHandler, Response } from "express";
+import express, {
+    NextFunction,
+    Request,
+    RequestHandler,
+    Response,
+} from "express";
 import helmet from "helmet";
 import path from "path";
 import apiMetrics from "prometheus-api-metrics";
@@ -17,10 +22,11 @@ import { randomUUID } from "crypto";
 import { doubleCsrf } from "csrf-csrf";
 import cookieParser from "cookie-parser";
 
-export const inCloudMode = () => process.env.NAIS_CLUSTER_NAME === "dev-gcp" || process.env.NAIS_CLUSTER_NAME === "prod-gcp"
+export const inCloudMode = () =>
+    process.env.NAIS_CLUSTER_NAME === "dev-gcp" ||
+    process.env.NAIS_CLUSTER_NAME === "prod-gcp";
 
-export const inLocalMode = () => process.env.NAIS_CLUSTER_NAME === "lokal"
-
+export const inLocalMode = () => process.env.NAIS_CLUSTER_NAME === "lokal";
 
 export default class Application {
     expressApp: express.Express;
@@ -30,41 +36,43 @@ export default class Application {
         this.expressApp = express();
         this.expressApp.set("trust proxy", 1);
 
-        this.expressApp.use(apiMetrics(
-            {metricsPath: "/internal/metrics"}
-        ));
-        this.expressApp.use(helmet({
-            contentSecurityPolicy: {
-                directives: {
-                    defaultSrc: ["'self'"],
-                    scriptSrc: ["'self'", "'unsafe-inline'", "'unsafe-eval'", "https://cdn.nav.no/"],
-                    connectSrc: ["'self'", "*.nav.no"],
-                    styleSrc: ["'self'", "'unsafe-inline'"],
-                    imgSrc: ["'self'", "data:", "*.nav.no"],
+        this.expressApp.use(apiMetrics({ metricsPath: "/internal/metrics" }));
+        this.expressApp.use(
+            helmet({
+                contentSecurityPolicy: {
+                    directives: {
+                        defaultSrc: ["'self'"],
+                        scriptSrc: [
+                            "'self'",
+                            "'unsafe-inline'",
+                            "'unsafe-eval'",
+                            "https://cdn.nav.no/",
+                        ],
+                        connectSrc: ["'self'", "*.nav.no"],
+                        styleSrc: ["'self'", "'unsafe-inline'"],
+                        imgSrc: ["'self'", "data:", "*.nav.no"],
+                    },
                 },
-            }
-        }));
+            }),
+        );
 
         this.expressApp.all("/{*any}", (req, res, next) => {
-            res.locals.requestId = randomUUID()
-            next()
-        })
+            res.locals.requestId = randomUUID();
+            next();
+        });
 
         this.expressApp.get(
             ["/internal/isAlive", "/internal/isReady"],
             (req, res) => {
                 res.sendStatus(200);
-            }
+            },
         );
-        
-         this.expressApp.use(
-            sessionManager
-         );
 
-        const tokenValidator =
-            inLocalMode()
-                ? validerTokenFraFakedings(config.azure, config._jwkSet)
-                : validerTokenFraWonderwall(config.azure, config._jwkSet);
+        this.expressApp.use(sessionManager);
+
+        const tokenValidator = inLocalMode()
+            ? validerTokenFraFakedings(config.azure, config._jwkSet)
+            : validerTokenFraWonderwall(config.azure, config._jwkSet);
 
         const {
             generateCsrfToken, // Use this in your routes to provide a CSRF hash cookie and token.
@@ -72,33 +80,38 @@ export default class Application {
         } = doubleCsrf({
             getSecret: () => config.secrets.csrf,
             getSessionIdentifier: (req: Request) => req.session.id,
-            cookieName: "__fia.intern.nav.no-x-csrf-token"
+            cookieName: "__fia.intern.nav.no-x-csrf-token",
         });
         const csrfTokenRoute = (request: Request, response: Response) => {
-            const csrfToken = generateCsrfToken(request, response, { overwrite: true, validateOnReuse: true });
+            const csrfToken = generateCsrfToken(request, response, {
+                overwrite: true,
+                validateOnReuse: true,
+            });
             response.json({ csrfToken });
         };
-        this.expressApp.use(cookieParser(config.secrets.cookie))
+        this.expressApp.use(cookieParser(config.secrets.cookie));
         this.expressApp.get("/csrf-token", tokenValidator, csrfTokenRoute);
         this.expressApp.use(doubleCsrfProtection);
 
         this.expressApp.get("/loggut", (req, res, next) => {
             req.session.destroy((err) => {
                 if (err) {
-                    next(err)
+                    next(err);
                 }
-            })
-            return res.redirect("/oauth2/logout?post_logout_redirect_uri=https://nav.no")
-        })
+            });
+            return res.redirect(
+                "/oauth2/logout?post_logout_redirect_uri=https://nav.no",
+            );
+        });
 
         this.expressApp.get(
             "/innloggetAnsatt",
             tokenValidator,
-            hentInnloggetAnsattMiddleware(config.azure, config._jwkSet)
+            hentInnloggetAnsattMiddleware(config.azure, config._jwkSet),
         );
 
         const lydiaApiProxy = new LydiaApiProxy(
-            config
+            config,
         ).createExpressMiddleWare();
         // Proxy må ligge under healthcheck endepunktene for at de skal nås
 
@@ -107,10 +120,10 @@ export default class Application {
             tokenValidator,
             inLocalMode()
                 ? (req, res, next) => {
-                    return next();
-                }
+                      return next();
+                  }
                 : onBehalfOfTokenMiddleware(config),
-            lydiaApiProxy
+            lydiaApiProxy,
         );
         this.expressApp.get("/assets", express.static(`${buildPath}/assets`));
         this.expressApp.use("/", express.static(buildPath));
@@ -125,7 +138,7 @@ export default class Application {
                 }
                 logger.error(error.message);
                 return res.status(500).send("Intern server-feil");
-            }
+            },
         );
     }
 }

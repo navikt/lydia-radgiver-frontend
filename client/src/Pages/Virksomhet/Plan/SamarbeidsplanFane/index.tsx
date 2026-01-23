@@ -81,7 +81,6 @@ export default function SamarbeidsplanFane({
                         <i>Vi bistår</i> for å opprette ny plan
                     </BodyShort>
                 )}
-
             </>
         );
     }

@@ -18,7 +18,7 @@ import { useSpørreundersøkelse } from "../../../../components/Spørreundersøk
 import { lokalDatoMedKlokkeslett } from "../../../../util/dato";
 import { getGraffargeFromTema } from "../../../../components/Spørreundersøkelse/TemaResultat";
 import capitalizeFirstLetterLowercaseRest from "../../../../util/formatering/capitalizeFirstLetterLowercaseRest";
-import styles from './spørreundersøkelseForhåndsvisningModal.module.scss';
+import styles from "./spørreundersøkelseForhåndsvisningModal.module.scss";
 
 export default function Forhåndsvisning({
     spørreundersøkelseid,
@@ -27,8 +27,7 @@ export default function Forhåndsvisning({
     spørreundersøkelseid: string;
     setModaltittel: (tittel: string) => void;
 }) {
-    const { iaSak, samarbeid } =
-        useSpørreundersøkelse();
+    const { iaSak, samarbeid } = useSpørreundersøkelse();
     const { data: spørreundersøkelseForhåndsvisning } =
         useHentSpørreundersøkelseMedInnhold(
             iaSak.orgnr,
@@ -49,7 +48,11 @@ export default function Forhåndsvisning({
         <>
             {spørreundersøkelseForhåndsvisning?.temaer.map((tema) => (
                 <React.Fragment key={tema.temaId}>
-                    <Heading className={styles.tematittel} level="3" size="large">
+                    <Heading
+                        className={styles.tematittel}
+                        level="3"
+                        size="large"
+                    >
                         {tema.navn}
                     </Heading>
                     <GruppertSpørsmålRenderer tema={tema} />
@@ -59,8 +62,13 @@ export default function Forhåndsvisning({
     );
 }
 
-function Spørsmålsgruppe({ className = "", ...props }: { children: React.ReactNode } & React.HTMLAttributes<HTMLDivElement>) {
-    return <div {...props} className={`${styles.spørsmålsgruppe} ${className}`} />;
+function Spørsmålsgruppe({
+    className = "",
+    ...props
+}: { children: React.ReactNode } & React.HTMLAttributes<HTMLDivElement>) {
+    return (
+        <div {...props} className={`${styles.spørsmålsgruppe} ${className}`} />
+    );
 }
 
 function getGrupperteSpørsmål(tema: TemaDto) {
@@ -168,7 +176,11 @@ function Kategori({
                     className={styles.kategoritittel}
                     level="4"
                     size="xsmall"
-                    style={{ color: useFarge ? getGraffargeFromTema(temanavn) : "var(--a-text-default)" }}
+                    style={{
+                        color: useFarge
+                            ? getGraffargeFromTema(temanavn)
+                            : "var(--a-text-default)",
+                    }}
                 >
                     {tittel}
                 </Heading>
@@ -189,7 +201,11 @@ function Kategori({
                 className={styles.kategoritittel}
                 level="4"
                 size="xsmall"
-                style={{ color: useFarge ? getGraffargeFromTema(temanavn) : "var(--a-text-default)" }}
+                style={{
+                    color: useFarge
+                        ? getGraffargeFromTema(temanavn)
+                        : "var(--a-text-default)",
+                }}
             >
                 {tittel}
             </Heading>
@@ -235,8 +251,13 @@ function SpørsmålAccordionItem({
     defaultOpen?: boolean;
 }) {
     return (
-        <Accordion.Item className={styles.accordionItem} defaultOpen={defaultOpen}>
-            <Accordion.Header className={styles.accordionHeader}>{spørsmål.spørsmål}</Accordion.Header>
+        <Accordion.Item
+            className={styles.accordionItem}
+            defaultOpen={defaultOpen}
+        >
+            <Accordion.Header className={styles.accordionHeader}>
+                {spørsmål.spørsmål}
+            </Accordion.Header>
             <Accordion.Content>
                 <Svaralternativer
                     svaralternativer={spørsmål.svaralternativer}

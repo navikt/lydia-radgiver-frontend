@@ -16,7 +16,10 @@ export const TaEierskapModal = ({
     iaSak,
 }: TaEierskapModalProps) => {
     const modaltittel = `Er du sikker på at du vil ta eierskap?`;
-    const { mutate: muterIaSak } = useHentSakForVirksomhet(iaSak.orgnr, iaSak.saksnummer);
+    const { mutate: muterIaSak } = useHentSakForVirksomhet(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+    );
     const { mutate: muterMineSaker } = useHentMineSaker();
     return (
         <Modal

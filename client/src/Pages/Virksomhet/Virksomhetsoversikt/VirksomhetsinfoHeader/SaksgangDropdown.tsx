@@ -10,7 +10,10 @@ import {
     Statusknapper,
 } from "../IASakStatus/EndreStatusModal/Statusknapper";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { useHentSakshistorikk, useHentVirksomhetsinformasjon } from "../../../../api/lydia-api/virksomhet";
+import {
+    useHentSakshistorikk,
+    useHentVirksomhetsinformasjon,
+} from "../../../../api/lydia-api/virksomhet";
 import { useHentSakForVirksomhet } from "../../../../api/lydia-api/virksomhet";
 import { SaksgangDropdownToggle } from "./SaksgangDropdownToggle";
 
@@ -23,12 +26,7 @@ export function SaksgangDropdown({
     virksomhet: Virksomhet;
     iaSak?: IASak;
 }) {
-    return (
-        <SaksgangDropdownInnhold
-            virksomhet={virksomhet}
-            iaSak={iaSak}
-        />
-    );
+    return <SaksgangDropdownInnhold virksomhet={virksomhet} iaSak={iaSak} />;
 }
 
 function SaksgangDropdownInnhold({
@@ -46,18 +44,27 @@ function SaksgangDropdownInnhold({
         hendelse: GyldigNesteHendelse | null;
     }>({ nesteSteg: null, hendelse: null });
 
-    const { mutate: mutateVirksomhet } = useHentVirksomhetsinformasjon(virksomhet.orgnr);
-
-    const { mutate: mutateSamarbeidshistorikk, validating: validatingSamarbeidshistorikk, loading: loadingSamarbeidshistorikk } = useHentSakshistorikk(
+    const { mutate: mutateVirksomhet } = useHentVirksomhetsinformasjon(
         virksomhet.orgnr,
     );
 
-    const { mutate: mutateSak, validating: validatingSak, loading: loadingSak } = useHentSakForVirksomhet(
-        virksomhet.orgnr,
-        iaSak?.saksnummer,
-    );
+    const {
+        mutate: mutateSamarbeidshistorikk,
+        validating: validatingSamarbeidshistorikk,
+        loading: loadingSamarbeidshistorikk,
+    } = useHentSakshistorikk(virksomhet.orgnr);
 
-    const lasterEllerRevaliderer = validatingSamarbeidshistorikk || loadingSamarbeidshistorikk || validatingSak || loadingSak;
+    const {
+        mutate: mutateSak,
+        validating: validatingSak,
+        loading: loadingSak,
+    } = useHentSakForVirksomhet(virksomhet.orgnr, iaSak?.saksnummer);
+
+    const lasterEllerRevaliderer =
+        validatingSamarbeidshistorikk ||
+        loadingSamarbeidshistorikk ||
+        validatingSak ||
+        loadingSak;
 
     const mutateIASakerOgSamarbeidshistorikk = () => {
         mutateSak?.();
@@ -85,8 +92,12 @@ function SaksgangDropdownInnhold({
                 placement="bottom-start"
                 ref={dropdownRef}
             >
-                <Heading className={styles.dropdownHeader} size="medium">Endre status</Heading>
-                <HStack className={`${styles.historikkContainer} ${nesteSteg.nesteSteg !== null ? styles.begrensHøyde : ""}`}>
+                <Heading className={styles.dropdownHeader} size="medium">
+                    Endre status
+                </Heading>
+                <HStack
+                    className={`${styles.historikkContainer} ${nesteSteg.nesteSteg !== null ? styles.begrensHøyde : ""}`}
+                >
                     {iaSak && <Historikk sak={iaSak} />}
                 </HStack>
                 <br />
