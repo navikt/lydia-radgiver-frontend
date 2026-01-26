@@ -17,6 +17,7 @@ export const Footer = () => {
             <EksternLenke
                 href="https://navno.sharepoint.com/sites/fag-og-ytelser-arbeid-inkluderende-arbeidsliv/SitePages/FIA-brukerveiledning.aspx"
                 underline={false}
+                className={styles.footerlenke}
                 onClick={() =>
                     loggNavigeringMedEksternLenke(
                         EksternNavigeringKategorier.FIA_BRUKERVEILEDNING,
@@ -28,6 +29,7 @@ export const Footer = () => {
             <EksternLenke
                 href="https://jira.adeo.no/plugins/servlet/desk/portal/541/create/4362"
                 underline={false}
+                className={styles.footerlenke}
                 onClick={() =>
                     loggNavigeringMedEksternLenke(
                         EksternNavigeringKategorier.PORTEN,
@@ -52,7 +54,7 @@ function NyFooterSykefraværsstatistikk() {
                 className={styles.sykefraværsstatistikkknapp}
                 onClick={() => setOpen(!open)}
                 aria-expanded={open}
-                icon={<QuestionmarkCircleIcon />}
+                icon={<QuestionmarkCircleIcon aria-hidden />}
                 variant="tertiary"
                 size="xsmall"
             >

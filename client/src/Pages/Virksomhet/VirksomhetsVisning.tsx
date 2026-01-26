@@ -231,7 +231,12 @@ function Salesforcelenke({ samarbeidId }: { samarbeidId: number }) {
     }
 
     return (
-        <EksternLenke href={salesforceSamarbeidsLenke.salesforceLenke}>
+        <EksternLenke
+            href={
+                salesforceSamarbeidsLenke.salesforceLenke
+            }
+            className={styles.salesforcelenke}
+        >
             Salesforce - samarbeid
         </EksternLenke>
     );
