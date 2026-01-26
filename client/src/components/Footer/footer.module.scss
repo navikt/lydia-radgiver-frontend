@@ -9,7 +9,7 @@
     font-size: 1rem;
 
     .sykefraværsstatistikkknapp {
-        color: var(--a-blue-700);
+                --a-text-action: var(--a-blue-700);
         --a-font-weight-bold: 400;
         --ac-button-tertiary-hover-bg: var(--a-surface-action-active);
         --ac-button-tertiary-hover-text: var(--a-surface-default);
@@ -26,6 +26,6 @@
     }
 
     .footerlenke {
-        color: var(--a-blue-700);
+        --a-text-action: var(--a-blue-700);
     }
 }

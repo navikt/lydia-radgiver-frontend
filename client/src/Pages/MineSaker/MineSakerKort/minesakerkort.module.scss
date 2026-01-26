@@ -55,7 +55,7 @@
         padding: 0 0 1rem 0;
 
         .headerlenke {
-            color: var(--a-gray-900);
+            --a-text-action: var(--a-gray-900);
             text-decoration: none;
             font-weight: 600;
             &:hover,
