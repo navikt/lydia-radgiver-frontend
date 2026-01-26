@@ -9,6 +9,7 @@ export const statiskeSidetitler = {
     prioriteringsside: lagSidetittel("søk"),
     virksomhetsside: lagSidetittel("virksomhet"),
     statusoversiktside: lagSidetittel("statusoversikt"),
+    mineSakerSide: lagSidetittel("mine virksomheter"),
 };
 
 export const useTittel = (

@@ -15,6 +15,7 @@ import { loggMineSakerFilterEndringMedAnalytics } from "./loggFilterEndringMedAn
 import { Alert, Heading, Link } from "@navikt/ds-react";
 import { useLocation, NavLink } from "react-router-dom";
 import styles from "./minesaker.module.scss";
+import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 
 export const EIER_FØLGER_FILTER_VALUES = ["eier", "følger"] as const;
 export type EierFølgerFilterType = (typeof EIER_FØLGER_FILTER_VALUES)[number][];
@@ -28,6 +29,7 @@ export type SetMinesakerFiltreType = {
 };
 
 export const MineSakerside = () => {
+    useTittel(statiskeSidetitler.mineSakerSide);
     useEffect(() => {
         loggSideLastet("Minesakerside");
     }, []);
