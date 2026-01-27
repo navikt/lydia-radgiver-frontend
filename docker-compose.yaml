@@ -145,6 +145,7 @@ services:
       SALESFORCE_USERNAME: username
       SALESFORCE_PASSWORD: password
       SALESFORCE_SECURITY_TOKEN: securityToken
+      PIA_PDFGEN_URL: http://pia-pdfgen
     restart: unless-stopped
 
   valkey:

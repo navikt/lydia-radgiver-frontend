@@ -19,6 +19,14 @@ import {
 } from "../../domenetyper/spørreundersøkelseMedInnhold";
 import { spørreundersøkelseHeading } from "../../components/Spørreundersøkelse/SpørreundersøkelseHeading";
 
+export const kartleggingresultatPdfLenke = (
+    orgnummer: string,
+    saksnummer: string,
+    spørreundersøkelseId: string,
+) => {
+    return `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}/pdf`;
+};
+
 export const useHentResultat = (
     orgnummer: string,
     saksnummer: string,
