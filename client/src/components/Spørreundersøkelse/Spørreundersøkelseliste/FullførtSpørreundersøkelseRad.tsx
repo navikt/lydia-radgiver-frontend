@@ -55,7 +55,6 @@ function SpørreundersøkelseHeader({
         hentSpørreundersøkelserPåNytt,
         kanEndreSpørreundersøkelser,
     } = useSpørreundersøkelse();
-    const [erIEksportMode, setErIEksportMode] = React.useState(false);
     const flyttTilValgtSamarbeid = (samarbeidId: number) => {
         flyttSpørreundersøkelse(
             iaSak.orgnr,
@@ -88,8 +87,6 @@ function SpørreundersøkelseHeader({
                     >
                         <ResultatEksportVisning
                             spørreundersøkelse={spørreundersøkelse}
-                            erIEksportMode={erIEksportMode}
-                            setErIEksportMode={setErIEksportMode}
                             iaSak={iaSak}
                         />
                         {spørreundersøkelse.publiseringStatus ===
