@@ -9,16 +9,24 @@ updates:
   - package-ecosystem: github-actions
     directory: "/"
     schedule:
-      interval: daily
+      interval: weekly
+      day: "monday"
       time: "08:00"
       timezone: "Europe/Oslo"
+    labels:
+      - "dependencies"
+      - "github-actions"
 
   - package-ecosystem: npm
     directory: "/client"
     schedule:
-      interval: daily
+      interval: weekly
+      day: "monday"
       time: "08:00"
       timezone: "Europe/Oslo"
+    labels:
+      - "dependencies"
+      - "client"
     groups:
       "@navikt*":
         patterns:
@@ -63,15 +71,20 @@ updates:
       default-days: 7
       exclude:
         - "@navikt*"
+      applies-to: version-updates
     registries:
       - npm-github
 
   - package-ecosystem: npm
     directory: "/server"
     schedule:
-      interval: daily
+      interval: weekly
+      day: "monday"
       time: "08:00"
       timezone: "Europe/Oslo"
+    labels:
+      - "dependencies"
+      - "server"
     groups:
       "typescript*":
         patterns:
@@ -95,19 +108,30 @@ updates:
           - "@types/express-session"
     cooldown:
       default-days: 7
+      applies-to: version-updates
     registries:
       - npm-github
 
   - package-ecosystem: docker
     directory: "/client"
     schedule:
-      interval: daily
+      interval: weekly
+      day: "monday"
       time: "08:00"
       timezone: "Europe/Oslo"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "client"
 
   - package-ecosystem: docker
     directory: "/server"
     schedule:
-      interval: daily
+      interval: weekly
+      day: "monday"
       time: "08:00"
       timezone: "Europe/Oslo"
+    labels:
+      - "dependencies"
+      - "docker"
+      - "server"
