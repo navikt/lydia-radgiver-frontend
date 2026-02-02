@@ -1,0 +1,47 @@
+apiVersion: monitoring.coreos.com/v1
+kind: PrometheusRule
+metadata:
+  name: lydia-radgiver-frontend
+  namespace: pia
+  labels:
+    team: pia
+    created-by: pia
+spec:
+  groups:
+    - name: lydia-radgiver-frontend-alerts
+      rules:
+        - alert: Applikasjon nede
+          expr: kube_deployment_status_replicas_available{deployment="lydia-radgiver-frontend"} == 0
+          for: 2m
+          annotations:
+            consequence: "Fia frontend (lydia-radgiver-frontend) er utilgjengelig"
+            action: |-
+              Sjekk helsa til applikasjonen ved å kjøre
+              `kubectl describe pod <podname> -n pia` og 
+              `kubectl logs <podname> -n pia`
+          labels:
+            namespace: pia
+            severity: critical
+
+        - alert: ErrorLogRegistrert
+          expr: sum(increase(logd_messages_total{log_app="lydia-radgiver-frontend", log_level="Error"}[10m])) > 0
+          for: 2m
+          annotations:
+            description: "Fia frontend (lydia-radgiver-frontend) har logget en (eller flere) feil."
+            action: |-
+              Sjekk logs.az.nav.no for logger, 
+              eller Grafana-dashboardet vårt: https://grafana.nav.cloud.nais.io/goto/ghJrEZSDg?orgId=1
+          labels:
+            namespace: pia
+            severity: warning
+
+        - alert: ResponseServerError
+          expr: sum(increase(nginx_ingress_controller_requests{namespace="pia", service=~"lydia-radgiver-frontend", method=~"GET|POST", status=~"5.."}[5m])) > 0
+          annotations:
+            description: "Fia frontend (lydia-radgiver-frontend) responderer med flere 5xx-feilkoder"
+            action: |-
+              Sjekk logs.az.nav.no for logger, 
+              eller Grafana-dashboardet vårt: https://grafana.nav.cloud.nais.io/goto/ghJrEZSDg?orgId=1
+          labels:
+            namespace: pia
+            severity: warning
