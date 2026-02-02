@@ -1,4 +1,4 @@
-name: Deploy alerts (dev) to NAIS
+name: Deploy alerts to NAIS
 on:
   push:
     branches:
