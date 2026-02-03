@@ -92,7 +92,7 @@ Nokre gonger vil ikkje lydia-api-imaget oppdatere seg. Dette kan du sjekke ved �
 ### Køyre frontend lokalt med lokal backend
 
 1. Åpne terminalvindu i `lydia-api`, sørg for at du har sjekket ut branchen du vil bygge.
-2. Kjør `./gradlew clean build -x test` (`-x test` gjer at vi slepp å vente på at alle testane skal køyre)
+2. Kjør `./gradlew clean installDist`
 3. Gå til `lydia-radgiver-frontend` og åpne filen som heter `docker-compose.yaml`. 
 4. Finn linjen:
 ```
@@ -105,10 +105,8 @@ backend:
     build:
         context: ../lydia-api
 ```
-6. Åpne terminalvindu i `lydia-radgiver-frontend` og kjør `docker images`
-7. Finn og kopier image id for `lydia-radgiver-frontend-backend` og eventuelt `lydia-api-backend`
-8. Fjern disse imagene ved å kjøre `docker rmi <kopiert image id> `
-9. Køyr `./run.sh` fra `lydia-radgiver-frontend` som vanlig
+6. Åpne terminalvindu i `lydia-radgiver-frontend`
+9. Køyr `./run.sh -f` fra `lydia-radgiver-frontend` som vanlig. `-f` brukes her for å bygge backend imaget på nytt.
 10. Profit 🎉🎉🎉
 
 Hugs å ikkje committe endringa du har gjort i `docker-compose.yaml`.
