@@ -16,7 +16,7 @@
         "csrf-csrf": "4.0.3",
         "dotenv": "17.2.3",
         "express": "5.2.1",
-        "express-session": "1.18.2",
+        "express-session": "1.19.0",
         "follow-redirects": "1.15.11",
         "helmet": "8.1.0",
         "http-proxy-middleware": "3.0.5",
