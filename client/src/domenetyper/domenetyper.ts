@@ -117,6 +117,7 @@ export type Årsak = z.infer<typeof årsakSchema>;
 export type ValgtÅrsakDto = {
     type: string;
     begrunnelser: string[];
+    dato?: string;
 };
 
 const gyldigNesteHendelseSchema = z.object({
@@ -158,3 +159,29 @@ export interface IANySakshendelseDto {
     endretAvHendelseId: string;
     payload?: string;
 }
+
+const VirksomhetIATilstandEnum = z.enum([
+    "VirksomhetKlarTilVurdering",
+    "VirksomhetVurderes",
+    "VirksomhetErVurdert",
+    "VirksomhetHarAktiveSamarbeid",
+    "AlleSamarbeidIVirksomhetErAvsluttet",
+]);
+
+const virksomhetTilstandAutomatiskOppdateringSchema = z.object({
+    startTilstand: VirksomhetIATilstandEnum,
+    planlagtHendelse: z.string(),
+    nyTilstand: VirksomhetIATilstandEnum,
+    planlagtDato: datoSchema,
+});
+
+export const virksomhetTilstandDtoSchema = z.object({
+    orgnr: z.string(),
+    tilstand: VirksomhetIATilstandEnum,
+    nesteTilstand: virksomhetTilstandAutomatiskOppdateringSchema
+        .nullable()
+        .optional(),
+});
+
+export type VirksomhetTilstandDto = z.infer<typeof virksomhetTilstandDtoSchema>;
+export type VirksomhetIATilstand = z.infer<typeof VirksomhetIATilstandEnum>;

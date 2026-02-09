@@ -11,6 +11,8 @@ import {
     FullførKartlegging,
     OpprettSamarbeidsplan,
     AvsluttSamarbeid,
+    BliEier,
+    FølgVirksomhet,
 } from "./Post";
 import {
     SlettKartlegging,
@@ -31,6 +33,10 @@ function DebugContent({ orgnummer }: { orgnummer: string }) {
 
             <h2>POST Endpoints</h2>
             <VurderSak orgnummer={orgnummer} onSuccess={handleSuccess} />
+            <hr />
+            <BliEier orgnummer={orgnummer} onSuccess={handleSuccess} />
+            <hr />
+            <FølgVirksomhet orgnummer={orgnummer} onSuccess={handleSuccess} />
             <hr />
             <AngreVurdering orgnummer={orgnummer} onSuccess={handleSuccess} />
             <hr />

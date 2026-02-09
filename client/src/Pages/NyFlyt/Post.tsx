@@ -1,6 +1,7 @@
 import { useState } from "react";
 import {
     vurderSakNyFlyt,
+    bliEierNyFlyt,
     angreVurderingNyFlyt,
     avsluttVurderingNyFlyt,
     opprettSamarbeidNyFlyt,
@@ -9,8 +10,12 @@ import {
     fullførKartleggingNyFlyt,
     opprettSamarbeidsplanNyFlyt,
     avsluttSamarbeidNyFlyt,
+    useHentSakNyFlyt,
 } from "../../api/lydia-api/nyFlyt";
+import { leggBrukerTilTeam } from "../../api/lydia-api/team";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
+import { SamarbeidRequest } from "../../domenetyper/iaSakProsess";
+import { useHentSamarbeid } from "../../api/lydia-api/spørreundersøkelse";
 
 interface PostProps {
     orgnummer: string;
@@ -79,6 +84,65 @@ export function VurderSak({ orgnummer, onSuccess }: PostProps) {
     );
 }
 
+export function BliEier({ orgnummer, onSuccess }: PostProps) {
+    const [response, setResponse] = useState<object | null>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleSubmit = async () => {
+        setError(null);
+        try {
+            const result = await bliEierNyFlyt(orgnummer);
+            setResponse(result);
+            onSuccess();
+        } catch (e) {
+            setError(e instanceof Error ? e.message : String(e));
+        }
+    };
+
+    return (
+        <EndpointSection
+            title="POST: bliEierNyFlyt"
+            response={response}
+            error={error}
+        >
+            <button onClick={handleSubmit}>Bli eier</button>
+        </EndpointSection>
+    );
+}
+
+export function FølgVirksomhet({ orgnummer, onSuccess }: PostProps) {
+    const { data: iaSak } = useHentSakNyFlyt(orgnummer);
+    const [response, setResponse] = useState<object | null>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    const handleSubmit = async () => {
+        setError(null);
+        if (!iaSak?.saksnummer) {
+            setError("Saksnummer ikke tilgjengelig");
+            return;
+        }
+        try {
+            const result = await leggBrukerTilTeam(iaSak.saksnummer);
+            setResponse(result);
+            onSuccess();
+        } catch (e) {
+            setError(e instanceof Error ? e.message : String(e));
+        }
+    };
+
+    return (
+        <EndpointSection
+            title="POST: leggBrukerTilTeam (Følg virksomheten)"
+            response={response}
+            error={error}
+        >
+            <button onClick={handleSubmit} disabled={!iaSak?.saksnummer}>
+                Følg virksomheten
+            </button>
+        </EndpointSection>
+    );
+}
+
 export function AngreVurdering({ orgnummer, onSuccess }: PostProps) {
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -106,17 +170,53 @@ export function AngreVurdering({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
-    const [årsakJson, setÅrsakJson] = useState(
-        '{"type": "VIRKSOMHETEN_TAKKET_NEI", "begrunnelser": []}',
-    );
+    const [type, setType] = useState("VIRKSOMHETEN_SKAL_VURDERES_SENERE");
+    const [begrunnelser, setBegrunnelser] = useState<string[]>([
+        "VIRKSOMHETEN_ØNSKER_SAMARBEID_SENERE",
+    ]);
+    const [dato, setDato] = useState(() => {
+        const futureDate = new Date();
+        futureDate.setDate(futureDate.getDate() + 90);
+        return futureDate.toISOString().split("T")[0];
+    });
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
+
+    const begrunnelserForType: Record<string, string[]> = {
+        VIRKSOMHETEN_SKAL_VURDERES_SENERE: [
+            "VIRKSOMHETEN_ØNSKER_SAMARBEID_SENERE",
+        ],
+        VIRKSOMHETEN_ER_FERDIG_VURDERT: [
+            "VIRKSOMHETEN_HAR_TAKKET_NEI",
+            "IKKE_DOKUMENTERT_DIALOG_MELLOM_PARTENE",
+        ],
+    };
+
+    const minDate = new Date();
+    minDate.setDate(minDate.getDate() + 1);
+    const minDateStr = minDate.toISOString().split("T")[0];
+
+    const handleTypeChange = (newType: string) => {
+        setType(newType);
+        setBegrunnelser([begrunnelserForType[newType][0]]);
+    };
+
+    const handleBegrunnelseToggle = (begrunnelse: string) => {
+        setBegrunnelser((prev) =>
+            prev.includes(begrunnelse)
+                ? prev.filter((b) => b !== begrunnelse)
+                : [...prev, begrunnelse],
+        );
+    };
 
     const handleSubmit = async () => {
         setError(null);
         try {
-            const årsak = JSON.parse(årsakJson);
-            const result = await avsluttVurderingNyFlyt(orgnummer, årsak);
+            const result = await avsluttVurderingNyFlyt(orgnummer, {
+                type,
+                begrunnelser,
+                dato,
+            });
             setResponse(result);
             onSuccess();
         } catch (e) {
@@ -131,34 +231,65 @@ export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
             error={error}
         >
             <div>
-                <span>ValgtÅrsakDto (JSON):</span>
-                <br />
-                <textarea
-                    value={årsakJson}
-                    onChange={(e) => setÅrsakJson(e.target.value)}
-                    style={{
-                        width: "400px",
-                        height: "60px",
-                        fontFamily: "monospace",
-                    }}
+                <span>type: </span>
+                <select
+                    value={type}
+                    onChange={(e) => handleTypeChange(e.target.value)}
+                >
+                    <option value="VIRKSOMHETEN_SKAL_VURDERES_SENERE">
+                        VIRKSOMHETEN_SKAL_VURDERES_SENERE
+                    </option>
+                    <option value="VIRKSOMHETEN_ER_FERDIG_VURDERT">
+                        VIRKSOMHETEN_ER_FERDIG_VURDERT
+                    </option>
+                </select>
+            </div>
+            <div>
+                <span>begrunnelser: </span>
+                {begrunnelserForType[type].map((b) => (
+                    <label key={b} style={{ display: "block" }}>
+                        <input
+                            type="checkbox"
+                            checked={begrunnelser.includes(b)}
+                            onChange={() => handleBegrunnelseToggle(b)}
+                        />
+                        {b}
+                    </label>
+                ))}
+            </div>
+            <div>
+                <span>dato: </span>
+                <input
+                    type="date"
+                    value={dato}
+                    min={minDateStr}
+                    onChange={(e) => setDato(e.target.value)}
                 />
             </div>
-            <button onClick={handleSubmit}>Fullfør vurdering</button>
+            <button onClick={handleSubmit}>Avslutt vurdering</button>
         </EndpointSection>
     );
 }
 
 export function OpprettSamarbeid({ orgnummer, onSuccess }: PostProps) {
-    const [samarbeidJson, setSamarbeidJson] = useState(
-        '{"id": 0, "saksnummer": "", "navn": "Nytt samarbeid"}',
-    );
+    const { data: iaSak } = useHentSakNyFlyt(orgnummer);
+    const [navn, setNavn] = useState("Nytt samarbeid");
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async () => {
         setError(null);
+        if (!iaSak?.saksnummer) {
+            setError("Saksnummer ikke tilgjengelig");
+            return;
+        }
         try {
-            const nyttSamarbeid = JSON.parse(samarbeidJson);
+            const nyttSamarbeid = {
+                id: 0,
+                saksnummer: iaSak.saksnummer,
+                navn,
+                status: "AKTIV" as const,
+            };
             const result = await opprettSamarbeidNyFlyt(
                 orgnummer,
                 nyttSamarbeid,
@@ -177,19 +308,16 @@ export function OpprettSamarbeid({ orgnummer, onSuccess }: PostProps) {
             error={error}
         >
             <div>
-                <span>IaSakProsess (JSON):</span>
-                <br />
-                <textarea
-                    value={samarbeidJson}
-                    onChange={(e) => setSamarbeidJson(e.target.value)}
-                    style={{
-                        width: "400px",
-                        height: "60px",
-                        fontFamily: "monospace",
-                    }}
-                />
+                <span>saksnummer: </span>
+                <input value={iaSak?.saksnummer ?? "Laster..."} disabled />
             </div>
-            <button onClick={handleSubmit}>Opprett samarbeid</button>
+            <div>
+                <span>navn: </span>
+                <input value={navn} onChange={(e) => setNavn(e.target.value)} />
+            </div>
+            <button onClick={handleSubmit} disabled={!iaSak?.saksnummer}>
+                Opprett samarbeid
+            </button>
         </EndpointSection>
     );
 }
@@ -206,7 +334,8 @@ export function OpprettKartlegging({ orgnummer, onSuccess }: PostProps) {
             const result = await opprettKartleggingNyFlyt(
                 orgnummer,
                 samarbeidId,
-                type,
+                (type.charAt(0).toUpperCase() +
+                    type.slice(1).toLowerCase()) as SpørreundersøkelseType, // Konverterer fra f.eks. "BEHOVSVURDERING" til "Behovsvurdering" for å matche backend
             );
             setResponse(result);
             onSuccess();
@@ -391,14 +520,40 @@ export function OpprettSamarbeidsplan({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function AvsluttSamarbeid({ orgnummer, onSuccess }: PostProps) {
+    const { data: iaSak } = useHentSakNyFlyt(orgnummer);
+    const { data: samarbeidListe } = useHentSamarbeid(
+        orgnummer,
+        iaSak?.saksnummer,
+    );
     const [samarbeidId, setSamarbeidId] = useState("");
+    const [status, setStatus] = useState<"FULLFØRT" | "AVBRUTT">("FULLFØRT");
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
 
+    const selectedSamarbeid = samarbeidListe?.find(
+        (s) => s.id === parseInt(samarbeidId),
+    );
+
     const handleSubmit = async () => {
         setError(null);
+        if (!selectedSamarbeid) {
+            setError("Samarbeid ikke funnet");
+            return;
+        }
         try {
-            const result = await avsluttSamarbeidNyFlyt(orgnummer, samarbeidId);
+            const samarbeid: SamarbeidRequest = {
+                id: selectedSamarbeid.id,
+                navn: selectedSamarbeid.navn,
+                status: status,
+                startDato: null,
+                sluttDato: null,
+                endretTidspunkt: null,
+            };
+            const result = await avsluttSamarbeidNyFlyt(
+                orgnummer,
+                samarbeidId,
+                samarbeid,
+            );
             setResponse(result);
             onSuccess();
         } catch (e) {
@@ -414,12 +569,33 @@ export function AvsluttSamarbeid({ orgnummer, onSuccess }: PostProps) {
         >
             <div>
                 <span>samarbeidId: </span>
-                <input
+                <select
                     value={samarbeidId}
                     onChange={(e) => setSamarbeidId(e.target.value)}
-                />
+                >
+                    <option value="">Velg samarbeid</option>
+                    {samarbeidListe?.map((s) => (
+                        <option key={s.id} value={s.id}>
+                            {s.id} - {s.navn || "(uten navn)"} ({s.status})
+                        </option>
+                    ))}
+                </select>
             </div>
-            <button onClick={handleSubmit}>Avslutt samarbeid</button>
+            <div>
+                <span>status: </span>
+                <select
+                    value={status}
+                    onChange={(e) =>
+                        setStatus(e.target.value as "FULLFØRT" | "AVBRUTT")
+                    }
+                >
+                    <option value="FULLFØRT">FULLFØRT</option>
+                    <option value="AVBRUTT">AVBRUTT</option>
+                </select>
+            </div>
+            <button onClick={handleSubmit} disabled={!selectedSamarbeid}>
+                Avslutt samarbeid
+            </button>
         </EndpointSection>
     );
 }
