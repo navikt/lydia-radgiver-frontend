@@ -2,10 +2,13 @@ import {
     IASak,
     iaSakSchema,
     ValgtÅrsakDto,
+    VirksomhetTilstandDto,
+    virksomhetTilstandDtoSchema,
 } from "../../domenetyper/domenetyper";
 import {
     IaSakProsess,
     iaSakProsessSchema,
+    SamarbeidRequest,
 } from "../../domenetyper/iaSakProsess";
 import { Plan, PlanMal, PlanSchema } from "../../domenetyper/plan";
 import {
@@ -15,6 +18,13 @@ import {
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 import { httpDelete, post, useSwrTemplate } from "./networkRequests";
 import { nyFlytBasePath } from "./paths";
+
+export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
+    return useSwrTemplate<VirksomhetTilstandDto>(
+        orgnummer ? `${nyFlytBasePath}/${orgnummer}/tilstand` : null,
+        virksomhetTilstandDtoSchema,
+    );
+};
 
 export const useHentSakNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<IASak>(
@@ -28,6 +38,10 @@ export const useHentSakNyFlyt = (orgnummer?: string) => {
 
 export const vurderSakNyFlyt = (orgnummer: string): Promise<IASak> => {
     return post(`${nyFlytBasePath}/${orgnummer}/vurder`, iaSakSchema);
+};
+
+export const bliEierNyFlyt = (orgnummer: string): Promise<IASak> => {
+    return post(`${nyFlytBasePath}/${orgnummer}/bli-eier`, iaSakSchema);
 };
 
 export const angreVurderingNyFlyt = (orgnummer: string): Promise<IASak> => {
@@ -135,9 +149,11 @@ export const slettSamarbeidNyFlyt = (
 export const avsluttSamarbeidNyFlyt = (
     orgnummer: string,
     samarbeidId: string,
+    samarbeid: SamarbeidRequest,
 ): Promise<IaSakProsess> => {
     return post(
         `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/avslutt-samarbeid`,
         iaSakProsessSchema,
+        samarbeid,
     );
 };
