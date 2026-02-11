@@ -72,7 +72,7 @@ jobs:
       id-token: write
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/last-ned-pdf'
+    if: github.ref == 'refs/heads/journalfoer'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
