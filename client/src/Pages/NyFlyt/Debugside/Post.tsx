@@ -11,11 +11,11 @@ import {
     opprettSamarbeidsplanNyFlyt,
     avsluttSamarbeidNyFlyt,
     useHentSakNyFlyt,
-} from "../../api/lydia-api/nyFlyt";
-import { leggBrukerTilTeam } from "../../api/lydia-api/team";
-import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
-import { SamarbeidRequest } from "../../domenetyper/iaSakProsess";
-import { useHentSamarbeid } from "../../api/lydia-api/spørreundersøkelse";
+} from "../../../api/lydia-api/nyFlyt";
+import { leggBrukerTilTeam } from "../../../api/lydia-api/team";
+import { SpørreundersøkelseType } from "../../../domenetyper/spørreundersøkelseMedInnhold";
+import { SamarbeidRequest } from "../../../domenetyper/iaSakProsess";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 interface PostProps {
     orgnummer: string;

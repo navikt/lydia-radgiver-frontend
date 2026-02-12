@@ -3,7 +3,7 @@ import {
     slettKartleggingNyFlyt,
     slettSamarbeidsplanNyFlyt,
     slettSamarbeidNyFlyt,
-} from "../../api/lydia-api/nyFlyt";
+} from "../../../api/lydia-api/nyFlyt";
 
 interface DeleteProps {
     orgnummer: string;
