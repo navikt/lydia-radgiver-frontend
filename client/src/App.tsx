@@ -15,6 +15,7 @@ import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
 import { Head } from "@unhead/react";
 import styles from "./app.module.scss";
 import Debugside from "./Pages/NyFlyt/Debugside";
+import { NyVirksomhetsside } from "./Pages/NyFlyt/Virksomhetsside";
 
 const App = () => (
     <BrowserRouter>
@@ -158,6 +159,30 @@ const AppContent = () => {
                             id="maincontent"
                         >
                             <Virksomhetsside />
+                        </main>
+                    }
+                />
+                <Route
+                    path={
+                        "/nyflyt/virksomhet/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"
+                    }
+                    element={
+                        <main
+                            className={styles.fullBreddeAppramme}
+                            id="maincontent"
+                        >
+                            <NyVirksomhetsside />
+                        </main>
+                    }
+                />
+                <Route
+                    path={"/nyflyt/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
+                    element={
+                        <main
+                            className={styles.fullBreddeAppramme}
+                            id="maincontent"
+                        >
+                            <NyVirksomhetsside />
                         </main>
                     }
                 />
