@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 import { Loader } from "@navikt/ds-react";
 import { statiskeSidetitler, useTittel } from "../../../util/useTittel";
 import { loggSideLastet } from "../../../util/analytics-klient";
-import { VirksomhetsVisning } from "../../Virksomhet/VirksomhetsVisning";
+import { VirksomhetsVisning } from "./VirksomhetsVisning";
 import { useHentVirksomhetsinformasjon } from "../../../api/lydia-api/virksomhet";
 
 export const NyVirksomhetsside = () => {

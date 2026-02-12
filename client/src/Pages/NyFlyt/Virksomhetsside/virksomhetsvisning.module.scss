@@ -1,0 +1,72 @@
+@use "../../../styling/contentSpacing.scss" as spacing;
+
+.virksomhetsTabs {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
+
+    .virksomhetsvisning {
+        flex-grow: 1;
+
+        background-color: var(--a-white);
+
+        .samarbeidsvelgerSidebar {
+            width: 16rem;
+            max-width: 16rem;
+            flex-shrink: 0;
+        }
+
+        .innhold {
+            flex-grow: 1;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            justify-content: flex-start;
+            background-color: var(--a-gray-100);
+
+            .statuslinje {
+                padding: 1rem 1.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: space-between;
+                height: 4rem;
+
+                .tittel {
+                    font-weight: var(--a-font-weight-bold);
+                }
+
+                .salesforcelenke {
+                    --a-text-action: var(--a-blue-700);
+                }
+
+                &.aktiv {
+                    background-color: var(--a-blue-100);
+                    .tittel {
+                        color: var(--a-blue-800);
+                    }
+                }
+
+                &.fullført {
+                    background-color: var(--a-green-100);
+                    .tittel {
+                        color: var(--a-green-800);
+                    }
+                }
+
+                &.avbrutt {
+                    background-color: var(--a-orange-100);
+                    .tittel {
+                        color: var(--a-orange-800);
+                    }
+                }
+
+                &.slettet {
+                    background-color: var(--a-red-100);
+                    .tittel {
+                        color: var(--a-red-800);
+                    }
+                }
+            }
+        }
+    }
+}
