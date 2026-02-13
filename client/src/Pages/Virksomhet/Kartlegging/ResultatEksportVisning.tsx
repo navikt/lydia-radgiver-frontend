@@ -5,6 +5,11 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import { loggEksportertTilPdf } from "../../../util/analytics-klient";
 import { kartleggingresultatPdfLenke } from "../../../api/lydia-api/spørreundersøkelse";
+import {
+    formaterSpørreundersøkelsetype,
+    FormatertSpørreundersøkelseType,
+} from "../../../components/Spørreundersøkelse/Spørreundersøkelseliste/utils";
+import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 
 interface ResultatEksportVisningProps {
     iaSak: IASak;
@@ -20,23 +25,37 @@ const ResultatEksportVisning = ({
     }
     const [åpen, setÅpen] = useState(false);
 
+    const lastNedTittel = `Last ned ${formaterSpørreundersøkelsetype(spørreundersøkelse.type, false)}sresultater som pdf`;
+
     return (
         <>
             <Modal
-                aria-label="Last ned kartleggingsresultater som pdf"
+                aria-label={lastNedTittel}
                 open={åpen}
                 onClose={() => setÅpen(false)}
-                header={{ heading: "Last ned kartleggingsresultater som pdf" }}
+                header={{ heading: lastNedTittel }}
             >
                 <Modal.Body>
                     <BodyShort>
-                        Her kan du laste ned resultatene av kartleggingen for
-                        deling videre til arbeidsgiver.
+                        Her kan du laste ned resultatene av{" "}
+                        <FormatertSpørreundersøkelseType
+                            type={spørreundersøkelse.type}
+                            storForbokstav={false}
+                        />
+                        en for deling videre til arbeidsgiver.{" "}
                     </BodyShort>
                     <br />
                     <Detail>
-                        Merk: Dokumentet blir journalført som et utgående
-                        dokument i Gosys.
+                        Merk:{" "}
+                        {formaterSpørreundersøkelsetype(
+                            spørreundersøkelse.type,
+                            true,
+                        )}{" "}
+                        opprettet{" "}
+                        {lokalDatoMedKlokkeslett(
+                            spørreundersøkelse.opprettetTidspunkt,
+                        )}{" "}
+                        blir journalført som et utgående dokument i Gosys.
                     </Detail>
                 </Modal.Body>
                 <Modal.Footer>
