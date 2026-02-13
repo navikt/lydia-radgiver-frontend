@@ -30,6 +30,8 @@ const IA_PROSESS_STATUSER = [
     "FULLFØRT",
     "SLETTET",
     "AVBRUTT",
+    "VURDERT",
+    "AVSLUTTET",
 ] as const;
 
 export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER);
