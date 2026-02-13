@@ -29,6 +29,27 @@ export const dummyVirksomhetsinformasjon: Virksomhet = {
     status: "AKTIV",
     aktivtSaksnummer: "01K5BFZKXHVCSX0659EVJJ0Z29",
 };
+export const dummyVirksomhetsinformasjonNyFlyt: Virksomhet = {
+    orgnr: "895467863",
+    aktivtSaksnummer: null,
+    navn: "Navn 895467863",
+    status: "AKTIV",
+    adresse: ["adresse"],
+    postnummer: "1234",
+    poststed: "POSTSTED",
+    sektor: "Privat og offentlig næringsvirksomhet",
+    næringsundergruppe1: { navn: "Dyrking av ris", kode: "01.120" },
+    næringsundergruppe2: {
+        navn: "Utøvende kunstnerisk virksomhet og underholdningsvirksomhet innenfor scenekunst",
+        kode: "90.202",
+    },
+    næringsundergruppe3: null,
+    næring: {
+        navn: "Jordbruk og tjenester tilknyttet jordbruk, jakt og viltstell",
+        kode: "01",
+    },
+    bransje: null,
+};
 
 export const dummyIaSak: IASak = {
     saksnummer: "01K5BFZKXHVCSX0659EVJJ0Z29",
