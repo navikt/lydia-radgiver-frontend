@@ -8,7 +8,7 @@ import {
 import VirksomhetContext from "../../Virksomhet/VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "./VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
 import styles from "../../Virksomhet/virksomhetsvisning.module.scss";
-import Samarbeidsvelger from "../../Virksomhet/Samarbeidsvelger";
+import Samarbeidsvelger from "./Samarbeidsvelger";
 import {
     IaSakProsess,
     IASamarbeidStatusType,
