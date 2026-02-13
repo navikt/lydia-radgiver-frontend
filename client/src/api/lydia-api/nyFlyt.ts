@@ -26,9 +26,25 @@ export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
     );
 };
 
-export const useHentSakNyFlyt = (orgnummer?: string) => {
+export const useHentSisteSakNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<IASak>(
         () => (orgnummer ? `${nyFlytBasePath}/${orgnummer}` : null),
+        iaSakSchema,
+        {
+            revalidateOnFocus: true,
+        },
+    );
+};
+
+export const useHentSpesifikkSakNyFlyt = (
+    orgnummer?: string,
+    saksnummer?: string,
+) => {
+    return useSwrTemplate<IASak>(
+        () =>
+            orgnummer && saksnummer
+                ? `${nyFlytBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}`
+                : null,
         iaSakSchema,
         {
             revalidateOnFocus: true,

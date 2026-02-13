@@ -1,6 +1,7 @@
 import { VStack } from "@navikt/ds-react";
 import {
-    useHentSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+    useHentSisteSakNyFlyt,
     useHentTilstandForVirksomhetNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
 import {
@@ -74,9 +75,14 @@ function SamarbeidDetaljer({
 }
 
 export default function Oversikt({ orgnummer }: OversiktProps) {
-    const IASak = useHentSakNyFlyt(orgnummer);
+    const sisteIASak = useHentSisteSakNyFlyt(orgnummer);
     const virksomhetTilstand = useHentTilstandForVirksomhetNyFlyt(orgnummer);
-    const samarbeid = useHentSamarbeid(orgnummer, IASak.data?.saksnummer);
+    const samarbeid = useHentSamarbeid(orgnummer, sisteIASak.data?.saksnummer);
+
+    const spesifikkIASak = useHentSpesifikkSakNyFlyt(
+        orgnummer,
+        sisteIASak.data?.saksnummer,
+    );
 
     return (
         <VStack gap="4">
@@ -96,19 +102,40 @@ export default function Oversikt({ orgnummer }: OversiktProps) {
             </div>
 
             <div>
-                <h2>IASak</h2>
-                {IASak.loading && <p>Laster sak...</p>}
-                {IASak.error && <p>Feil ved henting av sak</p>}
-                {IASak.data && (
+                <h2>IASak (siste/nyeste sak)</h2>
+                <p style={{ fontSize: "12px", color: "#666" }}>
+                    Bruker <code>useHentSisteSakNyFlyt</code> → henter kun siste
+                    IASak for virksomheten
+                </p>
+                {sisteIASak.loading && <p>Laster sak...</p>}
+                {sisteIASak.error && <p>Feil ved henting av sak</p>}
+                {sisteIASak.data && (
                     <pre
                         style={{ backgroundColor: "#f0f0f0", padding: "10px" }}
                     >
-                        {JSON.stringify(IASak.data, null, 2)}
+                        {JSON.stringify(sisteIASak.data, null, 2)}
                     </pre>
                 )}
             </div>
 
-            {IASak.data?.saksnummer && (
+            <div>
+                <h2>IASak (basert på saksnummer)</h2>
+                <p style={{ fontSize: "12px", color: "#666" }}>
+                    Bruker <code>useHentSpesifikkSakNyFlyt</code> → kan hente
+                    hvilken som helst sak via saksnummer (også gamle saker)
+                </p>
+                {spesifikkIASak.loading && <p>Laster sak...</p>}
+                {spesifikkIASak.error && <p>Feil ved henting av sak</p>}
+                {spesifikkIASak.data && (
+                    <pre
+                        style={{ backgroundColor: "#f8e8d8", padding: "10px" }}
+                    >
+                        {JSON.stringify(spesifikkIASak.data, null, 2)}
+                    </pre>
+                )}
+            </div>
+
+            {sisteIASak.data?.saksnummer && (
                 <div>
                     <h2>Samarbeid</h2>
                     {samarbeid.loading && <p>Laster samarbeid...</p>}
@@ -118,7 +145,7 @@ export default function Oversikt({ orgnummer }: OversiktProps) {
                               <SamarbeidDetaljer
                                   key={s.id}
                                   orgnummer={orgnummer}
-                                  saksnummer={IASak.data!.saksnummer}
+                                  saksnummer={sisteIASak.data!.saksnummer}
                                   samarbeid={s}
                               />
                           ))
@@ -130,7 +157,7 @@ export default function Oversikt({ orgnummer }: OversiktProps) {
 }
 
 export function useOversiktMutate(orgnummer: string) {
-    const { mutate: mutateSak } = useHentSakNyFlyt(orgnummer);
+    const { mutate: mutateSak } = useHentSisteSakNyFlyt(orgnummer);
     const { mutate: mutateTilstand } =
         useHentTilstandForVirksomhetNyFlyt(orgnummer);
 

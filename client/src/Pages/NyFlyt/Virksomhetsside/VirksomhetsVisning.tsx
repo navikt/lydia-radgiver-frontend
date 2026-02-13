@@ -2,9 +2,7 @@ import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { Button, HStack, Tabs, VStack } from "@navikt/ds-react";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
-import {
-    useHentSalesforceSamarbeidLenke,
-} from "../../../api/lydia-api/virksomhet";
+import { useHentSalesforceSamarbeidLenke } from "../../../api/lydia-api/virksomhet";
 import VirksomhetContext from "../../Virksomhet/VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "./VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
 import styles from "../../Virksomhet/virksomhetsvisning.module.scss";
@@ -30,7 +28,7 @@ import {
     useHentBrukerinformasjon,
 } from "../../../api/lydia-api/bruker";
 import { useHarPlan } from "../../../api/lydia-api/plan";
-import { useHentSakNyFlyt } from "../../../api/lydia-api/nyFlyt";
+import { useHentSisteSakNyFlyt } from "../../../api/lydia-api/nyFlyt";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -39,7 +37,7 @@ interface Props {
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     const { /* saksnummer, */ prosessId } = useParams();
 
-    const { data: iaSak, loading: lasterIaSak } = useHentSakNyFlyt(
+    const { data: iaSak, loading: lasterIaSak } = useHentSisteSakNyFlyt(
         virksomhet.orgnr,
         //saksnummer ?? virksomhet.aktivtSaksnummer ?? undefined,
     );
@@ -232,9 +230,7 @@ function Salesforcelenke({ samarbeidId }: { samarbeidId: number }) {
 
     return (
         <EksternLenke
-            href={
-                salesforceSamarbeidsLenke.salesforceLenke
-            }
+            href={salesforceSamarbeidsLenke.salesforceLenke}
             className={styles.salesforcelenke}
         >
             Salesforce - samarbeid

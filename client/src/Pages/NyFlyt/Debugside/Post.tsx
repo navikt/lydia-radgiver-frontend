@@ -10,7 +10,7 @@ import {
     fullførKartleggingNyFlyt,
     opprettSamarbeidsplanNyFlyt,
     avsluttSamarbeidNyFlyt,
-    useHentSakNyFlyt,
+    useHentSisteSakNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
 import { leggBrukerTilTeam } from "../../../api/lydia-api/team";
 import { SpørreundersøkelseType } from "../../../domenetyper/spørreundersøkelseMedInnhold";
@@ -111,7 +111,7 @@ export function BliEier({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function FølgVirksomhet({ orgnummer, onSuccess }: PostProps) {
-    const { data: iaSak } = useHentSakNyFlyt(orgnummer);
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
 
@@ -272,7 +272,7 @@ export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function OpprettSamarbeid({ orgnummer, onSuccess }: PostProps) {
-    const { data: iaSak } = useHentSakNyFlyt(orgnummer);
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
     const [navn, setNavn] = useState("Nytt samarbeid");
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -520,7 +520,7 @@ export function OpprettSamarbeidsplan({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function AvsluttSamarbeid({ orgnummer, onSuccess }: PostProps) {
-    const { data: iaSak } = useHentSakNyFlyt(orgnummer);
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
     const { data: samarbeidListe } = useHentSamarbeid(
         orgnummer,
         iaSak?.saksnummer,
