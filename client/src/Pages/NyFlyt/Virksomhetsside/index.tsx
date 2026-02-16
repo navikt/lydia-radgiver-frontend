@@ -4,14 +4,14 @@ import { Loader } from "@navikt/ds-react";
 import { statiskeSidetitler, useTittel } from "../../../util/useTittel";
 import { loggSideLastet } from "../../../util/analytics-klient";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
-import { useHentVirksomhetsinformasjon } from "../../../api/lydia-api/virksomhet";
+import { useHentVirksomhetNyFlyt } from "../../../api/lydia-api/nyFlyt";
 
 export const NyVirksomhetsside = () => {
     const { oppdaterTittel } = useTittel(statiskeSidetitler.virksomhetsside);
     const { orgnummer } = useParams();
 
     const { data: virksomhetsinformasjon, loading: lasterVirksomhet } =
-        useHentVirksomhetsinformasjon(orgnummer);
+        useHentVirksomhetNyFlyt(orgnummer);
 
     useEffect(() => {
         if (virksomhetsinformasjon) {

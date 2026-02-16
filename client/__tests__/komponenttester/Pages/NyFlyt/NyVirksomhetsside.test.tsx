@@ -110,6 +110,12 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
             };
         }),
         vurderSakNyFlyt: jest.fn(() => Promise.resolve()),
+        useHentVirksomhetNyFlyt: jest.fn(() => {
+            return {
+                data: dummyVirksomhetsinformasjonNyFlyt,
+                loading: false,
+            };
+        }),
     };
 });
 
