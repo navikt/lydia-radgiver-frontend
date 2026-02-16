@@ -18,6 +18,7 @@ import {
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 import { httpDelete, post, useSwrTemplate } from "./networkRequests";
 import { nyFlytBasePath } from "./paths";
+import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
 
 export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<VirksomhetTilstandDto>(
@@ -26,9 +27,22 @@ export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
     );
 };
 
+export const useHentVirksomhetNyFlyt = (orgnummer?: string) => {
+    return useSwrTemplate<Virksomhet>(
+        () => (orgnummer ? `${nyFlytBasePath}/virksomhet/${orgnummer}` : null),
+        virksomhetsSchema,
+        {
+            revalidateOnFocus: true,
+        },
+    );
+};
+
 export const useHentSisteSakNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<IASak>(
-        () => (orgnummer ? `${nyFlytBasePath}/${orgnummer}` : null),
+        () =>
+            orgnummer
+                ? `${nyFlytBasePath}/virksomhet/${orgnummer}/samarbeidsperiode`
+                : null,
         iaSakSchema,
         {
             revalidateOnFocus: true,

@@ -3,6 +3,7 @@ import {
     useHentSpesifikkSakNyFlyt,
     useHentSisteSakNyFlyt,
     useHentTilstandForVirksomhetNyFlyt,
+    useHentVirksomhetNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
 import {
     useHentSamarbeid,
@@ -75,17 +76,34 @@ function SamarbeidDetaljer({
 }
 
 export default function Oversikt({ orgnummer }: OversiktProps) {
-    const sisteIASak = useHentSisteSakNyFlyt(orgnummer);
+    const virksomhet = useHentVirksomhetNyFlyt(orgnummer);
+
     const virksomhetTilstand = useHentTilstandForVirksomhetNyFlyt(orgnummer);
-    const samarbeid = useHentSamarbeid(orgnummer, sisteIASak.data?.saksnummer);
+
+    const sisteIASak = useHentSisteSakNyFlyt(orgnummer);
 
     const spesifikkIASak = useHentSpesifikkSakNyFlyt(
         orgnummer,
         sisteIASak.data?.saksnummer,
     );
 
+    const samarbeid = useHentSamarbeid(orgnummer, sisteIASak.data?.saksnummer);
+
     return (
         <VStack gap="4">
+            <div>
+                <h2>Virksomhet</h2>
+                {virksomhet.loading && <p>Laster virksomhet...</p>}
+                {virksomhet.error && <p>Feil ved henting av virksomhet</p>}
+                {virksomhet.data && (
+                    <pre
+                        style={{ backgroundColor: "#f0f8dd", padding: "10px" }}
+                    >
+                        {JSON.stringify(virksomhet.data, null, 2)}
+                    </pre>
+                )}
+            </div>
+
             <div>
                 <h2>virksomhetTilstand</h2>
                 {virksomhetTilstand.loading && <p>Laster tilstand...</p>}
