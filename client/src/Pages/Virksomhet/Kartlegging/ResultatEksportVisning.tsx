@@ -23,6 +23,7 @@ const ResultatEksportVisning = ({
     if (spørreundersøkelse.status !== "AVSLUTTET") {
         return null;
     }
+    const [erLastetNed, setErLastetNed] = useState(false);
     const [åpen, setÅpen] = useState(false);
 
     const lastNedTittel = `Last ned ${formaterSpørreundersøkelsetype(spørreundersøkelse.type, false)}sresultater som pdf`;
@@ -68,6 +69,7 @@ const ResultatEksportVisning = ({
                         )}
                         onClick={() => {
                             setÅpen(false);
+                            setErLastetNed(true);
                         }}
                     >
                         Last ned
@@ -83,6 +85,7 @@ const ResultatEksportVisning = ({
                 </Modal.Footer>
             </Modal>
             <Button
+                disabled={erLastetNed}
                 icon={<FilePdfIcon fontSize="1.5rem" aria-hidden />}
                 iconPosition="right"
                 variant="secondary"
@@ -92,7 +95,7 @@ const ResultatEksportVisning = ({
                     setÅpen(true);
                 }}
             >
-                Last ned
+                {erLastetNed ? "Lastet ned" : "Last ned"}
             </Button>
         </>
     );
