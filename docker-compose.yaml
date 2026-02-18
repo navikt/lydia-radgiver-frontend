@@ -146,6 +146,8 @@ services:
       SALESFORCE_PASSWORD: password
       SALESFORCE_SECURITY_TOKEN: securityToken
       PIA_PDFGEN_URL: http://pia-pdfgen
+      JOURNALPOST_V1_URL: http://joark
+      JOURNALPOST_SCOPE: scope
     restart: unless-stopped
 
   valkey:
