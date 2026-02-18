@@ -16,6 +16,10 @@ import { leggBrukerTilTeam } from "../../../api/lydia-api/team";
 import { SpørreundersøkelseType } from "../../../domenetyper/spørreundersøkelseMedInnhold";
 import { SamarbeidRequest } from "../../../domenetyper/iaSakProsess";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import {
+    NyFlytBegrunnelse,
+    NyFlytÅrsakType,
+} from "../../../domenetyper/domenetyper";
 
 interface PostProps {
     orgnummer: string;
@@ -170,8 +174,10 @@ export function AngreVurdering({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
-    const [type, setType] = useState("VIRKSOMHETEN_SKAL_VURDERES_SENERE");
-    const [begrunnelser, setBegrunnelser] = useState<string[]>([
+    const [type, setType] = useState<NyFlytÅrsakType>(
+        "VIRKSOMHETEN_SKAL_VURDERES_SENERE",
+    );
+    const [begrunnelser, setBegrunnelser] = useState<NyFlytBegrunnelse[]>([
         "VIRKSOMHETEN_ØNSKER_SAMARBEID_SENERE",
     ]);
     const [dato, setDato] = useState(() => {
@@ -182,7 +188,7 @@ export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
 
-    const begrunnelserForType: Record<string, string[]> = {
+    const begrunnelserForType: Record<NyFlytÅrsakType, NyFlytBegrunnelse[]> = {
         VIRKSOMHETEN_SKAL_VURDERES_SENERE: [
             "VIRKSOMHETEN_ØNSKER_SAMARBEID_SENERE",
         ],
@@ -196,12 +202,12 @@ export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
     minDate.setDate(minDate.getDate() + 1);
     const minDateStr = minDate.toISOString().split("T")[0];
 
-    const handleTypeChange = (newType: string) => {
+    const handleTypeChange = (newType: NyFlytÅrsakType) => {
         setType(newType);
         setBegrunnelser([begrunnelserForType[newType][0]]);
     };
 
-    const handleBegrunnelseToggle = (begrunnelse: string) => {
+    const handleBegrunnelseToggle = (begrunnelse: NyFlytBegrunnelse) => {
         setBegrunnelser((prev) =>
             prev.includes(begrunnelse)
                 ? prev.filter((b) => b !== begrunnelse)
@@ -234,7 +240,9 @@ export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
                 <span>type: </span>
                 <select
                     value={type}
-                    onChange={(e) => handleTypeChange(e.target.value)}
+                    onChange={(e) =>
+                        handleTypeChange(e.target.value as NyFlytÅrsakType)
+                    }
                 >
                     <option value="VIRKSOMHETEN_SKAL_VURDERES_SENERE">
                         VIRKSOMHETEN_SKAL_VURDERES_SENERE

@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { axe } from "jest-axe";
 
@@ -119,6 +119,23 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
     };
 });
 
+jest.mock("../../../../src/api/lydia-api/bruker", () => {
+    return {
+        ...jest.requireActual("../../../../src/api/lydia-api/bruker"),
+        useHentBrukerinformasjon: jest.fn(() => {
+            return {
+                data: {
+                    ident: "Z123456",
+                    navn: "Test Testesen",
+                    epost: "",
+                    rolle: "Superbruker",
+                },
+                loading: false,
+            };
+        }),
+    };
+});
+
 jest.mock("react-router-dom", () => {
     const originalModule = jest.requireActual("react-router-dom");
     return {
@@ -164,7 +181,12 @@ describe("NyVirksomhetsside", () => {
             );
             expect(vurderSakNyFlyt).not.toHaveBeenCalled();
             const vurderSakKnapp = getByText("Vurder virksomheten");
+            expect(vurderSakKnapp).toBeInTheDocument();
+            expect(vurderSakKnapp).not.toBeDisabled();
             vurderSakKnapp.click();
+            await waitFor(() =>
+                expect(vurderSakNyFlyt).toHaveBeenCalledTimes(1),
+            );
             expect(vurderSakNyFlyt).toHaveBeenCalledWith(
                 dummyVirksomhetsinformasjonNyFlyt.orgnr,
             );

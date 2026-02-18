@@ -6,7 +6,6 @@ import {
     Heading,
     HStack,
     Popover,
-    Skeleton,
     Tabs,
     VStack,
 } from "@navikt/ds-react";
@@ -27,17 +26,13 @@ import { loggÅpnetVirksomhetsinfo } from "../../../../util/analytics-klient";
 import { InternLenke } from "../../../../components/InternLenke";
 import { useErPåInaktivSak } from "../../../Virksomhet/VirksomhetContext";
 
-import styles from "./virksomhetsinfoheader.module.scss";
+import styles from "./virksomhetsheader.module.scss";
 import Sakshistorikkmodal from "../../../Virksomhet/Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
 import Sykefraværsstatistikkmodal from "../../../Virksomhet/Statistikk/Sykefraværsstatistikkmodal";
 import { lokalDato } from "../../../../util/dato";
-import {
-    useHentTilstandForVirksomhetNyFlyt,
-    vurderSakNyFlyt,
-} from "../../../../api/lydia-api/nyFlyt";
-import { useOversiktMutate } from "../../Debugside/Oversikt";
+import { Topplinje } from "./Topplinje";
 
-export default function VirksomhetOgSamarbeidsHeader({
+export default function Virksomhetsheader({
     virksomhet,
     iaSak,
     valgtSamarbeid,
@@ -60,21 +55,6 @@ export default function VirksomhetOgSamarbeidsHeader({
                         iaSak={iaSak}
                         samarbeid={valgtSamarbeid}
                     />
-                    {/* <HStack gap={"4"}>
-                        <SaksgangDropdown
-                            virksomhet={virksomhet}
-                            iaSak={iaSak}
-                        />
-                        <EierskapKnapp iaSak={iaSak} />
-                        {salesforceInfo && (
-                            <EksternLenke
-                                className={styles.salesforceLenke}
-                                href={salesforceInfo?.url}
-                            >
-                                Salesforce - virksomhet
-                            </EksternLenke>
-                        )}
-                    </HStack> */}
                     <HStack align={"center"} width={"100%"}>
                         <HStack
                             gap={"4"}
@@ -140,69 +120,7 @@ export default function VirksomhetOgSamarbeidsHeader({
     );
 }
 
-function Topplinje({
-    virksomhet,
-    /* iaSak,
-    samarbeid, */
-}: {
-    virksomhet: Virksomhet;
-    iaSak?: IASak;
-    samarbeid?: IaSakProsess;
-}) {
-    const mutate = useOversiktMutate(virksomhet.orgnr);
-    const [error, setError] = useState<string | null>(null);
-    const [lasterHandling, setLasterHandling] = useState(false);
-    const { data: tilstand, loading: tilstandLoading } =
-        useHentTilstandForVirksomhetNyFlyt(virksomhet.orgnr);
-
-    if (error) {
-        return <HStack gap="4">ERROR: {error}</HStack>;
-    }
-
-    if (tilstandLoading) {
-        // TODO: Pen loading
-        return (
-            <HStack gap={"4"}>
-                <Skeleton width={100} />
-                <Skeleton width={60} />
-                <Salesforcelenke orgnr={virksomhet.orgnr} />
-            </HStack>
-        );
-    }
-
-    if (tilstand?.tilstand === "VirksomhetKlarTilVurdering") {
-        const handleSubmit = async () => {
-            setError(null);
-            setLasterHandling(true);
-            try {
-                await vurderSakNyFlyt(virksomhet.orgnr);
-                setLasterHandling(false);
-                mutate();
-            } catch (e) {
-                setError(e instanceof Error ? e.message : String(e));
-                setLasterHandling(false);
-            }
-        };
-        return (
-            <HStack gap={"4"}>
-                <Button
-                    onClick={handleSubmit}
-                    disabled={lasterHandling}
-                    loading={lasterHandling}
-                    size="small"
-                >
-                    Vurder virksomheten
-                </Button>
-                {/* <EierskapKnapp iaSak={iaSak} /> */}
-                <Salesforcelenke orgnr={virksomhet.orgnr} />
-            </HStack>
-        );
-    }
-
-    return "Ikke implementert";
-}
-
-function Salesforcelenke({ orgnr }: { orgnr: string }) {
+export function Salesforcelenke({ orgnr }: { orgnr: string }) {
     const { data: salesforceInfo } = useHentSalesforceUrl(orgnr);
 
     if (salesforceInfo) {

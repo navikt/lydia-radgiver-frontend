@@ -187,3 +187,26 @@ export const virksomhetTilstandDtoSchema = z.object({
 
 export type VirksomhetTilstandDto = z.infer<typeof virksomhetTilstandDtoSchema>;
 export type VirksomhetIATilstand = z.infer<typeof VirksomhetIATilstandEnum>;
+
+export const nyFlytBegrunnelseEnum = z.enum([
+    "VIRKSOMHETEN_HAR_IKKE_SVART",
+    "VIRKSOMHETEN_HAR_TAKKET_NEI",
+    "IKKE_DOKUMENTERT_DIALOG_MELLOM_PARTENE",
+    "FOR_FÅ_TAPTE_DAGSVERK",
+    "INTERN_VURDERING_FØR_KONTAKT",
+    "NAV_HAR_IKKE_KAPASITET",
+    "VIRKSOMHETEN_ØNSKER_SAMARBEID_SENERE",
+]);
+export type NyFlytBegrunnelse = z.infer<typeof nyFlytBegrunnelseEnum>;
+
+export const nyFlytÅrsakTypeEnum = z.enum([
+    "VIRKSOMHETEN_SKAL_VURDERES_SENERE",
+    "VIRKSOMHETEN_ER_FERDIG_VURDERT",
+]);
+export type NyFlytÅrsakType = z.infer<typeof nyFlytÅrsakTypeEnum>;
+
+export type ValgtÅrsakNyFlytDto = {
+    type: NyFlytÅrsakType;
+    begrunnelser: NyFlytBegrunnelse[];
+    dato?: string;
+};

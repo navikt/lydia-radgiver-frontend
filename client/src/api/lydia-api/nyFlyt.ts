@@ -1,7 +1,7 @@
 import {
     IASak,
     iaSakSchema,
-    ValgtÅrsakDto,
+    ValgtÅrsakNyFlytDto,
     VirksomhetTilstandDto,
     virksomhetTilstandDtoSchema,
 } from "../../domenetyper/domenetyper";
@@ -80,7 +80,7 @@ export const angreVurderingNyFlyt = (orgnummer: string): Promise<IASak> => {
 
 export const avsluttVurderingNyFlyt = (
     orgnummer: string,
-    årsak: ValgtÅrsakDto,
+    årsak: ValgtÅrsakNyFlytDto,
 ): Promise<IASak> => {
     return post(
         `${nyFlytBasePath}/${orgnummer}/avslutt-vurdering`,

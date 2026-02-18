@@ -4,7 +4,7 @@ import { Button, HStack, Tabs, VStack } from "@navikt/ds-react";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useHentSalesforceSamarbeidLenke } from "../../../api/lydia-api/virksomhet";
 import VirksomhetContext from "../../Virksomhet/VirksomhetContext";
-import VirksomhetOgSamarbeidsHeader from "./VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
+import Virksomhetsheader from "./Virksomhetsheader";
 import styles from "../../Virksomhet/virksomhetsvisning.module.scss";
 import Samarbeidsvelger from "./Samarbeidsvelger";
 import {
@@ -78,7 +78,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     className={styles.virksomhetsTabs}
                 >
                     <VStack className={styles.virksomhetsvisning} gap="0">
-                        <VirksomhetOgSamarbeidsHeader
+                        <Virksomhetsheader
                             valgtSamarbeid={valgtSamarbeid}
                             virksomhet={virksomhet}
                             iaSak={iaSak}
