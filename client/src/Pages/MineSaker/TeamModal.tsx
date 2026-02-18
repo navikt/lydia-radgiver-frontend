@@ -3,9 +3,9 @@ import { useHentMineSaker } from "../../api/lydia-api/sak";
 import { IASak } from "../../domenetyper/domenetyper";
 import TeamInnhold from "./TeamInnhold";
 import React from "react";
-import { TaEierskapModal } from "./TaEierSkapModal";
 
 import styles from "./minesaker.module.scss";
+
 interface TeamModalProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;
@@ -20,7 +20,8 @@ export const TeamModal = ({
     erPåMineSaker = false,
 }: TeamModalProps) => {
     const { mutate: muterMineSaker } = useHentMineSaker();
-    const [taEierskapModalÅpen, setTaEierskapModalÅpen] = React.useState(false);
+    const [, /*taEierskapModalÅpen*/ setTaEierskapModalÅpen] =
+        React.useState(false);
 
     return (
         <>
@@ -60,14 +61,14 @@ export const TeamModal = ({
                     </Button>
                 </Modal.Footer>
             </Modal>
-            <TaEierskapModal
-                erModalÅpen={taEierskapModalÅpen}
-                lukkModal={() => {
-                    setTaEierskapModalÅpen(false);
-                    setOpen(false);
-                }}
-                iaSak={iaSak}
-            />
+            {/*<TaEierskapModal*/}
+            {/*    erModalÅpen={taEierskapModalÅpen}*/}
+            {/*    lukkModal={() => {*/}
+            {/*        setTaEierskapModalÅpen(false);*/}
+            {/*        setOpen(false);*/}
+            {/*    }}*/}
+            {/*    iaSak={iaSak}*/}
+            {/*/>*/}
         </>
     );
 };
