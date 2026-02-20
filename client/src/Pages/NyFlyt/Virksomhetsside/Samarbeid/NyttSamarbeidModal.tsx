@@ -1,4 +1,4 @@
-import { IASak } from "../../../domenetyper/domenetyper";
+import { IASak } from "../../../../domenetyper/domenetyper";
 import {
     BodyShort,
     Button,
@@ -13,13 +13,14 @@ import React, { useState } from "react";
 import {
     useHentSakForVirksomhet,
     useHentSakshistorikk,
-} from "../../../api/lydia-api/virksomhet";
-import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
-import { MAX_LENGDE_SAMARBEIDSNAVN } from "./EndreSamarbeidModal/EndreSamarbeidInnhold";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
-import { Virksomhet } from "../../../domenetyper/virksomhet";
-import { EksternLenke } from "../../../components/EksternLenke";
+} from "../../../../api/lydia-api/virksomhet";
+import { MAX_LENGDE_SAMARBEIDSNAVN } from "../../../Virksomhet/Samarbeid/EndreSamarbeidModal/EndreSamarbeidInnhold";
+import { useNavigate } from "react-router-dom";
+import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
+import { Virksomhet } from "../../../../domenetyper/virksomhet";
+import { EksternLenke } from "../../../../components/EksternLenke";
 import styles from "./samarbeid.module.scss";
+import { opprettSamarbeidNyFlyt } from "../../../../api/lydia-api/nyFlyt";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
@@ -62,29 +63,30 @@ export const NyttSamarbeidModal = ({
         samarbeidData?.find(
             (s) => s.navn?.toLowerCase() === navn.toLowerCase(),
         ) === undefined;
+    const navigate = useNavigate();
 
     const nyttSamarbeid = () => {
         const nyttNavn = navn.trim();
-        nyHendelsePåSak(
-            iaSak,
-            {
-                saksHendelsestype: "NY_PROSESS",
-                gyldigeÅrsaker: [],
-            },
-            null,
-            {
-                id: 0,
-                status: "AKTIV",
-                saksnummer: iaSak.saksnummer,
-                navn: nyttNavn,
-                sistEndret: null,
-                opprettet: null,
-            },
-        )
+        opprettSamarbeidNyFlyt(virksomhet.orgnr, {
+            id: 0, // TODO: WHAT?
+            saksnummer: iaSak.saksnummer,
+            navn,
+            status: "AKTIV" as const, // TODO: WHAT?
+        })
             .then(() => {
                 hentAktivSakPåNytt();
                 hentHistorikkPåNytt();
-                hentSamarbeidPåNytt();
+                hentSamarbeidPåNytt().then((alleSamarbeidListe) => {
+                    const sisteNyeSamarbeid = alleSamarbeidListe
+                        ?.filter((s) => s.navn === nyttNavn)
+                        .sort((a, b) => b.id - a.id)[0];
+
+                    navigate(
+                        sisteNyeSamarbeid
+                            ? `/virksomhet/${iaSak.orgnr}/sak/${iaSak.saksnummer}/samarbeid/${sisteNyeSamarbeid.id}`
+                            : `/virksomhet/${iaSak.orgnr}`,
+                    );
+                });
             })
             .finally(lukkModal);
     };

@@ -1,4 +1,10 @@
-import { render, screen, waitFor } from "@testing-library/react";
+import {
+    fireEvent,
+    render,
+    screen,
+    waitFor,
+    within,
+} from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { axe } from "jest-axe";
 
@@ -16,9 +22,12 @@ import {
 } from "../../../../__mocks__/virksomhetsMockData";
 import {
     useHentTilstandForVirksomhetNyFlyt,
+    useHentSisteSakNyFlyt,
+    useHentVirksomhetNyFlyt,
     vurderSakNyFlyt,
     avsluttVurderingNyFlyt,
     angreVurderingNyFlyt,
+    opprettSamarbeidNyFlyt,
 } from "../../../../src/api/lydia-api/nyFlyt";
 import { useHentSakForVirksomhet } from "../../../../src/api/lydia-api/virksomhet";
 import { useHentTeam } from "../../../../src/api/lydia-api/team";
@@ -45,6 +54,7 @@ jest.mock("../../../../src/api/lydia-api/virksomhet", () => {
             return {
                 data: dummyIaSak,
                 loading: false,
+                mutate: jest.fn(),
             };
         }),
         useHentSakshistorikk: jest.fn(() => {
@@ -52,6 +62,7 @@ jest.mock("../../../../src/api/lydia-api/virksomhet", () => {
                 data: dummySakshistorikk,
                 loading: false,
                 validating: false,
+                mutate: jest.fn(),
             };
         }),
         useHentPubliseringsinfo: jest.fn(() => {
@@ -91,6 +102,7 @@ jest.mock("../../../../src/api/lydia-api/spørreundersøkelse", () => {
                 data: [],
                 loading: false,
                 validating: false,
+                mutate: jest.fn(() => Promise.resolve([])),
             };
         }),
         useSpørreundersøkelsesliste: jest.fn(() => {
@@ -119,6 +131,11 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
         vurderSakNyFlyt: jest.fn(() => Promise.resolve()),
         avsluttVurderingNyFlyt: jest.fn(() => Promise.resolve()),
         angreVurderingNyFlyt: jest.fn(() => Promise.resolve()),
+        opprettSamarbeidNyFlyt: jest.fn(() => Promise.resolve()),
+        useHentSisteSakNyFlyt: jest.fn(() => ({
+            data: undefined,
+            loading: false,
+        })),
         useHentVirksomhetNyFlyt: jest.fn(() => {
             return {
                 data: dummyVirksomhetsinformasjonNyFlyt,
@@ -463,6 +480,127 @@ describe("NyVirksomhetsside", () => {
             );
             const results = await axe(container);
             expect(results).toHaveNoViolations();
+        });
+
+        describe("NyttSamarbeidModal", () => {
+            const iaSakVurderes = {
+                ...dummyIaSak,
+                status: "VURDERES" as const,
+                orgnr: dummyVirksomhetsinformasjonNyFlyt.orgnr,
+                eidAv: "Z123456",
+            };
+
+            beforeEach(() => {
+                jest.mocked(useHentSisteSakNyFlyt).mockReturnValue({
+                    data: iaSakVurderes,
+                    loading: false,
+                    error: null,
+                    mutate: jest.fn(),
+                    validating: false,
+                });
+                jest.mocked(useHentVirksomhetNyFlyt).mockReturnValue({
+                    data: {
+                        ...dummyVirksomhetsinformasjonNyFlyt,
+                        aktivtSaksnummer: iaSakVurderes.saksnummer,
+                    },
+                    loading: false,
+                    error: null,
+                    mutate: jest.fn(),
+                    validating: false,
+                });
+            });
+
+            it("Viser legg til samarbeid-knapp og åpner modalen", () => {
+                render(
+                    <BrowserRouter>
+                        <NyVirksomhetsside />
+                    </BrowserRouter>,
+                );
+
+                const leggTilKnapp = screen.getByTitle(
+                    "Legg til nytt samarbeid",
+                );
+                expect(leggTilKnapp).toBeInTheDocument();
+                fireEvent.click(leggTilKnapp);
+
+                const modal = screen.getByRole("dialog", {
+                    name: "Opprett nytt samarbeid",
+                });
+                expect(
+                    within(modal).getByText("Opprett nytt samarbeid"),
+                ).toBeInTheDocument();
+                expect(within(modal).getByText("Opprett")).toBeInTheDocument();
+                expect(within(modal).getByText("Avbryt")).toBeInTheDocument();
+            });
+
+            it("Kaller opprettSamarbeidNyFlyt med riktige argumenter", async () => {
+                render(
+                    <BrowserRouter>
+                        <NyVirksomhetsside />
+                    </BrowserRouter>,
+                );
+
+                fireEvent.click(screen.getByTitle("Legg til nytt samarbeid"));
+                const modal = screen.getByRole("dialog", {
+                    name: "Opprett nytt samarbeid",
+                });
+                const input = within(modal).getByRole("textbox");
+                fireEvent.change(input, {
+                    target: { value: "Avdeling Oslo" },
+                });
+                fireEvent.click(within(modal).getByText("Opprett"));
+
+                await waitFor(() => {
+                    expect(opprettSamarbeidNyFlyt).toHaveBeenCalledTimes(1);
+                });
+                expect(opprettSamarbeidNyFlyt).toHaveBeenCalledWith(
+                    dummyVirksomhetsinformasjonNyFlyt.orgnr,
+                    expect.objectContaining({
+                        saksnummer: iaSakVurderes.saksnummer,
+                        navn: "Avdeling Oslo",
+                        status: "AKTIV",
+                    }),
+                );
+            });
+
+            it("Lukker modalen ved klikk på Avbryt", () => {
+                render(
+                    <BrowserRouter>
+                        <NyVirksomhetsside />
+                    </BrowserRouter>,
+                );
+
+                fireEvent.click(screen.getByTitle("Legg til nytt samarbeid"));
+                const modal = screen.getByRole("dialog", {
+                    name: "Opprett nytt samarbeid",
+                });
+                expect(
+                    within(modal).getByText("Opprett nytt samarbeid"),
+                ).toBeInTheDocument();
+
+                fireEvent.click(within(modal).getByText("Avbryt"));
+                expect(
+                    screen.queryByRole("dialog", {
+                        name: "Opprett nytt samarbeid",
+                    }),
+                ).not.toBeInTheDocument();
+            });
+
+            it("Opprett-knappen er deaktivert når navn er tomt", () => {
+                render(
+                    <BrowserRouter>
+                        <NyVirksomhetsside />
+                    </BrowserRouter>,
+                );
+
+                fireEvent.click(screen.getByTitle("Legg til nytt samarbeid"));
+                const modal = screen.getByRole("dialog", {
+                    name: "Opprett nytt samarbeid",
+                });
+                expect(
+                    within(modal).getByRole("button", { name: "Opprett" }),
+                ).toBeDisabled();
+            });
         });
     });
 });

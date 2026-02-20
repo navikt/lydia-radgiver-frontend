@@ -1,12 +1,15 @@
 import React from "react";
 
 import { Button, HStack, ReadMore, Skeleton } from "@navikt/ds-react";
-import { IAProsessStatusEnum, IASak } from "../../../../domenetyper/domenetyper";
+import {
+    IAProsessStatusEnum,
+    IASak,
+} from "../../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import styles from "./samarbeidsvelger.module.scss";
 import { SamarbeidStatusBadge } from "../../../../components/Badge/SamarbeidStatusBadge";
 import { InternLenke } from "../../../../components/InternLenke";
-import { NyttSamarbeidModal } from "../../../Virksomhet/Samarbeid/NyttSamarbeidModal";
+import { NyttSamarbeidModal } from "../Samarbeid/NyttSamarbeidModal";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 import { useHentTeam } from "../../../../api/lydia-api/team";
@@ -56,7 +59,10 @@ export default function Samarbeidsvelger({
         );
     }
 
-    if (iaSak?.saksnummer && iaSak?.saksnummer !== virksomhet.aktivtSaksnummer) {
+    if (
+        iaSak?.saksnummer &&
+        iaSak?.saksnummer !== virksomhet.aktivtSaksnummer
+    ) {
         return (
             <AvsluttedeSamarbeidVelger
                 samarbeid={samarbeidsliste || []}
@@ -150,15 +156,9 @@ function Samarbeidvelgeroverskrift({
                     ? `Samarbeid${samarbeid && ` (${samarbeid.length})`}`
                     : "Ingen aktive samarbeid"}
             </h3>
-            {iaSak &&
-                virksomhet &&
-                (iaSak.status === "KARTLEGGES" ||
-                    iaSak.status === "VI_BISTÅR") && (
-                    <LeggTilSamarbeidKnapp
-                        iaSak={iaSak}
-                        virksomhet={virksomhet}
-                    />
-                )}
+            {iaSak && virksomhet && iaSak.status === "VURDERES" && (
+                <LeggTilSamarbeidKnapp iaSak={iaSak} virksomhet={virksomhet} />
+            )}
         </HStack>
     );
 }
