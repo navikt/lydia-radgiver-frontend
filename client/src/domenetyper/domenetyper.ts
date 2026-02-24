@@ -162,7 +162,7 @@ export interface IANySakshendelseDto {
     payload?: string;
 }
 
-const VirksomhetIATilstandEnum = z.enum([
+export const VirksomhetIATilstandEnum = z.enum([
     "VirksomhetKlarTilVurdering",
     "VirksomhetVurderes",
     "VirksomhetErVurdert",

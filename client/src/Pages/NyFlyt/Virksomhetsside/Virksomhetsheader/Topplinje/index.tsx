@@ -10,11 +10,15 @@ import {
     vurderSakNyFlyt,
 } from "../../../../../api/lydia-api/nyFlyt";
 import { useHentTeam } from "../../../../../api/lydia-api/team";
-import { IASak } from "../../../../../domenetyper/domenetyper";
+import {
+    IASak,
+    VirksomhetIATilstandEnum,
+} from "../../../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../../../domenetyper/iaSakProsess";
 import { Virksomhet } from "../../../../../domenetyper/virksomhet";
 import { useOversiktMutate } from "../../../Debugside/Oversikt";
 import { VirksomhetVurderes } from "./VirksomhetVurderes";
+import VirksomhetErVurdert from "./VirksomhetErVurdert";
 
 export function Topplinje({
     virksomhet,
@@ -56,7 +60,10 @@ export function Topplinje({
         );
     }
 
-    if (tilstand?.tilstand === "VirksomhetKlarTilVurdering") {
+    if (
+        tilstand?.tilstand ===
+        VirksomhetIATilstandEnum.enum.VirksomhetKlarTilVurdering
+    ) {
         const handleSubmit = async () => {
             setError(null);
             setLasterHandling(true);
@@ -92,12 +99,26 @@ export function Topplinje({
         );
     }
 
-    if (tilstand?.tilstand === "VirksomhetVurderes") {
+    if (
+        tilstand?.tilstand === VirksomhetIATilstandEnum.enum.VirksomhetVurderes
+    ) {
         return (
             <VirksomhetVurderes
                 iaSak={iaSak!}
                 eierEllerFølgerSak={eierEllerFølgerSak}
                 lasterHandling={lasterHandling}
+                virksomhet={virksomhet}
+            />
+        );
+    }
+
+    if (
+        tilstand?.tilstand === VirksomhetIATilstandEnum.enum.VirksomhetErVurdert
+    ) {
+        return (
+            <VirksomhetErVurdert
+                iaSak={iaSak!}
+                tilstand={tilstand}
                 virksomhet={virksomhet}
             />
         );
