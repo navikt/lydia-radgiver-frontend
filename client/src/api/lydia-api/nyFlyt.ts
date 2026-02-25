@@ -2,7 +2,9 @@ import {
     IASak,
     iaSakSchema,
     ValgtÅrsakNyFlytDto,
+    VirksomhetTilstandAutomatiskOppdateringDto,
     VirksomhetTilstandDto,
+    virksomhetTilstandAutomatiskOppdateringSchema,
     virksomhetTilstandDtoSchema,
 } from "../../domenetyper/domenetyper";
 import {
@@ -16,7 +18,7 @@ import {
     spørreundersøkelseSchema,
 } from "../../domenetyper/spørreundersøkelse";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
-import { httpDelete, post, useSwrTemplate } from "./networkRequests";
+import { httpDelete, post, put, useSwrTemplate } from "./networkRequests";
 import { nyFlytBasePath } from "./paths";
 import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
 
@@ -185,5 +187,19 @@ export const avsluttSamarbeidNyFlyt = (
         `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/avslutt-samarbeid`,
         iaSakProsessSchema,
         samarbeid,
+    );
+};
+
+export const endrePlanlagtDatoNyFlyt = (
+    orgnummer: string,
+    body: VirksomhetTilstandAutomatiskOppdateringDto,
+): Promise<VirksomhetTilstandAutomatiskOppdateringDto> => {
+    return put(
+        `${nyFlytBasePath}/virksomhet/${orgnummer}/endre-planlagt-dato`,
+        virksomhetTilstandAutomatiskOppdateringSchema,
+        {
+            ...body,
+            planlagtDato: body.planlagtDato.toISOString().split("T")[0],
+        },
     );
 };

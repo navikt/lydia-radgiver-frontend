@@ -170,12 +170,16 @@ export const VirksomhetIATilstandEnum = z.enum([
     "AlleSamarbeidIVirksomhetErAvsluttet",
 ]);
 
-const virksomhetTilstandAutomatiskOppdateringSchema = z.object({
+export const virksomhetTilstandAutomatiskOppdateringSchema = z.object({
     startTilstand: VirksomhetIATilstandEnum,
     planlagtHendelse: z.string(),
     nyTilstand: VirksomhetIATilstandEnum,
     planlagtDato: datoSchema,
 });
+
+export type VirksomhetTilstandAutomatiskOppdateringDto = z.infer<
+    typeof virksomhetTilstandAutomatiskOppdateringSchema
+>;
 
 export const virksomhetTilstandDtoSchema = z.object({
     orgnr: z.string(),
