@@ -1,6 +1,6 @@
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import { Button, HStack, Tabs, VStack } from "@navikt/ds-react";
+import { HStack, Tabs, VStack } from "@navikt/ds-react";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useHentSalesforceSamarbeidLenke } from "../../../api/lydia-api/virksomhet";
 import VirksomhetContext from "../../Virksomhet/VirksomhetContext";
@@ -22,13 +22,9 @@ import { EksternLenke } from "../../../components/EksternLenke";
 import SamarbeidsplanFane from "../../Virksomhet/Plan/SamarbeidsplanFane";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
 import { Kartleggingsliste } from "../../Virksomhet/Kartlegging/Kartleggingsliste";
-import { useHentTeam } from "../../../api/lydia-api/team";
-import {
-    erSaksbehandler,
-    useHentBrukerinformasjon,
-} from "../../../api/lydia-api/bruker";
 import { useHarPlan } from "../../../api/lydia-api/plan";
 import { useHentSisteSakNyFlyt } from "../../../api/lydia-api/nyFlyt";
+import AdministrerSamarbeid from "./AdministrerSamarbeid";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -122,29 +118,6 @@ function VirksomhetsvisningsSwitch({
     const [endreSamarbeidModalÅpen, setEndreSamarbeidModalÅpen] =
         React.useState(false);
 
-    const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
-    const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const brukerFølgerSak = følgere.some(
-        (følger) => følger === brukerInformasjon?.ident,
-    );
-    const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
-    const kanEndreSpørreundersøkelser =
-        (erSaksbehandler(brukerInformasjon) &&
-            (brukerFølgerSak || brukerErEierAvSak)) ||
-        false;
-    const samarbeidKanEndres =
-        valgtSamarbeid &&
-        !["AVBRUTT", "SLETTET", "FULLFØRT"].includes(valgtSamarbeid.status);
-    const erIÅpenSak =
-        iaSak &&
-        ![
-            "IKKE_AKTIV",
-            "IKKE_AKTUELL",
-            "FULLFØRT",
-            "SLETTET",
-            "AVBRUTT",
-        ].includes(iaSak.status);
-
     const { harPlan, lastet: harPlanLastet } = useHarPlan(
         iaSak?.orgnr,
         iaSak?.saksnummer,
@@ -182,19 +155,10 @@ function VirksomhetsvisningsSwitch({
                         )}
                     </HStack>
                     <HStack gap="8" align="center">
-                        {kanEndreSpørreundersøkelser &&
-                            erIÅpenSak &&
-                            samarbeidKanEndres && (
-                                <Button
-                                    variant="secondary"
-                                    size="small"
-                                    onClick={() =>
-                                        setEndreSamarbeidModalÅpen(true)
-                                    }
-                                >
-                                    Administrer
-                                </Button>
-                            )}
+                        <AdministrerSamarbeid
+                            iaSak={iaSak}
+                            valgtSamarbeid={valgtSamarbeid}
+                        />
                         <Salesforcelenke samarbeidId={valgtSamarbeid.id} />
                     </HStack>
                 </div>
