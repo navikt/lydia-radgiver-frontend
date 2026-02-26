@@ -22,9 +22,11 @@ import AvbrytSamarbeidModal from "./AvbrytSamarbeidModal";
 export default function AdministrerSamarbeid({
     iaSak,
     valgtSamarbeid,
+    alleSamarbeid,
 }: {
     iaSak?: IASak;
     valgtSamarbeid?: IaSakProsess | null;
+    alleSamarbeid?: IaSakProsess[];
 }) {
     const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
@@ -104,7 +106,11 @@ export default function AdministrerSamarbeid({
                     </ActionMenu.Group>
                 </ActionMenu.Content>
             </ActionMenu>
-            <EndreSamarbeidsnavnModal ref={endreSamarbeidsnavnRef} />
+            <EndreSamarbeidsnavnModal
+                ref={endreSamarbeidsnavnRef}
+                samarbeid={valgtSamarbeid}
+                alleSamarbeid={alleSamarbeid}
+            />
             <SlettSamarbeidModal ref={slettSamarbeidRef} />
             <FullførSamarbeidModal ref={fullførSamarbeidRef} />
             <AvbrytSamarbeidModal ref={avbrytSamarbeidRef} />

@@ -97,6 +97,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                                 valgtSamarbeid={valgtSamarbeid}
                                 virksomhet={virksomhet}
                                 iaSak={iaSak}
+                                alleSamarbeid={alleSamarbeid}
                             />
                         </HStack>
                     </VStack>
@@ -110,10 +111,12 @@ function VirksomhetsvisningsSwitch({
     valgtSamarbeid,
     virksomhet,
     iaSak,
+    alleSamarbeid,
 }: {
     valgtSamarbeid?: IaSakProsess | null;
     virksomhet: Virksomhet;
     iaSak?: IASak;
+    alleSamarbeid?: IaSakProsess[];
 }) {
     const [endreSamarbeidModalÅpen, setEndreSamarbeidModalÅpen] =
         React.useState(false);
@@ -158,6 +161,7 @@ function VirksomhetsvisningsSwitch({
                         <AdministrerSamarbeid
                             iaSak={iaSak}
                             valgtSamarbeid={valgtSamarbeid}
+                            alleSamarbeid={alleSamarbeid}
                         />
                         <Salesforcelenke samarbeidId={valgtSamarbeid.id} />
                     </HStack>
