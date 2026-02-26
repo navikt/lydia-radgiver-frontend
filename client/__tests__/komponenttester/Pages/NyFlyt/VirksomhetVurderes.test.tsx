@@ -24,7 +24,6 @@ import {
     useHentTilstandForVirksomhetNyFlyt,
     useHentSisteSakNyFlyt,
     useHentVirksomhetNyFlyt,
-    vurderSakNyFlyt,
     avsluttVurderingNyFlyt,
     angreVurderingNyFlyt,
     opprettSamarbeidNyFlyt,
@@ -123,7 +122,7 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
             return {
                 data: {
                     orgnr: dummyVirksomhetsinformasjonNyFlyt.orgnr,
-                    tilstand: "VirksomhetKlarTilVurdering",
+                    tilstand: "VirksomhetVurderes",
                 },
                 loading: false,
             };
@@ -196,64 +195,6 @@ describe("NyVirksomhetsside", () => {
         jest.clearAllMocks();
     });
 
-    describe("VirksomhetKlarTilVurdering", () => {
-        beforeAll(() => {
-            jest.mocked(useHentTilstandForVirksomhetNyFlyt).mockReturnValue({
-                data: {
-                    orgnr: dummyVirksomhetsinformasjonNyFlyt.orgnr,
-                    tilstand: "VirksomhetKlarTilVurdering",
-                },
-                loading: false,
-                error: null,
-                mutate: jest.fn(),
-                validating: false,
-            });
-        });
-        it("Rendrer korrekt", () => {
-            render(
-                <BrowserRouter>
-                    <NyVirksomhetsside />
-                </BrowserRouter>,
-            );
-            expect(
-                screen.getByText("Ingen aktive samarbeid"),
-            ).toBeInTheDocument();
-            expect(
-                screen.getByText(dummyVirksomhetsinformasjonNyFlyt.navn),
-            ).toBeInTheDocument();
-            expect(screen.getByText("Vurder virksomheten")).toBeInTheDocument();
-        });
-
-        it("Vurder sak funker som det skal", async () => {
-            const { getByText } = render(
-                <BrowserRouter>
-                    <NyVirksomhetsside />
-                </BrowserRouter>,
-            );
-            expect(vurderSakNyFlyt).not.toHaveBeenCalled();
-            const vurderSakKnapp = getByText("Vurder virksomheten");
-            expect(vurderSakKnapp).toBeInTheDocument();
-            expect(vurderSakKnapp).not.toBeDisabled();
-            vurderSakKnapp.click();
-            await waitFor(() =>
-                expect(vurderSakNyFlyt).toHaveBeenCalledTimes(1),
-            );
-            expect(vurderSakNyFlyt).toHaveBeenCalledWith(
-                dummyVirksomhetsinformasjonNyFlyt.orgnr,
-            );
-        });
-
-        it("Har ingen accessibilityfeil", async () => {
-            const { container } = render(
-                <BrowserRouter>
-                    <NyVirksomhetsside />
-                </BrowserRouter>,
-            );
-            const results = await axe(container);
-            expect(results).toHaveNoViolations();
-        });
-    });
-
     describe("VirksomhetVurderes", () => {
         beforeAll(() => {
             jest.mocked(useHentTilstandForVirksomhetNyFlyt).mockReturnValue({
@@ -308,7 +249,6 @@ describe("NyVirksomhetsside", () => {
                 </BrowserRouter>,
             );
 
-            // Modal nr.2 skal ikke være åpen enda.
             expect(
                 screen.queryByText(
                     "Når ønsker du at virksomheten automatisk skal vurderes igjen?",
@@ -318,7 +258,6 @@ describe("NyVirksomhetsside", () => {
             const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
             avsluttVurderingKnapp.click();
 
-            // Start med å markere noen "feil"
             const feilChackboxer = [
                 screen.getByLabelText("Virksomheten har ikke svart"),
                 screen.getByLabelText("Ikke dokumentert dialog mellom partene"),
@@ -347,7 +286,6 @@ describe("NyVirksomhetsside", () => {
             expect(lagreKnapp).toBeInTheDocument();
             lagreKnapp.click();
 
-            // Modal nr.2 skal være åpen nå.
             expect(
                 screen.getByText(
                     "Når ønsker du at virksomheten automatisk skal vurderes igjen?",
