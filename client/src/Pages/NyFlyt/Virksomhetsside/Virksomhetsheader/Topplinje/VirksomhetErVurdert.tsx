@@ -7,6 +7,7 @@ import {
     DatePicker,
     HStack,
     Modal,
+    Tag,
     useDatepicker,
 } from "@navikt/ds-react";
 import {
@@ -19,7 +20,10 @@ import { lokalDato } from "../../../../../util/dato";
 import { DocPencilIcon } from "@navikt/aksel-icons";
 import { EierskapKnapp } from "../../../../Virksomhet/Samarbeid/EierskapKnapp";
 import { Salesforcelenke } from "..";
-import { vurderSakNyFlyt } from "../../../../../api/lydia-api/nyFlyt";
+import {
+    endrePlanlagtDatoNyFlyt,
+    vurderSakNyFlyt,
+} from "../../../../../api/lydia-api/nyFlyt";
 
 export default function VirksomhetErVurdert({
     iaSak,
@@ -37,9 +41,6 @@ export default function VirksomhetErVurdert({
     ) {
         return (
             <HStack gap="4">
-                <Button disabled size="small">
-                    Vurder virksomheten
-                </Button>
                 <VurderesAutomatiskModal
                     tilstand={tilstand}
                     iaSak={iaSak}
@@ -53,10 +54,48 @@ export default function VirksomhetErVurdert({
         tilstand.nesteTilstand?.nyTilstand ===
         VirksomhetIATilstandEnum.enum.VirksomhetKlarTilVurdering
     ) {
-        // Virksomhet skal settes til klar til vurdering etterhvert.
+        return (
+            <HStack gap="4">
+                <VurderVirksomhetenNå orgnr={virksomhet.orgnr} />
+                <VurdertTil tilstand={tilstand} />
+                <EierskapKnapp iaSak={iaSak} />
+                <Salesforcelenke orgnr={virksomhet.orgnr} />
+            </HStack>
+        );
     }
-    console.log({ iaSak, virksomhet, tilstand });
+
     return <div>Virksomheten er vurdert</div>;
+}
+
+function VurderVirksomhetenNå({ orgnr }: { orgnr: string }) {
+    const [senderRequest, setSenderRequest] = React.useState(false);
+
+    const onVurderNå = () => {
+        if (!senderRequest) {
+            setSenderRequest(true);
+            vurderSakNyFlyt(orgnr).finally(() => {
+                setSenderRequest(false);
+            });
+        }
+    };
+
+    return (
+        <Button size="small" onClick={onVurderNå} loading={senderRequest}>
+            Vurder nå
+        </Button>
+    );
+}
+
+function VurdertTil({ tilstand }: { tilstand: VirksomhetTilstandDto }) {
+    if (!tilstand.nesteTilstand) {
+        return null;
+    }
+
+    return (
+        <Tag size="small" variant="neutral-moderate">
+            Vurdert frem til {lokalDato(tilstand.nesteTilstand.planlagtDato)}
+        </Tag>
+    );
 }
 
 function VurderesAutomatiskModal({
@@ -86,16 +125,19 @@ function VurderesAutomatiskModal({
             return;
         }
 
-        /* avsluttVurderingNyFlyt(virksomhet.orgnr, {
-            type: nyFlytÅrsakTypeEnum.enum.VIRKSOMHETEN_SKAL_VURDERES_SENERE,
-            begrunnelser: [
-                nyFlytBegrunnelseEnum.enum.VIRKSOMHETEN_ØNSKER_SAMARBEID_SENERE,
-            ],
-            dato: selectedDay?.toISOString().split("T")[0],
+        if (!tilstand.nesteTilstand) {
+            modalRef.current?.close();
+            return;
+        }
+
+        endrePlanlagtDatoNyFlyt(virksomhet.orgnr, {
+            startTilstand: tilstand.nesteTilstand.startTilstand,
+            planlagtHendelse: tilstand.nesteTilstand.planlagtHendelse,
+            nyTilstand: tilstand.nesteTilstand.nyTilstand,
+            planlagtDato: selectedDay,
         }).finally(() => {
             modalRef.current?.close();
-			}); */
-        modalRef.current?.close();
+        });
     }
 
     if (!tilstand.nesteTilstand) {
