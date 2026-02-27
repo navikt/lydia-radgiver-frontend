@@ -86,13 +86,15 @@ export const flyttSpørreundersøkelse = (
     );
 };
 export const useHentSpørreundersøkelser = (
-    orgnummer: string,
-    saksnummer: string,
-    prosessId: number,
-    type: SpørreundersøkelseType,
+    orgnummer?: string,
+    saksnummer?: string,
+    prosessId?: number,
+    type?: SpørreundersøkelseType,
 ) => {
     return useSwrTemplate<Spørreundersøkelse[]>(
-        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${spørreundersøkelseHeading(type)}`,
+        orgnummer && saksnummer && prosessId
+            ? `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${spørreundersøkelseHeading(type)}`
+            : null,
         spørreundersøkelseSchema.array(),
         {
             revalidateOnFocus: true,

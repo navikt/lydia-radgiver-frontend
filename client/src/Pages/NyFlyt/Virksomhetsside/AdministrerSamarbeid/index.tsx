@@ -50,13 +50,15 @@ export default function AdministrerSamarbeid({
             "SLETTET",
             "AVBRUTT",
         ].includes(iaSak.status);
-    if (!kanEndreSpørreundersøkelser || !samarbeidKanEndres || !erIÅpenSak) {
-        return null;
-    }
     const endreSamarbeidsnavnRef = React.useRef<HTMLDialogElement>(null);
     const slettSamarbeidRef = React.useRef<HTMLDialogElement>(null);
     const fullførSamarbeidRef = React.useRef<HTMLDialogElement>(null);
     const avbrytSamarbeidRef = React.useRef<HTMLDialogElement>(null);
+
+    if (!kanEndreSpørreundersøkelser || !samarbeidKanEndres || !erIÅpenSak) {
+        // TODO: Skal vi faktisk sperre her?
+        return null;
+    }
 
     return (
         <>
@@ -112,7 +114,11 @@ export default function AdministrerSamarbeid({
                 alleSamarbeid={alleSamarbeid}
             />
             <SlettSamarbeidModal ref={slettSamarbeidRef} />
-            <FullførSamarbeidModal ref={fullførSamarbeidRef} />
+            <FullførSamarbeidModal
+                ref={fullførSamarbeidRef}
+                iaSak={iaSak}
+                valgtSamarbeid={valgtSamarbeid}
+            />
             <AvbrytSamarbeidModal ref={avbrytSamarbeidRef} />
         </>
     );
