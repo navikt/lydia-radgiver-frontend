@@ -119,7 +119,11 @@ export default function AdministrerSamarbeid({
                 iaSak={iaSak}
                 valgtSamarbeid={valgtSamarbeid}
             />
-            <AvbrytSamarbeidModal ref={avbrytSamarbeidRef} />
+            <AvbrytSamarbeidModal
+                ref={avbrytSamarbeidRef}
+                iaSak={iaSak}
+                valgtSamarbeid={valgtSamarbeid}
+            />
         </>
     );
 }
