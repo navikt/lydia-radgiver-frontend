@@ -13,16 +13,24 @@ import { useHentSpørreundersøkelser } from "../../../../api/lydia-api/spørreu
 import { avsluttSamarbeidNyFlyt } from "../../../../api/lydia-api/nyFlyt";
 import styles from "./administrerSamarbeid.module.scss";
 import { useHentPlan } from "../../../../api/lydia-api/plan";
+import BekreftSisteSamarbeidModal, {
+    erSisteSamarbeid,
+} from "./BekreftSisteSamarbeidModal";
 
 export default function FullførSamarbeidModal({
     ref,
     valgtSamarbeid,
     iaSak,
+    alleSamarbeid,
 }: {
     ref: React.RefObject<HTMLDialogElement | null>;
     valgtSamarbeid?: IaSakProsess | null;
     iaSak?: IASak;
+    alleSamarbeid?: IaSakProsess[];
 }) {
+    const bekreftSisteSamarbeidRef = React.useRef<HTMLDialogElement | null>(
+        null,
+    );
     const [senderRequest, setSenderRequest] = React.useState(false);
     const plan = useHentPlan(
         iaSak?.orgnr,
@@ -54,6 +62,11 @@ export default function FullførSamarbeidModal({
 
     const onFullfør = async () => {
         setSenderRequest(true);
+        if (erSisteSamarbeid(valgtSamarbeid, alleSamarbeid)) {
+            bekreftSisteSamarbeidRef.current?.showModal();
+            setSenderRequest(false);
+            return;
+        }
         try {
             if (!valgtSamarbeid?.id || !iaSak?.orgnr) {
                 return;
@@ -81,53 +94,70 @@ export default function FullførSamarbeidModal({
     };
 
     return (
-        <Modal
-            ref={ref}
-            header={{
-                heading: `Fullfør samarbeidet med ${valgtSamarbeid?.navn}`,
-            }}
-        >
-            <Modal.Body>
-                <BodyLong>
-                    Når du fullfører vil det ikke være mulig å gjøre nye
-                    endringer på samarbeidet.
-                </BodyLong>
-                {plan.data && !evalueringErFullført && (
-                    <LocalAlert
-                        status="warning"
-                        className={styles.warningAlert}
+        <>
+            <Modal
+                ref={ref}
+                header={{
+                    heading: `Fullfør samarbeidet med ${valgtSamarbeid?.navn}`,
+                }}
+            >
+                <Modal.Body>
+                    <BodyLong>
+                        Når du fullfører vil det ikke være mulig å gjøre nye
+                        endringer på samarbeidet.
+                    </BodyLong>
+                    {plan.data && !evalueringErFullført && (
+                        <LocalAlert
+                            status="warning"
+                            className={styles.warningAlert}
+                        >
+                            <LocalAlert.Header>
+                                <LocalAlert.Title>
+                                    Evaluering er ikke gjennomført, vil du
+                                    fortsatt fullføre?
+                                </LocalAlert.Title>
+                            </LocalAlert.Header>
+                        </LocalAlert>
+                    )}
+                    {!plan.data && (
+                        <LocalAlert
+                            status="error"
+                            className={styles.errorAlert}
+                        >
+                            <LocalAlert.Header>
+                                <LocalAlert.Title>
+                                    Samarbeidet må ha en plan for å fullføre
+                                    samarbeid.
+                                </LocalAlert.Title>
+                            </LocalAlert.Header>
+                        </LocalAlert>
+                    )}
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        onClick={() => ref.current?.close()}
+                        variant="tertiary"
                     >
-                        <LocalAlert.Header>
-                            <LocalAlert.Title>
-                                Evaluering er ikke gjennomført, vil du fortsatt
-                                fullføre?
-                            </LocalAlert.Title>
-                        </LocalAlert.Header>
-                    </LocalAlert>
-                )}
-                {!plan.data && (
-                    <LocalAlert status="error" className={styles.errorAlert}>
-                        <LocalAlert.Header>
-                            <LocalAlert.Title>
-                                Samarbeidet må ha en plan for å fullføre
-                                samarbeid.
-                            </LocalAlert.Title>
-                        </LocalAlert.Header>
-                    </LocalAlert>
-                )}
-            </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={() => ref.current?.close()} variant="tertiary">
-                    Avbryt
-                </Button>
-                <Button
-                    onClick={onFullfør}
-                    disabled={lasterEvalueringer || senderRequest || !plan.data}
-                    loading={senderRequest}
-                >
-                    Fullfør samarbeidet
-                </Button>
-            </Modal.Footer>
-        </Modal>
+                        Avbryt
+                    </Button>
+                    <Button
+                        onClick={onFullfør}
+                        disabled={
+                            lasterEvalueringer || senderRequest || !plan.data
+                        }
+                        loading={senderRequest}
+                    >
+                        Fullfør samarbeidet
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <BekreftSisteSamarbeidModal
+                ref={bekreftSisteSamarbeidRef}
+                iaSak={iaSak}
+                valgtSamarbeid={valgtSamarbeid}
+                nyStatus="FULLFØRT"
+                alleSamarbeid={alleSamarbeid}
+            />
+        </>
     );
 }

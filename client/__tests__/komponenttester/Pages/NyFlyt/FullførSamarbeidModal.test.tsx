@@ -2,10 +2,12 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { axe } from "jest-axe";
-import AvbrytSamarbeidModal from "../../../../src/Pages/NyFlyt/Virksomhetsside/AdministrerSamarbeid/AvbrytSamarbeidModal";
+import FullførSamarbeidModal from "../../../../src/Pages/NyFlyt/Virksomhetsside/AdministrerSamarbeid/FullførSamarbeidModal";
 import { IaSakProsess } from "../../../../src/domenetyper/iaSakProsess";
 import { IASak } from "../../../../src/domenetyper/domenetyper";
 import * as nyFlyt from "../../../../src/api/lydia-api/nyFlyt";
+import * as plan from "../../../../src/api/lydia-api/plan";
+import * as spørreundersøkelse from "../../../../src/api/lydia-api/spørreundersøkelse";
 
 HTMLDialogElement.prototype.showModal = jest.fn();
 HTMLDialogElement.prototype.close = jest.fn();
@@ -51,7 +53,7 @@ function renderModal(
 ) {
     const ref = React.createRef<HTMLDialogElement>();
     const result = render(
-        <AvbrytSamarbeidModal
+        <FullførSamarbeidModal
             ref={ref}
             valgtSamarbeid={samarbeid}
             iaSak={iaSak}
@@ -62,7 +64,7 @@ function renderModal(
     return { ...result, ref };
 }
 
-describe("AvbrytSamarbeidModal", () => {
+describe("FullførSamarbeidModal", () => {
     let avsluttSamarbeidMock: jest.SpyInstance;
 
     beforeEach(() => {
@@ -70,25 +72,38 @@ describe("AvbrytSamarbeidModal", () => {
         avsluttSamarbeidMock = jest
             .spyOn(nyFlyt, "avsluttSamarbeidNyFlyt")
             .mockResolvedValue(undefined as never);
+        jest.spyOn(plan, "useHentPlan").mockReturnValue({
+            data: { id: "1" } as never,
+            error: undefined,
+            loading: false,
+            validating: false,
+            mutate: jest.fn(),
+        });
+        jest.spyOn(
+            spørreundersøkelse,
+            "useHentSpørreundersøkelser",
+        ).mockReturnValue({
+            data: [],
+            loading: false,
+            validating: false,
+            mutate: jest.fn(),
+        } as never);
     });
 
     afterEach(() => {
         avsluttSamarbeidMock.mockRestore();
     });
 
-    it("Lukk-knappen lukker modalen", () => {
+    it("Avbryt-knappen lukker modalen", () => {
         const { ref } = renderModal(testSamarbeid, testIaSak);
-        const [, footerLukkButton] = screen.getAllByRole("button", {
-            name: "Lukk",
-        });
-        fireEvent.click(footerLukkButton);
+        fireEvent.click(screen.getByRole("button", { name: "Avbryt" }));
         expect(ref.current?.close).toHaveBeenCalled();
     });
 
-    it("kaller avsluttSamarbeidNyFlyt med riktig data ved klikk på Avbryt samarbeidet", async () => {
+    it("kaller avsluttSamarbeidNyFlyt med riktig data ved klikk på Fullfør samarbeidet", async () => {
         renderModal(testSamarbeid, testIaSak);
         fireEvent.click(
-            screen.getByRole("button", { name: "Avbryt samarbeidet" }),
+            screen.getByRole("button", { name: "Fullfør samarbeidet" }),
         );
         await waitFor(() => {
             expect(avsluttSamarbeidMock).toHaveBeenCalledWith(
@@ -97,7 +112,7 @@ describe("AvbrytSamarbeidModal", () => {
                 expect.objectContaining({
                     id: 1,
                     navn: "Avdeling Bergen",
-                    status: "AVBRUTT",
+                    status: "FULLFØRT",
                 }),
             );
         });
@@ -106,7 +121,7 @@ describe("AvbrytSamarbeidModal", () => {
     it("kaller ikke avsluttSamarbeidNyFlyt når samarbeid mangler", async () => {
         renderModal(null, testIaSak);
         fireEvent.click(
-            screen.getByRole("button", { name: "Avbryt samarbeidet" }),
+            screen.getByRole("button", { name: "Fullfør samarbeidet" }),
         );
         await waitFor(() => {
             expect(avsluttSamarbeidMock).not.toHaveBeenCalled();
@@ -116,7 +131,7 @@ describe("AvbrytSamarbeidModal", () => {
     it("kaller ikke avsluttSamarbeidNyFlyt når iaSak mangler", async () => {
         renderModal(testSamarbeid, undefined);
         fireEvent.click(
-            screen.getByRole("button", { name: "Avbryt samarbeidet" }),
+            screen.getByRole("button", { name: "Fullfør samarbeidet" }),
         );
         await waitFor(() => {
             expect(avsluttSamarbeidMock).not.toHaveBeenCalled();
@@ -127,7 +142,7 @@ describe("AvbrytSamarbeidModal", () => {
         avsluttSamarbeidMock.mockRejectedValue(new Error("API-feil"));
         const { ref } = renderModal(testSamarbeid, testIaSak);
         fireEvent.click(
-            screen.getByRole("button", { name: "Avbryt samarbeidet" }),
+            screen.getByRole("button", { name: "Fullfør samarbeidet" }),
         );
         await waitFor(() => {
             expect(ref.current?.close).toHaveBeenCalled();
@@ -143,19 +158,20 @@ describe("AvbrytSamarbeidModal", () => {
     describe("bekreft-flyt når det er siste samarbeid", () => {
         it("kaller ikke avsluttSamarbeidNyFlyt direkte og åpner bekreft-modal", async () => {
             renderModal(testSamarbeid, testIaSak, [testSamarbeid]);
-            const [avbrytKnapp] = screen.getAllByRole("button", {
-                name: "Avbryt samarbeidet",
-            });
-            fireEvent.click(avbrytKnapp);
+            fireEvent.click(
+                screen.getByRole("button", { name: "Fullfør samarbeidet" }),
+            );
             await waitFor(() => {
                 expect(avsluttSamarbeidMock).not.toHaveBeenCalled();
-                expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
+                expect(
+                    HTMLDialogElement.prototype.showModal,
+                ).toHaveBeenCalled();
             });
         });
 
         it("kaller avsluttSamarbeidNyFlyt ved bekreftelse i bekreft-modalen", async () => {
             renderModal(testSamarbeid, testIaSak, [testSamarbeid]);
-            const [, bekreftKnapp] = screen.getAllByRole("button", {
+            const bekreftKnapp = screen.getByRole("button", {
                 name: "Avbryt samarbeidet",
                 hidden: true,
             });
@@ -167,7 +183,7 @@ describe("AvbrytSamarbeidModal", () => {
                     expect.objectContaining({
                         id: 1,
                         navn: "Avdeling Bergen",
-                        status: "AVBRUTT",
+                        status: "FULLFØRT",
                     }),
                 );
             });

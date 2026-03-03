@@ -6,20 +6,34 @@ import {
 } from "../../../../domenetyper/iaSakProsess";
 import { IASak } from "../../../../domenetyper/domenetyper";
 import { avsluttSamarbeidNyFlyt } from "../../../../api/lydia-api/nyFlyt";
+import BekreftSisteSamarbeidModal, {
+    erSisteSamarbeid,
+} from "./BekreftSisteSamarbeidModal";
 
 export default function AvbrytSamarbeidModal({
     ref,
     valgtSamarbeid,
     iaSak,
+    alleSamarbeid,
 }: {
     ref: React.RefObject<HTMLDialogElement | null>;
     valgtSamarbeid?: IaSakProsess | null;
     iaSak?: IASak;
+    alleSamarbeid?: IaSakProsess[];
 }) {
+    const bekreftSisteSamarbeidRef = React.useRef<HTMLDialogElement | null>(
+        null,
+    );
     const [senderRequest, setSenderRequest] = React.useState(false);
 
     const onAvbryt = async () => {
         setSenderRequest(true);
+
+        if (erSisteSamarbeid(valgtSamarbeid, alleSamarbeid)) {
+            bekreftSisteSamarbeidRef.current?.showModal();
+            setSenderRequest(false);
+            return;
+        }
 
         try {
             if (!valgtSamarbeid?.id || !iaSak?.orgnr) {
@@ -48,30 +62,42 @@ export default function AvbrytSamarbeidModal({
     };
 
     return (
-        <Modal
-            ref={ref}
-            header={{
-                heading: `Avbryt samarbeidet med ${valgtSamarbeid?.navn}`,
-            }}
-        >
-            <Modal.Body>
-                <BodyLong>
-                    Når du avbryter vil det ikke være mulig å gjøre nye
-                    endringer på samarbeidet.
-                </BodyLong>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button onClick={() => ref.current?.close()} variant="tertiary">
-                    Lukk
-                </Button>
-                <Button
-                    onClick={onAvbryt}
-                    disabled={senderRequest}
-                    loading={senderRequest}
-                >
-                    Avbryt samarbeidet
-                </Button>
-            </Modal.Footer>
-        </Modal>
+        <>
+            <Modal
+                ref={ref}
+                header={{
+                    heading: `Avbryt samarbeidet med ${valgtSamarbeid?.navn}`,
+                }}
+            >
+                <Modal.Body>
+                    <BodyLong>
+                        Når du avbryter vil det ikke være mulig å gjøre nye
+                        endringer på samarbeidet.
+                    </BodyLong>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button
+                        onClick={() => ref.current?.close()}
+                        variant="tertiary"
+                    >
+                        Lukk
+                    </Button>
+                    <Button
+                        onClick={onAvbryt}
+                        disabled={senderRequest}
+                        loading={senderRequest}
+                    >
+                        Avbryt samarbeidet
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+            <BekreftSisteSamarbeidModal
+                ref={bekreftSisteSamarbeidRef}
+                iaSak={iaSak}
+                valgtSamarbeid={valgtSamarbeid}
+                nyStatus="AVBRUTT"
+                alleSamarbeid={alleSamarbeid}
+            />
+        </>
     );
 }
