@@ -3,7 +3,9 @@ import {
     slettKartleggingNyFlyt,
     slettSamarbeidsplanNyFlyt,
     slettSamarbeidNyFlyt,
+    useHentSisteSakNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 interface DeleteProps {
     orgnummer: string;
@@ -47,6 +49,11 @@ function EndpointSection({
 }
 
 export function SlettKartlegging({ orgnummer, onSuccess }: DeleteProps) {
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
+    const { data: samarbeidListe } = useHentSamarbeid(
+        orgnummer,
+        iaSak?.saksnummer,
+    );
     const [samarbeidId, setSamarbeidId] = useState("");
     const [spørreundersøkelseId, setSpørreundersøkelseId] = useState("");
     const [response, setResponse] = useState<object | null>(null);
@@ -75,10 +82,17 @@ export function SlettKartlegging({ orgnummer, onSuccess }: DeleteProps) {
         >
             <div>
                 <span>samarbeidId: </span>
-                <input
+                <select
                     value={samarbeidId}
                     onChange={(e) => setSamarbeidId(e.target.value)}
-                />
+                >
+                    <option value="">Velg samarbeid</option>
+                    {samarbeidListe?.map((s) => (
+                        <option key={s.id} value={s.id}>
+                            {s.id} - {s.navn || "(uten navn)"} ({s.status})
+                        </option>
+                    ))}
+                </select>
             </div>
             <div>
                 <span>spørreundersøkelseId: </span>
@@ -93,6 +107,11 @@ export function SlettKartlegging({ orgnummer, onSuccess }: DeleteProps) {
 }
 
 export function SlettSamarbeidsplan({ orgnummer, onSuccess }: DeleteProps) {
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
+    const { data: samarbeidListe } = useHentSamarbeid(
+        orgnummer,
+        iaSak?.saksnummer,
+    );
     const [samarbeidId, setSamarbeidId] = useState("");
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -119,10 +138,17 @@ export function SlettSamarbeidsplan({ orgnummer, onSuccess }: DeleteProps) {
         >
             <div>
                 <span>samarbeidId: </span>
-                <input
+                <select
                     value={samarbeidId}
                     onChange={(e) => setSamarbeidId(e.target.value)}
-                />
+                >
+                    <option value="">Velg samarbeid</option>
+                    {samarbeidListe?.map((s) => (
+                        <option key={s.id} value={s.id}>
+                            {s.id} - {s.navn || "(uten navn)"} ({s.status})
+                        </option>
+                    ))}
+                </select>
             </div>
             <button onClick={handleSubmit}>Slett samarbeidsplan</button>
         </EndpointSection>
@@ -130,6 +156,11 @@ export function SlettSamarbeidsplan({ orgnummer, onSuccess }: DeleteProps) {
 }
 
 export function SlettSamarbeid({ orgnummer, onSuccess }: DeleteProps) {
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
+    const { data: samarbeidListe } = useHentSamarbeid(
+        orgnummer,
+        iaSak?.saksnummer,
+    );
     const [samarbeidId, setSamarbeidId] = useState("");
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
@@ -153,10 +184,17 @@ export function SlettSamarbeid({ orgnummer, onSuccess }: DeleteProps) {
         >
             <div>
                 <span>samarbeidId: </span>
-                <input
+                <select
                     value={samarbeidId}
                     onChange={(e) => setSamarbeidId(e.target.value)}
-                />
+                >
+                    <option value="">Velg samarbeid</option>
+                    {samarbeidListe?.map((s) => (
+                        <option key={s.id} value={s.id}>
+                            {s.id} - {s.navn || "(uten navn)"} ({s.status})
+                        </option>
+                    ))}
+                </select>
             </div>
             <button onClick={handleSubmit}>Slett samarbeid</button>
         </EndpointSection>

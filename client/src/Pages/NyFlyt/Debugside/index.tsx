@@ -19,7 +19,7 @@ import {
     SlettSamarbeidsplan,
     SlettSamarbeid,
 } from "./Delete";
-import { EndrePlanlagtDato } from "./Put";
+import { EndrePlanlagtDato, EndreSamarbeidsNavn } from "./Put";
 
 function DebugContent({ orgnummer }: { orgnummer: string }) {
     const mutate = useOversiktMutate(orgnummer);
@@ -77,6 +77,11 @@ function DebugContent({ orgnummer }: { orgnummer: string }) {
             <hr />
 
             <h2>PUT Endpoints</h2>
+            <EndreSamarbeidsNavn
+                orgnummer={orgnummer}
+                onSuccess={handleSuccess}
+            />
+            <hr />
             <EndrePlanlagtDato
                 orgnummer={orgnummer}
                 onSuccess={handleSuccess}

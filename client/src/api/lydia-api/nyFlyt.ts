@@ -14,6 +14,10 @@ import {
 } from "../../domenetyper/iaSakProsess";
 import { Plan, PlanMal, PlanSchema } from "../../domenetyper/plan";
 import {
+    Sakshistorikk,
+    sakshistorikkSchema,
+} from "../../domenetyper/sakshistorikk";
+import {
     Spørreundersøkelse,
     spørreundersøkelseSchema,
 } from "../../domenetyper/spørreundersøkelse";
@@ -33,6 +37,19 @@ export const useHentVirksomhetNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<Virksomhet>(
         () => (orgnummer ? `${nyFlytBasePath}/virksomhet/${orgnummer}` : null),
         virksomhetsSchema,
+        {
+            revalidateOnFocus: true,
+        },
+    );
+};
+
+export const useHentHistorikkNyFlyt = (orgnummer?: string) => {
+    return useSwrTemplate<Sakshistorikk[]>(
+        () =>
+            orgnummer
+                ? `${nyFlytBasePath}/virksomhet/${orgnummer}/historikk`
+                : null,
+        sakshistorikkSchema.array(),
         {
             revalidateOnFocus: true,
         },
@@ -185,6 +202,18 @@ export const avsluttSamarbeidNyFlyt = (
 ): Promise<IaSakProsess> => {
     return post(
         `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/avslutt-samarbeid`,
+        iaSakProsessSchema,
+        samarbeid,
+    );
+};
+
+export const endreSamarbeidsNavnNyFlyt = (
+    orgnummer: string,
+    samarbeidId: string,
+    samarbeid: { id: number; saksnummer: string; navn: string; status: string },
+): Promise<IaSakProsess> => {
+    return put(
+        `${nyFlytBasePath}/virksomhet/${orgnummer}/samarbeid/${samarbeidId}/oppdater`,
         iaSakProsessSchema,
         samarbeid,
     );

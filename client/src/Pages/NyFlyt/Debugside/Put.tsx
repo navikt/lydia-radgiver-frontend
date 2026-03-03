@@ -1,8 +1,11 @@
 import { useState } from "react";
 import {
     endrePlanlagtDatoNyFlyt,
+    endreSamarbeidsNavnNyFlyt,
+    useHentSisteSakNyFlyt,
     useHentTilstandForVirksomhetNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { VirksomhetTilstandAutomatiskOppdateringDto } from "../../../domenetyper/domenetyper";
 
 interface PutProps {
@@ -43,6 +46,78 @@ function EndpointSection({
                 </pre>
             )}
         </div>
+    );
+}
+
+export function EndreSamarbeidsNavn({ orgnummer, onSuccess }: PutProps) {
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
+    const { data: samarbeidListe } = useHentSamarbeid(
+        orgnummer,
+        iaSak?.saksnummer,
+    );
+    const [samarbeidId, setSamarbeidId] = useState("");
+    const [nyttNavn, setNyttNavn] = useState("");
+    const [response, setResponse] = useState<object | null>(null);
+    const [error, setError] = useState<string | null>(null);
+
+    const valgtSamarbeid = samarbeidListe?.find(
+        (s) => String(s.id) === samarbeidId,
+    );
+
+    const handleSubmit = async () => {
+        setError(null);
+        if (!valgtSamarbeid) {
+            setError("Velg et samarbeid");
+            return;
+        }
+        try {
+            const result = await endreSamarbeidsNavnNyFlyt(
+                orgnummer,
+                samarbeidId,
+                {
+                    id: valgtSamarbeid.id,
+                    saksnummer: valgtSamarbeid.saksnummer,
+                    navn: nyttNavn,
+                    status: valgtSamarbeid.status,
+                },
+            );
+            setResponse(result);
+            onSuccess();
+        } catch (e) {
+            setError(e instanceof Error ? e.message : String(e));
+        }
+    };
+
+    return (
+        <EndpointSection
+            title="PUT: endreSamarbeidsNavnNyFlyt"
+            response={response}
+            error={error}
+        >
+            <div>
+                <span>samarbeidId: </span>
+                <select
+                    value={samarbeidId}
+                    onChange={(e) => setSamarbeidId(e.target.value)}
+                >
+                    <option value="">Velg samarbeid</option>
+                    {samarbeidListe?.map((s) => (
+                        <option key={s.id} value={s.id}>
+                            {s.id} - {s.navn || "(uten navn)"} ({s.status})
+                        </option>
+                    ))}
+                </select>
+            </div>
+            <div>
+                <span>nytt navn: </span>
+                <input
+                    value={nyttNavn}
+                    onChange={(e) => setNyttNavn(e.target.value)}
+                    placeholder={valgtSamarbeid?.navn || "(uten navn)"}
+                />
+            </div>
+            <button onClick={handleSubmit}>Endre samarbeidsnavn</button>
+        </EndpointSection>
     );
 }
 
@@ -94,10 +169,7 @@ export function EndrePlanlagtDato({ orgnummer, onSuccess }: PutProps) {
                 <>
                     <div>
                         <span>startTilstand: </span>
-                        <input
-                            value={nesteTilstand.startTilstand}
-                            disabled
-                        />
+                        <input value={nesteTilstand.startTilstand} disabled />
                     </div>
                     <div>
                         <span>planlagtHendelse: </span>

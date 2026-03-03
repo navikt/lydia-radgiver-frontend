@@ -4,6 +4,7 @@ import {
     useHentSisteSakNyFlyt,
     useHentTilstandForVirksomhetNyFlyt,
     useHentVirksomhetNyFlyt,
+    useHentHistorikkNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
 import {
     useHentSamarbeid,
@@ -77,6 +78,8 @@ function SamarbeidDetaljer({
 
 export default function Oversikt({ orgnummer }: OversiktProps) {
     const virksomhet = useHentVirksomhetNyFlyt(orgnummer);
+
+    const historikk = useHentHistorikkNyFlyt(orgnummer);
 
     const virksomhetTilstand = useHentTilstandForVirksomhetNyFlyt(orgnummer);
 
@@ -152,6 +155,120 @@ export default function Oversikt({ orgnummer }: OversiktProps) {
                     </pre>
                 )}
             </div>
+
+            {sisteIASak.data?.saksnummer && (
+                <div>
+                    <h2>Historikk (sakshendelser)</h2>
+                    {historikk.loading && <p>Laster historikk...</p>}
+                    {historikk.data && historikk.data.length > 0
+                        ? historikk.data.map((sak) => (
+                              <div
+                                  key={sak.saksnummer}
+                                  style={{ marginBottom: "16px" }}
+                              >
+                                  <h3>Sak {sak.saksnummer}</h3>
+                                  <table
+                                      style={{
+                                          borderCollapse: "collapse",
+                                          width: "100%",
+                                      }}
+                                  >
+                                      <thead>
+                                          <tr
+                                              style={{
+                                                  backgroundColor: "#e0e0e0",
+                                              }}
+                                          >
+                                              <th
+                                                  style={{
+                                                      padding: "4px 8px",
+                                                      textAlign: "left",
+                                                  }}
+                                              >
+                                                  Hendelsestype
+                                              </th>
+                                              <th
+                                                  style={{
+                                                      padding: "4px 8px",
+                                                      textAlign: "left",
+                                                  }}
+                                              >
+                                                  Status
+                                              </th>
+                                              <th
+                                                  style={{
+                                                      padding: "4px 8px",
+                                                      textAlign: "left",
+                                                  }}
+                                              >
+                                                  Tidspunkt
+                                              </th>
+                                              <th
+                                                  style={{
+                                                      padding: "4px 8px",
+                                                      textAlign: "left",
+                                                  }}
+                                              >
+                                                  Opprettet av
+                                              </th>
+                                          </tr>
+                                      </thead>
+                                      <tbody>
+                                          {sak.sakshendelser.map(
+                                              (hendelse, i) => (
+                                                  <tr
+                                                      key={i}
+                                                      style={{
+                                                          borderBottom:
+                                                              "1px solid #ccc",
+                                                      }}
+                                                  >
+                                                      <td
+                                                          style={{
+                                                              padding:
+                                                                  "4px 8px",
+                                                          }}
+                                                      >
+                                                          {
+                                                              hendelse.hendelsestype
+                                                          }
+                                                      </td>
+                                                      <td
+                                                          style={{
+                                                              padding:
+                                                                  "4px 8px",
+                                                          }}
+                                                      >
+                                                          {hendelse.status}
+                                                      </td>
+                                                      <td
+                                                          style={{
+                                                              padding:
+                                                                  "4px 8px",
+                                                          }}
+                                                      >
+                                                          {hendelse.tidspunktForSnapshot.toLocaleString()}
+                                                      </td>
+                                                      <td
+                                                          style={{
+                                                              padding:
+                                                                  "4px 8px",
+                                                          }}
+                                                      >
+                                                          {
+                                                              hendelse.hendelseOpprettetAv
+                                                          }
+                                                      </td>
+                                                  </tr>
+                                              ),
+                                          )}
+                                      </tbody>
+                                  </table>
+                              </div>
+                          ))
+                        : historikk.data && <p>Ingen historikk funnet</p>}
+                </div>
+            )}
 
             {sisteIASak.data?.saksnummer && (
                 <div>

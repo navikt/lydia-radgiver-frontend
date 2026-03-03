@@ -331,6 +331,11 @@ export function OpprettSamarbeid({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function OpprettKartlegging({ orgnummer, onSuccess }: PostProps) {
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
+    const { data: samarbeidListe } = useHentSamarbeid(
+        orgnummer,
+        iaSak?.saksnummer,
+    );
     const [samarbeidId, setSamarbeidId] = useState("");
     const [type, setType] = useState<SpørreundersøkelseType>("BEHOVSVURDERING");
     const [response, setResponse] = useState<object | null>(null);
@@ -360,10 +365,17 @@ export function OpprettKartlegging({ orgnummer, onSuccess }: PostProps) {
         >
             <div>
                 <span>samarbeidId: </span>
-                <input
+                <select
                     value={samarbeidId}
                     onChange={(e) => setSamarbeidId(e.target.value)}
-                />
+                >
+                    <option value="">Velg samarbeid</option>
+                    {samarbeidListe?.map((s) => (
+                        <option key={s.id} value={s.id}>
+                            {s.id} - {s.navn || "(uten navn)"} ({s.status})
+                        </option>
+                    ))}
+                </select>
             </div>
             <div>
                 <span>type: </span>
@@ -383,6 +395,11 @@ export function OpprettKartlegging({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function StartKartlegging({ orgnummer, onSuccess }: PostProps) {
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
+    const { data: samarbeidListe } = useHentSamarbeid(
+        orgnummer,
+        iaSak?.saksnummer,
+    );
     const [samarbeidId, setSamarbeidId] = useState("");
     const [spørreundersøkelseId, setSpørreundersøkelseId] = useState("");
     const [response, setResponse] = useState<object | null>(null);
@@ -411,10 +428,17 @@ export function StartKartlegging({ orgnummer, onSuccess }: PostProps) {
         >
             <div>
                 <span>samarbeidId: </span>
-                <input
+                <select
                     value={samarbeidId}
                     onChange={(e) => setSamarbeidId(e.target.value)}
-                />
+                >
+                    <option value="">Velg samarbeid</option>
+                    {samarbeidListe?.map((s) => (
+                        <option key={s.id} value={s.id}>
+                            {s.id} - {s.navn || "(uten navn)"} ({s.status})
+                        </option>
+                    ))}
+                </select>
             </div>
             <div>
                 <span>spørreundersøkelseId: </span>
@@ -429,6 +453,11 @@ export function StartKartlegging({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function FullførKartlegging({ orgnummer, onSuccess }: PostProps) {
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
+    const { data: samarbeidListe } = useHentSamarbeid(
+        orgnummer,
+        iaSak?.saksnummer,
+    );
     const [samarbeidId, setSamarbeidId] = useState("");
     const [spørreundersøkelseId, setSpørreundersøkelseId] = useState("");
     const [response, setResponse] = useState<object | null>(null);
@@ -457,10 +486,17 @@ export function FullførKartlegging({ orgnummer, onSuccess }: PostProps) {
         >
             <div>
                 <span>samarbeidId: </span>
-                <input
+                <select
                     value={samarbeidId}
                     onChange={(e) => setSamarbeidId(e.target.value)}
-                />
+                >
+                    <option value="">Velg samarbeid</option>
+                    {samarbeidListe?.map((s) => (
+                        <option key={s.id} value={s.id}>
+                            {s.id} - {s.navn || "(uten navn)"} ({s.status})
+                        </option>
+                    ))}
+                </select>
             </div>
             <div>
                 <span>spørreundersøkelseId: </span>
@@ -475,6 +511,11 @@ export function FullførKartlegging({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function OpprettSamarbeidsplan({ orgnummer, onSuccess }: PostProps) {
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
+    const { data: samarbeidListe } = useHentSamarbeid(
+        orgnummer,
+        iaSak?.saksnummer,
+    );
     const [samarbeidId, setSamarbeidId] = useState("");
     const [planJson, setPlanJson] = useState('{"tema": []}');
     const [response, setResponse] = useState<object | null>(null);
@@ -504,10 +545,17 @@ export function OpprettSamarbeidsplan({ orgnummer, onSuccess }: PostProps) {
         >
             <div>
                 <span>samarbeidId: </span>
-                <input
+                <select
                     value={samarbeidId}
                     onChange={(e) => setSamarbeidId(e.target.value)}
-                />
+                >
+                    <option value="">Velg samarbeid</option>
+                    {samarbeidListe?.map((s) => (
+                        <option key={s.id} value={s.id}>
+                            {s.id} - {s.navn || "(uten navn)"} ({s.status})
+                        </option>
+                    ))}
+                </select>
             </div>
             <div>
                 <span>PlanMal (JSON):</span>
