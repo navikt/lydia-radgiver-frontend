@@ -3,7 +3,6 @@ import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "@navikt/ds-css";
 import { useHentBrukerinformasjon } from "./api/lydia-api/bruker";
 import { Prioriteringsside } from "./Pages/Prioritering/Prioriteringsside";
-import { Virksomhetsside } from "./Pages/Virksomhet/Virksomhetsside";
 import { FeilmeldingBanner } from "./components/Banner/FeilmeldingBanner";
 import { Dekoratør, erIDev } from "./components/Dekoratør/Dekoratør";
 import { Footer } from "./components/Footer/Footer";
@@ -147,36 +146,12 @@ const AppContent = () => {
                             className={styles.fullBreddeAppramme}
                             id="maincontent"
                         >
-                            <Virksomhetsside />
-                        </main>
-                    }
-                />
-                <Route
-                    path={"/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
-                    element={
-                        <main
-                            className={styles.fullBreddeAppramme}
-                            id="maincontent"
-                        >
-                            <Virksomhetsside />
-                        </main>
-                    }
-                />
-                <Route
-                    path={
-                        "/nyflyt/virksomhet/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"
-                    }
-                    element={
-                        <main
-                            className={styles.fullBreddeAppramme}
-                            id="maincontent"
-                        >
                             <NyVirksomhetsside />
                         </main>
                     }
                 />
                 <Route
-                    path={"/nyflyt/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
+                    path={"/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
                     element={
                         <main
                             className={styles.fullBreddeAppramme}
@@ -196,7 +171,7 @@ const AppContent = () => {
                 />
                 {erIDev && (
                     <Route
-                        path={"/nyflyt/debugside/:id"}
+                        path={"/debugside/:id"}
                         element={
                             <main className={styles.appramme} id="maincontent">
                                 <Debugside />
