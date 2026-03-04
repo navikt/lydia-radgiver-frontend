@@ -5,7 +5,7 @@ import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useHentSalesforceSamarbeidLenke } from "../../../api/lydia-api/virksomhet";
 import VirksomhetContext from "../../NyFlyt/Virksomhetsside/VirksomhetContext";
 import Virksomhetsheader from "./Virksomhetsheader";
-import styles from "../../Virksomhet/virksomhetsvisning.module.scss";
+import styles from "./virksomhetsvisning.module.scss";
 import Samarbeidsvelger from "./Samarbeidsvelger";
 import {
     IaSakProsess,
