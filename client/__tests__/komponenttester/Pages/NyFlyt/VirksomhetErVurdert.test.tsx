@@ -2,7 +2,7 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { axe } from "jest-axe";
 
-import { NyVirksomhetsside } from "../../../../src/Pages/NyFlyt/Virksomhetsside";
+import { NyVirksomhetsside } from "../../../../src/Pages/Virksomhet";
 import { BrowserRouter } from "react-router-dom";
 import {
     dummyIaSak,

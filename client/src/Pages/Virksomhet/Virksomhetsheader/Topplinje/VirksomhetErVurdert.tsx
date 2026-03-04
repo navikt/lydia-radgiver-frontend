@@ -14,16 +14,16 @@ import {
     IASak,
     VirksomhetIATilstandEnum,
     VirksomhetTilstandDto,
-} from "../../../../../domenetyper/domenetyper";
-import { Virksomhet } from "../../../../../domenetyper/virksomhet";
-import { lokalDato } from "../../../../../util/dato";
+} from "../../../../domenetyper/domenetyper";
+import { Virksomhet } from "../../../../domenetyper/virksomhet";
+import { lokalDato } from "../../../../util/dato";
 import { DocPencilIcon } from "@navikt/aksel-icons";
-import { EierskapKnapp } from "../../../../Virksomhet/Samarbeid/EierskapKnapp";
+import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
 import { Salesforcelenke } from "..";
 import {
     endrePlanlagtDatoNyFlyt,
     vurderSakNyFlyt,
-} from "../../../../../api/lydia-api/nyFlyt";
+} from "../../../../api/lydia-api/nyFlyt";
 
 export default function VirksomhetErVurdert({
     iaSak,

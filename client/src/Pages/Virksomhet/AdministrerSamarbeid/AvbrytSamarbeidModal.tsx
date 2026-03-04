@@ -3,9 +3,9 @@ import { BodyLong, Button, Modal } from "@navikt/ds-react";
 import {
     IaSakProsess,
     SamarbeidRequest,
-} from "../../../../domenetyper/iaSakProsess";
-import { IASak } from "../../../../domenetyper/domenetyper";
-import { avsluttSamarbeidNyFlyt } from "../../../../api/lydia-api/nyFlyt";
+} from "../../../domenetyper/iaSakProsess";
+import { IASak } from "../../../domenetyper/domenetyper";
+import { avsluttSamarbeidNyFlyt } from "../../../api/lydia-api/nyFlyt";
 import BekreftSisteSamarbeidModal, {
     erSisteSamarbeid,
 } from "./BekreftSisteSamarbeidModal";

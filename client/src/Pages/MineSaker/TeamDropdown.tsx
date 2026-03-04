@@ -9,7 +9,7 @@ import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
 import { IASak } from "../../domenetyper/domenetyper";
 import TeamInnhold from "./TeamInnhold";
 import { useHentTeam } from "../../api/lydia-api/team";
-import { useErPåInaktivSak } from "../NyFlyt/Virksomhetsside/VirksomhetContext";
+import { useErPåInaktivSak } from "../Virksomhet/VirksomhetContext";
 import React from "react";
 import { TaEierskapModal } from "./TaEierSkapModal";
 

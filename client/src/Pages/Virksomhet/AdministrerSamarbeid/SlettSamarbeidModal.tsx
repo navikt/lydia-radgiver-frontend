@@ -9,11 +9,11 @@ import {
     LocalAlert,
     Modal,
 } from "@navikt/ds-react";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { IASak } from "../../../../domenetyper/domenetyper";
-import { useHentPlan } from "../../../../api/lydia-api/plan";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { IASak } from "../../../domenetyper/domenetyper";
+import { useHentPlan } from "../../../api/lydia-api/plan";
 import styles from "./administrerSamarbeid.module.scss";
-import { slettSamarbeidNyFlyt } from "../../../../api/lydia-api/nyFlyt";
+import { slettSamarbeidNyFlyt } from "../../../api/lydia-api/nyFlyt";
 
 export default function SlettSamarbeidModal({
     ref,

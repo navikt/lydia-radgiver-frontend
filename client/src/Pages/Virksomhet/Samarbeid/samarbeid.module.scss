@@ -1,5 +1,5 @@
-@use "../../../styling/_contentSpacing.scss" as spacing;
-@use "../Samarbeid/_samarbeidModal.scss" as modal;
+@use "../../../styling/contentSpacing" as spacing;
+@use "./samarbeidModal" as modal;
 
 .samarbeidsvisningContainer {
     --a-font-size-heading-xlarge: 1.75rem;

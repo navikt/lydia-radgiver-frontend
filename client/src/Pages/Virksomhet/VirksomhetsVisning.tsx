@@ -1,29 +1,29 @@
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
 import { HStack, Tabs, VStack } from "@navikt/ds-react";
-import { Virksomhet } from "../../../domenetyper/virksomhet";
-import { useHentSalesforceSamarbeidLenke } from "../../../api/lydia-api/virksomhet";
-import VirksomhetContext from "../../NyFlyt/Virksomhetsside/VirksomhetContext";
+import { Virksomhet } from "../../domenetyper/virksomhet";
+import { useHentSalesforceSamarbeidLenke } from "../../api/lydia-api/virksomhet";
+import VirksomhetContext from "./VirksomhetContext";
 import Virksomhetsheader from "./Virksomhetsheader";
 import styles from "./virksomhetsvisning.module.scss";
 import Samarbeidsvelger from "./Samarbeidsvelger";
 import {
     IaSakProsess,
     IASamarbeidStatusType,
-} from "../../../domenetyper/iaSakProsess";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
-import { loggNavigertTilNyTab } from "../../../util/analytics-klient";
-import { SykefraværsstatistikkFane } from "../../Virksomhet/Statistikk/SykefraværsstatistikkFane";
-import { SakshistorikkFane } from "../../Virksomhet/Sakshistorikk/SakshistorikkFane";
-import { SamarbeidProvider } from "../../Virksomhet/Samarbeid/SamarbeidContext";
-import { EndreSamarbeidModal } from "../../Virksomhet/Samarbeid/EndreSamarbeidModal";
-import { IASak } from "../../../domenetyper/domenetyper";
-import { EksternLenke } from "../../../components/EksternLenke";
-import SamarbeidsplanFane from "../../Virksomhet/Plan/SamarbeidsplanFane";
-import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
-import { Kartleggingsliste } from "../../Virksomhet/Kartlegging/Kartleggingsliste";
-import { useHarPlan } from "../../../api/lydia-api/plan";
-import { useHentSisteSakNyFlyt } from "../../../api/lydia-api/nyFlyt";
+} from "../../domenetyper/iaSakProsess";
+import { useHentSamarbeid } from "../../api/lydia-api/spørreundersøkelse";
+import { loggNavigertTilNyTab } from "../../util/analytics-klient";
+import { SykefraværsstatistikkFane } from "./Statistikk/SykefraværsstatistikkFane";
+import { SakshistorikkFane } from "./Sakshistorikk/SakshistorikkFane";
+import { SamarbeidProvider } from "./Samarbeid/SamarbeidContext";
+import { EndreSamarbeidModal } from "./Samarbeid/EndreSamarbeidModal";
+import { IASak } from "../../domenetyper/domenetyper";
+import { EksternLenke } from "../../components/EksternLenke";
+import SamarbeidsplanFane from "./Plan/SamarbeidsplanFane";
+import { SamarbeidStatusBadge } from "../../components/Badge/SamarbeidStatusBadge";
+import { Kartleggingsliste } from "./Kartlegging/Kartleggingsliste";
+import { useHarPlan } from "../../api/lydia-api/plan";
+import { useHentSisteSakNyFlyt } from "../../api/lydia-api/nyFlyt";
 import AdministrerSamarbeid from "./AdministrerSamarbeid";
 
 interface Props {

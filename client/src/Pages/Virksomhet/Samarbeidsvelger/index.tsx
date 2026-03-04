@@ -4,15 +4,15 @@ import { Button, HStack, ReadMore, Skeleton } from "@navikt/ds-react";
 import {
     IAProsessStatusEnum,
     IASak,
-} from "../../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+} from "../../../domenetyper/domenetyper";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import styles from "./samarbeidsvelger.module.scss";
-import { SamarbeidStatusBadge } from "../../../../components/Badge/SamarbeidStatusBadge";
-import { InternLenke } from "../../../../components/InternLenke";
+import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
+import { InternLenke } from "../../../components/InternLenke";
 import { NyttSamarbeidModal } from "../Samarbeid/NyttSamarbeidModal";
-import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
-import { useHentTeam } from "../../../../api/lydia-api/team";
+import { Virksomhet } from "../../../domenetyper/virksomhet";
+import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
+import { useHentTeam } from "../../../api/lydia-api/team";
 import { PlusIcon } from "@navikt/aksel-icons";
 
 export default function Samarbeidsvelger({

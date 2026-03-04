@@ -4,9 +4,9 @@ import {
     IaSakProsess,
     IASamarbeidStatusType,
     SamarbeidRequest,
-} from "../../../../domenetyper/iaSakProsess";
-import { IASak } from "../../../../domenetyper/domenetyper";
-import { avsluttSamarbeidNyFlyt } from "../../../../api/lydia-api/nyFlyt";
+} from "../../../domenetyper/iaSakProsess";
+import { IASak } from "../../../domenetyper/domenetyper";
+import { avsluttSamarbeidNyFlyt } from "../../../api/lydia-api/nyFlyt";
 
 export default function BekreftSisteSamarbeidModal({
     ref,

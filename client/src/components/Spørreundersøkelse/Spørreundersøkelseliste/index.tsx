@@ -1,6 +1,6 @@
 import React from "react";
 import OpprettBehovsvurderingAlert from "../../../Pages/Virksomhet/Kartlegging/OpprettetBehovsvurderingAlert";
-import { useVirksomhetContext } from "../../../Pages/NyFlyt/Virksomhetsside/VirksomhetContext";
+import { useVirksomhetContext } from "../../../Pages/Virksomhet/VirksomhetContext";
 import { sorterPåDato, formaterDatoForSpørreundersøkelse } from "../dato";
 import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
 import SpørreundersøkelseRad from "./SpørreundersøkelseRad";

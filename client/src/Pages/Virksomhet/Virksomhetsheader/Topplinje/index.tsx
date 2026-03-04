@@ -4,19 +4,19 @@ import { Salesforcelenke } from "../";
 import {
     useHentBrukerinformasjon,
     erSaksbehandler,
-} from "../../../../../api/lydia-api/bruker";
+} from "../../../../api/lydia-api/bruker";
 import {
     useHentTilstandForVirksomhetNyFlyt,
     vurderSakNyFlyt,
-} from "../../../../../api/lydia-api/nyFlyt";
-import { useHentTeam } from "../../../../../api/lydia-api/team";
+} from "../../../../api/lydia-api/nyFlyt";
+import { useHentTeam } from "../../../../api/lydia-api/team";
 import {
     IASak,
     VirksomhetIATilstandEnum,
-} from "../../../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../../../domenetyper/iaSakProsess";
-import { Virksomhet } from "../../../../../domenetyper/virksomhet";
-import { useOversiktMutate } from "../../../Debugside/Oversikt";
+} from "../../../../domenetyper/domenetyper";
+import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+import { Virksomhet } from "../../../../domenetyper/virksomhet";
+import { useOversiktMutate } from "../../Debugside/Oversikt";
 import { VirksomhetVurderes } from "./VirksomhetVurderes";
 import VirksomhetErVurdert from "./VirksomhetErVurdert";
 

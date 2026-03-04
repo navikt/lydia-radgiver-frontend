@@ -5,7 +5,7 @@ import {
 import { render, screen, fireEvent } from "@testing-library/react";
 import Spørreundersøkelseliste from "../../../../src/components/Spørreundersøkelse/Spørreundersøkelseliste";
 import React from "react";
-import VirksomhetContext from "../../../../src/Pages/NyFlyt/Virksomhetsside/VirksomhetContext";
+import VirksomhetContext from "../../../../src/Pages/Virksomhet/VirksomhetContext";
 import { SamarbeidProvider } from "../../../../src/Pages/Virksomhet/Samarbeid/SamarbeidContext";
 import {
     dummySpørreundersøkelseliste,

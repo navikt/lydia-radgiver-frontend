@@ -3,7 +3,7 @@ import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import EndreSamarbeidsnavnModal, {
     navnError,
-} from "../../../../src/Pages/NyFlyt/Virksomhetsside/AdministrerSamarbeid/EndreSamarbeidsnavnModal";
+} from "../../../../src/Pages/Virksomhet/AdministrerSamarbeid/EndreSamarbeidsnavnModal";
 import { IaSakProsess } from "../../../../src/domenetyper/iaSakProsess";
 
 HTMLDialogElement.prototype.showModal = jest.fn();

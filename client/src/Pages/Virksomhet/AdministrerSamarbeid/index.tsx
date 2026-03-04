@@ -1,12 +1,12 @@
 import React from "react";
 import { ActionMenu, Button } from "@navikt/ds-react";
-import { useHentTeam } from "../../../../api/lydia-api/team";
+import { useHentTeam } from "../../../api/lydia-api/team";
 import {
     erSaksbehandler,
     useHentBrukerinformasjon,
-} from "../../../../api/lydia-api/bruker";
-import { IASak } from "../../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+} from "../../../api/lydia-api/bruker";
+import { IASak } from "../../../domenetyper/domenetyper";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import {
     CheckmarkCircleIcon,
     ChevronDownIcon,

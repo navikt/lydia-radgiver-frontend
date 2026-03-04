@@ -7,7 +7,7 @@ import {
 import React from "react";
 import { EksternLenke } from "../../../../components/EksternLenke";
 import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
-import { useVirksomhetContext } from "../../../NyFlyt/Virksomhetsside/VirksomhetContext";
+import { useVirksomhetContext } from "../../VirksomhetContext";
 import BegrunnelserForIkkeKunne, {
     usePrettyType,
 } from "./BegrunnelserForIkkeKunne";

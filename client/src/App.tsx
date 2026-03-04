@@ -13,8 +13,8 @@ import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
 import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
 import { Head } from "@unhead/react";
 import styles from "./app.module.scss";
-import Debugside from "./Pages/NyFlyt/Debugside";
-import { NyVirksomhetsside } from "./Pages/NyFlyt/Virksomhetsside";
+import Debugside from "./Pages/Virksomhet/Debugside";
+import { NyVirksomhetsside } from "./Pages/Virksomhet";
 
 const App = () => (
     <BrowserRouter>

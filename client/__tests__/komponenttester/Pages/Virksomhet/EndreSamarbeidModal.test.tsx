@@ -16,7 +16,7 @@ jest.mock("../../../../src/api/lydia-api/virksomhet", () => ({
 }));
 
 jest.mock(
-    "../../../../src/Pages/NyFlyt/Virksomhetsside/VirksomhetContext",
+    "../../../../src/Pages/Virksomhet/VirksomhetContext",
     () => ({
         useVirksomhetContext: jest.fn(() => ({
             virksomhet: { orgnr: "123456789" },

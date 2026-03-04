@@ -7,10 +7,10 @@ import {
     Modal,
     TextField,
 } from "@navikt/ds-react";
-import { MAX_LENGDE_SAMARBEIDSNAVN } from "../../../Virksomhet/Samarbeid/EndreSamarbeidModal/EndreSamarbeidInnhold";
+import { MAX_LENGDE_SAMARBEIDSNAVN } from "../Samarbeid/EndreSamarbeidModal/EndreSamarbeidInnhold";
 import styles from "./administrerSamarbeid.module.scss";
-import { EksternLenke } from "../../../../components/EksternLenke";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+import { EksternLenke } from "../../../components/EksternLenke";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 
 export default function EndreSamarbeidsnavnModal({
     ref,

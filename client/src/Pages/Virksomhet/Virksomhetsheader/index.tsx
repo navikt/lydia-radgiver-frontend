@@ -16,20 +16,20 @@ import {
 } from "@navikt/aksel-icons";
 
 import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
-import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
-import { EksternLenke } from "../../../../components/EksternLenke";
+import { useHentSalesforceUrl } from "../../../api/lydia-api/virksomhet";
+import { EksternLenke } from "../../../components/EksternLenke";
 
-import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { IASak } from "../../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { loggÅpnetVirksomhetsinfo } from "../../../../util/analytics-klient";
-import { InternLenke } from "../../../../components/InternLenke";
-import { useErPåInaktivSak } from "../../../NyFlyt/Virksomhetsside/VirksomhetContext";
+import { Virksomhet } from "../../../domenetyper/virksomhet";
+import { IASak } from "../../../domenetyper/domenetyper";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { loggÅpnetVirksomhetsinfo } from "../../../util/analytics-klient";
+import { InternLenke } from "../../../components/InternLenke";
+import { useErPåInaktivSak } from "../VirksomhetContext";
 
 import styles from "./virksomhetsheader.module.scss";
-import Sakshistorikkmodal from "../../../Virksomhet/Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
-import Sykefraværsstatistikkmodal from "../../../Virksomhet/Statistikk/Sykefraværsstatistikkmodal";
-import { lokalDato } from "../../../../util/dato";
+import Sakshistorikkmodal from "../Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
+import Sykefraværsstatistikkmodal from "../Statistikk/Sykefraværsstatistikkmodal";
+import { lokalDato } from "../../../util/dato";
 import { Topplinje } from "./Topplinje";
 
 export default function Virksomhetsheader({

@@ -17,13 +17,13 @@ import {
     NyFlytBegrunnelse,
     nyFlytBegrunnelseEnum,
     nyFlytÅrsakTypeEnum,
-} from "../../../../../domenetyper/domenetyper";
-import { Virksomhet } from "../../../../../domenetyper/virksomhet";
-import { EierskapKnapp } from "../../../../Virksomhet/Samarbeid/EierskapKnapp";
+} from "../../../../domenetyper/domenetyper";
+import { Virksomhet } from "../../../../domenetyper/virksomhet";
+import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
 import {
     angreVurderingNyFlyt,
     avsluttVurderingNyFlyt,
-} from "../../../../../api/lydia-api/nyFlyt";
+} from "../../../../api/lydia-api/nyFlyt";
 
 export function VirksomhetVurderes({
     iaSak,

@@ -3,16 +3,16 @@ import { BodyLong, Button, LocalAlert, Modal } from "@navikt/ds-react";
 import {
     IaSakProsess,
     SamarbeidRequest,
-} from "../../../../domenetyper/iaSakProsess";
-import { SpørreundersøkelseTypeEnum } from "../../../../domenetyper/spørreundersøkelseMedInnhold";
+} from "../../../domenetyper/iaSakProsess";
+import { SpørreundersøkelseTypeEnum } from "../../../domenetyper/spørreundersøkelseMedInnhold";
 import {
     IASak,
     spørreundersøkelseStatusEnum,
-} from "../../../../domenetyper/domenetyper";
-import { useHentSpørreundersøkelser } from "../../../../api/lydia-api/spørreundersøkelse";
-import { avsluttSamarbeidNyFlyt } from "../../../../api/lydia-api/nyFlyt";
+} from "../../../domenetyper/domenetyper";
+import { useHentSpørreundersøkelser } from "../../../api/lydia-api/spørreundersøkelse";
+import { avsluttSamarbeidNyFlyt } from "../../../api/lydia-api/nyFlyt";
 import styles from "./administrerSamarbeid.module.scss";
-import { useHentPlan } from "../../../../api/lydia-api/plan";
+import { useHentPlan } from "../../../api/lydia-api/plan";
 import BekreftSisteSamarbeidModal, {
     erSisteSamarbeid,
 } from "./BekreftSisteSamarbeidModal";

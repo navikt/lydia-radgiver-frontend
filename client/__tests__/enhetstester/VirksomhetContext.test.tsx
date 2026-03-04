@@ -6,7 +6,7 @@ import VirksomhetContext, {
     useErPåInaktivSak,
     useVirksomhetContext,
     type VirksomhetContextType,
-} from "../../src/Pages/NyFlyt/Virksomhetsside/VirksomhetContext";
+} from "../../src/Pages/Virksomhet/VirksomhetContext";
 import {
     dummyIaSak,
     dummyVirksomhetsinformasjon,

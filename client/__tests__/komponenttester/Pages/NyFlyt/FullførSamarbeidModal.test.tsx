@@ -2,7 +2,7 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { axe } from "jest-axe";
-import FullførSamarbeidModal from "../../../../src/Pages/NyFlyt/Virksomhetsside/AdministrerSamarbeid/FullførSamarbeidModal";
+import FullførSamarbeidModal from "../../../../src/Pages/Virksomhet/AdministrerSamarbeid/FullførSamarbeidModal";
 import { IaSakProsess } from "../../../../src/domenetyper/iaSakProsess";
 import { IASak } from "../../../../src/domenetyper/domenetyper";
 import * as nyFlyt from "../../../../src/api/lydia-api/nyFlyt";
