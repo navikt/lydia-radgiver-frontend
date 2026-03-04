@@ -24,7 +24,7 @@ import { IASak } from "../../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { loggÅpnetVirksomhetsinfo } from "../../../../util/analytics-klient";
 import { InternLenke } from "../../../../components/InternLenke";
-import { useErPåInaktivSak } from "../../../Virksomhet/VirksomhetContext";
+import { useErPåInaktivSak } from "../../../NyFlyt/Virksomhetsside/VirksomhetContext";
 
 import styles from "./virksomhetsheader.module.scss";
 import Sakshistorikkmodal from "../../../Virksomhet/Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";

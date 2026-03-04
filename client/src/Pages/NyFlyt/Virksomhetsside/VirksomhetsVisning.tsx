@@ -3,7 +3,7 @@ import { useParams, useSearchParams } from "react-router-dom";
 import { HStack, Tabs, VStack } from "@navikt/ds-react";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { useHentSalesforceSamarbeidLenke } from "../../../api/lydia-api/virksomhet";
-import VirksomhetContext from "../../Virksomhet/VirksomhetContext";
+import VirksomhetContext from "../../NyFlyt/Virksomhetsside/VirksomhetContext";
 import Virksomhetsheader from "./Virksomhetsheader";
 import styles from "../../Virksomhet/virksomhetsvisning.module.scss";
 import Samarbeidsvelger from "./Samarbeidsvelger";
@@ -35,7 +35,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
 
     const { data: iaSak, loading: lasterIaSak } = useHentSisteSakNyFlyt(
         virksomhet.orgnr,
-        //saksnummer ?? virksomhet.aktivtSaksnummer ?? undefined,
+        // saksnummer ?? virksomhet.aktivtSaksnummer ?? undefined,
     );
 
     const { data: alleSamarbeid, loading: lasterSamarbeid } = useHentSamarbeid(

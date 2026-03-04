@@ -28,7 +28,7 @@ import { BegrunnelseFørstSeksjon } from "./BegrunnelseFørstSeksjon";
 import { FullførSamarbeidFørstSeksjon } from "./FullførSamarbeidFørstSeksjon";
 import styles from "../endrestatusmodal.module.scss";
 import { NyttSamarbeidModal } from "../../../../Samarbeid/NyttSamarbeidModal";
-import { useVirksomhetContext } from "../../../../VirksomhetContext";
+import { useVirksomhetContext } from "../../../../../NyFlyt/Virksomhetsside/VirksomhetContext";
 
 export const Knappecontainer = ({
     className,

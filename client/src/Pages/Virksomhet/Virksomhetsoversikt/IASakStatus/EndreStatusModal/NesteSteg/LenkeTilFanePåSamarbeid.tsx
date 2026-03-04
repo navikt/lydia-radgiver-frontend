@@ -2,7 +2,7 @@ import { Link } from "@navikt/ds-react";
 import React from "react";
 import { IaSakProsess } from "../../../../../../domenetyper/iaSakProsess";
 import { NavLink } from "react-router-dom";
-import { useVirksomhetContext } from "../../../../VirksomhetContext";
+import { useVirksomhetContext } from "../../../../../NyFlyt/Virksomhetsside/VirksomhetContext";
 
 export default function LenkeTilFanePåSamarbeid({
     samarbeidId,

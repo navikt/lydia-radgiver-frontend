@@ -15,7 +15,7 @@ import { opprettSak } from "../../../../../api/lydia-api/sak";
 import { loggStatusendringPåSak } from "../../../../../util/analytics-klient";
 import { RolleEnum } from "../../../../../domenetyper/brukerinformasjon";
 import { knappeTypeFraSakshendelsesType } from "./knappeTypeFraSakshendelsesType";
-import { useErPåAktivSak } from "../../../VirksomhetContext";
+import { useErPåAktivSak } from "../../../../NyFlyt/Virksomhetsside/VirksomhetContext";
 import styles from "./endrestatusmodal.module.scss";
 
 export type StatusHendelseSteg =

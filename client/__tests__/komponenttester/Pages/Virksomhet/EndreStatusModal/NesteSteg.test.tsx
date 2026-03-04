@@ -60,12 +60,15 @@ jest.mock("../../../../../src/api/lydia-api/sak", () => ({
 }));
 
 // Mock VirksomhetContext
-jest.mock("../../../../../src/Pages/Virksomhet/VirksomhetContext", () => ({
-    useVirksomhetContext: jest.fn(() => ({
-        virksomhet: dummyVirksomhetsinformasjon,
-        iaSak: dummyIaSak,
-    })),
-}));
+jest.mock(
+    "../../../../../src/Pages/NyFlyt/Virksomhetsside/VirksomhetContext",
+    () => ({
+        useVirksomhetContext: jest.fn(() => ({
+            virksomhet: dummyVirksomhetsinformasjon,
+            iaSak: dummyIaSak,
+        })),
+    }),
+);
 
 const mockLukkModal = jest.fn();
 const mockClearNesteSteg = jest.fn();

@@ -9,7 +9,7 @@ import useEksportFilnavn from "../../../../components/pdfEksport/useEksportFilna
 import jsPDF from "jspdf";
 import VirksomhetContext, {
     useVirksomhetContext,
-} from "../../VirksomhetContext";
+} from "../../../NyFlyt/Virksomhetsside/VirksomhetContext";
 import ReactDOMServer from "react-dom/server";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { loggEksportertTilPdf } from "../../../../util/analytics-klient";

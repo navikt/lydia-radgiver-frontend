@@ -6,7 +6,7 @@ import {
     useHentSakForVirksomhet,
     useHentSalesforceSamarbeidLenke,
 } from "../../api/lydia-api/virksomhet";
-import VirksomhetContext from "./VirksomhetContext";
+import VirksomhetContext from "../NyFlyt/Virksomhetsside/VirksomhetContext";
 import VirksomhetOgSamarbeidsHeader from "./Virksomhetsoversikt/VirksomhetsinfoHeader/VirksomhetOgSamarbeidsHeader";
 import styles from "./virksomhetsvisning.module.scss";
 import Samarbeidsvelger from "./Samarbeidsvelger";
@@ -232,9 +232,7 @@ function Salesforcelenke({ samarbeidId }: { samarbeidId: number }) {
 
     return (
         <EksternLenke
-            href={
-                salesforceSamarbeidsLenke.salesforceLenke
-            }
+            href={salesforceSamarbeidsLenke.salesforceLenke}
             className={styles.salesforcelenke}
         >
             Salesforce - samarbeid

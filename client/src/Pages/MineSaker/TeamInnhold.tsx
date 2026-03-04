@@ -14,7 +14,7 @@ import {
     leggBrukerTilTeam,
     useHentTeam,
 } from "../../api/lydia-api/team";
-import { useErPåAktivSak } from "../Virksomhet/VirksomhetContext";
+import { useErPåAktivSak } from "../NyFlyt/Virksomhetsside/VirksomhetContext";
 import styles from "./minesaker.module.scss";
 
 function følgerSak(
