@@ -20,6 +20,8 @@ import {
     NyFlytBegrunnelse,
     NyFlytÅrsakType,
 } from "../../../domenetyper/domenetyper";
+import { useHentPlanMal } from "../../../api/lydia-api/plan";
+import { isoDato } from "../../../util/dato";
 
 interface PostProps {
     orgnummer: string;
@@ -517,14 +519,49 @@ export function OpprettSamarbeidsplan({ orgnummer, onSuccess }: PostProps) {
         iaSak?.saksnummer,
     );
     const [samarbeidId, setSamarbeidId] = useState("");
-    const [planJson, setPlanJson] = useState('{"tema": []}');
+    const { data: planMal, loading: lasterPlanMal } = useHentPlanMal();
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async () => {
         setError(null);
+
+        if (!planMal) {
+            setError("Planmal er ikke lastet ennå");
+            return;
+        }
+
+        const iDag = new Date();
+        const enMånedFrem = new Date(iDag);
+        enMånedFrem.setMonth(enMånedFrem.getMonth() + 1);
+
+        const nyPlan = {
+            ...planMal,
+            tema: planMal.tema.map((tema, temaIndex) =>
+                temaIndex === 0
+                    ? {
+                          ...tema,
+                          inkludert: true,
+                          innhold: tema.innhold.map((innhold, innholdIndex) =>
+                              innholdIndex === 0
+                                  ? {
+                                        ...innhold,
+                                        inkludert: true,
+                                        startDato: isoDato(
+                                            iDag,
+                                        ) as unknown as Date,
+                                        sluttDato: isoDato(
+                                            enMånedFrem,
+                                        ) as unknown as Date,
+                                    }
+                                  : innhold,
+                          ),
+                      }
+                    : tema,
+            ),
+        };
+
         try {
-            const nyPlan = JSON.parse(planJson);
             const result = await opprettSamarbeidsplanNyFlyt(
                 orgnummer,
                 samarbeidId,
@@ -557,20 +594,15 @@ export function OpprettSamarbeidsplan({ orgnummer, onSuccess }: PostProps) {
                     ))}
                 </select>
             </div>
-            <div>
-                <span>PlanMal (JSON):</span>
-                <br />
-                <textarea
-                    value={planJson}
-                    onChange={(e) => setPlanJson(e.target.value)}
-                    style={{
-                        width: "400px",
-                        height: "60px",
-                        fontFamily: "monospace",
-                    }}
-                />
-            </div>
-            <button onClick={handleSubmit}>Opprett samarbeidsplan</button>
+            <button
+                onClick={handleSubmit}
+                disabled={!samarbeidId || lasterPlanMal || !planMal}
+            >
+                Opprett samarbeidsplan
+            </button>
+            {!planMal && !lasterPlanMal && (
+                <div style={{ color: "red" }}>Kunne ikke hente planmal</div>
+            )}
         </EndpointSection>
     );
 }
