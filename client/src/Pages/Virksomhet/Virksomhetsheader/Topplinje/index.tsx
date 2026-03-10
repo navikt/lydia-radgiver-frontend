@@ -19,6 +19,7 @@ import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { useOversiktMutate } from "../../Debugside/Oversikt";
 import { VirksomhetVurderes } from "./VirksomhetVurderes";
 import VirksomhetErVurdert from "./VirksomhetErVurdert";
+import VirksomhetHarAktiveSamarbeid from "./VirksomhetHarAktiveSamarbeid";
 
 export function Topplinje({
     virksomhet,
@@ -119,6 +120,18 @@ export function Topplinje({
             <VirksomhetErVurdert
                 iaSak={iaSak!}
                 tilstand={tilstand}
+                virksomhet={virksomhet}
+            />
+        );
+    }
+
+    if (
+        tilstand?.tilstand ===
+        VirksomhetIATilstandEnum.enum.VirksomhetHarAktiveSamarbeid
+    ) {
+        return (
+            <VirksomhetHarAktiveSamarbeid
+                iaSak={iaSak!}
                 virksomhet={virksomhet}
             />
         );

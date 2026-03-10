@@ -34,7 +34,6 @@ export default function VirksomhetErVurdert({
     virksomhet: Virksomhet;
     tilstand: VirksomhetTilstandDto;
 }) {
-    console.log("tilstand", tilstand);
     if (
         tilstand.nesteTilstand?.nyTilstand ===
         VirksomhetIATilstandEnum.enum.VirksomhetVurderes
