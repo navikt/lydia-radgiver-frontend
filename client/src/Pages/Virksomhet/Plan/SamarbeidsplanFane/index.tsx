@@ -41,7 +41,9 @@ export default function SamarbeidsplanFane({
         (erSaksbehandler(brukerInformasjon) && brukerFølgerSak) ||
         brukerErEierAvSak;
 
-    const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
+    const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR", "AKTIV"].includes(
+        iaSak.status,
+    );
     const kanOppretteEllerEndrePlan = eierEllerFølgerSak && sakErIRettStatus;
     const erLesebruker = brukerInformasjon?.rolle === "Lesetilgang";
 
@@ -77,7 +79,8 @@ export default function SamarbeidsplanFane({
                 )}
                 {!sakErIRettStatus && (
                     <BodyShort>
-                        Status må være i <i>Kartlegges</i> eller{" "}
+                        Status må være i <i>Kartlegges</i>, <i>Vi bistår</i>{" "}
+                        eller <i>Aktiv</i> for å opprette ny plan
                         <i>Vi bistår</i> for å opprette ny plan
                     </BodyShort>
                 )}

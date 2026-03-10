@@ -102,8 +102,8 @@ export default function LeggTilTemaKnapp({
             {!sakErIRettStatus && (
                 <>
                     <BodyShort>
-                        Status må være i <i>Kartlegges</i> eller{" "}
-                        <i>Vi bistår</i> for å kunne gjøre endringer
+                        Status må være i <i>Kartlegges</i>, <i>Vi bistår</i>{" "}
+                        eller <i>Aktiv</i> for å kunne gjøre endringer
                     </BodyShort>
                     <br />
                 </>
