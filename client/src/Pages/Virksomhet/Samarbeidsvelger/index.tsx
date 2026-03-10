@@ -1,10 +1,7 @@
 import React from "react";
 
 import { Button, HStack, ReadMore, Skeleton } from "@navikt/ds-react";
-import {
-    IAProsessStatusEnum,
-    IASak,
-} from "../../../domenetyper/domenetyper";
+import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import styles from "./samarbeidsvelger.module.scss";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
@@ -156,9 +153,15 @@ function Samarbeidvelgeroverskrift({
                     ? `Samarbeid${samarbeid && ` (${samarbeid.length})`}`
                     : "Ingen aktive samarbeid"}
             </h3>
-            {iaSak && virksomhet && iaSak.status === "VURDERES" && (
-                <LeggTilSamarbeidKnapp iaSak={iaSak} virksomhet={virksomhet} />
-            )}
+            {iaSak &&
+                virksomhet &&
+                (iaSak.status === IAProsessStatusEnum.enum.VURDERES ||
+                    iaSak.status === IAProsessStatusEnum.enum.AKTIV) && (
+                    <LeggTilSamarbeidKnapp
+                        iaSak={iaSak}
+                        virksomhet={virksomhet}
+                    />
+                )}
         </HStack>
     );
 }

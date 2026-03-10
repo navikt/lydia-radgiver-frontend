@@ -23,6 +23,7 @@ import {
 import { useHentBrukerinformasjon } from "../../../../src/api/lydia-api/bruker";
 import { useHarPlan, useHentPlan } from "../../../../src/api/lydia-api/plan";
 import { useHentSamarbeid } from "../../../../src/api/lydia-api/spørreundersøkelse";
+import { useHentSisteSakNyFlyt } from "../../../../src/api/lydia-api/nyFlyt";
 
 jest.mock("../../../../src/util/analytics-klient", () => {
     const actual = jest.requireActual("../../../../src/util/analytics-klient");
@@ -195,6 +196,76 @@ describe("NyVirksomhetsside", () => {
             </BrowserRouter>,
         );
         expect(screen.getByText("Samarbeid (8)")).toBeInTheDocument();
+    });
+
+    describe("Legg til samarbeid-knapp", () => {
+        afterEach(() => {
+            jest.mocked(useHentSisteSakNyFlyt).mockImplementation(() => ({
+                data: dummyIaSak,
+                loading: false,
+                error: undefined,
+                mutate: jest.fn(),
+                validating: false,
+            }));
+            jest.mocked(useHentBrukerinformasjon).mockImplementation(() => ({
+                data: brukerMedGyldigToken,
+                loading: false,
+                error: undefined,
+                mutate: jest.fn(),
+                validating: false,
+            }));
+        });
+
+        it("Viser legg-til-samarbeid-knapp for bruker med rettigheter", () => {
+            jest.mocked(useHentSisteSakNyFlyt).mockReturnValue({
+                data: {
+                    ...dummyIaSak,
+                    status: "AKTIV",
+                    eidAv: brukerMedGyldigToken.ident,
+                },
+                loading: false,
+                error: undefined,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+            expect(
+                screen.getByTitle("Legg til nytt samarbeid"),
+            ).toBeInTheDocument();
+        });
+
+        it("Skjuler legg-til-samarbeid-knapp for lesebruker", () => {
+            jest.mocked(useHentSisteSakNyFlyt).mockReturnValue({
+                data: {
+                    ...dummyIaSak,
+                    status: "AKTIV",
+                    eidAv: brukerMedGyldigToken.ident,
+                },
+                loading: false,
+                error: undefined,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            jest.mocked(useHentBrukerinformasjon).mockReturnValue({
+                data: brukerMedLesetilgang,
+                loading: false,
+                error: undefined,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+            expect(
+                screen.queryByTitle("Legg til nytt samarbeid"),
+            ).not.toBeInTheDocument();
+        });
     });
 
     describe("Kartlegging", () => {
