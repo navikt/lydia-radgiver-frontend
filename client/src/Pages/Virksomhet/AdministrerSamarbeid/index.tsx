@@ -86,7 +86,7 @@ export default function AdministrerSamarbeid({
                         onSelect={() => slettSamarbeidRef.current?.showModal()}
                         icon={<TrashIcon aria-hidden />}
                     >
-                        Slett
+                        Slett samarbeidet
                     </ActionMenu.Item>
                     <ActionMenu.Group label="Avslutt samarbeidet">
                         <ActionMenu.Item
