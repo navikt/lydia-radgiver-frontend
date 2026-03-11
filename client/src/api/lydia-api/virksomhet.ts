@@ -4,7 +4,6 @@ import {
     Næringsstatistikk,
     næringsstatistikkSchema,
 } from "../../domenetyper/bransjestatistikk";
-import { IASak, iaSakSchema } from "../../domenetyper/domenetyper";
 import {
     HistoriskStatistikk,
     historiskStatistikkSchema,
@@ -112,21 +111,6 @@ export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
         {
             revalidateOnFocus: true,
         },
-    );
-};
-
-export const useHentSakForVirksomhet = (
-    orgnummer?: string,
-    saksnummer?: string,
-) => {
-    const iasakUrl = `${iaSakPath}/${orgnummer}/${saksnummer}`;
-    return useSwrTemplate<IASak | undefined>(
-        iasakUrl,
-        iaSakSchema.optional(),
-        {
-            revalidateOnFocus: true,
-        },
-        orgnummer !== undefined && saksnummer !== undefined,
     );
 };
 

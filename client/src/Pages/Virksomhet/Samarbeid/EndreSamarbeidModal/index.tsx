@@ -5,10 +5,7 @@ import {
     IASakshendelseTypeEnum,
 } from "../../../../domenetyper/domenetyper";
 import React, { useState } from "react";
-import {
-    getKanGjennomføreStatusendring,
-    useHentSakForVirksomhet,
-} from "../../../../api/lydia-api/virksomhet";
+import { getKanGjennomføreStatusendring } from "../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../api/lydia-api/sak";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import {
@@ -18,7 +15,10 @@ import {
 import BekreftHandlingModal from "./BekreftHandlingModal";
 import EndreSamarbeidModalInnhold from "./EndreSamarbeidInnhold";
 import VelgHandlingModal from "./VelgHandlingModal";
-import { useHentHistorikkNyFlyt } from "../../../../api/lydia-api/nyFlyt";
+import {
+    useHentHistorikkNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "../../../../api/lydia-api/nyFlyt";
 
 interface EndreSamarbeidModalProps {
     open: boolean;
@@ -44,7 +44,7 @@ export const EndreSamarbeidModal = ({
     const { mutate: mutateSamarbeidshistorikk } = useHentHistorikkNyFlyt(
         iaSak.orgnr,
     );
-    const { mutate: mutateHentSaker } = useHentSakForVirksomhet(
+    const { mutate: mutateHentSaker } = useHentSpesifikkSakNyFlyt(
         iaSak.orgnr,
         iaSak.saksnummer,
     );

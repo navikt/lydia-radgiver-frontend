@@ -7,18 +7,13 @@ import {
     dummyVirksomhetsinformasjon,
 } from "../../../../__mocks__/virksomhetsMockData";
 import * as nyFlyt from "../../../../src/api/lydia-api/nyFlyt";
-import * as virksomhet from "../../../../src/api/lydia-api/virksomhet";
 import * as spørreundersøkelse from "../../../../src/api/lydia-api/spørreundersøkelse";
 
 jest.mock("../../../../src/api/lydia-api/nyFlyt", () => ({
     ...jest.requireActual("../../../../src/api/lydia-api/nyFlyt"),
     opprettSamarbeidNyFlyt: jest.fn(),
     useHentHistorikkNyFlyt: jest.fn(),
-}));
-
-jest.mock("../../../../src/api/lydia-api/virksomhet", () => ({
-    ...jest.requireActual("../../../../src/api/lydia-api/virksomhet"),
-    useHentSakForVirksomhet: jest.fn(),
+    useHentSpesifikkSakNyFlyt: jest.fn(),
 }));
 
 jest.mock("../../../../src/api/lydia-api/spørreundersøkelse", () => ({
@@ -51,7 +46,7 @@ describe("NyttSamarbeidModal", () => {
             mutate: jest.fn(),
         });
 
-        (virksomhet.useHentSakForVirksomhet as jest.Mock).mockReturnValue({
+        (nyFlyt.useHentSpesifikkSakNyFlyt as jest.Mock).mockReturnValue({
             data: iaSak,
             loading: false,
             mutate: jest.fn(),

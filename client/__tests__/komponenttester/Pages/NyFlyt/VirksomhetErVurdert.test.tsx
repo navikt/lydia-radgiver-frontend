@@ -36,11 +36,6 @@ jest.mock("../../../../src/api/lydia-api/virksomhet", () => {
             data: dummyVirksomhetsinformasjonNyFlyt,
             loading: false,
         })),
-        useHentSakForVirksomhet: jest.fn(() => ({
-            data: dummyIaSak,
-            loading: false,
-            mutate: jest.fn(),
-        })),
         useHentSakshistorikk: jest.fn(() => ({
             data: dummySakshistorikk,
             loading: false,
@@ -98,6 +93,11 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
         useHentSisteSakNyFlyt: jest.fn(() => ({
             data: undefined,
             loading: false,
+        })),
+        useHentSpesifikkSakNyFlyt: jest.fn(() => ({
+            data: dummyIaSak,
+            loading: false,
+            mutate: jest.fn(),
         })),
         useHentVirksomhetNyFlyt: jest.fn(() => ({
             data: dummyVirksomhetsinformasjonNyFlyt,

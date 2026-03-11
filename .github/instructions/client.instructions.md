@@ -61,7 +61,7 @@ Standard SWR-konfig har `revalidateOnFocus: false` og `revalidateOnReconnect: fa
 
 **Returverdier** – `useSwrTemplate` returnerer `{ data, mutate, error, loading, validating }`. Bruk `mutate` for å tvinge SWR til å hente data på nytt etter en mutasjon:
 ```tsx
-const { data: sak, mutate: oppdaterSak } = useHentSakForVirksomhet(orgnr, saksnummer);
+const { data: sak, mutate: oppdaterSak } = useHentSpesifikkSakNyFlyt(orgnr, saksnummer);
 
 await nyHendelsePåSak(sak, hendelse);
 oppdaterSak(); // invaliderer SWR-cachen og henter saken på nytt

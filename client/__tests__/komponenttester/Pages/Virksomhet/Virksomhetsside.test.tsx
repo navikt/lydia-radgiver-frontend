@@ -43,12 +43,6 @@ jest.mock("../../../../src/api/lydia-api/virksomhet", () => {
                 loading: false,
             };
         }),
-        useHentSakForVirksomhet: jest.fn(() => {
-            return {
-                data: dummyIaSak,
-                loading: false,
-            };
-        }),
         useHentSakshistorikk: jest.fn(() => {
             return {
                 data: dummySakshistorikk,
@@ -136,6 +130,11 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
         useHentSisteSakNyFlyt: jest.fn(() => ({
             data: dummyIaSak,
             loading: false,
+        })),
+        useHentSpesifikkSakNyFlyt: jest.fn(() => ({
+            data: dummyIaSak,
+            loading: false,
+            mutate: jest.fn(),
         })),
         useHentTilstandForVirksomhetNyFlyt: jest.fn(() => ({
             data: undefined,

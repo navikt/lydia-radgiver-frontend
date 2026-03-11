@@ -27,8 +27,8 @@ import {
     avsluttVurderingNyFlyt,
     angreVurderingNyFlyt,
     opprettSamarbeidNyFlyt,
+    useHentSpesifikkSakNyFlyt,
 } from "../../../../src/api/lydia-api/nyFlyt";
-import { useHentSakForVirksomhet } from "../../../../src/api/lydia-api/virksomhet";
 import { useHentTeam } from "../../../../src/api/lydia-api/team";
 
 jest.mock("../../../../src/util/analytics-klient", () => {
@@ -47,13 +47,6 @@ jest.mock("../../../../src/api/lydia-api/virksomhet", () => {
             return {
                 data: dummyVirksomhetsinformasjonNyFlyt,
                 loading: false,
-            };
-        }),
-        useHentSakForVirksomhet: jest.fn(() => {
-            return {
-                data: dummyIaSak,
-                loading: false,
-                mutate: jest.fn(),
             };
         }),
         useHentSakshistorikk: jest.fn(() => {
@@ -134,6 +127,11 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
         useHentSisteSakNyFlyt: jest.fn(() => ({
             data: undefined,
             loading: false,
+        })),
+        useHentSpesifikkSakNyFlyt: jest.fn(() => ({
+            data: dummyIaSak,
+            loading: false,
+            mutate: jest.fn(),
         })),
         useHentVirksomhetNyFlyt: jest.fn(() => {
             return {
@@ -355,7 +353,7 @@ describe("NyVirksomhetsside", () => {
         });
 
         it("Angre vurdering", () => {
-            jest.mocked(useHentSakForVirksomhet).mockReturnValue({
+            jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
                 data: { ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" },
                 loading: false,
                 error: null,
@@ -386,7 +384,7 @@ describe("NyVirksomhetsside", () => {
         });
 
         it("Har ingen accessibilityfeil som ikke-eier", async () => {
-            jest.mocked(useHentSakForVirksomhet).mockReturnValue({
+            jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
                 data: { ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" },
                 loading: false,
                 error: null,

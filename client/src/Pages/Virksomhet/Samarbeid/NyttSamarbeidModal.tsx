@@ -10,7 +10,6 @@ import {
 } from "@navikt/ds-react";
 import React, { useState } from "react";
 
-import { useHentSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { MAX_LENGDE_SAMARBEIDSNAVN } from "./EndreSamarbeidModal/EndreSamarbeidInnhold";
 import { useNavigate } from "react-router-dom";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
@@ -20,6 +19,7 @@ import styles from "./samarbeid.module.scss";
 import {
     opprettSamarbeidNyFlyt,
     useHentHistorikkNyFlyt,
+    useHentSpesifikkSakNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
 
 interface NyttSamarbeidProps {
@@ -44,7 +44,7 @@ export const NyttSamarbeidModal = ({
         setNavn("");
         setÅpen(false);
     };
-    const { mutate: hentAktivSakPåNytt } = useHentSakForVirksomhet(
+    const { mutate: hentAktivSakPåNytt } = useHentSpesifikkSakNyFlyt(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
