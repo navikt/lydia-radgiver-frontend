@@ -1,8 +1,8 @@
 import React from "react";
 import { Button, ButtonProps, Modal } from "@navikt/ds-react";
-import { useHentSakshistorikk } from "../../../../api/lydia-api/virksomhet";
 import { SykefraværshistorikkInnhold } from ".";
 import { ClockIcon } from "@navikt/aksel-icons";
+import { useHentHistorikkNyFlyt } from "../../../../api/lydia-api/nyFlyt";
 
 export default function Sakshistorikkmodal({
     orgnr,
@@ -42,7 +42,7 @@ export default function Sakshistorikkmodal({
 
 function Modalinnhold({ orgnr }: { orgnr: string }) {
     const { data: sakshistorikk, loading: lasterSakshistorikk } =
-        useHentSakshistorikk(orgnr);
+        useHentHistorikkNyFlyt(orgnr);
 
     return (
         <Modal.Body>

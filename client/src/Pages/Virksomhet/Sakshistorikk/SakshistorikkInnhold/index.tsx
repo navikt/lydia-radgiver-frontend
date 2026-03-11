@@ -1,5 +1,4 @@
 import { Accordion, BodyShort, Heading, Loader } from "@navikt/ds-react";
-import { useHentSakshistorikk } from "../../../../api/lydia-api/virksomhet";
 import { Sakshistorikk } from "../../../../domenetyper/sakshistorikk";
 import styles from "./sykefraværshistorikkinnhold.module.scss";
 import { IAProsessStatusBadge } from "../../../../components/Badge/IAProsessStatusBadge";
@@ -7,6 +6,7 @@ import { lokalDato } from "../../../../util/dato";
 import Samarbeidshistorikk from "../Samarbeidshistorikk";
 import { LeveransehistorikkTabell } from "../LeveransehistorikkTabell";
 import { SakshistorikkTabell } from "../SakshistorikkTabell";
+import { useHentHistorikkNyFlyt } from "../../../../api/lydia-api/nyFlyt";
 
 type SakshistorikkInnholdProps = {
     sakshistorikk?: Sakshistorikk[];
@@ -23,7 +23,7 @@ export default function SakshistorikkMedDatahenting({
     Innhold?: React.ComponentType<SakshistorikkInnholdProps>;
 }) {
     const { data: sakshistorikk, loading: lasterSakshistorikk } =
-        useHentSakshistorikk(orgnr);
+        useHentHistorikkNyFlyt(orgnr);
 
     return (
         <Innhold
@@ -117,8 +117,19 @@ export function SykefraværshistorikkInnhold({
 }
 
 function sorterSakshistorikkPåTid({ sakshendelser }: Sakshistorikk) {
+    for (const hendelse of sakshendelser) {
+        if (!hendelse.tidspunktForSnapshot.getTime) {
+            console.log(
+                `ERRERRERRERRERRERRERRERRERR: Sakshendelse mangler tidspunktForSnapshot: ${JSON.stringify(
+                    hendelse,
+                )}`,
+            );
+        }
+    }
+
     return sakshendelser.sort(
         (a, b) =>
-            b.tidspunktForSnapshot.getTime() - a.tidspunktForSnapshot.getTime(),
+            new Date(b.tidspunktForSnapshot).getTime() -
+            new Date(a.tidspunktForSnapshot).getTime(),
     );
 }

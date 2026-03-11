@@ -3,8 +3,6 @@ import React from "react";
 import { Virksomhetsoversikt } from "../../../domenetyper/virksomhetsoversikt";
 import { Heading, Loader, Table } from "@navikt/ds-react";
 import { InternLenke } from "../../../components/InternLenke";
-
-import { useHentSakshistorikk } from "../../../api/lydia-api/virksomhet";
 import Samarbeidshistorikk from "../../Virksomhet/Sakshistorikk/Samarbeidshistorikk";
 import {
     flip,
@@ -13,6 +11,7 @@ import {
     useInteractions,
 } from "@floating-ui/react";
 import { IAProsessStatusEnum } from "../../../domenetyper/domenetyper";
+import { useHentHistorikkNyFlyt } from "../../../api/lydia-api/nyFlyt";
 
 export default function Virksomhetsnavncelle({
     virksomhetsoversikt,
@@ -99,7 +98,7 @@ function VirksomhetsoversiktPopover({
     style: React.CSSProperties;
 }) {
     const { data: sakshistorikk, loading: lasterSakshistorikk } =
-        useHentSakshistorikk(virksomhetsoversikt.orgnr);
+        useHentHistorikkNyFlyt(virksomhetsoversikt.orgnr);
 
     const aktivSak = React.useMemo(() => {
         if (!sakshistorikk || sakshistorikk.length === 0) {

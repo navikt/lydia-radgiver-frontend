@@ -10,17 +10,17 @@ import {
 } from "@navikt/ds-react";
 import React, { useState } from "react";
 
-import {
-    useHentSakForVirksomhet,
-    useHentSakshistorikk,
-} from "../../../api/lydia-api/virksomhet";
+import { useHentSakForVirksomhet } from "../../../api/lydia-api/virksomhet";
 import { MAX_LENGDE_SAMARBEIDSNAVN } from "./EndreSamarbeidModal/EndreSamarbeidInnhold";
 import { useNavigate } from "react-router-dom";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { EksternLenke } from "../../../components/EksternLenke";
 import styles from "./samarbeid.module.scss";
-import { opprettSamarbeidNyFlyt } from "../../../api/lydia-api/nyFlyt";
+import {
+    opprettSamarbeidNyFlyt,
+    useHentHistorikkNyFlyt,
+} from "../../../api/lydia-api/nyFlyt";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
@@ -48,7 +48,7 @@ export const NyttSamarbeidModal = ({
         iaSak.orgnr,
         iaSak.saksnummer,
     );
-    const { mutate: hentHistorikkPåNytt } = useHentSakshistorikk(iaSak.orgnr);
+    const { mutate: hentHistorikkPåNytt } = useHentHistorikkNyFlyt(iaSak.orgnr);
     const { mutate: hentSamarbeidPåNytt, data: samarbeidData } =
         useHentSamarbeid(iaSak.orgnr, iaSak.saksnummer);
     const samarbeidsnavnBasertPåVirksomhet =

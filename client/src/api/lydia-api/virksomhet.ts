@@ -18,10 +18,6 @@ import {
     publiseringsinfoSchema,
 } from "../../domenetyper/publiseringsinfo";
 import {
-    Sakshistorikk,
-    sakshistorikkSchema,
-} from "../../domenetyper/sakshistorikk";
-import {
     SalesforceInfo,
     salesforceInfoSchema,
     SalesforceSamarbeid,
@@ -44,7 +40,6 @@ import { defaultSwrConfiguration, useSwrTemplate } from "./networkRequests";
 import {
     bransjePath,
     historiskStatistikkPath,
-    iaSakHistorikkPath,
     iaSakPath,
     næringPath,
     publiseringsinfoPath,
@@ -135,15 +130,6 @@ export const useHentSakForVirksomhet = (
     );
 };
 
-export const useHentSakshistorikk = (orgnummer?: string) => {
-    return useSwrTemplate<Sakshistorikk[]>(
-        () => (orgnummer ? `${iaSakHistorikkPath}/${orgnummer}` : null),
-        sakshistorikkSchema.array(),
-        {
-            revalidateOnFocus: true,
-        },
-    );
-};
 export const useHentHistoriskstatistikk = (orgnummer?: string) => {
     const historiskStatistikkUrl = `${sykefraværsstatistikkPath}/${orgnummer}/${historiskStatistikkPath}`;
     return useSwrTemplate<HistoriskStatistikk>(
