@@ -7,7 +7,8 @@ import {
 } from "../../../../domenetyper/plan";
 import { PlusIcon } from "@navikt/aksel-icons";
 import TemaInnholdVelger from "../TemaInnholdVelger";
-import { nyPlanPåSak, useHentPlan } from "../../../../api/lydia-api/plan";
+import { useHentPlan } from "../../../../api/lydia-api/plan";
+import { opprettSamarbeidsplanNyFlyt } from "../../../../api/lydia-api/nyFlyt";
 import { isoDato } from "../../../../util/dato";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { loggModalÅpnet } from "../../../../util/analytics-klient";
@@ -106,7 +107,11 @@ export default function OpprettPlanKnapp({
 
         const nyPlan = lagRequest(redigertPlanMal);
 
-        nyPlanPåSak(orgnummer, saksnummer, samarbeid.id, nyPlan).then(() => {
+        opprettSamarbeidsplanNyFlyt(
+            orgnummer,
+            String(samarbeid.id),
+            nyPlan as unknown as PlanMal,
+        ).then(() => {
             hentPlanIgjen();
             hentSamarbeidPåNytt();
             setHarSendtNyPlan(false);
