@@ -6,7 +6,10 @@ import {
     SamarbeidRequest,
 } from "../../../domenetyper/iaSakProsess";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { avsluttSamarbeidNyFlyt } from "../../../api/lydia-api/nyFlyt";
+import {
+    avsluttSamarbeidNyFlyt,
+    slettSamarbeidNyFlyt,
+} from "../../../api/lydia-api/nyFlyt";
 
 export default function BekreftSisteSamarbeidModal({
     ref,
@@ -23,7 +26,7 @@ export default function BekreftSisteSamarbeidModal({
 }) {
     const [senderRequest, setSenderRequest] = React.useState(false);
 
-    const onAvbryt = async () => {
+    const onConfirmAction = async () => {
         setSenderRequest(true);
 
         try {
@@ -31,20 +34,27 @@ export default function BekreftSisteSamarbeidModal({
                 return;
             }
 
-            const samarbeid: SamarbeidRequest = {
-                id: valgtSamarbeid?.id,
-                navn: valgtSamarbeid?.navn,
-                status: nyStatus,
-                startDato: null,
-                sluttDato: null,
-                endretTidspunkt: null,
-            };
+            if (nyStatus === "SLETTET") {
+                await slettSamarbeidNyFlyt(
+                    iaSak.orgnr,
+                    String(valgtSamarbeid.id),
+                );
+            } else {
+                const samarbeid: SamarbeidRequest = {
+                    id: valgtSamarbeid?.id,
+                    navn: valgtSamarbeid?.navn,
+                    status: nyStatus,
+                    startDato: null,
+                    sluttDato: null,
+                    endretTidspunkt: null,
+                };
 
-            await avsluttSamarbeidNyFlyt(
-                iaSak?.orgnr || "",
-                String(valgtSamarbeid?.id || ""),
-                samarbeid,
-            );
+                await avsluttSamarbeidNyFlyt(
+                    iaSak?.orgnr || "",
+                    String(valgtSamarbeid?.id || ""),
+                    samarbeid,
+                );
+            }
         } catch {
             ref.current?.close();
         } finally {
@@ -95,11 +105,11 @@ export default function BekreftSisteSamarbeidModal({
                     Lukk
                 </Button>
                 <Button
-                    onClick={onAvbryt}
+                    onClick={onConfirmAction}
                     disabled={senderRequest}
                     loading={senderRequest}
                 >
-                    Avbryt samarbeidet
+                    {getTittel(nyStatus)}
                 </Button>
             </Modal.Footer>
         </Modal>
@@ -112,6 +122,8 @@ function getTittel(nyStatus: IASamarbeidStatusType) {
             return "Avbryt samarbeidet";
         case "FULLFØRT":
             return "Fullfør samarbeidet";
+        case "SLETTET":
+            return "Slett samarbeidet";
         default:
             return "";
     }
@@ -123,6 +135,8 @@ function getStatusPresens(nyStatus: IASamarbeidStatusType) {
             return "avbryter";
         case "FULLFØRT":
             return "fullfører";
+        case "SLETTET":
+            return "sletter";
         default:
             return "";
     }
@@ -134,6 +148,8 @@ function getStatusInfinitiv(nyStatus: IASamarbeidStatusType) {
             return "avbryte";
         case "FULLFØRT":
             return "fullføre";
+        case "SLETTET":
+            return "slette";
         default:
             return "";
     }

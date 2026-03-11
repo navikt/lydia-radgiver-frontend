@@ -117,6 +117,7 @@ export default function AdministrerSamarbeid({
                 ref={slettSamarbeidRef}
                 iaSak={iaSak}
                 valgtSamarbeid={valgtSamarbeid}
+                alleSamarbeid={alleSamarbeid}
             />
             <FullførSamarbeidModal
                 ref={fullførSamarbeidRef}

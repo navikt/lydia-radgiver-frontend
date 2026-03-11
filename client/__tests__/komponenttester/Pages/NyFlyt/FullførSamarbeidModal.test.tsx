@@ -171,10 +171,11 @@ describe("FullførSamarbeidModal", () => {
 
         it("kaller avsluttSamarbeidNyFlyt ved bekreftelse i bekreft-modalen", async () => {
             renderModal(testSamarbeid, testIaSak, [testSamarbeid]);
-            const bekreftKnapp = screen.getByRole("button", {
-                name: "Avbryt samarbeidet",
+            const bekreftKnappar = screen.getAllByRole("button", {
+                name: "Fullfør samarbeidet",
                 hidden: true,
             });
+            const bekreftKnapp = bekreftKnappar[bekreftKnappar.length - 1];
             fireEvent.click(bekreftKnapp);
             await waitFor(() => {
                 expect(avsluttSamarbeidMock).toHaveBeenCalledWith(

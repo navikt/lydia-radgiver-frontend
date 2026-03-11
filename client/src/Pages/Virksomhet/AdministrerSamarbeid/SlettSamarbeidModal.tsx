@@ -14,16 +14,24 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { useHentPlan } from "../../../api/lydia-api/plan";
 import styles from "./administrerSamarbeid.module.scss";
 import { slettSamarbeidNyFlyt } from "../../../api/lydia-api/nyFlyt";
+import BekreftSisteSamarbeidModal, {
+    erSisteSamarbeid,
+} from "./BekreftSisteSamarbeidModal";
 
 export default function SlettSamarbeidModal({
     ref,
     valgtSamarbeid,
     iaSak,
+    alleSamarbeid,
 }: {
     ref: React.RefObject<HTMLDialogElement | null>;
     valgtSamarbeid?: IaSakProsess | null;
     iaSak?: IASak;
+    alleSamarbeid?: IaSakProsess[];
 }) {
+    const bekreftSisteSamarbeidRef = React.useRef<HTMLDialogElement | null>(
+        null,
+    );
     const plan = useHentPlan(
         iaSak?.orgnr,
         iaSak?.saksnummer,
@@ -33,7 +41,11 @@ export default function SlettSamarbeidModal({
 
     const onSlett = async () => {
         setError(null);
-        if (iaSak && valgtSamarbeid) {
+        if (alleSamarbeid && erSisteSamarbeid(valgtSamarbeid, alleSamarbeid)) {
+            ref.current?.close();
+            bekreftSisteSamarbeidRef.current?.showModal();
+            return;
+        } else if (iaSak && valgtSamarbeid) {
             try {
                 await slettSamarbeidNyFlyt(
                     iaSak?.orgnr,
@@ -126,6 +138,13 @@ export default function SlettSamarbeidModal({
                     </Button>
                 </Modal.Footer>
             </Modal>
+            <BekreftSisteSamarbeidModal
+                ref={bekreftSisteSamarbeidRef}
+                iaSak={iaSak}
+                valgtSamarbeid={valgtSamarbeid}
+                nyStatus="SLETTET"
+                alleSamarbeid={alleSamarbeid}
+            />
         </>
     );
 }

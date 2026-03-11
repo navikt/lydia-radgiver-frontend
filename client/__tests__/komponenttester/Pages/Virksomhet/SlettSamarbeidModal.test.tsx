@@ -11,6 +11,7 @@ jest.mock("../../../../src/api/lydia-api/plan", () => ({
 
 jest.mock("../../../../src/api/lydia-api/nyFlyt", () => ({
     slettSamarbeidNyFlyt: jest.fn(),
+    avsluttSamarbeidNyFlyt: jest.fn(),
 }));
 
 jest.mock("@navikt/ds-react", () => {
@@ -35,6 +36,13 @@ const { useHentPlan } = jest.requireMock("../../../../src/api/lydia-api/plan");
 const { slettSamarbeidNyFlyt } = jest.requireMock(
     "../../../../src/api/lydia-api/nyFlyt",
 );
+
+function createMockSamarbeidMedId(
+    id: number,
+    overrides?: Partial<IaSakProsess>,
+): IaSakProsess {
+    return createMockSamarbeid({ id, ...overrides });
+}
 
 function createMockSamarbeid(overrides?: Partial<IaSakProsess>): IaSakProsess {
     return {
@@ -65,7 +73,11 @@ function createMockIaSak(overrides?: Partial<IASak>): IASak {
     };
 }
 
-function renderModal(valgtSamarbeid?: IaSakProsess | null, iaSak?: IASak) {
+function renderModal(
+    valgtSamarbeid?: IaSakProsess | null,
+    iaSak?: IASak,
+    alleSamarbeid?: IaSakProsess[],
+) {
     const ref = {
         current: { close: jest.fn() },
     } as unknown as React.RefObject<HTMLDialogElement | null>;
@@ -74,6 +86,7 @@ function renderModal(valgtSamarbeid?: IaSakProsess | null, iaSak?: IASak) {
             ref={ref}
             valgtSamarbeid={valgtSamarbeid}
             iaSak={iaSak}
+            alleSamarbeid={alleSamarbeid}
         />,
     );
     return ref;
@@ -189,6 +202,59 @@ describe("SlettSamarbeidModal", () => {
             expect(
                 screen.queryByText(`Ønsker du å slette ${samarbeid.navn}?`),
             ).not.toBeInTheDocument();
+        });
+    });
+
+    describe("siste samarbeid", () => {
+        beforeEach(() => {
+            useHentPlan.mockReturnValue({ data: undefined });
+            slettSamarbeidNyFlyt.mockResolvedValue({});
+        });
+
+        test("kaller ikke slettSamarbeidNyFlyt direkte når det er siste samarbeid", async () => {
+            const samarbeid = createMockSamarbeid();
+            renderModal(samarbeid, createMockIaSak(), [samarbeid]);
+
+            fireEvent.click(screen.getByRole("button", { name: "Slett" }));
+
+            await waitFor(() => {
+                expect(slettSamarbeidNyFlyt).not.toHaveBeenCalled();
+            });
+        });
+
+        test("kaller slettSamarbeidNyFlyt via BekreftSisteSamarbeidModal ved bekreftelse", async () => {
+            const samarbeid = createMockSamarbeidMedId(5);
+            const iaSak = createMockIaSak();
+            renderModal(samarbeid, iaSak, [samarbeid]);
+
+            fireEvent.click(
+                screen.getByRole("button", { name: "Slett samarbeidet" }),
+            );
+
+            await waitFor(() => {
+                expect(slettSamarbeidNyFlyt).toHaveBeenCalledWith(
+                    iaSak.orgnr,
+                    "5",
+                );
+            });
+        });
+
+        test("kaller slettSamarbeidNyFlyt direkte når det ikke er siste samarbeid", async () => {
+            const samarbeid = createMockSamarbeidMedId(10);
+            const annetSamarbeid = createMockSamarbeidMedId(20, {
+                navn: "Annet samarbeid",
+            });
+            const iaSak = createMockIaSak();
+            renderModal(samarbeid, iaSak, [samarbeid, annetSamarbeid]);
+
+            fireEvent.click(screen.getByRole("button", { name: "Slett" }));
+
+            await waitFor(() => {
+                expect(slettSamarbeidNyFlyt).toHaveBeenCalledWith(
+                    iaSak.orgnr,
+                    "10",
+                );
+            });
         });
     });
 });
