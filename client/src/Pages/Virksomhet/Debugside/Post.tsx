@@ -349,8 +349,7 @@ export function OpprettKartlegging({ orgnummer, onSuccess }: PostProps) {
             const result = await opprettKartleggingNyFlyt(
                 orgnummer,
                 samarbeidId,
-                (type.charAt(0).toUpperCase() +
-                    type.slice(1).toLowerCase()) as SpørreundersøkelseType, // Konverterer fra f.eks. "BEHOVSVURDERING" til "Behovsvurdering" for å matche backend
+                type,
             );
             setResponse(result);
             onSuccess();
@@ -389,6 +388,9 @@ export function OpprettKartlegging({ orgnummer, onSuccess }: PostProps) {
                 >
                     <option value="BEHOVSVURDERING">BEHOVSVURDERING</option>
                     <option value="EVALUERING">EVALUERING</option>
+                    <option value="Behovsvurdering">Behovsvurdering</option>
+                    <option value="Evaluering">Evaluering</option>
+                    <option value="UGYLDIG_TYPE">UGYLDIG_TYPE</option>
                 </select>
             </div>
             <button onClick={handleSubmit}>Opprett kartlegging</button>
