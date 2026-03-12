@@ -37,6 +37,14 @@ export function penskrivIAStatus(status: IAProsessStatusType) {
             return "Vi bistår";
         case IAProsessStatusEnum.enum.FULLFØRT:
             return "Fullført";
+        case IAProsessStatusEnum.enum.AKTIV:
+            return "Aktiv";
+        case IAProsessStatusEnum.enum.VURDERT:
+            return "Vurdert";
+        case IAProsessStatusEnum.enum.AVSLUTTET:
+            return "Avsluttet";
+        case IAProsessStatusEnum.enum.AVBRUTT:
+            return "Avbrutt";
         default:
             return status;
     }
@@ -45,8 +53,10 @@ export const hentVariantForIAStatus = (status: IAProsessStatusType) => {
     switch (status) {
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
         case IAProsessStatusEnum.enum.SLETTET:
+        case IAProsessStatusEnum.enum.AVBRUTT:
         default:
             return "neutral-moderate";
+        case IAProsessStatusEnum.enum.AVSLUTTET:
         case IAProsessStatusEnum.enum.VURDERES:
             return "info-moderate";
         case IAProsessStatusEnum.enum.KONTAKTES:
@@ -54,9 +64,11 @@ export const hentVariantForIAStatus = (status: IAProsessStatusType) => {
         case IAProsessStatusEnum.enum.KARTLEGGES:
             return "warning-moderate";
         case IAProsessStatusEnum.enum.VI_BISTÅR:
+        case IAProsessStatusEnum.enum.AKTIV:
             return "success-filled";
         case IAProsessStatusEnum.enum.NY:
         case IAProsessStatusEnum.enum.FULLFØRT:
+        case IAProsessStatusEnum.enum.VURDERT:
             return "alt1-moderate";
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
             return "error-moderate";
