@@ -7,7 +7,7 @@
         "dev": "vite",
         "test": "jest",
         "test:coverage": "jest --coverage",
-        "prebuild": "npm run lint && tsc",
+        "prebuild": "pnpm lint && tsc",
         "build": "vite build",
         "preview": "vite preview",
         "lint": "eslint src/",
