@@ -1,9 +1,10 @@
 FROM node:lts-alpine
+RUN npm install -g pnpm
 
 WORKDIR /home/node/app
-COPY package*.json .
-RUN npm install
+COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+RUN pnpm install
 COPY . .
 
 EXPOSE 5173
-CMD ["npm", "run", "dev"]
+CMD ["pnpm", "dev"]
