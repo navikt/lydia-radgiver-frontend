@@ -7,10 +7,7 @@ export function graphTooltip() {
     return (
         <Tooltip
             itemSorter={(item) => graflinjer[item.dataKey as Grafer].rekkefølge}
-            formatter={(
-                value: number | undefined,
-                name: string | undefined,
-            ) => [
+            formatter={(value, name) => [
                 <span
                     className={styles.graphTooltipItemWrapper}
                     key={`tooltip-${name}`}
