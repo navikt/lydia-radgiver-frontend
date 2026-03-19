@@ -9,31 +9,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 10
       - name: Setup node
         uses: actions/setup-node@v6
         with:
           node-version: 20
           registry-url: https://npm.pkg.github.com
+          cache: pnpm
+          cache-dependency-path: |
+            server/pnpm-lock.yaml
+            client/pnpm-lock.yaml
       - name: Install deps server
         working-directory: server
-        run: npm ci
+        run: pnpm install --frozen-lockfile
       - name: Run server tests
         working-directory: server
-        run: npm run test
+        run: pnpm test
       - name: Install deps client
         working-directory: client
-        run: npm ci --ignore-scripts
+        run: pnpm install --frozen-lockfile --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
       - name: Run client tests
         working-directory: client
-        run: npm run test
+        run: pnpm test
       - name: Lint and build frontend
         working-directory: client
-        run: npm run build
+        run: pnpm build
       - name: Build frackend
         working-directory: server
-        run: npm run build
+        run: pnpm build
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v4
       - name: Build and push docker image

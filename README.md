@@ -26,6 +26,15 @@ Dette vert orkestrert av docker-compose.
 Lag token på github med packages:read rettigheter.
 Legg så dette inn i ~/.npmrc slik som dette:
 `//npm.pkg.github.com/:_authToken=<generert token med packages:read rettigheter>`
+
+Denne fila blir lest av pnpm også, så det er ikkje nødvendig med eiga pnpm-konfigurasjon.
+
+### Pakkeverktøy
+
+Prosjektet bruker [pnpm](https://pnpm.io/) som pakkeverktøy. Installer med:
+`brew install pnpm`
+eller `npm install -g pnpm`
+
 Husk å logge på gcp med `gcloud auth login --update-adc`
 
 ### Før du startar
@@ -152,7 +161,7 @@ Etter dette fungerte ting på magisk vis 2023-03-23.
 Andre ting vi prøvde som kanskje/kanskje ikkje hjalp
 
 - installere dependencies i /server
-- køyre `npm run dev` i /server (etter at docker-containarar var stoppa) for å sjå feilmeldinger litt betre
+- køyre `pnpm dev` i /server (etter at docker-containarar var stoppa) for å sjå feilmeldinger litt betre
 - docker logs
 
 </details>
@@ -239,7 +248,7 @@ Vi legg med ei oppsummering av ting vi prøvde før vi googla som ikkje fungerte
 #### Feilsøking som ikkje funka
 
 - Ta ned alle containarar og volumes: `docker-compose down --remove-orphans -v`
-- Køyr opp med `docker-compose up` i root og `npm run dev` i /client for meir gjennomsiktig logging.
+- Køyr opp med `docker-compose up` i root og `pnpm dev` i /client for meir gjennomsiktig logging.
 - Får feilmeldingar om "proxy error at /innloggetAnsatt". At noko skjer på :3000 tyder på at vi ikkje når frackend.
 - (Ein gong rundt her lurer Per-Christian på om IPv6 kan vere problemet, vi burde fylgd dette sporet allereie no.)
 - Sjekkar logs på frackend-container: `docker logs [container id]`. Dei er normale (typ 10-ish linjer)
@@ -309,13 +318,13 @@ nvm use 18
 node -v
 ```
 
-Kjør npm install på nytt i både server og client
+Kjør pnpm install på nytt i både server og client
 
 ```bash
 cd client
-npm install
+pnpm install
 cd ../server
-npm install
+pnpm install
 ```
 
 Stop docker images og slett frackend imaget
@@ -398,7 +407,7 @@ Leggje inn alle manglande kafka-topics i `docker-compose.yaml`. Hentar verdiar f
 
 Lærdom:
 
-- Framleis fint å køyre opp ting med `dc up` + `npm run dev`, då får ein betre feilmeldingar.
+- Framleis fint å køyre opp ting med `dc up` + `pnpm dev`, då får ein betre feilmeldingar.
 - Det er lurt å la ting køyre ein stund etter at du har framprovosert feilen, i tilfelle terminalen spyttar ut fleire feilmeldingar etter kvart. Det gjorde den i dag. Det viste seg at om ein venta nokre minutt spytta den ut alle manglande topics.
 
 ### Socket-hangup (den som liknar på localhost-ipv6-buggen)

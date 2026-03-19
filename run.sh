@@ -51,6 +51,6 @@ then
 
   # kjør opp frontend
   cd client
-  npm install
-  npm run dev
+  pnpm install
+  pnpm dev
 fi

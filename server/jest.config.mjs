@@ -95,7 +95,7 @@ const config = {
     moduleNameMapper: {
         "^jose": "jose",
     },
-    transformIgnorePatterns: ["/node_modules/(?!jose/.*)"],
+    transformIgnorePatterns: ["node_modules/(?!(.pnpm|jose)/)"],
 
     // An array of regexp pattern strings, matched against all module paths before considered 'visible' to the module loader
     // modulePathIgnorePatterns: [],

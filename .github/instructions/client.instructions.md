@@ -143,7 +143,7 @@ Hoved-URL-strukturen er:
 - Testrammeverk: Jest + `@testing-library/react`
 - Enhetstester: `__tests__/enhetstester/`
 - Komponenttester: `__tests__/komponenttester/`
-- Kjør tester med `npm test` fra `client/`-mappen
+- Kjør tester med `pnpm test` fra `client/`-mappen
 - Bruk norske `describe`/`test`-tekster som beskriver oppførselen
 
 ## Analytics
