@@ -28,12 +28,10 @@ import {
 export function VirksomhetVurderes({
     iaSak,
     eierEllerFølgerSak,
-    lasterHandling,
     virksomhet,
 }: {
     iaSak: IASak;
     eierEllerFølgerSak: boolean;
-    lasterHandling: boolean;
     virksomhet: Virksomhet;
 }) {
     const [lagrerVurdering, setLagrerVurdering] = useState(false);
@@ -79,8 +77,7 @@ export function VirksomhetVurderes({
                 <>
                     <Button
                         onClick={() => førsteModalRef.current?.showModal?.()}
-                        disabled={!eierEllerFølgerSak || lasterHandling}
-                        loading={lasterHandling}
+                        disabled={!eierEllerFølgerSak}
                         size="small"
                         variant="secondary"
                     >
