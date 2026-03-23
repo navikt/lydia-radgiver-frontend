@@ -127,6 +127,7 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
         useHentSisteSakNyFlyt: jest.fn(() => ({
             data: undefined,
             loading: false,
+            mutate: jest.fn(),
         })),
         useHentSpesifikkSakNyFlyt: jest.fn(() => ({
             data: dummyIaSak,
@@ -137,8 +138,14 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
             return {
                 data: dummyVirksomhetsinformasjonNyFlyt,
                 loading: false,
+                mutate: jest.fn(),
             };
         }),
+        useHentHistorikkNyFlyt: jest.fn(() => ({
+            data: [],
+            loading: false,
+            mutate: jest.fn(),
+        })),
     };
 });
 

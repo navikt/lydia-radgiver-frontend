@@ -295,9 +295,13 @@ export function useOversiktMutate(orgnummer: string) {
     const { mutate: mutateSak } = useHentSisteSakNyFlyt(orgnummer);
     const { mutate: mutateTilstand } =
         useHentTilstandForVirksomhetNyFlyt(orgnummer);
+    const { mutate: mutateVirksomhet } = useHentVirksomhetNyFlyt(orgnummer);
+    const { mutate: mutateHistorikk } = useHentHistorikkNyFlyt(orgnummer);
 
     return () => {
         mutateSak();
         mutateTilstand();
+        mutateVirksomhet();
+        mutateHistorikk();
     };
 }

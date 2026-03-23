@@ -24,6 +24,7 @@ import {
     angreVurderingNyFlyt,
     avsluttVurderingNyFlyt,
 } from "../../../../api/lydia-api/nyFlyt";
+import { useOversiktMutate } from "../../Debugside/Oversikt";
 
 export function VirksomhetVurderes({
     iaSak,
@@ -34,6 +35,7 @@ export function VirksomhetVurderes({
     eierEllerFølgerSak: boolean;
     virksomhet: Virksomhet;
 }) {
+    const mutate = useOversiktMutate(virksomhet.orgnr);
     const [lagrerVurdering, setLagrerVurdering] = useState(false);
     const førsteModalRef = React.useRef<HTMLDialogElement>(null);
     const andreModalRef = React.useRef<HTMLDialogElement>(null);
@@ -63,12 +65,15 @@ export function VirksomhetVurderes({
             dato: selectedDay?.toISOString().split("T")[0], // TODO: Hvaslags format skal dette være?
         }).finally(() => {
             setLagrerVurdering(false);
+            mutate();
             andreModalRef.current?.close();
         });
     };
 
     const onAngreVurdering = () => {
-        angreVurderingNyFlyt(virksomhet.orgnr);
+        angreVurderingNyFlyt(virksomhet.orgnr).finally(() => {
+            mutate();
+        });
     };
 
     return (

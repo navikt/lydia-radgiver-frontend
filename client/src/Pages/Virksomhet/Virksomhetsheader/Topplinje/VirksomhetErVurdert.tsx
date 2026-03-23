@@ -24,6 +24,7 @@ import {
     endrePlanlagtDatoNyFlyt,
     vurderSakNyFlyt,
 } from "../../../../api/lydia-api/nyFlyt";
+import { useOversiktMutate } from "../../Debugside/Oversikt";
 
 export default function VirksomhetErVurdert({
     iaSak,
@@ -68,12 +69,14 @@ export default function VirksomhetErVurdert({
 
 function VurderVirksomhetenNå({ orgnr }: { orgnr: string }) {
     const [senderRequest, setSenderRequest] = React.useState(false);
+    const mutate = useOversiktMutate(orgnr);
 
     const onVurderNå = () => {
         if (!senderRequest) {
             setSenderRequest(true);
             vurderSakNyFlyt(orgnr).finally(() => {
                 setSenderRequest(false);
+                mutate();
             });
         }
     };
@@ -105,6 +108,7 @@ function VurderesAutomatiskModal({
     iaSak: IASak;
     virksomhet: Virksomhet;
 }) {
+    const mutate = useOversiktMutate(virksomhet.orgnr);
     const modalRef = React.useRef<HTMLDialogElement>(null);
     const { datepickerProps, inputProps, selectedDay } = useDatepicker({
         fromDate: new Date(),
@@ -113,6 +117,7 @@ function VurderesAutomatiskModal({
 
     function onVurderNå() {
         vurderSakNyFlyt(virksomhet.orgnr).finally(() => {
+            mutate();
             modalRef.current?.close();
         });
     }
@@ -135,6 +140,7 @@ function VurderesAutomatiskModal({
             nyTilstand: tilstand.nesteTilstand.nyTilstand,
             planlagtDato: selectedDay,
         }).finally(() => {
+            mutate();
             modalRef.current?.close();
         });
     }
