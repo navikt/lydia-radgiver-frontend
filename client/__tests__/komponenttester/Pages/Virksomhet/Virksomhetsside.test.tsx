@@ -23,7 +23,10 @@ import {
 import { useHentBrukerinformasjon } from "../../../../src/api/lydia-api/bruker";
 import { useHarPlan, useHentPlan } from "../../../../src/api/lydia-api/plan";
 import { useHentSamarbeid } from "../../../../src/api/lydia-api/spørreundersøkelse";
-import { useHentSisteSakNyFlyt } from "../../../../src/api/lydia-api/nyFlyt";
+import {
+    useHentSisteSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "../../../../src/api/lydia-api/nyFlyt";
 
 jest.mock("../../../../src/util/analytics-klient", () => {
     const actual = jest.requireActual("../../../../src/util/analytics-klient");
@@ -268,6 +271,8 @@ describe("NyVirksomhetsside", () => {
     });
 
     describe("Kartlegging", () => {
+        const aktivSak = { ...dummyIaSak, status: "AKTIV" as const };
+
         beforeEach(() => {
             const searchParamsSet = jest.fn();
             jest.mocked(useSearchParams).mockReturnValue([
@@ -408,7 +413,21 @@ describe("NyVirksomhetsside", () => {
             await waitFor(() => expect(nyEvalueringKnapp).toBeDisabled());
         });
 
-        it("Gir alltid knapp for ny behobsvurdering", () => {
+        it("Gir alltid knapp for ny behovsvurdering uavhengig av plan", () => {
+            jest.mocked(useHentSisteSakNyFlyt).mockReturnValue({
+                data: aktivSak,
+                loading: false,
+                error: undefined,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
+                data: aktivSak,
+                loading: false,
+                error: undefined,
+                mutate: jest.fn(),
+                validating: false,
+            });
             jest.mocked(useHarPlan).mockReturnValue({
                 harPlan: false,
                 lastet: true,
@@ -443,6 +462,74 @@ describe("NyVirksomhetsside", () => {
             });
             expect(nyBehovsvurderingKnapp).toBeInTheDocument();
             expect(nyBehovsvurderingKnapp).toBeEnabled();
+        });
+
+        it("Gir knapp for ny behovsvurdering når sak er AKTIV", () => {
+            jest.mocked(useHentSisteSakNyFlyt).mockReturnValue({
+                data: aktivSak,
+                loading: false,
+                error: undefined,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
+                data: aktivSak,
+                loading: false,
+                error: undefined,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+
+            const samarbeidsknapp = screen.getByRole("link", {
+                name: dummySamarbeid[1].navn as string,
+            });
+            fireEvent.click(samarbeidsknapp);
+            fireEvent.click(screen.getByRole("tab", { name: "Kartlegginger" }));
+
+            expect(
+                screen.getByRole("button", { name: "Ny behovsvurdering" }),
+            ).toBeEnabled();
+        });
+
+        it("Deaktiverer knapp for ny behovsvurdering når sak har ugyldig status", () => {
+            const vurderesSak = {
+                ...dummyIaSak,
+                status: "VURDERES" as const,
+            };
+            jest.mocked(useHentSisteSakNyFlyt).mockReturnValue({
+                data: vurderesSak,
+                loading: false,
+                error: undefined,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
+                data: vurderesSak,
+                loading: false,
+                error: undefined,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+
+            const samarbeidsknapp = screen.getByRole("link", {
+                name: dummySamarbeid[1].navn as string,
+            });
+            fireEvent.click(samarbeidsknapp);
+            fireEvent.click(screen.getByRole("tab", { name: "Kartlegginger" }));
+
+            expect(
+                screen.getByRole("button", { name: "Ny behovsvurdering" }),
+            ).toBeDisabled();
         });
 
         describe("Lesebruker", () => {

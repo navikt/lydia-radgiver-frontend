@@ -95,7 +95,8 @@ export default function OpprettetRad({
                     </ExpansionCard.Title>
                     <ActionButtonsHvisSamarbeidIkkeFullført>
                         {(iaSak.status === "KARTLEGGES" ||
-                            iaSak.status === "VI_BISTÅR") &&
+                            iaSak.status === "VI_BISTÅR" ||
+                            iaSak.status === "AKTIV") &&
                             brukerRolle !== "Lesetilgang" && (
                                 <>
                                     <Button

@@ -121,7 +121,7 @@ export const opprettSamarbeidNyFlyt = (
 
 export const opprettKartleggingNyFlyt = (
     orgnummer: string,
-    samarbeidId: string,
+    samarbeidId: string | number,
     type: SpørreundersøkelseType,
 ): Promise<Spørreundersøkelse> => {
     return post(
