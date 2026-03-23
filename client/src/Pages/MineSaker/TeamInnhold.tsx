@@ -44,11 +44,7 @@ export default function TeamInnhold({
     const brukerIdent = brukerInformasjon?.ident;
     const erPåAktivSak = useErPåAktivSak();
 
-    const kanTaEierskap =
-        iaSak.gyldigeNesteHendelser
-            .map((h) => h.saksHendelsestype)
-            .includes("TA_EIERSKAP_I_SAK") &&
-        (erPåAktivSak || erPåMineSaker);
+    const kanTaEierskap = erPåAktivSak || erPåMineSaker;
 
     return (
         <>
