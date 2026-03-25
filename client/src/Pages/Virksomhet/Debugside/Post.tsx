@@ -528,6 +528,11 @@ export function OpprettSamarbeidsplan({ orgnummer, onSuccess }: PostProps) {
     const handleSubmit = async () => {
         setError(null);
 
+        if (!iaSak) {
+            setError("IA-Sak er ikke lastet ennå");
+            return;
+        }
+
         if (!planMal) {
             setError("Planmal er ikke lastet ennå");
             return;
@@ -566,6 +571,7 @@ export function OpprettSamarbeidsplan({ orgnummer, onSuccess }: PostProps) {
         try {
             const result = await opprettSamarbeidsplanNyFlyt(
                 orgnummer,
+                iaSak.saksnummer,
                 samarbeidId,
                 nyPlan,
             );

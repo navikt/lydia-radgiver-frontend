@@ -28,6 +28,7 @@ export const dokumentPath = `${iaSakPath}/dokument`;
 
 // Ny flyt
 export const nyFlytBasePath = `${basePath}/iasak/nyflyt`;
+export const nyFlytApiBasePath = `/proxy/api/v1`;
 
 export const getSykefraværsstatistikkUrl = (søkeverdier: FiltervisningState) =>
     `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(

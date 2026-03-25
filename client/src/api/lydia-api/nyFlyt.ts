@@ -23,7 +23,7 @@ import {
 } from "../../domenetyper/spørreundersøkelse";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 import { httpDelete, post, put, useSwrTemplate } from "./networkRequests";
-import { nyFlytBasePath } from "./paths";
+import { nyFlytApiBasePath, nyFlytBasePath } from "./paths";
 import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
 
 export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
@@ -165,11 +165,12 @@ export const slettKartleggingNyFlyt = (
 
 export const opprettSamarbeidsplanNyFlyt = (
     orgnummer: string,
+    saksnummer: string,
     samarbeidId: string,
     nyPlan: PlanMal,
 ): Promise<Plan> => {
     return post(
-        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/opprett-samarbeidsplan`,
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/plan`,
         PlanSchema,
         nyPlan,
     );
