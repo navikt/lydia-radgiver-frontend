@@ -13,10 +13,15 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { useHentPlan } from "../../../api/lydia-api/plan";
 import styles from "./administrerSamarbeid.module.scss";
-import { slettSamarbeidNyFlyt } from "../../../api/lydia-api/nyFlyt";
+import {
+    slettSamarbeidNyFlyt,
+    useHentSisteSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "../../../api/lydia-api/nyFlyt";
 import BekreftSisteSamarbeidModal, {
     erSisteSamarbeid,
 } from "./BekreftSisteSamarbeidModal";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 export default function SlettSamarbeidModal({
     ref,
@@ -37,6 +42,15 @@ export default function SlettSamarbeidModal({
         iaSak?.saksnummer,
         valgtSamarbeid?.id,
     );
+    const { mutate: hentSisteSakPåNytt } = useHentSisteSakNyFlyt(iaSak?.orgnr);
+    const { mutate: hentSpesifikkSakPåNytt } = useHentSpesifikkSakNyFlyt(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
     const [error, setError] = React.useState<string | null>(null);
 
     const onSlett = async () => {
@@ -54,6 +68,10 @@ export default function SlettSamarbeidModal({
                 ref.current?.close();
             } catch (e) {
                 setError(e instanceof Error ? e.message : String(e));
+            } finally {
+                hentSpesifikkSakPåNytt();
+                hentSisteSakPåNytt();
+                hentSamarbeidPåNytt();
             }
         } else {
             setError("Kunne ikke finne sak for samarbeid");

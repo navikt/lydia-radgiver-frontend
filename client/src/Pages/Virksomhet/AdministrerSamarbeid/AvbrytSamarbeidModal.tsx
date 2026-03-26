@@ -5,10 +5,15 @@ import {
     SamarbeidRequest,
 } from "../../../domenetyper/iaSakProsess";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { avsluttSamarbeidNyFlyt } from "../../../api/lydia-api/nyFlyt";
+import {
+    avsluttSamarbeidNyFlyt,
+    useHentSisteSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "../../../api/lydia-api/nyFlyt";
 import BekreftSisteSamarbeidModal, {
     erSisteSamarbeid,
 } from "./BekreftSisteSamarbeidModal";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 export default function AvbrytSamarbeidModal({
     ref,
@@ -23,6 +28,15 @@ export default function AvbrytSamarbeidModal({
 }) {
     const bekreftSisteSamarbeidRef = React.useRef<HTMLDialogElement | null>(
         null,
+    );
+    const { mutate: hentSisteSakPåNytt } = useHentSisteSakNyFlyt(iaSak?.orgnr);
+    const { mutate: hentSpesifikkSakPåNytt } = useHentSpesifikkSakNyFlyt(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
     );
     const [senderRequest, setSenderRequest] = React.useState(false);
 
@@ -58,6 +72,9 @@ export default function AvbrytSamarbeidModal({
             ref.current?.close();
         } finally {
             setSenderRequest(false);
+            hentSpesifikkSakPåNytt();
+            hentSisteSakPåNytt();
+            hentSamarbeidPåNytt();
         }
     };
 

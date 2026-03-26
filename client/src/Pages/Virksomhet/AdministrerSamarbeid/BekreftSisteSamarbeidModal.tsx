@@ -9,7 +9,10 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import {
     avsluttSamarbeidNyFlyt,
     slettSamarbeidNyFlyt,
+    useHentSisteSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 export default function BekreftSisteSamarbeidModal({
     ref,
@@ -25,6 +28,15 @@ export default function BekreftSisteSamarbeidModal({
     alleSamarbeid?: IaSakProsess[];
 }) {
     const [senderRequest, setSenderRequest] = React.useState(false);
+    const { mutate: hentSisteSakPåNytt } = useHentSisteSakNyFlyt(iaSak?.orgnr);
+    const { mutate: hentSpesifikkSakPåNytt } = useHentSpesifikkSakNyFlyt(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
 
     const onConfirmAction = async () => {
         setSenderRequest(true);
@@ -59,6 +71,9 @@ export default function BekreftSisteSamarbeidModal({
             ref.current?.close();
         } finally {
             setSenderRequest(false);
+            hentSpesifikkSakPåNytt();
+            hentSisteSakPåNytt();
+            hentSamarbeidPåNytt();
             ref.current?.close();
         }
     };

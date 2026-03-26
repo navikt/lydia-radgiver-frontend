@@ -12,6 +12,12 @@ jest.mock("../../../../src/api/lydia-api/plan", () => ({
 jest.mock("../../../../src/api/lydia-api/nyFlyt", () => ({
     slettSamarbeidNyFlyt: jest.fn(),
     avsluttSamarbeidNyFlyt: jest.fn(),
+    useHentSisteSakNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
+    useHentSpesifikkSakNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
+}));
+
+jest.mock("../../../../src/api/lydia-api/spørreundersøkelse", () => ({
+    useHentSamarbeid: jest.fn(() => ({ mutate: jest.fn() })),
 }));
 
 jest.mock("@navikt/ds-react", () => {

@@ -9,8 +9,15 @@ import {
     IASak,
     spørreundersøkelseStatusEnum,
 } from "../../../domenetyper/domenetyper";
-import { useHentSpørreundersøkelser } from "../../../api/lydia-api/spørreundersøkelse";
-import { avsluttSamarbeidNyFlyt } from "../../../api/lydia-api/nyFlyt";
+import {
+    useHentSamarbeid,
+    useHentSpørreundersøkelser,
+} from "../../../api/lydia-api/spørreundersøkelse";
+import {
+    avsluttSamarbeidNyFlyt,
+    useHentSisteSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "../../../api/lydia-api/nyFlyt";
 import styles from "./administrerSamarbeid.module.scss";
 import { useHentPlan } from "../../../api/lydia-api/plan";
 import BekreftSisteSamarbeidModal, {
@@ -32,6 +39,15 @@ export default function FullførSamarbeidModal({
         null,
     );
     const [senderRequest, setSenderRequest] = React.useState(false);
+    const { mutate: hentSisteSakPåNytt } = useHentSisteSakNyFlyt(iaSak?.orgnr);
+    const { mutate: hentSpesifikkSakPåNytt } = useHentSpesifikkSakNyFlyt(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
     const plan = useHentPlan(
         iaSak?.orgnr,
         iaSak?.saksnummer,
@@ -90,6 +106,9 @@ export default function FullførSamarbeidModal({
             ref.current?.close();
         } finally {
             setSenderRequest(false);
+            hentSpesifikkSakPåNytt();
+            hentSisteSakPåNytt();
+            hentSamarbeidPåNytt();
         }
     };
 
