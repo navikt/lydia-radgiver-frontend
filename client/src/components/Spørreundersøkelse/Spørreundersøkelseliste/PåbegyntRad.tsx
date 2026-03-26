@@ -16,7 +16,7 @@ import { FormatertSpørreundersøkelseType } from "./utils";
 import { useSamarbeidContext } from "../../../Pages/Virksomhet/Samarbeid/SamarbeidContext";
 import {
     fullførKartleggingNyFlyt,
-    startKartleggingNyFlyt,
+    slettKartleggingNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
 
 export default function PåbegyntRad({
@@ -66,7 +66,7 @@ export default function PåbegyntRad({
     const slettSpørreundersøkelsen = () => {
         if (sletterSpørreundersøkelse) return;
         setSletterSpørreundersøkelse(true);
-        startKartleggingNyFlyt(
+        slettKartleggingNyFlyt(
             iaSak.orgnr,
             samarbeidsId,
             spørreundersøkelse.id,
