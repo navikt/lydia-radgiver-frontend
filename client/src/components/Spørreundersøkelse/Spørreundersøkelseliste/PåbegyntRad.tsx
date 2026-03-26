@@ -97,7 +97,8 @@ export default function PåbegyntRad({
                     </ExpansionCard.Title>
                     <ActionButtonsHvisSamarbeidIkkeFullført>
                         {(iaSak.status === "KARTLEGGES" ||
-                            iaSak.status === "VI_BISTÅR") &&
+                            iaSak.status === "VI_BISTÅR" ||
+                            iaSak.status === "AKTIV") &&
                         brukerRolle !== "Lesetilgang" ? (
                             <>
                                 <Button
@@ -156,13 +157,7 @@ export default function PåbegyntRad({
                                     }
                                 />
                             </>
-                        ) : (
-                            <ExpansionCard.Title
-                                className={styles.tittelUtenTopMargin}
-                            >
-                                Behovsvurdering
-                            </ExpansionCard.Title>
-                        )}
+                        ) : null}
                         {brukerRolle && brukerRolle !== "Lesetilgang" && (
                             <SlettSpørreundersøkelseModal
                                 spørreundersøkelse={spørreundersøkelse}
