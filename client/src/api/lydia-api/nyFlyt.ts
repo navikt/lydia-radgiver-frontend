@@ -210,7 +210,7 @@ export const avsluttSamarbeidNyFlyt = (
 
 export const endreSamarbeidsNavnNyFlyt = (
     orgnummer: string,
-    samarbeidId: string,
+    samarbeidId: string | number,
     samarbeid: { id: number; saksnummer: string; navn: string; status: string },
 ): Promise<IaSakProsess> => {
     return put(

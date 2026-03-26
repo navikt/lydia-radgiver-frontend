@@ -11,30 +11,59 @@ import { MAX_LENGDE_SAMARBEIDSNAVN } from "../Samarbeid/EndreSamarbeidModal/Endr
 import styles from "./administrerSamarbeid.module.scss";
 import { EksternLenke } from "../../../components/EksternLenke";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { IASak } from "../../../domenetyper/domenetyper";
+import {
+    endreSamarbeidsNavnNyFlyt,
+    useHentSisteSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "../../../api/lydia-api/nyFlyt";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 
 export default function EndreSamarbeidsnavnModal({
     ref,
-    samarbeid,
+    valgtSamarbeid,
     alleSamarbeid,
+    iaSak,
 }: {
     ref: React.RefObject<HTMLDialogElement | null>;
-    samarbeid: IaSakProsess;
+    valgtSamarbeid: IaSakProsess;
     alleSamarbeid?: IaSakProsess[];
+    iaSak?: IASak;
 }) {
-    const [navn, setNavn] = React.useState(samarbeid.navn ?? "");
+    const [navn, setNavn] = React.useState(valgtSamarbeid.navn ?? "");
     const [lagreNavnVellykket, setLagreNavnVellykket] = React.useState(false);
     const [antallTegn, setAntallTegn] = React.useState(0);
     const navnErUbrukt =
         alleSamarbeid?.find((s) => s.navn === navn) === undefined;
-    const endreNavn = () => {
-        // TODO: Ta i bruk API her når det er klart.
-        alert("Endre navn til: " + navn);
-        setLagreNavnVellykket(true);
-        ref.current?.close();
+    const { mutate: hentSisteSakPåNytt } = useHentSisteSakNyFlyt(iaSak?.orgnr);
+    const { mutate: hentSpesifikkSakPåNytt } = useHentSpesifikkSakNyFlyt(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
+    const endreNavn = async () => {
+        if (!iaSak?.orgnr) return;
+        try {
+            await endreSamarbeidsNavnNyFlyt(iaSak.orgnr, valgtSamarbeid.id, {
+                id: valgtSamarbeid.id,
+                saksnummer: valgtSamarbeid.saksnummer,
+                navn: navn,
+                status: valgtSamarbeid.status,
+            });
+            setLagreNavnVellykket(true);
+            ref.current?.close();
+        } finally {
+            hentSisteSakPåNytt();
+            hentSpesifikkSakPåNytt();
+            hentSamarbeidPåNytt();
+        }
     };
 
     const avbrytEndring = () => {
-        setNavn(samarbeid.navn ?? "");
+        setNavn(valgtSamarbeid.navn ?? "");
         setLagreNavnVellykket(false);
         ref.current?.close();
     };
@@ -64,7 +93,7 @@ export default function EndreSamarbeidsnavnModal({
                     error={navnError(
                         navn,
                         navnErUbrukt,
-                        samarbeid.navn ?? undefined,
+                        valgtSamarbeid.navn ?? undefined,
                     )}
                     onKeyDown={(event) => {
                         // Submit på enter.
@@ -101,7 +130,7 @@ export default function EndreSamarbeidsnavnModal({
                     disabled={
                         !navnErUbrukt ||
                         navn.length === 0 ||
-                        navn === samarbeid.navn
+                        navn === valgtSamarbeid.navn
                     }
                 >
                     Lagre

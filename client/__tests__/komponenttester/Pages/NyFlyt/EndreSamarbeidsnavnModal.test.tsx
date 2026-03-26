@@ -35,7 +35,7 @@ function renderModal(
     const result = render(
         <EndreSamarbeidsnavnModal
             ref={ref}
-            samarbeid={samarbeid}
+            valgtSamarbeid={samarbeid}
             alleSamarbeid={alleSamarbeid}
         />,
     );

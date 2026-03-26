@@ -110,7 +110,8 @@ export default function AdministrerSamarbeid({
             </ActionMenu>
             <EndreSamarbeidsnavnModal
                 ref={endreSamarbeidsnavnRef}
-                samarbeid={valgtSamarbeid}
+                iaSak={iaSak}
+                valgtSamarbeid={valgtSamarbeid}
                 alleSamarbeid={alleSamarbeid}
             />
             <SlettSamarbeidModal
