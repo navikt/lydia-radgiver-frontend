@@ -19,6 +19,7 @@ import styles from "./samarbeid.module.scss";
 import {
     opprettSamarbeidNyFlyt,
     useHentHistorikkNyFlyt,
+    useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
 
@@ -44,7 +45,10 @@ export const NyttSamarbeidModal = ({
         setNavn("");
         setÅpen(false);
     };
-    const { mutate: hentAktivSakPåNytt } = useHentSpesifikkSakNyFlyt(
+    const { mutate: hentAktivSakPåNytt } = useHentSisteSakNyFlyt(
+        virksomhet.orgnr,
+    );
+    const { mutate: hentSpesifikkSakPåNytt } = useHentSpesifikkSakNyFlyt(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
@@ -74,8 +78,9 @@ export const NyttSamarbeidModal = ({
             status: "AKTIV" as const, // TODO: WHAT?
         })
             .then(() => {
-                hentAktivSakPåNytt();
                 hentHistorikkPåNytt();
+                hentAktivSakPåNytt();
+                hentSpesifikkSakPåNytt();
                 hentSamarbeidPåNytt().then((alleSamarbeidListe) => {
                     const sisteNyeSamarbeid = alleSamarbeidListe
                         ?.filter((s) => s.navn === nyttNavn)
