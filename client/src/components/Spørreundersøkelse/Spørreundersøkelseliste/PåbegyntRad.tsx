@@ -11,12 +11,13 @@ import { FullførSpørreundersøkelseModal } from "../../../Pages/Virksomhet/Kar
 import { GyldigTilTidspunkt } from "./Felles";
 import { SpørreundersøkelseStatusBadge } from "../../Badge/SpørreundersøkelseStatusBadge";
 import { SlettSpørreundersøkelseModal } from "../../../Pages/Virksomhet/Kartlegging/SlettSpørreundersøkelseModal";
-import {
-    avsluttSpørreundersøkelse,
-    slettSpørreundersøkelse,
-} from "../../../api/lydia-api/spørreundersøkelse";
 import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
 import { FormatertSpørreundersøkelseType } from "./utils";
+import { useSamarbeidContext } from "../../../Pages/Virksomhet/Samarbeid/SamarbeidContext";
+import {
+    fullførKartleggingNyFlyt,
+    startKartleggingNyFlyt,
+} from "../../../api/lydia-api/nyFlyt";
 
 export default function PåbegyntRad({
     spørreundersøkelse,
@@ -46,15 +47,16 @@ export default function PåbegyntRad({
         iaSak.orgnr,
         iaSak.saksnummer,
     );
+    const { id: samarbeidsId } = useSamarbeidContext();
 
     const MINIMUM_ANTALL_DELTAKERE = 3;
     const deltakereSomHarFullført = 1; // TODO: Hent faktisk antall deltakere som har fullført fra spørreundersøkelsen
     const harNokDeltakere = deltakereSomHarFullført >= MINIMUM_ANTALL_DELTAKERE;
 
     const fullførSpørreundersøkelse = () => {
-        avsluttSpørreundersøkelse(
+        fullførKartleggingNyFlyt(
             iaSak.orgnr,
-            iaSak.saksnummer,
+            samarbeidsId,
             spørreundersøkelse.id,
         ).then(() => {
             hentSpørreundersøkelserPåNytt?.();
@@ -64,9 +66,9 @@ export default function PåbegyntRad({
     const slettSpørreundersøkelsen = () => {
         if (sletterSpørreundersøkelse) return;
         setSletterSpørreundersøkelse(true);
-        slettSpørreundersøkelse(
+        startKartleggingNyFlyt(
             iaSak.orgnr,
-            iaSak.saksnummer,
+            samarbeidsId,
             spørreundersøkelse.id,
         ).then(() => {
             hentSpørreundersøkelserPåNytt?.();

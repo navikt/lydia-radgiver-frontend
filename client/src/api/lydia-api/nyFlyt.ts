@@ -132,7 +132,7 @@ export const opprettKartleggingNyFlyt = (
 
 export const startKartleggingNyFlyt = (
     orgnummer: string,
-    samarbeidId: string,
+    samarbeidId: string | number,
     spørreundersøkelseId: string,
 ): Promise<Spørreundersøkelse> => {
     return post(
@@ -143,7 +143,7 @@ export const startKartleggingNyFlyt = (
 
 export const fullførKartleggingNyFlyt = (
     orgnummer: string,
-    samarbeidId: string,
+    samarbeidId: string | number,
     spørreundersøkelseId: string,
 ): Promise<Spørreundersøkelse> => {
     return post(
@@ -154,7 +154,7 @@ export const fullførKartleggingNyFlyt = (
 
 export const slettKartleggingNyFlyt = (
     orgnummer: string,
-    samarbeidId: string,
+    samarbeidId: string | number,
     spørreundersøkelseId: string,
 ): Promise<Spørreundersøkelse> => {
     return httpDelete(

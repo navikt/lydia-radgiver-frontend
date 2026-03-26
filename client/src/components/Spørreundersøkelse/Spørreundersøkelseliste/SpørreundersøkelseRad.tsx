@@ -12,8 +12,9 @@ import FullførtSpørreundersøkelseRad from "./FullførtSpørreundersøkelseRad
 import PåbegyntRad from "./PåbegyntRad";
 import OpprettetRad from "./OpprettetRad";
 import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
-import { slettSpørreundersøkelse } from "../../../api/lydia-api/spørreundersøkelse";
 import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
+import { slettKartleggingNyFlyt } from "../../../api/lydia-api/nyFlyt";
+import { useSamarbeidContext } from "../../../Pages/Virksomhet/Samarbeid/SamarbeidContext";
 
 export default function SpørreundersøkelseRad({
     spørreundersøkelse,
@@ -43,13 +44,14 @@ export default function SpørreundersøkelseRad({
         iaSak.orgnr,
         iaSak.saksnummer,
     );
+    const { id: samarbeidsId } = useSamarbeidContext();
 
     const slettSpørreundersøkelsen = () => {
         if (sletterSpørreundersøkelse) return;
         setSletterSpørreundersøkelse(true);
-        slettSpørreundersøkelse(
+        slettKartleggingNyFlyt(
             iaSak.orgnr,
-            iaSak.saksnummer,
+            samarbeidsId,
             spørreundersøkelse.id,
         ).then(() => {
             hentSpørreundersøkelserPåNytt?.();

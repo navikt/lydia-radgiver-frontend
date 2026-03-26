@@ -11,7 +11,7 @@ import {
     iaSakProsessSchema,
 } from "../../domenetyper/iaSakProsess";
 import { iaSakPath, spørreundersøkelsePath } from "./paths";
-import { httpDelete, post, put, useSwrTemplate } from "./networkRequests";
+import { post, put, useSwrTemplate } from "./networkRequests";
 import {
     SpørreundersøkelseMedInnhold,
     SpørreundersøkelseMedInnholdSchema,
@@ -44,28 +44,6 @@ export const useHentSamarbeid = (orgnummer?: string, saksnummer?: string) => {
             ? `${iaSakPath}/${orgnummer}/${saksnummer}/prosesser`
             : null,
         iaSakProsessSchema.array(),
-    );
-};
-
-export const avsluttSpørreundersøkelse = (
-    orgnummer: string,
-    saksnummer: string,
-    spørreundersøkelseId: string,
-): Promise<Spørreundersøkelse> => {
-    return post(
-        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}/avslutt`,
-        spørreundersøkelseSchema,
-    );
-};
-
-export const slettSpørreundersøkelse = (
-    orgnummer: string,
-    saksnummer: string,
-    spørreundersøkelseId: string,
-): Promise<Spørreundersøkelse> => {
-    return httpDelete(
-        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}`,
-        spørreundersøkelseSchema,
     );
 };
 
