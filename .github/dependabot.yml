@@ -109,8 +109,6 @@ updates:
     cooldown:
       default-days: 7
       applies-to: version-updates
-    registries:
-      - npm-github
 
   - package-ecosystem: docker
     directory: "/client"
