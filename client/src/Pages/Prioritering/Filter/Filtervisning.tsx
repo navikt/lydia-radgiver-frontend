@@ -5,7 +5,11 @@ import { IAStatusDropdown } from "./IAStatusDropdown";
 import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
-import { Eier, IAProsessStatusType } from "../../../domenetyper/domenetyper";
+import {
+    Eier,
+    IAProsessStatusType,
+    VirksomhetIATilstand,
+} from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
 import { SektorDropdown } from "./SektorDropdown";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
@@ -17,13 +21,14 @@ import {
 } from "../../../util/analytics-klient";
 import { FylkeMultidropdown } from "./FylkeMultidropdown";
 import styles from "./filter.module.scss";
+import { VirksomhetTilstandDropdown } from "./VirksomhetTilstandDropdown";
 
 type Filtervisning = Omit<
     ReturnType<typeof useFiltervisningState>,
     "lastData" | "oppdaterSide" // Disse funksjonene er ikke relevante for denne komponenten, derfor fjernes de fra typen.
 >;
 
-export type Filter = "IA_STATUS" | "EIER" | "SNITTFILTER";
+export type Filter = "IA_STATUS" | "EIER" | "SNITTFILTER" | "VIRKSOMHET_TILSTAND";
 
 interface FiltervisningProps {
     filtervisning: Filtervisning;
@@ -45,6 +50,7 @@ export const Filtervisning = ({
     const [søkeparametre] = useSearchParams();
     const {
         oppdaterAntallArbeidsforhold,
+        oppdaterVirksomhetTilstand,
         oppdaterIastatus,
         oppdaterEiere,
         oppdaterFylker,
@@ -86,6 +92,10 @@ export const Filtervisning = ({
 
     const endreAntallArbeidsforhold = (antallArbeidsforhold: Range) => {
         oppdaterAntallArbeidsforhold({ arbeidsforhold: antallArbeidsforhold });
+    };
+
+    const endreVirksomhetTilstand = (virksomhetTilstand?: VirksomhetIATilstand) => {
+        oppdaterVirksomhetTilstand({ virksomhetTilstand: virksomhetTilstand });
     };
 
     const endreStatus = (iaStatus?: IAProsessStatusType) => {
@@ -180,6 +190,15 @@ export const Filtervisning = ({
             </div>
             <br />
             <div className={styles.rad}>
+                {skalFilterVises("VIRKSOMHET_TILSTAND") && (
+                    <VirksomhetTilstandDropdown
+                        endreVirksomhetTilstand={endreVirksomhetTilstand}
+                        tilstander={
+                            state.filterverdier?.virksomhetTilstander ?? []
+                        }
+                        valgtVirksomhetTilstand={state.virksomhetTilstand}
+                    />
+                )}
                 {skalFilterVises("IA_STATUS") && (
                     <IAStatusDropdown
                         endreStatus={endreStatus}

@@ -85,6 +85,13 @@ const createTestFilterverdier = (
         "sykefravarsprosent",
         "antall_personer",
     ],
+    virksomhetTilstander: [
+        "VirksomhetKlarTilVurdering",
+        "VirksomhetVurderes",
+        "VirksomhetErVurdert",
+        "VirksomhetHarAktiveSamarbeid",
+        "AlleSamarbeidIVirksomhetErAvsluttet",
+    ],
     statuser: [
         "IKKE_AKTIV",
         "VURDERES",

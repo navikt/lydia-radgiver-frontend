@@ -162,13 +162,14 @@ export interface IANySakshendelseDto {
     payload?: string;
 }
 
-export const VirksomhetIATilstandEnum = z.enum([
+const VIRKSOMHET_TILSTANDER = [
     "VirksomhetKlarTilVurdering",
     "VirksomhetVurderes",
     "VirksomhetErVurdert",
     "VirksomhetHarAktiveSamarbeid",
     "AlleSamarbeidIVirksomhetErAvsluttet",
-]);
+] as const;
+export const VirksomhetIATilstandEnum = z.enum(VIRKSOMHET_TILSTANDER);
 
 export const virksomhetTilstandAutomatiskOppdateringSchema = z.object({
     startTilstand: VirksomhetIATilstandEnum,

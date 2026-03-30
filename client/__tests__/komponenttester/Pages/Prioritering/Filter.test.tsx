@@ -1,10 +1,10 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { TallInput } from "../../../../src/Pages/Prioritering/Filter/TallInput";
 import { FraTilFieldset } from "../../../../src/Pages/Prioritering/Filter/FraTilFieldset";
 import {
-    SykefraværsprosentVelger,
     Range,
+    SykefraværsprosentVelger,
 } from "../../../../src/Pages/Prioritering/Filter/SykefraværsprosentVelger";
 import { AntallArbeidsforholdVelger } from "../../../../src/Pages/Prioritering/Filter/AntallArbeidsforholdVelger";
 import { SektorDropdown } from "../../../../src/Pages/Prioritering/Filter/SektorDropdown";
@@ -14,10 +14,11 @@ import { Kommunedropdown } from "../../../../src/Pages/Prioritering/Filter/Kommu
 import { Næringsgruppedropdown } from "../../../../src/Pages/Prioritering/Filter/NæringsgruppeDropdown";
 import { EierDropdown } from "../../../../src/Pages/Prioritering/Filter/EierDropdown";
 import { Filtervisning } from "../../../../src/Pages/Prioritering/Filter/Filtervisning";
-import { Sektor, Næringsgruppe } from "../../../../src/domenetyper/virksomhet";
+import { Næringsgruppe, Sektor } from "../../../../src/domenetyper/virksomhet";
 import {
     Eier,
     IAProsessStatusType,
+    VirksomhetIATilstand,
 } from "../../../../src/domenetyper/domenetyper";
 import {
     FylkeMedKommuner,
@@ -626,6 +627,7 @@ describe("Filtervisning", () => {
     const mockSøkPåNytt = jest.fn();
     const mockFiltervisning = {
         oppdaterAntallArbeidsforhold: jest.fn(),
+        oppdaterVirksomhetTilstand: jest.fn(),
         oppdaterIastatus: jest.fn(),
         oppdaterEiere: jest.fn(),
         oppdaterFylker: jest.fn(),
@@ -642,6 +644,9 @@ describe("Filtervisning", () => {
                 sektorer: [
                     { kode: "PRIVAT", beskrivelse: "Privat" },
                 ] as Sektor[],
+                virksomhetTilstander: [
+                    "VirksomhetVurderes",
+                ] as VirksomhetIATilstand[],
                 statuser: ["VURDERES", "KONTAKTES"] as IAProsessStatusType[],
                 naringsgrupper: mockNæringsgrupper,
                 bransjeprogram: mockBransjeprogram,
@@ -653,6 +658,7 @@ describe("Filtervisning", () => {
             næringsgrupper: [],
             bransjeprogram: [],
             sektor: "",
+            virksomhetTilstand: undefined,
             iaStatus: undefined,
             eiere: [],
             sykefraværsprosent: { fra: 0, til: 100 },

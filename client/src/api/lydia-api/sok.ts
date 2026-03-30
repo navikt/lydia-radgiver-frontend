@@ -88,6 +88,7 @@ export const søkeverdierTilUrlSearchParams = (
         antallArbeidsforhold,
         sorteringsretning,
         sorteringsnokkel,
+        virksomhetTilstand,
         iaStatus,
         side,
         bransjeprogram,
@@ -158,6 +159,12 @@ export const søkeverdierTilUrlSearchParams = (
         "eiere",
         eiere,
         (e) => e.map(({ navIdent }) => navIdent).join(","),
+        params,
+    );
+    appendIfPresent(
+        "virksomhetTilstand",
+        virksomhetTilstand,
+        (status) => status,
         params,
     );
     appendIfPresent("iaStatus", iaStatus, (status) => status, params);

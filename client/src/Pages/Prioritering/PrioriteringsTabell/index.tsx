@@ -12,6 +12,7 @@ import { EndretDataCell } from "../EndretDataCell";
 import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 import Virksomhetsnavncelle from "./Virksomhetsnavncelle";
 import styles from "./prioriteringstabell.module.scss";
+import { VirksomhetTilstandStatusBadge } from "../../../components/Badge/VirksomhetTilstandStatusBadge";
 
 interface Kolonne {
     key: string;
@@ -23,6 +24,11 @@ interface Kolonne {
 // \u00AD-tegnet setter et punkt der et ord kan deles om det ikke får plass
 // Om ordet blir delt vil det automatisk få en bindestrek på delingspunktet
 const kolonner: Kolonne[] = [
+    {
+        key: "tilstand",
+        name: "Tilstand",
+        textAlignment: "left",
+    },
     {
         key: "status",
         name: "Status",
@@ -143,6 +149,11 @@ export const PrioriteringsTabell = ({
                             <Table.Row
                                 key={virksomhetsoversikt.virksomhetsnavn}
                             >
+                                <Table.DataCell>
+                                    <VirksomhetTilstandStatusBadge
+                                        tilstand={virksomhetsoversikt.tilstand}
+                                    />
+                                </Table.DataCell>
                                 <Table.DataCell>
                                     <IAProsessStatusBadge
                                         status={virksomhetsoversikt.status}
