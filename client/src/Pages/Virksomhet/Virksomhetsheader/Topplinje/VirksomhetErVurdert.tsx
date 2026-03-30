@@ -94,7 +94,11 @@ function VurdertTil({ tilstand }: { tilstand: VirksomhetTilstandDto }) {
     }
 
     return (
-        <Tag size="small" variant="neutral-moderate">
+        <Tag
+            size="small"
+            variant="info-filled"
+            style={{ backgroundColor: "var(--a-limegreen-50)" }}
+        >
             Vurdert frem til {lokalDato(tilstand.nesteTilstand.planlagtDato)}
         </Tag>
     );
@@ -157,6 +161,10 @@ function VurderesAutomatiskModal({
                 icon={<DocPencilIcon aria-hidden />}
                 iconPosition="right"
                 onClick={() => modalRef.current?.showModal()}
+                style={{
+                    backgroundColor: "var(--a-limegreen-50)",
+                    color: "var(--a-black)",
+                }}
             >
                 Vurderes automatisk{" "}
                 {lokalDato(tilstand.nesteTilstand.planlagtDato)}

@@ -31,6 +31,8 @@ import Sakshistorikkmodal from "../Sakshistorikk/SakshistorikkInnhold/Sakshistor
 import Sykefraværsstatistikkmodal from "../Statistikk/Sykefraværsstatistikkmodal";
 import { lokalDato } from "../../../util/dato";
 import { Topplinje } from "./Topplinje";
+import { VirksomhetTilstandStatusBadge } from "../../../components/Badge/VirksomhetTilstandStatusBadge";
+import { useHentTilstandForVirksomhetNyFlyt } from "../../../api/lydia-api/nyFlyt";
 
 export default function Virksomhetsheader({
     virksomhet,
@@ -43,6 +45,9 @@ export default function Virksomhetsheader({
 }) {
     const buttonRef = useRef<HTMLButtonElement>(null);
     const [openState, setOpenState] = useState(false);
+    const { data: tilstand } = useHentTilstandForVirksomhetNyFlyt(
+        virksomhet.orgnr,
+    );
 
     const erPåInaktivSak = useErPåInaktivSak();
 
@@ -63,6 +68,11 @@ export default function Virksomhetsheader({
                             width={"100%"}
                         >
                             <HStack gap={"2"} align={"center"}>
+                                {tilstand?.tilstand && (
+                                    <VirksomhetTilstandStatusBadge
+                                        tilstand={tilstand?.tilstand}
+                                    />
+                                )}
                                 <Button
                                     className={styles.invisibleButton}
                                     size="xsmall"

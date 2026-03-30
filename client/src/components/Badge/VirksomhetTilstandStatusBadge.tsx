@@ -50,14 +50,13 @@ export const hentVariantForVirksomhetTilstand = (
 ): TagProps["variant"] => {
     switch (tilstand) {
         case VirksomhetIATilstandEnum.enum.VirksomhetVurderes:
-            return "info-moderate";
+            return "alt2";
         case VirksomhetIATilstandEnum.enum.VirksomhetErVurdert:
-            return "error-moderate";
+            return "alt2-filled";
         case VirksomhetIATilstandEnum.enum.VirksomhetHarAktiveSamarbeid:
-            return "success-moderate";
+            return "alt3";
         case VirksomhetIATilstandEnum.enum.AlleSamarbeidIVirksomhetErAvsluttet:
-            return "neutral-moderate";
         default:
-            return "neutral-moderate";
+            return "neutral-filled";
     }
 };

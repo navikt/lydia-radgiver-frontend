@@ -1,5 +1,5 @@
 import React from "react";
-import { Button, HStack } from "@navikt/ds-react";
+import { Tag, HStack } from "@navikt/ds-react";
 import {
     IASak,
     VirksomhetTilstandDto,
@@ -22,11 +22,15 @@ export default function AlleSamarbeidIVirksomhetErAvsluttet({
     return (
         <HStack gap="4">
             <VurderVirksomhetKnapp virksomhet={virksomhet} />
-            <Button size="small" variant="primary-neutral" disabled>
+            <Tag
+                size="small"
+                variant="info-filled"
+                style={{ backgroundColor: "var(--a-gray-50)" }}
+            >
                 Avsluttet frem til{" "}
                 {tilstand?.nesteTilstand?.planlagtDato &&
                     lokalDato(tilstand.nesteTilstand.planlagtDato)}
-            </Button>
+            </Tag>
             <EierskapKnapp iaSak={iaSak} />
             <Salesforcelenke orgnr={virksomhet.orgnr} />
         </HStack>
