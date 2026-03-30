@@ -154,12 +154,6 @@ export default function FullførSamarbeidModal({
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
-                        onClick={() => ref.current?.close()}
-                        variant="tertiary"
-                    >
-                        Avbryt
-                    </Button>
-                    <Button
                         onClick={onFullfør}
                         disabled={
                             lasterEvalueringer || senderRequest || !plan.data
@@ -167,6 +161,12 @@ export default function FullførSamarbeidModal({
                         loading={senderRequest}
                     >
                         Fullfør samarbeidet
+                    </Button>
+                    <Button
+                        onClick={() => ref.current?.close()}
+                        variant="secondary"
+                    >
+                        Avbryt
                     </Button>
                 </Modal.Footer>
             </Modal>

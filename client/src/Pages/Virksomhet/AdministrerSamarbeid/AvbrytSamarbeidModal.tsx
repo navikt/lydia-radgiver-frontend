@@ -94,17 +94,17 @@ export default function AvbrytSamarbeidModal({
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
-                        onClick={() => ref.current?.close()}
-                        variant="tertiary"
-                    >
-                        Lukk
-                    </Button>
-                    <Button
                         onClick={onAvbryt}
                         disabled={senderRequest}
                         loading={senderRequest}
                     >
                         Avbryt samarbeidet
+                    </Button>
+                    <Button
+                        onClick={() => ref.current?.close()}
+                        variant="secondary"
+                    >
+                        Lukk
                     </Button>
                 </Modal.Footer>
             </Modal>
