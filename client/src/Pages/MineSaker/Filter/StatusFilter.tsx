@@ -111,7 +111,7 @@ export const ArkivStatusFilter = ({
             >
                 <Checkbox
                     value={"Arkiv"}
-                >{`Se arkiverte virksomheter`}</Checkbox>
+                >{`Se arkiverte samarbeidsperioder`}</Checkbox>
             </CheckboxGroup>
         </div>
     );
