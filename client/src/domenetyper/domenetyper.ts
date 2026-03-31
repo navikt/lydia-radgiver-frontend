@@ -78,6 +78,7 @@ export type VirksomhetSøkeresultat = {
 };
 
 const IA_SAKSHENDELSE_TYPER = [
+    "MIGRERING_TIL_NY_FLYT",
     "OPPRETT_SAK_FOR_VIRKSOMHET",
     "VIRKSOMHET_VURDERES",
     "TA_EIERSKAP_I_SAK",

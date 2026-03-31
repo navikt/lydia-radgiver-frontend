@@ -86,6 +86,10 @@ export const SakshistorikkTabell = ({
                                             </>
                                         )}
                                         {sakSnapshot.hendelsestype ===
+                                            "MIGRERING_TIL_NY_FLYT" && (
+                                            <Detail>Automatisk migrert</Detail>
+                                        )}
+                                        {sakSnapshot.hendelsestype ===
                                             "TA_EIERSKAP_I_SAK" && (
                                             <Detail>Tok eierskap i sak</Detail>
                                         )}
@@ -108,11 +112,16 @@ export const SakshistorikkTabell = ({
                                         )}
                                     </Table.DataCell>
                                     <Table.DataCell>
-                                        <NavIdentMedLenke
-                                            navIdent={
-                                                sakSnapshot.hendelseOpprettetAv
-                                            }
-                                        />
+                                        {sakSnapshot.hendelseOpprettetAv ==
+                                        "Fia system" ? (
+                                            <Detail>Fia system</Detail>
+                                        ) : (
+                                            <NavIdentMedLenke
+                                                navIdent={
+                                                    sakSnapshot.hendelseOpprettetAv
+                                                }
+                                            />
+                                        )}
                                     </Table.DataCell>
                                 </Table.Row>
                             );
