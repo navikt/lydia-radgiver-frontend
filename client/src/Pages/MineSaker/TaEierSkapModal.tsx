@@ -1,8 +1,11 @@
 import React from "react";
 import { BodyShort, Button, Modal } from "@navikt/ds-react";
-import { nyHendelsePåSak, useHentMineSaker } from "../../api/lydia-api/sak";
+import { useHentMineSaker } from "../../api/lydia-api/sak";
 import { IASak } from "../../domenetyper/domenetyper";
-import { useHentSpesifikkSakNyFlyt } from "../../api/lydia-api/nyFlyt";
+import {
+    bliEierNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "../../api/lydia-api/nyFlyt";
 
 interface TaEierskapModalProps {
     erModalÅpen: boolean;
@@ -38,15 +41,7 @@ export const TaEierskapModal = ({
                 <Button
                     variant="primary"
                     onClick={async () => {
-                        await nyHendelsePåSak(
-                            iaSak,
-                            {
-                                saksHendelsestype: "TA_EIERSKAP_I_SAK",
-                                gyldigeÅrsaker: [],
-                            },
-                            null,
-                            null,
-                        );
+                        await bliEierNyFlyt(iaSak.orgnr);
                         muterIaSak();
                         muterMineSaker();
                         lukkModal();

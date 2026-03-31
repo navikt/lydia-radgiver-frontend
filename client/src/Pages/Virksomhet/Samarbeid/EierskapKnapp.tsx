@@ -5,6 +5,8 @@ import React, { useState } from "react";
 import TeamDropdown from "../../MineSaker/TeamDropdown";
 
 export function EierskapKnapp({ iaSak }: { iaSak?: IASak }) {
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     if (iaSak === undefined) {
         return (
             <Button
@@ -22,8 +24,6 @@ export function EierskapKnapp({ iaSak }: { iaSak?: IASak }) {
             </Button>
         );
     }
-
-    const [isModalOpen, setIsModalOpen] = useState(false);
 
     return (
         <>

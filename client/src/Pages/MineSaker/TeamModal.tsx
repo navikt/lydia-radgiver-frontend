@@ -5,6 +5,7 @@ import TeamInnhold from "./TeamInnhold";
 import React from "react";
 
 import styles from "./minesaker.module.scss";
+import { TaEierskapModal } from "./TaEierSkapModal";
 
 interface TeamModalProps {
     open: boolean;
@@ -20,8 +21,7 @@ export const TeamModal = ({
     erPåMineSaker = false,
 }: TeamModalProps) => {
     const { mutate: muterMineSaker } = useHentMineSaker();
-    const [, /*taEierskapModalÅpen*/ setTaEierskapModalÅpen] =
-        React.useState(false);
+    const [taEierskapModalÅpen, setTaEierskapModalÅpen] = React.useState(false);
 
     return (
         <>
@@ -61,14 +61,14 @@ export const TeamModal = ({
                     </Button>
                 </Modal.Footer>
             </Modal>
-            {/*<TaEierskapModal*/}
-            {/*    erModalÅpen={taEierskapModalÅpen}*/}
-            {/*    lukkModal={() => {*/}
-            {/*        setTaEierskapModalÅpen(false);*/}
-            {/*        setOpen(false);*/}
-            {/*    }}*/}
-            {/*    iaSak={iaSak}*/}
-            {/*/>*/}
+            <TaEierskapModal
+                erModalÅpen={taEierskapModalÅpen}
+                lukkModal={() => {
+                    setTaEierskapModalÅpen(false);
+                    setOpen(false);
+                }}
+                iaSak={iaSak}
+            />
         </>
     );
 };

@@ -124,6 +124,7 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
         avsluttVurderingNyFlyt: jest.fn(() => Promise.resolve()),
         angreVurderingNyFlyt: jest.fn(() => Promise.resolve()),
         opprettSamarbeidNyFlyt: jest.fn(() => Promise.resolve()),
+        bliEierNyFlyt: jest.fn(() => Promise.resolve()),
         useHentSisteSakNyFlyt: jest.fn(() => ({
             data: undefined,
             loading: false,
@@ -388,6 +389,56 @@ describe("NyVirksomhetsside", () => {
             expect(angreVurderingNyFlyt).toHaveBeenCalledWith(
                 dummyVirksomhetsinformasjonNyFlyt.orgnr,
             );
+        });
+
+        it("Viser 'Følg eller ta eierskap' for ikke-eiere", () => {
+            const iaSakVurderes = {
+                ...dummyIaSak,
+                status: "VURDERES" as const,
+                eidAv: "ANNEN_SAKSBEHANDLER",
+                orgnr: dummyVirksomhetsinformasjonNyFlyt.orgnr,
+            };
+            jest.mocked(useHentSisteSakNyFlyt).mockReturnValue({
+                data: iaSakVurderes,
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
+                data: iaSakVurderes,
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            jest.mocked(useHentVirksomhetNyFlyt).mockReturnValue({
+                data: {
+                    ...dummyVirksomhetsinformasjonNyFlyt,
+                    aktivtSaksnummer: iaSakVurderes.saksnummer,
+                },
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            jest.mocked(useHentTeam).mockReturnValue({
+                data: [],
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+
+            expect(
+                screen.getByText("Følg eller ta eierskap"),
+            ).toBeInTheDocument();
         });
 
         it("Har ingen accessibilityfeil som ikke-eier", async () => {
