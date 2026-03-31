@@ -13,6 +13,8 @@ import {
     useHentSpesifikkSakNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
+import styles from "./bekreftSisteSamarbeidModal.module.scss";
 
 export default function BekreftSisteSamarbeidModal({
     ref,
@@ -99,12 +101,17 @@ export default function BekreftSisteSamarbeidModal({
                         avsluttes og virksomheten får status Avsluttet.
                     </LocalAlert.Content>
                     <LocalAlert.Content>
-                        <dl>
-                            {/* TODO: Pen rendering av lista */}
+                        <dl className={styles.samarbeidsliste}>
                             {alleSamarbeid?.map((s) => (
-                                <div key={s.id}>
+                                <div
+                                    key={s.id}
+                                    className={styles.samarbeidslisterad}
+                                >
                                     <dt>{s.navn}</dt>
-                                    <dd>{s.status}</dd>
+                                    <SamarbeidStatusBadge
+                                        status={s.status}
+                                        as="dd"
+                                    />
                                 </div>
                             )) ?? null}
                         </dl>

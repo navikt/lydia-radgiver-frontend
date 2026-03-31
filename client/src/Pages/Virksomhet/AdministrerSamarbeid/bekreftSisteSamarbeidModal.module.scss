@@ -1,0 +1,10 @@
+.samarbeidsliste {
+	display: grid;
+	gap: 0.5rem;
+	grid-template-columns: minmax(10rem, max-content) min-content;
+	.samarbeidslisterad {
+		display: grid;
+		grid-column: span 2;
+		grid-template-columns: subgrid;
+	}
+}
