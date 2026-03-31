@@ -6,6 +6,7 @@ import {
     bliEierNyFlyt,
     useHentSpesifikkSakNyFlyt,
 } from "../../api/lydia-api/nyFlyt";
+import { useOversiktMutate } from "../Virksomhet/Debugside/Oversikt";
 
 interface TaEierskapModalProps {
     erModalÅpen: boolean;
@@ -24,6 +25,7 @@ export const TaEierskapModal = ({
         iaSak.saksnummer,
     );
     const { mutate: muterMineSaker } = useHentMineSaker();
+    const muterOversikt = useOversiktMutate(iaSak.orgnr);
     return (
         <Modal
             open={erModalÅpen}
@@ -44,6 +46,7 @@ export const TaEierskapModal = ({
                         await bliEierNyFlyt(iaSak.orgnr);
                         muterIaSak();
                         muterMineSaker();
+                        muterOversikt();
                         lukkModal();
                     }}
                 >

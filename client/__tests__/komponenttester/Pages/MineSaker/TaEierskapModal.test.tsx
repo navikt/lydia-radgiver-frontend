@@ -3,6 +3,12 @@ import "@testing-library/jest-dom";
 import { TaEierskapModal } from "../../../../src/Pages/MineSaker/TaEierSkapModal";
 import { dummyIaSak } from "../../../../__mocks__/virksomhetsMockData";
 import * as nyFlyt from "../../../../src/api/lydia-api/nyFlyt";
+import * as sak from "../../../../src/api/lydia-api/sak";
+import * as oversikt from "../../../../src/Pages/Virksomhet/Debugside/Oversikt";
+
+const mockMuterIaSak = jest.fn();
+const mockMuterMineSaker = jest.fn();
+const mockMuterOversikt = jest.fn();
 
 jest.mock("../../../../src/api/lydia-api/nyFlyt", () => ({
     ...jest.requireActual("../../../../src/api/lydia-api/nyFlyt"),
@@ -10,7 +16,7 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => ({
     useHentSpesifikkSakNyFlyt: jest.fn(() => ({
         data: dummyIaSak,
         loading: false,
-        mutate: jest.fn(),
+        mutate: mockMuterIaSak,
     })),
 }));
 
@@ -18,8 +24,15 @@ jest.mock("../../../../src/api/lydia-api/sak", () => ({
     ...jest.requireActual("../../../../src/api/lydia-api/sak"),
     useHentMineSaker: jest.fn(() => ({
         data: [],
-        mutate: jest.fn(),
+        mutate: mockMuterMineSaker,
     })),
+}));
+
+jest.mock("../../../../src/Pages/Virksomhet/Debugside/Oversikt", () => ({
+    ...jest.requireActual(
+        "../../../../src/Pages/Virksomhet/Debugside/Oversikt",
+    ),
+    useOversiktMutate: jest.fn(() => mockMuterOversikt),
 }));
 
 describe("TaEierskapModal", () => {
@@ -104,5 +117,52 @@ describe("TaEierskapModal", () => {
         screen.getByText("Avbryt").click();
         expect(lukkModal).toHaveBeenCalledTimes(1);
         expect(nyFlyt.bliEierNyFlyt).not.toHaveBeenCalled();
+    });
+
+    it("muterer iaSak, mineSaker og oversikt etter vellykket eierskap", async () => {
+        render(
+            <TaEierskapModal
+                erModalÅpen={true}
+                lukkModal={jest.fn()}
+                iaSak={dummyIaSak}
+            />,
+        );
+
+        screen.getByText("Ta eierskap").click();
+
+        await waitFor(() => {
+            expect(mockMuterIaSak).toHaveBeenCalledTimes(1);
+        });
+        expect(mockMuterMineSaker).toHaveBeenCalledTimes(1);
+        expect(mockMuterOversikt).toHaveBeenCalledTimes(1);
+    });
+
+    it("kaller useOversiktMutate med riktig orgnr", () => {
+        render(
+            <TaEierskapModal
+                erModalÅpen={true}
+                lukkModal={jest.fn()}
+                iaSak={dummyIaSak}
+            />,
+        );
+
+        expect(oversikt.useOversiktMutate).toHaveBeenCalledWith(
+            dummyIaSak.orgnr,
+        );
+    });
+
+    it("kaller useHentSpesifikkSakNyFlyt med riktig orgnr og saksnummer", () => {
+        render(
+            <TaEierskapModal
+                erModalÅpen={true}
+                lukkModal={jest.fn()}
+                iaSak={dummyIaSak}
+            />,
+        );
+
+        expect(nyFlyt.useHentSpesifikkSakNyFlyt).toHaveBeenCalledWith(
+            dummyIaSak.orgnr,
+            dummyIaSak.saksnummer,
+        );
     });
 });

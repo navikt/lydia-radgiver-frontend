@@ -4,6 +4,8 @@ import { TeamModal } from "../../../../src/Pages/MineSaker/TeamModal";
 import { dummyIaSak } from "../../../../__mocks__/virksomhetsMockData";
 import * as nyFlyt from "../../../../src/api/lydia-api/nyFlyt";
 
+const mockMuterMineSaker = jest.fn();
+
 jest.mock("../../../../src/api/lydia-api/nyFlyt", () => ({
     ...jest.requireActual("../../../../src/api/lydia-api/nyFlyt"),
     bliEierNyFlyt: jest.fn(() => Promise.resolve()),
@@ -18,8 +20,15 @@ jest.mock("../../../../src/api/lydia-api/sak", () => ({
     ...jest.requireActual("../../../../src/api/lydia-api/sak"),
     useHentMineSaker: jest.fn(() => ({
         data: [],
-        mutate: jest.fn(),
+        mutate: mockMuterMineSaker,
     })),
+}));
+
+jest.mock("../../../../src/Pages/Virksomhet/Debugside/Oversikt", () => ({
+    ...jest.requireActual(
+        "../../../../src/Pages/Virksomhet/Debugside/Oversikt",
+    ),
+    useOversiktMutate: jest.fn(() => jest.fn()),
 }));
 
 jest.mock("../../../../src/api/lydia-api/bruker", () => ({
@@ -111,5 +120,66 @@ describe("TeamModal", () => {
         avbrytKnapper[avbrytKnapper.length - 1].click();
 
         expect(nyFlyt.bliEierNyFlyt).not.toHaveBeenCalled();
+    });
+
+    it("kaller setOpen(false) ved klikk på 'Ferdig'", () => {
+        const setOpen = jest.fn();
+        render(
+            <TeamModal
+                open={true}
+                setOpen={setOpen}
+                iaSak={dummyIaSak}
+                erPåMineSaker={true}
+            />,
+        );
+
+        screen.getByRole("button", { name: "Ferdig" }).click();
+        expect(setOpen).toHaveBeenCalledWith(false);
+    });
+
+    it("muterer mineSaker ved lukking av modal via lukkeknapp", () => {
+        const setOpen = jest.fn();
+        render(
+            <TeamModal
+                open={true}
+                setOpen={setOpen}
+                iaSak={dummyIaSak}
+                erPåMineSaker={true}
+            />,
+        );
+
+        const lukkKnapp = screen.getByRole("button", { name: /lukk/i });
+        lukkKnapp.click();
+        expect(mockMuterMineSaker).toHaveBeenCalledTimes(1);
+        expect(setOpen).toHaveBeenCalledWith(false);
+    });
+
+    it("lukker begge modaler etter vellykket ta eierskap", async () => {
+        const setOpen = jest.fn();
+        render(
+            <TeamModal
+                open={true}
+                setOpen={setOpen}
+                iaSak={{ ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" }}
+                erPåMineSaker={true}
+            />,
+        );
+
+        screen.getByRole("button", { name: /Ta eierskap/i }).click();
+
+        await waitFor(() => {
+            expect(
+                screen.getByText("Er du sikker på at du vil ta eierskap?"),
+            ).toBeInTheDocument();
+        });
+
+        const bekreftKnapper = screen.getAllByRole("button", {
+            name: "Ta eierskap",
+        });
+        bekreftKnapper[bekreftKnapper.length - 1].click();
+
+        await waitFor(() => {
+            expect(setOpen).toHaveBeenCalledWith(false);
+        });
     });
 });
