@@ -21,6 +21,7 @@ export function VirksomhetTilstandStatusBadge({
             <GenericStatusBadge
                 {...remainingProps}
                 status={tilstand}
+                slim
                 penskrivStatus={penskrivVirksomhetTilstand}
                 hentVariant={hentVariantForVirksomhetTilstand}
             />
