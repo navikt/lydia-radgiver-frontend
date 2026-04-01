@@ -43,8 +43,6 @@ export default function Virksomhetsheader({
     iaSak?: IASak;
     valgtSamarbeid?: IaSakProsess;
 }) {
-    const buttonRef = useRef<HTMLButtonElement>(null);
-    const [openState, setOpenState] = useState(false);
     const { data: tilstand } = useHentTilstandForVirksomhetNyFlyt(
         virksomhet.orgnr,
     );
@@ -73,25 +71,6 @@ export default function Virksomhetsheader({
                                         tilstand={tilstand?.tilstand}
                                     />
                                 )}
-                                <Button
-                                    className={styles.invisibleButton}
-                                    size="xsmall"
-                                    variant="tertiary-neutral"
-                                    ref={buttonRef}
-                                    onClick={() => {
-                                        setOpenState(!openState);
-                                        if (!openState) {
-                                            loggÅpnetVirksomhetsinfo();
-                                        }
-                                    }}
-                                    aria-label="Se detaljer"
-                                >
-                                    <InformationSquareIcon
-                                        className={styles.virksomhetsInfoIkon}
-                                        fontSize="2rem"
-                                        aria-hidden
-                                    />
-                                </Button>
                                 <Heading
                                     as={InternLenke}
                                     level={"1"}
@@ -103,23 +82,12 @@ export default function Virksomhetsheader({
                                     {virksomhet.navn}
                                 </Heading>
                             </HStack>
-                            <HistorikkStatistikkKnapper
+                            <Høyreknapper
+                                iaSak={iaSak}
                                 valgtSamarbeid={valgtSamarbeid}
                                 virksomhet={virksomhet}
                             />
                         </HStack>
-                        <Popover
-                            open={openState}
-                            placement="right-start"
-                            onClose={() => setOpenState(false)}
-                            anchorEl={buttonRef.current}
-                            style={{ overflow: "auto" }}
-                        >
-                            <VirksomhetsInfoPopoverInnhold
-                                iaSak={iaSak}
-                                virksomhet={virksomhet}
-                            />
-                        </Popover>
                     </HStack>
                 </VStack>
             </div>
@@ -188,16 +156,61 @@ function DuErPåGammelPeriode({
     );
 }
 
-function HistorikkStatistikkKnapper({
+function Detaljseksjon({
+    iaSak,
+    virksomhet,
+}: {
+    iaSak: IASak;
+    virksomhet: Virksomhet;
+}) {
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    const [openState, setOpenState] = useState(false);
+    return (
+        <>
+            <Button
+                className={styles.detaljknapp}
+                size="small"
+                variant="tertiary"
+                ref={buttonRef}
+                onClick={() => {
+                    setOpenState(!openState);
+                    if (!openState) {
+                        loggÅpnetVirksomhetsinfo();
+                    }
+                }}
+                icon={<InformationSquareIcon aria-hidden fontSize="2rem" />}
+            >
+                Detaljer
+            </Button>
+            <Popover
+                open={openState}
+                placement="right-start"
+                onClose={() => setOpenState(false)}
+                anchorEl={buttonRef.current}
+                style={{ overflow: "auto" }}
+            >
+                <VirksomhetsInfoPopoverInnhold
+                    iaSak={iaSak}
+                    virksomhet={virksomhet}
+                />
+            </Popover>
+        </>
+    );
+}
+
+function Høyreknapper({
     valgtSamarbeid,
     virksomhet,
+    iaSak,
 }: {
     valgtSamarbeid?: IaSakProsess;
     virksomhet: Virksomhet;
+    iaSak?: IASak;
 }) {
     if (valgtSamarbeid) {
         return (
             <HStack gap="4" justify="end">
+                <Detaljseksjon iaSak={iaSak!} virksomhet={virksomhet} />
                 <Sykefraværsstatistikkmodal
                     className={styles.tabButton}
                     virksomhet={virksomhet}
@@ -212,7 +225,8 @@ function HistorikkStatistikkKnapper({
     }
 
     return (
-        <>
+        <HStack gap="4" justify="end">
+            <Detaljseksjon iaSak={iaSak!} virksomhet={virksomhet} />
             <HStack gap="4" justify="end" role="tablist">
                 <Tabs.Tab
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -243,6 +257,6 @@ function HistorikkStatistikkKnapper({
                     icon={<ClockIcon aria-hidden fontSize="1.25rem" />}
                 />
             </HStack>
-        </>
+        </HStack>
     );
 }

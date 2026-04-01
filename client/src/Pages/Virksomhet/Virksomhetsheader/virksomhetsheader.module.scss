@@ -43,15 +43,8 @@
         font-size: 1.125rem;
     }
 
-    .invisibleButton {
-        background-color: transparent;
-        border: none;
-        padding: 0;
-
-        .virksomhetsInfoIkon {
-            display: flex;
-            cursor: pointer;
-        }
+    .detaljknapp {
+        --a-font-weight-bold: 400;
     }
 
     .tabButton {
