@@ -108,7 +108,7 @@ describe("FullførSamarbeidModal", () => {
         await waitFor(() => {
             expect(avsluttSamarbeidMock).toHaveBeenCalledWith(
                 "123456789",
-                "1",
+                1,
                 expect.objectContaining({
                     id: 1,
                     navn: "Avdeling Bergen",
@@ -180,7 +180,7 @@ describe("FullførSamarbeidModal", () => {
             await waitFor(() => {
                 expect(avsluttSamarbeidMock).toHaveBeenCalledWith(
                     "123456789",
-                    "1",
+                    1,
                     expect.objectContaining({
                         id: 1,
                         navn: "Avdeling Bergen",

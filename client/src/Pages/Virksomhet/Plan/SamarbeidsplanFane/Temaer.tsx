@@ -56,6 +56,7 @@ export function Temaer({
                                 orgnummer={orgnummer}
                                 saksnummer={saksnummer}
                                 samarbeid={samarbeid}
+                                planId={samarbeidsplan.id}
                                 hentPlanIgjen={hentPlanIgjen}
                                 kanOppretteEllerEndrePlan={
                                     kanOppretteEllerEndrePlan

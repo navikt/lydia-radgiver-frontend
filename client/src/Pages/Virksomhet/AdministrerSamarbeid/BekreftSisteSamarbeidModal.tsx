@@ -51,7 +51,7 @@ export default function BekreftSisteSamarbeidModal({
             if (nyStatus === "SLETTET") {
                 await slettSamarbeidNyFlyt(
                     iaSak.orgnr,
-                    String(valgtSamarbeid.id),
+                    valgtSamarbeid.id,
                 );
             } else {
                 const samarbeid: SamarbeidRequest = {
@@ -65,7 +65,7 @@ export default function BekreftSisteSamarbeidModal({
 
                 await avsluttSamarbeidNyFlyt(
                     iaSak?.orgnr || "",
-                    String(valgtSamarbeid?.id || ""),
+                    valgtSamarbeid?.id,
                     samarbeid,
                 );
             }

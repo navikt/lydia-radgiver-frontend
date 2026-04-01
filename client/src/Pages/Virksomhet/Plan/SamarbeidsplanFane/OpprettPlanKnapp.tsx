@@ -110,7 +110,7 @@ export default function OpprettPlanKnapp({
         opprettSamarbeidsplanNyFlyt(
             orgnummer,
             saksnummer,
-            String(samarbeid.id),
+            samarbeid.id,
             nyPlan as unknown as PlanMal,
         ).then(() => {
             hentPlanIgjen();

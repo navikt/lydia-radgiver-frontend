@@ -188,7 +188,7 @@ describe("OpprettPlanKnapp", () => {
             expect(opprettSamarbeidsplanMock).toHaveBeenCalledWith(
                 "123456789",
                 "SAK-001",
-                "42",
+                42,
                 expect.objectContaining({
                     tema: expect.arrayContaining([
                         expect.objectContaining({

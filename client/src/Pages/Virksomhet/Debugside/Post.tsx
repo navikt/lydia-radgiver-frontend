@@ -572,7 +572,7 @@ export function OpprettSamarbeidsplan({ orgnummer, onSuccess }: PostProps) {
             const result = await opprettSamarbeidsplanNyFlyt(
                 orgnummer,
                 iaSak.saksnummer,
-                samarbeidId,
+                Number(samarbeidId),
                 nyPlan,
             );
             setResponse(result);
@@ -647,7 +647,7 @@ export function AvsluttSamarbeid({ orgnummer, onSuccess }: PostProps) {
             };
             const result = await avsluttSamarbeidNyFlyt(
                 orgnummer,
-                samarbeidId,
+                Number(samarbeidId),
                 samarbeid,
             );
             setResponse(result);

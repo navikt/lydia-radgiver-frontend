@@ -113,15 +113,19 @@ export function SlettSamarbeidsplan({ orgnummer, onSuccess }: DeleteProps) {
         iaSak?.saksnummer,
     );
     const [samarbeidId, setSamarbeidId] = useState("");
+    const [planId, setPlanId] = useState("");
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async () => {
+        if (!iaSak?.saksnummer) return;
         setError(null);
         try {
             const result = await slettSamarbeidsplanNyFlyt(
                 orgnummer,
-                samarbeidId,
+                iaSak.saksnummer,
+                Number(samarbeidId),
+                planId,
             );
             setResponse(result);
             onSuccess();
@@ -150,6 +154,13 @@ export function SlettSamarbeidsplan({ orgnummer, onSuccess }: DeleteProps) {
                     ))}
                 </select>
             </div>
+            <div>
+                <span>planId: </span>
+                <input
+                    value={planId}
+                    onChange={(e) => setPlanId(e.target.value)}
+                />
+            </div>
             <button onClick={handleSubmit}>Slett samarbeidsplan</button>
         </EndpointSection>
     );
@@ -168,7 +179,7 @@ export function SlettSamarbeid({ orgnummer, onSuccess }: DeleteProps) {
     const handleSubmit = async () => {
         setError(null);
         try {
-            const result = await slettSamarbeidNyFlyt(orgnummer, samarbeidId);
+            const result = await slettSamarbeidNyFlyt(orgnummer, Number(samarbeidId));
             setResponse(result);
             onSuccess();
         } catch (e) {

@@ -99,7 +99,7 @@ export default function FullførSamarbeidModal({
 
             await avsluttSamarbeidNyFlyt(
                 iaSak?.orgnr || "",
-                String(valgtSamarbeid?.id || ""),
+                valgtSamarbeid?.id,
                 samarbeid,
             );
         } catch {

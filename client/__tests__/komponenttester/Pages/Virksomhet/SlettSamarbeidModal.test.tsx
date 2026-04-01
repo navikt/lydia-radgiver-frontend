@@ -128,7 +128,7 @@ describe("SlettSamarbeidModal", () => {
             await waitFor(() => {
                 expect(slettSamarbeidNyFlyt).toHaveBeenCalledWith(
                     iaSak.orgnr,
-                    "42",
+                    42,
                 );
             });
         });
@@ -240,7 +240,7 @@ describe("SlettSamarbeidModal", () => {
             await waitFor(() => {
                 expect(slettSamarbeidNyFlyt).toHaveBeenCalledWith(
                     iaSak.orgnr,
-                    "5",
+                    5,
                 );
             });
         });
@@ -258,7 +258,7 @@ describe("SlettSamarbeidModal", () => {
             await waitFor(() => {
                 expect(slettSamarbeidNyFlyt).toHaveBeenCalledWith(
                     iaSak.orgnr,
-                    "10",
+                    10,
                 );
             });
         });

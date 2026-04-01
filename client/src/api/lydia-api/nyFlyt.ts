@@ -12,7 +12,16 @@ import {
     iaSakProsessSchema,
     SamarbeidRequest,
 } from "../../domenetyper/iaSakProsess";
-import { Plan, PlanMal, PlanSchema } from "../../domenetyper/plan";
+import {
+    Plan,
+    PlanInnholdStatus,
+    PlanMal,
+    PlanSchema,
+} from "../../domenetyper/plan";
+import {
+    TemaRequest,
+    UndertemaRequest,
+} from "../../Pages/Virksomhet/Plan/Requests";
 import {
     Sakshistorikk,
     sakshistorikkSchema,
@@ -166,7 +175,7 @@ export const slettKartleggingNyFlyt = (
 export const opprettSamarbeidsplanNyFlyt = (
     orgnummer: string,
     saksnummer: string,
-    samarbeidId: string,
+    samarbeidId: number,
     nyPlan: PlanMal,
 ): Promise<Plan> => {
     return post(
@@ -176,19 +185,66 @@ export const opprettSamarbeidsplanNyFlyt = (
     );
 };
 
+export const endrePlanNyFlyt = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidId: number,
+    planId: string,
+    body: TemaRequest[],
+): Promise<Plan> => {
+    return put(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/plan/${planId}`,
+        PlanSchema,
+        body,
+    );
+};
+
+export const endrePlanTemaNyFlyt = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidId: number,
+    planId: string,
+    temaId: number,
+    body: UndertemaRequest[],
+): Promise<Plan> => {
+    return put(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/plan/${planId}/tema/${temaId}`,
+        PlanSchema,
+        body,
+    );
+};
+
+export const endrePlanStatusNyFlyt = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidId: number,
+    planId: string,
+    temaId: number,
+    undertemaId: number,
+    body: PlanInnholdStatus,
+): Promise<Plan> => {
+    return put(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/plan/${planId}/tema/${temaId}/undertema/${undertemaId}/status`,
+        PlanSchema,
+        body,
+    );
+};
+
 export const slettSamarbeidsplanNyFlyt = (
     orgnummer: string,
-    samarbeidId: string,
+    saksnummer: string,
+    samarbeidId: number,
+    planId: string,
 ): Promise<Plan> => {
     return httpDelete(
-        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/slett-samarbeidsplan`,
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/plan/${planId}`,
         PlanSchema,
     );
 };
 
 export const slettSamarbeidNyFlyt = (
     orgnummer: string,
-    samarbeidId: string,
+    samarbeidId: number,
 ): Promise<IaSakProsess> => {
     return httpDelete(
         `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/slett-samarbeid`,
@@ -198,7 +254,7 @@ export const slettSamarbeidNyFlyt = (
 
 export const avsluttSamarbeidNyFlyt = (
     orgnummer: string,
-    samarbeidId: string,
+    samarbeidId: number,
     samarbeid: SamarbeidRequest,
 ): Promise<IaSakProsess> => {
     return post(
@@ -210,7 +266,7 @@ export const avsluttSamarbeidNyFlyt = (
 
 export const endreSamarbeidsNavnNyFlyt = (
     orgnummer: string,
-    samarbeidId: string | number,
+    samarbeidId: number,
     samarbeid: { id: number; saksnummer: string; navn: string; status: string },
 ): Promise<IaSakProsess> => {
     return put(

@@ -63,7 +63,7 @@ export default function SlettSamarbeidModal({
             try {
                 await slettSamarbeidNyFlyt(
                     iaSak?.orgnr,
-                    valgtSamarbeid?.id.toString(),
+                    valgtSamarbeid?.id,
                 );
                 ref.current?.close();
             } catch (e) {

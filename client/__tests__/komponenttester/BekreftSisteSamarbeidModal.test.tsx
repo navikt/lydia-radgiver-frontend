@@ -185,7 +185,7 @@ describe("BekreftSisteSamarbeidModal", () => {
         fireEvent.click(knapper[knapper.length - 1]);
 
         await waitFor(() => {
-            expect(mockSlettSamarbeid).toHaveBeenCalledWith("999999999", "1");
+            expect(mockSlettSamarbeid).toHaveBeenCalledWith("999999999", 1);
         });
     });
 
@@ -201,7 +201,7 @@ describe("BekreftSisteSamarbeidModal", () => {
         await waitFor(() => {
             expect(mockAvsluttSamarbeid).toHaveBeenCalledWith(
                 "999999999",
-                "1",
+                1,
                 expect.objectContaining({ status: "FULLFØRT" }),
             );
         });

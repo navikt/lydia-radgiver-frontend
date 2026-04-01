@@ -93,7 +93,7 @@ describe("AvbrytSamarbeidModal", () => {
         await waitFor(() => {
             expect(avsluttSamarbeidMock).toHaveBeenCalledWith(
                 "123456789",
-                "1",
+                1,
                 expect.objectContaining({
                     id: 1,
                     navn: "Avdeling Bergen",
@@ -149,7 +149,9 @@ describe("AvbrytSamarbeidModal", () => {
             fireEvent.click(avbrytKnapp);
             await waitFor(() => {
                 expect(avsluttSamarbeidMock).not.toHaveBeenCalled();
-                expect(HTMLDialogElement.prototype.showModal).toHaveBeenCalled();
+                expect(
+                    HTMLDialogElement.prototype.showModal,
+                ).toHaveBeenCalled();
             });
         });
 
@@ -163,7 +165,7 @@ describe("AvbrytSamarbeidModal", () => {
             await waitFor(() => {
                 expect(avsluttSamarbeidMock).toHaveBeenCalledWith(
                     "123456789",
-                    "1",
+                    1,
                     expect.objectContaining({
                         id: 1,
                         navn: "Avdeling Bergen",

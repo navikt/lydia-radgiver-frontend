@@ -65,7 +65,7 @@ export default function AvbrytSamarbeidModal({
 
             await avsluttSamarbeidNyFlyt(
                 iaSak?.orgnr || "",
-                String(valgtSamarbeid?.id || ""),
+                valgtSamarbeid?.id,
                 samarbeid,
             );
         } catch {

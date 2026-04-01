@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { BodyShort, Button, Modal } from "@navikt/ds-react";
 import InnholdOppsett from "../InnholdOppsett";
 import { Plan, PlanInnhold, PlanTema } from "../../../../domenetyper/plan";
-import { endrePlan, slettPlan } from "../../../../api/lydia-api/plan";
+import { endrePlanNyFlyt, slettSamarbeidsplanNyFlyt } from "../../../../api/lydia-api/nyFlyt";
 import { lagRequest, TemaRequest } from "../Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
@@ -79,7 +79,7 @@ export default function LeggTilTemaKnapp({
             };
         });
 
-        endrePlan(orgnummer, saksnummer, samarbeid.id, temaer).then(() => {
+        endrePlanNyFlyt(orgnummer, saksnummer, samarbeid.id, samarbeidsplan.id, temaer).then(() => {
             hentPlanIgjen();
         });
     }
@@ -156,7 +156,7 @@ export default function LeggTilTemaKnapp({
                     samarbeidsplan={samarbeidsplan}
                     redigertTemaliste={redigertTemaliste}
                     slettPlan={() => {
-                        slettPlan(orgnummer, saksnummer, samarbeid.id).then(
+                        slettSamarbeidsplanNyFlyt(orgnummer, saksnummer, samarbeid.id, samarbeidsplan.id).then(
                             () => hentPlanIgjen(undefined),
                         );
                     }}
