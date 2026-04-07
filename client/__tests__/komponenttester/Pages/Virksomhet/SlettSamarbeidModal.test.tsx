@@ -14,6 +14,7 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => ({
     avsluttSamarbeidNyFlyt: jest.fn(),
     useHentSisteSakNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
     useHentSpesifikkSakNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
+    useHentTilstandForVirksomhetNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
 }));
 
 jest.mock("../../../../src/api/lydia-api/spørreundersøkelse", () => ({

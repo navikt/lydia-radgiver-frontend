@@ -21,6 +21,7 @@ import {
     useHentHistorikkNyFlyt,
     useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
+    useHentTilstandForVirksomhetNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
 
 interface NyttSamarbeidProps {
@@ -53,6 +54,7 @@ export const NyttSamarbeidModal = ({
         iaSak.saksnummer,
     );
     const { mutate: hentHistorikkPåNytt } = useHentHistorikkNyFlyt(iaSak.orgnr);
+    const { mutate: hentTilstandPåNytt } = useHentTilstandForVirksomhetNyFlyt(virksomhet.orgnr);
     const { mutate: hentSamarbeidPåNytt, data: samarbeidData } =
         useHentSamarbeid(iaSak.orgnr, iaSak.saksnummer);
     const samarbeidsnavnBasertPåVirksomhet =
@@ -81,6 +83,7 @@ export const NyttSamarbeidModal = ({
                 hentHistorikkPåNytt();
                 hentAktivSakPåNytt();
                 hentSpesifikkSakPåNytt();
+                hentTilstandPåNytt();
                 hentSamarbeidPåNytt().then((alleSamarbeidListe) => {
                     const sisteNyeSamarbeid = alleSamarbeidListe
                         ?.filter((s) => s.navn === nyttNavn)

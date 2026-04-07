@@ -14,6 +14,7 @@ const mockAvsluttSamarbeid = jest.fn().mockResolvedValue(undefined);
 jest.mock("../../src/api/lydia-api/nyFlyt", () => ({
     useHentSisteSakNyFlyt: () => ({ mutate: mockMutate }),
     useHentSpesifikkSakNyFlyt: () => ({ mutate: mockMutate }),
+    useHentTilstandForVirksomhetNyFlyt: () => ({ mutate: mockMutate }),
     slettSamarbeidNyFlyt: (...args: unknown[]) => mockSlettSamarbeid(...args),
     avsluttSamarbeidNyFlyt: (...args: unknown[]) =>
         mockAvsluttSamarbeid(...args),

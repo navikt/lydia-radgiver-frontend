@@ -11,6 +11,7 @@ import {
     slettSamarbeidNyFlyt,
     useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
+    useHentTilstandForVirksomhetNyFlyt,
 } from "../../../api/lydia-api/nyFlyt";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
@@ -39,6 +40,7 @@ export default function BekreftSisteSamarbeidModal({
         iaSak?.orgnr,
         iaSak?.saksnummer,
     );
+    const { mutate: hentTilstandPåNytt } = useHentTilstandForVirksomhetNyFlyt(iaSak?.orgnr);
 
     const onConfirmAction = async () => {
         setSenderRequest(true);
@@ -76,6 +78,7 @@ export default function BekreftSisteSamarbeidModal({
             hentSpesifikkSakPåNytt();
             hentSisteSakPåNytt();
             hentSamarbeidPåNytt();
+            hentTilstandPåNytt();
             ref.current?.close();
         }
     };
