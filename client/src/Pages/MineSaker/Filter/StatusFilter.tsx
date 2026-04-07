@@ -58,7 +58,7 @@ export const StatusFilter = ({
     ) => void;
 }) => {
     const { data: mineSaker } = useHentMineSaker();
-    const { data: filterVerdier } = useFilterverdier();
+    const nyFlytAktivStatuser: IAProsessStatusType[] = ["VURDERES", "AKTIV"];
 
     return (
         <>
@@ -78,13 +78,11 @@ export const StatusFilter = ({
                             disabled={!!arkivStatusFiltre.length}
                         >
                             {mineSaker &&
-                                filterVerdier?.statuser
-                                    .filter((f) => !ARKIV_STATUSER.includes(f))
-                                    .map((valg) => (
-                                        <Checkbox key={valg} value={valg}>
-                                            {`${penskrivIAStatus(valg)} (${mineSaker.filter((sak) => sak.iaSak.status == valg).length})`}
-                                        </Checkbox>
-                                    ))}
+                                nyFlytAktivStatuser.map((valg) => (
+                                    <Checkbox key={valg} value={valg}>
+                                        {`${penskrivIAStatus(valg)} (${mineSaker.filter((sak) => sak.iaSak.status == valg).length})`}
+                                    </Checkbox>
+                                ))}
                         </CheckboxGroup>
                     </Accordion.Content>
                 </Accordion.Item>
@@ -111,9 +109,7 @@ export const ArkivStatusFilter = ({
                 onChange={(val) => handleStatusFilterEndring(val, true)}
                 value={arkivStatusFiltre}
             >
-                <Checkbox
-                    value={"Arkiv"}
-                >{`Se arkiverte samarbeidsperioder`}</Checkbox>
+                <Checkbox value={"Arkiv"}>{`Arkiv`}</Checkbox>
             </CheckboxGroup>
         </div>
     );
