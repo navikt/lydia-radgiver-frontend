@@ -1,6 +1,5 @@
 import React from "react";
 import { SortState, Table } from "@navikt/ds-react";
-import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
 import {
     formaterSomHeltall,

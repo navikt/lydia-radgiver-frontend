@@ -4,11 +4,7 @@ import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
 import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
-import {
-    Eier,
-    IAProsessStatusType,
-    VirksomhetIATilstand,
-} from "../../../domenetyper/domenetyper";
+import { Eier, VirksomhetIATilstand } from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
 import { SektorDropdown } from "./SektorDropdown";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
@@ -101,10 +97,6 @@ export const Filtervisning = ({
         virksomhetTilstand?: VirksomhetIATilstand,
     ) => {
         oppdaterVirksomhetTilstand({ virksomhetTilstand: virksomhetTilstand });
-    };
-
-    const endreStatus = (iaStatus?: IAProsessStatusType) => {
-        oppdaterIastatus({ iastatus: iaStatus });
     };
 
     const endreEiere = (eiere: Eier[]) => {
