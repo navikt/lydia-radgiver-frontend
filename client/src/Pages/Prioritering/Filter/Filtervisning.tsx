@@ -50,7 +50,6 @@ export const Filtervisning = ({
     const {
         oppdaterAntallArbeidsforhold,
         oppdaterVirksomhetTilstand,
-        oppdaterIastatus,
         oppdaterEiere,
         oppdaterFylker,
         state,
