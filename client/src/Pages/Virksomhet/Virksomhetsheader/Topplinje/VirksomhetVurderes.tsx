@@ -9,7 +9,6 @@ import {
     useDatepicker,
     DatePicker,
 } from "@navikt/ds-react";
-import { ArrowUndoIcon } from "@navikt/aksel-icons";
 import React, { useState } from "react";
 import { Salesforcelenke } from "../";
 import {
@@ -20,10 +19,7 @@ import {
 } from "../../../../domenetyper/domenetyper";
 import { Virksomhet } from "../../../../domenetyper/virksomhet";
 import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
-import {
-    angreVurderingNyFlyt,
-    avsluttVurderingNyFlyt,
-} from "../../../../api/lydia-api/nyFlyt";
+import { avsluttVurderingNyFlyt } from "../../../../api/lydia-api/nyFlyt";
 import { useOversiktMutate } from "../../Debugside/Oversikt";
 import { isoDato } from "../../../../util/dato";
 
@@ -68,12 +64,6 @@ export function VirksomhetVurderes({
             setLagrerVurdering(false);
             mutate();
             andreModalRef.current?.close();
-        });
-    };
-
-    const onAngreVurdering = () => {
-        angreVurderingNyFlyt(virksomhet.orgnr).finally(() => {
-            mutate();
         });
     };
 
@@ -259,14 +249,6 @@ export function VirksomhetVurderes({
                             Avslutt vurdering
                         </Button>
                     </Tooltip>
-                    <Button
-                        onClick={onAngreVurdering}
-                        variant="tertiary"
-                        size="small"
-                        icon={<ArrowUndoIcon fontSize="1.5rem" aria-hidden />}
-                    >
-                        Angre vurdering
-                    </Button>
                 </>
             )}
             <EierskapKnapp iaSak={iaSak} />

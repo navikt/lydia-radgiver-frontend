@@ -178,7 +178,7 @@ function Detaljseksjon({
                         loggÅpnetVirksomhetsinfo();
                     }
                 }}
-                icon={<InformationSquareIcon aria-hidden fontSize="2rem" />}
+                icon={<InformationSquareIcon aria-hidden fontSize="1.5rem" />}
             >
                 Detaljer
             </Button>

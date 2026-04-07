@@ -25,7 +25,6 @@ import {
     useHentSisteSakNyFlyt,
     useHentVirksomhetNyFlyt,
     avsluttVurderingNyFlyt,
-    angreVurderingNyFlyt,
     opprettSamarbeidNyFlyt,
     useHentSpesifikkSakNyFlyt,
 } from "../../../../src/api/lydia-api/nyFlyt";
@@ -355,37 +354,6 @@ describe("NyVirksomhetsside", () => {
                         "IKKE_DOKUMENTERT_DIALOG_MELLOM_PARTENE",
                     ]),
                 }),
-            );
-        });
-
-        it("Angre vurdering", () => {
-            jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
-                data: { ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" },
-                loading: false,
-                error: null,
-                mutate: jest.fn(),
-                validating: false,
-            });
-            jest.mocked(useHentTeam).mockReturnValue({
-                data: [],
-                loading: false,
-                error: null,
-                mutate: jest.fn(),
-                validating: false,
-            });
-
-            render(
-                <BrowserRouter>
-                    <NyVirksomhetsside />
-                </BrowserRouter>,
-            );
-
-            expect(screen.getByText("Angre vurdering")).toBeInTheDocument();
-            expect(angreVurderingNyFlyt).not.toHaveBeenCalled();
-            screen.getByText("Angre vurdering").click();
-            expect(angreVurderingNyFlyt).toHaveBeenCalledTimes(1);
-            expect(angreVurderingNyFlyt).toHaveBeenCalledWith(
-                dummyVirksomhetsinformasjonNyFlyt.orgnr,
             );
         });
 
