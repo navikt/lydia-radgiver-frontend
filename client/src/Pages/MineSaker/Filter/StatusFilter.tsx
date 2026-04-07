@@ -11,6 +11,8 @@ export const ARKIV_STATUSER: readonly IAProsessStatusType[] = [
     "IKKE_AKTUELL",
     "IKKE_AKTIV",
     "SLETTET",
+    "AVSLUTTET",
+    "VURDERT",
 ] as const;
 
 export const useStatusFilter = (
