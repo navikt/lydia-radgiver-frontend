@@ -34,6 +34,7 @@ import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelse
 import { httpDelete, post, put, useSwrTemplate } from "./networkRequests";
 import { nyFlytApiBasePath, nyFlytBasePath } from "./paths";
 import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
+import { isoDato } from "../../util/dato";
 
 export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<VirksomhetTilstandDto>(
@@ -285,7 +286,7 @@ export const endrePlanlagtDatoNyFlyt = (
         virksomhetTilstandAutomatiskOppdateringSchema,
         {
             ...body,
-            planlagtDato: body.planlagtDato.toISOString().split("T")[0],
+            planlagtDato: isoDato(body.planlagtDato),
         },
     );
 };

@@ -25,6 +25,7 @@ import {
     avsluttVurderingNyFlyt,
 } from "../../../../api/lydia-api/nyFlyt";
 import { useOversiktMutate } from "../../Debugside/Oversikt";
+import { isoDato } from "../../../../util/dato";
 
 export function VirksomhetVurderes({
     iaSak,
@@ -62,7 +63,7 @@ export function VirksomhetVurderes({
                           .VIRKSOMHETEN_ØNSKER_SAMARBEID_SENERE,
                   ]
                 : selectedBegrunnelser,
-            dato: selectedDay?.toISOString().split("T")[0], // TODO: Hvaslags format skal dette være?
+            dato: selectedDay ? isoDato(selectedDay) : undefined, // TODO: Hvaslags format skal dette være?
         }).finally(() => {
             setLagrerVurdering(false);
             mutate();
