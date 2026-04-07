@@ -74,7 +74,7 @@ export default function SamarbeidsplanFane({
                 )}
                 {!eierEllerFølgerSak && (
                     <BodyShort>
-                        Du må være eier av saken for å opprette ny plan
+                        Du må være eier eller følger for å opprette ny plan
                     </BodyShort>
                 )}
                 {!sakErIRettStatus && (

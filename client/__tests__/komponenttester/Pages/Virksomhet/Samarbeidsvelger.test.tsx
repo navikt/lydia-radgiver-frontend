@@ -91,25 +91,23 @@ describe("Samarbeidsvelger", () => {
     });
 
     describe("0 eksisterende samarbeid", () => {
-        it("viser 'Ingen aktive samarbeid'", () => {
+        it("viser 'Ingen samarbeid'", () => {
             renderSamarbeidsvelger([]);
-            expect(
-                screen.getByText("Ingen aktive samarbeid"),
-            ).toBeInTheDocument();
+            expect(screen.getByText("Ingen samarbeid")).toBeInTheDocument();
         });
 
         it("viser legg-til-knapp for bruker med rettigheter", () => {
             renderSamarbeidsvelger([]);
             expect(
-                screen.getByTitle("Legg til nytt samarbeid"),
+                screen.getByRole("button", { name: "Opprett samarbeid" }),
             ).toBeInTheDocument();
         });
 
-        it("skjuler legg-til-knapp for bruker med lesetilgang", () => {
+        it("viser deaktivert legg-til-knapp for bruker med lesetilgang", () => {
             renderSamarbeidsvelger([], brukerMedLesetilgang);
             expect(
-                screen.queryByTitle("Legg til nytt samarbeid"),
-            ).not.toBeInTheDocument();
+                screen.getByRole("button", { name: "Opprett samarbeid" }),
+            ).toBeDisabled();
         });
     });
 
@@ -139,11 +137,9 @@ describe("Samarbeidsvelger", () => {
             ).toBeInTheDocument();
         });
 
-        it("skjuler legg-til-knapp for bruker med lesetilgang", () => {
+        it("viser deaktivert legg-til-knapp for bruker med lesetilgang", () => {
             renderSamarbeidsvelger(samarbeidsliste, brukerMedLesetilgang);
-            expect(
-                screen.queryByTitle("Legg til nytt samarbeid"),
-            ).not.toBeInTheDocument();
+            expect(screen.getByTitle("Legg til nytt samarbeid")).toBeDisabled();
         });
 
         it("åpner NyttSamarbeidModal ved klikk på legg-til-knapp", () => {

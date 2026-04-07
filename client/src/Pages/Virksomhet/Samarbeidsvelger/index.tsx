@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Button, HStack, ReadMore, Skeleton } from "@navikt/ds-react";
+import { Button, HStack, ReadMore, Skeleton, Tooltip } from "@navikt/ds-react";
 import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import styles from "./samarbeidsvelger.module.scss";
@@ -142,16 +142,36 @@ function Samarbeidvelgeroverskrift({
     iaSak?: IASak;
     virksomhet?: Virksomhet;
 }) {
+    if (samarbeid?.length && samarbeid?.length > 0) {
+        return (
+            <HStack
+                align="center"
+                justify="space-between"
+                className={styles.overskriftOgKnappRad}
+            >
+                <h3
+                    className={`${styles.overskrift}`}
+                >{`Samarbeid${samarbeid && ` (${samarbeid.length})`}`}</h3>
+                {iaSak &&
+                    virksomhet &&
+                    (iaSak.status === IAProsessStatusEnum.enum.VURDERES ||
+                        iaSak.status === IAProsessStatusEnum.enum.AKTIV) && (
+                        <LeggTilSamarbeidKnapp
+                            iaSak={iaSak}
+                            virksomhet={virksomhet}
+                            liten
+                        />
+                    )}
+            </HStack>
+        );
+    }
+
     return (
-        <HStack
-            className={`${styles.radCommon} ${styles.overskriftRad}`}
-            align="center"
-            justify="space-between"
-        >
+        <>
             <h3 className={`${styles.overskrift}`}>
                 {samarbeid && samarbeid.length
                     ? `Samarbeid${samarbeid && ` (${samarbeid.length})`}`
-                    : "Ingen aktive samarbeid"}
+                    : "Ingen samarbeid"}
             </h3>
             {iaSak &&
                 virksomhet &&
@@ -162,7 +182,7 @@ function Samarbeidvelgeroverskrift({
                         virksomhet={virksomhet}
                     />
                 )}
-        </HStack>
+        </>
     );
 }
 
@@ -197,9 +217,11 @@ function AktiveSamarbeidListe({
 function LeggTilSamarbeidKnapp({
     iaSak,
     virksomhet,
+    liten = false,
 }: {
     iaSak?: IASak;
     virksomhet: Virksomhet;
+    liten?: boolean;
 }) {
     const [nyttSamarbeidModalÅpen, setNyttSamarbeidModalÅpen] =
         React.useState(false);
@@ -210,22 +232,38 @@ function LeggTilSamarbeidKnapp({
     );
 
     const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
+    const brukerEierEllerFølgerSak = brukerErEierAvSak || brukerFølgerSak;
     const kanEndreSamarbeid =
-        (brukerFølgerSak || brukerErEierAvSak) &&
-        brukerInformasjon?.rolle !== "Lesetilgang";
+        brukerEierEllerFølgerSak && brukerInformasjon?.rolle !== "Lesetilgang";
 
-    if (!iaSak || !kanEndreSamarbeid) {
+    if (!iaSak) {
         return null;
     }
 
     return (
         <>
-            <Button
-                size="xsmall"
-                onClick={() => setNyttSamarbeidModalÅpen(true)}
-                title="Legg til nytt samarbeid"
-                icon={<PlusIcon fontSize="1.5rem" aria-hidden />}
-            />
+            <SamarbeidknappOptionalTooltip disabled={!kanEndreSamarbeid}>
+                {liten ? (
+                    <Button
+                        size="small"
+                        onClick={() => setNyttSamarbeidModalÅpen(true)}
+                        title="Legg til nytt samarbeid"
+                        icon={<PlusIcon fontSize="1.5rem" aria-hidden />}
+                        disabled={!kanEndreSamarbeid}
+                        className={styles.opprettSamarbeidKnapp}
+                    />
+                ) : (
+                    <Button
+                        size="small"
+                        onClick={() => setNyttSamarbeidModalÅpen(true)}
+                        icon={<PlusIcon fontSize="1.5rem" aria-hidden />}
+                        disabled={!kanEndreSamarbeid}
+                        className={styles.opprettSamarbeidKnapp}
+                    >
+                        Opprett samarbeid
+                    </Button>
+                )}
+            </SamarbeidknappOptionalTooltip>
             <NyttSamarbeidModal
                 iaSak={iaSak}
                 virksomhet={virksomhet}
@@ -234,6 +272,24 @@ function LeggTilSamarbeidKnapp({
             />
         </>
     );
+}
+
+function SamarbeidknappOptionalTooltip({
+    children,
+    disabled,
+}: {
+    children: React.ReactElement;
+    disabled?: boolean;
+}) {
+    if (disabled) {
+        return (
+            <Tooltip content="Du må være eier eller følger for å opprette samarbeid">
+                <div>{children}</div>
+                {/* Tooltip må ha et ikke-disabled element som child, så vi pakker inn i en div */}
+            </Tooltip>
+        );
+    }
+    return children;
 }
 
 function AvsluttedeSamarbeidListe({

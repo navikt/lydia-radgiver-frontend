@@ -39,12 +39,6 @@
             text-decoration: underline;
             color: var(--a-blue-800);
         }
-
-        &.overskriftRad {
-            display: flex;
-            height: 4rem;
-            padding-right: 0;
-        }
     }
 
     .liste {
@@ -78,9 +72,31 @@
         }
     }
 
-    .overskrift {
-        margin: 0;
+    .opprettSamarbeidKnapp {
+        margin-bottom: 1rem;
+        width: fit-content;
     }
+    
+    .overskrift {
+        padding-bottom: 1rem;
+        border-bottom: 1px solid var(--a-gray-300);
+    }
+
+    .overskriftOgKnappRad {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--a-gray-300);
+
+        .overskrift {
+            padding-bottom: 0;
+            border-bottom: none;
+        }
+        .opprettSamarbeidKnapp {
+            margin-bottom: 0;
+        }
+    }
+
 
     .inaktiveSamarbeidReadMore {
         :global(.navds-read-more__button) {

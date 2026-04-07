@@ -221,9 +221,7 @@ describe("NyVirksomhetsside", () => {
                     <NyVirksomhetsside />
                 </BrowserRouter>,
             );
-            expect(
-                screen.getByText("Ingen aktive samarbeid"),
-            ).toBeInTheDocument();
+            expect(screen.getByText("Ingen samarbeid")).toBeInTheDocument();
             expect(
                 screen.getByText(dummyVirksomhetsinformasjonNyFlyt.navn),
             ).toBeInTheDocument();
@@ -511,9 +509,9 @@ describe("NyVirksomhetsside", () => {
                     </BrowserRouter>,
                 );
 
-                const leggTilKnapp = screen.getByTitle(
-                    "Legg til nytt samarbeid",
-                );
+                const leggTilKnapp = screen.getByRole("button", {
+                    name: "Opprett samarbeid",
+                });
                 expect(leggTilKnapp).toBeInTheDocument();
                 fireEvent.click(leggTilKnapp);
 
@@ -534,7 +532,9 @@ describe("NyVirksomhetsside", () => {
                     </BrowserRouter>,
                 );
 
-                fireEvent.click(screen.getByTitle("Legg til nytt samarbeid"));
+                fireEvent.click(
+                    screen.getByRole("button", { name: "Opprett samarbeid" }),
+                );
                 const modal = screen.getByRole("dialog", {
                     name: "Opprett nytt samarbeid",
                 });
@@ -564,7 +564,9 @@ describe("NyVirksomhetsside", () => {
                     </BrowserRouter>,
                 );
 
-                fireEvent.click(screen.getByTitle("Legg til nytt samarbeid"));
+                fireEvent.click(
+                    screen.getByRole("button", { name: "Opprett samarbeid" }),
+                );
                 const modal = screen.getByRole("dialog", {
                     name: "Opprett nytt samarbeid",
                 });
@@ -587,7 +589,9 @@ describe("NyVirksomhetsside", () => {
                     </BrowserRouter>,
                 );
 
-                fireEvent.click(screen.getByTitle("Legg til nytt samarbeid"));
+                fireEvent.click(
+                    screen.getByRole("button", { name: "Opprett samarbeid" }),
+                );
                 const modal = screen.getByRole("dialog", {
                     name: "Opprett nytt samarbeid",
                 });

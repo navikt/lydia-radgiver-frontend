@@ -240,7 +240,7 @@ describe("NyVirksomhetsside", () => {
             ).toBeInTheDocument();
         });
 
-        it("Skjuler legg-til-samarbeid-knapp for lesebruker", () => {
+        it("Viser deaktivert legg-til-samarbeid-knapp for lesebruker", () => {
             jest.mocked(useHentSisteSakNyFlyt).mockReturnValue({
                 data: {
                     ...dummyIaSak,
@@ -264,9 +264,7 @@ describe("NyVirksomhetsside", () => {
                     <NyVirksomhetsside />
                 </BrowserRouter>,
             );
-            expect(
-                screen.queryByTitle("Legg til nytt samarbeid"),
-            ).not.toBeInTheDocument();
+            expect(screen.getByTitle("Legg til nytt samarbeid")).toBeDisabled();
         });
     });
 

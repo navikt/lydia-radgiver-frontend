@@ -93,8 +93,7 @@ export default function LeggTilTemaKnapp({
             {!kanEndrePlan && (
                 <>
                     <BodyShort>
-                        Du må være eier eller følger av saken for å kunne gjøre
-                        endringer
+                        Du må være eier eller følger for å kunne gjøre endringer
                     </BodyShort>
                     <br />
                 </>

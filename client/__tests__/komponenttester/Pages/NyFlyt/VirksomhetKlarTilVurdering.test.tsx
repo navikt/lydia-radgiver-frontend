@@ -200,9 +200,7 @@ describe("NyVirksomhetsside", () => {
                     <NyVirksomhetsside />
                 </BrowserRouter>,
             );
-            expect(
-                screen.getByText("Ingen aktive samarbeid"),
-            ).toBeInTheDocument();
+            expect(screen.getByText("Ingen samarbeid")).toBeInTheDocument();
             expect(
                 screen.getByText(dummyVirksomhetsinformasjonNyFlyt.navn),
             ).toBeInTheDocument();
