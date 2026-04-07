@@ -24,7 +24,7 @@ export const VirksomhetTilstandDropdown = ({
 
     return (
         <Select
-            label="Tilstand"
+            label="Status"
             value={valgtVirksomhetTilstand || ""}
             onChange={onChange}
         >

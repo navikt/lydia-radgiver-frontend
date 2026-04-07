@@ -1,7 +1,6 @@
 import { Button, Checkbox } from "@navikt/ds-react";
 import { Range, SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
 import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
-import { IAStatusDropdown } from "./IAStatusDropdown";
 import { Kommunedropdown } from "./Kommunedropdown";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
@@ -28,7 +27,11 @@ type Filtervisning = Omit<
     "lastData" | "oppdaterSide" // Disse funksjonene er ikke relevante for denne komponenten, derfor fjernes de fra typen.
 >;
 
-export type Filter = "IA_STATUS" | "EIER" | "SNITTFILTER" | "VIRKSOMHET_TILSTAND";
+export type Filter =
+    | "IA_STATUS"
+    | "EIER"
+    | "SNITTFILTER"
+    | "VIRKSOMHET_TILSTAND";
 
 interface FiltervisningProps {
     filtervisning: Filtervisning;
@@ -94,7 +97,9 @@ export const Filtervisning = ({
         oppdaterAntallArbeidsforhold({ arbeidsforhold: antallArbeidsforhold });
     };
 
-    const endreVirksomhetTilstand = (virksomhetTilstand?: VirksomhetIATilstand) => {
+    const endreVirksomhetTilstand = (
+        virksomhetTilstand?: VirksomhetIATilstand,
+    ) => {
         oppdaterVirksomhetTilstand({ virksomhetTilstand: virksomhetTilstand });
     };
 
@@ -197,13 +202,6 @@ export const Filtervisning = ({
                             state.filterverdier?.virksomhetTilstander ?? []
                         }
                         valgtVirksomhetTilstand={state.virksomhetTilstand}
-                    />
-                )}
-                {skalFilterVises("IA_STATUS") && (
-                    <IAStatusDropdown
-                        endreStatus={endreStatus}
-                        statuser={state.filterverdier?.statuser ?? []}
-                        valgtStatus={state.iaStatus}
                     />
                 )}
                 {skalFilterVises("EIER") && (

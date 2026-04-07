@@ -25,11 +25,6 @@ interface Kolonne {
 // Om ordet blir delt vil det automatisk få en bindestrek på delingspunktet
 const kolonner: Kolonne[] = [
     {
-        key: "tilstand",
-        name: "Tilstand",
-        textAlignment: "left",
-    },
-    {
         key: "status",
         name: "Status",
         textAlignment: "left",
@@ -152,11 +147,6 @@ export const PrioriteringsTabell = ({
                                 <Table.DataCell>
                                     <VirksomhetTilstandStatusBadge
                                         tilstand={virksomhetsoversikt.tilstand}
-                                    />
-                                </Table.DataCell>
-                                <Table.DataCell>
-                                    <IAProsessStatusBadge
-                                        status={virksomhetsoversikt.status}
                                     />
                                 </Table.DataCell>
                                 <EndretDataCell
