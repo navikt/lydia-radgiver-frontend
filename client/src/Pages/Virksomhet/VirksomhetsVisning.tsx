@@ -23,7 +23,10 @@ import SamarbeidsplanFane from "./Plan/SamarbeidsplanFane";
 import { SamarbeidStatusBadge } from "../../components/Badge/SamarbeidStatusBadge";
 import { Kartleggingsliste } from "./Kartlegging/Kartleggingsliste";
 import { useHarPlan } from "../../api/lydia-api/plan";
-import { useHentSisteSakNyFlyt } from "../../api/lydia-api/nyFlyt";
+import {
+    useHentSisteSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "../../api/lydia-api/nyFlyt";
 import AdministrerSamarbeid from "./AdministrerSamarbeid";
 
 interface Props {
@@ -31,12 +34,16 @@ interface Props {
 }
 
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
-    const { /* saksnummer, */ prosessId } = useParams();
+    const { saksnummer, prosessId } = useParams();
 
-    const { data: iaSak, loading: lasterIaSak } = useHentSisteSakNyFlyt(
-        virksomhet.orgnr,
-        // saksnummer ?? virksomhet.aktivtSaksnummer ?? undefined,
-    );
+    const { data: valgtSak, loading: lasterValgtIaSak } =
+        useHentSpesifikkSakNyFlyt(virksomhet.orgnr, saksnummer);
+
+    const { data: sisteIaSak, loading: lasterSisteIaSak } =
+        useHentSisteSakNyFlyt(virksomhet.orgnr);
+
+    const iaSak = valgtSak ?? sisteIaSak;
+    const lasterIaSak = lasterValgtIaSak && lasterSisteIaSak;
 
     const { data: alleSamarbeid, loading: lasterSamarbeid } = useHentSamarbeid(
         iaSak?.orgnr,
