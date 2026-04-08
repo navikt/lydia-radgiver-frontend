@@ -189,6 +189,13 @@ jest.mock("react-router-dom", () => {
 describe("NyVirksomhetsside", () => {
     beforeEach(() => {
         jest.clearAllMocks();
+        jest.mocked(useHentBrukerinformasjon).mockImplementation(() => ({
+            data: brukerMedGyldigToken,
+            loading: false,
+            error: undefined,
+            mutate: jest.fn(),
+            validating: false,
+        }));
     });
 
     it("Rendrer korrekt", () => {
@@ -201,24 +208,18 @@ describe("NyVirksomhetsside", () => {
     });
 
     describe("Legg til samarbeid-knapp", () => {
-        afterEach(() => {
-            jest.mocked(useHentSisteSakNyFlyt).mockImplementation(() => ({
-                data: dummyIaSak,
+        beforeEach(() => {
+            jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
+                data: {
+                    ...dummyIaSak,
+                    status: "AKTIV",
+                    eidAv: brukerMedGyldigToken.ident,
+                },
                 loading: false,
                 error: undefined,
                 mutate: jest.fn(),
                 validating: false,
-            }));
-            jest.mocked(useHentBrukerinformasjon).mockImplementation(() => ({
-                data: brukerMedGyldigToken,
-                loading: false,
-                error: undefined,
-                mutate: jest.fn(),
-                validating: false,
-            }));
-        });
-
-        it("Viser legg-til-samarbeid-knapp for bruker med rettigheter", () => {
+            });
             jest.mocked(useHentSisteSakNyFlyt).mockReturnValue({
                 data: {
                     ...dummyIaSak,
@@ -230,6 +231,9 @@ describe("NyVirksomhetsside", () => {
                 mutate: jest.fn(),
                 validating: false,
             });
+        });
+
+        it("Viser legg-til-samarbeid-knapp for bruker med rettigheter", () => {
             render(
                 <BrowserRouter>
                     <NyVirksomhetsside />
@@ -241,17 +245,6 @@ describe("NyVirksomhetsside", () => {
         });
 
         it("Viser deaktivert legg-til-samarbeid-knapp for lesebruker", () => {
-            jest.mocked(useHentSisteSakNyFlyt).mockReturnValue({
-                data: {
-                    ...dummyIaSak,
-                    status: "AKTIV",
-                    eidAv: brukerMedGyldigToken.ident,
-                },
-                loading: false,
-                error: undefined,
-                mutate: jest.fn(),
-                validating: false,
-            });
             jest.mocked(useHentBrukerinformasjon).mockReturnValue({
                 data: brukerMedLesetilgang,
                 loading: false,

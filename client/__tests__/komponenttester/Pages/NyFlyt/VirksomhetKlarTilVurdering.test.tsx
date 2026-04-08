@@ -33,7 +33,10 @@ jest.mock("../../../../src/api/lydia-api/virksomhet", () => {
         ...jest.requireActual("../../../../src/api/lydia-api/virksomhet"),
         useHentVirksomhetsinformasjon: jest.fn(() => {
             return {
-                data: dummyVirksomhetsinformasjonNyFlyt,
+                data: {
+                    ...dummyVirksomhetsinformasjonNyFlyt,
+                    aktivtSaksnummer: dummyIaSak.saksnummer,
+                },
                 loading: false,
             };
         }),
@@ -113,7 +116,7 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
         angreVurderingNyFlyt: jest.fn(() => Promise.resolve()),
         opprettSamarbeidNyFlyt: jest.fn(() => Promise.resolve()),
         useHentSisteSakNyFlyt: jest.fn(() => ({
-            data: undefined,
+            data: dummyIaSak,
             loading: false,
         })),
         useHentSpesifikkSakNyFlyt: jest.fn(() => ({
@@ -123,7 +126,10 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => {
         })),
         useHentVirksomhetNyFlyt: jest.fn(() => {
             return {
-                data: dummyVirksomhetsinformasjonNyFlyt,
+                data: {
+                    ...dummyVirksomhetsinformasjonNyFlyt,
+                    aktivtSaksnummer: dummyIaSak.saksnummer,
+                },
                 loading: false,
             };
         }),
