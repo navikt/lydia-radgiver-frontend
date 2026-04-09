@@ -22,14 +22,18 @@ import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
 import { avsluttVurderingNyFlyt } from "../../../../api/lydia-api/nyFlyt";
 import { useOversiktMutate } from "../../Debugside/Oversikt";
 import { isoDato } from "../../../../util/dato";
+import { useErPåInaktivSak } from "../../VirksomhetContext";
+import {
+    erSaksbehandler,
+    useHentBrukerinformasjon,
+} from "../../../../api/lydia-api/bruker";
+import { useHentTeam } from "../../../../api/lydia-api/team";
 
 export function VirksomhetVurderes({
     iaSak,
-    eierEllerFølgerSak,
     virksomhet,
 }: {
     iaSak: IASak;
-    eierEllerFølgerSak: boolean;
     virksomhet: Virksomhet;
 }) {
     const mutate = useOversiktMutate(virksomhet.orgnr);
@@ -67,13 +71,24 @@ export function VirksomhetVurderes({
         });
     };
 
+    const erPåInaktivSak = useErPåInaktivSak();
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
+    const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
+    const brukerFølgerSak = følgere.some(
+        (følger) => følger === brukerInformasjon?.ident,
+    );
+    const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
+    const kanAvslutteVurdering =
+        !erPåInaktivSak &&
+        ((erSaksbehandler(brukerInformasjon) && brukerFølgerSak) ||
+            brukerErEierAvSak);
+
     return (
         <HStack gap={"4"}>
-            {eierEllerFølgerSak ? (
+            {kanAvslutteVurdering ? (
                 <>
                     <Button
                         onClick={() => førsteModalRef.current?.showModal?.()}
-                        disabled={!eierEllerFølgerSak}
                         size="small"
                         variant="secondary"
                     >

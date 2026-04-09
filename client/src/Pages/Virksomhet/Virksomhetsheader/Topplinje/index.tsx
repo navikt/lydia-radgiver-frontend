@@ -1,12 +1,7 @@
 import { HStack, Skeleton } from "@navikt/ds-react";
 import React from "react";
 import { Salesforcelenke } from "../";
-import {
-    useHentBrukerinformasjon,
-    erSaksbehandler,
-} from "../../../../api/lydia-api/bruker";
 import { useHentTilstandForVirksomhetNyFlyt } from "../../../../api/lydia-api/nyFlyt";
-import { useHentTeam } from "../../../../api/lydia-api/team";
 import {
     IASak,
     VirksomhetIATilstandEnum,
@@ -31,16 +26,6 @@ export function Topplinje({
     const { data: tilstand, loading: tilstandLoading } =
         useHentTilstandForVirksomhetNyFlyt(virksomhet.orgnr);
 
-    const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
-    const brukerFølgerSak = følgere.some(
-        (følger) => følger === brukerInformasjon?.ident,
-    );
-    const brukerErEierAvSak = iaSak?.eidAv === brukerInformasjon?.ident;
-    const eierEllerFølgerSak =
-        (erSaksbehandler(brukerInformasjon) && brukerFølgerSak) ||
-        brukerErEierAvSak;
-
     if (tilstandLoading) {
         // TODO: Pen loading
         return (
@@ -62,13 +47,7 @@ export function Topplinje({
     if (
         tilstand?.tilstand === VirksomhetIATilstandEnum.enum.VirksomhetVurderes
     ) {
-        return (
-            <VirksomhetVurderes
-                iaSak={iaSak!}
-                eierEllerFølgerSak={eierEllerFølgerSak}
-                virksomhet={virksomhet}
-            />
-        );
+        return <VirksomhetVurderes iaSak={iaSak!} virksomhet={virksomhet} />;
     }
 
     if (
