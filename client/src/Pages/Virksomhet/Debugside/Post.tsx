@@ -18,7 +18,9 @@ import { SamarbeidRequest } from "../../../domenetyper/iaSakProsess";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import {
     NyFlytBegrunnelse,
+    nyFlytBegrunnelseEnum,
     NyFlytÅrsakType,
+    nyFlytÅrsakTypeEnum,
 } from "../../../domenetyper/domenetyper";
 import { useHentPlanMal } from "../../../api/lydia-api/plan";
 import { isoDato } from "../../../util/dato";
@@ -177,10 +179,10 @@ export function AngreVurdering({ orgnummer, onSuccess }: PostProps) {
 
 export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
     const [type, setType] = useState<NyFlytÅrsakType>(
-        "VIRKSOMHETEN_SKAL_VURDERES_SENERE",
+        nyFlytÅrsakTypeEnum.enum.VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT,
     );
     const [begrunnelser, setBegrunnelser] = useState<NyFlytBegrunnelse[]>([
-        "VIRKSOMHETEN_ØNSKER_SAMARBEID_SENERE",
+        nyFlytBegrunnelseEnum.enum.VIRKSOMHETEN_ØNSKER_Å_BLI_KONTAKTET_SENERE,
     ]);
     const [dato, setDato] = useState(() => {
         const futureDate = new Date();
@@ -191,13 +193,33 @@ export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
     const [error, setError] = useState<string | null>(null);
 
     const begrunnelserForType: Record<NyFlytÅrsakType, NyFlytBegrunnelse[]> = {
-        VIRKSOMHETEN_SKAL_VURDERES_SENERE: [
-            "VIRKSOMHETEN_ØNSKER_SAMARBEID_SENERE",
+        [nyFlytÅrsakTypeEnum.enum.VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT]:
+            [
+                nyFlytBegrunnelseEnum.enum
+                    .VIRKSOMHETEN_ØNSKER_Å_BLI_KONTAKTET_SENERE,
+                nyFlytBegrunnelseEnum.enum.NAV_HAR_IKKE_KAPASITET_NÅ,
+            ],
+        [nyFlytÅrsakTypeEnum.enum
+            .VIRKSOMHETEN_ER_FERDIG_VURDERT_MED_INTERN_VURDERING]: [
+            nyFlytBegrunnelseEnum.enum
+                .VIRKSOMHETEN_HAR_IKKE_SVART_PÅ_HENVENDELSER,
+            nyFlytBegrunnelseEnum.enum.VIRKSOMHETEN_HAR_FOR_LAVT_POTENSIALE,
+            nyFlytBegrunnelseEnum.enum
+                .VIRKSOMHETEN_MANGLER_REPRESANTANTER_ELLER_ETABLERT_PARTSGRUPPE,
         ],
-        VIRKSOMHETEN_ER_FERDIG_VURDERT: [
-            "VIRKSOMHETEN_HAR_TAKKET_NEI",
-            "IKKE_DOKUMENTERT_DIALOG_MELLOM_PARTENE",
-        ],
+        [nyFlytÅrsakTypeEnum.enum.VIRKSOMHETEN_ER_FERDIG_VURDERT_OG_TAKKET_NEI]:
+            [
+                nyFlytBegrunnelseEnum.enum
+                    .VIRKSOMHETEN_ER_IKKE_MOTIVERT_ELLER_HAR_IKKE_KAPASITET,
+                nyFlytBegrunnelseEnum.enum
+                    .VIRKSOMHETEN_SAMARBEIDER_MED_ANDRE_ELLER_GJØR_EGNE_TILTAK,
+                nyFlytBegrunnelseEnum.enum
+                    .VIRKSOMHETEN_ØNSKER_KUN_INFORMASJON_OG_VEILEDNING,
+                nyFlytBegrunnelseEnum.enum
+                    .KOMMUNEN_ELLER_OVERORDNET_LEDELSE_ØNSKER_IKKE_Å_STARTE_ET_SAMARBEID,
+                nyFlytBegrunnelseEnum.enum
+                    .VIRKSOMHETEN_FERDIG_VURDERT_TAKKET_NEI_ANNET,
+            ],
     };
 
     const minDate = new Date();
@@ -246,11 +268,14 @@ export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
                         handleTypeChange(e.target.value as NyFlytÅrsakType)
                     }
                 >
-                    <option value="VIRKSOMHETEN_SKAL_VURDERES_SENERE">
-                        VIRKSOMHETEN_SKAL_VURDERES_SENERE
+                    <option value="VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT">
+                        VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT
                     </option>
-                    <option value="VIRKSOMHETEN_ER_FERDIG_VURDERT">
-                        VIRKSOMHETEN_ER_FERDIG_VURDERT
+                    <option value="VIRKSOMHETEN_ER_FERDIG_VURDERT_MED_INTERN_VURDERING">
+                        VIRKSOMHETEN_ER_FERDIG_VURDERT_MED_INTERN_VURDERING
+                    </option>
+                    <option value="VIRKSOMHETEN_ER_FERDIG_VURDERT_OG_TAKKET_NEI">
+                        VIRKSOMHETEN_ER_FERDIG_VURDERT_OG_TAKKET_NEI
                     </option>
                 </select>
             </div>

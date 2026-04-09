@@ -245,8 +245,19 @@ describe("NyVirksomhetsside", () => {
             expect(avsluttVurderingKnapp).toBeInTheDocument();
             avsluttVurderingKnapp.click();
             expect(
-                screen.getByText(
-                    "Velg en eller flere begrunnelser for hvorfor dere avslutter vurderingen av virksomheten.",
+                screen.getByText("Avslutt vurdering av virksomheten"),
+            ).toBeInTheDocument();
+            expect(
+                screen.getByLabelText("Vurder virksomheten senere"),
+            ).toBeInTheDocument();
+            expect(
+                screen.getByLabelText(
+                    "Virksomheten er ferdig vurdert med intern vurdering",
+                ),
+            ).toBeInTheDocument();
+            expect(
+                screen.getByLabelText(
+                    "Virksomheten er ferdig vurdert og takket nei",
                 ),
             ).toBeInTheDocument();
         });
@@ -258,60 +269,32 @@ describe("NyVirksomhetsside", () => {
                 </BrowserRouter>,
             );
 
-            expect(
-                screen.queryByText(
-                    "Når ønsker du at virksomheten automatisk skal vurderes igjen?",
-                ),
-            ).not.toBeInTheDocument();
-
             const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
             avsluttVurderingKnapp.click();
 
-            const feilChackboxer = [
-                screen.getByLabelText("Virksomheten har ikke svart"),
-                screen.getByLabelText("Ikke dokumentert dialog mellom partene"),
-                screen.getByLabelText(
-                    "Intern vurdering før kontakt med virksomhet",
-                ),
-            ];
-
-            feilChackboxer.forEach((checkbox) => {
-                expect(checkbox).toBeInTheDocument();
-                checkbox.click();
-                expect(checkbox).toBeChecked();
-            });
-
-            const ønskerSamarbeidSenereCheckbox = screen.getByLabelText(
-                "Virksomheten ønsker samarbeid senere",
+            fireEvent.click(
+                screen.getByLabelText("Vurder virksomheten senere"),
             );
-            expect(ønskerSamarbeidSenereCheckbox).toBeInTheDocument();
-            ønskerSamarbeidSenereCheckbox.click();
-            expect(ønskerSamarbeidSenereCheckbox).toBeChecked();
-            feilChackboxer.forEach((checkbox) => {
-                expect(checkbox).not.toBeChecked();
-            });
 
-            const lagreKnapp = screen.getAllByText("Lagre")[0];
-            expect(lagreKnapp).toBeInTheDocument();
-            lagreKnapp.click();
-
-            expect(
-                screen.getByText(
-                    "Når ønsker du at virksomheten automatisk skal vurderes igjen?",
+            fireEvent.click(
+                screen.getByLabelText(
+                    "Virksomheten ønsker å bli kontaktet senere",
                 ),
-            ).toBeInTheDocument();
+            );
 
             expect(avsluttVurderingNyFlyt).not.toHaveBeenCalled();
-            const lagreVurderingKnapp = screen.getAllByText("Lagre")[1];
-            lagreVurderingKnapp.click();
+            fireEvent.click(screen.getByText("Lagre"));
             await waitFor(() =>
                 expect(avsluttVurderingNyFlyt).toHaveBeenCalledTimes(1),
             );
             expect(avsluttVurderingNyFlyt).toHaveBeenCalledWith(
                 dummyVirksomhetsinformasjonNyFlyt.orgnr,
                 expect.objectContaining({
-                    type: "VIRKSOMHETEN_SKAL_VURDERES_SENERE",
-                    begrunnelser: ["VIRKSOMHETEN_ØNSKER_SAMARBEID_SENERE"],
+                    type: "VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT",
+                    begrunnelser: [
+                        "VIRKSOMHETEN_ØNSKER_Å_BLI_KONTAKTET_SENERE",
+                    ],
+                    dato: expect.stringMatching(/\d{4}-\d{2}-\d{2}/),
                 }),
             );
         });
@@ -326,39 +309,38 @@ describe("NyVirksomhetsside", () => {
             const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
             avsluttVurderingKnapp.click();
 
-            const virksomhetHarIkkeSvart = screen.getByLabelText(
-                "Virksomheten har ikke svart",
-            );
-            const ikkeDialogMellomPartene = screen.getByLabelText(
-                "Ikke dokumentert dialog mellom partene",
-            );
-
-            virksomhetHarIkkeSvart.click();
-            ikkeDialogMellomPartene.click();
-            expect(virksomhetHarIkkeSvart).toBeChecked();
-            expect(ikkeDialogMellomPartene).toBeChecked();
-
-            screen.getAllByText("Lagre")[0].click();
-
-            expect(
-                screen.getByText(
-                    "Hvor lenge skal virksomheten stå som vurdert?",
+            fireEvent.click(
+                screen.getByLabelText(
+                    "Virksomheten er ferdig vurdert med intern vurdering",
                 ),
-            ).toBeInTheDocument();
+            );
+
+            const virksomhetHarIkkeSvart = screen.getByLabelText(
+                "Virksomheten har ikke svart på henvendelser",
+            );
+            const lavtPotensiale = screen.getByLabelText(
+                "Virksomheten har for lavt potensiale til å redusere tapte dagsverk",
+            );
+
+            fireEvent.click(virksomhetHarIkkeSvart);
+            fireEvent.click(lavtPotensiale);
+            expect(virksomhetHarIkkeSvart).toBeChecked();
+            expect(lavtPotensiale).toBeChecked();
 
             expect(avsluttVurderingNyFlyt).not.toHaveBeenCalled();
-            screen.getAllByText("Lagre")[1].click();
+            fireEvent.click(screen.getByText("Lagre"));
             await waitFor(() =>
                 expect(avsluttVurderingNyFlyt).toHaveBeenCalledTimes(1),
             );
             expect(avsluttVurderingNyFlyt).toHaveBeenCalledWith(
                 dummyVirksomhetsinformasjonNyFlyt.orgnr,
                 expect.objectContaining({
-                    type: "VIRKSOMHETEN_ER_FERDIG_VURDERT",
+                    type: "VIRKSOMHETEN_ER_FERDIG_VURDERT_MED_INTERN_VURDERING",
                     begrunnelser: expect.arrayContaining([
-                        "VIRKSOMHETEN_HAR_IKKE_SVART",
-                        "IKKE_DOKUMENTERT_DIALOG_MELLOM_PARTENE",
+                        "VIRKSOMHETEN_HAR_IKKE_SVART_PÅ_HENVENDELSER",
+                        "VIRKSOMHETEN_HAR_FOR_LAVT_POTENSIALE",
                     ]),
+                    dato: expect.stringMatching(/\d{4}-\d{2}-\d{2}/),
                 }),
             );
         });
