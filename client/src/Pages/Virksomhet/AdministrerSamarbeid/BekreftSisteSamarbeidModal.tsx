@@ -40,7 +40,9 @@ export default function BekreftSisteSamarbeidModal({
         iaSak?.orgnr,
         iaSak?.saksnummer,
     );
-    const { mutate: hentTilstandPåNytt } = useHentTilstandForVirksomhetNyFlyt(iaSak?.orgnr);
+    const { mutate: hentTilstandPåNytt } = useHentTilstandForVirksomhetNyFlyt(
+        iaSak?.orgnr,
+    );
 
     const onConfirmAction = async () => {
         setSenderRequest(true);
@@ -51,10 +53,7 @@ export default function BekreftSisteSamarbeidModal({
             }
 
             if (nyStatus === "SLETTET") {
-                await slettSamarbeidNyFlyt(
-                    iaSak.orgnr,
-                    valgtSamarbeid.id,
-                );
+                await slettSamarbeidNyFlyt(iaSak.orgnr, valgtSamarbeid.id);
             } else {
                 const samarbeid: SamarbeidRequest = {
                     id: valgtSamarbeid?.id,
@@ -120,9 +119,13 @@ export default function BekreftSisteSamarbeidModal({
                         </dl>
                     </LocalAlert.Content>
                 </LocalAlert>
-                <BodyLong>
+                <BodyLong style={{ marginTop: "1rem" }}>
                     Ønsker du å {getStatusInfinitiv(nyStatus)} samarbeidet og
-                    sette virksomheten til avsluttet?
+                    sette virksomheten{" "}
+                    {nyStatus === "SLETTET"
+                        ? "tilbake til vurderes"
+                        : "til avsluttet"}
+                    ?
                 </BodyLong>
             </Modal.Body>
             <Modal.Footer>
