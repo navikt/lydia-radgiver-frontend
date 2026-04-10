@@ -31,10 +31,9 @@ updates:
     labels:
       - "dependencies"
       - "client"
+    ignore:
+      - dependency-name: "@navikt/*"
     groups:
-      "@navikt*":
-        patterns:
-          - "@navikt/*"
       "@testing-library*":
         patterns:
           - "@testing-library/*"
@@ -73,8 +72,6 @@ updates:
           - "highcharts-react-official"
     cooldown:
       default-days: 7
-      exclude:
-        - "@navikt*"
       applies-to: version-updates
     registries:
       - npm-npmjs
