@@ -112,7 +112,7 @@ export const avsluttVurderingNyFlyt = (
     årsak: ValgtÅrsakNyFlytDto,
 ): Promise<IASak> => {
     return post(
-        `${nyFlytBasePath}/${orgnummer}/avslutt-vurdering`,
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/avslutt-vurdering`,
         iaSakSchema,
         årsak,
     );
