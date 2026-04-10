@@ -155,36 +155,36 @@ function AvsluttVurderingModalInnhold({
         }
     };
 
-    const kanLagre = React.useMemo(() => {
+    const kanIkkeLagreBegrunnelser = React.useMemo(() => {
+        const begrunnelser = [];
+
         if (!eierEllerFølgerSak) {
-            return false;
-        }
-        if (!årsak) {
-            return false;
-        }
-        if (
-            årsak ===
-            nyFlytÅrsakTypeEnum.enum
-                .VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT
-        ) {
-            return (
-                begrunnelse.length > 0 &&
-                selectedDay &&
-                selectedDay > new Date()
+            begrunnelser.push(
+                "Du må eie eller følge saken for å kunne avslutte vurderingen",
             );
         }
-        if (
-            årsak ===
-                nyFlytÅrsakTypeEnum.enum
-                    .VIRKSOMHETEN_ER_FERDIG_VURDERT_MED_INTERN_VURDERING ||
-            årsak ===
-                nyFlytÅrsakTypeEnum.enum
-                    .VIRKSOMHETEN_ER_FERDIG_VURDERT_OG_TAKKET_NEI
-        ) {
-            return begrunnelse.length > 0 && selectedDay;
+
+        if (årsak === undefined) {
+            begrunnelser.push(
+                "Du må velge en årsak for å avslutte vurderingen",
+            );
+        } else {
+            if (begrunnelse.length === 0) {
+                begrunnelser.push(
+                    `Du må velge en begrunnelse for å ${årsak === nyFlytÅrsakTypeEnum.enum.VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT ? "vurdere senere" : "avslutte vurdering"}`,
+                );
+            }
+            if (!selectedDay || selectedDay <= new Date()) {
+                begrunnelser.push(
+                    `Du må velge en gyldig dato for å ${årsak === nyFlytÅrsakTypeEnum.enum.VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT ? "vurdere senere" : "avslutte vurdering"}`,
+                );
+            }
         }
-        return false;
-    }, [årsak, begrunnelse, selectedDay]);
+
+        return begrunnelser;
+    }, [årsak, begrunnelse, selectedDay, eierEllerFølgerSak]);
+
+    const kanLagre = kanIkkeLagreBegrunnelser.length === 0;
 
     return (
         <>
@@ -267,15 +267,25 @@ function AvsluttVurderingModalInnhold({
                         </LocalAlert>
                     </Modal.Body>
                 )}
-                {!eierEllerFølgerSak && (
+                {kanIkkeLagreBegrunnelser.length > 0 && (
                     <Modal.Body>
                         <LocalAlert status="warning">
                             <LocalAlert.Header>
                                 <LocalAlert.Title>
-                                    Du må eie eller følge saken for å kunne
-                                    avslutte vurderingen
+                                    Kan ikke avslutte vurdering
                                 </LocalAlert.Title>
                             </LocalAlert.Header>
+                            <LocalAlert.Content>
+                                <ul>
+                                    {kanIkkeLagreBegrunnelser.map(
+                                        (begrunnelse) => (
+                                            <li key={begrunnelse}>
+                                                {begrunnelse}
+                                            </li>
+                                        ),
+                                    )}
+                                </ul>
+                            </LocalAlert.Content>
                         </LocalAlert>
                     </Modal.Body>
                 )}

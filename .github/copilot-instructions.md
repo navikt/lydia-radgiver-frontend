@@ -11,3 +11,6 @@
 Repoet har to prosjekter:
 - `client/` – React frontend (TypeScript, Vite)
 - `server/` – Node.js BFF (TypeScript, Express)
+
+## Pakkehåndtering
+- Bruk alltid **pnpm** – aldri npm eller yarn.

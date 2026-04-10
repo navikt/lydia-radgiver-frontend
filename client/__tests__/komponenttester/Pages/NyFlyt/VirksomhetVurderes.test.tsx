@@ -345,6 +345,92 @@ describe("NyVirksomhetsside", () => {
             );
         });
 
+        it("Lagre-knappen er deaktivert når ingen årsak er valgt", () => {
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+            screen.getByText("Avslutt vurdering").click();
+            const modal = screen.getByRole("dialog", {
+                name: "Avslutt vurdering av virksomheten",
+            });
+            expect(
+                within(modal).getByRole("button", { name: "Lagre" }),
+            ).toBeDisabled();
+            expect(
+                screen.getByText(
+                    "Du må velge en årsak for å avslutte vurderingen",
+                ),
+            ).toBeInTheDocument();
+        });
+
+        it("Lagre-knappen er deaktivert når begrunnelse mangler", () => {
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+            screen.getByText("Avslutt vurdering").click();
+            fireEvent.click(
+                screen.getByLabelText("Vurder virksomheten senere"),
+            );
+            expect(
+                screen.getByText(
+                    "Du må velge en begrunnelse for å vurdere senere",
+                ),
+            ).toBeInTheDocument();
+            const modal = screen.getByRole("dialog", {
+                name: "Avslutt vurdering av virksomheten",
+            });
+            expect(
+                within(modal).getByRole("button", { name: "Lagre" }),
+            ).toBeDisabled();
+        });
+
+        it("Lagre-knappen er deaktivert for ikke-eiere/følgere", () => {
+            jest.mocked(useHentTeam).mockReturnValue({
+                data: [],
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
+                data: { ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" },
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+            screen.getByText("Avslutt vurdering").click();
+            fireEvent.click(
+                screen.getByLabelText("Vurder virksomheten senere"),
+            );
+            fireEvent.click(
+                screen.getByLabelText(
+                    "Virksomheten ønsker å bli kontaktet senere",
+                ),
+            );
+            expect(
+                screen.getByText(
+                    "Du må eie eller følge saken for å kunne avslutte vurderingen",
+                ),
+            ).toBeInTheDocument();
+            const modal = screen.getByRole("dialog", {
+                name: "Avslutt vurdering av virksomheten",
+            });
+            expect(
+                within(modal).getByRole("button", { name: "Lagre" }),
+            ).toBeDisabled();
+        });
+
         it("Viser 'Følg eller ta eierskap' for ikke-eiere", () => {
             const iaSakVurderes = {
                 ...dummyIaSak,
