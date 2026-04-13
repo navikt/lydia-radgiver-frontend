@@ -2,7 +2,11 @@ import { createDefaultPreset } from "ts-jest";
 import { TextEncoder, TextDecoder } from "util";
 import type { Config } from "jest";
 
-const tsJestTransformCfg = createDefaultPreset().transform;
+const tsJestTransformCfg = createDefaultPreset({
+    tsconfig: {
+        ignoreDeprecations: "6.0",
+    },
+}).transform;
 
 const config: Config = {
     setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
