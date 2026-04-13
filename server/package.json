@@ -46,11 +46,5 @@
         "supertest": "7.2.2",
         "ts-node": "10.9.2",
         "typescript": "5.9.3"
-    },
-    "pnpm": {
-        "overrides": {
-            "semver": "7.5.2",
-            "glob": "10.4.5"
-        }
     }
 }
