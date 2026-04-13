@@ -5,7 +5,7 @@
     max-width: 64rem;
     --a-spacing-6: 0.5rem;
 
-    @media (min-width: var(--a-breakpoint-sm)) {
+    @media (min-width: 480px) {
         padding: 1.5rem;
         --a-spacing-6: 1.5rem;
     }
