@@ -5,7 +5,7 @@ import type { Config } from "jest";
 const tsJestTransformCfg = createDefaultPreset().transform;
 
 const config: Config = {
-    setupFilesAfterEnv: ["<rootDir>/jest.setup.ts", "core-js"],
+    setupFilesAfterEnv: ["<rootDir>/jest.setup.ts"],
     testEnvironment: "jest-environment-jsdom",
     moduleDirectories: ["node_modules", "<rootDir>/"],
     moduleNameMapper: {
