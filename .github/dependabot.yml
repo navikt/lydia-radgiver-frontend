@@ -72,7 +72,6 @@ updates:
           - "highcharts-react-official"
     cooldown:
       default-days: 7
-      applies-to: version-updates
     registries:
       - npm-npmjs
       - npm-github
@@ -110,7 +109,6 @@ updates:
           - "@types/express-session"
     cooldown:
       default-days: 7
-      applies-to: version-updates
 
   - package-ecosystem: docker
     directory: "/client"
