@@ -27,6 +27,8 @@ updates:
     labels:
       - "dependencies"
       - "client"
+    allow:
+      - dependency-type: "direct"
     ignore:
       - dependency-name: "@navikt/*"
     groups:
@@ -81,6 +83,8 @@ updates:
     labels:
       - "dependencies"
       - "server"
+    allow:
+      - dependency-type: "direct"
     groups:
       "typescript*":
         patterns:
