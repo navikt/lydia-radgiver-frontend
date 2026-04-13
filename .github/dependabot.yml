@@ -1,9 +1,5 @@
 version: 2
 registries:
-  npm-npmjs:
-    type: npm-registry
-    url: https://registry.npmjs.org
-    replaces-base: true
   npm-github:
     type: npm-registry
     url: https://npm.pkg.github.com
@@ -73,7 +69,6 @@ updates:
     cooldown:
       default-days: 7
     registries:
-      - npm-npmjs
       - npm-github
 
   - package-ecosystem: npm
