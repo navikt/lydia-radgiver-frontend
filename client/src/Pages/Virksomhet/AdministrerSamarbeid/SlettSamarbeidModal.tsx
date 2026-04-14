@@ -55,16 +55,17 @@ export default function SlettSamarbeidModal({
 
     const onSlett = async () => {
         setError(null);
-        if (alleSamarbeid && erSisteSamarbeid(valgtSamarbeid, alleSamarbeid)) {
+        if (
+            alleSamarbeid &&
+            alleSamarbeid.length > 1 &&
+            erSisteSamarbeid(valgtSamarbeid, alleSamarbeid)
+        ) {
             ref.current?.close();
             bekreftSisteSamarbeidRef.current?.showModal();
             return;
         } else if (iaSak && valgtSamarbeid) {
             try {
-                await slettSamarbeidNyFlyt(
-                    iaSak?.orgnr,
-                    valgtSamarbeid?.id,
-                );
+                await slettSamarbeidNyFlyt(iaSak?.orgnr, valgtSamarbeid?.id);
                 ref.current?.close();
             } catch (e) {
                 setError(e instanceof Error ? e.message : String(e));
@@ -126,7 +127,11 @@ export default function SlettSamarbeidModal({
                         </LocalAlert>
                     ) : (
                         <BodyLong>
-                            Ønsker du å slette {valgtSamarbeid?.navn}?
+                            Ønsker du å slette samarbeidet{" "}
+                            {valgtSamarbeid?.navn}?
+                            {alleSamarbeid &&
+                                alleSamarbeid?.length === 1 &&
+                                " Virksomheten vil gå tilbake til å være i status Vurderes."}
                         </BodyLong>
                     )}
 

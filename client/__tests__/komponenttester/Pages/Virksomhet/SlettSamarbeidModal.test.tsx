@@ -114,7 +114,9 @@ describe("SlettSamarbeidModal", () => {
             renderModal(samarbeid, createMockIaSak());
 
             expect(
-                screen.getByText(`Ønsker du å slette ${samarbeid.navn}?`),
+                screen.getByText(
+                    `Ønsker du å slette samarbeidet ${samarbeid.navn}?`,
+                ),
             ).toBeInTheDocument();
         });
 
@@ -216,17 +218,6 @@ describe("SlettSamarbeidModal", () => {
         beforeEach(() => {
             useHentPlan.mockReturnValue({ data: undefined });
             slettSamarbeidNyFlyt.mockResolvedValue({});
-        });
-
-        test("kaller ikke slettSamarbeidNyFlyt direkte når det er siste samarbeid", async () => {
-            const samarbeid = createMockSamarbeid();
-            renderModal(samarbeid, createMockIaSak(), [samarbeid]);
-
-            fireEvent.click(screen.getByRole("button", { name: "Slett" }));
-
-            await waitFor(() => {
-                expect(slettSamarbeidNyFlyt).not.toHaveBeenCalled();
-            });
         });
 
         test("kaller slettSamarbeidNyFlyt via BekreftSisteSamarbeidModal ved bekreftelse", async () => {

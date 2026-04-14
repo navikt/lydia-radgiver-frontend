@@ -121,11 +121,7 @@ export default function BekreftSisteSamarbeidModal({
                 </LocalAlert>
                 <BodyLong style={{ marginTop: "1rem" }}>
                     Ønsker du å {getStatusInfinitiv(nyStatus)} samarbeidet og
-                    sette virksomheten{" "}
-                    {nyStatus === "SLETTET"
-                        ? "tilbake til vurderes"
-                        : "til avsluttet"}
-                    ?
+                    sette virksomheten til avsluttet?
                 </BodyLong>
             </Modal.Body>
             <Modal.Footer>
