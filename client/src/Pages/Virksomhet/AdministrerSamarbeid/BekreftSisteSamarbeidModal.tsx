@@ -125,15 +125,18 @@ export default function BekreftSisteSamarbeidModal({
                 </BodyLong>
             </Modal.Body>
             <Modal.Footer>
-                <Button onClick={() => ref.current?.close()} variant="tertiary">
-                    Lukk
-                </Button>
                 <Button
                     onClick={onConfirmAction}
                     disabled={senderRequest}
                     loading={senderRequest}
                 >
                     {getTittel(nyStatus)}
+                </Button>
+                <Button
+                    onClick={() => ref.current?.close()}
+                    variant="secondary"
+                >
+                    Avbryt
                 </Button>
             </Modal.Footer>
         </Modal>
