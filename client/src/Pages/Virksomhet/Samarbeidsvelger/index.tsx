@@ -104,15 +104,9 @@ function AvsluttedeSamarbeidVelger({
 }) {
     return (
         <nav className={`${className} ${styles.samarbeidsvelger}`}>
-            <HStack
-                className={`${styles.radCommon} ${styles.overskriftRad}`}
-                align="center"
-                justify="space-between"
-            >
-                <h3
-                    className={`${styles.overskrift}`}
-                >{`Avsluttede samarbeid${samarbeid && ` (${samarbeid.length})`}`}</h3>
-            </HStack>
+            <h3
+                className={`${styles.overskrift}`}
+            >{`Avsluttede samarbeid${samarbeid && ` (${samarbeid.length})`}`}</h3>
             <div className={styles.liste}>
                 {samarbeid?.map((s) => (
                     <InternLenke
