@@ -68,6 +68,11 @@ export default function EndreSamarbeidsnavnModal({
         ref.current?.close();
     };
 
+    React.useEffect(() => {
+        setNavn(valgtSamarbeid.navn ?? "");
+        setAntallTegn((valgtSamarbeid.navn ?? "").length);
+    }, [valgtSamarbeid]);
+
     return (
         <Modal
             ref={ref}
