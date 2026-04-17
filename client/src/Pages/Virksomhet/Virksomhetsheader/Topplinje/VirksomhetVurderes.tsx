@@ -29,7 +29,7 @@ import {
     avsluttVurderingNyFlyt,
 } from "../../../../api/lydia-api/nyFlyt";
 import { useOversiktMutate } from "../../Debugside/Oversikt";
-
+import { isoDato } from "../../../../util/dato";
 import { useErPåInaktivSak } from "../../VirksomhetContext";
 import {
     erSaksbehandler,
@@ -143,9 +143,7 @@ function AvsluttVurderingModalInnhold({
             await avsluttVurderingNyFlyt(virksomhet.orgnr, {
                 type: årsak,
                 begrunnelser: begrunnelse,
-                dato: selectedDay
-                    ? selectedDay.toISOString().split("T")[0]
-                    : undefined, // TODO: Hvaslags format skal dette være?
+                dato: selectedDay ? isoDato(selectedDay) : undefined,
             });
 
             mutate();
