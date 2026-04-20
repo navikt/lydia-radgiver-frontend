@@ -186,6 +186,7 @@ describe("FullførSamarbeidModal", () => {
                         navn: "Avdeling Bergen",
                         status: "FULLFØRT",
                     }),
+                    expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
                 );
             });
         });

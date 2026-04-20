@@ -246,9 +246,11 @@ export const slettSamarbeidsplanNyFlyt = (
 export const slettSamarbeidNyFlyt = (
     orgnummer: string,
     samarbeidId: number,
+    dato?: string,
 ): Promise<IaSakProsess> => {
+    const datoParam = dato ? `?dato=${dato}` : "";
     return httpDelete(
-        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/slett-samarbeid`,
+        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/slett-samarbeid${datoParam}`,
         iaSakProsessSchema,
     );
 };
@@ -257,9 +259,11 @@ export const avsluttSamarbeidNyFlyt = (
     orgnummer: string,
     samarbeidId: number,
     samarbeid: SamarbeidRequest,
+    dato?: string,
 ): Promise<IaSakProsess> => {
+    const datoParam = dato ? `?dato=${dato}` : "";
     return post(
-        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/avslutt-samarbeid`,
+        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/avslutt-samarbeid${datoParam}`,
         iaSakProsessSchema,
         samarbeid,
     );

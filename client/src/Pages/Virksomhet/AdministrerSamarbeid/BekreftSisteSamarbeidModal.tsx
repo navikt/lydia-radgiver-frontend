@@ -1,5 +1,12 @@
 import React from "react";
-import { BodyLong, Button, LocalAlert, Modal } from "@navikt/ds-react";
+import {
+    BodyLong,
+    Button,
+    DatePicker,
+    LocalAlert,
+    Modal,
+    useDatepicker,
+} from "@navikt/ds-react";
 import {
     IaSakProsess,
     IASamarbeidStatusType,
@@ -15,6 +22,7 @@ import {
 } from "../../../api/lydia-api/nyFlyt";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
+import { isoDato } from "../../../util/dato";
 import styles from "./bekreftSisteSamarbeidModal.module.scss";
 
 export default function BekreftSisteSamarbeidModal({
@@ -31,6 +39,14 @@ export default function BekreftSisteSamarbeidModal({
     alleSamarbeid?: IaSakProsess[];
 }) {
     const [senderRequest, setSenderRequest] = React.useState(false);
+    const iMorgen = new Date();
+    iMorgen.setDate(iMorgen.getDate() + 1);
+    const defaultDate = new Date();
+    defaultDate.setDate(defaultDate.getDate() + 90);
+    const { datepickerProps, inputProps, selectedDay } = useDatepicker({
+        fromDate: iMorgen,
+        defaultSelected: defaultDate,
+    });
     const { mutate: hentSisteSakPåNytt } = useHentSisteSakNyFlyt(iaSak?.orgnr);
     const { mutate: hentSpesifikkSakPåNytt } = useHentSpesifikkSakNyFlyt(
         iaSak?.orgnr,
@@ -52,8 +68,14 @@ export default function BekreftSisteSamarbeidModal({
                 return;
             }
 
+            const dato = selectedDay ? isoDato(selectedDay) : undefined;
+
             if (nyStatus === "SLETTET") {
-                await slettSamarbeidNyFlyt(iaSak.orgnr, valgtSamarbeid.id);
+                await slettSamarbeidNyFlyt(
+                    iaSak.orgnr,
+                    valgtSamarbeid.id,
+                    dato,
+                );
             } else {
                 const samarbeid: SamarbeidRequest = {
                     id: valgtSamarbeid?.id,
@@ -68,6 +90,7 @@ export default function BekreftSisteSamarbeidModal({
                     iaSak?.orgnr || "",
                     valgtSamarbeid?.id,
                     samarbeid,
+                    dato,
                 );
             }
         } catch {
@@ -123,11 +146,21 @@ export default function BekreftSisteSamarbeidModal({
                     Ønsker du å {getStatusInfinitiv(nyStatus)} samarbeidet og
                     sette virksomheten til avsluttet?
                 </BodyLong>
+                <DatePicker {...datepickerProps}>
+                    <DatePicker.Input
+                        {...inputProps}
+                        label="Hvor lenge ønsker du at virksomheten skal ha status Avsluttet?"
+                    />
+                </DatePicker>
             </Modal.Body>
             <Modal.Footer>
                 <Button
                     onClick={onConfirmAction}
-                    disabled={senderRequest}
+                    disabled={
+                        senderRequest ||
+                        !selectedDay ||
+                        selectedDay <= new Date()
+                    }
                     loading={senderRequest}
                 >
                     {getTittel(nyStatus)}

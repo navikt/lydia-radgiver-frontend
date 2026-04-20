@@ -117,6 +117,8 @@ function AvsluttVurderingModalInnhold({
     const [årsak, setÅrsak] = useState<NyFlytÅrsakType>();
     const [begrunnelse, setBegrunnelse] = useState<NyFlytBegrunnelse[]>([]);
     const defaultDate = new Date();
+    const iMorgen = new Date();
+    iMorgen.setDate(iMorgen.getDate() + 1);
     defaultDate.setDate(defaultDate.getDate() + 90);
     const {
         datepickerProps,
@@ -124,7 +126,7 @@ function AvsluttVurderingModalInnhold({
         selectedDay,
         reset: resetDatepicker,
     } = useDatepicker({
-        fromDate: new Date(),
+        fromDate: iMorgen,
         defaultSelected: defaultDate,
     });
 

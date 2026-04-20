@@ -233,6 +233,7 @@ describe("SlettSamarbeidModal", () => {
                 expect(slettSamarbeidNyFlyt).toHaveBeenCalledWith(
                     iaSak.orgnr,
                     5,
+                    expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
                 );
             });
         });

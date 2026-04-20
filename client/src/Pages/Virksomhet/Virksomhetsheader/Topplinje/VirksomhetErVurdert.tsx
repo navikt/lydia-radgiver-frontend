@@ -114,8 +114,10 @@ function VurderesAutomatiskModal({
 }) {
     const mutate = useOversiktMutate(virksomhet.orgnr);
     const modalRef = React.useRef<HTMLDialogElement>(null);
+    const iMorgen = new Date();
+    iMorgen.setDate(iMorgen.getDate() + 1);
     const { datepickerProps, inputProps, selectedDay } = useDatepicker({
-        fromDate: new Date(),
+        fromDate: iMorgen,
         defaultSelected: tilstand.nesteTilstand?.planlagtDato,
     });
 
