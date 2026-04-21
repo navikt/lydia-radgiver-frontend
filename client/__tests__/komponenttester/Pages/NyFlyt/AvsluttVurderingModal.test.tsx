@@ -221,7 +221,7 @@ describe("AvsluttVurderingModal", () => {
         });
     });
 
-    it("Sender data riktig på 'NAV har ikke kapasitet nå'", async () => {
+    it("Sender data riktig på 'Nav har ikke kapasitet nå'", async () => {
         render(
             <BrowserRouter>
                 <NyVirksomhetsside />
@@ -231,7 +231,7 @@ describe("AvsluttVurderingModal", () => {
         åpneAvsluttVurderingModal();
 
         fireEvent.click(screen.getByLabelText("Vurder virksomheten senere"));
-        fireEvent.click(screen.getByLabelText("NAV har ikke kapasitet nå"));
+        fireEvent.click(screen.getByLabelText("Nav har ikke kapasitet nå"));
 
         expect(avsluttVurderingNyFlyt).not.toHaveBeenCalled();
         fireEvent.click(screen.getByText("Lagre"));

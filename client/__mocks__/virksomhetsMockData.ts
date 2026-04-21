@@ -75,7 +75,7 @@ export const dummyIaSak: IASak = {
             gyldigeÅrsaker: [
                 {
                     type: "NAV_IGANGSETTER_IKKE_TILTAK",
-                    navn: "NAV har besluttet å ikke starte samarbeid",
+                    navn: "Nav har besluttet å ikke starte samarbeid",
                     begrunnelser: [
                         {
                             type: "IKKE_DIALOG_MELLOM_PARTENE",
@@ -97,7 +97,7 @@ export const dummyIaSak: IASak = {
                     begrunnelser: [
                         {
                             type: "VIRKSOMHETEN_ØNSKER_IKKE_SAMARBEID",
-                            navn: "Virksomheten ønsker ikke forpliktende samarbeid med NAV om IA",
+                            navn: "Virksomheten ønsker ikke forpliktende samarbeid med Nav om IA",
                         },
                         {
                             type: "VIRKSOMHETEN_HAR_IKKE_RESPONDERT",

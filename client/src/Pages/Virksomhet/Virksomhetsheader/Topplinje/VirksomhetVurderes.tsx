@@ -400,7 +400,7 @@ function VurderesSenereInnhold({
                 <Radio
                     value={nyFlytBegrunnelseEnum.enum.NAV_HAR_IKKE_KAPASITET_NÅ}
                 >
-                    NAV har ikke kapasitet nå
+                    Nav har ikke kapasitet nå
                 </Radio>
             </RadioGroup>
             <DatePicker {...datepickerProps}>
