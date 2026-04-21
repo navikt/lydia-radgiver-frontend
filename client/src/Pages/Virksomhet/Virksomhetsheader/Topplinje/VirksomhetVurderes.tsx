@@ -150,7 +150,9 @@ function AvsluttVurderingModalInnhold({
         setError(null);
         try {
             if (!årsak) {
-                setError("Du må velge en årsak for å avslutte vurderingen");
+                setError(
+                    "Du må velge en begrunnelse for å avslutte vurderingen",
+                );
                 return;
             }
             if (!selectedDay) {
@@ -176,13 +178,13 @@ function AvsluttVurderingModalInnhold({
 
         if (!eierEllerFølgerSak) {
             begrunnelser.push(
-                "Du må eie eller følge saken for å kunne avslutte vurderingen",
+                "Du må være eier eller følger for å avslutte vurderingen",
             );
         }
 
         if (årsak === undefined) {
             begrunnelser.push(
-                "Du må velge en årsak for å avslutte vurderingen",
+                "Du må velge en begrunnelse for å avslutte vurderingen",
             );
         } else {
             if (begrunnelse.length === 0) {
@@ -244,7 +246,7 @@ function AvsluttVurderingModalInnhold({
                                     nyFlytÅrsakTypeEnum.enum
                                         .VIRKSOMHETEN_ER_FERDIG_VURDERT_MED_INTERN_VURDERING
                                 }
-                                label="Virksomheten er ferdig vurdert med intern vurdering"
+                                label="Nav har konkludert"
                             >
                                 <InternVurderingInhold
                                     begrunnelse={begrunnelse}
@@ -259,7 +261,7 @@ function AvsluttVurderingModalInnhold({
                                     nyFlytÅrsakTypeEnum.enum
                                         .VIRKSOMHETEN_ER_FERDIG_VURDERT_OG_TAKKET_NEI
                                 }
-                                label="Virksomheten er ferdig vurdert og takket nei"
+                                label="Virksomheten har takket nei"
                             >
                                 <TakketNeiInnhold
                                     begrunnelse={begrunnelse}
@@ -406,7 +408,7 @@ function VurderesSenereInnhold({
             <DatePicker {...datepickerProps}>
                 <DatePicker.Input
                     {...inputProps}
-                    label="Når skal virksomheten settes til vurderes igjen?"
+                    label="Når skal virksomheten automatisk vurderes igjen?"
                 />
             </DatePicker>
         </VStack>
@@ -462,7 +464,7 @@ function InternVurderingInhold({
             <DatePicker {...datepickerProps}>
                 <DatePicker.Input
                     {...inputProps}
-                    label="Hvor lenge ønsker du at virksomheten skal ha status Vurdert?"
+                    label="Hvor lenge skal virksomheten ha status Vurdert?"
                 />
             </DatePicker>
         </VStack>
@@ -532,7 +534,7 @@ function TakketNeiInnhold({
             <DatePicker {...datepickerProps}>
                 <DatePicker.Input
                     {...inputProps}
-                    label="Hvor lenge ønsker du at virksomheten skal ha status Vurdert?"
+                    label="Hvor lenge skal virksomheten ha status Vurdert?"
                 />
             </DatePicker>
         </VStack>

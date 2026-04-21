@@ -26,6 +26,7 @@ import {
     useHentSpesifikkSakNyFlyt,
 } from "../../../../src/api/lydia-api/nyFlyt";
 import { useHentTeam } from "../../../../src/api/lydia-api/team";
+import { useHentBrukerinformasjon } from "../../../../src/api/lydia-api/bruker";
 
 jest.mock("../../../../src/util/analytics-klient", () => {
     const actual = jest.requireActual("../../../../src/util/analytics-klient");
@@ -219,6 +220,20 @@ describe("AvsluttVurderingModal", () => {
             mutate: jest.fn(),
             validating: false,
         });
+
+        jest.mocked(useHentBrukerinformasjon).mockReturnValue({
+            data: {
+                ident: "Z123456",
+                navn: "Test Testesen",
+                epost: "",
+                rolle: "Superbruker",
+                tokenUtloper: 99999999999,
+            },
+            loading: false,
+            error: null,
+            mutate: jest.fn(),
+            validating: false,
+        });
     });
 
     it("Sender data riktig på 'Nav har ikke kapasitet nå'", async () => {
@@ -257,11 +272,7 @@ describe("AvsluttVurderingModal", () => {
 
         åpneAvsluttVurderingModal();
 
-        fireEvent.click(
-            screen.getByLabelText(
-                "Virksomheten er ferdig vurdert og takket nei",
-            ),
-        );
+        fireEvent.click(screen.getByLabelText("Virksomheten har takket nei"));
 
         fireEvent.click(
             screen.getByLabelText(
@@ -301,11 +312,7 @@ describe("AvsluttVurderingModal", () => {
 
         åpneAvsluttVurderingModal();
 
-        fireEvent.click(
-            screen.getByLabelText(
-                "Virksomheten er ferdig vurdert med intern vurdering",
-            ),
-        );
+        fireEvent.click(screen.getByLabelText("Nav har konkludert"));
         fireEvent.click(
             screen.getByLabelText(
                 "Virksomheten har ikke svart på henvendelser",
@@ -394,7 +401,7 @@ describe("AvsluttVurderingModal", () => {
 
         expect(
             screen.getByText(
-                "Du må eie eller følge saken for å kunne avslutte vurderingen",
+                "Du må være eier eller følger for å avslutte vurderingen",
             ),
         ).toBeInTheDocument();
         expect(screen.getByRole("button", { name: "Lagre" })).toBeDisabled();

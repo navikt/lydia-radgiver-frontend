@@ -252,14 +252,10 @@ describe("NyVirksomhetsside", () => {
                 screen.getByLabelText("Vurder virksomheten senere"),
             ).toBeInTheDocument();
             expect(
-                screen.getByLabelText(
-                    "Virksomheten er ferdig vurdert med intern vurdering",
-                ),
+                screen.getByLabelText("Nav har konkludert"),
             ).toBeInTheDocument();
             expect(
-                screen.getByLabelText(
-                    "Virksomheten er ferdig vurdert og takket nei",
-                ),
+                screen.getByLabelText("Virksomheten har takket nei"),
             ).toBeInTheDocument();
         });
 
@@ -310,11 +306,7 @@ describe("NyVirksomhetsside", () => {
             const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
             avsluttVurderingKnapp.click();
 
-            fireEvent.click(
-                screen.getByLabelText(
-                    "Virksomheten er ferdig vurdert med intern vurdering",
-                ),
-            );
+            fireEvent.click(screen.getByLabelText("Nav har konkludert"));
 
             const virksomhetHarIkkeSvart = screen.getByLabelText(
                 "Virksomheten har ikke svart på henvendelser",
@@ -361,7 +353,7 @@ describe("NyVirksomhetsside", () => {
             ).toBeDisabled();
             expect(
                 screen.getByText(
-                    "Du må velge en årsak for å avslutte vurderingen",
+                    "Du må velge en begrunnelse for å avslutte vurderingen",
                 ),
             ).toBeInTheDocument();
         });
@@ -472,7 +464,7 @@ describe("NyVirksomhetsside", () => {
             );
             expect(
                 screen.getByText(
-                    "Du må eie eller følge saken for å kunne avslutte vurderingen",
+                    "Du må være eier eller følger for å avslutte vurderingen",
                 ),
             ).toBeInTheDocument();
             const modal = screen.getByRole("dialog", {
