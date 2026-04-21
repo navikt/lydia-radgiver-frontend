@@ -48,7 +48,7 @@ export default function FullførSamarbeidModal({
         iaSak?.orgnr,
         iaSak?.saksnummer,
     );
-    const plan = useHentPlan(
+    const { data: plan, mutate: hentPlanPåNytt } = useHentPlan(
         iaSak?.orgnr,
         iaSak?.saksnummer,
         valgtSamarbeid?.id,
@@ -109,6 +109,7 @@ export default function FullførSamarbeidModal({
             hentSpesifikkSakPåNytt();
             hentSisteSakPåNytt();
             hentSamarbeidPåNytt();
+            hentPlanPåNytt();
         }
     };
 
@@ -125,7 +126,7 @@ export default function FullførSamarbeidModal({
                         Når du fullfører vil det ikke være mulig å gjøre nye
                         endringer på samarbeidet.
                     </BodyLong>
-                    {plan.data && !evalueringErFullført && (
+                    {plan && !evalueringErFullført && (
                         <LocalAlert
                             status="warning"
                             className={styles.warningAlert}
@@ -138,7 +139,7 @@ export default function FullførSamarbeidModal({
                             </LocalAlert.Header>
                         </LocalAlert>
                     )}
-                    {!plan.data && (
+                    {!plan && (
                         <LocalAlert
                             status="error"
                             className={styles.errorAlert}
@@ -155,9 +156,7 @@ export default function FullførSamarbeidModal({
                 <Modal.Footer>
                     <Button
                         onClick={onFullfør}
-                        disabled={
-                            lasterEvalueringer || senderRequest || !plan.data
-                        }
+                        disabled={lasterEvalueringer || senderRequest || !plan}
                         loading={senderRequest}
                     >
                         Fullfør samarbeidet

@@ -6,7 +6,7 @@ import { IaSakProsess } from "../../../../src/domenetyper/iaSakProsess";
 import { IASak } from "../../../../src/domenetyper/domenetyper";
 
 jest.mock("../../../../src/api/lydia-api/plan", () => ({
-    useHentPlan: jest.fn(),
+    useHentPlan: jest.fn(() => ({ mutate: jest.fn() })),
 }));
 
 jest.mock("../../../../src/api/lydia-api/nyFlyt", () => ({
@@ -106,7 +106,7 @@ describe("SlettSamarbeidModal", () => {
 
     describe("når samarbeid ikke har plan", () => {
         beforeEach(() => {
-            useHentPlan.mockReturnValue({ data: undefined });
+            useHentPlan.mockReturnValue({ data: undefined, mutate: jest.fn() });
         });
 
         test("viser bekreftelsestekst når plan ikke finnes", () => {
@@ -177,7 +177,10 @@ describe("SlettSamarbeidModal", () => {
 
     describe("når samarbeid har en aktiv plan", () => {
         beforeEach(() => {
-            useHentPlan.mockReturnValue({ data: { temaer: [] } });
+            useHentPlan.mockReturnValue({
+                data: { temaer: [] },
+                mutate: jest.fn(),
+            });
         });
 
         test("viser blokkerende alert om at samarbeidet ikke kan slettes", () => {
@@ -216,7 +219,7 @@ describe("SlettSamarbeidModal", () => {
 
     describe("siste samarbeid", () => {
         beforeEach(() => {
-            useHentPlan.mockReturnValue({ data: undefined });
+            useHentPlan.mockReturnValue({ data: undefined, mutate: jest.fn() });
             slettSamarbeidNyFlyt.mockResolvedValue({});
         });
 

@@ -24,6 +24,7 @@ import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
 import { isoDato } from "../../../util/dato";
 import styles from "./bekreftSisteSamarbeidModal.module.scss";
+import { useHentPlan } from "../../../api/lydia-api/plan";
 
 export default function BekreftSisteSamarbeidModal({
     ref,
@@ -58,6 +59,11 @@ export default function BekreftSisteSamarbeidModal({
     );
     const { mutate: hentTilstandPåNytt } = useHentTilstandForVirksomhetNyFlyt(
         iaSak?.orgnr,
+    );
+    const { mutate: hentPlanPåNytt } = useHentPlan(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+        valgtSamarbeid?.id,
     );
 
     const onConfirmAction = async () => {
@@ -101,6 +107,7 @@ export default function BekreftSisteSamarbeidModal({
             hentSisteSakPåNytt();
             hentSamarbeidPåNytt();
             hentTilstandPåNytt();
+            hentPlanPåNytt();
             ref.current?.close();
         }
     };

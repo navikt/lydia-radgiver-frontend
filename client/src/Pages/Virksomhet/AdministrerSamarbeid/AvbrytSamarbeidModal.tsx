@@ -14,6 +14,7 @@ import BekreftSisteSamarbeidModal, {
     erSisteSamarbeid,
 } from "./BekreftSisteSamarbeidModal";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import { useHentPlan } from "../../../api/lydia-api/plan";
 
 export default function AvbrytSamarbeidModal({
     ref,
@@ -38,6 +39,13 @@ export default function AvbrytSamarbeidModal({
         iaSak?.orgnr,
         iaSak?.saksnummer,
     );
+
+    const { mutate: hentPlanPåNytt } = useHentPlan(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+        valgtSamarbeid?.id,
+    );
+
     const [senderRequest, setSenderRequest] = React.useState(false);
 
     const onAvbryt = async () => {
@@ -75,6 +83,7 @@ export default function AvbrytSamarbeidModal({
             hentSpesifikkSakPåNytt();
             hentSisteSakPåNytt();
             hentSamarbeidPåNytt();
+            hentPlanPåNytt();
         }
     };
 
