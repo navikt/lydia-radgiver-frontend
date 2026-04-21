@@ -1,6 +1,5 @@
 import React from "react";
 import {
-    BodyLong,
     Button,
     DatePicker,
     LocalAlert,
@@ -116,7 +115,7 @@ export default function BekreftSisteSamarbeidModal({
         <Modal
             ref={ref}
             header={{
-                heading: `${getTittel(nyStatus)} avdeling ${valgtSamarbeid?.navn}`,
+                heading: getTittel(nyStatus),
             }}
         >
             <Modal.Body>
@@ -149,16 +148,14 @@ export default function BekreftSisteSamarbeidModal({
                         </dl>
                     </LocalAlert.Content>
                 </LocalAlert>
-                <BodyLong style={{ marginTop: "1rem" }}>
-                    Ønsker du å {getStatusInfinitiv(nyStatus)} samarbeidet og
-                    sette virksomheten til avsluttet?
-                </BodyLong>
-                <DatePicker {...datepickerProps}>
-                    <DatePicker.Input
-                        {...inputProps}
-                        label="Hvor lenge ønsker du at virksomheten skal ha status Avsluttet?"
-                    />
-                </DatePicker>
+                <div style={{ marginTop: "2rem" }}>
+                    <DatePicker {...datepickerProps}>
+                        <DatePicker.Input
+                            {...inputProps}
+                            label="Hvor lenge skal virksomheten ha status Avsluttet?"
+                        />
+                    </DatePicker>
+                </div>
             </Modal.Body>
             <Modal.Footer>
                 <Button
@@ -204,19 +201,6 @@ function getStatusPresens(nyStatus: IASamarbeidStatusType) {
             return "fullfører";
         case "SLETTET":
             return "sletter";
-        default:
-            return "";
-    }
-}
-
-function getStatusInfinitiv(nyStatus: IASamarbeidStatusType) {
-    switch (nyStatus) {
-        case "AVBRUTT":
-            return "avbryte";
-        case "FULLFØRT":
-            return "fullføre";
-        case "SLETTET":
-            return "slette";
         default:
             return "";
     }

@@ -107,14 +107,14 @@ describe("BekreftSisteSamarbeidModal", () => {
         ).toHaveTextContent(/Slett samarbeidet/);
     });
 
-    it("viser samarbeidsnavn i heading", () => {
+    it("viser riktig heading", () => {
         renderModal({
             nyStatus: "AVBRUTT",
             valgtSamarbeid: lagSamarbeid({ navn: "Min avdeling" }),
         });
         expect(
             screen.getByRole("heading", { level: 1, hidden: true }),
-        ).toHaveTextContent(/Min avdeling/);
+        ).toHaveTextContent("Avbryt samarbeidet");
     });
 
     it("viser advarsel om at samarbeidsperioden avsluttes", () => {
@@ -137,13 +137,6 @@ describe("BekreftSisteSamarbeidModal", () => {
     it("viser riktig presens-verb for SLETTET", () => {
         renderModal({ nyStatus: "SLETTET" });
         expect(screen.getByText(/sletter/)).toBeInTheDocument();
-    });
-
-    it("viser riktig infinitiv-verb i bekreftelsestekst", () => {
-        renderModal({ nyStatus: "AVBRUTT" });
-        expect(
-            screen.getByText(/Ønsker du å avbryte samarbeidet/),
-        ).toBeInTheDocument();
     });
 
     it("viser Lukk-knapp", () => {
