@@ -132,6 +132,7 @@ function AvsluttVurderingModalInnhold({
     const [error, setError] = useState<string | null>();
     const [årsak, setÅrsak] = useState<NyFlytÅrsakType>();
     const [begrunnelse, setBegrunnelse] = useState<NyFlytBegrunnelse[]>([]);
+    const [forsøktLagret, setForsøktLagret] = useState(false);
     const defaultDate = new Date();
     const iMorgen = new Date();
     iMorgen.setDate(iMorgen.getDate() + 1);
@@ -146,17 +147,21 @@ function AvsluttVurderingModalInnhold({
         defaultSelected: defaultDate,
     });
 
+    const kanLagre = React.useMemo(
+        () =>
+            eierEllerFølgerSak &&
+            årsak &&
+            begrunnelse.length > 0 &&
+            selectedDay &&
+            selectedDay > new Date(),
+        [eierEllerFølgerSak, årsak, begrunnelse, selectedDay],
+    );
+
     const handleSubmit = async () => {
         setError(null);
+        setForsøktLagret(true);
         try {
-            if (!årsak) {
-                setError(
-                    "Du må velge en begrunnelse for å avslutte vurderingen",
-                );
-                return;
-            }
-            if (!selectedDay) {
-                setError("Du må velge en dato for å avslutte vurderingen");
+            if (!årsak || !selectedDay) {
                 return;
             }
 
@@ -172,37 +177,6 @@ function AvsluttVurderingModalInnhold({
             setError(e instanceof Error ? e.message : String(e));
         }
     };
-
-    const kanIkkeLagreBegrunnelser = React.useMemo(() => {
-        const begrunnelser = [];
-
-        if (!eierEllerFølgerSak) {
-            begrunnelser.push(
-                "Du må være eier eller følger for å avslutte vurderingen",
-            );
-        }
-
-        if (årsak === undefined) {
-            begrunnelser.push(
-                "Du må velge en begrunnelse for å avslutte vurderingen",
-            );
-        } else {
-            if (begrunnelse.length === 0) {
-                begrunnelser.push(
-                    `Du må velge en begrunnelse for å ${årsak === nyFlytÅrsakTypeEnum.enum.VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT ? "vurdere senere" : "avslutte vurdering"}`,
-                );
-            }
-            if (!selectedDay || selectedDay <= new Date()) {
-                begrunnelser.push(
-                    `Du må velge en gyldig dato for å ${årsak === nyFlytÅrsakTypeEnum.enum.VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT ? "vurdere senere" : "avslutte vurdering"}`,
-                );
-            }
-        }
-
-        return begrunnelser;
-    }, [årsak, begrunnelse, selectedDay, eierEllerFølgerSak]);
-
-    const kanLagre = kanIkkeLagreBegrunnelser.length === 0;
 
     return (
         <>
@@ -221,6 +195,11 @@ function AvsluttVurderingModalInnhold({
                             resetDatepicker();
                         }}
                         value={årsak}
+                        error={
+                            forsøktLagret && !årsak
+                                ? "Du må velge en begrunnelse for å avslutte vurderingen"
+                                : undefined
+                        }
                         hideLegend
                         legend="Årsak for å avslutte vurdering"
                     >
@@ -234,6 +213,7 @@ function AvsluttVurderingModalInnhold({
                                 label="Vurder virksomheten senere"
                             >
                                 <VurderesSenereInnhold
+                                    forsøktLagret={forsøktLagret}
                                     begrunnelse={begrunnelse}
                                     setBegrunnelse={setBegrunnelse}
                                     datepickerProps={datepickerProps}
@@ -249,6 +229,7 @@ function AvsluttVurderingModalInnhold({
                                 label="Nav har konkludert"
                             >
                                 <InternVurderingInhold
+                                    forsøktLagret={forsøktLagret}
                                     begrunnelse={begrunnelse}
                                     setBegrunnelse={setBegrunnelse}
                                     datepickerProps={datepickerProps}
@@ -264,6 +245,7 @@ function AvsluttVurderingModalInnhold({
                                 label="Virksomheten har takket nei"
                             >
                                 <TakketNeiInnhold
+                                    forsøktLagret={forsøktLagret}
                                     begrunnelse={begrunnelse}
                                     setBegrunnelse={setBegrunnelse}
                                     datepickerProps={datepickerProps}
@@ -285,25 +267,15 @@ function AvsluttVurderingModalInnhold({
                         </LocalAlert>
                     </Modal.Body>
                 )}
-                {kanIkkeLagreBegrunnelser.length > 0 && (
+                {forsøktLagret && !eierEllerFølgerSak && (
                     <Modal.Body>
-                        <LocalAlert status="warning">
+                        <LocalAlert status="error">
                             <LocalAlert.Header>
                                 <LocalAlert.Title>
-                                    Kan ikke avslutte vurdering
+                                    Du må være eier eller følger for å avslutte
+                                    vurderingen
                                 </LocalAlert.Title>
                             </LocalAlert.Header>
-                            <LocalAlert.Content>
-                                <ul>
-                                    {kanIkkeLagreBegrunnelser.map(
-                                        (begrunnelse) => (
-                                            <li key={begrunnelse}>
-                                                {begrunnelse}
-                                            </li>
-                                        ),
-                                    )}
-                                </ul>
-                            </LocalAlert.Content>
                         </LocalAlert>
                     </Modal.Body>
                 )}
@@ -313,7 +285,7 @@ function AvsluttVurderingModalInnhold({
                             handleSubmit();
                         }}
                         variant="primary"
-                        disabled={!kanLagre}
+                        disabled={!kanLagre && forsøktLagret}
                     >
                         Lagre
                     </Button>
@@ -371,11 +343,13 @@ function ExpandingRadio({
 }
 
 function VurderesSenereInnhold({
+    forsøktLagret,
     begrunnelse,
     setBegrunnelse,
     datepickerProps,
     inputProps,
 }: {
+    forsøktLagret: boolean;
     begrunnelse: NyFlytBegrunnelse[];
     setBegrunnelse: (begrunnelse: NyFlytBegrunnelse[]) => void;
     datepickerProps: ReturnType<typeof useDatepicker>["datepickerProps"];
@@ -387,6 +361,11 @@ function VurderesSenereInnhold({
                 legend="Begrunnelse for å vurdere senere"
                 hideLegend
                 value={begrunnelse?.[0]}
+                error={
+                    forsøktLagret && begrunnelse.length === 0
+                        ? "Du må velge en begrunnelse for å vurdere senere"
+                        : undefined
+                }
                 onChange={(value) =>
                     setBegrunnelse([value as NyFlytBegrunnelse])
                 }
@@ -416,11 +395,13 @@ function VurderesSenereInnhold({
 }
 
 function InternVurderingInhold({
+    forsøktLagret,
     begrunnelse,
     setBegrunnelse,
     datepickerProps,
     inputProps,
 }: {
+    forsøktLagret: boolean;
     begrunnelse: NyFlytBegrunnelse[];
     setBegrunnelse: (begrunnelse: NyFlytBegrunnelse[]) => void;
     datepickerProps: ReturnType<typeof useDatepicker>["datepickerProps"];
@@ -429,6 +410,11 @@ function InternVurderingInhold({
     return (
         <VStack gap="space-16">
             <CheckboxGroup
+                error={
+                    forsøktLagret && begrunnelse.length === 0
+                        ? "Du må velge en begrunnelse for å avslutte vurdering"
+                        : undefined
+                }
                 legend="Intern vurdering"
                 hideLegend
                 value={begrunnelse}
@@ -472,11 +458,13 @@ function InternVurderingInhold({
 }
 
 function TakketNeiInnhold({
+    forsøktLagret,
     begrunnelse,
     setBegrunnelse,
     datepickerProps,
     inputProps,
 }: {
+    forsøktLagret: boolean;
     begrunnelse: NyFlytBegrunnelse[];
     setBegrunnelse: (begrunnelse: NyFlytBegrunnelse[]) => void;
     datepickerProps: ReturnType<typeof useDatepicker>["datepickerProps"];
@@ -486,6 +474,11 @@ function TakketNeiInnhold({
         <VStack gap="space-16">
             <CheckboxGroup
                 legend="Virksomheten har takket nei"
+                error={
+                    forsøktLagret && begrunnelse.length === 0
+                        ? "Du må velge en begrunnelse for å avslutte vurdering"
+                        : undefined
+                }
                 hideLegend
                 value={begrunnelse}
                 onChange={setBegrunnelse}

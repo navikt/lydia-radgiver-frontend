@@ -348,9 +348,12 @@ describe("NyVirksomhetsside", () => {
             const modal = screen.getByRole("dialog", {
                 name: "Avslutt vurdering av virksomheten",
             });
-            expect(
-                within(modal).getByRole("button", { name: "Lagre" }),
-            ).toBeDisabled();
+            const lagreKnapp = within(modal).getByRole("button", {
+                name: "Lagre",
+            });
+            expect(lagreKnapp).toBeInTheDocument();
+            fireEvent.click(lagreKnapp);
+            expect(lagreKnapp).toBeDisabled();
             expect(
                 screen.getByText(
                     "Du må velge en begrunnelse for å avslutte vurderingen",
@@ -368,6 +371,11 @@ describe("NyVirksomhetsside", () => {
             fireEvent.click(
                 screen.getByLabelText("Vurder virksomheten senere"),
             );
+            const lagreKnapp = screen.getByRole("button", {
+                name: "Lagre",
+            });
+            expect(lagreKnapp).toBeInTheDocument();
+            fireEvent.click(lagreKnapp);
             expect(
                 screen.getByText(
                     "Du må velge en begrunnelse for å vurdere senere",
@@ -462,6 +470,7 @@ describe("NyVirksomhetsside", () => {
                     "Virksomheten ønsker å bli kontaktet senere",
                 ),
             );
+            fireEvent.click(screen.getByText("Lagre"));
             expect(
                 screen.getByText(
                     "Du må være eier eller følger for å avslutte vurderingen",

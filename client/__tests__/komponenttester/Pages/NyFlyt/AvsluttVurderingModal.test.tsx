@@ -343,6 +343,7 @@ describe("AvsluttVurderingModal", () => {
         åpneAvsluttVurderingModal();
 
         const lagreKnapp = screen.getByRole("button", { name: "Lagre" });
+        fireEvent.click(lagreKnapp);
         expect(lagreKnapp).toBeDisabled();
     });
 
@@ -355,7 +356,9 @@ describe("AvsluttVurderingModal", () => {
 
         åpneAvsluttVurderingModal();
 
-        expect(screen.getByRole("button", { name: "Lagre" })).toBeDisabled();
+        const lagreKnapp = screen.getByRole("button", { name: "Lagre" });
+        fireEvent.click(lagreKnapp);
+        expect(lagreKnapp).toBeDisabled();
 
         fireEvent.click(screen.getByLabelText("Vurder virksomheten senere"));
         expect(screen.getByRole("button", { name: "Lagre" })).toBeDisabled();
@@ -399,12 +402,15 @@ describe("AvsluttVurderingModal", () => {
 
         åpneAvsluttVurderingModal();
 
+        const lagreKnapp = screen.getByRole("button", { name: "Lagre" });
+        fireEvent.click(lagreKnapp);
+        expect(lagreKnapp).toBeDisabled();
+
         expect(
             screen.getByText(
                 "Du må være eier eller følger for å avslutte vurderingen",
             ),
         ).toBeInTheDocument();
-        expect(screen.getByRole("button", { name: "Lagre" })).toBeDisabled();
     });
 
     it("Avbryt lukker modalen", () => {
