@@ -4,10 +4,15 @@ import "@testing-library/jest-dom";
 import { axe } from "jest-axe";
 import FullførSamarbeidModal from "../../../../src/Pages/Virksomhet/AdministrerSamarbeid/FullførSamarbeidModal";
 import { IaSakProsess } from "../../../../src/domenetyper/iaSakProsess";
-import { IASak } from "../../../../src/domenetyper/domenetyper";
+import {
+    IASak,
+    spørreundersøkelseStatusEnum,
+} from "../../../../src/domenetyper/domenetyper";
 import * as nyFlyt from "../../../../src/api/lydia-api/nyFlyt";
 import * as plan from "../../../../src/api/lydia-api/plan";
 import * as spørreundersøkelse from "../../../../src/api/lydia-api/spørreundersøkelse";
+import { dummySpørreundersøkelseliste } from "../../../../__mocks__/spørreundersøkelseDummyData";
+import { SpørreundersøkelseTypeEnum } from "../../../../src/domenetyper/spørreundersøkelseMedInnhold";
 
 HTMLDialogElement.prototype.showModal = jest.fn();
 HTMLDialogElement.prototype.close = jest.fn();
@@ -81,7 +86,7 @@ describe("FullførSamarbeidModal", () => {
         });
         jest.spyOn(
             spørreundersøkelse,
-            "useHentSpørreundersøkelser",
+            "useSpørreundersøkelsesliste",
         ).mockReturnValue({
             data: [],
             loading: false,
@@ -94,6 +99,83 @@ describe("FullførSamarbeidModal", () => {
         avsluttSamarbeidMock.mockRestore();
     });
 
+    // Når data mangler (IASak eller Samarbeid)
+    it("kan ikke avsluttSamarbeidNyFlyt når samarbeid mangler", async () => {
+        renderModal(null, testIaSak);
+        expect(
+            screen.queryByRole("button", { name: "Fullfør samarbeidet" }),
+        ).not.toBeInTheDocument();
+    });
+
+    it("kan ikke avsluttSamarbeidNyFlyt når iaSak mangler", async () => {
+        renderModal(testSamarbeid, undefined);
+        expect(
+            screen.queryByRole("button", { name: "Fullfør samarbeidet" }),
+        ).not.toBeInTheDocument();
+    });
+
+    // Når plan mangler eller påbegynte behovsvurderinger eller evalueringer står i veien
+    it("Fullfør-knappen er deaktivert når plan mangler", () => {
+        jest.spyOn(plan, "useHentPlan").mockReturnValue({
+            data: undefined,
+            error: undefined,
+            loading: false,
+            validating: false,
+            mutate: jest.fn(),
+        });
+        renderModal(testSamarbeid, testIaSak);
+        expect(
+            screen.getByRole("button", { name: "Fullfør samarbeidet" }),
+        ).toBeDisabled();
+    });
+
+    it("Fullfør-knappen er deaktivert når det finnes påbegynte behovsvurderinger", () => {
+        jest.spyOn(
+            spørreundersøkelse,
+            "useSpørreundersøkelsesliste",
+        ).mockReturnValue({
+            data: [
+                {
+                    ...dummySpørreundersøkelseliste[0],
+                    type: SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING,
+                    status: spørreundersøkelseStatusEnum.enum.PÅBEGYNT,
+                },
+            ],
+            loading: false,
+            validating: false,
+            mutate: jest.fn(),
+        } as never);
+
+        renderModal(testSamarbeid, testIaSak);
+        expect(
+            screen.getByRole("button", { name: "Fullfør samarbeidet" }),
+        ).toBeDisabled();
+    });
+
+    it("Fullfør-knappen er deaktivert når det finnes påbegynte evaluering", () => {
+        jest.spyOn(
+            spørreundersøkelse,
+            "useSpørreundersøkelsesliste",
+        ).mockReturnValue({
+            data: [
+                {
+                    ...dummySpørreundersøkelseliste[0],
+                    type: SpørreundersøkelseTypeEnum.enum.EVALUERING,
+                    status: spørreundersøkelseStatusEnum.enum.PÅBEGYNT,
+                },
+            ],
+            loading: false,
+            validating: false,
+            mutate: jest.fn(),
+        } as never);
+
+        renderModal(testSamarbeid, testIaSak);
+        expect(
+            screen.getByRole("button", { name: "Fullfør samarbeidet" }),
+        ).toBeDisabled();
+    });
+
+    // Når det fungerer som det skal
     it("Avbryt-knappen lukker modalen", () => {
         const { ref } = renderModal(testSamarbeid, testIaSak);
         fireEvent.click(screen.getByRole("button", { name: "Avbryt" }));
@@ -115,26 +197,6 @@ describe("FullførSamarbeidModal", () => {
                     status: "FULLFØRT",
                 }),
             );
-        });
-    });
-
-    it("kaller ikke avsluttSamarbeidNyFlyt når samarbeid mangler", async () => {
-        renderModal(null, testIaSak);
-        fireEvent.click(
-            screen.getByRole("button", { name: "Fullfør samarbeidet" }),
-        );
-        await waitFor(() => {
-            expect(avsluttSamarbeidMock).not.toHaveBeenCalled();
-        });
-    });
-
-    it("kaller ikke avsluttSamarbeidNyFlyt når iaSak mangler", async () => {
-        renderModal(testSamarbeid, undefined);
-        fireEvent.click(
-            screen.getByRole("button", { name: "Fullfør samarbeidet" }),
-        );
-        await waitFor(() => {
-            expect(avsluttSamarbeidMock).not.toHaveBeenCalled();
         });
     });
 
