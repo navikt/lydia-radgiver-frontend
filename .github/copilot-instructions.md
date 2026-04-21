@@ -12,5 +12,9 @@ Repoet har to prosjekter:
 - `client/` – React frontend (TypeScript, Vite)
 - `server/` – Node.js BFF (TypeScript, Express)
 
+## Kodekvalitet
+- Les alltid faktiske typedefinisjoner før du oppretter mock-data eller andre objekter — aldri anta typer fra eksisterende kode.
+- Kjør `tsc` og linting etter alle kodeendringer. Ikke meld oppgaven som ferdig før alt kompilerer uten feil.
+
 ## Pakkehåndtering
 - Bruk alltid **pnpm** – aldri npm eller yarn.
