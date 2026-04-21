@@ -11,6 +11,7 @@ import {
     RadioGroup,
     Radio,
     LocalAlert,
+    Tooltip,
 } from "@navikt/ds-react";
 import React, { useState } from "react";
 import { Salesforcelenke } from "../";
@@ -57,6 +58,7 @@ export function VirksomhetVurderes({
     return (
         <HStack gap={"4"}>
             <AvsluttVurderingModal
+                erSuperbruker={brukerInformasjon?.rolle === "Superbruker"}
                 virksomhet={virksomhet}
                 eierEllerFølgerSak={eierEllerFølgerSak}
             />
@@ -69,9 +71,11 @@ export function VirksomhetVurderes({
 function AvsluttVurderingModal({
     virksomhet,
     eierEllerFølgerSak,
+    erSuperbruker,
 }: {
     virksomhet: Virksomhet;
     eierEllerFølgerSak: boolean;
+    erSuperbruker: boolean;
 }) {
     const erPåInaktivSak = useErPåInaktivSak();
     const modalRef = React.createRef<HTMLDialogElement | null>();
@@ -81,6 +85,18 @@ function AvsluttVurderingModal({
             <Button disabled size="small" variant="secondary">
                 Avslutt vurdering
             </Button>
+        );
+    }
+
+    if (!eierEllerFølgerSak && !erSuperbruker) {
+        return (
+            <Tooltip content="Du må vere eier eller følger">
+                <div>
+                    <Button disabled size="small" variant="secondary">
+                        Avslutt vurdering
+                    </Button>
+                </div>
+            </Tooltip>
         );
     }
 
@@ -409,7 +425,7 @@ function InternVurderingInhold({
     inputProps: ReturnType<typeof useDatepicker>["inputProps"];
 }) {
     return (
-        <>
+        <VStack gap="space-16">
             <CheckboxGroup
                 legend="Intern vurdering"
                 hideLegend
@@ -449,7 +465,7 @@ function InternVurderingInhold({
                     label="Hvor lenge ønsker du at virksomheten skal ha status Vurdert?"
                 />
             </DatePicker>
-        </>
+        </VStack>
     );
 }
 
@@ -465,7 +481,7 @@ function TakketNeiInnhold({
     inputProps: ReturnType<typeof useDatepicker>["inputProps"];
 }) {
     return (
-        <>
+        <VStack gap="space-16">
             <CheckboxGroup
                 legend="Virksomheten har takket nei"
                 hideLegend
@@ -519,7 +535,7 @@ function TakketNeiInnhold({
                     label="Hvor lenge ønsker du at virksomheten skal ha status Vurdert?"
                 />
             </DatePicker>
-        </>
+        </VStack>
     );
 }
 

@@ -29,6 +29,7 @@ import {
     useHentSpesifikkSakNyFlyt,
 } from "../../../../src/api/lydia-api/nyFlyt";
 import { useHentTeam } from "../../../../src/api/lydia-api/team";
+import { useHentBrukerinformasjon } from "../../../../src/api/lydia-api/bruker";
 
 jest.mock("../../../../src/util/analytics-klient", () => {
     const actual = jest.requireActual("../../../../src/util/analytics-klient");
@@ -388,7 +389,58 @@ describe("NyVirksomhetsside", () => {
             ).toBeDisabled();
         });
 
-        it("Lagre-knappen er deaktivert for ikke-eiere/følgere", () => {
+        it("Avslutt vurdering-knappen er deaktivert for saksbehandler som ikke er eier/følger", () => {
+            jest.mocked(useHentBrukerinformasjon).mockReturnValue({
+                data: {
+                    ident: "Z654321",
+                    navn: "Saksbehandler Testesen",
+                    epost: "",
+                    tokenUtloper: 9999999999,
+                    rolle: "Saksbehandler",
+                },
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            jest.mocked(useHentTeam).mockReturnValue({
+                data: [],
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+            jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
+                data: { ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" },
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+            const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
+            expect(avsluttVurderingKnapp.closest("button")).toBeDisabled();
+        });
+
+        it("Superbruker som ikke er eier/følger kan åpne modal men ikke lagre", () => {
+            jest.mocked(useHentBrukerinformasjon).mockReturnValue({
+                data: {
+                    ident: "Z123456",
+                    navn: "Test Testesen",
+                    epost: "",
+                    tokenUtloper: 9999999999,
+                    rolle: "Superbruker",
+                },
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
             jest.mocked(useHentTeam).mockReturnValue({
                 data: [],
                 loading: false,
@@ -525,6 +577,26 @@ describe("NyVirksomhetsside", () => {
             };
 
             beforeEach(() => {
+                jest.mocked(useHentBrukerinformasjon).mockReturnValue({
+                    data: {
+                        ident: "Z123456",
+                        navn: "Test Testesen",
+                        epost: "",
+                        tokenUtloper: 9999999999,
+                        rolle: "Superbruker",
+                    },
+                    loading: false,
+                    error: null,
+                    mutate: jest.fn(),
+                    validating: false,
+                });
+                jest.mocked(useHentTeam).mockReturnValue({
+                    data: ["Z123456"],
+                    loading: false,
+                    error: null,
+                    mutate: jest.fn(),
+                    validating: false,
+                });
                 jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
                     data: iaSakVurderes,
                     loading: false,
