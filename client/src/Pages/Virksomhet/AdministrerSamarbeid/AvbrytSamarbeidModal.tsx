@@ -1,10 +1,13 @@
 import React from "react";
-import { BodyLong, Button, Modal } from "@navikt/ds-react";
+import { BodyLong, Button, List, LocalAlert, Modal } from "@navikt/ds-react";
 import {
     IaSakProsess,
     SamarbeidRequest,
 } from "../../../domenetyper/iaSakProsess";
-import { IASak } from "../../../domenetyper/domenetyper";
+import {
+    IASak,
+    spørreundersøkelseStatusEnum,
+} from "../../../domenetyper/domenetyper";
 import {
     avsluttSamarbeidNyFlyt,
     useHentSisteSakNyFlyt,
@@ -13,8 +16,13 @@ import {
 import BekreftSisteSamarbeidModal, {
     erSisteSamarbeid,
 } from "./BekreftSisteSamarbeidModal";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import {
+    useHentSamarbeid,
+    useSpørreundersøkelsesliste,
+} from "../../../api/lydia-api/spørreundersøkelse";
 import { useHentPlan } from "../../../api/lydia-api/plan";
+import { SpørreundersøkelseTypeEnum } from "../../../domenetyper/spørreundersøkelseMedInnhold";
+import styles from "./administrerSamarbeid.module.scss";
 
 export default function AvbrytSamarbeidModal({
     ref,
@@ -27,6 +35,68 @@ export default function AvbrytSamarbeidModal({
     iaSak?: IASak;
     alleSamarbeid?: IaSakProsess[];
 }) {
+    if (
+        iaSak === undefined ||
+        valgtSamarbeid === undefined ||
+        valgtSamarbeid?.id === undefined ||
+        alleSamarbeid === undefined
+    ) {
+        return null;
+    }
+
+    const {
+        data: spørreundersøkelser,
+        loading: lasterSpørreundersøkelser,
+        mutate: revaliderSpørreundersøkelser,
+    } = useSpørreundersøkelsesliste(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+        valgtSamarbeid.id,
+    );
+
+    const harEnPåbegyntEllerOpprettetEvaluering = React.useMemo(
+        () =>
+            spørreundersøkelser?.some(
+                (su) =>
+                    su.type === SpørreundersøkelseTypeEnum.enum.EVALUERING &&
+                    (su.status === spørreundersøkelseStatusEnum.enum.PÅBEGYNT ||
+                        su.status ===
+                            spørreundersøkelseStatusEnum.enum.OPPRETTET),
+            ) ?? false,
+        [spørreundersøkelser],
+    );
+
+    const harPåbegynteEllerOpprettedeBehovsvurderinger = React.useMemo(
+        () =>
+            spørreundersøkelser?.some(
+                (su) =>
+                    su.type ===
+                        SpørreundersøkelseTypeEnum.enum.BEHOVSVURDERING &&
+                    (su.status === spørreundersøkelseStatusEnum.enum.PÅBEGYNT ||
+                        su.status ===
+                            spørreundersøkelseStatusEnum.enum.OPPRETTET),
+            ) ?? false,
+        [spørreundersøkelser],
+    );
+
+    React.useEffect(() => {
+        const dialog = ref.current;
+        if (!dialog) return;
+
+        const callback = () => {
+            if (dialog.open) {
+                revaliderSpørreundersøkelser();
+            }
+        };
+        const observer = new MutationObserver(callback);
+        observer.observe(dialog, {
+            attributes: true,
+            attributeFilter: ["open"],
+        });
+
+        return () => observer.disconnect();
+    }, [revaliderSpørreundersøkelser]);
+
     const bekreftSisteSamarbeidRef = React.useRef<HTMLDialogElement | null>(
         null,
     );
@@ -100,11 +170,45 @@ export default function AvbrytSamarbeidModal({
                         Når du avbryter vil det ikke være mulig å gjøre nye
                         endringer på samarbeidet.
                     </BodyLong>
+                    {/* Error alert fordi samarbeid har påbegynte behovsvurderinger eller har påbegynte evalueringer */}
+                    {(harPåbegynteEllerOpprettedeBehovsvurderinger ||
+                        harEnPåbegyntEllerOpprettetEvaluering) && (
+                        <LocalAlert
+                            status="error"
+                            className={styles.errorAlert}
+                        >
+                            <LocalAlert.Header>
+                                <LocalAlert.Title>
+                                    Samarbeidet kan ikke avbrytes
+                                </LocalAlert.Title>
+                            </LocalAlert.Header>
+                            <LocalAlert.Content>
+                                <List>
+                                    {harPåbegynteEllerOpprettedeBehovsvurderinger && (
+                                        <List.Item>
+                                            Det finnes en påbegynt
+                                            behovsvurdering
+                                        </List.Item>
+                                    )}
+                                    {harEnPåbegyntEllerOpprettetEvaluering && (
+                                        <List.Item>
+                                            Det finnes en påbegynt evaluering
+                                        </List.Item>
+                                    )}
+                                </List>
+                            </LocalAlert.Content>
+                        </LocalAlert>
+                    )}
                 </Modal.Body>
                 <Modal.Footer>
                     <Button
                         onClick={onAvbryt}
-                        disabled={senderRequest}
+                        disabled={
+                            lasterSpørreundersøkelser ||
+                            senderRequest ||
+                            harEnPåbegyntEllerOpprettetEvaluering ||
+                            harPåbegynteEllerOpprettedeBehovsvurderinger
+                        }
                         loading={senderRequest}
                     >
                         Avbryt samarbeidet

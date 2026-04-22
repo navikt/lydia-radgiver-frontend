@@ -212,18 +212,18 @@ export default function FullførSamarbeidModal({
                                 <List>
                                     {!harEnSamarbeidsplan && (
                                         <List.Item>
-                                            Mangler samarbeidsplan.
+                                            Mangler samarbeidsplan
                                         </List.Item>
                                     )}
                                     {harPåbegynteEllerOpprettedeBehovsvurderinger && (
                                         <List.Item>
                                             Det finnes en påbegynt
-                                            behovsvurdering.
+                                            behovsvurdering
                                         </List.Item>
                                     )}
                                     {harEnPåbegyntEllerOpprettetEvaluering && (
                                         <List.Item>
-                                            Det finnes en påbegynt evaluering.
+                                            Det finnes en påbegynt evaluering
                                         </List.Item>
                                     )}
                                 </List>
