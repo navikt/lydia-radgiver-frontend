@@ -3461,8 +3461,8 @@ packages:
   tabbable@6.4.0:
     resolution: {integrity: sha512-05PUHKSNE8ou2dwIxTngl4EzcnsCDZGJ/iCLtDflR/SHB/ny14rXc+qU5P4mG9JkusiV7EivzY9Mhm55AzAvCg==}
 
-  tapable@2.3.2:
-    resolution: {integrity: sha512-1MOpMXuhGzGL5TTCZFItxCc0AARf1EZFQkGqMm7ERKj8+Hgr5oLvJOVFcC+lRmR8hCe2S3jC4T5D7Vg/d7/fhA==}
+  tapable@2.3.3:
+    resolution: {integrity: sha512-uxc/zpqFg6x7C8vOE7lh6Lbda8eEL9zmVm/PLeTPBRhh1xCgdWaQ+J1CUieGpIfm2HdtsUpRv+HshiasBMcc6A==}
     engines: {node: '>=6'}
 
   terser-webpack-plugin@5.4.0:
@@ -5685,7 +5685,7 @@ snapshots:
   enhanced-resolve@5.20.1:
     dependencies:
       graceful-fs: 4.2.11
-      tapable: 2.3.2
+      tapable: 2.3.3
     optional: true
 
   entities@6.0.1: {}
@@ -7631,7 +7631,7 @@ snapshots:
 
   tabbable@6.4.0: {}
 
-  tapable@2.3.2:
+  tapable@2.3.3:
     optional: true
 
   terser-webpack-plugin@5.4.0(esbuild@0.27.7)(webpack@5.105.4(esbuild@0.27.7)):
@@ -7929,7 +7929,7 @@ snapshots:
       mime-types: 2.1.35
       neo-async: 2.6.2
       schema-utils: 4.3.3
-      tapable: 2.3.2
+      tapable: 2.3.3
       terser-webpack-plugin: 5.4.0(esbuild@0.27.7)(webpack@5.105.4(esbuild@0.27.7))
       watchpack: 2.5.1
       webpack-sources: 3.3.4
