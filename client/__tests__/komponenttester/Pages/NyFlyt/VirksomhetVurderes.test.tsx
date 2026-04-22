@@ -244,7 +244,7 @@ describe("NyVirksomhetsside", () => {
             );
             const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
             expect(avsluttVurderingKnapp).toBeInTheDocument();
-            avsluttVurderingKnapp.click();
+            fireEvent.click(avsluttVurderingKnapp);
             expect(
                 screen.getByText("Avslutt vurdering av virksomheten"),
             ).toBeInTheDocument();
@@ -267,7 +267,7 @@ describe("NyVirksomhetsside", () => {
             );
 
             const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
-            avsluttVurderingKnapp.click();
+            fireEvent.click(avsluttVurderingKnapp);
 
             fireEvent.click(
                 screen.getByLabelText("Vurder virksomheten senere"),
@@ -304,7 +304,7 @@ describe("NyVirksomhetsside", () => {
             );
 
             const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
-            avsluttVurderingKnapp.click();
+            fireEvent.click(avsluttVurderingKnapp);
 
             fireEvent.click(screen.getByLabelText("Nav har konkludert"));
 
@@ -344,7 +344,7 @@ describe("NyVirksomhetsside", () => {
                     <NyVirksomhetsside />
                 </BrowserRouter>,
             );
-            screen.getByText("Avslutt vurdering").click();
+            fireEvent.click(screen.getByText("Avslutt vurdering"));
             const modal = screen.getByRole("dialog", {
                 name: "Avslutt vurdering av virksomheten",
             });
@@ -361,13 +361,42 @@ describe("NyVirksomhetsside", () => {
             ).toBeInTheDocument();
         });
 
+        it("Viser feilmelding og kaller ikke avsluttVurderingNyFlyt når kanLagre er false", () => {
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+            fireEvent.click(screen.getByText("Avslutt vurdering"));
+
+            fireEvent.click(
+                screen.getByLabelText("Vurder virksomheten senere"),
+            );
+
+            const modal = screen.getByRole("dialog", {
+                name: "Avslutt vurdering av virksomheten",
+            });
+            const lagreKnapp = within(modal).getByRole("button", {
+                name: "Lagre",
+            });
+            fireEvent.click(lagreKnapp);
+
+            expect(
+                screen.getByText(
+                    "Du må velge en begrunnelse for å vurdere senere",
+                ),
+            ).toBeInTheDocument();
+            expect(lagreKnapp).toBeDisabled();
+            expect(avsluttVurderingNyFlyt).not.toHaveBeenCalled();
+        });
+
         it("Lagre-knappen er deaktivert når begrunnelse mangler", () => {
             render(
                 <BrowserRouter>
                     <NyVirksomhetsside />
                 </BrowserRouter>,
             );
-            screen.getByText("Avslutt vurdering").click();
+            fireEvent.click(screen.getByText("Avslutt vurdering"));
             fireEvent.click(
                 screen.getByLabelText("Vurder virksomheten senere"),
             );
@@ -461,7 +490,7 @@ describe("NyVirksomhetsside", () => {
                     <NyVirksomhetsside />
                 </BrowserRouter>,
             );
-            screen.getByText("Avslutt vurdering").click();
+            fireEvent.click(screen.getByText("Avslutt vurdering"));
             fireEvent.click(
                 screen.getByLabelText("Vurder virksomheten senere"),
             );

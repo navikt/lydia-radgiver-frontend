@@ -200,8 +200,7 @@ jest.mock("react-router-dom", () => {
 });
 
 function åpneAvsluttVurderingModal() {
-    const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
-    avsluttVurderingKnapp.click();
+    fireEvent.click(screen.getByText("Avslutt vurdering"));
 }
 
 describe("AvsluttVurderingModal", () => {

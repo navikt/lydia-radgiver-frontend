@@ -78,7 +78,7 @@ function AvsluttVurderingModal({
     erSuperbruker: boolean;
 }) {
     const erPåInaktivSak = useErPåInaktivSak();
-    const modalRef = React.createRef<HTMLDialogElement | null>();
+    const [modalErÅpen, setModalErÅpen] = useState(false);
 
     if (erPåInaktivSak) {
         return (
@@ -103,32 +103,38 @@ function AvsluttVurderingModal({
     return (
         <>
             <Button
-                onClick={() => modalRef.current?.showModal?.()}
+                onClick={() => setModalErÅpen(true)}
                 size="small"
                 variant="secondary"
             >
                 Avslutt vurdering
             </Button>
-            <AvsluttVurderingModalInnhold
-                ref={modalRef}
-                virksomhet={virksomhet}
-                eierEllerFølgerSak={eierEllerFølgerSak}
-            />
+            {modalErÅpen && (
+                <AvsluttVurderingModalInnhold
+                    erÅpen={modalErÅpen}
+                    onClose={() => setModalErÅpen(false)}
+                    virksomhet={virksomhet}
+                    eierEllerFølgerSak={eierEllerFølgerSak}
+                />
+            )}
         </>
     );
 }
 
 function AvsluttVurderingModalInnhold({
-    ref,
+    erÅpen,
+    onClose,
     virksomhet,
     eierEllerFølgerSak,
 }: {
-    ref: React.RefObject<HTMLDialogElement | null>;
+    erÅpen: boolean;
+    onClose: () => void;
     virksomhet: Virksomhet;
     eierEllerFølgerSak: boolean;
 }) {
     const mutate = useOversiktMutate(virksomhet.orgnr);
-    const angreVurderingModalRef = React.createRef<HTMLDialogElement | null>();
+    const [angreVurderingModalÅpen, setAngreVurderingModalÅpen] =
+        useState(false);
     const [error, setError] = useState<string | null>();
     const [årsak, setÅrsak] = useState<NyFlytÅrsakType>();
     const [begrunnelse, setBegrunnelse] = useState<NyFlytBegrunnelse[]>([]);
@@ -160,32 +166,35 @@ function AvsluttVurderingModalInnhold({
     const handleSubmit = async () => {
         setError(null);
         setForsøktLagret(true);
-        try {
-            if (!årsak || !selectedDay) {
-                return;
+        if (kanLagre) {
+            try {
+                if (!årsak || !selectedDay) {
+                    return;
+                }
+
+                await avsluttVurderingNyFlyt(virksomhet.orgnr, {
+                    type: årsak,
+                    begrunnelser: begrunnelse,
+                    dato: selectedDay ? isoDato(selectedDay) : undefined,
+                });
+
+                mutate();
+                onClose();
+            } catch (e) {
+                setError(e instanceof Error ? e.message : String(e));
             }
-
-            await avsluttVurderingNyFlyt(virksomhet.orgnr, {
-                type: årsak,
-                begrunnelser: begrunnelse,
-                dato: selectedDay ? isoDato(selectedDay) : undefined,
-            });
-
-            mutate();
-            ref.current?.close();
-        } catch (e) {
-            setError(e instanceof Error ? e.message : String(e));
         }
     };
 
     return (
         <>
             <Modal
-                ref={ref}
+                open={erÅpen}
                 header={{
                     heading: "Avslutt vurdering av virksomheten",
                 }}
                 width="medium"
+                onClose={onClose}
             >
                 <Modal.Body>
                     <RadioGroup
@@ -196,7 +205,7 @@ function AvsluttVurderingModalInnhold({
                         }}
                         value={årsak}
                         error={
-                            forsøktLagret && !årsak
+                            forsøktLagret && !årsak && eierEllerFølgerSak
                                 ? "Du må velge en begrunnelse for å avslutte vurderingen"
                                 : undefined
                         }
@@ -218,6 +227,7 @@ function AvsluttVurderingModalInnhold({
                                     setBegrunnelse={setBegrunnelse}
                                     datepickerProps={datepickerProps}
                                     inputProps={inputProps}
+                                    eierEllerFølgerSak={eierEllerFølgerSak}
                                 />
                             </ExpandingRadio>
                             <ExpandingRadio
@@ -234,6 +244,7 @@ function AvsluttVurderingModalInnhold({
                                     setBegrunnelse={setBegrunnelse}
                                     datepickerProps={datepickerProps}
                                     inputProps={inputProps}
+                                    eierEllerFølgerSak={eierEllerFølgerSak}
                                 />
                             </ExpandingRadio>
                             <ExpandingRadio
@@ -250,6 +261,7 @@ function AvsluttVurderingModalInnhold({
                                     setBegrunnelse={setBegrunnelse}
                                     datepickerProps={datepickerProps}
                                     inputProps={inputProps}
+                                    eierEllerFølgerSak={eierEllerFølgerSak}
                                 />
                             </ExpandingRadio>
                         </VStack>
@@ -267,9 +279,11 @@ function AvsluttVurderingModalInnhold({
                         </LocalAlert>
                     </Modal.Body>
                 )}
-                {forsøktLagret && !eierEllerFølgerSak && (
+                {!eierEllerFølgerSak && (
                     <Modal.Body>
-                        <LocalAlert status="error">
+                        <LocalAlert
+                            status={forsøktLagret ? "error" : "announcement"}
+                        >
                             <LocalAlert.Header>
                                 <LocalAlert.Title>
                                     Du må være eier eller følger for å avslutte
@@ -289,18 +303,12 @@ function AvsluttVurderingModalInnhold({
                     >
                         Lagre
                     </Button>
-                    <Button
-                        onClick={() => {
-                            ref.current?.close();
-                        }}
-                        variant="secondary"
-                    >
+                    <Button onClick={onClose} variant="secondary">
                         Avbryt
                     </Button>
                     <Button
                         onClick={() => {
-                            angreVurderingModalRef.current?.showModal();
-                            ref.current?.close();
+                            setAngreVurderingModalÅpen(true);
                         }}
                         variant="tertiary"
                         icon={<ArrowUndoIcon aria-hidden />}
@@ -311,7 +319,11 @@ function AvsluttVurderingModalInnhold({
             </Modal>
             <AngreVurderingModal
                 virksomhet={virksomhet}
-                ref={angreVurderingModalRef}
+                erÅpen={angreVurderingModalÅpen}
+                onClose={() => {
+                    setAngreVurderingModalÅpen(false);
+                    onClose();
+                }}
             />
         </>
     );
@@ -348,12 +360,14 @@ function VurderesSenereInnhold({
     setBegrunnelse,
     datepickerProps,
     inputProps,
+    eierEllerFølgerSak,
 }: {
     forsøktLagret: boolean;
     begrunnelse: NyFlytBegrunnelse[];
     setBegrunnelse: (begrunnelse: NyFlytBegrunnelse[]) => void;
     datepickerProps: ReturnType<typeof useDatepicker>["datepickerProps"];
     inputProps: ReturnType<typeof useDatepicker>["inputProps"];
+    eierEllerFølgerSak: boolean;
 }) {
     return (
         <VStack gap="space-16">
@@ -362,7 +376,9 @@ function VurderesSenereInnhold({
                 hideLegend
                 value={begrunnelse?.[0]}
                 error={
-                    forsøktLagret && begrunnelse.length === 0
+                    forsøktLagret &&
+                    begrunnelse.length === 0 &&
+                    eierEllerFølgerSak
                         ? "Du må velge en begrunnelse for å vurdere senere"
                         : undefined
                 }
@@ -400,19 +416,23 @@ function InternVurderingInhold({
     setBegrunnelse,
     datepickerProps,
     inputProps,
+    eierEllerFølgerSak,
 }: {
     forsøktLagret: boolean;
     begrunnelse: NyFlytBegrunnelse[];
     setBegrunnelse: (begrunnelse: NyFlytBegrunnelse[]) => void;
     datepickerProps: ReturnType<typeof useDatepicker>["datepickerProps"];
     inputProps: ReturnType<typeof useDatepicker>["inputProps"];
+    eierEllerFølgerSak: boolean;
 }) {
     return (
         <VStack gap="space-16">
             <CheckboxGroup
                 error={
-                    forsøktLagret && begrunnelse.length === 0
-                        ? "Du må velge en begrunnelse for å avslutte vurdering"
+                    forsøktLagret &&
+                    begrunnelse.length === 0 &&
+                    eierEllerFølgerSak
+                        ? "Du må velge en begrunnelse for å avslutte vurderingen"
                         : undefined
                 }
                 legend="Intern vurdering"
@@ -463,19 +483,23 @@ function TakketNeiInnhold({
     setBegrunnelse,
     datepickerProps,
     inputProps,
+    eierEllerFølgerSak,
 }: {
     forsøktLagret: boolean;
     begrunnelse: NyFlytBegrunnelse[];
     setBegrunnelse: (begrunnelse: NyFlytBegrunnelse[]) => void;
     datepickerProps: ReturnType<typeof useDatepicker>["datepickerProps"];
     inputProps: ReturnType<typeof useDatepicker>["inputProps"];
+    eierEllerFølgerSak: boolean;
 }) {
     return (
         <VStack gap="space-16">
             <CheckboxGroup
                 legend="Virksomheten har takket nei"
                 error={
-                    forsøktLagret && begrunnelse.length === 0
+                    forsøktLagret &&
+                    begrunnelse.length === 0 &&
+                    eierEllerFølgerSak
                         ? "Du må velge en begrunnelse for å avslutte vurdering"
                         : undefined
                 }
@@ -536,10 +560,12 @@ function TakketNeiInnhold({
 
 function AngreVurderingModal({
     virksomhet,
-    ref,
+    erÅpen,
+    onClose,
 }: {
     virksomhet: Virksomhet;
-    ref: React.RefObject<HTMLDialogElement | null>;
+    erÅpen: boolean;
+    onClose: () => void;
 }) {
     const mutate = useOversiktMutate(virksomhet.orgnr);
     const [lagrer, setLagrer] = useState(false);
@@ -550,10 +576,12 @@ function AngreVurderingModal({
         angreVurderingNyFlyt(virksomhet.orgnr)
             .then(() => {
                 mutate();
-                ref?.current?.close();
+                onClose();
             })
             .catch((error) => {
-                setError(error.message || "Noe gikk galt ved angre vurdering");
+                setError(
+                    error.message || "Noe gikk galt ved angre vurderingen",
+                );
             })
             .finally(() => {
                 setLagrer(false);
@@ -562,7 +590,8 @@ function AngreVurderingModal({
 
     return (
         <Modal
-            ref={ref}
+            open={erÅpen}
+            onClose={onClose}
             header={{
                 heading: "Angre vurdering",
             }}
@@ -577,7 +606,7 @@ function AngreVurderingModal({
                     <LocalAlert status="error">
                         <LocalAlert.Header>
                             <LocalAlert.Title>
-                                Kunne ikke angre vurdering
+                                Kunne ikke angre vurderingen
                             </LocalAlert.Title>
                         </LocalAlert.Header>
                         <LocalAlert.Content>{error}</LocalAlert.Content>
@@ -599,7 +628,7 @@ function AngreVurderingModal({
                             setError(undefined);
                         }
 
-                        ref?.current?.close();
+                        onClose();
                     }}
                     variant="secondary"
                 >
