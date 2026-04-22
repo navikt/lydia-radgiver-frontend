@@ -1,9 +1,10 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import React from "react";
 import SlettSamarbeidModal from "../../../../src/Pages/Virksomhet/AdministrerSamarbeid/SlettSamarbeidModal";
 import { IaSakProsess } from "../../../../src/domenetyper/iaSakProsess";
 import { IASak } from "../../../../src/domenetyper/domenetyper";
+import { SamarbeidProvider } from "../../../../src/Pages/Virksomhet/Samarbeid/SamarbeidContext";
 
 jest.mock("../../../../src/api/lydia-api/plan", () => ({
     useHentPlan: jest.fn(() => ({ mutate: jest.fn() })),
@@ -15,6 +16,16 @@ jest.mock("../../../../src/api/lydia-api/nyFlyt", () => ({
     useHentSisteSakNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
     useHentSpesifikkSakNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
     useHentTilstandForVirksomhetNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
+}));
+
+jest.mock("../../../../src/api/lydia-api/virksomhet", () => ({
+    useKanUtføreHandlingPåSamarbeid: jest.fn(() => ({
+        data: { kanGjennomføres: true, blokkerende: [], advarsler: [] },
+        mutate: jest.fn(),
+    })),
+    useHentSalesforceSamarbeidLenke: jest.fn(() => ({
+        data: "https://tullesalesforce.com/samarbeid/1",
+    })),
 }));
 
 jest.mock("../../../../src/api/lydia-api/spørreundersøkelse", () => ({
@@ -40,6 +51,9 @@ jest.mock("@navikt/ds-react", () => {
 });
 
 const { useHentPlan } = jest.requireMock("../../../../src/api/lydia-api/plan");
+const { useKanUtføreHandlingPåSamarbeid } = jest.requireMock(
+    "../../../../src/api/lydia-api/virksomhet",
+);
 const { slettSamarbeidNyFlyt } = jest.requireMock(
     "../../../../src/api/lydia-api/nyFlyt",
 );
@@ -81,7 +95,7 @@ function createMockIaSak(overrides?: Partial<IASak>): IASak {
 }
 
 function renderModal(
-    valgtSamarbeid?: IaSakProsess | null,
+    valgtSamarbeid?: IaSakProsess,
     iaSak?: IASak,
     alleSamarbeid?: IaSakProsess[],
 ) {
@@ -89,12 +103,14 @@ function renderModal(
         current: { close: jest.fn() },
     } as unknown as React.RefObject<HTMLDialogElement | null>;
     render(
-        <SlettSamarbeidModal
-            ref={ref}
-            valgtSamarbeid={valgtSamarbeid}
-            iaSak={iaSak}
-            alleSamarbeid={alleSamarbeid}
-        />,
+        <SamarbeidProvider samarbeid={valgtSamarbeid}>
+            <SlettSamarbeidModal
+                ref={ref}
+                valgtSamarbeid={valgtSamarbeid}
+                iaSak={iaSak}
+                alleSamarbeid={alleSamarbeid}
+            />
+        </SamarbeidProvider>,
     );
     return ref;
 }
@@ -177,8 +193,12 @@ describe("SlettSamarbeidModal", () => {
 
     describe("når samarbeid har en aktiv plan", () => {
         beforeEach(() => {
-            useHentPlan.mockReturnValue({
-                data: { temaer: [] },
+            useKanUtføreHandlingPåSamarbeid.mockReturnValue({
+                data: {
+                    kanGjennomføres: false,
+                    blokkerende: ["FINNES_SAMARBEIDSPLAN"],
+                    advarsler: [],
+                },
                 mutate: jest.fn(),
             });
         });
@@ -200,6 +220,14 @@ describe("SlettSamarbeidModal", () => {
         });
 
         test("viser melding om aktiviteter i Salesforce", () => {
+            useKanUtføreHandlingPåSamarbeid.mockReturnValueOnce({
+                data: {
+                    kanGjennomføres: false,
+                    blokkerende: ["FINNES_SALESFORCE_AKTIVITET"],
+                    advarsler: [],
+                },
+                mutate: jest.fn(),
+            });
             renderModal(createMockSamarbeid(), createMockIaSak());
 
             expect(
@@ -219,7 +247,14 @@ describe("SlettSamarbeidModal", () => {
 
     describe("siste samarbeid", () => {
         beforeEach(() => {
-            useHentPlan.mockReturnValue({ data: undefined, mutate: jest.fn() });
+            useKanUtføreHandlingPåSamarbeid.mockReturnValue({
+                data: {
+                    kanGjennomføres: true,
+                    blokkerende: [],
+                    advarsler: [],
+                },
+                mutate: jest.fn(),
+            });
             slettSamarbeidNyFlyt.mockResolvedValue({});
         });
 

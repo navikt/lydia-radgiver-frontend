@@ -18,6 +18,7 @@ import EndreSamarbeidsnavnModal from "./EndreSamarbeidsnavnModal";
 import SlettSamarbeidModal from "./SlettSamarbeidModal";
 import FullførSamarbeidModal from "./FullførSamarbeidModal";
 import AvbrytSamarbeidModal from "./AvbrytSamarbeidModal";
+import { useKanUtføreHandlingPåSamarbeid } from "../../../api/lydia-api/virksomhet";
 
 export default function AdministrerSamarbeid({
     iaSak,
@@ -28,6 +29,13 @@ export default function AdministrerSamarbeid({
     valgtSamarbeid?: IaSakProsess | null;
     alleSamarbeid?: IaSakProsess[];
 }) {
+    const { mutate: refetchKanSletteResultat } =
+        useKanUtføreHandlingPåSamarbeid(
+            iaSak?.orgnr,
+            iaSak?.saksnummer,
+            valgtSamarbeid?.id,
+            "slettes",
+        );
     const { data: følgere = [] } = useHentTeam(iaSak?.saksnummer);
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const brukerFølgerSak = følgere.some(
@@ -83,7 +91,10 @@ export default function AdministrerSamarbeid({
                         Endre samarbeidsnavn
                     </ActionMenu.Item>
                     <ActionMenu.Item
-                        onSelect={() => slettSamarbeidRef.current?.showModal()}
+                        onSelect={() => {
+                            refetchKanSletteResultat();
+                            slettSamarbeidRef.current?.showModal();
+                        }}
                         icon={<TrashIcon aria-hidden />}
                     >
                         Slett samarbeidet

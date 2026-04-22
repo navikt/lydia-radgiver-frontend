@@ -9,6 +9,7 @@ import {
     historiskStatistikkSchema,
 } from "../../domenetyper/historiskstatistikk";
 import {
+    kanGjennomføreStatusendringDto,
     KanGjennomføreStatusendring,
     MuligSamarbeidsgandling,
 } from "../../domenetyper/samarbeidsEndring";
@@ -138,6 +139,22 @@ export const useHentSalesforceSamarbeidLenke = (samarbeidsId?: number) => {
     return useSwrTemplate<SalesforceSamarbeid>(
         samarbeidsId ? `${salesforceUrlPath}/samarbeid/${samarbeidsId}` : null,
         salesforceSamarbeidSchema,
+        defaultSwrConfiguration,
+        false,
+    );
+};
+
+export const useKanUtføreHandlingPåSamarbeid = (
+    orgnummer?: string,
+    saksnummer?: string,
+    prosessId?: number,
+    handling: MuligSamarbeidsgandling = "slettes",
+) => {
+    return useSwrTemplate<KanGjennomføreStatusendring>(
+        orgnummer && saksnummer && prosessId
+            ? `${iaSakPath}/${orgnummer}/${saksnummer}/${prosessId}/kan/${handling}`
+            : null,
+        kanGjennomføreStatusendringDto,
         defaultSwrConfiguration,
         false,
     );

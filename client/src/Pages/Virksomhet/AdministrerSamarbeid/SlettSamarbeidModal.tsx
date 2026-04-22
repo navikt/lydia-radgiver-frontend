@@ -1,17 +1,7 @@
 import React from "react";
-import {
-    BodyLong,
-    BodyShort,
-    Button,
-    Heading,
-    Link,
-    List,
-    LocalAlert,
-    Modal,
-} from "@navikt/ds-react";
+import { BodyLong, Button, LocalAlert, Modal } from "@navikt/ds-react";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { IASak } from "../../../domenetyper/domenetyper";
-import { useHentPlan } from "../../../api/lydia-api/plan";
 import styles from "./administrerSamarbeid.module.scss";
 import {
     slettSamarbeidNyFlyt,
@@ -22,6 +12,8 @@ import BekreftSisteSamarbeidModal, {
     erSisteSamarbeid,
 } from "./BekreftSisteSamarbeidModal";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import { useKanUtføreHandlingPåSamarbeid } from "../../../api/lydia-api/virksomhet";
+import SlettSamarbeidModalBegrunnelser from "./SlettSamarbeidModalBegrunnelser";
 
 export default function SlettSamarbeidModal({
     ref,
@@ -37,11 +29,6 @@ export default function SlettSamarbeidModal({
     const bekreftSisteSamarbeidRef = React.useRef<HTMLDialogElement | null>(
         null,
     );
-    const plan = useHentPlan(
-        iaSak?.orgnr,
-        iaSak?.saksnummer,
-        valgtSamarbeid?.id,
-    );
     const { mutate: hentSisteSakPåNytt } = useHentSisteSakNyFlyt(iaSak?.orgnr);
     const { mutate: hentSpesifikkSakPåNytt } = useHentSpesifikkSakNyFlyt(
         iaSak?.orgnr,
@@ -51,6 +38,16 @@ export default function SlettSamarbeidModal({
         iaSak?.orgnr,
         iaSak?.saksnummer,
     );
+
+    const { data: kanSletteResultat } = useKanUtføreHandlingPåSamarbeid(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+        valgtSamarbeid?.id,
+        "slettes",
+    );
+
+    const kanSlettes = kanSletteResultat?.kanGjennomføres;
+
     const [error, setError] = React.useState<string | null>(null);
 
     const onSlett = async () => {
@@ -85,46 +82,10 @@ export default function SlettSamarbeidModal({
                 header={{ heading: `Slett ${valgtSamarbeid?.navn}` }}
             >
                 <Modal.Body>
-                    {plan.data ? (
-                        <LocalAlert
-                            status="error"
-                            className={styles.errorAlert}
-                        >
-                            <LocalAlert.Header>
-                                <LocalAlert.Title>
-                                    Samarbeidet kan ikke slettes fordi:
-                                </LocalAlert.Title>
-                            </LocalAlert.Header>
-                            <LocalAlert.Content>
-                                <List>
-                                    <List.Item>
-                                        <Heading size={"xsmall"}>
-                                            Det finnes en aktiv samarbeidsplan
-                                        </Heading>
-                                        <BodyShort>
-                                            Planen må tømmes og slettes
-                                        </BodyShort>
-                                        <Link>Gå til samarbeidsplan</Link>
-                                        {/*TODO: Legg til lenke til samarbeidsplanen det gjelder*/}
-                                    </List.Item>
-                                </List>
-                                <List>
-                                    <List.Item>
-                                        <Heading size={"xsmall"}>
-                                            Det finnes aktiviteter i Salesforce
-                                        </Heading>
-                                        <BodyShort>
-                                            Aktiviteter må slettes eller flyttes
-                                            til et annet samarbeid
-                                        </BodyShort>
-                                        <Link>
-                                            Gå til samarbeid i Salesforce
-                                        </Link>
-                                        {/*TODO: Legg til lenke til samarbeidet i Salesforce*/}
-                                    </List.Item>
-                                </List>
-                            </LocalAlert.Content>
-                        </LocalAlert>
+                    {!kanSlettes ? (
+                        <SlettSamarbeidModalBegrunnelser
+                            kanGjennomføreResultat={kanSletteResultat}
+                        ></SlettSamarbeidModalBegrunnelser>
                     ) : (
                         <BodyLong>
                             Ønsker du å slette samarbeidet{" "}
@@ -150,7 +111,11 @@ export default function SlettSamarbeidModal({
                     )}
                 </Modal.Body>
                 <Modal.Footer>
-                    <Button variant={"primary"} onClick={onSlett}>
+                    <Button
+                        variant={"primary"}
+                        onClick={onSlett}
+                        disabled={!kanSlettes}
+                    >
                         Slett
                     </Button>
                     <Button
