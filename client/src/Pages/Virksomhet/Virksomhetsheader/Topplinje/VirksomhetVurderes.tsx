@@ -78,7 +78,7 @@ function AvsluttVurderingModal({
     erSuperbruker: boolean;
 }) {
     const erPåInaktivSak = useErPåInaktivSak();
-    const modalRef = React.createRef<HTMLDialogElement | null>();
+    const [modalErÅpen, setModalErÅpen] = useState(false);
 
     if (erPåInaktivSak) {
         return (
@@ -103,32 +103,38 @@ function AvsluttVurderingModal({
     return (
         <>
             <Button
-                onClick={() => modalRef.current?.showModal?.()}
+                onClick={() => setModalErÅpen(true)}
                 size="small"
                 variant="secondary"
             >
                 Avslutt vurdering
             </Button>
-            <AvsluttVurderingModalInnhold
-                ref={modalRef}
-                virksomhet={virksomhet}
-                eierEllerFølgerSak={eierEllerFølgerSak}
-            />
+            {modalErÅpen && (
+                <AvsluttVurderingModalInnhold
+                    erÅpen={modalErÅpen}
+                    onClose={() => setModalErÅpen(false)}
+                    virksomhet={virksomhet}
+                    eierEllerFølgerSak={eierEllerFølgerSak}
+                />
+            )}
         </>
     );
 }
 
 function AvsluttVurderingModalInnhold({
-    ref,
+    erÅpen,
+    onClose,
     virksomhet,
     eierEllerFølgerSak,
 }: {
-    ref: React.RefObject<HTMLDialogElement | null>;
+    erÅpen: boolean;
+    onClose: () => void;
     virksomhet: Virksomhet;
     eierEllerFølgerSak: boolean;
 }) {
     const mutate = useOversiktMutate(virksomhet.orgnr);
-    const angreVurderingModalRef = React.createRef<HTMLDialogElement | null>();
+    const [angreVurderingModalÅpen, setAngreVurderingModalÅpen] =
+        useState(false);
     const [error, setError] = useState<string | null>();
     const [årsak, setÅrsak] = useState<NyFlytÅrsakType>();
     const [begrunnelse, setBegrunnelse] = useState<NyFlytBegrunnelse[]>([]);
@@ -173,7 +179,7 @@ function AvsluttVurderingModalInnhold({
                 });
 
                 mutate();
-                ref.current?.close();
+                onClose();
             } catch (e) {
                 setError(e instanceof Error ? e.message : String(e));
             }
@@ -183,11 +189,12 @@ function AvsluttVurderingModalInnhold({
     return (
         <>
             <Modal
-                ref={ref}
+                open={erÅpen}
                 header={{
                     heading: "Avslutt vurdering av virksomheten",
                 }}
                 width="medium"
+                onClose={onClose}
             >
                 <Modal.Body>
                     <RadioGroup
@@ -296,18 +303,12 @@ function AvsluttVurderingModalInnhold({
                     >
                         Lagre
                     </Button>
-                    <Button
-                        onClick={() => {
-                            ref.current?.close();
-                        }}
-                        variant="secondary"
-                    >
+                    <Button onClick={onClose} variant="secondary">
                         Avbryt
                     </Button>
                     <Button
                         onClick={() => {
-                            angreVurderingModalRef.current?.showModal();
-                            ref.current?.close();
+                            setAngreVurderingModalÅpen(true);
                         }}
                         variant="tertiary"
                         icon={<ArrowUndoIcon aria-hidden />}
@@ -318,7 +319,11 @@ function AvsluttVurderingModalInnhold({
             </Modal>
             <AngreVurderingModal
                 virksomhet={virksomhet}
-                ref={angreVurderingModalRef}
+                erÅpen={angreVurderingModalÅpen}
+                onClose={() => {
+                    setAngreVurderingModalÅpen(false);
+                    onClose();
+                }}
             />
         </>
     );
@@ -555,10 +560,12 @@ function TakketNeiInnhold({
 
 function AngreVurderingModal({
     virksomhet,
-    ref,
+    erÅpen,
+    onClose,
 }: {
     virksomhet: Virksomhet;
-    ref: React.RefObject<HTMLDialogElement | null>;
+    erÅpen: boolean;
+    onClose: () => void;
 }) {
     const mutate = useOversiktMutate(virksomhet.orgnr);
     const [lagrer, setLagrer] = useState(false);
@@ -569,7 +576,7 @@ function AngreVurderingModal({
         angreVurderingNyFlyt(virksomhet.orgnr)
             .then(() => {
                 mutate();
-                ref?.current?.close();
+                onClose();
             })
             .catch((error) => {
                 setError(
@@ -583,7 +590,8 @@ function AngreVurderingModal({
 
     return (
         <Modal
-            ref={ref}
+            open={erÅpen}
+            onClose={onClose}
             header={{
                 heading: "Angre vurdering",
             }}
@@ -620,7 +628,7 @@ function AngreVurderingModal({
                             setError(undefined);
                         }
 
-                        ref?.current?.close();
+                        onClose();
                     }}
                     variant="secondary"
                 >

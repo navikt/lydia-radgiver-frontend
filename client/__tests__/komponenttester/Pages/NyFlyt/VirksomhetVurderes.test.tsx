@@ -244,7 +244,7 @@ describe("NyVirksomhetsside", () => {
             );
             const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
             expect(avsluttVurderingKnapp).toBeInTheDocument();
-            avsluttVurderingKnapp.click();
+            fireEvent.click(avsluttVurderingKnapp);
             expect(
                 screen.getByText("Avslutt vurdering av virksomheten"),
             ).toBeInTheDocument();
@@ -267,7 +267,7 @@ describe("NyVirksomhetsside", () => {
             );
 
             const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
-            avsluttVurderingKnapp.click();
+            fireEvent.click(avsluttVurderingKnapp);
 
             fireEvent.click(
                 screen.getByLabelText("Vurder virksomheten senere"),
@@ -304,7 +304,7 @@ describe("NyVirksomhetsside", () => {
             );
 
             const avsluttVurderingKnapp = screen.getByText("Avslutt vurdering");
-            avsluttVurderingKnapp.click();
+            fireEvent.click(avsluttVurderingKnapp);
 
             fireEvent.click(screen.getByLabelText("Nav har konkludert"));
 
@@ -344,7 +344,7 @@ describe("NyVirksomhetsside", () => {
                     <NyVirksomhetsside />
                 </BrowserRouter>,
             );
-            screen.getByText("Avslutt vurdering").click();
+            fireEvent.click(screen.getByText("Avslutt vurdering"));
             const modal = screen.getByRole("dialog", {
                 name: "Avslutt vurdering av virksomheten",
             });
@@ -367,7 +367,7 @@ describe("NyVirksomhetsside", () => {
                     <NyVirksomhetsside />
                 </BrowserRouter>,
             );
-            screen.getByText("Avslutt vurdering").click();
+            fireEvent.click(screen.getByText("Avslutt vurdering"));
 
             fireEvent.click(
                 screen.getByLabelText("Vurder virksomheten senere"),
@@ -396,7 +396,7 @@ describe("NyVirksomhetsside", () => {
                     <NyVirksomhetsside />
                 </BrowserRouter>,
             );
-            screen.getByText("Avslutt vurdering").click();
+            fireEvent.click(screen.getByText("Avslutt vurdering"));
             fireEvent.click(
                 screen.getByLabelText("Vurder virksomheten senere"),
             );
@@ -490,7 +490,7 @@ describe("NyVirksomhetsside", () => {
                     <NyVirksomhetsside />
                 </BrowserRouter>,
             );
-            screen.getByText("Avslutt vurdering").click();
+            fireEvent.click(screen.getByText("Avslutt vurdering"));
             fireEvent.click(
                 screen.getByLabelText("Vurder virksomheten senere"),
             );
