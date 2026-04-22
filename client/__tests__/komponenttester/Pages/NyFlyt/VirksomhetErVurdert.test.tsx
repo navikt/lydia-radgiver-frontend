@@ -208,17 +208,16 @@ describe("NyVirksomhetsside – VirksomhetErVurdert", () => {
             );
             fireEvent.click(screen.getByText(/Vurderes automatisk/));
             expect(
-                screen.getByRole("dialog", { name: "Vurder virksomheten" }),
+                screen.getByRole("dialog", { name: "Endre dato" }),
             ).toBeInTheDocument();
         });
 
-        it("'Vurder nå' i modal kaller vurderSakNyFlyt", async () => {
+        it("'Vurder nå'-knapp kaller vurderSakNyFlyt", async () => {
             render(
                 <BrowserRouter>
                     <NyVirksomhetsside />
                 </BrowserRouter>,
             );
-            fireEvent.click(screen.getByText(/Vurderes automatisk/));
             expect(vurderSakNyFlyt).not.toHaveBeenCalled();
             fireEvent.click(screen.getByRole("button", { name: "Vurder nå" }));
             await waitFor(() =>
@@ -259,11 +258,11 @@ describe("NyVirksomhetsside – VirksomhetErVurdert", () => {
             );
             fireEvent.click(screen.getByText(/Vurderes automatisk/));
             expect(
-                screen.getByRole("dialog", { name: "Vurder virksomheten" }),
+                screen.getByRole("dialog", { name: "Endre dato" }),
             ).toBeInTheDocument();
             fireEvent.click(screen.getByRole("button", { name: "Avbryt" }));
             expect(
-                screen.queryByRole("dialog", { name: "Vurder virksomheten" }),
+                screen.queryByRole("dialog", { name: "Endre dato" }),
             ).not.toBeInTheDocument();
         });
 
@@ -293,7 +292,7 @@ describe("NyVirksomhetsside – VirksomhetErVurdert", () => {
             });
         });
 
-        it("Viser 'Vurder nå'-knapp og 'Vurdert frem til'-tag", () => {
+        it("Viser 'Vurder nå'-knapp og 'Vurdert frem til'-knapp", () => {
             render(
                 <BrowserRouter>
                     <NyVirksomhetsside />
@@ -302,7 +301,49 @@ describe("NyVirksomhetsside – VirksomhetErVurdert", () => {
             expect(
                 screen.getByRole("button", { name: "Vurder nå" }),
             ).toBeInTheDocument();
-            expect(screen.getByText(/Vurdert frem til/)).toBeInTheDocument();
+            expect(
+                screen.getByRole("button", { name: /Vurdert frem til/ }),
+            ).toBeInTheDocument();
+        });
+
+        it("Åpner modal ved klikk på 'Vurdert frem til'-knapp", () => {
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+            fireEvent.click(
+                screen.getByRole("button", { name: /Vurdert frem til/ }),
+            );
+            expect(
+                screen.getByRole("dialog", { name: "Endre dato" }),
+            ).toBeInTheDocument();
+        });
+
+        it("'Lagre' i VurdertTil-modal kaller endrePlanlagtDatoNyFlyt", async () => {
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+            fireEvent.click(
+                screen.getByRole("button", { name: /Vurdert frem til/ }),
+            );
+            expect(endrePlanlagtDatoNyFlyt).not.toHaveBeenCalled();
+            fireEvent.click(screen.getByRole("button", { name: "Lagre" }));
+            await waitFor(() =>
+                expect(endrePlanlagtDatoNyFlyt).toHaveBeenCalledTimes(1),
+            );
+            expect(endrePlanlagtDatoNyFlyt).toHaveBeenCalledWith(
+                dummyVirksomhetsinformasjonNyFlyt.orgnr,
+                expect.objectContaining({
+                    startTilstand:
+                        nesteTilstandKlarTilVurdering.startTilstand,
+                    planlagtHendelse:
+                        nesteTilstandKlarTilVurdering.planlagtHendelse,
+                    nyTilstand: nesteTilstandKlarTilVurdering.nyTilstand,
+                }),
+            );
         });
 
         it("'Vurder nå' kaller vurderSakNyFlyt", async () => {

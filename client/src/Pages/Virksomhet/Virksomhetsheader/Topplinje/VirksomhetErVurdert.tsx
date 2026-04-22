@@ -7,7 +7,6 @@ import {
     DatePicker,
     HStack,
     Modal,
-    Tag,
     useDatepicker,
 } from "@navikt/ds-react";
 import {
@@ -41,9 +40,9 @@ export default function VirksomhetErVurdert({
     ) {
         return (
             <HStack gap="4">
+                <VurderVirksomhetenNå orgnr={virksomhet.orgnr} />
                 <VurderesAutomatiskModal
                     tilstand={tilstand}
-                    iaSak={iaSak}
                     virksomhet={virksomhet}
                 />
                 <EierskapKnapp iaSak={iaSak} />
@@ -57,7 +56,7 @@ export default function VirksomhetErVurdert({
         return (
             <HStack gap="4">
                 <VurderVirksomhetenNå orgnr={virksomhet.orgnr} />
-                <VurdertTil tilstand={tilstand} />
+                <VurdertTilModal tilstand={tilstand} virksomhet={virksomhet} />
                 <EierskapKnapp iaSak={iaSak} />
                 <Salesforcelenke orgnr={virksomhet.orgnr} />
             </HStack>
@@ -88,28 +87,11 @@ function VurderVirksomhetenNå({ orgnr }: { orgnr: string }) {
     );
 }
 
-function VurdertTil({ tilstand }: { tilstand: VirksomhetTilstandDto }) {
-    if (!tilstand.nesteTilstand) {
-        return null;
-    }
-
-    return (
-        <Tag
-            size="small"
-            variant="info-filled"
-            style={{ backgroundColor: "var(--a-limegreen-50)" }}
-        >
-            Vurdert frem til {lokalDato(tilstand.nesteTilstand.planlagtDato)}
-        </Tag>
-    );
-}
-
-function VurderesAutomatiskModal({
+function VurdertTilModal({
     tilstand,
     virksomhet,
 }: {
     tilstand: VirksomhetTilstandDto;
-    iaSak: IASak;
     virksomhet: Virksomhet;
 }) {
     const mutate = useOversiktMutate(virksomhet.orgnr);
@@ -121,21 +103,93 @@ function VurderesAutomatiskModal({
         defaultSelected: tilstand.nesteTilstand?.planlagtDato,
     });
 
-    function onVurderNå() {
-        vurderSakNyFlyt(virksomhet.orgnr).finally(() => {
+    function onLagre() {
+        if (!selectedDay || !tilstand.nesteTilstand) {
+            modalRef.current?.close();
+            return;
+        }
+
+        endrePlanlagtDatoNyFlyt(virksomhet.orgnr, {
+            startTilstand: tilstand.nesteTilstand.startTilstand,
+            planlagtHendelse: tilstand.nesteTilstand.planlagtHendelse,
+            nyTilstand: tilstand.nesteTilstand.nyTilstand,
+            planlagtDato: selectedDay,
+        }).finally(() => {
             mutate();
             modalRef.current?.close();
         });
     }
 
-    function onLagre() {
-        // TODO: Koble til når vi får endepunkt.
-        if (!selectedDay) {
-            modalRef.current?.close();
-            return;
-        }
+    if (!tilstand.nesteTilstand) {
+        return null;
+    }
 
-        if (!tilstand.nesteTilstand) {
+    return (
+        <>
+            <Button
+                size="small"
+                variant="primary-neutral"
+                icon={<DocPencilIcon aria-hidden />}
+                iconPosition="right"
+                onClick={() => modalRef.current?.showModal()}
+                style={{
+                    backgroundColor: "var(--a-limegreen-50)",
+                    color: "var(--a-black)",
+                }}
+            >
+                Vurdert frem til{" "}
+                {lokalDato(tilstand.nesteTilstand.planlagtDato)}
+            </Button>
+            <Modal ref={modalRef} header={{ heading: "Endre dato" }}>
+                <Modal.Body>
+                    <BodyLong weight="semibold">
+                        Virksomheten har status <em>Vurdert</em> frem til angitt
+                        dato
+                    </BodyLong>
+                    <div style={{ marginTop: "2rem" }}>
+                        <DatePicker {...datepickerProps}>
+                            <DatePicker.Input
+                                {...inputProps}
+                                label="Sett ny dato"
+                            />
+                        </DatePicker>
+                    </div>
+                </Modal.Body>
+                <Modal.Footer>
+                    <Button variant="primary" size="small" onClick={onLagre}>
+                        Lagre
+                    </Button>
+                    <Button
+                        variant="secondary"
+                        size="small"
+                        onClick={() => modalRef.current?.close()}
+                    >
+                        Avbryt
+                    </Button>
+                </Modal.Footer>
+            </Modal>
+        </>
+    );
+}
+
+function VurderesAutomatiskModal({
+    tilstand,
+    virksomhet,
+}: {
+    tilstand: VirksomhetTilstandDto;
+    virksomhet: Virksomhet;
+}) {
+    const mutate = useOversiktMutate(virksomhet.orgnr);
+    const modalRef = React.useRef<HTMLDialogElement>(null);
+    const iMorgen = new Date();
+    iMorgen.setDate(iMorgen.getDate() + 1);
+    const { datepickerProps, inputProps, selectedDay } = useDatepicker({
+        fromDate: iMorgen,
+        defaultSelected: tilstand.nesteTilstand?.planlagtDato,
+    });
+
+    function onLagre() {
+        if (!selectedDay || !tilstand.nesteTilstand) {
             modalRef.current?.close();
             return;
         }
@@ -171,7 +225,7 @@ function VurderesAutomatiskModal({
                 Vurderes automatisk{" "}
                 {lokalDato(tilstand.nesteTilstand.planlagtDato)}
             </Button>
-            <Modal ref={modalRef} header={{ heading: "Vurder virksomheten" }}>
+            <Modal ref={modalRef} header={{ heading: "Endre dato" }}>
                 <Modal.Body>
                     <BodyLong weight="semibold">
                         Virksomheten vurderes automatisk på angitt dato
@@ -186,9 +240,14 @@ function VurderesAutomatiskModal({
                             Virksomheten ønsker samarbeid senere
                         </Checkbox>
                     </CheckboxGroup>
-                    <DatePicker {...datepickerProps}>
-                        <DatePicker.Input {...inputProps} label="Endre dato" />
-                    </DatePicker>
+                    <div style={{ marginTop: "1rem" }}>
+                        <DatePicker {...datepickerProps}>
+                            <DatePicker.Input
+                                {...inputProps}
+                                label="Sett ny dato"
+                            />
+                        </DatePicker>
+                    </div>
                 </Modal.Body>
                 <Modal.Footer>
                     <Button variant="primary" size="small" onClick={onLagre}>
@@ -200,13 +259,6 @@ function VurderesAutomatiskModal({
                         onClick={() => modalRef.current?.close()}
                     >
                         Avbryt
-                    </Button>
-                    <Button
-                        variant="secondary"
-                        size="small"
-                        onClick={onVurderNå}
-                    >
-                        Vurder nå
                     </Button>
                 </Modal.Footer>
             </Modal>

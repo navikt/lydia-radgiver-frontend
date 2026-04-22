@@ -77,13 +77,6 @@ export default function SamarbeidsplanFane({
                         Du må være eier eller følger for å opprette ny plan
                     </BodyShort>
                 )}
-                {!sakErIRettStatus && (
-                    <BodyShort>
-                        Status må være i <i>Kartlegges</i>, <i>Vi bistår</i>{" "}
-                        eller <i>Aktiv</i> for å opprette ny plan
-                        <i>Vi bistår</i> for å opprette ny plan
-                    </BodyShort>
-                )}
             </>
         );
     }

@@ -7,8 +7,10 @@ import { useOversiktMutate } from "../../../Debugside/Oversikt";
 
 export default function VurderVirksomhetKnapp({
     virksomhet,
+    label = "Vurder virksomheten",
 }: {
     virksomhet: Virksomhet;
+    label?: string;
 }) {
     const mutate = useOversiktMutate(virksomhet.orgnr);
     const [error, setError] = React.useState<string | null>(null);
@@ -46,7 +48,7 @@ export default function VurderVirksomhetKnapp({
                 loading={lasterHandling}
                 size="small"
             >
-                Vurder virksomheten
+                {label}
             </Button>
         );
     }
@@ -54,7 +56,7 @@ export default function VurderVirksomhetKnapp({
     return (
         <Tooltip content="Du må ha rollen som superbruker for å vurdere">
             <Button disabled size="small">
-                Vurder virksomheten
+                {label}
             </Button>
         </Tooltip>
     );

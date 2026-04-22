@@ -2,7 +2,10 @@ import React, { useEffect } from "react";
 import { BodyShort, Button, Modal } from "@navikt/ds-react";
 import InnholdOppsett from "../InnholdOppsett";
 import { Plan, PlanInnhold, PlanTema } from "../../../../domenetyper/plan";
-import { endrePlanNyFlyt, slettSamarbeidsplanNyFlyt } from "../../../../api/lydia-api/nyFlyt";
+import {
+    endrePlanNyFlyt,
+    slettSamarbeidsplanNyFlyt,
+} from "../../../../api/lydia-api/nyFlyt";
 import { lagRequest, TemaRequest } from "../Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
@@ -79,7 +82,13 @@ export default function LeggTilTemaKnapp({
             };
         });
 
-        endrePlanNyFlyt(orgnummer, saksnummer, samarbeid.id, samarbeidsplan.id, temaer).then(() => {
+        endrePlanNyFlyt(
+            orgnummer,
+            saksnummer,
+            samarbeid.id,
+            samarbeidsplan.id,
+            temaer,
+        ).then(() => {
             hentPlanIgjen();
         });
     }
@@ -94,15 +103,6 @@ export default function LeggTilTemaKnapp({
                 <>
                     <BodyShort>
                         Du må være eier eller følger for å kunne gjøre endringer
-                    </BodyShort>
-                    <br />
-                </>
-            )}
-            {!sakErIRettStatus && (
-                <>
-                    <BodyShort>
-                        Status må være i <i>Kartlegges</i>, <i>Vi bistår</i>{" "}
-                        eller <i>Aktiv</i> for å kunne gjøre endringer
                     </BodyShort>
                     <br />
                 </>
@@ -155,9 +155,12 @@ export default function LeggTilTemaKnapp({
                     samarbeidsplan={samarbeidsplan}
                     redigertTemaliste={redigertTemaliste}
                     slettPlan={() => {
-                        slettSamarbeidsplanNyFlyt(orgnummer, saksnummer, samarbeid.id, samarbeidsplan.id).then(
-                            () => hentPlanIgjen(undefined),
-                        );
+                        slettSamarbeidsplanNyFlyt(
+                            orgnummer,
+                            saksnummer,
+                            samarbeid.id,
+                            samarbeidsplan.id,
+                        ).then(() => hentPlanIgjen(undefined));
                     }}
                 />
             </Modal>
