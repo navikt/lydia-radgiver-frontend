@@ -6,26 +6,20 @@ import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import { useState } from "react";
 import { TeamModal } from "../TeamModal";
-import {
-    IAProsessStatusType,
-    IASak,
-    VirksomhetIATilstand,
-} from "../../../domenetyper/domenetyper";
+import { IAProsessStatusType, IASak } from "../../../domenetyper/domenetyper";
 import { loggGåTilSakFraMineSaker } from "../../../util/analytics-klient";
 import { SamarbeidsKort } from "./SamarbeidsKort";
 import { useHentTeam } from "../../../api/lydia-api/team";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { InternLenke } from "../../../components/InternLenke";
-import { VirksomhetTilstandStatusBadge } from "../../../components/Badge/VirksomhetTilstandStatusBadge";
+import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 
 export const MineSakerKort = ({
     iaSak,
     orgnavn,
-    virksomhetTilstand,
 }: {
     iaSak: IASak;
     orgnavn: string;
-    virksomhetTilstand: VirksomhetIATilstand;
 }) => {
     const navFane = (status: IAProsessStatusType) => {
         if (
@@ -75,9 +69,7 @@ export const MineSakerKort = ({
                     </Heading>
                     <HStack justify={"space-between"} align={"center"}>
                         <HStack gap={"4"} align={"center"}>
-                            <VirksomhetTilstandStatusBadge
-                                tilstand={virksomhetTilstand}
-                            />
+                            <IAProsessStatusBadge status={iaSak.status} />
                             <span className={styles.eiertekst}>
                                 <b>Eier</b>
                                 {iaSak.eidAv ? (

@@ -57,18 +57,21 @@ export const hentVariantForIAStatus = (status: IAProsessStatusType) => {
         default:
             return "neutral-moderate";
         case IAProsessStatusEnum.enum.AVSLUTTET:
+            return "neutral-filled";
         case IAProsessStatusEnum.enum.VURDERES:
-            return "info-moderate";
+            return "alt2";
         case IAProsessStatusEnum.enum.KONTAKTES:
             return "alt3-moderate";
         case IAProsessStatusEnum.enum.KARTLEGGES:
             return "warning-moderate";
         case IAProsessStatusEnum.enum.VI_BISTÅR:
-        case IAProsessStatusEnum.enum.AKTIV:
             return "success-filled";
+        case IAProsessStatusEnum.enum.AKTIV:
+            return "alt3";
+        case IAProsessStatusEnum.enum.VURDERT:
+            return "alt2-filled";
         case IAProsessStatusEnum.enum.NY:
         case IAProsessStatusEnum.enum.FULLFØRT:
-        case IAProsessStatusEnum.enum.VURDERT:
             return "alt1-moderate";
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
             return "error-moderate";
