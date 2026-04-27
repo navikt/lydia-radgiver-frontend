@@ -4,12 +4,12 @@ import {
     Næringsstatistikk,
     næringsstatistikkSchema,
 } from "../../domenetyper/bransjestatistikk";
-import { IASak, iaSakSchema } from "../../domenetyper/domenetyper";
 import {
     HistoriskStatistikk,
     historiskStatistikkSchema,
 } from "../../domenetyper/historiskstatistikk";
 import {
+    kanGjennomføreStatusendringDto,
     KanGjennomføreStatusendring,
     MuligSamarbeidsgandling,
 } from "../../domenetyper/samarbeidsEndring";
@@ -17,10 +17,6 @@ import {
     Publiseringsinfo,
     publiseringsinfoSchema,
 } from "../../domenetyper/publiseringsinfo";
-import {
-    Sakshistorikk,
-    sakshistorikkSchema,
-} from "../../domenetyper/sakshistorikk";
 import {
     SalesforceInfo,
     salesforceInfoSchema,
@@ -44,7 +40,6 @@ import { defaultSwrConfiguration, useSwrTemplate } from "./networkRequests";
 import {
     bransjePath,
     historiskStatistikkPath,
-    iaSakHistorikkPath,
     iaSakPath,
     næringPath,
     publiseringsinfoPath,
@@ -120,30 +115,6 @@ export const useHentVirksomhetsinformasjon = (orgnummer?: string) => {
     );
 };
 
-export const useHentSakForVirksomhet = (
-    orgnummer?: string,
-    saksnummer?: string,
-) => {
-    const iasakUrl = `${iaSakPath}/${orgnummer}/${saksnummer}`;
-    return useSwrTemplate<IASak | undefined>(
-        iasakUrl,
-        iaSakSchema.optional(),
-        {
-            revalidateOnFocus: true,
-        },
-        orgnummer !== undefined && saksnummer !== undefined,
-    );
-};
-
-export const useHentSakshistorikk = (orgnummer?: string) => {
-    return useSwrTemplate<Sakshistorikk[]>(
-        () => (orgnummer ? `${iaSakHistorikkPath}/${orgnummer}` : null),
-        sakshistorikkSchema.array(),
-        {
-            revalidateOnFocus: true,
-        },
-    );
-};
 export const useHentHistoriskstatistikk = (orgnummer?: string) => {
     const historiskStatistikkUrl = `${sykefraværsstatistikkPath}/${orgnummer}/${historiskStatistikkPath}`;
     return useSwrTemplate<HistoriskStatistikk>(
@@ -168,6 +139,22 @@ export const useHentSalesforceSamarbeidLenke = (samarbeidsId?: number) => {
     return useSwrTemplate<SalesforceSamarbeid>(
         samarbeidsId ? `${salesforceUrlPath}/samarbeid/${samarbeidsId}` : null,
         salesforceSamarbeidSchema,
+        defaultSwrConfiguration,
+        false,
+    );
+};
+
+export const useKanUtføreHandlingPåSamarbeid = (
+    orgnummer?: string,
+    saksnummer?: string,
+    prosessId?: number,
+    handling: MuligSamarbeidsgandling = "slettes",
+) => {
+    return useSwrTemplate<KanGjennomføreStatusendring>(
+        orgnummer && saksnummer && prosessId
+            ? `${iaSakPath}/${orgnummer}/${saksnummer}/${prosessId}/kan/${handling}`
+            : null,
+        kanGjennomføreStatusendringDto,
         defaultSwrConfiguration,
         false,
     );

@@ -16,13 +16,22 @@ export class LydiaApiProxy {
             "/iasak/minesaker",
             `/iasak/team`,
             `/iasak/nyflyt`,
+            `/api/v1`,
         ];
 
         this.options = {
             target: config.lydiaApi.uri,
             changeOrigin: true,
             pathRewrite: (path: string) => {
-                return path.replace("/api", "");
+                if (path.startsWith("/proxy")) {
+                    return path.replace("/proxy", "");
+                } else if (
+                    path.startsWith("/api") &&
+                    !path.startsWith("/api/v1") // For å tillate at /api/v1 ikke blir omskrevet til /v1
+                ) {
+                    return path.replace("/api", "");
+                }
+                return path;
             },
             on: {
                 proxyReq: (

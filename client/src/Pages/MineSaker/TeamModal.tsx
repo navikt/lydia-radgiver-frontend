@@ -3,9 +3,10 @@ import { useHentMineSaker } from "../../api/lydia-api/sak";
 import { IASak } from "../../domenetyper/domenetyper";
 import TeamInnhold from "./TeamInnhold";
 import React from "react";
-import { TaEierskapModal } from "./TaEierSkapModal";
 
 import styles from "./minesaker.module.scss";
+import { TaEierskapModal } from "./TaEierSkapModal";
+
 interface TeamModalProps {
     open: boolean;
     setOpen: React.Dispatch<React.SetStateAction<boolean>>;

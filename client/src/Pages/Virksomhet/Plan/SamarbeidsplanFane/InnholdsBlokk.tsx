@@ -6,7 +6,7 @@ import {
     PlanInnholdStatus,
     PlanTema,
 } from "../../../../domenetyper/plan";
-import { endrePlanStatus } from "../../../../api/lydia-api/plan";
+import { endrePlanStatusNyFlyt } from "../../../../api/lydia-api/nyFlyt";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { lokalDatoMedKortTekstmåned } from "../../../../util/dato";
@@ -20,6 +20,7 @@ export default function InnholdsBlokk({
     orgnummer,
     samarbeid,
     tema,
+    planId,
     hentPlanIgjen,
     kanOppretteEllerEndrePlan,
 }: {
@@ -27,6 +28,7 @@ export default function InnholdsBlokk({
     saksnummer: string;
     samarbeid: IaSakProsess;
     tema: PlanTema;
+    planId: string;
     hentPlanIgjen: KeyedMutator<Plan>;
     kanOppretteEllerEndrePlan: boolean;
 }) {
@@ -48,10 +50,11 @@ export default function InnholdsBlokk({
                         innhold={undertema}
                         kanOppretteEllerEndrePlan={kanOppretteEllerEndrePlan}
                         oppdaterStatus={(status: PlanInnholdStatus) =>
-                            endrePlanStatus(
+                            endrePlanStatusNyFlyt(
                                 orgnummer,
                                 saksnummer,
                                 samarbeid.id,
+                                planId,
                                 tema.id,
                                 undertema.id,
                                 status,

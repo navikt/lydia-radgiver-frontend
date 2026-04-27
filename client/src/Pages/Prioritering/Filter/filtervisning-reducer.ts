@@ -6,6 +6,7 @@ import {
     Eier,
     IAProsessStatusType,
     Periode,
+    VirksomhetIATilstand,
 } from "../../../domenetyper/domenetyper";
 import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api/sok";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
@@ -43,6 +44,7 @@ const parametere = [
     "ansatteTil",
     "sorteringsnokkel",
     "sorteringsretning",
+    "virksomhetTilstand",
     "iaStatus",
     "sektor",
     "side",
@@ -105,6 +107,10 @@ const søkeparametereTilFilterstate = (
         ),
 
         sektor: parametere.sektor,
+
+        virksomhetTilstand: filterverdier.virksomhetTilstander.find(
+            (tilstand) => tilstand === parametere.virksomhetTilstand,
+        ),
 
         iaStatus: filterverdier.statuser.find(
             (status) => status === parametere.iaStatus,
@@ -254,6 +260,12 @@ type SettInnFilterverdierAction = {
         filterstate: FiltervisningState;
     };
 };
+type EndreVirksomhetTilstandAction = {
+    type: "ENDRE_VIRKSOMHET_TILSTAND";
+    payload: {
+        virksomhetTilstand?: VirksomhetIATilstand;
+    };
+};
 type EndreIAStatusAction = {
     type: "ENDRE_IASTATUS";
     payload: {
@@ -301,6 +313,7 @@ type Action =
     | EndreSykefraværsprosentAction
     | EndreSnittfilterAction
     | EndreAntallArbeidsforholdAction
+    | EndreVirksomhetTilstandAction
     | EndreIAStatusAction
     | EndreSektorAction
     | TilbakestillAction
@@ -320,6 +333,7 @@ export interface FiltervisningState {
     valgtSnittfilter?: ValgtSnittFilter;
     antallArbeidsforhold: Range;
     sektor?: string;
+    virksomhetTilstand?: VirksomhetIATilstand;
     iaStatus?: IAProsessStatusType;
     bransjeprogram: string[];
     eiere: Eier[];
@@ -344,6 +358,7 @@ export const initialFiltervisningState: FiltervisningState = {
         til: NaN,
     },
     sektor: "",
+    virksomhetTilstand: undefined,
     iaStatus: undefined,
     bransjeprogram: [],
     eiere: [],
@@ -451,6 +466,14 @@ const endreAntallArbeidsforhold = (
     antallArbeidsforhold: action.payload.arbeidsforhold,
 });
 
+const endreVirksomhetTilstand = (
+    state: FiltervisningState,
+    action: EndreVirksomhetTilstandAction,
+): FiltervisningState => ({
+    ...state,
+    virksomhetTilstand: action.payload.virksomhetTilstand,
+});
+
 const endreIastatus = (
     state: FiltervisningState,
     action: EndreIAStatusAction,
@@ -550,6 +573,8 @@ const reducer = (state: FiltervisningState, action: Action) => {
             return endreSnittfilter(state, action);
         case "ENDRE_ARBEIDSFORHOLD":
             return endreAntallArbeidsforhold(state, action);
+        case "ENDRE_VIRKSOMHET_TILSTAND":
+            return endreVirksomhetTilstand(state, action);
         case "ENDRE_IASTATUS":
             return endreIastatus(state, action);
         case "ENDRE_SEKTOR":
@@ -679,6 +704,16 @@ export const useFiltervisningState = () => {
         [],
     );
 
+    const oppdaterVirksomhetTilstand = useCallback(
+        (payload: EndreVirksomhetTilstandAction["payload"]) => {
+            dispatch({
+                type: "ENDRE_VIRKSOMHET_TILSTAND",
+                payload,
+            });
+        },
+        [],
+    );
+
     const oppdaterIastatus = useCallback(
         (payload: EndreIAStatusAction["payload"]) => {
             dispatch({
@@ -771,6 +806,7 @@ export const useFiltervisningState = () => {
         oppdaterAntallArbeidsforhold,
         oppdaterFylker,
         oppdaterKommuner,
+        oppdaterVirksomhetTilstand,
         oppdaterIastatus,
         oppdaterSektorer,
         oppdaterNæringsgruppe,

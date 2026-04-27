@@ -86,12 +86,14 @@ export const endrePlanStatus = (
 };
 
 export const useHentPlan = (
-    orgnummer: string,
-    saksnummer: string,
-    samarbeidsId: number,
+    orgnummer?: string,
+    saksnummer?: string,
+    samarbeidsId?: number,
 ) => {
     return useSwrTemplate<Plan>(
-        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
+        orgnummer && saksnummer && samarbeidsId
+            ? `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`
+            : null,
         PlanSchema,
         defaultSwrConfiguration,
         false,

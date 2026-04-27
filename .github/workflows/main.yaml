@@ -80,7 +80,7 @@ jobs:
       id-token: write
     name: Deploy app to dev
     needs: build
-    if: github.ref == 'refs/heads/down-for-maintenance'
+    if: github.ref == 'refs/heads/ikke-patche-dev'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6

@@ -1,0 +1,262 @@
+import React, { useRef, useState } from "react";
+import {
+    BodyShort,
+    Button,
+    ButtonProps,
+    Heading,
+    HStack,
+    Popover,
+    Tabs,
+    VStack,
+} from "@navikt/ds-react";
+import {
+    ClockIcon,
+    InformationSquareIcon,
+    TrendUpIcon,
+} from "@navikt/aksel-icons";
+
+import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
+import { useHentSalesforceUrl } from "../../../api/lydia-api/virksomhet";
+import { EksternLenke } from "../../../components/EksternLenke";
+
+import { Virksomhet } from "../../../domenetyper/virksomhet";
+import { IASak } from "../../../domenetyper/domenetyper";
+import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+import { loggÅpnetVirksomhetsinfo } from "../../../util/analytics-klient";
+import { InternLenke } from "../../../components/InternLenke";
+import { useErPåInaktivSak } from "../VirksomhetContext";
+
+import styles from "./virksomhetsheader.module.scss";
+import Sakshistorikkmodal from "../Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
+import Sykefraværsstatistikkmodal from "../Statistikk/Sykefraværsstatistikkmodal";
+import { lokalDato } from "../../../util/dato";
+import { Topplinje } from "./Topplinje";
+import { VirksomhetTilstandStatusBadge } from "../../../components/Badge/VirksomhetTilstandStatusBadge";
+import { useHentTilstandForVirksomhetNyFlyt } from "../../../api/lydia-api/nyFlyt";
+
+export default function Virksomhetsheader({
+    virksomhet,
+    iaSak,
+    valgtSamarbeid,
+}: {
+    virksomhet: Virksomhet;
+    iaSak?: IASak;
+    valgtSamarbeid?: IaSakProsess;
+}) {
+    const { data: tilstand } = useHentTilstandForVirksomhetNyFlyt(
+        virksomhet.orgnr,
+    );
+
+    const erPåInaktivSak = useErPåInaktivSak();
+
+    return (
+        <>
+            <div className={styles.virksomhetOgSamarbeidsHeader}>
+                <VStack gap={"10"}>
+                    <Topplinje
+                        virksomhet={virksomhet}
+                        iaSak={iaSak}
+                        samarbeid={valgtSamarbeid}
+                    />
+                    <HStack align={"center"} width={"100%"}>
+                        <HStack
+                            gap={"4"}
+                            align={"center"}
+                            justify={"space-between"}
+                            width={"100%"}
+                        >
+                            <HStack gap={"2"} align={"center"}>
+                                {tilstand?.tilstand && (
+                                    <VirksomhetTilstandStatusBadge
+                                        tilstand={tilstand?.tilstand}
+                                    />
+                                )}
+                                <Heading
+                                    as={InternLenke}
+                                    level={"1"}
+                                    size={"large"}
+                                    variant={"neutral"}
+                                    href={`/virksomhet/${virksomhet.orgnr}`}
+                                    title="Gå til virksomhet"
+                                >
+                                    {virksomhet.navn}
+                                </Heading>
+                            </HStack>
+                            <Høyreknapper
+                                iaSak={iaSak}
+                                valgtSamarbeid={valgtSamarbeid}
+                                virksomhet={virksomhet}
+                            />
+                        </HStack>
+                    </HStack>
+                </VStack>
+            </div>
+            {erPåInaktivSak && iaSak && (
+                <DuErPåGammelPeriode iaSak={iaSak} virksomhet={virksomhet} />
+            )}
+        </>
+    );
+}
+
+export function Salesforcelenke({ orgnr }: { orgnr: string }) {
+    const { data: salesforceInfo } = useHentSalesforceUrl(orgnr);
+
+    if (salesforceInfo) {
+        return (
+            <EksternLenke
+                className={styles.salesforceLenke}
+                href={salesforceInfo?.url}
+            >
+                Salesforce - virksomhet
+            </EksternLenke>
+        );
+    }
+}
+
+function DuErPåGammelPeriode({
+    iaSak,
+    virksomhet,
+}: {
+    iaSak: IASak;
+    virksomhet: Virksomhet;
+}) {
+    // TODO: Bruk fornuftig dato her.
+    const startDato = iaSak?.opprettetTidspunkt
+        ? lokalDato(iaSak?.opprettetTidspunkt)
+        : "DATO";
+    const sluttDato = iaSak?.endretTidspunkt
+        ? lokalDato(iaSak?.endretTidspunkt)
+        : "DATO";
+
+    const harAktivIASak =
+        virksomhet.aktivtSaksnummer &&
+        virksomhet.aktivtSaksnummer !== iaSak.saksnummer;
+
+    return (
+        <HStack
+            gap="4"
+            align="center"
+            justify="space-between"
+            className={styles.duErPåGammelPeriodeBanner}
+        >
+            <BodyShort>
+                <b>Du er på en tidligere samarbeidsperiode</b> {startDato} -{" "}
+                {sluttDato}
+            </BodyShort>
+            {harAktivIASak && (
+                <Button
+                    as="a"
+                    href={`/virksomhet/${iaSak?.orgnr}`}
+                    size="small"
+                >
+                    Gå til aktiv periode
+                </Button>
+            )}
+        </HStack>
+    );
+}
+
+function Detaljseksjon({
+    iaSak,
+    virksomhet,
+}: {
+    iaSak: IASak;
+    virksomhet: Virksomhet;
+}) {
+    const buttonRef = useRef<HTMLButtonElement>(null);
+    const [openState, setOpenState] = useState(false);
+    return (
+        <>
+            <Button
+                className={styles.detaljknapp}
+                size="small"
+                variant="tertiary"
+                ref={buttonRef}
+                onClick={() => {
+                    setOpenState(!openState);
+                    if (!openState) {
+                        loggÅpnetVirksomhetsinfo();
+                    }
+                }}
+                icon={<InformationSquareIcon aria-hidden fontSize="1.5rem" />}
+            >
+                Detaljer
+            </Button>
+            <Popover
+                open={openState}
+                placement="right-start"
+                onClose={() => setOpenState(false)}
+                anchorEl={buttonRef.current}
+                style={{ overflow: "auto" }}
+            >
+                <VirksomhetsInfoPopoverInnhold
+                    iaSak={iaSak}
+                    virksomhet={virksomhet}
+                />
+            </Popover>
+        </>
+    );
+}
+
+function Høyreknapper({
+    valgtSamarbeid,
+    virksomhet,
+    iaSak,
+}: {
+    valgtSamarbeid?: IaSakProsess;
+    virksomhet: Virksomhet;
+    iaSak?: IASak;
+}) {
+    if (valgtSamarbeid) {
+        return (
+            <HStack gap="4" justify="end">
+                <Detaljseksjon iaSak={iaSak!} virksomhet={virksomhet} />
+                <Sykefraværsstatistikkmodal
+                    className={styles.tabButton}
+                    virksomhet={virksomhet}
+                />
+                <Sakshistorikkmodal
+                    className={styles.tabButton}
+                    orgnr={virksomhet.orgnr}
+                    virksomhetsnavn={virksomhet.navn}
+                />
+            </HStack>
+        );
+    }
+
+    return (
+        <HStack gap="4" justify="end">
+            <Detaljseksjon iaSak={iaSak!} virksomhet={virksomhet} />
+            <HStack gap="4" justify="end" role="tablist">
+                <Tabs.Tab
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    as={({ className, ...remainingProps }: ButtonProps) => (
+                        <Button
+                            {...remainingProps}
+                            className={styles.tabButton}
+                        />
+                    )}
+                    variant="tertiary"
+                    size="small"
+                    value="statistikk"
+                    label="Sykefraværsstatistikk"
+                    icon={<TrendUpIcon aria-hidden fontSize="1.25rem" />}
+                />
+                <Tabs.Tab
+                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                    as={({ className, ...remainingProps }: ButtonProps) => (
+                        <Button
+                            {...remainingProps}
+                            className={styles.tabButton}
+                        />
+                    )}
+                    variant="tertiary"
+                    size="small"
+                    value="historikk"
+                    label="Historikk"
+                    icon={<ClockIcon aria-hidden fontSize="1.25rem" />}
+                />
+            </HStack>
+        </HStack>
+    );
+}

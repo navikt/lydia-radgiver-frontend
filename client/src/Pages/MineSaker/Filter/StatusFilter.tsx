@@ -1,7 +1,6 @@
 import { Accordion, Checkbox, CheckboxGroup } from "@navikt/ds-react";
 import { useState } from "react";
 import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
-import { useFilterverdier } from "../../../api/lydia-api/sok";
 import { useHentMineSaker } from "../../../api/lydia-api/sak";
 import { penskrivIAStatus } from "../../../components/Badge/IAProsessStatusBadge";
 import styles from "./mineSakerFilter.module.scss";
@@ -11,6 +10,8 @@ export const ARKIV_STATUSER: readonly IAProsessStatusType[] = [
     "IKKE_AKTUELL",
     "IKKE_AKTIV",
     "SLETTET",
+    "AVSLUTTET",
+    "VURDERT",
 ] as const;
 
 export const useStatusFilter = (
@@ -56,7 +57,7 @@ export const StatusFilter = ({
     ) => void;
 }) => {
     const { data: mineSaker } = useHentMineSaker();
-    const { data: filterVerdier } = useFilterverdier();
+    const nyFlytAktivStatuser: IAProsessStatusType[] = ["VURDERES", "AKTIV"];
 
     return (
         <>
@@ -76,13 +77,11 @@ export const StatusFilter = ({
                             disabled={!!arkivStatusFiltre.length}
                         >
                             {mineSaker &&
-                                filterVerdier?.statuser
-                                    .filter((f) => !ARKIV_STATUSER.includes(f))
-                                    .map((valg) => (
-                                        <Checkbox key={valg} value={valg}>
-                                            {`${penskrivIAStatus(valg)} (${mineSaker.filter((sak) => sak.iaSak.status == valg).length})`}
-                                        </Checkbox>
-                                    ))}
+                                nyFlytAktivStatuser.map((valg) => (
+                                    <Checkbox key={valg} value={valg}>
+                                        {`${penskrivIAStatus(valg)} (${mineSaker.filter((sak) => sak.iaSak.status == valg).length})`}
+                                    </Checkbox>
+                                ))}
                         </CheckboxGroup>
                     </Accordion.Content>
                 </Accordion.Item>
@@ -109,9 +108,7 @@ export const ArkivStatusFilter = ({
                 onChange={(val) => handleStatusFilterEndring(val, true)}
                 value={arkivStatusFiltre}
             >
-                <Checkbox
-                    value={"Arkiv"}
-                >{`Se arkiverte virksomheter`}</Checkbox>
+                <Checkbox value={"Arkiv"}>{`Arkiv`}</Checkbox>
             </CheckboxGroup>
         </div>
     );

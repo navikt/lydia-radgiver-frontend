@@ -10,17 +10,19 @@ import {
 } from "@navikt/ds-react";
 import React, { useState } from "react";
 
-import {
-    useHentSakForVirksomhet,
-    useHentSakshistorikk,
-} from "../../../api/lydia-api/virksomhet";
-import { nyHendelsePåSak } from "../../../api/lydia-api/sak";
 import { MAX_LENGDE_SAMARBEIDSNAVN } from "./EndreSamarbeidModal/EndreSamarbeidInnhold";
 import { useNavigate } from "react-router-dom";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { EksternLenke } from "../../../components/EksternLenke";
 import styles from "./samarbeid.module.scss";
+import {
+    opprettSamarbeidNyFlyt,
+    useHentHistorikkNyFlyt,
+    useHentSisteSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+    useHentTilstandForVirksomhetNyFlyt,
+} from "../../../api/lydia-api/nyFlyt";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
@@ -44,11 +46,15 @@ export const NyttSamarbeidModal = ({
         setNavn("");
         setÅpen(false);
     };
-    const { mutate: hentAktivSakPåNytt } = useHentSakForVirksomhet(
+    const { mutate: hentAktivSakPåNytt } = useHentSisteSakNyFlyt(
+        virksomhet.orgnr,
+    );
+    const { mutate: hentSpesifikkSakPåNytt } = useHentSpesifikkSakNyFlyt(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
-    const { mutate: hentHistorikkPåNytt } = useHentSakshistorikk(iaSak.orgnr);
+    const { mutate: hentHistorikkPåNytt } = useHentHistorikkNyFlyt(iaSak.orgnr);
+    const { mutate: hentTilstandPåNytt } = useHentTilstandForVirksomhetNyFlyt(virksomhet.orgnr);
     const { mutate: hentSamarbeidPåNytt, data: samarbeidData } =
         useHentSamarbeid(iaSak.orgnr, iaSak.saksnummer);
     const samarbeidsnavnBasertPåVirksomhet =
@@ -67,25 +73,17 @@ export const NyttSamarbeidModal = ({
 
     const nyttSamarbeid = () => {
         const nyttNavn = navn.trim();
-        nyHendelsePåSak(
-            iaSak,
-            {
-                saksHendelsestype: "NY_PROSESS",
-                gyldigeÅrsaker: [],
-            },
-            null,
-            {
-                id: 0,
-                status: "AKTIV",
-                saksnummer: iaSak.saksnummer,
-                navn: nyttNavn,
-                sistEndret: null,
-                opprettet: null,
-            },
-        )
+        opprettSamarbeidNyFlyt(virksomhet.orgnr, {
+            id: 0, // TODO: WHAT?
+            saksnummer: iaSak.saksnummer,
+            navn,
+            status: "AKTIV" as const, // TODO: WHAT?
+        })
             .then(() => {
-                hentAktivSakPåNytt();
                 hentHistorikkPåNytt();
+                hentAktivSakPåNytt();
+                hentSpesifikkSakPåNytt();
+                hentTilstandPåNytt();
                 hentSamarbeidPåNytt().then((alleSamarbeidListe) => {
                     const sisteNyeSamarbeid = alleSamarbeidListe
                         ?.filter((s) => s.navn === nyttNavn)

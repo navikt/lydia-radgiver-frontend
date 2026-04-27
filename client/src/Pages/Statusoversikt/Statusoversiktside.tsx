@@ -119,7 +119,11 @@ export const Statusoversiktside = () => {
                     lasterStatusoversiktResultatFraApi
                 }
                 søkPåNytt={søkPåNytt}
-                maskerteFiltre={["IA_STATUS", "SNITTFILTER"]}
+                maskerteFiltre={[
+                    "IA_STATUS",
+                    "SNITTFILTER",
+                    "VIRKSOMHET_TILSTAND",
+                ]}
                 søkeknappTittel={"Hent statistikk"}
             />
             <br />

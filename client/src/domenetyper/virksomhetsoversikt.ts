@@ -1,5 +1,9 @@
 import { z } from "zod/v4";
-import { datoSchema, IAProsessStatusEnum } from "./domenetyper";
+import {
+    datoSchema,
+    IAProsessStatusEnum,
+    VirksomhetIATilstandEnum,
+} from "./domenetyper";
 
 export const virksomhetsoversiktSchema = z.object({
     orgnr: z.string(),
@@ -10,6 +14,7 @@ export const virksomhetsoversiktSchema = z.object({
     muligeDagsverk: z.number(),
     tapteDagsverk: z.number(),
     status: IAProsessStatusEnum,
+    tilstand: VirksomhetIATilstandEnum,
     eidAv: z.string().nullable(),
     sistEndret: datoSchema.nullable(),
 });

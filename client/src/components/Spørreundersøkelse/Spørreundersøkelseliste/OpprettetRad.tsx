@@ -10,11 +10,12 @@ import { SpørreundersøkelseMedInnholdVisning } from "../../../Pages/Virksomhet
 import { StartSpørreundersøkelseModal } from "../../../Pages/Virksomhet/Kartlegging/StartSpørreundersøkelseModal";
 import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
 import styles from "./spørreundersøkelsesliste.module.scss";
-import {
-    slettSpørreundersøkelse,
-    startSpørreundersøkelse,
-} from "../../../api/lydia-api/spørreundersøkelse";
 import { FormatertSpørreundersøkelseType } from "./utils";
+import {
+    slettKartleggingNyFlyt,
+    startKartleggingNyFlyt,
+} from "../../../api/lydia-api/nyFlyt";
+import { useSamarbeidContext } from "../../../Pages/Virksomhet/Samarbeid/SamarbeidContext";
 
 export default function OpprettetRad({
     spørreundersøkelse,
@@ -35,6 +36,7 @@ export default function OpprettetRad({
     ] = React.useState(false);
     const [sletterSpørreundersøkelse, setSletterSpørreundersøkelse] =
         React.useState(false);
+    const { id: samarbeidsId } = useSamarbeidContext();
 
     const {
         lasterSpørreundersøkelser,
@@ -52,9 +54,9 @@ export default function OpprettetRad({
     } = useHentIASaksStatus(iaSak.orgnr, iaSak.saksnummer);
 
     const startSpørreundersøkelsen = () => {
-        startSpørreundersøkelse(
+        startKartleggingNyFlyt(
             iaSak.orgnr,
-            iaSak.saksnummer,
+            samarbeidsId,
             spørreundersøkelse.id,
         ).then(() => {
             hentSpørreundersøkelserPåNytt?.();
@@ -64,9 +66,9 @@ export default function OpprettetRad({
     const slettSpørreundersøkelsen = () => {
         if (sletterSpørreundersøkelse) return;
         setSletterSpørreundersøkelse(true);
-        slettSpørreundersøkelse(
+        slettKartleggingNyFlyt(
             iaSak.orgnr,
-            iaSak.saksnummer,
+            samarbeidsId,
             spørreundersøkelse.id,
         ).then(() => {
             hentSpørreundersøkelserPåNytt?.();
@@ -95,7 +97,8 @@ export default function OpprettetRad({
                     </ExpansionCard.Title>
                     <ActionButtonsHvisSamarbeidIkkeFullført>
                         {(iaSak.status === "KARTLEGGES" ||
-                            iaSak.status === "VI_BISTÅR") &&
+                            iaSak.status === "VI_BISTÅR" ||
+                            iaSak.status === "AKTIV") &&
                             brukerRolle !== "Lesetilgang" && (
                                 <>
                                     <Button

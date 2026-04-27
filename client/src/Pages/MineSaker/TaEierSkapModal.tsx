@@ -1,8 +1,12 @@
 import React from "react";
 import { BodyShort, Button, Modal } from "@navikt/ds-react";
-import { nyHendelsePåSak, useHentMineSaker } from "../../api/lydia-api/sak";
+import { useHentMineSaker } from "../../api/lydia-api/sak";
 import { IASak } from "../../domenetyper/domenetyper";
-import { useHentSakForVirksomhet } from "../../api/lydia-api/virksomhet";
+import {
+    bliEierNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "../../api/lydia-api/nyFlyt";
+import { useOversiktMutate } from "../Virksomhet/Debugside/Oversikt";
 
 interface TaEierskapModalProps {
     erModalÅpen: boolean;
@@ -16,11 +20,12 @@ export const TaEierskapModal = ({
     iaSak,
 }: TaEierskapModalProps) => {
     const modaltittel = `Er du sikker på at du vil ta eierskap?`;
-    const { mutate: muterIaSak } = useHentSakForVirksomhet(
+    const { mutate: muterIaSak } = useHentSpesifikkSakNyFlyt(
         iaSak.orgnr,
         iaSak.saksnummer,
     );
     const { mutate: muterMineSaker } = useHentMineSaker();
+    const muterOversikt = useOversiktMutate(iaSak.orgnr);
     return (
         <Modal
             open={erModalÅpen}
@@ -38,17 +43,10 @@ export const TaEierskapModal = ({
                 <Button
                     variant="primary"
                     onClick={async () => {
-                        await nyHendelsePåSak(
-                            iaSak,
-                            {
-                                saksHendelsestype: "TA_EIERSKAP_I_SAK",
-                                gyldigeÅrsaker: [],
-                            },
-                            null,
-                            null,
-                        );
+                        await bliEierNyFlyt(iaSak.orgnr);
                         muterIaSak();
                         muterMineSaker();
+                        muterOversikt();
                         lukkModal();
                     }}
                 >

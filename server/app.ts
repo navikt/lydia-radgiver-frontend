@@ -125,6 +125,18 @@ export default class Application {
                 : onBehalfOfTokenMiddleware(config),
             lydiaApiProxy,
         );
+
+        this.expressApp.use(
+            "/proxy",
+            tokenValidator,
+            inLocalMode()
+                ? (req, res, next) => {
+                      return next();
+                  }
+                : onBehalfOfTokenMiddleware(config),
+            lydiaApiProxy,
+        );
+
         this.expressApp.get("/assets", express.static(`${buildPath}/assets`));
         this.expressApp.use("/", express.static(buildPath));
 

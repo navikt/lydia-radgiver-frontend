@@ -44,11 +44,9 @@ export default function TeamInnhold({
     const brukerIdent = brukerInformasjon?.ident;
     const erPåAktivSak = useErPåAktivSak();
 
-    const kanTaEierskap =
-        iaSak.gyldigeNesteHendelser
-            .map((h) => h.saksHendelsestype)
-            .includes("TA_EIERSKAP_I_SAK") &&
-        (erPåAktivSak || erPåMineSaker);
+    const kanTaEierskap = erPåAktivSak || erPåMineSaker;
+    const brukerErEier = iaSak.eidAv === brukerIdent;
+    const brukerErFølger = følgerSak(brukerIdent, følgere);
 
     return (
         <>
@@ -63,10 +61,12 @@ export default function TeamInnhold({
                 </div>
 
                 <div className={styles.eierknappboks}>
-                    <span>
-                        Ønsker du å ta eierskap til saken? Nåværende eier blir
-                        automatisk fjernet.
-                    </span>
+                    {!brukerErEier && (
+                        <span>
+                            Ønsker du å ta eierskap til virksomheten? Nåværende
+                            eier blir automatisk fjernet.
+                        </span>
+                    )}
                     <Button
                         size="small"
                         iconPosition="right"
@@ -75,15 +75,15 @@ export default function TeamInnhold({
                         onClick={åpneTaEierskapModal}
                     >
                         <HStack gap={"2"} align={"center"}>
-                            {iaSak.eidAv !== brukerIdent ? (
+                            {!brukerErEier ? (
                                 <PersonIcon aria-hidden />
                             ) : (
                                 <PersonFillIcon aria-hidden />
                             )}
-                            {iaSak.eidAv !== brukerIdent ? (
+                            {!brukerErEier ? (
                                 <BodyShort>Ta eierskap</BodyShort>
                             ) : (
-                                <BodyShort>Du eier saken</BodyShort>
+                                <BodyShort>Du eier virksomheten</BodyShort>
                             )}
                         </HStack>
                     </Button>
@@ -98,11 +98,13 @@ export default function TeamInnhold({
                         ))}
                     </div>
                 )}
-                <span>
-                    Følg virksomheten for å se den under &ldquo;Mine
-                    virksomheter&rdquo;
-                </span>
-                {følgerSak(brukerIdent, følgere) ? (
+                {!brukerErFølger && (
+                    <span>
+                        Følg virksomheten for å se den under &ldquo;Mine
+                        virksomheter&rdquo;
+                    </span>
+                )}
+                {brukerErFølger ? (
                     <Button
                         size="small"
                         icon={<HeartFillIcon />}

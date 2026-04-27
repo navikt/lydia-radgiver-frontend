@@ -1,4 +1,8 @@
-import { Eier, IAProsessStatusEnum } from "../../../domenetyper/domenetyper";
+import {
+    Eier,
+    IAProsessStatusEnum,
+    VirksomhetIATilstandEnum,
+} from "../../../domenetyper/domenetyper";
 import { Filterverdier } from "../../../domenetyper/filterverdier";
 
 export const EIERE_MOCKS: Eier[] = [
@@ -358,6 +362,13 @@ export const filterverdierMock: Filterverdier = {
                 },
             ],
         },
+    ],
+    virksomhetTilstander: [
+        VirksomhetIATilstandEnum.enum.VirksomhetKlarTilVurdering,
+        VirksomhetIATilstandEnum.enum.VirksomhetVurderes,
+        VirksomhetIATilstandEnum.enum.VirksomhetErVurdert,
+        VirksomhetIATilstandEnum.enum.VirksomhetHarAktiveSamarbeid,
+        VirksomhetIATilstandEnum.enum.AlleSamarbeidIVirksomhetErAvsluttet,
     ],
     statuser: [
         IAProsessStatusEnum.enum.IKKE_AKTIV,

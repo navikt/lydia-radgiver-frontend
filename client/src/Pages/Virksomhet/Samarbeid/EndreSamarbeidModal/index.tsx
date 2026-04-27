@@ -5,11 +5,7 @@ import {
     IASakshendelseTypeEnum,
 } from "../../../../domenetyper/domenetyper";
 import React, { useState } from "react";
-import {
-    getKanGjennomføreStatusendring,
-    useHentSakForVirksomhet,
-    useHentSakshistorikk,
-} from "../../../../api/lydia-api/virksomhet";
+import { getKanGjennomføreStatusendring } from "../../../../api/lydia-api/virksomhet";
 import { nyHendelsePåSak } from "../../../../api/lydia-api/sak";
 import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
 import {
@@ -19,6 +15,10 @@ import {
 import BekreftHandlingModal from "./BekreftHandlingModal";
 import EndreSamarbeidModalInnhold from "./EndreSamarbeidInnhold";
 import VelgHandlingModal from "./VelgHandlingModal";
+import {
+    useHentHistorikkNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "../../../../api/lydia-api/nyFlyt";
 
 interface EndreSamarbeidModalProps {
     open: boolean;
@@ -41,10 +41,10 @@ export const EndreSamarbeidModal = ({
     const [lagreNavnVellykket, setLagreNavnVellykket] = useState(false);
     const [velgHandlingModalÅpen, setVelgHandlingModalÅpen] = useState(false);
 
-    const { mutate: mutateSamarbeidshistorikk } = useHentSakshistorikk(
+    const { mutate: mutateSamarbeidshistorikk } = useHentHistorikkNyFlyt(
         iaSak.orgnr,
     );
-    const { mutate: mutateHentSaker } = useHentSakForVirksomhet(
+    const { mutate: mutateHentSaker } = useHentSpesifikkSakNyFlyt(
         iaSak.orgnr,
         iaSak.saksnummer,
     );

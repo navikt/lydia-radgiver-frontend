@@ -30,6 +30,8 @@ const IA_PROSESS_STATUSER = [
     "FULLFØRT",
     "SLETTET",
     "AVBRUTT",
+    "VURDERT",
+    "AVSLUTTET",
 ] as const;
 
 export const IAProsessStatusEnum = z.enum(IA_PROSESS_STATUSER);
@@ -76,6 +78,7 @@ export type VirksomhetSøkeresultat = {
 };
 
 const IA_SAKSHENDELSE_TYPER = [
+    "MIGRERING_TIL_NY_FLYT",
     "OPPRETT_SAK_FOR_VIRKSOMHET",
     "VIRKSOMHET_VURDERES",
     "TA_EIERSKAP_I_SAK",
@@ -160,20 +163,25 @@ export interface IANySakshendelseDto {
     payload?: string;
 }
 
-const VirksomhetIATilstandEnum = z.enum([
+const VIRKSOMHET_TILSTANDER = [
     "VirksomhetKlarTilVurdering",
     "VirksomhetVurderes",
     "VirksomhetErVurdert",
     "VirksomhetHarAktiveSamarbeid",
     "AlleSamarbeidIVirksomhetErAvsluttet",
-]);
+] as const;
+export const VirksomhetIATilstandEnum = z.enum(VIRKSOMHET_TILSTANDER);
 
-const virksomhetTilstandAutomatiskOppdateringSchema = z.object({
+export const virksomhetTilstandAutomatiskOppdateringSchema = z.object({
     startTilstand: VirksomhetIATilstandEnum,
     planlagtHendelse: z.string(),
     nyTilstand: VirksomhetIATilstandEnum,
     planlagtDato: datoSchema,
 });
+
+export type VirksomhetTilstandAutomatiskOppdateringDto = z.infer<
+    typeof virksomhetTilstandAutomatiskOppdateringSchema
+>;
 
 export const virksomhetTilstandDtoSchema = z.object({
     orgnr: z.string(),
@@ -185,3 +193,33 @@ export const virksomhetTilstandDtoSchema = z.object({
 
 export type VirksomhetTilstandDto = z.infer<typeof virksomhetTilstandDtoSchema>;
 export type VirksomhetIATilstand = z.infer<typeof VirksomhetIATilstandEnum>;
+
+export const nyFlytBegrunnelseEnum = z.enum([
+    // vurder senere
+    "VIRKSOMHETEN_ØNSKER_Å_BLI_KONTAKTET_SENERE",
+    "NAV_HAR_IKKE_KAPASITET_NÅ",
+    // intern vurdering
+    "VIRKSOMHETEN_HAR_IKKE_SVART_PÅ_HENVENDELSER",
+    "VIRKSOMHETEN_HAR_FOR_LAVT_POTENSIALE",
+    "VIRKSOMHETEN_MANGLER_REPRESANTANTER_ELLER_ETABLERT_PARTSGRUPPE",
+    // virksomheten har takket nei
+    "VIRKSOMHETEN_ER_IKKE_MOTIVERT_ELLER_HAR_IKKE_KAPASITET",
+    "VIRKSOMHETEN_SAMARBEIDER_MED_ANDRE_ELLER_GJØR_EGNE_TILTAK",
+    "VIRKSOMHETEN_ØNSKER_KUN_INFORMASJON_OG_VEILEDNING",
+    "KOMMUNEN_ELLER_OVERORDNET_LEDELSE_ØNSKER_IKKE_Å_STARTE_ET_SAMARBEID",
+    "VIRKSOMHETEN_FERDIG_VURDERT_TAKKET_NEI_ANNET",
+]);
+export type NyFlytBegrunnelse = z.infer<typeof nyFlytBegrunnelseEnum>;
+
+export const nyFlytÅrsakTypeEnum = z.enum([
+    "VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT",
+    "VIRKSOMHETEN_ER_FERDIG_VURDERT_MED_INTERN_VURDERING",
+    "VIRKSOMHETEN_ER_FERDIG_VURDERT_OG_TAKKET_NEI",
+]);
+export type NyFlytÅrsakType = z.infer<typeof nyFlytÅrsakTypeEnum>;
+
+export type ValgtÅrsakNyFlytDto = {
+    type: NyFlytÅrsakType;
+    begrunnelser: NyFlytBegrunnelse[];
+    dato?: string;
+};

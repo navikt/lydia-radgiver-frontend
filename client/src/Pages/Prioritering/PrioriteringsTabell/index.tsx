@@ -1,6 +1,5 @@
 import React from "react";
 import { SortState, Table } from "@navikt/ds-react";
-import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
 import {
     formaterSomHeltall,
@@ -12,6 +11,7 @@ import { EndretDataCell } from "../EndretDataCell";
 import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 import Virksomhetsnavncelle from "./Virksomhetsnavncelle";
 import styles from "./prioriteringstabell.module.scss";
+import { VirksomhetTilstandStatusBadge } from "../../../components/Badge/VirksomhetTilstandStatusBadge";
 
 interface Kolonne {
     key: string;
@@ -144,8 +144,8 @@ export const PrioriteringsTabell = ({
                                 key={virksomhetsoversikt.virksomhetsnavn}
                             >
                                 <Table.DataCell>
-                                    <IAProsessStatusBadge
-                                        status={virksomhetsoversikt.status}
+                                    <VirksomhetTilstandStatusBadge
+                                        tilstand={virksomhetsoversikt.tilstand}
                                     />
                                 </Table.DataCell>
                                 <EndretDataCell

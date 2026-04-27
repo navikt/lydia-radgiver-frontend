@@ -1,23 +1,23 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { TallInput } from "../../../../src/Pages/Prioritering/Filter/TallInput";
 import { FraTilFieldset } from "../../../../src/Pages/Prioritering/Filter/FraTilFieldset";
 import {
-    SykefraværsprosentVelger,
     Range,
+    SykefraværsprosentVelger,
 } from "../../../../src/Pages/Prioritering/Filter/SykefraværsprosentVelger";
 import { AntallArbeidsforholdVelger } from "../../../../src/Pages/Prioritering/Filter/AntallArbeidsforholdVelger";
 import { SektorDropdown } from "../../../../src/Pages/Prioritering/Filter/SektorDropdown";
-import { IAStatusDropdown } from "../../../../src/Pages/Prioritering/Filter/IAStatusDropdown";
 import { FylkeMultidropdown } from "../../../../src/Pages/Prioritering/Filter/FylkeMultidropdown";
 import { Kommunedropdown } from "../../../../src/Pages/Prioritering/Filter/Kommunedropdown";
 import { Næringsgruppedropdown } from "../../../../src/Pages/Prioritering/Filter/NæringsgruppeDropdown";
 import { EierDropdown } from "../../../../src/Pages/Prioritering/Filter/EierDropdown";
 import { Filtervisning } from "../../../../src/Pages/Prioritering/Filter/Filtervisning";
-import { Sektor, Næringsgruppe } from "../../../../src/domenetyper/virksomhet";
+import { Næringsgruppe, Sektor } from "../../../../src/domenetyper/virksomhet";
 import {
     Eier,
     IAProsessStatusType,
+    VirksomhetIATilstand,
 } from "../../../../src/domenetyper/domenetyper";
 import {
     FylkeMedKommuner,
@@ -25,6 +25,7 @@ import {
 } from "../../../../src/domenetyper/fylkeOgKommune";
 import { ValgtSnittFilter } from "../../../../src/domenetyper/filterverdier";
 import { BrowserRouter } from "react-router-dom";
+import { VirksomhetTilstandDropdown } from "../../../../src/Pages/Prioritering/Filter/VirksomhetTilstandDropdown";
 
 describe("TallInput", () => {
     test("rendrer TextField med label", () => {
@@ -287,13 +288,14 @@ describe("SektorDropdown", () => {
     });
 });
 
-describe("IAStatusDropdown", () => {
-    const mockEndreStatus = jest.fn();
-    const statuser: IAProsessStatusType[] = [
-        "VURDERES",
-        "KONTAKTES",
-        "KARTLEGGES",
-        "VI_BISTÅR",
+describe("VirksomhetTilstandDropdown", () => {
+    const mockEndreVirksomhetTilstand = jest.fn();
+    const tilstander: VirksomhetIATilstand[] = [
+        "VirksomhetKlarTilVurdering",
+        "VirksomhetVurderes",
+        "VirksomhetErVurdert",
+        "VirksomhetHarAktiveSamarbeid",
+        "AlleSamarbeidIVirksomhetErAvsluttet",
     ];
 
     beforeEach(() => {
@@ -302,10 +304,10 @@ describe("IAStatusDropdown", () => {
 
     test("rendrer select med label 'Status'", () => {
         render(
-            <IAStatusDropdown
-                valgtStatus={undefined}
-                endreStatus={mockEndreStatus}
-                statuser={statuser}
+            <VirksomhetTilstandDropdown
+                valgtVirksomhetTilstand={undefined}
+                endreVirksomhetTilstand={mockEndreVirksomhetTilstand}
+                tilstander={tilstander}
             />,
         );
         expect(screen.getByLabelText("Status")).toBeInTheDocument();
@@ -313,10 +315,10 @@ describe("IAStatusDropdown", () => {
 
     test("viser 'Alle' som standardvalg", () => {
         render(
-            <IAStatusDropdown
-                valgtStatus={undefined}
-                endreStatus={mockEndreStatus}
-                statuser={statuser}
+            <VirksomhetTilstandDropdown
+                valgtVirksomhetTilstand={undefined}
+                endreVirksomhetTilstand={mockEndreVirksomhetTilstand}
+                tilstander={tilstander}
             />,
         );
         expect(
@@ -326,41 +328,45 @@ describe("IAStatusDropdown", () => {
 
     test("kaller endreStatus med valgt status", () => {
         render(
-            <IAStatusDropdown
-                valgtStatus={undefined}
-                endreStatus={mockEndreStatus}
-                statuser={statuser}
+            <VirksomhetTilstandDropdown
+                valgtVirksomhetTilstand={undefined}
+                endreVirksomhetTilstand={mockEndreVirksomhetTilstand}
+                tilstander={tilstander}
             />,
         );
         fireEvent.change(screen.getByLabelText("Status"), {
-            target: { value: "KARTLEGGES" },
+            target: { value: "VirksomhetVurderes" },
         });
-        expect(mockEndreStatus).toHaveBeenCalledWith("KARTLEGGES");
+        expect(mockEndreVirksomhetTilstand).toHaveBeenCalledWith(
+            "VirksomhetVurderes",
+        );
     });
 
     test("kaller endreStatus med undefined når 'Alle' velges", () => {
         render(
-            <IAStatusDropdown
-                valgtStatus="VI_BISTÅR"
-                endreStatus={mockEndreStatus}
-                statuser={statuser}
+            <VirksomhetTilstandDropdown
+                valgtVirksomhetTilstand={undefined}
+                endreVirksomhetTilstand={mockEndreVirksomhetTilstand}
+                tilstander={tilstander}
             />,
         );
         fireEvent.change(screen.getByLabelText("Status"), {
             target: { value: "" },
         });
-        expect(mockEndreStatus).toHaveBeenCalledWith(undefined);
+        expect(mockEndreVirksomhetTilstand).toHaveBeenCalledWith(undefined);
     });
 
     test("viser valgt status", () => {
         render(
-            <IAStatusDropdown
-                valgtStatus="VURDERES"
-                endreStatus={mockEndreStatus}
-                statuser={statuser}
+            <VirksomhetTilstandDropdown
+                valgtVirksomhetTilstand={"VirksomhetVurderes"}
+                endreVirksomhetTilstand={mockEndreVirksomhetTilstand}
+                tilstander={tilstander}
             />,
         );
-        expect(screen.getByLabelText("Status")).toHaveValue("VURDERES");
+        expect(screen.getByLabelText("Status")).toHaveValue(
+            "VirksomhetVurderes",
+        );
     });
 });
 
@@ -626,6 +632,7 @@ describe("Filtervisning", () => {
     const mockSøkPåNytt = jest.fn();
     const mockFiltervisning = {
         oppdaterAntallArbeidsforhold: jest.fn(),
+        oppdaterVirksomhetTilstand: jest.fn(),
         oppdaterIastatus: jest.fn(),
         oppdaterEiere: jest.fn(),
         oppdaterFylker: jest.fn(),
@@ -642,6 +649,9 @@ describe("Filtervisning", () => {
                 sektorer: [
                     { kode: "PRIVAT", beskrivelse: "Privat" },
                 ] as Sektor[],
+                virksomhetTilstander: [
+                    "VirksomhetVurderes",
+                ] as VirksomhetIATilstand[],
                 statuser: ["VURDERES", "KONTAKTES"] as IAProsessStatusType[],
                 naringsgrupper: mockNæringsgrupper,
                 bransjeprogram: mockBransjeprogram,
@@ -653,6 +663,7 @@ describe("Filtervisning", () => {
             næringsgrupper: [],
             bransjeprogram: [],
             sektor: "",
+            virksomhetTilstand: undefined,
             iaStatus: undefined,
             eiere: [],
             sykefraværsprosent: { fra: 0, til: 100 },
@@ -754,7 +765,7 @@ describe("Filtervisning", () => {
             <Filtervisning
                 filtervisning={mockFiltervisning}
                 søkPåNytt={mockSøkPåNytt}
-                maskerteFiltre={["IA_STATUS"]}
+                maskerteFiltre={["VIRKSOMHET_TILSTAND"]}
             />,
         );
         expect(screen.queryByLabelText("Status")).not.toBeInTheDocument();
@@ -812,7 +823,7 @@ describe("Filtervisning", () => {
         });
     });
 
-    test("kaller oppdaterIastatus når status endres", async () => {
+    test("kaller oppdaterVirksomhetTilstand når status endres", async () => {
         renderWithRouter(
             <Filtervisning
                 filtervisning={mockFiltervisning}
@@ -820,10 +831,12 @@ describe("Filtervisning", () => {
             />,
         );
         fireEvent.change(screen.getByLabelText("Status"), {
-            target: { value: "VURDERES" },
+            target: { value: "VirksomhetVurderes" },
         });
-        expect(mockFiltervisning.oppdaterIastatus).toHaveBeenCalledWith({
-            iastatus: "VURDERES",
+        expect(
+            mockFiltervisning.oppdaterVirksomhetTilstand,
+        ).toHaveBeenCalledWith({
+            virksomhetTilstand: "VirksomhetVurderes",
         });
     });
 

@@ -1,14 +1,10 @@
 import { z } from "zod/v4";
-import {
-    datoSchema,
-    IAProsessStatusEnum,
-    IASakshendelseTypeEnum,
-} from "./domenetyper";
+import { datoSchema, IAProsessStatusEnum } from "./domenetyper";
 import { iaSakProsessSchema } from "./iaSakProsess";
 
 const sakshendelseSchema = z.object({
     status: IAProsessStatusEnum,
-    hendelsestype: IASakshendelseTypeEnum,
+    hendelsestype: z.string(),
     tidspunktForSnapshot: datoSchema,
     begrunnelser: z.string().array(),
     eier: z.string().nullable(),
@@ -22,5 +18,4 @@ export const sakshistorikkSchema = z.object({
     samarbeid: iaSakProsessSchema.array(),
 });
 
-export type Sakshendelse = z.infer<typeof sakshendelseSchema>;
 export type Sakshistorikk = z.infer<typeof sakshistorikkSchema>;

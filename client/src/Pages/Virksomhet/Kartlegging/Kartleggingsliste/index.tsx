@@ -3,10 +3,7 @@ import {
     erSaksbehandler,
     useHentBrukerinformasjon,
 } from "../../../../api/lydia-api/bruker";
-import {
-    opprettSpørreundersøkelse,
-    useSpørreundersøkelsesliste,
-} from "../../../../api/lydia-api/spørreundersøkelse";
+import { useSpørreundersøkelsesliste } from "../../../../api/lydia-api/spørreundersøkelse";
 import { useHentTeam } from "../../../../api/lydia-api/team";
 import { SpørreundersøkelseProvider } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { IASak } from "../../../../domenetyper/domenetyper";
@@ -22,6 +19,7 @@ import {
 import { useHentIASaksStatus } from "../../../../api/lydia-api/sak";
 import { HStack } from "@navikt/ds-react";
 import { useHentPlan } from "../../../../api/lydia-api/plan";
+import { opprettKartleggingNyFlyt } from "../../../../api/lydia-api/nyFlyt";
 
 export function Kartleggingsliste({
     iaSak,
@@ -77,21 +75,20 @@ function Innhold({
             (brukerFølgerSak || brukerErEierAvSak)) ||
         false;
 
-    const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR"].includes(iaSak.status);
+    const sakErIRettStatus = ["KARTLEGGES", "VI_BISTÅR", "AKTIV"].includes(
+        iaSak.status,
+    );
 
     const opprettSpørreundersøkelseOgMuter = (type: SpørreundersøkelseType) => {
         setSistOpprettetType(null);
-        opprettSpørreundersøkelse(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            gjeldendeSamarbeid.id,
-            type,
-        ).then(({ id }) => {
-            setSisteOpprettedeId(id);
-            hentSpørreundersøkelserPåNytt();
-            oppdaterSaksStatus();
-            setSistOpprettetType(type);
-        });
+        opprettKartleggingNyFlyt(iaSak.orgnr, gjeldendeSamarbeid.id, type).then(
+            ({ id }) => {
+                setSisteOpprettedeId(id);
+                hentSpørreundersøkelserPåNytt();
+                oppdaterSaksStatus();
+                setSistOpprettetType(type);
+            },
+        );
     };
 
     if (loading || !data) {
@@ -156,7 +153,6 @@ function Innhold({
                     </HStack>
                 </VisHvisSamarbeidErÅpent>
             </SpørreundersøkelseHeading>
-
             <Spørreundersøkelseliste />
         </SpørreundersøkelseProvider>
     );

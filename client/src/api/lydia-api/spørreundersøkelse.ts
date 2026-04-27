@@ -11,7 +11,7 @@ import {
     iaSakProsessSchema,
 } from "../../domenetyper/iaSakProsess";
 import { iaSakPath, spørreundersøkelsePath } from "./paths";
-import { httpDelete, post, put, useSwrTemplate } from "./networkRequests";
+import { post, put, useSwrTemplate } from "./networkRequests";
 import {
     SpørreundersøkelseMedInnhold,
     SpørreundersøkelseMedInnholdSchema,
@@ -47,28 +47,6 @@ export const useHentSamarbeid = (orgnummer?: string, saksnummer?: string) => {
     );
 };
 
-export const avsluttSpørreundersøkelse = (
-    orgnummer: string,
-    saksnummer: string,
-    spørreundersøkelseId: string,
-): Promise<Spørreundersøkelse> => {
-    return post(
-        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}/avslutt`,
-        spørreundersøkelseSchema,
-    );
-};
-
-export const slettSpørreundersøkelse = (
-    orgnummer: string,
-    saksnummer: string,
-    spørreundersøkelseId: string,
-): Promise<Spørreundersøkelse> => {
-    return httpDelete(
-        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}`,
-        spørreundersøkelseSchema,
-    );
-};
-
 export const flyttSpørreundersøkelse = (
     orgnummer: string,
     saksnummer: string,
@@ -86,13 +64,15 @@ export const flyttSpørreundersøkelse = (
     );
 };
 export const useHentSpørreundersøkelser = (
-    orgnummer: string,
-    saksnummer: string,
-    prosessId: number,
-    type: SpørreundersøkelseType,
+    orgnummer?: string,
+    saksnummer?: string,
+    prosessId?: number,
+    type?: SpørreundersøkelseType,
 ) => {
     return useSwrTemplate<Spørreundersøkelse[]>(
-        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${spørreundersøkelseHeading(type)}`,
+        orgnummer && saksnummer && prosessId
+            ? `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${spørreundersøkelseHeading(type)}`
+            : null,
         spørreundersøkelseSchema.array(),
         {
             revalidateOnFocus: true,

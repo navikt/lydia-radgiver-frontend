@@ -1,11 +1,10 @@
-import { BodyShort, Dropdown, Heading, InternalHeader } from "@navikt/ds-react";
+import { BodyShort, Dropdown, InternalHeader } from "@navikt/ds-react";
 import { Søkefelt } from "./Søkefelt";
 import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/brukerinformasjon";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 import { LeaveIcon } from "@navikt/aksel-icons";
 import { InternLenke } from "../InternLenke";
 import styles from "./dekoratør.module.scss";
-import { BannerMedLukkeknapp } from "../Banner/BannerMedLukkeknapp";
 
 export const erIDev = [
     "localhost",
@@ -24,13 +23,6 @@ interface Props {
 }
 
 const visDemoBanner = erIDev;
-
-// -- Ny flyt nedetid
-// TODO: Fjern dette
-const dagenEtterMigrering = new Date(2026, 3, 28); // 28.04.2026
-const nå = new Date();
-const skalViseNedetidBanner = nå < dagenEtterMigrering;
-// --
 
 export const Dekoratør = ({ brukerInformasjon }: Props) => {
     return (
@@ -106,16 +98,6 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                     </Dropdown>
                 </div>
             </InternalHeader>
-            {skalViseNedetidBanner && (
-                <BannerMedLukkeknapp variant="info">
-                    <Heading size="small">Planlagt nedetid i Fia</Heading>
-                    <BodyShort>
-                        Fia vil være tidvis utilgjengelig mandag 27. april fra
-                        klokken 16.00 og utover kvelden.
-                    </BodyShort>
-                </BannerMedLukkeknapp>
-            )}
-
             <NyStatistikkPubliseresBanner />
         </>
     );

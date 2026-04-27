@@ -1,5 +1,4 @@
 import styles from "./minesakerkort.module.scss";
-import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 import { Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import { EksternLenke } from "../../../components/EksternLenke";
 import { useHentSalesforceUrl } from "../../../api/lydia-api/virksomhet";
@@ -13,6 +12,7 @@ import { SamarbeidsKort } from "./SamarbeidsKort";
 import { useHentTeam } from "../../../api/lydia-api/team";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
 import { InternLenke } from "../../../components/InternLenke";
+import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
 
 export const MineSakerKort = ({
     iaSak,
@@ -25,7 +25,9 @@ export const MineSakerKort = ({
         if (
             status === "IKKE_AKTUELL" ||
             status === "AVBRUTT" ||
-            status === "FULLFØRT"
+            status === "FULLFØRT" ||
+            status === "VURDERT" ||
+            status === "AVSLUTTET"
         ) {
             return "?fane=historikk";
         }
@@ -67,7 +69,7 @@ export const MineSakerKort = ({
                     </Heading>
                     <HStack justify={"space-between"} align={"center"}>
                         <HStack gap={"4"} align={"center"}>
-                            <IAProsessStatusBadge status={iaSak.status} />
+                            <IAProsessStatusBadge slim status={iaSak.status} />
                             <span className={styles.eiertekst}>
                                 <b>Eier</b>
                                 {iaSak.eidAv ? (

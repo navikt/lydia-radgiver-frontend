@@ -4,7 +4,10 @@ import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import { DocPencilIcon } from "@navikt/aksel-icons";
 import InnholdOppsett from "./InnholdOppsett";
 import { Plan, PlanInnhold, PlanTema } from "../../../domenetyper/plan";
-import { endrePlan, endrePlanTema } from "../../../api/lydia-api/plan";
+import {
+    endrePlanNyFlyt,
+    endrePlanTemaNyFlyt,
+} from "../../../api/lydia-api/nyFlyt";
 import { lagRequest, TemaRequest, UndertemaRequest } from "./Requests";
 import { KeyedMutator } from "swr";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
@@ -42,10 +45,11 @@ export default function EditTemaKnapp({
             const undertemaer: UndertemaRequest[] = lagRequest(
                 redigertTema.undertemaer,
             );
-            endrePlanTema(
+            endrePlanTemaNyFlyt(
                 orgnummer,
                 saksnummer,
                 samarbeid.id,
+                samarbeidsplan.id,
                 tema.id,
                 undertemaer,
             ).then(() => {
@@ -66,7 +70,13 @@ export default function EditTemaKnapp({
                       },
             );
 
-            endrePlan(orgnummer, saksnummer, samarbeid.id, temaer).then(() => {
+            endrePlanNyFlyt(
+                orgnummer,
+                saksnummer,
+                samarbeid.id,
+                samarbeidsplan.id,
+                temaer,
+            ).then(() => {
                 hentPlanIgjen();
             });
         }

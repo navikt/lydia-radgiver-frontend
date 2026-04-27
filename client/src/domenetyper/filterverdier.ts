@@ -1,12 +1,17 @@
 import { z } from "zod/v4";
 import { fylkeMedKommunerSchema } from "./fylkeOgKommune";
 import { næringsgrupperSchema, sektorSchema } from "./virksomhet";
-import { eierSchema, IAProsessStatusEnum } from "./domenetyper";
+import {
+    eierSchema,
+    IAProsessStatusEnum,
+    VirksomhetIATilstandEnum,
+} from "./domenetyper";
 
 export const filterverdierSchema = z.object({
     fylker: z.array(fylkeMedKommunerSchema),
     naringsgrupper: z.array(næringsgrupperSchema),
     sorteringsnokler: z.string().array(),
+    virksomhetTilstander: VirksomhetIATilstandEnum.array(),
     statuser: IAProsessStatusEnum.array(),
     bransjeprogram: z.string().array(),
     filtrerbareEiere: z.array(eierSchema),

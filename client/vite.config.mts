@@ -11,6 +11,10 @@ export default defineConfig({
                 target: "http://127.0.0.1:3000",
                 changeOrigin: true,
             },
+            "/proxy": {
+                target: "http://127.0.0.1:3000",
+                changeOrigin: true,
+            },
             "/innloggetAnsatt": "http://127.0.0.1:3000",
             "/csrf-token": "http://127.0.0.1:3000",
         },

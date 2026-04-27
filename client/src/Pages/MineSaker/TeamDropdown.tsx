@@ -111,7 +111,7 @@ function Knappeinnhold({
         return (
             <HStack align={"center"} gap={"1"}>
                 <PersonFillIcon aria-hidden />
-                <BodyShort>Du eier saken</BodyShort>
+                <BodyShort>Du er eier</BodyShort>
             </HStack>
         );
     }
@@ -120,7 +120,7 @@ function Knappeinnhold({
         return (
             <HStack align={"center"} gap={"1"}>
                 <HeartFillIcon aria-hidden />
-                <BodyShort>Du følger saken</BodyShort>
+                <BodyShort>Du er følger</BodyShort>
             </HStack>
         );
     }

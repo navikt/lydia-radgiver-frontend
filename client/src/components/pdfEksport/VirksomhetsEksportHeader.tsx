@@ -27,7 +27,7 @@ export default function VirksomhetsEksportHeader({
                 <img
                     className={`nav-logo ${styles.image}`}
                     src={NAVLogo}
-                    alt="NAV-logo"
+                    alt="Nav-logo"
                 />
                 {visDato && <BodyShort>{vistDato}</BodyShort>}
             </div>

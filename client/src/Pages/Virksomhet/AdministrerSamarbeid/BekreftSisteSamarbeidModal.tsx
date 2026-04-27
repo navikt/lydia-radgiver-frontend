@@ -1,0 +1,221 @@
+import React from "react";
+import {
+    Button,
+    DatePicker,
+    LocalAlert,
+    Modal,
+    useDatepicker,
+} from "@navikt/ds-react";
+import {
+    IaSakProsess,
+    IASamarbeidStatusType,
+    SamarbeidRequest,
+} from "../../../domenetyper/iaSakProsess";
+import { IASak } from "../../../domenetyper/domenetyper";
+import {
+    avsluttSamarbeidNyFlyt,
+    slettSamarbeidNyFlyt,
+    useHentSisteSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+    useHentTilstandForVirksomhetNyFlyt,
+} from "../../../api/lydia-api/nyFlyt";
+import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
+import { isoDato } from "../../../util/dato";
+import styles from "./bekreftSisteSamarbeidModal.module.scss";
+import { useHentPlan } from "../../../api/lydia-api/plan";
+
+export default function BekreftSisteSamarbeidModal({
+    ref,
+    valgtSamarbeid,
+    iaSak,
+    nyStatus,
+    alleSamarbeid,
+}: {
+    ref: React.RefObject<HTMLDialogElement | null>;
+    valgtSamarbeid?: IaSakProsess | null;
+    iaSak?: IASak;
+    nyStatus: IASamarbeidStatusType;
+    alleSamarbeid?: IaSakProsess[];
+}) {
+    const [senderRequest, setSenderRequest] = React.useState(false);
+    const iMorgen = new Date();
+    iMorgen.setDate(iMorgen.getDate() + 1);
+    const defaultDate = new Date();
+    defaultDate.setDate(defaultDate.getDate() + 90);
+    const { datepickerProps, inputProps, selectedDay } = useDatepicker({
+        fromDate: iMorgen,
+        defaultSelected: defaultDate,
+    });
+    const { mutate: hentSisteSakPåNytt } = useHentSisteSakNyFlyt(iaSak?.orgnr);
+    const { mutate: hentSpesifikkSakPåNytt } = useHentSpesifikkSakNyFlyt(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
+    const { mutate: hentSamarbeidPåNytt } = useHentSamarbeid(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+    );
+    const { mutate: hentTilstandPåNytt } = useHentTilstandForVirksomhetNyFlyt(
+        iaSak?.orgnr,
+    );
+    const { mutate: hentPlanPåNytt } = useHentPlan(
+        iaSak?.orgnr,
+        iaSak?.saksnummer,
+        valgtSamarbeid?.id,
+    );
+
+    const onConfirmAction = async () => {
+        setSenderRequest(true);
+
+        try {
+            if (!valgtSamarbeid?.id || !iaSak?.orgnr) {
+                return;
+            }
+
+            const dato = selectedDay ? isoDato(selectedDay) : undefined;
+
+            if (nyStatus === "SLETTET") {
+                await slettSamarbeidNyFlyt(
+                    iaSak.orgnr,
+                    valgtSamarbeid.id,
+                    dato,
+                );
+            } else {
+                const samarbeid: SamarbeidRequest = {
+                    id: valgtSamarbeid?.id,
+                    navn: valgtSamarbeid?.navn,
+                    status: nyStatus,
+                    startDato: null,
+                    sluttDato: null,
+                    endretTidspunkt: null,
+                };
+
+                await avsluttSamarbeidNyFlyt(
+                    iaSak?.orgnr || "",
+                    valgtSamarbeid?.id,
+                    samarbeid,
+                    dato,
+                );
+            }
+        } catch {
+            ref.current?.close();
+        } finally {
+            setSenderRequest(false);
+            hentSpesifikkSakPåNytt();
+            hentSisteSakPåNytt();
+            hentSamarbeidPåNytt();
+            hentTilstandPåNytt();
+            hentPlanPåNytt();
+            ref.current?.close();
+        }
+    };
+
+    return (
+        <Modal
+            ref={ref}
+            header={{
+                heading: getTittel(nyStatus),
+            }}
+        >
+            <Modal.Body>
+                <LocalAlert status="announcement">
+                    <LocalAlert.Header>
+                        <LocalAlert.Title>
+                            Samarbeidsperioden vil bli avsluttet
+                        </LocalAlert.Title>
+                    </LocalAlert.Header>
+                    <LocalAlert.Content>
+                        Du er i ferd med å avslutte det siste aktive
+                        samarbeidet. Når du {getStatusPresens(nyStatus)}{" "}
+                        <b>{valgtSamarbeid?.navn}</b> vil samarbeidsperioden
+                        avsluttes og virksomheten får status Avsluttet.
+                    </LocalAlert.Content>
+                    <LocalAlert.Content>
+                        <dl className={styles.samarbeidsliste}>
+                            {alleSamarbeid?.map((s) => (
+                                <div
+                                    key={s.id}
+                                    className={styles.samarbeidslisterad}
+                                >
+                                    <dt>{s.navn}</dt>
+                                    <SamarbeidStatusBadge
+                                        status={s.status}
+                                        as="dd"
+                                    />
+                                </div>
+                            )) ?? null}
+                        </dl>
+                    </LocalAlert.Content>
+                </LocalAlert>
+                <div style={{ marginTop: "2rem" }}>
+                    <DatePicker {...datepickerProps}>
+                        <DatePicker.Input
+                            {...inputProps}
+                            label="Hvor lenge skal virksomheten ha status Avsluttet?"
+                        />
+                    </DatePicker>
+                </div>
+            </Modal.Body>
+            <Modal.Footer>
+                <Button
+                    onClick={onConfirmAction}
+                    disabled={
+                        senderRequest ||
+                        !selectedDay ||
+                        selectedDay <= new Date()
+                    }
+                    loading={senderRequest}
+                >
+                    {getTittel(nyStatus)}
+                </Button>
+                <Button
+                    onClick={() => ref.current?.close()}
+                    variant="secondary"
+                >
+                    Avbryt
+                </Button>
+            </Modal.Footer>
+        </Modal>
+    );
+}
+
+function getTittel(nyStatus: IASamarbeidStatusType) {
+    switch (nyStatus) {
+        case "AVBRUTT":
+            return "Avbryt samarbeidet";
+        case "FULLFØRT":
+            return "Fullfør samarbeidet";
+        case "SLETTET":
+            return "Slett samarbeidet";
+        default:
+            return "";
+    }
+}
+
+function getStatusPresens(nyStatus: IASamarbeidStatusType) {
+    switch (nyStatus) {
+        case "AVBRUTT":
+            return "avbryter";
+        case "FULLFØRT":
+            return "fullfører";
+        case "SLETTET":
+            return "sletter";
+        default:
+            return "";
+    }
+}
+
+export function erSisteSamarbeid(
+    samarbeid?: IaSakProsess | null,
+    alleSamarbeid?: IaSakProsess[],
+): boolean {
+    const aktiveSamarbeidsstatuser = ["AKTIV"];
+    return (
+        alleSamarbeid?.find(
+            (s) =>
+                s.id !== samarbeid?.id &&
+                aktiveSamarbeidsstatuser.includes(s.status),
+        ) === undefined
+    );
+}
