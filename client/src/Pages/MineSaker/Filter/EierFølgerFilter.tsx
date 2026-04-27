@@ -12,8 +12,8 @@ const penskrivEierFølgerMap: Record<
     (typeof EIER_FØLGER_FILTER_VALUES)[number],
     string
 > = {
-    eier: "Mine eierskap",
-    følger: "Saker jeg følger",
+    eier: "Jeg er eier",
+    følger: "Jeg er følger",
 };
 
 export const EierFølgerFilter = ({
