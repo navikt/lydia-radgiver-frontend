@@ -19,6 +19,7 @@ import {
     vurderSakNyFlyt,
     endrePlanlagtDatoNyFlyt,
 } from "../../../../src/api/lydia-api/nyFlyt";
+import { useHentBrukerinformasjon } from "../../../../src/api/lydia-api/bruker";
 
 jest.mock("../../../../src/util/analytics-klient", () => {
     const actual = jest.requireActual("../../../../src/util/analytics-klient");
@@ -337,8 +338,7 @@ describe("NyVirksomhetsside – VirksomhetErVurdert", () => {
             expect(endrePlanlagtDatoNyFlyt).toHaveBeenCalledWith(
                 dummyVirksomhetsinformasjonNyFlyt.orgnr,
                 expect.objectContaining({
-                    startTilstand:
-                        nesteTilstandKlarTilVurdering.startTilstand,
+                    startTilstand: nesteTilstandKlarTilVurdering.startTilstand,
                     planlagtHendelse:
                         nesteTilstandKlarTilVurdering.planlagtHendelse,
                     nyTilstand: nesteTilstandKlarTilVurdering.nyTilstand,
@@ -370,6 +370,76 @@ describe("NyVirksomhetsside – VirksomhetErVurdert", () => {
             );
             const results = await axe(container);
             expect(results).toHaveNoViolations();
+        });
+    });
+
+    describe("tilgangskontroll: 'Vurder nå' kun for Superbruker", () => {
+        beforeEach(() => {
+            jest.mocked(useHentTilstandForVirksomhetNyFlyt).mockReturnValue({
+                data: {
+                    orgnr: dummyVirksomhetsinformasjonNyFlyt.orgnr,
+                    tilstand: "VirksomhetErVurdert",
+                    nesteTilstand: nesteTilstandVurderes,
+                },
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+        });
+
+        it("'Vurder nå'-knappen er deaktivert for ikke-Superbruker", () => {
+            jest.mocked(useHentBrukerinformasjon).mockReturnValue({
+                data: {
+                    ident: "Z123456",
+                    navn: "Test Testesen",
+                    epost: "",
+                    tokenUtloper: 0,
+                    rolle: "Lesetilgang",
+                },
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+
+            const knapp = screen.getByRole("button", { name: "Vurder nå" });
+            expect(knapp).toBeDisabled();
+
+            fireEvent.click(knapp);
+            expect(vurderSakNyFlyt).not.toHaveBeenCalled();
+        });
+
+        it("'Vurder nå'-knappen er aktivert for Superbruker", () => {
+            jest.mocked(useHentBrukerinformasjon).mockReturnValue({
+                data: {
+                    ident: "Z123456",
+                    navn: "Test Testesen",
+                    epost: "",
+                    tokenUtloper: 0,
+                    rolle: "Superbruker",
+                },
+                loading: false,
+                error: null,
+                mutate: jest.fn(),
+                validating: false,
+            });
+
+            render(
+                <BrowserRouter>
+                    <NyVirksomhetsside />
+                </BrowserRouter>,
+            );
+
+            expect(
+                screen.getByRole("button", { name: "Vurder nå" }),
+            ).toBeEnabled();
         });
     });
 });

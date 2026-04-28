@@ -24,6 +24,7 @@ import {
     vurderSakNyFlyt,
 } from "../../../../api/lydia-api/nyFlyt";
 import { useOversiktMutate } from "../../Debugside/Oversikt";
+import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 
 export default function VirksomhetErVurdert({
     iaSak,
@@ -67,6 +68,7 @@ export default function VirksomhetErVurdert({
 }
 
 function VurderVirksomhetenNå({ orgnr }: { orgnr: string }) {
+    const { data: brukerInformasjon } = useHentBrukerinformasjon();
     const [senderRequest, setSenderRequest] = React.useState(false);
     const mutate = useOversiktMutate(orgnr);
 
@@ -81,7 +83,12 @@ function VurderVirksomhetenNå({ orgnr }: { orgnr: string }) {
     };
 
     return (
-        <Button size="small" onClick={onVurderNå} loading={senderRequest}>
+        <Button
+            size="small"
+            onClick={onVurderNå}
+            loading={senderRequest}
+            disabled={!(brukerInformasjon?.rolle === "Superbruker")}
+        >
             Vurder nå
         </Button>
     );
