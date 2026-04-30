@@ -48,8 +48,8 @@
         "@types/node": "25.5.2",
         "@types/react": "^19.2.14",
         "@types/react-dom": "^19.2.3",
-        "@typescript-eslint/eslint-plugin": "^8.58.1",
-        "@typescript-eslint/parser": "^8.58.1",
+        "@typescript-eslint/eslint-plugin": "^8.58.2",
+        "@typescript-eslint/parser": "^8.58.2",
         "@vitejs/plugin-react": "^6.0.1",
         "babel-loader": "^10.1.1",
         "eslint": "^9.39.4",
@@ -64,7 +64,7 @@
         "prettier": "^3.8.2",
         "ts-jest": "^29.4.9",
         "ts-node": "^10.9.2",
-        "typescript": "^5.9.3",
+        "typescript": "^6.0.3",
         "ulid": "^3.0.2",
         "vite": "^8.0.5"
     }
