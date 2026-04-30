@@ -1,8 +1,8 @@
-import { Publiseringsinfo } from "@/domenetyper/publiseringsinfo";
 import {
     skjulNyStatistikkBanner,
     skalViseStatistikkKommer,
 } from "@/util/nyStatistikkBannerUtils";
+import { Publiseringsinfo } from "@features/plan/types/publiseringsinfo";
 
 const publiseringsinfo: Publiseringsinfo = {
     sistePubliseringsdato: "2023-03-02",

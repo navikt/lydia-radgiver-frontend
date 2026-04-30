@@ -1,8 +1,8 @@
 import * as Highcharts from "highcharts";
 import HighchartsReact from "highcharts-react-official";
 import React from "react";
-import { SpørsmålResultat } from "@/domenetyper/spørreundersøkelseResultat";
 import { useSpørsmålMedSorterteSvaralternativer } from "@/util/sorterSvaralternativer";
+import { SpørsmålResultat } from "@features/kartlegging/types/spørreundersøkelseResultat";
 import "highcharts/modules/accessibility";
 import { Heading } from "@navikt/ds-react";
 import styles from "./grafer.module.scss";

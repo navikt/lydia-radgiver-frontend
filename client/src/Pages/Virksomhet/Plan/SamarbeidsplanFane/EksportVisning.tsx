@@ -5,12 +5,12 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 import useEksportFilnavn from "@/components/pdfEksport/useEksportFilnavn";
 import VirksomhetsEksportHeader from "@/components/pdfEksport/VirksomhetsEksportHeader";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
-import { Plan, PlanTema } from "@/domenetyper/plan";
 import VirksomhetContext, {
     useVirksomhetContext,
 } from "@/Pages/Virksomhet/VirksomhetContext";
 import { loggEksportertTilPdf } from "@/util/analytics-klient";
+import { Plan, PlanTema } from "@features/plan/types/plan";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import styles from "../plan.module.scss";
 import PlanGraf from "../PlanGraf";
 import { PrettyInnholdsDato } from "./InnholdsBlokk";

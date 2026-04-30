@@ -1,8 +1,8 @@
 import { BodyShort, HelpText, Popover } from "@navikt/ds-react";
-import { useHentSalesforceUrl } from "@/api/lydia-api/virksomhet";
 import { EksternLenke } from "@/components/EksternLenke";
 import { IASak } from "@/domenetyper/domenetyper";
-import { Virksomhet } from "@/domenetyper/virksomhet";
+import { useHentSalesforceUrl } from "@features/virksomhet/api/virksomhet";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import styles from "./virksomhetsheader.module.scss";
 
 interface PopoverInnholdProps {

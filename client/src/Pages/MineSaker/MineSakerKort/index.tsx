@@ -1,15 +1,15 @@
 import { NotePencilIcon } from "@navikt/aksel-icons";
 import { Button, Heading, HStack, VStack } from "@navikt/ds-react";
 import { useState } from "react";
-import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
-import { useHentTeam } from "@/api/lydia-api/team";
-import { useHentSalesforceUrl } from "@/api/lydia-api/virksomhet";
 import { IAProsessStatusBadge } from "@/components/Badge/IAProsessStatusBadge";
 import { EksternLenke } from "@/components/EksternLenke";
 import { InternLenke } from "@/components/InternLenke";
 import { NavIdentMedLenke } from "@/components/NavIdentMedLenke";
 import { IAProsessStatusType, IASak } from "@/domenetyper/domenetyper";
 import { loggGåTilSakFraMineSaker } from "@/util/analytics-klient";
+import { useHentTeam } from "@features/bruker/api/team";
+import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
+import { useHentSalesforceUrl } from "@features/virksomhet/api/virksomhet";
 import { TeamModal } from "../TeamModal";
 import styles from "./minesakerkort.module.scss";
 import { SamarbeidsKort } from "./SamarbeidsKort";

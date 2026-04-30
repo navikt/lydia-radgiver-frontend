@@ -7,15 +7,15 @@ import {
     TextField,
 } from "@navikt/ds-react";
 import React from "react";
+import { EksternLenke } from "@/components/EksternLenke";
+import { IASak } from "@/domenetyper/domenetyper";
+import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
 import {
     endreSamarbeidsNavnNyFlyt,
     useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
-} from "@/api/lydia-api/nyFlyt";
-import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
-import { EksternLenke } from "@/components/EksternLenke";
-import { IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+} from "@features/sak/api/nyFlyt";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import { MAX_LENGDE_SAMARBEIDSNAVN } from "../Samarbeid/EndreSamarbeidModal/EndreSamarbeidInnhold";
 import styles from "./administrerSamarbeid.module.scss";
 

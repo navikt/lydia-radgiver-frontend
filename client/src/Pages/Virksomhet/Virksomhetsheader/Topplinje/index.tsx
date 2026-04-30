@@ -1,9 +1,9 @@
 import { HStack, Skeleton } from "@navikt/ds-react";
 import React from "react";
-import { useHentTilstandForVirksomhetNyFlyt } from "@/api/lydia-api/nyFlyt";
 import { IASak, VirksomhetIATilstandEnum } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
-import { Virksomhet } from "@/domenetyper/virksomhet";
+import { useHentTilstandForVirksomhetNyFlyt } from "@features/sak/api/nyFlyt";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { Salesforcelenke } from "../";
 import AlleSamarbeidIVirksomhetErAvsluttet from "./AlleSamarbeidIVirksomhetErAvsluttet";
 import VirksomhetErVurdert from "./VirksomhetErVurdert";

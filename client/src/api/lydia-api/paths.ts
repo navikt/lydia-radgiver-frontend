@@ -1,5 +1,5 @@
 import { FiltervisningState } from "@/Pages/Prioritering/Filter/filtervisning-reducer";
-import { søkeverdierTilUrlSearchParams } from "./sok";
+import { søkeverdierTilUrlSearchParams } from "@features/prioritering/api/sok";
 
 export const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;

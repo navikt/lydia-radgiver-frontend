@@ -2,9 +2,6 @@ import { TextEncoder, TextDecoder } from "util";
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
-import { Filterverdier, ValgtSnittFilter } from "@/domenetyper/filterverdier";
-import { FylkeMedKommuner, Kommune } from "@/domenetyper/fylkeOgKommune";
-import { Næringsgruppe } from "@/domenetyper/virksomhet";
 import {
     initialFiltervisningState,
     FiltervisningState,
@@ -12,6 +9,15 @@ import {
     erSammeFylker,
     filterstateFraLokalstorage,
 } from "@/Pages/Prioritering/Filter/filtervisning-reducer";
+import {
+    Filterverdier,
+    ValgtSnittFilter,
+} from "@features/prioritering/types/filterverdier";
+import {
+    FylkeMedKommuner,
+    Kommune,
+} from "@features/virksomhet/types/fylkeOgKommune";
+import { Næringsgruppe } from "@features/virksomhet/types/virksomhet";
 
 // Mock localStorage
 const localStorageMock = (() => {

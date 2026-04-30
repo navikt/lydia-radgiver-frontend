@@ -6,8 +6,8 @@ import {
 } from "@navikt/ds-react";
 import React from "react";
 import LåsbarCheckbox from "@/components/LåsbarCheckbox";
-import { PlanInnhold } from "@/domenetyper/plan";
 import { loggEndringAvPlan } from "@/util/analytics-klient";
+import { PlanInnhold } from "@features/plan/types/plan";
 import styles from "./plan.module.scss";
 import {
     FIRST_VALID_DATE,

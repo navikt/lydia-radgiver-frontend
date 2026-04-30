@@ -6,8 +6,8 @@ import {
 } from "@navikt/aksel-icons";
 import { Alert, Button, Tooltip } from "@navikt/ds-react";
 import React, { useState } from "react";
-import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import { lokalDato } from "@/util/dato";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 import { PubliseringModal } from "./PubliseringModal";
 import styles from "./publiserSpørreundersøkelse.module.scss";
 

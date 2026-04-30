@@ -1,12 +1,12 @@
 import { BodyShort, Loader, SortState } from "@navikt/ds-react";
 import { useEffect, useState } from "react";
-import { useHentAntallTreff } from "@/api/lydia-api/sok";
-import { useHentVirksomhetsoversiktListe } from "@/api/lydia-api/sok";
-import { useFilterverdier } from "@/api/lydia-api/sok";
 import SideContainer from "@/components/SideContainer";
-import { Virksomhetsoversikt } from "@/domenetyper/virksomhetsoversikt";
 import { loggSideLastet, Søkekomponenter } from "@/util/analytics-klient";
 import { statiskeSidetitler, useTittel } from "@/util/useTittel";
+import { useHentAntallTreff } from "@features/prioritering/api/sok";
+import { useHentVirksomhetsoversiktListe } from "@features/prioritering/api/sok";
+import { useFilterverdier } from "@features/prioritering/api/sok";
+import { Virksomhetsoversikt } from "@features/virksomhet/types/virksomhetsoversikt";
 import { Filtervisning } from "./Filter/Filtervisning";
 import {
     sammenliknFilterverdier,

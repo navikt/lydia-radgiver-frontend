@@ -14,16 +14,16 @@ import {
     VStack,
 } from "@navikt/ds-react";
 import React, { useRef, useState } from "react";
-import { useHentTilstandForVirksomhetNyFlyt } from "@/api/lydia-api/nyFlyt";
-import { useHentSalesforceUrl } from "@/api/lydia-api/virksomhet";
 import { VirksomhetTilstandStatusBadge } from "@/components/Badge/VirksomhetTilstandStatusBadge";
 import { EksternLenke } from "@/components/EksternLenke";
 import { InternLenke } from "@/components/InternLenke";
 import { IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
-import { Virksomhet } from "@/domenetyper/virksomhet";
 import { loggÅpnetVirksomhetsinfo } from "@/util/analytics-klient";
 import { lokalDato } from "@/util/dato";
+import { useHentTilstandForVirksomhetNyFlyt } from "@features/sak/api/nyFlyt";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { useHentSalesforceUrl } from "@features/virksomhet/api/virksomhet";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import Sakshistorikkmodal from "../Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
 import Sykefraværsstatistikkmodal from "../Statistikk/Sykefraværsstatistikkmodal";
 import { useErPåInaktivSak } from "../VirksomhetContext";

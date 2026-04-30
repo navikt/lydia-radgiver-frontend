@@ -3,11 +3,11 @@ import React from "react";
 import { VirksomhetTilstandStatusBadge } from "@/components/Badge/VirksomhetTilstandStatusBadge";
 import { NavIdentMedLenke } from "@/components/NavIdentMedLenke";
 import { ScrollUtTilKantenContainer } from "@/components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
-import { Virksomhetsoversikt } from "@/domenetyper/virksomhetsoversikt";
 import {
     formaterSomHeltall,
     formaterSomProsentMedEnDesimal,
 } from "@/util/tallFormatering";
+import { Virksomhetsoversikt } from "@features/virksomhet/types/virksomhetsoversikt";
 import { EndretDataCell } from "../EndretDataCell";
 import { SøkeresultatFooter } from "../SøkeresultatFooter";
 import styles from "./prioriteringstabell.module.scss";

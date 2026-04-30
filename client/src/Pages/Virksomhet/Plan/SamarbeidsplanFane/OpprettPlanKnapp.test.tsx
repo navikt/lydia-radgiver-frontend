@@ -1,12 +1,12 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
 import "@testing-library/jest-dom";
-import * as nyFlyt from "@/api/lydia-api/nyFlyt";
-import * as plan from "@/api/lydia-api/plan";
-import * as spørreundersøkelse from "@/api/lydia-api/spørreundersøkelse";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
-import { PlanMal } from "@/domenetyper/plan";
 import OpprettPlanKnapp from "@/Pages/Virksomhet/Plan/SamarbeidsplanFane/OpprettPlanKnapp";
+import * as spørreundersøkelse from "@features/kartlegging/api/spørreundersøkelse";
+import * as plan from "@features/plan/api/plan";
+import { PlanMal } from "@features/plan/types/plan";
+import * as nyFlyt from "@features/sak/api/nyFlyt";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 
 jest.mock("@navikt/ds-react", () => {
     const actual = jest.requireActual("@navikt/ds-react");

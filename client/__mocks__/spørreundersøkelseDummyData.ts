@@ -1,8 +1,8 @@
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
+import { SpørreundersøkelseResultat } from "@features/kartlegging/types/spørreundersøkelseResultat";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { IASak } from "../src/domenetyper/domenetyper";
-import { IaSakProsess } from "../src/domenetyper/iaSakProsess";
-import { Spørreundersøkelse } from "../src/domenetyper/spørreundersøkelse";
-import { SpørreundersøkelseResultat } from "../src/domenetyper/spørreundersøkelseResultat";
-import { Virksomhet } from "../src/domenetyper/virksomhet";
 
 export const dummyVirksomhet: Virksomhet = {
     orgnr: "123459876",

@@ -6,9 +6,9 @@ import {
 } from "@navikt/aksel-icons";
 import { BodyShort, Button, HStack, Dropdown, Heading } from "@navikt/ds-react";
 import React from "react";
-import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
-import { useHentTeam } from "@/api/lydia-api/team";
 import { IASak } from "@/domenetyper/domenetyper";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
+import { useHentTeam } from "@features/bruker/api/team";
 import { useErPåInaktivSak } from "../Virksomhet/VirksomhetContext";
 import { TaEierskapModal } from "./TaEierSkapModal";
 import TeamInnhold from "./TeamInnhold";

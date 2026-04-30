@@ -1,5 +1,5 @@
 import { Heading } from "@navikt/ds-react";
-import { Virksomhet } from "@/domenetyper/virksomhet";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { Historiskstatistikk } from "./Graf/Historiskstatistikk";
 import styles from "./statistikk.module.scss";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";

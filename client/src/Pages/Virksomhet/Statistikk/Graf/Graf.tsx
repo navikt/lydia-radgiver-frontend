@@ -9,9 +9,9 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-import { HistoriskStatistikk } from "@/domenetyper/historiskstatistikk";
 import { loggGraflinjeEndringer } from "@/util/analytics-klient";
 import { sorterKvartalStigende } from "@/util/sortering";
+import { HistoriskStatistikk } from "@features/virksomhet/types/historiskstatistikk";
 import styles from "./graf.module.scss";
 import { Grafer, graflinjer, grafrekkefølge } from "./graflinjer";
 import { graphTooltip } from "./GraphTooltip";

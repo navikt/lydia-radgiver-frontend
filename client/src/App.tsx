@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "@navikt/ds-css";
-import { useHentBrukerinformasjon } from "./api/lydia-api/bruker";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
 import styles from "./app.module.scss";
 import { FeilmeldingBanner } from "./components/Banner/FeilmeldingBanner";
 import { Dekoratør, erIDev } from "./components/Dekoratør/Dekoratør";

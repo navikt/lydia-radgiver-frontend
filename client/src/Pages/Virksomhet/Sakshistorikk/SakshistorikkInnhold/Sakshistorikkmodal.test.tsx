@@ -1,12 +1,12 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
-import * as nyFlyt from "@/api/lydia-api/nyFlyt";
 import Sakshistorikkmodal from "@/Pages/Virksomhet/Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
+import * as nyFlyt from "@features/sak/api/nyFlyt";
 import { dummySakshistorikk } from "@mocks/virksomhetsMockData";
 
-jest.mock("@/api/lydia-api/nyFlyt", () => ({
-    ...jest.requireActual("@/api/lydia-api/nyFlyt"),
+jest.mock("@features/sak/api/nyFlyt", () => ({
+    ...jest.requireActual("@features/sak/api/nyFlyt"),
     useHentHistorikkNyFlyt: jest.fn(),
 }));
 

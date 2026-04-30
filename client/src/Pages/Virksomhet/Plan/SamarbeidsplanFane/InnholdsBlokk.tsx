@@ -1,17 +1,17 @@
 import { Accordion, Alert, BodyLong, Select } from "@navikt/ds-react";
 import React from "react";
 import { KeyedMutator } from "swr";
-import { endrePlanStatusNyFlyt } from "@/api/lydia-api/nyFlyt";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { samarbeidErFullført } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
+import { lokalDatoMedKortTekstmåned } from "@/util/dato";
+import capitalizeFirstLetterLowercaseRest from "@/util/formatering/capitalizeFirstLetterLowercaseRest";
 import {
     Plan,
     PlanInnhold,
     PlanInnholdStatus,
     PlanTema,
-} from "@/domenetyper/plan";
-import { samarbeidErFullført } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
-import { lokalDatoMedKortTekstmåned } from "@/util/dato";
-import capitalizeFirstLetterLowercaseRest from "@/util/formatering/capitalizeFirstLetterLowercaseRest";
+} from "@features/plan/types/plan";
+import { endrePlanStatusNyFlyt } from "@features/sak/api/nyFlyt";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import styles from "../innholdsBlokk.module.scss";
 
 export default function InnholdsBlokk({

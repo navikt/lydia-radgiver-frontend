@@ -1,14 +1,14 @@
 import { BodyLong, Button, LocalAlert, Modal } from "@navikt/ds-react";
 import React from "react";
+import { IASak } from "@/domenetyper/domenetyper";
+import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
 import {
     slettSamarbeidNyFlyt,
     useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
-} from "@/api/lydia-api/nyFlyt";
-import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
-import { useKanUtføreHandlingPåSamarbeid } from "@/api/lydia-api/virksomhet";
-import { IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+} from "@features/sak/api/nyFlyt";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { useKanUtføreHandlingPåSamarbeid } from "@features/virksomhet/api/virksomhet";
 import styles from "./administrerSamarbeid.module.scss";
 import BekreftSisteSamarbeidModal, {
     erSisteSamarbeid,

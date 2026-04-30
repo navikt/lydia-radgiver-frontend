@@ -1,7 +1,7 @@
 import { PlusIcon } from "@navikt/aksel-icons";
 import { Button, ButtonProps, Tooltip } from "@navikt/ds-react";
 import React from "react";
-import { SpørreundersøkelseType } from "@/domenetyper/spørreundersøkelseMedInnhold";
+import { SpørreundersøkelseType } from "@features/kartlegging/types/spørreundersøkelseMedInnhold";
 import { FormatertSpørreundersøkelseType } from "./Spørreundersøkelseliste/utils";
 
 export default function OpprettNySpørreundersøkelseKnapp({

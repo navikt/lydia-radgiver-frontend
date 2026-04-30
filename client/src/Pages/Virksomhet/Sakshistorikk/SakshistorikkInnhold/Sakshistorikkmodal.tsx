@@ -1,7 +1,7 @@
 import { ClockIcon } from "@navikt/aksel-icons";
 import { Button, ButtonProps, Modal } from "@navikt/ds-react";
 import React from "react";
-import { useHentHistorikkNyFlyt } from "@/api/lydia-api/nyFlyt";
+import { useHentHistorikkNyFlyt } from "@features/sak/api/nyFlyt";
 import { SykefraværshistorikkInnhold } from ".";
 
 export default function Sakshistorikkmodal({

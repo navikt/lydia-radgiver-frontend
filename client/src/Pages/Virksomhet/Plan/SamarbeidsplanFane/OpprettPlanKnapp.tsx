@@ -1,17 +1,17 @@
 import { PlusIcon } from "@navikt/aksel-icons";
 import { Alert, Button, Modal } from "@navikt/ds-react";
 import React, { useState } from "react";
-import { opprettSamarbeidsplanNyFlyt } from "@/api/lydia-api/nyFlyt";
-import { useHentPlan } from "@/api/lydia-api/plan";
-import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { loggModalÅpnet } from "@/util/analytics-klient";
+import { isoDato } from "@/util/dato";
+import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
+import { useHentPlan } from "@features/plan/api/plan";
 import {
     PlanMal,
     PlanMalRequest,
     RedigertInnholdMal,
-} from "@/domenetyper/plan";
-import { loggModalÅpnet } from "@/util/analytics-klient";
-import { isoDato } from "@/util/dato";
+} from "@features/plan/types/plan";
+import { opprettSamarbeidsplanNyFlyt } from "@features/sak/api/nyFlyt";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import styles from "../plan.module.scss";
 import TemaInnholdVelger from "../TemaInnholdVelger";
 

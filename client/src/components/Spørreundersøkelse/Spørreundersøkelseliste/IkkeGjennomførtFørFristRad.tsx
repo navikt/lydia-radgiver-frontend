@@ -2,9 +2,9 @@ import { ExclamationmarkTriangleIcon, TrashIcon } from "@navikt/aksel-icons";
 import { Button, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
 import React from "react";
 import { SpørreundersøkelseStatusBadge } from "@/components/Badge/SpørreundersøkelseStatusBadge";
-import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import ActionButtonsHvisSamarbeidIkkeFullført from "@/Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
 import { SlettSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/SlettSpørreundersøkelseModal";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 import styles from "./spørreundersøkelsesliste.module.scss";
 import { FormatertSpørreundersøkelseType } from "./utils";
 

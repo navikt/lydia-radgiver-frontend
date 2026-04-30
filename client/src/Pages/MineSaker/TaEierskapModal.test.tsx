@@ -1,16 +1,16 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import * as nyFlyt from "@/api/lydia-api/nyFlyt";
 import { TaEierskapModal } from "@/Pages/MineSaker/TaEierSkapModal";
 import * as oversikt from "@/Pages/Virksomhet/Debugside/Oversikt";
+import * as nyFlyt from "@features/sak/api/nyFlyt";
 import { dummyIaSak } from "@mocks/virksomhetsMockData";
 
 const mockMuterIaSak = jest.fn();
 const mockMuterMineSaker = jest.fn();
 const mockMuterOversikt = jest.fn();
 
-jest.mock("@/api/lydia-api/nyFlyt", () => ({
-    ...jest.requireActual("@/api/lydia-api/nyFlyt"),
+jest.mock("@features/sak/api/nyFlyt", () => ({
+    ...jest.requireActual("@features/sak/api/nyFlyt"),
     bliEierNyFlyt: jest.fn(() => Promise.resolve()),
     useHentSpesifikkSakNyFlyt: jest.fn(() => ({
         data: dummyIaSak,
@@ -19,8 +19,8 @@ jest.mock("@/api/lydia-api/nyFlyt", () => ({
     })),
 }));
 
-jest.mock("@/api/lydia-api/sak", () => ({
-    ...jest.requireActual("@/api/lydia-api/sak"),
+jest.mock("@features/sak/api/sak", () => ({
+    ...jest.requireActual("@features/sak/api/sak"),
     useHentMineSaker: jest.fn(() => ({
         data: [],
         mutate: mockMuterMineSaker,

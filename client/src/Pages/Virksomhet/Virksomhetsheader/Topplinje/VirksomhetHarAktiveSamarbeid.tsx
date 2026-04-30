@@ -1,8 +1,8 @@
 import { HStack } from "@navikt/ds-react";
 import React from "react";
 import { IASak } from "@/domenetyper/domenetyper";
-import { Virksomhet } from "@/domenetyper/virksomhet";
 import { EierskapKnapp } from "@/Pages/Virksomhet/Samarbeid/EierskapKnapp";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { Salesforcelenke } from "..";
 
 export default function VirksomhetHarAktiveSamarbeid({

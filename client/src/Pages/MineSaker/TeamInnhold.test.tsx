@@ -5,8 +5,8 @@ import { dummyIaSak } from "@mocks/virksomhetsMockData";
 
 const BRUKER_IDENT = "Z123456";
 
-jest.mock("@/api/lydia-api/bruker", () => ({
-    ...jest.requireActual("@/api/lydia-api/bruker"),
+jest.mock("@features/bruker/api/bruker", () => ({
+    ...jest.requireActual("@features/bruker/api/bruker"),
     useHentBrukerinformasjon: jest.fn(() => ({
         data: {
             ident: BRUKER_IDENT,
@@ -20,8 +20,8 @@ jest.mock("@/api/lydia-api/bruker", () => ({
 
 const mockMuterFølgere = jest.fn();
 
-jest.mock("@/api/lydia-api/team", () => ({
-    ...jest.requireActual("@/api/lydia-api/team"),
+jest.mock("@features/bruker/api/team", () => ({
+    ...jest.requireActual("@features/bruker/api/team"),
     useHentTeam: jest.fn(() => ({
         data: [],
         loading: false,
@@ -36,7 +36,7 @@ jest.mock("@/Pages/Virksomhet/VirksomhetContext", () => ({
     useErPåAktivSak: jest.fn(() => true),
 }));
 
-import * as teamApi from "@/api/lydia-api/team";
+import * as teamApi from "@features/bruker/api/team";
 
 const defaultProps = {
     iaSak: dummyIaSak,

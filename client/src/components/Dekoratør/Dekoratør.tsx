@@ -1,6 +1,6 @@
 import { LeaveIcon } from "@navikt/aksel-icons";
 import { BodyShort, Dropdown, InternalHeader } from "@navikt/ds-react";
-import { Brukerinformasjon as BrukerinformasjonType } from "@/domenetyper/brukerinformasjon";
+import { Brukerinformasjon as BrukerinformasjonType } from "@features/bruker/types/brukerinformasjon";
 import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 import { InternLenke } from "../InternLenke";
 import styles from "./dekoratør.module.scss";

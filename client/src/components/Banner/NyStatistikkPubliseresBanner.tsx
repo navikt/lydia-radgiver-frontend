@@ -1,11 +1,11 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
-import { useHentPubliseringsinfo } from "@/api/lydia-api/virksomhet";
 import { nesteKvartal } from "@/domenetyper/kvartal";
-import { Publiseringsinfo } from "@/domenetyper/publiseringsinfo";
 import {
     skalViseStatistikkKommer,
     skjulNyStatistikkBanner,
 } from "@/util/nyStatistikkBannerUtils";
+import { Publiseringsinfo } from "@features/plan/types/publiseringsinfo";
+import { useHentPubliseringsinfo } from "@features/virksomhet/api/virksomhet";
 import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
 
 export const NyStatistikkPubliseresBanner = () => {

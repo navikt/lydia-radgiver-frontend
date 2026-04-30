@@ -3,7 +3,7 @@ import React from "react";
 import {
     KanIkkeGjennomføreBegrunnelse,
     MuligSamarbeidsgandling,
-} from "@/domenetyper/samarbeidsEndring";
+} from "@features/sak/types/samarbeidsEndring";
 import styles from "./endresamarbeidmodal.module.scss";
 
 export default function BegrunnelserForIkkeKunne({

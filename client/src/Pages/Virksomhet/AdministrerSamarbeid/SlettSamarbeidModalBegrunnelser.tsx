@@ -1,11 +1,11 @@
 import { BodyShort, Heading, List, LocalAlert } from "@navikt/ds-react";
 import React from "react";
-import { useHentSalesforceSamarbeidLenke } from "@/api/lydia-api/virksomhet";
 import { EksternLenke } from "@/components/EksternLenke";
 import {
     KanGjennomføreStatusendring,
     KanIkkeGjennomføreBegrunnelse,
-} from "@/domenetyper/samarbeidsEndring";
+} from "@features/sak/types/samarbeidsEndring";
+import { useHentSalesforceSamarbeidLenke } from "@features/virksomhet/api/virksomhet";
 import { useSamarbeidContext } from "../Samarbeid/SamarbeidContext";
 
 export default function SlettSamarbeidModalBegrunnelser({

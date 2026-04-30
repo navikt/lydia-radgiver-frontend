@@ -1,12 +1,12 @@
 import { ExpansionCard } from "@navikt/ds-react";
 import React from "react";
-import { slettKartleggingNyFlyt } from "@/api/lydia-api/nyFlyt";
-import { useHentIASaksStatus } from "@/api/lydia-api/sak";
 import { spørreundersøkelseStatusEnum } from "@/domenetyper/domenetyper";
-import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import { SlettSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/SlettSpørreundersøkelseModal";
 import { useSamarbeidContext } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
 import { erIFortid } from "@/util/dato";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
+import { slettKartleggingNyFlyt } from "@features/sak/api/nyFlyt";
+import { useHentIASaksStatus } from "@features/sak/api/sak";
 import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
 import ForFåSvarRad from "./ForFåSvarRad";
 import FullførtSpørreundersøkelseRad from "./FullførtSpørreundersøkelseRad";

@@ -1,6 +1,6 @@
 import { Accordion, Checkbox, CheckboxGroup } from "@navikt/ds-react";
-import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
-import { useHentMineSaker } from "@/api/lydia-api/sak";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
+import { useHentMineSaker } from "@features/sak/api/sak";
 import {
     EIER_FØLGER_FILTER_VALUES,
     EierFølgerFilterType,

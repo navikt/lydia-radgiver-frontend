@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
 import {
     slettKartleggingNyFlyt,
     slettSamarbeidsplanNyFlyt,
     slettSamarbeidNyFlyt,
     useHentSisteSakNyFlyt,
-} from "@/api/lydia-api/nyFlyt";
-import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
+} from "@features/sak/api/nyFlyt";
 
 interface DeleteProps {
     orgnummer: string;

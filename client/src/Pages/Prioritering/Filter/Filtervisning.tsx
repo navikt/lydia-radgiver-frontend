@@ -1,11 +1,14 @@
 import { Button, Checkbox } from "@navikt/ds-react";
 import { useSearchParams } from "react-router-dom";
 import { Eier, VirksomhetIATilstand } from "@/domenetyper/domenetyper";
-import { FylkeMedKommuner, Kommune } from "@/domenetyper/fylkeOgKommune";
 import {
     loggTogglingAvAutosøk,
     loggTømmingAvFilterverdier,
 } from "@/util/analytics-klient";
+import {
+    FylkeMedKommuner,
+    Kommune,
+} from "@features/virksomhet/types/fylkeOgKommune";
 import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { EierDropdown } from "./EierDropdown";

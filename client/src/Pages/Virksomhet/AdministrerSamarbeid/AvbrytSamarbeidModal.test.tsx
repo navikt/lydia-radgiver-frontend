@@ -2,12 +2,12 @@ import React from "react";
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { axe } from "jest-axe";
-import * as nyFlyt from "@/api/lydia-api/nyFlyt";
-import * as spørreundersøkelse from "@/api/lydia-api/spørreundersøkelse";
 import { IASak, spørreundersøkelseStatusEnum } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
-import { SpørreundersøkelseTypeEnum } from "@/domenetyper/spørreundersøkelseMedInnhold";
 import AvbrytSamarbeidModal from "@/Pages/Virksomhet/AdministrerSamarbeid/AvbrytSamarbeidModal";
+import * as spørreundersøkelse from "@features/kartlegging/api/spørreundersøkelse";
+import { SpørreundersøkelseTypeEnum } from "@features/kartlegging/types/spørreundersøkelseMedInnhold";
+import * as nyFlyt from "@features/sak/api/nyFlyt";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import { dummySpørreundersøkelseliste } from "@mocks/spørreundersøkelseDummyData";
 
 HTMLDialogElement.prototype.showModal = jest.fn();

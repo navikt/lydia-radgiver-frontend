@@ -1,5 +1,5 @@
-import { Publiseringsinfo } from "@/domenetyper/publiseringsinfo";
 import { getGjeldendePeriodeTekst } from "@/util/gjeldendePeriodeSisteFireKvartal";
+import { Publiseringsinfo } from "@features/plan/types/publiseringsinfo";
 
 describe("getGjeldendePeriodeTekst", () => {
     test("returnerer tom streng når publiseringsinfo mangler", () => {

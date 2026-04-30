@@ -18,7 +18,7 @@ import {
     AvsluttSamarbeid,
     BliEier,
     FølgVirksomhet,
-} from "./Post";
+} from "./post";
 import { EndrePlanlagtDato, EndreSamarbeidsNavn } from "./Put";
 
 function DebugContent({ orgnummer }: { orgnummer: string }) {

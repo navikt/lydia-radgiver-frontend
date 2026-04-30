@@ -1,7 +1,7 @@
 import { VStack } from "@navikt/ds-react";
 import { useState } from "react";
 import { IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import { SamarbeidsInnhold } from "./SamarbeidsInnhold";
 import { Samarbeidsvelger } from "./Samarbeidsvelger";
 

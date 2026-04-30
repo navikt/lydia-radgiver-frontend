@@ -6,10 +6,43 @@ applyTo: 'client/**'
 ## Teknisk stack
 - React 19, TypeScript, Vite
 - Komponentbibliotek: `@navikt/ds-react` (NAV Aksel) – bruk eksisterende Aksel-komponenter fremfor å lage egne UI-primitiver
-- Data-fetching: `swr` via `useSwrTemplate` fra `src/api/lydia-api/networkRequests.ts`
-- Validering og typer: `zod` – definer alltid et zod-skjema og utled TypeScript-typen med `z.infer<typeof ...>`. Definer skjema og type i `src/domenetyper/`. **Importer alltid fra `"zod/v4"`**, ikke `"zod"`.
+- Data-fetching: `swr` via `useSwrTemplate` fra `@/api/lydia-api/networkRequests`
+- Validering og typer: `zod` – definer alltid et zod-skjema og utled TypeScript-typen med `z.infer<typeof ...>`. Definer skjema og type i feature-mappen under `@features/<feature>/types/`. **Importer alltid fra `"zod/v4"`**, ikke `"zod"`.
 - Ikoner: `@navikt/aksel-icons`
 - Routing: `react-router-dom`
+
+## Mappestruktur og aliases
+
+```
+client/src/
+  Pages/                    # Route-komponenter (organisert per side)
+  components/               # Gjenbrukbare UI-komponenter
+  features/                 # Feature-modul: api + typer per domeneområde
+    bruker/{api,types}/
+    sak/{api,types}/
+    virksomhet/{api,types}/
+    plan/{api,types}/
+    kartlegging/{api,types}/
+    prioritering/{api,types}/
+    leveranse/{api,types}/
+    mineSaker/{api,types}/
+  api/lydia-api/            # Felles API-infrastruktur (networkRequests, paths)
+  domenetyper/              # Felles på tvers av features (kvartal, util-typer)
+  util/                     # Generelle hjelpere (dato, sortering, formatering)
+  test-utils/               # Felles render-wrapper for tester
+```
+
+**Aliases (konfigurert i tsconfig + vite + jest)**:
+- `@/*` → `src/*`
+- `@features/*` → `src/features/*`
+- `@mocks/*` → `__mocks__/*`
+
+**Når du legger til ny api/type**:
+- Hører den til en eksisterende feature? → legg i `@features/<feature>/{api,types}/`.
+- Er det noe helt nytt domeneområde? → opprett `features/<navn>/{api,types}/`.
+- Er den genuint felles på tvers? → `@/api/lydia-api/` eller `@/domenetyper/`.
+
+**Tester ligger ved siden av kilden** (`*.test.ts`/`*.test.tsx`), ikke i `__tests__/`.
 
 ## Kodemønstre
 

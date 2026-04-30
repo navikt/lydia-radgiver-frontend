@@ -1,12 +1,12 @@
-import { Næringsstatistikk } from "../src/domenetyper/bransjestatistikk";
+import { Plan } from "@features/plan/types/plan";
+import { Publiseringsinfo } from "@features/plan/types/publiseringsinfo";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { Sakshistorikk } from "@features/sak/types/sakshistorikk";
+import { Næringsstatistikk } from "@features/virksomhet/types/bransjestatistikk";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
+import { VirksomhetsstatistikkSiste4Kvartaler } from "@features/virksomhet/types/virksomhetsstatistikkSiste4Kvartaler";
+import { VirkomshetsstatistikkSisteKvartal } from "@features/virksomhet/types/virksomhetsstatistikkSisteKvartal";
 import { IASak } from "../src/domenetyper/domenetyper";
-import { IaSakProsess } from "../src/domenetyper/iaSakProsess";
-import { Plan } from "../src/domenetyper/plan";
-import { Publiseringsinfo } from "../src/domenetyper/publiseringsinfo";
-import { Sakshistorikk } from "../src/domenetyper/sakshistorikk";
-import { Virksomhet } from "../src/domenetyper/virksomhet";
-import { VirksomhetsstatistikkSiste4Kvartaler } from "../src/domenetyper/virksomhetsstatistikkSiste4Kvartaler";
-import { VirkomshetsstatistikkSisteKvartal } from "../src/domenetyper/virksomhetsstatistikkSisteKvartal";
 
 export const dummyVirksomhetsinformasjon: Virksomhet = {
     orgnr: "840623927",

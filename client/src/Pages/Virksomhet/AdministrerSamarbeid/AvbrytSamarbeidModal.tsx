@@ -1,18 +1,21 @@
 import { BodyLong, Button, List, LocalAlert, Modal } from "@navikt/ds-react";
 import React from "react";
+import { IASak, spørreundersøkelseStatusEnum } from "@/domenetyper/domenetyper";
+import {
+    useHentSamarbeid,
+    useSpørreundersøkelsesliste,
+} from "@features/kartlegging/api/spørreundersøkelse";
+import { SpørreundersøkelseTypeEnum } from "@features/kartlegging/types/spørreundersøkelseMedInnhold";
+import { useHentPlan } from "@features/plan/api/plan";
 import {
     avsluttSamarbeidNyFlyt,
     useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
-} from "@/api/lydia-api/nyFlyt";
-import { useHentPlan } from "@/api/lydia-api/plan";
+} from "@features/sak/api/nyFlyt";
 import {
-    useHentSamarbeid,
-    useSpørreundersøkelsesliste,
-} from "@/api/lydia-api/spørreundersøkelse";
-import { IASak, spørreundersøkelseStatusEnum } from "@/domenetyper/domenetyper";
-import { IaSakProsess, SamarbeidRequest } from "@/domenetyper/iaSakProsess";
-import { SpørreundersøkelseTypeEnum } from "@/domenetyper/spørreundersøkelseMedInnhold";
+    IaSakProsess,
+    SamarbeidRequest,
+} from "@features/sak/types/iaSakProsess";
 import styles from "./administrerSamarbeid.module.scss";
 import BekreftSisteSamarbeidModal, {
     erSisteSamarbeid,

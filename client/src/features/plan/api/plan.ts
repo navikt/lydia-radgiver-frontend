@@ -1,0 +1,136 @@
+import {
+    defaultSwrConfiguration,
+    httpDelete,
+    post,
+    put,
+    useSwrTemplate,
+} from "@/api/lydia-api/networkRequests";
+import { planPath } from "@/api/lydia-api/paths";
+import {
+    TemaRequest,
+    UndertemaRequest,
+} from "@/Pages/Virksomhet/Plan/Requests";
+import {
+    Plan,
+    PlanInnholdStatus,
+    PlanMal,
+    PlanMalRequest,
+    PlanMalSchema,
+    PlanSchema,
+} from "@features/plan/types/plan";
+
+export const nyPlanPåSak = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidsId: number,
+    plan: PlanMalRequest,
+): Promise<Plan> => {
+    return post(
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/opprett`,
+        PlanSchema,
+        plan,
+    );
+};
+
+export const endrePlan = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidsId: number,
+    body: TemaRequest[],
+): Promise<Plan> => {
+    return put(
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
+        PlanSchema,
+        body,
+    );
+};
+
+export const slettPlan = (
+    orgnummer: string,
+    saksnummer: string,
+    prosessId: number,
+) => {
+    return httpDelete(
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${prosessId}`,
+        PlanSchema,
+    );
+};
+
+export const endrePlanTema = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidsId: number,
+    temaId: number,
+    body: UndertemaRequest[],
+): Promise<Plan> => {
+    return put(
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/${temaId}`,
+        PlanSchema,
+        body,
+    );
+};
+
+export const endrePlanStatus = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidsId: number,
+    temaId: number,
+    undertemaId: number,
+    body: PlanInnholdStatus,
+): Promise<Plan> => {
+    return put(
+        `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/${temaId}/${undertemaId}`,
+        PlanSchema,
+        body,
+    );
+};
+
+export const useHentPlan = (
+    orgnummer?: string,
+    saksnummer?: string,
+    samarbeidsId?: number,
+) => {
+    return useSwrTemplate<Plan>(
+        orgnummer && saksnummer && samarbeidsId
+            ? `${planPath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`
+            : null,
+        PlanSchema,
+        defaultSwrConfiguration,
+        false,
+    );
+};
+
+export const useHarPlan = (
+    orgnummer?: string,
+    saksnummer?: string,
+    samarbeidsId?: number,
+) => {
+    const { data, loading, validating } = useHentPlan(
+        orgnummer || "",
+        saksnummer || "",
+        samarbeidsId || 0,
+    );
+
+    if (!orgnummer || !saksnummer || !samarbeidsId) {
+        return {
+            harPlan: undefined,
+            lastet: true,
+        };
+    }
+
+    if (data) {
+        return {
+            harPlan: true,
+            lastet: true,
+        };
+    }
+
+    return {
+        harPlan: false,
+        lastet: !loading && !validating,
+    };
+};
+
+export const useHentPlanMal = () => {
+    return useSwrTemplate<PlanMal>(`${planPath}/mal`, PlanMalSchema);
+};

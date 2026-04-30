@@ -1,5 +1,5 @@
-import { PlanInnhold } from "@/domenetyper/plan";
 import { isoDato } from "@/util/dato";
+import { PlanInnhold } from "@features/plan/types/plan";
 
 export type TemaRequest = {
     id: number;

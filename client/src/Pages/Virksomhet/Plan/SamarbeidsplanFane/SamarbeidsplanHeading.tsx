@@ -1,12 +1,12 @@
 import { PaperplaneIcon } from "@navikt/aksel-icons";
 import { BodyShort, HStack } from "@navikt/ds-react";
 import React from "react";
-import { useHentPlan } from "@/api/lydia-api/plan";
 import Samarbeidsfanemeny from "@/components/Samarbeidsfanemeny";
 import { IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
-import { Plan } from "@/domenetyper/plan";
 import { lokalDatoMedKlokkeslett } from "@/util/dato";
+import { useHentPlan } from "@features/plan/api/plan";
+import { Plan } from "@features/plan/types/plan";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import { PubliserSamarbeidsplan } from "../PubliserSamarbeidsplan";
 import EksportVisning from "./EksportVisning";
 import styles from "./samarbeidsplanFane.module.scss";

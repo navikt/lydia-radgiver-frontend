@@ -1,6 +1,6 @@
 import { BodyShort, HStack, Modal } from "@navikt/ds-react";
 import React from "react";
-import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 import ForhåndsvisningEksport from "../ForhåndsvisningEksport";
 import Forhåndsvisning from "./Forhåndsvisning";
 

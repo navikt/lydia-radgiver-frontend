@@ -1,10 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
 import "@testing-library/jest-dom";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 import EndreSamarbeidsnavnModal, {
     navnError,
 } from "@/Pages/Virksomhet/AdministrerSamarbeid/EndreSamarbeidsnavnModal";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 
 HTMLDialogElement.prototype.showModal = jest.fn();
 HTMLDialogElement.prototype.close = jest.fn();

@@ -5,7 +5,7 @@ import {
     SpørreundersøkelseProviderProps,
 } from "@/components/Spørreundersøkelse/SpørreundersøkelseContext";
 import Spørreundersøkelseliste from "@/components/Spørreundersøkelse/Spørreundersøkelseliste";
-import { Virksomhet } from "@/domenetyper/virksomhet";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { SamarbeidProvider } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
 import VirksomhetContext from "@/Pages/Virksomhet/VirksomhetContext";
 import {
@@ -15,7 +15,7 @@ import {
     dummyVirksomhet,
 } from "@mocks/spørreundersøkelseDummyData";
 import "@testing-library/jest-dom";
-import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 
 const litenSpørreundersøkelseResultat = {
     id: "test-resultat-id",
@@ -44,10 +44,10 @@ const litenSpørreundersøkelseResultat = {
     ],
 };
 
-jest.mock("@/api/lydia-api/spørreundersøkelse", () => {
+jest.mock("@features/kartlegging/api/spørreundersøkelse", () => {
     return {
         __esModule: true,
-        ...jest.requireActual("@/api/lydia-api/spørreundersøkelse"),
+        ...jest.requireActual("@features/kartlegging/api/spørreundersøkelse"),
         useHentResultat: jest.fn(() => ({
             data: litenSpørreundersøkelseResultat,
             loading: false,

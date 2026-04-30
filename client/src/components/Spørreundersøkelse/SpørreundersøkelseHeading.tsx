@@ -1,6 +1,6 @@
 import { Heading, HStack } from "@navikt/ds-react";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
-import { SpørreundersøkelseType } from "@/domenetyper/spørreundersøkelseMedInnhold";
+import { SpørreundersøkelseType } from "@features/kartlegging/types/spørreundersøkelseMedInnhold";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import Samarbeidsfanemeny from "../Samarbeidsfanemeny";
 
 export const SpørreundersøkelseHeading = ({

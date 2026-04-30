@@ -1,8 +1,8 @@
 import { BodyShort, List } from "@navikt/ds-react";
 import React from "react";
 import { BekreftValgModal } from "@/components/Modal/BekreftValgModal";
-import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import { åpneSpørreundersøkelseINyFane } from "@/util/navigasjon";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 
 export function StartSpørreundersøkelseModal({
     spørreundersøkelse,

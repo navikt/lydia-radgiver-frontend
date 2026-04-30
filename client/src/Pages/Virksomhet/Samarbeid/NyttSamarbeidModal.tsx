@@ -9,17 +9,17 @@ import {
 } from "@navikt/ds-react";
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { EksternLenke } from "@/components/EksternLenke";
+import { IASak } from "@/domenetyper/domenetyper";
+import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
 import {
     opprettSamarbeidNyFlyt,
     useHentHistorikkNyFlyt,
     useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
     useHentTilstandForVirksomhetNyFlyt,
-} from "@/api/lydia-api/nyFlyt";
-import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
-import { EksternLenke } from "@/components/EksternLenke";
-import { IASak } from "@/domenetyper/domenetyper";
-import { Virksomhet } from "@/domenetyper/virksomhet";
+} from "@features/sak/api/nyFlyt";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { MAX_LENGDE_SAMARBEIDSNAVN } from "./EndreSamarbeidModal/EndreSamarbeidInnhold";
 import styles from "./samarbeid.module.scss";
 

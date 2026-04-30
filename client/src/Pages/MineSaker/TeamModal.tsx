@@ -1,7 +1,7 @@
 import { Button, Modal } from "@navikt/ds-react";
 import React from "react";
-import { useHentMineSaker } from "@/api/lydia-api/sak";
 import { IASak } from "@/domenetyper/domenetyper";
+import { useHentMineSaker } from "@features/sak/api/sak";
 import styles from "./minesaker.module.scss";
 import { TaEierskapModal } from "./TaEierSkapModal";
 import TeamInnhold from "./TeamInnhold";

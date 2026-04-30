@@ -6,9 +6,6 @@ import {
     IAProsessStatusType,
     VirksomhetIATilstand,
 } from "@/domenetyper/domenetyper";
-import { ValgtSnittFilter } from "@/domenetyper/filterverdier";
-import { FylkeMedKommuner, Kommune } from "@/domenetyper/fylkeOgKommune";
-import { Næringsgruppe, Sektor } from "@/domenetyper/virksomhet";
 import { AntallArbeidsforholdVelger } from "@/Pages/Prioritering/Filter/AntallArbeidsforholdVelger";
 import { EierDropdown } from "@/Pages/Prioritering/Filter/EierDropdown";
 import { Filtervisning } from "@/Pages/Prioritering/Filter/Filtervisning";
@@ -23,6 +20,12 @@ import {
 } from "@/Pages/Prioritering/Filter/SykefraværsprosentVelger";
 import { TallInput } from "@/Pages/Prioritering/Filter/TallInput";
 import { VirksomhetTilstandDropdown } from "@/Pages/Prioritering/Filter/VirksomhetTilstandDropdown";
+import { ValgtSnittFilter } from "@features/prioritering/types/filterverdier";
+import {
+    FylkeMedKommuner,
+    Kommune,
+} from "@features/virksomhet/types/fylkeOgKommune";
+import { Næringsgruppe, Sektor } from "@features/virksomhet/types/virksomhet";
 
 describe("TallInput", () => {
     test("rendrer TextField med label", () => {

@@ -1,9 +1,9 @@
-import { ValgtSnittFilter } from "@/domenetyper/filterverdier";
 import {
     FilterverdiKategorier,
     loggFilterverdiKategorier,
     Søkekomponenter,
 } from "@/util/analytics-klient";
+import { ValgtSnittFilter } from "@features/prioritering/types/filterverdier";
 import { FiltervisningState } from "./Filter/filtervisning-reducer";
 
 export const loggSøkMedFilterIAnalytics = (

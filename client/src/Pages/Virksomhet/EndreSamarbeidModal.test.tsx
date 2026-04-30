@@ -2,16 +2,16 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { renderHook } from "@testing-library/react";
 import { IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
-import { KanIkkeGjennomføreBegrunnelse } from "@/domenetyper/samarbeidsEndring";
 import BegrunnelserForIkkeKunne, {
     usePrettyType,
 } from "@/Pages/Virksomhet/Samarbeid/EndreSamarbeidModal/BegrunnelserForIkkeKunne";
 import BekreftHandlingModal from "@/Pages/Virksomhet/Samarbeid/EndreSamarbeidModal/BekreftHandlingModal";
 import VelgHandlingModal from "@/Pages/Virksomhet/Samarbeid/EndreSamarbeidModal/VelgHandlingModal";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { KanIkkeGjennomføreBegrunnelse } from "@features/sak/types/samarbeidsEndring";
 
 // Mock dependencies
-jest.mock("@/api/lydia-api/virksomhet", () => ({
+jest.mock("@features/virksomhet/api/virksomhet", () => ({
     useHentSalesforceUrl: jest.fn(() => ({ data: null })),
 }));
 

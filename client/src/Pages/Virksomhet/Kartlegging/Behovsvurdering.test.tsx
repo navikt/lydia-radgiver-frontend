@@ -1,6 +1,5 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { opprettKartleggingNyFlyt } from "@/api/lydia-api/nyFlyt";
 import { IAProsessStatusType } from "@/domenetyper/domenetyper";
 import { brukerMedGyldigToken } from "@/Pages/Prioritering/mocks/innloggetAnsattMock";
 import { Kartleggingsliste } from "@/Pages/Virksomhet/Kartlegging/Kartleggingsliste";
@@ -8,6 +7,7 @@ import { SamarbeidProvider } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext
 import VirksomhetContext, {
     VirksomhetContextType,
 } from "@/Pages/Virksomhet/VirksomhetContext";
+import { opprettKartleggingNyFlyt } from "@features/sak/api/nyFlyt";
 import { dummySpørreundersøkelseliste } from "@mocks/spørreundersøkelseDummyData";
 import {
     dummyIaSak,
@@ -16,8 +16,8 @@ import {
     dummyVirksomhetsinformasjon,
 } from "@mocks/virksomhetsMockData";
 
-jest.mock("@/api/lydia-api/spørreundersøkelse", () => ({
-    ...jest.requireActual("@/api/lydia-api/spørreundersøkelse"),
+jest.mock("@features/kartlegging/api/spørreundersøkelse", () => ({
+    ...jest.requireActual("@features/kartlegging/api/spørreundersøkelse"),
     useSpørreundersøkelsesliste: jest.fn(() => ({
         data: dummySpørreundersøkelseliste,
         loading: false,
@@ -26,8 +26,8 @@ jest.mock("@/api/lydia-api/spørreundersøkelse", () => ({
     })),
 }));
 
-jest.mock("@/api/lydia-api/sak", () => ({
-    ...jest.requireActual("@/api/lydia-api/sak"),
+jest.mock("@features/sak/api/sak", () => ({
+    ...jest.requireActual("@features/sak/api/sak"),
     useHentIASaksStatus: jest.fn(() => ({
         data: undefined,
         loading: false,
@@ -35,24 +35,24 @@ jest.mock("@/api/lydia-api/sak", () => ({
     })),
 }));
 
-jest.mock("@/api/lydia-api/team", () => ({
-    ...jest.requireActual("@/api/lydia-api/team"),
+jest.mock("@features/bruker/api/team", () => ({
+    ...jest.requireActual("@features/bruker/api/team"),
     useHentTeam: jest.fn(() => ({
         data: [brukerMedGyldigToken.ident],
         loading: false,
     })),
 }));
 
-jest.mock("@/api/lydia-api/bruker", () => ({
-    ...jest.requireActual("@/api/lydia-api/bruker"),
+jest.mock("@features/bruker/api/bruker", () => ({
+    ...jest.requireActual("@features/bruker/api/bruker"),
     useHentBrukerinformasjon: jest.fn(() => ({
         data: brukerMedGyldigToken,
         loading: false,
     })),
 }));
 
-jest.mock("@/api/lydia-api/plan", () => ({
-    ...jest.requireActual("@/api/lydia-api/plan"),
+jest.mock("@features/plan/api/plan", () => ({
+    ...jest.requireActual("@features/plan/api/plan"),
     useHentPlan: jest.fn(() => ({
         data: dummyPlan,
         loading: false,
@@ -60,8 +60,8 @@ jest.mock("@/api/lydia-api/plan", () => ({
     })),
 }));
 
-jest.mock("@/api/lydia-api/nyFlyt", () => ({
-    ...jest.requireActual("@/api/lydia-api/nyFlyt"),
+jest.mock("@features/sak/api/nyFlyt", () => ({
+    ...jest.requireActual("@features/sak/api/nyFlyt"),
     opprettKartleggingNyFlyt: jest.fn(),
 }));
 

@@ -6,11 +6,11 @@ import {
 } from "@floating-ui/react";
 import { Heading, Loader, Table } from "@navikt/ds-react";
 import React from "react";
-import { useHentHistorikkNyFlyt } from "@/api/lydia-api/nyFlyt";
 import { InternLenke } from "@/components/InternLenke";
 import { IAProsessStatusEnum } from "@/domenetyper/domenetyper";
-import { Virksomhetsoversikt } from "@/domenetyper/virksomhetsoversikt";
 import Samarbeidshistorikk from "@/Pages/Virksomhet/Sakshistorikk/Samarbeidshistorikk";
+import { useHentHistorikkNyFlyt } from "@features/sak/api/nyFlyt";
+import { Virksomhetsoversikt } from "@features/virksomhet/types/virksomhetsoversikt";
 import styles from "./prioriteringstabell.module.scss";
 
 export default function Virksomhetsnavncelle({

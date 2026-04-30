@@ -7,14 +7,14 @@ import {
 } from "@navikt/aksel-icons";
 import { ActionMenu, Button } from "@navikt/ds-react";
 import React from "react";
+import { IASak } from "@/domenetyper/domenetyper";
 import {
     erSaksbehandler,
     useHentBrukerinformasjon,
-} from "@/api/lydia-api/bruker";
-import { useHentTeam } from "@/api/lydia-api/team";
-import { useKanUtføreHandlingPåSamarbeid } from "@/api/lydia-api/virksomhet";
-import { IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+} from "@features/bruker/api/bruker";
+import { useHentTeam } from "@features/bruker/api/team";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { useKanUtføreHandlingPåSamarbeid } from "@features/virksomhet/api/virksomhet";
 import AvbrytSamarbeidModal from "./AvbrytSamarbeidModal";
 import EndreSamarbeidsnavnModal from "./EndreSamarbeidsnavnModal";
 import FullførSamarbeidModal from "./FullførSamarbeidModal";

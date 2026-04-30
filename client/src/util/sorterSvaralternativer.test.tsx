@@ -1,12 +1,12 @@
 import { render, screen } from "@testing-library/react";
 import "@testing-library/jest-dom";
 
-import { SpørsmålResultat } from "@/domenetyper/spørreundersøkelseResultat";
 import {
     getSortertSvaralternativer,
     getSpørsmålMedSorterteSvaralternativer,
     useSpørsmålMedSorterteSvaralternativer,
 } from "@/util/sorterSvaralternativer";
+import { SpørsmålResultat } from "@features/kartlegging/types/spørreundersøkelseResultat";
 
 function lagSpørsmål(svarTekster: string[]): SpørsmålResultat {
     return {

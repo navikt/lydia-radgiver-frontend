@@ -1,4 +1,4 @@
-import { Publiseringsinfo } from "../domenetyper/publiseringsinfo";
+import { Publiseringsinfo } from "@features/plan/types/publiseringsinfo";
 
 const ANTALL_DAGER_FØR_PUBLISERING_HVOR_BANNER_SKAL_VISES = 4;
 const ANTALL_DAGER_ETTER_PUBLISERING_HVOR_BANNER_SKAL_VISES = 7;

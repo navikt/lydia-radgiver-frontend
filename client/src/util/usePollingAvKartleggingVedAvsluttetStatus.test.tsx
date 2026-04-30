@@ -3,8 +3,8 @@ import React from "react";
 import "@testing-library/jest-dom";
 import { act } from "react";
 import { DokumentStatusEnum } from "@/domenetyper/domenetyper";
-import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import { usePollingAvKartleggingVedAvsluttetStatus } from "@/util/usePollingAvKartleggingVedAvsluttetStatus";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 
 type PubliseringStatus = Spørreundersøkelse["publiseringStatus"];
 

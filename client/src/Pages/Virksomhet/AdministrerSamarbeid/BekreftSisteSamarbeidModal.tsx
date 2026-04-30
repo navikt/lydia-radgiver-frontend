@@ -6,23 +6,23 @@ import {
     useDatepicker,
 } from "@navikt/ds-react";
 import React from "react";
+import { SamarbeidStatusBadge } from "@/components/Badge/SamarbeidStatusBadge";
+import { IASak } from "@/domenetyper/domenetyper";
+import { isoDato } from "@/util/dato";
+import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
+import { useHentPlan } from "@features/plan/api/plan";
 import {
     avsluttSamarbeidNyFlyt,
     slettSamarbeidNyFlyt,
     useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
     useHentTilstandForVirksomhetNyFlyt,
-} from "@/api/lydia-api/nyFlyt";
-import { useHentPlan } from "@/api/lydia-api/plan";
-import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
-import { SamarbeidStatusBadge } from "@/components/Badge/SamarbeidStatusBadge";
-import { IASak } from "@/domenetyper/domenetyper";
+} from "@features/sak/api/nyFlyt";
 import {
     IaSakProsess,
     IASamarbeidStatusType,
     SamarbeidRequest,
-} from "@/domenetyper/iaSakProsess";
-import { isoDato } from "@/util/dato";
+} from "@features/sak/types/iaSakProsess";
 import styles from "./bekreftSisteSamarbeidModal.module.scss";
 
 export default function BekreftSisteSamarbeidModal({

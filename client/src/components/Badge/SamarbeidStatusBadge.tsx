@@ -1,7 +1,7 @@
 import {
     IASamarbeidStatusEnum,
     IASamarbeidStatusType,
-} from "@/domenetyper/iaSakProsess";
+} from "@features/sak/types/iaSakProsess";
 import { GenericProps, GenericStatusBadge } from "./StatusBadge";
 
 export type StatusBadgeProps = Omit<

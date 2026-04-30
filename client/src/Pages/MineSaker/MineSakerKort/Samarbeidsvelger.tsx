@@ -10,7 +10,7 @@ import {
 import { Link } from "react-router-dom";
 import { SamarbeidStatusBadge } from "@/components/Badge/SamarbeidStatusBadge";
 import { IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import { ARKIV_STATUSER } from "../Filter/StatusFilter";
 import styles from "./minesakerkort.module.scss";
 import { SplittedeSamarbeid } from "./SamarbeidsKort";

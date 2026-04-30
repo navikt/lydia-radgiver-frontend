@@ -1,14 +1,14 @@
 import { ExpansionCard } from "@navikt/ds-react";
 import React from "react";
-import { flyttSpørreundersøkelse } from "@/api/lydia-api/spørreundersøkelse";
 import { SpørreundersøkelseStatusBadge } from "@/components/Badge/SpørreundersøkelseStatusBadge";
-import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import ActionButtonsHvisSamarbeidIkkeFullført from "@/Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
 import { FlyttTilAnnenProsess } from "@/Pages/Virksomhet/Kartlegging/FlyttTilAnnenProsess";
 import { PubliserSpørreundersøkelse } from "@/Pages/Virksomhet/Kartlegging/PubliserSpørreundersøkelse";
 import ResultatEksportVisning from "@/Pages/Virksomhet/Kartlegging/ResultatEksportVisning";
 import { SpørreundersøkelseResultat } from "@/Pages/Virksomhet/Kartlegging/SpørreundersøkelseResultat";
 import { usePollingAvKartleggingVedAvsluttetStatus } from "@/util/usePollingAvKartleggingVedAvsluttetStatus";
+import { flyttSpørreundersøkelse } from "@features/kartlegging/api/spørreundersøkelse";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
 import styles from "./spørreundersøkelsesliste.module.scss";
 import { FormatertSpørreundersøkelseType } from "./utils";

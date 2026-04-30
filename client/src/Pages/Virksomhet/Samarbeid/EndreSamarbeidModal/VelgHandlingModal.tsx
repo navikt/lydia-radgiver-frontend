@@ -8,13 +8,13 @@ import {
 } from "@navikt/ds-react";
 import React from "react";
 import { IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { useBøyningerAvSamarbeidshandling } from "@/util/formatering/useBøyninger";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import {
     KanGjennomføreStatusendring,
     muligeHandlinger,
     MuligSamarbeidsgandling,
-} from "@/domenetyper/samarbeidsEndring";
-import { useBøyningerAvSamarbeidshandling } from "@/util/formatering/useBøyninger";
+} from "@features/sak/types/samarbeidsEndring";
 import BegrunnelserForIkkeKunne from "./BegrunnelserForIkkeKunne";
 import styles from "./endresamarbeidmodal.module.scss";
 

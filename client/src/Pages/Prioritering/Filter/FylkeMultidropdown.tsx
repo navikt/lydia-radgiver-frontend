@@ -4,8 +4,8 @@ import {
     reactSelectStyle,
     StyledReactSelect,
 } from "@/components/ReactSelect/StyledReactSelect";
-import { FylkeMedKommuner } from "@/domenetyper/fylkeOgKommune";
 import { sorterAlfabetisk } from "@/util/sortering";
+import { FylkeMedKommuner } from "@features/virksomhet/types/fylkeOgKommune";
 
 const fylkeDropdownId = "fylkedropdown";
 

@@ -3,14 +3,14 @@ import "@testing-library/jest-dom";
 import { axe } from "jest-axe";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
-import { useHentTeam } from "@/api/lydia-api/team";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 import {
     brukerMedGyldigToken,
     brukerMedLesetilgang,
 } from "@/Pages/Prioritering/mocks/innloggetAnsattMock";
 import Samarbeidsvelger from "@/Pages/Virksomhet/Samarbeidsvelger";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
+import { useHentTeam } from "@features/bruker/api/team";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import {
     dummyIaSak,
     dummyVirksomhetsinformasjon,
@@ -20,13 +20,13 @@ jest.mock("@/Pages/Virksomhet/Samarbeid/NyttSamarbeidModal", () => ({
     NyttSamarbeidModal: () => <div data-testid="nytt-samarbeid-modal" />,
 }));
 
-jest.mock("@/api/lydia-api/bruker", () => ({
-    ...jest.requireActual("@/api/lydia-api/bruker"),
+jest.mock("@features/bruker/api/bruker", () => ({
+    ...jest.requireActual("@features/bruker/api/bruker"),
     useHentBrukerinformasjon: jest.fn(),
 }));
 
-jest.mock("@/api/lydia-api/team", () => ({
-    ...jest.requireActual("@/api/lydia-api/team"),
+jest.mock("@features/bruker/api/team", () => ({
+    ...jest.requireActual("@features/bruker/api/team"),
     useHentTeam: jest.fn(),
 }));
 

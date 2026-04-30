@@ -2,9 +2,9 @@ import { BodyShort, Heading } from "@navikt/ds-react";
 import React from "react";
 import { SamarbeidStatusBadge } from "@/components/Badge/SamarbeidStatusBadge";
 import { InternLenke } from "@/components/InternLenke";
-import { IASamarbeidStatusEnum } from "@/domenetyper/iaSakProsess";
-import { Sakshistorikk } from "@/domenetyper/sakshistorikk";
 import { lokalDato } from "@/util/dato";
+import { IASamarbeidStatusEnum } from "@features/sak/types/iaSakProsess";
+import { Sakshistorikk } from "@features/sak/types/sakshistorikk";
 import styles from "./sakshistorikk.module.scss";
 
 const KOMPAKT_MAKS_ANTALL_RADER = 5;

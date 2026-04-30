@@ -1,15 +1,15 @@
 import { BodyShort, Loader } from "@navikt/ds-react";
 import React from "react";
+import { dispatchFeilmelding } from "@/components/Banner/dispatchFeilmelding";
+import { IASak } from "@/domenetyper/domenetyper";
+import { VisHvisSamarbeidErÅpent } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
 import {
     erSaksbehandler,
     useHentBrukerinformasjon,
-} from "@/api/lydia-api/bruker";
-import { useHentPlan, useHentPlanMal } from "@/api/lydia-api/plan";
-import { useHentTeam } from "@/api/lydia-api/team";
-import { dispatchFeilmelding } from "@/components/Banner/dispatchFeilmelding";
-import { IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
-import { VisHvisSamarbeidErÅpent } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
+} from "@features/bruker/api/bruker";
+import { useHentTeam } from "@features/bruker/api/team";
+import { useHentPlan, useHentPlanMal } from "@features/plan/api/plan";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import OpprettPlanKnapp from "./OpprettPlanKnapp";
 import { SamarbeidsplanHeading } from "./SamarbeidsplanHeading";

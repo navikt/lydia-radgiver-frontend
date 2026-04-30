@@ -1,5 +1,5 @@
 import React from "react";
-import { SpørreundersøkelseResultat } from "@/domenetyper/spørreundersøkelseResultat";
+import { SpørreundersøkelseResultat } from "@features/kartlegging/types/spørreundersøkelseResultat";
 import styles from "./spørreundersøkelse.module.scss";
 import { TemaResultat } from "./TemaResultat";
 

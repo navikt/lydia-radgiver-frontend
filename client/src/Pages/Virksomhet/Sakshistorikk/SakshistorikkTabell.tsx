@@ -4,8 +4,8 @@ import { NavIdentMedLenke } from "@/components/NavIdentMedLenke";
 import { ScrollUtTilKantenContainer } from "@/components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 import { StyledTable } from "@/components/StyledTable";
 import { IAProsessStatusEnum } from "@/domenetyper/domenetyper";
-import { Sakshistorikk } from "@/domenetyper/sakshistorikk";
 import { lokalDato } from "@/util/dato";
+import { Sakshistorikk } from "@features/sak/types/sakshistorikk";
 
 interface SakshistorikkTabellProps {
     sakshistorikk: Sakshistorikk;

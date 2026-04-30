@@ -1,7 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import { PlanInnhold } from "@/domenetyper/plan";
-import { RedigertInnholdMal } from "@/domenetyper/plan";
 import InnholdOppsett from "@/Pages/Virksomhet/Plan/InnholdOppsett";
 import {
     defaultStartDate,
@@ -10,6 +8,8 @@ import {
     LAST_VALID_DATE,
 } from "@/Pages/Virksomhet/Plan/planconster";
 import TemaInnholdVelger from "@/Pages/Virksomhet/Plan/TemaInnholdVelger";
+import { RedigertInnholdMal } from "@features/plan/types/plan";
+import { PlanInnhold } from "@features/plan/types/plan";
 
 // Mock analytics
 jest.mock("@/util/analytics-klient", () => ({

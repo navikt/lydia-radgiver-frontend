@@ -1,10 +1,13 @@
 import { BodyShort, Loader } from "@navikt/ds-react";
 import { useEffect, useState } from "react";
-import { useFilterverdier, useHentStatusoversikt } from "@/api/lydia-api/sok";
 import SideContainer from "@/components/SideContainer";
-import { Statusoversikt } from "@/domenetyper/statusoversikt";
 import { loggSideLastet, Søkekomponenter } from "@/util/analytics-klient";
 import { statiskeSidetitler, useTittel } from "@/util/useTittel";
+import {
+    useFilterverdier,
+    useHentStatusoversikt,
+} from "@features/prioritering/api/sok";
+import { Statusoversikt } from "@features/sak/types/statusoversikt";
 import { Filtervisning } from "../Prioritering/Filter/Filtervisning";
 import {
     sammenliknFilterverdier,

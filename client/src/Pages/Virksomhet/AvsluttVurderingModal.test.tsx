@@ -8,15 +8,15 @@ import {
 import "@testing-library/jest-dom";
 
 import { BrowserRouter } from "react-router-dom";
-import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
+import { NyVirksomhetsside } from "@/Pages/Virksomhet";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
+import { useHentTeam } from "@features/bruker/api/team";
 import {
     useHentTilstandForVirksomhetNyFlyt,
     useHentSisteSakNyFlyt,
     avsluttVurderingNyFlyt,
     useHentSpesifikkSakNyFlyt,
-} from "@/api/lydia-api/nyFlyt";
-import { useHentTeam } from "@/api/lydia-api/team";
-import { NyVirksomhetsside } from "@/Pages/Virksomhet";
+} from "@features/sak/api/nyFlyt";
 import {
     dummyIaSak,
     dummyPubliseringsinfo,
@@ -37,9 +37,9 @@ jest.mock("@/util/analytics-klient", () => {
     };
 });
 
-jest.mock("@/api/lydia-api/virksomhet", () => {
+jest.mock("@features/virksomhet/api/virksomhet", () => {
     return {
-        ...jest.requireActual("@/api/lydia-api/virksomhet"),
+        ...jest.requireActual("@features/virksomhet/api/virksomhet"),
         useHentVirksomhetsinformasjon: jest.fn(() => {
             return {
                 data: {
@@ -84,9 +84,9 @@ jest.mock("@/api/lydia-api/virksomhet", () => {
     };
 });
 
-jest.mock("@/api/lydia-api/spørreundersøkelse", () => {
+jest.mock("@features/kartlegging/api/spørreundersøkelse", () => {
     return {
-        ...jest.requireActual("@/api/lydia-api/spørreundersøkelse"),
+        ...jest.requireActual("@features/kartlegging/api/spørreundersøkelse"),
         useHentSamarbeid: jest.fn(() => {
             return {
                 data: [],
@@ -106,9 +106,9 @@ jest.mock("@/api/lydia-api/spørreundersøkelse", () => {
     };
 });
 
-jest.mock("@/api/lydia-api/nyFlyt", () => {
+jest.mock("@features/sak/api/nyFlyt", () => {
     return {
-        ...jest.requireActual("@/api/lydia-api/nyFlyt"),
+        ...jest.requireActual("@features/sak/api/nyFlyt"),
         useHentTilstandForVirksomhetNyFlyt: jest.fn(() => {
             return {
                 data: {
@@ -151,9 +151,9 @@ jest.mock("@/api/lydia-api/nyFlyt", () => {
     };
 });
 
-jest.mock("@/api/lydia-api/bruker", () => {
+jest.mock("@features/bruker/api/bruker", () => {
     return {
-        ...jest.requireActual("@/api/lydia-api/bruker"),
+        ...jest.requireActual("@features/bruker/api/bruker"),
         useHentBrukerinformasjon: jest.fn(() => {
             return {
                 data: {
@@ -168,9 +168,9 @@ jest.mock("@/api/lydia-api/bruker", () => {
     };
 });
 
-jest.mock("@/api/lydia-api/team", () => {
+jest.mock("@features/bruker/api/team", () => {
     return {
-        ...jest.requireActual("@/api/lydia-api/team"),
+        ...jest.requireActual("@features/bruker/api/team"),
         useHentTeam: jest.fn(() => {
             return {
                 data: ["Z123456"],

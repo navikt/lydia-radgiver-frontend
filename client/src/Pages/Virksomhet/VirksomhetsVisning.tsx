@@ -1,22 +1,22 @@
 import { HStack, Tabs, VStack } from "@navikt/ds-react";
 import React from "react";
 import { useParams, useSearchParams } from "react-router-dom";
-import {
-    useHentSisteSakNyFlyt,
-    useHentSpesifikkSakNyFlyt,
-} from "@/api/lydia-api/nyFlyt";
-import { useHarPlan } from "@/api/lydia-api/plan";
-import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
-import { useHentSalesforceSamarbeidLenke } from "@/api/lydia-api/virksomhet";
 import { SamarbeidStatusBadge } from "@/components/Badge/SamarbeidStatusBadge";
 import { EksternLenke } from "@/components/EksternLenke";
 import { IASak } from "@/domenetyper/domenetyper";
+import { loggNavigertTilNyTab } from "@/util/analytics-klient";
+import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
+import { useHarPlan } from "@features/plan/api/plan";
+import {
+    useHentSisteSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "@features/sak/api/nyFlyt";
 import {
     IaSakProsess,
     IASamarbeidStatusType,
-} from "@/domenetyper/iaSakProsess";
-import { Virksomhet } from "@/domenetyper/virksomhet";
-import { loggNavigertTilNyTab } from "@/util/analytics-klient";
+} from "@features/sak/types/iaSakProsess";
+import { useHentSalesforceSamarbeidLenke } from "@features/virksomhet/api/virksomhet";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import AdministrerSamarbeid from "./AdministrerSamarbeid";
 import { Kartleggingsliste } from "./Kartlegging/Kartleggingsliste";
 import SamarbeidsplanFane from "./Plan/SamarbeidsplanFane";

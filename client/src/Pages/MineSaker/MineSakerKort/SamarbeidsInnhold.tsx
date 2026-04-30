@@ -1,12 +1,12 @@
 import { BodyShort, Button } from "@navikt/ds-react";
 import { useNavigate } from "react-router-dom";
-import { useHentPlan } from "@/api/lydia-api/plan";
-import { useHentSpørreundersøkelser } from "@/api/lydia-api/spørreundersøkelse";
 import { penskrivSpørreundersøkelseStatus } from "@/components/Badge/SpørreundersøkelseStatusBadge";
 import { IAProsessStatusType, IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 import { loggGåTilSakFraMineSaker } from "@/util/analytics-klient";
 import { lokalDato } from "@/util/dato";
+import { useHentSpørreundersøkelser } from "@features/kartlegging/api/spørreundersøkelse";
+import { useHentPlan } from "@features/plan/api/plan";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import styles from "./minesakerkort.module.scss";
 
 const VIS_VURDERINGSSTATUSER: readonly IAProsessStatusType[] = [

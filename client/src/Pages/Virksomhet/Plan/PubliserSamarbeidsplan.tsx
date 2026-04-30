@@ -5,11 +5,11 @@ import {
 } from "@navikt/aksel-icons";
 import { Alert, Tooltip } from "@navikt/ds-react";
 import React, { useState } from "react";
-import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
-import { useHentTeam } from "@/api/lydia-api/team";
 import { IASak } from "@/domenetyper/domenetyper";
-import { Plan } from "@/domenetyper/plan";
 import { lokalDato } from "@/util/dato";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
+import { useHentTeam } from "@features/bruker/api/team";
+import { Plan } from "@features/plan/types/plan";
 import { PubliserDokumentknapp } from "../Kartlegging/PubliserSpørreundersøkelse";
 import styles from "../Kartlegging/publiserSpørreundersøkelse.module.scss";
 import { PubliseringModal } from "./PubliseringModal";

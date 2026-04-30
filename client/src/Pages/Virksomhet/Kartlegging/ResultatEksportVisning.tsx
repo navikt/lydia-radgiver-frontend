@@ -1,15 +1,15 @@
 import { FilePdfIcon } from "@navikt/aksel-icons";
 import { BodyShort, Button, Detail, Modal } from "@navikt/ds-react";
 import React, { useState } from "react";
-import { kartleggingresultatPdfLenke } from "@/api/lydia-api/spørreundersøkelse";
 import {
     formaterSpørreundersøkelsetype,
     FormatertSpørreundersøkelseType,
 } from "@/components/Spørreundersøkelse/Spørreundersøkelseliste/utils";
 import { IASak } from "@/domenetyper/domenetyper";
-import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import { loggEksportertTilPdf } from "@/util/analytics-klient";
 import { lokalDatoMedKlokkeslett } from "@/util/dato";
+import { kartleggingresultatPdfLenke } from "@features/kartlegging/api/spørreundersøkelse";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 
 interface ResultatEksportVisningProps {
     iaSak: IASak;

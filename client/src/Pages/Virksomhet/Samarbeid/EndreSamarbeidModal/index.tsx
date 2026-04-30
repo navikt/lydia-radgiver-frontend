@@ -1,21 +1,21 @@
 import React, { useState } from "react";
 import {
-    useHentHistorikkNyFlyt,
-    useHentSpesifikkSakNyFlyt,
-} from "@/api/lydia-api/nyFlyt";
-import { nyHendelsePåSak } from "@/api/lydia-api/sak";
-import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
-import { getKanGjennomføreStatusendring } from "@/api/lydia-api/virksomhet";
-import {
     IASak,
     IASakshendelseType,
     IASakshendelseTypeEnum,
 } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
+import {
+    useHentHistorikkNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "@features/sak/api/nyFlyt";
+import { nyHendelsePåSak } from "@features/sak/api/sak";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import {
     KanGjennomføreStatusendring,
     MuligSamarbeidsgandling,
-} from "@/domenetyper/samarbeidsEndring";
+} from "@features/sak/types/samarbeidsEndring";
+import { getKanGjennomføreStatusendring } from "@features/virksomhet/api/virksomhet";
 import BekreftHandlingModal from "./BekreftHandlingModal";
 import EndreSamarbeidModalInnhold from "./EndreSamarbeidInnhold";
 import VelgHandlingModal from "./VelgHandlingModal";

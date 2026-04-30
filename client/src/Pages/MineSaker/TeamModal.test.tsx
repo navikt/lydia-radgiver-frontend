@@ -1,13 +1,13 @@
 import { render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
-import * as nyFlyt from "@/api/lydia-api/nyFlyt";
 import { TeamModal } from "@/Pages/MineSaker/TeamModal";
+import * as nyFlyt from "@features/sak/api/nyFlyt";
 import { dummyIaSak } from "@mocks/virksomhetsMockData";
 
 const mockMuterMineSaker = jest.fn();
 
-jest.mock("@/api/lydia-api/nyFlyt", () => ({
-    ...jest.requireActual("@/api/lydia-api/nyFlyt"),
+jest.mock("@features/sak/api/nyFlyt", () => ({
+    ...jest.requireActual("@features/sak/api/nyFlyt"),
     bliEierNyFlyt: jest.fn(() => Promise.resolve()),
     useHentSpesifikkSakNyFlyt: jest.fn(() => ({
         data: dummyIaSak,
@@ -16,8 +16,8 @@ jest.mock("@/api/lydia-api/nyFlyt", () => ({
     })),
 }));
 
-jest.mock("@/api/lydia-api/sak", () => ({
-    ...jest.requireActual("@/api/lydia-api/sak"),
+jest.mock("@features/sak/api/sak", () => ({
+    ...jest.requireActual("@features/sak/api/sak"),
     useHentMineSaker: jest.fn(() => ({
         data: [],
         mutate: mockMuterMineSaker,
@@ -29,8 +29,8 @@ jest.mock("@/Pages/Virksomhet/Debugside/Oversikt", () => ({
     useOversiktMutate: jest.fn(() => jest.fn()),
 }));
 
-jest.mock("@/api/lydia-api/bruker", () => ({
-    ...jest.requireActual("@/api/lydia-api/bruker"),
+jest.mock("@features/bruker/api/bruker", () => ({
+    ...jest.requireActual("@features/bruker/api/bruker"),
     useHentBrukerinformasjon: jest.fn(() => ({
         data: {
             ident: "Z123456",
@@ -42,8 +42,8 @@ jest.mock("@/api/lydia-api/bruker", () => ({
     })),
 }));
 
-jest.mock("@/api/lydia-api/team", () => ({
-    ...jest.requireActual("@/api/lydia-api/team"),
+jest.mock("@features/bruker/api/team", () => ({
+    ...jest.requireActual("@features/bruker/api/team"),
     useHentTeam: jest.fn(() => ({
         data: [],
         loading: false,

@@ -2,15 +2,15 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import React from "react";
 import { IASak } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 import SlettSamarbeidModal from "@/Pages/Virksomhet/AdministrerSamarbeid/SlettSamarbeidModal";
 import { SamarbeidProvider } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 
-jest.mock("@/api/lydia-api/plan", () => ({
+jest.mock("@features/plan/api/plan", () => ({
     useHentPlan: jest.fn(() => ({ mutate: jest.fn() })),
 }));
 
-jest.mock("@/api/lydia-api/nyFlyt", () => ({
+jest.mock("@features/sak/api/nyFlyt", () => ({
     slettSamarbeidNyFlyt: jest.fn(),
     avsluttSamarbeidNyFlyt: jest.fn(),
     useHentSisteSakNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
@@ -18,7 +18,7 @@ jest.mock("@/api/lydia-api/nyFlyt", () => ({
     useHentTilstandForVirksomhetNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
 }));
 
-jest.mock("@/api/lydia-api/virksomhet", () => ({
+jest.mock("@features/virksomhet/api/virksomhet", () => ({
     useKanUtføreHandlingPåSamarbeid: jest.fn(() => ({
         data: { kanGjennomføres: true, blokkerende: [], advarsler: [] },
         mutate: jest.fn(),
@@ -28,7 +28,7 @@ jest.mock("@/api/lydia-api/virksomhet", () => ({
     })),
 }));
 
-jest.mock("@/api/lydia-api/spørreundersøkelse", () => ({
+jest.mock("@features/kartlegging/api/spørreundersøkelse", () => ({
     useHentSamarbeid: jest.fn(() => ({ mutate: jest.fn() })),
 }));
 
@@ -50,11 +50,11 @@ jest.mock("@navikt/ds-react", () => {
     return { ...actual, Modal };
 });
 
-const { useHentPlan } = jest.requireMock("@/api/lydia-api/plan");
+const { useHentPlan } = jest.requireMock("@features/plan/api/plan");
 const { useKanUtføreHandlingPåSamarbeid } = jest.requireMock(
-    "@/api/lydia-api/virksomhet",
+    "@features/virksomhet/api/virksomhet",
 );
-const { slettSamarbeidNyFlyt } = jest.requireMock("@/api/lydia-api/nyFlyt");
+const { slettSamarbeidNyFlyt } = jest.requireMock("@features/sak/api/nyFlyt");
 
 function createMockSamarbeidMedId(
     id: number,

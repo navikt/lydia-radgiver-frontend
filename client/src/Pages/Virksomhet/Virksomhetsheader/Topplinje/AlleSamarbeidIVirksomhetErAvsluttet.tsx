@@ -8,12 +8,12 @@ import {
     useDatepicker,
 } from "@navikt/ds-react";
 import React from "react";
-import { endrePlanlagtDatoNyFlyt } from "@/api/lydia-api/nyFlyt";
 import { IASak, VirksomhetTilstandDto } from "@/domenetyper/domenetyper";
-import { Virksomhet } from "@/domenetyper/virksomhet";
 import { useOversiktMutate } from "@/Pages/Virksomhet/Debugside/Oversikt";
 import { EierskapKnapp } from "@/Pages/Virksomhet/Samarbeid/EierskapKnapp";
 import { lokalDato } from "@/util/dato";
+import { endrePlanlagtDatoNyFlyt } from "@features/sak/api/nyFlyt";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { Salesforcelenke } from "..";
 import VurderVirksomhetKnapp from "./common/VurderVirksomhetKnapp";
 

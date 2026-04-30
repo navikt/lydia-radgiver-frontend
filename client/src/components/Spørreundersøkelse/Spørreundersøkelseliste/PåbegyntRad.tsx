@@ -1,19 +1,19 @@
 import { TrashIcon } from "@navikt/aksel-icons";
 import { Button, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
 import React from "react";
-import {
-    fullførKartleggingNyFlyt,
-    slettKartleggingNyFlyt,
-} from "@/api/lydia-api/nyFlyt";
-import { useHentIASaksStatus } from "@/api/lydia-api/sak";
 import { SpørreundersøkelseStatusBadge } from "@/components/Badge/SpørreundersøkelseStatusBadge";
-import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import ActionButtonsHvisSamarbeidIkkeFullført from "@/Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
 import { FullførSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/FullførSpørreundersøkelseModal";
 import { SlettSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/SlettSpørreundersøkelseModal";
 import { useSamarbeidContext } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
 import { erIFortid } from "@/util/dato";
 import { åpneSpørreundersøkelseINyFane } from "@/util/navigasjon";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
+import {
+    fullførKartleggingNyFlyt,
+    slettKartleggingNyFlyt,
+} from "@features/sak/api/nyFlyt";
+import { useHentIASaksStatus } from "@features/sak/api/sak";
 import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
 import { GyldigTilTidspunkt } from "./Felles";
 import styles from "./spørreundersøkelsesliste.module.scss";

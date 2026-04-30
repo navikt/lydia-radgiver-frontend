@@ -1,6 +1,6 @@
 import { Timeline } from "@navikt/ds-react";
 import React from "react";
-import { PlanInnhold } from "@/domenetyper/plan";
+import { PlanInnhold } from "@features/plan/types/plan";
 
 export type PølsegrafProps = {
     undertemaer: PlanInnhold[];

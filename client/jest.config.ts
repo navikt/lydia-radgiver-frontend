@@ -16,6 +16,7 @@ const config: Config = {
         "\\.(jpg|jpeg|png|gif|webp|svg|eot|otf|ttf|woff|woff2)$":
             "<rootDir>/__mocks__/fileMock.js",
         "^@mocks/(.*)$": "<rootDir>/__mocks__/$1",
+        "^@features/(.*)$": "<rootDir>/src/features/$1",
         "^@/(.*)$": "<rootDir>/src/$1",
     },
     transform: {

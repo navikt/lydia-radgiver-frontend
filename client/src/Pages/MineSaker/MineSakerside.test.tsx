@@ -11,7 +11,7 @@ import { Sorteringsknapper } from "@/Pages/MineSaker/Sorteringsknapper";
 import { MineSakerFilterKategorier } from "@/util/analytics-klient";
 
 // Mock API hooks
-jest.mock("@/api/lydia-api/bruker", () => ({
+jest.mock("@features/bruker/api/bruker", () => ({
     useHentBrukerinformasjon: jest.fn(() => ({
         data: { ident: "A123456", navn: "Test Bruker" },
     })),
@@ -53,7 +53,7 @@ const mockMineSaker = [
     },
 ];
 
-jest.mock("@/api/lydia-api/sak", () => ({
+jest.mock("@features/sak/api/sak", () => ({
     useHentMineSaker: jest.fn(() => ({
         data: mockMineSaker,
     })),
@@ -153,7 +153,7 @@ describe("MineSakerside", () => {
 
     test("viser 'Fant ingen saker' når liste er tom", () => {
         // eslint-disable-next-line @typescript-eslint/no-require-imports
-        const { useHentMineSaker } = require("@/api/lydia-api/sak");
+        const { useHentMineSaker } = require("@features/sak/api/sak");
         useHentMineSaker.mockReturnValueOnce({ data: [] });
 
         render(

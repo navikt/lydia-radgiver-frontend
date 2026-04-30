@@ -2,13 +2,13 @@ import { TextEncoder, TextDecoder } from "util";
 global.TextEncoder = TextEncoder;
 global.TextDecoder = TextDecoder;
 
-import { ValgtSnittFilter } from "@/domenetyper/filterverdier";
 import {
     FiltervisningState,
     filterstateFraLokalstorage,
     initialFiltervisningState,
 } from "@/Pages/Prioritering/Filter/filtervisning-reducer";
 import { filterverdierMock } from "@/Pages/Prioritering/mocks/filterverdierMock";
+import { ValgtSnittFilter } from "@features/prioritering/types/filterverdier";
 
 const dummyLocalStorage: FiltervisningState = {
     autosøk: true,

@@ -1,23 +1,23 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
-import * as nyFlyt from "@/api/lydia-api/nyFlyt";
-import * as spørreundersøkelse from "@/api/lydia-api/spørreundersøkelse";
 import { NyttSamarbeidModal } from "@/Pages/Virksomhet/Samarbeid/NyttSamarbeidModal";
+import * as spørreundersøkelse from "@features/kartlegging/api/spørreundersøkelse";
+import * as nyFlyt from "@features/sak/api/nyFlyt";
 import {
     dummyIaSak,
     dummyVirksomhetsinformasjon,
 } from "@mocks/virksomhetsMockData";
 
-jest.mock("@/api/lydia-api/nyFlyt", () => ({
-    ...jest.requireActual("@/api/lydia-api/nyFlyt"),
+jest.mock("@features/sak/api/nyFlyt", () => ({
+    ...jest.requireActual("@features/sak/api/nyFlyt"),
     opprettSamarbeidNyFlyt: jest.fn(),
     useHentHistorikkNyFlyt: jest.fn(),
     useHentSpesifikkSakNyFlyt: jest.fn(),
 }));
 
-jest.mock("@/api/lydia-api/spørreundersøkelse", () => ({
-    ...jest.requireActual("@/api/lydia-api/spørreundersøkelse"),
+jest.mock("@features/kartlegging/api/spørreundersøkelse", () => ({
+    ...jest.requireActual("@features/kartlegging/api/spørreundersøkelse"),
     useHentSamarbeid: jest.fn(),
 }));
 

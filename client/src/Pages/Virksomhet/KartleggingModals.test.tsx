@@ -2,11 +2,11 @@ import { render, screen, fireEvent } from "@testing-library/react";
 import "@testing-library/jest-dom";
 import React from "react";
 import { BekreftValgModalProps } from "@/components/Modal/BekreftValgModal";
-import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import { FullførSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/FullførSpørreundersøkelseModal";
 import OpprettBehovsvurderingAlert from "@/Pages/Virksomhet/Kartlegging/OpprettetBehovsvurderingAlert";
 import { SlettSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/SlettSpørreundersøkelseModal";
 import { StartSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/StartSpørreundersøkelseModal";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 import { dummySpørreundersøkelseliste } from "@mocks/spørreundersøkelseDummyData";
 
 jest.mock("@/util/navigasjon", () => ({
