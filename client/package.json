@@ -21,7 +21,7 @@
         "@navikt/aksel-icons": "^7.40.0",
         "@navikt/ds-css": "^7.40.0",
         "@navikt/ds-react": "^7.40.0",
-        "@unhead/react": "^2.1.13",
+        "@unhead/react": "^3.0.4",
         "clsx": "^2.1.1",
         "highcharts": "^12.5.0",
         "highcharts-react-official": "^3.2.3",
