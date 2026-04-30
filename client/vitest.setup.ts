@@ -5,6 +5,11 @@ import * as axeMatchers from "vitest-axe/matchers";
 
 expect.extend(axeMatchers);
 
+// axe-core prøver å bruke canvas for fargekontrast-sjekk – stub for å unngå støy
+if (typeof HTMLCanvasElement !== "undefined") {
+    HTMLCanvasElement.prototype.getContext = () => null;
+}
+
 if (typeof globalThis.CSS === "undefined") {
     // @ts-expect-error – minimal stub
     globalThis.CSS = { supports: () => false };
