@@ -1,6 +1,7 @@
 import { render, screen } from "@testing-library/react";
 import type { Mock } from "vitest";
 import TeamInnhold from "@/Pages/MineSaker/TeamInnhold";
+import * as teamApi from "@features/bruker/api/team";
 import { dummyIaSak } from "@mocks/virksomhetsMockData";
 
 const BRUKER_IDENT = "Z123456";
@@ -35,9 +36,6 @@ vi.mock("@/Pages/Virksomhet/VirksomhetContext", async () => ({
     ...(await vi.importActual("@/Pages/Virksomhet/VirksomhetContext")),
     useErPåAktivSak: vi.fn(() => true),
 }));
-
-import * as teamApi from "@features/bruker/api/team";
-
 const defaultProps = {
     iaSak: dummyIaSak,
     åpneTaEierskapModal: vi.fn(),

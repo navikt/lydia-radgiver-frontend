@@ -1,7 +1,3 @@
-import { TextEncoder, TextDecoder } from "util";
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder;
-
 import { z } from "zod/v4";
 import {
     defaultSwrConfiguration,

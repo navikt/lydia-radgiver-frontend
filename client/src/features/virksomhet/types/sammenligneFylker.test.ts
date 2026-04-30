@@ -1,7 +1,3 @@
-import { TextEncoder, TextDecoder } from "util";
-global.TextEncoder = TextEncoder;
-global.TextDecoder = TextDecoder;
-
 import { erSammeFylker } from "@/Pages/Prioritering/Filter/filtervisning-reducer";
 import {
     FylkeMedKommuner,
