@@ -84,12 +84,5 @@ export function Topplinje({
         );
     }
 
-    console.log("ikke implementert", {
-        virksomhet,
-        iaSak,
-        samarbeid,
-        tilstand,
-    });
-
     return "Ikke implementert";
 }

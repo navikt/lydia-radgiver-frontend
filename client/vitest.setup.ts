@@ -60,3 +60,13 @@ console.error = (...args: unknown[]) => {
     }
     originalConsoleError(...(args as [unknown, ...unknown[]]));
 };
+
+const originalConsoleWarn = console.warn;
+console.warn = (...args: unknown[]) => {
+    const text = args.map((arg) => String(arg)).join("\n");
+    // Umami er ikke tilgjengelig i testmiljø – forventet
+    if (text.includes("Umami er ikke tilgjengelig")) {
+        return;
+    }
+    originalConsoleWarn(...(args as [unknown, ...unknown[]]));
+};
