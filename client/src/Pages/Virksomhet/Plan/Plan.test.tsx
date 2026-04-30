@@ -1,5 +1,4 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import InnholdOppsett from "@/Pages/Virksomhet/Plan/InnholdOppsett";
 import {
     defaultStartDate,
@@ -12,8 +11,8 @@ import { RedigertInnholdMal } from "@features/plan/types/plan";
 import { PlanInnhold } from "@features/plan/types/plan";
 
 // Mock analytics
-jest.mock("@/util/analytics-klient", () => ({
-    loggEndringAvPlan: jest.fn(),
+vi.mock("@/util/analytics-klient", () => ({
+    loggEndringAvPlan: vi.fn(),
 }));
 
 const createMockPlanInnhold = (
@@ -76,10 +75,10 @@ describe("planconster", () => {
 });
 
 describe("InnholdOppsett", () => {
-    const mockVelgInnhold = jest.fn();
+    const mockVelgInnhold = vi.fn();
 
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     test("rendrer checkbox-gruppe med tema-navn som legend", () => {
@@ -262,11 +261,11 @@ describe("InnholdOppsett", () => {
 });
 
 describe("TemaInnholdVelger", () => {
-    const mockVelgUndertemaer = jest.fn();
-    const mockSetVisInnholdFeil = jest.fn();
+    const mockVelgUndertemaer = vi.fn();
+    const mockSetVisInnholdFeil = vi.fn();
 
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     test("rendrer checkbox-gruppe med tema-navn som legend", () => {

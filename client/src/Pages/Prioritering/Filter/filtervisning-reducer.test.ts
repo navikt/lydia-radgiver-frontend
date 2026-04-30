@@ -19,7 +19,7 @@ import {
 } from "@features/virksomhet/types/fylkeOgKommune";
 import { Næringsgruppe } from "@features/virksomhet/types/virksomhet";
 
-// Mock localStorage
+// Mock localStorage (configurable så den ikke lekker mellom testfiler)
 const localStorageMock = (() => {
     let store: Record<string, string> = {};
     return {
@@ -36,9 +36,7 @@ const localStorageMock = (() => {
     };
 })();
 
-Object.defineProperty(window, "localStorage", {
-    value: localStorageMock,
-});
+vi.stubGlobal("localStorage", localStorageMock);
 
 // Test data helpers
 const createKommune = (nummer: string, navn: string): Kommune => ({

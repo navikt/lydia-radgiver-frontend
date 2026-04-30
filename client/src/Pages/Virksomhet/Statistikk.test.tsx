@@ -1,5 +1,4 @@
 import { render, screen } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import { Statistikkboks } from "@/Pages/Virksomhet/Statistikk/Statistikkboks";
 import { formaterProsent } from "@/Pages/Virksomhet/Statistikk/Tabell/tabell-utils";
 

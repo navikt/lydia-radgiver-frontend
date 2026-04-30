@@ -11,12 +11,12 @@ import {
 } from "@/api/lydia-api/networkRequests";
 
 // Mock dispatchFeilmelding
-jest.mock("@/components/Banner/dispatchFeilmelding", () => ({
-    dispatchFeilmelding: jest.fn(),
+vi.mock("@/components/Banner/dispatchFeilmelding", () => ({
+    dispatchFeilmelding: vi.fn(),
 }));
 
 // Mock global fetch
-const mockFetch = jest.fn();
+const mockFetch = vi.fn();
 global.fetch = mockFetch;
 
 describe("defaultSwrConfiguration", () => {

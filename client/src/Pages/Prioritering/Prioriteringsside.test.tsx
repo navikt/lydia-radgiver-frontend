@@ -1,5 +1,5 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
+import type { Mock } from "vitest";
 import {
     FiltervisningState,
     initialFiltervisningState,
@@ -10,11 +10,12 @@ import { ANTALL_RESULTATER_PER_SIDE } from "@/Pages/Prioritering/Prioriteringssi
 import {
     FilterverdiKategorier,
     Søkekomponenter,
+    loggFilterverdiKategorier,
 } from "@/util/analytics-klient";
 
 // Mock analytics
-jest.mock("@/util/analytics-klient", () => ({
-    loggFilterverdiKategorier: jest.fn(),
+vi.mock("@/util/analytics-klient", () => ({
+    loggFilterverdiKategorier: vi.fn(),
     FilterverdiKategorier: {
         SEKTOR: "SEKTOR",
         STATUS: "STATUS",
@@ -43,10 +44,10 @@ describe("ANTALL_RESULTATER_PER_SIDE", () => {
 });
 
 describe("Paginering", () => {
-    const mockEndreSide = jest.fn();
+    const mockEndreSide = vi.fn();
 
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     test("rendrer sidetall", () => {
@@ -145,13 +146,13 @@ describe("Paginering", () => {
 });
 
 describe("loggSøkMedFilterIAnalytics", () => {
-    const mockLoggFilterverdiKategorier = jest.fn();
+    const mockLoggFilterverdiKategorier = vi.fn();
 
     beforeEach(() => {
-        jest.clearAllMocks();
-        // eslint-disable-next-line @typescript-eslint/no-require-imports
-        const analytics = require("@/util/analytics-klient");
-        analytics.loggFilterverdiKategorier = mockLoggFilterverdiKategorier;
+        vi.clearAllMocks();
+        (loggFilterverdiKategorier as unknown as Mock).mockImplementation(
+            mockLoggFilterverdiKategorier,
+        );
     });
 
     const createBaseFilterState = (): FiltervisningState => ({

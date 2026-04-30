@@ -64,7 +64,7 @@ en additiv mappe for tverrgående feature-logikk.
 
 1. **Codemod**: Flytt filene fysisk og oppdater alle imports samtidig (én commit per
    feature, eller én stor codemod for alle).
-2. **Aliases**: Legg til `@features/*` i `tsconfig.json`, `vite.config.mts`, `jest.config.ts`.
+2. **Aliases**: Legg til `@features/*` i `tsconfig.json`, `vite.config.mts`, `vitest.config.mts`.
 3. **Smell-tester**: `pnpm typecheck && pnpm lint && pnpm test` etter hver feature.
 4. **Rekkefølge**: Start med en isolert feature (f.eks. `bruker` eller `leveranse`)
    for å validere mønsteret før vi tar de store (`virksomhet`, `sak`).

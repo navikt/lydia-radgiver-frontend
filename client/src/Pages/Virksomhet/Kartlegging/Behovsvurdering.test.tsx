@@ -1,5 +1,4 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import { IAProsessStatusType } from "@/domenetyper/domenetyper";
 import { brukerMedGyldigToken } from "@/Pages/Prioritering/mocks/innloggetAnsattMock";
 import { Kartleggingsliste } from "@/Pages/Virksomhet/Kartlegging/Kartleggingsliste";
@@ -16,53 +15,53 @@ import {
     dummyVirksomhetsinformasjon,
 } from "@mocks/virksomhetsMockData";
 
-jest.mock("@features/kartlegging/api/spørreundersøkelse", () => ({
-    ...jest.requireActual("@features/kartlegging/api/spørreundersøkelse"),
-    useSpørreundersøkelsesliste: jest.fn(() => ({
+vi.mock("@features/kartlegging/api/spørreundersøkelse", async () => ({
+    ...(await vi.importActual("@features/kartlegging/api/spørreundersøkelse")),
+    useSpørreundersøkelsesliste: vi.fn(() => ({
         data: dummySpørreundersøkelseliste,
         loading: false,
         validating: false,
-        mutate: jest.fn(),
+        mutate: vi.fn(),
     })),
 }));
 
-jest.mock("@features/sak/api/sak", () => ({
-    ...jest.requireActual("@features/sak/api/sak"),
-    useHentIASaksStatus: jest.fn(() => ({
+vi.mock("@features/sak/api/sak", async () => ({
+    ...(await vi.importActual("@features/sak/api/sak")),
+    useHentIASaksStatus: vi.fn(() => ({
         data: undefined,
         loading: false,
-        mutate: jest.fn(),
+        mutate: vi.fn(),
     })),
 }));
 
-jest.mock("@features/bruker/api/team", () => ({
-    ...jest.requireActual("@features/bruker/api/team"),
-    useHentTeam: jest.fn(() => ({
+vi.mock("@features/bruker/api/team", async () => ({
+    ...(await vi.importActual("@features/bruker/api/team")),
+    useHentTeam: vi.fn(() => ({
         data: [brukerMedGyldigToken.ident],
         loading: false,
     })),
 }));
 
-jest.mock("@features/bruker/api/bruker", () => ({
-    ...jest.requireActual("@features/bruker/api/bruker"),
-    useHentBrukerinformasjon: jest.fn(() => ({
+vi.mock("@features/bruker/api/bruker", async () => ({
+    ...(await vi.importActual("@features/bruker/api/bruker")),
+    useHentBrukerinformasjon: vi.fn(() => ({
         data: brukerMedGyldigToken,
         loading: false,
     })),
 }));
 
-jest.mock("@features/plan/api/plan", () => ({
-    ...jest.requireActual("@features/plan/api/plan"),
-    useHentPlan: jest.fn(() => ({
+vi.mock("@features/plan/api/plan", async () => ({
+    ...(await vi.importActual("@features/plan/api/plan")),
+    useHentPlan: vi.fn(() => ({
         data: dummyPlan,
         loading: false,
         validating: false,
     })),
 }));
 
-jest.mock("@features/sak/api/nyFlyt", () => ({
-    ...jest.requireActual("@features/sak/api/nyFlyt"),
-    opprettKartleggingNyFlyt: jest.fn(),
+vi.mock("@features/sak/api/nyFlyt", async () => ({
+    ...(await vi.importActual("@features/sak/api/nyFlyt")),
+    opprettKartleggingNyFlyt: vi.fn(),
 }));
 
 const gjeldendeSamarbeid = dummySamarbeid[1];
@@ -78,7 +77,7 @@ function renderKartleggingsliste(status: IAProsessStatusType) {
         iaSak,
         lasterIaSak: false,
         fane: "kartlegging",
-        setFane: jest.fn(),
+        setFane: vi.fn(),
         spørreundersøkelseId: null,
     };
     return render(
@@ -95,7 +94,7 @@ function renderKartleggingsliste(status: IAProsessStatusType) {
 
 describe("Behovsvurdering", () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     it("Ny behovsvurdering-knapp er aktivert når sak er AKTIV", () => {
@@ -131,7 +130,7 @@ describe("Behovsvurdering", () => {
     });
 
     it("Kaller opprettKartleggingNyFlyt ved klikk på ny behovsvurdering", async () => {
-        jest.mocked(opprettKartleggingNyFlyt).mockResolvedValue({
+        vi.mocked(opprettKartleggingNyFlyt).mockResolvedValue({
             id: "ny-id",
             samarbeidId: gjeldendeSamarbeid.id,
             status: "OPPRETTET",

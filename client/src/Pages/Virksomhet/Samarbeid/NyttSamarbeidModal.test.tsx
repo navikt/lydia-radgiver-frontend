@@ -1,6 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
+import type { Mock } from "vitest";
 import { NyttSamarbeidModal } from "@/Pages/Virksomhet/Samarbeid/NyttSamarbeidModal";
 import * as spørreundersøkelse from "@features/kartlegging/api/spørreundersøkelse";
 import * as nyFlyt from "@features/sak/api/nyFlyt";
@@ -9,16 +9,16 @@ import {
     dummyVirksomhetsinformasjon,
 } from "@mocks/virksomhetsMockData";
 
-jest.mock("@features/sak/api/nyFlyt", () => ({
-    ...jest.requireActual("@features/sak/api/nyFlyt"),
-    opprettSamarbeidNyFlyt: jest.fn(),
-    useHentHistorikkNyFlyt: jest.fn(),
-    useHentSpesifikkSakNyFlyt: jest.fn(),
+vi.mock("@features/sak/api/nyFlyt", async () => ({
+    ...(await vi.importActual("@features/sak/api/nyFlyt")),
+    opprettSamarbeidNyFlyt: vi.fn(),
+    useHentHistorikkNyFlyt: vi.fn(),
+    useHentSpesifikkSakNyFlyt: vi.fn(),
 }));
 
-jest.mock("@features/kartlegging/api/spørreundersøkelse", () => ({
-    ...jest.requireActual("@features/kartlegging/api/spørreundersøkelse"),
-    useHentSamarbeid: jest.fn(),
+vi.mock("@features/kartlegging/api/spørreundersøkelse", async () => ({
+    ...(await vi.importActual("@features/kartlegging/api/spørreundersøkelse")),
+    useHentSamarbeid: vi.fn(),
 }));
 
 const iaSak = { ...dummyIaSak, status: "VI_BISTÅR" as const };
@@ -29,7 +29,7 @@ function renderModal(åpen = true) {
             <NyttSamarbeidModal
                 iaSak={iaSak}
                 åpen={åpen}
-                setÅpen={jest.fn()}
+                setÅpen={vi.fn()}
                 virksomhet={dummyVirksomhetsinformasjon}
             />
         </BrowserRouter>,
@@ -38,27 +38,27 @@ function renderModal(åpen = true) {
 
 describe("NyttSamarbeidModal", () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
 
-        (nyFlyt.useHentHistorikkNyFlyt as jest.Mock).mockReturnValue({
+        (nyFlyt.useHentHistorikkNyFlyt as Mock).mockReturnValue({
             data: [],
             loading: false,
-            mutate: jest.fn(),
+            mutate: vi.fn(),
         });
 
-        (nyFlyt.useHentSpesifikkSakNyFlyt as jest.Mock).mockReturnValue({
+        (nyFlyt.useHentSpesifikkSakNyFlyt as Mock).mockReturnValue({
             data: iaSak,
             loading: false,
-            mutate: jest.fn(),
+            mutate: vi.fn(),
         });
 
-        (spørreundersøkelse.useHentSamarbeid as jest.Mock).mockReturnValue({
+        (spørreundersøkelse.useHentSamarbeid as Mock).mockReturnValue({
             data: [],
             loading: false,
-            mutate: jest.fn(),
+            mutate: vi.fn(),
         });
 
-        (nyFlyt.opprettSamarbeidNyFlyt as jest.Mock).mockResolvedValue({});
+        (nyFlyt.opprettSamarbeidNyFlyt as Mock).mockResolvedValue({});
     });
 
     test("viser modalen når den er åpen", () => {
@@ -69,16 +69,16 @@ describe("NyttSamarbeidModal", () => {
     });
 
     test("bruker useHentHistorikkNyFlyt for å invalidere cache etter opprettelse", async () => {
-        const mutateMock = jest.fn();
-        (nyFlyt.useHentHistorikkNyFlyt as jest.Mock).mockReturnValue({
+        const mutateMock = vi.fn();
+        (nyFlyt.useHentHistorikkNyFlyt as Mock).mockReturnValue({
             data: [],
             loading: false,
             mutate: mutateMock,
         });
-        (spørreundersøkelse.useHentSamarbeid as jest.Mock).mockReturnValue({
+        (spørreundersøkelse.useHentSamarbeid as Mock).mockReturnValue({
             data: [],
             loading: false,
-            mutate: jest.fn().mockResolvedValue([]),
+            mutate: vi.fn().mockResolvedValue([]),
         });
 
         renderModal();
@@ -93,10 +93,10 @@ describe("NyttSamarbeidModal", () => {
     });
 
     test("kaller opprettSamarbeidNyFlyt med riktig orgnummer", async () => {
-        (spørreundersøkelse.useHentSamarbeid as jest.Mock).mockReturnValue({
+        (spørreundersøkelse.useHentSamarbeid as Mock).mockReturnValue({
             data: [],
             loading: false,
-            mutate: jest.fn().mockResolvedValue([]),
+            mutate: vi.fn().mockResolvedValue([]),
         });
 
         renderModal();

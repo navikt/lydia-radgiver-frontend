@@ -1,5 +1,4 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import React from "react";
 import { IASak } from "@/domenetyper/domenetyper";
 import BekreftSisteSamarbeidModal, {
@@ -7,11 +6,11 @@ import BekreftSisteSamarbeidModal, {
 } from "@/Pages/Virksomhet/AdministrerSamarbeid/BekreftSisteSamarbeidModal";
 import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 
-const mockMutate = jest.fn();
-const mockSlettSamarbeid = jest.fn().mockResolvedValue(undefined);
-const mockAvsluttSamarbeid = jest.fn().mockResolvedValue(undefined);
+const mockMutate = vi.fn();
+const mockSlettSamarbeid = vi.fn().mockResolvedValue(undefined);
+const mockAvsluttSamarbeid = vi.fn().mockResolvedValue(undefined);
 
-jest.mock("@features/sak/api/nyFlyt", () => ({
+vi.mock("@features/sak/api/nyFlyt", () => ({
     useHentSisteSakNyFlyt: () => ({ mutate: mockMutate }),
     useHentSpesifikkSakNyFlyt: () => ({ mutate: mockMutate }),
     useHentTilstandForVirksomhetNyFlyt: () => ({ mutate: mockMutate }),
@@ -20,11 +19,11 @@ jest.mock("@features/sak/api/nyFlyt", () => ({
         mockAvsluttSamarbeid(...args),
 }));
 
-jest.mock("@features/kartlegging/api/spørreundersøkelse", () => ({
+vi.mock("@features/kartlegging/api/spørreundersøkelse", () => ({
     useHentSamarbeid: () => ({ mutate: mockMutate }),
 }));
 
-jest.mock("@/components/Badge/SamarbeidStatusBadge", () => ({
+vi.mock("@/components/Badge/SamarbeidStatusBadge", () => ({
     SamarbeidStatusBadge: ({ status }: { status: string; as?: string }) => (
         <span data-testid="status-badge">{status}</span>
     ),
@@ -83,7 +82,7 @@ function renderModal(props: {
 
 describe("BekreftSisteSamarbeidModal", () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     it("viser riktig tittel for AVBRUTT", () => {

@@ -1,6 +1,5 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
-import "@testing-library/jest-dom";
 import { act } from "react";
 import { DokumentStatusEnum } from "@/domenetyper/domenetyper";
 import { usePollingAvKartleggingVedAvsluttetStatus } from "@/util/usePollingAvKartleggingVedAvsluttetStatus";
@@ -40,15 +39,15 @@ function TestPollingKomponent({
 
 describe("usePollingAvKartleggingVedAvsluttetStatus", () => {
     beforeEach(() => {
-        jest.useFakeTimers();
+        vi.useFakeTimers();
     });
 
     afterEach(() => {
-        jest.useRealTimers();
+        vi.useRealTimers();
     });
 
     test("starter polling når status er AVSLUTTET og publiseringStatus er OPPRETTET", () => {
-        const hentKartleggingPåNytt = jest.fn();
+        const hentKartleggingPåNytt = vi.fn();
 
         render(
             <TestPollingKomponent
@@ -64,7 +63,7 @@ describe("usePollingAvKartleggingVedAvsluttetStatus", () => {
 
         // Etter første timeout skal hentKartleggingPåNytt bli kalt og forsøk økes
         act(() => {
-            jest.advanceTimersByTime(2000);
+            vi.advanceTimersByTime(2000);
         });
 
         expect(hentKartleggingPåNytt).toHaveBeenCalledTimes(1);
@@ -72,7 +71,7 @@ describe("usePollingAvKartleggingVedAvsluttetStatus", () => {
     });
 
     test("starter ikke polling når betingelser ikke er oppfylt", () => {
-        const hentKartleggingPåNytt = jest.fn();
+        const hentKartleggingPåNytt = vi.fn();
 
         render(
             <TestPollingKomponent
@@ -83,7 +82,7 @@ describe("usePollingAvKartleggingVedAvsluttetStatus", () => {
         );
 
         act(() => {
-            jest.advanceTimersByTime(10000);
+            vi.advanceTimersByTime(10000);
         });
 
         expect(hentKartleggingPåNytt).not.toHaveBeenCalled();

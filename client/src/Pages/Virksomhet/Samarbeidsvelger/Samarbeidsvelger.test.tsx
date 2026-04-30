@@ -1,8 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { axe } from "jest-axe";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
+import type { Mock } from "vitest";
+import { axe } from "vitest-axe";
 import {
     brukerMedGyldigToken,
     brukerMedLesetilgang,
@@ -16,18 +16,18 @@ import {
     dummyVirksomhetsinformasjon,
 } from "@mocks/virksomhetsMockData";
 
-jest.mock("@/Pages/Virksomhet/Samarbeid/NyttSamarbeidModal", () => ({
+vi.mock("@/Pages/Virksomhet/Samarbeid/NyttSamarbeidModal", () => ({
     NyttSamarbeidModal: () => <div data-testid="nytt-samarbeid-modal" />,
 }));
 
-jest.mock("@features/bruker/api/bruker", () => ({
-    ...jest.requireActual("@features/bruker/api/bruker"),
-    useHentBrukerinformasjon: jest.fn(),
+vi.mock("@features/bruker/api/bruker", async () => ({
+    ...(await vi.importActual("@features/bruker/api/bruker")),
+    useHentBrukerinformasjon: vi.fn(),
 }));
 
-jest.mock("@features/bruker/api/team", () => ({
-    ...jest.requireActual("@features/bruker/api/team"),
-    useHentTeam: jest.fn(),
+vi.mock("@features/bruker/api/team", async () => ({
+    ...(await vi.importActual("@features/bruker/api/team")),
+    useHentTeam: vi.fn(),
 }));
 
 const aktivtSamarbeid = (id: number, navn: string): IaSakProsess => ({
@@ -49,8 +49,8 @@ function renderSamarbeidsvelger(
     samarbeidsliste: IaSakProsess[],
     bruker = brukerMedGyldigToken,
 ) {
-    (useHentBrukerinformasjon as jest.Mock).mockReturnValue({ data: bruker });
-    (useHentTeam as jest.Mock).mockReturnValue({
+    (useHentBrukerinformasjon as Mock).mockReturnValue({ data: bruker });
+    (useHentTeam as Mock).mockReturnValue({
         data: [brukerMedGyldigToken.ident],
     });
 
@@ -67,7 +67,7 @@ function renderSamarbeidsvelger(
 
 describe("Samarbeidsvelger", () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     describe("Universell utforming", () => {

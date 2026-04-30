@@ -5,17 +5,16 @@ import {
     SpørreundersøkelseProviderProps,
 } from "@/components/Spørreundersøkelse/SpørreundersøkelseContext";
 import Spørreundersøkelseliste from "@/components/Spørreundersøkelse/Spørreundersøkelseliste";
-import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { SamarbeidProvider } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
 import VirksomhetContext from "@/Pages/Virksomhet/VirksomhetContext";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import {
     dummySpørreundersøkelseliste,
     dummyIaSak,
     dummySamarbeid,
     dummyVirksomhet,
 } from "@mocks/spørreundersøkelseDummyData";
-import "@testing-library/jest-dom";
-import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 
 const litenSpørreundersøkelseResultat = {
     id: "test-resultat-id",
@@ -44,15 +43,15 @@ const litenSpørreundersøkelseResultat = {
     ],
 };
 
-jest.mock("@features/kartlegging/api/spørreundersøkelse", () => {
+vi.mock("@features/kartlegging/api/spørreundersøkelse", async () => {
     return {
         __esModule: true,
-        ...jest.requireActual("@features/kartlegging/api/spørreundersøkelse"),
-        useHentResultat: jest.fn(() => ({
+        ...(await vi.importActual("@features/kartlegging/api/spørreundersøkelse")),
+        useHentResultat: vi.fn(() => ({
             data: litenSpørreundersøkelseResultat,
             loading: false,
         })),
-        useHentSamarbeid: jest.fn(() => ({
+        useHentSamarbeid: vi.fn(() => ({
             data: [
                 dummySamarbeid,
                 {
@@ -122,7 +121,7 @@ function DummySpørreundersøkelseProvider({
 
 describe("Spørreundersøkelseliste", () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     it("Rendrer både behovsvurderinger og evalueringer", () => {

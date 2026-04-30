@@ -20,6 +20,11 @@
             "@/*": ["src/*"],
             "@features/*": ["src/features/*"],
             "@mocks/*": ["__mocks__/*"]
-        }
+        },
+        "types": [
+            "vitest/globals",
+            "@testing-library/jest-dom",
+            "vitest-axe/extend-expect"
+        ]
     }
 }

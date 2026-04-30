@@ -1,12 +1,10 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import React from "react";
-import "@testing-library/jest-dom";
-
 import { useTittel } from "@/util/useTittel";
 
 const loadLagSidetittel = async (erDev: boolean) => {
-    jest.resetModules();
-    jest.doMock("@/components/Dekoratør/Dekoratør", () => ({
+    vi.resetModules();
+    vi.doMock("@/components/Dekoratør/Dekoratør", () => ({
         __esModule: true,
         erIDev: erDev,
         Dekoratør: () => null,

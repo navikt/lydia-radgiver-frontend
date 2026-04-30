@@ -106,10 +106,10 @@ Bruk eksisterende komponenter fra `@navikt/ds-react` fremfor å bygge UI-primiti
 ## Tilgjengelighet
 
 - ESLint kjører `eslint-plugin-jsx-a11y` (i dag warning-nivå, planlagt error).
-- `jest-axe` er tilgjengelig for komponenttester.
+- `vitest-axe` er tilgjengelig for komponenttester.
 
 ```ts
-import { axe, toHaveNoViolations } from "jest-axe";
+import { axe } from "vitest-axe";
 expect.extend(toHaveNoViolations);
 
 test("har ingen a11y-brudd", async () => {
@@ -121,7 +121,7 @@ test("har ingen a11y-brudd", async () => {
 ## Test-kjøring
 
 ```sh
-cd client && pnpm test       # Jest + Testing Library
+cd client && pnpm test       # Vitest + Testing Library
 cd server && pnpm test       # Jest + supertest + nock
 ```
 

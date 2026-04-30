@@ -32,7 +32,7 @@ client/src/
   test-utils/               # Felles render-wrapper for tester
 ```
 
-**Aliases (konfigurert i tsconfig + vite + jest)**:
+**Aliases (konfigurert i tsconfig + vite + vitest)**:
 - `@/*` → `src/*`
 - `@features/*` → `src/features/*`
 - `@mocks/*` → `__mocks__/*`
@@ -173,7 +173,7 @@ Hoved-URL-strukturen er:
 - `/statusoversikt` – statusoversikt
 
 ## Testing
-- Testrammeverk: Jest + `@testing-library/react`
+- Testrammeverk: Vitest + `@testing-library/react`
 - Enhetstester: `__tests__/enhetstester/`
 - Komponenttester: `__tests__/komponenttester/`
 - Kjør tester med `pnpm test` fra `client/`-mappen
@@ -183,7 +183,7 @@ Hoved-URL-strukturen er:
 Sporing bruker Umami via `src/util/analytics-klient.ts`. Bruk eksisterende hjelpefunksjoner som `loggSideLastet`, `loggSøkMedFilter` osv. – ikke kall `window.umami` direkte.
 
 ## Tilgjengelighet
-ESLint er konfigurert med `eslint-plugin-jsx-a11y`. `jest-axe` er tilgjengelig for automatisert a11y-testing i komponenttester.
+ESLint er konfigurert med `eslint-plugin-jsx-a11y`. `vitest-axe` er tilgjengelig for automatisert a11y-testing i komponenttester.
 
 ## Norsk navngiving
 Variabelnavn, funksjoner og typer bruker norske navn der domenet er norsk (f.eks. `virksomhet`, `sak`, `hendelse`).
@@ -262,7 +262,7 @@ Konkrete steg for typiske oppgaver. Følg disse i stedet for å improvisere.
 ### Legg til en ny komponenttest
 1. Plasser i `__tests__/komponenttester/<sti speiler src/>/<Komponent>.test.tsx`.
 2. Bruk `@testing-library/react`. Render med providere komponenten trenger (kontekst-providers, `BrowserRouter` for navigasjon).
-3. For a11y: bruk `jest-axe` (`expect(await axe(container)).toHaveNoViolations()`).
+3. For a11y: bruk `vitest-axe` (`expect(await axe(container)).toHaveNoViolations()`).
 4. SWR i tester: wrapp render med `<SWRConfig value={{ provider: () => new Map() }}>` for å unngå cache-deling mellom tester.
 
 ### Lag en ny React Context

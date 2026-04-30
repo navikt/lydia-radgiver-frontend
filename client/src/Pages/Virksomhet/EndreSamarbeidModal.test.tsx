@@ -1,5 +1,4 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import "@testing-library/jest-dom";
 import { renderHook } from "@testing-library/react";
 import { IASak } from "@/domenetyper/domenetyper";
 import BegrunnelserForIkkeKunne, {
@@ -11,12 +10,12 @@ import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import { KanIkkeGjennomføreBegrunnelse } from "@features/sak/types/samarbeidsEndring";
 
 // Mock dependencies
-jest.mock("@features/virksomhet/api/virksomhet", () => ({
-    useHentSalesforceUrl: jest.fn(() => ({ data: null })),
+vi.mock("@features/virksomhet/api/virksomhet", () => ({
+    useHentSalesforceUrl: vi.fn(() => ({ data: null })),
 }));
 
-jest.mock("@/Pages/Virksomhet/VirksomhetContext", () => ({
-    useVirksomhetContext: jest.fn(() => ({
+vi.mock("@/Pages/Virksomhet/VirksomhetContext", () => ({
+    useVirksomhetContext: vi.fn(() => ({
         virksomhet: { orgnr: "123456789" },
     })),
 }));
@@ -213,11 +212,11 @@ describe("BegrunnelserForIkkeKunne", () => {
 });
 
 describe("BekreftHandlingModal", () => {
-    const mockOnCancel = jest.fn();
-    const mockOnConfirm = jest.fn();
+    const mockOnCancel = vi.fn();
+    const mockOnConfirm = vi.fn();
 
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     test("returnerer null når type er null", () => {
@@ -405,12 +404,12 @@ describe("BekreftHandlingModal", () => {
 });
 
 describe("VelgHandlingModal", () => {
-    const mockSetÅpen = jest.fn();
-    const mockHentKanGjennomføreStatusendring = jest.fn();
-    const mockSetBekreftType = jest.fn();
+    const mockSetÅpen = vi.fn();
+    const mockHentKanGjennomføreStatusendring = vi.fn();
+    const mockSetBekreftType = vi.fn();
 
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     test("rendrer modal med overskrift", () => {

@@ -1,7 +1,6 @@
 import { render, screen, waitFor } from "@testing-library/react";
-import "@testing-library/jest-dom";
-import { axe } from "jest-axe";
 import { BrowserRouter } from "react-router-dom";
+import { axe } from "vitest-axe";
 import { NyVirksomhetsside } from "@/Pages/Virksomhet";
 import {
     useHentTilstandForVirksomhetNyFlyt,
@@ -18,19 +17,19 @@ import {
     dummyVirksomhetsstatistikkSiste4Kvartal,
 } from "@mocks/virksomhetsMockData";
 
-jest.mock("@/util/analytics-klient", () => {
-    const actual = jest.requireActual("@/util/analytics-klient");
+vi.mock("@/util/analytics-klient", async () => {
+    const actual = (await vi.importActual("@/util/analytics-klient"));
     return {
         ...actual,
-        loggSideLastet: jest.fn(),
-        loggNavigertTilNyTab: jest.fn(),
+        loggSideLastet: vi.fn(),
+        loggNavigertTilNyTab: vi.fn(),
     };
 });
 
-jest.mock("@features/virksomhet/api/virksomhet", () => {
+vi.mock("@features/virksomhet/api/virksomhet", async () => {
     return {
-        ...jest.requireActual("@features/virksomhet/api/virksomhet"),
-        useHentVirksomhetsinformasjon: jest.fn(() => {
+        ...(await vi.importActual("@features/virksomhet/api/virksomhet")),
+        useHentVirksomhetsinformasjon: vi.fn(() => {
             return {
                 data: {
                     ...dummyVirksomhetsinformasjonNyFlyt,
@@ -39,33 +38,33 @@ jest.mock("@features/virksomhet/api/virksomhet", () => {
                 loading: false,
             };
         }),
-        useHentSakshistorikk: jest.fn(() => {
+        useHentSakshistorikk: vi.fn(() => {
             return {
                 data: dummySakshistorikk,
                 loading: false,
                 validating: false,
-                mutate: jest.fn(),
+                mutate: vi.fn(),
             };
         }),
-        useHentPubliseringsinfo: jest.fn(() => {
+        useHentPubliseringsinfo: vi.fn(() => {
             return {
                 data: dummyPubliseringsinfo,
                 loading: false,
             };
         }),
-        useHentSykefraværsstatistikkForVirksomhetSisteKvartal: jest.fn(() => {
+        useHentSykefraværsstatistikkForVirksomhetSisteKvartal: vi.fn(() => {
             return {
                 data: dummySykefraværsstatistikkSiste4Kvartal,
                 loading: false,
             };
         }),
-        useHentNæringsstatistikk: jest.fn(() => {
+        useHentNæringsstatistikk: vi.fn(() => {
             return {
                 data: dummyNæringsstatistikk,
                 loading: false,
             };
         }),
-        useHentVirksomhetsstatistikkSiste4Kvartaler: jest.fn(() => {
+        useHentVirksomhetsstatistikkSiste4Kvartaler: vi.fn(() => {
             return {
                 data: dummyVirksomhetsstatistikkSiste4Kvartal,
                 loading: false,
@@ -74,32 +73,32 @@ jest.mock("@features/virksomhet/api/virksomhet", () => {
     };
 });
 
-jest.mock("@features/kartlegging/api/spørreundersøkelse", () => {
+vi.mock("@features/kartlegging/api/spørreundersøkelse", async () => {
     return {
-        ...jest.requireActual("@features/kartlegging/api/spørreundersøkelse"),
-        useHentSamarbeid: jest.fn(() => {
+        ...(await vi.importActual("@features/kartlegging/api/spørreundersøkelse")),
+        useHentSamarbeid: vi.fn(() => {
             return {
                 data: [],
                 loading: false,
                 validating: false,
-                mutate: jest.fn(() => Promise.resolve([])),
+                mutate: vi.fn(() => Promise.resolve([])),
             };
         }),
-        useSpørreundersøkelsesliste: jest.fn(() => {
+        useSpørreundersøkelsesliste: vi.fn(() => {
             return {
                 data: [],
                 loading: false,
                 validating: false,
-                mutate: jest.fn(),
+                mutate: vi.fn(),
             };
         }),
     };
 });
 
-jest.mock("@features/sak/api/nyFlyt", () => {
+vi.mock("@features/sak/api/nyFlyt", async () => {
     return {
-        ...jest.requireActual("@features/sak/api/nyFlyt"),
-        useHentTilstandForVirksomhetNyFlyt: jest.fn(() => {
+        ...(await vi.importActual("@features/sak/api/nyFlyt")),
+        useHentTilstandForVirksomhetNyFlyt: vi.fn(() => {
             return {
                 data: {
                     orgnr: dummyVirksomhetsinformasjonNyFlyt.orgnr,
@@ -108,20 +107,20 @@ jest.mock("@features/sak/api/nyFlyt", () => {
                 loading: false,
             };
         }),
-        vurderSakNyFlyt: jest.fn(() => Promise.resolve()),
-        avsluttVurderingNyFlyt: jest.fn(() => Promise.resolve()),
-        angreVurderingNyFlyt: jest.fn(() => Promise.resolve()),
-        opprettSamarbeidNyFlyt: jest.fn(() => Promise.resolve()),
-        useHentSisteSakNyFlyt: jest.fn(() => ({
+        vurderSakNyFlyt: vi.fn(() => Promise.resolve()),
+        avsluttVurderingNyFlyt: vi.fn(() => Promise.resolve()),
+        angreVurderingNyFlyt: vi.fn(() => Promise.resolve()),
+        opprettSamarbeidNyFlyt: vi.fn(() => Promise.resolve()),
+        useHentSisteSakNyFlyt: vi.fn(() => ({
             data: dummyIaSak,
             loading: false,
         })),
-        useHentSpesifikkSakNyFlyt: jest.fn(() => ({
+        useHentSpesifikkSakNyFlyt: vi.fn(() => ({
             data: dummyIaSak,
             loading: false,
-            mutate: jest.fn(),
+            mutate: vi.fn(),
         })),
-        useHentVirksomhetNyFlyt: jest.fn(() => {
+        useHentVirksomhetNyFlyt: vi.fn(() => {
             return {
                 data: {
                     ...dummyVirksomhetsinformasjonNyFlyt,
@@ -133,10 +132,10 @@ jest.mock("@features/sak/api/nyFlyt", () => {
     };
 });
 
-jest.mock("@features/bruker/api/bruker", () => {
+vi.mock("@features/bruker/api/bruker", async () => {
     return {
-        ...jest.requireActual("@features/bruker/api/bruker"),
-        useHentBrukerinformasjon: jest.fn(() => {
+        ...(await vi.importActual("@features/bruker/api/bruker")),
+        useHentBrukerinformasjon: vi.fn(() => {
             return {
                 data: {
                     ident: "Z123456",
@@ -150,30 +149,30 @@ jest.mock("@features/bruker/api/bruker", () => {
     };
 });
 
-jest.mock("@features/bruker/api/team", () => {
+vi.mock("@features/bruker/api/team", async () => {
     return {
-        ...jest.requireActual("@features/bruker/api/team"),
-        useHentTeam: jest.fn(() => {
+        ...(await vi.importActual("@features/bruker/api/team")),
+        useHentTeam: vi.fn(() => {
             return {
                 data: ["Z123456"],
                 loading: false,
-                mutate: jest.fn(),
+                mutate: vi.fn(),
             };
         }),
     };
 });
 
-jest.mock("react-router-dom", () => {
-    const originalModule = jest.requireActual("react-router-dom");
+vi.mock("react-router-dom", async () => {
+    const originalModule = (await vi.importActual("react-router-dom"));
     return {
         ...originalModule,
-        useParams: jest.fn(() => ({
+        useParams: vi.fn(() => ({
             orgnummer: "840623927",
             saksnummer: dummyIaSak.saksnummer,
             prosessId: dummySamarbeid[1].id.toString(),
         })),
-        useSearchParams: jest.fn(() => {
-            const setSearchParams = jest.fn();
+        useSearchParams: vi.fn(() => {
+            const setSearchParams = vi.fn();
             return [new URLSearchParams(), setSearchParams];
         }),
     };
@@ -181,19 +180,19 @@ jest.mock("react-router-dom", () => {
 
 describe("NyVirksomhetsside", () => {
     beforeEach(() => {
-        jest.clearAllMocks();
+        vi.clearAllMocks();
     });
 
     describe("VirksomhetKlarTilVurdering", () => {
         beforeAll(() => {
-            jest.mocked(useHentTilstandForVirksomhetNyFlyt).mockReturnValue({
+            vi.mocked(useHentTilstandForVirksomhetNyFlyt).mockReturnValue({
                 data: {
                     orgnr: dummyVirksomhetsinformasjonNyFlyt.orgnr,
                     tilstand: "VirksomhetKlarTilVurdering",
                 },
                 loading: false,
                 error: null,
-                mutate: jest.fn(),
+                mutate: vi.fn(),
                 validating: false,
             });
         });
