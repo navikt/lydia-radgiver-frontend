@@ -2,7 +2,6 @@ import { HStack, Skeleton } from "@navikt/ds-react";
 import React from "react";
 import { IASak, VirksomhetIATilstandEnum } from "@/domenetyper/domenetyper";
 import { useHentTilstandForVirksomhetNyFlyt } from "@features/sak/api/nyFlyt";
-import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { Salesforcelenke } from "../";
 import AlleSamarbeidIVirksomhetErAvsluttet from "./AlleSamarbeidIVirksomhetErAvsluttet";
@@ -14,11 +13,9 @@ import { VirksomhetVurderes } from "./VirksomhetVurderes";
 export function Topplinje({
     virksomhet,
     iaSak,
-    samarbeid,
 }: {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    samarbeid?: IaSakProsess;
 }) {
     const { data: tilstand, loading: tilstandLoading } =
         useHentTilstandForVirksomhetNyFlyt(virksomhet.orgnr);

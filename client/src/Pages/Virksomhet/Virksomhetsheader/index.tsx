@@ -53,7 +53,6 @@ export default function Virksomhetsheader({
                     <Topplinje
                         virksomhet={virksomhet}
                         iaSak={iaSak}
-                        samarbeid={valgtSamarbeid}
                     />
                     <HStack align={"center"} width={"100%"}>
                         <HStack
