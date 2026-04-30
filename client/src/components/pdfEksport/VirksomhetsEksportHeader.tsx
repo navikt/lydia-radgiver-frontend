@@ -1,9 +1,8 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
-import NAVLogo from "../../img/NAV_logo_rød.jpg";
-import { useVirksomhetContext } from "../../Pages/Virksomhet/VirksomhetContext";
-import { IaSakProsess } from "../../domenetyper/iaSakProsess";
-import { lokalDato } from "../../util/dato";
-
+import NAVLogo from "@/img/NAV_logo_rød.jpg";
+import { useVirksomhetContext } from "@/Pages/Virksomhet/VirksomhetContext";
+import { lokalDato } from "@/util/dato";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import styles from "./pdfeksport.module.scss";
 
 export default function VirksomhetsEksportHeader({

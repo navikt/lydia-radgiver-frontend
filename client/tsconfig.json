@@ -14,6 +14,17 @@
         "resolveJsonModule": true,
         "isolatedModules": true,
         "noEmit": true,
-        "jsx": "react-jsx"
+        "jsx": "react-jsx",
+        "baseUrl": ".",
+        "paths": {
+            "@/*": ["src/*"],
+            "@features/*": ["src/features/*"],
+            "@mocks/*": ["__mocks__/*"]
+        },
+        "types": [
+            "vitest/globals",
+            "@testing-library/jest-dom",
+            "vitest-axe/extend-expect"
+        ]
     }
 }

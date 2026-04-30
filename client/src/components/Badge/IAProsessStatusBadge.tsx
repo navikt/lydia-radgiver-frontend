@@ -1,7 +1,7 @@
 import {
     IAProsessStatusEnum,
     IAProsessStatusType,
-} from "../../domenetyper/domenetyper";
+} from "@/domenetyper/domenetyper";
 import { GenericProps, GenericStatusBadge } from "./StatusBadge";
 
 export type StatusBadgeProps = Omit<

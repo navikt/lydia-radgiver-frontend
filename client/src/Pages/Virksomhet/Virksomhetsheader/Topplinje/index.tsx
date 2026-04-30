@@ -1,27 +1,21 @@
 import { HStack, Skeleton } from "@navikt/ds-react";
 import React from "react";
+import { IASak, VirksomhetIATilstandEnum } from "@/domenetyper/domenetyper";
+import { useHentTilstandForVirksomhetNyFlyt } from "@features/sak/api/nyFlyt";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { Salesforcelenke } from "../";
-import { useHentTilstandForVirksomhetNyFlyt } from "../../../../api/lydia-api/nyFlyt";
-import {
-    IASak,
-    VirksomhetIATilstandEnum,
-} from "../../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { VirksomhetVurderes } from "./VirksomhetVurderes";
+import AlleSamarbeidIVirksomhetErAvsluttet from "./AlleSamarbeidIVirksomhetErAvsluttet";
 import VirksomhetErVurdert from "./VirksomhetErVurdert";
 import VirksomhetHarAktiveSamarbeid from "./VirksomhetHarAktiveSamarbeid";
-import AlleSamarbeidIVirksomhetErAvsluttet from "./AlleSamarbeidIVirksomhetErAvsluttet";
 import VirksomhetKlarTilVurdering from "./VirksomhetKlarTilVurdering";
+import { VirksomhetVurderes } from "./VirksomhetVurderes";
 
 export function Topplinje({
     virksomhet,
     iaSak,
-    samarbeid,
 }: {
     virksomhet: Virksomhet;
     iaSak?: IASak;
-    samarbeid?: IaSakProsess;
 }) {
     const { data: tilstand, loading: tilstandLoading } =
         useHentTilstandForVirksomhetNyFlyt(virksomhet.orgnr);
@@ -86,13 +80,6 @@ export function Topplinje({
             />
         );
     }
-
-    console.log("ikke implementert", {
-        virksomhet,
-        iaSak,
-        samarbeid,
-        tilstand,
-    });
 
     return "Ikke implementert";
 }

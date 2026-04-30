@@ -1,6 +1,6 @@
 import { Search } from "@navikt/ds-react";
 import { useEffect, useState } from "react";
-import { useDebounce } from "../../../util/useDebounce";
+import { useDebounce } from "@/util/useDebounce";
 
 export const MineSakerSøkefelt = ({
     setSøkFilter,

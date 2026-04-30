@@ -1,21 +1,24 @@
+import { SortState } from "@navikt/ds-react";
 import { useCallback, useEffect, useReducer } from "react";
 import { useSearchParams } from "react-router-dom";
-import { SortState } from "@navikt/ds-react";
-import { Range } from "./SykefraværsprosentVelger";
 import {
     Eier,
     IAProsessStatusType,
     Periode,
     VirksomhetIATilstand,
-} from "../../../domenetyper/domenetyper";
-import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api/sok";
-import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
-import { Næringsgruppe } from "../../../domenetyper/virksomhet";
+} from "@/domenetyper/domenetyper";
+import { søkeverdierTilUrlSearchParams } from "@features/prioritering/api/sok";
 import {
     Filterverdier,
     Sorteringsverdi,
     ValgtSnittFilter,
-} from "../../../domenetyper/filterverdier";
+} from "@features/prioritering/types/filterverdier";
+import {
+    FylkeMedKommuner,
+    Kommune,
+} from "@features/virksomhet/types/fylkeOgKommune";
+import { Næringsgruppe } from "@features/virksomhet/types/virksomhet";
+import { Range } from "./SykefraværsprosentVelger";
 
 const næringsgruppeKoderTilNæringsgrupper = (
     næringsgruppeKoder: string[],

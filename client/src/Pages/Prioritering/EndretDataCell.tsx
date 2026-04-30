@@ -1,5 +1,5 @@
 import { Table } from "@navikt/ds-react";
-import { lokalDato } from "../../util/dato";
+import { lokalDato } from "@/util/dato";
 
 interface Props {
     sistEndret: Date | null;

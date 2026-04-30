@@ -1,8 +1,8 @@
-import { IASak } from "../../../domenetyper/domenetyper";
-import { BodyShort, Button, HStack } from "@navikt/ds-react";
 import { ChevronDownIcon, CircleSlashIcon } from "@navikt/aksel-icons";
+import { BodyShort, Button, HStack } from "@navikt/ds-react";
 import React, { useState } from "react";
-import TeamDropdown from "../../MineSaker/TeamDropdown";
+import { IASak } from "@/domenetyper/domenetyper";
+import TeamDropdown from "@/Pages/MineSaker/TeamDropdown";
 
 export function EierskapKnapp({ iaSak }: { iaSak?: IASak }) {
     const [isModalOpen, setIsModalOpen] = useState(false);

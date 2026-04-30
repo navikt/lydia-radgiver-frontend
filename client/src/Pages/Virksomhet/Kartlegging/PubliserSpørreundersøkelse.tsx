@@ -1,15 +1,15 @@
-import { Alert, Button, Tooltip } from "@navikt/ds-react";
-import React, { useState } from "react";
-import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import {
     CheckmarkIcon,
     CircleBrokenIcon,
     PaperplaneIcon,
     XMarkOctagonIcon,
 } from "@navikt/aksel-icons";
+import { Alert, Button, Tooltip } from "@navikt/ds-react";
+import React, { useState } from "react";
+import { lokalDato } from "@/util/dato";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 import { PubliseringModal } from "./PubliseringModal";
 import styles from "./publiserSpørreundersøkelse.module.scss";
-import { lokalDato } from "../../../util/dato";
 
 interface Props {
     spørreundersøkelse: Spørreundersøkelse;

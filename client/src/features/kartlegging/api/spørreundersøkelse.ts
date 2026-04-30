@@ -1,0 +1,133 @@
+import { post, put, useSwrTemplate } from "@/api/lydia-api/networkRequests";
+import { iaSakPath, spørreundersøkelsePath } from "@/api/lydia-api/paths";
+import { spørreundersøkelseHeading } from "@/components/Spørreundersøkelse/SpørreundersøkelseHeading";
+import {
+    Spørreundersøkelse,
+    spørreundersøkelseSchema,
+} from "@features/kartlegging/types/spørreundersøkelse";
+import {
+    SpørreundersøkelseMedInnhold,
+    SpørreundersøkelseMedInnholdSchema,
+    SpørreundersøkelseType,
+} from "@features/kartlegging/types/spørreundersøkelseMedInnhold";
+import {
+    SpørreundersøkelseResultat,
+    spørreundersøkelseResultatSchema,
+} from "@features/kartlegging/types/spørreundersøkelseResultat";
+import {
+    IaSakProsess,
+    iaSakProsessSchema,
+} from "@features/sak/types/iaSakProsess";
+
+export const kartleggingresultatPdfLenke = (
+    orgnummer: string,
+    saksnummer: string,
+    spørreundersøkelseId: string,
+) => {
+    return `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}/pdf`;
+};
+
+export const useHentResultat = (
+    orgnummer: string,
+    saksnummer: string,
+    spørreundersøkelseId: string,
+) => {
+    return useSwrTemplate<SpørreundersøkelseResultat>(
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}`,
+        spørreundersøkelseResultatSchema,
+    );
+};
+
+export const useHentSamarbeid = (orgnummer?: string, saksnummer?: string) => {
+    return useSwrTemplate<IaSakProsess[]>(
+        saksnummer && orgnummer
+            ? `${iaSakPath}/${orgnummer}/${saksnummer}/prosesser`
+            : null,
+        iaSakProsessSchema.array(),
+    );
+};
+
+export const flyttSpørreundersøkelse = (
+    orgnummer: string,
+    saksnummer: string,
+    tilProsess: number,
+    spørreundersøkelseId: string,
+): Promise<Spørreundersøkelse> => {
+    return put(
+        `${spørreundersøkelsePath}/${spørreundersøkelseId}`,
+        spørreundersøkelseSchema,
+        {
+            orgnummer,
+            saksnummer,
+            prosessId: tilProsess,
+        },
+    );
+};
+export const useHentSpørreundersøkelser = (
+    orgnummer?: string,
+    saksnummer?: string,
+    prosessId?: number,
+    type?: SpørreundersøkelseType,
+) => {
+    return useSwrTemplate<Spørreundersøkelse[]>(
+        orgnummer && saksnummer && prosessId
+            ? `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${spørreundersøkelseHeading(type)}`
+            : null,
+        spørreundersøkelseSchema.array(),
+        {
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true,
+        },
+    );
+};
+
+export const useSpørreundersøkelsesliste = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidsId: number | string,
+) => {
+    return useSwrTemplate<Spørreundersøkelse[]>(
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}`,
+        spørreundersøkelseSchema.array(),
+        {
+            revalidateOnFocus: true,
+            revalidateOnReconnect: true,
+        },
+    );
+};
+
+export const useHentSpørreundersøkelseMedInnhold = (
+    orgnummer: string,
+    saksnummer: string,
+    prosessId: number,
+    type: SpørreundersøkelseType,
+    spørreundersøkelseId: string,
+) => {
+    return useSwrTemplate<SpørreundersøkelseMedInnhold>(
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${spørreundersøkelseHeading(type)}/${spørreundersøkelseId}`,
+        SpørreundersøkelseMedInnholdSchema,
+    );
+};
+
+export const opprettSpørreundersøkelse = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidsId: number,
+    type: SpørreundersøkelseType,
+): Promise<Spørreundersøkelse> => {
+    return post(
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/type/${spørreundersøkelseHeading(type)}`,
+        spørreundersøkelseSchema,
+    );
+};
+
+export const startSpørreundersøkelse = (
+    orgnummer: string,
+    saksnummer: string,
+    spørreundersøkelseId: string,
+): Promise<Spørreundersøkelse> => {
+    return post(
+        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}/start`,
+        spørreundersøkelseSchema,
+    );
+};

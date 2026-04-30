@@ -1,6 +1,6 @@
 import { BodyLong, Button, Modal } from "@navikt/ds-react";
-import { StyledModal } from "./StyledModal";
 import { ModalKnapper } from "./ModalKnapper";
+import { StyledModal } from "./StyledModal";
 
 export interface BekreftValgModalProps {
     onConfirm: () => void;

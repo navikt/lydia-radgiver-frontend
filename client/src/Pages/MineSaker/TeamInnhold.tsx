@@ -1,19 +1,19 @@
-import { IASak } from "../../domenetyper/domenetyper";
-import { loggFølgeSak } from "../../util/analytics-klient";
-import { BodyShort, Button, HStack } from "@navikt/ds-react";
-import { NavIdentMedLenke } from "../../components/NavIdentMedLenke";
 import {
     HeartFillIcon,
     HeartIcon,
     PersonFillIcon,
     PersonIcon,
 } from "@navikt/aksel-icons";
-import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
+import { BodyShort, Button, HStack } from "@navikt/ds-react";
+import { NavIdentMedLenke } from "@/components/NavIdentMedLenke";
+import { IASak } from "@/domenetyper/domenetyper";
+import { loggFølgeSak } from "@/util/analytics-klient";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
 import {
     fjernBrukerFraTeam,
     leggBrukerTilTeam,
     useHentTeam,
-} from "../../api/lydia-api/team";
+} from "@features/bruker/api/team";
 import { useErPåAktivSak } from "../Virksomhet/VirksomhetContext";
 import styles from "./minesaker.module.scss";
 

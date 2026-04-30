@@ -1,6 +1,6 @@
 import React from "react";
-import { Virksomhet } from "../../domenetyper/virksomhet";
-import { IASak } from "../../domenetyper/domenetyper";
+import { IASak } from "@/domenetyper/domenetyper";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 
 export type VirksomhetContextType = {
     virksomhet: Virksomhet;

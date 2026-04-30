@@ -4,8 +4,11 @@
         "module": "commonjs",
         "moduleResolution": "node",
         "target": "ES2022",
+        "rootDir": "./src",
         "outDir": "build",
         "esModuleInterop": true,
-        "typeRoots": ["./types", "./node_modules/@types"]
-    }
+        "strict": true,
+        "typeRoots": ["./src/types", "./node_modules/@types"]
+    },
+    "include": ["src/**/*"]
 }

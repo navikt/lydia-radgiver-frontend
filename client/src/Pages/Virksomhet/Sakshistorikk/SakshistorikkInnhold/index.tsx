@@ -1,12 +1,12 @@
 import { Accordion, BodyShort, Heading, Loader } from "@navikt/ds-react";
-import { Sakshistorikk } from "../../../../domenetyper/sakshistorikk";
-import styles from "./sykefraværshistorikkinnhold.module.scss";
-import { IAProsessStatusBadge } from "../../../../components/Badge/IAProsessStatusBadge";
-import { lokalDato } from "../../../../util/dato";
-import Samarbeidshistorikk from "../Samarbeidshistorikk";
+import { IAProsessStatusBadge } from "@/components/Badge/IAProsessStatusBadge";
+import { lokalDato } from "@/util/dato";
+import { useHentHistorikkNyFlyt } from "@features/sak/api/nyFlyt";
+import { Sakshistorikk } from "@features/sak/types/sakshistorikk";
 import { LeveransehistorikkTabell } from "../LeveransehistorikkTabell";
 import { SakshistorikkTabell } from "../SakshistorikkTabell";
-import { useHentHistorikkNyFlyt } from "../../../../api/lydia-api/nyFlyt";
+import Samarbeidshistorikk from "../Samarbeidshistorikk";
+import styles from "./sykefraværshistorikkinnhold.module.scss";
 
 type SakshistorikkInnholdProps = {
     sakshistorikk?: Sakshistorikk[];

@@ -1,7 +1,7 @@
 import { Tooltip } from "recharts";
-import { SymbolSvg } from "./SymbolSvg";
-import { Grafer, graflinjer } from "./graflinjer";
 import styles from "./graf.module.scss";
+import { Grafer, graflinjer } from "./graflinjer";
+import { SymbolSvg } from "./SymbolSvg";
 
 export function graphTooltip() {
     return (

@@ -1,0 +1,25 @@
+# Build output
+build/
+dist/
+coverage/
+
+# Dependency directories
+node_modules/
+
+# Logs
+*.log
+
+# OS
+.DS_Store
+
+# IDE
+.idea/
+
+# Lockfiles
+pnpm-lock.yaml
+package-lock.json
+
+# Generert eller eksternt
+client/index.html
+client/public/
+client/src/index.css

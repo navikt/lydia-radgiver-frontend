@@ -5,14 +5,14 @@ import {
     HStack,
     useDatepicker,
 } from "@navikt/ds-react";
-import { RedigertInnholdMal } from "../../../domenetyper/plan";
+import { RedigertInnholdMal } from "@features/plan/types/plan";
+import styles from "./plan.module.scss";
 import {
     FIRST_VALID_DATE,
     LAST_VALID_DATE,
     defaultEndDate,
     defaultStartDate,
 } from "./planconster";
-import styles from "./plan.module.scss";
 
 function StartOgSluttVelger({
     redigertInnholdMal,

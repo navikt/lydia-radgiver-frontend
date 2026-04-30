@@ -1,10 +1,6 @@
-import { Spørreundersøkelse } from "../../domenetyper/spørreundersøkelse";
-import {
-    erSammeDato,
-    lokalDatoMedKlokkeslett,
-    lokalDato,
-} from "../../util/dato";
-import { sorterPåDatoSynkende } from "../../util/sortering";
+import { erSammeDato, lokalDatoMedKlokkeslett, lokalDato } from "@/util/dato";
+import { sorterPåDatoSynkende } from "@/util/sortering";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 
 export function sorterPåDato(spørreundersøkelser: Spørreundersøkelse[]) {
     return spørreundersøkelser.sort((a, b) =>

@@ -1,6 +1,6 @@
 import React from "react";
-import { useVirksomhetContext } from "../../Pages/Virksomhet/VirksomhetContext";
-import { lokalDato } from "../../util/dato";
+import { useVirksomhetContext } from "@/Pages/Virksomhet/VirksomhetContext";
+import { lokalDato } from "@/util/dato";
 
 const FILNAVN_DEL_MAKS = 25;
 

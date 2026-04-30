@@ -1,24 +1,24 @@
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+import React, { useState } from "react";
 import {
     IASak,
     IASakshendelseType,
     IASakshendelseTypeEnum,
-} from "../../../../domenetyper/domenetyper";
-import React, { useState } from "react";
-import { getKanGjennomføreStatusendring } from "../../../../api/lydia-api/virksomhet";
-import { nyHendelsePåSak } from "../../../../api/lydia-api/sak";
-import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
-import {
-    KanGjennomføreStatusendring,
-    MuligSamarbeidsgandling,
-} from "../../../../domenetyper/samarbeidsEndring";
-import BekreftHandlingModal from "./BekreftHandlingModal";
-import EndreSamarbeidModalInnhold from "./EndreSamarbeidInnhold";
-import VelgHandlingModal from "./VelgHandlingModal";
+} from "@/domenetyper/domenetyper";
+import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
 import {
     useHentHistorikkNyFlyt,
     useHentSpesifikkSakNyFlyt,
-} from "../../../../api/lydia-api/nyFlyt";
+} from "@features/sak/api/nyFlyt";
+import { nyHendelsePåSak } from "@features/sak/api/sak";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import {
+    KanGjennomføreStatusendring,
+    MuligSamarbeidsgandling,
+} from "@features/sak/types/samarbeidsEndring";
+import { getKanGjennomføreStatusendring } from "@features/virksomhet/api/virksomhet";
+import BekreftHandlingModal from "./BekreftHandlingModal";
+import EndreSamarbeidModalInnhold from "./EndreSamarbeidInnhold";
+import VelgHandlingModal from "./VelgHandlingModal";
 
 interface EndreSamarbeidModalProps {
     open: boolean;

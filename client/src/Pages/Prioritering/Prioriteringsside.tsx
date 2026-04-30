@@ -1,19 +1,19 @@
-import { useEffect, useState } from "react";
 import { BodyShort, Loader, SortState } from "@navikt/ds-react";
+import { useEffect, useState } from "react";
+import SideContainer from "@/components/SideContainer";
+import { loggSideLastet, Søkekomponenter } from "@/util/analytics-klient";
+import { statiskeSidetitler, useTittel } from "@/util/useTittel";
+import { useHentAntallTreff } from "@features/prioritering/api/sok";
+import { useHentVirksomhetsoversiktListe } from "@features/prioritering/api/sok";
+import { useFilterverdier } from "@features/prioritering/api/sok";
+import { Virksomhetsoversikt } from "@features/virksomhet/types/virksomhetsoversikt";
 import { Filtervisning } from "./Filter/Filtervisning";
-import { PrioriteringsTabell } from "./PrioriteringsTabell";
-import { useHentAntallTreff } from "../../api/lydia-api/sok";
-import { useHentVirksomhetsoversiktListe } from "../../api/lydia-api/sok";
-import { useFilterverdier } from "../../api/lydia-api/sok";
-import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 import {
     sammenliknFilterverdier,
     useFiltervisningState,
 } from "./Filter/filtervisning-reducer";
-import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
-import { loggSideLastet, Søkekomponenter } from "../../util/analytics-klient";
 import { loggSøkMedFilterIAnalytics } from "./loggSøkMedFilterIAnalytics";
-import SideContainer from "../../components/SideContainer";
+import { PrioriteringsTabell } from "./PrioriteringsTabell";
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 

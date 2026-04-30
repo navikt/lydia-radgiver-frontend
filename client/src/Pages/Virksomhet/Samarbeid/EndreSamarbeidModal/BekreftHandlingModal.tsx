@@ -1,13 +1,13 @@
 import { BodyLong, Button, Heading, Modal } from "@navikt/ds-react";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+import React from "react";
+import { EksternLenke } from "@/components/EksternLenke";
+import { useVirksomhetContext } from "@/Pages/Virksomhet/VirksomhetContext";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import {
     KanIkkeGjennomføreBegrunnelse,
     MuligSamarbeidsgandling,
-} from "../../../../domenetyper/samarbeidsEndring";
-import React from "react";
-import { EksternLenke } from "../../../../components/EksternLenke";
-import { useHentSalesforceUrl } from "../../../../api/lydia-api/virksomhet";
-import { useVirksomhetContext } from "../../VirksomhetContext";
+} from "@features/sak/types/samarbeidsEndring";
+import { useHentSalesforceUrl } from "@features/virksomhet/api/virksomhet";
 import BegrunnelserForIkkeKunne, {
     usePrettyType,
 } from "./BegrunnelserForIkkeKunne";

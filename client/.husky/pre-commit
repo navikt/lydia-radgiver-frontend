@@ -1,3 +1,6 @@
-cd client
-pnpm run build
-pnpm run test
+#!/usr/bin/env sh
+# Pre-commit hook. Kjører lint+prettier på endrede filer og typecheck i begge
+# prosjekter for å fange typefeil før commit (raskt, ingen test).
+
+cd client && pnpm lint-staged && pnpm typecheck || exit 1
+cd ../server && pnpm typecheck || exit 1

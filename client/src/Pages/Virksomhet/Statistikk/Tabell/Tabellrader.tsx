@@ -1,7 +1,7 @@
-import React, { FunctionComponent } from "react";
 import { Table } from "@navikt/ds-react";
+import React, { FunctionComponent } from "react";
+import { HistoriskStatistikk } from "@features/virksomhet/types/historiskstatistikk";
 import { formaterProsent } from "./tabell-utils";
-import { HistoriskStatistikk } from "../../../../domenetyper/historiskstatistikk";
 
 type TabellRadProps = {
     historiskStatistikk: HistoriskStatistikk;

@@ -1,11 +1,11 @@
-import React from "react";
 import { BodyShort, Button, Modal } from "@navikt/ds-react";
-import { useHentMineSaker } from "../../api/lydia-api/sak";
-import { IASak } from "../../domenetyper/domenetyper";
+import React from "react";
+import { IASak } from "@/domenetyper/domenetyper";
 import {
     bliEierNyFlyt,
     useHentSpesifikkSakNyFlyt,
-} from "../../api/lydia-api/nyFlyt";
+} from "@features/sak/api/nyFlyt";
+import { useHentMineSaker } from "@features/sak/api/sak";
 import { useOversiktMutate } from "../Virksomhet/Debugside/Oversikt";
 
 interface TaEierskapModalProps {

@@ -1,11 +1,11 @@
 import { useState } from "react";
+import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
 import {
     slettKartleggingNyFlyt,
     slettSamarbeidsplanNyFlyt,
     slettSamarbeidNyFlyt,
     useHentSisteSakNyFlyt,
-} from "../../../api/lydia-api/nyFlyt";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+} from "@features/sak/api/nyFlyt";
 
 interface DeleteProps {
     orgnummer: string;
@@ -179,7 +179,10 @@ export function SlettSamarbeid({ orgnummer, onSuccess }: DeleteProps) {
     const handleSubmit = async () => {
         setError(null);
         try {
-            const result = await slettSamarbeidNyFlyt(orgnummer, Number(samarbeidId));
+            const result = await slettSamarbeidNyFlyt(
+                orgnummer,
+                Number(samarbeidId),
+            );
             setResponse(result);
             onSuccess();
         } catch (e) {

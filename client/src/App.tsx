@@ -1,20 +1,20 @@
+import { BodyShort, Link, Loader } from "@navikt/ds-react";
+import { Head } from "@unhead/react";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "@navikt/ds-css";
-import { useHentBrukerinformasjon } from "./api/lydia-api/bruker";
-import { Prioriteringsside } from "./Pages/Prioritering/Prioriteringsside";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
+import styles from "./app.module.scss";
 import { FeilmeldingBanner } from "./components/Banner/FeilmeldingBanner";
 import { Dekoratør, erIDev } from "./components/Dekoratør/Dekoratør";
 import { Footer } from "./components/Footer/Footer";
-import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
-import { BodyShort, Link, Loader } from "@navikt/ds-react";
-import { setTilgangsnivå } from "./util/analytics-klient";
-import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
 import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
-import { Head } from "@unhead/react";
-import styles from "./app.module.scss";
+import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
+import { Prioriteringsside } from "./Pages/Prioritering/Prioriteringsside";
+import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
 import { NyVirksomhetsside } from "./Pages/Virksomhet";
 import Debugside from "./Pages/Virksomhet/Debugside";
+import { setTilgangsnivå } from "./util/analytics-klient";
 
 const App = () => (
     <BrowserRouter>

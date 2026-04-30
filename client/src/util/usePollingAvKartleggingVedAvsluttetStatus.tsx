@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Spørreundersøkelse } from "../domenetyper/spørreundersøkelse";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 
 export function usePollingAvKartleggingVedAvsluttetStatus(
     spørreundersøkelseStatus: string,

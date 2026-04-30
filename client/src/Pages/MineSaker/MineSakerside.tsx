@@ -1,21 +1,21 @@
-import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
-import { useHentMineSaker } from "../../api/lydia-api/sak";
-import { IAProsessStatusType } from "../../domenetyper/domenetyper";
-import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
+import { Alert, Heading, Link } from "@navikt/ds-react";
 import React, { useEffect, useMemo, useState } from "react";
-import { MineSakerKort } from "./MineSakerKort";
-import { ARKIV_STATUSER } from "./Filter/StatusFilter";
-import { Sorteringsknapper } from "./Sorteringsknapper";
+import { useLocation, NavLink } from "react-router-dom";
+import { IAProsessStatusType } from "@/domenetyper/domenetyper";
 import {
     loggBrukerFulgteRedirectlenkeMedSøk,
     loggBrukerRedirigertMedSøkAlert,
     loggSideLastet,
-} from "../../util/analytics-klient";
+} from "@/util/analytics-klient";
+import { statiskeSidetitler, useTittel } from "@/util/useTittel";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
+import { useHentMineSaker } from "@features/sak/api/sak";
+import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
+import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { loggMineSakerFilterEndringMedAnalytics } from "./loggFilterEndringMedAnalytics";
-import { Alert, Heading, Link } from "@navikt/ds-react";
-import { useLocation, NavLink } from "react-router-dom";
 import styles from "./minesaker.module.scss";
-import { statiskeSidetitler, useTittel } from "../../util/useTittel";
+import { MineSakerKort } from "./MineSakerKort";
+import { Sorteringsknapper } from "./Sorteringsknapper";
 
 export const EIER_FØLGER_FILTER_VALUES = ["eier", "følger"] as const;
 export type EierFølgerFilterType = (typeof EIER_FØLGER_FILTER_VALUES)[number][];

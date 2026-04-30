@@ -1,12 +1,12 @@
 import { BodyShort, Heading } from "@navikt/ds-react";
-import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
-import { useHentPubliseringsinfo } from "../../api/lydia-api/virksomhet";
+import { nesteKvartal } from "@/domenetyper/kvartal";
 import {
     skalViseStatistikkKommer,
     skjulNyStatistikkBanner,
-} from "../../util/nyStatistikkBannerUtils";
-import { Publiseringsinfo } from "../../domenetyper/publiseringsinfo";
-import { nesteKvartal } from "../../domenetyper/kvartal";
+} from "@/util/nyStatistikkBannerUtils";
+import { Publiseringsinfo } from "@features/plan/types/publiseringsinfo";
+import { useHentPubliseringsinfo } from "@features/virksomhet/api/virksomhet";
+import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
 
 export const NyStatistikkPubliseresBanner = () => {
     const { data: publiseringsinfo, loading: lasterPubliseringsinfo } =

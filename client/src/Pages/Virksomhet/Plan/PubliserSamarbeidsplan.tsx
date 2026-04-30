@@ -1,18 +1,18 @@
-import { Alert, Tooltip } from "@navikt/ds-react";
-import React, { useState } from "react";
 import {
     CheckmarkIcon,
     CircleBrokenIcon,
     PaperplaneIcon,
 } from "@navikt/aksel-icons";
-import styles from "../Kartlegging/publiserSpørreundersøkelse.module.scss";
-import { lokalDato } from "../../../util/dato";
+import { Alert, Tooltip } from "@navikt/ds-react";
+import React, { useState } from "react";
+import { IASak } from "@/domenetyper/domenetyper";
+import { lokalDato } from "@/util/dato";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
+import { useHentTeam } from "@features/bruker/api/team";
+import { Plan } from "@features/plan/types/plan";
 import { PubliserDokumentknapp } from "../Kartlegging/PubliserSpørreundersøkelse";
-import { Plan } from "../../../domenetyper/plan";
+import styles from "../Kartlegging/publiserSpørreundersøkelse.module.scss";
 import { PubliseringModal } from "./PubliseringModal";
-import { IASak } from "../../../domenetyper/domenetyper";
-import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
-import { useHentTeam } from "../../../api/lydia-api/team";
 
 interface Props {
     plan: Plan;

@@ -4,17 +4,17 @@ import {
     DatePicker,
     useDatepicker,
 } from "@navikt/ds-react";
-import { PlanInnhold } from "../../../domenetyper/plan";
 import React from "react";
+import LåsbarCheckbox from "@/components/LåsbarCheckbox";
+import { loggEndringAvPlan } from "@/util/analytics-klient";
+import { PlanInnhold } from "@features/plan/types/plan";
+import styles from "./plan.module.scss";
 import {
     FIRST_VALID_DATE,
     LAST_VALID_DATE,
     defaultEndDate,
     defaultStartDate,
 } from "./planconster";
-import { loggEndringAvPlan } from "../../../util/analytics-klient";
-import LåsbarCheckbox from "../../../components/LåsbarCheckbox";
-import styles from "./plan.module.scss";
 
 export default function InnholdOppsett({
     valgteInnhold,

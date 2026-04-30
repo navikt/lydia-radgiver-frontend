@@ -1,6 +1,6 @@
-import React from "react";
 import { ClockIcon } from "@navikt/aksel-icons";
-import { erIFortid, lokalDatoMedKlokkeslett } from "../../../util/dato";
+import React from "react";
+import { erIFortid, lokalDatoMedKlokkeslett } from "@/util/dato";
 import styles from "./spørreundersøkelsesliste.module.scss";
 
 export function GyldigTilTidspunkt(props: { input: Date }) {

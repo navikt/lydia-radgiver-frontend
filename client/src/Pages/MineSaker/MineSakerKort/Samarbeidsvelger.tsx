@@ -1,3 +1,4 @@
+import { ArchiveIcon } from "@navikt/aksel-icons";
 import {
     ActionMenu,
     Button,
@@ -6,14 +7,13 @@ import {
     HStack,
     Spacer,
 } from "@navikt/ds-react";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { SplittedeSamarbeid } from "./SamarbeidsKort";
-import { ArchiveIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
-import { IASak } from "../../../domenetyper/domenetyper";
-import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
+import { SamarbeidStatusBadge } from "@/components/Badge/SamarbeidStatusBadge";
+import { IASak } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import { ARKIV_STATUSER } from "../Filter/StatusFilter";
 import styles from "./minesakerkort.module.scss";
+import { SplittedeSamarbeid } from "./SamarbeidsKort";
 
 export function Samarbeidsvelger({
     sorterteSamarbeid,

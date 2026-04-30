@@ -1,9 +1,9 @@
-import React from "react";
+import { TrendUpIcon } from "@navikt/aksel-icons";
 import { Button, ButtonProps, Modal } from "@navikt/ds-react";
-import { Virksomhet } from "../../../domenetyper/virksomhet";
+import React from "react";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { Historiskstatistikk } from "./Graf/Historiskstatistikk";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
-import { TrendUpIcon } from "@navikt/aksel-icons";
 
 export default function Sykefraværsstatistikkmodal({
     virksomhet,

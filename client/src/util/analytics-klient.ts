@@ -1,9 +1,9 @@
-import { maskerOrgnr } from "./analytics-klient-utils";
-import { Rolle } from "../domenetyper/brukerinformasjon";
+import { Rolle } from "@features/bruker/types/brukerinformasjon";
 import {
     IAProsessStatusType,
     IASakshendelseType,
 } from "../domenetyper/domenetyper";
+import { maskerOrgnr } from "./analytics-klient-utils";
 
 declare global {
     interface Window {

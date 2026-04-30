@@ -1,5 +1,5 @@
-import { useState } from "react";
 import { AlertProps } from "@navikt/ds-react";
+import { useState } from "react";
 import { Banner } from "./Banner";
 
 export const BannerMedLukkeknapp = ({ children, ...props }: AlertProps) => {

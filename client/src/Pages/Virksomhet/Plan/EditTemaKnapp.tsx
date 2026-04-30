@@ -1,18 +1,15 @@
-import React from "react";
-import { Button, Modal } from "@navikt/ds-react";
-import { ModalKnapper } from "../../../components/Modal/ModalKnapper";
 import { DocPencilIcon } from "@navikt/aksel-icons";
-import InnholdOppsett from "./InnholdOppsett";
-import { Plan, PlanInnhold, PlanTema } from "../../../domenetyper/plan";
-import {
-    endrePlanNyFlyt,
-    endrePlanTemaNyFlyt,
-} from "../../../api/lydia-api/nyFlyt";
-import { lagRequest, TemaRequest, UndertemaRequest } from "./Requests";
+import { Button, Modal } from "@navikt/ds-react";
+import React from "react";
 import { KeyedMutator } from "swr";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { loggModalÅpnet } from "../../../util/analytics-klient";
+import { ModalKnapper } from "@/components/Modal/ModalKnapper";
+import { loggModalÅpnet } from "@/util/analytics-klient";
+import { Plan, PlanInnhold, PlanTema } from "@features/plan/types/plan";
+import { endrePlanNyFlyt, endrePlanTemaNyFlyt } from "@features/sak/api/nyFlyt";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import InnholdOppsett from "./InnholdOppsett";
 import styles from "./plan.module.scss";
+import { lagRequest, TemaRequest, UndertemaRequest } from "./Requests";
 
 export default function EditTemaKnapp({
     tema,

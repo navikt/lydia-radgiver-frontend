@@ -1,9 +1,9 @@
 import { Alert, Heading, List } from "@navikt/ds-react";
+import React from "react";
 import {
     KanIkkeGjennomføreBegrunnelse,
     MuligSamarbeidsgandling,
-} from "../../../../domenetyper/samarbeidsEndring";
-import React from "react";
+} from "@features/sak/types/samarbeidsEndring";
 import styles from "./endresamarbeidmodal.module.scss";
 
 export default function BegrunnelserForIkkeKunne({

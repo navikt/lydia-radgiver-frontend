@@ -1,3 +1,4 @@
+import { PersonGroupFillIcon } from "@navikt/aksel-icons";
 import {
     BodyShort,
     Heading,
@@ -5,9 +6,8 @@ import {
     HStack,
     ToggleGroup,
 } from "@navikt/ds-react";
+import { SpørsmålResultat } from "@features/kartlegging/types/spørreundersøkelseResultat";
 import BarChart from "./Grafer/BarChart";
-import { PersonGroupFillIcon } from "@navikt/aksel-icons";
-import { SpørsmålResultat } from "../../domenetyper/spørreundersøkelseResultat";
 import styles from "./spørreundersøkelse.module.scss";
 import TekstligResultatvisning from "./TekstligResultatvisning";
 

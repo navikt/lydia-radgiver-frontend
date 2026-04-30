@@ -1,12 +1,12 @@
 import { Button, HStack, Table } from "@navikt/ds-react";
-import { IAProsessStatusBadge } from "../../components/Badge/IAProsessStatusBadge";
-import { Statusoversikt } from "../../domenetyper/statusoversikt";
-import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import {
     createSearchParams,
     useNavigate,
     useSearchParams,
 } from "react-router-dom";
+import { IAProsessStatusBadge } from "@/components/Badge/IAProsessStatusBadge";
+import { IAProsessStatusType } from "@/domenetyper/domenetyper";
+import { Statusoversikt } from "@features/sak/types/statusoversikt";
 import styles from "./statusoversikt.module.scss";
 
 interface Props {

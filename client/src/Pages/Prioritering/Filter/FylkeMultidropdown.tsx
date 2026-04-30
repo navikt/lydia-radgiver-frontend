@@ -1,11 +1,11 @@
-import { CSSProperties } from "react";
 import { Label } from "@navikt/ds-react";
+import { CSSProperties } from "react";
 import {
     reactSelectStyle,
     StyledReactSelect,
-} from "../../../components/ReactSelect/StyledReactSelect";
-import { sorterAlfabetisk } from "../../../util/sortering";
-import { FylkeMedKommuner } from "../../../domenetyper/fylkeOgKommune";
+} from "@/components/ReactSelect/StyledReactSelect";
+import { sorterAlfabetisk } from "@/util/sortering";
+import { FylkeMedKommuner } from "@features/virksomhet/types/fylkeOgKommune";
 
 const fylkeDropdownId = "fylkedropdown";
 

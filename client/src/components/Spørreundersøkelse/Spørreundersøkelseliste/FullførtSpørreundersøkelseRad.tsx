@@ -1,17 +1,17 @@
-import React from "react";
 import { ExpansionCard } from "@navikt/ds-react";
-import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
+import React from "react";
+import { SpørreundersøkelseStatusBadge } from "@/components/Badge/SpørreundersøkelseStatusBadge";
+import ActionButtonsHvisSamarbeidIkkeFullført from "@/Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
+import { FlyttTilAnnenProsess } from "@/Pages/Virksomhet/Kartlegging/FlyttTilAnnenProsess";
+import { PubliserSpørreundersøkelse } from "@/Pages/Virksomhet/Kartlegging/PubliserSpørreundersøkelse";
+import ResultatEksportVisning from "@/Pages/Virksomhet/Kartlegging/ResultatEksportVisning";
+import { SpørreundersøkelseResultat } from "@/Pages/Virksomhet/Kartlegging/SpørreundersøkelseResultat";
+import { usePollingAvKartleggingVedAvsluttetStatus } from "@/util/usePollingAvKartleggingVedAvsluttetStatus";
+import { flyttSpørreundersøkelse } from "@features/kartlegging/api/spørreundersøkelse";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
 import styles from "./spørreundersøkelsesliste.module.scss";
-import { SpørreundersøkelseResultat } from "../../../Pages/Virksomhet/Kartlegging/SpørreundersøkelseResultat";
 import { FormatertSpørreundersøkelseType } from "./utils";
-import { SpørreundersøkelseStatusBadge } from "../../Badge/SpørreundersøkelseStatusBadge";
-import { FlyttTilAnnenProsess } from "../../../Pages/Virksomhet/Kartlegging/FlyttTilAnnenProsess";
-import { flyttSpørreundersøkelse } from "../../../api/lydia-api/spørreundersøkelse";
-import ActionButtonsHvisSamarbeidIkkeFullført from "../../../Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
-import { PubliserSpørreundersøkelse } from "../../../Pages/Virksomhet/Kartlegging/PubliserSpørreundersøkelse";
-import { usePollingAvKartleggingVedAvsluttetStatus } from "../../../util/usePollingAvKartleggingVedAvsluttetStatus";
-import ResultatEksportVisning from "../../../Pages/Virksomhet/Kartlegging/ResultatEksportVisning";
 
 export default function FullførtSpørreundersøkelseRad({
     spørreundersøkelse,

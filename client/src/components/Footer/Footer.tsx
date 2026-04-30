@@ -1,13 +1,13 @@
-import { EksternLenke } from "../EksternLenke";
+import { QuestionmarkCircleIcon } from "@navikt/aksel-icons";
 import { Button, Popover } from "@navikt/ds-react";
-import { useHentPubliseringsinfo } from "../../api/lydia-api/virksomhet";
-import { getGjeldendePeriodeTekst } from "../../util/gjeldendePeriodeSisteFireKvartal";
+import React from "react";
 import {
     EksternNavigeringKategorier,
     loggNavigeringMedEksternLenke,
-} from "../../util/analytics-klient";
-import React from "react";
-import { QuestionmarkCircleIcon } from "@navikt/aksel-icons";
+} from "@/util/analytics-klient";
+import { getGjeldendePeriodeTekst } from "@/util/gjeldendePeriodeSisteFireKvartal";
+import { useHentPubliseringsinfo } from "@features/virksomhet/api/virksomhet";
+import { EksternLenke } from "../EksternLenke";
 import styles from "./footer.module.scss";
 
 export const Footer = () => {

@@ -1,25 +1,25 @@
+import { HStack } from "@navikt/ds-react";
 import React from "react";
+import OpprettNySpørreundersøkelseKnapp from "@/components/Spørreundersøkelse/OpprettNySpørreundersøkelseKnapp";
+import { SpørreundersøkelseProvider } from "@/components/Spørreundersøkelse/SpørreundersøkelseContext";
+import { SpørreundersøkelseHeading } from "@/components/Spørreundersøkelse/SpørreundersøkelseHeading";
+import Spørreundersøkelseliste from "@/components/Spørreundersøkelse/Spørreundersøkelseliste";
+import { IASak } from "@/domenetyper/domenetyper";
+import { VisHvisSamarbeidErÅpent } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
 import {
     erSaksbehandler,
     useHentBrukerinformasjon,
-} from "../../../../api/lydia-api/bruker";
-import { useSpørreundersøkelsesliste } from "../../../../api/lydia-api/spørreundersøkelse";
-import { useHentTeam } from "../../../../api/lydia-api/team";
-import { SpørreundersøkelseProvider } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
-import { IASak } from "../../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import Spørreundersøkelseliste from "../../../../components/Spørreundersøkelse/Spørreundersøkelseliste";
-import { SpørreundersøkelseHeading } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseHeading";
-import { VisHvisSamarbeidErÅpent } from "../../Samarbeid/SamarbeidContext";
-import OpprettNySpørreundersøkelseKnapp from "../../../../components/Spørreundersøkelse/OpprettNySpørreundersøkelseKnapp";
+} from "@features/bruker/api/bruker";
+import { useHentTeam } from "@features/bruker/api/team";
+import { useSpørreundersøkelsesliste } from "@features/kartlegging/api/spørreundersøkelse";
 import {
     SpørreundersøkelseType,
     SpørreundersøkelseTypeEnum,
-} from "../../../../domenetyper/spørreundersøkelseMedInnhold";
-import { useHentIASaksStatus } from "../../../../api/lydia-api/sak";
-import { HStack } from "@navikt/ds-react";
-import { useHentPlan } from "../../../../api/lydia-api/plan";
-import { opprettKartleggingNyFlyt } from "../../../../api/lydia-api/nyFlyt";
+} from "@features/kartlegging/types/spørreundersøkelseMedInnhold";
+import { useHentPlan } from "@features/plan/api/plan";
+import { opprettKartleggingNyFlyt } from "@features/sak/api/nyFlyt";
+import { useHentIASaksStatus } from "@features/sak/api/sak";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 
 export function Kartleggingsliste({
     iaSak,

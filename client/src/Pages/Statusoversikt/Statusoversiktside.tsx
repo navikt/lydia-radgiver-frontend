@@ -1,20 +1,20 @@
-import { useEffect, useState } from "react";
 import { BodyShort, Loader } from "@navikt/ds-react";
+import { useEffect, useState } from "react";
+import SideContainer from "@/components/SideContainer";
+import { loggSideLastet, Søkekomponenter } from "@/util/analytics-klient";
+import { statiskeSidetitler, useTittel } from "@/util/useTittel";
+import {
+    useFilterverdier,
+    useHentStatusoversikt,
+} from "@features/prioritering/api/sok";
+import { Statusoversikt } from "@features/sak/types/statusoversikt";
 import { Filtervisning } from "../Prioritering/Filter/Filtervisning";
 import {
     sammenliknFilterverdier,
     useFiltervisningState,
 } from "../Prioritering/Filter/filtervisning-reducer";
-import {
-    useFilterverdier,
-    useHentStatusoversikt,
-} from "../../api/lydia-api/sok";
-import { Statusoversikt } from "../../domenetyper/statusoversikt";
-import { statiskeSidetitler, useTittel } from "../../util/useTittel";
-import { StatistikkTabell } from "./StatistikkTabell";
-import { loggSideLastet, Søkekomponenter } from "../../util/analytics-klient";
 import { loggSøkMedFilterIAnalytics } from "../Prioritering/loggSøkMedFilterIAnalytics";
-import SideContainer from "../../components/SideContainer";
+import { StatistikkTabell } from "./StatistikkTabell";
 
 export const Statusoversiktside = () => {
     useTittel(statiskeSidetitler.statusoversiktside);

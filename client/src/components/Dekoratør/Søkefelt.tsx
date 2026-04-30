@@ -1,10 +1,10 @@
-import { CSSProperties, useEffect, useRef, useState } from "react";
 import { Loader, Popover, Search } from "@navikt/ds-react";
-import { useDebounce } from "../../util/useDebounce";
-import { virksomhetAutocompletePath } from "../../api/lydia-api/paths";
-import { VirksomhetSøkeresultat } from "../../domenetyper/domenetyper";
+import { CSSProperties, useEffect, useRef, useState } from "react";
+import { virksomhetAutocompletePath } from "@/api/lydia-api/paths";
+import { VirksomhetSøkeresultat } from "@/domenetyper/domenetyper";
+import { loggSøkPåVirksomhet } from "@/util/analytics-klient";
+import { useDebounce } from "@/util/useDebounce";
 import { EksternLenke } from "../EksternLenke";
-import { loggSøkPåVirksomhet } from "../../util/analytics-klient";
 import styles from "./dekoratør.module.scss";
 
 interface Props {

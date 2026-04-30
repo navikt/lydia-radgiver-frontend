@@ -1,4 +1,4 @@
-import React from "react";
+import { DocPencilIcon } from "@navikt/aksel-icons";
 import {
     BodyLong,
     Button,
@@ -7,18 +7,15 @@ import {
     Modal,
     useDatepicker,
 } from "@navikt/ds-react";
-import {
-    IASak,
-    VirksomhetTilstandDto,
-} from "../../../../domenetyper/domenetyper";
-import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
+import React from "react";
+import { IASak, VirksomhetTilstandDto } from "@/domenetyper/domenetyper";
+import { useOversiktMutate } from "@/Pages/Virksomhet/Debugside/Oversikt";
+import { EierskapKnapp } from "@/Pages/Virksomhet/Samarbeid/EierskapKnapp";
+import { lokalDato } from "@/util/dato";
+import { endrePlanlagtDatoNyFlyt } from "@features/sak/api/nyFlyt";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { Salesforcelenke } from "..";
-import { lokalDato } from "../../../../util/dato";
 import VurderVirksomhetKnapp from "./common/VurderVirksomhetKnapp";
-import { DocPencilIcon } from "@navikt/aksel-icons";
-import { endrePlanlagtDatoNyFlyt } from "../../../../api/lydia-api/nyFlyt";
-import { useOversiktMutate } from "../../Debugside/Oversikt";
 
 export default function AlleSamarbeidIVirksomhetErAvsluttet({
     iaSak,

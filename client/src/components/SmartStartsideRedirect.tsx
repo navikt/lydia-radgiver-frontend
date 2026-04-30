@@ -1,8 +1,7 @@
-import { useLocation, useNavigate } from "react-router-dom";
-import { useHentBrukerinformasjon } from "../api/lydia-api/bruker";
-import React from "react";
 import { Alert, Loader } from "@navikt/ds-react";
-
+import React from "react";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
 import styles from "./components.module.scss";
 export default function SmartStartsideRedirect() {
     const navigate = useNavigate();

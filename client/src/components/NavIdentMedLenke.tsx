@@ -1,8 +1,8 @@
-import { EksternLenke } from "./EksternLenke";
 import {
     EksternNavigeringKategorier,
     loggNavigeringMedEksternLenke,
 } from "../util/analytics-klient";
+import { EksternLenke } from "./EksternLenke";
 
 export const NavIdentMedLenke = ({ navIdent }: { navIdent: string | null }) =>
     navIdent ? (

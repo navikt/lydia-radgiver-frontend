@@ -1,4 +1,8 @@
-import React, { useRef, useState } from "react";
+import {
+    ClockIcon,
+    InformationSquareIcon,
+    TrendUpIcon,
+} from "@navikt/aksel-icons";
 import {
     BodyShort,
     Button,
@@ -9,30 +13,23 @@ import {
     Tabs,
     VStack,
 } from "@navikt/ds-react";
-import {
-    ClockIcon,
-    InformationSquareIcon,
-    TrendUpIcon,
-} from "@navikt/aksel-icons";
-
-import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
-import { useHentSalesforceUrl } from "../../../api/lydia-api/virksomhet";
-import { EksternLenke } from "../../../components/EksternLenke";
-
-import { Virksomhet } from "../../../domenetyper/virksomhet";
-import { IASak } from "../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { loggÅpnetVirksomhetsinfo } from "../../../util/analytics-klient";
-import { InternLenke } from "../../../components/InternLenke";
-import { useErPåInaktivSak } from "../VirksomhetContext";
-
-import styles from "./virksomhetsheader.module.scss";
+import React, { useRef, useState } from "react";
+import { VirksomhetTilstandStatusBadge } from "@/components/Badge/VirksomhetTilstandStatusBadge";
+import { EksternLenke } from "@/components/EksternLenke";
+import { InternLenke } from "@/components/InternLenke";
+import { IASak } from "@/domenetyper/domenetyper";
+import { loggÅpnetVirksomhetsinfo } from "@/util/analytics-klient";
+import { lokalDato } from "@/util/dato";
+import { useHentTilstandForVirksomhetNyFlyt } from "@features/sak/api/nyFlyt";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { useHentSalesforceUrl } from "@features/virksomhet/api/virksomhet";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import Sakshistorikkmodal from "../Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
 import Sykefraværsstatistikkmodal from "../Statistikk/Sykefraværsstatistikkmodal";
-import { lokalDato } from "../../../util/dato";
+import { useErPåInaktivSak } from "../VirksomhetContext";
 import { Topplinje } from "./Topplinje";
-import { VirksomhetTilstandStatusBadge } from "../../../components/Badge/VirksomhetTilstandStatusBadge";
-import { useHentTilstandForVirksomhetNyFlyt } from "../../../api/lydia-api/nyFlyt";
+import styles from "./virksomhetsheader.module.scss";
+import { VirksomhetsInfoPopoverInnhold } from "./VirksomhetsInfoPopoverInnhold";
 
 export default function Virksomhetsheader({
     virksomhet,
@@ -56,7 +53,6 @@ export default function Virksomhetsheader({
                     <Topplinje
                         virksomhet={virksomhet}
                         iaSak={iaSak}
-                        samarbeid={valgtSamarbeid}
                     />
                     <HStack align={"center"} width={"100%"}>
                         <HStack

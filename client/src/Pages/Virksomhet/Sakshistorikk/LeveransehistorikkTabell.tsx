@@ -1,8 +1,8 @@
-import { useHentLeveranser } from "../../../api/lydia-api/leveranse";
 import { BodyShort, Heading, Loader, Table } from "@navikt/ds-react";
-import { lokalDato } from "../../../util/dato";
-import { StyledTable } from "../../../components/StyledTable";
-import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
+import { ScrollUtTilKantenContainer } from "@/components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
+import { StyledTable } from "@/components/StyledTable";
+import { lokalDato } from "@/util/dato";
+import { useHentLeveranser } from "@features/leveranse/api/leveranse";
 
 interface LeveransehistorikkProps {
     orgnr: string;

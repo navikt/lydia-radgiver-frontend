@@ -1,23 +1,23 @@
-import { Statistikkboks } from "./Statistikkboks";
+import { Loader } from "@navikt/ds-react";
+import { Kvartal } from "@/domenetyper/kvartal";
+import { getGjeldendePeriodeTekst } from "@/util/gjeldendePeriodeSisteFireKvartal";
+import { sorterKvartalStigende } from "@/util/sortering";
 import {
     formaterSomHeltall,
     formaterSomProsentMedEnDesimal,
-} from "../../../util/tallFormatering";
-import { Loader } from "@navikt/ds-react";
+} from "@/util/tallFormatering";
+import { Publiseringsinfo } from "@features/plan/types/publiseringsinfo";
 import {
     useHentBransjestatistikk,
     useHentNæringsstatistikk,
     useHentPubliseringsinfo,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
     useHentVirksomhetsstatistikkSiste4Kvartaler,
-} from "../../../api/lydia-api/virksomhet";
-import { sorterKvartalStigende } from "../../../util/sortering";
-import { getGjeldendePeriodeTekst } from "../../../util/gjeldendePeriodeSisteFireKvartal";
-import { Kvartal } from "../../../domenetyper/kvartal";
-import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
-import { Publiseringsinfo } from "../../../domenetyper/publiseringsinfo";
-import { Næring } from "../../../domenetyper/virksomhet";
+} from "@features/virksomhet/api/virksomhet";
+import { Næring } from "@features/virksomhet/types/virksomhet";
+import { VirksomhetsstatistikkSiste4Kvartaler } from "@features/virksomhet/types/virksomhetsstatistikkSiste4Kvartaler";
 import styles from "./statistikk.module.scss";
+import { Statistikkboks } from "./Statistikkboks";
 
 interface Props {
     orgnummer: string;

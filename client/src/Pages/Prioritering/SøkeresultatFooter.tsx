@@ -1,8 +1,8 @@
-import React from "react";
 import { Detail, Loader } from "@navikt/ds-react";
-import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
+import React from "react";
 import { Paginering } from "./Paginering";
 import styles from "./prioritering.module.scss";
+import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
 
 interface Props {
     side: number;

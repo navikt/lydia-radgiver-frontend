@@ -1,12 +1,11 @@
+import { InformationSquareIcon, TrashIcon } from "@navikt/aksel-icons";
 import { Button, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
 import React from "react";
-import { SpørreundersøkelseStatusBadge } from "../../Badge/SpørreundersøkelseStatusBadge";
-import { InformationSquareIcon, TrashIcon } from "@navikt/aksel-icons";
+import { SpørreundersøkelseStatusBadge } from "@/components/Badge/SpørreundersøkelseStatusBadge";
+import ActionButtonsHvisSamarbeidIkkeFullført from "@/Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
+import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 import { CardHeaderProps } from "../SpørreundersøkelseContext";
-
 import styles from "./spørreundersøkelsesliste.module.scss";
-import ActionButtonsHvisSamarbeidIkkeFullført from "../../../Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
-import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import { FormatertSpørreundersøkelseType } from "./utils";
 
 export default function ForFåSvarRad({

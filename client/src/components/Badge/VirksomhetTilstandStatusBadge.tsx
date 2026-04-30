@@ -1,9 +1,9 @@
+import { TagProps } from "@navikt/ds-react";
 import {
     VirksomhetIATilstand,
     VirksomhetIATilstandEnum,
-} from "../../domenetyper/domenetyper";
+} from "@/domenetyper/domenetyper";
 import { GenericProps, GenericStatusBadge } from "./StatusBadge";
-import { TagProps } from "@navikt/ds-react";
 
 export type StatusBadgeProps = Omit<
     GenericProps<VirksomhetIATilstand>,

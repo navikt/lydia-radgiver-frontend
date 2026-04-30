@@ -1,7 +1,7 @@
 import { Loader, BodyShort } from "@navikt/ds-react";
-import { IASak } from "../../../domenetyper/domenetyper";
-import Resultatvisning from "../../../components/Spørreundersøkelse/Resultatvisning";
-import { useHentResultat } from "../../../api/lydia-api/spørreundersøkelse";
+import Resultatvisning from "@/components/Spørreundersøkelse/Resultatvisning";
+import { IASak } from "@/domenetyper/domenetyper";
+import { useHentResultat } from "@features/kartlegging/api/spørreundersøkelse";
 
 export const SpørreundersøkelseResultat = ({
     iaSak,

@@ -1,5 +1,5 @@
 import { Table } from "@navikt/ds-react";
-import { SpørsmålResultat } from "../../domenetyper/spørreundersøkelseResultat";
+import { SpørsmålResultat } from "@features/kartlegging/types/spørreundersøkelseResultat";
 import styles from "./spørreundersøkelse.module.scss";
 
 export default function TekstligResultatvisning({

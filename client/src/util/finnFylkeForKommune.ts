@@ -2,7 +2,7 @@ import {
     Fylke,
     FylkeMedKommuner,
     Kommune,
-} from "../domenetyper/fylkeOgKommune";
+} from "@features/virksomhet/types/fylkeOgKommune";
 
 export const finnFylkerForKommuner = (
     kommuner: Kommune[],

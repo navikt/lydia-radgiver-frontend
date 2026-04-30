@@ -1,8 +1,8 @@
-import { IAProsessStatusType } from "../../domenetyper/domenetyper";
+import { IAProsessStatusType } from "@/domenetyper/domenetyper";
 import {
     loggMineSakerFilter,
     MineSakerFilterKategorier,
-} from "../../util/analytics-klient";
+} from "@/util/analytics-klient";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { EierFølgerFilterType } from "./MineSakerside";
 

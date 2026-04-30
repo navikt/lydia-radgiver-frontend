@@ -1,11 +1,11 @@
 import { Detail, Heading, Table } from "@navikt/ds-react";
-import { IAProsessStatusBadge } from "../../../components/Badge/IAProsessStatusBadge";
-import { lokalDato } from "../../../util/dato";
-import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
-import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
-import { StyledTable } from "../../../components/StyledTable";
-import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
-import { IAProsessStatusEnum } from "../../../domenetyper/domenetyper";
+import { IAProsessStatusBadge } from "@/components/Badge/IAProsessStatusBadge";
+import { NavIdentMedLenke } from "@/components/NavIdentMedLenke";
+import { ScrollUtTilKantenContainer } from "@/components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
+import { StyledTable } from "@/components/StyledTable";
+import { IAProsessStatusEnum } from "@/domenetyper/domenetyper";
+import { lokalDato } from "@/util/dato";
+import { Sakshistorikk } from "@features/sak/types/sakshistorikk";
 
 interface SakshistorikkTabellProps {
     sakshistorikk: Sakshistorikk;

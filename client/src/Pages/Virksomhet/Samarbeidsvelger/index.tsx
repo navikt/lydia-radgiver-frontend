@@ -1,16 +1,15 @@
-import React from "react";
-
-import { Button, HStack, ReadMore, Skeleton, Tooltip } from "@navikt/ds-react";
-import { IAProsessStatusEnum, IASak } from "../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import styles from "./samarbeidsvelger.module.scss";
-import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
-import { InternLenke } from "../../../components/InternLenke";
-import { NyttSamarbeidModal } from "../Samarbeid/NyttSamarbeidModal";
-import { Virksomhet } from "../../../domenetyper/virksomhet";
-import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
-import { useHentTeam } from "../../../api/lydia-api/team";
 import { PlusIcon } from "@navikt/aksel-icons";
+import { Button, HStack, ReadMore, Skeleton, Tooltip } from "@navikt/ds-react";
+import React from "react";
+import { SamarbeidStatusBadge } from "@/components/Badge/SamarbeidStatusBadge";
+import { InternLenke } from "@/components/InternLenke";
+import { IAProsessStatusEnum, IASak } from "@/domenetyper/domenetyper";
+import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
+import { useHentTeam } from "@features/bruker/api/team";
+import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
+import { NyttSamarbeidModal } from "../Samarbeid/NyttSamarbeidModal";
+import styles from "./samarbeidsvelger.module.scss";
 
 export default function Samarbeidsvelger({
     iaSak,

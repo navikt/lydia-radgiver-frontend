@@ -1,5 +1,5 @@
 import { HStack } from "@navikt/ds-react";
-import { Virksomhet } from "../../../../domenetyper/virksomhet";
+import { Virksomhet } from "@features/virksomhet/types/virksomhet";
 import { Salesforcelenke } from "..";
 import VurderVirksomhetKnapp from "./common/VurderVirksomhetKnapp";
 

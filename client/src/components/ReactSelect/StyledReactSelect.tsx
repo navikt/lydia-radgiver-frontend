@@ -1,5 +1,5 @@
-import styles from "./reactSelect.module.scss";
 import ReactSelect, { CSSObjectWithLabel, StylesConfig } from "react-select";
+import styles from "./reactSelect.module.scss";
 
 export function StyledReactSelect(
     props: React.ComponentProps<typeof ReactSelect>,

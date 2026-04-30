@@ -1,7 +1,7 @@
-import { ChangeEvent } from "react";
 import { Select } from "@navikt/ds-react";
-import { VirksomhetIATilstand } from "../../../domenetyper/domenetyper";
-import { penskrivVirksomhetTilstand } from "../../../components/Badge/VirksomhetTilstandStatusBadge";
+import { ChangeEvent } from "react";
+import { penskrivVirksomhetTilstand } from "@/components/Badge/VirksomhetTilstandStatusBadge";
+import { VirksomhetIATilstand } from "@/domenetyper/domenetyper";
 
 interface Props {
     valgtVirksomhetTilstand?: VirksomhetIATilstand;

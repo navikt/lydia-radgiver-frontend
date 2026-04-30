@@ -6,6 +6,8 @@
 - Still oppklarende spørsmål kun når det er nødvendig for å fullføre oppgaven.
 - Når en oppgave er ferdig, foreslå en kort git commit-melding på norsk som passer prosjektstilen, f.eks. `"La til enhetstester for X (AI-assistert)"`.
 - Etter å ha opprettet eller endret filer, sjekk alltid for TypeScript/linter-feil og rett dem opp før du melder at oppgaven er fullført.
+- Lever alltid kode uten lint-errors **eller** lint-warnings – ikke godta "bare warnings".
+- Oppdater relevante instruksjonsfiler (`.github/instructions/*.md`, `.github/copilot-instructions.md`) når du innfører nye mønstre, verktøy eller konvensjoner.
 
 ## Prosjektstruktur
 Repoet har to prosjekter:
@@ -14,7 +16,7 @@ Repoet har to prosjekter:
 
 ## Kodekvalitet
 - Les alltid faktiske typedefinisjoner før du oppretter mock-data eller andre objekter — aldri anta typer fra eksisterende kode.
-- Kjør `tsc` og linting etter alle kodeendringer. Ikke meld oppgaven som ferdig før alt kompilerer uten feil.
+- Kjør `tsc` og linting etter alle kodeendringer. Ikke meld oppgaven som ferdig før alt kompilerer uten feil **eller warnings**.
 
 ## Pakkehåndtering
 - Bruk alltid **pnpm** – aldri npm eller yarn.

@@ -1,8 +1,7 @@
-import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
 import { BodyLong } from "@navikt/ds-react";
 import React from "react";
-import { useSpørreundersøkelseType } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
-
+import { BekreftValgModal } from "@/components/Modal/BekreftValgModal";
+import { useSpørreundersøkelseType } from "@/components/Spørreundersøkelse/SpørreundersøkelseContext";
 import styles from "./fullførSpørreundersøkelseModal.module.scss";
 export function FullførSpørreundersøkelseModal({
     erModalÅpen,
