@@ -12,7 +12,7 @@ const main = () => {
     setupRemoteJwkSet()
         .then(async (jwkSet) => {
             const sessonManager = ["local", "lokal"].includes(
-                process.env.NAIS_CLUSTER_NAME,
+                process.env.NAIS_CLUSTER_NAME ?? "",
             ) // Treffer både lokal og testkjøring
                 ? await inMemorySessionManager()
                 : await sessionManager();

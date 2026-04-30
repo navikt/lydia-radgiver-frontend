@@ -70,8 +70,8 @@ export default class Application {
         this.expressApp.use(sessionManager);
 
         const tokenValidator = inLocalMode()
-            ? validerTokenFraFakedings(config.azure, config._jwkSet)
-            : validerTokenFraWonderwall(config.azure, config._jwkSet);
+            ? validerTokenFraFakedings(config.azure, config._jwkSet!)
+            : validerTokenFraWonderwall(config.azure, config._jwkSet!);
 
         const {
             generateCsrfToken, // Use this in your routes to provide a CSRF hash cookie and token.
@@ -106,7 +106,7 @@ export default class Application {
         this.expressApp.get(
             "/innloggetAnsatt",
             tokenValidator,
-            hentInnloggetAnsattMiddleware(config.azure, config._jwkSet),
+            hentInnloggetAnsattMiddleware(config.azure, config._jwkSet!),
         );
 
         const lydiaApiProxy = new LydiaApiProxy(

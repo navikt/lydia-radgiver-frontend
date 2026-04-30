@@ -13,7 +13,7 @@ import {
     JWSHeaderParameters,
     JWTVerifyResult,
 } from "jose/dist/types/types";
-import { Azure } from "./config";
+import { Azure, getEnvVar } from "./config";
 
 export type JWKSetRetriever = GetKeyFunction<
     JWSHeaderParameters,
@@ -27,7 +27,7 @@ export let _remoteJwkSet: GetKeyFunction<
 export async function setupRemoteJwkSet(): Promise<JWKSetRetriever> {
     if (!_remoteJwkSet) {
         _remoteJwkSet = createRemoteJWKSet(
-            new URL(process.env.AZURE_OPENID_CONFIG_JWKS_URI),
+            new URL(getEnvVar("AZURE_OPENID_CONFIG_JWKS_URI")),
             {
                 cooldownDuration: 1000 * 60 * 60, // 1 time caching av jwks
             },

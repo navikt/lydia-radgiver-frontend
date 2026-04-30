@@ -1,7 +1,7 @@
 import { NextFunction, Request, Response } from "express";
 import { JWTPayload } from "jose";
 import { inLocalMode } from "./app";
-import { Azure } from "./config";
+import { Azure, getEnvVar } from "./config";
 import { AuthError } from "./error";
 import { JWKSetRetriever, verifiserAzureToken } from "./jwks";
 import { getBearerToken } from "./onBehalfOf";
@@ -31,16 +31,16 @@ const enum Rolle {
 function fiaRoller() {
     return {
         superbruker: {
-            gruppeId: process.env.FIA_SUPERBRUKER_GROUP_ID,
+            gruppeId: getEnvVar("FIA_SUPERBRUKER_GROUP_ID"),
         },
         saksbehandler: {
-            gruppeId: process.env.FIA_SAKSBEHANDLER_GROUP_ID,
+            gruppeId: getEnvVar("FIA_SAKSBEHANDLER_GROUP_ID"),
         },
         lesetilgang: {
-            gruppeId: process.env.FIA_LESETILGANG_GROUP_ID,
+            gruppeId: getEnvVar("FIA_LESETILGANG_GROUP_ID"),
         },
         teamPia: {
-            gruppeId: process.env.TEAM_PIA_GROUP_ID,
+            gruppeId: getEnvVar("TEAM_PIA_GROUP_ID"),
         },
     };
 }
@@ -68,7 +68,7 @@ export const hentBrukerinfoFraToken = (
     const ident = jwtPayload["NAVident"] as string;
     const rolle = hentRolleMedHøyestTilgang(jwtPayload["groups"] as string[]);
     const epost = jwtPayload["preferred_username"] as string;
-    const tokenUtloper = jwtPayload.exp * 1000; // konverterer fra sekunder til ms
+    const tokenUtloper = (jwtPayload.exp ?? 0) * 1000; // konverterer fra sekunder til ms
     return {
         navn,
         ident,

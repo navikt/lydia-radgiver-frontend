@@ -7,6 +7,7 @@
         "rootDir": "./src",
         "outDir": "build",
         "esModuleInterop": true,
+        "strict": true,
         "typeRoots": ["./src/types", "./node_modules/@types"]
     },
     "include": ["src/**/*"]
