@@ -174,8 +174,7 @@ Hoved-URL-strukturen er:
 
 ## Testing
 - Testrammeverk: Vitest + `@testing-library/react`
-- Enhetstester: `__tests__/enhetstester/`
-- Komponenttester: `__tests__/komponenttester/`
+- Tester ligger ved siden av kildefilen: `Komponent.test.tsx` / `funksjon.test.ts`
 - Kjør tester med `pnpm test` fra `client/`-mappen
 - Bruk norske `describe`/`test`-tekster som beskriver oppførselen
 
@@ -250,7 +249,7 @@ Konkrete steg for typiske oppgaver. Følg disse i stedet for å improvisere.
 5. Logg sidelast: `loggSideLastet("Min side")` i en `useEffect` (fra `src/util/analytics-klient.ts`).
 
 ### Legg til en ny enhetstest
-1. Plasser i `__tests__/enhetstester/<navn>.test.ts` (matcher kilde-fil-navn).
+1. Plasser filen ved siden av kildefilen: `<navn>.test.ts` (matches kilde-fil-navn).
 2. Bruk norske `describe`/`test`-tekster:
    ```ts
    describe("min funksjon", () => {
@@ -260,7 +259,7 @@ Konkrete steg for typiske oppgaver. Følg disse i stedet for å improvisere.
 3. Kjør `pnpm test` fra `client/`.
 
 ### Legg til en ny komponenttest
-1. Plasser i `__tests__/komponenttester/<sti speiler src/>/<Komponent>.test.tsx`.
+1. Plasser filen ved siden av kildekomponenten: `<Komponent>.test.tsx`.
 2. Bruk `@testing-library/react`. Render med providere komponenten trenger (kontekst-providers, `BrowserRouter` for navigasjon).
 3. For a11y: bruk `vitest-axe` (`expect(await axe(container)).toHaveNoViolations()`).
 4. SWR i tester: wrapp render med `<SWRConfig value={{ provider: () => new Map() }}>` for å unngå cache-deling mellom tester.
@@ -293,4 +292,4 @@ pnpm lint
 pnpm tsc
 pnpm test
 ```
-Ikke meld oppgaven ferdig før alle tre passerer.
+Ikke meld oppgaven ferdig før alle tre passerer **uten errors eller warnings**.
