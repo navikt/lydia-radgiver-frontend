@@ -1,19 +1,19 @@
 import { BodyShort, Loader } from "@navikt/ds-react";
 import React from "react";
-import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
-import { useHentPlan, useHentPlanMal } from "../../../../api/lydia-api/plan";
 import {
     erSaksbehandler,
     useHentBrukerinformasjon,
-} from "../../../../api/lydia-api/bruker";
-import { IASak } from "../../../../domenetyper/domenetyper";
-import { Temaer } from "./Temaer";
-import { dispatchFeilmelding } from "../../../../components/Banner/dispatchFeilmelding";
+} from "@/api/lydia-api/bruker";
+import { useHentPlan, useHentPlanMal } from "@/api/lydia-api/plan";
+import { useHentTeam } from "@/api/lydia-api/team";
+import { dispatchFeilmelding } from "@/components/Banner/dispatchFeilmelding";
+import { IASak } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { VisHvisSamarbeidErÅpent } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
+import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import OpprettPlanKnapp from "./OpprettPlanKnapp";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { VisHvisSamarbeidErÅpent } from "../../Samarbeid/SamarbeidContext";
-import { useHentTeam } from "../../../../api/lydia-api/team";
 import { SamarbeidsplanHeading } from "./SamarbeidsplanHeading";
+import { Temaer } from "./Temaer";
 
 export default function SamarbeidsplanFane({
     iaSak,

@@ -1,10 +1,10 @@
-import { BodyShort, Dropdown, InternalHeader } from "@navikt/ds-react";
-import { Søkefelt } from "./Søkefelt";
-import { Brukerinformasjon as BrukerinformasjonType } from "../../domenetyper/brukerinformasjon";
-import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 import { LeaveIcon } from "@navikt/aksel-icons";
+import { BodyShort, Dropdown, InternalHeader } from "@navikt/ds-react";
+import { Brukerinformasjon as BrukerinformasjonType } from "@/domenetyper/brukerinformasjon";
+import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBanner";
 import { InternLenke } from "../InternLenke";
 import styles from "./dekoratør.module.scss";
+import { Søkefelt } from "./Søkefelt";
 
 export const erIDev = [
     "localhost",

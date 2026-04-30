@@ -1,11 +1,11 @@
+import { BodyShort, Heading, List, LocalAlert } from "@navikt/ds-react";
+import React from "react";
+import { useHentSalesforceSamarbeidLenke } from "@/api/lydia-api/virksomhet";
+import { EksternLenke } from "@/components/EksternLenke";
 import {
     KanGjennomføreStatusendring,
     KanIkkeGjennomføreBegrunnelse,
-} from "../../../domenetyper/samarbeidsEndring";
-import React from "react";
-import { BodyShort, Heading, List, LocalAlert } from "@navikt/ds-react";
-import { useHentSalesforceSamarbeidLenke } from "../../../api/lydia-api/virksomhet";
-import { EksternLenke } from "../../../components/EksternLenke";
+} from "@/domenetyper/samarbeidsEndring";
 import { useSamarbeidContext } from "../Samarbeid/SamarbeidContext";
 
 export default function SlettSamarbeidModalBegrunnelser({

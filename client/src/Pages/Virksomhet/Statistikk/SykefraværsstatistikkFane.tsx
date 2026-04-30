@@ -1,8 +1,8 @@
-import { Virksomhet } from "../../../domenetyper/virksomhet";
 import { Heading } from "@navikt/ds-react";
-import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
+import { Virksomhet } from "@/domenetyper/virksomhet";
 import { Historiskstatistikk } from "./Graf/Historiskstatistikk";
 import styles from "./statistikk.module.scss";
+import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 
 interface Props {
     virksomhet: Virksomhet;

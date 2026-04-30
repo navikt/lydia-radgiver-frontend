@@ -1,6 +1,6 @@
 import useSWR, { SWRConfiguration } from "swr";
-import { dispatchFeilmelding } from "../../components/Banner/dispatchFeilmelding";
 import { ZodError, ZodType } from "zod/v4";
+import { dispatchFeilmelding } from "@/components/Banner/dispatchFeilmelding";
 
 export const defaultSwrConfiguration: SWRConfiguration = {
     revalidateOnFocus: false,

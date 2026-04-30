@@ -1,6 +1,6 @@
+import { FraTilFieldset } from "./FraTilFieldset";
 import { Range } from "./SykefraværsprosentVelger";
 import { TallInput } from "./TallInput";
-import { FraTilFieldset } from "./FraTilFieldset";
 
 interface InputProps {
     value: number;

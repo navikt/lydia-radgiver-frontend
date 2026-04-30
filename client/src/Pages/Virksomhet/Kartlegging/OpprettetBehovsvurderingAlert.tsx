@@ -1,8 +1,8 @@
-import React from "react";
 import { Alert } from "@navikt/ds-react";
-import { useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
+import React from "react";
+import { useSpørreundersøkelse } from "@/components/Spørreundersøkelse/SpørreundersøkelseContext";
+import { FormatertSpørreundersøkelseType } from "@/components/Spørreundersøkelse/Spørreundersøkelseliste/utils";
 import styles from "./opprettetBehovsvurderingAlert.module.scss";
-import { FormatertSpørreundersøkelseType } from "../../../components/Spørreundersøkelse/Spørreundersøkelseliste/utils";
 
 export default function OpprettBehovsvurderingAlert({
     onClose,

@@ -2,7 +2,7 @@ import "@navikt/ds-css";
 import {
     spørreundersøkelseStatusEnum,
     SpørreundersøkelseStatus,
-} from "../../domenetyper/domenetyper";
+} from "@/domenetyper/domenetyper";
 import { GenericProps, GenericStatusBadge } from "./StatusBadge";
 
 export const hentVariantForSpørreundersøkelseStatus = (

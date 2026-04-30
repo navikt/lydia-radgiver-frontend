@@ -1,3 +1,4 @@
+import { ArrowUndoIcon } from "@navikt/aksel-icons";
 import {
     HStack,
     Button,
@@ -14,29 +15,28 @@ import {
     Tooltip,
 } from "@navikt/ds-react";
 import React, { useState } from "react";
-import { Salesforcelenke } from "../";
+import {
+    erSaksbehandler,
+    useHentBrukerinformasjon,
+} from "@/api/lydia-api/bruker";
+import {
+    angreVurderingNyFlyt,
+    avsluttVurderingNyFlyt,
+} from "@/api/lydia-api/nyFlyt";
+import { useHentTeam } from "@/api/lydia-api/team";
 import {
     IASak,
     NyFlytBegrunnelse,
     nyFlytBegrunnelseEnum,
     NyFlytÅrsakType,
     nyFlytÅrsakTypeEnum,
-} from "../../../../domenetyper/domenetyper";
-import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
-import { ArrowUndoIcon } from "@navikt/aksel-icons";
-import {
-    angreVurderingNyFlyt,
-    avsluttVurderingNyFlyt,
-} from "../../../../api/lydia-api/nyFlyt";
-import { useOversiktMutate } from "../../Debugside/Oversikt";
-import { isoDato } from "../../../../util/dato";
-import { useErPåInaktivSak } from "../../VirksomhetContext";
-import {
-    erSaksbehandler,
-    useHentBrukerinformasjon,
-} from "../../../../api/lydia-api/bruker";
-import { useHentTeam } from "../../../../api/lydia-api/team";
+} from "@/domenetyper/domenetyper";
+import { Virksomhet } from "@/domenetyper/virksomhet";
+import { useOversiktMutate } from "@/Pages/Virksomhet/Debugside/Oversikt";
+import { EierskapKnapp } from "@/Pages/Virksomhet/Samarbeid/EierskapKnapp";
+import { useErPåInaktivSak } from "@/Pages/Virksomhet/VirksomhetContext";
+import { isoDato } from "@/util/dato";
+import { Salesforcelenke } from "../";
 
 export function VirksomhetVurderes({
     iaSak,

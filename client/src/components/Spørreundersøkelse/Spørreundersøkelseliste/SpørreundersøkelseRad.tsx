@@ -1,20 +1,20 @@
 import { ExpansionCard } from "@navikt/ds-react";
-import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
 import React from "react";
+import { slettKartleggingNyFlyt } from "@/api/lydia-api/nyFlyt";
+import { useHentIASaksStatus } from "@/api/lydia-api/sak";
+import { spørreundersøkelseStatusEnum } from "@/domenetyper/domenetyper";
+import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
+import { SlettSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/SlettSpørreundersøkelseModal";
+import { useSamarbeidContext } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
+import { erIFortid } from "@/util/dato";
+import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
+import ForFåSvarRad from "./ForFåSvarRad";
+import FullførtSpørreundersøkelseRad from "./FullførtSpørreundersøkelseRad";
+import IkkeGjennomførtFørFristRad from "./IkkeGjennomførtFørFristRad";
+import OpprettetRad from "./OpprettetRad";
+import PåbegyntRad from "./PåbegyntRad";
 import styles from "./spørreundersøkelsesliste.module.scss";
 import { formaterSpørreundersøkelsetype } from "./utils";
-import { spørreundersøkelseStatusEnum } from "../../../domenetyper/domenetyper";
-import { erIFortid } from "../../../util/dato";
-import ForFåSvarRad from "./ForFåSvarRad";
-import { SlettSpørreundersøkelseModal } from "../../../Pages/Virksomhet/Kartlegging/SlettSpørreundersøkelseModal";
-import IkkeGjennomførtFørFristRad from "./IkkeGjennomførtFørFristRad";
-import FullførtSpørreundersøkelseRad from "./FullførtSpørreundersøkelseRad";
-import PåbegyntRad from "./PåbegyntRad";
-import OpprettetRad from "./OpprettetRad";
-import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
-import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
-import { slettKartleggingNyFlyt } from "../../../api/lydia-api/nyFlyt";
-import { useSamarbeidContext } from "../../../Pages/Virksomhet/Samarbeid/SamarbeidContext";
 
 export default function SpørreundersøkelseRad({
     spørreundersøkelse,

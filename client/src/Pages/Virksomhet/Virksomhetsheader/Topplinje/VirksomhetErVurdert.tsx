@@ -1,4 +1,4 @@
-import React from "react";
+import { DocPencilIcon } from "@navikt/aksel-icons";
 import {
     BodyLong,
     Button,
@@ -9,22 +9,22 @@ import {
     Modal,
     useDatepicker,
 } from "@navikt/ds-react";
+import React from "react";
+import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
+import {
+    endrePlanlagtDatoNyFlyt,
+    vurderSakNyFlyt,
+} from "@/api/lydia-api/nyFlyt";
 import {
     IASak,
     VirksomhetIATilstandEnum,
     VirksomhetTilstandDto,
-} from "../../../../domenetyper/domenetyper";
-import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { lokalDato } from "../../../../util/dato";
-import { DocPencilIcon } from "@navikt/aksel-icons";
-import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
+} from "@/domenetyper/domenetyper";
+import { Virksomhet } from "@/domenetyper/virksomhet";
+import { useOversiktMutate } from "@/Pages/Virksomhet/Debugside/Oversikt";
+import { EierskapKnapp } from "@/Pages/Virksomhet/Samarbeid/EierskapKnapp";
+import { lokalDato } from "@/util/dato";
 import { Salesforcelenke } from "..";
-import {
-    endrePlanlagtDatoNyFlyt,
-    vurderSakNyFlyt,
-} from "../../../../api/lydia-api/nyFlyt";
-import { useOversiktMutate } from "../../Debugside/Oversikt";
-import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 
 export default function VirksomhetErVurdert({
     iaSak,

@@ -1,0 +1,17 @@
+{
+    "$schema": "https://unpkg.com/knip@6/schema.json",
+    "entry": ["server.ts", "__tests__/**/*.test.ts"],
+    "project": ["**/*.ts", "!build/**", "!node_modules/**", "!coverage/**"],
+    "ignoreDependencies": [
+        "@typescript-eslint/eslint-plugin",
+        "@typescript-eslint/parser",
+        "eslint-plugin-import",
+        "eslint-import-resolver-typescript",
+        "@babel/core",
+        "@babel/preset-env",
+        "@babel/preset-typescript",
+        "babel-jest",
+        "ts-node",
+        "follow-redirects"
+    ]
+}

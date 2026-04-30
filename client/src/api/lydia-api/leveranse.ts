@@ -1,7 +1,7 @@
 import {
     LeveranserPerIATjeneste,
     leveranserPerIATjenesteSchema,
-} from "../../domenetyper/leveranse";
+} from "@/domenetyper/leveranse";
 import { useSwrTemplate } from "./networkRequests";
 import { leveransePath } from "./paths";
 

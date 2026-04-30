@@ -1,19 +1,18 @@
-import React, { useEffect } from "react";
+import { NotePencilIcon, TrashIcon } from "@navikt/aksel-icons";
 import { BodyShort, Button, Modal } from "@navikt/ds-react";
-import InnholdOppsett from "../InnholdOppsett";
-import { Plan, PlanInnhold, PlanTema } from "../../../../domenetyper/plan";
+import React, { useEffect } from "react";
+import { KeyedMutator } from "swr";
+import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
 import {
     endrePlanNyFlyt,
     slettSamarbeidsplanNyFlyt,
-} from "../../../../api/lydia-api/nyFlyt";
-import { lagRequest, TemaRequest } from "../Requests";
-import { KeyedMutator } from "swr";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { NotePencilIcon, TrashIcon } from "@navikt/aksel-icons";
-import { loggModalÅpnet } from "../../../../util/analytics-klient";
-import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
-
+} from "@/api/lydia-api/nyFlyt";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { Plan, PlanInnhold, PlanTema } from "@/domenetyper/plan";
+import { loggModalÅpnet } from "@/util/analytics-klient";
+import InnholdOppsett from "../InnholdOppsett";
 import styles from "../plan.module.scss";
+import { lagRequest, TemaRequest } from "../Requests";
 
 export default function LeggTilTemaKnapp({
     saksnummer,

@@ -1,9 +1,3 @@
-import React from "react";
-import {
-    SpørsmålDto,
-    SvaralternativDto,
-    TemaDto,
-} from "../../../../domenetyper/spørreundersøkelseMedInnhold";
 import {
     Accordion,
     BodyShort,
@@ -13,11 +7,17 @@ import {
     Radio,
     RadioGroup,
 } from "@navikt/ds-react";
-import { useHentSpørreundersøkelseMedInnhold } from "../../../../api/lydia-api/spørreundersøkelse";
-import { useSpørreundersøkelse } from "../../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
-import { lokalDatoMedKlokkeslett } from "../../../../util/dato";
-import { getGraffargeFromTema } from "../../../../components/Spørreundersøkelse/TemaResultat";
-import capitalizeFirstLetterLowercaseRest from "../../../../util/formatering/capitalizeFirstLetterLowercaseRest";
+import React from "react";
+import { useHentSpørreundersøkelseMedInnhold } from "@/api/lydia-api/spørreundersøkelse";
+import { useSpørreundersøkelse } from "@/components/Spørreundersøkelse/SpørreundersøkelseContext";
+import { getGraffargeFromTema } from "@/components/Spørreundersøkelse/TemaResultat";
+import {
+    SpørsmålDto,
+    SvaralternativDto,
+    TemaDto,
+} from "@/domenetyper/spørreundersøkelseMedInnhold";
+import { lokalDatoMedKlokkeslett } from "@/util/dato";
+import capitalizeFirstLetterLowercaseRest from "@/util/formatering/capitalizeFirstLetterLowercaseRest";
 import styles from "./spørreundersøkelseForhåndsvisningModal.module.scss";
 
 export default function Forhåndsvisning({

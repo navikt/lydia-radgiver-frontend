@@ -1,17 +1,17 @@
-import { BodyShort, Button, HStack, Dropdown, Heading } from "@navikt/ds-react";
 import {
     ChevronDownIcon,
     HeartFillIcon,
     PersonFillIcon,
     PersonGroupIcon,
 } from "@navikt/aksel-icons";
-import { useHentBrukerinformasjon } from "../../api/lydia-api/bruker";
-import { IASak } from "../../domenetyper/domenetyper";
-import TeamInnhold from "./TeamInnhold";
-import { useHentTeam } from "../../api/lydia-api/team";
-import { useErPåInaktivSak } from "../Virksomhet/VirksomhetContext";
+import { BodyShort, Button, HStack, Dropdown, Heading } from "@navikt/ds-react";
 import React from "react";
+import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
+import { useHentTeam } from "@/api/lydia-api/team";
+import { IASak } from "@/domenetyper/domenetyper";
+import { useErPåInaktivSak } from "../Virksomhet/VirksomhetContext";
 import { TaEierskapModal } from "./TaEierSkapModal";
+import TeamInnhold from "./TeamInnhold";
 
 interface TeamModalProps {
     open: boolean;

@@ -1,3 +1,5 @@
+import { Checkbox, CheckboxGroup } from "@navikt/ds-react";
+import { useState } from "react";
 import {
     CartesianGrid,
     Line,
@@ -7,16 +9,13 @@ import {
     XAxis,
     YAxis,
 } from "recharts";
-import { Checkbox, CheckboxGroup } from "@navikt/ds-react";
-
-import { sorterKvartalStigende } from "../../../../util/sortering";
-import { graphTooltip } from "./GraphTooltip";
-import { Grafer, graflinjer, grafrekkefølge } from "./graflinjer";
-import { useState } from "react";
-import { SymbolSvg } from "./SymbolSvg";
-import { loggGraflinjeEndringer } from "../../../../util/analytics-klient";
-import { HistoriskStatistikk } from "../../../../domenetyper/historiskstatistikk";
+import { HistoriskStatistikk } from "@/domenetyper/historiskstatistikk";
+import { loggGraflinjeEndringer } from "@/util/analytics-klient";
+import { sorterKvartalStigende } from "@/util/sortering";
 import styles from "./graf.module.scss";
+import { Grafer, graflinjer, grafrekkefølge } from "./graflinjer";
+import { graphTooltip } from "./GraphTooltip";
+import { SymbolSvg } from "./SymbolSvg";
 
 const kvartalSomTekst = (årstall: number, kvartal: number) =>
     årstall + ", " + kvartal + ". kvartal";

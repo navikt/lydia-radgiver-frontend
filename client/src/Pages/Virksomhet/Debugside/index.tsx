@@ -1,5 +1,10 @@
 import { VStack } from "@navikt/ds-react";
 import { useParams } from "react-router-dom";
+import {
+    SlettKartlegging,
+    SlettSamarbeidsplan,
+    SlettSamarbeid,
+} from "./Delete";
 import Oversikt, { useOversiktMutate } from "./Oversikt";
 import {
     VurderSak,
@@ -14,11 +19,6 @@ import {
     BliEier,
     FølgVirksomhet,
 } from "./Post";
-import {
-    SlettKartlegging,
-    SlettSamarbeidsplan,
-    SlettSamarbeid,
-} from "./Delete";
 import { EndrePlanlagtDato, EndreSamarbeidsNavn } from "./Put";
 
 function DebugContent({ orgnummer }: { orgnummer: string }) {

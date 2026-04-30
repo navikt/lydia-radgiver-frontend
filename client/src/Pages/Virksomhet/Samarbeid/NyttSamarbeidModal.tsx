@@ -1,4 +1,3 @@
-import { IASak } from "../../../domenetyper/domenetyper";
 import {
     BodyShort,
     Button,
@@ -9,20 +8,20 @@ import {
     TextField,
 } from "@navikt/ds-react";
 import React, { useState } from "react";
-
-import { MAX_LENGDE_SAMARBEIDSNAVN } from "./EndreSamarbeidModal/EndreSamarbeidInnhold";
 import { useNavigate } from "react-router-dom";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
-import { Virksomhet } from "../../../domenetyper/virksomhet";
-import { EksternLenke } from "../../../components/EksternLenke";
-import styles from "./samarbeid.module.scss";
 import {
     opprettSamarbeidNyFlyt,
     useHentHistorikkNyFlyt,
     useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
     useHentTilstandForVirksomhetNyFlyt,
-} from "../../../api/lydia-api/nyFlyt";
+} from "@/api/lydia-api/nyFlyt";
+import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
+import { EksternLenke } from "@/components/EksternLenke";
+import { IASak } from "@/domenetyper/domenetyper";
+import { Virksomhet } from "@/domenetyper/virksomhet";
+import { MAX_LENGDE_SAMARBEIDSNAVN } from "./EndreSamarbeidModal/EndreSamarbeidInnhold";
+import styles from "./samarbeid.module.scss";
 
 interface NyttSamarbeidProps {
     iaSak: IASak;
@@ -54,7 +53,9 @@ export const NyttSamarbeidModal = ({
         iaSak.saksnummer,
     );
     const { mutate: hentHistorikkPåNytt } = useHentHistorikkNyFlyt(iaSak.orgnr);
-    const { mutate: hentTilstandPåNytt } = useHentTilstandForVirksomhetNyFlyt(virksomhet.orgnr);
+    const { mutate: hentTilstandPåNytt } = useHentTilstandForVirksomhetNyFlyt(
+        virksomhet.orgnr,
+    );
     const { mutate: hentSamarbeidPåNytt, data: samarbeidData } =
         useHentSamarbeid(iaSak.orgnr, iaSak.saksnummer);
     const samarbeidsnavnBasertPåVirksomhet =

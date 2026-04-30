@@ -1,12 +1,12 @@
 import { Accordion, Checkbox, CheckboxGroup } from "@navikt/ds-react";
-import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
-import { useHentMineSaker } from "../../../api/lydia-api/sak";
+import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
+import { useHentMineSaker } from "@/api/lydia-api/sak";
 import {
     EIER_FØLGER_FILTER_VALUES,
     EierFølgerFilterType,
 } from "../MineSakerside";
-import { ARKIV_STATUSER } from "./StatusFilter";
 import styles from "./mineSakerFilter.module.scss";
+import { ARKIV_STATUSER } from "./StatusFilter";
 
 const penskrivEierFølgerMap: Record<
     (typeof EIER_FØLGER_FILTER_VALUES)[number],

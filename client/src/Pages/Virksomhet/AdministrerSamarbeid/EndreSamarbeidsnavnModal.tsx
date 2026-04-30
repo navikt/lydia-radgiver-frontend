@@ -1,4 +1,3 @@
-import React from "react";
 import {
     Alert,
     BodyLong,
@@ -7,17 +6,18 @@ import {
     Modal,
     TextField,
 } from "@navikt/ds-react";
-import { MAX_LENGDE_SAMARBEIDSNAVN } from "../Samarbeid/EndreSamarbeidModal/EndreSamarbeidInnhold";
-import styles from "./administrerSamarbeid.module.scss";
-import { EksternLenke } from "../../../components/EksternLenke";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { IASak } from "../../../domenetyper/domenetyper";
+import React from "react";
 import {
     endreSamarbeidsNavnNyFlyt,
     useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
-} from "../../../api/lydia-api/nyFlyt";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+} from "@/api/lydia-api/nyFlyt";
+import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
+import { EksternLenke } from "@/components/EksternLenke";
+import { IASak } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { MAX_LENGDE_SAMARBEIDSNAVN } from "../Samarbeid/EndreSamarbeidModal/EndreSamarbeidInnhold";
+import styles from "./administrerSamarbeid.module.scss";
 
 export default function EndreSamarbeidsnavnModal({
     ref,

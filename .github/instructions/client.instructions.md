@@ -154,3 +154,110 @@ ESLint er konfigurert med `eslint-plugin-jsx-a11y`. `jest-axe` er tilgjengelig f
 
 ## Norsk navngiving
 Variabelnavn, funksjoner og typer bruker norske navn der domenet er norsk (f.eks. `virksomhet`, `sak`, `hendelse`).
+
+## Oppskrifter
+
+Konkrete steg for typiske oppgaver. Følg disse i stedet for å improvisere.
+
+### Legg til en ny domenetype
+1. Lag fil i `src/domenetyper/<navn>.ts`.
+2. Importer fra `"zod/v4"` (ikke `"zod"`).
+3. Definer skjema og utled type:
+   ```ts
+   import { z } from "zod/v4";
+
+   export const minTypeSchema = z.object({
+       id: z.string(),
+       navn: z.string(),
+   });
+   export type MinType = z.infer<typeof minTypeSchema>;
+   ```
+4. For lister: bruk `minTypeSchema.array()` der det forbrukes (typisk i hooken), ikke i selve type-filen.
+
+### Legg til en ny GET-hook (SWR)
+1. Hvis URL-prefikset er nytt: legg konstanten i `src/api/lydia-api/paths.ts`.
+2. Lag/utvid en fil i `src/api/lydia-api/<feature>.ts`:
+   ```ts
+   import { useSwrTemplate } from "./networkRequests";
+   import { minTypeSchema, MinType } from "../../domenetyper/minType";
+   import { iaSakPath } from "./paths";
+
+   export const useHentMinType = (orgnummer?: string, saksnummer?: string) =>
+       useSwrTemplate<MinType>(
+           orgnummer && saksnummer ? `${iaSakPath}/${orgnummer}/${saksnummer}` : null,
+           minTypeSchema,
+       );
+   ```
+3. Bruk `null` som URL når nødvendige params mangler – SWR vil ikke kalle.
+4. For polling/oppdatering på fokus: send `{ revalidateOnFocus: true, ... }` som tredje argument.
+
+### Legg til en ny POST/PUT/DELETE-mutasjon
+1. Bruk `post`, `put`, `httpDelete` fra `networkRequests.ts`.
+2. Legg funksjonen i samme `src/api/lydia-api/<feature>.ts` som tilhørende hooks:
+   ```ts
+   export const opprettMinType = (body: MinTypeDto): Promise<MinType> =>
+       post(`${iaSakPath}/minType`, minTypeSchema, body);
+   ```
+3. I komponent: hent `mutate` fra SWR-hooken, kall mutasjonen, og kall `mutate()` etterpå for å invalidere cache:
+   ```tsx
+   const { data, mutate } = useHentMinType(orgnummer, saksnummer);
+   await opprettMinType(body);
+   mutate();
+   ```
+4. CSRF-token håndteres automatisk i `fetchNative`.
+
+### Legg til en ny side / route
+1. Lag mappe i `src/Pages/<Feature>/<Sidenavn>/` (eller direkte i `src/Pages/<Feature>/` hvis liten).
+2. Eksporter en React-komponent. Bruk `useParams()` for URL-parametre.
+3. Registrer route i `src/App.tsx` under `<Routes>`:
+   ```tsx
+   <Route path="/minside/:orgnummer" element={<MinSide />} />
+   ```
+4. Sett tittel med `useTittel("Min side – Fia")` (fra `src/util/useTittel.tsx`).
+5. Logg sidelast: `loggSideLastet("Min side")` i en `useEffect` (fra `src/util/analytics-klient.ts`).
+
+### Legg til en ny enhetstest
+1. Plasser i `__tests__/enhetstester/<navn>.test.ts` (matcher kilde-fil-navn).
+2. Bruk norske `describe`/`test`-tekster:
+   ```ts
+   describe("min funksjon", () => {
+       test("returnerer x når y", () => { ... });
+   });
+   ```
+3. Kjør `pnpm test` fra `client/`.
+
+### Legg til en ny komponenttest
+1. Plasser i `__tests__/komponenttester/<sti speiler src/>/<Komponent>.test.tsx`.
+2. Bruk `@testing-library/react`. Render med providere komponenten trenger (kontekst-providers, `BrowserRouter` for navigasjon).
+3. For a11y: bruk `jest-axe` (`expect(await axe(container)).toHaveNoViolations()`).
+4. SWR i tester: wrapp render med `<SWRConfig value={{ provider: () => new Map() }}>` for å unngå cache-deling mellom tester.
+
+### Lag en ny React Context
+1. Lag mappe i `src/Pages/.../context/` eller ved siden av forbrukerne.
+2. Følg standardmønsteret (se `docs/kodemonstre.md`):
+   ```tsx
+   const MinContext = React.createContext<MinContextType | null>(null);
+
+   export function useMinContext(): MinContextType {
+       const context = React.useContext(MinContext);
+       if (!context) throw new Error("useMinContext må brukes innenfor en MinContextProvider");
+       return context;
+   }
+   ```
+3. Bruk eksisterende kontekster som mal: `VirksomhetContext`, `SamarbeidContext`, `SpørreundersøkelseContext`.
+
+### Vis en feilmelding utenfor SWR
+```ts
+import { dispatchFeilmelding } from "../../components/Banner/dispatchFeilmelding";
+
+dispatchFeilmelding({ feilmelding: "Kunne ikke fullføre handlingen" });
+```
+
+### Verifisering før du melder ferdig
+Kjør alltid i `client/`:
+```sh
+pnpm lint
+pnpm tsc
+pnpm test
+```
+Ikke meld oppgaven ferdig før alle tre passerer.

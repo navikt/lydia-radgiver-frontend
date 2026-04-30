@@ -1,9 +1,9 @@
 import React from "react";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import {
     IAProsessStatusEnum,
     IAProsessStatusType,
-} from "../../../domenetyper/domenetyper";
+} from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 
 export interface SamarbeidContextType extends IaSakProsess {
     erFullført: boolean;

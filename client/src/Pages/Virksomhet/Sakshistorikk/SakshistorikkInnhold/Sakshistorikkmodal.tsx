@@ -1,8 +1,8 @@
-import React from "react";
-import { Button, ButtonProps, Modal } from "@navikt/ds-react";
-import { SykefraværshistorikkInnhold } from ".";
 import { ClockIcon } from "@navikt/aksel-icons";
-import { useHentHistorikkNyFlyt } from "../../../../api/lydia-api/nyFlyt";
+import { Button, ButtonProps, Modal } from "@navikt/ds-react";
+import React from "react";
+import { useHentHistorikkNyFlyt } from "@/api/lydia-api/nyFlyt";
+import { SykefraværshistorikkInnhold } from ".";
 
 export default function Sakshistorikkmodal({
     orgnr,

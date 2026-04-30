@@ -1,5 +1,5 @@
 import { Select } from "@navikt/ds-react";
-import { ValgtSnittFilter } from "../../../domenetyper/filterverdier";
+import { ValgtSnittFilter } from "@/domenetyper/filterverdier";
 
 interface Props {
     valgtSnittfilter?: ValgtSnittFilter;

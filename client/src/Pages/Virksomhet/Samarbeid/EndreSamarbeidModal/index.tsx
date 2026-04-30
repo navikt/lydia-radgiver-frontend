@@ -1,24 +1,24 @@
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+import React, { useState } from "react";
+import {
+    useHentHistorikkNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "@/api/lydia-api/nyFlyt";
+import { nyHendelsePåSak } from "@/api/lydia-api/sak";
+import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
+import { getKanGjennomføreStatusendring } from "@/api/lydia-api/virksomhet";
 import {
     IASak,
     IASakshendelseType,
     IASakshendelseTypeEnum,
-} from "../../../../domenetyper/domenetyper";
-import React, { useState } from "react";
-import { getKanGjennomføreStatusendring } from "../../../../api/lydia-api/virksomhet";
-import { nyHendelsePåSak } from "../../../../api/lydia-api/sak";
-import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
+} from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 import {
     KanGjennomføreStatusendring,
     MuligSamarbeidsgandling,
-} from "../../../../domenetyper/samarbeidsEndring";
+} from "@/domenetyper/samarbeidsEndring";
 import BekreftHandlingModal from "./BekreftHandlingModal";
 import EndreSamarbeidModalInnhold from "./EndreSamarbeidInnhold";
 import VelgHandlingModal from "./VelgHandlingModal";
-import {
-    useHentHistorikkNyFlyt,
-    useHentSpesifikkSakNyFlyt,
-} from "../../../../api/lydia-api/nyFlyt";
 
 interface EndreSamarbeidModalProps {
     open: boolean;

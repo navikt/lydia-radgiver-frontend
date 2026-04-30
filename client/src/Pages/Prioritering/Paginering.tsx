@@ -1,12 +1,12 @@
-import React from "react";
-import cl from "clsx";
 import {
     ChevronLeftIcon as Back,
     ChevronRightIcon as Next,
 } from "@navikt/aksel-icons";
 import { BodyShort, Pagination } from "@navikt/ds-react";
-import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
+import cl from "clsx";
+import React from "react";
 import styles from "./prioritering.module.scss";
+import { ANTALL_RESULTATER_PER_SIDE } from "./Prioriteringsside";
 
 interface Props {
     side: number;

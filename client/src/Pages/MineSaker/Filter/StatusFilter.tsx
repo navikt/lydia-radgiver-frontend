@@ -1,8 +1,8 @@
 import { Accordion, Checkbox, CheckboxGroup } from "@navikt/ds-react";
 import { useState } from "react";
-import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
-import { useHentMineSaker } from "../../../api/lydia-api/sak";
-import { penskrivIAStatus } from "../../../components/Badge/IAProsessStatusBadge";
+import { useHentMineSaker } from "@/api/lydia-api/sak";
+import { penskrivIAStatus } from "@/components/Badge/IAProsessStatusBadge";
+import { IAProsessStatusType } from "@/domenetyper/domenetyper";
 import styles from "./mineSakerFilter.module.scss";
 
 export const ARKIV_STATUSER: readonly IAProsessStatusType[] = [

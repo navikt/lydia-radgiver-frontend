@@ -1,11 +1,10 @@
 import { Button, Modal } from "@navikt/ds-react";
-import { useHentMineSaker } from "../../api/lydia-api/sak";
-import { IASak } from "../../domenetyper/domenetyper";
-import TeamInnhold from "./TeamInnhold";
 import React from "react";
-
+import { useHentMineSaker } from "@/api/lydia-api/sak";
+import { IASak } from "@/domenetyper/domenetyper";
 import styles from "./minesaker.module.scss";
 import { TaEierskapModal } from "./TaEierSkapModal";
+import TeamInnhold from "./TeamInnhold";
 
 interface TeamModalProps {
     open: boolean;

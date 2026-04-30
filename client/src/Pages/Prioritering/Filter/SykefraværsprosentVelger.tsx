@@ -1,5 +1,5 @@
-import { TallInput } from "./TallInput";
 import { FraTilFieldset } from "./FraTilFieldset";
+import { TallInput } from "./TallInput";
 
 export interface Range {
     fra: number;

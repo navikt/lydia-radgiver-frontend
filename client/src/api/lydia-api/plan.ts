@@ -5,11 +5,11 @@ import {
     PlanMalRequest,
     PlanMalSchema,
     PlanSchema,
-} from "../../domenetyper/plan";
+} from "@/domenetyper/plan";
 import {
     TemaRequest,
     UndertemaRequest,
-} from "../../Pages/Virksomhet/Plan/Requests";
+} from "@/Pages/Virksomhet/Plan/Requests";
 import {
     defaultSwrConfiguration,
     httpDelete,

@@ -5,13 +5,13 @@ import {
     useHentTilstandForVirksomhetNyFlyt,
     useHentVirksomhetNyFlyt,
     useHentHistorikkNyFlyt,
-} from "../../../api/lydia-api/nyFlyt";
+} from "@/api/lydia-api/nyFlyt";
+import { useHentPlan } from "@/api/lydia-api/plan";
 import {
     useHentSamarbeid,
     useHentSpørreundersøkelser,
-} from "../../../api/lydia-api/spørreundersøkelse";
-import { useHentPlan } from "../../../api/lydia-api/plan";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
+} from "@/api/lydia-api/spørreundersøkelse";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 
 interface OversiktProps {
     orgnummer: string;

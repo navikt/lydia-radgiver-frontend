@@ -2,7 +2,7 @@ import React from "react";
 import {
     muligeHandlinger,
     MuligSamarbeidsgandling,
-} from "../../domenetyper/samarbeidsEndring";
+} from "@/domenetyper/samarbeidsEndring";
 
 export type Bøyinger = {
     infinitiv: string | null;

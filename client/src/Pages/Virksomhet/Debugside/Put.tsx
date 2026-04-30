@@ -4,9 +4,9 @@ import {
     endreSamarbeidsNavnNyFlyt,
     useHentSisteSakNyFlyt,
     useHentTilstandForVirksomhetNyFlyt,
-} from "../../../api/lydia-api/nyFlyt";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
-import { VirksomhetTilstandAutomatiskOppdateringDto } from "../../../domenetyper/domenetyper";
+} from "@/api/lydia-api/nyFlyt";
+import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
+import { VirksomhetTilstandAutomatiskOppdateringDto } from "@/domenetyper/domenetyper";
 
 interface PutProps {
     orgnummer: string;

@@ -25,6 +25,12 @@ jobs:
       - name: Install deps server
         working-directory: server
         run: pnpm install --frozen-lockfile
+      - name: Lint server
+        working-directory: server
+        run: pnpm lint
+      - name: Typecheck server
+        working-directory: server
+        run: pnpm typecheck
       - name: Run server tests
         working-directory: server
         run: pnpm test
@@ -33,9 +39,22 @@ jobs:
         run: pnpm install --frozen-lockfile --ignore-scripts
         env:
           NODE_AUTH_TOKEN: ${{ secrets.READER_TOKEN }}
+      - name: Lint client
+        working-directory: client
+        run: pnpm lint
+      - name: Typecheck client
+        working-directory: client
+        run: pnpm typecheck
       - name: Run client tests
         working-directory: client
-        run: pnpm test
+        run: pnpm test:coverage
+      - name: Last opp coverage-rapport
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: client-coverage
+          path: client/coverage
+          retention-days: 14
       - name: Lint and build frontend
         working-directory: client
         run: pnpm build

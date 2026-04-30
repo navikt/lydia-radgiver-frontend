@@ -1,21 +1,21 @@
-import React from "react";
-import { Button, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
-import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
-import ActionButtonsHvisSamarbeidIkkeFullført from "../../../Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
-import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
 import { TrashIcon } from "@navikt/aksel-icons";
-import { SpørreundersøkelseStatusBadge } from "../../Badge/SpørreundersøkelseStatusBadge";
-import { SlettSpørreundersøkelseModal } from "../../../Pages/Virksomhet/Kartlegging/SlettSpørreundersøkelseModal";
-import { SpørreundersøkelseMedInnholdVisning } from "../../../Pages/Virksomhet/Kartlegging/SpørreundersøkelseForhåndsvisningModal";
-import { StartSpørreundersøkelseModal } from "../../../Pages/Virksomhet/Kartlegging/StartSpørreundersøkelseModal";
-import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
-import styles from "./spørreundersøkelsesliste.module.scss";
-import { FormatertSpørreundersøkelseType } from "./utils";
+import { Button, ExpansionCard, HStack, VStack } from "@navikt/ds-react";
+import React from "react";
 import {
     slettKartleggingNyFlyt,
     startKartleggingNyFlyt,
-} from "../../../api/lydia-api/nyFlyt";
-import { useSamarbeidContext } from "../../../Pages/Virksomhet/Samarbeid/SamarbeidContext";
+} from "@/api/lydia-api/nyFlyt";
+import { useHentIASaksStatus } from "@/api/lydia-api/sak";
+import { SpørreundersøkelseStatusBadge } from "@/components/Badge/SpørreundersøkelseStatusBadge";
+import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
+import ActionButtonsHvisSamarbeidIkkeFullført from "@/Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
+import { SlettSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/SlettSpørreundersøkelseModal";
+import { SpørreundersøkelseMedInnholdVisning } from "@/Pages/Virksomhet/Kartlegging/SpørreundersøkelseForhåndsvisningModal";
+import { StartSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/StartSpørreundersøkelseModal";
+import { useSamarbeidContext } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
+import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
+import styles from "./spørreundersøkelsesliste.module.scss";
+import { FormatertSpørreundersøkelseType } from "./utils";
 
 export default function OpprettetRad({
     spørreundersøkelse,

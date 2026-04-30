@@ -1,11 +1,10 @@
-import { Button } from "@navikt/ds-react";
-import { useEffect, useState } from "react";
 import {
     ArrowDownIcon,
     ArrowUpIcon,
     ArrowsUpDownIcon,
 } from "@navikt/aksel-icons";
-
+import { Button } from "@navikt/ds-react";
+import { useEffect, useState } from "react";
 import styles from "./minesaker.module.scss";
 interface SorteringsknapperProps {
     onSortChange: (

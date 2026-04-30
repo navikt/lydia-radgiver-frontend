@@ -1,20 +1,19 @@
-import React, { useState } from "react";
+import { PlusIcon } from "@navikt/aksel-icons";
 import { Alert, Button, Modal } from "@navikt/ds-react";
+import React, { useState } from "react";
+import { opprettSamarbeidsplanNyFlyt } from "@/api/lydia-api/nyFlyt";
+import { useHentPlan } from "@/api/lydia-api/plan";
+import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 import {
     PlanMal,
     PlanMalRequest,
     RedigertInnholdMal,
-} from "../../../../domenetyper/plan";
-import { PlusIcon } from "@navikt/aksel-icons";
-import TemaInnholdVelger from "../TemaInnholdVelger";
-import { useHentPlan } from "../../../../api/lydia-api/plan";
-import { opprettSamarbeidsplanNyFlyt } from "../../../../api/lydia-api/nyFlyt";
-import { isoDato } from "../../../../util/dato";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { loggModalÅpnet } from "../../../../util/analytics-klient";
-import { useHentSamarbeid } from "../../../../api/lydia-api/spørreundersøkelse";
-
+} from "@/domenetyper/plan";
+import { loggModalÅpnet } from "@/util/analytics-klient";
+import { isoDato } from "@/util/dato";
 import styles from "../plan.module.scss";
+import TemaInnholdVelger from "../TemaInnholdVelger";
 
 export default function OpprettPlanKnapp({
     saksnummer,

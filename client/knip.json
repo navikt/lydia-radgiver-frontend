@@ -1,0 +1,25 @@
+{
+    "$schema": "https://unpkg.com/knip@6/schema.json",
+    "entry": [
+        "src/main.tsx",
+        "vite.config.mts",
+        "jest.config.ts",
+        "jest.setup.ts"
+    ],
+    "project": [
+        "src/**/*.{ts,tsx}",
+        "__tests__/**/*.{ts,tsx}",
+        "__mocks__/**/*.{ts,tsx,js}"
+    ],
+    "ignoreDependencies": [
+        "@typescript-eslint/eslint-plugin",
+        "@typescript-eslint/parser",
+        "eslint-plugin-jsx-a11y",
+        "eslint-plugin-react",
+        "eslint-plugin-import",
+        "eslint-import-resolver-typescript",
+        "@babel/core",
+        "ts-node"
+    ],
+    "ignoreBinaries": ["say"]
+}

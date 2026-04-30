@@ -1,7 +1,7 @@
 import React from "react";
+import { SpørreundersøkelseResultat } from "@/domenetyper/spørreundersøkelseResultat";
 import styles from "./spørreundersøkelse.module.scss";
 import { TemaResultat } from "./TemaResultat";
-import { SpørreundersøkelseResultat } from "../../domenetyper/spørreundersøkelseResultat";
 
 export default function Resultatvisning({
     kartleggingResultat,

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
 import styles from "./banner.module.scss";
+import { BannerMedLukkeknapp } from "./BannerMedLukkeknapp";
 
 export interface EventData {
     feilmelding: string;

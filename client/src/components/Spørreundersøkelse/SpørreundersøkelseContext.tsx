@@ -1,8 +1,8 @@
 import React from "react";
-import { Spørreundersøkelse } from "../../domenetyper/spørreundersøkelse";
-import { IASak } from "../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../domenetyper/iaSakProsess";
-import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
+import { IASak } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
+import { SpørreundersøkelseType } from "@/domenetyper/spørreundersøkelseMedInnhold";
 
 export interface SpørreundersøkelseProviderProps {
     spørreundersøkelseliste: Spørreundersøkelse[];

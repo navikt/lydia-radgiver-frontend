@@ -1,4 +1,4 @@
-import { SpørreundersøkelseType } from "../../../domenetyper/spørreundersøkelseMedInnhold";
+import { SpørreundersøkelseType } from "@/domenetyper/spørreundersøkelseMedInnhold";
 
 export function formaterSpørreundersøkelsetype(
     type: SpørreundersøkelseType,

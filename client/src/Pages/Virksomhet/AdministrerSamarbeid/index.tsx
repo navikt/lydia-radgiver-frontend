@@ -1,12 +1,3 @@
-import React from "react";
-import { ActionMenu, Button } from "@navikt/ds-react";
-import { useHentTeam } from "../../../api/lydia-api/team";
-import {
-    erSaksbehandler,
-    useHentBrukerinformasjon,
-} from "../../../api/lydia-api/bruker";
-import { IASak } from "../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import {
     CheckmarkCircleIcon,
     ChevronDownIcon,
@@ -14,11 +5,20 @@ import {
     TrashIcon,
     XMarkIcon,
 } from "@navikt/aksel-icons";
-import EndreSamarbeidsnavnModal from "./EndreSamarbeidsnavnModal";
-import SlettSamarbeidModal from "./SlettSamarbeidModal";
-import FullførSamarbeidModal from "./FullførSamarbeidModal";
+import { ActionMenu, Button } from "@navikt/ds-react";
+import React from "react";
+import {
+    erSaksbehandler,
+    useHentBrukerinformasjon,
+} from "@/api/lydia-api/bruker";
+import { useHentTeam } from "@/api/lydia-api/team";
+import { useKanUtføreHandlingPåSamarbeid } from "@/api/lydia-api/virksomhet";
+import { IASak } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 import AvbrytSamarbeidModal from "./AvbrytSamarbeidModal";
-import { useKanUtføreHandlingPåSamarbeid } from "../../../api/lydia-api/virksomhet";
+import EndreSamarbeidsnavnModal from "./EndreSamarbeidsnavnModal";
+import FullførSamarbeidModal from "./FullførSamarbeidModal";
+import SlettSamarbeidModal from "./SlettSamarbeidModal";
 
 export default function AdministrerSamarbeid({
     iaSak,

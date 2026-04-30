@@ -1,21 +1,21 @@
 import { Button, Checkbox } from "@navikt/ds-react";
-import { Range, SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
-import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
-import { Kommunedropdown } from "./Kommunedropdown";
-import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
-import { EierDropdown } from "./EierDropdown";
-import { Eier, VirksomhetIATilstand } from "../../../domenetyper/domenetyper";
-import { useFiltervisningState } from "./filtervisning-reducer";
-import { SektorDropdown } from "./SektorDropdown";
-import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
-import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { useSearchParams } from "react-router-dom";
+import { Eier, VirksomhetIATilstand } from "@/domenetyper/domenetyper";
+import { FylkeMedKommuner, Kommune } from "@/domenetyper/fylkeOgKommune";
 import {
     loggTogglingAvAutosøk,
     loggTømmingAvFilterverdier,
-} from "../../../util/analytics-klient";
-import { FylkeMultidropdown } from "./FylkeMultidropdown";
+} from "@/util/analytics-klient";
+import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
+import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
+import { EierDropdown } from "./EierDropdown";
 import styles from "./filter.module.scss";
+import { useFiltervisningState } from "./filtervisning-reducer";
+import { FylkeMultidropdown } from "./FylkeMultidropdown";
+import { Kommunedropdown } from "./Kommunedropdown";
+import { Næringsgruppedropdown } from "./NæringsgruppeDropdown";
+import { SektorDropdown } from "./SektorDropdown";
+import { Range, SykefraværsprosentVelger } from "./SykefraværsprosentVelger";
 import { VirksomhetTilstandDropdown } from "./VirksomhetTilstandDropdown";
 
 type Filtervisning = Omit<

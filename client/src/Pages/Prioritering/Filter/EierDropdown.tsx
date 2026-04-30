@@ -2,9 +2,9 @@ import { Label } from "@navikt/ds-react";
 import {
     reactSelectStyle,
     StyledReactSelect,
-} from "../../../components/ReactSelect/StyledReactSelect";
-import { sorterAlfabetisk } from "../../../util/sortering";
-import { Eier } from "../../../domenetyper/domenetyper";
+} from "@/components/ReactSelect/StyledReactSelect";
+import { Eier } from "@/domenetyper/domenetyper";
+import { sorterAlfabetisk } from "@/util/sortering";
 
 interface Props {
     onEierBytteCallback: (eiere: Eier[]) => void;

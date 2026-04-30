@@ -1,9 +1,9 @@
-import React from "react";
 import { Button, LocalAlert, Tooltip } from "@navikt/ds-react";
-import { useHentBrukerinformasjon } from "../../../../../api/lydia-api/bruker";
-import { vurderSakNyFlyt } from "../../../../../api/lydia-api/nyFlyt";
-import { Virksomhet } from "../../../../../domenetyper/virksomhet";
-import { useOversiktMutate } from "../../../Debugside/Oversikt";
+import React from "react";
+import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
+import { vurderSakNyFlyt } from "@/api/lydia-api/nyFlyt";
+import { Virksomhet } from "@/domenetyper/virksomhet";
+import { useOversiktMutate } from "@/Pages/Virksomhet/Debugside/Oversikt";
 
 export default function VurderVirksomhetKnapp({
     virksomhet,

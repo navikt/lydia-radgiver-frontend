@@ -2,6 +2,14 @@
 
 Frontend for IA rådgivere
 
+## Dokumentasjon
+
+- [`AGENTS.md`](AGENTS.md) – inngangspunkt for KI-agenter (Copilot, Claude, Cursor)
+- [`docs/arkitektur.md`](docs/arkitektur.md) – dataflyt, auth, CSRF, deploy
+- [`docs/kodemonstre.md`](docs/kodemonstre.md) – tverrgående mønstre (context, feilhåndtering, navngiving)
+- [`.github/instructions/client.instructions.md`](.github/instructions/client.instructions.md) – React/TypeScript frontend
+- [`.github/instructions/server.instructions.md`](.github/instructions/server.instructions.md) – Express BFF ("frackend")
+
 # Komme i gang
 
 ## Kjøre opp lokalt TLDR;

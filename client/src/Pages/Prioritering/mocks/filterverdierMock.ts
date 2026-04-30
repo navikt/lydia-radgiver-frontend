@@ -2,8 +2,8 @@ import {
     Eier,
     IAProsessStatusEnum,
     VirksomhetIATilstandEnum,
-} from "../../../domenetyper/domenetyper";
-import { Filterverdier } from "../../../domenetyper/filterverdier";
+} from "@/domenetyper/domenetyper";
+import { Filterverdier } from "@/domenetyper/filterverdier";
 
 export const EIERE_MOCKS: Eier[] = [
     {

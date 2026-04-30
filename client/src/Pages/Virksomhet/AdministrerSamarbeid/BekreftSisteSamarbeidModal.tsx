@@ -1,4 +1,3 @@
-import React from "react";
 import {
     Button,
     DatePicker,
@@ -6,24 +5,25 @@ import {
     Modal,
     useDatepicker,
 } from "@navikt/ds-react";
-import {
-    IaSakProsess,
-    IASamarbeidStatusType,
-    SamarbeidRequest,
-} from "../../../domenetyper/iaSakProsess";
-import { IASak } from "../../../domenetyper/domenetyper";
+import React from "react";
 import {
     avsluttSamarbeidNyFlyt,
     slettSamarbeidNyFlyt,
     useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
     useHentTilstandForVirksomhetNyFlyt,
-} from "../../../api/lydia-api/nyFlyt";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
-import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
-import { isoDato } from "../../../util/dato";
+} from "@/api/lydia-api/nyFlyt";
+import { useHentPlan } from "@/api/lydia-api/plan";
+import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
+import { SamarbeidStatusBadge } from "@/components/Badge/SamarbeidStatusBadge";
+import { IASak } from "@/domenetyper/domenetyper";
+import {
+    IaSakProsess,
+    IASamarbeidStatusType,
+    SamarbeidRequest,
+} from "@/domenetyper/iaSakProsess";
+import { isoDato } from "@/util/dato";
 import styles from "./bekreftSisteSamarbeidModal.module.scss";
-import { useHentPlan } from "../../../api/lydia-api/plan";
 
 export default function BekreftSisteSamarbeidModal({
     ref,

@@ -1,12 +1,12 @@
-import { Spørreundersøkelse } from "../../domenetyper/spørreundersøkelse";
-import { Plan } from "../../domenetyper/plan";
-import { post } from "./networkRequests";
-import { dokumentPath } from "./paths";
 import {
     DokumentPubliseringDto,
     dokumentpubliseringschema,
     DokumentType,
-} from "../../domenetyper/domenetyper";
+} from "@/domenetyper/domenetyper";
+import { Plan } from "@/domenetyper/plan";
+import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
+import { post } from "./networkRequests";
+import { dokumentPath } from "./paths";
 
 export const publiserSpørreundersøkelse = (
     spørreundersøkelse: Spørreundersøkelse,

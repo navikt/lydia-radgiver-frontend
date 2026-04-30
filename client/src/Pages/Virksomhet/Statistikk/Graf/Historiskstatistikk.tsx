@@ -1,8 +1,8 @@
 import { BodyShort, Heading, ToggleGroup } from "@navikt/ds-react";
-import { useHentHistoriskstatistikk } from "../../../../api/lydia-api/virksomhet";
-import Graf from "./Graf";
 import React from "react";
+import { useHentHistoriskstatistikk } from "@/api/lydia-api/virksomhet";
 import Tabell from "../Tabell/Tabell";
+import Graf from "./Graf";
 import styles from "./graf.module.scss";
 
 interface HistoriskStatistikkProps {

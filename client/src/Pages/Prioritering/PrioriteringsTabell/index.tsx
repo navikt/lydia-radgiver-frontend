@@ -1,17 +1,17 @@
-import React from "react";
 import { SortState, Table } from "@navikt/ds-react";
-import { NavIdentMedLenke } from "../../../components/NavIdentMedLenke";
+import React from "react";
+import { VirksomhetTilstandStatusBadge } from "@/components/Badge/VirksomhetTilstandStatusBadge";
+import { NavIdentMedLenke } from "@/components/NavIdentMedLenke";
+import { ScrollUtTilKantenContainer } from "@/components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
+import { Virksomhetsoversikt } from "@/domenetyper/virksomhetsoversikt";
 import {
     formaterSomHeltall,
     formaterSomProsentMedEnDesimal,
-} from "../../../util/tallFormatering";
-import { SøkeresultatFooter } from "../SøkeresultatFooter";
-import { Virksomhetsoversikt } from "../../../domenetyper/virksomhetsoversikt";
+} from "@/util/tallFormatering";
 import { EndretDataCell } from "../EndretDataCell";
-import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
-import Virksomhetsnavncelle from "./Virksomhetsnavncelle";
+import { SøkeresultatFooter } from "../SøkeresultatFooter";
 import styles from "./prioriteringstabell.module.scss";
-import { VirksomhetTilstandStatusBadge } from "../../../components/Badge/VirksomhetTilstandStatusBadge";
+import Virksomhetsnavncelle from "./Virksomhetsnavncelle";
 
 interface Kolonne {
     key: string;

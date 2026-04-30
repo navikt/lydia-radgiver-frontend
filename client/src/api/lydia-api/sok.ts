@@ -1,18 +1,18 @@
+import { z } from "zod/v4";
+import {
+    Filterverdier,
+    filterverdierSchema,
+} from "@/domenetyper/filterverdier";
+import { statusoversiktListeResponsSchema } from "@/domenetyper/statusoversikt";
+import { virksomhetsoversiktListeResponsSchema } from "@/domenetyper/virksomhetsoversikt";
+import { FiltervisningState } from "@/Pages/Prioritering/Filter/filtervisning-reducer";
+import { useSwrTemplate } from "./networkRequests";
+import { getSykefraværsstatistikkUrl } from "./paths";
 import {
     getStatusoversiktUrl,
     getSykefraværsstatistikkAntallTreffUrl,
 } from "./paths";
-import { getSykefraværsstatistikkUrl } from "./paths";
-import {
-    Filterverdier,
-    filterverdierSchema,
-} from "../../domenetyper/filterverdier";
-import { statusoversiktListeResponsSchema } from "../../domenetyper/statusoversikt";
-import { virksomhetsoversiktListeResponsSchema } from "../../domenetyper/virksomhetsoversikt";
-import { FiltervisningState } from "../../Pages/Prioritering/Filter/filtervisning-reducer";
-import { useSwrTemplate } from "./networkRequests";
 import { filterverdierPath } from "./paths";
-import { z } from "zod/v4";
 
 export const useFilterverdier = () =>
     useSwrTemplate<Filterverdier>(filterverdierPath, filterverdierSchema);

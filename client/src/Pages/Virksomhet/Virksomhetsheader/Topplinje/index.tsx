@@ -1,18 +1,15 @@
 import { HStack, Skeleton } from "@navikt/ds-react";
 import React from "react";
+import { useHentTilstandForVirksomhetNyFlyt } from "@/api/lydia-api/nyFlyt";
+import { IASak, VirksomhetIATilstandEnum } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { Virksomhet } from "@/domenetyper/virksomhet";
 import { Salesforcelenke } from "../";
-import { useHentTilstandForVirksomhetNyFlyt } from "../../../../api/lydia-api/nyFlyt";
-import {
-    IASak,
-    VirksomhetIATilstandEnum,
-} from "../../../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
-import { Virksomhet } from "../../../../domenetyper/virksomhet";
-import { VirksomhetVurderes } from "./VirksomhetVurderes";
+import AlleSamarbeidIVirksomhetErAvsluttet from "./AlleSamarbeidIVirksomhetErAvsluttet";
 import VirksomhetErVurdert from "./VirksomhetErVurdert";
 import VirksomhetHarAktiveSamarbeid from "./VirksomhetHarAktiveSamarbeid";
-import AlleSamarbeidIVirksomhetErAvsluttet from "./AlleSamarbeidIVirksomhetErAvsluttet";
 import VirksomhetKlarTilVurdering from "./VirksomhetKlarTilVurdering";
+import { VirksomhetVurderes } from "./VirksomhetVurderes";
 
 export function Topplinje({
     virksomhet,

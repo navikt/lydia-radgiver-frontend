@@ -1,10 +1,10 @@
+import { Loader } from "@navikt/ds-react";
 import { useEffect } from "react";
 import { useParams } from "react-router-dom";
-import { Loader } from "@navikt/ds-react";
-import { statiskeSidetitler, useTittel } from "../../util/useTittel";
-import { loggSideLastet } from "../../util/analytics-klient";
+import { useHentVirksomhetNyFlyt } from "@/api/lydia-api/nyFlyt";
+import { loggSideLastet } from "@/util/analytics-klient";
+import { statiskeSidetitler, useTittel } from "@/util/useTittel";
 import { VirksomhetsVisning } from "./VirksomhetsVisning";
-import { useHentVirksomhetNyFlyt } from "../../api/lydia-api/nyFlyt";
 
 export const NyVirksomhetsside = () => {
     const { oppdaterTittel } = useTittel(statiskeSidetitler.virksomhetsside);

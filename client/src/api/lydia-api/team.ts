@@ -1,8 +1,5 @@
 import { z } from "zod/v4";
-import {
-    BrukerITeamDTO,
-    brukerITeamSchema,
-} from "../../domenetyper/brukeriteam";
+import { BrukerITeamDTO, brukerITeamSchema } from "@/domenetyper/brukeriteam";
 import { httpDelete, post, useSwrTemplate } from "./networkRequests";
 import { iaSakTeamPath } from "./paths";
 

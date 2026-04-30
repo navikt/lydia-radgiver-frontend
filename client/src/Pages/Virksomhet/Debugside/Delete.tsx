@@ -4,8 +4,8 @@ import {
     slettSamarbeidsplanNyFlyt,
     slettSamarbeidNyFlyt,
     useHentSisteSakNyFlyt,
-} from "../../../api/lydia-api/nyFlyt";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+} from "@/api/lydia-api/nyFlyt";
+import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
 
 interface DeleteProps {
     orgnummer: string;
@@ -179,7 +179,10 @@ export function SlettSamarbeid({ orgnummer, onSuccess }: DeleteProps) {
     const handleSubmit = async () => {
         setError(null);
         try {
-            const result = await slettSamarbeidNyFlyt(orgnummer, Number(samarbeidId));
+            const result = await slettSamarbeidNyFlyt(
+                orgnummer,
+                Number(samarbeidId),
+            );
             setResponse(result);
             onSuccess();
         } catch (e) {

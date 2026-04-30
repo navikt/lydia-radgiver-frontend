@@ -1,18 +1,18 @@
-import React from "react";
 import { BodyLong, Button, LocalAlert, Modal } from "@navikt/ds-react";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { IASak } from "../../../domenetyper/domenetyper";
-import styles from "./administrerSamarbeid.module.scss";
+import React from "react";
 import {
     slettSamarbeidNyFlyt,
     useHentSisteSakNyFlyt,
     useHentSpesifikkSakNyFlyt,
-} from "../../../api/lydia-api/nyFlyt";
+} from "@/api/lydia-api/nyFlyt";
+import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
+import { useKanUtføreHandlingPåSamarbeid } from "@/api/lydia-api/virksomhet";
+import { IASak } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import styles from "./administrerSamarbeid.module.scss";
 import BekreftSisteSamarbeidModal, {
     erSisteSamarbeid,
 } from "./BekreftSisteSamarbeidModal";
-import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
-import { useKanUtføreHandlingPåSamarbeid } from "../../../api/lydia-api/virksomhet";
 import SlettSamarbeidModalBegrunnelser from "./SlettSamarbeidModalBegrunnelser";
 
 export default function SlettSamarbeidModal({

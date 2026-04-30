@@ -1,7 +1,7 @@
-import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
-import { BekreftValgModal } from "../../../components/Modal/BekreftValgModal";
-import { lokalDatoMedKlokkeslett } from "../../../util/dato";
 import React from "react";
+import { BekreftValgModal } from "@/components/Modal/BekreftValgModal";
+import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
+import { lokalDatoMedKlokkeslett } from "@/util/dato";
 
 export function SlettSpørreundersøkelseModal({
     spørreundersøkelse,

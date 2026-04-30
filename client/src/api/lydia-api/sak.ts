@@ -4,10 +4,10 @@ import {
     IASak,
     iaSakSchema,
     ValgtÅrsakDto,
-} from "../../domenetyper/domenetyper";
-import { IaSakProsess } from "../../domenetyper/iaSakProsess";
-import { IaSakStatus, iaSakStatusSchema } from "../../domenetyper/iaSakStatus";
-import { MineSaker, mineSakerListSchema } from "../../domenetyper/mineSaker";
+} from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { IaSakStatus, iaSakStatusSchema } from "@/domenetyper/iaSakStatus";
+import { MineSaker, mineSakerListSchema } from "@/domenetyper/mineSaker";
 import { post, useSwrTemplate } from "./networkRequests";
 import { iaSakPath, iaSakPostNyHendelsePath, mineSakerPath } from "./paths";
 

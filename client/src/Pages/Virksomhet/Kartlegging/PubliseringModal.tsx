@@ -1,7 +1,7 @@
 import { BodyLong, Button, Heading, Modal } from "@navikt/ds-react";
 import React from "react";
-import { Spørreundersøkelse } from "../../../domenetyper/spørreundersøkelse";
-import { publiserSpørreundersøkelse } from "../../../api/lydia-api/dokumentpublisering";
+import { publiserSpørreundersøkelse } from "@/api/lydia-api/dokumentpublisering";
+import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 
 interface PubliseringModalProps {
     open: boolean;

@@ -3,39 +3,39 @@ import {
     bransjestatistikkSchema,
     Næringsstatistikk,
     næringsstatistikkSchema,
-} from "../../domenetyper/bransjestatistikk";
+} from "@/domenetyper/bransjestatistikk";
 import {
     HistoriskStatistikk,
     historiskStatistikkSchema,
-} from "../../domenetyper/historiskstatistikk";
-import {
-    kanGjennomføreStatusendringDto,
-    KanGjennomføreStatusendring,
-    MuligSamarbeidsgandling,
-} from "../../domenetyper/samarbeidsEndring";
+} from "@/domenetyper/historiskstatistikk";
 import {
     Publiseringsinfo,
     publiseringsinfoSchema,
-} from "../../domenetyper/publiseringsinfo";
+} from "@/domenetyper/publiseringsinfo";
 import {
     SalesforceInfo,
     salesforceInfoSchema,
     SalesforceSamarbeid,
     salesforceSamarbeidSchema,
-} from "../../domenetyper/salesforceInfo";
+} from "@/domenetyper/salesforceInfo";
+import {
+    kanGjennomføreStatusendringDto,
+    KanGjennomføreStatusendring,
+    MuligSamarbeidsgandling,
+} from "@/domenetyper/samarbeidsEndring";
 import {
     Næring,
     Virksomhet,
     virksomhetsSchema,
-} from "../../domenetyper/virksomhet";
+} from "@/domenetyper/virksomhet";
 import {
     VirksomhetsstatistikkSiste4Kvartaler,
     virksomhetsstatistikkSiste4KvartalerSchema,
-} from "../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
+} from "@/domenetyper/virksomhetsstatistikkSiste4Kvartaler";
 import {
     VirkomshetsstatistikkSisteKvartal,
     virksomhetsstatistikkSisteKvartalSchema,
-} from "../../domenetyper/virksomhetsstatistikkSisteKvartal";
+} from "@/domenetyper/virksomhetsstatistikkSisteKvartal";
 import { defaultSwrConfiguration, useSwrTemplate } from "./networkRequests";
 import {
     bransjePath,

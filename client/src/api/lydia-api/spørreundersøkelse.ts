@@ -1,23 +1,20 @@
+import { spørreundersøkelseHeading } from "@/components/Spørreundersøkelse/SpørreundersøkelseHeading";
+import { IaSakProsess, iaSakProsessSchema } from "@/domenetyper/iaSakProsess";
 import {
     Spørreundersøkelse,
     spørreundersøkelseSchema,
-} from "../../domenetyper/spørreundersøkelse";
-import {
-    SpørreundersøkelseResultat,
-    spørreundersøkelseResultatSchema,
-} from "../../domenetyper/spørreundersøkelseResultat";
-import {
-    IaSakProsess,
-    iaSakProsessSchema,
-} from "../../domenetyper/iaSakProsess";
-import { iaSakPath, spørreundersøkelsePath } from "./paths";
-import { post, put, useSwrTemplate } from "./networkRequests";
+} from "@/domenetyper/spørreundersøkelse";
 import {
     SpørreundersøkelseMedInnhold,
     SpørreundersøkelseMedInnholdSchema,
     SpørreundersøkelseType,
-} from "../../domenetyper/spørreundersøkelseMedInnhold";
-import { spørreundersøkelseHeading } from "../../components/Spørreundersøkelse/SpørreundersøkelseHeading";
+} from "@/domenetyper/spørreundersøkelseMedInnhold";
+import {
+    SpørreundersøkelseResultat,
+    spørreundersøkelseResultatSchema,
+} from "@/domenetyper/spørreundersøkelseResultat";
+import { post, put, useSwrTemplate } from "./networkRequests";
+import { iaSakPath, spørreundersøkelsePath } from "./paths";
 
 export const kartleggingresultatPdfLenke = (
     orgnummer: string,

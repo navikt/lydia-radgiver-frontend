@@ -1,12 +1,12 @@
+import { SetMinesakerFiltreType } from "../MineSakerside";
+import { EierFølgerFilter } from "./EierFølgerFilter";
+import styles from "./mineSakerFilter.module.scss";
 import { MineSakerSøkefelt } from "./MineSakerSokeFelt";
 import {
     StatusFilter,
     ArkivStatusFilter,
     useStatusFilter,
 } from "./StatusFilter";
-import { EierFølgerFilter } from "./EierFølgerFilter";
-import { SetMinesakerFiltreType } from "../MineSakerside";
-import styles from "./mineSakerFilter.module.scss";
 
 type Props = {
     setFiltre: SetMinesakerFiltreType;

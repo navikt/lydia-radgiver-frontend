@@ -1,13 +1,13 @@
-import styles from "./minesakerkort.module.scss";
-import { IAProsessStatusType, IASak } from "../../../domenetyper/domenetyper";
-import { useNavigate } from "react-router-dom";
-import { penskrivSpørreundersøkelseStatus } from "../../../components/Badge/SpørreundersøkelseStatusBadge";
 import { BodyShort, Button } from "@navikt/ds-react";
-import { loggGåTilSakFraMineSaker } from "../../../util/analytics-klient";
-import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { lokalDato } from "../../../util/dato";
-import { useHentSpørreundersøkelser } from "../../../api/lydia-api/spørreundersøkelse";
-import { useHentPlan } from "../../../api/lydia-api/plan";
+import { useNavigate } from "react-router-dom";
+import { useHentPlan } from "@/api/lydia-api/plan";
+import { useHentSpørreundersøkelser } from "@/api/lydia-api/spørreundersøkelse";
+import { penskrivSpørreundersøkelseStatus } from "@/components/Badge/SpørreundersøkelseStatusBadge";
+import { IAProsessStatusType, IASak } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { loggGåTilSakFraMineSaker } from "@/util/analytics-klient";
+import { lokalDato } from "@/util/dato";
+import styles from "./minesakerkort.module.scss";
 
 const VIS_VURDERINGSSTATUSER: readonly IAProsessStatusType[] = [
     "VI_BISTÅR",

@@ -1,10 +1,10 @@
-import { FiltervisningState } from "./Filter/filtervisning-reducer";
+import { ValgtSnittFilter } from "@/domenetyper/filterverdier";
 import {
     FilterverdiKategorier,
     loggFilterverdiKategorier,
     Søkekomponenter,
-} from "../../util/analytics-klient";
-import { ValgtSnittFilter } from "../../domenetyper/filterverdier";
+} from "@/util/analytics-klient";
+import { FiltervisningState } from "./Filter/filtervisning-reducer";
 
 export const loggSøkMedFilterIAnalytics = (
     filtervisningstate: FiltervisningState,

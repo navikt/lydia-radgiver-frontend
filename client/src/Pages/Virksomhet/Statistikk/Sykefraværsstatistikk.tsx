@@ -1,8 +1,3 @@
-import { Statistikkboks } from "./Statistikkboks";
-import {
-    formaterSomHeltall,
-    formaterSomProsentMedEnDesimal,
-} from "../../../util/tallFormatering";
 import { Loader } from "@navikt/ds-react";
 import {
     useHentBransjestatistikk,
@@ -10,14 +5,19 @@ import {
     useHentPubliseringsinfo,
     useHentSykefraværsstatistikkForVirksomhetSisteKvartal,
     useHentVirksomhetsstatistikkSiste4Kvartaler,
-} from "../../../api/lydia-api/virksomhet";
-import { sorterKvartalStigende } from "../../../util/sortering";
-import { getGjeldendePeriodeTekst } from "../../../util/gjeldendePeriodeSisteFireKvartal";
-import { Kvartal } from "../../../domenetyper/kvartal";
-import { VirksomhetsstatistikkSiste4Kvartaler } from "../../../domenetyper/virksomhetsstatistikkSiste4Kvartaler";
-import { Publiseringsinfo } from "../../../domenetyper/publiseringsinfo";
-import { Næring } from "../../../domenetyper/virksomhet";
+} from "@/api/lydia-api/virksomhet";
+import { Kvartal } from "@/domenetyper/kvartal";
+import { Publiseringsinfo } from "@/domenetyper/publiseringsinfo";
+import { Næring } from "@/domenetyper/virksomhet";
+import { VirksomhetsstatistikkSiste4Kvartaler } from "@/domenetyper/virksomhetsstatistikkSiste4Kvartaler";
+import { getGjeldendePeriodeTekst } from "@/util/gjeldendePeriodeSisteFireKvartal";
+import { sorterKvartalStigende } from "@/util/sortering";
+import {
+    formaterSomHeltall,
+    formaterSomProsentMedEnDesimal,
+} from "@/util/tallFormatering";
 import styles from "./statistikk.module.scss";
+import { Statistikkboks } from "./Statistikkboks";
 
 interface Props {
     orgnummer: string;

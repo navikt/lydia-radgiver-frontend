@@ -6,35 +6,35 @@ import {
     VirksomhetTilstandDto,
     virksomhetTilstandAutomatiskOppdateringSchema,
     virksomhetTilstandDtoSchema,
-} from "../../domenetyper/domenetyper";
+} from "@/domenetyper/domenetyper";
 import {
     IaSakProsess,
     iaSakProsessSchema,
     SamarbeidRequest,
-} from "../../domenetyper/iaSakProsess";
+} from "@/domenetyper/iaSakProsess";
 import {
     Plan,
     PlanInnholdStatus,
     PlanMal,
     PlanSchema,
-} from "../../domenetyper/plan";
-import {
-    TemaRequest,
-    UndertemaRequest,
-} from "../../Pages/Virksomhet/Plan/Requests";
+} from "@/domenetyper/plan";
 import {
     Sakshistorikk,
     sakshistorikkSchema,
-} from "../../domenetyper/sakshistorikk";
+} from "@/domenetyper/sakshistorikk";
 import {
     Spørreundersøkelse,
     spørreundersøkelseSchema,
-} from "../../domenetyper/spørreundersøkelse";
-import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
+} from "@/domenetyper/spørreundersøkelse";
+import { SpørreundersøkelseType } from "@/domenetyper/spørreundersøkelseMedInnhold";
+import { Virksomhet, virksomhetsSchema } from "@/domenetyper/virksomhet";
+import {
+    TemaRequest,
+    UndertemaRequest,
+} from "@/Pages/Virksomhet/Plan/Requests";
+import { isoDato } from "@/util/dato";
 import { httpDelete, post, put, useSwrTemplate } from "./networkRequests";
 import { nyFlytApiBasePath, nyFlytBasePath } from "./paths";
-import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
-import { isoDato } from "../../util/dato";
 
 export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<VirksomhetTilstandDto>(

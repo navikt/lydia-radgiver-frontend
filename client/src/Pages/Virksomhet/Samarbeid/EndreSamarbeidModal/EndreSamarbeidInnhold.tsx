@@ -1,4 +1,4 @@
-import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
+import { CheckmarkIcon, TrashIcon } from "@navikt/aksel-icons";
 import {
     Alert,
     BodyShort,
@@ -8,16 +8,16 @@ import {
     Modal,
     TextField,
 } from "@navikt/ds-react";
-import { IASakshendelseType } from "../../../../domenetyper/domenetyper";
 import React, { useEffect, useState } from "react";
-import { CheckmarkIcon, TrashIcon } from "@navikt/aksel-icons";
-import { navnError } from "../NyttSamarbeidModal";
+import { KeyedMutator } from "swr";
+import { EksternLenke } from "@/components/EksternLenke";
+import { IASakshendelseType } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 import {
     KanGjennomføreStatusendring,
     MuligSamarbeidsgandling,
-} from "../../../../domenetyper/samarbeidsEndring";
-import { EksternLenke } from "../../../../components/EksternLenke";
-import { KeyedMutator } from "swr";
+} from "@/domenetyper/samarbeidsEndring";
+import { navnError } from "../NyttSamarbeidModal";
 import styles from "./endresamarbeidmodal.module.scss";
 
 export const MAX_LENGDE_SAMARBEIDSNAVN = 50;
