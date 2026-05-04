@@ -2,3 +2,7 @@ allowBuilds:
   esbuild: true
   '@parcel/watcher': true
   unrs-resolver: true
+# Sett minimumReleaseAge for å unngå at pakker som nylig er publisert blir brukt i byggene.
+minimumReleaseAge: 10080 # 7 dager
+minimumReleaseAgeExclude:
+  - "@navikt/*"
