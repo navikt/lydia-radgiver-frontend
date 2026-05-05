@@ -2,7 +2,6 @@ import { RedisStore } from "connect-redis";
 import session from "express-session";
 import * as redis from "redis";
 import { inCloudMode } from "./app";
-import { getEnvVar } from "./config";
 import logger from "./logging";
 
 const valkeyConfig = {
@@ -31,7 +30,7 @@ export async function sessionManager() {
             client: await getRedisStore(),
             disableTouch: true, // Gjør slik at man ikke kan endre TTL på valkey store
         }),
-        secret: getEnvVar("SESSION_SECRET"), // Hent fra gcp
+        secret: process.env.SESSION_SECRET, // Hent fra gcp
         saveUninitialized: false,
         resave: false,
         cookie: {
@@ -47,7 +46,7 @@ export async function inMemorySessionManager() {
     return session({
         saveUninitialized: false,
         resave: false,
-        secret: getEnvVar("SESSION_SECRET"),
+        secret: process.env.SESSION_SECRET,
         cookie: {
             secure: inCloudMode(),
             httpOnly: true,

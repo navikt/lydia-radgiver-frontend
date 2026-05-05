@@ -1,8 +1,9 @@
+/** @jest-environment jsdom */
 
 import { åpneSpørreundersøkelseINyFane } from "@/util/navigasjon";
 
 // erIDev is a value exported from Dekoratør, mocked here to control environment
-vi.mock("@/components/Dekoratør/Dekoratør", () => ({
+jest.mock("@/components/Dekoratør/Dekoratør", () => ({
     erIDev: true,
 }));
 
@@ -10,12 +11,12 @@ describe("åpneSpørreundersøkelseINyFane", () => {
     const originalOpen = window.open;
 
     beforeEach(() => {
-        window.open = vi.fn();
+        window.open = jest.fn();
     });
 
     afterEach(() => {
         window.open = originalOpen;
-        vi.resetModules();
+        jest.resetModules();
     });
 
     test("åpner oversikt-side i dev-miljø for PÅBEGYNT", () => {
@@ -35,9 +36,9 @@ describe("åpneSpørreundersøkelseINyFane", () => {
     });
 
     test("bruker prod-URL når erIDev er false", async () => {
-        vi.resetModules();
+        jest.resetModules();
 
-        vi.doMock("@/components/Dekoratør/Dekoratør", () => ({
+        jest.doMock("@/components/Dekoratør/Dekoratør", () => ({
             erIDev: false,
         }));
 

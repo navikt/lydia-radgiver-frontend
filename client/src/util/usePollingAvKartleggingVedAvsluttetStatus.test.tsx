@@ -1,9 +1,10 @@
 import { render, screen } from "@testing-library/react";
 import React from "react";
+import "@testing-library/jest-dom";
 import { act } from "react";
 import { DokumentStatusEnum } from "@/domenetyper/domenetyper";
+import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import { usePollingAvKartleggingVedAvsluttetStatus } from "@/util/usePollingAvKartleggingVedAvsluttetStatus";
-import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 
 type PubliseringStatus = Spørreundersøkelse["publiseringStatus"];
 
@@ -39,15 +40,15 @@ function TestPollingKomponent({
 
 describe("usePollingAvKartleggingVedAvsluttetStatus", () => {
     beforeEach(() => {
-        vi.useFakeTimers();
+        jest.useFakeTimers();
     });
 
     afterEach(() => {
-        vi.useRealTimers();
+        jest.useRealTimers();
     });
 
     test("starter polling når status er AVSLUTTET og publiseringStatus er OPPRETTET", () => {
-        const hentKartleggingPåNytt = vi.fn();
+        const hentKartleggingPåNytt = jest.fn();
 
         render(
             <TestPollingKomponent
@@ -63,7 +64,7 @@ describe("usePollingAvKartleggingVedAvsluttetStatus", () => {
 
         // Etter første timeout skal hentKartleggingPåNytt bli kalt og forsøk økes
         act(() => {
-            vi.advanceTimersByTime(2000);
+            jest.advanceTimersByTime(2000);
         });
 
         expect(hentKartleggingPåNytt).toHaveBeenCalledTimes(1);
@@ -71,7 +72,7 @@ describe("usePollingAvKartleggingVedAvsluttetStatus", () => {
     });
 
     test("starter ikke polling når betingelser ikke er oppfylt", () => {
-        const hentKartleggingPåNytt = vi.fn();
+        const hentKartleggingPåNytt = jest.fn();
 
         render(
             <TestPollingKomponent
@@ -82,7 +83,7 @@ describe("usePollingAvKartleggingVedAvsluttetStatus", () => {
         );
 
         act(() => {
-            vi.advanceTimersByTime(10000);
+            jest.advanceTimersByTime(10000);
         });
 
         expect(hentKartleggingPåNytt).not.toHaveBeenCalled();

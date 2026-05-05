@@ -1,3 +1,10 @@
+import { TextEncoder, TextDecoder } from "util";
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
+import { Filterverdier, ValgtSnittFilter } from "@/domenetyper/filterverdier";
+import { FylkeMedKommuner, Kommune } from "@/domenetyper/fylkeOgKommune";
+import { Næringsgruppe } from "@/domenetyper/virksomhet";
 import {
     initialFiltervisningState,
     FiltervisningState,
@@ -5,17 +12,8 @@ import {
     erSammeFylker,
     filterstateFraLokalstorage,
 } from "@/Pages/Prioritering/Filter/filtervisning-reducer";
-import {
-    Filterverdier,
-    ValgtSnittFilter,
-} from "@features/prioritering/types/filterverdier";
-import {
-    FylkeMedKommuner,
-    Kommune,
-} from "@features/virksomhet/types/fylkeOgKommune";
-import { Næringsgruppe } from "@features/virksomhet/types/virksomhet";
 
-// Mock localStorage (configurable så den ikke lekker mellom testfiler)
+// Mock localStorage
 const localStorageMock = (() => {
     let store: Record<string, string> = {};
     return {
@@ -32,7 +30,9 @@ const localStorageMock = (() => {
     };
 })();
 
-vi.stubGlobal("localStorage", localStorageMock);
+Object.defineProperty(window, "localStorage", {
+    value: localStorageMock,
+});
 
 // Test data helpers
 const createKommune = (nummer: string, navn: string): Kommune => ({

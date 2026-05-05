@@ -1,33 +1,33 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { axe } from "jest-axe";
 import React from "react";
 import { BrowserRouter } from "react-router-dom";
-import type { Mock } from "vitest";
-import { axe } from "vitest-axe";
+import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
+import { useHentTeam } from "@/api/lydia-api/team";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 import {
     brukerMedGyldigToken,
     brukerMedLesetilgang,
 } from "@/Pages/Prioritering/mocks/innloggetAnsattMock";
 import Samarbeidsvelger from "@/Pages/Virksomhet/Samarbeidsvelger";
-import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
-import { useHentTeam } from "@features/bruker/api/team";
-import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import {
     dummyIaSak,
     dummyVirksomhetsinformasjon,
 } from "@mocks/virksomhetsMockData";
 
-vi.mock("@/Pages/Virksomhet/Samarbeid/NyttSamarbeidModal", () => ({
+jest.mock("@/Pages/Virksomhet/Samarbeid/NyttSamarbeidModal", () => ({
     NyttSamarbeidModal: () => <div data-testid="nytt-samarbeid-modal" />,
 }));
 
-vi.mock("@features/bruker/api/bruker", async () => ({
-    ...(await vi.importActual("@features/bruker/api/bruker")),
-    useHentBrukerinformasjon: vi.fn(),
+jest.mock("@/api/lydia-api/bruker", () => ({
+    ...jest.requireActual("@/api/lydia-api/bruker"),
+    useHentBrukerinformasjon: jest.fn(),
 }));
 
-vi.mock("@features/bruker/api/team", async () => ({
-    ...(await vi.importActual("@features/bruker/api/team")),
-    useHentTeam: vi.fn(),
+jest.mock("@/api/lydia-api/team", () => ({
+    ...jest.requireActual("@/api/lydia-api/team"),
+    useHentTeam: jest.fn(),
 }));
 
 const aktivtSamarbeid = (id: number, navn: string): IaSakProsess => ({
@@ -49,8 +49,8 @@ function renderSamarbeidsvelger(
     samarbeidsliste: IaSakProsess[],
     bruker = brukerMedGyldigToken,
 ) {
-    (useHentBrukerinformasjon as Mock).mockReturnValue({ data: bruker });
-    (useHentTeam as Mock).mockReturnValue({
+    (useHentBrukerinformasjon as jest.Mock).mockReturnValue({ data: bruker });
+    (useHentTeam as jest.Mock).mockReturnValue({
         data: [brukerMedGyldigToken.ident],
     });
 
@@ -67,7 +67,7 @@ function renderSamarbeidsvelger(
 
 describe("Samarbeidsvelger", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     describe("Universell utforming", () => {

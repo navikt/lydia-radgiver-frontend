@@ -4,6 +4,7 @@ import { BodyShort, Button, Heading } from "@navikt/ds-react";
 import { toCanvas } from "html-to-image";
 import jsPDF from "jspdf";
 import React from "react";
+import { useHentSpørreundersøkelseMedInnhold } from "@/api/lydia-api/spørreundersøkelse";
 import useEksportFilnavn from "@/components/pdfEksport/useEksportFilnavn";
 import VirksomhetsEksportHeader from "@/components/pdfEksport/VirksomhetsEksportHeader";
 import {
@@ -11,13 +12,12 @@ import {
     useSpørreundersøkelseType,
 } from "@/components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { getGraffargeFromTema } from "@/components/Spørreundersøkelse/TemaResultat";
-import { loggEksportertTilPdf } from "@/util/analytics-klient";
-import { useHentSpørreundersøkelseMedInnhold } from "@features/kartlegging/api/spørreundersøkelse";
-import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
+import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import {
     SpørsmålDto,
     TemaDto,
-} from "@features/kartlegging/types/spørreundersøkelseMedInnhold";
+} from "@/domenetyper/spørreundersøkelseMedInnhold";
+import { loggEksportertTilPdf } from "@/util/analytics-klient";
 import styles from "./forhåndsvisningEksport.module.scss";
 import { GruppertSpørsmålRenderer } from "./SpørreundersøkelseForhåndsvisningModal/Forhåndsvisning";
 

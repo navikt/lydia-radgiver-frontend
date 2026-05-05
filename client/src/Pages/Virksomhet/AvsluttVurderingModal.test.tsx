@@ -5,16 +5,18 @@ import {
     waitFor,
     within,
 } from "@testing-library/react";
+import "@testing-library/jest-dom";
+
 import { BrowserRouter } from "react-router-dom";
-import { NyVirksomhetsside } from "@/Pages/Virksomhet";
-import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
-import { useHentTeam } from "@features/bruker/api/team";
+import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
 import {
     useHentTilstandForVirksomhetNyFlyt,
     useHentSisteSakNyFlyt,
     avsluttVurderingNyFlyt,
     useHentSpesifikkSakNyFlyt,
-} from "@features/sak/api/nyFlyt";
+} from "@/api/lydia-api/nyFlyt";
+import { useHentTeam } from "@/api/lydia-api/team";
+import { NyVirksomhetsside } from "@/Pages/Virksomhet";
 import {
     dummyIaSak,
     dummyPubliseringsinfo,
@@ -26,19 +28,19 @@ import {
     dummyVirksomhetsstatistikkSiste4Kvartal,
 } from "@mocks/virksomhetsMockData";
 
-vi.mock("@/util/analytics-klient", async () => {
-    const actual = (await vi.importActual("@/util/analytics-klient"));
+jest.mock("@/util/analytics-klient", () => {
+    const actual = jest.requireActual("@/util/analytics-klient");
     return {
         ...actual,
-        loggSideLastet: vi.fn(),
-        loggNavigertTilNyTab: vi.fn(),
+        loggSideLastet: jest.fn(),
+        loggNavigertTilNyTab: jest.fn(),
     };
 });
 
-vi.mock("@features/virksomhet/api/virksomhet", async () => {
+jest.mock("@/api/lydia-api/virksomhet", () => {
     return {
-        ...(await vi.importActual("@features/virksomhet/api/virksomhet")),
-        useHentVirksomhetsinformasjon: vi.fn(() => {
+        ...jest.requireActual("@/api/lydia-api/virksomhet"),
+        useHentVirksomhetsinformasjon: jest.fn(() => {
             return {
                 data: {
                     ...dummyVirksomhetsinformasjonNyFlyt,
@@ -47,33 +49,33 @@ vi.mock("@features/virksomhet/api/virksomhet", async () => {
                 loading: false,
             };
         }),
-        useHentSakshistorikk: vi.fn(() => {
+        useHentSakshistorikk: jest.fn(() => {
             return {
                 data: dummySakshistorikk,
                 loading: false,
                 validating: false,
-                mutate: vi.fn(),
+                mutate: jest.fn(),
             };
         }),
-        useHentPubliseringsinfo: vi.fn(() => {
+        useHentPubliseringsinfo: jest.fn(() => {
             return {
                 data: dummyPubliseringsinfo,
                 loading: false,
             };
         }),
-        useHentSykefraværsstatistikkForVirksomhetSisteKvartal: vi.fn(() => {
+        useHentSykefraværsstatistikkForVirksomhetSisteKvartal: jest.fn(() => {
             return {
                 data: dummySykefraværsstatistikkSiste4Kvartal,
                 loading: false,
             };
         }),
-        useHentNæringsstatistikk: vi.fn(() => {
+        useHentNæringsstatistikk: jest.fn(() => {
             return {
                 data: dummyNæringsstatistikk,
                 loading: false,
             };
         }),
-        useHentVirksomhetsstatistikkSiste4Kvartaler: vi.fn(() => {
+        useHentVirksomhetsstatistikkSiste4Kvartaler: jest.fn(() => {
             return {
                 data: dummyVirksomhetsstatistikkSiste4Kvartal,
                 loading: false,
@@ -82,32 +84,32 @@ vi.mock("@features/virksomhet/api/virksomhet", async () => {
     };
 });
 
-vi.mock("@features/kartlegging/api/spørreundersøkelse", async () => {
+jest.mock("@/api/lydia-api/spørreundersøkelse", () => {
     return {
-        ...(await vi.importActual("@features/kartlegging/api/spørreundersøkelse")),
-        useHentSamarbeid: vi.fn(() => {
+        ...jest.requireActual("@/api/lydia-api/spørreundersøkelse"),
+        useHentSamarbeid: jest.fn(() => {
             return {
                 data: [],
                 loading: false,
                 validating: false,
-                mutate: vi.fn(() => Promise.resolve([])),
+                mutate: jest.fn(() => Promise.resolve([])),
             };
         }),
-        useSpørreundersøkelsesliste: vi.fn(() => {
+        useSpørreundersøkelsesliste: jest.fn(() => {
             return {
                 data: [],
                 loading: false,
                 validating: false,
-                mutate: vi.fn(),
+                mutate: jest.fn(),
             };
         }),
     };
 });
 
-vi.mock("@features/sak/api/nyFlyt", async () => {
+jest.mock("@/api/lydia-api/nyFlyt", () => {
     return {
-        ...(await vi.importActual("@features/sak/api/nyFlyt")),
-        useHentTilstandForVirksomhetNyFlyt: vi.fn(() => {
+        ...jest.requireActual("@/api/lydia-api/nyFlyt"),
+        useHentTilstandForVirksomhetNyFlyt: jest.fn(() => {
             return {
                 data: {
                     orgnr: dummyVirksomhetsinformasjonNyFlyt.orgnr,
@@ -116,43 +118,43 @@ vi.mock("@features/sak/api/nyFlyt", async () => {
                 loading: false,
             };
         }),
-        vurderSakNyFlyt: vi.fn(() => Promise.resolve()),
-        avsluttVurderingNyFlyt: vi.fn(() => Promise.resolve()),
-        angreVurderingNyFlyt: vi.fn(() => Promise.resolve()),
-        opprettSamarbeidNyFlyt: vi.fn(() => Promise.resolve()),
-        bliEierNyFlyt: vi.fn(() => Promise.resolve()),
-        useHentSisteSakNyFlyt: vi.fn(() => ({
+        vurderSakNyFlyt: jest.fn(() => Promise.resolve()),
+        avsluttVurderingNyFlyt: jest.fn(() => Promise.resolve()),
+        angreVurderingNyFlyt: jest.fn(() => Promise.resolve()),
+        opprettSamarbeidNyFlyt: jest.fn(() => Promise.resolve()),
+        bliEierNyFlyt: jest.fn(() => Promise.resolve()),
+        useHentSisteSakNyFlyt: jest.fn(() => ({
             data: dummyIaSak,
             loading: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         })),
-        useHentSpesifikkSakNyFlyt: vi.fn(() => ({
+        useHentSpesifikkSakNyFlyt: jest.fn(() => ({
             data: dummyIaSak,
             loading: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         })),
-        useHentVirksomhetNyFlyt: vi.fn(() => {
+        useHentVirksomhetNyFlyt: jest.fn(() => {
             return {
                 data: {
                     ...dummyVirksomhetsinformasjonNyFlyt,
                     aktivtSaksnummer: dummyIaSak.saksnummer,
                 },
                 loading: false,
-                mutate: vi.fn(),
+                mutate: jest.fn(),
             };
         }),
-        useHentHistorikkNyFlyt: vi.fn(() => ({
+        useHentHistorikkNyFlyt: jest.fn(() => ({
             data: [],
             loading: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         })),
     };
 });
 
-vi.mock("@features/bruker/api/bruker", async () => {
+jest.mock("@/api/lydia-api/bruker", () => {
     return {
-        ...(await vi.importActual("@features/bruker/api/bruker")),
-        useHentBrukerinformasjon: vi.fn(() => {
+        ...jest.requireActual("@/api/lydia-api/bruker"),
+        useHentBrukerinformasjon: jest.fn(() => {
             return {
                 data: {
                     ident: "Z123456",
@@ -166,30 +168,30 @@ vi.mock("@features/bruker/api/bruker", async () => {
     };
 });
 
-vi.mock("@features/bruker/api/team", async () => {
+jest.mock("@/api/lydia-api/team", () => {
     return {
-        ...(await vi.importActual("@features/bruker/api/team")),
-        useHentTeam: vi.fn(() => {
+        ...jest.requireActual("@/api/lydia-api/team"),
+        useHentTeam: jest.fn(() => {
             return {
                 data: ["Z123456"],
                 loading: false,
-                mutate: vi.fn(),
+                mutate: jest.fn(),
             };
         }),
     };
 });
 
-vi.mock("react-router-dom", async () => {
-    const originalModule = (await vi.importActual("react-router-dom"));
+jest.mock("react-router-dom", () => {
+    const originalModule = jest.requireActual("react-router-dom");
     return {
         ...originalModule,
-        useParams: vi.fn(() => ({
+        useParams: jest.fn(() => ({
             orgnummer: "840623927",
             saksnummer: dummyIaSak.saksnummer,
             prosessId: dummySamarbeid[1].id.toString(),
         })),
-        useSearchParams: vi.fn(() => {
-            const setSearchParams = vi.fn();
+        useSearchParams: jest.fn(() => {
+            const setSearchParams = jest.fn();
             return [new URLSearchParams(), setSearchParams];
         }),
     };
@@ -201,22 +203,22 @@ function åpneAvsluttVurderingModal() {
 
 describe("AvsluttVurderingModal", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     beforeAll(() => {
-        vi.mocked(useHentTilstandForVirksomhetNyFlyt).mockReturnValue({
+        jest.mocked(useHentTilstandForVirksomhetNyFlyt).mockReturnValue({
             data: {
                 orgnr: dummyVirksomhetsinformasjonNyFlyt.orgnr,
                 tilstand: "VirksomhetVurderes",
             },
             loading: false,
             error: null,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
             validating: false,
         });
 
-        vi.mocked(useHentBrukerinformasjon).mockReturnValue({
+        jest.mocked(useHentBrukerinformasjon).mockReturnValue({
             data: {
                 ident: "Z123456",
                 navn: "Test Testesen",
@@ -226,7 +228,7 @@ describe("AvsluttVurderingModal", () => {
             },
             loading: false,
             error: null,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
             validating: false,
         });
     });
@@ -367,25 +369,25 @@ describe("AvsluttVurderingModal", () => {
     });
 
     it("Viser advarsel når bruker ikke eier eller følger saken", () => {
-        vi.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
+        jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({
             data: { ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" },
             loading: false,
             error: null,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
             validating: false,
         });
-        vi.mocked(useHentSisteSakNyFlyt).mockReturnValue({
+        jest.mocked(useHentSisteSakNyFlyt).mockReturnValue({
             data: { ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" },
             loading: false,
             error: null,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
             validating: false,
         });
-        vi.mocked(useHentTeam).mockReturnValue({
+        jest.mocked(useHentTeam).mockReturnValue({
             data: [],
             loading: false,
             error: null,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
             validating: false,
         });
 

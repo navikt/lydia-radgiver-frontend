@@ -1,13 +1,13 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
-import type { Mock } from "vitest";
+import * as nyFlyt from "@/api/lydia-api/nyFlyt";
 import Sakshistorikkmodal from "@/Pages/Virksomhet/Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
-import * as nyFlyt from "@features/sak/api/nyFlyt";
 import { dummySakshistorikk } from "@mocks/virksomhetsMockData";
 
-vi.mock("@features/sak/api/nyFlyt", async () => ({
-    ...(await vi.importActual("@features/sak/api/nyFlyt")),
-    useHentHistorikkNyFlyt: vi.fn(),
+jest.mock("@/api/lydia-api/nyFlyt", () => ({
+    ...jest.requireActual("@/api/lydia-api/nyFlyt"),
+    useHentHistorikkNyFlyt: jest.fn(),
 }));
 
 const orgnr = "840623927";
@@ -26,9 +26,9 @@ function renderModal() {
 
 describe("Sakshistorikkmodal", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
 
-        (nyFlyt.useHentHistorikkNyFlyt as Mock).mockReturnValue({
+        (nyFlyt.useHentHistorikkNyFlyt as jest.Mock).mockReturnValue({
             data: dummySakshistorikk,
             loading: false,
         });
@@ -63,7 +63,7 @@ describe("Sakshistorikkmodal", () => {
     });
 
     test("viser feilmelding når historikk ikke kan hentes", () => {
-        (nyFlyt.useHentHistorikkNyFlyt as Mock).mockReturnValue({
+        (nyFlyt.useHentHistorikkNyFlyt as jest.Mock).mockReturnValue({
             data: undefined,
             loading: false,
         });

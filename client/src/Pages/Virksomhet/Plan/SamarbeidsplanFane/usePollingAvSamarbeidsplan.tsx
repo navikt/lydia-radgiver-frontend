@@ -1,5 +1,5 @@
 import React from "react";
-import { Plan } from "@features/plan/types/plan";
+import { Plan } from "@/domenetyper/plan";
 
 export function usePollingAvSamarbeidsplan(
     plan: Plan,

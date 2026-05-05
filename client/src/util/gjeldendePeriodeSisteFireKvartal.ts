@@ -1,4 +1,4 @@
-import { Publiseringsinfo } from "@features/plan/types/publiseringsinfo";
+import { Publiseringsinfo } from "../domenetyper/publiseringsinfo";
 
 export const getGjeldendePeriodeTekst = (
     publisreingsinfo: Publiseringsinfo | undefined,

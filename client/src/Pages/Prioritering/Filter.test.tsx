@@ -1,10 +1,14 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
 import {
     Eier,
     IAProsessStatusType,
     VirksomhetIATilstand,
 } from "@/domenetyper/domenetyper";
+import { ValgtSnittFilter } from "@/domenetyper/filterverdier";
+import { FylkeMedKommuner, Kommune } from "@/domenetyper/fylkeOgKommune";
+import { Næringsgruppe, Sektor } from "@/domenetyper/virksomhet";
 import { AntallArbeidsforholdVelger } from "@/Pages/Prioritering/Filter/AntallArbeidsforholdVelger";
 import { EierDropdown } from "@/Pages/Prioritering/Filter/EierDropdown";
 import { Filtervisning } from "@/Pages/Prioritering/Filter/Filtervisning";
@@ -19,12 +23,6 @@ import {
 } from "@/Pages/Prioritering/Filter/SykefraværsprosentVelger";
 import { TallInput } from "@/Pages/Prioritering/Filter/TallInput";
 import { VirksomhetTilstandDropdown } from "@/Pages/Prioritering/Filter/VirksomhetTilstandDropdown";
-import { ValgtSnittFilter } from "@features/prioritering/types/filterverdier";
-import {
-    FylkeMedKommuner,
-    Kommune,
-} from "@features/virksomhet/types/fylkeOgKommune";
-import { Næringsgruppe, Sektor } from "@features/virksomhet/types/virksomhet";
 
 describe("TallInput", () => {
     test("rendrer TextField med label", () => {
@@ -70,11 +68,11 @@ describe("FraTilFieldset", () => {
 });
 
 describe("SykefraværsprosentVelger", () => {
-    const mockEndre = vi.fn();
+    const mockEndre = jest.fn();
     const defaultRange: Range = { fra: 0, til: 100 };
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("rendrer fieldset med legend 'Sykefravær (%)'", () => {
@@ -155,11 +153,11 @@ describe("SykefraværsprosentVelger", () => {
 });
 
 describe("AntallArbeidsforholdVelger", () => {
-    const mockEndre = vi.fn();
+    const mockEndre = jest.fn();
     const defaultRange: Range = { fra: 5, til: NaN };
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("rendrer fieldset med legend 'Antall arbeidsforhold'", () => {
@@ -211,14 +209,14 @@ describe("AntallArbeidsforholdVelger", () => {
 });
 
 describe("SektorDropdown", () => {
-    const mockEndreSektor = vi.fn();
+    const mockEndreSektor = jest.fn();
     const sektorer: Sektor[] = [
         { kode: "PRIVAT", beskrivelse: "Privat sektor" },
         { kode: "OFFENTLIG", beskrivelse: "Offentlig sektor" },
     ];
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("rendrer select med label 'Sektor'", () => {
@@ -288,7 +286,7 @@ describe("SektorDropdown", () => {
 });
 
 describe("VirksomhetTilstandDropdown", () => {
-    const mockEndreVirksomhetTilstand = vi.fn();
+    const mockEndreVirksomhetTilstand = jest.fn();
     const tilstander: VirksomhetIATilstand[] = [
         "VirksomhetKlarTilVurdering",
         "VirksomhetVurderes",
@@ -298,7 +296,7 @@ describe("VirksomhetTilstandDropdown", () => {
     ];
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("rendrer select med label 'Status'", () => {
@@ -405,10 +403,10 @@ const mockEiere: Eier[] = [
 ];
 
 describe("FylkeMultidropdown", () => {
-    const mockEndreFylker = vi.fn();
+    const mockEndreFylker = jest.fn();
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("rendrer label 'Fylker'", () => {
@@ -449,10 +447,10 @@ describe("FylkeMultidropdown", () => {
 });
 
 describe("Kommunedropdown", () => {
-    const mockEndreKommuner = vi.fn();
+    const mockEndreKommuner = jest.fn();
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("rendrer label 'Kommuner'", () => {
@@ -517,10 +515,10 @@ describe("Kommunedropdown", () => {
 });
 
 describe("Næringsgruppedropdown", () => {
-    const mockEndreNæringsgrupper = vi.fn();
+    const mockEndreNæringsgrupper = jest.fn();
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("rendrer label 'Bransjer og næringsgrupper'", () => {
@@ -583,10 +581,10 @@ describe("Næringsgruppedropdown", () => {
 });
 
 describe("EierDropdown", () => {
-    const mockOnEierBytteCallback = vi.fn();
+    const mockOnEierBytteCallback = jest.fn();
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("rendrer label 'Eier'", () => {
@@ -628,20 +626,20 @@ describe("EierDropdown", () => {
 });
 
 describe("Filtervisning", () => {
-    const mockSøkPåNytt = vi.fn();
+    const mockSøkPåNytt = jest.fn();
     const mockFiltervisning = {
-        oppdaterAntallArbeidsforhold: vi.fn(),
-        oppdaterVirksomhetTilstand: vi.fn(),
-        oppdaterIastatus: vi.fn(),
-        oppdaterEiere: vi.fn(),
-        oppdaterFylker: vi.fn(),
-        oppdaterKommuner: vi.fn(),
-        oppdaterSykefraværsprosent: vi.fn(),
-        oppdaterSnittfilter: vi.fn(),
-        oppdaterNæringsgruppe: vi.fn(),
-        oppdaterSektorer: vi.fn(),
-        oppdaterAutosøk: vi.fn(),
-        tilbakestill: vi.fn(),
+        oppdaterAntallArbeidsforhold: jest.fn(),
+        oppdaterVirksomhetTilstand: jest.fn(),
+        oppdaterIastatus: jest.fn(),
+        oppdaterEiere: jest.fn(),
+        oppdaterFylker: jest.fn(),
+        oppdaterKommuner: jest.fn(),
+        oppdaterSykefraværsprosent: jest.fn(),
+        oppdaterSnittfilter: jest.fn(),
+        oppdaterNæringsgruppe: jest.fn(),
+        oppdaterSektorer: jest.fn(),
+        oppdaterAutosøk: jest.fn(),
+        tilbakestill: jest.fn(),
         state: {
             filterverdier: {
                 fylker: mockFylkerMedKommuner,
@@ -674,7 +672,7 @@ describe("Filtervisning", () => {
     };
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     const renderWithRouter = (ui: React.ReactElement) => {

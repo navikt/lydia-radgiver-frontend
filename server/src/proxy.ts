@@ -1,5 +1,5 @@
-import { ClientRequest, IncomingMessage, ServerResponse } from "http";
-import { Response } from "express";
+import { ClientRequest } from "http";
+import { Request, Response } from "express";
 import { createProxyMiddleware, Options } from "http-proxy-middleware";
 import { Config } from "./config";
 
@@ -35,10 +35,9 @@ export class LydiaApiProxy {
             on: {
                 proxyReq: (
                     clientRequest: ClientRequest,
-                    _req: IncomingMessage,
-                    rawRes: ServerResponse<IncomingMessage>,
+                    _req: Request,
+                    res: Response,
                 ) => {
-                    const res = rawRes as Response;
                     if (
                         whitelistedPaths.filter((whitelistedPath) =>
                             clientRequest.path.startsWith(whitelistedPath),

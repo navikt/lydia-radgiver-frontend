@@ -1,4 +1,6 @@
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { opprettKartleggingNyFlyt } from "@/api/lydia-api/nyFlyt";
 import { IAProsessStatusType } from "@/domenetyper/domenetyper";
 import { brukerMedGyldigToken } from "@/Pages/Prioritering/mocks/innloggetAnsattMock";
 import { Kartleggingsliste } from "@/Pages/Virksomhet/Kartlegging/Kartleggingsliste";
@@ -6,7 +8,6 @@ import { SamarbeidProvider } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext
 import VirksomhetContext, {
     VirksomhetContextType,
 } from "@/Pages/Virksomhet/VirksomhetContext";
-import { opprettKartleggingNyFlyt } from "@features/sak/api/nyFlyt";
 import { dummySpørreundersøkelseliste } from "@mocks/spørreundersøkelseDummyData";
 import {
     dummyIaSak,
@@ -15,53 +16,53 @@ import {
     dummyVirksomhetsinformasjon,
 } from "@mocks/virksomhetsMockData";
 
-vi.mock("@features/kartlegging/api/spørreundersøkelse", async () => ({
-    ...(await vi.importActual("@features/kartlegging/api/spørreundersøkelse")),
-    useSpørreundersøkelsesliste: vi.fn(() => ({
+jest.mock("@/api/lydia-api/spørreundersøkelse", () => ({
+    ...jest.requireActual("@/api/lydia-api/spørreundersøkelse"),
+    useSpørreundersøkelsesliste: jest.fn(() => ({
         data: dummySpørreundersøkelseliste,
         loading: false,
         validating: false,
-        mutate: vi.fn(),
+        mutate: jest.fn(),
     })),
 }));
 
-vi.mock("@features/sak/api/sak", async () => ({
-    ...(await vi.importActual("@features/sak/api/sak")),
-    useHentIASaksStatus: vi.fn(() => ({
+jest.mock("@/api/lydia-api/sak", () => ({
+    ...jest.requireActual("@/api/lydia-api/sak"),
+    useHentIASaksStatus: jest.fn(() => ({
         data: undefined,
         loading: false,
-        mutate: vi.fn(),
+        mutate: jest.fn(),
     })),
 }));
 
-vi.mock("@features/bruker/api/team", async () => ({
-    ...(await vi.importActual("@features/bruker/api/team")),
-    useHentTeam: vi.fn(() => ({
+jest.mock("@/api/lydia-api/team", () => ({
+    ...jest.requireActual("@/api/lydia-api/team"),
+    useHentTeam: jest.fn(() => ({
         data: [brukerMedGyldigToken.ident],
         loading: false,
     })),
 }));
 
-vi.mock("@features/bruker/api/bruker", async () => ({
-    ...(await vi.importActual("@features/bruker/api/bruker")),
-    useHentBrukerinformasjon: vi.fn(() => ({
+jest.mock("@/api/lydia-api/bruker", () => ({
+    ...jest.requireActual("@/api/lydia-api/bruker"),
+    useHentBrukerinformasjon: jest.fn(() => ({
         data: brukerMedGyldigToken,
         loading: false,
     })),
 }));
 
-vi.mock("@features/plan/api/plan", async () => ({
-    ...(await vi.importActual("@features/plan/api/plan")),
-    useHentPlan: vi.fn(() => ({
+jest.mock("@/api/lydia-api/plan", () => ({
+    ...jest.requireActual("@/api/lydia-api/plan"),
+    useHentPlan: jest.fn(() => ({
         data: dummyPlan,
         loading: false,
         validating: false,
     })),
 }));
 
-vi.mock("@features/sak/api/nyFlyt", async () => ({
-    ...(await vi.importActual("@features/sak/api/nyFlyt")),
-    opprettKartleggingNyFlyt: vi.fn(),
+jest.mock("@/api/lydia-api/nyFlyt", () => ({
+    ...jest.requireActual("@/api/lydia-api/nyFlyt"),
+    opprettKartleggingNyFlyt: jest.fn(),
 }));
 
 const gjeldendeSamarbeid = dummySamarbeid[1];
@@ -77,7 +78,7 @@ function renderKartleggingsliste(status: IAProsessStatusType) {
         iaSak,
         lasterIaSak: false,
         fane: "kartlegging",
-        setFane: vi.fn(),
+        setFane: jest.fn(),
         spørreundersøkelseId: null,
     };
     return render(
@@ -94,7 +95,7 @@ function renderKartleggingsliste(status: IAProsessStatusType) {
 
 describe("Behovsvurdering", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     it("Ny behovsvurdering-knapp er aktivert når sak er AKTIV", () => {
@@ -130,7 +131,7 @@ describe("Behovsvurdering", () => {
     });
 
     it("Kaller opprettKartleggingNyFlyt ved klikk på ny behovsvurdering", async () => {
-        vi.mocked(opprettKartleggingNyFlyt).mockResolvedValue({
+        jest.mocked(opprettKartleggingNyFlyt).mockResolvedValue({
             id: "ny-id",
             samarbeidId: gjeldendeSamarbeid.id,
             status: "OPPRETTET",

@@ -6,7 +6,7 @@ import {
     HStack,
     ToggleGroup,
 } from "@navikt/ds-react";
-import { SpørsmålResultat } from "@features/kartlegging/types/spørreundersøkelseResultat";
+import { SpørsmålResultat } from "@/domenetyper/spørreundersøkelseResultat";
 import BarChart from "./Grafer/BarChart";
 import styles from "./spørreundersøkelse.module.scss";
 import TekstligResultatvisning from "./TekstligResultatvisning";

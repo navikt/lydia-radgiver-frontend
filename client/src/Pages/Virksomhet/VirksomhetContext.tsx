@@ -1,6 +1,6 @@
 import React from "react";
 import { IASak } from "@/domenetyper/domenetyper";
-import { Virksomhet } from "@features/virksomhet/types/virksomhet";
+import { Virksomhet } from "@/domenetyper/virksomhet";
 
 export type VirksomhetContextType = {
     virksomhet: Virksomhet;

@@ -12,11 +12,11 @@ import React, { useEffect, useState } from "react";
 import { KeyedMutator } from "swr";
 import { EksternLenke } from "@/components/EksternLenke";
 import { IASakshendelseType } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 import {
     KanGjennomføreStatusendring,
     MuligSamarbeidsgandling,
-} from "@features/sak/types/samarbeidsEndring";
+} from "@/domenetyper/samarbeidsEndring";
 import { navnError } from "../NyttSamarbeidModal";
 import styles from "./endresamarbeidmodal.module.scss";
 

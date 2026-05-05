@@ -1,7 +1,7 @@
 import { BodyLong, Button, Heading, Modal } from "@navikt/ds-react";
 import React from "react";
-import { publiserSamarbeidsplan } from "@features/plan/api/dokumentpublisering";
-import { Plan } from "@features/plan/types/plan";
+import { publiserSamarbeidsplan } from "@/api/lydia-api/dokumentpublisering";
+import { Plan } from "@/domenetyper/plan";
 
 interface PubliseringModalProps {
     open: boolean;

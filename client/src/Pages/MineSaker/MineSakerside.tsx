@@ -1,6 +1,8 @@
 import { Alert, Heading, Link } from "@navikt/ds-react";
 import React, { useEffect, useMemo, useState } from "react";
 import { useLocation, NavLink } from "react-router-dom";
+import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
+import { useHentMineSaker } from "@/api/lydia-api/sak";
 import { IAProsessStatusType } from "@/domenetyper/domenetyper";
 import {
     loggBrukerFulgteRedirectlenkeMedSøk,
@@ -8,8 +10,6 @@ import {
     loggSideLastet,
 } from "@/util/analytics-klient";
 import { statiskeSidetitler, useTittel } from "@/util/useTittel";
-import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
-import { useHentMineSaker } from "@features/sak/api/sak";
 import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
 import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { loggMineSakerFilterEndringMedAnalytics } from "./loggFilterEndringMedAnalytics";

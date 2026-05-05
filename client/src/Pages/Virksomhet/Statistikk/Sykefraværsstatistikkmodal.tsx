@@ -1,7 +1,7 @@
 import { TrendUpIcon } from "@navikt/aksel-icons";
 import { Button, ButtonProps, Modal } from "@navikt/ds-react";
 import React from "react";
-import { Virksomhet } from "@features/virksomhet/types/virksomhet";
+import { Virksomhet } from "@/domenetyper/virksomhet";
 import { Historiskstatistikk } from "./Graf/Historiskstatistikk";
 import { Sykefraværsstatistikk } from "./Sykefraværsstatistikk";
 

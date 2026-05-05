@@ -1,18 +1,18 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import type { MockInstance } from "vitest";
-import { axe } from "vitest-axe";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { axe } from "jest-axe";
+import * as nyFlyt from "@/api/lydia-api/nyFlyt";
+import * as plan from "@/api/lydia-api/plan";
+import * as spørreundersøkelse from "@/api/lydia-api/spørreundersøkelse";
 import { IASak, spørreundersøkelseStatusEnum } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { SpørreundersøkelseTypeEnum } from "@/domenetyper/spørreundersøkelseMedInnhold";
 import FullførSamarbeidModal from "@/Pages/Virksomhet/AdministrerSamarbeid/FullførSamarbeidModal";
-import * as spørreundersøkelse from "@features/kartlegging/api/spørreundersøkelse";
-import { SpørreundersøkelseTypeEnum } from "@features/kartlegging/types/spørreundersøkelseMedInnhold";
-import * as plan from "@features/plan/api/plan";
-import * as nyFlyt from "@features/sak/api/nyFlyt";
-import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import { dummySpørreundersøkelseliste } from "@mocks/spørreundersøkelseDummyData";
 
-HTMLDialogElement.prototype.showModal = vi.fn();
-HTMLDialogElement.prototype.close = vi.fn();
+HTMLDialogElement.prototype.showModal = jest.fn();
+HTMLDialogElement.prototype.close = jest.fn();
 
 const testSamarbeid: IaSakProsess = {
     id: 1,
@@ -67,28 +67,28 @@ function renderModal(
 }
 
 describe("FullførSamarbeidModal", () => {
-    let avsluttSamarbeidMock: MockInstance;
+    let avsluttSamarbeidMock: jest.SpyInstance;
 
     beforeEach(() => {
-        vi.clearAllMocks();
-        avsluttSamarbeidMock = vi
+        jest.clearAllMocks();
+        avsluttSamarbeidMock = jest
             .spyOn(nyFlyt, "avsluttSamarbeidNyFlyt")
             .mockResolvedValue(undefined as never);
-        vi.spyOn(plan, "useHentPlan").mockReturnValue({
+        jest.spyOn(plan, "useHentPlan").mockReturnValue({
             data: { id: "1" } as never,
             error: undefined,
             loading: false,
             validating: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         });
-        vi.spyOn(
+        jest.spyOn(
             spørreundersøkelse,
             "useSpørreundersøkelsesliste",
         ).mockReturnValue({
             data: [],
             loading: false,
             validating: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         } as never);
     });
 
@@ -113,12 +113,12 @@ describe("FullførSamarbeidModal", () => {
 
     // Når plan mangler eller påbegynte behovsvurderinger eller evalueringer står i veien
     it("Fullfør-knappen er deaktivert når plan mangler", () => {
-        vi.spyOn(plan, "useHentPlan").mockReturnValue({
+        jest.spyOn(plan, "useHentPlan").mockReturnValue({
             data: undefined,
             error: undefined,
             loading: false,
             validating: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         });
         renderModal(testSamarbeid, testIaSak);
         expect(
@@ -127,7 +127,7 @@ describe("FullførSamarbeidModal", () => {
     });
 
     it("Fullfør-knappen er deaktivert når det finnes påbegynte behovsvurderinger", () => {
-        vi.spyOn(
+        jest.spyOn(
             spørreundersøkelse,
             "useSpørreundersøkelsesliste",
         ).mockReturnValue({
@@ -140,7 +140,7 @@ describe("FullførSamarbeidModal", () => {
             ],
             loading: false,
             validating: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         } as never);
 
         renderModal(testSamarbeid, testIaSak);
@@ -150,7 +150,7 @@ describe("FullførSamarbeidModal", () => {
     });
 
     it("Fullfør-knappen er deaktivert når det finnes påbegynte evaluering", () => {
-        vi.spyOn(
+        jest.spyOn(
             spørreundersøkelse,
             "useSpørreundersøkelsesliste",
         ).mockReturnValue({
@@ -163,7 +163,7 @@ describe("FullførSamarbeidModal", () => {
             ],
             loading: false,
             validating: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         } as never);
 
         renderModal(testSamarbeid, testIaSak);

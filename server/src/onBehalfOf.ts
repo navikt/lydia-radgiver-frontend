@@ -120,13 +120,11 @@ export const hentOnBehalfOfToken = async (
                     "Ukjent feil under token exchange: " + error.message,
                 );
             }
-            throw new AuthError("Ukjent feil under token exchange");
         }
     }
 
     if (
         encryptedObo &&
-        req.session.accessToken &&
         (await decrypt(req.session.accessToken)) === accessToken
     ) {
         redisCacheHitCounter.inc();
@@ -139,7 +137,7 @@ export const hentOnBehalfOfToken = async (
 
 function isValid({ exp: expireTime }: JWTPayload) {
     const timeCheck = Math.floor(Date.now() / 1000) + EXPIRY_THRESHOLD_SECONDS;
-    return expireTime !== undefined && timeCheck < expireTime;
+    return timeCheck < expireTime;
 }
 
 export interface AzureTokenResponse {

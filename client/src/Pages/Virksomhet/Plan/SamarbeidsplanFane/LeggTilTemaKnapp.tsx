@@ -2,14 +2,14 @@ import { NotePencilIcon, TrashIcon } from "@navikt/aksel-icons";
 import { BodyShort, Button, Modal } from "@navikt/ds-react";
 import React, { useEffect } from "react";
 import { KeyedMutator } from "swr";
-import { loggModalÅpnet } from "@/util/analytics-klient";
-import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
-import { Plan, PlanInnhold, PlanTema } from "@features/plan/types/plan";
+import { useHentBrukerinformasjon } from "@/api/lydia-api/bruker";
 import {
     endrePlanNyFlyt,
     slettSamarbeidsplanNyFlyt,
-} from "@features/sak/api/nyFlyt";
-import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+} from "@/api/lydia-api/nyFlyt";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { Plan, PlanInnhold, PlanTema } from "@/domenetyper/plan";
+import { loggModalÅpnet } from "@/util/analytics-klient";
 import InnholdOppsett from "../InnholdOppsett";
 import styles from "../plan.module.scss";
 import { lagRequest, TemaRequest } from "../Requests";

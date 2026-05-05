@@ -1,7 +1,8 @@
+import "@testing-library/jest-dom";
 
 describe("Evaluering", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     it("Vi er i riktig univers", () => {

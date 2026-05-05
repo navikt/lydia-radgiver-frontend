@@ -1,6 +1,6 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import { BrowserRouter } from "react-router-dom";
-import type { Mock } from "vitest";
 import { IAProsessStatusType } from "@/domenetyper/domenetyper";
 import { loggMineSakerFilterEndringMedAnalytics } from "@/Pages/MineSaker/loggFilterEndringMedAnalytics";
 import {
@@ -8,13 +8,11 @@ import {
     EIER_FØLGER_FILTER_VALUES,
 } from "@/Pages/MineSaker/MineSakerside";
 import { Sorteringsknapper } from "@/Pages/MineSaker/Sorteringsknapper";
-import { loggMineSakerFilter } from "@/util/analytics-klient";
 import { MineSakerFilterKategorier } from "@/util/analytics-klient";
-import { useHentMineSaker } from "@features/sak/api/sak";
 
 // Mock API hooks
-vi.mock("@features/bruker/api/bruker", () => ({
-    useHentBrukerinformasjon: vi.fn(() => ({
+jest.mock("@/api/lydia-api/bruker", () => ({
+    useHentBrukerinformasjon: jest.fn(() => ({
         data: { ident: "A123456", navn: "Test Bruker" },
     })),
 }));
@@ -55,18 +53,18 @@ const mockMineSaker = [
     },
 ];
 
-vi.mock("@features/sak/api/sak", () => ({
-    useHentMineSaker: vi.fn(() => ({
+jest.mock("@/api/lydia-api/sak", () => ({
+    useHentMineSaker: jest.fn(() => ({
         data: mockMineSaker,
     })),
 }));
 
 // Mock analytics
-vi.mock("@/util/analytics-klient", () => ({
-    loggSideLastet: vi.fn(),
-    loggBrukerRedirigertMedSøkAlert: vi.fn(),
-    loggBrukerFulgteRedirectlenkeMedSøk: vi.fn(),
-    loggMineSakerFilter: vi.fn(),
+jest.mock("@/util/analytics-klient", () => ({
+    loggSideLastet: jest.fn(),
+    loggBrukerRedirigertMedSøkAlert: jest.fn(),
+    loggBrukerFulgteRedirectlenkeMedSøk: jest.fn(),
+    loggMineSakerFilter: jest.fn(),
     MineSakerFilterKategorier: {
         ARKIVERTE_SAKER: "ARKIVERTE_SAKER",
         STATUS: "STATUS",
@@ -76,13 +74,13 @@ vi.mock("@/util/analytics-klient", () => ({
 }));
 
 // Mock react-router-dom useLocation
-vi.mock("react-router-dom", async () => ({
-    ...(await vi.importActual("react-router-dom")),
-    useLocation: vi.fn(() => ({ state: null })),
+jest.mock("react-router-dom", () => ({
+    ...jest.requireActual("react-router-dom"),
+    useLocation: jest.fn(() => ({ state: null })),
 }));
 
 // Mock filter component (complex dependencies)
-vi.mock("@/Pages/MineSaker/Filter/FiltreringMineSaker", () => ({
+jest.mock("@/Pages/MineSaker/Filter/FiltreringMineSaker", () => ({
     __esModule: true,
     default: ({
         setFiltre,
@@ -108,7 +106,7 @@ vi.mock("@/Pages/MineSaker/Filter/FiltreringMineSaker", () => ({
 }));
 
 // Mock MineSakerKort
-vi.mock("@/Pages/MineSaker/MineSakerKort", () => ({
+jest.mock("@/Pages/MineSaker/MineSakerKort", () => ({
     MineSakerKort: ({
         orgnavn,
         iaSak,
@@ -128,7 +126,7 @@ describe("EIER_FØLGER_FILTER_VALUES", () => {
 
 describe("MineSakerside", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("rendrer overskrift 'Mine virksomheter'", () => {
@@ -154,7 +152,9 @@ describe("MineSakerside", () => {
     });
 
     test("viser 'Fant ingen saker' når liste er tom", () => {
-        (useHentMineSaker as unknown as Mock).mockReturnValueOnce({ data: [] });
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const { useHentMineSaker } = require("@/api/lydia-api/sak");
+        useHentMineSaker.mockReturnValueOnce({ data: [] });
 
         render(
             <BrowserRouter>
@@ -217,10 +217,10 @@ describe("MineSakerside", () => {
 });
 
 describe("Sorteringsknapper", () => {
-    const mockOnSortChange = vi.fn();
+    const mockOnSortChange = jest.fn();
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("rendrer knapper for alfabetisk og dato-sortering", () => {
@@ -260,13 +260,13 @@ describe("Sorteringsknapper", () => {
 });
 
 describe("loggMineSakerFilterEndringMedAnalytics", () => {
-    const mockLoggMineSakerFilter = vi.fn();
+    const mockLoggMineSakerFilter = jest.fn();
 
     beforeEach(() => {
-        vi.clearAllMocks();
-        (loggMineSakerFilter as unknown as Mock).mockImplementation(
-            mockLoggMineSakerFilter,
-        );
+        jest.clearAllMocks();
+        // eslint-disable-next-line @typescript-eslint/no-require-imports
+        const analytics = require("@/util/analytics-klient");
+        analytics.loggMineSakerFilter = mockLoggMineSakerFilter;
     });
 
     test("logger STATUS når statusfilter er satt til ikke-arkivstatus", () => {

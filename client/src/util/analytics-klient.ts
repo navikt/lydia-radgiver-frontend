@@ -1,4 +1,4 @@
-import { Rolle } from "@features/bruker/types/brukerinformasjon";
+import { Rolle } from "../domenetyper/brukerinformasjon";
 import {
     IAProsessStatusType,
     IASakshendelseType,

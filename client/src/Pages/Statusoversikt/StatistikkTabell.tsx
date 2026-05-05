@@ -6,7 +6,7 @@ import {
 } from "react-router-dom";
 import { IAProsessStatusBadge } from "@/components/Badge/IAProsessStatusBadge";
 import { IAProsessStatusType } from "@/domenetyper/domenetyper";
-import { Statusoversikt } from "@features/sak/types/statusoversikt";
+import { Statusoversikt } from "@/domenetyper/statusoversikt";
 import styles from "./statusoversikt.module.scss";
 
 interface Props {

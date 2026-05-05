@@ -3,7 +3,7 @@ import {
     reactSelectStyle,
     StyledReactSelect,
 } from "@/components/ReactSelect/StyledReactSelect";
-import { Næringsgruppe } from "@features/virksomhet/types/virksomhet";
+import { Næringsgruppe } from "@/domenetyper/virksomhet";
 
 interface ReactSelectOptions {
     label: string;

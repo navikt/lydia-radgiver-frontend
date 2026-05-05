@@ -4,11 +4,8 @@ import {
     reactSelectStyle,
     StyledReactSelect,
 } from "@/components/ReactSelect/StyledReactSelect";
+import { FylkeMedKommuner, Kommune } from "@/domenetyper/fylkeOgKommune";
 import { sorterAlfabetisk } from "@/util/sortering";
-import {
-    FylkeMedKommuner,
-    Kommune,
-} from "@features/virksomhet/types/fylkeOgKommune";
 
 const kommuneDropdownId = "kommunedropdown";
 

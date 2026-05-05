@@ -1,6 +1,6 @@
 import { Table } from "@navikt/ds-react";
 import { ScrollUtTilKantenContainer } from "@/components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
-import { HistoriskStatistikk } from "@features/virksomhet/types/historiskstatistikk";
+import { HistoriskStatistikk } from "@/domenetyper/historiskstatistikk";
 import Tabellrader from "./Tabellrader";
 
 const Tabell = ({

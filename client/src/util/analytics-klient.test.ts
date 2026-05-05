@@ -1,4 +1,5 @@
-import type { Mock } from "vitest";
+import "@testing-library/jest-dom";
+
 import {
     IAProsessStatusEnum,
     IASakshendelseTypeEnum,
@@ -28,16 +29,16 @@ import {
 } from "@/util/analytics-klient";
 
 interface MockUmami {
-    track: Mock;
-    identify: Mock;
+    track: jest.Mock;
+    identify: jest.Mock;
 }
 
 // Helper to set up a mock umami object on window
 const setupUmami = (): MockUmami => {
     const win = window as unknown as { umami?: MockUmami };
     win.umami = {
-        track: vi.fn(),
-        identify: vi.fn(),
+        track: jest.fn(),
+        identify: jest.fn(),
     };
 
     return win.umami;
@@ -49,13 +50,13 @@ describe("analytics-klient med umami tilgjengelig", () => {
     beforeEach(() => {
         const win = window as unknown as { umami?: MockUmami };
         originalUmami = win.umami;
-        vi.spyOn(console, "warn").mockImplementation(() => undefined);
+        jest.spyOn(console, "warn").mockImplementation(() => undefined);
     });
 
     afterEach(() => {
         const win = window as unknown as { umami?: MockUmami };
         win.umami = originalUmami;
-        (console.warn as Mock).mockRestore();
+        (console.warn as jest.Mock).mockRestore();
     });
 
     test("loggGåTilSakFraMineSaker maskerer orgnr i destinasjon og kaller umami.track", () => {
@@ -132,13 +133,13 @@ describe("analytics-klient uten umami", () => {
         const win = window as unknown as { umami?: MockUmami };
         originalUmami = win.umami;
         win.umami = undefined;
-        vi.spyOn(console, "warn").mockImplementation(() => undefined);
+        jest.spyOn(console, "warn").mockImplementation(() => undefined);
     });
 
     afterEach(() => {
         const win = window as unknown as { umami?: MockUmami };
         win.umami = originalUmami;
-        (console.warn as Mock).mockRestore();
+        (console.warn as jest.Mock).mockRestore();
     });
 
     test("loggTømmingAvFilterverdier logger warning når umami mangler", () => {

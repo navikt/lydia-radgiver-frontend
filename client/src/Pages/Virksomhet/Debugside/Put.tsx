@@ -1,12 +1,12 @@
 import { useState } from "react";
-import { VirksomhetTilstandAutomatiskOppdateringDto } from "@/domenetyper/domenetyper";
-import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
 import {
     endrePlanlagtDatoNyFlyt,
     endreSamarbeidsNavnNyFlyt,
     useHentSisteSakNyFlyt,
     useHentTilstandForVirksomhetNyFlyt,
-} from "@features/sak/api/nyFlyt";
+} from "@/api/lydia-api/nyFlyt";
+import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
+import { VirksomhetTilstandAutomatiskOppdateringDto } from "@/domenetyper/domenetyper";
 
 interface PutProps {
     orgnummer: string;

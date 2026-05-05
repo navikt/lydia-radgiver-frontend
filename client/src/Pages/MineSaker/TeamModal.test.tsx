@@ -1,36 +1,37 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import * as nyFlyt from "@/api/lydia-api/nyFlyt";
 import { TeamModal } from "@/Pages/MineSaker/TeamModal";
-import * as nyFlyt from "@features/sak/api/nyFlyt";
 import { dummyIaSak } from "@mocks/virksomhetsMockData";
 
-const mockMuterMineSaker = vi.fn();
+const mockMuterMineSaker = jest.fn();
 
-vi.mock("@features/sak/api/nyFlyt", async () => ({
-    ...(await vi.importActual("@features/sak/api/nyFlyt")),
-    bliEierNyFlyt: vi.fn(() => Promise.resolve()),
-    useHentSpesifikkSakNyFlyt: vi.fn(() => ({
+jest.mock("@/api/lydia-api/nyFlyt", () => ({
+    ...jest.requireActual("@/api/lydia-api/nyFlyt"),
+    bliEierNyFlyt: jest.fn(() => Promise.resolve()),
+    useHentSpesifikkSakNyFlyt: jest.fn(() => ({
         data: dummyIaSak,
         loading: false,
-        mutate: vi.fn(),
+        mutate: jest.fn(),
     })),
 }));
 
-vi.mock("@features/sak/api/sak", async () => ({
-    ...(await vi.importActual("@features/sak/api/sak")),
-    useHentMineSaker: vi.fn(() => ({
+jest.mock("@/api/lydia-api/sak", () => ({
+    ...jest.requireActual("@/api/lydia-api/sak"),
+    useHentMineSaker: jest.fn(() => ({
         data: [],
         mutate: mockMuterMineSaker,
     })),
 }));
 
-vi.mock("@/Pages/Virksomhet/Debugside/Oversikt", async () => ({
-    ...(await vi.importActual("@/Pages/Virksomhet/Debugside/Oversikt")),
-    useOversiktMutate: vi.fn(() => vi.fn()),
+jest.mock("@/Pages/Virksomhet/Debugside/Oversikt", () => ({
+    ...jest.requireActual("@/Pages/Virksomhet/Debugside/Oversikt"),
+    useOversiktMutate: jest.fn(() => jest.fn()),
 }));
 
-vi.mock("@features/bruker/api/bruker", async () => ({
-    ...(await vi.importActual("@features/bruker/api/bruker")),
-    useHentBrukerinformasjon: vi.fn(() => ({
+jest.mock("@/api/lydia-api/bruker", () => ({
+    ...jest.requireActual("@/api/lydia-api/bruker"),
+    useHentBrukerinformasjon: jest.fn(() => ({
         data: {
             ident: "Z123456",
             navn: "Test Testesen",
@@ -41,30 +42,30 @@ vi.mock("@features/bruker/api/bruker", async () => ({
     })),
 }));
 
-vi.mock("@features/bruker/api/team", async () => ({
-    ...(await vi.importActual("@features/bruker/api/team")),
-    useHentTeam: vi.fn(() => ({
+jest.mock("@/api/lydia-api/team", () => ({
+    ...jest.requireActual("@/api/lydia-api/team"),
+    useHentTeam: jest.fn(() => ({
         data: [],
         loading: false,
-        mutate: vi.fn(),
+        mutate: jest.fn(),
     })),
 }));
 
-vi.mock("@/Pages/Virksomhet/VirksomhetContext", async () => ({
-    ...(await vi.importActual("@/Pages/Virksomhet/VirksomhetContext")),
-    useErPåAktivSak: vi.fn(() => false),
+jest.mock("@/Pages/Virksomhet/VirksomhetContext", () => ({
+    ...jest.requireActual("@/Pages/Virksomhet/VirksomhetContext"),
+    useErPåAktivSak: jest.fn(() => false),
 }));
 
 describe("TeamModal", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     it("viser 'Ta eierskap'-knapp og kaller bliEierNyFlyt", async () => {
         render(
             <TeamModal
                 open={true}
-                setOpen={vi.fn()}
+                setOpen={jest.fn()}
                 iaSak={{ ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" }}
                 erPåMineSaker={true}
             />,
@@ -99,7 +100,7 @@ describe("TeamModal", () => {
         render(
             <TeamModal
                 open={true}
-                setOpen={vi.fn()}
+                setOpen={jest.fn()}
                 iaSak={{ ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" }}
                 erPåMineSaker={true}
             />,
@@ -120,7 +121,7 @@ describe("TeamModal", () => {
     });
 
     it("kaller setOpen(false) ved klikk på 'Ferdig'", () => {
-        const setOpen = vi.fn();
+        const setOpen = jest.fn();
         render(
             <TeamModal
                 open={true}
@@ -135,7 +136,7 @@ describe("TeamModal", () => {
     });
 
     it("muterer mineSaker ved lukking av modal via lukkeknapp", () => {
-        const setOpen = vi.fn();
+        const setOpen = jest.fn();
         render(
             <TeamModal
                 open={true}
@@ -152,7 +153,7 @@ describe("TeamModal", () => {
     });
 
     it("lukker begge modaler etter vellykket ta eierskap", async () => {
-        const setOpen = vi.fn();
+        const setOpen = jest.fn();
         render(
             <TeamModal
                 open={true}

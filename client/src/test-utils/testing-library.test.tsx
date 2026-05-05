@@ -1,7 +1,8 @@
 import { render, screen, fireEvent } from "@testing-library/react";
-import { axe } from "vitest-axe";
+import "@testing-library/jest-dom";
+import { axe } from "jest-axe";
 
-const mockfunc = vi.fn();
+const mockfunc = jest.fn();
 
 function Testkomponent({ lagAxeFeil = false }: { lagAxeFeil?: boolean }) {
     return (
@@ -19,7 +20,7 @@ function Testkomponent({ lagAxeFeil = false }: { lagAxeFeil?: boolean }) {
 
 describe("Testkomponent", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     it("Rendrer korrekt", () => {

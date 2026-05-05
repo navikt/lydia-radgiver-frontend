@@ -1,21 +1,22 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import { renderHook } from "@testing-library/react";
 import { IASak } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { KanIkkeGjennomføreBegrunnelse } from "@/domenetyper/samarbeidsEndring";
 import BegrunnelserForIkkeKunne, {
     usePrettyType,
 } from "@/Pages/Virksomhet/Samarbeid/EndreSamarbeidModal/BegrunnelserForIkkeKunne";
 import BekreftHandlingModal from "@/Pages/Virksomhet/Samarbeid/EndreSamarbeidModal/BekreftHandlingModal";
 import VelgHandlingModal from "@/Pages/Virksomhet/Samarbeid/EndreSamarbeidModal/VelgHandlingModal";
-import { IaSakProsess } from "@features/sak/types/iaSakProsess";
-import { KanIkkeGjennomføreBegrunnelse } from "@features/sak/types/samarbeidsEndring";
 
 // Mock dependencies
-vi.mock("@features/virksomhet/api/virksomhet", () => ({
-    useHentSalesforceUrl: vi.fn(() => ({ data: null })),
+jest.mock("@/api/lydia-api/virksomhet", () => ({
+    useHentSalesforceUrl: jest.fn(() => ({ data: null })),
 }));
 
-vi.mock("@/Pages/Virksomhet/VirksomhetContext", () => ({
-    useVirksomhetContext: vi.fn(() => ({
+jest.mock("@/Pages/Virksomhet/VirksomhetContext", () => ({
+    useVirksomhetContext: jest.fn(() => ({
         virksomhet: { orgnr: "123456789" },
     })),
 }));
@@ -212,11 +213,11 @@ describe("BegrunnelserForIkkeKunne", () => {
 });
 
 describe("BekreftHandlingModal", () => {
-    const mockOnCancel = vi.fn();
-    const mockOnConfirm = vi.fn();
+    const mockOnCancel = jest.fn();
+    const mockOnConfirm = jest.fn();
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("returnerer null når type er null", () => {
@@ -404,12 +405,12 @@ describe("BekreftHandlingModal", () => {
 });
 
 describe("VelgHandlingModal", () => {
-    const mockSetÅpen = vi.fn();
-    const mockHentKanGjennomføreStatusendring = vi.fn();
-    const mockSetBekreftType = vi.fn();
+    const mockSetÅpen = jest.fn();
+    const mockHentKanGjennomføreStatusendring = jest.fn();
+    const mockSetBekreftType = jest.fn();
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     test("rendrer modal med overskrift", () => {

@@ -1,16 +1,18 @@
+/** @jest-environment jsdom */
 
 import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
+
 import LåsbarCheckbox from "@/components/LåsbarCheckbox";
 
-vi.mock("@navikt/aksel-icons", async (importOriginal) => ({
-    ...(await importOriginal<typeof import("@navikt/aksel-icons")>()),
+jest.mock("@navikt/aksel-icons", () => ({
     PadlockLockedIcon: ({ title }: { title?: string }) => (
         <span data-testid="padlock-icon">{title}</span>
     ),
 }));
 
-vi.mock("@navikt/ds-react", async () => ({
-    ...(await vi.importActual("@navikt/ds-react")),
+jest.mock("@navikt/ds-react", () => ({
+    ...jest.requireActual("@navikt/ds-react"),
     Checkbox: ({
         children,
         value,
@@ -39,7 +41,7 @@ vi.mock("@navikt/ds-react", async () => ({
 
 describe("LåsbarCheckbox", () => {
     test("kaller onChange når den ikke er låst", () => {
-        const onChange = vi.fn();
+        const onChange = jest.fn();
 
         render(
             <LåsbarCheckbox låst={false} value="val" onChange={onChange}>

@@ -12,7 +12,7 @@ export class Config {
     azure: Azure;
     server: Server;
     lydiaApi: LydiaApi;
-    _jwkSet?: JWKSetRetriever;
+    _jwkSet: JWKSetRetriever;
     secrets: Secrets;
 
     constructor({
@@ -104,11 +104,9 @@ export class Secrets {
     }
 }
 
-const getEnvVar = (name: string): string => {
+const getEnvVar = (name: string) => {
     if (!process.env[name])
         throw new Error(`Missing required variable ${name}`);
-    return process.env[name] as string;
+    return process.env[name];
 };
 const getOptionalEnvVar = (name: string) => process.env[name];
-
-export { getEnvVar, getOptionalEnvVar };

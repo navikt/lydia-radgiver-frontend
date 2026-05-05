@@ -1,9 +1,7 @@
-import { BodyShort, Link, Loader } from "@navikt/ds-react";
-import { Head } from "@unhead/react";
 import { useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import "@navikt/ds-css";
-import { useHentBrukerinformasjon } from "@features/bruker/api/bruker";
+import { useHentBrukerinformasjon } from "./api/lydia-api/bruker";
 import styles from "./app.module.scss";
 import { FeilmeldingBanner } from "./components/Banner/FeilmeldingBanner";
 import { Dekoratør, erIDev } from "./components/Dekoratør/Dekoratør";
@@ -12,9 +10,11 @@ import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
 import { MineSakerside } from "./Pages/MineSaker/MineSakerside";
 import { Prioriteringsside } from "./Pages/Prioritering/Prioriteringsside";
 import { Statusoversiktside } from "./Pages/Statusoversikt/Statusoversiktside";
+import { BodyShort, Link, Loader } from "@navikt/ds-react";
 import { NyVirksomhetsside } from "./Pages/Virksomhet";
 import Debugside from "./Pages/Virksomhet/Debugside";
 import { setTilgangsnivå } from "./util/analytics-klient";
+import { Head } from "@unhead/react";
 
 const App = () => (
     <BrowserRouter>

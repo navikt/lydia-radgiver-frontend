@@ -1,14 +1,13 @@
 import { render, screen } from "@testing-library/react";
-import type { Mock } from "vitest";
+import "@testing-library/jest-dom";
 import TeamInnhold from "@/Pages/MineSaker/TeamInnhold";
-import * as teamApi from "@features/bruker/api/team";
 import { dummyIaSak } from "@mocks/virksomhetsMockData";
 
 const BRUKER_IDENT = "Z123456";
 
-vi.mock("@features/bruker/api/bruker", async () => ({
-    ...(await vi.importActual("@features/bruker/api/bruker")),
-    useHentBrukerinformasjon: vi.fn(() => ({
+jest.mock("@/api/lydia-api/bruker", () => ({
+    ...jest.requireActual("@/api/lydia-api/bruker"),
+    useHentBrukerinformasjon: jest.fn(() => ({
         data: {
             ident: BRUKER_IDENT,
             navn: "Test Testesen",
@@ -19,32 +18,35 @@ vi.mock("@features/bruker/api/bruker", async () => ({
     })),
 }));
 
-const mockMuterFølgere = vi.fn();
+const mockMuterFølgere = jest.fn();
 
-vi.mock("@features/bruker/api/team", async () => ({
-    ...(await vi.importActual("@features/bruker/api/team")),
-    useHentTeam: vi.fn(() => ({
+jest.mock("@/api/lydia-api/team", () => ({
+    ...jest.requireActual("@/api/lydia-api/team"),
+    useHentTeam: jest.fn(() => ({
         data: [],
         loading: false,
         mutate: mockMuterFølgere,
     })),
-    leggBrukerTilTeam: vi.fn(() => Promise.resolve()),
-    fjernBrukerFraTeam: vi.fn(() => Promise.resolve()),
+    leggBrukerTilTeam: jest.fn(() => Promise.resolve()),
+    fjernBrukerFraTeam: jest.fn(() => Promise.resolve()),
 }));
 
-vi.mock("@/Pages/Virksomhet/VirksomhetContext", async () => ({
-    ...(await vi.importActual("@/Pages/Virksomhet/VirksomhetContext")),
-    useErPåAktivSak: vi.fn(() => true),
+jest.mock("@/Pages/Virksomhet/VirksomhetContext", () => ({
+    ...jest.requireActual("@/Pages/Virksomhet/VirksomhetContext"),
+    useErPåAktivSak: jest.fn(() => true),
 }));
+
+import * as teamApi from "@/api/lydia-api/team";
+
 const defaultProps = {
     iaSak: dummyIaSak,
-    åpneTaEierskapModal: vi.fn(),
+    åpneTaEierskapModal: jest.fn(),
 };
 
 describe("TeamInnhold", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
-        (teamApi.useHentTeam as Mock).mockReturnValue({
+        jest.clearAllMocks();
+        (teamApi.useHentTeam as jest.Mock).mockReturnValue({
             data: [],
             loading: false,
             mutate: mockMuterFølgere,
@@ -101,7 +103,7 @@ describe("TeamInnhold", () => {
 
     describe("Følger-tekster", () => {
         it("viser 'Følg virksomheten' og informasjonstekst når bruker ikke følger", () => {
-            (teamApi.useHentTeam as Mock).mockReturnValue({
+            (teamApi.useHentTeam as jest.Mock).mockReturnValue({
                 data: [],
                 loading: false,
                 mutate: mockMuterFølgere,
@@ -123,7 +125,7 @@ describe("TeamInnhold", () => {
         });
 
         it("viser 'Slutt å følge virksomheten' når bruker følger saken", () => {
-            (teamApi.useHentTeam as Mock).mockReturnValue({
+            (teamApi.useHentTeam as jest.Mock).mockReturnValue({
                 data: [BRUKER_IDENT],
                 loading: false,
                 mutate: mockMuterFølgere,
@@ -147,7 +149,7 @@ describe("TeamInnhold", () => {
         });
 
         it("viser følgere i listen når det finnes følgere", () => {
-            (teamApi.useHentTeam as Mock).mockReturnValue({
+            (teamApi.useHentTeam as jest.Mock).mockReturnValue({
                 data: [BRUKER_IDENT, "A111111"],
                 loading: false,
                 mutate: mockMuterFølgere,
@@ -161,7 +163,7 @@ describe("TeamInnhold", () => {
         });
 
         it("viser informasjonstekst når andre følger men ikke brukeren selv", () => {
-            (teamApi.useHentTeam as Mock).mockReturnValue({
+            (teamApi.useHentTeam as jest.Mock).mockReturnValue({
                 data: ["A111111"],
                 loading: false,
                 mutate: mockMuterFølgere,

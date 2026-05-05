@@ -1,17 +1,17 @@
-import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import type { MockInstance } from "vitest";
-import { axe } from "vitest-axe";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import { axe } from "jest-axe";
+import * as nyFlyt from "@/api/lydia-api/nyFlyt";
+import * as spørreundersøkelse from "@/api/lydia-api/spørreundersøkelse";
 import { IASak, spørreundersøkelseStatusEnum } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { SpørreundersøkelseTypeEnum } from "@/domenetyper/spørreundersøkelseMedInnhold";
 import AvbrytSamarbeidModal from "@/Pages/Virksomhet/AdministrerSamarbeid/AvbrytSamarbeidModal";
-import * as spørreundersøkelse from "@features/kartlegging/api/spørreundersøkelse";
-import { SpørreundersøkelseTypeEnum } from "@features/kartlegging/types/spørreundersøkelseMedInnhold";
-import * as nyFlyt from "@features/sak/api/nyFlyt";
-import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 import { dummySpørreundersøkelseliste } from "@mocks/spørreundersøkelseDummyData";
 
-HTMLDialogElement.prototype.showModal = vi.fn();
-HTMLDialogElement.prototype.close = vi.fn();
+HTMLDialogElement.prototype.showModal = jest.fn();
+HTMLDialogElement.prototype.close = jest.fn();
 
 const testSamarbeid: IaSakProsess = {
     id: 1,
@@ -66,21 +66,21 @@ function renderModal(
 }
 
 describe("AvbrytSamarbeidModal", () => {
-    let avsluttSamarbeidMock: MockInstance;
+    let avsluttSamarbeidMock: jest.SpyInstance;
 
     beforeEach(() => {
-        vi.clearAllMocks();
-        avsluttSamarbeidMock = vi
+        jest.clearAllMocks();
+        avsluttSamarbeidMock = jest
             .spyOn(nyFlyt, "avsluttSamarbeidNyFlyt")
             .mockResolvedValue(undefined as never);
-        vi.spyOn(
+        jest.spyOn(
             spørreundersøkelse,
             "useSpørreundersøkelsesliste",
         ).mockReturnValue({
             data: [],
             loading: false,
             validating: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         } as never);
     });
 
@@ -130,7 +130,7 @@ describe("AvbrytSamarbeidModal", () => {
     });
 
     it("Avbryt-samarbeidet-knappen er deaktivert når det finnes påbegynte behovsvurderinger", () => {
-        vi.spyOn(
+        jest.spyOn(
             spørreundersøkelse,
             "useSpørreundersøkelsesliste",
         ).mockReturnValue({
@@ -143,7 +143,7 @@ describe("AvbrytSamarbeidModal", () => {
             ],
             loading: false,
             validating: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         } as never);
 
         renderModal(testSamarbeid, testIaSak);

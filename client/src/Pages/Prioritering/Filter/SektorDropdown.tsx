@@ -1,5 +1,5 @@
 import { Select } from "@navikt/ds-react";
-import { Sektor } from "@features/virksomhet/types/virksomhet";
+import { Sektor } from "@/domenetyper/virksomhet";
 
 interface Props {
     valgtSektor?: string;

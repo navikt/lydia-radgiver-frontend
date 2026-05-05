@@ -1,5 +1,5 @@
 import React from "react";
-import { SpørsmålResultat } from "@features/kartlegging/types/spørreundersøkelseResultat";
+import { SpørsmålResultat } from "../domenetyper/spørreundersøkelseResultat";
 
 const alternativRekkefølgeSett = [
     ["Enig", "Litt enig", "Litt uenig", "Uenig", "Vet ikke"],

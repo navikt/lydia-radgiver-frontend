@@ -11,16 +11,16 @@ const main = () => {
     dotenv.config({ path: "../env.local" });
     setupRemoteJwkSet()
         .then(async (jwkSet) => {
-            const sessionMgr = ["local", "lokal"].includes(
-                process.env.NAIS_CLUSTER_NAME ?? "",
+            const sessonManager = ["local", "lokal"].includes(
+                process.env.NAIS_CLUSTER_NAME,
             ) // Treffer både lokal og testkjøring
                 ? await inMemorySessionManager()
                 : await sessionManager();
-            return { jwkSet, sessionMgr };
+            return { jwkSet, sessonManager };
         })
-        .then(({ jwkSet, sessionMgr }) => {
+        .then(({ jwkSet, sessonManager }) => {
             const config = new Config({ jwkSet });
-            const application = new Application(config, sessionMgr);
+            const application = new Application(config, sessonManager);
             const server = http.createServer(application.expressApp);
 
             const gracefulClose = () => {

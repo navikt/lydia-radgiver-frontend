@@ -1,45 +1,39 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import React from "react";
-import type { Mock } from "vitest";
 import { IASak } from "@/domenetyper/domenetyper";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 import SlettSamarbeidModal from "@/Pages/Virksomhet/AdministrerSamarbeid/SlettSamarbeidModal";
 import { SamarbeidProvider } from "@/Pages/Virksomhet/Samarbeid/SamarbeidContext";
-import { useHentPlan as useHentPlanReal } from "@features/plan/api/plan";
-import { slettSamarbeidNyFlyt as slettSamarbeidNyFlytReal } from "@features/sak/api/nyFlyt";
-import { IaSakProsess } from "@features/sak/types/iaSakProsess";
-import { useKanUtføreHandlingPåSamarbeid as useKanUtføreHandlingPåSamarbeidReal } from "@features/virksomhet/api/virksomhet";
-const useHentPlan = useHentPlanReal as unknown as Mock;
-const slettSamarbeidNyFlyt = slettSamarbeidNyFlytReal as unknown as Mock;
-const useKanUtføreHandlingPåSamarbeid = useKanUtføreHandlingPåSamarbeidReal as unknown as Mock;
 
-vi.mock("@features/plan/api/plan", () => ({
-    useHentPlan: vi.fn(() => ({ mutate: vi.fn() })),
+jest.mock("@/api/lydia-api/plan", () => ({
+    useHentPlan: jest.fn(() => ({ mutate: jest.fn() })),
 }));
 
-vi.mock("@features/sak/api/nyFlyt", () => ({
-    slettSamarbeidNyFlyt: vi.fn(),
-    avsluttSamarbeidNyFlyt: vi.fn(),
-    useHentSisteSakNyFlyt: vi.fn(() => ({ mutate: vi.fn() })),
-    useHentSpesifikkSakNyFlyt: vi.fn(() => ({ mutate: vi.fn() })),
-    useHentTilstandForVirksomhetNyFlyt: vi.fn(() => ({ mutate: vi.fn() })),
+jest.mock("@/api/lydia-api/nyFlyt", () => ({
+    slettSamarbeidNyFlyt: jest.fn(),
+    avsluttSamarbeidNyFlyt: jest.fn(),
+    useHentSisteSakNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
+    useHentSpesifikkSakNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
+    useHentTilstandForVirksomhetNyFlyt: jest.fn(() => ({ mutate: jest.fn() })),
 }));
 
-vi.mock("@features/virksomhet/api/virksomhet", () => ({
-    useKanUtføreHandlingPåSamarbeid: vi.fn(() => ({
+jest.mock("@/api/lydia-api/virksomhet", () => ({
+    useKanUtføreHandlingPåSamarbeid: jest.fn(() => ({
         data: { kanGjennomføres: true, blokkerende: [], advarsler: [] },
-        mutate: vi.fn(),
+        mutate: jest.fn(),
     })),
-    useHentSalesforceSamarbeidLenke: vi.fn(() => ({
+    useHentSalesforceSamarbeidLenke: jest.fn(() => ({
         data: "https://tullesalesforce.com/samarbeid/1",
     })),
 }));
 
-vi.mock("@features/kartlegging/api/spørreundersøkelse", () => ({
-    useHentSamarbeid: vi.fn(() => ({ mutate: vi.fn() })),
+jest.mock("@/api/lydia-api/spørreundersøkelse", () => ({
+    useHentSamarbeid: jest.fn(() => ({ mutate: jest.fn() })),
 }));
 
-vi.mock("@navikt/ds-react", async () => {
-    const actual = (await vi.importActual("@navikt/ds-react"));
+jest.mock("@navikt/ds-react", () => {
+    const actual = jest.requireActual("@navikt/ds-react");
     const ModalBody = ({ children }: { children: React.ReactNode }) => (
         <div>{children}</div>
     );
@@ -56,18 +50,11 @@ vi.mock("@navikt/ds-react", async () => {
     return { ...actual, Modal };
 });
 
-const { useHentPlan: _u1 } = await vi.importMock<{ useHentPlan: unknown }>(
-    "@features/plan/api/plan",
+const { useHentPlan } = jest.requireMock("@/api/lydia-api/plan");
+const { useKanUtføreHandlingPåSamarbeid } = jest.requireMock(
+    "@/api/lydia-api/virksomhet",
 );
-const { useKanUtføreHandlingPåSamarbeid: _u2 } = await vi.importMock<{
-    useKanUtføreHandlingPåSamarbeid: unknown;
-}>("@features/virksomhet/api/virksomhet");
-const { slettSamarbeidNyFlyt: _u3 } = await vi.importMock<{
-    slettSamarbeidNyFlyt: unknown;
-}>("@features/sak/api/nyFlyt");
-void _u1;
-void _u2;
-void _u3;
+const { slettSamarbeidNyFlyt } = jest.requireMock("@/api/lydia-api/nyFlyt");
 
 function createMockSamarbeidMedId(
     id: number,
@@ -111,7 +98,7 @@ function renderModal(
     alleSamarbeid?: IaSakProsess[],
 ) {
     const ref = {
-        current: { close: vi.fn() },
+        current: { close: jest.fn() },
     } as unknown as React.RefObject<HTMLDialogElement | null>;
     render(
         <SamarbeidProvider samarbeid={valgtSamarbeid}>
@@ -128,12 +115,12 @@ function renderModal(
 
 describe("SlettSamarbeidModal", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     describe("når samarbeid ikke har plan", () => {
         beforeEach(() => {
-            useHentPlan.mockReturnValue({ data: undefined, mutate: vi.fn() });
+            useHentPlan.mockReturnValue({ data: undefined, mutate: jest.fn() });
         });
 
         test("viser bekreftelsestekst når plan ikke finnes", () => {
@@ -210,7 +197,7 @@ describe("SlettSamarbeidModal", () => {
                     blokkerende: ["FINNES_SAMARBEIDSPLAN"],
                     advarsler: [],
                 },
-                mutate: vi.fn(),
+                mutate: jest.fn(),
             });
         });
 
@@ -237,7 +224,7 @@ describe("SlettSamarbeidModal", () => {
                     blokkerende: ["FINNES_SALESFORCE_AKTIVITET"],
                     advarsler: [],
                 },
-                mutate: vi.fn(),
+                mutate: jest.fn(),
             });
             renderModal(createMockSamarbeid(), createMockIaSak());
 
@@ -264,7 +251,7 @@ describe("SlettSamarbeidModal", () => {
                     blokkerende: [],
                     advarsler: [],
                 },
-                mutate: vi.fn(),
+                mutate: jest.fn(),
             });
             slettSamarbeidNyFlyt.mockResolvedValue({});
         });

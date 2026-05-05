@@ -6,43 +6,10 @@ applyTo: 'client/**'
 ## Teknisk stack
 - React 19, TypeScript, Vite
 - Komponentbibliotek: `@navikt/ds-react` (NAV Aksel) – bruk eksisterende Aksel-komponenter fremfor å lage egne UI-primitiver
-- Data-fetching: `swr` via `useSwrTemplate` fra `@/api/lydia-api/networkRequests`
-- Validering og typer: `zod` – definer alltid et zod-skjema og utled TypeScript-typen med `z.infer<typeof ...>`. Definer skjema og type i feature-mappen under `@features/<feature>/types/`. **Importer alltid fra `"zod/v4"`**, ikke `"zod"`.
+- Data-fetching: `swr` via `useSwrTemplate` fra `src/api/lydia-api/networkRequests.ts`
+- Validering og typer: `zod` – definer alltid et zod-skjema og utled TypeScript-typen med `z.infer<typeof ...>`. Definer skjema og type i `src/domenetyper/`. **Importer alltid fra `"zod/v4"`**, ikke `"zod"`.
 - Ikoner: `@navikt/aksel-icons`
 - Routing: `react-router-dom`
-
-## Mappestruktur og aliases
-
-```
-client/src/
-  Pages/                    # Route-komponenter (organisert per side)
-  components/               # Gjenbrukbare UI-komponenter
-  features/                 # Feature-modul: api + typer per domeneområde
-    bruker/{api,types}/
-    sak/{api,types}/
-    virksomhet/{api,types}/
-    plan/{api,types}/
-    kartlegging/{api,types}/
-    prioritering/{api,types}/
-    leveranse/{api,types}/
-    mineSaker/{api,types}/
-  api/lydia-api/            # Felles API-infrastruktur (networkRequests, paths)
-  domenetyper/              # Felles på tvers av features (kvartal, util-typer)
-  util/                     # Generelle hjelpere (dato, sortering, formatering)
-  test-utils/               # Felles render-wrapper for tester
-```
-
-**Aliases (konfigurert i tsconfig + vite + vitest)**:
-- `@/*` → `src/*`
-- `@features/*` → `src/features/*`
-- `@mocks/*` → `__mocks__/*`
-
-**Når du legger til ny api/type**:
-- Hører den til en eksisterende feature? → legg i `@features/<feature>/{api,types}/`.
-- Er det noe helt nytt domeneområde? → opprett `features/<navn>/{api,types}/`.
-- Er den genuint felles på tvers? → `@/api/lydia-api/` eller `@/domenetyper/`.
-
-**Tester ligger ved siden av kilden** (`*.test.ts`/`*.test.tsx`), ikke i `__tests__/`.
 
 ## Kodemønstre
 
@@ -173,8 +140,9 @@ Hoved-URL-strukturen er:
 - `/statusoversikt` – statusoversikt
 
 ## Testing
-- Testrammeverk: Vitest + `@testing-library/react`
-- Tester ligger ved siden av kildefilen: `Komponent.test.tsx` / `funksjon.test.ts`
+- Testrammeverk: Jest + `@testing-library/react`
+- Enhetstester: `__tests__/enhetstester/`
+- Komponenttester: `__tests__/komponenttester/`
 - Kjør tester med `pnpm test` fra `client/`-mappen
 - Bruk norske `describe`/`test`-tekster som beskriver oppførselen
 
@@ -182,7 +150,7 @@ Hoved-URL-strukturen er:
 Sporing bruker Umami via `src/util/analytics-klient.ts`. Bruk eksisterende hjelpefunksjoner som `loggSideLastet`, `loggSøkMedFilter` osv. – ikke kall `window.umami` direkte.
 
 ## Tilgjengelighet
-ESLint er konfigurert med `eslint-plugin-jsx-a11y`. `vitest-axe` er tilgjengelig for automatisert a11y-testing i komponenttester.
+ESLint er konfigurert med `eslint-plugin-jsx-a11y`. `jest-axe` er tilgjengelig for automatisert a11y-testing i komponenttester.
 
 ## Norsk navngiving
 Variabelnavn, funksjoner og typer bruker norske navn der domenet er norsk (f.eks. `virksomhet`, `sak`, `hendelse`).
@@ -249,7 +217,7 @@ Konkrete steg for typiske oppgaver. Følg disse i stedet for å improvisere.
 5. Logg sidelast: `loggSideLastet("Min side")` i en `useEffect` (fra `src/util/analytics-klient.ts`).
 
 ### Legg til en ny enhetstest
-1. Plasser filen ved siden av kildefilen: `<navn>.test.ts` (matches kilde-fil-navn).
+1. Plasser i `__tests__/enhetstester/<navn>.test.ts` (matcher kilde-fil-navn).
 2. Bruk norske `describe`/`test`-tekster:
    ```ts
    describe("min funksjon", () => {
@@ -259,9 +227,9 @@ Konkrete steg for typiske oppgaver. Følg disse i stedet for å improvisere.
 3. Kjør `pnpm test` fra `client/`.
 
 ### Legg til en ny komponenttest
-1. Plasser filen ved siden av kildekomponenten: `<Komponent>.test.tsx`.
+1. Plasser i `__tests__/komponenttester/<sti speiler src/>/<Komponent>.test.tsx`.
 2. Bruk `@testing-library/react`. Render med providere komponenten trenger (kontekst-providers, `BrowserRouter` for navigasjon).
-3. For a11y: bruk `vitest-axe` (`expect(await axe(container)).toHaveNoViolations()`).
+3. For a11y: bruk `jest-axe` (`expect(await axe(container)).toHaveNoViolations()`).
 4. SWR i tester: wrapp render med `<SWRConfig value={{ provider: () => new Map() }}>` for å unngå cache-deling mellom tester.
 
 ### Lag en ny React Context
@@ -292,4 +260,4 @@ pnpm lint
 pnpm tsc
 pnpm test
 ```
-Ikke meld oppgaven ferdig før alle tre passerer **uten errors eller warnings**.
+Ikke meld oppgaven ferdig før alle tre passerer.

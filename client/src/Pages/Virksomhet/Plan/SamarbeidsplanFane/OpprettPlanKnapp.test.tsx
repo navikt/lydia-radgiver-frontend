@@ -1,15 +1,15 @@
 import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import React from "react";
-import type { MockInstance } from "vitest";
+import "@testing-library/jest-dom";
+import * as nyFlyt from "@/api/lydia-api/nyFlyt";
+import * as plan from "@/api/lydia-api/plan";
+import * as spørreundersøkelse from "@/api/lydia-api/spørreundersøkelse";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
+import { PlanMal } from "@/domenetyper/plan";
 import OpprettPlanKnapp from "@/Pages/Virksomhet/Plan/SamarbeidsplanFane/OpprettPlanKnapp";
-import * as spørreundersøkelse from "@features/kartlegging/api/spørreundersøkelse";
-import * as plan from "@features/plan/api/plan";
-import { PlanMal } from "@features/plan/types/plan";
-import * as nyFlyt from "@features/sak/api/nyFlyt";
-import { IaSakProsess } from "@features/sak/types/iaSakProsess";
 
-vi.mock("@navikt/ds-react", async () => {
-    const actual = (await vi.importActual("@navikt/ds-react"));
+jest.mock("@navikt/ds-react", () => {
+    const actual = jest.requireActual("@navikt/ds-react");
     const ModalBody = ({ children }: { children: React.ReactNode }) => (
         <div>{children}</div>
     );
@@ -30,8 +30,8 @@ vi.mock("@navikt/ds-react", async () => {
     return { ...actual, Modal };
 });
 
-vi.mock("@/util/analytics-klient", () => ({
-    loggModalÅpnet: vi.fn(),
+jest.mock("@/util/analytics-klient", () => ({
+    loggModalÅpnet: jest.fn(),
 }));
 
 const testSamarbeid: IaSakProsess = {
@@ -105,29 +105,29 @@ function renderKnapp({
 }
 
 describe("OpprettPlanKnapp", () => {
-    let opprettSamarbeidsplanMock: MockInstance;
+    let opprettSamarbeidsplanMock: jest.SpyInstance;
 
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
 
-        opprettSamarbeidsplanMock = vi
+        opprettSamarbeidsplanMock = jest
             .spyOn(nyFlyt, "opprettSamarbeidsplanNyFlyt")
             .mockResolvedValue(undefined as never);
 
-        vi.spyOn(plan, "useHentPlan").mockReturnValue({
+        jest.spyOn(plan, "useHentPlan").mockReturnValue({
             data: undefined,
             error: undefined,
             loading: false,
             validating: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         } as never);
 
-        vi.spyOn(spørreundersøkelse, "useHentSamarbeid").mockReturnValue({
+        jest.spyOn(spørreundersøkelse, "useHentSamarbeid").mockReturnValue({
             data: [],
             error: undefined,
             loading: false,
             validating: false,
-            mutate: vi.fn(),
+            mutate: jest.fn(),
         } as never);
     });
 

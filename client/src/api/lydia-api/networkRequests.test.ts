@@ -1,3 +1,7 @@
+import { TextEncoder, TextDecoder } from "util";
+global.TextEncoder = TextEncoder;
+global.TextDecoder = TextDecoder;
+
 import { z } from "zod/v4";
 import {
     defaultSwrConfiguration,
@@ -7,12 +11,12 @@ import {
 } from "@/api/lydia-api/networkRequests";
 
 // Mock dispatchFeilmelding
-vi.mock("@/components/Banner/dispatchFeilmelding", () => ({
-    dispatchFeilmelding: vi.fn(),
+jest.mock("@/components/Banner/dispatchFeilmelding", () => ({
+    dispatchFeilmelding: jest.fn(),
 }));
 
 // Mock global fetch
-const mockFetch = vi.fn();
+const mockFetch = jest.fn();
 global.fetch = mockFetch;
 
 describe("defaultSwrConfiguration", () => {

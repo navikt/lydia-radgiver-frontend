@@ -5,7 +5,7 @@ import {
     HStack,
     useDatepicker,
 } from "@navikt/ds-react";
-import { RedigertInnholdMal } from "@features/plan/types/plan";
+import { RedigertInnholdMal } from "@/domenetyper/plan";
 import styles from "./plan.module.scss";
 import {
     FIRST_VALID_DATE,

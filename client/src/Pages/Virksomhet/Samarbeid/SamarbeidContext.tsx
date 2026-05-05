@@ -3,7 +3,7 @@ import {
     IAProsessStatusEnum,
     IAProsessStatusType,
 } from "@/domenetyper/domenetyper";
-import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 
 export interface SamarbeidContextType extends IaSakProsess {
     erFullført: boolean;

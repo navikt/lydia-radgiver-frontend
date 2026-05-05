@@ -1,46 +1,47 @@
 import { render, screen, waitFor } from "@testing-library/react";
+import "@testing-library/jest-dom";
+import * as nyFlyt from "@/api/lydia-api/nyFlyt";
 import { TaEierskapModal } from "@/Pages/MineSaker/TaEierSkapModal";
 import * as oversikt from "@/Pages/Virksomhet/Debugside/Oversikt";
-import * as nyFlyt from "@features/sak/api/nyFlyt";
 import { dummyIaSak } from "@mocks/virksomhetsMockData";
 
-const mockMuterIaSak = vi.fn();
-const mockMuterMineSaker = vi.fn();
-const mockMuterOversikt = vi.fn();
+const mockMuterIaSak = jest.fn();
+const mockMuterMineSaker = jest.fn();
+const mockMuterOversikt = jest.fn();
 
-vi.mock("@features/sak/api/nyFlyt", async () => ({
-    ...(await vi.importActual("@features/sak/api/nyFlyt")),
-    bliEierNyFlyt: vi.fn(() => Promise.resolve()),
-    useHentSpesifikkSakNyFlyt: vi.fn(() => ({
+jest.mock("@/api/lydia-api/nyFlyt", () => ({
+    ...jest.requireActual("@/api/lydia-api/nyFlyt"),
+    bliEierNyFlyt: jest.fn(() => Promise.resolve()),
+    useHentSpesifikkSakNyFlyt: jest.fn(() => ({
         data: dummyIaSak,
         loading: false,
         mutate: mockMuterIaSak,
     })),
 }));
 
-vi.mock("@features/sak/api/sak", async () => ({
-    ...(await vi.importActual("@features/sak/api/sak")),
-    useHentMineSaker: vi.fn(() => ({
+jest.mock("@/api/lydia-api/sak", () => ({
+    ...jest.requireActual("@/api/lydia-api/sak"),
+    useHentMineSaker: jest.fn(() => ({
         data: [],
         mutate: mockMuterMineSaker,
     })),
 }));
 
-vi.mock("@/Pages/Virksomhet/Debugside/Oversikt", async () => ({
-    ...(await vi.importActual("@/Pages/Virksomhet/Debugside/Oversikt")),
-    useOversiktMutate: vi.fn(() => mockMuterOversikt),
+jest.mock("@/Pages/Virksomhet/Debugside/Oversikt", () => ({
+    ...jest.requireActual("@/Pages/Virksomhet/Debugside/Oversikt"),
+    useOversiktMutate: jest.fn(() => mockMuterOversikt),
 }));
 
 describe("TaEierskapModal", () => {
     beforeEach(() => {
-        vi.clearAllMocks();
+        jest.clearAllMocks();
     });
 
     it("viser modaltekst når den er åpen", () => {
         render(
             <TaEierskapModal
                 erModalÅpen={true}
-                lukkModal={vi.fn()}
+                lukkModal={jest.fn()}
                 iaSak={dummyIaSak}
             />,
         );
@@ -61,7 +62,7 @@ describe("TaEierskapModal", () => {
         render(
             <TaEierskapModal
                 erModalÅpen={false}
-                lukkModal={vi.fn()}
+                lukkModal={jest.fn()}
                 iaSak={dummyIaSak}
             />,
         );
@@ -73,7 +74,7 @@ describe("TaEierskapModal", () => {
         render(
             <TaEierskapModal
                 erModalÅpen={true}
-                lukkModal={vi.fn()}
+                lukkModal={jest.fn()}
                 iaSak={dummyIaSak}
             />,
         );
@@ -82,7 +83,7 @@ describe("TaEierskapModal", () => {
     });
 
     it("kaller bliEierNyFlyt med riktig orgnr ved klikk på 'Ta eierskap'", async () => {
-        const lukkModal = vi.fn();
+        const lukkModal = jest.fn();
         render(
             <TaEierskapModal
                 erModalÅpen={true}
@@ -101,7 +102,7 @@ describe("TaEierskapModal", () => {
     });
 
     it("kaller lukkModal ved klikk på 'Avbryt'", () => {
-        const lukkModal = vi.fn();
+        const lukkModal = jest.fn();
         render(
             <TaEierskapModal
                 erModalÅpen={true}
@@ -119,7 +120,7 @@ describe("TaEierskapModal", () => {
         render(
             <TaEierskapModal
                 erModalÅpen={true}
-                lukkModal={vi.fn()}
+                lukkModal={jest.fn()}
                 iaSak={dummyIaSak}
             />,
         );
@@ -137,7 +138,7 @@ describe("TaEierskapModal", () => {
         render(
             <TaEierskapModal
                 erModalÅpen={true}
-                lukkModal={vi.fn()}
+                lukkModal={jest.fn()}
                 iaSak={dummyIaSak}
             />,
         );
@@ -151,7 +152,7 @@ describe("TaEierskapModal", () => {
         render(
             <TaEierskapModal
                 erModalÅpen={true}
-                lukkModal={vi.fn()}
+                lukkModal={jest.fn()}
                 iaSak={dummyIaSak}
             />,
         );

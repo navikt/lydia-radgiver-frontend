@@ -3,7 +3,7 @@ import {
     IAProsessStatusEnum,
     VirksomhetIATilstandEnum,
 } from "@/domenetyper/domenetyper";
-import { Filterverdier } from "@features/prioritering/types/filterverdier";
+import { Filterverdier } from "@/domenetyper/filterverdier";
 
 export const EIERE_MOCKS: Eier[] = [
     {

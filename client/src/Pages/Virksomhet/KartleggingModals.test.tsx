@@ -1,18 +1,19 @@
 import { render, screen, fireEvent } from "@testing-library/react";
+import "@testing-library/jest-dom";
 import React from "react";
 import { BekreftValgModalProps } from "@/components/Modal/BekreftValgModal";
+import { Spørreundersøkelse } from "@/domenetyper/spørreundersøkelse";
 import { FullførSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/FullførSpørreundersøkelseModal";
 import OpprettBehovsvurderingAlert from "@/Pages/Virksomhet/Kartlegging/OpprettetBehovsvurderingAlert";
 import { SlettSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/SlettSpørreundersøkelseModal";
 import { StartSpørreundersøkelseModal } from "@/Pages/Virksomhet/Kartlegging/StartSpørreundersøkelseModal";
-import { Spørreundersøkelse } from "@features/kartlegging/types/spørreundersøkelse";
 import { dummySpørreundersøkelseliste } from "@mocks/spørreundersøkelseDummyData";
 
-vi.mock("@/util/navigasjon", () => ({
-    åpneSpørreundersøkelseINyFane: vi.fn(),
+jest.mock("@/util/navigasjon", () => ({
+    åpneSpørreundersøkelseINyFane: jest.fn(),
 }));
 
-vi.mock("@/components/Modal/BekreftValgModal", () => ({
+jest.mock("@/components/Modal/BekreftValgModal", () => ({
     BekreftValgModal: ({
         title,
         description,
@@ -32,14 +33,14 @@ vi.mock("@/components/Modal/BekreftValgModal", () => ({
     ),
 }));
 
-vi.mock("@/components/Spørreundersøkelse/SpørreundersøkelseContext", () => ({
+jest.mock("@/components/Spørreundersøkelse/SpørreundersøkelseContext", () => ({
     useSpørreundersøkelseType: () => "BEHOVSVURDERING",
     useSpørreundersøkelse: () => ({
         spørreundersøkelseType: "BEHOVSVURDERING",
     }),
 }));
 
-vi.mock(
+jest.mock(
     "@/components/Spørreundersøkelse/Spørreundersøkelseliste/utils",
     () => ({
         FormatertSpørreundersøkelseType: ({ type }: { type: string }) => (
@@ -48,7 +49,7 @@ vi.mock(
     }),
 );
 
-vi.mock("@/util/dato", () => ({
+jest.mock("@/util/dato", () => ({
     lokalDatoMedKlokkeslett: () => "01.01.2023 kl. 10:00",
 }));
 
@@ -56,11 +57,11 @@ const dummySpørreundersøkelse: Spørreundersøkelse =
     dummySpørreundersøkelseliste[0];
 
 describe("StartSpørreundersøkelseModal", () => {
-    test("kaller callbacks og åpner spørreundersøkelse ved bekreftelse", async () => {
-        const startSpørreundersøkelsen = vi.fn();
-        const lukkModal = vi.fn();
+    test("kaller callbacks og åpner spørreundersøkelse ved bekreftelse", () => {
+        const startSpørreundersøkelsen = jest.fn();
+        const lukkModal = jest.fn();
         const { åpneSpørreundersøkelseINyFane } =
-            (await vi.importMock("@/util/navigasjon"));
+            jest.requireMock("@/util/navigasjon");
 
         render(
             <StartSpørreundersøkelseModal
@@ -84,8 +85,8 @@ describe("StartSpørreundersøkelseModal", () => {
 
 describe("FullførSpørreundersøkelseModal", () => {
     test("viser ekstra tekst når det er nok deltakere", () => {
-        const lukkModal = vi.fn();
-        const fullførSpørreundersøkelse = vi.fn();
+        const lukkModal = jest.fn();
+        const fullførSpørreundersøkelse = jest.fn();
 
         render(
             <FullførSpørreundersøkelseModal
@@ -107,7 +108,7 @@ describe("FullførSpørreundersøkelseModal", () => {
     });
 
     test("skjuler ekstra tekst når det ikke er nok deltakere", () => {
-        const lukkModal = vi.fn();
+        const lukkModal = jest.fn();
 
         render(
             <FullførSpørreundersøkelseModal
@@ -128,8 +129,8 @@ describe("FullførSpørreundersøkelseModal", () => {
 
 describe("SlettSpørreundersøkelseModal", () => {
     test("viser korrekt tittel og beskrivelse for behovsvurdering", () => {
-        const lukkModal = vi.fn();
-        const slettSpørreundersøkelsen = vi.fn();
+        const lukkModal = jest.fn();
+        const slettSpørreundersøkelsen = jest.fn();
 
         render(
             <SlettSpørreundersøkelseModal
@@ -156,7 +157,7 @@ describe("SlettSpørreundersøkelseModal", () => {
 
 describe("OpprettBehovsvurderingAlert", () => {
     test("viser tekst og kaller onClose ved klikk", () => {
-        const onClose = vi.fn();
+        const onClose = jest.fn();
 
         render(<OpprettBehovsvurderingAlert onClose={onClose} />);
 

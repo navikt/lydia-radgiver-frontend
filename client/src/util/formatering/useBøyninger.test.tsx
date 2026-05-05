@@ -1,9 +1,11 @@
 import { render, screen } from "@testing-library/react";
-import { useBøyningerAvSamarbeidshandling } from "@/util/formatering/useBøyninger";
+import "@testing-library/jest-dom";
+
 import {
     muligeHandlinger,
     type MuligSamarbeidsgandling,
-} from "@features/sak/types/samarbeidsEndring";
+} from "@/domenetyper/samarbeidsEndring";
+import { useBøyningerAvSamarbeidshandling } from "@/util/formatering/useBøyninger";
 
 function TestKomponent({ handling }: { handling: MuligSamarbeidsgandling }) {
     const bøyninger = useBøyningerAvSamarbeidshandling(handling);

@@ -1,9 +1,9 @@
 import { Button, Dropdown } from "@navikt/ds-react";
 import React from "react";
+import { useHentSamarbeid } from "@/api/lydia-api/spørreundersøkelse";
 import { useSpørreundersøkelse } from "@/components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { IASak } from "@/domenetyper/domenetyper";
-import { useHentSamarbeid } from "@features/kartlegging/api/spørreundersøkelse";
-import { IaSakProsess } from "@features/sak/types/iaSakProsess";
+import { IaSakProsess } from "@/domenetyper/iaSakProsess";
 
 interface Props {
     iaSak: IASak;
