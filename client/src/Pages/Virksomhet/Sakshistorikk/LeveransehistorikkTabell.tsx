@@ -50,44 +50,38 @@ export const LeveransehistorikkTabell = ({
             <Heading size="small" spacing level="3">
                 Leverte IA-tjenester
             </Heading>
-            {fullførteLeveranser.length ? (
-                <ScrollUtTilKantenContainer
-                    $offsetLeft={1.5 + 2.75}
-                    $offsetRight={1.5 + 0.75}
-                >
-                    <StyledTable>
-                        <Table.Header>
-                            <Table.Row>
-                                <Table.HeaderCell>IA-Tjeneste</Table.HeaderCell>
-                                <Table.HeaderCell>Modul</Table.HeaderCell>
-                                <Table.HeaderCell>
-                                    Levert tidspunkt
-                                </Table.HeaderCell>
+            <ScrollUtTilKantenContainer
+                $offsetLeft={1.5 + 2.75}
+                $offsetRight={1.5 + 0.75}
+            >
+                <StyledTable>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>IA-Tjeneste</Table.HeaderCell>
+                            <Table.HeaderCell>Modul</Table.HeaderCell>
+                            <Table.HeaderCell>
+                                Levert tidspunkt
+                            </Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+                    <Table.Body>
+                        {fullførteLeveranser.map((leveranse) => (
+                            <Table.Row key={leveranse.id}>
+                                <Table.DataCell>
+                                    {leveranse.tjeneste}
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    {leveranse.modul.navn}
+                                </Table.DataCell>
+                                <Table.DataCell>
+                                    {leveranse.fullført &&
+                                        lokalDato(leveranse.fullført)}
+                                </Table.DataCell>
                             </Table.Row>
-                        </Table.Header>
-                        <Table.Body>
-                            {fullførteLeveranser.map((leveranse) => (
-                                <Table.Row key={leveranse.id}>
-                                    <Table.DataCell>
-                                        {leveranse.tjeneste}
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        {leveranse.modul.navn}
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        {leveranse.fullført &&
-                                            lokalDato(leveranse.fullført)}
-                                    </Table.DataCell>
-                                </Table.Row>
-                            ))}
-                        </Table.Body>
-                    </StyledTable>
-                </ScrollUtTilKantenContainer>
-            ) : (
-                <BodyShort>
-                    Denne saken har ingen leveranser som er levert.
-                </BodyShort>
-            )}
+                        ))}
+                    </Table.Body>
+                </StyledTable>
+            </ScrollUtTilKantenContainer>
         </>
     );
 };

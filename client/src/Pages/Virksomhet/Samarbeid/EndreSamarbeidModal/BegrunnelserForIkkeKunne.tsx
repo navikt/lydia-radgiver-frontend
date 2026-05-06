@@ -84,7 +84,7 @@ function usePrettyBegrunnelser(
                 case "AKTIV_BEHOVSVURDERING":
                     return "Det finnes en påbegynt behovsvurdering";
                 case "SAK_I_FEIL_STATUS":
-                    return "Saken må være i status Vi bistår";
+                    return "Virksomheten må være aktiv";
                 case "AKTIV_EVALUERING":
                     return "Det finnes en påbegynt evaluering";
                 case "INGEN_EVALUERING":

@@ -3,7 +3,6 @@ import "@testing-library/jest-dom";
 import { TaEierskapModal } from "../../../../src/Pages/MineSaker/TaEierSkapModal";
 import { dummyIaSak } from "../../../../__mocks__/virksomhetsMockData";
 import * as nyFlyt from "../../../../src/api/lydia-api/nyFlyt";
-import * as sak from "../../../../src/api/lydia-api/sak";
 import * as oversikt from "../../../../src/Pages/Virksomhet/Debugside/Oversikt";
 
 const mockMuterIaSak = jest.fn();
@@ -54,7 +53,7 @@ describe("TaEierskapModal", () => {
         ).toBeInTheDocument();
         expect(
             screen.getByText(
-                "Nåværende eier vil fjernes og du blir automatisk eier av saken.",
+                "Nåværende eier vil fjernes og du blir automatisk eier.",
             ),
         ).toBeInTheDocument();
         expect(screen.getByText("Ta eierskap")).toBeInTheDocument();

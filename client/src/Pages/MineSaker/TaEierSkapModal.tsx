@@ -35,8 +35,7 @@ export const TaEierskapModal = ({
         >
             <Modal.Body>
                 <BodyShort>
-                    Nåværende eier vil fjernes og du blir automatisk eier av
-                    saken.
+                    Nåværende eier vil fjernes og du blir automatisk eier.
                 </BodyShort>
             </Modal.Body>
             <Modal.Footer>

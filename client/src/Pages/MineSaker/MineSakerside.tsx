@@ -132,7 +132,7 @@ export const MineSakerside = () => {
                 </div>
                 <div className={styles.mineSakerListe}>
                     {sorterteSaker.length === 0 ? (
-                        <div>Fant ingen saker </div>
+                        <div>Fant ingen virksomheter</div>
                     ) : (
                         sorterteSaker.map((minsak) => (
                             <MineSakerKort

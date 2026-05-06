@@ -15,14 +15,11 @@ jest.mock("../../../../src/api/lydia-api/virksomhet", () => ({
     useHentSalesforceUrl: jest.fn(() => ({ data: null })),
 }));
 
-jest.mock(
-    "../../../../src/Pages/Virksomhet/VirksomhetContext",
-    () => ({
-        useVirksomhetContext: jest.fn(() => ({
-            virksomhet: { orgnr: "123456789" },
-        })),
-    }),
-);
+jest.mock("../../../../src/Pages/Virksomhet/VirksomhetContext", () => ({
+    useVirksomhetContext: jest.fn(() => ({
+        virksomhet: { orgnr: "123456789" },
+    })),
+}));
 
 // Helper to create mock samarbeid
 function createMockSamarbeid(overrides?: Partial<IaSakProsess>): IaSakProsess {
@@ -179,7 +176,7 @@ describe("BegrunnelserForIkkeKunne", () => {
             />,
         );
         expect(
-            screen.getByText("Saken må være i status Vi bistår"),
+            screen.getByText("Virksomheten må være aktiv"),
         ).toBeInTheDocument();
     });
 

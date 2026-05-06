@@ -151,7 +151,7 @@ describe("MineSakerside", () => {
         expect(screen.getByTestId("sak-kort-SAK-2")).toBeInTheDocument();
     });
 
-    test("viser 'Fant ingen saker' når liste er tom", () => {
+    test("viser 'Fant ingen virksomheter' når liste er tom", () => {
         // eslint-disable-next-line @typescript-eslint/no-require-imports
         const { useHentMineSaker } = require("../../../src/api/lydia-api/sak");
         useHentMineSaker.mockReturnValueOnce({ data: [] });
@@ -161,7 +161,9 @@ describe("MineSakerside", () => {
                 <MineSakerside />
             </BrowserRouter>,
         );
-        expect(screen.getByText(/Fant ingen saker/i)).toBeInTheDocument();
+        expect(
+            screen.getByText(/Fant ingen virksomheter/i),
+        ).toBeInTheDocument();
     });
 
     test("filtrerer saker basert på statusfilter", () => {

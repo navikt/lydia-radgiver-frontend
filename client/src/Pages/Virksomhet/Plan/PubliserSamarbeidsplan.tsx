@@ -144,7 +144,7 @@ export const PubliserSamarbeidsplan = ({
 
 function BrukerMåVæreEierKnapp() {
     return (
-        <Tooltip content="Kun eiere og følgere av saken kan publisere planen.">
+        <Tooltip content="Kun eiere og følgere kan publisere planen.">
             <div>
                 <PubliserDokumentknapp
                     icon={<PaperplaneIcon fontSize="1.5rem" aria-hidden />}

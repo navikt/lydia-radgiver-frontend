@@ -132,7 +132,7 @@ function VirksomhetsoversiktPopover({
                 style={style}
                 {...getFloatingProps()}
             >
-                Ingen samarbeid på saken
+                Ingen samarbeid
             </div>
         );
     }
