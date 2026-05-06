@@ -11,7 +11,6 @@ import TeamInnhold from "./TeamInnhold";
 import { useHentTeam } from "../../api/lydia-api/team";
 import { useErPåInaktivSak } from "../Virksomhet/VirksomhetContext";
 import React from "react";
-import { TaEierskapModal } from "./TaEierSkapModal";
 
 interface TeamModalProps {
     open: boolean;
@@ -21,7 +20,6 @@ interface TeamModalProps {
 
 export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const [taEierskapModalÅpen, setTaEierskapModalÅpen] = React.useState(false);
 
     const { data: følgere = [] } = useHentTeam(iaSak.saksnummer);
 
@@ -71,21 +69,10 @@ export default function TeamDropdown({ open, setOpen, iaSak }: TeamModalProps) {
                         <TeamInnhold
                             iaSak={iaSak}
                             lukkEksternContainer={() => setOpen(false)}
-                            åpneTaEierskapModal={() =>
-                                setTaEierskapModalÅpen(true)
-                            }
                         />
                     </div>
                 </Dropdown.Menu>
             </Dropdown>
-            <TaEierskapModal
-                erModalÅpen={taEierskapModalÅpen}
-                lukkModal={() => {
-                    setTaEierskapModalÅpen(false);
-                    setOpen(false);
-                }}
-                iaSak={iaSak}
-            />
         </>
     );
 }
