@@ -8,6 +8,8 @@ registries:
 updates:
   - package-ecosystem: github-actions
     directory: "/"
+    cooldown:
+      default-days: 7
     schedule:
       interval: weekly
       day: "monday"
@@ -19,6 +21,8 @@ updates:
 
   - package-ecosystem: npm
     directory: "/client"
+    cooldown:
+      default-days: 7
     schedule:
       interval: weekly
       day: "monday"
@@ -68,13 +72,13 @@ updates:
         patterns:
           - "highcharts"
           - "highcharts-react-official"
-    cooldown:
-      default-days: 7
     registries:
       - npm-github
 
   - package-ecosystem: npm
     directory: "/server"
+    cooldown:
+      default-days: 7
     schedule:
       interval: weekly
       day: "monday"
@@ -106,8 +110,6 @@ updates:
           - "express-session"
           - "@types/express"
           - "@types/express-session"
-    cooldown:
-      default-days: 7
 
   - package-ecosystem: docker
     directory: "/client"
