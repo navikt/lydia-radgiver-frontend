@@ -103,7 +103,7 @@ export const ArkivStatusFilter = ({
     return (
         <div className={styles.aktivStatusFilter}>
             <CheckboxGroup
-                legend="Vis arkiverte saker"
+                legend="Vis arkiverte samarbeidsperioder"
                 hideLegend
                 onChange={(val) => handleStatusFilterEndring(val, true)}
                 value={arkivStatusFiltre}

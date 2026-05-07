@@ -82,44 +82,9 @@ describe("TeamModal", () => {
         taEierskapKnapp.click();
 
         await waitFor(() => {
-            expect(
-                screen.getByText("Er du sikker på at du vil ta eierskap?"),
-            ).toBeInTheDocument();
-        });
-
-        const bekreftKnapper = screen.getAllByRole("button", {
-            name: "Ta eierskap",
-        });
-        bekreftKnapper[bekreftKnapper.length - 1].click();
-
-        await waitFor(() => {
             expect(nyFlyt.bliEierNyFlyt).toHaveBeenCalledTimes(1);
         });
         expect(nyFlyt.bliEierNyFlyt).toHaveBeenCalledWith(dummyIaSak.orgnr);
-    });
-
-    it("avbryter ta eierskap-modal uten å kalle bliEierNyFlyt", async () => {
-        render(
-            <TeamModal
-                open={true}
-                setOpen={jest.fn()}
-                iaSak={{ ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" }}
-                erPåMineSaker={true}
-            />,
-        );
-
-        screen.getByRole("button", { name: /Ta eierskap/i }).click();
-
-        await waitFor(() => {
-            expect(
-                screen.getByText("Er du sikker på at du vil ta eierskap?"),
-            ).toBeInTheDocument();
-        });
-
-        const avbrytKnapper = screen.getAllByText("Avbryt");
-        avbrytKnapper[avbrytKnapper.length - 1].click();
-
-        expect(nyFlyt.bliEierNyFlyt).not.toHaveBeenCalled();
     });
 
     it("kaller setOpen(false) ved klikk på 'Ferdig'", () => {
@@ -154,7 +119,7 @@ describe("TeamModal", () => {
         expect(setOpen).toHaveBeenCalledWith(false);
     });
 
-    it("lukker begge modaler etter vellykket ta eierskap", async () => {
+    it("lukker modal etter vellykket ta eierskap", async () => {
         const setOpen = jest.fn();
         render(
             <TeamModal
@@ -168,18 +133,37 @@ describe("TeamModal", () => {
         screen.getByRole("button", { name: /Ta eierskap/i }).click();
 
         await waitFor(() => {
-            expect(
-                screen.getByText("Er du sikker på at du vil ta eierskap?"),
-            ).toBeInTheDocument();
-        });
-
-        const bekreftKnapper = screen.getAllByRole("button", {
-            name: "Ta eierskap",
-        });
-        bekreftKnapper[bekreftKnapper.length - 1].click();
-
-        await waitFor(() => {
             expect(setOpen).toHaveBeenCalledWith(false);
         });
+    });
+
+    it("viser 'Nåværende eier blir automatisk fjernet.' når saken har eier", () => {
+        render(
+            <TeamModal
+                open={true}
+                setOpen={jest.fn()}
+                iaSak={{ ...dummyIaSak, eidAv: "ANNEN_SAKSBEHANDLER" }}
+                erPåMineSaker={true}
+            />,
+        );
+
+        expect(
+            screen.getByText(/Nåværende eier blir automatisk fjernet\./),
+        ).toBeInTheDocument();
+    });
+
+    it("viser ikke 'Nåværende eier blir automatisk fjernet.' når saken ikke har eier", () => {
+        render(
+            <TeamModal
+                open={true}
+                setOpen={jest.fn()}
+                iaSak={{ ...dummyIaSak, eidAv: null }}
+                erPåMineSaker={true}
+            />,
+        );
+
+        expect(
+            screen.queryByText(/Nåværende eier blir automatisk fjernet\./),
+        ).not.toBeInTheDocument();
     });
 });

@@ -16,6 +16,12 @@ import {
 } from "../../api/lydia-api/team";
 import { useErPåAktivSak } from "../Virksomhet/VirksomhetContext";
 import styles from "./minesaker.module.scss";
+import {
+    bliEierNyFlyt,
+    useHentSpesifikkSakNyFlyt,
+} from "../../api/lydia-api/nyFlyt";
+import { useHentMineSaker } from "../../api/lydia-api/sak";
+import { useOversiktMutate } from "../Virksomhet/Debugside/Oversikt";
 
 function følgerSak(
     brukerIdent: string | undefined,
@@ -28,12 +34,10 @@ export default function TeamInnhold({
     iaSak,
     lukkEksternContainer = () => {},
     erPåMineSaker = false,
-    åpneTaEierskapModal,
 }: {
     iaSak: IASak;
     lukkEksternContainer?: () => void;
     erPåMineSaker?: boolean;
-    åpneTaEierskapModal: () => void;
 }) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
 
@@ -47,6 +51,20 @@ export default function TeamInnhold({
     const kanTaEierskap = erPåAktivSak || erPåMineSaker;
     const brukerErEier = iaSak.eidAv === brukerIdent;
     const brukerErFølger = følgerSak(brukerIdent, følgere);
+    const { mutate: muterIaSak } = useHentSpesifikkSakNyFlyt(
+        iaSak.orgnr,
+        iaSak.saksnummer,
+    );
+    const { mutate: muterMineSaker } = useHentMineSaker();
+    const muterOversikt = useOversiktMutate(iaSak.orgnr);
+
+    const gjørTaEierskap = async () => {
+        await bliEierNyFlyt(iaSak.orgnr);
+        muterIaSak();
+        muterMineSaker();
+        muterOversikt();
+        lukkEksternContainer();
+    };
 
     return (
         <>
@@ -61,18 +79,21 @@ export default function TeamInnhold({
                 </div>
 
                 <div className={styles.eierknappboks}>
-                    {!brukerErEier && (
+                    {!brukerErEier && iaSak.eidAv && (
                         <span>
                             Ønsker du å ta eierskap til virksomheten? Nåværende
                             eier blir automatisk fjernet.
                         </span>
+                    )}
+                    {!brukerErEier && !iaSak.eidAv && (
+                        <span>Ønsker du å ta eierskap til virksomheten?</span>
                     )}
                     <Button
                         size="small"
                         iconPosition="right"
                         variant="secondary"
                         disabled={!kanTaEierskap}
-                        onClick={åpneTaEierskapModal}
+                        onClick={gjørTaEierskap}
                     >
                         <HStack gap={"2"} align={"center"}>
                             {!brukerErEier ? (
