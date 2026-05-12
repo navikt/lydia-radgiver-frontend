@@ -2,6 +2,7 @@ allowBuilds:
   esbuild: true
   '@parcel/watcher': true
   unrs-resolver: true
+  core-js: false
 
 # Sett minimumReleaseAge for å unngå at pakker som nylig er publisert (< 7 dager) blir brukt i byggene.
 # Sikkerhetstiltak for å unngå at vi bruker pakker som nylig er publisert og som potensielt kan være ondsinnede eller ustabile.

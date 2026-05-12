@@ -111,3 +111,6 @@ dist
 # Ignore Visual Studio Code project-specific directory
 .vscode
 *.code-workspace
+
+# pnpm store
+*/.pnpm-store
