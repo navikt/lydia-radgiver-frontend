@@ -16,6 +16,7 @@ import {
 import { Virksomhet } from "../../../../src/domenetyper/virksomhet";
 import "@testing-library/jest-dom";
 import { Spørreundersøkelse } from "../../../../src/domenetyper/spørreundersøkelse";
+import { loggEndretSamarbeid } from "../../../../src/util/analytics-klient";
 
 const litenSpørreundersøkelseResultat = {
     id: "test-resultat-id",
@@ -64,6 +65,17 @@ jest.mock("../../../../src/api/lydia-api/spørreundersøkelse", () => {
                 },
             ],
         })),
+        flyttSpørreundersøkelse: jest.fn(() =>
+            Promise.resolve(dummySpørreundersøkelseliste[0]),
+        ),
+    };
+});
+
+jest.mock("../../../../src/util/analytics-klient", () => {
+    const actual = jest.requireActual("../../../../src/util/analytics-klient");
+    return {
+        ...actual,
+        loggEndretSamarbeid: jest.fn(),
     };
 });
 
@@ -526,6 +538,33 @@ describe("Spørreundersøkelseliste", () => {
             expect(
                 screen.getAllByRole("button", { name: "Endre samarbeid" }),
             ).toHaveLength(antallAvsluttetBehovsvurdering);
+        });
+
+        it("Logger metrikk ved endring av samarbeid", () => {
+            const listeMedNoenDummySomKanFlyttes: Spørreundersøkelse[] =
+                dummySpørreundersøkelseliste.map((undersøkelse, index) => ({
+                    ...undersøkelse,
+                    type: "BEHOVSVURDERING",
+                    publiseringStatus:
+                        index % 2 === 0 ? "IKKE_PUBLISERT" : "PUBLISERT",
+                    status: "AVSLUTTET",
+                    harMinstEttResultat: true,
+                }));
+
+            render(
+                <DummySpørreundersøkelseProvider
+                    spørreundersøkelseliste={listeMedNoenDummySomKanFlyttes}
+                >
+                    <Spørreundersøkelseliste />
+                </DummySpørreundersøkelseProvider>,
+            );
+
+            fireEvent.click(
+                screen.getAllByRole("button", { name: "Endre samarbeid" })[0],
+            );
+            fireEvent.click(screen.getAllByText("Annet samarbeid")[0]);
+
+            expect(loggEndretSamarbeid).toHaveBeenCalledWith(2);
         });
     });
     describe("status: SLETTET", () => {
