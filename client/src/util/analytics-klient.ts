@@ -38,7 +38,7 @@ type NavsAnalyticsTopologiEventer =
     | "popover åpnet"
     | "exportert til pdf"
     | "endret tab virksomhetsvisning"
-    | "flyttet sak"
+    | "flyttet kartlegging"
     | "endring i plan";
 
 export const loggSideLastet = (sidetittel: string) => {
@@ -259,7 +259,7 @@ export const loggBrukerFulgteRedirectlenkeMedSøk = () => {
 };
 
 export const loggEndretSamarbeid = (samarbeidId: number) => {
-    logAnalyticsEvent("flyttet sak", {
+    logAnalyticsEvent("flyttet kartlegging", {
         samarbeidId: String(samarbeidId),
     });
 };
