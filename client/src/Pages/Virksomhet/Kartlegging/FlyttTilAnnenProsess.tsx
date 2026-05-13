@@ -4,6 +4,7 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { useSpørreundersøkelse } from "../../../components/Spørreundersøkelse/SpørreundersøkelseContext";
 import { useHentSamarbeid } from "../../../api/lydia-api/spørreundersøkelse";
+import { loggEndretSamarbeid } from "../../../util/analytics-klient";
 
 interface Props {
     iaSak: IASak;
@@ -53,11 +54,14 @@ export const FlyttTilAnnenProsess = ({
                                     )
                                     .map((samarbeid) => (
                                         <Dropdown.Menu.GroupedList.Item
-                                            onClick={() =>
+                                            onClick={() => {
                                                 flyttTilValgtSamarbeid(
                                                     samarbeid.id,
-                                                )
-                                            }
+                                                );
+                                                loggEndretSamarbeid(
+                                                    samarbeid.id,
+                                                );
+                                            }}
                                             key={samarbeid.id}
                                         >
                                             {samarbeid.navn}
