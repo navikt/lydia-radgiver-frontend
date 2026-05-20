@@ -40,7 +40,7 @@ export default function VirksomhetErVurdert({
         VirksomhetIATilstandEnum.enum.VirksomhetVurderes
     ) {
         return (
-            <HStack gap="4">
+            <HStack gap="space-16">
                 <VurderVirksomhetenNå orgnr={virksomhet.orgnr} />
                 <VurderesAutomatiskModal
                     tilstand={tilstand}
@@ -55,7 +55,7 @@ export default function VirksomhetErVurdert({
         VirksomhetIATilstandEnum.enum.VirksomhetKlarTilVurdering
     ) {
         return (
-            <HStack gap="4">
+            <HStack gap="space-16">
                 <VurderVirksomhetenNå orgnr={virksomhet.orgnr} />
                 <VurdertTilModal tilstand={tilstand} virksomhet={virksomhet} />
                 <EierskapKnapp iaSak={iaSak} />
@@ -143,7 +143,8 @@ function VurdertTilModal({
                 style={{
                     backgroundColor: "var(--ax-meta-lime-100)",
                     color: "var(--a-black)",
-                }}>
+                }}
+            >
                 Vurdert frem til{" "}
                 {lokalDato(tilstand.nesteTilstand.planlagtDato)}
             </Button>
@@ -228,7 +229,8 @@ function VurderesAutomatiskModal({
                 style={{
                     backgroundColor: "var(--ax-meta-lime-100)",
                     color: "var(--a-black)",
-                }}>
+                }}
+            >
                 Vurderes automatisk{" "}
                 {lokalDato(tilstand.nesteTilstand.planlagtDato)}
             </Button>

@@ -95,7 +95,7 @@ export default function TeamInnhold({
                         disabled={!kanTaEierskap}
                         onClick={gjørTaEierskap}
                     >
-                        <HStack gap={"2"} align={"center"}>
+                        <HStack gap={"space-8"} align={"center"}>
                             {!brukerErEier ? (
                                 <PersonIcon aria-hidden />
                             ) : (

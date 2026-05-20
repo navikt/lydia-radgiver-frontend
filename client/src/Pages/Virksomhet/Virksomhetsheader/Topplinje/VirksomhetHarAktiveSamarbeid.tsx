@@ -13,7 +13,7 @@ export default function VirksomhetHarAktiveSamarbeid({
     virksomhet: Virksomhet;
 }) {
     return (
-        <HStack gap="4">
+        <HStack gap="space-16">
             <EierskapKnapp iaSak={iaSak} />
             <Salesforcelenke orgnr={virksomhet.orgnr} />
         </HStack>

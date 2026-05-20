@@ -30,7 +30,7 @@ export default function AlleSamarbeidIVirksomhetErAvsluttet({
     tilstand: VirksomhetTilstandDto;
 }) {
     return (
-        <HStack gap="4">
+        <HStack gap="space-16">
             <VurderVirksomhetKnapp virksomhet={virksomhet} label="Vurder nå" />
             <AvsluttetFremTilModal
                 tilstand={tilstand}
@@ -91,7 +91,8 @@ function AvsluttetFremTilModal({
                 style={{
                     backgroundColor: "var(--ax-neutral-100)",
                     color: "var(--a-black)",
-                }}>
+                }}
+            >
                 Avsluttet frem til{" "}
                 {lokalDato(tilstand.nesteTilstand.planlagtDato)}
             </Button>
