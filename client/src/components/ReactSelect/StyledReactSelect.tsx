@@ -11,11 +11,11 @@ export const reactSelectStyle = (): StylesConfig => ({
     control: (provided, state) =>
         ({
             ...provided,
-            border: `1px solid var(--a-gray-600)`,
-            borderRadius: `var(--a-border-radius-medium)`,
-            boxShadow: state.isFocused ? `0 0 0 3px var(--a-blue-800);` : "",
+            border: `1px solid var(--ax-neutral-700)`,
+            borderRadius: `var(--ax-radius-4)`,
+            boxShadow: state.isFocused ? `0 0 0 3px var(--ax-accent-900);` : "",
             ":hover": {
-                border: `1px solid var(--a-blue-500)`,
+                border: `1px solid var(--ax-accent-600)`,
             },
         }) as CSSObjectWithLabel,
     placeholder: (provided) =>

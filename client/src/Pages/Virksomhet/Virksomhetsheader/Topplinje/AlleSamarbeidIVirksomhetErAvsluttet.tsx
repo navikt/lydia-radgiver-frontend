@@ -88,7 +88,7 @@ function AvsluttetFremTilModal({
                 iconPosition="right"
                 onClick={() => modalRef.current?.showModal()}
                 style={{
-                    backgroundColor: "var(--a-gray-50)",
+                    backgroundColor: "var(--ax-neutral-100)",
                     color: "var(--a-black)",
                 }}
             >

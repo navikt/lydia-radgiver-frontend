@@ -3,7 +3,7 @@
 .prioriteringstabell {
     width: fit-content;
 
-    @include containere.hvitBoksMedSkygge;
+    @include containere.hvitBoksMedBorder;
 
     .rightAlignedDataCell {
         text-align: right;

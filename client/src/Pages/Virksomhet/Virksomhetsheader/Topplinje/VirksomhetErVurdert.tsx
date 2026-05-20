@@ -140,7 +140,7 @@ function VurdertTilModal({
                 iconPosition="right"
                 onClick={() => modalRef.current?.showModal()}
                 style={{
-                    backgroundColor: "var(--a-limegreen-50)",
+                    backgroundColor: "var(--ax-meta-lime-100)",
                     color: "var(--a-black)",
                 }}
             >
@@ -225,7 +225,7 @@ function VurderesAutomatiskModal({
                 iconPosition="right"
                 onClick={() => modalRef.current?.showModal()}
                 style={{
-                    backgroundColor: "var(--a-limegreen-50)",
+                    backgroundColor: "var(--ax-meta-lime-100)",
                     color: "var(--a-black)",
                 }}
             >

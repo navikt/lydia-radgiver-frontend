@@ -23,12 +23,12 @@
             gap: 1rem;
 
             .filterItem {
-                background-color: var(--a-white);
-                border-radius: var(--a-border-radius-medium);
+                background-color: white;
+                border-radius: var(--ax-radius-4);
 
                 & > button:hover {
-                    border-radius: var(--a-border-radius-medium);
-                    background-color: var(--a-white);
+                    border-radius: var(--ax-radius-4);
+                    background-color: white;
                 }
 
                 .filterHeader {
@@ -44,9 +44,9 @@
         }
 
         .aktivStatusFilter {
-            background-color: var(--a-white);
+            background-color: white;
             padding: 0.125rem 2.75rem;
-            border-radius: var(--a-border-radius-medium);
+            border-radius: var(--ax-radius-4);
         }
 
         .eierFølgerAccordion {
