@@ -130,7 +130,8 @@ export default function PåbegyntRad({
                                             Fullfør
                                         </Button>
                                         <Button
-                                            variant="secondary-neutral"
+                                            data-color="neutral"
+                                            variant="secondary"
                                             size="small"
                                             onClick={() =>
                                                 setSlettSpørreundersøkelseModalÅpen(
@@ -138,8 +139,7 @@ export default function PåbegyntRad({
                                                 )
                                             }
                                             icon={<TrashIcon aria-hidden />}
-                                            aria-label="Slett behovsvurdering"
-                                        />
+                                            aria-label="Slett behovsvurdering" />
                                     </>
                                 )}
                                 <FullførSpørreundersøkelseModal

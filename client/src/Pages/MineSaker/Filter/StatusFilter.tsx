@@ -61,7 +61,7 @@ export const StatusFilter = ({
 
     return (
         <>
-            <Accordion className={styles.filterAccordion} variant="default">
+            <Accordion data-color="accent" className={styles.filterAccordion}>
                 <Accordion.Item className={styles.filterItem} defaultOpen>
                     <Accordion.Header className={styles.filterHeader}>
                         Status

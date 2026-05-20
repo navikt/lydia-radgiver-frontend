@@ -82,16 +82,16 @@ function AvsluttetFremTilModal({
     return (
         <>
             <Button
+                data-color="neutral"
                 size="small"
-                variant="primary-neutral"
+                variant="primary"
                 icon={<DocPencilIcon aria-hidden />}
                 iconPosition="right"
                 onClick={() => modalRef.current?.showModal()}
                 style={{
                     backgroundColor: "var(--ax-neutral-100)",
                     color: "var(--a-black)",
-                }}
-            >
+                }}>
                 Avsluttet frem til{" "}
                 {lokalDato(tilstand.nesteTilstand.planlagtDato)}
             </Button>

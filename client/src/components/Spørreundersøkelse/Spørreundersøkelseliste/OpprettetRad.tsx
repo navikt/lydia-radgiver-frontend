@@ -123,7 +123,8 @@ export default function OpprettetRad({
                                     </Button>
                                     {kanEndreSpørreundersøkelser && (
                                         <Button
-                                            variant="secondary-neutral"
+                                            data-color="neutral"
+                                            variant="secondary"
                                             size="small"
                                             onClick={() =>
                                                 setSlettSpørreundersøkelseModalÅpen(
@@ -138,8 +139,7 @@ export default function OpprettetRad({
                                                 validererSpørreundersøkelser ||
                                                 lasterIaSakStatus ||
                                                 validererIaSakStatus
-                                            }
-                                        />
+                                            } />
                                     )}
                                 </>
                             )}

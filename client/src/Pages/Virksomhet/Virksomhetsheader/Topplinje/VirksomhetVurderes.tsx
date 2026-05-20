@@ -343,8 +343,8 @@ function ExpandingRadio({
     return (
         <Box
             padding="space-16"
-            borderRadius="xlarge"
-            background="surface-alt-2-subtle"
+            borderRadius="12"
+            background="meta-lime-soft"
         >
             <Radio value={value}>{label}</Radio>
             {selected === value && (

@@ -45,80 +45,75 @@ export const MineSakerKort = ({
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
-    return (
-        alleSamarbeid && (
-            <VStack className={styles.sakskort}>
-                <div className={styles.kortHeader}>
-                    <Heading level="3" size="medium">
-                        <InternLenke
-                            className={styles.headerlenke}
-                            href={gåTilSakUrl}
-                            onClick={() =>
-                                loggGåTilSakFraMineSaker(
-                                    "virksomhetslenke",
-                                    gåTilSakUrl,
-                                )
-                            }
-                        >
-                            {orgnavn}
-                        </InternLenke>
-                        <span className={styles.subheader}>
-                            {" "}
-                            - {iaSak.orgnr}
-                        </span>
-                    </Heading>
-                    <HStack justify={"space-between"} align={"center"}>
-                        <HStack gap={"4"} align={"center"}>
-                            <IAProsessStatusBadge slim status={iaSak.status} />
-                            <span className={styles.eiertekst}>
-                                <b>Eier</b>
-                                {iaSak.eidAv ? (
-                                    <NavIdentMedLenke navIdent={iaSak.eidAv} />
-                                ) : (
-                                    <span>Ingen eier</span>
-                                )}
-                            </span>
-
-                            <Button
-                                className={styles.teamModalButton}
-                                onClick={() => setIsModalOpen(true)}
-                                variant="tertiary-neutral"
-                                icon={
-                                    <NotePencilIcon
-                                        aria-hidden
-                                        fontSize={"1.5rem"}
-                                    />
-                                }
-                                size="small"
-                                iconPosition="right"
-                            >
-                                <span>Følgere ({følgere.length})</span>
-                            </Button>
-                            <TeamModal
-                                open={isModalOpen}
-                                setOpen={setIsModalOpen}
-                                iaSak={iaSak}
-                                erPåMineSaker
-                            />
-                        </HStack>
-                        {salesforceInfo?.url && (
-                            <EksternLenke href={salesforceInfo?.url}>
-                                Salesforce
-                            </EksternLenke>
+    return (alleSamarbeid && (<VStack className={styles.sakskort}>
+        <div className={styles.kortHeader}>
+            <Heading level="3" size="medium">
+                <InternLenke
+                    className={styles.headerlenke}
+                    href={gåTilSakUrl}
+                    onClick={() =>
+                        loggGåTilSakFraMineSaker(
+                            "virksomhetslenke",
+                            gåTilSakUrl,
+                        )
+                    }
+                >
+                    {orgnavn}
+                </InternLenke>
+                <span className={styles.subheader}>
+                    {" "}
+                    - {iaSak.orgnr}
+                </span>
+            </Heading>
+            <HStack justify={"space-between"} align={"center"}>
+                <HStack gap={"4"} align={"center"}>
+                    <IAProsessStatusBadge slim status={iaSak.status} />
+                    <span className={styles.eiertekst}>
+                        <b>Eier</b>
+                        {iaSak.eidAv ? (
+                            <NavIdentMedLenke navIdent={iaSak.eidAv} />
+                        ) : (
+                            <span>Ingen eier</span>
                         )}
-                    </HStack>
-                </div>
+                    </span>
 
-                {alleSamarbeid && alleSamarbeid.length > 0 && (
-                    <>
-                        <div className={styles.skillelinje} />
-                        <SamarbeidsKort
-                            iaSak={iaSak}
-                            alleSamarbeid={alleSamarbeid}
-                        />
-                    </>
+                    <Button
+                        data-color="neutral"
+                        className={styles.teamModalButton}
+                        onClick={() => setIsModalOpen(true)}
+                        variant="tertiary"
+                        icon={
+                            <NotePencilIcon
+                                aria-hidden
+                                fontSize={"1.5rem"}
+                            />
+                        }
+                        size="small"
+                        iconPosition="right">
+                        <span>Følgere ({følgere.length})</span>
+                    </Button>
+                    <TeamModal
+                        open={isModalOpen}
+                        setOpen={setIsModalOpen}
+                        iaSak={iaSak}
+                        erPåMineSaker
+                    />
+                </HStack>
+                {salesforceInfo?.url && (
+                    <EksternLenke href={salesforceInfo?.url}>
+                        Salesforce
+                    </EksternLenke>
                 )}
-            </VStack>
-        )
-    );
+            </HStack>
+        </div>
+        {alleSamarbeid && alleSamarbeid.length > 0 && (
+            <>
+                <div className={styles.skillelinje} />
+                <SamarbeidsKort
+                    iaSak={iaSak}
+                    alleSamarbeid={alleSamarbeid}
+                />
+            </>
+        )}
+    </VStack>));
 };
