@@ -130,7 +130,7 @@ describe("initialFiltervisningState", () => {
             fra: 5,
             til: NaN,
         });
-        expect(initialFiltervisningState.sektor).toBe("");
+        expect(initialFiltervisningState.sektor).toEqual([]);
         expect(initialFiltervisningState.iaStatus).toBeUndefined();
         expect(initialFiltervisningState.bransjeprogram).toEqual([]);
         expect(initialFiltervisningState.eiere).toEqual([]);

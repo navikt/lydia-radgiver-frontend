@@ -106,7 +106,7 @@ const søkeparametereTilFilterstate = (
             parametere.eiere?.includes(eier.navIdent),
         ),
 
-        sektor: parametere.sektor,
+        sektor: parametere.sektor?.split(",") ?? [],
 
         virksomhetTilstand: filterverdier.virksomhetTilstander.find(
             (tilstand) => tilstand === parametere.virksomhetTilstand,
@@ -275,7 +275,7 @@ type EndreIAStatusAction = {
 type EndreSektorAction = {
     type: "ENDRE_SEKTOR";
     payload: {
-        sektor: string;
+        sektor?: string[];
     };
 };
 type EndrePeriodeAction = {
@@ -332,7 +332,7 @@ export interface FiltervisningState {
     sykefraværsprosent: Range;
     valgtSnittfilter?: ValgtSnittFilter;
     antallArbeidsforhold: Range;
-    sektor?: string;
+    sektor?: string[];
     virksomhetTilstand?: VirksomhetIATilstand;
     iaStatus?: IAProsessStatusType;
     bransjeprogram: string[];
@@ -357,7 +357,7 @@ export const initialFiltervisningState: FiltervisningState = {
         fra: 5,
         til: NaN,
     },
-    sektor: "",
+    sektor: [],
     virksomhetTilstand: undefined,
     iaStatus: undefined,
     bransjeprogram: [],

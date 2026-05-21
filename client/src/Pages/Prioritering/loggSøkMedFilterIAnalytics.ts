@@ -15,7 +15,7 @@ export const loggSøkMedFilterIAnalytics = (
     const filter = [
         /* Filter som er enkeltverdiar */
         {
-            vilkår: filtervisningstate.sektor,
+            vilkår: filtervisningstate.sektor?.length,
             filterverdiKategori: FilterverdiKategorier.SEKTOR,
         },
         {
