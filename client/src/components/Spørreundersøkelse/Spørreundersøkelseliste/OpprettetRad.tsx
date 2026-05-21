@@ -102,7 +102,7 @@ export default function OpprettetRad({
                             brukerRolle !== "Lesetilgang" && (
                                 <>
                                     <Button
-                                        variant="primary"
+                                        data-color="accent"
                                         size="small"
                                         onClick={() =>
                                             setBekreftStartKartleggingModalÅpen(
@@ -113,6 +113,7 @@ export default function OpprettetRad({
                                         Start
                                     </Button>
                                     <Button
+                                        data-color="accent"
                                         variant="secondary"
                                         size="small"
                                         onClick={() =>
@@ -139,7 +140,8 @@ export default function OpprettetRad({
                                                 validererSpørreundersøkelser ||
                                                 lasterIaSakStatus ||
                                                 validererIaSakStatus
-                                            } />
+                                            }
+                                        />
                                     )}
                                 </>
                             )}

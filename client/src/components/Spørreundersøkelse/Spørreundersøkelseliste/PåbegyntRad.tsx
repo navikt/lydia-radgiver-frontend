@@ -102,6 +102,7 @@ export default function PåbegyntRad({
                         brukerRolle !== "Lesetilgang" ? (
                             <>
                                 <Button
+                                    data-color="accent"
                                     variant="primary"
                                     size="small"
                                     onClick={() =>
@@ -119,6 +120,7 @@ export default function PåbegyntRad({
                                 {kanEndreSpørreundersøkelser && (
                                     <>
                                         <Button
+                                            data-color="accent"
                                             variant="secondary"
                                             size="small"
                                             onClick={() =>
@@ -139,7 +141,8 @@ export default function PåbegyntRad({
                                                 )
                                             }
                                             icon={<TrashIcon aria-hidden />}
-                                            aria-label="Slett behovsvurdering" />
+                                            aria-label="Slett behovsvurdering"
+                                        />
                                     </>
                                 )}
                                 <FullførSpørreundersøkelseModal
