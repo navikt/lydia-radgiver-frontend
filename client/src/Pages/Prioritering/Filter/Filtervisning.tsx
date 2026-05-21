@@ -6,7 +6,7 @@ import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
 import { Eier, VirksomhetIATilstand } from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
-import { SektorDropdown } from "./SektorDropdown";
+import { Sektorer } from "./Sektorer";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { useSearchParams } from "react-router-dom";
@@ -62,7 +62,7 @@ export const Filtervisning = ({
         tilbakestill,
     } = filtervisning;
 
-    const endreSektor = (sektor: string) => {
+    const endreSektor = (sektor: string[]) => {
         oppdaterSektorer({ sektor });
     };
 
@@ -161,7 +161,7 @@ export const Filtervisning = ({
                     valgtNæringsgruppe={state.næringsgrupper}
                     endreNæringsgrupper={endreNæringsgruppe}
                 />
-                <SektorDropdown
+                <Sektorer
                     endreSektor={endreSektor}
                     sektorer={state.filterverdier?.sektorer ?? []}
                     valgtSektor={state.sektor}
