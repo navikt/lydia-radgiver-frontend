@@ -171,7 +171,7 @@ export const søkeverdierTilUrlSearchParams = (
     appendIfPresent(
         "sektor",
         sektor,
-        (e) => e.map((sektor) => sektor).join(","),
+        (e) => e.map((sektor) => sektor.kode).join(","),
         params,
     );
     appendIfPresent(

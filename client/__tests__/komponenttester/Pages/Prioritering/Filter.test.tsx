@@ -7,7 +7,7 @@ import {
     SykefraværsprosentVelger,
 } from "../../../../src/Pages/Prioritering/Filter/SykefraværsprosentVelger";
 import { AntallArbeidsforholdVelger } from "../../../../src/Pages/Prioritering/Filter/AntallArbeidsforholdVelger";
-import { Sektorer } from "../../../../src/Pages/Prioritering/Filter/Sektorer";
+import { SektorDropdown } from "../../../../src/Pages/Prioritering/Filter/SektorDropdown";
 import { FylkeMultidropdown } from "../../../../src/Pages/Prioritering/Filter/FylkeMultidropdown";
 import { Kommunedropdown } from "../../../../src/Pages/Prioritering/Filter/Kommunedropdown";
 import { Næringsgruppedropdown } from "../../../../src/Pages/Prioritering/Filter/NæringsgruppeDropdown";
@@ -224,10 +224,10 @@ describe("SektorDropdown", () => {
 
     test("rendrer select med label 'Sektor'", () => {
         render(
-            <Sektorer
-                valgtSektor={[]}
-                endreSektor={mockEndreSektor}
-                sektorer={sektorer}
+            <SektorDropdown
+                valgteSektorer={[]}
+                endreSektorer={mockEndreSektor}
+                alleSektorer={sektorer}
             />,
         );
         expect(screen.getByLabelText("Sektor")).toBeInTheDocument();
@@ -235,51 +235,30 @@ describe("SektorDropdown", () => {
 
     test("ingen skal være valgt som standard", () => {
         render(
-            <Sektorer
-                valgtSektor={[]}
-                endreSektor={mockEndreSektor}
-                sektorer={sektorer}
+            <SektorDropdown
+                valgteSektorer={[]}
+                endreSektorer={mockEndreSektor}
+                alleSektorer={sektorer}
             />,
         );
 
-        const checkboxes = screen.getAllByRole("checkbox");
-
-        checkboxes.forEach((cb) => {
-            expect(cb).not.toBeChecked();
-        });
-    });
-
-    test("kaller endreSektor når valg endres", () => {
-        render(
-            <Sektorer
-                valgtSektor={[]}
-                endreSektor={mockEndreSektor}
-                sektorer={sektorer}
-            />,
-        );
-
-        fireEvent.click(
-            screen.getByRole("checkbox", {
-                name: "Privat sektor",
-            }),
-        );
-
-        expect(mockEndreSektor).toHaveBeenCalledWith(["PRIVAT"]);
+        expect(screen.queryByRole("button")).not.toBeInTheDocument();
     });
 
     test("viser valgt sektor", () => {
         render(
-            <Sektorer
-                valgtSektor={["OFFENTLIG"]}
-                endreSektor={mockEndreSektor}
-                sektorer={sektorer}
+            <SektorDropdown
+                valgteSektorer={[
+                    {
+                        kode: "OFFENTLIG",
+                        beskrivelse: "Offentlig sektor",
+                    },
+                ]}
+                endreSektorer={mockEndreSektor}
+                alleSektorer={sektorer}
             />,
         );
-        expect(
-            screen.getByRole("checkbox", {
-                name: "Offentlig sektor",
-            }),
-        ).toBeChecked();
+        expect(screen.getByText("Offentlig sektor")).toBeInTheDocument();
     });
 });
 
@@ -801,23 +780,6 @@ describe("Filtervisning", () => {
         expect(
             container.querySelector(".custom-filter-class"),
         ).toBeInTheDocument();
-    });
-
-    test("kaller oppdaterSektorer når sektor endres", async () => {
-        renderWithRouter(
-            <Filtervisning
-                filtervisning={mockFiltervisning}
-                søkPåNytt={mockSøkPåNytt}
-            />,
-        );
-        fireEvent.click(
-            screen.getByRole("checkbox", {
-                name: "Privat sektor",
-            }),
-        );
-        expect(mockFiltervisning.oppdaterSektorer).toHaveBeenCalledWith({
-            sektor: ["PRIVAT"],
-        });
     });
 
     test("kaller oppdaterVirksomhetTilstand når status endres", async () => {

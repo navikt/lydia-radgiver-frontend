@@ -159,7 +159,10 @@ describe("loggSøkMedFilterIAnalytics", () => {
     });
 
     test("logger SEKTOR når sektor er satt", () => {
-        const state = { ...createBaseFilterState(), sektor: ["PRIVAT"] };
+        const state = {
+            ...createBaseFilterState(),
+            sektor: [{ kode: "PRIVAT", beskrivelse: "Privat sektor" }],
+        };
         loggSøkMedFilterIAnalytics(state, Søkekomponenter.PRIORITERING);
         expect(mockLoggFilterverdiKategorier).toHaveBeenCalledWith(
             expect.arrayContaining([FilterverdiKategorier.SEKTOR]),
@@ -251,7 +254,10 @@ describe("loggSøkMedFilterIAnalytics", () => {
     });
 
     test("fungerer med STATUSOVERSIKT søkekomponent", () => {
-        const state = { ...createBaseFilterState(), sektor: ["PRIVAT"] };
+        const state = {
+            ...createBaseFilterState(),
+            sektor: [{ kode: "PRIVAT", beskrivelse: "Privat sektor" }],
+        };
         loggSøkMedFilterIAnalytics(state, Søkekomponenter.STATUSOVERSIKT);
         expect(mockLoggFilterverdiKategorier).toHaveBeenCalledWith(
             expect.arrayContaining([FilterverdiKategorier.SEKTOR]),
