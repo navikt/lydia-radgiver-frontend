@@ -6,7 +6,7 @@ import { AntallArbeidsforholdVelger } from "./AntallArbeidsforholdVelger";
 import { EierDropdown } from "./EierDropdown";
 import { Eier, VirksomhetIATilstand } from "../../../domenetyper/domenetyper";
 import { useFiltervisningState } from "./filtervisning-reducer";
-import { Sektorer } from "./Sektorer";
+import { SektorDropdown } from "./SektorDropdown";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
 import { BransjeEllerNæringDropdown } from "./BransjeEllerNæringDropdown";
 import { useSearchParams } from "react-router-dom";
@@ -17,6 +17,7 @@ import {
 import { FylkeMultidropdown } from "./FylkeMultidropdown";
 import styles from "./filter.module.scss";
 import { VirksomhetTilstandDropdown } from "./VirksomhetTilstandDropdown";
+import { Sektor } from "../../../domenetyper/virksomhet";
 
 type Filtervisning = Omit<
     ReturnType<typeof useFiltervisningState>,
@@ -62,7 +63,7 @@ export const Filtervisning = ({
         tilbakestill,
     } = filtervisning;
 
-    const endreSektor = (sektor: string[]) => {
+    const endreSektor = (sektor: Sektor[]) => {
         oppdaterSektorer({ sektor });
     };
 
@@ -161,10 +162,10 @@ export const Filtervisning = ({
                     valgtNæringsgruppe={state.næringsgrupper}
                     endreNæringsgrupper={endreNæringsgruppe}
                 />
-                <Sektorer
-                    endreSektor={endreSektor}
-                    sektorer={state.filterverdier?.sektorer ?? []}
-                    valgtSektor={state.sektor}
+                <SektorDropdown
+                    endreSektorer={endreSektor}
+                    alleSektorer={state.filterverdier?.sektorer ?? []}
+                    valgteSektorer={state.sektor}
                 />
             </div>
             <br />

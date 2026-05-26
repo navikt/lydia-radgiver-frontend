@@ -10,7 +10,7 @@ import {
 } from "../../../domenetyper/domenetyper";
 import { søkeverdierTilUrlSearchParams } from "../../../api/lydia-api/sok";
 import { FylkeMedKommuner, Kommune } from "../../../domenetyper/fylkeOgKommune";
-import { Næringsgruppe } from "../../../domenetyper/virksomhet";
+import { Næringsgruppe, Sektor } from "../../../domenetyper/virksomhet";
 import {
     Filterverdier,
     Sorteringsverdi,
@@ -67,6 +67,14 @@ function hentKommunerFraParametere(
         .filter((kommune) => kommuneliste.includes(kommune.nummer));
 }
 
+function hentSektorerFraParametere(
+    sektorer: string,
+    filterverdier: Filterverdier,
+): Sektor[] {
+    const sektorkoder = sektorer.split(",").filter((v) => v.trim().length);
+    return filterverdier.sektorer.filter((s) => sektorkoder.includes(s.kode));
+}
+
 const søkeparametereTilFilterstate = (
     parametere: Søkeparametere,
     filterverdier: Filterverdier,
@@ -106,7 +114,10 @@ const søkeparametereTilFilterstate = (
             parametere.eiere?.includes(eier.navIdent),
         ),
 
-        sektor: parametere.sektor?.split(",") ?? [],
+        sektor: hentSektorerFraParametere(
+            parametere?.sektor ?? "",
+            filterverdier,
+        ),
 
         virksomhetTilstand: filterverdier.virksomhetTilstander.find(
             (tilstand) => tilstand === parametere.virksomhetTilstand,
@@ -275,7 +286,7 @@ type EndreIAStatusAction = {
 type EndreSektorAction = {
     type: "ENDRE_SEKTOR";
     payload: {
-        sektor?: string[];
+        sektor?: Sektor[];
     };
 };
 type EndrePeriodeAction = {
@@ -332,7 +343,7 @@ export interface FiltervisningState {
     sykefraværsprosent: Range;
     valgtSnittfilter?: ValgtSnittFilter;
     antallArbeidsforhold: Range;
-    sektor?: string[];
+    sektor?: Sektor[];
     virksomhetTilstand?: VirksomhetIATilstand;
     iaStatus?: IAProsessStatusType;
     bransjeprogram: string[];
