@@ -31,7 +31,7 @@ const lagFilterstate = (overrides: Partial<FiltervisningState> = {}) => {
         side: 1,
         bransjeprogram: ["BP1", "BP2"],
         eiere: [{ navIdent: "Z12345" }] as Array<{ navIdent: string }>,
-        sektor: ["PRIVAT"],
+        sektor: [{ kode: "PRIVAT", beskrivelse: "Privat sektor" }],
     } as unknown as FiltervisningState;
 
     return {

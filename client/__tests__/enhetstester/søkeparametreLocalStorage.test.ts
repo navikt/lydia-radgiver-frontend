@@ -68,7 +68,7 @@ const dummyLocalStorage: FiltervisningState = {
             navIdent: "H12345",
         },
     ],
-    sektor: [{ kode: "1", beskrivelse: "Privat sektor" }],
+    sektor: [{ kode: "PRIVAT", beskrivelse: "Privat sektor" }],
     iaStatus: "NY",
     bransjeprogram: ["NÆRINGSMIDDELINDUSTRI"],
     næringsgrupper: [
