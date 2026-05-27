@@ -49,24 +49,23 @@ export const MineSakerKort = ({
         alleSamarbeid && (
             <VStack className={styles.sakskort}>
                 <div className={styles.kortHeader}>
-                    <Heading level="3" size="medium">
-                        <InternLenke
-                            className={styles.headerlenke}
-                            href={gåTilSakUrl}
-                            onClick={() =>
-                                loggGåTilSakFraMineSaker(
-                                    "virksomhetslenke",
-                                    gåTilSakUrl,
-                                )
-                            }
-                        >
+                    <InternLenke
+                        className={styles.headerlenke}
+                        href={gåTilSakUrl}
+                        onClick={() =>
+                            loggGåTilSakFraMineSaker(
+                                "virksomhetslenke",
+                                gåTilSakUrl,
+                            )
+                        }
+                    >
+                        <Heading level="3" size="medium">
                             {orgnavn}
-                        </InternLenke>
-                        <span className={styles.subheader}>
-                            {" "}
-                            - {iaSak.orgnr}
-                        </span>
-                    </Heading>
+                            <span className={styles.subheader}>
+                                {` - ${iaSak.orgnr}`}
+                            </span>
+                        </Heading>
+                    </InternLenke>
                     <HStack justify={"space-between"} align={"center"}>
                         <HStack gap={"space-16"} align={"center"}>
                             <IAProsessStatusBadge slim status={iaSak.status} />
