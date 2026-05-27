@@ -4,7 +4,6 @@ import { IAProsessStatusType } from "../../domenetyper/domenetyper";
 import FiltreringMineSaker from "./Filter/FiltreringMineSaker";
 import React, { useEffect, useMemo, useState } from "react";
 import { MineSakerKort } from "./MineSakerKort";
-import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { Sorteringsknapper } from "./Sorteringsknapper";
 import {
     loggBrukerFulgteRedirectlenkeMedSøk,
@@ -18,15 +17,16 @@ import styles from "./minesaker.module.scss";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
 
 export const EIER_FØLGER_FILTER_VALUES = ["eier", "følger"] as const;
+export const ARKIV_STATUSER: readonly IAProsessStatusType[] = [
+    "FULLFØRT",
+    "IKKE_AKTUELL",
+    "IKKE_AKTIV",
+    "SLETTET",
+    "AVSLUTTET",
+    "VURDERT",
+] as const;
+
 export type EierFølgerFilterType = (typeof EIER_FØLGER_FILTER_VALUES)[number][];
-
-export type SøkFilterType = string;
-
-export type SetMinesakerFiltreType = {
-    setStatusFilter: (val: IAProsessStatusType[]) => void;
-    setSøkFilter: (val: string) => void;
-    setEierFølgerFilter: (val: EierFølgerFilterType) => void;
-};
 
 export const MineSakerside = () => {
     useTittel(statiskeSidetitler.mineSakerSide);
@@ -43,7 +43,7 @@ export const MineSakerside = () => {
     const [statusFilter, setStatusFilter] = useState<IAProsessStatusType[]>([]);
     const [eierFølgerFilter, setEierFølgerFilter] =
         useState<EierFølgerFilterType>([]);
-    const [søkFilter, setSøkFilter] = useState<SøkFilterType>("");
+    const [søkFilter, setSøkFilter] = useState<string>("");
 
     const filtretSaker = useMemo(
         () =>
@@ -123,11 +123,9 @@ export const MineSakerside = () => {
             <div className={styles.minesakerFlex}>
                 <div className={styles.stickyfilter}>
                     <FiltreringMineSaker
-                        setFiltre={{
-                            setEierFølgerFilter,
-                            setStatusFilter,
-                            setSøkFilter,
-                        }}
+                        setEierFølgerFilter={setEierFølgerFilter}
+                        setStatusFilter={setStatusFilter}
+                        setSøkFilter={setSøkFilter}
                     />
                 </div>
                 <div className={styles.mineSakerListe}>

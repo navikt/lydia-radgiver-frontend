@@ -111,7 +111,7 @@ function Innhold({
         >
             <SpørreundersøkelseHeading samarbeid={gjeldendeSamarbeid}>
                 <VisHvisSamarbeidErÅpent>
-                    <HStack gap="4">
+                    <HStack gap="space-16">
                         <OpprettNySpørreundersøkelseKnapp
                             onClick={() =>
                                 opprettSpørreundersøkelseOgMuter(

@@ -3,11 +3,9 @@
 .editTemaModal {
     padding: 0;
     max-width: 64rem;
-    --a-spacing-6: 0.5rem;
 
     @media (min-width: 480px) {
         padding: 1.5rem;
-        --a-spacing-6: 1.5rem;
     }
 
     .editTemaModalBody {
@@ -17,15 +15,6 @@
 }
 
 .eksportContainer {
-    // Vi må override litt farger før eksport.
-    --ac-timeline-period-danger-border: #c30000;
-    --ac-timeline-period-danger-bg: #c30000;
-    --ac-timeline-period-success-border: #06893a;
-    --ac-timeline-period-success-bg: #06893a;
-    --ac-timeline-period-info-border: #368da8;
-    --ac-timeline-period-info-bg: #368da8;
-    --ac-timeline-period-warning-border: #c77300;
-    --ac-timeline-period-warning-bg: #c77300;
     font-family: Arial, sans-serif;
 
     .eksportInnholdTema {
@@ -34,7 +23,7 @@
         flex-direction: column;
         gap: 3rem;
         margin-top: 2rem;
-        border-top: 1px solid var(--a-gray-300);
+        border-top: 1px solid var(--ax-neutral-400);
         padding: 2rem;
     }
 }

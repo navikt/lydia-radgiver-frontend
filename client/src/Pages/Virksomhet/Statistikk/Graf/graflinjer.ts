@@ -18,31 +18,31 @@ export interface Graflinje {
 export const graflinjer: { [key: string]: Graflinje } = {
     [Grafer.VIRKSOMHET]: {
         navn: "Virksomhet",
-        farge: "var(--a-data-surface-3)",
+        farge: "var(--ax-warning-700)",
         symbol: "circle",
         rekkefølge: 0,
     },
     [Grafer.NÆRING]: {
         navn: "Næring",
-        farge: "var(--a-data-surface-4)",
+        farge: "var(--ax-info-700)",
         symbol: "wye",
         rekkefølge: 1,
     },
     [Grafer.BRANSJE]: {
         navn: "Bransje",
-        farge: "var(--a-data-surface-5)",
+        farge: "var(--ax-success-500)",
         symbol: "diamond",
         rekkefølge: 2,
     },
     [Grafer.SEKTOR]: {
         navn: "Sektor",
-        farge: "var(--a-data-surface-6)",
+        farge: "var(--ax-meta-purple-500)",
         symbol: "triangle",
         rekkefølge: 3,
     },
     [Grafer.LAND]: {
         navn: "Norge",
-        farge: "var(--a-data-surface-1)",
+        farge: "var(--ax-accent-500)",
         symbol: "square",
         rekkefølge: 4,
     },

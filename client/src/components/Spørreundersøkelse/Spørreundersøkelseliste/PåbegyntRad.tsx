@@ -102,6 +102,7 @@ export default function PåbegyntRad({
                         brukerRolle !== "Lesetilgang" ? (
                             <>
                                 <Button
+                                    data-color="accent"
                                     variant="primary"
                                     size="small"
                                     onClick={() =>
@@ -119,6 +120,7 @@ export default function PåbegyntRad({
                                 {kanEndreSpørreundersøkelser && (
                                     <>
                                         <Button
+                                            data-color="accent"
                                             variant="secondary"
                                             size="small"
                                             onClick={() =>
@@ -130,7 +132,8 @@ export default function PåbegyntRad({
                                             Fullfør
                                         </Button>
                                         <Button
-                                            variant="secondary-neutral"
+                                            data-color="neutral"
+                                            variant="secondary"
                                             size="small"
                                             onClick={() =>
                                                 setSlettSpørreundersøkelseModalÅpen(

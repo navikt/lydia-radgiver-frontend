@@ -49,6 +49,7 @@ export default function IkkeGjennomførtFørFristRad({
                     <ActionButtonsHvisSamarbeidIkkeFullført>
                         {kanEndreSpørreundersøkelser && (
                             <Button
+                                data-color="accent"
                                 iconPosition="right"
                                 variant="secondary"
                                 size="small"

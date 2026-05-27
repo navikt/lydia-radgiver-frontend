@@ -1,5 +1,5 @@
 .styledFooter {
-    background-color: var(--a-blue-100);
+    background-color: var(--ax-accent-200);
     padding: 1rem;
     display: flex;
     justify-content: center;
@@ -9,23 +9,22 @@
     font-size: 1rem;
 
     .sykefraværsstatistikkknapp {
-                --a-text-action: var(--a-blue-700);
-        --a-font-weight-bold: 400;
-        --ac-button-tertiary-hover-bg: var(--a-surface-action-active);
-        --ac-button-tertiary-hover-text: var(--a-surface-default);
+        --ax-text-subtle: var(--ax-accent-800);
+        --ax-font-weight-bold: 400;
+        --ax-bg-moderate-hoverA: var(--ax-bg-accent-strong-pressed);
+        &:hover {
+            color: var(--ax-bg-default);
+        }
         padding: 0.25rem;
     }
 
     .styledPopover {
-        --ac-popover-bg: var(--a-surface-inverted);
-        color: var(--a-text-on-inverted);
-
         .popoverContentMedMaxWidth {
             max-width: 30rem;
         }
     }
 
     .footerlenke {
-        --a-text-action: var(--a-blue-700);
+        --ax-text-subtle: var(--ax-accent-800);
     }
 }

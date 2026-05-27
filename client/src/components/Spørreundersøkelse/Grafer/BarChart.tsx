@@ -11,7 +11,7 @@ export default function BarChart({
     spørsmål,
     erIEksportMode = false,
     horizontal = false,
-    farge = "var(--a-blue-500)",
+    farge = "var(--ax-accent-600)",
 }: {
     spørsmål: SpørsmålResultat;
     erIEksportMode?: boolean;

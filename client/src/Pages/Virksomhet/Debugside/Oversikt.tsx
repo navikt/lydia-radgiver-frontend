@@ -93,7 +93,7 @@ export default function Oversikt({ orgnummer }: OversiktProps) {
     const samarbeid = useHentSamarbeid(orgnummer, sisteIASak.data?.saksnummer);
 
     return (
-        <VStack gap="4">
+        <VStack gap="space-16">
             <div>
                 <h2>Virksomhet</h2>
                 {virksomhet.loading && <p>Laster virksomhet...</p>}
