@@ -1,31 +1,39 @@
-import { Select } from "@navikt/ds-react";
+import { Label } from "@navikt/ds-react";
 import { Sektor } from "../../../domenetyper/virksomhet";
+import {
+    reactSelectStyle,
+    StyledReactSelect,
+} from "../../../components/ReactSelect/StyledReactSelect";
 
 interface Props {
-    valgtSektor?: string;
-    endreSektor: (sektor: string) => void;
-    sektorer: Sektor[];
+    valgteSektorer?: Sektor[];
+    endreSektorer: (sektor: Sektor[]) => void;
+    alleSektorer: Sektor[];
 }
 
 export const SektorDropdown = ({
-    valgtSektor,
-    endreSektor,
-    sektorer,
+    valgteSektorer,
+    endreSektorer,
+    alleSektorer,
 }: Props) => {
     return (
-        <Select
-            label="Sektor"
-            value={valgtSektor}
-            onChange={(e) => endreSektor(e.target.value)}
-        >
-            <option key="empty-status" value={""}>
-                Alle
-            </option>
-            {sektorer.map((sektor) => (
-                <option key={sektor.kode} value={sektor.kode}>
-                    {sektor.beskrivelse}
-                </option>
-            ))}
-        </Select>
+        <div style={{ flex: "1" }}>
+            <Label id="sektorDropdown">Sektor</Label>
+            <StyledReactSelect
+                aria-labelledby="sektorDropdown"
+                defaultValue={valgteSektorer}
+                value={valgteSektorer}
+                noOptionsMessage={() => "Ingen sektorer å velge"}
+                options={alleSektorer}
+                getOptionLabel={(v) => (v as Sektor).beskrivelse}
+                getOptionValue={(v) => (v as Sektor).kode}
+                isMulti
+                styles={reactSelectStyle()}
+                placeholder=""
+                onChange={(verdier) => {
+                    endreSektorer(verdier as Sektor[]);
+                }}
+            />
+        </div>
     );
 };

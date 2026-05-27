@@ -59,7 +59,7 @@ export const Næringsgruppedropdown = ({
     const ariaLabelId = "næringsgruppe-aria-label";
 
     return (
-        <div style={{ flex: "1" }}>
+        <div style={{ flex: "2" }}>
             <Label id={ariaLabelId}>Bransjer og næringsgrupper</Label>
             <StyledReactSelect
                 aria-labelledby={ariaLabelId}

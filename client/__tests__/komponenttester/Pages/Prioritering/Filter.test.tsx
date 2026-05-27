@@ -225,66 +225,40 @@ describe("SektorDropdown", () => {
     test("rendrer select med label 'Sektor'", () => {
         render(
             <SektorDropdown
-                valgtSektor=""
-                endreSektor={mockEndreSektor}
-                sektorer={sektorer}
+                valgteSektorer={[]}
+                endreSektorer={mockEndreSektor}
+                alleSektorer={sektorer}
             />,
         );
         expect(screen.getByLabelText("Sektor")).toBeInTheDocument();
     });
 
-    test("viser 'Alle' som standardvalg", () => {
+    test("ingen skal være valgt som standard", () => {
         render(
             <SektorDropdown
-                valgtSektor=""
-                endreSektor={mockEndreSektor}
-                sektorer={sektorer}
+                valgteSektorer={[]}
+                endreSektorer={mockEndreSektor}
+                alleSektorer={sektorer}
             />,
         );
-        expect(
-            screen.getByRole("option", { name: "Alle" }),
-        ).toBeInTheDocument();
-    });
 
-    test("viser alle sektorer som options", () => {
-        render(
-            <SektorDropdown
-                valgtSektor=""
-                endreSektor={mockEndreSektor}
-                sektorer={sektorer}
-            />,
-        );
-        expect(
-            screen.getByRole("option", { name: "Privat sektor" }),
-        ).toBeInTheDocument();
-        expect(
-            screen.getByRole("option", { name: "Offentlig sektor" }),
-        ).toBeInTheDocument();
-    });
-
-    test("kaller endreSektor når valg endres", () => {
-        render(
-            <SektorDropdown
-                valgtSektor=""
-                endreSektor={mockEndreSektor}
-                sektorer={sektorer}
-            />,
-        );
-        fireEvent.change(screen.getByLabelText("Sektor"), {
-            target: { value: "PRIVAT" },
-        });
-        expect(mockEndreSektor).toHaveBeenCalledWith("PRIVAT");
+        expect(screen.queryByRole("button")).not.toBeInTheDocument();
     });
 
     test("viser valgt sektor", () => {
         render(
             <SektorDropdown
-                valgtSektor="OFFENTLIG"
-                endreSektor={mockEndreSektor}
-                sektorer={sektorer}
+                valgteSektorer={[
+                    {
+                        kode: "OFFENTLIG",
+                        beskrivelse: "Offentlig sektor",
+                    },
+                ]}
+                endreSektorer={mockEndreSektor}
+                alleSektorer={sektorer}
             />,
         );
-        expect(screen.getByLabelText("Sektor")).toHaveValue("OFFENTLIG");
+        expect(screen.getByText("Offentlig sektor")).toBeInTheDocument();
     });
 });
 
@@ -647,7 +621,7 @@ describe("Filtervisning", () => {
             filterverdier: {
                 fylker: mockFylkerMedKommuner,
                 sektorer: [
-                    { kode: "PRIVAT", beskrivelse: "Privat" },
+                    { kode: "PRIVAT", beskrivelse: "Privat sektor" },
                 ] as Sektor[],
                 virksomhetTilstander: [
                     "VirksomhetVurderes",
@@ -662,7 +636,7 @@ describe("Filtervisning", () => {
             kommuner: [],
             næringsgrupper: [],
             bransjeprogram: [],
-            sektor: "",
+            sektor: [],
             virksomhetTilstand: undefined,
             iaStatus: undefined,
             eiere: [],
@@ -806,21 +780,6 @@ describe("Filtervisning", () => {
         expect(
             container.querySelector(".custom-filter-class"),
         ).toBeInTheDocument();
-    });
-
-    test("kaller oppdaterSektorer når sektor endres", async () => {
-        renderWithRouter(
-            <Filtervisning
-                filtervisning={mockFiltervisning}
-                søkPåNytt={mockSøkPåNytt}
-            />,
-        );
-        fireEvent.change(screen.getByLabelText("Sektor"), {
-            target: { value: "PRIVAT" },
-        });
-        expect(mockFiltervisning.oppdaterSektorer).toHaveBeenCalledWith({
-            sektor: "PRIVAT",
-        });
     });
 
     test("kaller oppdaterVirksomhetTilstand når status endres", async () => {

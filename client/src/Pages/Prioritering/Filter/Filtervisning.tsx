@@ -17,6 +17,7 @@ import {
 import { FylkeMultidropdown } from "./FylkeMultidropdown";
 import styles from "./filter.module.scss";
 import { VirksomhetTilstandDropdown } from "./VirksomhetTilstandDropdown";
+import { Sektor } from "../../../domenetyper/virksomhet";
 
 type Filtervisning = Omit<
     ReturnType<typeof useFiltervisningState>,
@@ -62,7 +63,7 @@ export const Filtervisning = ({
         tilbakestill,
     } = filtervisning;
 
-    const endreSektor = (sektor: string) => {
+    const endreSektor = (sektor: Sektor[]) => {
         oppdaterSektorer({ sektor });
     };
 
@@ -162,9 +163,9 @@ export const Filtervisning = ({
                     endreNæringsgrupper={endreNæringsgruppe}
                 />
                 <SektorDropdown
-                    endreSektor={endreSektor}
-                    sektorer={state.filterverdier?.sektorer ?? []}
-                    valgtSektor={state.sektor}
+                    endreSektorer={endreSektor}
+                    alleSektorer={state.filterverdier?.sektorer ?? []}
+                    valgteSektorer={state.sektor}
                 />
             </div>
             <br />
