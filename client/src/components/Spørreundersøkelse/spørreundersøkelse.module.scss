@@ -13,13 +13,13 @@
     }
 
     .temaGrafContainer {
-        border: 1px solid var(--ax-neutral-400);
-        border-radius: var(--ax-radius-8);
+        border: 1px solid var(--a-gray-300);
+        border-radius: var(--a-border-radius-large);
         grid-column: span 1;
         padding: 2rem;
 
         .kategoriTittel {
-            color: var(--ax-accent-600);
+            color: var(--a-blue-500);
             margin-left: 10px;
             margin-bottom: 0.5rem;
         }
@@ -36,7 +36,7 @@
 }
 
 .antallDeltakere {
-    color: var(--ax-accent-600);
+    color: var(--a-blue-500);
     font-size: 1.25rem;
     gap: 1rem;
     margin-right: 2rem;

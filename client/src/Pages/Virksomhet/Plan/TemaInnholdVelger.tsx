@@ -60,7 +60,7 @@ function StartOgSluttVelger({
     });
 
     return (
-        <HStack align="center" gap="space-12">
+        <HStack align="center" gap="3">
             <DatePicker {...datepickerFrom.datepickerProps} dropdownCaption>
                 <DatePicker.Input
                     hideLabel
@@ -173,7 +173,7 @@ export default function TemaInnholdVelger({
                         key={`${redigertInnholdMal.rekkefølge}${redigertInnholdMal.sluttDato}${redigertInnholdMal.startDato}`}
                         className={styles.undertemaRad}
                         justify="space-between"
-                        gap="space-16"
+                        gap="4"
                         align="center"
                     >
                         <Checkbox value={redigertInnholdMal.rekkefølge}>

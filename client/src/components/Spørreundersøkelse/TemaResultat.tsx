@@ -102,12 +102,12 @@ export const TemaResultat = ({
 export function getGraffargeFromTema(navn: string, mørk: boolean = false) {
     switch (navn?.toLowerCase()) {
         case "sykefraværsarbeid":
-            return "var(--ax-success-600)";
+            return "var(--a-green-500)";
         case "arbeidsmiljø":
             return `var(--a-orange-${mørk ? "700" : "600"})`;
         case "partssamarbeid":
         default:
-            return "var(--ax-accent-600)";
+            return "var(--a-blue-500)";
     }
 }
 

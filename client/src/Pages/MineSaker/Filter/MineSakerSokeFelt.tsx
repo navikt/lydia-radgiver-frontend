@@ -18,7 +18,7 @@ export const MineSakerSøkefelt = ({
         <Search
             size="medium"
             variant="simple"
-            label="Søk"
+            label="Søk i Mine virksomheter"
             placeholder="Org.nr/navn"
             hideLabel={false}
             onChange={setSøkeStreng}

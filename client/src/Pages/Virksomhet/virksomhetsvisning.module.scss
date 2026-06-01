@@ -8,7 +8,7 @@
     .virksomhetsvisning {
         flex-grow: 1;
 
-        background-color: white;
+        background-color: var(--a-white);
 
         .samarbeidsvelgerSidebar {
             width: 16rem;
@@ -22,7 +22,7 @@
             flex-direction: column;
             align-items: stretch;
             justify-content: flex-start;
-            background-color: var(--ax-neutral-200);
+            background-color: var(--a-gray-100);
 
             .statuslinje {
                 padding: 1rem 1.5rem;
@@ -32,38 +32,38 @@
                 height: 4rem;
 
                 .tittel {
-                    font-weight: var(--ax-font-weight-bold);
+                    font-weight: var(--a-font-weight-bold);
                 }
 
                 .salesforcelenke {
-                    --ax-text-subtle: var(--ax-accent-800);
+                    --a-text-action: var(--a-blue-700);
                 }
 
                 &.aktiv {
-                    background-color: var(--ax-accent-200);
+                    background-color: var(--a-blue-100);
                     .tittel {
-                        color: var(--ax-accent-900);
+                        color: var(--a-blue-800);
                     }
                 }
 
                 &.fullført {
-                    background-color: var(--ax-success-200);
+                    background-color: var(--a-green-100);
                     .tittel {
-                        color: var(--ax-success-900);
+                        color: var(--a-green-800);
                     }
                 }
 
                 &.avbrutt {
-                    background-color: var(--ax-warning-200);
+                    background-color: var(--a-orange-100);
                     .tittel {
-                        color: var(--ax-warning-900);
+                        color: var(--a-orange-800);
                     }
                 }
 
                 &.slettet {
-                    background-color: var(--ax-danger-200);
+                    background-color: var(--a-red-100);
                     .tittel {
-                        color: var(--ax-danger-900);
+                        color: var(--a-red-800);
                     }
                 }
             }

@@ -9,7 +9,7 @@ export default function VirksomhetKlarTilVurdering({
     virksomhet: Virksomhet;
 }) {
     return (
-        <HStack gap={"space-16"}>
+        <HStack gap={"4"}>
             <VurderVirksomhetKnapp virksomhet={virksomhet} />
             <Salesforcelenke orgnr={virksomhet.orgnr} />
         </HStack>

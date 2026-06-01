@@ -31,7 +31,7 @@
 
     .navnOgVerdi {
         font-size: 1rem;
-        color: var(--ax-neutral-1000);
+        color: var(--a-gray-900);
         align-content: center;
         display: flex;
         width: 100%;
@@ -40,13 +40,13 @@
     }
     .navn {
         font-weight: bold;
-        color: var(--ax-neutral-1000);
+        color: var(--a-gray-900);
         margin-right: 0.75rem;
 
         text-transform: capitalize;
     }
     .verdi {
-        color: var(--ax-neutral-1000);
+        color: var(--a-gray-900);
         align-content: space-around;
     }
     .ikon {

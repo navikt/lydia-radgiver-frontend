@@ -1,14 +1,14 @@
-@mixin hvitBoksMedBorder {
-    background-color: white;
-    border-radius: var(--ax-radius-4);
-    border: 1px solid var(--ax-border-neutral-subtle);
+@mixin hvitBoksMedSkygge {
+    background-color: var(--a-white);
+    box-shadow: var(--a-shadow-small);
+    border-radius: var(--a-border-radius-medium);
 }
 
 @mixin tabInnholdStyling {
     padding: 1.5rem;
-    background: white;
-    border-radius: var(--ax-radius-4);
-    border: 1px solid var(--ax-border-neutral-subtle);
+    background: var(--a-white);
+    border-radius: var(--a-border-radius-medium);
+    box-shadow: var(--a-shadow-small);
 }
 
 @mixin max75remBreddeOgSentrert {

@@ -1,4 +1,4 @@
-import { HStack } from "@navikt/ds-react";
+import { Heading, HStack } from "@navikt/ds-react";
 import { IaSakProsess } from "../../domenetyper/iaSakProsess";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 import Samarbeidsfanemeny from "../Samarbeidsfanemeny";
@@ -17,7 +17,20 @@ export const SpørreundersøkelseHeading = ({
             justify={"space-between"}
             style={{ marginTop: "0.75rem", marginBottom: "1.5rem" }}
         >
-            <HStack align={"center"}>{children}</HStack>
+            <HStack align={"center"} gap={"8"}>
+                {children ?? (
+                    <Heading
+                        level="2"
+                        size="medium"
+                        style={{
+                            width:
+                                type === "BEHOVSVURDERING" ? "11rem" : "6rem",
+                        }}
+                    >
+                        spørreundersøkelseHeading(type)
+                    </Heading>
+                )}
+            </HStack>
             <Samarbeidsfanemeny type={type} />
         </HStack>
     );

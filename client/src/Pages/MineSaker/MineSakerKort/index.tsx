@@ -49,25 +49,26 @@ export const MineSakerKort = ({
         alleSamarbeid && (
             <VStack className={styles.sakskort}>
                 <div className={styles.kortHeader}>
-                    <InternLenke
-                        className={styles.headerlenke}
-                        href={gåTilSakUrl}
-                        onClick={() =>
-                            loggGåTilSakFraMineSaker(
-                                "virksomhetslenke",
-                                gåTilSakUrl,
-                            )
-                        }
-                    >
-                        <Heading level="3" size="medium">
+                    <Heading level="3" size="medium">
+                        <InternLenke
+                            className={styles.headerlenke}
+                            href={gåTilSakUrl}
+                            onClick={() =>
+                                loggGåTilSakFraMineSaker(
+                                    "virksomhetslenke",
+                                    gåTilSakUrl,
+                                )
+                            }
+                        >
                             {orgnavn}
-                            <span className={styles.subheader}>
-                                {` - ${iaSak.orgnr}`}
-                            </span>
-                        </Heading>
-                    </InternLenke>
+                        </InternLenke>
+                        <span className={styles.subheader}>
+                            {" "}
+                            - {iaSak.orgnr}
+                        </span>
+                    </Heading>
                     <HStack justify={"space-between"} align={"center"}>
-                        <HStack gap={"space-16"} align={"center"}>
+                        <HStack gap={"4"} align={"center"}>
                             <IAProsessStatusBadge slim status={iaSak.status} />
                             <span className={styles.eiertekst}>
                                 <b>Eier</b>
@@ -79,10 +80,9 @@ export const MineSakerKort = ({
                             </span>
 
                             <Button
-                                data-color="neutral"
                                 className={styles.teamModalButton}
                                 onClick={() => setIsModalOpen(true)}
-                                variant="tertiary"
+                                variant="tertiary-neutral"
                                 icon={
                                     <NotePencilIcon
                                         aria-hidden
@@ -108,6 +108,7 @@ export const MineSakerKort = ({
                         )}
                     </HStack>
                 </div>
+
                 {alleSamarbeid && alleSamarbeid.length > 0 && (
                     <>
                         <div className={styles.skillelinje} />

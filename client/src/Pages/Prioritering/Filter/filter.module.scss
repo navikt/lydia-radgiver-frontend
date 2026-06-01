@@ -23,7 +23,7 @@
 .filtervisningForm {
     padding: 1rem;
 
-    @include containere.hvitBoksMedBorder;
+    @include containere.hvitBoksMedSkygge;
 
     .rad {
         display: flex;

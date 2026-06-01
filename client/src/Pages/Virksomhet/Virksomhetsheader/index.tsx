@@ -52,7 +52,7 @@ export default function Virksomhetsheader({
     return (
         <>
             <div className={styles.virksomhetOgSamarbeidsHeader}>
-                <VStack gap={"space-40"}>
+                <VStack gap={"10"}>
                     <Topplinje
                         virksomhet={virksomhet}
                         iaSak={iaSak}
@@ -60,12 +60,12 @@ export default function Virksomhetsheader({
                     />
                     <HStack align={"center"} width={"100%"}>
                         <HStack
-                            gap={"space-16"}
+                            gap={"4"}
                             align={"center"}
                             justify={"space-between"}
                             width={"100%"}
                         >
-                            <HStack gap={"space-8"} align={"center"}>
+                            <HStack gap={"2"} align={"center"}>
                                 {tilstand?.tilstand && (
                                     <VirksomhetTilstandStatusBadge
                                         tilstand={tilstand?.tilstand}
@@ -134,7 +134,7 @@ function DuErPåGammelPeriode({
 
     return (
         <HStack
-            gap="space-16"
+            gap="4"
             align="center"
             justify="space-between"
             className={styles.duErPåGammelPeriodeBanner}
@@ -209,7 +209,7 @@ function Høyreknapper({
 }) {
     if (valgtSamarbeid) {
         return (
-            <HStack gap="space-16" justify="end">
+            <HStack gap="4" justify="end">
                 <Detaljseksjon iaSak={iaSak!} virksomhet={virksomhet} />
                 <Sykefraværsstatistikkmodal
                     className={styles.tabButton}
@@ -225,9 +225,9 @@ function Høyreknapper({
     }
 
     return (
-        <HStack gap="space-16" justify="end">
+        <HStack gap="4" justify="end">
             <Detaljseksjon iaSak={iaSak!} virksomhet={virksomhet} />
-            <HStack gap="space-16" justify="end" role="tablist">
+            <HStack gap="4" justify="end" role="tablist">
                 <Tabs.Tab
                     // eslint-disable-next-line @typescript-eslint/no-unused-vars
                     as={({ className, ...remainingProps }: ButtonProps) => (
