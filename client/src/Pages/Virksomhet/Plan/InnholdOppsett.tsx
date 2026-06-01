@@ -174,7 +174,7 @@ function Undertemarad({
             key={`${innhold.sluttDato}${innhold.startDato}${innhold.id}`}
             className={styles.innholdsrad}
             justify="space-between"
-            gap="4"
+            gap="space-16"
             align="center"
         >
             <RadCheckbox
@@ -256,7 +256,7 @@ function StartOgSluttVelger({
     });
 
     return (
-        <HStack wrap gap="4" justify="center">
+        <HStack wrap gap="space-16" justify="center">
             <DatePicker {...datepickerFrom.datepickerProps} dropdownCaption>
                 <DatePicker.Input
                     hideLabel

@@ -8,7 +8,7 @@
     justify-content: space-between;
     align-items: center;
     min-width: 20rem;
-    color: var(--a-text-action);
+    color: var(--ax-text-accent-subtle);
     text-decoration: underline;
 
     &:hover {
@@ -17,7 +17,7 @@
 }
 
 .samarbeidsinnhold {
-    background-color: var(--a-blue-50);
+    background-color: var(--ax-accent-100);
     border-radius: 10px;
     padding: 1rem;
     display: flex;
@@ -38,7 +38,7 @@
 }
 
 .sakskort {
-    background-color: var(--a-white);
+    background-color: white;
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -55,7 +55,7 @@
         padding: 0 0 1rem 0;
 
         .headerlenke {
-            --a-text-action: var(--a-gray-900);
+            --ax-text-subtle: var(--ax-neutral-1000);
             text-decoration: none;
             font-weight: 600;
             &:hover,
@@ -75,7 +75,7 @@
     }
 
     .skillelinje {
-        border-bottom: 1px solid var(--a-gray-500);
+        border-bottom: 1px solid var(--ax-neutral-600);
         width: 100%;
     }
 

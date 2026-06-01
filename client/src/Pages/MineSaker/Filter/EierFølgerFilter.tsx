@@ -5,8 +5,7 @@ import {
     EIER_FØLGER_FILTER_VALUES,
     EierFølgerFilterType,
 } from "../MineSakerside";
-import { ARKIV_STATUSER } from "./StatusFilter";
-import styles from "./mineSakerFilter.module.scss";
+import { ARKIV_STATUSER } from "../MineSakerside";
 
 const penskrivEierFølgerMap: Record<
     (typeof EIER_FØLGER_FILTER_VALUES)[number],
@@ -37,26 +36,22 @@ export const EierFølgerFilter = ({
     ).length;
 
     return (
-        <Accordion className={styles.eierFølgerAccordion}>
-            <Accordion.Item className={styles.eierFølgerAccordionItem}>
-                <Accordion.Header className={styles.eierFølgerAccordionHeader}>
-                    Tilknytning
-                </Accordion.Header>
-                <Accordion.Content>
-                    <CheckboxGroup
-                        legend="status"
-                        hideLegend
-                        onChange={(val) => setEierFølgerFilter(val)}
-                    >
-                        {mineSaker &&
-                            EIER_FØLGER_FILTER_VALUES.map((valg) => (
-                                <Checkbox key={valg} value={valg}>
-                                    {`${penskrivEierFølgerMap[valg]} (${valg == "eier" ? antallEier : antallFølger})`}
-                                </Checkbox>
-                            ))}
-                    </CheckboxGroup>
-                </Accordion.Content>
-            </Accordion.Item>
-        </Accordion>
+        <Accordion.Item>
+            <Accordion.Header>Tilknytning</Accordion.Header>
+            <Accordion.Content>
+                <CheckboxGroup
+                    legend="status"
+                    hideLegend
+                    onChange={(val) => setEierFølgerFilter(val)}
+                >
+                    {mineSaker &&
+                        EIER_FØLGER_FILTER_VALUES.map((valg) => (
+                            <Checkbox key={valg} value={valg}>
+                                {`${penskrivEierFølgerMap[valg]} (${valg == "eier" ? antallEier : antallFølger})`}
+                            </Checkbox>
+                        ))}
+                </CheckboxGroup>
+            </Accordion.Content>
+        </Accordion.Item>
     );
 };

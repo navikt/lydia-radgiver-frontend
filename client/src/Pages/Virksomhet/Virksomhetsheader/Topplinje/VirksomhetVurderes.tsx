@@ -56,7 +56,7 @@ export function VirksomhetVurderes({
         brukerErEierAvSak;
 
     return (
-        <HStack gap={"4"}>
+        <HStack gap={"space-16"}>
             <AvsluttVurderingModal
                 erSuperbruker={brukerInformasjon?.rolle === "Superbruker"}
                 virksomhet={virksomhet}
@@ -341,11 +341,7 @@ function ExpandingRadio({
     children: React.ReactNode;
 }) {
     return (
-        <Box
-            padding="space-16"
-            borderRadius="xlarge"
-            background="surface-alt-2-subtle"
-        >
+        <Box padding="space-16" borderRadius="12" background="meta-lime-soft">
             <Radio value={value}>{label}</Radio>
             {selected === value && (
                 <Box paddingInline="space-32">{children}</Box>

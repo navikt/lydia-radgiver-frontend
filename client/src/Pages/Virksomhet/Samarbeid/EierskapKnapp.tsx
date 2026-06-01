@@ -17,7 +17,7 @@ export function EierskapKnapp({ iaSak }: { iaSak?: IASak }) {
                 size={"small"}
                 disabled={true}
             >
-                <HStack align={"center"} gap={"1"}>
+                <HStack align={"center"} gap={"space-4"}>
                     <CircleSlashIcon aria-hidden />
                     <BodyShort>Ingen aktiv sak</BodyShort>
                 </HStack>

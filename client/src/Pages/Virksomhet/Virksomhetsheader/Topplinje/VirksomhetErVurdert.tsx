@@ -40,7 +40,7 @@ export default function VirksomhetErVurdert({
         VirksomhetIATilstandEnum.enum.VirksomhetVurderes
     ) {
         return (
-            <HStack gap="4">
+            <HStack gap="space-16">
                 <VurderVirksomhetenNå orgnr={virksomhet.orgnr} />
                 <VurderesAutomatiskModal
                     tilstand={tilstand}
@@ -55,7 +55,7 @@ export default function VirksomhetErVurdert({
         VirksomhetIATilstandEnum.enum.VirksomhetKlarTilVurdering
     ) {
         return (
-            <HStack gap="4">
+            <HStack gap="space-16">
                 <VurderVirksomhetenNå orgnr={virksomhet.orgnr} />
                 <VurdertTilModal tilstand={tilstand} virksomhet={virksomhet} />
                 <EierskapKnapp iaSak={iaSak} />
@@ -134,13 +134,14 @@ function VurdertTilModal({
     return (
         <>
             <Button
+                data-color="neutral"
                 size="small"
-                variant="primary-neutral"
+                variant="primary"
                 icon={<DocPencilIcon aria-hidden />}
                 iconPosition="right"
                 onClick={() => modalRef.current?.showModal()}
                 style={{
-                    backgroundColor: "var(--a-limegreen-50)",
+                    backgroundColor: "var(--ax-meta-lime-100)",
                     color: "var(--a-black)",
                 }}
             >
@@ -219,13 +220,14 @@ function VurderesAutomatiskModal({
     return (
         <>
             <Button
+                data-color="neutral"
                 size="small"
-                variant="primary-neutral"
+                variant="primary"
                 icon={<DocPencilIcon aria-hidden />}
                 iconPosition="right"
                 onClick={() => modalRef.current?.showModal()}
                 style={{
-                    backgroundColor: "var(--a-limegreen-50)",
+                    backgroundColor: "var(--ax-meta-lime-100)",
                     color: "var(--a-black)",
                 }}
             >

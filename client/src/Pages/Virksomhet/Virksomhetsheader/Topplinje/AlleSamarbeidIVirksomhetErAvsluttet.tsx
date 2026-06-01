@@ -30,7 +30,7 @@ export default function AlleSamarbeidIVirksomhetErAvsluttet({
     tilstand: VirksomhetTilstandDto;
 }) {
     return (
-        <HStack gap="4">
+        <HStack gap="space-16">
             <VurderVirksomhetKnapp virksomhet={virksomhet} label="Vurder nå" />
             <AvsluttetFremTilModal
                 tilstand={tilstand}
@@ -82,13 +82,14 @@ function AvsluttetFremTilModal({
     return (
         <>
             <Button
+                data-color="neutral"
                 size="small"
-                variant="primary-neutral"
+                variant="primary"
                 icon={<DocPencilIcon aria-hidden />}
                 iconPosition="right"
                 onClick={() => modalRef.current?.showModal()}
                 style={{
-                    backgroundColor: "var(--a-gray-50)",
+                    backgroundColor: "var(--ax-neutral-100)",
                     color: "var(--a-black)",
                 }}
             >
