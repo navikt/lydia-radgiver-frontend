@@ -46,5 +46,10 @@
         "supertest": "7.2.2",
         "ts-node": "10.9.2",
         "typescript": "5.9.3"
+    },
+    "pnpm": {
+        "overrides": {
+            "follow-redirects": "1.16.0"
+        }
     }
 }
