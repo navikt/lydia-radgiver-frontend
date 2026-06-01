@@ -47,7 +47,9 @@ export const Søkefelt = ({ style, className }: Props) => {
                 anchorEl={searchRef.current}
                 open={søkestreng !== ""}
                 onClose={() => null}
-                placement="bottom-start">
+                placement="bottom-start"
+                arrow={false}
+            >
                 {søkLaster && (
                     <Popover.Content>
                         <Loader className={styles.søkefeltlastespinner} />

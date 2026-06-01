@@ -120,10 +120,9 @@ export default function EndreSamarbeidModalInnhold({
                         Avslutt samarbeid
                     </Button>
                     <Button
-                        data-color="neutral"
                         icon={<TrashIcon title={`Slett "${samarbeid.navn}"`} />}
                         size="small"
-                        variant="secondary"
+                        variant="secondary-neutral"
                         title={`Slett "${samarbeid.navn}"`}
                         onClick={() => {
                             hentKanGjennomføreStatusendring("slettes").then(
@@ -132,7 +131,8 @@ export default function EndreSamarbeidModalInnhold({
                                 },
                             );
                         }}
-                        loading={lasterKanGjennomføreHandling === "slettes"} />
+                        loading={lasterKanGjennomføreHandling === "slettes"}
+                    />
                 </div>
                 <div className={styles.endreSamarbeidModalInnhold}>
                     <BodyShort>

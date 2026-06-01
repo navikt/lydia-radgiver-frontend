@@ -102,7 +102,7 @@ export default function OpprettetRad({
                             brukerRolle !== "Lesetilgang" && (
                                 <>
                                     <Button
-                                        data-color="accent"
+                                        variant="primary"
                                         size="small"
                                         onClick={() =>
                                             setBekreftStartKartleggingModalÅpen(
@@ -113,7 +113,6 @@ export default function OpprettetRad({
                                         Start
                                     </Button>
                                     <Button
-                                        data-color="accent"
                                         variant="secondary"
                                         size="small"
                                         onClick={() =>
@@ -124,8 +123,7 @@ export default function OpprettetRad({
                                     </Button>
                                     {kanEndreSpørreundersøkelser && (
                                         <Button
-                                            data-color="neutral"
-                                            variant="secondary"
+                                            variant="secondary-neutral"
                                             size="small"
                                             onClick={() =>
                                                 setSlettSpørreundersøkelseModalÅpen(

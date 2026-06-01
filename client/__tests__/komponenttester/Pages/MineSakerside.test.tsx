@@ -83,22 +83,22 @@ jest.mock("react-router-dom", () => ({
 jest.mock("../../../src/Pages/MineSaker/Filter/FiltreringMineSaker", () => ({
     __esModule: true,
     default: ({
-        setStatusFilter,
-        setSøkFilter,
-        setEierFølgerFilter,
+        setFiltre,
     }: {
-        setStatusFilter: (val: IAProsessStatusType[]) => void;
-        setSøkFilter: (val: string) => void;
-        setEierFølgerFilter: (val: string[]) => void;
+        setFiltre: {
+            setStatusFilter: (val: IAProsessStatusType[]) => void;
+            setSøkFilter: (val: string) => void;
+            setEierFølgerFilter: (val: string[]) => void;
+        };
     }) => (
         <div data-testid="filtrering-minesaker">
-            <button onClick={() => setStatusFilter(["VI_BISTÅR"])}>
+            <button onClick={() => setFiltre.setStatusFilter(["VI_BISTÅR"])}>
                 Filtrer VI_BISTÅR
             </button>
-            <button onClick={() => setSøkFilter("Bedrift A")}>
+            <button onClick={() => setFiltre.setSøkFilter("Bedrift A")}>
                 Søk Bedrift A
             </button>
-            <button onClick={() => setEierFølgerFilter(["eier"])}>
+            <button onClick={() => setFiltre.setEierFølgerFilter(["eier"])}>
                 Filtrer eier
             </button>
         </div>
@@ -174,9 +174,7 @@ describe("MineSakerside", () => {
         );
 
         // Klikk på filtreringsknappen for VI_BISTÅR
-        const knapp = screen.getByText("Filtrer VI_BISTÅR");
-        expect(knapp).toBeInTheDocument();
-        fireEvent.click(knapp);
+        fireEvent.click(screen.getByText("Filtrer VI_BISTÅR"));
 
         // Bare sak med VI_BISTÅR status skal vises
         expect(screen.getByTestId("sak-kort-SAK-1")).toBeInTheDocument();

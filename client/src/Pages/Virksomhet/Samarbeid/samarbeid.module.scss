@@ -1,6 +1,20 @@
 @use "../../../styling/contentSpacing" as spacing;
 @use "./samarbeidModal" as modal;
 
+.samarbeidsvisningContainer {
+    --a-font-size-heading-xlarge: 1.75rem;
+    padding-top: spacing.$contentSpacingMobileY;
+    background-color: var(--a-white);
+    @include spacing.strekkBakgrunnenHeltUtTilKantenAvSida;
+
+    .panel {
+        padding-top: 1.5rem;
+        padding-bottom: 1.5rem;
+        background-color: var(--a-gray-100);
+        @include spacing.strekkBakgrunnenHeltUtTilKantenAvSida;
+    }
+}
+
 .nyttSamarbeidModal {
     @include modal.samarbeidModal;
 

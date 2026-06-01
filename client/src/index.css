@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--ax-bg-neutral-soft);
+  background-color: var(--a-bg-subtle);
 }
 
 html, body, #root {
@@ -53,5 +53,5 @@ dd {
  * slik at vi får betre kontrast når den vert brukt på saman med "background-subtle".
  */
 .navds-button.navds-button--secondary {
-  background: var(--ax-bg-default) /* "white" i designsystemet 2023-11-29 */
+  background: var(--a-bg-default) /* "white" i designsystemet 2023-11-29 */
 }

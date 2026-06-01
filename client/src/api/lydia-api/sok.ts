@@ -171,7 +171,11 @@ export const søkeverdierTilUrlSearchParams = (
     appendIfPresent(
         "sektor",
         sektor,
-        (e) => e.map((sektor) => sektor.kode).join(","),
+        (e) => {
+            return Array.isArray(e) // Hack for å unngå problemer med gamle lagrede verdier i localstorage
+                ? e.map((sektor) => sektor.kode).join(",")
+                : "";
+        },
         params,
     );
     appendIfPresent(

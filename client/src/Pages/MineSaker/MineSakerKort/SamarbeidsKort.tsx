@@ -21,7 +21,7 @@ export const SamarbeidsKort = ({
         sorterteSamarbeid.aktive[0],
     );
     return (
-        <VStack gap="space-16" width={"100%"}>
+        <VStack gap="4" width={"100%"}>
             <Samarbeidsvelger
                 sorterteSamarbeid={sorterteSamarbeid}
                 valgtSamarbeid={valgtSamarbeid}

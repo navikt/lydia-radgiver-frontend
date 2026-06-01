@@ -87,7 +87,7 @@ function Knappeinnhold({
     const erPåInaktivSak = useErPåInaktivSak();
     if (erPåInaktivSak) {
         return (
-            <HStack align={"center"} gap={"space-4"}>
+            <HStack align={"center"} gap={"1"}>
                 <PersonGroupIcon aria-hidden />
                 <BodyShort>Se eier og følgere</BodyShort>
             </HStack>
@@ -96,7 +96,7 @@ function Knappeinnhold({
 
     if (brukerErEierAvSak) {
         return (
-            <HStack align={"center"} gap={"space-4"}>
+            <HStack align={"center"} gap={"1"}>
                 <PersonFillIcon aria-hidden />
                 <BodyShort>Du er eier</BodyShort>
             </HStack>
@@ -105,7 +105,7 @@ function Knappeinnhold({
 
     if (brukerFølgerSak) {
         return (
-            <HStack align={"center"} gap={"space-4"}>
+            <HStack align={"center"} gap={"1"}>
                 <HeartFillIcon aria-hidden />
                 <BodyShort>Du er følger</BodyShort>
             </HStack>
@@ -113,7 +113,7 @@ function Knappeinnhold({
     }
 
     return (
-        <HStack align={"center"} gap={"space-4"}>
+        <HStack align={"center"} gap={"1"}>
             <PersonGroupIcon aria-hidden />
             <BodyShort>Følg eller ta eierskap</BodyShort>
         </HStack>

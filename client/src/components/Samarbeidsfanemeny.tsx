@@ -26,8 +26,7 @@ export default function Samarbeidsfanemeny({
         <ActionMenu onOpenChange={setOpen} open={open}>
             <ActionMenu.Trigger>
                 <Button
-                    data-color="neutral"
-                    variant="tertiary"
+                    variant="tertiary-neutral"
                     icon={
                         laster ? (
                             <CircleBrokenIcon
@@ -40,7 +39,8 @@ export default function Samarbeidsfanemeny({
                                 title="Meny"
                             />
                         )
-                    } />
+                    }
+                />
             </ActionMenu.Trigger>
             <ActionMenu.Content>
                 {type && (

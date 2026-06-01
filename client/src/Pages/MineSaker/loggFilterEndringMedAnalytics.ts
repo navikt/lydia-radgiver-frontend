@@ -3,7 +3,7 @@ import {
     loggMineSakerFilter,
     MineSakerFilterKategorier,
 } from "../../util/analytics-klient";
-import { ARKIV_STATUSER } from "./MineSakerside";
+import { ARKIV_STATUSER } from "./Filter/StatusFilter";
 import { EierFølgerFilterType } from "./MineSakerside";
 
 export const loggMineSakerFilterEndringMedAnalytics = (

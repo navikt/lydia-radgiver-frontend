@@ -12,7 +12,7 @@ import { ArchiveIcon } from "@navikt/aksel-icons";
 import { Link } from "react-router-dom";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusBadge";
-import { ARKIV_STATUSER } from "../MineSakerside";
+import { ARKIV_STATUSER } from "../Filter/StatusFilter";
 import styles from "./minesakerkort.module.scss";
 
 export function Samarbeidsvelger({

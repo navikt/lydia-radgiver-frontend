@@ -41,7 +41,7 @@ export function SamarbeidsplanHeading({
                 justify="space-between"
             >
                 <Publiseringsinformasjon samarbeidsplan={samarbeidsplan} />
-                <HStack align="center" gap="space-32">
+                <HStack align="center" gap="8">
                     <PubliserSamarbeidsplan
                         plan={samarbeidsplan}
                         iaSak={iaSak}
@@ -70,14 +70,14 @@ function Publiseringsinformasjon({ samarbeidsplan }: { samarbeidsplan: Plan }) {
     return (
         <HStack
             align="center"
-            gap="space-32"
+            gap="8"
             className={styles.publiseringsinformasjon}
         >
             <BodyShort size="small">
                 Oppdatert: {lokalDatoMedKlokkeslett(samarbeidsplan?.sistEndret)}
             </BodyShort>
             {samarbeidsplan?.publiseringStatus == "PUBLISERT" && (
-                <HStack gap="space-8" align="center">
+                <HStack gap="2" align="center">
                     <PaperplaneIcon aria-hidden fontSize="1.75rem" />
                     {samarbeidsplan?.harEndringerSidenSistPublisert ? (
                         <BodyShort size="small">

@@ -141,7 +141,6 @@ export function PubliserDokumentknapp({
             icon={icon}
             onClick={onClick}
             className={styles.publiserknapp}
-            data-color="accent"
         >
             {children}
         </Button>

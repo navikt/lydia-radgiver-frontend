@@ -1,9 +1,9 @@
 @use "../styling/containere" as containere;
 
 .styledTable {
-    background-color: white;
-    border: 1px solid var(--ax-border-neutral-subtle);
-    border-radius: var(--ax-radius-4);
+    background-color: var(--a-white);
+    box-shadow: var(--a-shadow-small);
+    border-radius: var(--a-border-radius-medium);
 }
 
 .lastespinner {
@@ -15,7 +15,7 @@
 .samarbeidsfanemenyHeading {
     font-weight: 600;
     font-size: 1.25rem;
-    color: var(--ax-text-neutral);
+    color: var(--a-text-default);
     padding-right: 2rem;
     margin-bottom: 0.25rem;
 }
