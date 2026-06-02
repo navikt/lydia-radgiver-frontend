@@ -3,6 +3,7 @@ RUN npm install -g pnpm
 
 WORKDIR /home/node/app
 COPY package.json pnpm-lock.yaml pnpm-workspace.yaml .npmrc ./
+ENV CI=true
 RUN pnpm install
 COPY . .
 
