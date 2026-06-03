@@ -213,7 +213,7 @@ describe("NyVirksomhetsside – VirksomhetErVurdert", () => {
             ).toBeInTheDocument();
         });
 
-        it("'Vurder nå'-knapp kaller vurderSakNyFlyt", async () => {
+        it("'Vurder nå'-knapp åpner modal og kaller vurderSakNyFlyt", async () => {
             render(
                 <BrowserRouter>
                     <NyVirksomhetsside />
@@ -221,11 +221,21 @@ describe("NyVirksomhetsside – VirksomhetErVurdert", () => {
             );
             expect(vurderSakNyFlyt).not.toHaveBeenCalled();
             fireEvent.click(screen.getByRole("button", { name: "Vurder nå" }));
+
+            fireEvent.click(
+                await screen.findByLabelText("Nav vurderer virksomheten"),
+            );
+            fireEvent.click(screen.getByRole("button", { name: "Lagre" }));
+
             await waitFor(() =>
                 expect(vurderSakNyFlyt).toHaveBeenCalledTimes(1),
             );
             expect(vurderSakNyFlyt).toHaveBeenCalledWith(
                 dummyVirksomhetsinformasjonNyFlyt.orgnr,
+                {
+                    type: "BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET",
+                    begrunnelser: ["NAV_VURDERER_VIRKSOMHETEN"],
+                },
             );
         });
 
@@ -346,7 +356,7 @@ describe("NyVirksomhetsside – VirksomhetErVurdert", () => {
             );
         });
 
-        it("'Vurder nå' kaller vurderSakNyFlyt", async () => {
+        it("'Vurder nå' åpner modal og kaller vurderSakNyFlyt", async () => {
             render(
                 <BrowserRouter>
                     <NyVirksomhetsside />
@@ -354,11 +364,21 @@ describe("NyVirksomhetsside – VirksomhetErVurdert", () => {
             );
             expect(vurderSakNyFlyt).not.toHaveBeenCalled();
             fireEvent.click(screen.getByRole("button", { name: "Vurder nå" }));
+
+            fireEvent.click(
+                await screen.findByLabelText("Nav vurderer virksomheten"),
+            );
+            fireEvent.click(screen.getByRole("button", { name: "Lagre" }));
+
             await waitFor(() =>
                 expect(vurderSakNyFlyt).toHaveBeenCalledTimes(1),
             );
             expect(vurderSakNyFlyt).toHaveBeenCalledWith(
                 dummyVirksomhetsinformasjonNyFlyt.orgnr,
+                {
+                    type: "BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET",
+                    begrunnelser: ["NAV_VURDERER_VIRKSOMHETEN"],
+                },
             );
         });
 
