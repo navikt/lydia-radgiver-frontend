@@ -24,6 +24,12 @@
         }
     }
 
+    :global(.action-buttons-container) {
+        & > button {
+            z-index: 10;
+        }
+    }
+
     :global(.navds-expansioncard__header-button) {
         position: relative;
     }

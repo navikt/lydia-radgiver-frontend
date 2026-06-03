@@ -11,7 +11,10 @@ export default function ActionButtonsHvisSamarbeidIkkeFullført({
     return (
         <VisHvisSamarbeidErÅpent>
             {/* eslint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions */}
-            <div className={styles.actionButtonContainer} onClick={onClick}>
+            <div
+                className={`${styles.actionButtonContainer} action-buttons-container`}
+                onClick={onClick}
+            >
                 {children}
             </div>
         </VisHvisSamarbeidErÅpent>
