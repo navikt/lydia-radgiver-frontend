@@ -1,13 +1,13 @@
 @mixin hvitBoksMedBorder {
     background-color: white;
-    border-radius: var(--ax-radius-4);
+    border-radius: var(--ax-radius-8);
     border: 1px solid var(--ax-border-neutral-subtle);
 }
 
 @mixin tabInnholdStyling {
     padding: 1.5rem;
     background: white;
-    border-radius: var(--ax-radius-4);
+    border-radius: var(--ax-radius-8);
     border: 1px solid var(--ax-border-neutral-subtle);
 }
 
