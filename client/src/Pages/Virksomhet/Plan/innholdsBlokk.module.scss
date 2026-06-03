@@ -107,15 +107,6 @@
                     var(--__ac-accordion-header-shadow);
             }
         }
-
-        &:global(.navds-accordion__item--open):last-child {
-            .statusSelectContainer {
-                box-shadow:
-                    inset 0 -2px 0 0 transparent,
-                    var(--__ac-accordion-header-shadow);
-            }
-        }
-
         &:not(:last-child) {
             .statusSelectContainer {
                 box-shadow: var(--__ac-accordion-header-shadow);

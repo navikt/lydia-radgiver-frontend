@@ -52,6 +52,6 @@ dd {
  * Gjev secondary-knapp frå designsystemet kvit bakgrunn
  * slik at vi får betre kontrast når den vert brukt på saman med "background-subtle".
  */
-.navds-button.navds-button--secondary {
+.aksel-button.aksel-button--secondary {
   background: var(--ax-bg-default) /* "white" i designsystemet 2023-11-29 */
 }

@@ -98,19 +98,19 @@
     }
 
     .inaktiveSamarbeidReadMore {
-        :global(.navds-read-more__button) {
+        :global(.aksel-read-more__button) {
             @include radStyling;
             width: 100%;
             padding-left: 0;
         }
-        :global(.navds-read-more__content) {
+        :global(.aksel-read-more__content) {
             border: 0;
             padding: 0;
             margin: 0;
         }
 
         &:last-child {
-            :global(.navds-read-more__button) {
+            :global(.aksel-read-more__button) {
                 &[data-state="closed"] {
                     border-bottom: none;
                 }

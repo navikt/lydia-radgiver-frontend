@@ -66,7 +66,7 @@ export const SykefraværsprosentVelger = ({
                 })
             }
         />
-        <p className="navds-label">-</p>
+        <p className="aksel-label">-</p>
         <SykefraværsprosentInput
             value={sykefraværsprosentRange.til}
             label={"Til"}

@@ -18,10 +18,10 @@ export const Paginering = ({ side, antallTreffPåSide, endreSide }: Props) => (
     <nav className={styles.prioriteringPaginator}>
         <Pagination.Item
             className={cl(
-                "navds-pagination__prev-next",
-                "navds-pagination--prev-next--with-text",
+                "aksel-pagination__prev-next",
+                "aksel-pagination--prev-next--with-text",
                 {
-                    "navds-pagination--invisible": side === 1,
+                    "aksel-pagination--invisible": side === 1,
                 },
             )}
             disabled={side <= 1}
@@ -30,22 +30,22 @@ export const Paginering = ({ side, antallTreffPåSide, endreSide }: Props) => (
             size="small"
             icon={
                 <Back
-                    className="navds-pagination__prev-next-icon"
+                    className="aksel-pagination__prev-next-icon"
                     aria-hidden={true}
                 />
             }
         >
-            <BodyShort size="small" className="navds-pagination__prev-text">
+            <BodyShort size="small" className="aksel-pagination__prev-text">
                 Forrige
             </BodyShort>
         </Pagination.Item>
         <BodyShort>{side}</BodyShort>
         <Pagination.Item
             className={cl(
-                "navds-pagination__prev-next",
-                "navds-pagination--prev-next--with-text",
+                "aksel-pagination__prev-next",
+                "aksel-pagination--prev-next--with-text",
                 {
-                    "navds-pagination--invisible":
+                    "aksel-pagination--invisible":
                         antallTreffPåSide !== ANTALL_RESULTATER_PER_SIDE,
                 },
             )}
@@ -55,13 +55,13 @@ export const Paginering = ({ side, antallTreffPåSide, endreSide }: Props) => (
             size="small"
             icon={
                 <Next
-                    className="navds-pagination__prev-next-icon"
+                    className="aksel-pagination__prev-next-icon"
                     aria-hidden={true}
                 />
             }
             iconPosition="right"
         >
-            <BodyShort size="small" className="navds-pagination__next-text">
+            <BodyShort size="small" className="aksel-pagination__next-text">
                 Neste
             </BodyShort>
         </Pagination.Item>

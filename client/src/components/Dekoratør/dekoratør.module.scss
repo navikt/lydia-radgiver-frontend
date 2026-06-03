@@ -62,7 +62,7 @@
         }
 
         /* Overskriv border-right når navigasjonslenkene vert vist i kolonne */
-        & :global(.navds-internalheader__title) {
+        & :global(.aksel-internalheader__title) {
             border-right: none;
         }
 
@@ -70,7 +70,7 @@
             flex-direction: row;
             align-items: center;
 
-            & :global(.navds-internalheader__title) {
+            & :global(.aksel-internalheader__title) {
                 /* Stylinga vi overskriv frå designsystemet (2023-12-21) */
                 border-right: 1px solid
                     var(--ac-internalheader-divider, var(--ax-neutral-700));
