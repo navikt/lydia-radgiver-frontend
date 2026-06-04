@@ -1,5 +1,5 @@
 import { Button, LocalAlert, Modal, Radio, RadioGroup } from "@navikt/ds-react";
-import React, { useState } from "react";
+import React from "react";
 import {
     NyFlytBegrunnelse,
     nyFlytBegrunnelseEnum,
@@ -18,12 +18,11 @@ export default function VurderVirksomhetModal({
     orgnr: string;
 }) {
     const mutate = useOversiktMutate(orgnr);
-    const [begrunnelse, setBegrunnelse] = useState<NyFlytBegrunnelse | null>(
-        null,
-    );
-    const [forsøktLagret, setForsøktLagret] = useState(false);
-    const [lasterHandling, setLasterHandling] = useState(false);
-    const [error, setError] = useState<string | null>(null);
+    const [begrunnelse, setBegrunnelse] =
+        React.useState<NyFlytBegrunnelse | null>(null);
+    const [forsøktLagret, setForsøktLagret] = React.useState(false);
+    const [lasterHandling, setLasterHandling] = React.useState(false);
+    const [error, setError] = React.useState<string | null>(null);
 
     const handleSubmit = async () => {
         setForsøktLagret(true);
@@ -68,12 +67,17 @@ export default function VurderVirksomhetModal({
                             : undefined
                     }
                 >
-                    <Radio value={nyFlytBegrunnelseEnum.enum.NAV_VURDERER_VIRKSOMHETEN}>
+                    <Radio
+                        value={
+                            nyFlytBegrunnelseEnum.enum.NAV_VURDERER_VIRKSOMHETEN
+                        }
+                    >
                         Nav vurderer virksomheten
                     </Radio>
                     <Radio
                         value={
-                            nyFlytBegrunnelseEnum.enum.VIRKSOMHETEN_HAR_TATT_KONTAKT
+                            nyFlytBegrunnelseEnum.enum
+                                .VIRKSOMHETEN_HAR_TATT_KONTAKT
                         }
                     >
                         Virksomheten har tatt kontakt
