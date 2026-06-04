@@ -22,7 +22,11 @@ const App = () => (
             <script
                 defer
                 src="https://cdn.nav.no/team-researchops/sporing/sporing.js"
-                data-host-url="https://umami.nav.no"
+                data-host-url={
+                    erIDev
+                        ? "https://reops-event-proxy.ekstern.dev.nav.no"
+                        : "https://umami.nav.no"
+                }
                 data-website-id={
                     erIDev
                         ? "df38cdde-af54-4677-8cba-0b56cb68dcf3"
