@@ -1,34 +1,4 @@
-.historikkContainer {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-
-    &.begrensHøyde {
-        max-height: 15rem;
-        overflow-y: auto;
-    }
-}
-
-.dropdownHeader {
-    padding: 0.5rem 0.5rem 1rem;
-}
-
-.saksgangDropdownToggle {
-    --tekstfarge: var(--ax-text-neutral);
-    --farge: var(--a-color-subtle);
-    --hoverfarge: var(--farge);
-
-    color: var(--tekstfarge);
-    background-color: var(--farge);
-    &:hover {
-        filter: brightness(80%);
-        opacity: 1;
-        background-color: var(--hoverfarge);
-    }
-
-    & > span {
-        font-weight: var(--ax-font-weight-regular);
-    }
-}
+@use "../../../styling/containere" as containere;
 
 .virksomhetOgSamarbeidsHeader {
     display: flex;
@@ -39,6 +9,7 @@
     border: 1px solid var(--ax-border-neutral-subtle);
     z-index: 20;
     box-shadow: var(--ax-shadow-dialog);
+    @include containere.hvitBoksMedBorder;
 
     .salesforceLenke {
         font-size: 1.125rem;
