@@ -1,5 +1,12 @@
 @use "../../styling/_containere.scss" as containere;
 
-.tabell {
+.statistikktabellcontainer {
     @include containere.hvitBoksMedBorder;
+
+    table.tabell tbody tr:last-child {
+        td,
+        th {
+            border-bottom: none;
+        }
+    }
 }
