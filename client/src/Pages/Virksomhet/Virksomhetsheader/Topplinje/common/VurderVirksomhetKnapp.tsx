@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { Button, Tooltip } from "@navikt/ds-react";
 import { useHentBrukerinformasjon } from "../../../../../api/lydia-api/bruker";
 import { Virksomhet } from "../../../../../domenetyper/virksomhet";
@@ -11,7 +11,7 @@ export default function VurderVirksomhetKnapp({
     virksomhet: Virksomhet;
     label?: string;
 }) {
-    const [modalErÅpen, setModalErÅpen] = useState(false);
+    const [modalErÅpen, setModalErÅpen] = React.useState(false);
 
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
 
