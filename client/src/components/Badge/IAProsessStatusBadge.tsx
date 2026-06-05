@@ -1,3 +1,4 @@
+import { TagProps } from "@navikt/ds-react";
 import {
     IAProsessStatusEnum,
     IAProsessStatusType,
@@ -6,14 +7,14 @@ import { GenericProps, GenericStatusBadge } from "./StatusBadge";
 
 export type StatusBadgeProps = Omit<
     GenericProps<IAProsessStatusType>,
-    "penskrivStatus" | "hentVariant"
+    "penskrivStatus" | "hentTagProps"
 >;
 export function IAProsessStatusBadge({ ...remainingProps }: StatusBadgeProps) {
     return (
         <GenericStatusBadge
             {...remainingProps}
             penskrivStatus={penskrivIAStatus}
-            hentVariant={hentVariantForIAStatus}
+            hentTagProps={hentTagPropsForIAStatus}
         />
     );
 }
@@ -49,31 +50,36 @@ export function penskrivIAStatus(status: IAProsessStatusType) {
             return status;
     }
 }
-export const hentVariantForIAStatus = (status: IAProsessStatusType) => {
+
+export function hentTagPropsForIAStatus(
+    status: IAProsessStatusType,
+): Partial<TagProps> {
     switch (status) {
+        case IAProsessStatusEnum.enum.NY:
+        case IAProsessStatusEnum.enum.FULLFØRT:
+            return { variant: "outline", "data-color": "success" };
         case IAProsessStatusEnum.enum.IKKE_AKTIV:
         case IAProsessStatusEnum.enum.SLETTET:
         case IAProsessStatusEnum.enum.AVBRUTT:
-        default:
-            return "neutral-moderate";
-        case IAProsessStatusEnum.enum.AVSLUTTET:
-            return "neutral-filled";
-        case IAProsessStatusEnum.enum.VURDERES:
-            return "alt2";
-        case IAProsessStatusEnum.enum.KONTAKTES:
-            return "alt3-moderate";
-        case IAProsessStatusEnum.enum.KARTLEGGES:
-            return "warning-moderate";
-        case IAProsessStatusEnum.enum.VI_BISTÅR:
-            return "success-filled";
+            return { variant: "outline", "data-color": "neutral" };
         case IAProsessStatusEnum.enum.AKTIV:
-            return "alt3";
+            return { variant: "outline", "data-color": "brand-blue" };
+        // ikke eksisterende
+        case IAProsessStatusEnum.enum.AVSLUTTET:
+            return { variant: "strong", "data-color": "neutral" };
+        case IAProsessStatusEnum.enum.VURDERES:
+            return { variant: "moderate", "data-color": "meta-lime" };
+        case IAProsessStatusEnum.enum.KONTAKTES:
+            return { variant: "strong", "data-color": "brand-blue" };
+        case IAProsessStatusEnum.enum.KARTLEGGES:
+            return { variant: "moderate", "data-color": "warning" };
+        case IAProsessStatusEnum.enum.VI_BISTÅR:
+            return { variant: "strong", "data-color": "success" };
         case IAProsessStatusEnum.enum.VURDERT:
-            return "alt2-filled";
-        case IAProsessStatusEnum.enum.NY:
-        case IAProsessStatusEnum.enum.FULLFØRT:
-            return "alt1-moderate";
+            return { variant: "strong", "data-color": "meta-lime" };
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
-            return "error-moderate";
+            return { variant: "strong", "data-color": "danger" };
     }
-};
+
+    return {};
+}

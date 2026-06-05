@@ -159,7 +159,6 @@ function VirksomhetsvisningsSwitch({
                         </span>
                         {valgtSamarbeid.status !== "AKTIV" && (
                             <SamarbeidStatusBadge
-                                slim
                                 status={valgtSamarbeid.status}
                             />
                         )}

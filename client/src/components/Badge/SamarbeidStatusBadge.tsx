@@ -1,13 +1,13 @@
 import { IASamarbeidStatusType } from "../../domenetyper/iaSakProsess";
 import {
-    hentVariantForIAStatus,
+    hentTagPropsForIAStatus,
     penskrivIAStatus,
 } from "./IAProsessStatusBadge";
 import { GenericProps, GenericStatusBadge } from "./StatusBadge";
 
 export type StatusBadgeProps = Omit<
     GenericProps<IASamarbeidStatusType>,
-    "penskrivStatus" | "hentVariant"
+    "penskrivStatus" | "hentTagProps"
 >;
 
 export function SamarbeidStatusBadge({ ...remainingProps }: StatusBadgeProps) {
@@ -15,7 +15,7 @@ export function SamarbeidStatusBadge({ ...remainingProps }: StatusBadgeProps) {
         <GenericStatusBadge
             {...remainingProps}
             penskrivStatus={penskrivIAStatus}
-            hentVariant={hentVariantForIAStatus}
+            hentTagProps={hentTagPropsForIAStatus}
         />
     );
 }
