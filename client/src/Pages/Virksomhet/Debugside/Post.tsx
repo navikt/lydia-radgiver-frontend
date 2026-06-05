@@ -193,6 +193,10 @@ export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
     const [error, setError] = useState<string | null>(null);
 
     const begrunnelserForType: Record<NyFlytÅrsakType, NyFlytBegrunnelse[]> = {
+        [nyFlytÅrsakTypeEnum.enum.BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET]: [
+            nyFlytBegrunnelseEnum.enum.NAV_VURDERER_VIRKSOMHETEN,
+            nyFlytBegrunnelseEnum.enum.VIRKSOMHETEN_HAR_TATT_KONTAKT,
+        ],
         [nyFlytÅrsakTypeEnum.enum.VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT]:
             [
                 nyFlytBegrunnelseEnum.enum

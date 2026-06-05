@@ -195,6 +195,9 @@ export type VirksomhetTilstandDto = z.infer<typeof virksomhetTilstandDtoSchema>;
 export type VirksomhetIATilstand = z.infer<typeof VirksomhetIATilstandEnum>;
 
 export const nyFlytBegrunnelseEnum = z.enum([
+    // bakgrunn for vurdering av virksomhet
+    "NAV_VURDERER_VIRKSOMHETEN",
+    "VIRKSOMHETEN_HAR_TATT_KONTAKT",
     // vurder senere
     "VIRKSOMHETEN_ØNSKER_Å_BLI_KONTAKTET_SENERE",
     "NAV_HAR_IKKE_KAPASITET_NÅ",
@@ -212,6 +215,7 @@ export const nyFlytBegrunnelseEnum = z.enum([
 export type NyFlytBegrunnelse = z.infer<typeof nyFlytBegrunnelseEnum>;
 
 export const nyFlytÅrsakTypeEnum = z.enum([
+    "BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET",
     "VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT",
     "VIRKSOMHETEN_ER_FERDIG_VURDERT_MED_INTERN_VURDERING",
     "VIRKSOMHETEN_ER_FERDIG_VURDERT_OG_TAKKET_NEI",

@@ -224,11 +224,19 @@ describe("NyVirksomhetsside", () => {
             expect(vurderSakKnapp).toBeInTheDocument();
             expect(vurderSakKnapp).not.toBeDisabled();
             vurderSakKnapp.click();
+
+            (await screen.findByLabelText("Nav vurderer virksomheten")).click();
+            screen.getByRole("button", { name: "Lagre" }).click();
+
             await waitFor(() =>
                 expect(vurderSakNyFlyt).toHaveBeenCalledTimes(1),
             );
             expect(vurderSakNyFlyt).toHaveBeenCalledWith(
                 dummyVirksomhetsinformasjonNyFlyt.orgnr,
+                {
+                    type: "BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET",
+                    begrunnelser: ["NAV_VURDERER_VIRKSOMHETEN"],
+                },
             );
         });
 

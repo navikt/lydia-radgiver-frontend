@@ -95,8 +95,11 @@ export const useHentSpesifikkSakNyFlyt = (
     );
 };
 
-export const vurderSakNyFlyt = (orgnummer: string): Promise<IASak> => {
-    return post(`${nyFlytBasePath}/${orgnummer}/vurder`, iaSakSchema);
+export const vurderSakNyFlyt = (
+    orgnummer: string,
+    årsak?: ValgtÅrsakNyFlytDto,
+): Promise<IASak> => {
+    return post(`${nyFlytBasePath}/${orgnummer}/vurder`, iaSakSchema, årsak);
 };
 
 export const bliEierNyFlyt = (orgnummer: string): Promise<IASak> => {

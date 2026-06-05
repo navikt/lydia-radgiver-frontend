@@ -21,10 +21,10 @@ import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
 import { Salesforcelenke } from "..";
 import {
     endrePlanlagtDatoNyFlyt,
-    vurderSakNyFlyt,
 } from "../../../../api/lydia-api/nyFlyt";
 import { useOversiktMutate } from "../../Debugside/Oversikt";
 import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
+import VurderVirksomhetModal from "./common/VurderVirksomhetModal";
 
 export default function VirksomhetErVurdert({
     iaSak,
@@ -69,28 +69,25 @@ export default function VirksomhetErVurdert({
 
 function VurderVirksomhetenNå({ orgnr }: { orgnr: string }) {
     const { data: brukerInformasjon } = useHentBrukerinformasjon();
-    const [senderRequest, setSenderRequest] = React.useState(false);
-    const mutate = useOversiktMutate(orgnr);
-
-    const onVurderNå = () => {
-        if (!senderRequest) {
-            setSenderRequest(true);
-            vurderSakNyFlyt(orgnr).finally(() => {
-                setSenderRequest(false);
-                mutate();
-            });
-        }
-    };
+    const [modalErÅpen, setModalErÅpen] = React.useState(false);
 
     return (
-        <Button
-            size="small"
-            onClick={onVurderNå}
-            loading={senderRequest}
-            disabled={!(brukerInformasjon?.rolle === "Superbruker")}
-        >
-            Vurder nå
-        </Button>
+        <>
+            <Button
+                size="small"
+                onClick={() => setModalErÅpen(true)}
+                disabled={!(brukerInformasjon?.rolle === "Superbruker")}
+            >
+                Vurder nå
+            </Button>
+            {modalErÅpen && (
+                <VurderVirksomhetModal
+                    erÅpen={modalErÅpen}
+                    onClose={() => setModalErÅpen(false)}
+                    orgnr={orgnr}
+                />
+            )}
+        </>
     );
 }
 
