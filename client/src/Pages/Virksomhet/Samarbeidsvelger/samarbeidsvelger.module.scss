@@ -3,7 +3,7 @@
     word-break: break-word;
 
     &:not(:last-child) {
-        border-bottom: 1px solid var(--a-gray-300);
+        border-bottom: 1px solid var(--ax-neutral-400);
     }
 }
 
@@ -12,32 +12,32 @@
     flex-direction: column;
     align-items: stretch;
     justify-content: flex-start;
-    background-color: var(--a-surface-default);
+    background-color: var(--ax-bg-default);
     margin-left: 1rem;
     margin-right: 1rem;
 
     .radCommon {
         @include radStyling;
         display: block;
-        color: var(--a-text-default);
+        color: var(--ax-text-neutral);
 
         &.klikkbar {
-            font-weight: var(--a-font-weight-regular);
-            --a-font-weight-bold: var(--a-font-weight-regular);
+            font-weight: var(--ax-font-weight-regular);
+            --ax-font-weight-bold: var(--ax-font-weight-regular);
             border-radius: 0;
             text-decoration: none;
 
             &:hover {
-                background-color: var(--a-blue-50);
+                background-color: var(--ax-accent-100);
                 text-decoration: underline;
-                color: var(--a-text-default);
+                color: var(--ax-text-neutral);
             }
         }
 
         &.valgtSamarbeid {
-            background-color: var(--a-blue-100);
+            background-color: var(--ax-accent-200);
             text-decoration: underline;
-            color: var(--a-blue-800);
+            color: var(--ax-accent-900);
         }
     }
 
@@ -48,7 +48,7 @@
 
         &:not(:last-child) .radCommon {
             &:last-child {
-                border-bottom: 1px solid var(--a-gray-300);
+                border-bottom: 1px solid var(--ax-neutral-400);
             }
         }
 
@@ -57,17 +57,18 @@
             align-items: baseline;
             justify-content: space-between;
             flex-wrap: wrap;
+            padding-right: 0;
 
             .avsluttetSamarbeidStatus {
                 margin-left: auto;
             }
             &.klikkbar {
                 &:hover {
-                    background-color: var(--a-gray-50);
+                    background-color: var(--ax-neutral-100);
                 }
             }
             &.valgtSamarbeid {
-                background-color: var(--a-gray-100);
+                background-color: var(--ax-neutral-200);
             }
         }
     }
@@ -76,17 +77,17 @@
         margin-bottom: 1rem;
         width: fit-content;
     }
-    
+
     .overskrift {
         padding-bottom: 1rem;
-        border-bottom: 1px solid var(--a-gray-300);
+        border-bottom: 1px solid var(--ax-neutral-400);
     }
 
     .overskriftOgKnappRad {
         display: flex;
         align-items: center;
         justify-content: space-between;
-        border-bottom: 1px solid var(--a-gray-300);
+        border-bottom: 1px solid var(--ax-neutral-400);
 
         .overskrift {
             padding-bottom: 0;
@@ -97,21 +98,20 @@
         }
     }
 
-
     .inaktiveSamarbeidReadMore {
-        :global(.navds-read-more__button) {
+        :global(.aksel-read-more__button) {
             @include radStyling;
             width: 100%;
             padding-left: 0;
         }
-        :global(.navds-read-more__content) {
+        :global(.aksel-read-more__content) {
             border: 0;
             padding: 0;
             margin: 0;
         }
 
         &:last-child {
-            :global(.navds-read-more__button) {
+            :global(.aksel-read-more__button) {
                 &[data-state="closed"] {
                     border-bottom: none;
                 }

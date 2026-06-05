@@ -29,7 +29,7 @@ export function Topplinje({
     if (tilstandLoading) {
         // TODO: Pen loading
         return (
-            <HStack gap={"4"}>
+            <HStack gap={"space-16"}>
                 <Skeleton width={100} />
                 <Skeleton width={60} />
                 <Salesforcelenke orgnr={virksomhet.orgnr} />

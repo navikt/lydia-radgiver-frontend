@@ -11,21 +11,21 @@
 }
 
 .kategoritittel {
-    color: var(--a-blue-500);
+    color: var(--ax-accent-600);
     margin-bottom: 0.25rem;
 }
 
 .kategorimål {
-    color: var(--a-text-subtle);
+    color: var(--ax-text-neutral-subtle);
 }
 
 .accordionHeader {
-    color: var(--a-blue-500);
-    --a-font-weight-bold: 400;
+    color: var(--ax-accent-600);
+    --ax-font-weight-bold: 400;
 }
 
 .accordionItem {
-    &:last-child > :where(:global(.navds-accordion__header)) {
+    &:last-child > :where(:global(.aksel-accordion__header)) {
         box-shadow:
             var(--__ac-accordion-header-shadow),
             inset 0 0 0 0 var(--__ac-accordion-header-shadow-color);
@@ -35,6 +35,7 @@
 .disabledCheckbox,
 .disabledRadio {
     pointer-events: none;
+    opacity: 1;
 
     label::before {
         opacity: 0.5;

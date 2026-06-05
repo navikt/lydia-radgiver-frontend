@@ -50,7 +50,7 @@ export const AntallArbeidsforholdVelger = ({
                     });
                 }}
             />
-            <p className="navds-label">-</p>
+            <p className="aksel-label">-</p>
             <AntallArbeidsforholdInput
                 label={"Til"}
                 hideLabel

@@ -1,71 +1,35 @@
-.historikkContainer {
-    padding-left: 0.5rem;
-    padding-right: 0.5rem;
-
-    &.begrensHøyde {
-        max-height: 15rem;
-        overflow-y: auto;
-    }
-}
-
-.dropdownHeader {
-    padding: 0.5rem 0.5rem 1rem;
-}
-
-.saksgangDropdownToggle {
-    --tekstfarge: var(--a-text-default);
-    --farge: var(--a-color-subtle);
-    --hoverfarge: var(--farge);
-
-    color: var(--tekstfarge);
-    background-color: var(--farge);
-    &:hover {
-        filter: brightness(80%);
-        opacity: 1;
-        background-color: var(--hoverfarge);
-    }
-
-    & > span {
-        font-weight: var(--a-font-weight-regular);
-    }
-}
+@use "../../../styling/containere" as containere;
 
 .virksomhetOgSamarbeidsHeader {
     display: flex;
     flex-direction: column;
     gap: 0.75rem;
-    background-color: var(--a-surface-default);
+    background-color: var(--ax-bg-default);
     padding: 2rem;
-    box-shadow: var(--a-shadow-small);
+    border: 1px solid var(--ax-border-neutral-subtle);
     z-index: 20;
+    box-shadow: var(--ax-shadow-dialog);
+    @include containere.hvitBoksMedBorder;
 
     .salesforceLenke {
         font-size: 1.125rem;
     }
 
     .detaljknapp {
-        --a-font-weight-bold: 400;
+        --ax-font-weight-bold: 400;
     }
 
-    --a-font-size-medium: 1.125rem;
+    --ax-font-size-medium: 1.125rem;
     .tabButton {
         // Override default styles fra tab
-        --a-font-weight-bold: 400;
-        --a-spacing-1: 0.5rem;
+        --ax-font-weight-bold: 400;
+        --ax-space-4: 0.5rem;
     }
 }
 
 .duErPåGammelPeriodeBanner {
-    background-color: var(--a-gray-300);
+    background-color: var(--ax-neutral-400);
     padding: 1rem 1.5rem;
-}
-
-.arkivertSakAlert {
-    margin-bottom: 2rem;
-
-    --a-surface-info-subtle: var(--a-gray-300);
-    --a-border-info: var(--a-gray-600);
-    --a-icon-info: var(--a-gray-600);
 }
 
 .virksomhetsinfoPopoverInnhold {

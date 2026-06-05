@@ -8,16 +8,14 @@ export interface GenericProps<T> extends Omit<
 > {
     status: T;
     penskrivStatus: (status: T) => string;
-    hentVariant: (status: T) => TagProps["variant"];
-    slim?: boolean;
+    hentTagProps?: (status: T) => Omit<TagProps, "variant" | "children">;
     as?: React.ElementType;
 }
 
 export function GenericStatusBadge<T>({
     status,
     penskrivStatus,
-    hentVariant,
-    slim = false,
+    hentTagProps = () => ({}),
     className,
     as = "div",
     ...remainingProps
@@ -29,8 +27,8 @@ export function GenericStatusBadge<T>({
         >
             <Tag
                 {...remainingProps}
-                className={`${styles.statusTag} ${slim ? styles.slim : ""}`}
-                variant={hentVariant(status)}
+                className={`${styles.statusTag} ${styles.slim} `}
+                {...hentTagProps(status)}
                 size="small"
             >
                 {penskrivStatus(status)}

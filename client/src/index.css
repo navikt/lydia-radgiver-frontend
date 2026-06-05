@@ -1,7 +1,7 @@
 body {
   margin: 0;
   padding: 0;
-  background-color: var(--a-bg-subtle);
+  background-color: var(--ax-bg-neutral-soft);
 }
 
 html, body, #root {
@@ -52,6 +52,6 @@ dd {
  * Gjev secondary-knapp frå designsystemet kvit bakgrunn
  * slik at vi får betre kontrast når den vert brukt på saman med "background-subtle".
  */
-.navds-button.navds-button--secondary {
-  background: var(--a-bg-default) /* "white" i designsystemet 2023-11-29 */
+.aksel-button.aksel-button--secondary {
+  background: var(--ax-bg-default) /* "white" i designsystemet 2023-11-29 */
 }

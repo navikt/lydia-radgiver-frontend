@@ -45,6 +45,7 @@ export default function ForFåSvarRad({
                     <ActionButtonsHvisSamarbeidIkkeFullført>
                         {kanEndreSpørreundersøkelser && !erLesebruker && (
                             <Button
+                                data-color="accent"
                                 variant="secondary"
                                 size="small"
                                 iconPosition="right"

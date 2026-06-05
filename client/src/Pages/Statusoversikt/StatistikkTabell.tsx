@@ -27,37 +27,39 @@ export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
     }
 
     return (
-        <Table className={styles.tabell} size={"small"}>
-            <Table.Header>
-                <Table.Row>
-                    <Table.HeaderCell scope="col">Status</Table.HeaderCell>
-                    <Table.HeaderCell scope="col">
-                        Antall bedrifter
-                    </Table.HeaderCell>
-                </Table.Row>
-            </Table.Header>
-            <Table.Body>
-                {lederstatistikkListe?.map(({ status, antall }, i) => {
-                    return (
-                        <Table.Row key={i + status}>
-                            <Table.HeaderCell scope="row">
-                                <IAProsessStatusBadge status={status} />
-                            </Table.HeaderCell>
-                            <Table.DataCell>
-                                <HStack justify={"space-between"}>
-                                    <span>{antall}</span>
-                                    <Button
-                                        size={"xsmall"}
-                                        onClick={() => gåTilSøk(status)}
-                                    >
-                                        Åpne i søk
-                                    </Button>
-                                </HStack>
-                            </Table.DataCell>
-                        </Table.Row>
-                    );
-                })}
-            </Table.Body>
-        </Table>
+        <div className={styles.statistikktabellcontainer}>
+            <Table className={styles.tabell} size={"small"}>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell scope="col">Status</Table.HeaderCell>
+                        <Table.HeaderCell scope="col">
+                            Antall bedrifter
+                        </Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
+                <Table.Body>
+                    {lederstatistikkListe?.map(({ status, antall }, i) => {
+                        return (
+                            <Table.Row key={i + status}>
+                                <Table.HeaderCell scope="row">
+                                    <IAProsessStatusBadge status={status} />
+                                </Table.HeaderCell>
+                                <Table.DataCell>
+                                    <HStack justify={"space-between"}>
+                                        <span>{antall}</span>
+                                        <Button
+                                            size={"xsmall"}
+                                            onClick={() => gåTilSøk(status)}
+                                        >
+                                            Åpne i søk
+                                        </Button>
+                                    </HStack>
+                                </Table.DataCell>
+                            </Table.Row>
+                        );
+                    })}
+                </Table.Body>
+            </Table>
+        </div>
     );
 };

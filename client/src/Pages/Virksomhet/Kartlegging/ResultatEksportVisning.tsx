@@ -88,6 +88,7 @@ const ResultatEksportVisning = ({
                 disabled={erLastetNed}
                 icon={<FilePdfIcon fontSize="1.5rem" aria-hidden />}
                 iconPosition="right"
+                data-color="accent"
                 variant="secondary"
                 size="small"
                 onClick={() => {

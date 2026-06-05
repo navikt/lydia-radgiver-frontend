@@ -36,6 +36,7 @@ export const FlyttTilAnnenProsess = ({
                             as={Dropdown.Toggle}
                             variant={"tertiary"}
                             size={dropdownSize}
+                            data-color="accent"
                         >
                             Endre samarbeid
                         </Button>

@@ -21,9 +21,8 @@ export function VirksomhetTilstandStatusBadge({
             <GenericStatusBadge
                 {...remainingProps}
                 status={tilstand}
-                slim
                 penskrivStatus={penskrivVirksomhetTilstand}
-                hentVariant={hentVariantForVirksomhetTilstand}
+                hentTagProps={hentTagPropsForVirksomhetTilstand}
             />
         )
     );
@@ -46,18 +45,19 @@ export function penskrivVirksomhetTilstand(tilstand: VirksomhetIATilstand) {
     }
 }
 
-export const hentVariantForVirksomhetTilstand = (
+function hentTagPropsForVirksomhetTilstand(
     tilstand: VirksomhetIATilstand,
-): TagProps["variant"] => {
+): Partial<TagProps> {
     switch (tilstand) {
         case VirksomhetIATilstandEnum.enum.VirksomhetVurderes:
-            return "alt2";
+            return { variant: "outline", "data-color": "meta-lime" };
         case VirksomhetIATilstandEnum.enum.VirksomhetErVurdert:
-            return "alt2-filled";
+            return { variant: "strong", "data-color": "meta-lime" };
         case VirksomhetIATilstandEnum.enum.VirksomhetHarAktiveSamarbeid:
-            return "alt3";
+            return { variant: "outline", "data-color": "brand-blue" };
         case VirksomhetIATilstandEnum.enum.AlleSamarbeidIVirksomhetErAvsluttet:
-        default:
-            return "neutral-filled";
+            return { variant: "strong", "data-color": "neutral" };
     }
-};
+
+    return { variant: "strong", "data-color": "neutral" };
+}

@@ -80,7 +80,7 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
                     defaultValue="statistikk"
                     className={styles.virksomhetsTabs}
                 >
-                    <VStack className={styles.virksomhetsvisning} gap="0">
+                    <VStack className={styles.virksomhetsvisning}>
                         <Virksomhetsheader
                             valgtSamarbeid={valgtSamarbeid}
                             virksomhet={virksomhet}
@@ -153,18 +153,17 @@ function VirksomhetsvisningsSwitch({
                 <div
                     className={`${styles.statuslinje} ${getKlassenavnForSamarbeidsstatus(valgtSamarbeid.status)}`}
                 >
-                    <HStack gap="4" align="center">
+                    <HStack gap="space-16" align="center">
                         <span className={styles.tittel}>
                             {valgtSamarbeid?.navn}
                         </span>
                         {valgtSamarbeid.status !== "AKTIV" && (
                             <SamarbeidStatusBadge
-                                slim
                                 status={valgtSamarbeid.status}
                             />
                         )}
                     </HStack>
-                    <HStack gap="8" align="center">
+                    <HStack gap="space-32" align="center">
                         <AdministrerSamarbeid
                             iaSak={iaSak}
                             valgtSamarbeid={valgtSamarbeid}

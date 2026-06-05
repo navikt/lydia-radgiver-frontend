@@ -179,7 +179,7 @@ function Kategori({
                     style={{
                         color: useFarge
                             ? getGraffargeFromTema(temanavn)
-                            : "var(--a-text-default)",
+                            : "var(--ax-text-neutral)",
                     }}
                 >
                     {tittel}
@@ -204,7 +204,7 @@ function Kategori({
                 style={{
                     color: useFarge
                         ? getGraffargeFromTema(temanavn)
-                        : "var(--a-text-default)",
+                        : "var(--ax-text-neutral)",
                 }}
             >
                 {tittel}

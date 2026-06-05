@@ -118,7 +118,6 @@ function AvsluttedeSamarbeidVelger({
                         <SamarbeidStatusBadge
                             className={styles.avsluttetSamarbeidStatus}
                             status={s.status}
-                            slim
                         />
                     </InternLenke>
                 ))}
@@ -323,7 +322,6 @@ function AvsluttedeSamarbeidListe({
                         <SamarbeidStatusBadge
                             className={styles.avsluttetSamarbeidStatus}
                             status={s.status}
-                            slim
                         />
                     </InternLenke>
                 ))}

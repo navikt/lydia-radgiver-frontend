@@ -4,21 +4,23 @@ import {
     SpørreundersøkelseStatus,
 } from "../../domenetyper/domenetyper";
 import { GenericProps, GenericStatusBadge } from "./StatusBadge";
+import { TagProps } from "@navikt/ds-react";
 
-export const hentVariantForSpørreundersøkelseStatus = (
+function hentTagPropsForSpørreundersøkelseStatus(
     status: SpørreundersøkelseStatus,
-) => {
+): Partial<TagProps> {
     switch (status) {
         case spørreundersøkelseStatusEnum.enum.PÅBEGYNT:
-            return "alt1-moderate";
+            return { variant: "outline", "data-color": "meta-purple" };
         case spørreundersøkelseStatusEnum.enum.OPPRETTET:
-            return "neutral-moderate";
+            return { variant: "moderate", "data-color": "neutral" };
         case spørreundersøkelseStatusEnum.enum.AVSLUTTET:
-            return "success-moderate";
+            return { variant: "moderate", "data-color": "success" };
         case spørreundersøkelseStatusEnum.enum.SLETTET:
-            return "error-moderate";
+            return { variant: "outline", "data-color": "danger" };
     }
-};
+    return {};
+}
 
 export function penskrivSpørreundersøkelseStatus(
     status: SpørreundersøkelseStatus,
@@ -44,6 +46,6 @@ export const SpørreundersøkelseStatusBadge = (props: Props) => (
     <GenericStatusBadge
         {...props}
         penskrivStatus={penskrivSpørreundersøkelseStatus}
-        hentVariant={hentVariantForSpørreundersøkelseStatus}
+        hentTagProps={hentTagPropsForSpørreundersøkelseStatus}
     />
 );
