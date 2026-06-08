@@ -18,6 +18,7 @@ import {
     useHentTilstandForVirksomhetNyFlyt,
     vurderSakNyFlyt,
 } from "../../../../src/api/lydia-api/nyFlyt";
+import { loggBakgrunnForVurderingAvVirksomhet } from "../../../../src/util/analytics-klient";
 
 jest.mock("../../../../src/util/analytics-klient", () => {
     const actual = jest.requireActual("../../../../src/util/analytics-klient");
@@ -25,6 +26,7 @@ jest.mock("../../../../src/util/analytics-klient", () => {
         ...actual,
         loggSideLastet: jest.fn(),
         loggNavigertTilNyTab: jest.fn(),
+        loggBakgrunnForVurderingAvVirksomhet: jest.fn(),
     };
 });
 
@@ -220,6 +222,7 @@ describe("NyVirksomhetsside", () => {
                 </BrowserRouter>,
             );
             expect(vurderSakNyFlyt).not.toHaveBeenCalled();
+            expect(loggBakgrunnForVurderingAvVirksomhet).not.toHaveBeenCalled();
             const vurderSakKnapp = getByText("Vurder virksomheten");
             expect(vurderSakKnapp).toBeInTheDocument();
             expect(vurderSakKnapp).not.toBeDisabled();
@@ -230,6 +233,11 @@ describe("NyVirksomhetsside", () => {
 
             await waitFor(() =>
                 expect(vurderSakNyFlyt).toHaveBeenCalledTimes(1),
+            );
+            await waitFor(() =>
+                expect(
+                    loggBakgrunnForVurderingAvVirksomhet,
+                ).toHaveBeenCalledTimes(1),
             );
             expect(vurderSakNyFlyt).toHaveBeenCalledWith(
                 dummyVirksomhetsinformasjonNyFlyt.orgnr,

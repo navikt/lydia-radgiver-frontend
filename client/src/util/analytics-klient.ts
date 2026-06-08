@@ -3,6 +3,8 @@ import { Rolle } from "../domenetyper/brukerinformasjon";
 import {
     IAProsessStatusType,
     IASakshendelseType,
+    NyFlytBegrunnelse,
+    nyFlytÅrsakTypeEnum,
 } from "../domenetyper/domenetyper";
 
 declare global {
@@ -39,7 +41,8 @@ type NavsAnalyticsTopologiEventer =
     | "exportert til pdf"
     | "endret tab virksomhetsvisning"
     | "flyttet kartlegging"
-    | "endring i plan";
+    | "endring i plan"
+    | "vurder virksomhet";
 
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
@@ -261,5 +264,14 @@ export const loggBrukerFulgteRedirectlenkeMedSøk = () => {
 export const loggEndretSamarbeid = (samarbeidId: number) => {
     logAnalyticsEvent("flyttet kartlegging", {
         samarbeidId: String(samarbeidId),
+    });
+};
+
+export const loggBakgrunnForVurderingAvVirksomhet = (
+    begrunnelse: NyFlytBegrunnelse,
+) => {
+    logAnalyticsEvent("vurder virksomhet", {
+        årsak: nyFlytÅrsakTypeEnum.enum.BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET,
+        begrunnelse,
     });
 };
