@@ -51,5 +51,6 @@ then
 
   # kjør opp frontend
   pnpm install -r
-  cd client && pnpm dev
+  cd client || exit
+  pnpm dev
 fi
