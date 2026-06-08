@@ -7,6 +7,7 @@ import {
 } from "../../../../../domenetyper/domenetyper";
 import { vurderSakNyFlyt } from "../../../../../api/lydia-api/nyFlyt";
 import { useOversiktMutate } from "../../../Debugside/Oversikt";
+import { loggBakgrunnForVurderingAvVirksomhet } from "../../../../../util/analytics-klient";
 
 export default function VurderVirksomhetModal({
     erÅpen,
@@ -37,6 +38,7 @@ export default function VurderVirksomhetModal({
                     .BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET,
                 begrunnelser: [begrunnelse],
             });
+            loggBakgrunnForVurderingAvVirksomhet(begrunnelse);
             setLasterHandling(false);
             mutate();
             onClose();
