@@ -88,8 +88,6 @@ function createMockIaSak(overrides?: Partial<IASak>): IASak {
         endretAv: null,
         endretAvHendelseId: "hendelse-1",
         endretTidspunkt: null,
-        gyldigeNesteHendelser: [],
-        lukket: false,
         ...overrides,
     };
 }

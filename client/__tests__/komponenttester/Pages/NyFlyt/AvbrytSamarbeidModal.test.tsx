@@ -46,8 +46,6 @@ const testIaSak: IASak = {
     endretAvHendelseId: "hendelse-1",
     eidAv: null,
     status: "VURDERES",
-    gyldigeNesteHendelser: [],
-    lukket: false,
 };
 
 function renderModal(
