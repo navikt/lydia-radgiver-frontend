@@ -41,13 +41,6 @@ export const dummyIaSak: IASak = {
     endretAvHendelseId: "01K5BFZM6GSQYJ0904B75G0K3R",
     eidAv: "X12345",
     status: "VI_BISTÅR",
-    gyldigeNesteHendelser: [
-        {
-            saksHendelsestype: "TA_EIERSKAP_I_SAK",
-            gyldigeÅrsaker: [],
-        },
-    ],
-    lukket: false,
 };
 export const dummySamarbeid: IaSakProsess = {
     id: 3,

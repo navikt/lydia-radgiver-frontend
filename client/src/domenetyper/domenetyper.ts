@@ -101,21 +101,16 @@ export const IASakshendelseTypeEnum = z.enum(IA_SAKSHENDELSE_TYPER);
 
 export type IASakshendelseType = z.infer<typeof IASakshendelseTypeEnum>;
 
-const begrunnelseSchema = z.object({
-    type: z.string(),
-    navn: z.string(),
-});
+export type Begrunnelse = {
+    type: string;
+    navn: string;
+};
 
-// Er denne brukt nokon stad? 2023-02-02
-export type Begrunnelse = z.infer<typeof begrunnelseSchema>;
-
-const årsakSchema = z.object({
-    type: z.string(),
-    navn: z.string(),
-    begrunnelser: z.array(begrunnelseSchema),
-});
-
-export type Årsak = z.infer<typeof årsakSchema>;
+export type Årsak = {
+    type: string;
+    navn: string;
+    begrunnelser: Begrunnelse[];
+};
 
 export type ValgtÅrsakDto = {
     type: string;
@@ -123,12 +118,10 @@ export type ValgtÅrsakDto = {
     dato?: string;
 };
 
-const gyldigNesteHendelseSchema = z.object({
-    saksHendelsestype: IASakshendelseTypeEnum,
-    gyldigeÅrsaker: z.array(årsakSchema),
-});
-
-export type GyldigNesteHendelse = z.infer<typeof gyldigNesteHendelseSchema>;
+export type GyldigNesteHendelse = {
+    saksHendelsestype: IASakshendelseType;
+    gyldigeÅrsaker: Årsak[];
+};
 
 export const iaSakSchema = z.object({
     saksnummer: z.string(),
@@ -140,8 +133,6 @@ export const iaSakSchema = z.object({
     endretAvHendelseId: z.string(),
     eidAv: z.string().nullable(),
     status: IAProsessStatusEnum,
-    gyldigeNesteHendelser: z.array(gyldigNesteHendelseSchema),
-    lukket: z.boolean(),
 });
 export type IASak = z.infer<typeof iaSakSchema>;
 
