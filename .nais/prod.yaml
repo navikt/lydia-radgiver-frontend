@@ -1,6 +1,4 @@
 ingresses:
-- "https://fia.intern.nav.no"
-- "https://fia.nav.no"
 - "https://fia.ansatt.nav.no"
 kartleggingUrl: "https://fia-arbeidsgiver.nav.no"
 fiaSuperbrukerGroup: f71a0eed-1e59-4b19-ae13-6c1af824fe8e
