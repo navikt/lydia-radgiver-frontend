@@ -7,7 +7,6 @@ on:
       - ".nais/dev-redirect-fra-ekstern-til-ansatt.yaml"
       - ".nais/prod-redirect-fra-ekstern-til-ansatt.yaml"
       - ".nais/dev-redirect-fra-intern-til-ansatt.yaml"
-      - ".nais/prod-redirect-fra-intern-til-ansatt.yaml"
 
 permissions:
   id-token: write
