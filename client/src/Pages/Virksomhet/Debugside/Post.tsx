@@ -73,7 +73,11 @@ export function VurderSak({ orgnummer, onSuccess }: PostProps) {
     const handleSubmit = async () => {
         setError(null);
         try {
-            const result = await vurderSakNyFlyt(orgnummer);
+            const result = await vurderSakNyFlyt(orgnummer, {
+                begrunnelser: [],
+                type: nyFlytÅrsakTypeEnum.enum
+                    .BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET,
+            });
             setResponse(result);
             onSuccess();
         } catch (e) {

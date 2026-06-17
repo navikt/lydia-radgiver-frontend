@@ -97,7 +97,7 @@ export const useHentSpesifikkSakNyFlyt = (
 
 export const vurderSakNyFlyt = (
     orgnummer: string,
-    årsak?: ValgtÅrsakNyFlytDto,
+    årsak: ValgtÅrsakNyFlytDto,
 ): Promise<IASak> => {
     return post(`${nyFlytBasePath}/${orgnummer}/vurder`, iaSakSchema, årsak);
 };
