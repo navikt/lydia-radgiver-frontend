@@ -22,7 +22,7 @@ importers:
         version: 8.12.0(@types/react@19.2.16)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@unhead/react':
         specifier: ^3.1.3
-        version: 3.1.3(lightningcss@1.32.0)(oxc-parser@0.134.0)(react@19.2.7)(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+        version: 3.1.3(lightningcss@1.32.0)(oxc-parser@0.134.0)(react@19.2.7)(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -54,8 +54,8 @@ importers:
         specifier: ^3.8.1
         version: 3.8.1(@types/react@19.2.16)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
       sass:
-        specifier: ^1.100.0
-        version: 1.100.0
+        specifier: ^1.101.0
+        version: 1.101.0
       swr:
         specifier: ^2.4.1
         version: 2.4.1(react@19.2.7)
@@ -104,7 +104,7 @@ importers:
         version: 8.61.0(eslint@9.39.4)(typescript@6.0.3)
       '@vitejs/plugin-react':
         specifier: ^6.0.2
-        version: 6.0.2(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+        version: 6.0.2(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       babel-loader:
         specifier: ^10.1.1
         version: 10.1.1(@babel/core@7.29.7)
@@ -152,7 +152,7 @@ importers:
         version: 3.0.2
       vite:
         specifier: ^8.0.16
-        version: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+        version: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
 
 packages:
 
@@ -3397,8 +3397,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  sass@1.100.0:
-    resolution: {integrity: sha512-B5j0rYMlinhhOo9tjQebMVVn0TfyXAF+wB3b2ggZUuJ/is/Y+7+JGjirAMxHZ9Z3hIP98NPfamlAkBHa1lAaXQ==}
+  sass@1.101.0:
+    resolution: {integrity: sha512-OL3GoQyoUdDt843DpVmDO6y2k1sc5IhUDSpu8XucEI+35neq5QivZ1iuegnpraEVTJXlQGK1gl27zKcTLEPbQw==}
     engines: {node: '>=20.19.0'}
     hasBin: true
 
@@ -5172,19 +5172,19 @@ snapshots:
 
   '@ungap/structured-clone@1.3.1': {}
 
-  '@unhead/bundler@3.1.3(lightningcss@1.32.0)(rolldown@1.0.3)(typescript@6.0.3)(unhead@3.1.3(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0)))(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))':
+  '@unhead/bundler@3.1.3(lightningcss@1.32.0)(rolldown@1.0.3)(typescript@6.0.3)(unhead@3.1.3(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0)))(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))':
     dependencies:
-      '@vitejs/devtools-kit': 0.3.1(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+      '@vitejs/devtools-kit': 0.3.1(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       magic-string: 0.30.21
       oxc-parser: 0.134.0
       oxc-walker: 1.0.0(oxc-parser@0.134.0)(rolldown@1.0.3)
       ufo: 1.6.4
-      unhead: 3.1.3(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+      unhead: 3.1.3(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       unplugin: 3.0.0
     optionalDependencies:
       lightningcss: 1.32.0
       rolldown: 1.0.3
-      vite: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+      vite: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
       - bufferutil
@@ -5192,16 +5192,16 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@unhead/react@3.1.3(lightningcss@1.32.0)(oxc-parser@0.134.0)(react@19.2.7)(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))':
+  '@unhead/react@3.1.3(lightningcss@1.32.0)(oxc-parser@0.134.0)(react@19.2.7)(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))':
     dependencies:
-      '@unhead/bundler': 3.1.3(lightningcss@1.32.0)(rolldown@1.0.3)(typescript@6.0.3)(unhead@3.1.3(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0)))(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+      '@unhead/bundler': 3.1.3(lightningcss@1.32.0)(rolldown@1.0.3)(typescript@6.0.3)(unhead@3.1.3(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0)))(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       magic-string: 0.30.21
       oxc-walker: 1.0.0(oxc-parser@0.134.0)(rolldown@1.0.3)
       react: 19.2.7
-      unhead: 3.1.3(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+      unhead: 3.1.3(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       unplugin: 3.0.0
     optionalDependencies:
-      vite: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+      vite: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
       - '@unhead/cli'
@@ -5288,7 +5288,7 @@ snapshots:
     dependencies:
       valibot: 1.4.1(typescript@6.0.3)
 
-  '@vitejs/devtools-kit@0.3.1(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))':
+  '@vitejs/devtools-kit@0.3.1(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))':
     dependencies:
       '@devframes/hub': 0.5.4(devframe@0.5.4(typescript@6.0.3))
       birpc: 4.0.0
@@ -5298,7 +5298,7 @@ snapshots:
       pathe: 2.0.3
       perfect-debounce: 2.1.0
       tinyexec: 1.2.4
-      vite: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+      vite: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
       - bufferutil
@@ -5306,10 +5306,10 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@vitejs/plugin-react@6.0.2(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))':
+  '@vitejs/plugin-react@6.0.2(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+      vite: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
 
   acorn-jsx@5.3.2(acorn@8.16.0):
     dependencies:
@@ -7551,7 +7551,7 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  sass@1.100.0:
+  sass@1.101.0:
     dependencies:
       chokidar: 5.0.0
       immutable: 5.1.6
@@ -7920,12 +7920,12 @@ snapshots:
 
   undici-types@7.24.6: {}
 
-  unhead@3.1.3(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0)):
+  unhead@3.1.3(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0)):
     dependencies:
       hookable: 6.1.1
       unplugin: 3.0.0
     optionalDependencies:
-      vite: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+      vite: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
 
   unplugin@3.0.0:
     dependencies:
@@ -8014,7 +8014,7 @@ snapshots:
       d3-time: 3.1.0
       d3-timer: 3.0.1
 
-  vite@8.0.16(@types/node@25.9.3)(sass@1.100.0):
+  vite@8.0.16(@types/node@25.9.3)(sass@1.101.0):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
@@ -8024,7 +8024,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 25.9.3
       fsevents: 2.3.3
-      sass: 1.100.0
+      sass: 1.101.0
 
   w3c-xmlserializer@5.0.0:
     dependencies:
