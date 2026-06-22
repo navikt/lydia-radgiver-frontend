@@ -78,3 +78,8 @@ spec:
   {{#each ingresses as |url|}}
      - {{url}}
   {{/each}}
+  redirects:
+  {{#each redirects as |redirect|}}
+    - from: {{redirect.from}}
+      to: {{redirect.to}}
+  {{/each}}
