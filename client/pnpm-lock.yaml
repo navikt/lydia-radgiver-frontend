@@ -12,17 +12,17 @@ importers:
         specifier: ^0.27.19
         version: 0.27.19(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@navikt/aksel-icons':
-        specifier: ^8.12.0
-        version: 8.12.0
+        specifier: ^8.14.0
+        version: 8.14.0
       '@navikt/ds-css':
-        specifier: ^8.12.0
-        version: 8.12.0
+        specifier: ^8.14.0
+        version: 8.14.0
       '@navikt/ds-react':
-        specifier: ^8.12.0
-        version: 8.12.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
+        specifier: ^8.14.0
+        version: 8.14.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@unhead/react':
         specifier: ^3.1.4
-        version: 3.1.4(lightningcss@1.32.0)(oxc-parser@0.135.0)(react@19.2.7)(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+        version: 3.1.4(lightningcss@1.32.0)(oxc-parser@0.135.0)(react@19.2.7)(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       clsx:
         specifier: ^2.1.1
         version: 2.1.1
@@ -54,8 +54,8 @@ importers:
         specifier: ^3.8.1
         version: 3.8.1(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react-is@19.2.7)(react@19.2.7)(redux@5.0.1)
       sass:
-        specifier: ^1.100.0
-        version: 1.100.0
+        specifier: ^1.101.0
+        version: 1.101.0
       swr:
         specifier: ^2.4.1
         version: 2.4.1(react@19.2.7)
@@ -104,7 +104,7 @@ importers:
         version: 8.61.0(eslint@9.39.4)(typescript@6.0.3)
       '@vitejs/plugin-react':
         specifier: ^6.0.2
-        version: 6.0.2(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+        version: 6.0.2(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       babel-loader:
         specifier: ^10.1.1
         version: 10.1.1(@babel/core@7.29.7)
@@ -152,7 +152,7 @@ importers:
         version: 3.0.2
       vite:
         specifier: ^8.0.16
-        version: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+        version: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
 
 packages:
 
@@ -639,21 +639,21 @@ packages:
       '@emnapi/core': ^1.7.1
       '@emnapi/runtime': ^1.7.1
 
-  '@navikt/aksel-icons@8.12.0':
-    resolution: {integrity: sha512-fyoDI6rimF3OnTT16+CrFdS8m7R+Ffn9/fJN1/2Q6SMThitpm1EmHFz+0RLeH2U20aLEIzQvzKfdryU5cUMCaA==, tarball: https://npm.pkg.github.com/download/@navikt/aksel-icons/8.12.0/5f51810e0e62ebae550c74545e9fb0308a09c8bc}
+  '@navikt/aksel-icons@8.14.0':
+    resolution: {integrity: sha512-jFBjGMgA2WuAxB4nBzDcF8vf5pkT+OZiCsCZH5D84G/Fk8Os6iUuj1Is0XpMqObNTjI11s+PtQt9Lp/85qB5vw==, tarball: https://npm.pkg.github.com/download/@navikt/aksel-icons/8.14.0/1932d98875d11b80f9c2e443f8db04855cd8ac27}
 
-  '@navikt/ds-css@8.12.0':
-    resolution: {integrity: sha512-yHWnAFOhkfzmxC9fOfmIrY3bfbhCgoFWjdJqECZpSKvM8X8qxIm428liLgUwMkLD3uFdfLuGOEh81ONq2aUhyg==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.12.0/6dbc970d209725f1aff7ba28530a726b97c9f940}
+  '@navikt/ds-css@8.14.0':
+    resolution: {integrity: sha512-KQDrW8P798nN3R6NoUHKpSbGxfQBK3Dpr63C8WAV0uiWl3CdNTirNfFQUtYI5Lccss4CEMhciDJjv28ZomrefQ==, tarball: https://npm.pkg.github.com/download/@navikt/ds-css/8.14.0/fb120945cda0247ea4c56535066d21c5c818bfdb}
 
-  '@navikt/ds-react@8.12.0':
-    resolution: {integrity: sha512-Fz6j9qzAd2jA1iPZZdsguCaRHXZTuiLqlZXiYgNEohHYWbiHFAdLLhjlPOMiUULJxMWSkoJLPe4HZA9lCg92ig==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.12.0/e84882d3fa3d58b371dc64089f398f3b5d9dc2d4}
+  '@navikt/ds-react@8.14.0':
+    resolution: {integrity: sha512-5aBBf2lhOqb5AV6S7udx7O6vB6PlhDx5vBj37zC12a90HrCIhK8Bu36e2R/1TyM9J93blwEzcOTNVaxU3zUbEA==, tarball: https://npm.pkg.github.com/download/@navikt/ds-react/8.14.0/ba6fdf912f3dc28b111a9a97290bd44ed16849c2}
     peerDependencies:
       '@types/react': ^17.0.30 || ^18 || ^19
       react: ^17 || ^18 || ^19
       react-dom: ^17 || ^18 || ^19
 
-  '@navikt/ds-tokens@8.12.0':
-    resolution: {integrity: sha512-IPHtSUv8AyKe/g4Xop1BS+UmPfOLkSSr9G6/A7EsfYVGq0e0iv6hsZFFSAYf5ukHvs7hlbDGTsHzlBPm3S+iTA==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.12.0/c4d1404e587bf2782a44ea100059d655cecda8a2}
+  '@navikt/ds-tokens@8.14.0':
+    resolution: {integrity: sha512-OsGQ2wVfQSD5SPIBu4/4eRoOFohTGgtf2jGy5sn7l493d/ZdWCCndaL4Ww01FWDNLH6FG1ZUSCc85MhLdGOX1w==, tarball: https://npm.pkg.github.com/download/@navikt/ds-tokens/8.14.0/0ffa6e54267bba9400b9f4cb306961244e2b6694}
 
   '@oxc-parser/binding-android-arm-eabi@0.132.0':
     resolution: {integrity: sha512-KrLaPWa5c9Y7LkW+rKkaUE3y7DBDrQtaf7rlsSDfv6KAHUjgzAIRA761Lrrp6//Yd/Rlie/yEOt9YENCoJnOcw==}
@@ -3405,8 +3405,8 @@ packages:
   safer-buffer@2.1.2:
     resolution: {integrity: sha512-YZo3K82SD7Riyi0E1EQPojLz7kpepnSQI9IyPbHHg1XXXevb5dJI7tpyN2ADxGcQbHG7vcyRHk0cbwqcQriUtg==}
 
-  sass@1.100.0:
-    resolution: {integrity: sha512-B5j0rYMlinhhOo9tjQebMVVn0TfyXAF+wB3b2ggZUuJ/is/Y+7+JGjirAMxHZ9Z3hIP98NPfamlAkBHa1lAaXQ==}
+  sass@1.101.0:
+    resolution: {integrity: sha512-OL3GoQyoUdDt843DpVmDO6y2k1sc5IhUDSpu8XucEI+35neq5QivZ1iuegnpraEVTJXlQGK1gl27zKcTLEPbQw==}
     engines: {node: '>=20.19.0'}
     hasBin: true
 
@@ -4630,23 +4630,23 @@ snapshots:
       '@tybys/wasm-util': 0.10.2
     optional: true
 
-  '@navikt/aksel-icons@8.12.0': {}
+  '@navikt/aksel-icons@8.14.0': {}
 
-  '@navikt/ds-css@8.12.0': {}
+  '@navikt/ds-css@8.14.0': {}
 
-  '@navikt/ds-react@8.12.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
+  '@navikt/ds-react@8.14.0(@types/react@19.2.17)(react-dom@19.2.7(react@19.2.7))(react@19.2.7)':
     dependencies:
       '@floating-ui/react': 0.27.19(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
       '@floating-ui/react-dom': 2.1.8(react-dom@19.2.7(react@19.2.7))(react@19.2.7)
-      '@navikt/aksel-icons': 8.12.0
-      '@navikt/ds-tokens': 8.12.0
+      '@navikt/aksel-icons': 8.14.0
+      '@navikt/ds-tokens': 8.14.0
       '@types/react': 19.2.17
       date-fns: 4.4.0
       react: 19.2.7
       react-day-picker: 9.14.0(react@19.2.7)
       react-dom: 19.2.7(react@19.2.7)
 
-  '@navikt/ds-tokens@8.12.0': {}
+  '@navikt/ds-tokens@8.14.0': {}
 
   '@oxc-parser/binding-android-arm-eabi@0.132.0':
     optional: true
@@ -5180,19 +5180,19 @@ snapshots:
 
   '@ungap/structured-clone@1.3.1': {}
 
-  '@unhead/bundler@3.1.4(lightningcss@1.32.0)(rolldown@1.0.3)(typescript@6.0.3)(unhead@3.1.4(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0)))(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))':
+  '@unhead/bundler@3.1.4(lightningcss@1.32.0)(rolldown@1.0.3)(typescript@6.0.3)(unhead@3.1.4(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0)))(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))':
     dependencies:
-      '@vitejs/devtools-kit': 0.3.3(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+      '@vitejs/devtools-kit': 0.3.3(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       magic-string: 0.30.21
       oxc-parser: 0.135.0
       oxc-walker: 1.0.0(oxc-parser@0.135.0)(rolldown@1.0.3)
       ufo: 1.6.4
-      unhead: 3.1.4(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+      unhead: 3.1.4(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       unplugin: 3.0.0
     optionalDependencies:
       lightningcss: 1.32.0
       rolldown: 1.0.3
-      vite: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+      vite: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
       - bufferutil
@@ -5200,16 +5200,16 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@unhead/react@3.1.4(lightningcss@1.32.0)(oxc-parser@0.135.0)(react@19.2.7)(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))':
+  '@unhead/react@3.1.4(lightningcss@1.32.0)(oxc-parser@0.135.0)(react@19.2.7)(rolldown@1.0.3)(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))':
     dependencies:
-      '@unhead/bundler': 3.1.4(lightningcss@1.32.0)(rolldown@1.0.3)(typescript@6.0.3)(unhead@3.1.4(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0)))(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+      '@unhead/bundler': 3.1.4(lightningcss@1.32.0)(rolldown@1.0.3)(typescript@6.0.3)(unhead@3.1.4(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0)))(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       magic-string: 0.30.21
       oxc-walker: 1.0.0(oxc-parser@0.135.0)(rolldown@1.0.3)
       react: 19.2.7
-      unhead: 3.1.4(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))
+      unhead: 3.1.4(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))
       unplugin: 3.0.0
     optionalDependencies:
-      vite: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+      vite: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
       - '@unhead/cli'
@@ -5296,7 +5296,7 @@ snapshots:
     dependencies:
       valibot: 1.4.1(typescript@6.0.3)
 
-  '@vitejs/devtools-kit@0.3.3(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))':
+  '@vitejs/devtools-kit@0.3.3(typescript@6.0.3)(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))':
     dependencies:
       '@devframes/hub': 0.5.4(devframe@0.5.4(typescript@6.0.3))
       birpc: 4.0.0
@@ -5306,7 +5306,7 @@ snapshots:
       pathe: 2.0.3
       perfect-debounce: 2.1.0
       tinyexec: 1.2.4
-      vite: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+      vite: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
     transitivePeerDependencies:
       - '@modelcontextprotocol/sdk'
       - bufferutil
@@ -5314,10 +5314,10 @@ snapshots:
       - typescript
       - utf-8-validate
 
-  '@vitejs/plugin-react@6.0.2(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0))':
+  '@vitejs/plugin-react@6.0.2(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0))':
     dependencies:
       '@rolldown/pluginutils': 1.0.1
-      vite: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+      vite: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
 
   acorn-jsx@5.3.2(acorn@8.16.0):
     dependencies:
@@ -7567,7 +7567,7 @@ snapshots:
 
   safer-buffer@2.1.2: {}
 
-  sass@1.100.0:
+  sass@1.101.0:
     dependencies:
       chokidar: 5.0.0
       immutable: 5.1.6
@@ -7936,12 +7936,12 @@ snapshots:
 
   undici-types@7.24.6: {}
 
-  unhead@3.1.4(vite@8.0.16(@types/node@25.9.3)(sass@1.100.0)):
+  unhead@3.1.4(vite@8.0.16(@types/node@25.9.3)(sass@1.101.0)):
     dependencies:
       hookable: 6.1.1
       unplugin: 3.0.0
     optionalDependencies:
-      vite: 8.0.16(@types/node@25.9.3)(sass@1.100.0)
+      vite: 8.0.16(@types/node@25.9.3)(sass@1.101.0)
 
   unplugin@3.0.0:
     dependencies:
@@ -8030,7 +8030,7 @@ snapshots:
       d3-time: 3.1.0
       d3-timer: 3.0.1
 
-  vite@8.0.16(@types/node@25.9.3)(sass@1.100.0):
+  vite@8.0.16(@types/node@25.9.3)(sass@1.101.0):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
@@ -8040,7 +8040,7 @@ snapshots:
     optionalDependencies:
       '@types/node': 25.9.3
       fsevents: 2.3.3
-      sass: 1.100.0
+      sass: 1.101.0
 
   w3c-xmlserializer@5.0.0:
     dependencies:
