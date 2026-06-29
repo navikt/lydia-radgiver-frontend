@@ -35,7 +35,12 @@ updates:
       - dependency-type: "direct"
     ignore:
       - dependency-name: "@navikt/*"
+        update-types:
+          - "version-update:semver-major"
     groups:
+      "@navikt*":
+        patterns:
+          - "@navikt/*"
       "@testing-library*":
         patterns:
           - "@testing-library/*"
