@@ -160,6 +160,7 @@ const VIRKSOMHET_TILSTANDER = [
     "VirksomhetErVurdert",
     "VirksomhetHarAktiveSamarbeid",
     "AlleSamarbeidIVirksomhetErAvsluttet",
+    "VirksomhetErAvregistrertIBrreg",
 ] as const;
 export const VirksomhetIATilstandEnum = z.enum(VIRKSOMHET_TILSTANDER);
 

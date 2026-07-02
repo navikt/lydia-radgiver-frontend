@@ -41,6 +41,8 @@ export function penskrivVirksomhetTilstand(tilstand: VirksomhetIATilstand) {
             return "Aktiv";
         case VirksomhetIATilstandEnum.enum.AlleSamarbeidIVirksomhetErAvsluttet:
             return "Avsluttet";
+        case VirksomhetIATilstandEnum.enum.VirksomhetErAvregistrertIBrreg:
+            return "Slettet";
         default:
             exhaustive(tilstand);
             return tilstand;
@@ -58,6 +60,9 @@ function hentTagPropsForVirksomhetTilstand(
         case VirksomhetIATilstandEnum.enum.VirksomhetHarAktiveSamarbeid:
             return { variant: "outline", "data-color": "brand-blue" };
         case VirksomhetIATilstandEnum.enum.AlleSamarbeidIVirksomhetErAvsluttet:
+            return { variant: "strong", "data-color": "neutral" };
+        case VirksomhetIATilstandEnum.enum.VirksomhetErAvregistrertIBrreg:
+            return { variant: "outline", "data-color": "brand-magenta" };
         case VirksomhetIATilstandEnum.enum.VirksomhetKlarTilVurdering:
             break;
         default:
