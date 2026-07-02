@@ -6,8 +6,6 @@ import styles from "./spørreundersøkelsesliste.module.scss";
 import { SpørreundersøkelseResultat } from "../../../Pages/Virksomhet/Kartlegging/SpørreundersøkelseResultat";
 import { FormatertSpørreundersøkelseType } from "./utils";
 import { SpørreundersøkelseStatusBadge } from "../../Badge/SpørreundersøkelseStatusBadge";
-import { FlyttTilAnnenProsess } from "../../../Pages/Virksomhet/Kartlegging/FlyttTilAnnenProsess";
-import { flyttSpørreundersøkelse } from "../../../api/lydia-api/spørreundersøkelse";
 import ActionButtonsHvisSamarbeidIkkeFullført from "../../../Pages/Virksomhet/Kartlegging/ActionButtonHvisSamarbeidIkkeFullført";
 import { PubliserSpørreundersøkelse } from "../../../Pages/Virksomhet/Kartlegging/PubliserSpørreundersøkelse";
 import { usePollingAvKartleggingVedAvsluttetStatus } from "../../../util/usePollingAvKartleggingVedAvsluttetStatus";
@@ -51,18 +49,9 @@ function SpørreundersøkelseHeader({
 }) {
     const {
         iaSak,
-        samarbeid,
         hentSpørreundersøkelserPåNytt,
         kanEndreSpørreundersøkelser,
     } = useSpørreundersøkelse();
-    const flyttTilValgtSamarbeid = (samarbeidId: number) => {
-        flyttSpørreundersøkelse(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            samarbeidId,
-            spørreundersøkelse.id,
-        ).then(() => hentSpørreundersøkelserPåNytt?.());
-    };
     const { henterKartleggingPånytt, forsøkPåÅHenteKartlegging } =
         usePollingAvKartleggingVedAvsluttetStatus(
             spørreundersøkelse.status,
@@ -89,18 +78,6 @@ function SpørreundersøkelseHeader({
                             spørreundersøkelse={spørreundersøkelse}
                             iaSak={iaSak}
                         />
-                        {spørreundersøkelse.publiseringStatus ===
-                            "IKKE_PUBLISERT" &&
-                            spørreundersøkelse.type === "BEHOVSVURDERING" && (
-                                <FlyttTilAnnenProsess
-                                    gjeldendeSamarbeid={samarbeid}
-                                    iaSak={iaSak}
-                                    flyttTilValgtSamarbeid={
-                                        flyttTilValgtSamarbeid
-                                    }
-                                    dropdownSize="small"
-                                />
-                            )}
                         <PubliserSpørreundersøkelse
                             type={spørreundersøkelse.type}
                             spørreundersøkelse={spørreundersøkelse}

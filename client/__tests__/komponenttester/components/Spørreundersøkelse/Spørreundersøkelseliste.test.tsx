@@ -2,21 +2,19 @@ import {
     SpørreundersøkelseProvider,
     SpørreundersøkelseProviderProps,
 } from "../../../../src/components/Spørreundersøkelse/SpørreundersøkelseContext";
-import { render, screen, fireEvent } from "@testing-library/react";
+import { fireEvent, render, screen } from "@testing-library/react";
 import Spørreundersøkelseliste from "../../../../src/components/Spørreundersøkelse/Spørreundersøkelseliste";
 import React from "react";
 import VirksomhetContext from "../../../../src/Pages/Virksomhet/VirksomhetContext";
 import { SamarbeidProvider } from "../../../../src/Pages/Virksomhet/Samarbeid/SamarbeidContext";
 import {
-    dummySpørreundersøkelseliste,
     dummyIaSak,
     dummySamarbeid,
+    dummySpørreundersøkelseliste,
     dummyVirksomhet,
 } from "../../../../__mocks__/spørreundersøkelseDummyData";
 import { Virksomhet } from "../../../../src/domenetyper/virksomhet";
 import "@testing-library/jest-dom";
-import { Spørreundersøkelse } from "../../../../src/domenetyper/spørreundersøkelse";
-import { loggEndretSamarbeid } from "../../../../src/util/analytics-klient";
 
 const litenSpørreundersøkelseResultat = {
     id: "test-resultat-id",
@@ -506,65 +504,6 @@ describe("Spørreundersøkelseliste", () => {
             expect(
                 screen.getByRole("heading", { name: "Partssamarbeid" }),
             ).toBeInTheDocument();
-        });
-
-        it("Behovsvurdering har knapp for å flytte", () => {
-            const listeMedNoenDummySomKanFlyttes: Spørreundersøkelse[] =
-                dummySpørreundersøkelseliste.map((undersøkelse, index) => ({
-                    ...undersøkelse,
-                    type: "BEHOVSVURDERING",
-                    publiseringStatus:
-                        index % 2 === 0 ? "IKKE_PUBLISERT" : "PUBLISERT",
-                    status: "AVSLUTTET",
-                    harMinstEttResultat: true,
-                }));
-            const antallAvsluttetBehovsvurdering =
-                listeMedNoenDummySomKanFlyttes.filter(
-                    ({ status, type, publiseringStatus }) =>
-                        status === "AVSLUTTET" &&
-                        type === "BEHOVSVURDERING" &&
-                        publiseringStatus === "IKKE_PUBLISERT",
-                ).length;
-
-            render(
-                <DummySpørreundersøkelseProvider
-                    spørreundersøkelseliste={listeMedNoenDummySomKanFlyttes}
-                >
-                    <Spørreundersøkelseliste />
-                </DummySpørreundersøkelseProvider>,
-            );
-
-            expect(antallAvsluttet).toBeGreaterThan(0);
-            expect(
-                screen.getAllByRole("button", { name: "Endre samarbeid" }),
-            ).toHaveLength(antallAvsluttetBehovsvurdering);
-        });
-
-        it("Logger metrikk ved endring av samarbeid", () => {
-            const listeMedNoenDummySomKanFlyttes: Spørreundersøkelse[] =
-                dummySpørreundersøkelseliste.map((undersøkelse, index) => ({
-                    ...undersøkelse,
-                    type: "BEHOVSVURDERING",
-                    publiseringStatus:
-                        index % 2 === 0 ? "IKKE_PUBLISERT" : "PUBLISERT",
-                    status: "AVSLUTTET",
-                    harMinstEttResultat: true,
-                }));
-
-            render(
-                <DummySpørreundersøkelseProvider
-                    spørreundersøkelseliste={listeMedNoenDummySomKanFlyttes}
-                >
-                    <Spørreundersøkelseliste />
-                </DummySpørreundersøkelseProvider>,
-            );
-
-            fireEvent.click(
-                screen.getAllByRole("button", { name: "Endre samarbeid" })[0],
-            );
-            fireEvent.click(screen.getAllByText("Annet samarbeid")[0]);
-
-            expect(loggEndretSamarbeid).toHaveBeenCalledWith(2);
         });
     });
     describe("status: SLETTET", () => {
