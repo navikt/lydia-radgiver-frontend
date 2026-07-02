@@ -11,7 +11,7 @@ import {
     iaSakProsessSchema,
 } from "../../domenetyper/iaSakProsess";
 import { iaSakPath, spørreundersøkelsePath } from "./paths";
-import { post, put, useSwrTemplate } from "./networkRequests";
+import { useSwrTemplate } from "./networkRequests";
 import {
     SpørreundersøkelseMedInnhold,
     SpørreundersøkelseMedInnholdSchema,
@@ -47,22 +47,6 @@ export const useHentSamarbeid = (orgnummer?: string, saksnummer?: string) => {
     );
 };
 
-export const flyttSpørreundersøkelse = (
-    orgnummer: string,
-    saksnummer: string,
-    tilProsess: number,
-    spørreundersøkelseId: string,
-): Promise<Spørreundersøkelse> => {
-    return put(
-        `${spørreundersøkelsePath}/${spørreundersøkelseId}`,
-        spørreundersøkelseSchema,
-        {
-            orgnummer,
-            saksnummer,
-            prosessId: tilProsess,
-        },
-    );
-};
 export const useHentSpørreundersøkelser = (
     orgnummer?: string,
     saksnummer?: string,
@@ -106,28 +90,5 @@ export const useHentSpørreundersøkelseMedInnhold = (
     return useSwrTemplate<SpørreundersøkelseMedInnhold>(
         `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${prosessId}/type/${spørreundersøkelseHeading(type)}/${spørreundersøkelseId}`,
         SpørreundersøkelseMedInnholdSchema,
-    );
-};
-
-export const opprettSpørreundersøkelse = (
-    orgnummer: string,
-    saksnummer: string,
-    samarbeidsId: number,
-    type: SpørreundersøkelseType,
-): Promise<Spørreundersøkelse> => {
-    return post(
-        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/prosess/${samarbeidsId}/type/${spørreundersøkelseHeading(type)}`,
-        spørreundersøkelseSchema,
-    );
-};
-
-export const startSpørreundersøkelse = (
-    orgnummer: string,
-    saksnummer: string,
-    spørreundersøkelseId: string,
-): Promise<Spørreundersøkelse> => {
-    return post(
-        `${spørreundersøkelsePath}/${orgnummer}/${saksnummer}/${spørreundersøkelseId}/start`,
-        spørreundersøkelseSchema,
     );
 };
