@@ -1852,8 +1852,8 @@ packages:
     resolution: {integrity: sha512-gIXjKqtFuWEgzFRJA9WCQeSJLZDjgJUOMCMzxtvFq/37KojM1BFGufqsCy0r4qSQmYLsZYMeyRqzIWOMup03sw==}
     engines: {node: '>=14'}
 
-  form-data@4.0.5:
-    resolution: {integrity: sha512-8RipRLol37bNs2bhoV67fiTEvdTrbMUYcFTiy3+wuuOnUog2QBHCZWXDRijWQfAkhBj2Uf5UnVaiWwA5vdd82w==}
+  form-data@4.0.6:
+    resolution: {integrity: sha512-vKatAh4SlVfgbv+YtmhiRjhEMJsYpsG1Y2rMQtR+SVSbytsSD1YGzDIcrAJmdFec88u/+VoGmxnl+80gL1tRCQ==}
     engines: {node: '>= 6'}
 
   formidable@3.5.4:
@@ -2390,6 +2390,7 @@ packages:
   nock@15.0.0:
     resolution: {integrity: sha512-EoAVk4Y8Yv4JUQz62sv8zmv+DoBblD/pht/q7aW/td1WietaFWrivzhMGGCLmx2qjpLcOrbyammedW8IRUU5TA==}
     engines: {node: '>=18.20.0 <20 || >=20.12.1'}
+    deprecated: v15.0.0 was released accidentally and is unstable. Please use v14.x until v15 is officially ready.
 
   node-int64@0.4.0:
     resolution: {integrity: sha512-O5lz91xSOeoXP6DulyHfllpq+Eg00MWitZIbtPfoSEvqIHdl5gfcY6hYzDWnj0qD5tz52PI08u9qUvSVeUBeHw==}
@@ -4249,7 +4250,7 @@ snapshots:
       '@types/cookiejar': 2.1.5
       '@types/methods': 1.1.4
       '@types/node': 25.9.1
-      form-data: 4.0.5
+      form-data: 4.0.6
 
   '@types/supertest@7.2.0':
     dependencies:
@@ -5035,7 +5036,7 @@ snapshots:
       cross-spawn: 7.0.6
       signal-exit: 4.1.0
 
-  form-data@4.0.5:
+  form-data@4.0.6:
     dependencies:
       asynckit: 0.4.0
       combined-stream: 1.0.8
@@ -6101,7 +6102,7 @@ snapshots:
       cookiejar: 2.1.4
       debug: 4.4.3(supports-color@5.5.0)
       fast-safe-stringify: 2.1.1
-      form-data: 4.0.5
+      form-data: 4.0.6
       formidable: 3.5.4
       methods: 1.1.2
       mime: 2.6.0

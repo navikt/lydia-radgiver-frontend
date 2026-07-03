@@ -7,3 +7,6 @@ minimumReleaseAge: 10080 # 7 dager
 
 minimumReleaseAgeExclude:
   - "@navikt/*"
+
+overrides:
+  form-data: 4.0.6
