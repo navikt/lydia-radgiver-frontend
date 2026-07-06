@@ -4,6 +4,7 @@ import {
 } from "../../domenetyper/domenetyper";
 import { GenericProps, GenericStatusBadge } from "./StatusBadge";
 import { TagProps } from "@navikt/ds-react";
+import { exhaustive } from "../../util/exhaustive_types";
 
 export type StatusBadgeProps = Omit<
     GenericProps<VirksomhetIATilstand>,
@@ -41,6 +42,7 @@ export function penskrivVirksomhetTilstand(tilstand: VirksomhetIATilstand) {
         case VirksomhetIATilstandEnum.enum.AlleSamarbeidIVirksomhetErAvsluttet:
             return "Avsluttet";
         default:
+            exhaustive(tilstand);
             return tilstand;
     }
 }
@@ -56,7 +58,10 @@ function hentTagPropsForVirksomhetTilstand(
         case VirksomhetIATilstandEnum.enum.VirksomhetHarAktiveSamarbeid:
             return { variant: "outline", "data-color": "brand-blue" };
         case VirksomhetIATilstandEnum.enum.AlleSamarbeidIVirksomhetErAvsluttet:
-            return { variant: "strong", "data-color": "neutral" };
+        case VirksomhetIATilstandEnum.enum.VirksomhetKlarTilVurdering:
+            break;
+        default:
+            exhaustive(tilstand);
     }
 
     return { variant: "strong", "data-color": "neutral" };

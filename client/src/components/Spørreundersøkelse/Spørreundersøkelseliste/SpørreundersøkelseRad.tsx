@@ -15,6 +15,7 @@ import { useSpørreundersøkelse } from "../SpørreundersøkelseContext";
 import { useHentIASaksStatus } from "../../../api/lydia-api/sak";
 import { slettKartleggingNyFlyt } from "../../../api/lydia-api/nyFlyt";
 import { useSamarbeidContext } from "../../../Pages/Virksomhet/Samarbeid/SamarbeidContext";
+import { exhaustive } from "../../../util/exhaustive_types";
 
 export default function SpørreundersøkelseRad({
     spørreundersøkelse,
@@ -201,6 +202,9 @@ export default function SpørreundersøkelseRad({
                 </ExpansionCard>
             );
         case spørreundersøkelseStatusEnum.enum.SLETTET:
-            return null;
+            break;
+        default:
+            exhaustive(spørreundersøkelse.status);
     }
+    return null;
 }

@@ -3,6 +3,7 @@ import {
     muligeHandlinger,
     MuligSamarbeidsgandling,
 } from "../../domenetyper/samarbeidsEndring";
+import { exhaustive } from "../exhaustive_types";
 
 export type Bøyinger = {
     infinitiv: string | null;
@@ -33,6 +34,14 @@ export function useBøyningerAvSamarbeidshandling(
                     imperativ: "slett",
                     presensPerfektum: "slettet",
                 };
+            default: {
+                exhaustive(handling);
+                return {
+                    imperativ: null,
+                    infinitiv: null,
+                    presensPerfektum: null,
+                };
+            }
         }
     }, [handling]);
 }

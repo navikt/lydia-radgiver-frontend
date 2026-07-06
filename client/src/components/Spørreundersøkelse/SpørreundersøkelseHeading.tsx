@@ -2,6 +2,7 @@ import { HStack } from "@navikt/ds-react";
 import { IaSakProsess } from "../../domenetyper/iaSakProsess";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
 import Samarbeidsfanemeny from "../Samarbeidsfanemeny";
+import { exhaustive } from "../../util/exhaustive_types";
 
 export const SpørreundersøkelseHeading = ({
     type,
@@ -29,7 +30,10 @@ export function spørreundersøkelseHeading(type?: SpørreundersøkelseType) {
             return "Evaluering";
         case "BEHOVSVURDERING":
             return "Behovsvurdering";
+        case undefined:
+            break;
         default:
-            return null;
+            return exhaustive(type);
     }
+    return null;
 }

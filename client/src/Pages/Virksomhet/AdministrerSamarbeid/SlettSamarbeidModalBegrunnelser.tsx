@@ -7,6 +7,7 @@ import { BodyShort, Heading, List, LocalAlert } from "@navikt/ds-react";
 import { useHentSalesforceSamarbeidLenke } from "../../../api/lydia-api/virksomhet";
 import { EksternLenke } from "../../../components/EksternLenke";
 import { useSamarbeidContext } from "../Samarbeid/SamarbeidContext";
+import { exhaustive } from "../../../util/exhaustive_types";
 
 export default function SlettSamarbeidModalBegrunnelser({
     kanGjennomføreResultat,
@@ -99,9 +100,16 @@ function BegrunnelsesInnhold({
             );
         case "FINNES_EVALUERING":
             return <Heading size={"xsmall"}>Det finnes en evaluering</Heading>;
+        case "INGEN_EVALUERING":
+        case "INGEN_PLAN":
+        case "AKTIV_EVALUERING":
+        case "AKTIV_BEHOVSVURDERING":
+        case "SAK_I_FEIL_STATUS":
+            break;
         default:
-            return null;
+            exhaustive(begrunnelse);
     }
+    return null;
 }
 
 function Salesforcelenke({ samarbeidId }: { samarbeidId?: number }) {

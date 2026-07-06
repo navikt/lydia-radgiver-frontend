@@ -16,6 +16,7 @@ import {
     Sorteringsverdi,
     ValgtSnittFilter,
 } from "../../../domenetyper/filterverdier";
+import { exhaustive } from "../../../util/exhaustive_types";
 
 const næringsgruppeKoderTilNæringsgrupper = (
     næringsgruppeKoder: string[],
@@ -597,8 +598,8 @@ const reducer = (state: FiltervisningState, action: Action) => {
         case "TILBAKESTILL":
             return { ...state, ...initialFiltervisningState };
         default: {
-            const _exaustiveCheck: never = action;
-            return _exaustiveCheck;
+            exhaustive(action);
+            return action;
         }
     }
 };

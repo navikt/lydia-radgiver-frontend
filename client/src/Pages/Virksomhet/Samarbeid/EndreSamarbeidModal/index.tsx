@@ -19,6 +19,7 @@ import {
     useHentHistorikkNyFlyt,
     useHentSpesifikkSakNyFlyt,
 } from "../../../../api/lydia-api/nyFlyt";
+import { exhaustive } from "../../../../util/exhaustive_types";
 
 interface EndreSamarbeidModalProps {
     open: boolean;
@@ -170,5 +171,8 @@ function getHendelseFromType(
             return IASakshendelseTypeEnum.enum.AVBRYT_PROSESS;
         case "slettes":
             return IASakshendelseTypeEnum.enum.SLETT_PROSESS;
+        default:
+            exhaustive(type);
+            return undefined as never;
     }
 }

@@ -5,6 +5,7 @@ import {
 } from "../../domenetyper/domenetyper";
 import { GenericProps, GenericStatusBadge } from "./StatusBadge";
 import { TagProps } from "@navikt/ds-react";
+import { exhaustive } from "../../util/exhaustive_types";
 
 function hentTagPropsForSpørreundersøkelseStatus(
     status: SpørreundersøkelseStatus,
@@ -18,8 +19,10 @@ function hentTagPropsForSpørreundersøkelseStatus(
             return { variant: "moderate", "data-color": "success" };
         case spørreundersøkelseStatusEnum.enum.SLETTET:
             return { variant: "outline", "data-color": "danger" };
+        default:
+            exhaustive(status);
+            return {};
     }
-    return {};
 }
 
 export function penskrivSpørreundersøkelseStatus(
@@ -34,6 +37,9 @@ export function penskrivSpørreundersøkelseStatus(
             return "Fullført";
         case spørreundersøkelseStatusEnum.enum.SLETTET:
             return "Slettet";
+        default:
+            exhaustive(status);
+            return "";
     }
 }
 

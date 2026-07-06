@@ -11,6 +11,7 @@ import React from "react";
 import { DokumentType } from "../domenetyper/domenetyper";
 import capitalizeFirstLetterLowercaseRest from "../util/formatering/capitalizeFirstLetterLowercaseRest";
 import styles from "./components.module.scss";
+import { exhaustive } from "../util/exhaustive_types";
 
 export default function Samarbeidsfanemeny({
     type,
@@ -40,7 +41,8 @@ export default function Samarbeidsfanemeny({
                                 title="Meny"
                             />
                         )
-                    } />
+                    }
+                />
             </ActionMenu.Trigger>
             <ActionMenu.Content>
                 {type && (
@@ -193,6 +195,9 @@ function Samarbeidsfanelenkeliste({
                     </ActionMenu.Group>
                 </>
             );
+        default:
+            exhaustive(type);
+            return undefined as never;
     }
 }
 

@@ -24,6 +24,7 @@ import { SamarbeidStatusBadge } from "../../../components/Badge/SamarbeidStatusB
 import { isoDato } from "../../../util/dato";
 import styles from "./bekreftSisteSamarbeidModal.module.scss";
 import { useHentPlan } from "../../../api/lydia-api/plan";
+import { exhaustive } from "../../../util/exhaustive_types";
 
 export default function BekreftSisteSamarbeidModal({
     ref,
@@ -188,7 +189,10 @@ function getTittel(nyStatus: IASamarbeidStatusType) {
             return "Fullfør samarbeidet";
         case "SLETTET":
             return "Slett samarbeidet";
+        case "AKTIV":
+            return "";
         default:
+            exhaustive(nyStatus);
             return "";
     }
 }
@@ -201,7 +205,10 @@ function getStatusPresens(nyStatus: IASamarbeidStatusType) {
             return "fullfører";
         case "SLETTET":
             return "sletter";
+        case "AKTIV":
+            return "";
         default:
+            exhaustive(nyStatus);
             return "";
     }
 }

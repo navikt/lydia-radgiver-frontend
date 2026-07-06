@@ -4,6 +4,7 @@ import {
     IAProsessStatusType,
 } from "../../domenetyper/domenetyper";
 import { GenericProps, GenericStatusBadge } from "./StatusBadge";
+import { exhaustive } from "../../util/exhaustive_types";
 
 export type StatusBadgeProps = Omit<
     GenericProps<IAProsessStatusType>,
@@ -47,6 +48,7 @@ export function penskrivIAStatus(status: IAProsessStatusType) {
         case IAProsessStatusEnum.enum.AVBRUTT:
             return "Avbrutt";
         default:
+            exhaustive(status);
             return status;
     }
 }
@@ -79,7 +81,8 @@ export function hentTagPropsForIAStatus(
             return { variant: "strong", "data-color": "meta-lime" };
         case IAProsessStatusEnum.enum.IKKE_AKTUELL:
             return { variant: "strong", "data-color": "danger" };
+        default:
+            exhaustive(status);
+            return {};
     }
-
-    return {};
 }

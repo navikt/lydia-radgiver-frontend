@@ -1,4 +1,5 @@
 import { SpørreundersøkelseType } from "../../../domenetyper/spørreundersøkelseMedInnhold";
+import { exhaustive } from "../../../util/exhaustive_types";
 
 export function formaterSpørreundersøkelsetype(
     type: SpørreundersøkelseType,
@@ -16,6 +17,10 @@ export function formaterSpørreundersøkelsetype(
                 return "Evaluering";
             }
             return "evaluering";
+
+        default:
+            exhaustive(type);
+            return "";
     }
 }
 
