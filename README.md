@@ -23,7 +23,7 @@ Dette vert orkestrert av docker-compose.
 
 ### Tilgang til npm pakker på github
 
-Lag token på github med packages:read rettigheter.
+Lag token på github med packages:read rettigheter. Autoriser token for navikt (klikk dropdown `Configure SSO`, velg navikt).
 Legg så dette inn i ~/.npmrc slik som dette:
 `//npm.pkg.github.com/:_authToken=<generert token med packages:read rettigheter>`
 
