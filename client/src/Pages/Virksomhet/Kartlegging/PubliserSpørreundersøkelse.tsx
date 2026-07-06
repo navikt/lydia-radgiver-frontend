@@ -10,6 +10,7 @@ import {
 import { PubliseringModal } from "./PubliseringModal";
 import styles from "./publiserSpørreundersøkelse.module.scss";
 import { lokalDato } from "../../../util/dato";
+import { exhaustive } from "../../../util/exhaustive_types";
 
 interface Props {
     spørreundersøkelse: Spørreundersøkelse;
@@ -117,9 +118,12 @@ export const PubliserSpørreundersøkelse = ({
             } else {
                 return null;
             }
+        case undefined:
+            break;
         default:
-            return null;
+            exhaustive(spørreundersøkelse.publiseringStatus);
     }
+    return null;
 };
 
 export function PubliserDokumentknapp({

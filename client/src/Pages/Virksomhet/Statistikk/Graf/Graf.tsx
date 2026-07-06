@@ -17,6 +17,7 @@ import { SymbolSvg } from "./SymbolSvg";
 import { loggGraflinjeEndringer } from "../../../../util/analytics-klient";
 import { HistoriskStatistikk } from "../../../../domenetyper/historiskstatistikk";
 import styles from "./graf.module.scss";
+import { exhaustive } from "../../../../util/exhaustive_types";
 
 const kvartalSomTekst = (årstall: number, kvartal: number) =>
     årstall + ", " + kvartal + ". kvartal";
@@ -109,8 +110,11 @@ export default function Graf({
             case Grafer.SEKTOR:
                 return `: ${historiskStatistikk.sektorstatistikk.beskrivelse}`;
             case Grafer.LAND:
-                return "";
+                break;
+            default:
+                exhaustive(navnTilStatistikk);
         }
+        return "";
     };
 
     const endringIValgteLinjer = (valgteLinjer: string[]) => {

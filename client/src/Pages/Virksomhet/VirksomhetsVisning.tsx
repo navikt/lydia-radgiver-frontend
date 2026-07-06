@@ -28,6 +28,7 @@ import {
     useHentSpesifikkSakNyFlyt,
 } from "../../api/lydia-api/nyFlyt";
 import AdministrerSamarbeid from "./AdministrerSamarbeid";
+import { exhaustive } from "../../util/exhaustive_types";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -273,6 +274,7 @@ function getKlassenavnForSamarbeidsstatus(status: IASamarbeidStatusType) {
         case "SLETTET":
             return styles.slettet;
         default:
+            exhaustive(status);
             return "";
     }
 }

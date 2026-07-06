@@ -13,6 +13,7 @@ import { PubliseringModal } from "./PubliseringModal";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { useHentBrukerinformasjon } from "../../../api/lydia-api/bruker";
 import { useHentTeam } from "../../../api/lydia-api/team";
+import { exhaustive } from "../../../util/exhaustive_types";
 
 interface Props {
     plan: Plan;
@@ -137,9 +138,13 @@ export const PubliserSamarbeidsplan = ({
                     />
                 </>
             );
+        case null:
+        case undefined:
+            break;
         default:
-            return null;
+            exhaustive(plan?.publiseringStatus);
     }
+    return null;
 };
 
 function BrukerMåVæreEierKnapp() {

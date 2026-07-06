@@ -5,6 +5,7 @@ import {
 } from "../../../../domenetyper/samarbeidsEndring";
 import React from "react";
 import styles from "./endresamarbeidmodal.module.scss";
+import { exhaustive } from "../../../../util/exhaustive_types";
 
 export default function BegrunnelserForIkkeKunne({
     begrunnelser,
@@ -59,6 +60,12 @@ export function usePrettyType(type: MuligSamarbeidsgandling) {
                     capitalized: "Avbryt",
                     uncapitalized: "avbryt",
                 };
+            default:
+                exhaustive(type);
+                return {
+                    capitalized: "",
+                    uncapitalized: "",
+                };
         }
     }, [type]);
 }
@@ -92,6 +99,7 @@ function usePrettyBegrunnelser(
                 case "INGEN_PLAN":
                     return "Mangler samarbeidsplan";
                 default:
+                    exhaustive(begrunnelse);
                     return begrunnelse;
             }
         });

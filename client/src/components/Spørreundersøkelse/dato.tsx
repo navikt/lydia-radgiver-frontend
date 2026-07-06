@@ -5,6 +5,7 @@ import {
     lokalDato,
 } from "../../util/dato";
 import { sorterPåDatoSynkende } from "../../util/sortering";
+import { exhaustive } from "../../util/exhaustive_types";
 
 export function sorterPåDato(spørreundersøkelser: Spørreundersøkelse[]) {
     return spørreundersøkelser.sort((a, b) =>
@@ -34,6 +35,9 @@ const hentDatoForStatus = (spørreundersøkelse: Spørreundersøkelse) => {
                 spørreundersøkelse.endretTidspunkt ||
                 spørreundersøkelse.opprettetTidspunkt
             );
+        default:
+            exhaustive(spørreundersøkelse.status);
+            return undefined as never;
     }
 };
 

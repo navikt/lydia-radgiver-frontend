@@ -12,6 +12,7 @@ import BegrunnelserForIkkeKunne, {
     usePrettyType,
 } from "./BegrunnelserForIkkeKunne";
 import styles from "./endresamarbeidmodal.module.scss";
+import { exhaustive } from "../../../../util/exhaustive_types";
 
 export default function BekreftHandlingModal({
     open,
@@ -94,6 +95,9 @@ function BekreftHandlingBrødtekst({ type }: { type: MuligSamarbeidsgandling }) 
                 return "Samarbeid med fullførte behovsvurderinger, evalueringer og aktive planer kan ikke slettes. Aktiviteter i Salesforce må slettes eller flyttes til at annet samarbeid.";
             case "avbrytes":
                 return "Når du avbryter vil alle dokumenter bli arkivert og det vil ikke være mulig å gjøre endringer på samarbeidet.";
+            default:
+                exhaustive(type);
+                return "";
         }
     }, [type]);
 
