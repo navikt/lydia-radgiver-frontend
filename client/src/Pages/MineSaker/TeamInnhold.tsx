@@ -22,6 +22,7 @@ import {
 } from "../../api/lydia-api/nyFlyt";
 import { useHentMineSaker } from "../../api/lydia-api/sak";
 import { useOversiktMutate } from "../Virksomhet/Debugside/Oversikt";
+import { Sakshistorikk } from "../../domenetyper/sakshistorikk";
 
 function følgerSak(
     brukerIdent: string | undefined,
@@ -156,6 +157,41 @@ export default function TeamInnhold({
                     >
                         Følg virksomheten
                     </Button>
+                )}
+            </div>
+        </>
+    );
+}
+
+export function ReadOnlyTeamInnhold({
+    sakshistorikk,
+}: {
+    sakshistorikk: Sakshistorikk;
+}) {
+    const { data: følgere = [] } = useHentTeam(sakshistorikk.saksnummer);
+    const eidAv = sakshistorikk.sakshendelser.find(
+        (hendelse) => hendelse.eier,
+    )?.eier;
+    return (
+        <>
+            <div className={styles.eierboks}>
+                <div>
+                    <b>Eier:</b>{" "}
+                    {eidAv ? (
+                        <NavIdentMedLenke navIdent={eidAv} />
+                    ) : (
+                        "Ingen eier"
+                    )}
+                </div>
+            </div>
+            <div className={styles.følgereboks}>
+                <div className={styles.følgereheader}>Følgere:</div>
+                {!!følgere.length && (
+                    <div className={styles.følgereliste}>
+                        {følgere.map((følger) => (
+                            <NavIdentMedLenke key={følger} navIdent={følger} />
+                        ))}
+                    </div>
                 )}
             </div>
         </>
