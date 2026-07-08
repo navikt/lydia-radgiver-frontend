@@ -123,12 +123,8 @@ export function SakshistorikkMedSamarbeidInnhold({
                             justify="space-between"
                         >
                             <HStack gap="space-8" align="center">
-                                <IAProsessStatusBadge
-                                    status={
-                                        sakshistorikk.sakshendelser[0].status
-                                    }
-                                />
                                 <BodyShort>
+                                    <b>Samarbeidsperiode: </b>
                                     {lokalDato(sakshistorikk.opprettet)} -{" "}
                                     {lokalDato(sakshistorikk.sistEndret)}
                                 </BodyShort>
