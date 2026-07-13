@@ -27,11 +27,11 @@ importers:
         specifier: ^2.1.1
         version: 2.1.1
       highcharts:
-        specifier: ^12.6.0
-        version: 12.6.0(jspdf@4.2.1)
+        specifier: ^13.0.0
+        version: 13.0.0(jspdf@4.2.1)
       highcharts-react-official:
         specifier: ^3.2.3
-        version: 3.2.3(highcharts@12.6.0(jspdf@4.2.1))(react@19.2.7)
+        version: 3.2.3(highcharts@13.0.0(jspdf@4.2.1))(react@19.2.7)
       html-to-image:
         specifier: ^1.11.13
         version: 1.11.13
@@ -2352,8 +2352,8 @@ packages:
       highcharts: '>=6.0.0'
       react: '>=16.8.0'
 
-  highcharts@12.6.0:
-    resolution: {integrity: sha512-zWwoXECOakJT2huBMqIZOjDNLLgyZFCcfZqTj2g6cvYOGxjF3nvooC+rIaF5aKiharluyGKNflfRNrzOAIjdRg==}
+  highcharts@13.0.0:
+    resolution: {integrity: sha512-AoFXei9hSnVXo8X5PmXzSiNXwPMgA+NzyN35uRRy0N1XwbJbRI1laTCaaFci9QB9Wyv9ZFWlgF0xzgivavJpDA==}
     peerDependencies:
       jspdf: ^4.1.0
       svg2pdf.js: ^2.7.0
@@ -6252,12 +6252,12 @@ snapshots:
     dependencies:
       function-bind: 1.1.2
 
-  highcharts-react-official@3.2.3(highcharts@12.6.0(jspdf@4.2.1))(react@19.2.7):
+  highcharts-react-official@3.2.3(highcharts@13.0.0(jspdf@4.2.1))(react@19.2.7):
     dependencies:
-      highcharts: 12.6.0(jspdf@4.2.1)
+      highcharts: 13.0.0(jspdf@4.2.1)
       react: 19.2.7
 
-  highcharts@12.6.0(jspdf@4.2.1):
+  highcharts@13.0.0(jspdf@4.2.1):
     optionalDependencies:
       jspdf: 4.2.1
 
