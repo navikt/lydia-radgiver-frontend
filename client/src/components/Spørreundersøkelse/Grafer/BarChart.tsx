@@ -63,6 +63,9 @@ function genererChartOptionsFraSpørsmålOgSvar(
     farge: string,
 ): Highcharts.Options {
     return {
+        palette: {
+            colorScheme: "light",
+        },
         chart: {
             type: horizontal ? "bar" : "column",
         },
