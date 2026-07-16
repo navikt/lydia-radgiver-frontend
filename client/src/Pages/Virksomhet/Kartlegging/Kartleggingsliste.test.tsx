@@ -10,12 +10,16 @@ import { dummySpørreundersøkelseliste } from "../../../../__mocks__/spørreund
 import { brukerMedGyldigToken } from "../../Prioritering/mocks/innloggetAnsattMock";
 import { Kartleggingsliste } from "./Kartleggingsliste";
 import { SamarbeidProvider } from "../Samarbeid/SamarbeidContext";
-import VirksomhetContext, { VirksomhetContextType } from "../VirksomhetContext";
+import VirksomhetContext, {
+    VirksomhetContextType,
+} from "../VirksomhetContext";
 import { IAProsessStatusType } from "../../../domenetyper/domenetyper";
 import { opprettKartleggingNyFlyt } from "../../../api/lydia-api/nyFlyt";
 
 jest.mock("src/api/lydia-api/spørreundersøkelse", () => ({
-    ...jest.requireActual("src/api/lydia-api/spørreundersøkelse"),
+    ...jest.requireActual(
+        "src/api/lydia-api/spørreundersøkelse",
+    ),
     useSpørreundersøkelsesliste: jest.fn(() => ({
         data: dummySpørreundersøkelseliste,
         loading: false,
