@@ -38,7 +38,9 @@ import { isoDato } from "../../util/dato";
 
 export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<VirksomhetTilstandDto>(
-        orgnummer ? `${nyFlytBasePath}/${orgnummer}/tilstand` : null,
+        orgnummer
+            ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/tilstand`
+            : null,
         virksomhetTilstandDtoSchema,
     );
 };
