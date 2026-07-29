@@ -73,7 +73,7 @@ export const useHentSisteSakNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<IASak>(
         () =>
             orgnummer
-                ? `${nyFlytBasePath}/virksomhet/${orgnummer}/samarbeidsperiode`
+                ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode`
                 : null,
         iaSakSchema,
         {
@@ -89,7 +89,7 @@ export const useHentSpesifikkSakNyFlyt = (
     return useSwrTemplate<IASak>(
         () =>
             orgnummer && saksnummer
-                ? `${nyFlytBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}`
+                ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}`
                 : null,
         iaSakSchema,
         {
