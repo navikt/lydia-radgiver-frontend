@@ -11,7 +11,6 @@ export const iaSakPath = `${basePath}/iasak/radgiver`;
 export const mineSakerPath = `${basePath}/iasak/minesaker`;
 export const iaSakTeamPath = `${basePath}/iasak/team`;
 export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
-export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
 export const sistekvartalPath = "sistetilgjengeligekvartal";

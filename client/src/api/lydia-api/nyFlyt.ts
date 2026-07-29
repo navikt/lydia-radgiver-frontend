@@ -60,7 +60,7 @@ export const useHentHistorikkNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<Sakshistorikk[]>(
         () =>
             orgnummer
-                ? `${nyFlytBasePath}/virksomhet/${orgnummer}/historikk`
+                ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/historikk`
                 : null,
         sakshistorikkSchema.array(),
         {
