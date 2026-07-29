@@ -47,7 +47,8 @@ export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
 
 export const useHentVirksomhetNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<Virksomhet>(
-        () => (orgnummer ? `${nyFlytBasePath}/virksomhet/${orgnummer}` : null),
+        () =>
+            orgnummer ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}` : null,
         virksomhetsSchema,
         {
             revalidateOnFocus: true,
