@@ -114,7 +114,10 @@ export const bliEierNyFlyt = (orgnummer: string): Promise<IASak> => {
 };
 
 export const angreVurderingNyFlyt = (orgnummer: string): Promise<IASak> => {
-    return post(`${nyFlytBasePath}/${orgnummer}/angre-vurdering`, iaSakSchema);
+    return post(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/angre-vurdering`,
+        iaSakSchema,
+    );
 };
 
 export const avsluttVurderingNyFlyt = (
