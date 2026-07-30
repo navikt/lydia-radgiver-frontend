@@ -158,6 +158,7 @@ describe("Behovsvurdering", () => {
         await waitFor(() => {
             expect(opprettKartleggingNyFlyt).toHaveBeenCalledWith(
                 dummyIaSak.orgnr,
+                dummyIaSak.saksnummer,
                 gjeldendeSamarbeid.id,
                 "BEHOVSVURDERING",
             );

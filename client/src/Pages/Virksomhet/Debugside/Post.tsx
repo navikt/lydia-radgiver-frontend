@@ -381,6 +381,7 @@ export function OpprettKartlegging({ orgnummer, onSuccess }: PostProps) {
         try {
             const result = await opprettKartleggingNyFlyt(
                 orgnummer,
+                iaSak?.saksnummer || "",
                 samarbeidId,
                 type,
             );
