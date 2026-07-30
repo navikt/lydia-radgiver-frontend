@@ -128,7 +128,7 @@ export default function AvbrytSamarbeidModal({
         }
 
         try {
-            if (!valgtSamarbeid?.id || !iaSak?.orgnr) {
+            if (!valgtSamarbeid?.id || !iaSak?.orgnr || !iaSak?.saksnummer) {
                 return;
             }
 
@@ -142,8 +142,9 @@ export default function AvbrytSamarbeidModal({
             };
 
             await avsluttSamarbeidNyFlyt(
-                iaSak?.orgnr || "",
-                valgtSamarbeid?.id,
+                iaSak.orgnr,
+                iaSak.saksnummer,
+                valgtSamarbeid.id,
                 samarbeid,
             );
         } catch {

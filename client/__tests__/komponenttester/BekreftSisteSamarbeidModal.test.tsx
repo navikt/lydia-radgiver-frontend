@@ -200,6 +200,7 @@ describe("BekreftSisteSamarbeidModal", () => {
         await waitFor(() => {
             expect(mockAvsluttSamarbeid).toHaveBeenCalledWith(
                 "999999999",
+                "123",
                 1,
                 expect.objectContaining({ status: "FULLFØRT" }),
                 expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),

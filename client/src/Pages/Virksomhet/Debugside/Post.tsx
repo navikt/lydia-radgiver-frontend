@@ -681,6 +681,7 @@ export function AvsluttSamarbeid({ orgnummer, onSuccess }: PostProps) {
             };
             const result = await avsluttSamarbeidNyFlyt(
                 orgnummer,
+                iaSak?.saksnummer || "",
                 Number(samarbeidId),
                 samarbeid,
             );
