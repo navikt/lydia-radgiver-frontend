@@ -209,11 +209,12 @@ export const endreSamarbeidsNavnNyFlyt = (
 // Kartlegging
 export const opprettKartleggingNyFlyt = (
     orgnummer: string,
+    saksnummer: string,
     samarbeidId: string | number,
     type: SpørreundersøkelseType,
 ): Promise<Spørreundersøkelse> => {
     return post(
-        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/opprett-kartlegging/${type}`,
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/kartlegging/${type}`,
         spørreundersøkelseSchema,
     );
 };
