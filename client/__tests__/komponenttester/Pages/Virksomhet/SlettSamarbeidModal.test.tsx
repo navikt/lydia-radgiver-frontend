@@ -145,6 +145,7 @@ describe("SlettSamarbeidModal", () => {
             await waitFor(() => {
                 expect(slettSamarbeidNyFlyt).toHaveBeenCalledWith(
                     iaSak.orgnr,
+                    iaSak.saksnummer,
                     42,
                 );
             });
@@ -268,6 +269,7 @@ describe("SlettSamarbeidModal", () => {
             await waitFor(() => {
                 expect(slettSamarbeidNyFlyt).toHaveBeenCalledWith(
                     iaSak.orgnr,
+                    iaSak.saksnummer,
                     5,
                     expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
                 );
@@ -287,6 +289,7 @@ describe("SlettSamarbeidModal", () => {
             await waitFor(() => {
                 expect(slettSamarbeidNyFlyt).toHaveBeenCalledWith(
                     iaSak.orgnr,
+                    iaSak.saksnummer,
                     10,
                 );
             });

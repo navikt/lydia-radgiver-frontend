@@ -79,6 +79,7 @@ export default function BekreftSisteSamarbeidModal({
             if (nyStatus === "SLETTET") {
                 await slettSamarbeidNyFlyt(
                     iaSak.orgnr,
+                    iaSak.saksnummer,
                     valgtSamarbeid.id,
                     dato,
                 );

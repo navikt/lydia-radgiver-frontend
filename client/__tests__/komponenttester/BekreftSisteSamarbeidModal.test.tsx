@@ -39,7 +39,7 @@ const lagSamarbeid = (overrides: Partial<IaSakProsess> = {}): IaSakProsess => ({
 });
 
 const lagIaSak = (overrides: Partial<IASak> = {}): IASak =>
-    (({
+    ({
         saksnummer: "123",
         orgnr: "999999999",
         opprettetTidspunkt: new Date().toISOString(),
@@ -51,8 +51,8 @@ const lagIaSak = (overrides: Partial<IASak> = {}): IASak =>
         status: "VI_BISTÅR",
         gyldigeNesteHendelser: [],
         lukket: false,
-        ...overrides
-    }) as IASak);
+        ...overrides,
+    }) as IASak;
 
 function renderModal(props: {
     nyStatus: "AVBRUTT" | "FULLFØRT" | "SLETTET";
@@ -181,6 +181,7 @@ describe("BekreftSisteSamarbeidModal", () => {
         await waitFor(() => {
             expect(mockSlettSamarbeid).toHaveBeenCalledWith(
                 "999999999",
+                "123",
                 1,
                 expect.stringMatching(/^\d{4}-\d{2}-\d{2}$/),
             );
