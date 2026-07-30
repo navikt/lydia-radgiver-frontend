@@ -43,7 +43,7 @@ const defaultFetcher = (...args: [url: string, options?: RequestInit]) =>
     });
 
 const fetchNative =
-    (method: "POST" | "DELETE" | "PUT") =>
+    (method: "POST" | "DELETE" | "PUT" | "PATCH") =>
     <T>(url: string, schema: ZodType<T>, body?: unknown): Promise<T> =>
         csrfFetcher()
             .then((csrfToken) =>
@@ -90,16 +90,24 @@ const fetchNative =
                     : Promise.reject(safeparsed.error);
             });
 
+export const patch = <T>(
+    url: string,
+    schema: ZodType<T>,
+    body?: unknown,
+): Promise<T> => fetchNative("PATCH")(url, schema, body);
+
 export const post = <T>(
     url: string,
     schema: ZodType<T>,
     body?: unknown,
 ): Promise<T> => fetchNative("POST")(url, schema, body);
+
 export const put = <T>(
     url: string,
     schema: ZodType<T>,
     body?: unknown,
 ): Promise<T> => fetchNative("PUT")(url, schema, body);
+
 export const httpDelete = <T>(url: string, schema: ZodType<T>): Promise<T> =>
     fetchNative("DELETE")(url, schema);
 
