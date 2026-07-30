@@ -31,7 +31,13 @@ import {
     spørreundersøkelseSchema,
 } from "../../domenetyper/spørreundersøkelse";
 import { SpørreundersøkelseType } from "../../domenetyper/spørreundersøkelseMedInnhold";
-import { httpDelete, post, put, useSwrTemplate } from "./networkRequests";
+import {
+    httpDelete,
+    patch,
+    post,
+    put,
+    useSwrTemplate,
+} from "./networkRequests";
 import { nyFlytApiBasePath, nyFlytBasePath } from "./paths";
 import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
 import { isoDato } from "../../util/dato";
@@ -189,13 +195,14 @@ export const avsluttSamarbeidNyFlyt = (
 
 export const endreSamarbeidsNavnNyFlyt = (
     orgnummer: string,
+    saksnummer: string,
     samarbeidId: number,
-    samarbeid: { id: number; saksnummer: string; navn: string; status: string },
+    nyttNavn: string,
 ): Promise<IaSakProsess> => {
-    return put(
-        `${nyFlytBasePath}/virksomhet/${orgnummer}/samarbeid/${samarbeidId}/oppdater`,
+    return patch(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}`,
         iaSakProsessSchema,
-        samarbeid,
+        { typeEndring: "navn", verdi: nyttNavn },
     );
 };
 

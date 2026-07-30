@@ -73,13 +73,9 @@ export function EndreSamarbeidsNavn({ orgnummer, onSuccess }: PutProps) {
         try {
             const result = await endreSamarbeidsNavnNyFlyt(
                 orgnummer,
+                valgtSamarbeid.saksnummer,
                 Number(samarbeidId),
-                {
-                    id: valgtSamarbeid.id,
-                    saksnummer: valgtSamarbeid.saksnummer,
-                    navn: nyttNavn,
-                    status: valgtSamarbeid.status,
-                },
+                nyttNavn,
             );
             setResponse(result);
             onSuccess();

@@ -47,12 +47,12 @@ export default function EndreSamarbeidsnavnModal({
     const endreNavn = async () => {
         if (!iaSak?.orgnr) return;
         try {
-            await endreSamarbeidsNavnNyFlyt(iaSak.orgnr, valgtSamarbeid.id, {
-                id: valgtSamarbeid.id,
-                saksnummer: valgtSamarbeid.saksnummer,
-                navn: navn,
-                status: valgtSamarbeid.status,
-            });
+            await endreSamarbeidsNavnNyFlyt(
+                iaSak.orgnr,
+                iaSak.saksnummer,
+                valgtSamarbeid.id,
+                navn,
+            );
             setLagreNavnVellykket(true);
             ref.current?.close();
         } finally {
