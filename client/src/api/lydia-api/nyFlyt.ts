@@ -123,7 +123,7 @@ export const opprettSamarbeidNyFlyt = (
     nyttSamarbeid: IaSakProsess,
 ): Promise<IaSakProsess> => {
     return post(
-        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/opprett-samarbeid`,
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${nyttSamarbeid.saksnummer}/samarbeid`,
         iaSakProsessSchema,
         nyttSamarbeid,
     );
