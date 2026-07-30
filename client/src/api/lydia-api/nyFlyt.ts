@@ -36,6 +36,7 @@ import { nyFlytApiBasePath, nyFlytBasePath } from "./paths";
 import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
 import { isoDato } from "../../util/dato";
 
+// Virksomhet
 export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<VirksomhetTilstandDto>(
         orgnummer
@@ -56,6 +57,50 @@ export const useHentVirksomhetNyFlyt = (orgnummer?: string) => {
     );
 };
 
+// rename: vurder sak --> vurder virksomhet
+export const vurderSakNyFlyt = (
+    orgnummer: string,
+    årsak: ValgtÅrsakNyFlytDto,
+): Promise<IASak> => {
+    return post(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/vurder`,
+        iaSakSchema,
+        årsak,
+    );
+};
+
+export const angreVurderingNyFlyt = (orgnummer: string): Promise<IASak> => {
+    return post(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/angre-vurdering`,
+        iaSakSchema,
+    );
+};
+
+export const avsluttVurderingNyFlyt = (
+    orgnummer: string,
+    årsak: ValgtÅrsakNyFlytDto,
+): Promise<IASak> => {
+    return post(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/avslutt-vurdering`,
+        iaSakSchema,
+        årsak,
+    );
+};
+
+export const endrePlanlagtDatoNyFlyt = (
+    orgnummer: string,
+    body: VirksomhetTilstandAutomatiskOppdateringDto,
+): Promise<VirksomhetTilstandAutomatiskOppdateringDto> => {
+    return put(
+        `${nyFlytBasePath}/virksomhet/${orgnummer}/endre-planlagt-dato`,
+        virksomhetTilstandAutomatiskOppdateringSchema,
+        {
+            ...body,
+            planlagtDato: isoDato(body.planlagtDato),
+        },
+    );
+};
+
 export const useHentHistorikkNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<Sakshistorikk[]>(
         () =>
@@ -69,6 +114,22 @@ export const useHentHistorikkNyFlyt = (orgnummer?: string) => {
     );
 };
 
+export const bliEierNyFlyt = (orgnummer: string): Promise<IASak> => {
+    return post(`${nyFlytBasePath}/${orgnummer}/bli-eier`, iaSakSchema);
+};
+
+export const opprettSamarbeidNyFlyt = (
+    orgnummer: string,
+    nyttSamarbeid: IaSakProsess,
+): Promise<IaSakProsess> => {
+    return post(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/opprett-samarbeid`,
+        iaSakProsessSchema,
+        nyttSamarbeid,
+    );
+};
+
+// Samarbeidsperiode
 export const useHentSisteSakNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<IASak>(
         () =>
@@ -98,50 +159,46 @@ export const useHentSpesifikkSakNyFlyt = (
     );
 };
 
-export const vurderSakNyFlyt = (
+// Samarbeid
+export const slettSamarbeidNyFlyt = (
     orgnummer: string,
-    årsak: ValgtÅrsakNyFlytDto,
-): Promise<IASak> => {
-    return post(
-        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/vurder`,
-        iaSakSchema,
-        årsak,
-    );
-};
-
-export const bliEierNyFlyt = (orgnummer: string): Promise<IASak> => {
-    return post(`${nyFlytBasePath}/${orgnummer}/bli-eier`, iaSakSchema);
-};
-
-export const angreVurderingNyFlyt = (orgnummer: string): Promise<IASak> => {
-    return post(
-        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/angre-vurdering`,
-        iaSakSchema,
-    );
-};
-
-export const avsluttVurderingNyFlyt = (
-    orgnummer: string,
-    årsak: ValgtÅrsakNyFlytDto,
-): Promise<IASak> => {
-    return post(
-        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/avslutt-vurdering`,
-        iaSakSchema,
-        årsak,
-    );
-};
-
-export const opprettSamarbeidNyFlyt = (
-    orgnummer: string,
-    nyttSamarbeid: IaSakProsess,
+    samarbeidId: number,
+    dato?: string,
 ): Promise<IaSakProsess> => {
-    return post(
-        `${nyFlytBasePath}/${orgnummer}/opprett-samarbeid`,
+    const datoParam = dato ? `?dato=${dato}` : "";
+    return httpDelete(
+        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/slett-samarbeid${datoParam}`,
         iaSakProsessSchema,
-        nyttSamarbeid,
     );
 };
 
+export const avsluttSamarbeidNyFlyt = (
+    orgnummer: string,
+    samarbeidId: number,
+    samarbeid: SamarbeidRequest,
+    dato?: string,
+): Promise<IaSakProsess> => {
+    const datoParam = dato ? `?dato=${dato}` : "";
+    return post(
+        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/avslutt-samarbeid${datoParam}`,
+        iaSakProsessSchema,
+        samarbeid,
+    );
+};
+
+export const endreSamarbeidsNavnNyFlyt = (
+    orgnummer: string,
+    samarbeidId: number,
+    samarbeid: { id: number; saksnummer: string; navn: string; status: string },
+): Promise<IaSakProsess> => {
+    return put(
+        `${nyFlytBasePath}/virksomhet/${orgnummer}/samarbeid/${samarbeidId}/oppdater`,
+        iaSakProsessSchema,
+        samarbeid,
+    );
+};
+
+// Kartlegging
 export const opprettKartleggingNyFlyt = (
     orgnummer: string,
     samarbeidId: string | number,
@@ -186,6 +243,7 @@ export const slettKartleggingNyFlyt = (
     );
 };
 
+// Samarbeidsplan
 export const opprettSamarbeidsplanNyFlyt = (
     orgnummer: string,
     saksnummer: string,
@@ -253,57 +311,5 @@ export const slettSamarbeidsplanNyFlyt = (
     return httpDelete(
         `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/plan/${planId}`,
         PlanSchema,
-    );
-};
-
-export const slettSamarbeidNyFlyt = (
-    orgnummer: string,
-    samarbeidId: number,
-    dato?: string,
-): Promise<IaSakProsess> => {
-    const datoParam = dato ? `?dato=${dato}` : "";
-    return httpDelete(
-        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/slett-samarbeid${datoParam}`,
-        iaSakProsessSchema,
-    );
-};
-
-export const avsluttSamarbeidNyFlyt = (
-    orgnummer: string,
-    samarbeidId: number,
-    samarbeid: SamarbeidRequest,
-    dato?: string,
-): Promise<IaSakProsess> => {
-    const datoParam = dato ? `?dato=${dato}` : "";
-    return post(
-        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/avslutt-samarbeid${datoParam}`,
-        iaSakProsessSchema,
-        samarbeid,
-    );
-};
-
-export const endreSamarbeidsNavnNyFlyt = (
-    orgnummer: string,
-    samarbeidId: number,
-    samarbeid: { id: number; saksnummer: string; navn: string; status: string },
-): Promise<IaSakProsess> => {
-    return put(
-        `${nyFlytBasePath}/virksomhet/${orgnummer}/samarbeid/${samarbeidId}/oppdater`,
-        iaSakProsessSchema,
-        samarbeid,
-    );
-};
-
-export const endrePlanlagtDatoNyFlyt = (
-    orgnummer: string,
-    body: VirksomhetTilstandAutomatiskOppdateringDto,
-): Promise<VirksomhetTilstandAutomatiskOppdateringDto> => {
-    return put(
-        `${nyFlytBasePath}/virksomhet/${orgnummer}/endre-planlagt-dato`,
-        virksomhetTilstandAutomatiskOppdateringSchema,
-        {
-            ...body,
-            planlagtDato: isoDato(body.planlagtDato),
-        },
     );
 };
