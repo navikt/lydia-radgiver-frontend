@@ -181,13 +181,14 @@ export const slettSamarbeidNyFlyt = (
 
 export const avsluttSamarbeidNyFlyt = (
     orgnummer: string,
+    saksnummer: string,
     samarbeidId: number,
     samarbeid: SamarbeidRequest,
     dato?: string,
 ): Promise<IaSakProsess> => {
     const datoParam = dato ? `?dato=${dato}` : "";
     return post(
-        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/avslutt-samarbeid${datoParam}`,
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}${datoParam}`,
         iaSakProsessSchema,
         samarbeid,
     );

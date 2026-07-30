@@ -106,6 +106,7 @@ describe("AvbrytSamarbeidModal", () => {
         await waitFor(() => {
             expect(avsluttSamarbeidMock).toHaveBeenCalledWith(
                 "123456789",
+                "SAK-001",
                 1,
                 expect.objectContaining({
                     id: 1,
@@ -195,6 +196,7 @@ describe("AvbrytSamarbeidModal", () => {
             await waitFor(() => {
                 expect(avsluttSamarbeidMock).toHaveBeenCalledWith(
                     "123456789",
+                    "SAK-001",
                     1,
                     expect.objectContaining({
                         id: 1,
