@@ -97,13 +97,18 @@ export function VurderSak({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function BliEier({ orgnummer, onSuccess }: PostProps) {
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async () => {
         setError(null);
         try {
-            const result = await bliEierNyFlyt(orgnummer);
+            if (!iaSak?.saksnummer) {
+                setError("Saksnummer ikke tilgjengelig");
+                return;
+            }
+            const result = await bliEierNyFlyt(orgnummer, iaSak.saksnummer);
             setResponse(result);
             onSuccess();
         } catch (e) {

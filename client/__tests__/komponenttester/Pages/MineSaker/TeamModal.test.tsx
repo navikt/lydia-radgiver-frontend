@@ -84,7 +84,10 @@ describe("TeamModal", () => {
         await waitFor(() => {
             expect(nyFlyt.bliEierNyFlyt).toHaveBeenCalledTimes(1);
         });
-        expect(nyFlyt.bliEierNyFlyt).toHaveBeenCalledWith(dummyIaSak.orgnr);
+        expect(nyFlyt.bliEierNyFlyt).toHaveBeenCalledWith(
+            dummyIaSak.orgnr,
+            dummyIaSak.saksnummer,
+        );
     });
 
     it("kaller setOpen(false) ved klikk på 'Ferdig'", () => {
