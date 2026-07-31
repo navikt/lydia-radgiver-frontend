@@ -448,6 +448,7 @@ export function StartKartlegging({ orgnummer, onSuccess }: PostProps) {
         try {
             const result = await startKartleggingNyFlyt(
                 orgnummer,
+                iaSak?.saksnummer || "",
                 samarbeidId,
                 spørreundersøkelseId,
             );
