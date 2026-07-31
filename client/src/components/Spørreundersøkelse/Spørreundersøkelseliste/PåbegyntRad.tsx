@@ -56,6 +56,7 @@ export default function PåbegyntRad({
     const fullførSpørreundersøkelse = () => {
         fullførKartleggingNyFlyt(
             iaSak.orgnr,
+            iaSak.saksnummer,
             samarbeidsId,
             spørreundersøkelse.id,
         ).then(() => {
