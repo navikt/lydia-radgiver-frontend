@@ -64,6 +64,7 @@ export function SlettKartlegging({ orgnummer, onSuccess }: DeleteProps) {
         try {
             const result = await slettKartleggingNyFlyt(
                 orgnummer,
+                iaSak?.saksnummer || "",
                 samarbeidId,
                 spørreundersøkelseId,
             );

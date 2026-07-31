@@ -246,11 +246,12 @@ export const fullførKartleggingNyFlyt = (
 
 export const slettKartleggingNyFlyt = (
     orgnummer: string,
+    saksnummer: string,
     samarbeidId: string | number,
     spørreundersøkelseId: string,
 ): Promise<Spørreundersøkelse> => {
     return httpDelete(
-        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/slett-kartlegging/${spørreundersøkelseId}`,
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/kartlegging/${spørreundersøkelseId}`,
         spørreundersøkelseSchema,
     );
 };

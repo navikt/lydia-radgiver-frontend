@@ -52,6 +52,7 @@ export default function SpørreundersøkelseRad({
         setSletterSpørreundersøkelse(true);
         slettKartleggingNyFlyt(
             iaSak.orgnr,
+            iaSak.saksnummer,
             samarbeidsId,
             spørreundersøkelse.id,
         ).then(() => {
