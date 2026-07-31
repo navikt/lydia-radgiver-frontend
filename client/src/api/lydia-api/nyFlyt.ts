@@ -38,7 +38,7 @@ import {
     put,
     useSwrTemplate,
 } from "./networkRequests";
-import { nyFlytApiBasePath, nyFlytBasePath } from "./paths";
+import { nyFlytApiBasePath } from "./paths";
 import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
 import { isoDato } from "../../util/dato";
 
@@ -98,7 +98,7 @@ export const endrePlanlagtDatoNyFlyt = (
     body: VirksomhetTilstandAutomatiskOppdateringDto,
 ): Promise<VirksomhetTilstandAutomatiskOppdateringDto> => {
     return put(
-        `${nyFlytBasePath}/virksomhet/${orgnummer}/endre-planlagt-dato`,
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/endre-planlagt-dato`,
         virksomhetTilstandAutomatiskOppdateringSchema,
         {
             ...body,
