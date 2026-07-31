@@ -120,8 +120,14 @@ export const useHentHistorikkNyFlyt = (orgnummer?: string) => {
     );
 };
 
-export const bliEierNyFlyt = (orgnummer: string): Promise<IASak> => {
-    return post(`${nyFlytBasePath}/${orgnummer}/bli-eier`, iaSakSchema);
+export const bliEierNyFlyt = (
+    orgnummer: string,
+    saksnummer: string,
+): Promise<IASak> => {
+    return post(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/bli-eier`,
+        iaSakSchema,
+    );
 };
 
 // Samarbeidsperiode
