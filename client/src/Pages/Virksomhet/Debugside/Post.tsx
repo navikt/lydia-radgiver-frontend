@@ -507,6 +507,7 @@ export function FullførKartlegging({ orgnummer, onSuccess }: PostProps) {
         try {
             const result = await fullførKartleggingNyFlyt(
                 orgnummer,
+                iaSak?.saksnummer || "",
                 samarbeidId,
                 spørreundersøkelseId,
             );

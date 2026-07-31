@@ -234,11 +234,12 @@ export const startKartleggingNyFlyt = (
 
 export const fullførKartleggingNyFlyt = (
     orgnummer: string,
+    saksnummer: string,
     samarbeidId: string | number,
     spørreundersøkelseId: string,
 ): Promise<Spørreundersøkelse> => {
     return post(
-        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/fullfor-kartlegging/${spørreundersøkelseId}`,
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/kartlegging/${spørreundersøkelseId}/fullfor`,
         spørreundersøkelseSchema,
     );
 };
