@@ -222,11 +222,12 @@ export const opprettKartleggingNyFlyt = (
 
 export const startKartleggingNyFlyt = (
     orgnummer: string,
+    saksnummer: string,
     samarbeidId: string | number,
     spørreundersøkelseId: string,
 ): Promise<Spørreundersøkelse> => {
     return post(
-        `${nyFlytBasePath}/${orgnummer}/${samarbeidId}/start-kartlegging/${spørreundersøkelseId}`,
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/kartlegging/${spørreundersøkelseId}/start`,
         spørreundersøkelseSchema,
     );
 };
