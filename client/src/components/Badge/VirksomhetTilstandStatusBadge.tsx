@@ -24,6 +24,7 @@ export function VirksomhetTilstandStatusBadge({
                 status={tilstand}
                 penskrivStatus={penskrivVirksomhetTilstand}
                 hentTagProps={hentTagPropsForVirksomhetTilstand}
+                hentHjelpetekst={hentHjelpetekstForVirksomhetTilstand}
             />
         )
     );
@@ -71,3 +72,21 @@ function hentTagPropsForVirksomhetTilstand(
 
     return { variant: "strong", "data-color": "neutral" };
 }
+
+const hentHjelpetekstForVirksomhetTilstand = (
+    tilstand: VirksomhetIATilstand,
+): string | undefined => {
+    switch (tilstand) {
+        case "VirksomhetErAvregistrertIBrreg":
+            return "Virksomheten er slettet i Brønnøysundregistrene.";
+        case "VirksomhetKlarTilVurdering":
+        case "VirksomhetVurderes":
+        case "VirksomhetErVurdert":
+        case "VirksomhetHarAktiveSamarbeid":
+        case "AlleSamarbeidIVirksomhetErAvsluttet":
+            break;
+        default:
+            exhaustive(tilstand);
+    }
+    return undefined;
+};
