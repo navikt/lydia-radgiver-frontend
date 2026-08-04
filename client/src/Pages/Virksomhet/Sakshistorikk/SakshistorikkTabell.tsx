@@ -107,6 +107,13 @@ export const SakshistorikkTabell = ({
                                             "SLETT_PROSESS" && (
                                             <Detail>Slettet samarbeid</Detail>
                                         )}
+                                        {sakSnapshot.hendelsestype ===
+                                            "VIRKSOMHET_AVREGISTRERT" && (
+                                            <Detail>
+                                                Virksomheten ble slettet i
+                                                Brønnøysundregistrene
+                                            </Detail>
+                                        )}
                                         {sakSnapshot.status === "NY" && (
                                             <Detail>Opprettet sak</Detail>
                                         )}

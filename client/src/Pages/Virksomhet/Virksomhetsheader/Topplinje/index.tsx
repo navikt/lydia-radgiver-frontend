@@ -13,6 +13,8 @@ import VirksomhetErVurdert from "./VirksomhetErVurdert";
 import VirksomhetHarAktiveSamarbeid from "./VirksomhetHarAktiveSamarbeid";
 import AlleSamarbeidIVirksomhetErAvsluttet from "./AlleSamarbeidIVirksomhetErAvsluttet";
 import VirksomhetKlarTilVurdering from "./VirksomhetKlarTilVurdering";
+import { exhaustive } from "../../../../util/exhaustive_types";
+import VirksomhetErAvregistrertIBrreg from "./VirksomhetErAvregistrertIBrreg";
 
 export function Topplinje({
     virksomhet,
@@ -37,61 +39,49 @@ export function Topplinje({
         );
     }
 
-    if (
-        tilstand?.tilstand ===
-        VirksomhetIATilstandEnum.enum.VirksomhetKlarTilVurdering
-    ) {
-        return <VirksomhetKlarTilVurdering virksomhet={virksomhet} />;
-    }
-
-    if (
-        tilstand?.tilstand === VirksomhetIATilstandEnum.enum.VirksomhetVurderes
-    ) {
-        return <VirksomhetVurderes iaSak={iaSak!} virksomhet={virksomhet} />;
-    }
-
-    if (
-        tilstand?.tilstand === VirksomhetIATilstandEnum.enum.VirksomhetErVurdert
-    ) {
-        return (
-            <VirksomhetErVurdert
-                iaSak={iaSak!}
-                tilstand={tilstand}
-                virksomhet={virksomhet}
-            />
-        );
-    }
-
-    if (
-        tilstand?.tilstand ===
-        VirksomhetIATilstandEnum.enum.VirksomhetHarAktiveSamarbeid
-    ) {
-        return (
-            <VirksomhetHarAktiveSamarbeid
-                iaSak={iaSak!}
-                virksomhet={virksomhet}
-            />
-        );
-    }
-
-    if (
-        tilstand?.tilstand ===
-        VirksomhetIATilstandEnum.enum.AlleSamarbeidIVirksomhetErAvsluttet
-    ) {
-        return (
-            <AlleSamarbeidIVirksomhetErAvsluttet
-                iaSak={iaSak!}
-                virksomhet={virksomhet}
-                tilstand={tilstand}
-            />
-        );
+    switch (tilstand?.tilstand) {
+        case VirksomhetIATilstandEnum.enum.VirksomhetKlarTilVurdering:
+            return <VirksomhetKlarTilVurdering virksomhet={virksomhet} />;
+        case VirksomhetIATilstandEnum.enum.VirksomhetVurderes:
+            return (
+                <VirksomhetVurderes iaSak={iaSak!} virksomhet={virksomhet} />
+            );
+        case VirksomhetIATilstandEnum.enum.VirksomhetErVurdert:
+            return (
+                <VirksomhetErVurdert
+                    iaSak={iaSak!}
+                    tilstand={tilstand}
+                    virksomhet={virksomhet}
+                />
+            );
+        case VirksomhetIATilstandEnum.enum.VirksomhetHarAktiveSamarbeid:
+            return (
+                <VirksomhetHarAktiveSamarbeid
+                    iaSak={iaSak!}
+                    virksomhet={virksomhet}
+                />
+            );
+        case VirksomhetIATilstandEnum.enum.AlleSamarbeidIVirksomhetErAvsluttet:
+            return (
+                <AlleSamarbeidIVirksomhetErAvsluttet
+                    iaSak={iaSak!}
+                    virksomhet={virksomhet}
+                    tilstand={tilstand}
+                />
+            );
+        case VirksomhetIATilstandEnum.enum.VirksomhetErAvregistrertIBrreg:
+            return <VirksomhetErAvregistrertIBrreg virksomhet={virksomhet} />;
+        case undefined:
+            break;
+        default:
+            if (tilstand) exhaustive(tilstand?.tilstand);
     }
 
     console.log("ikke implementert", {
         virksomhet,
         iaSak,
         samarbeid,
-        tilstand,
+        tilstand: tilstand,
     });
 
     return "Ikke implementert";
