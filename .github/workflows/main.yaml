@@ -1,5 +1,8 @@
 name: Build and deploy lydia-radgiver-frontend
 on: [push]
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
   build:
