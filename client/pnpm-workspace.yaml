@@ -10,3 +10,6 @@ minimumReleaseAge: 10080 # 7 dager
 
 minimumReleaseAgeExclude:
   - "@navikt/*"
+
+overrides:
+  immutable@>=5.0.0-beta.1 <5.1.8: ^5.1.8
