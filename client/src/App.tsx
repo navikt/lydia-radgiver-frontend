@@ -15,6 +15,7 @@ import { Head } from "@unhead/react";
 import styles from "./app.module.scss";
 import { NyVirksomhetsside } from "./Pages/Virksomhet";
 import Debugside from "./Pages/Virksomhet/Debugside";
+import { NavnForNavIdentProvider } from "./components/NavnForNavIdent";
 
 const App = () => (
     <BrowserRouter>
@@ -116,74 +117,79 @@ const AppContent = () => {
         <>
             <Dekoratør brukerInformasjon={brukerInformasjon} />
             <FeilmeldingBanner />
-            <Routes>
-                <Route
-                    path={"/"}
-                    element={
-                        <main className={styles.appramme} id="maincontent">
-                            <SmartStartsideRedirect />
-                        </main>
-                    }
-                />
-                <Route
-                    path={"/prioritering"}
-                    element={
-                        <main className={styles.appramme} id="maincontent">
-                            <Prioriteringsside />
-                        </main>
-                    }
-                />
-                <Route
-                    path={"/statusoversikt"}
-                    element={
-                        <main className={styles.appramme} id="maincontent">
-                            <Statusoversiktside />
-                        </main>
-                    }
-                />
-                <Route
-                    path={
-                        "/virksomhet/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"
-                    }
-                    element={
-                        <main
-                            className={styles.fullBreddeAppramme}
-                            id="maincontent"
-                        >
-                            <NyVirksomhetsside />
-                        </main>
-                    }
-                />
-                <Route
-                    path={"/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
-                    element={
-                        <main
-                            className={styles.fullBreddeAppramme}
-                            id="maincontent"
-                        >
-                            <NyVirksomhetsside />
-                        </main>
-                    }
-                />
-                <Route
-                    path={"/minesaker"}
-                    element={
-                        <main className={styles.appramme} id="maincontent">
-                            <MineSakerside />
-                        </main>
-                    }
-                />
-                {erIDev && (
+            <NavnForNavIdentProvider>
+                <Routes>
                     <Route
-                        path={"/nyflyt/debugside/:id"}
+                        path={"/"}
                         element={
                             <main className={styles.appramme} id="maincontent">
-                                <Debugside />
+                                <SmartStartsideRedirect />
                             </main>
                         }
                     />
-                )}
-            </Routes>
+                    <Route
+                        path={"/prioritering"}
+                        element={
+                            <main className={styles.appramme} id="maincontent">
+                                <Prioriteringsside />
+                            </main>
+                        }
+                    />
+                    <Route
+                        path={"/statusoversikt"}
+                        element={
+                            <main className={styles.appramme} id="maincontent">
+                                <Statusoversiktside />
+                            </main>
+                        }
+                    />
+                    <Route
+                        path={
+                            "/virksomhet/:orgnummer/sak?/:saksnummer?/samarbeid?/:prosessId?"
+                        }
+                        element={
+                            <main
+                                className={styles.fullBreddeAppramme}
+                                id="maincontent"
+                            >
+                                <NyVirksomhetsside />
+                            </main>
+                        }
+                    />
+                    <Route
+                        path={"/virksomhet/:orgnummer/samarbeid?/:prosessId?"}
+                        element={
+                            <main
+                                className={styles.fullBreddeAppramme}
+                                id="maincontent"
+                            >
+                                <NyVirksomhetsside />
+                            </main>
+                        }
+                    />
+                    <Route
+                        path={"/minesaker"}
+                        element={
+                            <main className={styles.appramme} id="maincontent">
+                                <MineSakerside />
+                            </main>
+                        }
+                    />
+                    {erIDev && (
+                        <Route
+                            path={"/nyflyt/debugside/:id"}
+                            element={
+                                <main
+                                    className={styles.appramme}
+                                    id="maincontent"
+                                >
+                                    <Debugside />
+                                </main>
+                            }
+                        />
+                    )}
+                </Routes>
+            </NavnForNavIdentProvider>
             <Footer />
         </>
     );
