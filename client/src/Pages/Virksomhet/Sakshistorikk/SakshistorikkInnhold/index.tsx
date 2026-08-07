@@ -8,7 +8,7 @@ import { LeveransehistorikkTabell } from "../LeveransehistorikkTabell";
 import { SakshistorikkTabell } from "../SakshistorikkTabell";
 import { useHentHistorikkNyFlyt } from "../../../../api/lydia-api/nyFlyt";
 
-type SakshistorikkInnholdProps = {
+export type SakshistorikkInnholdProps = {
     sakshistorikk?: Sakshistorikk[];
     lasterSakshistorikk: boolean;
     orgnr: string;
