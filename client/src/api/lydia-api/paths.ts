@@ -5,6 +5,7 @@ export const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
 export const sykefraværsstatistikkAntallTreffPath = `${sykefraværsstatistikkPath}/antallTreff`;
 export const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
+export const eierePath = `${sykefraværsstatistikkPath}/eiere`;
 export const virksomhetsPath = `${basePath}/virksomhet`;
 export const innloggetAnsattPath = `/innloggetAnsatt`;
 export const iaSakPath = `${basePath}/iasak/radgiver`;
