@@ -60,7 +60,7 @@ export default function TeamInnhold({
     const muterOversikt = useOversiktMutate(iaSak.orgnr);
 
     const gjørTaEierskap = async () => {
-        await bliEierNyFlyt(iaSak.orgnr);
+        await bliEierNyFlyt(iaSak.orgnr, iaSak.saksnummer);
         muterIaSak();
         muterMineSaker();
         muterOversikt();

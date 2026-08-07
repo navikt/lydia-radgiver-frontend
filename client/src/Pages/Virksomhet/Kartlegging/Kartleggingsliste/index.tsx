@@ -81,14 +81,17 @@ function Innhold({
 
     const opprettSpørreundersøkelseOgMuter = (type: SpørreundersøkelseType) => {
         setSistOpprettetType(null);
-        opprettKartleggingNyFlyt(iaSak.orgnr, gjeldendeSamarbeid.id, type).then(
-            ({ id }) => {
-                setSisteOpprettedeId(id);
-                hentSpørreundersøkelserPåNytt();
-                oppdaterSaksStatus();
-                setSistOpprettetType(type);
-            },
-        );
+        opprettKartleggingNyFlyt(
+            iaSak.orgnr,
+            iaSak.saksnummer,
+            gjeldendeSamarbeid.id,
+            type,
+        ).then(({ id }) => {
+            setSisteOpprettedeId(id);
+            hentSpørreundersøkelserPåNytt();
+            oppdaterSaksStatus();
+            setSistOpprettetType(type);
+        });
     };
 
     if (loading || !data) {

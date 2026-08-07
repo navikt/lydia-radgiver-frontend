@@ -11,7 +11,6 @@ export const iaSakPath = `${basePath}/iasak/radgiver`;
 export const mineSakerPath = `${basePath}/iasak/minesaker`;
 export const iaSakTeamPath = `${basePath}/iasak/team`;
 export const iaSakPostNyHendelsePath = `${iaSakPath}/hendelse`;
-export const iaSakHistorikkPath = `${iaSakPath}/historikk`;
 export const virksomhetAutocompletePath = `${virksomhetsPath}/finn`;
 export const siste4kvartalerPath = "siste4kvartaler";
 export const sistekvartalPath = "sistetilgjengeligekvartal";
@@ -27,7 +26,6 @@ export const planPath = `${iaSakPath}/plan`;
 export const dokumentPath = `${iaSakPath}/dokument`;
 
 // Ny flyt
-export const nyFlytBasePath = `${basePath}/iasak/nyflyt`;
 export const nyFlytApiBasePath = `/proxy/api/v1`;
 
 export const getSykefraværsstatistikkUrl = (søkeverdier: FiltervisningState) =>

@@ -18,6 +18,9 @@ updates:
     labels:
       - "dependencies"
       - "github-actions"
+    groups:
+      all-actions:
+        patterns: [ "*" ]
 
   - package-ecosystem: npm
     directory: "/client"

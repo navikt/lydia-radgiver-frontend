@@ -70,7 +70,7 @@ export default function BekreftSisteSamarbeidModal({
         setSenderRequest(true);
 
         try {
-            if (!valgtSamarbeid?.id || !iaSak?.orgnr) {
+            if (!valgtSamarbeid?.id || !iaSak?.orgnr || !iaSak?.saksnummer) {
                 return;
             }
 
@@ -79,6 +79,7 @@ export default function BekreftSisteSamarbeidModal({
             if (nyStatus === "SLETTET") {
                 await slettSamarbeidNyFlyt(
                     iaSak.orgnr,
+                    iaSak.saksnummer,
                     valgtSamarbeid.id,
                     dato,
                 );
@@ -93,8 +94,9 @@ export default function BekreftSisteSamarbeidModal({
                 };
 
                 await avsluttSamarbeidNyFlyt(
-                    iaSak?.orgnr || "",
-                    valgtSamarbeid?.id,
+                    iaSak.orgnr,
+                    iaSak.saksnummer,
+                    valgtSamarbeid.id,
                     samarbeid,
                     dato,
                 );

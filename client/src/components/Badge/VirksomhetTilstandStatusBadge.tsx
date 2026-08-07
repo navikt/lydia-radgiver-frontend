@@ -24,6 +24,7 @@ export function VirksomhetTilstandStatusBadge({
                 status={tilstand}
                 penskrivStatus={penskrivVirksomhetTilstand}
                 hentTagProps={hentTagPropsForVirksomhetTilstand}
+                hentHjelpetekst={hentHjelpetekstForVirksomhetTilstand}
             />
         )
     );
@@ -41,6 +42,8 @@ export function penskrivVirksomhetTilstand(tilstand: VirksomhetIATilstand) {
             return "Aktiv";
         case VirksomhetIATilstandEnum.enum.AlleSamarbeidIVirksomhetErAvsluttet:
             return "Avsluttet";
+        case VirksomhetIATilstandEnum.enum.VirksomhetErAvregistrertIBrreg:
+            return "Slettet";
         default:
             exhaustive(tilstand);
             return tilstand;
@@ -58,6 +61,9 @@ function hentTagPropsForVirksomhetTilstand(
         case VirksomhetIATilstandEnum.enum.VirksomhetHarAktiveSamarbeid:
             return { variant: "outline", "data-color": "brand-blue" };
         case VirksomhetIATilstandEnum.enum.AlleSamarbeidIVirksomhetErAvsluttet:
+            return { variant: "strong", "data-color": "neutral" };
+        case VirksomhetIATilstandEnum.enum.VirksomhetErAvregistrertIBrreg:
+            return { variant: "outline", "data-color": "brand-magenta" };
         case VirksomhetIATilstandEnum.enum.VirksomhetKlarTilVurdering:
             break;
         default:
@@ -66,3 +72,21 @@ function hentTagPropsForVirksomhetTilstand(
 
     return { variant: "strong", "data-color": "neutral" };
 }
+
+const hentHjelpetekstForVirksomhetTilstand = (
+    tilstand: VirksomhetIATilstand,
+): string | undefined => {
+    switch (tilstand) {
+        case "VirksomhetErAvregistrertIBrreg":
+            return "Virksomheten er slettet i Brønnøysundregistrene.";
+        case "VirksomhetKlarTilVurdering":
+        case "VirksomhetVurderes":
+        case "VirksomhetErVurdert":
+        case "VirksomhetHarAktiveSamarbeid":
+        case "AlleSamarbeidIVirksomhetErAvsluttet":
+            break;
+        default:
+            exhaustive(tilstand);
+    }
+    return undefined;
+};

@@ -64,6 +64,7 @@ export function SlettKartlegging({ orgnummer, onSuccess }: DeleteProps) {
         try {
             const result = await slettKartleggingNyFlyt(
                 orgnummer,
+                iaSak?.saksnummer || "",
                 samarbeidId,
                 spørreundersøkelseId,
             );
@@ -179,7 +180,11 @@ export function SlettSamarbeid({ orgnummer, onSuccess }: DeleteProps) {
     const handleSubmit = async () => {
         setError(null);
         try {
-            const result = await slettSamarbeidNyFlyt(orgnummer, Number(samarbeidId));
+            const result = await slettSamarbeidNyFlyt(
+                orgnummer,
+                iaSak?.saksnummer || "",
+                Number(samarbeidId),
+            );
             setResponse(result);
             onSuccess();
         } catch (e) {

@@ -97,13 +97,18 @@ export function VurderSak({ orgnummer, onSuccess }: PostProps) {
 }
 
 export function BliEier({ orgnummer, onSuccess }: PostProps) {
+    const { data: iaSak } = useHentSisteSakNyFlyt(orgnummer);
     const [response, setResponse] = useState<object | null>(null);
     const [error, setError] = useState<string | null>(null);
 
     const handleSubmit = async () => {
         setError(null);
         try {
-            const result = await bliEierNyFlyt(orgnummer);
+            if (!iaSak?.saksnummer) {
+                setError("Saksnummer ikke tilgjengelig");
+                return;
+            }
+            const result = await bliEierNyFlyt(orgnummer, iaSak.saksnummer);
             setResponse(result);
             onSuccess();
         } catch (e) {
@@ -381,6 +386,7 @@ export function OpprettKartlegging({ orgnummer, onSuccess }: PostProps) {
         try {
             const result = await opprettKartleggingNyFlyt(
                 orgnummer,
+                iaSak?.saksnummer || "",
                 samarbeidId,
                 type,
             );
@@ -447,6 +453,7 @@ export function StartKartlegging({ orgnummer, onSuccess }: PostProps) {
         try {
             const result = await startKartleggingNyFlyt(
                 orgnummer,
+                iaSak?.saksnummer || "",
                 samarbeidId,
                 spørreundersøkelseId,
             );
@@ -505,6 +512,7 @@ export function FullførKartlegging({ orgnummer, onSuccess }: PostProps) {
         try {
             const result = await fullførKartleggingNyFlyt(
                 orgnummer,
+                iaSak?.saksnummer || "",
                 samarbeidId,
                 spørreundersøkelseId,
             );
@@ -680,6 +688,7 @@ export function AvsluttSamarbeid({ orgnummer, onSuccess }: PostProps) {
             };
             const result = await avsluttSamarbeidNyFlyt(
                 orgnummer,
+                iaSak?.saksnummer || "",
                 Number(samarbeidId),
                 samarbeid,
             );

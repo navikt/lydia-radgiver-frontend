@@ -62,7 +62,11 @@ export default function SlettSamarbeidModal({
             return;
         } else if (iaSak && valgtSamarbeid) {
             try {
-                await slettSamarbeidNyFlyt(iaSak?.orgnr, valgtSamarbeid?.id);
+                await slettSamarbeidNyFlyt(
+                    iaSak?.orgnr,
+                    iaSak?.saksnummer,
+                    valgtSamarbeid?.id,
+                );
                 ref.current?.close();
             } catch (e) {
                 setError(e instanceof Error ? e.message : String(e));
