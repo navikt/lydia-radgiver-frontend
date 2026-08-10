@@ -99,7 +99,7 @@ jobs:
 # Node/pnpm
 - uses: actions/setup-node@v4
   with:
-    node-version: 22
+    node-version: 26
     cache: pnpm
 
 # Go
