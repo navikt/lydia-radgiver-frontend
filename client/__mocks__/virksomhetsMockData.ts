@@ -74,7 +74,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "OPPRETT_SAK_FOR_VIRKSOMHET",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.489Z"),
                 begrunnelser: [],
-                eier: "S54321",
                 hendelseOpprettetAv: "S54321",
             },
             {
@@ -82,7 +81,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "VIRKSOMHET_VURDERES",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.492Z"),
                 begrunnelser: [],
-                eier: "S54321",
                 hendelseOpprettetAv: "S54321",
             },
             {
@@ -90,7 +88,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "TA_EIERSKAP_I_SAK",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.510Z"),
                 begrunnelser: [],
-                eier: "Y54321",
                 hendelseOpprettetAv: "Y54321",
             },
             {
@@ -98,7 +95,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "VIRKSOMHET_SKAL_KONTAKTES",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.528Z"),
                 begrunnelser: [],
-                eier: "Y54321",
                 hendelseOpprettetAv: "Y54321",
             },
             {
@@ -106,7 +102,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "VIRKSOMHET_KARTLEGGES",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.545Z"),
                 begrunnelser: [],
-                eier: "Y54321",
                 hendelseOpprettetAv: "Y54321",
             },
             {
@@ -114,7 +109,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.563Z"),
                 begrunnelser: [],
-                eier: "Y54321",
                 hendelseOpprettetAv: "Y54321",
             },
             {
@@ -122,7 +116,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "VIRKSOMHET_SKAL_BISTÅS",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.583Z"),
                 begrunnelser: [],
-                eier: "Y54321",
                 hendelseOpprettetAv: "Y54321",
             },
             {
@@ -130,7 +123,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "TA_EIERSKAP_I_SAK",
                 tidspunktForSnapshot: new Date("2025-10-15T11:10:26.103Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -138,7 +130,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-10-17T06:30:07.098Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -146,7 +137,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:07:32.812Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -154,7 +144,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:07:45.014Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -162,7 +151,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:08:07.054Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -170,7 +158,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:08:14.202Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -178,7 +165,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:08:19.339Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -186,7 +172,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:08:34.781Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -194,7 +179,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:08:53.421Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -202,7 +186,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "FULLFØR_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:09:24.115Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -210,7 +193,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "FULLFØR_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:09:44.390Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -218,7 +200,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "FULLFØR_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:10:04.035Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -226,7 +207,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:10:15.838Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -234,7 +214,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:10:24.342Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -242,7 +221,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "AVBRYT_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:10:34.530Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -250,7 +228,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "SLETT_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:10:43.530Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -258,7 +235,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T14:03:08.021Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -266,7 +242,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-14T11:50:16.332Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
             {
@@ -274,7 +249,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
                 hendelsestype: "ENDRE_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-14T13:53:10.898Z"),
                 begrunnelser: [],
-                eier: "Z123456",
                 hendelseOpprettetAv: "Z123456",
             },
         ],
