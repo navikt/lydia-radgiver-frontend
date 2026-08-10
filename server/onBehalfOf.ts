@@ -73,7 +73,7 @@ export const validerTokenFraWonderwall =
     };
 
 export const validerTokenFraFakedings =
-    (azure: Azure, _) =>
+    (azure: Azure, _: unknown) =>
     async (req: Request, res: Response, next: NextFunction) => {
         res.locals.on_behalf_of_token = await fetch(azure.tokenEndpoint);
         return next();
@@ -86,7 +86,7 @@ export const hentOnBehalfOfToken = async (
 ): Promise<string> => {
     const encryptedObo = req.session.azureOboToken;
 
-    async function fetchOboToken() {
+    async function fetchOboToken(): Promise<string> {
         // OBO flyt som beskrevet her:
         // https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-on-behalf-of-flow#first-case-access-token-request-with-a-shared-secret
         const scope = config.lydiaApi.scope;
@@ -119,6 +119,10 @@ export const hentOnBehalfOfToken = async (
                 throw new AuthError(
                     "Ukjent feil under token exchange: " + error.message,
                 );
+            } else {
+                throw new AuthError(
+                    "Ukjent feil under token exchange: " + String(error),
+                );
             }
         }
     }
@@ -137,7 +141,7 @@ export const hentOnBehalfOfToken = async (
 
 function isValid({ exp: expireTime }: JWTPayload) {
     const timeCheck = Math.floor(Date.now() / 1000) + EXPIRY_THRESHOLD_SECONDS;
-    return timeCheck < expireTime;
+    return timeCheck < (expireTime ?? 0);
 }
 
 export interface AzureTokenResponse {

@@ -10,7 +10,7 @@ const HASH_ALGORITHM = "sha256";
 
 export async function encrypt(secret: string) {
     const sha256 = createHash(HASH_ALGORITHM);
-    sha256.update(process.env.OBO_TOKEN_ENC_KEY);
+    sha256.update(process.env.OBO_TOKEN_ENC_KEY!);
     const iv = randomBytes(16);
     const cipher = createCipheriv(ALGORITHM, sha256.digest(), iv);
     const cipherText = cipher.update(Buffer.from(secret));
@@ -21,7 +21,7 @@ export async function encrypt(secret: string) {
 
 export async function decrypt(encrypted: string) {
     const sha256 = createHash(HASH_ALGORITHM);
-    sha256.update(process.env.OBO_TOKEN_ENC_KEY);
+    sha256.update(process.env.OBO_TOKEN_ENC_KEY!);
     const input = Buffer.from(encrypted, "base64");
     const iv = input.slice(0, 16);
     const authTag = input.slice(16, 32);

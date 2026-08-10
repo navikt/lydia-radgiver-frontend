@@ -1,10 +1,10 @@
-import {
+import type {
     FlattenedJWSInput,
     GetKeyFunction,
     JWK,
     JWSHeaderParameters,
     JWTVerifyResult,
-} from "jose/dist/types/types";
+} from "jose";
 import {
     createRemoteJWKSet,
     generateKeyPair,
@@ -27,7 +27,7 @@ export let _remoteJwkSet: GetKeyFunction<
 export async function setupRemoteJwkSet(): Promise<JWKSetRetriever> {
     if (!_remoteJwkSet) {
         _remoteJwkSet = createRemoteJWKSet(
-            new URL(process.env.AZURE_OPENID_CONFIG_JWKS_URI),
+            new URL(process.env.AZURE_OPENID_CONFIG_JWKS_URI!),
             {
                 cooldownDuration: 1000 * 60 * 60, // 1 time caching av jwks
             },
