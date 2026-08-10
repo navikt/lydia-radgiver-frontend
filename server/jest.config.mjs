@@ -3,6 +3,9 @@
  * https://jestjs.io/docs/configuration
  */
 
+import { createRequire } from "module";
+const require = createRequire(import.meta.url);
+
 /** @type {import('jest').Config} */
 const config = {
     // All imported modules in your tests should be mocked automatically
@@ -94,6 +97,9 @@ const config = {
     // moduleNameMapper: {},
     moduleNameMapper: {
         "^jose": "jose",
+    },
+    transform: {
+        "^.+\\.[jt]sx?$": require.resolve("babel-jest"),
     },
     transformIgnorePatterns: ["node_modules/(?!(.pnpm|jose)/)"],
 
