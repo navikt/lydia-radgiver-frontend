@@ -22,7 +22,7 @@ const lokalMockBruker: Brukerinformasjon = {
     rolle: "Superbruker",
 };
 
-const enum Rolle {
+enum Rolle {
     SUPERBRUKER = "Superbruker",
     SAKSBEHANDLER = "Saksbehandler",
     LESETILGANG = "Lesetilgang",
