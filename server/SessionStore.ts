@@ -30,7 +30,7 @@ export async function sessionManager() {
             client: await getRedisStore(),
             disableTouch: true, // Gjør slik at man ikke kan endre TTL på valkey store
         }),
-        secret: process.env.SESSION_SECRET, // Hent fra gcp
+        secret: process.env.SESSION_SECRET!, // Hent fra gcp
         saveUninitialized: false,
         resave: false,
         cookie: {
@@ -46,7 +46,7 @@ export async function inMemorySessionManager() {
     return session({
         saveUninitialized: false,
         resave: false,
-        secret: process.env.SESSION_SECRET,
+        secret: process.env.SESSION_SECRET!,
         cookie: {
             secure: inCloudMode(),
             httpOnly: true,

@@ -5,7 +5,7 @@ import { createProxyMiddleware, Options } from "http-proxy-middleware";
 import { Config } from "./config";
 
 export class LydiaApiProxy {
-    options: Options;
+    options: Options<Request, Response>;
     constructor(config: Config) {
         const whitelistedPaths = [
             "/sykefravarsstatistikk",
