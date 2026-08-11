@@ -10,6 +10,21 @@ import {
     nyFlytÅrsakTypeEnum,
 } from "../domenetyper/domenetyper";
 
+interface InnblikkSporingPayload {
+    url?: string;
+    referrer?: string;
+    [key: string]: unknown;
+}
+
+//Sporingen klarer selv å feste window.location.href på url/referrer - masker før POST:
+function beforeSendHandler(_type: string, payload: InnblikkSporingPayload) {
+    return {
+        ...payload,
+        url: maskerSensitiveVerdierIUrl(payload.url),
+        referrer: maskerSensitiveVerdierIUrl(payload.referrer),
+    };
+}
+
 declare global {
     interface Window {
         umami: {
@@ -19,9 +34,11 @@ declare global {
             ) => void;
             identify: (userProperties: Record<string, string>) => void;
         };
+        beforeSendHandler: typeof beforeSendHandler;
     }
 }
 
+window.beforeSendHandler = beforeSendHandler;
 /**
  *  Gyldige events: https://github.com/navikt/analytics-taxonomy/tree/main/events
  */
@@ -113,8 +130,7 @@ export const enum FilterverdiKategorier {
 export const loggFilterverdiKategorier = (
     filterverdiKategorier: FilterverdiKategorier[],
     søkekomponent:
-        | Søkekomponenter.PRIORITERING
-        | Søkekomponenter.STATUSOVERSIKT,
+        Søkekomponenter.PRIORITERING | Søkekomponenter.STATUSOVERSIKT,
 ) => {
     const destinasjon =
         søkekomponent === Søkekomponenter.STATUSOVERSIKT

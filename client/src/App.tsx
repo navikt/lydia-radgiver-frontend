@@ -31,6 +31,7 @@ const App = () => (
                         ? "df38cdde-af54-4677-8cba-0b56cb68dcf3"
                         : "4f5c1a9c-d06e-40d0-abb0-b375ce339f0e"
                 }
+                data-before-send="beforeSendHandler"
             ></script>
         </Head>
         <AppContent />
