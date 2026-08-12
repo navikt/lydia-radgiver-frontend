@@ -14,7 +14,10 @@ import {
 import { useHentSamarbeid } from "../../api/lydia-api/spørreundersøkelse";
 import { loggNavigertTilNyTab } from "../../util/analytics-klient";
 import { SykefraværsstatistikkFane } from "./Statistikk/SykefraværsstatistikkFane";
-import { SakshistorikkFane } from "./Sakshistorikk/SakshistorikkFane";
+import {
+    NySakshistorikkFane,
+    SakshistorikkFane,
+} from "./Sakshistorikk/SakshistorikkFane";
 import { SamarbeidProvider } from "./Samarbeid/SamarbeidContext";
 import { EndreSamarbeidModal } from "./Samarbeid/EndreSamarbeidModal";
 import { IASak } from "../../domenetyper/domenetyper";
@@ -143,6 +146,9 @@ function VirksomhetsvisningsSwitch({
                 </Tabs.Panel>
                 <Tabs.Panel value="historikk">
                     <SakshistorikkFane orgnr={virksomhet.orgnr} />
+                </Tabs.Panel>
+                <Tabs.Panel value="historikkv2">
+                    <NySakshistorikkFane orgnr={virksomhet.orgnr} />
                 </Tabs.Panel>
             </div>
         );

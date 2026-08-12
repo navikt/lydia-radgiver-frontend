@@ -1,0 +1,13 @@
+@use "../../../../styling/_containere.scss" as containere;
+
+.samarbeidshistorikkfaneContainer {
+    @include containere.tabInnholdStyling;
+}
+.accordionHeaderContent {
+    :global(.aksel-heading) {
+        display: flex;
+        align-items: baseline;
+        gap: 0.5em;
+        width: 100%;
+    }
+}
