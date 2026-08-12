@@ -50,7 +50,8 @@ then
   sleep 5
 
   # kjør opp frontend
-  pnpm install -r
+  pushd server && pnpm install && popd || exit
   cd client || exit
+  pnpm install
   pnpm dev
 fi
