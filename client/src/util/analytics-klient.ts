@@ -1,4 +1,7 @@
-import { maskerOrgnr } from "./analytics-klient-utils";
+import {
+    maskerSensitiveVerdierIUrl,
+    PROXY_PLASSHOLDER,
+} from "./analytics-klient-utils";
 import { Rolle } from "../domenetyper/brukerinformasjon";
 import {
     IAProsessStatusType,
@@ -6,6 +9,21 @@ import {
     NyFlytBegrunnelse,
     nyFlytÅrsakTypeEnum,
 } from "../domenetyper/domenetyper";
+
+interface InnblikkSporingPayload {
+    url?: string;
+    referrer?: string;
+    [key: string]: unknown;
+}
+
+//Sporingen klarer selv å feste window.location.href på url/referrer - masker før POST:
+function beforeSendHandler(_type: string, payload: InnblikkSporingPayload) {
+    return {
+        ...payload,
+        url: maskerSensitiveVerdierIUrl(payload.url),
+        referrer: maskerSensitiveVerdierIUrl(payload.referrer),
+    };
+}
 
 declare global {
     interface Window {
@@ -16,9 +34,11 @@ declare global {
             ) => void;
             identify: (userProperties: Record<string, string>) => void;
         };
+        beforeSendHandler: typeof beforeSendHandler;
     }
 }
 
+window.beforeSendHandler = beforeSendHandler;
 /**
  *  Gyldige events: https://github.com/navikt/analytics-taxonomy/tree/main/events
  */
@@ -46,7 +66,7 @@ type NavsAnalyticsTopologiEventer =
 
 export const loggSideLastet = (sidetittel: string) => {
     const url = window ? window.location.href : "";
-    const maskertUrl = maskerOrgnr(url);
+    const maskertUrl = maskerSensitiveVerdierIUrl(url);
     logAnalyticsEvent("besøk", { url: maskertUrl, sidetittel: sidetittel });
 };
 
@@ -110,8 +130,7 @@ export const enum FilterverdiKategorier {
 export const loggFilterverdiKategorier = (
     filterverdiKategorier: FilterverdiKategorier[],
     søkekomponent:
-        | Søkekomponenter.PRIORITERING
-        | Søkekomponenter.STATUSOVERSIKT,
+        Søkekomponenter.PRIORITERING | Søkekomponenter.STATUSOVERSIKT,
 ) => {
     const destinasjon =
         søkekomponent === Søkekomponenter.STATUSOVERSIKT
@@ -140,7 +159,7 @@ export const loggSendBrukerTilKartleggingerTab = (
     fane: string,
 ) => {
     logAnalyticsEvent("navigere", {
-        destinasjon: `/virksomhet/[orgnr]/sak/[saksnr]/samarbeid/[samarbeidId]?fane=${fane}`,
+        destinasjon: `/virksomhet/${PROXY_PLASSHOLDER.ORGNR}/sak/${PROXY_PLASSHOLDER.SAKSNR}/samarbeid/${PROXY_PLASSHOLDER.SAMARBEID_ID}?fane=${fane}`,
         lenketekst: "[samarbeidsnavn]",
         fraModal,
     });
@@ -189,7 +208,7 @@ export const loggGåTilSakFraMineSaker = (
     url: string,
 ) => {
     logAnalyticsEvent("navigere", {
-        destinasjon: maskerOrgnr(url),
+        destinasjon: maskerSensitiveVerdierIUrl(url),
         lenketekst:
             navigertFra == "gå-til-sak-knapp"
                 ? "Gå til sak"

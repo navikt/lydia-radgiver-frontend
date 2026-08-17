@@ -17,7 +17,7 @@ while getopts 'hif' opt; do
       docker-compose up postgres -d
       sleep 3
       DB_DUMP=/tmp/db_script.sql
-      curl -o $DB_DUMP https://raw.githubusercontent.com/navikt/lydia-api/refs/heads/main/scripts/db/lydia-api-container-db_localhost-2026_08_03_16_25_36-dump.sql
+      curl -o $DB_DUMP https://raw.githubusercontent.com/navikt/lydia-api/refs/heads/main/scripts/db/lydia-api-container-db_localhost-2026_08_07_13_18_43-dump.sql
       PGPASSWORD=test psql -h localhost -p 5432 -U postgres -f $DB_DUMP > /dev/null
       rm $DB_DUMP
       sleep 1
@@ -50,7 +50,8 @@ then
   sleep 5
 
   # kjør opp frontend
-  pnpm install -r
+  pushd server && pnpm install && popd || exit
   cd client || exit
+  pnpm install
   pnpm dev
 fi

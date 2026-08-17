@@ -22,7 +22,7 @@ const lokalMockBruker: Brukerinformasjon = {
     rolle: "Superbruker",
 };
 
-const enum Rolle {
+enum Rolle {
     SUPERBRUKER = "Superbruker",
     SAKSBEHANDLER = "Saksbehandler",
     LESETILGANG = "Lesetilgang",
@@ -31,16 +31,16 @@ const enum Rolle {
 function fiaRoller() {
     return {
         superbruker: {
-            gruppeId: process.env.FIA_SUPERBRUKER_GROUP_ID,
+            gruppeId: process.env.FIA_SUPERBRUKER_GROUP_ID!,
         },
         saksbehandler: {
-            gruppeId: process.env.FIA_SAKSBEHANDLER_GROUP_ID,
+            gruppeId: process.env.FIA_SAKSBEHANDLER_GROUP_ID!,
         },
         lesetilgang: {
-            gruppeId: process.env.FIA_LESETILGANG_GROUP_ID,
+            gruppeId: process.env.FIA_LESETILGANG_GROUP_ID!,
         },
         teamPia: {
-            gruppeId: process.env.TEAM_PIA_GROUP_ID,
+            gruppeId: process.env.TEAM_PIA_GROUP_ID!,
         },
     };
 }
@@ -68,7 +68,7 @@ export const hentBrukerinfoFraToken = (
     const ident = jwtPayload["NAVident"] as string;
     const rolle = hentRolleMedHøyestTilgang(jwtPayload["groups"] as string[]);
     const epost = jwtPayload["preferred_username"] as string;
-    const tokenUtloper = jwtPayload.exp * 1000; // konverterer fra sekunder til ms
+    const tokenUtloper = (jwtPayload.exp ?? 0) * 1000; // konverterer fra sekunder til ms
     return {
         navn,
         ident,
