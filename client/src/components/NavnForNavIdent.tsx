@@ -4,51 +4,40 @@ import {
     useCallback,
     useContext,
     useMemo,
-    useState,
 } from "react";
-import { useHentEiere } from "../api/lydia-api/eiere";
+import { NavnOppslag, useHentNavnForSaksnumre } from "../api/lydia-api/navn";
 
-interface NavnForNavIdentContextType {
-    registrerNavIdent: (navIdent: string) => void;
-    hentNavn: (navIdent: string) => string;
-}
+type HentNavn = (navIdent: string) => string;
 
-const NavnForNavIdentContext = createContext<NavnForNavIdentContextType>({
-    registrerNavIdent: () => {},
-    hentNavn: (navIdent) => navIdent,
-});
+const NavnForNavIdentContext = createContext<HentNavn | null>(null);
 
 export const NavnForNavIdentProvider = ({
+    saksnumre,
+    oppslag,
     children,
 }: {
+    saksnumre: string[];
+    oppslag: NavnOppslag;
     children: ReactNode;
 }) => {
-    const [navIdenter, setNavIdenter] = useState<string[]>([]);
+    const navn = useHentNavnForSaksnumre(saksnumre, oppslag);
 
-    const registrerNavIdent = useCallback((navIdent: string) => {
-        setNavIdenter((forrige) =>
-            forrige.includes(navIdent) ? forrige : [...forrige, navIdent],
-        );
-    }, []);
-
-    const eiere = useHentEiere(navIdenter);
-
-    const hentNavn = useCallback(
-        (navIdent: string) =>
-            eiere.find((eier) => eier.navIdent === navIdent)?.navn ?? navIdent,
-        [eiere],
+    const navnPerNavIdent = useMemo(
+        () => new Map(navn.map((person) => [person.navIdent, person.navn])),
+        [navn],
     );
 
-    const value = useMemo(
-        () => ({ registrerNavIdent, hentNavn }),
-        [registrerNavIdent, hentNavn],
+    const hentNavn = useCallback(
+        (navIdent: string) => navnPerNavIdent.get(navIdent) ?? navIdent,
+        [navnPerNavIdent],
     );
 
     return (
-        <NavnForNavIdentContext.Provider value={value}>
+        <NavnForNavIdentContext.Provider value={hentNavn}>
             {children}
         </NavnForNavIdentContext.Provider>
     );
 };
 
-export const useNavnForNavIdent = () => useContext(NavnForNavIdentContext);
+export const useNavnForNavIdent = (): HentNavn =>
+    useContext(NavnForNavIdentContext) ?? ((navIdent) => navIdent);

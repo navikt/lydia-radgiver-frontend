@@ -5,7 +5,6 @@ export const basePath = "/api";
 export const sykefraværsstatistikkPath = `${basePath}/sykefravarsstatistikk`;
 export const sykefraværsstatistikkAntallTreffPath = `${sykefraværsstatistikkPath}/antallTreff`;
 export const filterverdierPath = `${sykefraværsstatistikkPath}/filterverdier`;
-export const eierePath = `${sykefraværsstatistikkPath}/eiere`;
 export const virksomhetsPath = `${basePath}/virksomhet`;
 export const innloggetAnsattPath = `/innloggetAnsatt`;
 export const iaSakPath = `${basePath}/iasak/radgiver`;
@@ -28,6 +27,8 @@ export const dokumentPath = `${iaSakPath}/dokument`;
 
 // Ny flyt
 export const nyFlytApiBasePath = `/proxy/api/v1`;
+export const eiereNavnPath = `${nyFlytApiBasePath}/samarbeidsperiode/eiere`;
+export const radgivereNavnPath = `${nyFlytApiBasePath}/samarbeidsperiode/radgivere`;
 
 export const getSykefraværsstatistikkUrl = (søkeverdier: FiltervisningState) =>
     `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(

@@ -1,4 +1,3 @@
-import { useEffect } from "react";
 import { EksternLenke } from "./EksternLenke";
 import {
     EksternNavigeringKategorier,
@@ -7,13 +6,7 @@ import {
 import { useNavnForNavIdent } from "./NavnForNavIdent";
 
 export const NavIdentMedLenke = ({ navIdent }: { navIdent: string | null }) => {
-    const { registrerNavIdent, hentNavn } = useNavnForNavIdent();
-
-    useEffect(() => {
-        if (navIdent) {
-            registrerNavIdent(navIdent);
-        }
-    }, [navIdent, registrerNavIdent]);
+    const hentNavn = useNavnForNavIdent();
 
     return navIdent ? (
         <EksternLenke
