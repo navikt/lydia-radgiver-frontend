@@ -128,6 +128,11 @@ export const PrioriteringsTabell = ({
                                     <Table.ColumnHeader
                                         scope="col"
                                         key={key}
+                                        className={
+                                            key === "eier"
+                                                ? styles.eierDataCell
+                                                : undefined
+                                        }
                                         sortable={sortable}
                                         sortKey={key}
                                         align={textAlignment}
@@ -182,8 +187,9 @@ export const PrioriteringsTabell = ({
                                         virksomhetsoversikt.muligeDagsverk,
                                     )}
                                 </Table.DataCell>
-                                <Table.DataCell>
+                                <Table.DataCell className={styles.eierDataCell}>
                                     <NavIdentMedLenke
+                                        className={styles.eierLenke}
                                         navIdent={virksomhetsoversikt.eidAv}
                                     />
                                 </Table.DataCell>

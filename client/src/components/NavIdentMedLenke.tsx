@@ -5,12 +5,26 @@ import {
 } from "../util/analytics-klient";
 import { useNavnForNavIdent } from "./NavnForNavIdent";
 
-export const NavIdentMedLenke = ({ navIdent }: { navIdent: string | null }) => {
+export const NavIdentMedLenke = ({
+    navIdent,
+    className,
+}: {
+    navIdent: string | null;
+    className?: string;
+}) => {
     const hentNavn = useNavnForNavIdent();
 
-    return navIdent ? (
+    if (!navIdent) {
+        return <></>;
+    }
+
+    const navn = hentNavn(navIdent);
+
+    return (
         <EksternLenke
             target={navIdent}
+            className={className}
+            title={navn}
             href={`https://teamkatalog.nav.no/resource/${navIdent}`}
             onClick={() =>
                 loggNavigeringMedEksternLenke(
@@ -18,9 +32,7 @@ export const NavIdentMedLenke = ({ navIdent }: { navIdent: string | null }) => {
                 )
             }
         >
-            {hentNavn(navIdent)}
+            {navn}
         </EksternLenke>
-    ) : (
-        <></>
     );
 };

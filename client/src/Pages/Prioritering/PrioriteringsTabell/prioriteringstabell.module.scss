@@ -9,6 +9,24 @@
         text-align: right;
     }
 
+    .eierDataCell {
+        width: 12rem;
+        max-width: 12rem;
+    }
+
+    .eierLenke {
+        display: inline-flex;
+        align-items: center;
+        max-width: 100%;
+
+        > span {
+            min-width: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+    }
+
     .virksomhetsoversiktPopoverContainer {
         position: absolute;
         background-color: white;
