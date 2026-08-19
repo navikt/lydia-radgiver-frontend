@@ -3,6 +3,7 @@ import { BodyShort, Button, HStack } from "@navikt/ds-react";
 import { ChevronDownIcon, CircleSlashIcon } from "@navikt/aksel-icons";
 import React, { useState } from "react";
 import TeamDropdown from "../../MineSaker/TeamDropdown";
+import { NavnForNavIdentProvider } from "../../../components/NavnForNavIdent";
 
 export function EierskapKnapp({ iaSak }: { iaSak?: IASak }) {
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -26,12 +27,15 @@ export function EierskapKnapp({ iaSak }: { iaSak?: IASak }) {
     }
 
     return (
-        <>
+        <NavnForNavIdentProvider
+            oppslag="radgivere"
+            saksnumre={[iaSak.saksnummer]}
+        >
             <TeamDropdown
                 open={isModalOpen}
                 setOpen={setIsModalOpen}
                 iaSak={iaSak}
             />
-        </>
+        </NavnForNavIdentProvider>
     );
 }
