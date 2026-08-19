@@ -15,6 +15,7 @@ import { Alert, Heading, Link } from "@navikt/ds-react";
 import { useLocation, NavLink } from "react-router-dom";
 import styles from "./minesaker.module.scss";
 import { statiskeSidetitler, useTittel } from "../../util/useTittel";
+import { NavnForNavIdentProvider } from "../../components/NavnForNavIdent";
 
 export const EIER_FØLGER_FILTER_VALUES = ["eier", "følger"] as const;
 export const ARKIV_STATUSER: readonly IAProsessStatusType[] = [
@@ -132,12 +133,19 @@ export const MineSakerside = () => {
                     {sorterteSaker.length === 0 ? (
                         <div>Fant ingen virksomheter</div>
                     ) : (
-                        sorterteSaker.map((minsak) => (
-                            <MineSakerKort
-                                key={minsak.iaSak.saksnummer}
-                                {...minsak}
-                            />
-                        ))
+                        <NavnForNavIdentProvider
+                            oppslag="radgivere"
+                            saksnumre={sorterteSaker.map(
+                                (minsak) => minsak.iaSak.saksnummer,
+                            )}
+                        >
+                            {sorterteSaker.map((minsak) => (
+                                <MineSakerKort
+                                    key={minsak.iaSak.saksnummer}
+                                    {...minsak}
+                                />
+                            ))}
+                        </NavnForNavIdentProvider>
                     )}
                 </div>
             </div>

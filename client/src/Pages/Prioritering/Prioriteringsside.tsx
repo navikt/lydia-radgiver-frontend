@@ -14,6 +14,7 @@ import { Virksomhetsoversikt } from "../../domenetyper/virksomhetsoversikt";
 import { loggSideLastet, Søkekomponenter } from "../../util/analytics-klient";
 import { loggSøkMedFilterIAnalytics } from "./loggSøkMedFilterIAnalytics";
 import SideContainer from "../../components/SideContainer";
+import { NavnForNavIdentProvider } from "../../components/NavnForNavIdent";
 
 export const ANTALL_RESULTATER_PER_SIDE = 100;
 
@@ -150,19 +151,26 @@ export const Prioriteringsside = () => {
             />
             <br />
             {skalViseTabell ? (
-                <PrioriteringsTabell
-                    virksomhetsoversiktListe={virksomhetsoversiktListe}
-                    endreSide={(side) => {
-                        oppdaterSide(side);
-                    }}
-                    sortering={sortering}
-                    endreSortering={(sortering) => {
-                        setSortering(sortering);
-                        oppdaterSide(1, sortering);
-                    }}
-                    side={filtervisning.state.side}
-                    totaltAntallTreff={totaltAntallTreff}
-                />
+                <NavnForNavIdentProvider
+                    oppslag="eiere"
+                    saksnumre={virksomhetsoversiktListe
+                        .map((virksomhet) => virksomhet.saksnummer)
+                        .filter((saksnummer) => saksnummer !== null)}
+                >
+                    <PrioriteringsTabell
+                        virksomhetsoversiktListe={virksomhetsoversiktListe}
+                        endreSide={(side) => {
+                            oppdaterSide(side);
+                        }}
+                        sortering={sortering}
+                        endreSortering={(sortering) => {
+                            setSortering(sortering);
+                            oppdaterSide(1, sortering);
+                        }}
+                        side={filtervisning.state.side}
+                        totaltAntallTreff={totaltAntallTreff}
+                    />
+                </NavnForNavIdentProvider>
             ) : (
                 harSøktMinstEnGang &&
                 !lasterVirksomhetsoversiktListe && (
