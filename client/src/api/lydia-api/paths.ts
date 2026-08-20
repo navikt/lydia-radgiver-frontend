@@ -26,6 +26,7 @@ export const planPath = `${iaSakPath}/plan`;
 export const dokumentPath = `${iaSakPath}/dokument`;
 
 // Ny flyt
+export const nyFlytBasePath = `${basePath}/iasak/nyflyt`;
 export const nyFlytApiBasePath = `/proxy/api/v1`;
 export const eiereNavnPath = `${nyFlytApiBasePath}/samarbeidsperiode/eiere`;
 export const radgivereNavnPath = `${nyFlytApiBasePath}/samarbeidsperiode/radgivere`;
