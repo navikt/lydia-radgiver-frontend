@@ -27,6 +27,10 @@ import {
     sakshistorikkSchema,
 } from "../../domenetyper/sakshistorikk";
 import {
+    SamarbeidshistorikkRad,
+    samarbeidshistorikkRadSchema,
+} from "../../domenetyper/samarbeidshistorikk";
+import {
     Spørreundersøkelse,
     spørreundersøkelseSchema,
 } from "../../domenetyper/spørreundersøkelse";
@@ -117,6 +121,20 @@ export const useHentHistorikkNyFlyt = (orgnummer?: string) => {
         {
             revalidateOnFocus: true,
         },
+    );
+};
+
+export const useHentSamarbeidshistorikk = (
+    orgnummer?: string,
+    saksnummer?: string,
+    samarbeidId?: number,
+) => {
+    return useSwrTemplate<SamarbeidshistorikkRad[]>(
+        () =>
+            orgnummer && saksnummer && samarbeidId
+                ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/historikk`
+                : null,
+        samarbeidshistorikkRadSchema.array(),
     );
 };
 

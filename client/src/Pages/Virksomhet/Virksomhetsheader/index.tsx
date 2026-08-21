@@ -25,6 +25,7 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { loggÅpnetVirksomhetsinfo } from "../../../util/analytics-klient";
 import { InternLenke } from "../../../components/InternLenke";
 import { useErPåInaktivSak } from "../VirksomhetContext";
+import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 import styles from "./virksomhetsheader.module.scss";
 import Sakshistorikkmodal from "../Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
@@ -229,7 +230,7 @@ function Høyreknapper({
             <Detaljseksjon iaSak={iaSak!} virksomhet={virksomhet} />
             <HStack gap="space-16" justify="end" role="tablist">
                 <Tabs.Tab
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                     
                     as={({ className, ...remainingProps }: ButtonProps) => (
                         <Button
                             {...remainingProps}
@@ -243,7 +244,7 @@ function Høyreknapper({
                     icon={<TrendUpIcon aria-hidden fontSize="1.25rem" />}
                 />
                 <Tabs.Tab
-                    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+                     
                     as={({ className, ...remainingProps }: ButtonProps) => (
                         <Button
                             {...remainingProps}
@@ -256,6 +257,21 @@ function Høyreknapper({
                     label="Historikk"
                     icon={<ClockIcon aria-hidden fontSize="1.25rem" />}
                 />
+                {erIDev && (
+                    <Tabs.Tab
+                        as={({ className, ...remainingProps }: ButtonProps) => (
+                            <Button
+                                {...remainingProps}
+                                className={styles.tabButton}
+                            />
+                        )}
+                        variant="tertiary"
+                        size="small"
+                        value="historikkv2"
+                        label="Historikk v2"
+                        icon={<ClockIcon aria-hidden fontSize="1.25rem" />}
+                    />
+                )}
             </HStack>
         </HStack>
     );

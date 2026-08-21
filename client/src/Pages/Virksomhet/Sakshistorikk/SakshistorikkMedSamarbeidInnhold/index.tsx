@@ -9,6 +9,7 @@ import {
     VStack,
 } from "@navikt/ds-react";
 import { Sakshistorikk } from "../../../../domenetyper/sakshistorikk";
+import { IASamarbeidStatusType } from "../../../../domenetyper/iaSakProsess";
 import styles from "./sykefraværshistorikkinnhold.module.scss";
 import { lokalDato } from "../../../../util/dato";
 import { LeveransehistorikkTabell } from "../LeveransehistorikkTabell";
@@ -19,6 +20,7 @@ import { IAProsessStatusBadge } from "../../../../components/Badge/IAProsessStat
 import { HistoriskTeamDropdown } from "../../../MineSaker/TeamDropdown";
 import { Link } from "react-router-dom";
 import { ClockDashedIcon } from "@navikt/aksel-icons";
+import { SamarbeidshistorikkTabell } from "./SamarbeidshistorikkTabell";
 
 export type SakshistorikkMedSamarbeidInnholdProps = {
     sakshistorikk?: Sakshistorikk[];
@@ -103,7 +105,7 @@ export function SakshistorikkMedSamarbeidInnhold({
                                 status={sakshistorikk.sakshendelser[0].status}
                             />
                         }
-                        label={lokalDato(sakshistorikk.sistEndret)}
+                        label={lokalDato(sakshistorikk.opprettet)}
                     />
                 ))}
             </Tabs.List>
@@ -171,49 +173,69 @@ function SamarbeidAccordion({
     samarbeidshistorikk: Sakshistorikk["samarbeid"];
     orgnr: string;
 }) {
-    const samarbeidMedEkstradata =
-        samarbeidshistorikk?.map((samarbeid) => ({
-            ...samarbeid,
-            startDato: samarbeid.opprettet ?? new Date(),
-            sluttDato: samarbeid.sistEndret ?? new Date(),
-        })) || [];
     return (
-        <>
+        <VStack
+            gap="space-8"
+            paddingInline="space-48 space-0"
+            paddingBlock="space-24 space-0"
+        >
             <Heading size="small" level="3">
                 Samarbeid
             </Heading>
             <Accordion>
-                {samarbeidMedEkstradata.map((samarbeid, index) => (
-                    <Accordion.Item key={index}>
+                {(samarbeidshistorikk ?? []).map((samarbeid) => (
+                    <Accordion.Item key={samarbeid.id} data-color="neutral">
                         <Accordion.Header
                             className={styles.accordionHeaderContent}
                         >
-                            <SamarbeidStatusBadge status={samarbeid.status} />{" "}
-                            {samarbeid.navn}
+                            <HStack
+                                gap="space-16"
+                                align="center"
+                                justify="space-between"
+                                width="100%"
+                            >
+                                {samarbeid.navn ?? "Samarbeid uten navn"}
+                                <HStack gap="space-16" align="center">
+                                    <BodyShort as="span">
+                                        {datointervall(samarbeid)}
+                                    </BodyShort>
+                                    <SamarbeidStatusBadge
+                                        status={samarbeid.status}
+                                    />
+                                </HStack>
+                            </HStack>
                         </Accordion.Header>
                         <Accordion.Content>
-                            <Button
-                                as={Link}
-                                to={`/virksomhet/${orgnr}/sak/${samarbeid.saksnummer}/samarbeid/${samarbeid.id}`}
-                                variant="secondary"
-                                size="small"
-                                icon={<ClockDashedIcon aria-hidden />}
-                            >
-                                Gå til samarbeid
-                            </Button>
-                            <BodyShort>
-                                Startdato: {lokalDato(samarbeid.startDato)}
-                            </BodyShort>
-                            <BodyShort>
-                                Sluttdato: {lokalDato(samarbeid.sluttDato)}
-                            </BodyShort>
-                            <BodyShort>[TABELL MED HISTORIKK]</BodyShort>
+                            <SamarbeidshistorikkTabell
+                                orgnr={orgnr}
+                                saksnummer={samarbeid.saksnummer}
+                                samarbeidId={samarbeid.id}
+                                samarbeidsnavn={samarbeid.navn}
+                            />
                         </Accordion.Content>
                     </Accordion.Item>
                 ))}
             </Accordion>
-        </>
+        </VStack>
     );
+}
+
+function datointervall({
+    status,
+    opprettet,
+    sistEndret,
+}: {
+    status: IASamarbeidStatusType;
+    opprettet?: Date | null;
+    sistEndret?: Date | null;
+}) {
+    const startdato = opprettet ? lokalDato(opprettet) : "";
+
+    if (status === "AKTIV") {
+        return startdato ? `${startdato} - Nåtid` : "Nåtid";
+    }
+
+    return `${startdato} - ${sistEndret ? lokalDato(sistEndret) : ""}`;
 }
 
 function sorterSakshistorikkPåTid({ sakshendelser }: Sakshistorikk) {
