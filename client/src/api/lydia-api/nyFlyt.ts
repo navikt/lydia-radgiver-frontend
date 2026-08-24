@@ -45,6 +45,10 @@ import {
 import { nyFlytApiBasePath } from "./paths";
 import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
 import { isoDato } from "../../util/dato";
+import {
+    Virksomhetshistorikk,
+    virksomhetshistorikkSchema,
+} from "../../domenetyper/historikk";
 
 // Virksomhet
 export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
@@ -118,6 +122,19 @@ export const useHentHistorikkNyFlyt = (orgnummer?: string) => {
                 ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/historikk`
                 : null,
         sakshistorikkSchema.array(),
+        {
+            revalidateOnFocus: true,
+        },
+    );
+};
+
+export const useHentHistorikkForVirksomhet = (orgnummer?: string) => {
+    return useSwrTemplate<Virksomhetshistorikk>(
+        () =>
+            orgnummer
+                ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/historikk`
+                : null,
+        virksomhetshistorikkSchema,
         {
             revalidateOnFocus: true,
         },
