@@ -46,8 +46,8 @@ import { nyFlytApiBasePath } from "./paths";
 import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
 import { isoDato } from "../../util/dato";
 import {
-    HistorikkVirksomhet,
-    historikkVirksomhetSchema,
+    Virksomhetshistorikk,
+    virksomhetshistorikkSchema,
 } from "../../domenetyper/historikk";
 
 // Virksomhet
@@ -129,12 +129,12 @@ export const useHentHistorikkNyFlyt = (orgnummer?: string) => {
 };
 
 export const useHentHistorikkForVirksomhet = (orgnummer?: string) => {
-    return useSwrTemplate<HistorikkVirksomhet>(
+    return useSwrTemplate<Virksomhetshistorikk>(
         () =>
             orgnummer
                 ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/historikk`
                 : null,
-        historikkVirksomhetSchema,
+        virksomhetshistorikkSchema,
         {
             revalidateOnFocus: true,
         },

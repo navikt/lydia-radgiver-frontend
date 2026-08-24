@@ -32,10 +32,9 @@ export const samarbeidsperiodeSchema = z.object({
     eier: z.string().nullable().optional(),
 });
 
-export const historikkVirksomhetSchema = z.object({
-    historikkVirksomhet: z.object({
-        hendelser: historikklinjeSchema.array(),
-        samarbeidsperioder: samarbeidsperiodeSchema.array(), //
-    }),
+export const virksomhetshistorikkSchema = z.object({
+    hendelser: historikklinjeSchema.array(),
+    samarbeidsperioder: samarbeidsperiodeSchema.array(), //
 });
-export type HistorikkVirksomhet = z.infer<typeof historikkVirksomhetSchema>;
+
+export type Virksomhetshistorikk = z.infer<typeof virksomhetshistorikkSchema>;
