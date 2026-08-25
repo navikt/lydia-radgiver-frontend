@@ -27,6 +27,8 @@ export const dokumentPath = `${iaSakPath}/dokument`;
 
 // Ny flyt
 export const nyFlytApiBasePath = `/proxy/api/v1`;
+// TODO: midlertidig sti for gammel historikk, frem til ny historikk har erstattet den
+export const gammelNyFlytApiBasePath = `/proxy/iasak/nyflyt`;
 
 export const getSykefraværsstatistikkUrl = (søkeverdier: FiltervisningState) =>
     `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(

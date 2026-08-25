@@ -42,7 +42,7 @@ import {
     put,
     useSwrTemplate,
 } from "./networkRequests";
-import { nyFlytApiBasePath } from "./paths";
+import { gammelNyFlytApiBasePath, nyFlytApiBasePath } from "./paths";
 import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
 import { isoDato } from "../../util/dato";
 import {
@@ -119,7 +119,7 @@ export const useHentHistorikkNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<Sakshistorikk[]>(
         () =>
             orgnummer
-                ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/historikk`
+                ? `${gammelNyFlytApiBasePath}/virksomhet/${orgnummer}/historikk`
                 : null,
         sakshistorikkSchema.array(),
         {
