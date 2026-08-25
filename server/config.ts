@@ -25,7 +25,7 @@ export class Config {
         this.azure = azure;
         this.server = server;
         this.lydiaApi = lydiaApi;
-        this._jwkSet = jwkSet;
+        this._jwkSet = jwkSet!;
         this.secrets = secrets;
     }
 }

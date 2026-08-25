@@ -71,7 +71,20 @@ describe("analytics-klient med umami tilgjengelig", () => {
         const [eventNavn, eventData] = umami.track.mock.calls[0];
         expect(eventNavn).toBe("navigere");
         expect(eventData.destinasjon).toBe(
-            "https://fia.nav.no/virksomhet/*********",
+            "https://fia.nav.no/virksomhet/[PROXY-ORG-NUMBER]",
+        );
+    });
+
+    test("loggSendBrukerTilKartleggingerTab bruker PROXY-plassholdere i destinasjon", () => {
+        const umami = setupUmami();
+
+        loggSendBrukerTilKartleggingerTab("en-modal", "behovsvurdering");
+
+        expect(umami.track).toHaveBeenCalledTimes(1);
+        const [eventNavn, eventData] = umami.track.mock.calls[0];
+        expect(eventNavn).toBe("navigere");
+        expect(eventData.destinasjon).toBe(
+            "/virksomhet/[PROXY-ORG-NUMBER]/sak/[PROXY-SAK-NUMBER]/samarbeid/[PROXY-SAMARBEID-ID]?fane=behovsvurdering",
         );
     });
 

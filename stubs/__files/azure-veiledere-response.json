@@ -41,6 +41,41 @@
       "onPremisesSamAccountName": "Z123456",
       "givenName": "Test",
       "surname": "Testesen"
+    },
+    {
+      "id": "7",
+      "userPrincipalName": "minnie",
+      "onPremisesSamAccountName": "M54321",
+      "givenName": "Minnie",
+      "surname": "Mus"
+    },
+    {
+      "id": "8",
+      "userPrincipalName": "bjørg",
+      "onPremisesSamAccountName": "S54321",
+      "givenName": "Bjørg",
+      "surname": "Scheie"
+    },
+    {
+      "id": "9",
+      "userPrincipalName": "rigmor",
+      "onPremisesSamAccountName": "S64321",
+      "givenName": "Rigmor",
+      "surname": "Stokke"
+    },
+    {
+      "id": "10",
+      "userPrincipalName": "sonja",
+      "onPremisesSamAccountName": "R54321",
+      "givenName": "Sonja",
+      "surname": "Rex"
+    },
+    {
+      "id": "11",
+      "userPrincipalName": "ludvig",
+      "onPremisesSamAccountName": "X12345",
+      "givenName": "Ludvig",
+      "surname": "Nilsen"
     }
   ]
 }

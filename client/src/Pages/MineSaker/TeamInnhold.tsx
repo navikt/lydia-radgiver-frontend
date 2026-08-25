@@ -170,8 +170,8 @@ export function ReadOnlyTeamInnhold({
 }) {
     const { data: følgere = [] } = useHentTeam(sakshistorikk.saksnummer);
     const eidAv = sakshistorikk.sakshendelser.find(
-        (hendelse) => hendelse.eier,
-    )?.eier;
+        (hendelse) => hendelse.hendelseOpprettetAv,
+    )?.hendelseOpprettetAv;
     return (
         <>
             <div className={styles.eierboks}>
