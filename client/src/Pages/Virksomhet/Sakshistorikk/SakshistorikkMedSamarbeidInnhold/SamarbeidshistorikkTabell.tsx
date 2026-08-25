@@ -44,7 +44,13 @@ export const SamarbeidshistorikkTabell = ({
             size="small"
             className={styles.historikkTabell}
             aria-label={`Historikk for samarbeidet ${samarbeidsnavn ?? ""}`}
+            style={{ width: "100%", tableLayout: "fixed" }}
         >
+            <colgroup>
+                <col style={{ width: "35%" }} />
+                <col style={{ width: "6rem" }} />
+                <col />
+            </colgroup>
             <Table.Header className={styles.visuallyHidden}>
                 <Table.Row>
                     <Table.HeaderCell scope="col">Hendelse</Table.HeaderCell>
@@ -56,10 +62,15 @@ export const SamarbeidshistorikkTabell = ({
                 {historikk.map((rad) => (
                     <Table.Row key={rad.hendelsestype}>
                         <Table.DataCell>{beskrivelse(rad)}</Table.DataCell>
-                        <Table.DataCell>
-                            {rad.tidspunkt ? lokalDato(rad.tidspunkt) : ""}
-                        </Table.DataCell>
-                        <Table.DataCell>
+                    <Table.DataCell style={{ whiteSpace: "nowrap" }}>
+                        {rad.tidspunkt ? lokalDato(rad.tidspunkt) : ""}
+                    </Table.DataCell>
+                    <Table.DataCell
+                        style={{
+                            whiteSpace: "nowrap",
+                            paddingLeft: "8rem",
+                        }}
+                        >
                             {rad.aktor ? (
                                 <NavIdentMedLenke
                                     navIdent={rad.aktor.navIdent}
