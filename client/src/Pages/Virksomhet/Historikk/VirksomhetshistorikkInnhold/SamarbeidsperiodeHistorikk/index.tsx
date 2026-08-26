@@ -16,7 +16,7 @@ import {
 import { SamarbeidsperiodeHistorikkTabell } from "./SamarbeidsperiodeHistorikkTabell";
 import { IaSakProsess } from "../../../../../domenetyper/iaSakProsess";
 import { LeveransehistorikkTabell } from "../../LeveransehistorikkTabell";
-import styles from "../sykefraværshistorikkinnhold.module.scss";
+import styles from "./samarbeidsperiodehistorikk.module.scss";
 import { SamarbeidshistorikkTabell } from "./SamarbeidshistorikkTabell";
 import { SamarbeidStatusBadge } from "../../../../../components/Badge/SamarbeidStatusBadge";
 import { lokalDato } from "../../../../../util/dato";

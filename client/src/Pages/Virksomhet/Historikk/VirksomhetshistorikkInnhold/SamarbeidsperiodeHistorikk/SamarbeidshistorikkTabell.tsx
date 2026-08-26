@@ -6,7 +6,7 @@ import {
 } from "../../../../../domenetyper/samarbeidshistorikk";
 import { NavIdentMedLenke } from "../../../../../components/NavIdentMedLenke";
 import { lokalDato } from "../../../../../util/dato";
-import styles from "../sykefraværshistorikkinnhold.module.scss";
+import styles from "./samarbeidsperiodehistorikk.module.scss";
 
 interface SamarbeidshistorikkTabellProps {
     orgnr: string;
@@ -64,14 +64,14 @@ export const SamarbeidshistorikkTabell = ({
                 {historikk.map((rad) => (
                     <Table.Row key={rad.hendelsestype}>
                         <Table.DataCell>{beskrivelse(rad)}</Table.DataCell>
-                    <Table.DataCell style={{ whiteSpace: "nowrap" }}>
-                        {rad.tidspunkt ? lokalDato(rad.tidspunkt) : ""}
-                    </Table.DataCell>
-                    <Table.DataCell
-                        style={{
-                            whiteSpace: "nowrap",
-                            paddingLeft: "8rem",
-                        }}
+                        <Table.DataCell style={{ whiteSpace: "nowrap" }}>
+                            {rad.tidspunkt ? lokalDato(rad.tidspunkt) : ""}
+                        </Table.DataCell>
+                        <Table.DataCell
+                            style={{
+                                whiteSpace: "nowrap",
+                                paddingLeft: "8rem",
+                            }}
                         >
                             {rad.aktor ? (
                                 <NavIdentMedLenke

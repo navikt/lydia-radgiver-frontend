@@ -5,7 +5,7 @@ import { lokalDato } from "../../../util/dato";
 import React from "react";
 import { InternLenke } from "../../../components/InternLenke";
 import { IASamarbeidStatusEnum } from "../../../domenetyper/iaSakProsess";
-import styles from "./VirksomhetshistorikkInnhold/SamarbeidsperiodeHistorikk/sakshistorikk.module.scss";
+import styles from "./historikk.module.scss";
 
 const KOMPAKT_MAKS_ANTALL_RADER = 5;
 
@@ -64,7 +64,7 @@ export default function Samarbeidshistorikk({
                 className={`${styles.samarbeidGrid} ${kompakt ? styles.kompakt : ""}`}
             >
                 {sorterteSamarbeid.map((samarbeid) => (
-                    <div className={styles.samarbeidrad} key={samarbeid.id}>
+                    <div className={styles.samarbeidRad} key={samarbeid.id}>
                         {lenke ? (
                             <InternLenke
                                 className={styles.medEllipse}
