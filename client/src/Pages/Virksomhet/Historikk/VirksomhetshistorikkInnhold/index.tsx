@@ -1,6 +1,7 @@
 import {
     BodyShort,
     Detail,
+    Heading,
     HStack,
     Loader,
     Spacer,
@@ -18,7 +19,6 @@ import {
 } from "../../../../domenetyper/historikk";
 import styles from "./sykefraværshistorikkinnhold.module.scss";
 import { sortertPå } from "../../../../util/sortering";
-import { VirksomhetshistorikkFane } from "../SakshistorikkFane";
 import { useMemo } from "react";
 import { SamarbeidsperiodeHistorikkMedDatahenting } from "./SamarbeidsperiodeHistorikk";
 import {
@@ -43,11 +43,16 @@ export default function VirksomhetshistorikkMedDatahenting({
         useHentHistorikkForVirksomhet(orgnr);
 
     return (
-        <VirksomhetshistorikkFane
-            virksomhetshistorikk={virksomhetshistorikk}
-            lasterVirksomhetshistorikk={lasterVirksomhetshistorikk}
-            orgnr={orgnr}
-        />
+        <div className={styles.samarbeidshistorikkfaneContainer}>
+            <Heading level="3" size="large" spacing={true}>
+                Historikk v2
+            </Heading>
+            <VirksomhetshistorikkInnhold
+                virksomhetshistorikk={virksomhetshistorikk}
+                lasterVirksomhetshistorikk={lasterVirksomhetshistorikk}
+                orgnr={orgnr}
+            />
+        </div>
     );
 }
 
@@ -140,7 +145,6 @@ function VirksomhetshistorikkLinjeTabell({
                     key={linje.relatert_hendelse?.hendelse_id}
                     align="center"
                     gap="space-24"
-                    className={styles.virksomhetshistorikkTabell}
                     wrap={false}
                 >
                     <HendelsesBadge
