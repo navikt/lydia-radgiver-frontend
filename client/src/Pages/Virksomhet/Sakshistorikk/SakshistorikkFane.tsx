@@ -1,9 +1,9 @@
 import { Heading } from "@navikt/ds-react";
 import SakshistorikkMedDatahenting from "./SakshistorikkInnhold";
-import SakshistorikkMedSamarbeidOgDatahenting, {
-    SakshistorikkMedSamarbeidInnholdProps,
-    SakshistorikkMedSamarbeidInnhold,
-} from "./SakshistorikkMedSamarbeidInnhold";
+import VirksomhetshistorikkMedDatahenting, {
+    VirksomhetshistorikkWrapperProps,
+    VirksomhetshistorikkInnhold,
+} from "./VirksomhetshistorikkInnhold";
 import innholdStyles from "./SakshistorikkInnhold/sykefraværshistorikkinnhold.module.scss";
 
 interface SakshistorikkProps {
@@ -15,27 +15,22 @@ export const SakshistorikkFane = ({ orgnr }: SakshistorikkProps) => {
 };
 
 export const NySakshistorikkFane = ({ orgnr }: SakshistorikkProps) => {
-    return (
-        <SakshistorikkMedSamarbeidOgDatahenting
-            orgnr={orgnr}
-            Innhold={NyFane}
-        />
-    );
+    return <VirksomhetshistorikkMedDatahenting orgnr={orgnr} />;
 };
 
-const NyFane = ({
-    sakshistorikk,
-    lasterSakshistorikk,
+export const VirksomhetshistorikkFane = ({
+    virksomhetshistorikk,
+    lasterVirksomhetshistorikk,
     orgnr,
-}: SakshistorikkMedSamarbeidInnholdProps) => {
+}: VirksomhetshistorikkWrapperProps) => {
     return (
         <div className={innholdStyles.samarbeidshistorikkfaneContainer}>
             <Heading level="3" size="large" spacing={true}>
                 Historikk v2
             </Heading>
-            <SakshistorikkMedSamarbeidInnhold
-                sakshistorikk={sakshistorikk}
-                lasterSakshistorikk={lasterSakshistorikk}
+            <VirksomhetshistorikkInnhold
+                virksomhetshistorikk={virksomhetshistorikk}
+                lasterVirksomhetshistorikk={lasterVirksomhetshistorikk}
                 orgnr={orgnr}
             />
         </div>

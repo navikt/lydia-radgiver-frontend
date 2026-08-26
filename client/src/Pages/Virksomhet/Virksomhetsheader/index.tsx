@@ -230,7 +230,6 @@ function Høyreknapper({
             <Detaljseksjon iaSak={iaSak!} virksomhet={virksomhet} />
             <HStack gap="space-16" justify="end" role="tablist">
                 <Tabs.Tab
-                     
                     as={({ className, ...remainingProps }: ButtonProps) => (
                         <Button
                             {...remainingProps}
@@ -244,7 +243,6 @@ function Høyreknapper({
                     icon={<TrendUpIcon aria-hidden fontSize="1.25rem" />}
                 />
                 <Tabs.Tab
-                     
                     as={({ className, ...remainingProps }: ButtonProps) => (
                         <Button
                             {...remainingProps}

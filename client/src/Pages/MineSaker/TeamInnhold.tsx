@@ -22,7 +22,7 @@ import {
 } from "../../api/lydia-api/nyFlyt";
 import { useHentMineSaker } from "../../api/lydia-api/sak";
 import { useOversiktMutate } from "../Virksomhet/Debugside/Oversikt";
-import { Sakshistorikk } from "../../domenetyper/sakshistorikk";
+import { Samarbeidsperiode } from "../../domenetyper/historikk";
 
 function følgerSak(
     brukerIdent: string | undefined,
@@ -164,14 +164,12 @@ export default function TeamInnhold({
 }
 
 export function ReadOnlyTeamInnhold({
-    sakshistorikk,
+    samarbeidsperiode,
 }: {
-    sakshistorikk: Sakshistorikk;
+    samarbeidsperiode: Samarbeidsperiode;
 }) {
-    const { data: følgere = [] } = useHentTeam(sakshistorikk.saksnummer);
-    const eidAv = sakshistorikk.sakshendelser.find(
-        (hendelse) => hendelse.hendelseOpprettetAv,
-    )?.hendelseOpprettetAv;
+    const { data: følgere = [] } = useHentTeam(samarbeidsperiode.saksnummer);
+    const eidAv = samarbeidsperiode.eier;
     return (
         <>
             <div className={styles.eierboks}>

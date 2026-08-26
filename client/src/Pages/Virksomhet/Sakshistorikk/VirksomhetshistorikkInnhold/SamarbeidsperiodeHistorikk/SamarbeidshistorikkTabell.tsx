@@ -1,12 +1,12 @@
 import { BodyShort, Loader, Table } from "@navikt/ds-react";
-import { useHentSamarbeidshistorikk } from "../../../../api/lydia-api/nyFlyt";
+import { useHentSamarbeidshistorikk } from "../../../../../api/lydia-api/nyFlyt";
 import {
     SamarbeidshistorikkRad,
     samarbeidshistorikkBeskrivelse,
-} from "../../../../domenetyper/samarbeidshistorikk";
-import { NavIdentMedLenke } from "../../../../components/NavIdentMedLenke";
-import { lokalDato } from "../../../../util/dato";
-import styles from "./sykefraværshistorikkinnhold.module.scss";
+} from "../../../../../domenetyper/samarbeidshistorikk";
+import { NavIdentMedLenke } from "../../../../../components/NavIdentMedLenke";
+import { lokalDato } from "../../../../../util/dato";
+import styles from "../sykefraværshistorikkinnhold.module.scss";
 
 interface SamarbeidshistorikkTabellProps {
     orgnr: string;
@@ -32,7 +32,9 @@ export const SamarbeidshistorikkTabell = ({
     }
 
     if (error) {
-        return <BodyShort>Kunne ikke hente historikk for samarbeidet</BodyShort>;
+        return (
+            <BodyShort>Kunne ikke hente historikk for samarbeidet</BodyShort>
+        );
     }
 
     if (!historikk || historikk.length === 0) {

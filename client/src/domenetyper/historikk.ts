@@ -4,6 +4,7 @@ import {
     IAProsessStatusEnum,
     IASakshendelseTypeEnum,
 } from "./domenetyper";
+import { iaSakProsessSchema } from "./iaSakProsess";
 
 export const årsakSchema = z.object({
     beskrivelse: z.string(),
@@ -12,7 +13,7 @@ export const årsakSchema = z.object({
 
 export const historikkHendelseSchema = z.object({
     hendelse_id: z.string(),
-    hendelse_type: IASakshendelseTypeEnum,
+    hendelsetype: IASakshendelseTypeEnum,
     resulterende_status: IAProsessStatusEnum,
     tidspunkt: datoSchema,
     hendelse_opprettet_av: z.string(),
@@ -22,8 +23,10 @@ export const historikkHendelseSchema = z.object({
 export const historikklinjeSchema = z.object({
     beskrivelse: z.string(),
     tidspunkt: datoSchema.nullable().optional(),
-    relatertHendelse: historikkHendelseSchema.nullable().optional(),
+    relatert_hendelse: historikkHendelseSchema.nullable().optional(),
 });
+
+export type Historikklinje = z.infer<typeof historikklinjeSchema>;
 
 export const samarbeidsperiodeSchema = z.object({
     saksnummer: z.string(),
@@ -32,9 +35,23 @@ export const samarbeidsperiodeSchema = z.object({
     eier: z.string().nullable().optional(),
 });
 
+export type Samarbeidsperiode = z.infer<typeof samarbeidsperiodeSchema>;
+
 export const virksomhetshistorikkSchema = z.object({
     hendelser: historikklinjeSchema.array(),
     samarbeidsperioder: samarbeidsperiodeSchema.array(), //
 });
 
 export type Virksomhetshistorikk = z.infer<typeof virksomhetshistorikkSchema>;
+
+export const samarbeidsperiodeHistorikkSchema = z.object({
+    saksnummer: z.string(),
+    opprettet: datoSchema,
+    sistEndret: datoSchema,
+    historikkHendelser: historikkHendelseSchema.array(),
+    samarbeid: iaSakProsessSchema.array(),
+});
+
+export type SamarbeidsperiodeHistorikk = z.infer<
+    typeof samarbeidsperiodeHistorikkSchema
+>;

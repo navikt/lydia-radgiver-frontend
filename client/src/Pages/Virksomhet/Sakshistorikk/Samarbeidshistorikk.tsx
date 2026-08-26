@@ -5,7 +5,7 @@ import { lokalDato } from "../../../util/dato";
 import React from "react";
 import { InternLenke } from "../../../components/InternLenke";
 import { IASamarbeidStatusEnum } from "../../../domenetyper/iaSakProsess";
-import styles from "./sakshistorikk.module.scss";
+import styles from "./VirksomhetshistorikkInnhold/SamarbeidsperiodeHistorikk/sakshistorikk.module.scss";
 
 const KOMPAKT_MAKS_ANTALL_RADER = 5;
 
