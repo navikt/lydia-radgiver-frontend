@@ -1,0 +1,32 @@
+.accordionHeaderContent {
+  :global(.aksel-heading) {
+    display: flex;
+    align-items: baseline;
+    gap: 0.5em;
+    width: 100%;
+  }
+}
+
+.historikkTabell {
+  background: transparent;
+
+  :global(.aksel-table__row),
+  :global(.aksel-table__data-cell) {
+    border: none;
+    box-shadow: none;
+    background: transparent;
+  }
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
