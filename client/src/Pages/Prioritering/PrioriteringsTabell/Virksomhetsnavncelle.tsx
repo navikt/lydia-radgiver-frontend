@@ -3,7 +3,7 @@ import React from "react";
 import { Virksomhetsoversikt } from "../../../domenetyper/virksomhetsoversikt";
 import { Heading, Loader, Table } from "@navikt/ds-react";
 import { InternLenke } from "../../../components/InternLenke";
-import Samarbeidshistorikk from "../../Virksomhet/Sakshistorikk/Samarbeidshistorikk";
+import Samarbeidshistorikk from "../../Virksomhet/Historikk/Samarbeidshistorikk";
 import {
     flip,
     useFloating,

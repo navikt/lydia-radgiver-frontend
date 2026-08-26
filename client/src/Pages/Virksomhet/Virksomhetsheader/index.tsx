@@ -28,7 +28,7 @@ import { useErPåInaktivSak } from "../VirksomhetContext";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 import styles from "./virksomhetsheader.module.scss";
-import Sakshistorikkmodal from "../Sakshistorikk/SakshistorikkInnhold/Sakshistorikkmodal";
+import Sakshistorikkmodal from "../Historikk/SakshistorikkInnhold/Sakshistorikkmodal";
 import Sykefraværsstatistikkmodal from "../Statistikk/Sykefraværsstatistikkmodal";
 import { lokalDato } from "../../../util/dato";
 import { Topplinje } from "./Topplinje";
