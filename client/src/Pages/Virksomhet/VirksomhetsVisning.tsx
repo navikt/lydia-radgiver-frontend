@@ -17,7 +17,7 @@ import { SykefraværsstatistikkFane } from "./Statistikk/SykefraværsstatistikkF
 import {
     NySakshistorikkFane,
     SakshistorikkFane,
-} from "./Sakshistorikk/SakshistorikkFane";
+} from "./Historikk/SakshistorikkFane";
 import { SamarbeidProvider } from "./Samarbeid/SamarbeidContext";
 import { EndreSamarbeidModal } from "./Samarbeid/EndreSamarbeidModal";
 import { IASak } from "../../domenetyper/domenetyper";
