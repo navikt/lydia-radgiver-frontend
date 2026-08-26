@@ -39,3 +39,21 @@ export const erIFortid = (dato: Date): boolean => {
     const nå = new Date();
     return nå > dato;
 };
+
+export function datointervall({
+    status,
+    opprettet,
+    sistEndret,
+}: {
+    status: string;
+    opprettet?: Date | null;
+    sistEndret?: Date | null;
+}) {
+    const startdato = opprettet ? lokalDato(opprettet) : "";
+
+    if (status === "AKTIV") {
+        return startdato ? `${startdato} - ` : "Nåtid";
+    }
+
+    return `${startdato} - ${sistEndret ? lokalDato(sistEndret) : ""}`;
+}
