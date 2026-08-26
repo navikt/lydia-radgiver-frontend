@@ -1,4 +1,4 @@
-import { BodyShort, Button, HStack, Dropdown, Heading } from "@navikt/ds-react";
+import { BodyShort, Button, Dropdown, Heading, HStack } from "@navikt/ds-react";
 import {
     ChevronDownIcon,
     HeartFillIcon,
@@ -11,7 +11,7 @@ import TeamInnhold, { ReadOnlyTeamInnhold } from "./TeamInnhold";
 import { useHentTeam } from "../../api/lydia-api/team";
 import { useErPåInaktivSak } from "../Virksomhet/VirksomhetContext";
 import React from "react";
-import { Sakshistorikk } from "../../domenetyper/sakshistorikk";
+import { Samarbeidsperiode } from "../../domenetyper/historikk";
 
 interface TeamModalProps {
     open: boolean;
@@ -122,9 +122,9 @@ function Knappeinnhold({
 }
 
 export function HistoriskTeamDropdown({
-    sakshistorikk,
+    samarbeidsperiode,
 }: {
-    sakshistorikk: Sakshistorikk;
+    samarbeidsperiode: Samarbeidsperiode;
 }) {
     const [open, setOpen] = React.useState(false);
     return (
@@ -165,7 +165,9 @@ export function HistoriskTeamDropdown({
                         <Heading size="small" level="4">
                             Se eier og følgere
                         </Heading>
-                        <ReadOnlyTeamInnhold sakshistorikk={sakshistorikk} />
+                        <ReadOnlyTeamInnhold
+                            samarbeidsperiode={samarbeidsperiode}
+                        />
                     </div>
                 </Dropdown.Menu>
             </Dropdown>
