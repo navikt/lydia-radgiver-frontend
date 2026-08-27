@@ -20,6 +20,25 @@ export function IAProsessStatusBadge({ ...remainingProps }: StatusBadgeProps) {
     );
 }
 
+type IAProsessStatusBadgeNyHistorikkProps = StatusBadgeProps & {
+    legacy?: boolean;
+};
+
+export function IAProsessStatusBadgeNyHistorikk({
+    legacy = false,
+    ...remainingProps
+}: IAProsessStatusBadgeNyHistorikkProps) {
+    return (
+        <GenericStatusBadge
+            {...remainingProps}
+            penskrivStatus={penskrivIAStatus}
+            hentTagProps={
+                legacy ? hentTagPropsForLegacy : hentTagPropsForIAStatus
+            }
+        />
+    );
+}
+
 export function penskrivIAStatus(status: IAProsessStatusType) {
     switch (status) {
         case IAProsessStatusEnum.enum.NY:
@@ -51,6 +70,10 @@ export function penskrivIAStatus(status: IAProsessStatusType) {
             exhaustive(status);
             return status;
     }
+}
+
+export function hentTagPropsForLegacy(): Partial<TagProps> {
+    return { variant: "outline", "data-color": "neutral" };
 }
 
 export function hentTagPropsForIAStatus(

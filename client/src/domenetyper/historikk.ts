@@ -18,6 +18,7 @@ export const historikkHendelseSchema = z.object({
     tidspunkt: datoSchema,
     hendelse_opprettet_av: z.string(),
     årsak: årsakSchema.nullable().optional(),
+    versjon: z.string(),
 });
 
 export const historikklinjeSchema = z.object({

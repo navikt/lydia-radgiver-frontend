@@ -1,5 +1,5 @@
 import { Detail, Table } from "@navikt/ds-react";
-import { IAProsessStatusBadge } from "../../../../../components/Badge/IAProsessStatusBadge";
+import { IAProsessStatusBadgeNyHistorikk } from "../../../../../components/Badge/IAProsessStatusBadge";
 import { lokalDato } from "../../../../../util/dato";
 import { StyledTable } from "../../../../../components/StyledTable";
 import { ScrollUtTilKantenContainer } from "../../../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
@@ -48,7 +48,10 @@ export const SamarbeidsperiodeHistorikkTabell = ({
                             return (
                                 <Table.Row key={index}>
                                     <Table.DataCell>
-                                        <IAProsessStatusBadge
+                                        <IAProsessStatusBadgeNyHistorikk
+                                            legacy={
+                                                hendelse.versjon === "LEGACY"
+                                            }
                                             status={
                                                 hendelse.resulterende_status
                                             }
