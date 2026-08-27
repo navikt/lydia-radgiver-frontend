@@ -49,7 +49,7 @@ export const SamarbeidshistorikkTabell = ({
             style={{ width: "100%", tableLayout: "fixed" }}
         >
             <colgroup>
-                <col style={{ width: "35%" }} />
+                <col style={{ width: "40%" }} />
                 <col style={{ width: "6rem" }} />
                 <col />
             </colgroup>

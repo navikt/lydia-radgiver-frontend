@@ -40,13 +40,22 @@ export function SamarbeidAccordion({
                                 width="100%"
                             >
                                 {samarbeid.navn ?? "Samarbeid uten navn"}
-                                <HStack gap="space-16" align="center">
-                                    <BodyShort as="span">
+                                <HStack gap="space-16" align="center" width="20rem" justify="start">
+                                    <BodyShort as="span"
+                                    style={{ 
+                                        width:"12rem",
+                                        whiteSpace: "nowrap",
+                                        textAlign: "left",
+                                    }}
+                                    >
                                         {datointervall(samarbeid)}
                                     </BodyShort>
+                                    <HStack flexGrow="1" justify="end">
                                     <SamarbeidStatusBadge
+                                        style={{ whiteSpace: "nowrap" }}
                                         status={samarbeid.status}
                                     />
+                                    </HStack>
                                 </HStack>
                             </HStack>
                         </Accordion.Header>

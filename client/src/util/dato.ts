@@ -52,7 +52,7 @@ export function datointervall({
     const startdato = opprettet ? lokalDato(opprettet) : "";
 
     if (status === "AKTIV") {
-        return startdato ? `${startdato} - ` : "Nåtid";
+        return startdato ? `${startdato} -` : "";
     }
 
     return `${startdato} - ${sistEndret ? lokalDato(sistEndret) : ""}`;
