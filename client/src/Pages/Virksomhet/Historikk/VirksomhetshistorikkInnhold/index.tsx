@@ -105,9 +105,11 @@ export function VirksomhetshistorikkInnhold({
                             <Tabs.Tab
                                 key={samarbeidsperiode.saksnummer}
                                 value={samarbeidsperiode.saksnummer}
+                                className={styles.samarbeidsperiodeTab}
                                 icon={
                                     <IAProsessStatusBadge
                                         status={samarbeidsperiode.status}
+                                        className={styles.badge}
                                     />
                                 }
                                 label={lokalDato(samarbeidsperiode.fraDato)}

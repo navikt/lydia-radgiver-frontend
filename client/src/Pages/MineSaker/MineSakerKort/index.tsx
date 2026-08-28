@@ -67,7 +67,7 @@ export const MineSakerKort = ({
                         </Heading>
                     </InternLenke>
                     <HStack justify={"space-between"} align={"center"}>
-                        <HStack gap={"space-16"} align={"center"}>
+                        <HStack gap={"space-24"} align={"center"}>
                             <IAProsessStatusBadge status={iaSak.status} />
                             <span className={styles.eiertekst}>
                                 <b>Eier</b>

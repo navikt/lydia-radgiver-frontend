@@ -3,3 +3,10 @@
 .samarbeidshistorikkfaneContainer {
     @include containere.tabInnholdStyling;
 }
+
+
+.samarbeidsperiodeTab {
+    .badge {
+        margin: 0.25rem 0.5rem
+    }
+}

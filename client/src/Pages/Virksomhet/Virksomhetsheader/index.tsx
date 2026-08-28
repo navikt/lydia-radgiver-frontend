@@ -65,8 +65,9 @@ export default function Virksomhetsheader({
                             align={"center"}
                             justify={"space-between"}
                             width={"100%"}
+                            marginInline={"space-8 space-0"}
                         >
-                            <HStack gap={"space-8"} align={"center"}>
+                            <HStack gap={"space-16"} align={"center"}>
                                 {tilstand?.tilstand && (
                                     <VirksomhetTilstandStatusBadge
                                         tilstand={tilstand?.tilstand}

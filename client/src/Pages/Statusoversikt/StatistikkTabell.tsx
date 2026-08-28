@@ -42,7 +42,10 @@ export const StatistikkTabell = ({ lederstatistikkListe }: Props) => {
                         return (
                             <Table.Row key={i + status}>
                                 <Table.HeaderCell scope="row">
-                                    <IAProsessStatusBadge status={status} />
+                                    <IAProsessStatusBadge
+                                        status={status}
+                                        className={styles.statusBadge}
+                                    />
                                 </Table.HeaderCell>
                                 <Table.DataCell>
                                     <HStack justify={"space-between"}>
