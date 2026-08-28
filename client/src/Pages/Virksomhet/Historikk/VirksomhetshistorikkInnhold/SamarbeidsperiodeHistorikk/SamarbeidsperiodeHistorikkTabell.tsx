@@ -1,11 +1,10 @@
-import { Detail, Table } from "@navikt/ds-react";
+import { Detail } from "@navikt/ds-react";
 import { IAProsessStatusBadgeNyHistorikk } from "../../../../../components/Badge/IAProsessStatusBadge";
 import { lokalDato } from "../../../../../util/dato";
-import { StyledTable } from "../../../../../components/StyledTable";
-import { ScrollUtTilKantenContainer } from "../../../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 import { SamarbeidsperiodeHistorikk } from "../../../../../domenetyper/historikk";
 import { useMemo } from "react";
 import { sortertPå } from "../../../../../util/sortering";
+import styles from "./samarbeidsperiodehistorikk.module.scss";
 import NavIdentMedFallback from "../../../../../components/NavIdentMedFallback";
 
 interface SamarbeidsperiodeHistorikkTabellProps {
@@ -15,8 +14,6 @@ interface SamarbeidsperiodeHistorikkTabellProps {
 export const SamarbeidsperiodeHistorikkTabell = ({
     samarbeidsperiode,
 }: SamarbeidsperiodeHistorikkTabellProps) => {
-    const kolonneNavn = ["Status", "Tidspunkt", "Detaljer", "Endret av"];
-
     const sorterteHendelser = useMemo(
         () =>
             sortertPå(
@@ -29,125 +26,78 @@ export const SamarbeidsperiodeHistorikkTabell = ({
 
     return (
         <>
-            <ScrollUtTilKantenContainer
-                $offsetLeft={1.5 + 2.75}
-                $offsetRight={1.5 + 0.75}
-            >
-                <StyledTable>
-                    <Table.Header>
-                        <Table.Row>
-                            {kolonneNavn.map((navn) => (
-                                <Table.HeaderCell scope="col" key={navn}>
-                                    {navn}
-                                </Table.HeaderCell>
-                            ))}
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {sorterteHendelser.map((hendelse, index) => {
-                            return (
-                                <Table.Row key={index}>
-                                    <Table.DataCell>
-                                        <IAProsessStatusBadgeNyHistorikk
-                                            legacy={
-                                                hendelse.versjon === "LEGACY"
-                                            }
-                                            status={
-                                                hendelse.resulterende_status
-                                            }
-                                        />
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        {lokalDato(hendelse.tidspunkt)}
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        {!!hendelse.årsak && (
-                                            <>
-                                                <Detail>
-                                                    {hendelse.årsak
-                                                        ?.beskrivelse ??
-                                                        "Begrunnelse"}
-                                                </Detail>
-                                                <ul>
-                                                    {hendelse.årsak?.begrunnelser.map(
-                                                        (begrunnelse) => (
-                                                            <li
-                                                                key={
-                                                                    begrunnelse
-                                                                }
-                                                            >
-                                                                <Detail>
-                                                                    {
-                                                                        begrunnelse
-                                                                    }
-                                                                </Detail>
-                                                            </li>
-                                                        ),
-                                                    )}
-                                                </ul>
-                                            </>
+            <div className={styles.samarbeidsperiodetabell}>
+                {sorterteHendelser.map((hendelse) => {
+                    return (
+                        <>
+                            <IAProsessStatusBadgeNyHistorikk
+                                legacy={hendelse.versjon === "LEGACY"}
+                                status={hendelse.resulterende_status}
+                            />
+                            <div>
+                                {!!hendelse.årsak && (
+                                    <>
+                                        <span>
+                                            {hendelse.årsak?.beskrivelse ??
+                                                "Begrunnelse"}
+                                        </span>
+                                        <ul>
+                                            {hendelse.årsak?.begrunnelser?.map(
+                                                (begrunnelse) => (
+                                                    <li key={begrunnelse}>
+                                                        <Detail>
+                                                            {begrunnelse}
+                                                        </Detail>
+                                                    </li>
+                                                ),
+                                            )}
+                                        </ul>
+                                    </>
+                                )}
+                                {!hendelse.årsak?.beskrivelse && (
+                                    <>
+                                        {hendelse.hendelsetype ===
+                                            "MIGRERING_TIL_NY_FLYT" && (
+                                            <span>Automatisk migrert</span>
                                         )}
-                                        {!hendelse.årsak?.beskrivelse && (
-                                            <>
-                                                {hendelse.hendelsetype ===
-                                                    "MIGRERING_TIL_NY_FLYT" && (
-                                                    <Detail>
-                                                        Automatisk migrert
-                                                    </Detail>
-                                                )}
-                                                {hendelse.hendelsetype ===
-                                                    "TA_EIERSKAP_I_SAK" && (
-                                                    <Detail>
-                                                        Tok eierskap i sak
-                                                    </Detail>
-                                                )}
-                                                {hendelse.hendelsetype ===
-                                                    "ENDRE_PROSESS" && (
-                                                    <Detail>
-                                                        Endret samarbeidsnavn
-                                                    </Detail>
-                                                )}
-                                                {hendelse.hendelsetype ===
-                                                    "NY_PROSESS" && (
-                                                    <Detail>
-                                                        Nytt samarbeid
-                                                    </Detail>
-                                                )}
-                                                {hendelse.hendelsetype ===
-                                                    "SLETT_PROSESS" && (
-                                                    <Detail>
-                                                        Slettet samarbeid
-                                                    </Detail>
-                                                )}
-                                                {hendelse.hendelsetype ===
-                                                    "VIRKSOMHET_AVREGISTRERT" && (
-                                                    <Detail>
-                                                        Virksomheten ble slettet
-                                                        i Brønnøysundregistrene
-                                                    </Detail>
-                                                )}
-                                                {hendelse.resulterende_status ===
-                                                    "NY" && (
-                                                    <Detail>
-                                                        Opprettet sak
-                                                    </Detail>
-                                                )}
-                                            </>
+                                        {hendelse.hendelsetype ===
+                                            "TA_EIERSKAP_I_SAK" && (
+                                            <span>Tok eierskap i sak</span>
                                         )}
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        <NavIdentMedFallback
-                                            navIdent={
-                                                hendelse.hendelse_opprettet_av
-                                            }
-                                        />
-                                    </Table.DataCell>
-                                </Table.Row>
-                            );
-                        })}
-                    </Table.Body>
-                </StyledTable>
-            </ScrollUtTilKantenContainer>
+                                        {hendelse.hendelsetype ===
+                                            "ENDRE_PROSESS" && (
+                                            <span>
+                                                Endret samarbeidsnavspan
+                                            </span>
+                                        )}
+                                        {hendelse.hendelsetype ===
+                                            "NY_PROSESS" && (
+                                            <span>Nytt samarbeid</span>
+                                        )}
+                                        {hendelse.hendelsetype ===
+                                            "SLETT_PROSESS" && (
+                                            <span>Slettet samarbeid</span>
+                                        )}
+                                        {hendelse.hendelsetype ===
+                                            "VIRKSOMHET_AVREGISTRERT" && (
+                                            <span>
+                                                Virksomheten ble slettet i
+                                                Brønnøysundregistrene
+                                            </span>
+                                        )}
+                                        {hendelse.resulterende_status ===
+                                            "NY" && <span>Opprettet sak</span>}
+                                    </>
+                                )}
+                            </div>
+                            <span>{lokalDato(hendelse.tidspunkt)}</span>
+                            <NavIdentMedFallback
+                                navIdent={hendelse.hendelse_opprettet_av}
+                            />
+                        </>
+                    );
+                })}
+            </div>
         </>
     );
 };

@@ -30,3 +30,11 @@
   border: 0;
 }
 
+.samarbeidsperiodetabell {
+  display: grid;
+  grid-template-columns: min-content auto auto auto;
+  align-items: baseline;
+  column-gap: 4rem;
+  justify-content: start;
+  row-gap: 0.22rem;
+}

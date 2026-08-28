@@ -93,7 +93,7 @@ export function hentTagPropsForIAStatus(
         case IAProsessStatusEnum.enum.AVSLUTTET:
             return { variant: "strong", "data-color": "neutral" };
         case IAProsessStatusEnum.enum.VURDERES:
-            return { variant: "moderate", "data-color": "meta-lime" };
+            return { variant: "outline", "data-color": "meta-lime" };
         case IAProsessStatusEnum.enum.KONTAKTES:
             return { variant: "strong", "data-color": "brand-blue" };
         case IAProsessStatusEnum.enum.KARTLEGGES:
