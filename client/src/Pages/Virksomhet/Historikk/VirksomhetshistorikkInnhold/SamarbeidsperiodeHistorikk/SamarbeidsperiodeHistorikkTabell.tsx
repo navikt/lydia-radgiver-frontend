@@ -1,4 +1,3 @@
-import { Detail } from "@navikt/ds-react";
 import { IAProsessStatusBadgeNyHistorikk } from "../../../../../components/Badge/IAProsessStatusBadge";
 import { lokalDato } from "../../../../../util/dato";
 import { SamarbeidsperiodeHistorikk } from "../../../../../domenetyper/historikk";
@@ -37,54 +36,52 @@ export const SamarbeidsperiodeHistorikkTabell = ({
                             <div>
                                 {!!hendelse.årsak && (
                                     <>
-                                        <span>
-                                            {hendelse.årsak?.beskrivelse ??
-                                                "Begrunnelse"}
-                                        </span>
-                                        <ul>
-                                            {hendelse.årsak?.begrunnelser?.map(
-                                                (begrunnelse) => (
+                                        {hendelse.årsak?.begrunnelser?.length === 1 && (
+                                            <span>{hendelse.årsak?.begrunnelser?.[0]}</span>
+                                        )}
+
+                                        {(hendelse.årsak?.begrunnelser?.length ?? 0) > 1 && (
+                                            <ul className={styles.begrunnelseListe}>
+                                                {hendelse.årsak?.begrunnelser?.map((begrunnelse) => (
                                                     <li key={begrunnelse}>
-                                                        <Detail>
-                                                            {begrunnelse}
-                                                        </Detail>
+                                                        <span>{begrunnelse}</span>
                                                     </li>
-                                                ),
-                                            )}
-                                        </ul>
+                                                ))}
+                                            </ul>
+                                        )}
                                     </>
                                 )}
                                 {!hendelse.årsak?.beskrivelse && (
                                     <>
                                         {hendelse.hendelsetype ===
                                             "MIGRERING_TIL_NY_FLYT" && (
-                                            <span>Automatisk migrert</span>
-                                        )}
+                                                <span>Automatisk migrert</span>
+                                            )}
                                         {hendelse.hendelsetype ===
                                             "TA_EIERSKAP_I_SAK" && (
-                                            <span>Tok eierskap i sak</span>
-                                        )}
+                                                <span>Tok eierskap i sak</span>
+                                            )}
                                         {hendelse.hendelsetype ===
                                             "ENDRE_PROSESS" && (
-                                            <span>
-                                                Endret samarbeidsnavspan
-                                            </span>
-                                        )}
+                                                <span>
+                                                    Endret samarbeidsnavspan
+                                                </span>
+                                            )}
                                         {hendelse.hendelsetype ===
                                             "NY_PROSESS" && (
-                                            <span>Nytt samarbeid</span>
-                                        )}
+                                                <span>Nytt samarbeid</span>
+                                            )}
                                         {hendelse.hendelsetype ===
                                             "SLETT_PROSESS" && (
-                                            <span>Slettet samarbeid</span>
-                                        )}
+                                                <span>Slettet samarbeid</span>
+                                            )}
                                         {hendelse.hendelsetype ===
                                             "VIRKSOMHET_AVREGISTRERT" && (
-                                            <span>
-                                                Virksomheten ble slettet i
-                                                Brønnøysundregistrene
-                                            </span>
-                                        )}
+                                                <span>
+                                                    Virksomheten ble slettet i
+                                                    Brønnøysundregistrene
+                                                </span>
+                                            )}
                                         {hendelse.resulterende_status ===
                                             "NY" && <span>Opprettet sak</span>}
                                     </>
