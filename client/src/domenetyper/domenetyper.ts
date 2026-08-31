@@ -96,6 +96,7 @@ const IA_SAKSHENDELSE_TYPER = [
     "FULLFØR_BISTAND",
     "TILBAKE",
     "SLETT_SAK",
+    "VURDERING_FULLFØRT_UTEN_SAMARBEID",
 ] as const;
 
 export const IASakshendelseTypeEnum = z.enum(IA_SAKSHENDELSE_TYPER);

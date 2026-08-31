@@ -2,7 +2,7 @@ import { Detail } from "@navikt/ds-react";
 import { IAProsessStatusBadgeNyHistorikk } from "../../../../../components/Badge/IAProsessStatusBadge";
 import { lokalDato } from "../../../../../util/dato";
 import { SamarbeidsperiodeHistorikk } from "../../../../../domenetyper/historikk";
-import { useMemo } from "react";
+import { Fragment, useMemo } from "react";
 import { sortertPå } from "../../../../../util/sortering";
 import styles from "./samarbeidsperiodehistorikk.module.scss";
 import NavIdentMedFallback from "../../../../../components/NavIdentMedFallback";
@@ -29,7 +29,7 @@ export const SamarbeidsperiodeHistorikkTabell = ({
             <div className={styles.samarbeidsperiodetabell}>
                 {sorterteHendelser.map((hendelse) => {
                     return (
-                        <>
+                        <Fragment key={hendelse.hendelse_id}>
                             <IAProsessStatusBadgeNyHistorikk
                                 legacy={hendelse.versjon === "LEGACY"}
                                 status={hendelse.resulterende_status}
@@ -94,7 +94,7 @@ export const SamarbeidsperiodeHistorikkTabell = ({
                             <NavIdentMedFallback
                                 navIdent={hendelse.hendelse_opprettet_av}
                             />
-                        </>
+                        </Fragment>
                     );
                 })}
             </div>
