@@ -19,7 +19,7 @@
         "express-session": "1.19.0",
         "follow-redirects": "1.16.0",
         "helmet": "8.3.0",
-        "http-proxy-middleware": "3.0.7",
+        "http-proxy-middleware": "4.2.0",
         "jose": "6.2.3",
         "prettier": "3.9.6",
         "prometheus-api-metrics": "4.0.0",
