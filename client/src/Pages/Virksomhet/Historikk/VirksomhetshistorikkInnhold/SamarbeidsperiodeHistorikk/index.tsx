@@ -117,16 +117,16 @@ function SamarbeidsperiodeHistorikkWrapper({
                     />
                 </HStack>
             </HStack>
-            <LeveransehistorikkTabell
-                orgnr={orgnr}
-                saksnummer={samarbeidsperiodehistorikk.saksnummer}
-            />
             <SamarbeidsperiodeHistorikkTabell
                 samarbeidsperiode={sortertSamarbeidsperiode}
             />
             <SamarbeidAccordion
                 samarbeid={sortertSamarbeidsperiode.samarbeid}
                 orgnr={orgnr}
+            />
+            <LeveransehistorikkTabell
+                orgnr={orgnr}
+                saksnummer={samarbeidsperiodehistorikk.saksnummer}
             />
         </VStack>
     );
