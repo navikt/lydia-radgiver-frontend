@@ -64,7 +64,7 @@ export default function Samarbeidshistorikk({
                 className={`${styles.samarbeidGrid} ${kompakt ? styles.kompakt : ""}`}
             >
                 {sorterteSamarbeid.map((samarbeid) => (
-                    <div className={styles.samarbeidRad} key={samarbeid.id}>
+                    <div className={styles.samarbeidrad} key={samarbeid.id}>
                         {lenke ? (
                             <InternLenke
                                 className={styles.medEllipse}
