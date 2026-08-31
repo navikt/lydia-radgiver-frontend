@@ -19,7 +19,7 @@ import {
 } from "../../../../domenetyper/historikk";
 import styles from "./sykefraværshistorikkinnhold.module.scss";
 import { sortertPå } from "../../../../util/sortering";
-import { useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { SamarbeidsperiodeHistorikkMedDatahenting } from "./SamarbeidsperiodeHistorikk";
 import {
     IASakshendelseType,
@@ -89,6 +89,14 @@ export function VirksomhetshistorikkInnhold({
         [virksomhetshistorikk],
     );
 
+    const [tab, velgTab] = useState(
+        sortertHistorikk.samarbeidsperioder[0].saksnummer,
+    );
+
+    useEffect(() => {
+        velgTab(sortertHistorikk.samarbeidsperioder[0].saksnummer);
+    }, [sortertHistorikk]);
+
     return (
         <VStack gap="space-64">
             {!!sortertHistorikk.hendelser.length && (
@@ -96,9 +104,7 @@ export function VirksomhetshistorikkInnhold({
                     linjer={sortertHistorikk.hendelser}
                 />
             )}
-            <Tabs
-                defaultValue={sortertHistorikk.samarbeidsperioder[0].saksnummer}
-            >
+            <Tabs value={tab} onChange={velgTab}>
                 <Tabs.List>
                     {sortertHistorikk.samarbeidsperioder.map(
                         (samarbeidsperiode) => (
