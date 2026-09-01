@@ -1,5 +1,8 @@
 import { BodyShort, Loader, Table } from "@navikt/ds-react";
-import { useHentSamarbeidshistorikk } from "../../../../../api/lydia-api/nyFlyt";
+import {
+    useHentSamarbeidshistorikk,
+    useHentSamarbeidsperiodehistorikk,
+} from "../../../../../api/lydia-api/nyFlyt";
 import {
     SamarbeidshistorikkRad,
     samarbeidshistorikkBeskrivelse,
@@ -7,6 +10,7 @@ import {
 import { NavIdentMedLenke } from "../../../../../components/NavIdentMedLenke";
 import { lokalDato } from "../../../../../util/dato";
 import styles from "./samarbeidsperiodehistorikk.module.scss";
+import { useKaskadeRevalidering } from "../../../../../util/useKaskadeRevalidering";
 
 interface SamarbeidshistorikkTabellProps {
     orgnr: string;
@@ -21,11 +25,17 @@ export const SamarbeidshistorikkTabell = ({
     samarbeidId,
     samarbeidsnavn,
 }: SamarbeidshistorikkTabellProps) => {
+    const { validating: samarbeidsperiodeValiderer } =
+        useHentSamarbeidsperiodehistorikk({ orgnummer: orgnr, saksnummer });
+
     const {
         data: historikk,
         loading,
         error,
+        mutate,
     } = useHentSamarbeidshistorikk(orgnr, saksnummer, samarbeidId);
+
+    useKaskadeRevalidering(samarbeidsperiodeValiderer, mutate);
 
     if (loading) {
         return <Loader title="Henter historikk for samarbeidet" />;
