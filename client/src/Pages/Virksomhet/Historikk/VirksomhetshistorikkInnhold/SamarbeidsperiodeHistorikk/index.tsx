@@ -3,14 +3,7 @@ import {
     SamarbeidsperiodeHistorikk,
 } from "../../../../../domenetyper/historikk";
 import { useHentSamarbeidsperiodehistorikk } from "../../../../../api/lydia-api/nyFlyt";
-import {
-    BodyShort,
-    Button,
-    HStack,
-    Link,
-    Loader,
-    VStack,
-} from "@navikt/ds-react";
+import { BodyShort, Button, HStack, Loader, VStack } from "@navikt/ds-react";
 import { SamarbeidsperiodeHistorikkTabell } from "./SamarbeidsperiodeHistorikkTabell";
 import { LeveransehistorikkTabell } from "../../LeveransehistorikkTabell";
 import { datointervall } from "../../../../../util/dato";
@@ -19,6 +12,7 @@ import { HistoriskTeamDropdown } from "../../../../MineSaker/TeamDropdown";
 import { useMemo } from "react";
 import { sortertPå } from "../../../../../util/sortering";
 import { SamarbeidAccordion } from "./SamarbeidAccordion";
+import { Link } from "react-router-dom";
 
 export function SamarbeidsperiodeHistorikkMedDatahenting({
     orgnr,
