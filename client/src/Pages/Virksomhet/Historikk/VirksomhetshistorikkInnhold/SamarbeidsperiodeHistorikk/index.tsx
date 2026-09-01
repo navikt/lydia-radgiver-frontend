@@ -2,7 +2,10 @@ import {
     Samarbeidsperiode,
     SamarbeidsperiodeHistorikk,
 } from "../../../../../domenetyper/historikk";
-import { useHentSamarbeidsperiodehistorikk } from "../../../../../api/lydia-api/nyFlyt";
+import {
+    useHentSamarbeidsperiodehistorikk,
+    useHentHistorikkForVirksomhet,
+} from "../../../../../api/lydia-api/nyFlyt";
 import { BodyShort, Button, HStack, Loader, VStack } from "@navikt/ds-react";
 import { SamarbeidsperiodeHistorikkTabell } from "./SamarbeidsperiodeHistorikkTabell";
 import { LeveransehistorikkTabell } from "../../LeveransehistorikkTabell";
@@ -10,6 +13,7 @@ import { datointervall } from "../../../../../util/dato";
 import { ClockDashedIcon } from "@navikt/aksel-icons";
 import { HistoriskTeamDropdown } from "../../../../MineSaker/TeamDropdown";
 import { useMemo } from "react";
+import { useKaskadeRevalidering } from "../../../../../util/useKaskadeRevalidering";
 import { sortertPå } from "../../../../../util/sortering";
 import { SamarbeidAccordion } from "./SamarbeidAccordion";
 import { Link } from "react-router-dom";
@@ -21,13 +25,19 @@ export function SamarbeidsperiodeHistorikkMedDatahenting({
     orgnr: string;
     samarbeidsperiode: Samarbeidsperiode;
 }) {
+    const { validating: virksomhetshistorikkValiderer } =
+        useHentHistorikkForVirksomhet(orgnr);
+
     const {
         data: samarbeidsperiodehistorikk,
         loading: lasterSamarbeidsperiodehistorikk,
+        mutate,
     } = useHentSamarbeidsperiodehistorikk({
         orgnummer: orgnr,
         saksnummer: samarbeidsperiode.saksnummer,
     });
+
+    useKaskadeRevalidering(virksomhetshistorikkValiderer, mutate);
 
     if (lasterSamarbeidsperiodehistorikk) {
         return <Loader />;
