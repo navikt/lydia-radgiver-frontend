@@ -120,10 +120,12 @@ function SamarbeidsperiodeHistorikkWrapper({
             <SamarbeidsperiodeHistorikkTabell
                 samarbeidsperiode={sortertSamarbeidsperiode}
             />
-            <SamarbeidAccordion
-                samarbeid={sortertSamarbeidsperiode.samarbeid}
-                orgnr={orgnr}
-            />
+            {sortertSamarbeidsperiode.samarbeid.length > 0 && (
+                <SamarbeidAccordion
+                    samarbeid={sortertSamarbeidsperiode.samarbeid}
+                    orgnr={orgnr}
+                />
+            )}
             <LeveransehistorikkTabell
                 orgnr={orgnr}
                 saksnummer={samarbeidsperiodehistorikk.saksnummer}
