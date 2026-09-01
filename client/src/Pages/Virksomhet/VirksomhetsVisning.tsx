@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { HStack, Tabs, VStack } from "@navikt/ds-react";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentSalesforceSamarbeidLenke } from "../../api/lydia-api/virksomhet";
@@ -37,8 +37,11 @@ interface Props {
     virksomhet: Virksomhet;
 }
 
+const VIRKSOMHETSFANER = ["statistikk", "historikk", "historikkv2"];
+
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     const { saksnummer, prosessId } = useParams();
+    const navigate = useNavigate();
 
     const { data: valgtSak, loading: lasterValgtIaSak } =
         useHentSpesifikkSakNyFlyt(virksomhet.orgnr, saksnummer);
@@ -54,11 +57,18 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         iaSak?.saksnummer,
     );
     const [searchParams, setSearchParams] = useSearchParams();
-    const fane = searchParams.get("fane") ?? "statistikk";
+    const fane = searchParams.get("fane") ?? (prosessId ? "" : "statistikk");
 
     const oppdaterTabISearchParam = (tab: string) => {
-        searchParams.set("fane", tab);
         loggNavigertTilNyTab(tab);
+
+        if (prosessId && VIRKSOMHETSFANER.includes(tab)) {
+            const sakssti = iaSak?.saksnummer ? `/sak/${iaSak.saksnummer}` : "";
+            navigate(`/virksomhet/${virksomhet.orgnr}${sakssti}?fane=${tab}`);
+            return;
+        }
+
+        searchParams.set("fane", tab);
         setSearchParams(searchParams, { replace: true });
     };
 

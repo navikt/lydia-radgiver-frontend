@@ -28,8 +28,6 @@ import { useErPåInaktivSak } from "../VirksomhetContext";
 import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 import styles from "./virksomhetsheader.module.scss";
-import Sakshistorikkmodal from "../Historikk/SakshistorikkInnhold/Sakshistorikkmodal";
-import Sykefraværsstatistikkmodal from "../Statistikk/Sykefraværsstatistikkmodal";
 import { lokalDato } from "../../../util/dato";
 import { Topplinje } from "./Topplinje";
 import { VirksomhetTilstandStatusBadge } from "../../../components/Badge/VirksomhetTilstandStatusBadge";
@@ -86,7 +84,6 @@ export default function Virksomhetsheader({
                             </HStack>
                             <Høyreknapper
                                 iaSak={iaSak}
-                                valgtSamarbeid={valgtSamarbeid}
                                 virksomhet={virksomhet}
                             />
                         </HStack>
@@ -201,31 +198,12 @@ function Detaljseksjon({
 }
 
 function Høyreknapper({
-    valgtSamarbeid,
     virksomhet,
     iaSak,
 }: {
-    valgtSamarbeid?: IaSakProsess;
     virksomhet: Virksomhet;
     iaSak?: IASak;
 }) {
-    if (valgtSamarbeid) {
-        return (
-            <HStack gap="space-16" justify="end">
-                <Detaljseksjon iaSak={iaSak!} virksomhet={virksomhet} />
-                <Sykefraværsstatistikkmodal
-                    className={styles.tabButton}
-                    virksomhet={virksomhet}
-                />
-                <Sakshistorikkmodal
-                    className={styles.tabButton}
-                    orgnr={virksomhet.orgnr}
-                    virksomhetsnavn={virksomhet.navn}
-                />
-            </HStack>
-        );
-    }
-
     return (
         <HStack gap="space-16" justify="end">
             <Detaljseksjon iaSak={iaSak!} virksomhet={virksomhet} />
