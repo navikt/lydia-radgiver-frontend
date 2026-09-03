@@ -45,7 +45,7 @@ export default function VirksomhetshistorikkMedDatahenting({
     return (
         <div className={styles.samarbeidshistorikkfaneContainer}>
             <Heading level="3" size="large" spacing={true}>
-                Historikk v2
+                Historikk
             </Heading>
             <VirksomhetshistorikkInnhold
                 virksomhetshistorikk={virksomhetshistorikk}
