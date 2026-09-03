@@ -27,6 +27,7 @@ import {
 } from "../../../../domenetyper/domenetyper";
 import { GenericStatusBadge } from "../../../../components/Badge/StatusBadge";
 import NavIdentMedFallback from "../../../../components/NavIdentMedFallback";
+import { NavnForNavIdentProvider } from "../../../../components/NavnForNavIdent";
 
 export type VirksomhetshistorikkWrapperProps = {
     virksomhetshistorikk?: Virksomhetshistorikk;
@@ -97,48 +98,54 @@ export function VirksomhetshistorikkInnhold({
         velgTab(sortertHistorikk.samarbeidsperioder[0].saksnummer);
     }, [sortertHistorikk]);
 
+    const saksnumre = sortertHistorikk.samarbeidsperioder.map(
+        (s) => s.saksnummer,
+    );
+
     return (
-        <VStack gap="space-64">
-            {!!sortertHistorikk.hendelser.length && (
-                <VirksomhetshistorikkLinjeTabell
-                    linjer={sortertHistorikk.hendelser}
-                />
-            )}
-            <Tabs value={tab} onChange={velgTab}>
-                <Tabs.List>
+        <NavnForNavIdentProvider oppslag="radgivere" saksnumre={saksnumre}>
+            <VStack gap="space-64">
+                {!!sortertHistorikk.hendelser.length && (
+                    <VirksomhetshistorikkLinjeTabell
+                        linjer={sortertHistorikk.hendelser}
+                    />
+                )}
+                <Tabs value={tab} onChange={velgTab}>
+                    <Tabs.List>
+                        {sortertHistorikk.samarbeidsperioder.map(
+                            (samarbeidsperiode) => (
+                                <Tabs.Tab
+                                    key={samarbeidsperiode.saksnummer}
+                                    value={samarbeidsperiode.saksnummer}
+                                    className={styles.samarbeidsperiodeTab}
+                                    icon={
+                                        <IAProsessStatusBadge
+                                            status={samarbeidsperiode.status}
+                                            className={styles.badge}
+                                        />
+                                    }
+                                    label={lokalDato(samarbeidsperiode.fraDato)}
+                                />
+                            ),
+                        )}
+                    </Tabs.List>
                     {sortertHistorikk.samarbeidsperioder.map(
                         (samarbeidsperiode) => (
-                            <Tabs.Tab
+                            <Tabs.Panel
                                 key={samarbeidsperiode.saksnummer}
                                 value={samarbeidsperiode.saksnummer}
-                                className={styles.samarbeidsperiodeTab}
-                                icon={
-                                    <IAProsessStatusBadge
-                                        status={samarbeidsperiode.status}
-                                        className={styles.badge}
-                                    />
-                                }
-                                label={lokalDato(samarbeidsperiode.fraDato)}
-                            />
+                            >
+                                <SamarbeidsperiodeHistorikkMedDatahenting
+                                    key={samarbeidsperiode.saksnummer}
+                                    orgnr={orgnr}
+                                    samarbeidsperiode={samarbeidsperiode}
+                                />
+                            </Tabs.Panel>
                         ),
                     )}
-                </Tabs.List>
-                {sortertHistorikk.samarbeidsperioder.map(
-                    (samarbeidsperiode) => (
-                        <Tabs.Panel
-                            key={samarbeidsperiode.saksnummer}
-                            value={samarbeidsperiode.saksnummer}
-                        >
-                            <SamarbeidsperiodeHistorikkMedDatahenting
-                                key={samarbeidsperiode.saksnummer}
-                                orgnr={orgnr}
-                                samarbeidsperiode={samarbeidsperiode}
-                            />
-                        </Tabs.Panel>
-                    ),
-                )}
-            </Tabs>
-        </VStack>
+                </Tabs>
+            </VStack>
+        </NavnForNavIdentProvider>
     );
 }
 function VirksomhetshistorikkLinjeTabell({
