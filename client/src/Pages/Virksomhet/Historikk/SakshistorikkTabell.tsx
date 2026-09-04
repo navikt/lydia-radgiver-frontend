@@ -6,6 +6,8 @@ import { Sakshistorikk } from "../../../domenetyper/sakshistorikk";
 import { StyledTable } from "../../../components/StyledTable";
 import { ScrollUtTilKantenContainer } from "../../../components/ScrollUtTilKantenContainer/ScrollUtTilKantenContainer";
 import { IAProsessStatusEnum } from "../../../domenetyper/domenetyper";
+import { NavnForNavIdentMapProvider } from "../../../components/NavnForNavIdent";
+import { useHentAktorerForHendelser } from "../../../api/lydia-api/navn";
 
 interface SakshistorikkTabellProps {
     sakshistorikk: Sakshistorikk;
@@ -30,116 +32,132 @@ export const SakshistorikkTabell = ({
             !skjulteSakshendelser.includes(sakSnapshot.hendelsestype),
     );
 
+    const hendelseIder = sakshistorikk.sakshendelser.map(
+        (sakSnapshot) => sakSnapshot.hendelseId,
+    );
+    const aktører = useHentAktorerForHendelser(
+        sakshistorikk.saksnummer,
+        hendelseIder,
+    );
+    const navnPerNavIdent = new Map(
+        aktører.map((aktørForHendelse) => [
+            aktørForHendelse.aktor.navIdent,
+            aktørForHendelse.aktor.navn,
+        ]),
+    );
+
     return (
-        <>
-            {visHeading && (
-                <Heading size="small" spacing level="3">
-                    Sakshistorikk
-                </Heading>
-            )}
-            <ScrollUtTilKantenContainer
-                $offsetLeft={1.5 + 2.75}
-                $offsetRight={1.5 + 0.75}
-            >
-                <StyledTable>
-                    <Table.Header>
-                        <Table.Row>
-                            {kolonneNavn.map((navn) => (
-                                <Table.HeaderCell scope="col" key={navn}>
-                                    {navn}
-                                </Table.HeaderCell>
-                            ))}
-                        </Table.Row>
-                    </Table.Header>
-                    <Table.Body>
-                        {filtrerteSakshendelser.map((sakSnapshot, index) => {
-                            return (
-                                <Table.Row key={index}>
-                                    <Table.DataCell>
-                                        <IAProsessStatusBadge
-                                            status={sakSnapshot.status}
-                                        />
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        {lokalDato(
-                                            sakSnapshot.tidspunktForSnapshot,
-                                        )}
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        {sakSnapshot.begrunnelser.length >
-                                            0 && (
-                                            <>
-                                                <Detail>Begrunnelse</Detail>
-                                                <ul>
-                                                    {sakSnapshot.begrunnelser.map(
-                                                        (begrunnelse) => (
-                                                            <li
-                                                                key={
-                                                                    begrunnelse
-                                                                }
-                                                            >
-                                                                <Detail>
-                                                                    {
+        <NavnForNavIdentMapProvider navnPerNavIdent={navnPerNavIdent}>
+            <>
+                {visHeading && (
+                    <Heading size="small" spacing level="3">
+                        Sakshistorikk
+                    </Heading>
+                )}
+                <ScrollUtTilKantenContainer
+                    $offsetLeft={1.5 + 2.75}
+                    $offsetRight={1.5 + 0.75}
+                >
+                    <StyledTable>
+                        <Table.Header>
+                            <Table.Row>
+                                {kolonneNavn.map((navn) => (
+                                    <Table.HeaderCell scope="col" key={navn}>
+                                        {navn}
+                                    </Table.HeaderCell>
+                                ))}
+                            </Table.Row>
+                        </Table.Header>
+                        <Table.Body>
+                            {filtrerteSakshendelser.map((sakSnapshot, index) => {
+                                return (
+                                    <Table.Row key={index}>
+                                        <Table.DataCell>
+                                            <IAProsessStatusBadge
+                                                status={sakSnapshot.status}
+                                            />
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            {lokalDato(
+                                                sakSnapshot.tidspunktForSnapshot,
+                                            )}
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            {sakSnapshot.begrunnelser.length >
+                                                0 && (
+                                                <>
+                                                    <Detail>Begrunnelse</Detail>
+                                                    <ul>
+                                                        {sakSnapshot.begrunnelser.map(
+                                                            (begrunnelse) => (
+                                                                <li
+                                                                    key={
                                                                         begrunnelse
                                                                     }
-                                                                </Detail>
-                                                            </li>
-                                                        ),
-                                                    )}
-                                                </ul>
-                                            </>
-                                        )}
-                                        {sakSnapshot.hendelsestype ===
-                                            "MIGRERING_TIL_NY_FLYT" && (
-                                            <Detail>Automatisk migrert</Detail>
-                                        )}
-                                        {sakSnapshot.hendelsestype ===
-                                            "TA_EIERSKAP_I_SAK" && (
-                                            <Detail>Tok eierskap i sak</Detail>
-                                        )}
-                                        {sakSnapshot.hendelsestype ===
-                                            "ENDRE_PROSESS" && (
-                                            <Detail>
-                                                Endret samarbeidsnavn
-                                            </Detail>
-                                        )}
-                                        {sakSnapshot.hendelsestype ===
-                                            "NY_PROSESS" && (
-                                            <Detail>Nytt samarbeid</Detail>
-                                        )}
-                                        {sakSnapshot.hendelsestype ===
-                                            "SLETT_PROSESS" && (
-                                            <Detail>Slettet samarbeid</Detail>
-                                        )}
-                                        {sakSnapshot.hendelsestype ===
-                                            "VIRKSOMHET_AVREGISTRERT" && (
-                                            <Detail>
-                                                Virksomheten ble slettet i
-                                                Brønnøysundregistrene
-                                            </Detail>
-                                        )}
-                                        {sakSnapshot.status === "NY" && (
-                                            <Detail>Opprettet sak</Detail>
-                                        )}
-                                    </Table.DataCell>
-                                    <Table.DataCell>
-                                        {sakSnapshot.hendelseOpprettetAv ==
-                                        "Fia system" ? (
-                                            <Detail>Fia system</Detail>
-                                        ) : (
-                                            <NavIdentMedLenke
-                                                navIdent={
-                                                    sakSnapshot.hendelseOpprettetAv
-                                                }
-                                            />
-                                        )}
-                                    </Table.DataCell>
-                                </Table.Row>
-                            );
-                        })}
-                    </Table.Body>
-                </StyledTable>
-            </ScrollUtTilKantenContainer>
-        </>
+                                                                >
+                                                                    <Detail>
+                                                                        {
+                                                                            begrunnelse
+                                                                        }
+                                                                    </Detail>
+                                                                </li>
+                                                            ),
+                                                        )}
+                                                    </ul>
+                                                </>
+                                            )}
+                                            {sakSnapshot.hendelsestype ===
+                                                "MIGRERING_TIL_NY_FLYT" && (
+                                                <Detail>Automatisk migrert</Detail>
+                                            )}
+                                            {sakSnapshot.hendelsestype ===
+                                                "TA_EIERSKAP_I_SAK" && (
+                                                <Detail>Tok eierskap i sak</Detail>
+                                            )}
+                                            {sakSnapshot.hendelsestype ===
+                                                "ENDRE_PROSESS" && (
+                                                <Detail>
+                                                    Endret samarbeidsnavn
+                                                </Detail>
+                                            )}
+                                            {sakSnapshot.hendelsestype ===
+                                                "NY_PROSESS" && (
+                                                <Detail>Nytt samarbeid</Detail>
+                                            )}
+                                            {sakSnapshot.hendelsestype ===
+                                                "SLETT_PROSESS" && (
+                                                <Detail>Slettet samarbeid</Detail>
+                                            )}
+                                            {sakSnapshot.hendelsestype ===
+                                                "VIRKSOMHET_AVREGISTRERT" && (
+                                                <Detail>
+                                                    Virksomheten ble slettet i
+                                                    Brønnøysundregistrene
+                                                </Detail>
+                                            )}
+                                            {sakSnapshot.status === "NY" && (
+                                                <Detail>Opprettet sak</Detail>
+                                            )}
+                                        </Table.DataCell>
+                                        <Table.DataCell>
+                                            {sakSnapshot.hendelseOpprettetAv ==
+                                            "Fia system" ? (
+                                                <Detail>Fia system</Detail>
+                                            ) : (
+                                                <NavIdentMedLenke
+                                                    navIdent={
+                                                        sakSnapshot.hendelseOpprettetAv
+                                                    }
+                                                />
+                                            )}
+                                        </Table.DataCell>
+                                    </Table.Row>
+                                );
+                            })}
+                        </Table.Body>
+                    </StyledTable>
+                </ScrollUtTilKantenContainer>
+            </>
+        </NavnForNavIdentMapProvider>
     );
 };

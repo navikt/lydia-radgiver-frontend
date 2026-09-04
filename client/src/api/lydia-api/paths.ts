@@ -31,6 +31,8 @@ export const nyFlytApiBasePath = `/proxy/api/v1`;
 export const gammelNyFlytApiBasePath = `/proxy/iasak/nyflyt`;
 export const eiereNavnPath = `${nyFlytApiBasePath}/samarbeidsperiode/eiere`;
 export const radgivereNavnPath = `${nyFlytApiBasePath}/samarbeidsperiode/radgivere`;
+export const aktorerNavnPath = (saksnummer: string) =>
+    `${nyFlytApiBasePath}/samarbeidsperiode/${saksnummer}/aktorer`;
 
 export const getSykefraværsstatistikkUrl = (søkeverdier: FiltervisningState) =>
     `${sykefraværsstatistikkPath}?${søkeverdierTilUrlSearchParams(
