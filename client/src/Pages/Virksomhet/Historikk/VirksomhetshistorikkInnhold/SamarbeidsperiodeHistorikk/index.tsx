@@ -94,7 +94,7 @@ function SamarbeidsperiodeHistorikkWrapper({
     ]);
 
     return (
-        <VStack gap="space-16" paddingBlock="space-16" paddingInline="space-8">
+        <VStack gap="space-16" paddingBlock="space-16" paddingInline="space-16">
             <HStack gap="space-16" align="center" justify="space-between">
                 <HStack gap="space-8" align="center">
                     <BodyShort>
