@@ -25,7 +25,6 @@ import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
 import { loggÅpnetVirksomhetsinfo } from "../../../util/analytics-klient";
 import { InternLenke } from "../../../components/InternLenke";
 import { useErPåInaktivSak } from "../VirksomhetContext";
-import { erIDev } from "../../../components/Dekoratør/Dekoratør";
 
 import styles from "./virksomhetsheader.module.scss";
 import { lokalDato } from "../../../util/dato";
@@ -230,25 +229,10 @@ function Høyreknapper({
                     )}
                     variant="tertiary"
                     size="small"
-                    value="historikk"
+                    value="historikkv2"
                     label="Historikk"
                     icon={<ClockIcon aria-hidden fontSize="1.25rem" />}
                 />
-                {erIDev && (
-                    <Tabs.Tab
-                        as={({ className, ...remainingProps }: ButtonProps) => (
-                            <Button
-                                {...remainingProps}
-                                className={styles.tabButton}
-                            />
-                        )}
-                        variant="tertiary"
-                        size="small"
-                        value="historikkv2"
-                        label="Historikk v2"
-                        icon={<ClockIcon aria-hidden fontSize="1.25rem" />}
-                    />
-                )}
             </HStack>
         </HStack>
     );

@@ -29,7 +29,7 @@ export const MineSakerKort = ({
             status === "VURDERT" ||
             status === "AVSLUTTET"
         ) {
-            return "?fane=historikk";
+            return "?fane=historikkv2";
         }
 
         return "";
