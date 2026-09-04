@@ -41,3 +41,22 @@ export const NavnForNavIdentProvider = ({
 
 export const useNavnForNavIdent = (): HentNavn =>
     useContext(NavnForNavIdentContext) ?? ((navIdent) => navIdent);
+
+export const NavnForNavIdentMapProvider = ({
+    navnPerNavIdent,
+    children,
+}: {
+    navnPerNavIdent: Map<string, string>;
+    children: ReactNode;
+}) => {
+    const hentNavn = useCallback(
+        (navIdent: string) => navnPerNavIdent.get(navIdent) ?? navIdent,
+        [navnPerNavIdent],
+    );
+
+    return (
+        <NavnForNavIdentContext.Provider value={hentNavn}>
+            {children}
+        </NavnForNavIdentContext.Provider>
+    );
+};

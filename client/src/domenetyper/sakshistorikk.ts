@@ -3,6 +3,7 @@ import { datoSchema, IAProsessStatusEnum } from "./domenetyper";
 import { iaSakProsessSchema } from "./iaSakProsess";
 
 const sakshendelseSchema = z.object({
+    hendelseId: z.string(),
     status: IAProsessStatusEnum,
     hendelsestype: z.string(),
     tidspunktForSnapshot: datoSchema,

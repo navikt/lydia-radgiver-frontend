@@ -1,7 +1,7 @@
 import useSWR from "swr";
 import { z } from "zod/v4";
 import { eierSchema } from "../../domenetyper/domenetyper";
-import { eiereNavnPath, radgivereNavnPath } from "./paths";
+import { aktorerNavnPath, eiereNavnPath, radgivereNavnPath } from "./paths";
 import { defaultSwrConfiguration, post } from "./networkRequests";
 
 const navnListeSchema = z.array(eierSchema);
@@ -18,6 +18,30 @@ export const useHentNavnForSaksnumre = (
     const { data } = useSWR(
         unikeSaksnumre.length > 0 ? [path, unikeSaksnumre] : null,
         ([url, numre]: [string, string[]]) => post(url, navnListeSchema, numre),
+        defaultSwrConfiguration,
+    );
+
+    return data ?? [];
+};
+
+const aktørForHendelseSchema = z.object({
+    hendelseId: z.string(),
+    aktor: eierSchema,
+});
+const aktørerListeSchema = z.array(aktørForHendelseSchema);
+
+export const useHentAktorerForHendelser = (
+    saksnummer: string,
+    hendelseIder: string[],
+) => {
+    const unikeHendelseIder = [...new Set(hendelseIder)].sort();
+
+    const { data } = useSWR(
+        unikeHendelseIder.length > 0
+            ? [aktorerNavnPath(saksnummer), unikeHendelseIder]
+            : null,
+        ([url, ider]: [string, string[]]) =>
+            post(url, aktørerListeSchema, ider),
         defaultSwrConfiguration,
     );
 
