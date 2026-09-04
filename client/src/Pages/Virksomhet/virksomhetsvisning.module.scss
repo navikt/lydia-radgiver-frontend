@@ -22,7 +22,8 @@
             flex-direction: column;
             align-items: stretch;
             justify-content: flex-start;
-            background-color: var(--ax-neutral-200);
+            background-color: var(--ax-neutral-100);
+            min-width: 0;
 
             .statuslinje {
                 padding: 1rem 1.5rem;

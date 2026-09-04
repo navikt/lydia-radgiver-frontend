@@ -1,5 +1,5 @@
 import React from "react";
-import { useParams, useSearchParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import { HStack, Tabs, VStack } from "@navikt/ds-react";
 import { Virksomhet } from "../../domenetyper/virksomhet";
 import { useHentSalesforceSamarbeidLenke } from "../../api/lydia-api/virksomhet";
@@ -14,7 +14,10 @@ import {
 import { useHentSamarbeid } from "../../api/lydia-api/spørreundersøkelse";
 import { loggNavigertTilNyTab } from "../../util/analytics-klient";
 import { SykefraværsstatistikkFane } from "./Statistikk/SykefraværsstatistikkFane";
-import { SakshistorikkFane } from "./Sakshistorikk/SakshistorikkFane";
+import {
+    NySakshistorikkFane,
+    SakshistorikkFane,
+} from "./Historikk/SakshistorikkFane";
 import { SamarbeidProvider } from "./Samarbeid/SamarbeidContext";
 import { EndreSamarbeidModal } from "./Samarbeid/EndreSamarbeidModal";
 import { IASak } from "../../domenetyper/domenetyper";
@@ -34,8 +37,11 @@ interface Props {
     virksomhet: Virksomhet;
 }
 
+const VIRKSOMHETSFANER = ["statistikk", "historikk", "historikkv2"];
+
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     const { saksnummer, prosessId } = useParams();
+    const navigate = useNavigate();
 
     const { data: valgtSak, loading: lasterValgtIaSak } =
         useHentSpesifikkSakNyFlyt(virksomhet.orgnr, saksnummer);
@@ -51,11 +57,18 @@ export const VirksomhetsVisning = ({ virksomhet }: Props) => {
         iaSak?.saksnummer,
     );
     const [searchParams, setSearchParams] = useSearchParams();
-    const fane = searchParams.get("fane") ?? "statistikk";
+    const fane = searchParams.get("fane") ?? (prosessId ? "" : "statistikk");
 
     const oppdaterTabISearchParam = (tab: string) => {
-        searchParams.set("fane", tab);
         loggNavigertTilNyTab(tab);
+
+        if (prosessId && VIRKSOMHETSFANER.includes(tab)) {
+            const sakssti = iaSak?.saksnummer ? `/sak/${iaSak.saksnummer}` : "";
+            navigate(`/virksomhet/${virksomhet.orgnr}${sakssti}?fane=${tab}`);
+            return;
+        }
+
+        searchParams.set("fane", tab);
         setSearchParams(searchParams, { replace: true });
     };
 
@@ -143,6 +156,9 @@ function VirksomhetsvisningsSwitch({
                 </Tabs.Panel>
                 <Tabs.Panel value="historikk">
                     <SakshistorikkFane orgnr={virksomhet.orgnr} />
+                </Tabs.Panel>
+                <Tabs.Panel value="historikkv2">
+                    <NySakshistorikkFane orgnr={virksomhet.orgnr} />
                 </Tabs.Panel>
             </div>
         );

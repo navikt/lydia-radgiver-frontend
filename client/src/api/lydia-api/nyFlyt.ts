@@ -27,6 +27,10 @@ import {
     sakshistorikkSchema,
 } from "../../domenetyper/sakshistorikk";
 import {
+    SamarbeidshistorikkRad,
+    samarbeidshistorikkRadSchema,
+} from "../../domenetyper/samarbeidshistorikk";
+import {
     Spørreundersøkelse,
     spørreundersøkelseSchema,
 } from "../../domenetyper/spørreundersøkelse";
@@ -38,9 +42,15 @@ import {
     put,
     useSwrTemplate,
 } from "./networkRequests";
-import { nyFlytApiBasePath, nyFlytBasePath } from "./paths";
+import { gammelNyFlytApiBasePath, nyFlytApiBasePath } from "./paths";
 import { Virksomhet, virksomhetsSchema } from "../../domenetyper/virksomhet";
 import { isoDato } from "../../util/dato";
+import {
+    SamarbeidsperiodeHistorikk,
+    samarbeidsperiodeHistorikkSchema,
+    Virksomhetshistorikk,
+    virksomhetshistorikkSchema,
+} from "../../domenetyper/historikk";
 
 // Virksomhet
 export const useHentTilstandForVirksomhetNyFlyt = (orgnummer?: string) => {
@@ -111,12 +121,55 @@ export const useHentHistorikkNyFlyt = (orgnummer?: string) => {
     return useSwrTemplate<Sakshistorikk[]>(
         () =>
             orgnummer
-                ? `${nyFlytBasePath}/virksomhet/${orgnummer}/historikk`
+                ? `${gammelNyFlytApiBasePath}/virksomhet/${orgnummer}/historikk`
                 : null,
         sakshistorikkSchema.array(),
         {
             revalidateOnFocus: true,
         },
+    );
+};
+
+export const useHentHistorikkForVirksomhet = (orgnummer?: string) => {
+    return useSwrTemplate<Virksomhetshistorikk>(
+        () =>
+            orgnummer
+                ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/historikk`
+                : null,
+        virksomhetshistorikkSchema,
+        {
+            revalidateOnFocus: true,
+        },
+    );
+};
+
+export const useHentSamarbeidsperiodehistorikk = ({
+    orgnummer,
+    saksnummer,
+}: {
+    orgnummer?: string;
+    saksnummer?: string;
+} = {}) => {
+    return useSwrTemplate<SamarbeidsperiodeHistorikk>(
+        () =>
+            orgnummer && saksnummer
+                ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/historikk`
+                : null,
+        samarbeidsperiodeHistorikkSchema,
+    );
+};
+
+export const useHentSamarbeidshistorikk = (
+    orgnummer?: string,
+    saksnummer?: string,
+    samarbeidId?: number,
+) => {
+    return useSwrTemplate<SamarbeidshistorikkRad[]>(
+        () =>
+            orgnummer && saksnummer && samarbeidId
+                ? `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/historikk`
+                : null,
+        samarbeidshistorikkRadSchema.array(),
     );
 };
 

@@ -9,10 +9,12 @@ import { IAProsessStatusEnum } from "../../../domenetyper/domenetyper";
 
 interface SakshistorikkTabellProps {
     sakshistorikk: Sakshistorikk;
+    visHeading?: boolean;
 }
 
 export const SakshistorikkTabell = ({
     sakshistorikk,
+    visHeading = true,
 }: SakshistorikkTabellProps) => {
     const kolonneNavn = ["Status", "Tidspunkt", "Detaljer", "Endret av"];
     const skjulteSakshendelser = [
@@ -30,9 +32,11 @@ export const SakshistorikkTabell = ({
 
     return (
         <>
-            <Heading size="small" spacing level="3">
-                Sakshistorikk
-            </Heading>
+            {visHeading && (
+                <Heading size="small" spacing level="3">
+                    Sakshistorikk
+                </Heading>
+            )}
             <ScrollUtTilKantenContainer
                 $offsetLeft={1.5 + 2.75}
                 $offsetRight={1.5 + 0.75}

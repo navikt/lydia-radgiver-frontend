@@ -5,6 +5,7 @@ import {
     useHentTilstandForVirksomhetNyFlyt,
     useHentVirksomhetNyFlyt,
     useHentHistorikkNyFlyt,
+    useHentHistorikkForVirksomhet,
 } from "../../../api/lydia-api/nyFlyt";
 import {
     useHentSamarbeid,
@@ -296,12 +297,15 @@ export function useOversiktMutate(orgnummer: string) {
     const { mutate: mutateTilstand } =
         useHentTilstandForVirksomhetNyFlyt(orgnummer);
     const { mutate: mutateVirksomhet } = useHentVirksomhetNyFlyt(orgnummer);
-    const { mutate: mutateHistorikk } = useHentHistorikkNyFlyt(orgnummer);
+    const { mutate: mutateGammelHistorikk } = useHentHistorikkNyFlyt(orgnummer);
+    const { mutate: mutateHistorikk } =
+        useHentHistorikkForVirksomhet(orgnummer);
 
     return () => {
         mutateSak();
         mutateTilstand();
         mutateVirksomhet();
+        mutateGammelHistorikk();
         mutateHistorikk();
     };
 }

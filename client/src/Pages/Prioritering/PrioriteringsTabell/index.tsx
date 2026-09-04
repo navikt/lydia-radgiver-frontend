@@ -151,6 +151,7 @@ export const PrioriteringsTabell = ({
                                 <Table.DataCell>
                                     <VirksomhetTilstandStatusBadge
                                         tilstand={virksomhetsoversikt.tilstand}
+                                        className={styles.statusBadge}
                                     />
                                 </Table.DataCell>
                                 <EndretDataCell

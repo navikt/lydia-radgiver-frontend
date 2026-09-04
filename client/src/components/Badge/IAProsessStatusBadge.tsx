@@ -20,6 +20,25 @@ export function IAProsessStatusBadge({ ...remainingProps }: StatusBadgeProps) {
     );
 }
 
+type IAProsessStatusBadgeNyHistorikkProps = StatusBadgeProps & {
+    legacy?: boolean;
+};
+
+export function IAProsessStatusBadgeNyHistorikk({
+    legacy = false,
+    ...remainingProps
+}: IAProsessStatusBadgeNyHistorikkProps) {
+    return (
+        <GenericStatusBadge
+            {...remainingProps}
+            penskrivStatus={penskrivIAStatus}
+            hentTagProps={
+                legacy ? hentTagPropsForLegacy : hentTagPropsForIAStatus
+            }
+        />
+    );
+}
+
 export function penskrivIAStatus(status: IAProsessStatusType) {
     switch (status) {
         case IAProsessStatusEnum.enum.NY:
@@ -53,6 +72,10 @@ export function penskrivIAStatus(status: IAProsessStatusType) {
     }
 }
 
+export function hentTagPropsForLegacy(): Partial<TagProps> {
+    return { variant: "outline", "data-color": "neutral" };
+}
+
 export function hentTagPropsForIAStatus(
     status: IAProsessStatusType,
 ): Partial<TagProps> {
@@ -70,7 +93,7 @@ export function hentTagPropsForIAStatus(
         case IAProsessStatusEnum.enum.AVSLUTTET:
             return { variant: "strong", "data-color": "neutral" };
         case IAProsessStatusEnum.enum.VURDERES:
-            return { variant: "moderate", "data-color": "meta-lime" };
+            return { variant: "outline", "data-color": "meta-lime" };
         case IAProsessStatusEnum.enum.KONTAKTES:
             return { variant: "strong", "data-color": "brand-blue" };
         case IAProsessStatusEnum.enum.KARTLEGGES:
