@@ -7,9 +7,11 @@ import { useNavnForNavIdent } from "./NavnForNavIdent";
 
 export const NavIdentMedLenke = ({
     navIdent,
+    navn,
     className,
 }: {
     navIdent: string | null;
+    navn?: string;
     className?: string;
 }) => {
     const hentNavn = useNavnForNavIdent();
@@ -18,13 +20,13 @@ export const NavIdentMedLenke = ({
         return <></>;
     }
 
-    const navn = hentNavn(navIdent);
+    const visningsnavn = navn ?? hentNavn(navIdent);
 
     return (
         <EksternLenke
             target={navIdent}
             className={className}
-            title={navn}
+            title={visningsnavn}
             href={`https://teamkatalog.nav.no/resource/${navIdent}`}
             onClick={() =>
                 loggNavigeringMedEksternLenke(
@@ -32,7 +34,7 @@ export const NavIdentMedLenke = ({
                 )
             }
         >
-            {navn}
+            {visningsnavn}
         </EksternLenke>
     );
 };

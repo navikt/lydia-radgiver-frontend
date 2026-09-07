@@ -1,6 +1,7 @@
 import { z } from "zod/v4";
 import {
     datoSchema,
+    eierSchema,
     IAProsessStatusEnum,
     IASakshendelseTypeEnum,
 } from "./domenetyper";
@@ -17,6 +18,7 @@ export const historikkHendelseSchema = z.object({
     resulterende_status: IAProsessStatusEnum,
     tidspunkt: datoSchema,
     hendelse_opprettet_av: z.string(),
+    aktør: eierSchema.nullable().optional(),
     årsak: årsakSchema.nullable().optional(),
     versjon: z.string(),
 });

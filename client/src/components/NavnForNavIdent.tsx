@@ -20,10 +20,10 @@ export const NavnForNavIdentProvider = ({
     oppslag: NavnOppslag;
     children: ReactNode;
 }) => {
-    const navn = useHentNavnForSaksnumre(saksnumre, oppslag);
+    const { data: navn } = useHentNavnForSaksnumre(saksnumre, oppslag);
 
     const navnPerNavIdent = useMemo(
-        () => new Map(navn.map((person) => [person.navIdent, person.navn])),
+        () => new Map(navn?.map((person) => [person.navIdent, person.navn])),
         [navn],
     );
 
@@ -41,22 +41,3 @@ export const NavnForNavIdentProvider = ({
 
 export const useNavnForNavIdent = (): HentNavn =>
     useContext(NavnForNavIdentContext) ?? ((navIdent) => navIdent);
-
-export const NavnForNavIdentMapProvider = ({
-    navnPerNavIdent,
-    children,
-}: {
-    navnPerNavIdent: Map<string, string>;
-    children: ReactNode;
-}) => {
-    const hentNavn = useCallback(
-        (navIdent: string) => navnPerNavIdent.get(navIdent) ?? navIdent,
-        [navnPerNavIdent],
-    );
-
-    return (
-        <NavnForNavIdentContext.Provider value={hentNavn}>
-            {children}
-        </NavnForNavIdentContext.Provider>
-    );
-};
