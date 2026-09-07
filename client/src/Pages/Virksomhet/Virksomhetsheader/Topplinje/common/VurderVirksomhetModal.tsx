@@ -8,6 +8,7 @@ import {
 import { vurderSakNyFlyt } from "../../../../../api/lydia-api/nyFlyt";
 import { useOversiktMutate } from "../../../Debugside/Oversikt";
 import { loggBakgrunnForVurderingAvVirksomhet } from "../../../../../util/analytics-klient";
+import { årsakBeskrivelse } from "../../../../../util/årsakBeskrivelse";
 
 export default function VurderVirksomhetModal({
     erÅpen,
@@ -36,6 +37,11 @@ export default function VurderVirksomhetModal({
             await vurderSakNyFlyt(orgnr, {
                 type: nyFlytÅrsakTypeEnum.enum
                     .BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET,
+                beskrivelse:
+                    årsakBeskrivelse[
+                        nyFlytÅrsakTypeEnum.enum
+                            .BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET
+                    ],
                 begrunnelser: [begrunnelse],
             });
             loggBakgrunnForVurderingAvVirksomhet(begrunnelse);

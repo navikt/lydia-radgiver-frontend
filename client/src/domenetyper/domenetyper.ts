@@ -116,6 +116,7 @@ export type Årsak = {
 
 export type ValgtÅrsakDto = {
     type: string;
+    beskrivelse: string;
     begrunnelser: string[];
     dato?: string;
 };
@@ -218,6 +219,7 @@ export type NyFlytÅrsakType = z.infer<typeof nyFlytÅrsakTypeEnum>;
 
 export type ValgtÅrsakNyFlytDto = {
     type: NyFlytÅrsakType;
+    beskrivelse: string;
     begrunnelser: NyFlytBegrunnelse[];
     dato?: string;
 };

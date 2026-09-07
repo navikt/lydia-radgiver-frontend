@@ -24,6 +24,7 @@ import {
 } from "../../../domenetyper/domenetyper";
 import { useHentPlanMal } from "../../../api/lydia-api/plan";
 import { isoDato } from "../../../util/dato";
+import { årsakBeskrivelse } from "../../../util/årsakBeskrivelse";
 
 interface PostProps {
     orgnummer: string;
@@ -75,6 +76,11 @@ export function VurderSak({ orgnummer, onSuccess }: PostProps) {
         try {
             const result = await vurderSakNyFlyt(orgnummer, {
                 begrunnelser: [],
+                beskrivelse:
+                    årsakBeskrivelse[
+                        nyFlytÅrsakTypeEnum.enum
+                            .BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET
+                    ],
                 type: nyFlytÅrsakTypeEnum.enum
                     .BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET,
             });
@@ -257,6 +263,7 @@ export function AvsluttVurdering({ orgnummer, onSuccess }: PostProps) {
         try {
             const result = await avsluttVurderingNyFlyt(orgnummer, {
                 type,
+                beskrivelse: årsakBeskrivelse[type],
                 begrunnelser,
                 dato,
             });
