@@ -1,17 +1,17 @@
 import {
-    HStack,
-    Button,
-    Modal,
-    CheckboxGroup,
-    Checkbox,
-    useDatepicker,
-    DatePicker,
     Box,
-    VStack,
-    RadioGroup,
-    Radio,
+    Button,
+    Checkbox,
+    CheckboxGroup,
+    DatePicker,
+    HStack,
     LocalAlert,
+    Modal,
+    Radio,
+    RadioGroup,
     Tooltip,
+    useDatepicker,
+    VStack,
 } from "@navikt/ds-react";
 import React, { useState } from "react";
 import { Salesforcelenke } from "../";
@@ -37,6 +37,7 @@ import {
     useHentBrukerinformasjon,
 } from "../../../../api/lydia-api/bruker";
 import { useHentTeam } from "../../../../api/lydia-api/team";
+import { årsakBeskrivelse } from "../../../../util/årsakBeskrivelse";
 
 export function VirksomhetVurderes({
     iaSak,
@@ -136,7 +137,7 @@ function AvsluttVurderingModalInnhold({
     const [angreVurderingModalÅpen, setAngreVurderingModalÅpen] =
         useState(false);
     const [error, setError] = useState<string | null>();
-    const [årsak, setÅrsak] = useState<NyFlytÅrsakType>();
+    const [årsakType, setÅrsakType] = useState<NyFlytÅrsakType>();
     const [begrunnelse, setBegrunnelse] = useState<NyFlytBegrunnelse[]>([]);
     const [forsøktLagret, setForsøktLagret] = useState(false);
     const defaultDate = new Date();
@@ -156,11 +157,11 @@ function AvsluttVurderingModalInnhold({
     const kanLagre = React.useMemo(
         () =>
             eierEllerFølgerSak &&
-            årsak &&
+            årsakType &&
             begrunnelse.length > 0 &&
             selectedDay &&
             selectedDay > new Date(),
-        [eierEllerFølgerSak, årsak, begrunnelse, selectedDay],
+        [eierEllerFølgerSak, årsakType, begrunnelse, selectedDay],
     );
 
     const handleSubmit = async () => {
@@ -168,12 +169,13 @@ function AvsluttVurderingModalInnhold({
         setForsøktLagret(true);
         if (kanLagre) {
             try {
-                if (!årsak || !selectedDay) {
+                if (!årsakType || !selectedDay) {
                     return;
                 }
 
                 await avsluttVurderingNyFlyt(virksomhet.orgnr, {
-                    type: årsak,
+                    type: årsakType,
+                    beskrivelse: årsakBeskrivelse[årsakType],
                     begrunnelser: begrunnelse,
                     dato: selectedDay ? isoDato(selectedDay) : undefined,
                 });
@@ -200,12 +202,12 @@ function AvsluttVurderingModalInnhold({
                     <RadioGroup
                         onChange={(value) => {
                             setBegrunnelse([]);
-                            setÅrsak(value as NyFlytÅrsakType);
+                            setÅrsakType(value as NyFlytÅrsakType);
                             resetDatepicker();
                         }}
-                        value={årsak}
+                        value={årsakType}
                         error={
-                            forsøktLagret && !årsak && eierEllerFølgerSak
+                            forsøktLagret && !årsakType && eierEllerFølgerSak
                                 ? "Du må velge en begrunnelse for å avslutte vurderingen"
                                 : undefined
                         }
@@ -214,12 +216,17 @@ function AvsluttVurderingModalInnhold({
                     >
                         <VStack gap="space-16">
                             <ExpandingRadio
-                                selected={årsak}
+                                selected={årsakType}
                                 value={
                                     nyFlytÅrsakTypeEnum.enum
                                         .VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT
                                 }
-                                label="Vurder virksomheten senere"
+                                label={
+                                    årsakBeskrivelse[
+                                        nyFlytÅrsakTypeEnum.enum
+                                            .VIRKSOMHETEN_VURDERES_PÅ_ET_SENERE_TIDSPUNKT
+                                    ]
+                                }
                             >
                                 <VurderesSenereInnhold
                                     forsøktLagret={forsøktLagret}
@@ -231,12 +238,17 @@ function AvsluttVurderingModalInnhold({
                                 />
                             </ExpandingRadio>
                             <ExpandingRadio
-                                selected={årsak}
+                                selected={årsakType}
                                 value={
                                     nyFlytÅrsakTypeEnum.enum
                                         .VIRKSOMHETEN_ER_FERDIG_VURDERT_MED_INTERN_VURDERING
                                 }
-                                label="Nav har konkludert"
+                                label={
+                                    årsakBeskrivelse[
+                                        nyFlytÅrsakTypeEnum.enum
+                                            .VIRKSOMHETEN_ER_FERDIG_VURDERT_MED_INTERN_VURDERING
+                                    ]
+                                }
                             >
                                 <InternVurderingInhold
                                     forsøktLagret={forsøktLagret}
@@ -248,12 +260,17 @@ function AvsluttVurderingModalInnhold({
                                 />
                             </ExpandingRadio>
                             <ExpandingRadio
-                                selected={årsak}
+                                selected={årsakType}
                                 value={
                                     nyFlytÅrsakTypeEnum.enum
                                         .VIRKSOMHETEN_ER_FERDIG_VURDERT_OG_TAKKET_NEI
                                 }
-                                label="Virksomheten har takket nei"
+                                label={
+                                    årsakBeskrivelse[
+                                        nyFlytÅrsakTypeEnum.enum
+                                            .VIRKSOMHETEN_ER_FERDIG_VURDERT_OG_TAKKET_NEI
+                                    ]
+                                }
                             >
                                 <TakketNeiInnhold
                                     forsøktLagret={forsøktLagret}

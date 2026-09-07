@@ -79,9 +79,7 @@ jest.mock("src/api/lydia-api/virksomhet", () => {
 
 jest.mock("src/api/lydia-api/spørreundersøkelse", () => {
     return {
-        ...jest.requireActual(
-            "src/api/lydia-api/spørreundersøkelse",
-        ),
+        ...jest.requireActual("src/api/lydia-api/spørreundersøkelse"),
         useHentSamarbeid: jest.fn(() => {
             return {
                 data: [],
@@ -243,6 +241,7 @@ describe("NyVirksomhetsside", () => {
                 dummyVirksomhetsinformasjonNyFlyt.orgnr,
                 {
                     type: "BAKGRUNN_FOR_VURDERING_AV_VIRKSOMHET",
+                    beskrivelse: "Bakgrunn for vurdering av virksomhet",
                     begrunnelser: ["NAV_VURDERER_VIRKSOMHETEN"],
                 },
             );
