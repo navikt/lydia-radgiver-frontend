@@ -20,10 +20,10 @@ export const NavnForNavIdentProvider = ({
     oppslag: NavnOppslag;
     children: ReactNode;
 }) => {
-    const navn = useHentNavnForSaksnumre(saksnumre, oppslag);
+    const { data: navn } = useHentNavnForSaksnumre(saksnumre, oppslag);
 
     const navnPerNavIdent = useMemo(
-        () => new Map(navn.map((person) => [person.navIdent, person.navn])),
+        () => new Map(navn?.map((person) => [person.navIdent, person.navn])),
         [navn],
     );
 

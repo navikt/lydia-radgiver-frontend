@@ -15,11 +15,9 @@ export const useHentNavnForSaksnumre = (
     const unikeSaksnumre = [...new Set(saksnumre)].sort();
     const path = oppslag === "eiere" ? eiereNavnPath : radgivereNavnPath;
 
-    const { data } = useSWR(
+    return useSWR(
         unikeSaksnumre.length > 0 ? [path, unikeSaksnumre] : null,
         ([url, numre]: [string, string[]]) => post(url, navnListeSchema, numre),
         defaultSwrConfiguration,
     );
-
-    return data ?? [];
 };

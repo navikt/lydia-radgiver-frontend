@@ -34,6 +34,10 @@ export default [
         plugins: ["react", "@typescript-eslint", "jsx-a11y"],
         rules: {
             "react/react-in-jsx-scope": "off",
+            "@typescript-eslint/no-unused-vars": [
+                "error",
+                { ignoreRestSiblings: true },
+            ],
         },
     }),
 ];
