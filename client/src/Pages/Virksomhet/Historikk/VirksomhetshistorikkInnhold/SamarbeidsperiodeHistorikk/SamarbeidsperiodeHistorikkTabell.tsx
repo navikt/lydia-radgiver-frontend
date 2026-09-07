@@ -90,6 +90,7 @@ export const SamarbeidsperiodeHistorikkTabell = ({
                             <span>{lokalDato(hendelse.tidspunkt)}</span>
                             <NavIdentMedFallback
                                 navIdent={hendelse.hendelse_opprettet_av}
+                                navn={hendelse.aktør?.navn}
                             />
                         </Fragment>
                     );
