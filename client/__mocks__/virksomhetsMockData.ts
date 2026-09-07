@@ -71,7 +71,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
         sakshendelser: [
             {
                 status: "NY",
-                hendelseId: "mock-hendelse-1",
                 hendelsestype: "OPPRETT_SAK_FOR_VIRKSOMHET",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.489Z"),
                 begrunnelser: [],
@@ -79,7 +78,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VURDERES",
-                hendelseId: "mock-hendelse-2",
                 hendelsestype: "VIRKSOMHET_VURDERES",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.492Z"),
                 begrunnelser: [],
@@ -87,7 +85,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VURDERES",
-                hendelseId: "mock-hendelse-3",
                 hendelsestype: "TA_EIERSKAP_I_SAK",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.510Z"),
                 begrunnelser: [],
@@ -95,7 +92,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "KONTAKTES",
-                hendelseId: "mock-hendelse-4",
                 hendelsestype: "VIRKSOMHET_SKAL_KONTAKTES",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.528Z"),
                 begrunnelser: [],
@@ -103,7 +99,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "KARTLEGGES",
-                hendelseId: "mock-hendelse-5",
                 hendelsestype: "VIRKSOMHET_KARTLEGGES",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.545Z"),
                 begrunnelser: [],
@@ -111,7 +106,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "KARTLEGGES",
-                hendelseId: "mock-hendelse-6",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.563Z"),
                 begrunnelser: [],
@@ -119,7 +113,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-7",
                 hendelsestype: "VIRKSOMHET_SKAL_BISTÅS",
                 tidspunktForSnapshot: new Date("2025-09-17T09:27:09.583Z"),
                 begrunnelser: [],
@@ -127,7 +120,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-8",
                 hendelsestype: "TA_EIERSKAP_I_SAK",
                 tidspunktForSnapshot: new Date("2025-10-15T11:10:26.103Z"),
                 begrunnelser: [],
@@ -135,7 +127,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-9",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-10-17T06:30:07.098Z"),
                 begrunnelser: [],
@@ -143,7 +134,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-10",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:07:32.812Z"),
                 begrunnelser: [],
@@ -151,7 +141,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-11",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:07:45.014Z"),
                 begrunnelser: [],
@@ -159,7 +148,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-12",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:08:07.054Z"),
                 begrunnelser: [],
@@ -167,7 +155,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-13",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:08:14.202Z"),
                 begrunnelser: [],
@@ -175,7 +162,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-14",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:08:19.339Z"),
                 begrunnelser: [],
@@ -183,7 +169,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-15",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:08:34.781Z"),
                 begrunnelser: [],
@@ -191,7 +176,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-16",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:08:53.421Z"),
                 begrunnelser: [],
@@ -199,7 +183,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-17",
                 hendelsestype: "FULLFØR_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:09:24.115Z"),
                 begrunnelser: [],
@@ -207,7 +190,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-18",
                 hendelsestype: "FULLFØR_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:09:44.390Z"),
                 begrunnelser: [],
@@ -215,7 +197,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-19",
                 hendelsestype: "FULLFØR_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:10:04.035Z"),
                 begrunnelser: [],
@@ -223,7 +204,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-20",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:10:15.838Z"),
                 begrunnelser: [],
@@ -231,7 +211,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-21",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:10:24.342Z"),
                 begrunnelser: [],
@@ -239,7 +218,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-22",
                 hendelsestype: "AVBRYT_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:10:34.530Z"),
                 begrunnelser: [],
@@ -247,7 +225,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-23",
                 hendelsestype: "SLETT_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T11:10:43.530Z"),
                 begrunnelser: [],
@@ -255,7 +232,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-24",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-10T14:03:08.021Z"),
                 begrunnelser: [],
@@ -263,7 +239,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-25",
                 hendelsestype: "NY_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-14T11:50:16.332Z"),
                 begrunnelser: [],
@@ -271,7 +246,6 @@ export const dummySakshistorikk: Sakshistorikk[] = [
             },
             {
                 status: "VI_BISTÅR",
-                hendelseId: "mock-hendelse-26",
                 hendelsestype: "ENDRE_PROSESS",
                 tidspunktForSnapshot: new Date("2025-11-14T13:53:10.898Z"),
                 begrunnelser: [],
