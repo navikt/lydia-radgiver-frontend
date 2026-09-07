@@ -14,10 +14,7 @@ import {
 import { useHentSamarbeid } from "../../api/lydia-api/spørreundersøkelse";
 import { loggNavigertTilNyTab } from "../../util/analytics-klient";
 import { SykefraværsstatistikkFane } from "./Statistikk/SykefraværsstatistikkFane";
-import {
-    NySakshistorikkFane,
-    SakshistorikkFane,
-} from "./Historikk/SakshistorikkFane";
+import { NySakshistorikkFane } from "./Historikk/SakshistorikkFane";
 import { SamarbeidProvider } from "./Samarbeid/SamarbeidContext";
 import { EndreSamarbeidModal } from "./Samarbeid/EndreSamarbeidModal";
 import { IASak } from "../../domenetyper/domenetyper";
@@ -37,7 +34,7 @@ interface Props {
     virksomhet: Virksomhet;
 }
 
-const VIRKSOMHETSFANER = ["statistikk", "historikk", "historikkv2"];
+const VIRKSOMHETSFANER = ["statistikk", "historikk"];
 
 export const VirksomhetsVisning = ({ virksomhet }: Props) => {
     const { saksnummer, prosessId } = useParams();
@@ -155,9 +152,6 @@ function VirksomhetsvisningsSwitch({
                     <SykefraværsstatistikkFane virksomhet={virksomhet} />
                 </Tabs.Panel>
                 <Tabs.Panel value="historikk">
-                    <SakshistorikkFane orgnr={virksomhet.orgnr} />
-                </Tabs.Panel>
-                <Tabs.Panel value="historikkv2">
                     <NySakshistorikkFane orgnr={virksomhet.orgnr} />
                 </Tabs.Panel>
             </div>
