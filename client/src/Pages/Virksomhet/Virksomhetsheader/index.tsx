@@ -229,7 +229,7 @@ function Høyreknapper({
                     )}
                     variant="tertiary"
                     size="small"
-                    value="historikkv2"
+                    value="historikk"
                     label="Historikk"
                     icon={<ClockIcon aria-hidden fontSize="1.25rem" />}
                 />
