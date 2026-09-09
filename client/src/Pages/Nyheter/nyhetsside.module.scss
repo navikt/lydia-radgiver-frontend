@@ -1,0 +1,17 @@
+.nyhetsside {
+    .nyhetsliste {
+        border: 1px solid #0ff;
+        min-width: 10rem;
+        .nyhetslisteEntry {
+            border: 1px solid #00f;
+        }
+    }
+
+    .nyhetsdetaljer {
+        border: 1px solid #f0f;
+        h3 {
+        }
+        p {
+        }
+    }
+}
