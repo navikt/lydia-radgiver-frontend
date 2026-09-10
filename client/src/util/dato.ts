@@ -1,3 +1,5 @@
+import { statusRegnesSomAvsluttet } from "./samarbeidsperiodeStatus";
+
 const dateFormatDato = new Intl.DateTimeFormat("nb-NO", {
     dateStyle: "short",
 });
@@ -51,7 +53,7 @@ export function datointervall({
 }) {
     const startdato = opprettet ? lokalDato(opprettet) : "";
 
-    if (status === "AKTIV") {
+    if (!statusRegnesSomAvsluttet(status)) {
         return startdato ? `${startdato} -` : "";
     }
 
