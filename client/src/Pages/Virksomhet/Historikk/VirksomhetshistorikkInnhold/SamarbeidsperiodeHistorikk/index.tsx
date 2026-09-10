@@ -94,10 +94,15 @@ function SamarbeidsperiodeHistorikkWrapper({
     ]);
 
     return (
-        <VStack gap="space-16" paddingBlock="space-16" paddingInline="space-16">
+        <VStack
+            gap="space-16"
+            style={{ marginTop: "1.5rem" }}
+            paddingBlock="space-16"
+            paddingInline="space-16"
+        >
             <HStack gap="space-16" align="center" justify="space-between">
                 <HStack gap="space-8" align="center">
-                    <BodyShort>
+                    <BodyShort size="large">
                         <b>Samarbeidsperiode: </b>
                         {datointervall({
                             status: samarbeidsperiode.status,
