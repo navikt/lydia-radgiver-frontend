@@ -97,13 +97,33 @@ function SamarbeidsperiodeHistorikkWrapper({
         <VStack gap="space-16" paddingBlock="space-16" paddingInline="space-16">
             <HStack gap="space-16" align="center" justify="space-between">
                 <HStack gap="space-8" align="center">
-                    <BodyShort>
-                        <b>Samarbeidsperiode: </b>
-                        {datointervall({
-                            status: samarbeidsperiode.status,
-                            opprettet: samarbeidsperiodehistorikk.opprettet,
-                            sistEndret: samarbeidsperiodehistorikk.sistEndret,
-                        })}
+                    <BodyShort
+                        aria-label={
+                            samarbeidsperiode.status === "AKTIV"
+                                ? `Samarbeidsperiode: ${datointervall({
+                                      status: samarbeidsperiode.status,
+                                      opprettet:
+                                          samarbeidsperiodehistorikk.opprettet,
+                                      sistEndret:
+                                          samarbeidsperiodehistorikk.sistEndret,
+                                  })} til`
+                                : undefined
+                        }
+                    >
+                        <span
+                            aria-hidden={
+                                samarbeidsperiode.status === "AKTIV"
+                            }
+                        >
+                            <b>Samarbeidsperiode: </b>
+                            {datointervall({
+                                status: samarbeidsperiode.status,
+                                opprettet:
+                                    samarbeidsperiodehistorikk.opprettet,
+                                sistEndret:
+                                    samarbeidsperiodehistorikk.sistEndret,
+                            })}
+                        </span>
                     </BodyShort>
                 </HStack>
                 <HStack gap="space-16" align="center" justify="end">
