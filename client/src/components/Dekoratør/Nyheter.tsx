@@ -7,13 +7,10 @@ import {
 } from "@navikt/ds-react";
 import { lokalDato } from "../../util/dato";
 import styles from "./nyheter.module.scss";
-import { UFILTRERT_NYHETSLISTE } from "../../Pages/Nyheter/Nyhetsdata";
-import { erIDev } from "./Dekoratør";
+import { FILTRERT_SORTERT_NYHETSLISTE } from "../../Pages/Nyheter/Nyhetsdata";
 
 export default function Nyheter() {
-    const filtrertNyhetsliste = UFILTRERT_NYHETSLISTE.filter(
-        (nyhet) => erIDev || !nyhet.bareIDev,
-    );
+    const filtrertNyhetsliste = FILTRERT_SORTERT_NYHETSLISTE;
     if (filtrertNyhetsliste.length === 0) {
         return null;
     }
@@ -21,24 +18,27 @@ export default function Nyheter() {
     return (
         <ActionMenu>
             <ActionMenu.Trigger>
-                <InternalHeader.Button className={styles.nyhetsmenyknapp}>
+                <InternalHeader.Button>
                     {new Date().getTime() -
                         filtrertNyhetsliste[
                             filtrertNyhetsliste.length - 1
                         ].dato.getTime() <
                     7 * 24 * 60 * 60 * 1000 ? (
                         <BellDotFillIcon
-                            title="Nye nyheter"
+                            title="Uleste nyheter"
                             fontSize="1.5rem"
                         />
                     ) : (
-                        <BellIcon title="Ingen nye nyheter" fontSize="1.5rem" />
+                        <BellIcon
+                            title="Ingen uleste nyheter"
+                            fontSize="1.5rem"
+                        />
                     )}
                 </InternalHeader.Button>
             </ActionMenu.Trigger>
             <ActionMenu.Content className={styles.nyhetsmenyinnhold}>
                 <ActionMenu.Group label="Nyheter">
-                    {filtrertNyhetsliste.toReversed().map((nyhet) => (
+                    {filtrertNyhetsliste.map((nyhet) => (
                         <>
                             <ActionMenu.Item
                                 key={nyhet.id}
@@ -46,14 +46,10 @@ export default function Nyheter() {
                                 as="a"
                                 href={`/nyheter/${nyhet.id}`}
                             >
-                                <Heading
-                                    size="small"
-                                    level="3"
-                                    className={styles.nyhetstittel}
-                                >
+                                <Heading size="small" level="3">
                                     {nyhet.tittel}
                                 </Heading>
-                                <BodyShort className={styles.nyhetsingress}>
+                                <BodyShort>
                                     {nyhet.shortIngress ?? nyhet.ingress}
                                 </BodyShort>
                                 <BodyShort

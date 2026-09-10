@@ -1,17 +1,14 @@
 import React from "react";
-import { useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import SideContainer from "../../components/SideContainer";
-import { HStack, VStack } from "@navikt/ds-react";
-import { InternLenke } from "../../components/InternLenke";
-import { NyheterInnhold, UFILTRERT_NYHETSLISTE } from "./Nyhetsdata";
-import { erIDev } from "../../components/Dekoratør/Dekoratør";
+import { Heading, HStack, VStack } from "@navikt/ds-react";
+import { FILTRERT_SORTERT_NYHETSLISTE, NyheterInnhold } from "./Nyhetsdata";
 import styles from "./nyhetsside.module.scss";
+import { lokalDato } from "../../util/dato";
 
 export default function Nyheter() {
     const { nyhetsId } = useParams<{ nyhetsId: string }>();
-    const filtrertNyhetsliste = UFILTRERT_NYHETSLISTE.filter(
-        (nyhet) => erIDev || !nyhet.bareIDev,
-    );
+    const filtrertNyhetsliste = FILTRERT_SORTERT_NYHETSLISTE;
 
     const valgtNyhet = React.useMemo(
         () =>
@@ -23,10 +20,8 @@ export default function Nyheter() {
 
     return (
         <SideContainer className={styles.nyhetsside}>
-            <HStack align="stretch" wrap={false}>
-                <Nyhetsliste nyheter={filtrertNyhetsliste} />
-                {valgtNyhet && <Nyhetsdetaljer nyhet={valgtNyhet} />}
-            </HStack>
+            <Nyhetsliste nyheter={filtrertNyhetsliste} />
+            {valgtNyhet && <Nyhetsdetaljer nyhet={valgtNyhet} />}
         </SideContainer>
     );
 }
@@ -34,6 +29,9 @@ export default function Nyheter() {
 function Nyhetsliste({ nyheter }: { nyheter: NyheterInnhold[] }) {
     return (
         <VStack className={styles.nyhetsliste}>
+            <Heading level="2" size="medium">
+                Nyheter
+            </Heading>
             {nyheter.map((nyhet) => (
                 <NyhetslisteEntry key={nyhet.id} nyhet={nyhet} />
             ))}
@@ -44,20 +42,26 @@ function Nyhetsliste({ nyheter }: { nyheter: NyheterInnhold[] }) {
 function NyhetslisteEntry({ nyhet }: { nyhet: NyheterInnhold }) {
     //Link to /nyheter/:nyhetsId
     return (
-        <InternLenke
-            href={`/nyheter/${nyhet.id}`}
-            className={styles.nyhetslisteEntry}
+        <NavLink
+            to={`/nyheter/${nyhet.id}`}
+            className={({ isActive }) =>
+                isActive
+                    ? `${styles.nyhetslisteEntry} ${styles.aktivLenke}`
+                    : styles.nyhetslisteEntry
+            }
         >
             {nyhet.tittel}
-        </InternLenke>
+        </NavLink>
     );
 }
 
 function Nyhetsdetaljer({ nyhet }: { nyhet: NyheterInnhold }) {
     return (
         <div className={styles.nyhetsdetaljer}>
-            <h3>{nyhet.tittel}</h3>
-
+            <HStack justify="space-between" align="baseline">
+                <h3>{nyhet.tittel}</h3>
+                <span>{lokalDato(nyhet.dato)}</span>
+            </HStack>
             <p>{nyhet.ingress}</p>
         </div>
     );
