@@ -2,13 +2,16 @@ import React from "react";
 import { NavLink, useParams } from "react-router-dom";
 import SideContainer from "../../components/SideContainer";
 import { Heading, HStack, VStack } from "@navikt/ds-react";
-import { FILTRERT_SORTERT_NYHETSLISTE, NyheterInnhold } from "./Nyhetsdata";
+import { NyheterInnhold, UFILTRERT_NYHETSLISTE } from "./Nyhetsdata";
 import styles from "./nyhetsside.module.scss";
 import { lokalDato } from "../../util/dato";
+import { erIDev } from "../../components/Dekoratør/Dekoratør";
 
 export default function Nyheter() {
     const { nyhetsId } = useParams<{ nyhetsId: string }>();
-    const filtrertNyhetsliste = FILTRERT_SORTERT_NYHETSLISTE;
+    const filtrertNyhetsliste = UFILTRERT_NYHETSLISTE.filter(
+        (nyhet) => erIDev || !nyhet.bareIDev,
+    ).sort((a, b) => b.dato.getTime() - a.dato.getTime());
 
     const valgtNyhet = React.useMemo(
         () =>

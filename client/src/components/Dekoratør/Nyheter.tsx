@@ -8,12 +8,15 @@ import {
 } from "@navikt/ds-react";
 import { lokalDato } from "../../util/dato";
 import styles from "./nyheter.module.scss";
-import { FILTRERT_SORTERT_NYHETSLISTE } from "../../Pages/Nyheter/Nyhetsdata";
+import { UFILTRERT_NYHETSLISTE } from "../../Pages/Nyheter/Nyhetsdata";
+import { erIDev } from "./Dekoratør";
 
 const EN_UKE_I_MILLISEKUNDER = 7 * 24 * 60 * 60 * 1000;
 
 export default function Nyheter() {
-    const filtrertNyhetsliste = FILTRERT_SORTERT_NYHETSLISTE;
+    const filtrertNyhetsliste = UFILTRERT_NYHETSLISTE.filter(
+        (nyhet) => erIDev || !nyhet.bareIDev,
+    ).sort((a, b) => b.dato.getTime() - a.dato.getTime());
     if (filtrertNyhetsliste.length === 0) {
         return null;
     }

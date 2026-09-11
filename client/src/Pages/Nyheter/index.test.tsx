@@ -32,7 +32,7 @@ const testnyheter: NyheterInnhold[] = [
 ];
 
 jest.mock("./Nyhetsdata", () => ({
-    get FILTRERT_SORTERT_NYHETSLISTE() {
+    get UFILTRERT_NYHETSLISTE() {
         return testnyheter;
     },
 }));
