@@ -6,7 +6,6 @@ export type NyheterInnhold = {
     shortIngress?: string; //Hvis denne finnes er det den som vises i menyen, ellers vises ingress
     id: number;
     dato: Date;
-    skjulEtter?: Date; //Nyheten vises ikke etter denne datoen
     bareIDev?: boolean; //Hvis denne er true vises nyheten kun i dev, ellers vises den i prod også
 };
 

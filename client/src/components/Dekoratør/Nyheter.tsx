@@ -1,3 +1,4 @@
+import { Fragment } from "react";
 import { BellDotFillIcon, BellIcon } from "@navikt/aksel-icons";
 import {
     ActionMenu,
@@ -9,21 +10,24 @@ import { lokalDato } from "../../util/dato";
 import styles from "./nyheter.module.scss";
 import { FILTRERT_SORTERT_NYHETSLISTE } from "../../Pages/Nyheter/Nyhetsdata";
 
+const EN_UKE_I_MILLISEKUNDER = 7 * 24 * 60 * 60 * 1000;
+
 export default function Nyheter() {
     const filtrertNyhetsliste = FILTRERT_SORTERT_NYHETSLISTE;
     if (filtrertNyhetsliste.length === 0) {
         return null;
     }
 
+    const nyesteNyhet = filtrertNyhetsliste[0];
+    const harUlesteNyheter =
+        new Date().getTime() - nyesteNyhet.dato.getTime() <
+        EN_UKE_I_MILLISEKUNDER;
+
     return (
         <ActionMenu>
             <ActionMenu.Trigger>
                 <InternalHeader.Button>
-                    {new Date().getTime() -
-                        filtrertNyhetsliste[
-                            filtrertNyhetsliste.length - 1
-                        ].dato.getTime() <
-                    7 * 24 * 60 * 60 * 1000 ? (
+                    {harUlesteNyheter ? (
                         <BellDotFillIcon
                             title="Uleste nyheter"
                             fontSize="1.5rem"
@@ -39,9 +43,8 @@ export default function Nyheter() {
             <ActionMenu.Content className={styles.nyhetsmenyinnhold}>
                 <ActionMenu.Group label="Nyheter">
                     {filtrertNyhetsliste.map((nyhet) => (
-                        <>
+                        <Fragment key={nyhet.id}>
                             <ActionMenu.Item
-                                key={nyhet.id}
                                 className={styles.nyhet}
                                 as="a"
                                 href={`/nyheter/${nyhet.id}`}
@@ -62,10 +65,9 @@ export default function Nyheter() {
                             {nyhet.id !== filtrertNyhetsliste[0].id && (
                                 <ActionMenu.Divider
                                     className={styles.nyhetsmenydivider}
-                                    key={`divider-${nyhet.id}`}
                                 />
                             )}
-                        </>
+                        </Fragment>
                     ))}
                 </ActionMenu.Group>
             </ActionMenu.Content>
