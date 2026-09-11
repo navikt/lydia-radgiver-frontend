@@ -25,11 +25,11 @@ export const SamarbeidsperiodeHistorikkTabell = ({
     );
 
     return (
-        <>
+        <div className={styles.historikkTabellWrapper}>
             <Table
                 size="small"
                 className={styles.historikkTabell}
-                style={{ width: "fit-content" }}
+                style={{ width: "max-content" }}
             >
                 <colgroup>
                     <col />
@@ -162,6 +162,6 @@ export const SamarbeidsperiodeHistorikkTabell = ({
                     ))}
                 </Table.Body>
             </Table>
-        </>
+        </div>
     );
 };
