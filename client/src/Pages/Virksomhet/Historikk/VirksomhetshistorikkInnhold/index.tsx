@@ -90,13 +90,13 @@ export function VirksomhetshistorikkInnhold({
         [virksomhetshistorikk],
     );
 
-    const [tab, velgTab] = useState(
-        sortertHistorikk.samarbeidsperioder[0].saksnummer,
-    );
+    const nyesteSaksnummer =
+        sortertHistorikk.samarbeidsperioder[0].saksnummer;
+    const [tab, velgTab] = useState(nyesteSaksnummer);
 
     useEffect(() => {
-        velgTab(sortertHistorikk.samarbeidsperioder[0].saksnummer);
-    }, [sortertHistorikk]);
+        velgTab(nyesteSaksnummer);
+    }, [nyesteSaksnummer]);
 
     const saksnumre = sortertHistorikk.samarbeidsperioder.map(
         (s) => s.saksnummer,
