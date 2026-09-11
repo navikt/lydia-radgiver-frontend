@@ -1,4 +1,4 @@
-import { Fragment } from "react";
+import React from "react";
 import { BellDotFillIcon, BellIcon } from "@navikt/aksel-icons";
 import {
     ActionMenu,
@@ -14,9 +14,13 @@ import { erIDev } from "./Dekoratør";
 const EN_UKE_I_MILLISEKUNDER = 7 * 24 * 60 * 60 * 1000;
 
 export default function Nyheter() {
-    const filtrertNyhetsliste = UFILTRERT_NYHETSLISTE.filter(
-        (nyhet) => erIDev || !nyhet.bareIDev,
-    ).sort((a, b) => b.dato.getTime() - a.dato.getTime());
+    const filtrertNyhetsliste = React.useMemo(
+        () =>
+            UFILTRERT_NYHETSLISTE.filter(
+                (nyhet) => erIDev || !nyhet.bareIDev,
+            ).sort((a, b) => b.dato.getTime() - a.dato.getTime()),
+        [UFILTRERT_NYHETSLISTE],
+    );
     if (filtrertNyhetsliste.length === 0) {
         return null;
     }
@@ -46,7 +50,7 @@ export default function Nyheter() {
             <ActionMenu.Content className={styles.nyhetsmenyinnhold}>
                 <ActionMenu.Group label="Nyheter">
                     {filtrertNyhetsliste.map((nyhet) => (
-                        <Fragment key={nyhet.id}>
+                        <React.Fragment key={nyhet.id}>
                             <ActionMenu.Item
                                 className={styles.nyhet}
                                 as="a"
@@ -70,7 +74,7 @@ export default function Nyheter() {
                                     className={styles.nyhetsmenydivider}
                                 />
                             )}
-                        </Fragment>
+                        </React.Fragment>
                     ))}
                 </ActionMenu.Group>
             </ActionMenu.Content>

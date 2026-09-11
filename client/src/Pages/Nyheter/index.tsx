@@ -9,9 +9,13 @@ import { erIDev } from "../../components/Dekoratør/Dekoratør";
 
 export default function Nyheter() {
     const { nyhetsId } = useParams<{ nyhetsId: string }>();
-    const filtrertNyhetsliste = UFILTRERT_NYHETSLISTE.filter(
-        (nyhet) => erIDev || !nyhet.bareIDev,
-    ).sort((a, b) => b.dato.getTime() - a.dato.getTime());
+    const filtrertNyhetsliste = React.useMemo(
+        () =>
+            UFILTRERT_NYHETSLISTE.filter(
+                (nyhet) => erIDev || !nyhet.bareIDev,
+            ).sort((a, b) => b.dato.getTime() - a.dato.getTime()),
+        [UFILTRERT_NYHETSLISTE],
+    );
 
     const valgtNyhet = React.useMemo(
         () =>
