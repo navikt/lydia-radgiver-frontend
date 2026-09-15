@@ -15,6 +15,7 @@ import { Head } from "@unhead/react";
 import styles from "./app.module.scss";
 import { NyVirksomhetsside } from "./Pages/Virksomhet";
 import Debugside from "./Pages/Virksomhet/Debugside";
+import Nyheter from "./Pages/Nyheter";
 
 const App = () => (
     <BrowserRouter>
@@ -170,6 +171,17 @@ const AppContent = () => {
                     element={
                         <main className={styles.appramme} id="maincontent">
                             <MineSakerside />
+                        </main>
+                    }
+                />
+                <Route
+                    path={"/nyheter/:nyhetsId?"}
+                    element={
+                        <main
+                            className={styles.fullBreddeAppramme}
+                            id="maincontent"
+                        >
+                            <Nyheter />
                         </main>
                     }
                 />

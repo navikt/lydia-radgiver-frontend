@@ -5,6 +5,7 @@ import { NyStatistikkPubliseresBanner } from "../Banner/NyStatistikkPubliseresBa
 import { LeaveIcon } from "@navikt/aksel-icons";
 import { InternLenke } from "../InternLenke";
 import styles from "./dekoratør.module.scss";
+import Nyheter from "./Nyheter";
 
 export const erIDev = [
     "localhost",
@@ -71,6 +72,7 @@ export const Dekoratør = ({ brukerInformasjon }: Props) => {
                 </BodyShort>
                 <div className={styles.søkOgBrukerinfo}>
                     <Søkefelt className={styles.virksomhetssøk} />
+                    <Nyheter />
                     <Dropdown>
                         <InternalHeader.UserButton
                             as={Dropdown.Toggle}

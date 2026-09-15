@@ -94,36 +94,39 @@ function SamarbeidsperiodeHistorikkWrapper({
     ]);
 
     return (
-        <VStack gap="space-16" paddingBlock="space-16" paddingInline="space-16">
+        <VStack
+            gap="space-16"
+            style={{ marginTop: "1.5rem" }}
+            paddingBlock="space-16"
+            paddingInline="space-16"
+        >
             <HStack gap="space-16" align="center" justify="space-between">
                 <HStack gap="space-8" align="center">
-                    <BodyShort
-                        aria-label={
-                            samarbeidsperiode.status === "AKTIV"
-                                ? `Samarbeidsperiode: ${datointervall({
-                                      status: samarbeidsperiode.status,
-                                      opprettet:
-                                          samarbeidsperiodehistorikk.opprettet,
-                                      sistEndret:
-                                          samarbeidsperiodehistorikk.sistEndret,
-                                  })} til`
-                                : undefined
-                        }
+                    <BodyShort size="large"
+                               aria-label={
+                                   samarbeidsperiode.status === "AKTIV"
+                                       ? `Samarbeidsperiode: ${datointervall({
+                                           status: samarbeidsperiode.status,
+                                           opprettet:
+                                           samarbeidsperiodehistorikk.opprettet,
+                                           sistEndret:
+                                           samarbeidsperiodehistorikk.sistEndret,
+                                       })} til`
+                                       : undefined
+                               }
                     >
-                        <span
-                            aria-hidden={
-                                samarbeidsperiode.status === "AKTIV"
-                            }
-                        >
-                            <b>Samarbeidsperiode: </b>
-                            {datointervall({
-                                status: samarbeidsperiode.status,
-                                opprettet:
-                                    samarbeidsperiodehistorikk.opprettet,
-                                sistEndret:
-                                    samarbeidsperiodehistorikk.sistEndret,
-                            })}
-                        </span>
+                                                <span
+                                                    aria-hidden={
+                                                        samarbeidsperiode.status === "AKTIV"
+                                                    }
+                                                >
+                        <b>Samarbeidsperiode: </b>
+                        {datointervall({
+                            status: samarbeidsperiode.status,
+                            opprettet: samarbeidsperiodehistorikk.opprettet,
+                            sistEndret: samarbeidsperiodehistorikk.sistEndret,
+                        })}
+                                                     </span>
                     </BodyShort>
                 </HStack>
                 <HStack gap="space-16" align="center" justify="end">

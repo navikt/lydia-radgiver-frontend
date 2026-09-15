@@ -1,0 +1,18 @@
+.nyhetsmenyinnhold {
+    --ax-font-size-medium: 1.5rem;
+    .nyhetsmenydivider {
+        margin-top: 1rem;
+    }
+    .nyhet {
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        align-items: flex-start;
+        --ax-font-size-medium: 1rem;
+
+        .nyhetsdato {
+            text-align: right;
+            width: 100%;
+        }
+    }
+}

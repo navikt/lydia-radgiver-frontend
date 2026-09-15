@@ -13,6 +13,11 @@
     }
 }
 
+.historikkTabellWrapper {
+    width: 100%;
+    overflow-x: auto;
+}
+
 .historikkTabell {
     background: transparent;
 
@@ -20,8 +25,17 @@
     :global(.aksel-table__data-cell) {
         border: none;
         box-shadow: none;
-        background: transparent;
+        vertical-align: baseline;
     }
+
+    :global(.aksel-table__data-cell):not(:last-child) {
+        padding-right: 3rem;
+    }
+}
+
+.smalKolonne {
+    width: 1%;
+    white-space: nowrap;
 }
 
 .visuallyHidden {
@@ -36,17 +50,6 @@
     border: 0;
 }
 
-.samarbeidsperiodetabell {
-    display: grid;
-    grid-template-columns: min-content auto auto auto;
-    align-items: baseline;
-    column-gap: 4rem;
-    justify-content: start;
-    row-gap: 0.7rem;
-}
-
 .begrunnelseListe {
-    margin: 0;
     padding: 0;
-    list-style-position: inside;
 }
