@@ -17,6 +17,7 @@ import { useKaskadeRevalidering } from "../../../../../util/useKaskadeRevalideri
 import { sortertPå } from "../../../../../util/sortering";
 import { SamarbeidAccordion } from "./SamarbeidAccordion";
 import { Link } from "react-router-dom";
+import styles from "./samarbeidsperiodehistorikk.module.scss";
 
 export function SamarbeidsperiodeHistorikkMedDatahenting({
     orgnr,
@@ -102,31 +103,16 @@ function SamarbeidsperiodeHistorikkWrapper({
         >
             <HStack gap="space-16" align="center" justify="space-between">
                 <HStack gap="space-8" align="center">
-                    <BodyShort
-                        size="large"
-                        aria-label={
-                            samarbeidsperiode.status === "AKTIV"
-                                ? `Samarbeidsperiode: ${datointervall({
-                                      status: samarbeidsperiode.status,
-                                      opprettet:
-                                          samarbeidsperiodehistorikk.opprettet,
-                                      sistEndret:
-                                          samarbeidsperiodehistorikk.sistEndret,
-                                  })} til`
-                                : undefined
-                        }
-                    >
-                        <span
-                            aria-hidden={samarbeidsperiode.status === "AKTIV"}
-                        >
-                            <b>Samarbeidsperiode: </b>
-                            {datointervall({
-                                status: samarbeidsperiode.status,
-                                opprettet: samarbeidsperiodehistorikk.opprettet,
-                                sistEndret:
-                                    samarbeidsperiodehistorikk.sistEndret,
-                            })}
-                        </span>
+                    <BodyShort size="large">
+                        <b>Samarbeidsperiode: </b>
+                        {datointervall({
+                            status: samarbeidsperiode.status,
+                            opprettet: samarbeidsperiodehistorikk.opprettet,
+                            sistEndret: samarbeidsperiodehistorikk.sistEndret,
+                        })}
+                        {samarbeidsperiode.status === "AKTIV" && (
+                            <span className={styles.visuallyHidden}> til</span>
+                        )}
                     </BodyShort>
                 </HStack>
                 <HStack gap="space-16" align="center" justify="end">
