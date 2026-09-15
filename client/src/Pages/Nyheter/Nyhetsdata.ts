@@ -1,5 +1,3 @@
-import { erIDev } from "../../components/Dekoratør/Dekoratør";
-
 export type NyheterInnhold = {
     tittel: string;
     ingress: string;
@@ -37,7 +35,3 @@ export const UFILTRERT_NYHETSLISTE: NyheterInnhold[] = [
         bareIDev: true,
     },
 ];
-
-export const FILTRERT_SORTERT_NYHETSLISTE = UFILTRERT_NYHETSLISTE.filter(
-    (nyhet) => erIDev || !nyhet.bareIDev,
-).sort((a, b) => b.dato.getTime() - a.dato.getTime());
