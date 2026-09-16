@@ -94,6 +94,9 @@ function SamarbeidsperiodeHistorikkWrapper({
         samarbeidsperiodehistorikk.samarbeid,
     ]);
 
+    const samarbeidsperiodeErAktiv =
+        samarbeidsperiode.status === "AKTIV";
+
     return (
         <VStack
             gap="space-16"
@@ -104,14 +107,24 @@ function SamarbeidsperiodeHistorikkWrapper({
             <HStack gap="space-16" align="center" justify="space-between">
                 <HStack gap="space-8" align="center">
                     <BodyShort size="large">
-                        <b>Samarbeidsperiode: </b>
-                        {datointervall({
-                            status: samarbeidsperiode.status,
-                            opprettet: samarbeidsperiodehistorikk.opprettet,
-                            sistEndret: samarbeidsperiodehistorikk.sistEndret,
-                        })}
-                        {samarbeidsperiode.status === "AKTIV" && (
-                            <span className={styles.visuallyHidden}> til</span>
+                        <span aria-hidden={samarbeidsperiodeErAktiv}>
+                            <b>Samarbeidsperiode: </b>
+                            {datointervall({
+                                status: samarbeidsperiode.status,
+                                opprettet: samarbeidsperiodehistorikk.opprettet,
+                                sistEndret: samarbeidsperiodehistorikk.sistEndret,
+                            })}
+                        </span>
+                        {samarbeidsperiodeErAktiv && (
+                            <span className={styles.visuallyHidden}>
+                                Samarbeidsperiode:{" "}
+                                {datointervall({
+                                    status: samarbeidsperiode.status,
+                                    opprettet: samarbeidsperiodehistorikk.opprettet,
+                                    sistEndret: samarbeidsperiodehistorikk.sistEndret,
+                                })}{" "}
+                                til
+                            </span>
                         )}
                     </BodyShort>
                 </HStack>
