@@ -96,6 +96,11 @@ function SamarbeidsperiodeHistorikkWrapper({
 
     const samarbeidsperiodeErAktiv =
         samarbeidsperiode.status === "AKTIV";
+    const samarbeidsperiodeDatointervall = datointervall({
+        status: samarbeidsperiode.status,
+        opprettet: samarbeidsperiodehistorikk.opprettet,
+        sistEndret: samarbeidsperiodehistorikk.sistEndret,
+    });
 
     return (
         <VStack
@@ -109,21 +114,12 @@ function SamarbeidsperiodeHistorikkWrapper({
                     <BodyShort size="large">
                         <span aria-hidden={samarbeidsperiodeErAktiv}>
                             <b>Samarbeidsperiode: </b>
-                            {datointervall({
-                                status: samarbeidsperiode.status,
-                                opprettet: samarbeidsperiodehistorikk.opprettet,
-                                sistEndret: samarbeidsperiodehistorikk.sistEndret,
-                            })}
+                            {samarbeidsperiodeDatointervall}
                         </span>
                         {samarbeidsperiodeErAktiv && (
                             <span className={styles.visuallyHidden}>
                                 Samarbeidsperiode:{" "}
-                                {datointervall({
-                                    status: samarbeidsperiode.status,
-                                    opprettet: samarbeidsperiodehistorikk.opprettet,
-                                    sistEndret: samarbeidsperiodehistorikk.sistEndret,
-                                })}{" "}
-                                til
+                                {samarbeidsperiodeDatointervall} til
                             </span>
                         )}
                     </BodyShort>
