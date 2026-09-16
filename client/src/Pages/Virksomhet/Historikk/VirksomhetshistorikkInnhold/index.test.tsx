@@ -45,6 +45,25 @@ const lagHistorikk = (
 });
 
 describe("VirksomhetshistorikkInnhold", () => {
+    it("setter aria-label med dato og status på samarbeidsperiodefanen", () => {
+        render(
+            <VirksomhetshistorikkInnhold
+                virksomhetshistorikk={lagHistorikk(samarbeidsperioder)}
+                lasterVirksomhetshistorikk={false}
+                orgnr="123456789"
+            />,
+        );
+
+        const fane = screen.getByRole("tab", {
+            name: "03.09.2026, status AKTIV",
+        });
+
+        expect(fane).toHaveAttribute(
+            "aria-label",
+            "03.09.2026, status AKTIV",
+        );
+    });
+
     it("beholder valgt fane ved revalidering med samme nyeste samarbeidsperiode", () => {
         const { rerender } = render(
             <VirksomhetshistorikkInnhold
