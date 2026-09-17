@@ -207,6 +207,32 @@ describe("NyVirksomhetsside", () => {
         expect(screen.getByText("Samarbeid (8)")).toBeInTheDocument();
     });
 
+    it("flytter fokus mellom virksomhetsfanene med piltast", async () => {
+        jest.mocked(useSearchParams).mockReturnValue([
+            new URLSearchParams({ fane: "historikk" }),
+            jest.fn(),
+        ]);
+
+        render(
+            <BrowserRouter>
+                <NyVirksomhetsside />
+            </BrowserRouter>,
+        );
+
+        const historikk = screen.getByRole("tab", { name: "Historikk" });
+        const statistikk = screen.getByRole("tab", {
+            name: "Sykefraværsstatistikk",
+        });
+
+        await waitFor(() =>
+            expect(historikk).toHaveAttribute("tabindex", "0"),
+        );
+        historikk.focus();
+        fireEvent.keyDown(historikk, { key: "ArrowLeft" });
+
+        expect(statistikk).toHaveFocus();
+    });
+
     describe("Legg til samarbeid-knapp", () => {
         beforeEach(() => {
             jest.mocked(useHentSpesifikkSakNyFlyt).mockReturnValue({

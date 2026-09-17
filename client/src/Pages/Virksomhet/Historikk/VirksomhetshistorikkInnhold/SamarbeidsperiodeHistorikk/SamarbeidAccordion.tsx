@@ -46,6 +46,11 @@ export function SamarbeidAccordion({
                                         <BodyShort
                                             as="span"
                                             className={styles.dato}
+                                            aria-label={
+                                                samarbeid.status === "AKTIV"
+                                                    ? `${datointervall(samarbeid)} til`
+                                                    : undefined
+                                            }
                                         >
                                             {datointervall(samarbeid)}
                                         </BodyShort>

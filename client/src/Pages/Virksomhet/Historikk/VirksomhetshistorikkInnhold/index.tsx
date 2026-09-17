@@ -125,6 +125,7 @@ export function VirksomhetshistorikkInnhold({
                                         />
                                     }
                                     label={lokalDato(samarbeidsperiode.fraDato)}
+                                    aria-label={`${lokalDato(samarbeidsperiode.fraDato)}, status ${samarbeidsperiode.status}`}
                                 />
                             ),
                         )}

@@ -24,6 +24,11 @@
         // Override default styles fra tab
         --ax-font-weight-bold: 400;
         --ax-space-4: 0.5rem;
+
+        &[data-state="active"] {
+            border-end-start-radius: 0;
+            border-end-end-radius: 0;
+        }
     }
 }
 

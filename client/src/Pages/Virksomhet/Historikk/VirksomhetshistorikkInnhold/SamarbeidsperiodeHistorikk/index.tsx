@@ -17,6 +17,7 @@ import { useKaskadeRevalidering } from "../../../../../util/useKaskadeRevalideri
 import { sortertPå } from "../../../../../util/sortering";
 import { SamarbeidAccordion } from "./SamarbeidAccordion";
 import { Link } from "react-router-dom";
+import styles from "./samarbeidsperiodehistorikk.module.scss";
 
 export function SamarbeidsperiodeHistorikkMedDatahenting({
     orgnr,
@@ -93,6 +94,14 @@ function SamarbeidsperiodeHistorikkWrapper({
         samarbeidsperiodehistorikk.samarbeid,
     ]);
 
+    const samarbeidsperiodeErAktiv =
+        samarbeidsperiode.status === "AKTIV";
+    const samarbeidsperiodeDatointervall = datointervall({
+        status: samarbeidsperiode.status,
+        opprettet: samarbeidsperiodehistorikk.opprettet,
+        sistEndret: samarbeidsperiodehistorikk.sistEndret,
+    });
+
     return (
         <VStack
             gap="space-16"
@@ -103,12 +112,16 @@ function SamarbeidsperiodeHistorikkWrapper({
             <HStack gap="space-16" align="center" justify="space-between">
                 <HStack gap="space-8" align="center">
                     <BodyShort size="large">
-                        <b>Samarbeidsperiode: </b>
-                        {datointervall({
-                            status: samarbeidsperiode.status,
-                            opprettet: samarbeidsperiodehistorikk.opprettet,
-                            sistEndret: samarbeidsperiodehistorikk.sistEndret,
-                        })}
+                        <span aria-hidden={samarbeidsperiodeErAktiv}>
+                            <b>Samarbeidsperiode: </b>
+                            {samarbeidsperiodeDatointervall}
+                        </span>
+                        {samarbeidsperiodeErAktiv && (
+                            <span className={styles.visuallyHidden}>
+                                Samarbeidsperiode:{" "}
+                                {samarbeidsperiodeDatointervall} til
+                            </span>
+                        )}
                     </BodyShort>
                 </HStack>
                 <HStack gap="space-16" align="center" justify="end">

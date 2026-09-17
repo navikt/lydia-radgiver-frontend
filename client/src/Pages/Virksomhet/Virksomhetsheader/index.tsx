@@ -196,6 +196,13 @@ function Detaljseksjon({
     );
 }
 
+const TabButton = ({ className, ...remainingProps }: ButtonProps) => (
+    <Button
+        {...remainingProps}
+        className={`${className ?? ""} ${styles.tabButton}`}
+    />
+);
+
 function Høyreknapper({
     virksomhet,
     iaSak,
@@ -206,33 +213,25 @@ function Høyreknapper({
     return (
         <HStack gap="space-16" justify="end">
             <Detaljseksjon iaSak={iaSak!} virksomhet={virksomhet} />
-            <HStack gap="space-16" justify="end" role="tablist">
-                <Tabs.Tab
-                    as={({ className, ...remainingProps }: ButtonProps) => (
-                        <Button
-                            {...remainingProps}
-                            className={styles.tabButton}
-                        />
-                    )}
-                    variant="tertiary"
-                    size="small"
-                    value="statistikk"
-                    label="Sykefraværsstatistikk"
-                    icon={<TrendUpIcon aria-hidden fontSize="1.25rem" />}
-                />
-                <Tabs.Tab
-                    as={({ className, ...remainingProps }: ButtonProps) => (
-                        <Button
-                            {...remainingProps}
-                            className={styles.tabButton}
-                        />
-                    )}
-                    variant="tertiary"
-                    size="small"
-                    value="historikk"
-                    label="Historikk"
-                    icon={<ClockIcon aria-hidden fontSize="1.25rem" />}
-                />
+            <HStack gap="space-16" justify="end">
+                <Tabs.List>
+                    <Tabs.Tab
+                        as={TabButton}
+                        variant="tertiary"
+                        size="small"
+                        value="statistikk"
+                        label="Sykefraværsstatistikk"
+                        icon={<TrendUpIcon aria-hidden fontSize="1.25rem" />}
+                    />
+                    <Tabs.Tab
+                        as={TabButton}
+                        variant="tertiary"
+                        size="small"
+                        value="historikk"
+                        label="Historikk"
+                        icon={<ClockIcon aria-hidden fontSize="1.25rem" />}
+                    />
+                </Tabs.List>
             </HStack>
         </HStack>
     );
