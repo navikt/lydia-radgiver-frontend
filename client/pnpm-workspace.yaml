@@ -16,4 +16,6 @@ overrides:
   # Tving js-yaml til versjoner som ikke er truffet av CVE-2026-59869
   js-yaml@>=3.0.0 <3.15.2: ^3.15.2
   js-yaml@>=4.0.0 < 4.3.0: ^4.3.0
+  # Tving brace-expansion til versjon som ikke er truffet av CVE-2026-13149
+  brace-expansion@<1.1.16 : ^1.1.16
   postcss: "8.5.23"
