@@ -19,9 +19,7 @@ export default [
         },
         extends: [
             "eslint:recommended",
-            "plugin:react/recommended",
             "plugin:@typescript-eslint/recommended",
-            "plugin:jsx-a11y/recommended",
         ],
         parser: "@typescript-eslint/parser",
         parserOptions: {
@@ -31,7 +29,7 @@ export default [
             ecmaVersion: "latest",
             sourceType: "module",
         },
-        plugins: ["react", "@typescript-eslint", "jsx-a11y"],
+        plugins: ["@typescript-eslint"],
         rules: {
             "react/react-in-jsx-scope": "off",
             "@typescript-eslint/no-unused-vars": [
