@@ -21,3 +21,12 @@ overrides:
   # Tving browserslist til versjon som ikke er truffet av CVE-2026-73088
   browserslist@<= 4.28.6: ^4.28.7
   postcss: "8.5.23"
+  # Pinnet pga. https://github.com/dperini/nwsapi/issues/215:
+  # nwsapi 2.2.24–2.2.27 har en rekursjonsbug i matchesNative() der
+  # element.matches(':modal'/':fullscreen'/':open'/':closed') kaller
+  # seg selv til stack overflow under jsdom. Trigges av @floating-ui/react
+  # sin fokus-/posisjoneringslogikk i Aksel Modal og gjorde testene
+  # 15–90x tregere. Fjern denne overriden når en patchet nwsapi-versjon
+  # (>2.2.27) er utgitt og jsdom har oppdatert sin avhengighet.
+  nwsapi: "2.2.23"
+
