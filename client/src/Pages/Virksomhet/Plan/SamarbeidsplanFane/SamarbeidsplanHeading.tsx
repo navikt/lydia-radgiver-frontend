@@ -30,8 +30,10 @@ export function SamarbeidsplanHeading({
         samarbeid.id,
     );
 
-    const { henterSamarbeidsplanPånytt, forsøkPåÅHenteSamarbeidsplan } =
-        usePollingAvSamarbeidsplan(samarbeidsplan, hentSamarbeidsplanPåNytt);
+    const { pollerSamarbeidsplan } = usePollingAvSamarbeidsplan(
+        samarbeidsplan,
+        hentSamarbeidsplanPåNytt,
+    );
 
     return (
         <>
@@ -46,10 +48,7 @@ export function SamarbeidsplanHeading({
                         plan={samarbeidsplan}
                         iaSak={iaSak}
                         hentSamarbeidsplanPåNytt={hentSamarbeidsplanPåNytt}
-                        pollerPåStatus={
-                            henterSamarbeidsplanPånytt ||
-                            forsøkPåÅHenteSamarbeidsplan < 10
-                        }
+                        pollerPåStatus={pollerSamarbeidsplan}
                     />
                     <Samarbeidsfanemeny type="SAMARBEIDSPLAN" laster={lagrer}>
                         {samarbeidsplan && (
