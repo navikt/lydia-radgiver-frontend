@@ -1,5 +1,5 @@
 import React from "react";
-import { BodyShort, HStack, Modal } from "@navikt/ds-react";
+import { HStack, Modal } from "@navikt/ds-react";
 import Forhåndsvisning from "./Forhåndsvisning";
 import ForhåndsvisningEksport from "../ForhåndsvisningEksport";
 import { Spørreundersøkelse } from "../../../../domenetyper/spørreundersøkelse";
@@ -46,10 +46,6 @@ export const SpørreundersøkelseMedInnholdVisning = ({
             width="70rem"
         >
             <Modal.Body>
-                <BodyShort>
-                    Spørsmålene er basert på innholdet i samarbeidsplanen ved
-                    opprettelse
-                </BodyShort>
                 <Forhåndsvisning
                     spørreundersøkelseid={spørreundersøkelseid}
                     setModaltittel={setModaltittel}
