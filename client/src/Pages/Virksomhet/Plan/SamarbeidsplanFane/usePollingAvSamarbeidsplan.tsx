@@ -8,10 +8,13 @@ export function usePollingAvSamarbeidsplan(
     const [forsøkPåÅHenteSamarbeidsplan, setForsøkPåÅHenteSamarbeidsplan] =
         React.useState(0);
 
+    const MAKS_FORSØK = 10;
+    const pollerSamarbeidsplan = forsøkPåÅHenteSamarbeidsplan < MAKS_FORSØK;
+
     React.useEffect(() => {
         if (
             plan?.publiseringStatus !== "OPPRETTET" ||
-            forsøkPåÅHenteSamarbeidsplan >= 10
+            forsøkPåÅHenteSamarbeidsplan >= MAKS_FORSØK
         ) {
             return;
         }
@@ -33,5 +36,5 @@ export function usePollingAvSamarbeidsplan(
         plan?.publiseringStatus,
     ]);
 
-    return { forsøkPåÅHenteSamarbeidsplan };
+    return { pollerSamarbeidsplan };
 }
