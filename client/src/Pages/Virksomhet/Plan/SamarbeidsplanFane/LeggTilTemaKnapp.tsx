@@ -179,9 +179,13 @@ export default function LeggTilTemaKnapp({
 
 function PlanKanIkkeSlettesInfo() {
     const [alertLukket, setAlertLukket] = React.useState(false);
+
+    const ref = React.useRef<HTMLDivElement | null>(null);
+    useEffect(() => ref.current?.scrollIntoView({ behavior: "smooth" }), []);
+
     return (
         !alertLukket && (
-            <LocalAlert status="announcement">
+            <LocalAlert status="announcement" ref={ref}>
                 <LocalAlert.Header>
                     <LocalAlert.Title>Planen kan ikke slettes</LocalAlert.Title>
                     <LocalAlert.CloseButton
