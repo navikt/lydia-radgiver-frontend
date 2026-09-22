@@ -181,7 +181,14 @@ function PlanKanIkkeSlettesInfo() {
     const [alertLukket, setAlertLukket] = React.useState(false);
 
     const ref = React.useRef<HTMLDivElement | null>(null);
-    useEffect(() => ref.current?.scrollIntoView({ behavior: "smooth" }), []);
+    useEffect(() => {
+        const foretrekkerRedusertBevegelse = window.matchMedia(
+            "(prefers-reduced-motion: reduce)",
+        ).matches;
+        ref.current?.scrollIntoView({
+            behavior: foretrekkerRedusertBevegelse ? "auto" : "smooth",
+        });
+    }, []);
 
     return (
         !alertLukket && (
