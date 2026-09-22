@@ -5,44 +5,36 @@ export function usePollingAvSamarbeidsplan(
     plan: Plan,
     hentSamarbeidsplanPåNytt: () => void,
 ) {
-    const [henterSamarbeidsplanPånytt, setHenterSamarbeidsplanPåNytt] =
-        React.useState(false);
-
     const [forsøkPåÅHenteSamarbeidsplan, setForsøkPåÅHenteSamarbeidsplan] =
         React.useState(0);
 
-    React.useEffect(() => {
-        let timeoutId: ReturnType<typeof setTimeout> | undefined;
+    const MAKS_FORSØK = 10;
+    const pollerSamarbeidsplan = forsøkPåÅHenteSamarbeidsplan < MAKS_FORSØK;
 
-        if (plan?.publiseringStatus === "OPPRETTET") {
-            if (
-                !henterSamarbeidsplanPånytt &&
-                forsøkPåÅHenteSamarbeidsplan < 10
-            ) {
-                setHenterSamarbeidsplanPåNytt(true);
-                setForsøkPåÅHenteSamarbeidsplan(
-                    forsøkPåÅHenteSamarbeidsplan + 1,
-                );
-                timeoutId = setTimeout(
-                    () => {
-                        hentSamarbeidsplanPåNytt();
-                        setHenterSamarbeidsplanPåNytt(false);
-                    },
-                    (forsøkPåÅHenteSamarbeidsplan + 1) * 2000,
-                );
-            }
+    React.useEffect(() => {
+        if (
+            plan?.publiseringStatus !== "OPPRETTET" ||
+            forsøkPåÅHenteSamarbeidsplan >= MAKS_FORSØK
+        ) {
+            return;
         }
 
+        const timeoutId = setTimeout(
+            () => {
+                hentSamarbeidsplanPåNytt();
+                setForsøkPåÅHenteSamarbeidsplan((n) => n + 1);
+            },
+            (forsøkPåÅHenteSamarbeidsplan + 1) * 2000,
+        );
+
         return () => {
-            if (timeoutId !== undefined) {
-                clearTimeout(timeoutId);
-            }
+            clearTimeout(timeoutId);
         };
     }, [
         hentSamarbeidsplanPåNytt,
-        henterSamarbeidsplanPånytt,
+        forsøkPåÅHenteSamarbeidsplan,
         plan?.publiseringStatus,
     ]);
 
-    return { henterSamarbeidsplanPånytt, forsøkPåÅHenteSamarbeidsplan };
+    return { pollerSamarbeidsplan };
 }

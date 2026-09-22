@@ -104,7 +104,7 @@ export function getGraffargeFromTema(navn: string, mørk: boolean = false) {
         case "sykefraværsarbeid":
             return "var(--ax-success-600)";
         case "arbeidsmiljø":
-            return `var(--a-orange-${mørk ? "700" : "600"})`;
+            return `var(--ax-warning-${mørk ? "700" : "600"})`;
         case "partssamarbeid":
         default:
             return "var(--ax-accent-600)";
