@@ -297,19 +297,22 @@ function AvsluttedeSamarbeidListe({
     if (!avsluttedeSamarbeid || avsluttedeSamarbeid.length === 0) {
         return null;
     }
-    const defaultEkspandert =
-        (valgtSamarbeid &&
-            avsluttedeSamarbeid.some((s) => s.id === valgtSamarbeid.id)) ||
-        false;
-    const [åpen, setÅpen] = React.useState(defaultEkspandert);
+    const valgtSamarbeidAvsluttet = avsluttedeSamarbeid.some(
+        (samarbeid) => samarbeid.id === valgtSamarbeid?.id,
+    );
+    const [åpen, setÅpen] = React.useState(false);
 
     return (
         <ReadMore
             size="small"
             className={styles.inaktiveSamarbeidReadMore}
             header={`Avsluttede samarbeid (${avsluttedeSamarbeid.length})`}
-            open={åpen}
-            onClick={() => setÅpen(!åpen)}
+            open={valgtSamarbeidAvsluttet || åpen}
+            onClick={() => {
+                if (!valgtSamarbeidAvsluttet) {
+                    setÅpen((nåværendeÅpen) => !nåværendeÅpen);
+                }
+            }}
         >
             <div className={styles.liste}>
                 {avsluttedeSamarbeid?.map((s) => (

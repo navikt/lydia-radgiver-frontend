@@ -15,12 +15,9 @@ import {
 } from "../Prioritering/mocks/innloggetAnsattMock";
 import { IaSakProsess } from "../../domenetyper/iaSakProsess";
 
-jest.mock(
-    "src/Pages/Virksomhet/Samarbeid/NyttSamarbeidModal",
-    () => ({
-        NyttSamarbeidModal: () => <div data-testid="nytt-samarbeid-modal" />,
-    }),
-);
+jest.mock("src/Pages/Virksomhet/Samarbeid/NyttSamarbeidModal", () => ({
+    NyttSamarbeidModal: () => <div data-testid="nytt-samarbeid-modal" />,
+}));
 
 jest.mock("src/api/lydia-api/bruker", () => ({
     ...jest.requireActual("src/api/lydia-api/bruker"),
@@ -44,6 +41,11 @@ const aktivtSamarbeid = (id: number, navn: string): IaSakProsess => ({
     opprettet: new Date("2025-01-01"),
 });
 
+const avsluttetSamarbeid = (id: number, navn: string): IaSakProsess => ({
+    ...aktivtSamarbeid(id, navn),
+    status: "AVBRUTT",
+});
+
 const iaSakAktiv = {
     ...dummyIaSak,
     status: "AKTIV" as const,
@@ -53,6 +55,7 @@ const iaSakAktiv = {
 function renderSamarbeidsvelger(
     samarbeidsliste: IaSakProsess[],
     bruker = brukerMedGyldigToken,
+    valgtSamarbeid?: IaSakProsess,
 ) {
     (useHentBrukerinformasjon as jest.Mock).mockReturnValue({ data: bruker });
     (useHentTeam as jest.Mock).mockReturnValue({
@@ -64,6 +67,7 @@ function renderSamarbeidsvelger(
             <Samarbeidsvelger
                 iaSak={iaSakAktiv}
                 samarbeidsliste={samarbeidsliste}
+                valgtSamarbeid={valgtSamarbeid}
                 virksomhet={dummyVirksomhetsinformasjon}
             />
         </BrowserRouter>,
@@ -148,6 +152,47 @@ describe("Samarbeidsvelger", () => {
             expect(
                 screen.getByTestId("nytt-samarbeid-modal"),
             ).toBeInTheDocument();
+        });
+    });
+
+    describe("Avsluttede samarbeid", () => {
+        const aktivt = aktivtSamarbeid(1, "Aktivt samarbeid");
+        const avsluttet = avsluttetSamarbeid(2, "Avsluttet samarbeid");
+
+        it("holder listen åpen når et avsluttet samarbeid er valgt", () => {
+
+            //velger avsluttet samarbeid
+            renderSamarbeidsvelger(
+                [aktivt, avsluttet],
+                brukerMedGyldigToken,
+                avsluttet,
+            );
+            const knapp = screen.getByRole("button", {
+                name: "Avsluttede samarbeid (1)",
+            });
+
+
+            expect(knapp).toHaveAttribute("aria-expanded", "true");
+            fireEvent.click(knapp);
+            expect(knapp).toHaveAttribute("aria-expanded", "true");
+        });
+
+        it("kan åpne og lukke listen når et aktivt samarbeid er valgt", () => {
+            //velger aktivt samarbeid
+            renderSamarbeidsvelger(
+                [aktivt, avsluttet],
+                brukerMedGyldigToken,
+                aktivt,
+            );
+            const knapp = screen.getByRole("button", {
+                name: "Avsluttede samarbeid (1)",
+            });
+
+            expect(knapp).toHaveAttribute("aria-expanded", "false");
+            fireEvent.click(knapp);
+            expect(knapp).toHaveAttribute("aria-expanded", "true");
+            fireEvent.click(knapp);
+            expect(knapp).toHaveAttribute("aria-expanded", "false");
         });
     });
 });
