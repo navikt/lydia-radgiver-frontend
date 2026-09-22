@@ -41,9 +41,6 @@ importers:
       highcharts:
         specifier: ^13.0.2
         version: 13.0.2(jspdf@4.2.1)
-      highcharts-react-official:
-        specifier: ^3.2.3
-        version: 3.2.3(highcharts@13.0.2(jspdf@4.2.1))(react@19.3.0)
       html-to-image:
         specifier: ^1.11.13
         version: 1.11.13
@@ -2152,12 +2149,6 @@ packages:
   hasown@2.0.4:
     resolution: {integrity: sha512-T2UbfbBEF32wiepXIsMlTW9+dDYC6wMh/t/vYA4tuOMKqWz/n3vr1NFSxQiyP+zk2mXsoMA/i/7qV6LKut1t1A==}
     engines: {node: '>= 0.4'}
-
-  highcharts-react-official@3.2.3:
-    resolution: {integrity: sha512-2gL8bVGe6Pf75tSe6IB5Ucd0nIOJX7ZrpttQBZVrjN2J9StdVZ12aOinXHIOFvlc6EzP8CbN13WS8NUq+9mptA==}
-    peerDependencies:
-      highcharts: '>=6.0.0'
-      react: '>=16.8.0'
 
   highcharts@13.0.2:
     resolution: {integrity: sha512-BBqoxQpRgA4c2oCfIIBRVIs+lt1CHKs1cZic9YBt54OukFY6DSyvQbLZ+/1UrN2iKu24I5HvMdVG89Z+Pis6zA==}
@@ -5374,11 +5365,6 @@ snapshots:
   hasown@2.0.4:
     dependencies:
       function-bind: 1.1.2
-
-  highcharts-react-official@3.2.3(highcharts@13.0.2(jspdf@4.2.1))(react@19.3.0):
-    dependencies:
-      highcharts: 13.0.2(jspdf@4.2.1)
-      react: 19.3.0
 
   highcharts@13.0.2(jspdf@4.2.1):
     optionalDependencies:
