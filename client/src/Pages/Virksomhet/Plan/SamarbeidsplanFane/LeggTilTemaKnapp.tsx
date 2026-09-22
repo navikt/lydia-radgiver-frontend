@@ -153,20 +153,7 @@ export default function LeggTilTemaKnapp({
                                     }
                                 />
                             ))}
-                    {planErTom && planErPublisert && (
-                        <LocalAlert status="announcement">
-                            <LocalAlert.Header>
-                                <LocalAlert.Title>
-                                    Planen kan ikke slettes
-                                </LocalAlert.Title>
-                            </LocalAlert.Header>
-                            <LocalAlert.Content>
-                                Planen er publisert og kan derfor ikke slettes.
-                                Om samarbeidet ikke skal fortsette, kan du
-                                avbryte det.
-                            </LocalAlert.Content>
-                        </LocalAlert>
-                    )}
+                    {planErTom && planErPublisert && <PlanKanIkkeSlettesInfo />}
                 </Modal.Body>
                 <ActionButtons
                     setModalOpen={setModalOpen}
@@ -187,6 +174,26 @@ export default function LeggTilTemaKnapp({
                 />
             </Modal>
         </>
+    );
+}
+
+function PlanKanIkkeSlettesInfo() {
+    const [alertLukket, setAlertLukket] = React.useState(false);
+    return (
+        !alertLukket && (
+            <LocalAlert status="announcement">
+                <LocalAlert.Header>
+                    <LocalAlert.Title>Planen kan ikke slettes</LocalAlert.Title>
+                    <LocalAlert.CloseButton
+                        onClick={() => setAlertLukket(true)}
+                    />
+                </LocalAlert.Header>
+                <LocalAlert.Content>
+                    Planen er publisert og kan derfor ikke slettes. Om
+                    samarbeidet ikke skal fortsette, kan du avbryte det.
+                </LocalAlert.Content>
+            </LocalAlert>
+        )
     );
 }
 
