@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BodyShort, Button, Modal } from "@navikt/ds-react";
+import { BodyShort, Button, LocalAlert, Modal } from "@navikt/ds-react";
 import InnholdOppsett from "../InnholdOppsett";
 import { Plan, PlanInnhold, PlanTema } from "../../../../domenetyper/plan";
 import {
@@ -42,6 +42,12 @@ export default function LeggTilTemaKnapp({
     const [gammelTemaliste, setGammelTemaliste] = React.useState<PlanTema[]>(
         samarbeidsplan.temaer,
     );
+
+    const planErTom = React.useMemo(
+        () => redigertTemaliste.every(({ inkludert }) => !inkludert),
+        [redigertTemaliste],
+    );
+    const planErPublisert = samarbeidsplan.publiseringStatus === "PUBLISERT";
 
     useEffect(() => {
         // Hvis innholdet faktisk har endret seg.
@@ -147,6 +153,20 @@ export default function LeggTilTemaKnapp({
                                     }
                                 />
                             ))}
+                    {planErTom && planErPublisert && (
+                        <LocalAlert status="announcement">
+                            <LocalAlert.Header>
+                                <LocalAlert.Title>
+                                    Planen kan ikke slettes
+                                </LocalAlert.Title>
+                            </LocalAlert.Header>
+                            <LocalAlert.Content>
+                                Planen er publisert og kan derfor ikke slettes.
+                                Om samarbeidet ikke skal fortsette, kan du
+                                avbryte det.
+                            </LocalAlert.Content>
+                        </LocalAlert>
+                    )}
                 </Modal.Body>
                 <ActionButtons
                     setModalOpen={setModalOpen}
@@ -162,6 +182,8 @@ export default function LeggTilTemaKnapp({
                             samarbeidsplan.id,
                         ).then(() => hentPlanIgjen(undefined));
                     }}
+                    planErTom={planErTom}
+                    kanSlette={!planErPublisert}
                 />
             </Modal>
         </>
@@ -175,6 +197,8 @@ function ActionButtons({
     redigertTemaliste,
     setRedigertTemaliste,
     samarbeidsplan,
+    planErTom,
+    kanSlette,
 }: {
     setModalOpen: (åpen: boolean) => void;
     lagreEndring: () => void;
@@ -182,6 +206,8 @@ function ActionButtons({
     redigertTemaliste: PlanTema[];
     setRedigertTemaliste: (temaliste: PlanTema[]) => void;
     samarbeidsplan: Plan;
+    planErTom: boolean;
+    kanSlette: boolean;
 }) {
     const harTemaUtenUndertema = React.useMemo(
         () =>
@@ -190,10 +216,6 @@ function ActionButtons({
                     tema.inkludert &&
                     !tema.undertemaer.some((undertema) => undertema.inkludert),
             ),
-        [redigertTemaliste],
-    );
-    const planErTom = React.useMemo(
-        () => !redigertTemaliste.some(({ inkludert }) => inkludert),
         [redigertTemaliste],
     );
 
@@ -214,6 +236,7 @@ function ActionButtons({
                         slettPlan();
                         setModalOpen(false);
                     }}
+                    disabled={!kanSlette}
                     icon={<TrashIcon aria-hidden />}
                     variant="primary"
                 >
