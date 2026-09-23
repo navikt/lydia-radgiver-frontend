@@ -52,6 +52,8 @@ export type SpørreundersøkelseStatus = z.infer<
 const DOKUMENT_STATUSER = ["OPPRETTET", "PUBLISERT", "IKKE_PUBLISERT"] as const;
 export const DokumentStatusEnum = z.enum(DOKUMENT_STATUSER);
 
+export type DokumentStatus = z.infer<typeof DokumentStatusEnum>;
+
 const DOKUMENT_TYPE = [
     "EVALUERING",
     "BEHOVSVURDERING",

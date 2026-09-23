@@ -14,6 +14,15 @@ import { loggModalÅpnet } from "../../../../util/analytics-klient";
 import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 
 import styles from "../plan.module.scss";
+import {
+    DokumentStatus,
+    DokumentStatusEnum,
+} from "../../../../domenetyper/domenetyper";
+
+const prøvdÅPublisereStatuser: Array<DokumentStatus | undefined | null> = [
+    DokumentStatusEnum.enum.PUBLISERT,
+    DokumentStatusEnum.enum.OPPRETTET,
+] as const;
 
 export default function LeggTilTemaKnapp({
     saksnummer,
@@ -47,7 +56,9 @@ export default function LeggTilTemaKnapp({
         () => redigertTemaliste.every(({ inkludert }) => !inkludert),
         [redigertTemaliste],
     );
-    const planErPublisert = samarbeidsplan.publiseringStatus === "PUBLISERT";
+    const planErPublisert = prøvdÅPublisereStatuser.includes(
+        samarbeidsplan.publiseringStatus,
+    );
 
     useEffect(() => {
         // Hvis innholdet faktisk har endret seg.

@@ -4,6 +4,7 @@ import "@testing-library/jest-dom";
 import LeggTilTemaKnapp from "./LeggTilTemaKnapp";
 import { IaSakProsess } from "../../../../domenetyper/iaSakProsess";
 import { Plan, PlanTema } from "../../../../domenetyper/plan";
+import { DokumentStatus } from "../../../../domenetyper/domenetyper";
 import * as bruker from "../../../../api/lydia-api/bruker";
 
 jest.mock("src/util/analytics-klient", () => ({
@@ -67,17 +68,17 @@ function lagTemaliste(planErTom: boolean): PlanTema[] {
 
 function lagPlan({
     planErTom = true,
-    publisert,
+    publiseringStatus,
 }: {
     planErTom?: boolean;
-    publisert: boolean;
+    publiseringStatus: DokumentStatus;
 }): Plan {
     return {
         id: "plan-1",
         sistEndret: new Date("2025-01-01"),
-        sistPublisert: publisert ? new Date("2025-01-01") : null,
+        sistPublisert: publiseringStatus === "PUBLISERT" ? new Date("2025-01-01") : null,
         temaer: lagTemaliste(planErTom),
-        publiseringStatus: publisert ? "PUBLISERT" : "IKKE_PUBLISERT",
+        publiseringStatus,
         harEndringerSidenSistPublisert: false,
     };
 }
@@ -119,17 +120,22 @@ describe("LeggTilTemaKnapp", () => {
         } as never);
     });
 
-    test("kan ikke slette planen når den er publisert", () => {
-        renderKnapp(lagPlan({ planErTom: true, publisert: true }));
-        åpneModal();
+    test.each<DokumentStatus>(["PUBLISERT", "OPPRETTET"])(
+        "kan ikke slette planen når publiseringStatus er %s",
+        (publiseringStatus) => {
+            renderKnapp(lagPlan({ planErTom: true, publiseringStatus }));
+            åpneModal();
 
-        expect(
-            screen.getByRole("button", { name: "Slett plan" }),
-        ).toBeDisabled();
-    });
+            expect(
+                screen.getByRole("button", { name: "Slett plan" }),
+            ).toBeDisabled();
+        },
+    );
 
     test("kan slette planen når den ikke er publisert", () => {
-        renderKnapp(lagPlan({ planErTom: true, publisert: false }));
+        renderKnapp(
+            lagPlan({ planErTom: true, publiseringStatus: "IKKE_PUBLISERT" }),
+        );
         åpneModal();
 
         expect(
@@ -137,15 +143,22 @@ describe("LeggTilTemaKnapp", () => {
         ).not.toBeDisabled();
     });
 
-    test("viser alert når planen er tom og publisert", () => {
-        renderKnapp(lagPlan({ planErTom: true, publisert: true }));
-        åpneModal();
+    test.each<DokumentStatus>(["PUBLISERT", "OPPRETTET"])(
+        "viser alert når planen er tom og publiseringStatus er %s",
+        (publiseringStatus) => {
+            renderKnapp(lagPlan({ planErTom: true, publiseringStatus }));
+            åpneModal();
 
-        expect(screen.getByText("Planen kan ikke slettes")).toBeInTheDocument();
-    });
+            expect(
+                screen.getByText("Planen kan ikke slettes"),
+            ).toBeInTheDocument();
+        },
+    );
 
     test("scroller alerten inn i synsfeltet når den vises", () => {
-        renderKnapp(lagPlan({ planErTom: true, publisert: true }));
+        renderKnapp(
+            lagPlan({ planErTom: true, publiseringStatus: "PUBLISERT" }),
+        );
         åpneModal();
 
         const alertTittel = screen.getByText("Planen kan ikke slettes");
@@ -155,7 +168,9 @@ describe("LeggTilTemaKnapp", () => {
     });
 
     test("viser ikke alert når planen ikke er publisert", () => {
-        renderKnapp(lagPlan({ planErTom: true, publisert: false }));
+        renderKnapp(
+            lagPlan({ planErTom: true, publiseringStatus: "IKKE_PUBLISERT" }),
+        );
         åpneModal();
 
         expect(
@@ -163,17 +178,22 @@ describe("LeggTilTemaKnapp", () => {
         ).not.toBeInTheDocument();
     });
 
-    test("viser ikke alert når planen ikke er tom, selv om den er publisert", () => {
-        renderKnapp(lagPlan({ planErTom: false, publisert: true }));
-        åpneModal();
+    test.each<DokumentStatus>(["PUBLISERT", "OPPRETTET"])(
+        "viser ikke alert når planen ikke er tom, selv om publiseringStatus er %s",
+        (publiseringStatus) => {
+            renderKnapp(lagPlan({ planErTom: false, publiseringStatus }));
+            åpneModal();
 
-        expect(
-            screen.queryByText("Planen kan ikke slettes"),
-        ).not.toBeInTheDocument();
-    });
+            expect(
+                screen.queryByText("Planen kan ikke slettes"),
+            ).not.toBeInTheDocument();
+        },
+    );
 
     test("lukker alerten når lukkeknappen klikkes", () => {
-        renderKnapp(lagPlan({ planErTom: true, publisert: true }));
+        renderKnapp(
+            lagPlan({ planErTom: true, publiseringStatus: "PUBLISERT" }),
+        );
         åpneModal();
 
         const alertTittel = screen.getByText("Planen kan ikke slettes");
