@@ -1,9 +1,12 @@
 import React from "react";
-import * as Highcharts from "highcharts";
-import HighchartsReact from "highcharts-react-official";
+import {
+    Chart,
+    type ChartOptions,
+    type HighchartsReactRefObject,
+} from "@highcharts/react";
+import { Accessibility } from "@highcharts/react/modules/Accessibility";
 import { SpørsmålResultat } from "../../../domenetyper/spørreundersøkelseResultat";
 import { useSpørsmålMedSorterteSvaralternativer } from "../../../util/sorterSvaralternativer";
-import "highcharts/modules/accessibility";
 import { Heading } from "@navikt/ds-react";
 import styles from "./grafer.module.scss";
 
@@ -18,7 +21,7 @@ export default function BarChart({
     horizontal?: boolean;
     farge?: string;
 }) {
-    const chartComponentRef = React.useRef<HighchartsReact.RefObject>(null);
+    const chartComponentRef = React.useRef<HighchartsReactRefObject>(null);
     const spørsmålMedSorterteAlternativer =
         useSpørsmålMedSorterteSvaralternativer(spørsmål);
 
@@ -47,12 +50,13 @@ export default function BarChart({
     }
 
     return (
-        <HighchartsReact
-            highcharts={Highcharts}
+        <Chart
             options={options}
-            constructorType={"chart"}
+            chartConstructor={"chart"}
             ref={chartComponentRef}
-        />
+        >
+            <Accessibility />
+        </Chart>
     );
 }
 
@@ -61,7 +65,7 @@ function genererChartOptionsFraSpørsmålOgSvar(
     erIEksportMode: boolean,
     horizontal: boolean,
     farge: string,
-): Highcharts.Options {
+): ChartOptions {
     return {
         palette: {
             colorScheme: "light",

@@ -9,6 +9,9 @@ const config: Config = {
     testEnvironment: "jest-environment-jsdom",
     moduleDirectories: ["node_modules", "<rootDir>/"],
     moduleNameMapper: {
+        "^@highcharts/react$": "<rootDir>/__mocks__/highchartsReactMock.js",
+        "^@highcharts/react/modules/Accessibility$":
+            "<rootDir>/__mocks__/highchartsReactMock.js",
         "\\.(css|less|sass|scss)$": "identity-obj-proxy",
         "@navikt/ds-css": "jest-transform-stub",
         "\\.(jpg|jpeg|png|gif|webp|svg|eot|otf|ttf|woff|woff2)$":
