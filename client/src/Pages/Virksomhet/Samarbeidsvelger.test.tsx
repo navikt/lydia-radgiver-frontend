@@ -159,7 +159,7 @@ describe("Samarbeidsvelger", () => {
         const aktivt = aktivtSamarbeid(1, "Aktivt samarbeid");
         const avsluttet = avsluttetSamarbeid(2, "Avsluttet samarbeid");
 
-        it("holder listen åpen når et avsluttet samarbeid er valgt", () => {
+        it("åpner listen når et avsluttet samarbeid er valgt og lar brukeren lukke den", () => {
 
             //velger avsluttet samarbeid
             renderSamarbeidsvelger(
@@ -174,7 +174,7 @@ describe("Samarbeidsvelger", () => {
 
             expect(knapp).toHaveAttribute("aria-expanded", "true");
             fireEvent.click(knapp);
-            expect(knapp).toHaveAttribute("aria-expanded", "true");
+            expect(knapp).toHaveAttribute("aria-expanded", "false");
         });
 
         it("kan åpne og lukke listen når et aktivt samarbeid er valgt", () => {
@@ -193,6 +193,55 @@ describe("Samarbeidsvelger", () => {
             expect(knapp).toHaveAttribute("aria-expanded", "true");
             fireEvent.click(knapp);
             expect(knapp).toHaveAttribute("aria-expanded", "false");
+        });
+
+        it("åpner listen på nytt ved navigasjon tilbake til et avsluttet samarbeid", () => {
+            const samarbeidsliste = [aktivt, avsluttet];
+            const { rerender } = renderSamarbeidsvelger(
+                samarbeidsliste,
+                brukerMedGyldigToken,
+                aktivt,
+            );
+            const knapp = screen.getByRole("button", {
+                name: "Avsluttede samarbeid (1)",
+            });
+
+            rerender(
+                <BrowserRouter>
+                    <Samarbeidsvelger
+                        iaSak={iaSakAktiv}
+                        samarbeidsliste={samarbeidsliste}
+                        valgtSamarbeid={avsluttet}
+                        virksomhet={dummyVirksomhetsinformasjon}
+                    />
+                </BrowserRouter>,
+            );
+            expect(knapp).toHaveAttribute("aria-expanded", "true");
+
+            fireEvent.click(knapp);
+            expect(knapp).toHaveAttribute("aria-expanded", "false");
+
+            rerender(
+                <BrowserRouter>
+                    <Samarbeidsvelger
+                        iaSak={iaSakAktiv}
+                        samarbeidsliste={samarbeidsliste}
+                        valgtSamarbeid={aktivt}
+                        virksomhet={dummyVirksomhetsinformasjon}
+                    />
+                </BrowserRouter>,
+            );
+            rerender(
+                <BrowserRouter>
+                    <Samarbeidsvelger
+                        iaSak={iaSakAktiv}
+                        samarbeidsliste={samarbeidsliste}
+                        valgtSamarbeid={avsluttet}
+                        virksomhet={dummyVirksomhetsinformasjon}
+                    />
+                </BrowserRouter>,
+            );
+            expect(knapp).toHaveAttribute("aria-expanded", "true");
         });
     });
 });
