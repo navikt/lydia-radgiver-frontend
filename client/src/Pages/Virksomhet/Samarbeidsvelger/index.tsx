@@ -294,25 +294,30 @@ function AvsluttedeSamarbeidListe({
     valgtSamarbeid?: IaSakProsess | null;
     orgnr?: string;
 }) {
+    const valgtSamarbeidId = valgtSamarbeid?.id;
+    const valgtSamarbeidAvsluttet =
+        avsluttedeSamarbeid?.some(
+            (samarbeid) => samarbeid.id === valgtSamarbeidId,
+        ) ?? false;
+    const [åpen, setÅpen] = React.useState(false);
+
+    React.useEffect(() => {
+        if (valgtSamarbeidAvsluttet) {
+            setÅpen(true);
+        }
+    }, [valgtSamarbeidId, valgtSamarbeidAvsluttet]);
+
     if (!avsluttedeSamarbeid || avsluttedeSamarbeid.length === 0) {
         return null;
     }
-    const valgtSamarbeidAvsluttet = avsluttedeSamarbeid.some(
-        (samarbeid) => samarbeid.id === valgtSamarbeid?.id,
-    );
-    const [åpen, setÅpen] = React.useState(false);
 
     return (
         <ReadMore
             size="small"
             className={styles.inaktiveSamarbeidReadMore}
             header={`Avsluttede samarbeid (${avsluttedeSamarbeid.length})`}
-            open={valgtSamarbeidAvsluttet || åpen}
-            onClick={() => {
-                if (!valgtSamarbeidAvsluttet) {
-                    setÅpen((nåværendeÅpen) => !nåværendeÅpen);
-                }
-            }}
+            open={åpen}
+            onClick={() => setÅpen((nåværendeÅpen) => !nåværendeÅpen)}
         >
             <div className={styles.liste}>
                 {avsluttedeSamarbeid?.map((s) => (
