@@ -46,7 +46,7 @@ jobs:
         working-directory: server
         run: pnpm build
       - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v4.3.0
+        uses: docker/setup-buildx-action@v4.4.1
       - name: Build and push docker image
         if: ${{ github.actor != 'dependabot[bot]' }}
         uses: nais/docker-build-push@v0
@@ -70,7 +70,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - name: Deploy to ${{ matrix.cluster }}
-        uses: nais/deploy/actions/deploy@v2
+        uses: nais/deploy/actions/deploy@v3
         env:
           CLUSTER: ${{ matrix.cluster }}-gcp
           RESOURCE: .nais/nais.yaml
@@ -88,7 +88,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - name: Deploy to dev
-        uses: nais/deploy/actions/deploy@v2
+        uses: nais/deploy/actions/deploy@v3
         env:
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais.yaml
