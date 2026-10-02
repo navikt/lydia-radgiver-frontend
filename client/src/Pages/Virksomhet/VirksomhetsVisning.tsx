@@ -29,6 +29,7 @@ import {
 } from "../../api/lydia-api/nyFlyt";
 import AdministrerSamarbeid from "./AdministrerSamarbeid";
 import { exhaustive } from "../../util/exhaustive_types";
+import NyPlan from "./Plan/NyPlan";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -183,6 +184,7 @@ function VirksomhetsvisningsSwitch({
                         <Salesforcelenke samarbeidId={valgtSamarbeid.id} />
                     </HStack>
                 </div>
+                <NyPlan />
                 <div style={{ padding: "1.5rem" }}>
                     {harPlanLastet && (
                         <Samarbeidsinnhold
