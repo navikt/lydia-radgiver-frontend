@@ -5,7 +5,7 @@ on:
       - main
     paths:
       - .nais/alerts.yaml
-      - .github/workflows/deploy-alerts.yaml
+      - .github/workflows/deploy-alerts.yml
 
 permissions:
   id-token: write
@@ -20,8 +20,9 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v7.0.1
-      - name: deploy to dev
+      - name: Deploy to ${{ matrix.cluster }}
         uses: nais/deploy/actions/deploy@v2
         env:
           CLUSTER: ${{ matrix.cluster }}-gcp
           RESOURCE: .nais/alerts.yaml
+          VAR: workloadCluster=${{ matrix.cluster }}
