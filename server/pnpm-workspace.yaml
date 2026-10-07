@@ -9,3 +9,5 @@ minimumReleaseAge: 10080 # 7 dager
 minimumReleaseAgeExclude:
   - "@navikt/*"
 
+overrides:
+  proxy-addr: 2.0.8 # packe 2.0.7 har en kritisk sårbarhet (transitive dependency på "express 5.2.1")
