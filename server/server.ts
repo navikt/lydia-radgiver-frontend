@@ -7,9 +7,11 @@ import dotenv from "dotenv";
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import * as types from "./types"; // nødvendig for at ts-node skal skjønne at disse typene eksisterer
 import { inMemorySessionManager, sessionManager } from "./SessionStore";
+import { validateEncryptionKeys } from "./crypto";
 
 const main = () => {
     dotenv.config({ path: "../env.local" });
+    validateEncryptionKeys();
     setupRemoteJwkSet()
         .then(async (jwkSet) => {
             const sessonManager = ["local", "lokal"].includes(
