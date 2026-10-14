@@ -49,12 +49,12 @@ spec:
     - name: vulnerability-alert
       rules:
         - alert: CriticalVulnerability
-          expr: nais_workload_vulnerabilities{ severity="CRITICAL", workload_namespace="pia", workload_name="lydia-radgiver-frontend" } > 0
+          expr: nais_workload_vulnerabilities{ severity="CRITICAL", workload_namespace="pia", workload_name="lydia-radgiver-frontend", workload_cluster="{{workloadCluster}}" } > 0
           for: 10m
           annotations:
-            summary: "Critical vulnerability detected in {{ $labels.workload_name }}"
+            summary: "Critical vulnerability detected in lydia-radgiver-frontend"
             consequence: "The workload is running with one or more critical vulnerabilities."
-            action: "Go to Nais Console and handle the vulnerability for {{ $labels.workload_name }}."
+            action: "Go to Nais Console and handle the vulnerability for lydia-radgiver-frontend."
           labels:
             namespace: pia
             severity: critical
