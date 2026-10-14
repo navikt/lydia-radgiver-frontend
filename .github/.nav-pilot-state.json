@@ -1,8 +1,8 @@
 {
   "collection": "nav-pilot",
-  "version": "2026.10.02-091742-36b75ce",
+  "version": "2026.10.13-045847-ab98b0f",
   "scope": "repo",
-  "source_sha": "36b75ce3b89d447b62df927d6c5d7eba02a72224",
+  "source_sha": "ab98b0f5028010275cbfcb71dce482b8803b6e6c",
   "installed_at": "2026-06-04T08:29:26Z",
   "files": [
     {
@@ -17,8 +17,8 @@
     },
     {
       "path": ".github/agents/code-review.agent.md",
-      "hash": "5a019cbf3eda9ce2",
-      "revision": "36b75ce3b89d447b62df927d6c5d7eba02a72224"
+      "hash": "811b2a6765ff86de",
+      "revision": "ab98b0f5028010275cbfcb71dce482b8803b6e6c"
     },
     {
       "path": ".github/agents/forfatter.agent.md",
@@ -35,8 +35,8 @@
     },
     {
       "path": ".github/agents/nav-pilot.agent.md",
-      "hash": "c2ec92805bae041b",
-      "revision": "36b75ce3b89d447b62df927d6c5d7eba02a72224"
+      "hash": "018471685b00d5b7",
+      "revision": "ab98b0f5028010275cbfcb71dce482b8803b6e6c"
     },
     {
       "path": ".github/agents/research.agent.md",
@@ -44,11 +44,17 @@
     },
     {
       "path": ".github/agents/rust.agent.md",
-      "hash": "f915a28c049a0f64"
+      "hash": "e1cb55806cd87d8c",
+      "revision": "ab98b0f5028010275cbfcb71dce482b8803b6e6c"
     },
     {
       "path": ".github/agents/security-champion.agent.md",
-      "hash": "09850437ed89c7bb"
+      "hash": "65fed295fcdd5bd1",
+      "revision": "ab98b0f5028010275cbfcb71dce482b8803b6e6c"
+    },
+    {
+      "path": ".github/agents/worker.agent.md",
+      "hash": "43c860f99cd1337e"
     },
     {
       "path": ".github/hooks/ask-first-aria.py",
@@ -73,8 +79,8 @@
     },
     {
       "path": ".github/instructions/deliberate-ai-use.instructions.md",
-      "hash": "5e2d7a2f23285de8",
-      "revision": "36b75ce3b89d447b62df927d6c5d7eba02a72224"
+      "hash": "c323e57324694374",
+      "revision": "ab98b0f5028010275cbfcb71dce482b8803b6e6c"
     },
     {
       "path": ".github/instructions/docker.instructions.md",
@@ -164,7 +170,8 @@
     },
     {
       "path": ".github/skills/deliberate-ai-use/",
-      "hash": "7c195e344bca6924"
+      "hash": "c329412b61d8f8c1",
+      "revision": "ab98b0f5028010275cbfcb71dce482b8803b6e6c"
     },
     {
       "path": ".github/skills/flyway-migration/",
@@ -184,7 +191,8 @@
     },
     {
       "path": ".github/skills/klarsprak/",
-      "hash": "28545e8d5ed779fe"
+      "hash": "d7e22a0fab7b9388",
+      "revision": "ab98b0f5028010275cbfcb71dce482b8803b6e6c"
     },
     {
       "path": ".github/skills/kotlin-app-config/",
@@ -213,7 +221,8 @@
     },
     {
       "path": ".github/skills/nav-dekoratoren/",
-      "hash": "36a286dece9e2c63"
+      "hash": "4b5d432477529d66",
+      "revision": "ab98b0f5028010275cbfcb71dce482b8803b6e6c"
     },
     {
       "path": ".github/skills/nav-plan/",
