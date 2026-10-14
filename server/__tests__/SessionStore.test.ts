@@ -98,13 +98,13 @@ describe("Rotering av sesjonssecret", () => {
         ).toBe(200);
     });
 
-    test("logger konfigurasjonsmodus og antall, men aldri secret-verdier", async () => {
+    test("logger konfigurasjonsmodus, men aldri secret-verdier", async () => {
         const log = jest.spyOn(logger, "info").mockImplementation();
         process.env.SESSION_SECRETS = JSON.stringify([newSecret, oldSecret]);
         await inMemorySessionManager();
 
         expect(log).toHaveBeenCalledWith(
-            "Sesjonssignering: SESSION_SECRETS aktiv; signerer med første verdi, godtar 2 verdi(er)",
+            "Sesjonssignering: SESSION_SECRETS aktiv; signerer med første verdi",
         );
         expect(JSON.stringify(log.mock.calls)).not.toContain(oldSecret);
         expect(JSON.stringify(log.mock.calls)).not.toContain(newSecret);

@@ -27,7 +27,7 @@ function sessionSecrets(): string[] {
             );
         }
         logger.info(
-            `Sesjonssignering: SESSION_SECRETS aktiv; signerer med første verdi, godtar ${parsed.length} verdi(er)`,
+            "Sesjonssignering: SESSION_SECRETS aktiv; signerer med første verdi",
         );
         return parsed;
     }
