@@ -76,16 +76,8 @@ export async function decrypt(encrypted: string) {
             const authenticated = decipher.final();
             if (index > 0) secondaryKeyDecryptionSuccessCounter.inc();
             return Buffer.concat([plaintext, authenticated]).toString();
-        } catch (error) {
-            if (
-                typeof error !== "object" ||
-                error === null ||
-                !("message" in error) ||
-                error.message !==
-                    "Unsupported state or unable to authenticate data"
-            ) {
-                throw error;
-            }
+        } catch {
+            continue;
         }
     }
     decryptionFailureAllKeysTriedCounter.inc();
