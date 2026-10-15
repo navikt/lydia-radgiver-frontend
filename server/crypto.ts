@@ -22,22 +22,28 @@ export function validateEncryptionKeys() {
         throw new Error("OBO_TOKEN_ENC_KEY må være satt");
     }
 
-    // PREVIOUS leser gamle økter etter nøkkelbyttet; NEXT lar eldre pod-er lese nye økter.
-    // Begge trengs mens pod-er med ulik aktiv nøkkel kjører samtidig.
+    /* I vanlig drift er PREVIOUS og NEXT undefined (secrets er ikke satt)
+       Ved rotering av nøkler:
+        PREVIOUS leser gamle økter etter nøkkelbyttet; NEXT lar eldre pod-er lese nye økter.
+        Begge trengs mens pod-er med ulik aktiv nøkkel kjører samtidig. */
     const secondary = [
         process.env.OBO_TOKEN_ENC_KEY_PREVIOUS,
         process.env.OBO_TOKEN_ENC_KEY_NEXT,
     ];
+    // Sjekker at ingen av de sekundære nøklene er tomme strenger (undefined er tillatt for en eller begge).
     if (secondary.some((key) => key !== undefined && !key.trim())) {
         throw new Error("Overgangsnøkler for OBO-token kan ikke være tomme");
     }
 
+    const readableKeys = [
+        active,
+        ...secondary.filter((key): key is string => key !== undefined),
+    ];
+    const uniqueReadableKeys = [...new Set(readableKeys)];
+
     return {
         active,
-        readable: [
-            active,
-            ...secondary.filter((key): key is string => key !== undefined),
-        ].filter((key, index, keys) => keys.indexOf(key) === index),
+        readable: uniqueReadableKeys,
     };
 }
 
@@ -77,7 +83,7 @@ export async function decrypt(encrypted: string) {
             if (index > 0) secondaryKeyDecryptionSuccessCounter.inc();
             return Buffer.concat([plaintext, authenticated]).toString();
         } catch {
-            continue;
+            // prøv neste nøkkel
         }
     }
     decryptionFailureAllKeysTriedCounter.inc();
