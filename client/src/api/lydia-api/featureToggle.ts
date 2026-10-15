@@ -1,4 +1,4 @@
-import { useSwrTemplate } from "./networkRequests";
+import { defaultSwrConfiguration, useSwrTemplate } from "./networkRequests";
 import { z } from "zod/v4";
 import { nyFlytApiBasePath } from "./paths";
 
@@ -6,6 +6,8 @@ export const useNavEnhetFeatureToggle = (featureToggleNavn: string) => {
     return useSwrTemplate<FeatureToggleVerdi>(
         `${nyFlytApiBasePath}/feature-toggling/nav-enhet/${featureToggleNavn}`,
         FeatureToggleVerdiSchema,
+        defaultSwrConfiguration,
+        false,
     );
 };
 
