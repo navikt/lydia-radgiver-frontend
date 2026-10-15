@@ -113,4 +113,5 @@ dist
 *.code-workspace
 
 # pnpm store
+.pnpm-store
 */.pnpm-store
