@@ -1,6 +1,6 @@
 import { VStack } from "@navikt/ds-react";
 import { useParams } from "react-router-dom";
-import Oversikt, { useOversiktMutate } from "./Oversikt";
+import Oversikt from "./Oversikt";
 import {
     VurderSak,
     AngreVurdering,
@@ -20,6 +20,7 @@ import {
     SlettSamarbeid,
 } from "./Delete";
 import { EndrePlanlagtDato, EndreSamarbeidsNavn } from "./Put";
+import { useOversiktMutate } from "../../../api/lydia-api/nyFlyt";
 
 function DebugContent({ orgnummer }: { orgnummer: string }) {
     const mutate = useOversiktMutate(orgnummer);

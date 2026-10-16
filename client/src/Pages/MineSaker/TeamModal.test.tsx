@@ -24,13 +24,6 @@ jest.mock("src/api/lydia-api/sak", () => ({
     })),
 }));
 
-jest.mock("src/Pages/Virksomhet/Debugside/Oversikt", () => ({
-    ...jest.requireActual(
-        "src/Pages/Virksomhet/Debugside/Oversikt",
-    ),
-    useOversiktMutate: jest.fn(() => jest.fn()),
-}));
-
 jest.mock("src/api/lydia-api/bruker", () => ({
     ...jest.requireActual("src/api/lydia-api/bruker"),
     useHentBrukerinformasjon: jest.fn(() => ({
