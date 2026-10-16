@@ -30,6 +30,8 @@ import {
 import AdministrerSamarbeid from "./AdministrerSamarbeid";
 import { exhaustive } from "../../util/exhaustive_types";
 import NyPlan from "./Plan/NyPlan";
+import NySamarbeidsplan from "./NySamarbeidsplan";
+import { erIDev } from "../../components/Dekoratør/Dekoratør";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -253,6 +255,12 @@ function Samarbeidsinnhold({
         >
             <Tabs.List style={{ width: "100%" }}>
                 {iaSak && <Tabs.Tab value="plan" label="Samarbeidsplan" />}
+                {iaSak && erIDev && (
+                    <Tabs.Tab
+                        value="ny-samarbeidsplan"
+                        label="Ny samarbeidsplan"
+                    />
+                )}
                 {iaSak && (
                     <Tabs.Tab value="kartlegging" label="Kartlegginger" />
                 )}
@@ -265,6 +273,11 @@ function Samarbeidsinnhold({
                     />
                 )}
             </Tabs.Panel>
+            {erIDev && (
+                <Tabs.Panel value="ny-samarbeidsplan">
+                    {iaSak && <NySamarbeidsplan />}
+                </Tabs.Panel>
+            )}
             <Tabs.Panel value="kartlegging">
                 <Kartleggingsliste
                     iaSak={iaSak}
