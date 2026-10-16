@@ -28,8 +28,8 @@ import { ArrowUndoIcon } from "@navikt/aksel-icons";
 import {
     angreVurderingNyFlyt,
     avsluttVurderingNyFlyt,
+    useOversiktMutate,
 } from "../../../../api/lydia-api/nyFlyt";
-import { useOversiktMutate } from "../../Debugside/Oversikt";
 import { isoDato } from "../../../../util/dato";
 import { useErPåInaktivSak } from "../../VirksomhetContext";
 import {

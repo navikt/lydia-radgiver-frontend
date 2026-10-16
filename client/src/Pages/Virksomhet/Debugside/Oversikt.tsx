@@ -1,11 +1,10 @@
 import { VStack } from "@navikt/ds-react";
 import {
-    useHentSpesifikkSakNyFlyt,
+    useHentHistorikkNyFlyt,
     useHentSisteSakNyFlyt,
+    useHentSpesifikkSakNyFlyt,
     useHentTilstandForVirksomhetNyFlyt,
     useHentVirksomhetNyFlyt,
-    useHentHistorikkNyFlyt,
-    useHentHistorikkForVirksomhet,
 } from "../../../api/lydia-api/nyFlyt";
 import {
     useHentSamarbeid,
@@ -290,22 +289,4 @@ export default function Oversikt({ orgnummer }: OversiktProps) {
             )}
         </VStack>
     );
-}
-
-export function useOversiktMutate(orgnummer: string) {
-    const { mutate: mutateSak } = useHentSisteSakNyFlyt(orgnummer);
-    const { mutate: mutateTilstand } =
-        useHentTilstandForVirksomhetNyFlyt(orgnummer);
-    const { mutate: mutateVirksomhet } = useHentVirksomhetNyFlyt(orgnummer);
-    const { mutate: mutateGammelHistorikk } = useHentHistorikkNyFlyt(orgnummer);
-    const { mutate: mutateHistorikk } =
-        useHentHistorikkForVirksomhet(orgnummer);
-
-    return () => {
-        mutateSak();
-        mutateTilstand();
-        mutateVirksomhet();
-        mutateGammelHistorikk();
-        mutateHistorikk();
-    };
 }
