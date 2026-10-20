@@ -46,7 +46,6 @@ export const miljøVariabler = {
     teamPiaGroupId: "TEAM_PIA_GROUP_ID",
     sessionHemmelighet: "SESSION_SECRET",
     csrfHemmelighet: "CSRF_SECRET",
-    cookieHemmelighet: "COOKIE_SECRET",
 };
 
 export class Azure {
@@ -93,14 +92,9 @@ export class LydiaApi {
 
 export class Secrets {
     csrf: string;
-    cookie: string;
 
-    constructor(
-        csrf = getEnvVar(miljøVariabler.csrfHemmelighet),
-        cookie = getEnvVar(miljøVariabler.cookieHemmelighet),
-    ) {
+    constructor(csrf = getEnvVar(miljøVariabler.csrfHemmelighet)) {
         this.csrf = csrf;
-        this.cookie = cookie;
     }
 }
 

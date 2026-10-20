@@ -15,7 +15,6 @@ const settOppNødvendigEnvVariabler = () => {
         miljøVariabler.azureOpenidConfigIssuer,
         miljøVariabler.jwkUri,
         miljøVariabler.csrfHemmelighet,
-        miljøVariabler.cookieHemmelighet,
     ];
     nødvedigeMiljøVariabler.forEach((name) => setEnvVar(name, "verdi"));
 };

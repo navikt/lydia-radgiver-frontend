@@ -36,7 +36,6 @@ const mockEnv = () => {
     process.env[miljøVariabler.teamPiaGroupId] = "teamPiaGroupId";
     process.env[miljøVariabler.sessionHemmelighet] = "secret";
     process.env[miljøVariabler.csrfHemmelighet] = "csrf";
-    process.env[miljøVariabler.cookieHemmelighet] = "cookie";
 };
 
 export async function createMockToken() {
