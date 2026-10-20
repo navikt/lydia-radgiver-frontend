@@ -89,7 +89,7 @@ export default class Application {
             });
             response.json({ csrfToken });
         };
-        this.expressApp.use(cookieParser(config.secrets.cookie));
+        this.expressApp.use(cookieParser());
         this.expressApp.get("/csrf-token", tokenValidator, csrfTokenRoute);
         this.expressApp.use(doubleCsrfProtection);
 
