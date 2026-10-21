@@ -91,9 +91,12 @@ function Sjekkresultat({
             <LocalAlert status="success" role="status">
                 <LocalAlert.Header>
                     <LocalAlert.Title as="h4">
-                        Ingen tall eller e-post funnet
+                        Fant ingen personopplysninger
                     </LocalAlert.Title>
                 </LocalAlert.Header>
+                <LocalAlert.Content>
+                    Sjekken kan ta feil. Du er ansvarlig for teksten.
+                </LocalAlert.Content>
             </LocalAlert>
         );
     }
@@ -102,21 +105,47 @@ function Sjekkresultat({
         <LocalAlert status="warning">
             <LocalAlert.Header>
                 <LocalAlert.Title as="h4">
-                    Mulige personopplysninger
+                    Teksten kan inneholde personopplysninger
                 </LocalAlert.Title>
             </LocalAlert.Header>
             <LocalAlert.Content>
-                Teksten inneholder {funn} som kan være personopplysninger.
-                Sjekk dette før du går videre.
+                {funn} Fjern eller skriv om opplysningene før du lagrer.
             </LocalAlert.Content>
         </LocalAlert>
     );
 }
 
 function beskrivFunn({
+    kanInneholdePersonopplysninger,
     inneholderTall,
     inneholderEpost,
+    kiFlagget,
 }: PersonopplysningssjekkResultat): string | null {
+    if (!kanInneholdePersonopplysninger) return null;
+
+    const beskrivelser: string[] = [];
+    if (kiFlagget) {
+        beskrivelser.push(
+            "Teksten kan gjøre en person gjenkjennelig eller inneholde sensitive opplysninger.",
+        );
+    }
+    const regexFunn = beskrivRegexFunn(inneholderTall, inneholderEpost);
+    if (regexFunn) {
+        beskrivelser.push(
+            `Teksten inneholder ${regexFunn} som kan være personopplysninger.`,
+        );
+    }
+
+    // Backend eier regelen: flagger den av en grunn vi ikke kjenner, viser vi likevel advarsel
+    return beskrivelser.length > 0
+        ? beskrivelser.join(" ")
+        : "Sjekken fant mulige personopplysninger i teksten.";
+}
+
+function beskrivRegexFunn(
+    inneholderTall: boolean,
+    inneholderEpost: boolean,
+): string | null {
     if (inneholderTall && inneholderEpost) return "tall og e-post";
     if (inneholderTall) return "tall";
     if (inneholderEpost) return "e-post";
