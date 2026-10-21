@@ -5,8 +5,10 @@ import {
     nyFlytBegrunnelseEnum,
     nyFlytÅrsakTypeEnum,
 } from "../../../../../domenetyper/domenetyper";
-import { vurderSakNyFlyt } from "../../../../../api/lydia-api/nyFlyt";
-import { useOversiktMutate } from "../../../Debugside/Oversikt";
+import {
+    useOversiktMutate,
+    vurderSakNyFlyt,
+} from "../../../../../api/lydia-api/nyFlyt";
 import { loggBakgrunnForVurderingAvVirksomhet } from "../../../../../util/analytics-klient";
 import { årsakBeskrivelse } from "../../../../../util/årsakBeskrivelse";
 

@@ -19,9 +19,9 @@ import styles from "./minesaker.module.scss";
 import {
     bliEierNyFlyt,
     useHentSpesifikkSakNyFlyt,
+    useOversiktMutate,
 } from "../../api/lydia-api/nyFlyt";
 import { useHentMineSaker } from "../../api/lydia-api/sak";
-import { useOversiktMutate } from "../Virksomhet/Debugside/Oversikt";
 import { Samarbeidsperiode } from "../../domenetyper/historikk";
 
 function følgerSak(

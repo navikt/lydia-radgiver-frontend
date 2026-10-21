@@ -21,8 +21,8 @@ import { EierskapKnapp } from "../../Samarbeid/EierskapKnapp";
 import { Salesforcelenke } from "..";
 import {
     endrePlanlagtDatoNyFlyt,
+    useOversiktMutate,
 } from "../../../../api/lydia-api/nyFlyt";
-import { useOversiktMutate } from "../../Debugside/Oversikt";
 import { useHentBrukerinformasjon } from "../../../../api/lydia-api/bruker";
 import VurderVirksomhetModal from "./common/VurderVirksomhetModal";
 

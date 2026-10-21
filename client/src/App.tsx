@@ -14,7 +14,6 @@ import SmartStartsideRedirect from "./components/SmartStartsideRedirect";
 import { Head } from "@unhead/react";
 import styles from "./app.module.scss";
 import { NyVirksomhetsside } from "./Pages/Virksomhet";
-import Debugside from "./Pages/Virksomhet/Debugside";
 import Nyheter from "./Pages/Nyheter";
 
 const App = () => (
@@ -185,16 +184,6 @@ const AppContent = () => {
                         </main>
                     }
                 />
-                {erIDev && (
-                    <Route
-                        path={"/nyflyt/debugside/:id"}
-                        element={
-                            <main className={styles.appramme} id="maincontent">
-                                <Debugside />
-                            </main>
-                        }
-                    />
-                )}
             </Routes>
             <Footer />
         </>

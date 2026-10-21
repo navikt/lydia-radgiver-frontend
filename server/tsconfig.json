@@ -5,6 +5,7 @@
         "target": "ES2022",
         "outDir": "build",
         "esModuleInterop": true,
+        "types": ["node", "jest"],
         "typeRoots": ["./types", "./node_modules/@types"]
     }
 }

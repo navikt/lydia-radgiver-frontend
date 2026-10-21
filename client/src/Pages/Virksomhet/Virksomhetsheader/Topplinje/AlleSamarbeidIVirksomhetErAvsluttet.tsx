@@ -17,8 +17,10 @@ import { Salesforcelenke } from "..";
 import { lokalDato } from "../../../../util/dato";
 import VurderVirksomhetKnapp from "./common/VurderVirksomhetKnapp";
 import { DocPencilIcon } from "@navikt/aksel-icons";
-import { endrePlanlagtDatoNyFlyt } from "../../../../api/lydia-api/nyFlyt";
-import { useOversiktMutate } from "../../Debugside/Oversikt";
+import {
+    endrePlanlagtDatoNyFlyt,
+    useOversiktMutate,
+} from "../../../../api/lydia-api/nyFlyt";
 
 export default function AlleSamarbeidIVirksomhetErAvsluttet({
     iaSak,
