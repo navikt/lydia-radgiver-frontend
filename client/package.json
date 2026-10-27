@@ -19,9 +19,9 @@
     "dependencies": {
         "@floating-ui/react": "^0.27.20",
         "@highcharts/react": "5.2.2",
-        "@navikt/aksel-icons": "^8.16.2",
-        "@navikt/ds-css": "^8.16.2",
-        "@navikt/ds-react": "^8.16.2",
+        "@navikt/aksel-icons": "^8.19.2",
+        "@navikt/ds-css": "^8.19.2",
+        "@navikt/ds-react": "^8.19.2",
         "@unhead/react": "^3.4.0",
         "clsx": "^2.1.1",
         "highcharts": "^13.0.2",
