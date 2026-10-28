@@ -275,7 +275,7 @@ function Samarbeidsinnhold({
             </Tabs.Panel>
             {erIDev && (
                 <Tabs.Panel value="ny-samarbeidsplan">
-                    {iaSak && <NySamarbeidsplan />}
+                    {iaSak && <NySamarbeidsplan iaSak={iaSak} />}
                 </Tabs.Panel>
             )}
             <Tabs.Panel value="kartlegging">

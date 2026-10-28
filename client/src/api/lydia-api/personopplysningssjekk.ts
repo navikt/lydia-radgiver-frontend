@@ -2,8 +2,6 @@ import { z } from "zod/v4";
 import { nyFlytApiBasePath } from "./paths";
 import { post } from "./networkRequests";
 
-export const personopplysningssjekkPath = `${nyFlytApiBasePath}/personopplysningssjekk`;
-
 const personopplysningssjekkResultatSchema = z.object({
     kanInneholdePersonopplysninger: z.boolean(),
     inneholderTall: z.boolean(),
@@ -15,7 +13,13 @@ export type PersonopplysningssjekkResultat = z.infer<
     typeof personopplysningssjekkResultatSchema
 >;
 
-export const sjekkPersonopplysninger = (tekst: string) =>
-    post(personopplysningssjekkPath, personopplysningssjekkResultatSchema, {
-        tekst,
-    });
+export const sjekkPersonopplysninger = (
+    orgnummer: string,
+    saksnummer: string,
+    tekst: string,
+) =>
+    post(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/personopplysningssjekk`,
+        personopplysningssjekkResultatSchema,
+        { tekst },
+    );

@@ -11,10 +11,11 @@ import {
     PersonopplysningssjekkResultat,
     sjekkPersonopplysninger,
 } from "../../../api/lydia-api/personopplysningssjekk";
+import { IASak } from "../../../domenetyper/domenetyper";
 
 export const MAKS_ANTALL_TEGN_I_MÅL = 250;
 
-export default function NySamarbeidsplan() {
+export default function NySamarbeidsplan({ iaSak }: { iaSak: IASak }) {
     const [mål, setMål] = React.useState("");
     const [resultat, setResultat] =
         React.useState<PersonopplysningssjekkResultat | null>(null);
@@ -27,7 +28,7 @@ export default function NySamarbeidsplan() {
 
     const lagreMål = () => {
         setSjekker(true);
-        sjekkPersonopplysninger(mål)
+        sjekkPersonopplysninger(iaSak.orgnr, iaSak.saksnummer, mål)
             .then(setResultat)
             .catch(() => setResultat(null))
             .finally(() => setSjekker(false));
