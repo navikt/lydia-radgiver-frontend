@@ -32,6 +32,7 @@ import { exhaustive } from "../../util/exhaustive_types";
 import NyPlan from "./Plan/NyPlan";
 import MålFane from "./Mål";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
+import SalesforceAktiviteter from "./SalesforceAktiviteter";
 
 interface Props {
     virksomhet: Virksomhet;
@@ -259,6 +260,12 @@ function Samarbeidsinnhold({
                 {iaSak && (
                     <Tabs.Tab value="kartlegging" label="Kartlegginger" />
                 )}
+                {iaSak && erIDev && (
+                    <Tabs.Tab
+                        value="salesforce-aktiviteter"
+                        label="Salesforce-aktiviteter"
+                    />
+                )}
             </Tabs.List>
             <Tabs.Panel value="plan">
                 {iaSak && (
@@ -281,6 +288,14 @@ function Samarbeidsinnhold({
                     gjeldendeSamarbeid={valgtSamarbeid}
                 />
             </Tabs.Panel>
+            {iaSak && erIDev && (
+                <Tabs.Panel value="salesforce-aktiviteter">
+                    <SalesforceAktiviteter
+                        iaSak={iaSak}
+                        samarbeid={valgtSamarbeid}
+                    />
+                </Tabs.Panel>
+            )}
         </Tabs>
     );
 }
