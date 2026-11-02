@@ -225,3 +225,25 @@ export type ValgtÅrsakNyFlytDto = {
     begrunnelser: NyFlytBegrunnelse[];
     dato?: string;
 };
+
+export const sfAktivitetsTypeEnum = z.enum(["Møte", "Oppgave"]);
+
+export const sfAktivitetsStatusEnum = z.enum(["Åpen", "Fullført"]);
+
+export const salesforceAktivitetSchema = z.object({
+    id: z.string(),
+    sistEndretISalesforce: datoSchema,
+    type: sfAktivitetsTypeEnum,
+    saksnummer: z.string(),
+    samarbeidsId: z.int().optional(),
+    planId: z.string().optional(),
+    tema: z.string().optional(),
+    undertema: z.string().optional(),
+    planlagt: datoSchema.optional(),
+    fullført: datoSchema.optional(),
+    møteStart: datoSchema.optional(),
+    møteSlutt: datoSchema.optional(),
+    status: sfAktivitetsStatusEnum.optional(),
+});
+
+export type SalesforceAktivitet = z.infer<typeof salesforceAktivitetSchema>;
