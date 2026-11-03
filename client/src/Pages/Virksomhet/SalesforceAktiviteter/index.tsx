@@ -16,5 +16,5 @@ export default function SalesforceAktiviteter({
         iaSak.saksnummer,
         samarbeid.id,
     );
-    return <pre>{JSON.stringify(salesforceAktiviteter)}</pre>;
+    return <pre>{JSON.stringify(salesforceAktiviteter, null, 2)}</pre>;
 }
