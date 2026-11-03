@@ -23,7 +23,7 @@
         "jose": "6.2.12",
         "prettier": "3.9.10",
         "prometheus-api-metrics": "4.0.0",
-        "redis": "^6.2.1",
+        "redis": "^6.3.0",
         "winston": "3.19.0"
     },
     "devDependencies": {
