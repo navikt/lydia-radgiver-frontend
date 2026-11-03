@@ -30,7 +30,7 @@ import {
 import AdministrerSamarbeid from "./AdministrerSamarbeid";
 import { exhaustive } from "../../util/exhaustive_types";
 import NyPlan from "./Plan/NyPlan";
-import NySamarbeidsplan from "./NySamarbeidsplan";
+import MålFane from "./Mål";
 import { erIDev } from "../../components/Dekoratør/Dekoratør";
 
 interface Props {
@@ -255,12 +255,7 @@ function Samarbeidsinnhold({
         >
             <Tabs.List style={{ width: "100%" }}>
                 {iaSak && <Tabs.Tab value="plan" label="Samarbeidsplan" />}
-                {iaSak && erIDev && (
-                    <Tabs.Tab
-                        value="ny-samarbeidsplan"
-                        label="Ny samarbeidsplan"
-                    />
-                )}
+                {iaSak && erIDev && <Tabs.Tab value="maal" label="Mål" />}
                 {iaSak && (
                     <Tabs.Tab value="kartlegging" label="Kartlegginger" />
                 )}
@@ -274,8 +269,10 @@ function Samarbeidsinnhold({
                 )}
             </Tabs.Panel>
             {erIDev && (
-                <Tabs.Panel value="ny-samarbeidsplan">
-                    {iaSak && <NySamarbeidsplan iaSak={iaSak} />}
+                <Tabs.Panel value="maal">
+                    {iaSak && (
+                        <MålFane iaSak={iaSak} samarbeid={valgtSamarbeid} />
+                    )}
                 </Tabs.Panel>
             )}
             <Tabs.Panel value="kartlegging">

@@ -1,0 +1,18 @@
+.sykefravaersmaalkort {
+    border-left: 4px solid var(--ax-border-success);
+}
+
+.naavaerende {
+    color: var(--ax-text-accent-subtle);
+    font-weight: var(--ax-font-weight-bold);
+}
+
+.maalverdi {
+    color: var(--ax-text-success-subtle);
+    font-weight: var(--ax-font-weight-bold);
+}
+
+.samarbeidsmaal {
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+}
