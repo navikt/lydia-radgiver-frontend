@@ -3,58 +3,44 @@ import {
     BodyShort,
     Box,
     Button,
+    ErrorMessage,
     Heading,
-    HStack,
     VStack,
 } from "@navikt/ds-react";
-import { TrashIcon } from "@navikt/aksel-icons";
 import { Feiloppsummering } from "./Feiloppsummering";
 import {
     ledigeTyper,
-    lagIdPrefiks,
-    SYKEFRAVÆRSMÅLTYPE_NAVN,
-    opptatteTyper,
+    Sykefraværsmål,
+    Sykefraværsmåltype,
     Sykefraværsmålutkast,
     tilFeillenker,
-    tomtUtkast,
     validerSykefraværsmål,
 } from "./målskjema";
 import { SykefraværsmålFelter } from "./SykefraværsmålFelter";
 
 export function NyttSykefraværsmålSkjema({
-    alleUtkast,
-    redigerer,
+    opptatte,
+    utkast,
+    oppdater,
+    idPrefiks,
+    ulagretFeil,
     onLagre,
-    onSlett,
-    onAvbrytRedigering,
-    førsteFeltRef,
-    fokuserVedVisning = false,
 }: {
-    alleUtkast: Sykefraværsmålutkast[];
-    redigerer?: Sykefraværsmålutkast;
-    onLagre: (utkast: Sykefraværsmålutkast) => void;
-    onSlett?: (id: string) => void;
-    onAvbrytRedigering?: () => void;
-    førsteFeltRef?: React.RefObject<HTMLSelectElement | null>;
-    fokuserVedVisning?: boolean;
+    opptatte: Sykefraværsmåltype[];
+    utkast: Sykefraværsmålutkast;
+    oppdater: (endring: Partial<Sykefraværsmålutkast>) => void;
+    idPrefiks: string;
+    ulagretFeil?: string;
+    onLagre: (mål: Sykefraværsmål) => void;
 }) {
-    const idPrefiks = lagIdPrefiks(React.useId());
     const overskriftId = `${idPrefiks}-overskrift`;
-    const [utkast, setUtkast] = React.useState<Sykefraværsmålutkast>(
-        () => redigerer ?? tomtUtkast(),
-    );
     const [visFeil, setVisFeil] = React.useState(false);
     const [fokusteller, setFokusteller] = React.useState(0);
 
-    React.useEffect(() => {
-        if (fokuserVedVisning) førsteFeltRef?.current?.focus();
-    }, [fokuserVedVisning, førsteFeltRef]);
-
-    const opptatte = opptatteTyper(alleUtkast, utkast.id);
     const validering = validerSykefraværsmål(utkast, opptatte);
     const feil = visFeil && !validering.ok ? validering.feil : {};
 
-    if (!redigerer && ledigeTyper(opptatte).length === 0) {
+    if (ledigeTyper(opptatte).length === 0) {
         return (
             <BodyShort role="status">
                 Alle tilgjengelige måltyper er lagt til.
@@ -62,35 +48,26 @@ export function NyttSykefraværsmålSkjema({
         );
     }
 
-    const oppdater = (endring: Partial<Sykefraværsmålutkast>) =>
-        setUtkast((forrige) => ({ ...forrige, ...endring }));
-
     const send = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         if (validering.ok) {
-            onLagre(utkast);
+            onLagre(validering.mål);
         } else {
             setVisFeil(true);
             setFokusteller((n) => n + 1);
         }
     };
 
-    const overskrift = redigerer
-        ? `Endre ${redigerer.type ? SYKEFRAVÆRSMÅLTYPE_NAVN[redigerer.type].toLowerCase() : "sykefraværsmål"}`
-        : "Legg til sykefraværsmål";
-
     return (
         <Box
-            as="section"
-            aria-labelledby={overskriftId}
             background="neutral-soft"
             borderRadius="12"
             padding={{ xs: "space-16", md: "space-24" }}
         >
             <form onSubmit={send} noValidate>
                 <VStack gap="space-16">
-                    <Heading level="3" size="small" id={overskriftId}>
-                        {overskrift}
+                    <Heading level="2" size="small" id={overskriftId}>
+                        Mål for sykefraværet
                     </Heading>
                     <Feiloppsummering
                         feil={tilFeillenker(feil, idPrefiks)}
@@ -103,33 +80,13 @@ export function NyttSykefraværsmålSkjema({
                         feil={feil}
                         idPrefiks={idPrefiks}
                         opptatte={opptatte}
-                        førsteFeltRef={førsteFeltRef}
                     />
-                    <HStack gap="space-8" wrap>
+                    <div>
                         <Button type="submit" aria-describedby={overskriftId}>
-                            {redigerer ? "Lagre endringer" : "Legg til mål"}
+                            Lagre
                         </Button>
-                        {redigerer && onSlett && (
-                            <Button
-                                type="button"
-                                variant="secondary"
-                                data-color="danger"
-                                icon={<TrashIcon aria-hidden />}
-                                onClick={() => onSlett(redigerer.id)}
-                            >
-                                Slett sykefraværsmål
-                            </Button>
-                        )}
-                        {redigerer && onAvbrytRedigering && (
-                            <Button
-                                type="button"
-                                variant="tertiary"
-                                onClick={onAvbrytRedigering}
-                            >
-                                Avbryt endring
-                            </Button>
-                        )}
-                    </HStack>
+                    </div>
+                    {ulagretFeil && <ErrorMessage>{ulagretFeil}</ErrorMessage>}
                 </VStack>
             </form>
         </Box>

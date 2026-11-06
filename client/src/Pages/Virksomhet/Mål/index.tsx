@@ -6,7 +6,6 @@ import {
     Button,
     Heading,
     HStack,
-    InlineMessage,
     List,
     Loader,
     VStack,
@@ -20,7 +19,7 @@ import {
     useHentBrukerinformasjon,
 } from "../../../api/lydia-api/bruker";
 import { useHentTeam } from "../../../api/lydia-api/team";
-import { MålDialog, MålDialogModus } from "./MålDialog";
+import { MålDialog } from "./MålDialog";
 import { Mål } from "./målskjema";
 import {
     SykefraværsmåltypeOverskrift,
@@ -44,8 +43,6 @@ export default function MålFane({
     const { data: brukerinformasjon } = useHentBrukerinformasjon();
     const { data: følgere = [] } = useHentTeam(iaSak.saksnummer);
 
-    const [statusmelding, setStatusmelding] = React.useState("");
-    const [dialogModus, setDialogModus] = React.useState<MålDialogModus>();
     const [dialogÅpen, setDialogÅpen] = React.useState(false);
     const [dialogversjon, setDialogversjon] = React.useState(0);
 
@@ -71,11 +68,9 @@ export default function MålFane({
     const harMål =
         mål.sykefraværsmål.length > 0 || mål.samarbeidsmål.length > 0;
 
-    const åpneDialog = (modus: MålDialogModus) => {
-        setDialogModus(modus);
+    const åpneDialog = () => {
         setDialogversjon((n) => n + 1);
         setDialogÅpen(true);
-        setStatusmelding("");
     };
 
     const lagre = async (nyeMål: Mål) => {
@@ -86,41 +81,28 @@ export default function MålFane({
             nyeMål,
         );
         await mutate(lagret, { revalidate: false });
-        setStatusmelding("Målene er lagret.");
     };
 
     return (
         <Box paddingBlock="space-24">
             <VStack gap="space-16">
-                <div role="status">
-                    {statusmelding && (
-                        <InlineMessage status="success" size="small">
-                            {statusmelding}
-                        </InlineMessage>
-                    )}
-                </div>
                 {harMål ? (
                     <LagredeMål
                         mål={mål}
-                        onRediger={
-                            kanEndre ? () => åpneDialog("rediger") : undefined
-                        }
+                        onRediger={kanEndre ? åpneDialog : undefined}
                     />
                 ) : (
                     <IngenMål
-                        onLeggTil={
-                            kanEndre ? () => åpneDialog("opprett") : undefined
-                        }
+                        onLeggTil={kanEndre ? åpneDialog : undefined}
                         manglerTilgang={
                             !eierEllerFølger && samarbeid.status === "AKTIV"
                         }
                     />
                 )}
             </VStack>
-            {dialogModus && (
+            {dialogversjon > 0 && (
                 <MålDialog
                     key={dialogversjon}
-                    modus={dialogModus}
                     open={dialogÅpen}
                     onOpenChange={setDialogÅpen}
                     lagret={mål}
@@ -155,7 +137,7 @@ function IngenMål({
                         Mål
                     </Heading>
                     <BodyShort textColor="subtle">
-                        Legg til sykefraværsmål og mål for samarbeidet.
+                        Legg til mål for sykefraværet og samarbeidet.
                     </BodyShort>
                 </div>
                 {onLeggTil && (

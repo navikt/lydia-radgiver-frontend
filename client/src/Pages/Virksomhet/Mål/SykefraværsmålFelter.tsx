@@ -50,7 +50,7 @@ export function SykefraværsmålFelter({
         <>
             <TextField
                 id={skjemaId(idPrefiks, "nåværende")}
-                label={`I dag (${måleenhet})`}
+                label={`Nåværende (${måleenhet})`}
                 size={størrelse}
                 inputMode="decimal"
                 autoComplete="off"
@@ -88,7 +88,7 @@ export function SykefraværsmålFelter({
             <Select
                 ref={førsteFeltRef}
                 id={skjemaId(idPrefiks, "type")}
-                label="Sykefraværsmåltype"
+                label="Type sykefravær"
                 size={størrelse}
                 value={utkast.type}
                 onChange={(e) =>
@@ -98,7 +98,7 @@ export function SykefraværsmålFelter({
                 }
                 error={feil.type}
             >
-                <option value="">Velg sykefraværsmåltype</option>
+                <option value="">Velg type sykefravær</option>
                 {SYKEFRAVÆRSMÅLTYPER.map((type) => {
                     const brukt =
                         opptatte.includes(type) && type !== utkast.type;

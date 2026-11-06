@@ -108,9 +108,26 @@ const åpneDialog = async (knapp: string, dialognavn = knapp) => {
     return screen.findByRole("dialog", { name: dialognavn });
 };
 
-const åpneOpprettDialog = () => åpneDialog("Legg til mål");
+const åpneOpprettDialog = () => åpneDialog("Legg til mål", "Mål");
 
 const nesteÅr = new Date().getFullYear() + 1;
+
+const leggTilSykefraværsmålKnapp = (dialog: HTMLElement) =>
+    within(dialog).getByRole("button", {
+        name: "Lagre",
+        description: "Mål for sykefraværet",
+    });
+
+const lagreKnapp = (dialog: HTMLElement) =>
+    within(dialog).getAllByRole("button", { name: "Lagre" }).at(-1)!;
+
+const kortMedFelt = (felt: HTMLElement) =>
+    felt.closest(".aksel-box") as HTMLElement;
+
+const sykefraværskortIRedigering = (dialog: HTMLElement, navn: string) =>
+    within(dialog)
+        .getByRole("heading", { name: navn, level: 4 })
+        .closest(".aksel-box") as HTMLElement;
 
 const fyllUtMål = (
     dialog: HTMLElement,
@@ -119,13 +136,12 @@ const fyllUtMål = (
     mål: string,
     frist = `31.12.${nesteÅr}`,
 ) => {
-    const skjema = within(dialog).getByRole("region", {
-        name: "Legg til sykefraværsmål",
-    });
-    fireEvent.change(within(skjema).getByLabelText("Sykefraværsmåltype"), {
+    const leggTil = leggTilSykefraværsmålKnapp(dialog);
+    const skjema = leggTil.closest("form") as HTMLElement;
+    fireEvent.change(within(skjema).getByLabelText("Type sykefravær"), {
         target: { value: type },
     });
-    fireEvent.change(within(skjema).getByLabelText(/^I dag/), {
+    fireEvent.change(within(skjema).getByLabelText(/^Nåværende/), {
         target: { value: nåværende },
     });
     fireEvent.change(within(skjema).getByLabelText(/^Mål \(/), {
@@ -134,13 +150,24 @@ const fyllUtMål = (
     fireEvent.change(within(skjema).getByLabelText("Når skal målet nås?"), {
         target: { value: frist },
     });
-    fireEvent.click(
-        within(skjema).getByRole("button", { name: "Legg til mål" }),
-    );
+    fireEvent.click(leggTil);
 };
 
 const ventPåLukketDialog = () =>
     waitFor(() => expect(screen.queryByRole("dialog")).not.toBeInTheDocument());
+
+const leggTilSamarbeidsmålKnapp = (dialog: HTMLElement) =>
+    within(dialog).getByRole("button", {
+        name: "Lagre",
+        description: "Mål for samarbeidet",
+    });
+
+const leggTilSamarbeidsmål = (dialog: HTMLElement, tekst: string) => {
+    fireEvent.change(within(dialog).getByLabelText("Legg til mål"), {
+        target: { value: tekst },
+    });
+    fireEvent.click(leggTilSamarbeidsmålKnapp(dialog));
+};
 
 describe("MålFane", () => {
     beforeAll(() => {
@@ -181,18 +208,12 @@ describe("MålFane", () => {
     test("viser feiloppsummering med lenker til feltene ved tomt skjema", async () => {
         const dialog = await åpneOpprettDialog();
 
-        fireEvent.click(
-            within(
-                within(dialog).getByRole("region", {
-                    name: "Legg til sykefraværsmål",
-                }),
-            ).getByRole("button", { name: "Legg til mål" }),
-        );
+        fireEvent.click(leggTilSykefraværsmålKnapp(dialog));
 
         const lenke = await within(dialog).findByRole("link", {
             name: "Velg en sykefraværsmåltype.",
         });
-        const felt = within(dialog).getByLabelText("Sykefraværsmåltype");
+        const felt = within(dialog).getByLabelText("Type sykefravær");
         expect(lenke).toHaveAttribute("href", `#${felt.id}`);
     });
 
@@ -230,10 +251,8 @@ describe("MålFane", () => {
         const dialog = await åpneOpprettDialog();
 
         fyllUtMål(dialog, "KORTTIDSFRAVÆR", "6,5", "4");
-        fireEvent.change(within(dialog).getByLabelText("Mål 1"), {
-            target: { value: "  Færre korte fravær " },
-        });
-        fireEvent.click(within(dialog).getByRole("button", { name: "Lagre" }));
+        leggTilSamarbeidsmål(dialog, "  Færre korte fravær ");
+        fireEvent.click(lagreKnapp(dialog));
 
         await ventPåLukketDialog();
         expect(sjekk).toHaveBeenCalledWith(
@@ -262,7 +281,6 @@ describe("MålFane", () => {
         expect(screen.getByText("6,5 %")).toBeInTheDocument();
         expect(screen.getByText(`31.12.${nesteÅr}`)).toBeInTheDocument();
         expect(screen.getByText("Færre korte fravær")).toBeInTheDocument();
-        expect(screen.getByText("Målene er lagret.")).toBeInTheDocument();
     });
 
     test("advarer om personopplysninger og lagrer med KI-advarsel når brukeren lagrer likevel", async () => {
@@ -276,10 +294,8 @@ describe("MålFane", () => {
         });
         const dialog = await åpneOpprettDialog();
 
-        fireEvent.change(within(dialog).getByLabelText("Mål 1"), {
-            target: { value: "Ola skal tilbake i jobb" },
-        });
-        fireEvent.click(within(dialog).getByRole("button", { name: "Lagre" }));
+        leggTilSamarbeidsmål(dialog, "Ola skal tilbake i jobb");
+        fireEvent.click(lagreKnapp(dialog));
 
         expect(
             await within(dialog).findByText(
@@ -313,19 +329,9 @@ describe("MålFane", () => {
             .mockResolvedValue(ingenFunn);
         const dialog = await åpneDialog("Rediger", "Rediger mål");
 
-        expect(within(dialog).getByLabelText("Mål 1")).toHaveValue(
-            "Bedre dialog",
-        );
-        fireEvent.click(
-            within(dialog).getByRole("button", {
-                name: "Legg til mål",
-                description: "Mål for samarbeidet",
-            }),
-        );
-        const nyttFelt = within(dialog).getByLabelText("Mål 2");
-        await waitFor(() => expect(nyttFelt).toHaveFocus());
-        fireEvent.change(nyttFelt, { target: { value: "Færre fravær" } });
-        fireEvent.click(within(dialog).getByRole("button", { name: "Lagre" }));
+        expect(within(dialog).getByText("Bedre dialog")).toBeInTheDocument();
+        leggTilSamarbeidsmål(dialog, "Færre fravær");
+        fireEvent.click(lagreKnapp(dialog));
 
         await ventPåLukketDialog();
         expect(sjekk).toHaveBeenCalledTimes(1);
@@ -341,7 +347,7 @@ describe("MålFane", () => {
         expect(await screen.findByRole("list")).toBeInTheDocument();
     });
 
-    test("sletter samarbeidsmål og flytter fokus til legg til-knappen", async () => {
+    test("sletter samarbeidsmål og flytter fokus til listen over samarbeidsmål", async () => {
         lagret = {
             sykefraværsmål: [],
             samarbeidsmål: [
@@ -352,16 +358,19 @@ describe("MålFane", () => {
         const dialog = await åpneDialog("Rediger", "Rediger mål");
 
         fireEvent.click(
-            within(dialog).getByRole("button", { name: "Slett mål 1" }),
+            within(dialog).getByRole("button", {
+                name: "Slett",
+                description: "Bedre dialog",
+            }),
         );
 
         expect(
-            within(dialog).getByRole("button", {
-                name: "Legg til mål",
-                description: "Mål for samarbeidet",
+            within(dialog).getByRole("heading", {
+                name: "Mål for samarbeidet",
+                level: 3,
             }),
         ).toHaveFocus();
-        fireEvent.click(within(dialog).getByRole("button", { name: "Lagre" }));
+        fireEvent.click(lagreKnapp(dialog));
 
         await ventPåLukketDialog();
         expect(lagreKall[0].samarbeidsmål).toEqual([
@@ -369,12 +378,97 @@ describe("MålFane", () => {
         ]);
     });
 
+    test("redigerer samarbeidsmål direkte i kortet i redigeringsvinduet", async () => {
+        lagret = {
+            sykefraværsmål: [],
+            samarbeidsmål: [
+                { id: 7, mål: "Bedre dialog", lagretMedKiAdvarsel: true },
+            ],
+        };
+        jest.spyOn(
+            personopplysningssjekk,
+            "sjekkPersonopplysninger",
+        ).mockResolvedValue(ingenFunn);
+        const dialog = await åpneDialog("Rediger", "Rediger mål");
+        const redigerKnapp = () =>
+            within(dialog).getByRole("button", {
+                name: "Rediger",
+                description: "Bedre dialog",
+            });
+
+        fireEvent.click(redigerKnapp());
+
+        const felt = within(dialog).getByLabelText("Endre mål");
+        expect(felt).toHaveValue("Bedre dialog");
+        await waitFor(() => expect(felt).toHaveFocus());
+        fireEvent.change(felt, {
+            target: { value: "Bedre dialog med ledelsen" },
+        });
+        fireEvent.click(
+            within(kortMedFelt(felt)).getByRole("button", { name: "Lagre" }),
+        );
+
+        expect(
+            within(dialog).queryByLabelText("Endre mål"),
+        ).not.toBeInTheDocument();
+        expect(
+            within(dialog).getByText("Bedre dialog med ledelsen"),
+        ).toBeInTheDocument();
+        expect(within(dialog).getByText("Lagret")).toBeInTheDocument();
+        await waitFor(() =>
+            expect(
+                within(dialog).getByRole("button", {
+                    name: "Rediger",
+                    description: "Bedre dialog med ledelsen",
+                }),
+            ).toHaveFocus(),
+        );
+
+        fireEvent.click(lagreKnapp(dialog));
+
+        await ventPåLukketDialog();
+        expect(lagreKall[0].samarbeidsmål).toEqual([
+            {
+                id: 7,
+                mål: "Bedre dialog med ledelsen",
+                lagretMedKiAdvarsel: false,
+            },
+        ]);
+    });
+
+    test("stopper lagringen når et samarbeidsmål er under redigering", async () => {
+        lagret = {
+            sykefraværsmål: [],
+            samarbeidsmål: [
+                { id: 7, mål: "Bedre dialog", lagretMedKiAdvarsel: false },
+            ],
+        };
+        const dialog = await åpneDialog("Rediger", "Rediger mål");
+
+        fireEvent.click(
+            within(dialog).getByRole("button", {
+                name: "Rediger",
+                description: "Bedre dialog",
+            }),
+        );
+        fireEvent.click(lagreKnapp(dialog));
+
+        const lenke = await within(dialog).findByRole("link", {
+            name: FEILMELDINGER.ulagretEndringSamarbeidsmål,
+        });
+        expect(lenke).toHaveAttribute(
+            "href",
+            `#${within(dialog).getByLabelText("Endre mål").id}`,
+        );
+        expect(lagreKall).toHaveLength(0);
+    });
+
     test("holder dialogen åpen og viser feil når lagringen feiler", async () => {
         lagringFeiler = true;
         const dialog = await åpneOpprettDialog();
 
         fyllUtMål(dialog, "KORTTIDSFRAVÆR", "6", "4");
-        fireEvent.click(within(dialog).getByRole("button", { name: "Lagre" }));
+        fireEvent.click(lagreKnapp(dialog));
 
         expect(
             await within(dialog).findByText("Kunne ikke lagre målene"),
@@ -382,37 +476,105 @@ describe("MålFane", () => {
         expect(screen.getByRole("dialog")).toBeInTheDocument();
     });
 
-    test("flytter fokus til listen over opprettede mål etter at et sykefraværsmål er lagt til", async () => {
+    test("flytter fokus til listen over sykefraværsmål etter at et sykefraværsmål er lagt til", async () => {
         const dialog = await åpneOpprettDialog();
         await waitFor(() => expect(dialog).toHaveFocus());
         fyllUtMål(dialog, "KORTTIDSFRAVÆR", "6", "4");
 
         const overskrift = await within(dialog).findByRole("heading", {
-            name: "Opprettede sykefraværsmål",
+            name: "Mål for sykefraværet",
+            level: 3,
         });
         await waitFor(() => expect(overskrift).toHaveFocus());
     });
 
-    test("viser slett-knapp for samarbeidsmål først når feltet har tekst", async () => {
+    test("legger til samarbeidsmål som kort som kan slettes", async () => {
         const dialog = await åpneOpprettDialog();
 
         expect(
-            within(dialog).queryByRole("button", { name: "Slett mål 1" }),
+            within(dialog).queryByRole("button", { name: "Slett" }),
         ).not.toBeInTheDocument();
 
-        fireEvent.change(within(dialog).getByLabelText("Mål 1"), {
-            target: { value: "Færre fravær" },
+        leggTilSamarbeidsmål(dialog, "Bedre dialog");
+
+        expect(within(dialog).getByText("Bedre dialog")).toBeInTheDocument();
+        expect(within(dialog).getByText("Lagret")).toBeInTheDocument();
+        expect(within(dialog).getByLabelText("Legg til mål")).toHaveValue("");
+
+        fireEvent.click(
+            within(dialog).getByRole("button", {
+                name: "Slett",
+                description: "Bedre dialog",
+            }),
+        );
+
+        expect(
+            within(dialog).queryByText("Bedre dialog"),
+        ).not.toBeInTheDocument();
+        expect(within(dialog).getByText("Slettet")).toBeInTheDocument();
+    });
+
+    test("viser feil og beholder fokus i feltet når et tomt samarbeidsmål legges til", async () => {
+        const dialog = await åpneOpprettDialog();
+
+        fireEvent.click(leggTilSamarbeidsmålKnapp(dialog));
+
+        expect(
+            within(dialog).getByText(FEILMELDINGER.tomtSamarbeidsmål),
+        ).toBeInTheDocument();
+        expect(within(dialog).getByLabelText("Legg til mål")).toHaveFocus();
+    });
+
+    test("stopper lagringen når et samarbeidsmål ikke er lagt til", async () => {
+        const dialog = await åpneOpprettDialog();
+        const felt = within(dialog).getByLabelText("Legg til mål");
+
+        fireEvent.change(felt, { target: { value: "Bedre dialog" } });
+        fireEvent.click(lagreKnapp(dialog));
+
+        const lenke = await within(dialog).findByRole("link", {
+            name: FEILMELDINGER.ulagretSamarbeidsmål,
+        });
+        expect(lenke).toHaveAttribute("href", `#${felt.id}`);
+        expect(lagreKall).toHaveLength(0);
+    });
+
+    test("stopper lagringen når sykefraværsskjemaet er utfylt men ikke lagt til", async () => {
+        const dialog = await åpneOpprettDialog();
+        const skjema = leggTilSykefraværsmålKnapp(dialog).closest(
+            "form",
+        ) as HTMLElement;
+        const typefelt = within(skjema).getByLabelText("Type sykefravær");
+
+        fireEvent.change(typefelt, { target: { value: "KORTTIDSFRAVÆR" } });
+        fireEvent.click(lagreKnapp(dialog));
+
+        const lenke = await within(dialog).findByRole("link", {
+            name: FEILMELDINGER.ulagretNyttSykefraværsmål,
+        });
+        expect(lenke).toHaveAttribute("href", `#${typefelt.id}`);
+        expect(lagreKall).toHaveLength(0);
+        expect(screen.getByRole("dialog")).toBeInTheDocument();
+
+        fireEvent.change(within(skjema).getByLabelText(/^Mål \(/), {
+            target: { value: "4" },
         });
 
         expect(
-            within(dialog).getByRole("button", { name: "Slett mål 1" }),
-        ).toBeInTheDocument();
+            within(dialog).queryByRole("link", {
+                name: FEILMELDINGER.ulagretNyttSykefraværsmål,
+            }),
+        ).not.toBeInTheDocument();
     });
 
     test("opprettelsesdialogen har ingen axe-brudd", async () => {
         const dialog = await åpneOpprettDialog();
         fyllUtMål(dialog, "KORTTIDSFRAVÆR", "6", "4");
-        await within(dialog).findByText("Opprettede sykefraværsmål");
+        await within(dialog).findByRole("heading", {
+            name: "Mål for sykefraværet",
+            level: 3,
+        });
+        leggTilSamarbeidsmål(dialog, "Bedre dialog");
 
         expect(await axe(dialog)).toHaveNoViolations();
     });
@@ -432,21 +594,34 @@ describe("MålFane", () => {
         const dialog = await åpneDialog("Rediger", "Rediger mål");
 
         fyllUtMål(dialog, "LEGEMELDT_FRAVÆR", "3", "2");
-        const kort = await within(dialog).findByRole("region", {
-            name: "Legemeldt fravær",
-        });
+        fireEvent.click(
+            await within(dialog).findByRole("button", {
+                name: "Rediger",
+                description: "Legemeldt fravær",
+            }),
+        );
+        const kort = sykefraværskortIRedigering(dialog, "Legemeldt fravær");
         fireEvent.change(within(kort).getByLabelText("Mål (%)"), {
             target: { value: "1,5" },
         });
-        const korttid = within(dialog).getByRole("region", {
-            name: "Korttidsfravær",
-        });
         fireEvent.click(
-            within(korttid).getByRole("button", {
-                name: "Slett sykefraværsmål",
+            within(kort).getByRole("button", { name: "Lagre" }),
+        );
+        await waitFor(() =>
+            expect(
+                within(dialog).getByRole("button", {
+                    name: "Rediger",
+                    description: "Legemeldt fravær",
+                }),
+            ).toHaveFocus(),
+        );
+        fireEvent.click(
+            within(dialog).getByRole("button", {
+                name: "Slett",
+                description: "Korttidsfravær",
             }),
         );
-        fireEvent.click(within(dialog).getByRole("button", { name: "Lagre" }));
+        fireEvent.click(lagreKnapp(dialog));
 
         await ventPåLukketDialog();
         expect(lagreKall[0].sykefraværsmål).toEqual([
@@ -461,5 +636,73 @@ describe("MålFane", () => {
         expect(
             screen.queryByRole("heading", { name: "Korttidsfravær" }),
         ).not.toBeInTheDocument();
+    });
+
+    test("Avbryt i et sykefraværsmålkort forkaster endringene", async () => {
+        lagret = {
+            sykefraværsmål: [
+                {
+                    type: "KORTTIDSFRAVÆR",
+                    nåværende: 6,
+                    mål: 4,
+                    frist: `${nesteÅr}-12-31`,
+                },
+            ],
+            samarbeidsmål: [],
+        };
+        const dialog = await åpneDialog("Rediger", "Rediger mål");
+
+        fireEvent.click(
+            within(dialog).getByRole("button", {
+                name: "Rediger",
+                description: "Korttidsfravær",
+            }),
+        );
+        const kort = sykefraværskortIRedigering(dialog, "Korttidsfravær");
+        fireEvent.change(within(kort).getByLabelText("Mål (%)"), {
+            target: { value: "1" },
+        });
+        fireEvent.click(within(kort).getByRole("button", { name: "Avbryt" }));
+        fireEvent.click(lagreKnapp(dialog));
+
+        await ventPåLukketDialog();
+        expect(lagreKall[0].sykefraværsmål).toEqual([
+            {
+                type: "KORTTIDSFRAVÆR",
+                nåværende: 6,
+                mål: 4,
+                frist: `${nesteÅr}-12-31`,
+            },
+        ]);
+    });
+
+    test("stopper lagringen når et sykefraværsmålkort er i redigering", async () => {
+        lagret = {
+            sykefraværsmål: [
+                {
+                    type: "KORTTIDSFRAVÆR",
+                    nåværende: 6,
+                    mål: 4,
+                    frist: `${nesteÅr}-12-31`,
+                },
+            ],
+            samarbeidsmål: [],
+        };
+        const dialog = await åpneDialog("Rediger", "Rediger mål");
+
+        fireEvent.click(
+            within(dialog).getByRole("button", {
+                name: "Rediger",
+                description: "Korttidsfravær",
+            }),
+        );
+        fireEvent.click(lagreKnapp(dialog));
+
+        expect(
+            await within(dialog).findByRole("link", {
+                name: FEILMELDINGER.ulagretEndringSykefraværsmål,
+            }),
+        ).toBeInTheDocument();
+        expect(lagreKall).toHaveLength(0);
     });
 });

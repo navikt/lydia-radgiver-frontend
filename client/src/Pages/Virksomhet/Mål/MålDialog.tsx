@@ -1,9 +1,10 @@
 import React from "react";
 import {
-    BodyShort,
+    BodyLong,
     Box,
     Button,
     Dialog,
+    ErrorMessage,
     Heading,
     HGrid,
     HStack,
@@ -21,47 +22,46 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { Feiloppsummering } from "./Feiloppsummering";
 import {
     erEndretSamarbeidsmål,
+    FEILMELDINGER,
     lagIdPrefiks,
     MAKS_ANTALL_TEGN_I_MÅL,
-    SYKEFRAVÆRSMÅLTYPE_NAVN,
     opptatteTyper,
     Samarbeidsmålutkast,
     Mål,
     Sykefraværsmål,
+    SykefraværsmålIListe,
+    Sykefraværsmåltype,
     Sykefraværsmålutkast,
-    tilFeillenker,
+    skjemaId,
     tilSamarbeidsmål,
     tilSamarbeidsmålutkast,
+    tilSykefraværsmålIListe,
     tilUtkast,
     tomtSamarbeidsmål,
+    tomtUtkast,
+    harInnholdISykefraværsutkast,
     validerSykefraværsmål,
     Valideringsfeil,
 } from "./målskjema";
 import { NyttSykefraværsmålSkjema } from "./NyttSykefraværsmålSkjema";
 import { Personopplysningsadvarsel } from "./Personopplysningsadvarsel";
 import { SykefraværsmålFelter } from "./SykefraværsmålFelter";
+import styles from "./mål.module.scss";
 import {
     SykefraværsmåltypeOverskrift,
     Målverdier,
 } from "./Sykefraværsmålvisning";
 
-export type MålDialogModus = "opprett" | "rediger";
-
-const navnPå = (utkast: Sykefraværsmålutkast) =>
-    utkast.type ? SYKEFRAVÆRSMÅLTYPE_NAVN[utkast.type] : "Sykefraværsmål";
-
 const samarbeidsmålFeltId = (idPrefiks: string, nøkkel: string) =>
     `${idPrefiks}-samarbeidsmal-${nøkkel}`;
 
 export function MålDialog({
-    modus,
     open,
     onOpenChange,
     lagret,
     onLagre,
     iaSak,
 }: {
-    modus: MålDialogModus;
     open: boolean;
     onOpenChange: (open: boolean) => void;
     lagret: Mål;
@@ -69,27 +69,35 @@ export function MålDialog({
     iaSak: IASak;
 }) {
     const idPrefiks = lagIdPrefiks(React.useId());
-    const førsteFeltRef = React.useRef<HTMLSelectElement>(null);
     const redigerOverskriftRef = React.useRef<HTMLHeadingElement>(null);
-    const leggTilSamarbeidsmålRef = React.useRef<HTMLButtonElement>(null);
+    const samarbeidsmålListeRef = React.useRef<HTMLHeadingElement>(null);
 
-    const [utkast, setUtkast] = React.useState<Sykefraværsmålutkast[]>(() =>
-        lagret.sykefraværsmål.map(tilUtkast),
-    );
+    const [sykefraværsmål, setSykefraværsmål] = React.useState<
+        SykefraværsmålIListe[]
+    >(() => lagret.sykefraværsmål.map(tilSykefraværsmålIListe));
     const [samarbeidsmål, setSamarbeidsmål] = React.useState<
         Samarbeidsmålutkast[]
-    >(() =>
-        lagret.samarbeidsmål.length > 0
-            ? lagret.samarbeidsmål.map(tilSamarbeidsmålutkast)
-            : [tomtSamarbeidsmål()],
-    );
-    const [fokuserSamarbeidsmål, setFokuserSamarbeidsmål] =
-        React.useState<string>();
-    const [redigererId, setRedigererId] = React.useState<string>();
+    >(() => lagret.samarbeidsmål.map(tilSamarbeidsmålutkast));
+    const [nyttSamarbeidsmål, setNyttSamarbeidsmål] = React.useState("");
+    const [samarbeidsmålfeil, setSamarbeidsmålfeil] = React.useState<string>();
+    const [samarbeidsmålstatus, setSamarbeidsmålstatus] = React.useState("");
+    const nyttSamarbeidsmålRef = React.useRef<HTMLTextAreaElement>(null);
+    const nyttSamarbeidsmålId = `${idPrefiks}-nytt-samarbeidsmal`;
+    const samarbeidsmålListeOverskriftId = `${idPrefiks}-samarbeidsmal-liste`;
+    const [samarbeidsfritekstkort, setSamarbeidsfritekstkort] =
+        React.useState<{ nøkkel: string; tekst: string; feil?: string }>();
+    const [fokusmål, setFokusmål] = React.useState<{ id: string }>();
+    const [sykefraværskort, setSykefraværskort] = React.useState<{
+        utkast: Sykefraværsmålutkast;
+        visFeil: boolean;
+        ulagret: boolean;
+    }>();
     const [skjemaversjon, setSkjemaversjon] = React.useState(0);
-    const [fokuserSkjema, setFokuserSkjema] = React.useState(false);
+    const [nyttUtkast, setNyttUtkast] = React.useState(tomtUtkast);
+    const [ulagretNyttSykefraværsmål, setUlagretNyttSykefraværsmål] =
+        React.useState(false);
+    const nyttSykefraværsmålPrefiks = `${idPrefiks}-nytt-sykefravaersmal`;
     const [statusmelding, setStatusmelding] = React.useState("");
-    const [visFeil, setVisFeil] = React.useState(false);
     const [fokusteller, setFokusteller] = React.useState(0);
     const [lagrer, setLagrer] = React.useState(false);
     const [funn, setFunn] = React.useState<
@@ -104,77 +112,125 @@ export function MålDialog({
     }, [fokuserListe]);
 
     React.useEffect(() => {
-        if (!fokuserSamarbeidsmål) return;
-        document
-            .getElementById(
-                samarbeidsmålFeltId(idPrefiks, fokuserSamarbeidsmål),
-            )
-            ?.focus();
-        setFokuserSamarbeidsmål(undefined);
-    }, [fokuserSamarbeidsmål, idPrefiks]);
+        if (fokusmål) document.getElementById(fokusmål.id)?.focus();
+    }, [fokusmål]);
 
-    const valideringer = utkast.map((u) => ({
-        utkast: u,
-        resultat: validerSykefraværsmål(u, opptatteTyper(utkast, u.id)),
-    }));
-    const feillenker = visFeil
-        ? valideringer.flatMap(({ utkast: u, resultat }) =>
-              resultat.ok
-                  ? []
-                  : tilFeillenker(
-                        resultat.feil,
-                        `${idPrefiks}-${u.id}`,
-                        navnPå(u),
-                    ),
+    const sykefraværskortresultat = sykefraværskort
+        ? validerSykefraværsmål(
+              sykefraværskort.utkast,
+              opptatteTyper(sykefraværsmål, sykefraværskort.utkast.id),
           )
-        : [];
+        : undefined;
+    const feillenker = [
+        ...(ulagretNyttSykefraværsmål
+            ? [
+                  {
+                      href: `#${skjemaId(nyttSykefraværsmålPrefiks, "type")}`,
+                      melding: FEILMELDINGER.ulagretNyttSykefraværsmål,
+                  },
+              ]
+            : []),
+        ...(sykefraværskort?.ulagret
+            ? [
+                  {
+                      href: `#${skjemaId(`${idPrefiks}-${sykefraværskort.utkast.id}`, "type")}`,
+                      melding: FEILMELDINGER.ulagretEndringSykefraværsmål,
+                  },
+              ]
+            : []),
+        ...(samarbeidsmålfeil === FEILMELDINGER.ulagretSamarbeidsmål
+            ? [{ href: `#${nyttSamarbeidsmålId}`, melding: samarbeidsmålfeil }]
+            : []),
+        ...(samarbeidsfritekstkort?.feil ===
+        FEILMELDINGER.ulagretEndringSamarbeidsmål
+            ? [
+                  {
+                      href: `#${samarbeidsmålFeltId(idPrefiks, samarbeidsfritekstkort.nøkkel)}`,
+                      melding: samarbeidsfritekstkort.feil,
+                  },
+              ]
+            : []),
+    ];
 
-    const feilFor = (id: string): Valideringsfeil => {
-        if (!visFeil) return {};
-        const resultat = valideringer.find((v) => v.utkast.id === id)?.resultat;
-        return resultat && !resultat.ok ? resultat.feil : {};
-    };
-
-    const nullstillSkjema = (fokus: "skjema" | "liste" = "skjema") => {
-        setRedigererId(undefined);
+    const lagreFraSkjema = (mål: Sykefraværsmål) => {
+        setSykefraværsmål((forrige) => [
+            ...forrige,
+            { id: nyttUtkast.id, mål },
+        ]);
+        setNyttUtkast(tomtUtkast());
+        setUlagretNyttSykefraværsmål(false);
+        setStatusmelding("Lagret");
+        setSamarbeidsmålstatus("");
         setSkjemaversjon((n) => n + 1);
-        setFokuserSkjema(fokus === "skjema");
-        if (fokus === "liste") setFokuserListe((n) => n + 1);
-    };
-
-    const lagreFraSkjema = (nytt: Sykefraværsmålutkast) => {
-        const finnes = utkast.some((u) => u.id === nytt.id);
-        setUtkast((forrige) =>
-            finnes
-                ? forrige.map((u) => (u.id === nytt.id ? nytt : u))
-                : [...forrige, nytt],
-        );
-        setStatusmelding(
-            finnes
-                ? `Endringene i ${navnPå(nytt).toLowerCase()} er lagt inn.`
-                : `${navnPå(nytt)} er lagt til.`,
-        );
-        nullstillSkjema("liste");
+        setFokuserListe((n) => n + 1);
     };
 
     const slett = (id: string) => {
-        const slettet = utkast.find((u) => u.id === id);
-        setUtkast((forrige) => forrige.filter((u) => u.id !== id));
-        if (slettet) setStatusmelding(`${navnPå(slettet)} er fjernet.`);
-        if (modus === "opprett") {
-            nullstillSkjema();
+        const slettet = sykefraværsmål.find((r) => r.id === id);
+        setSykefraværsmål((forrige) => forrige.filter((r) => r.id !== id));
+        if (sykefraværskort?.utkast.id === id) {
+            setSykefraværskort(undefined);
+        }
+        if (slettet) {
+            setStatusmelding("Slettet");
+            setSamarbeidsmålstatus("");
+        }
+        if (sykefraværsmål.length === 1 && slettet) {
+            setFokusmål({ id: skjemaId(nyttSykefraværsmålPrefiks, "type") });
         } else {
             redigerOverskriftRef.current?.focus();
         }
     };
 
-    const oppdaterUtkast = (
-        id: string,
-        endring: Partial<Sykefraværsmålutkast>,
-    ) =>
-        setUtkast((forrige) =>
-            forrige.map((u) => (u.id === id ? { ...u, ...endring } : u)),
+    const startSykefraværsredigering = (id: string) => {
+        const valgt = sykefraværsmål.find((r) => r.id === id);
+        if (!valgt) return;
+        setSykefraværskort({
+            utkast: { ...tilUtkast(valgt.mål), id: valgt.id },
+            visFeil: false,
+            ulagret: false,
+        });
+        setFokusmål({ id: skjemaId(`${idPrefiks}-${id}`, "type") });
+    };
+
+    const avsluttSykefraværsredigering = (id: string) => {
+        setSykefraværskort(undefined);
+        setFokusmål({ id: `${idPrefiks}-${id}-rediger` });
+    };
+
+    const endreSykefraværskort = (endring: Partial<Sykefraværsmålutkast>) =>
+        setSykefraværskort(
+            (k) =>
+                k && {
+                    ...k,
+                    utkast: { ...k.utkast, ...endring },
+                    ulagret: false,
+                },
         );
+
+    const lagreSykefraværskort = () => {
+        if (!sykefraværskort || !sykefraværskortresultat) return;
+        const id = sykefraværskort.utkast.id;
+        if (!sykefraværskortresultat.ok) {
+            setSykefraværskort((k) => k && { ...k, visFeil: true });
+            const førsteFeil = (
+                ["type", "nåværende", "mål", "frist"] as const
+            ).find((felt) => sykefraværskortresultat.feil[felt]);
+            if (førsteFeil) {
+                setFokusmål({
+                    id: skjemaId(`${idPrefiks}-${id}`, førsteFeil),
+                });
+            }
+            return;
+        }
+        const mål = sykefraværskortresultat.mål;
+        setSykefraværsmål((forrige) =>
+            forrige.map((r) => (r.id === id ? { id: r.id, mål } : r)),
+        );
+        setStatusmelding("Lagret");
+        setSamarbeidsmålstatus("");
+        avsluttSykefraværsredigering(id);
+    };
 
     const nullstillSjekk = () => {
         setFunn({});
@@ -182,28 +238,77 @@ export function MålDialog({
         setLagringFeilet(false);
     };
 
-    const oppdaterSamarbeidsmål = (nøkkel: string, tekst: string) => {
+    const startKortredigering = (nøkkel: string) => {
+        const mål = samarbeidsmål.find((m) => m.nøkkel === nøkkel);
+        if (!mål) return;
+        setSamarbeidsfritekstkort({ nøkkel, tekst: mål.mål });
+        setFokusmål({ id: samarbeidsmålFeltId(idPrefiks, nøkkel) });
+    };
+
+    const avsluttKortredigering = (nøkkel: string) => {
+        setSamarbeidsfritekstkort(undefined);
+        setFokusmål({
+            id: `${samarbeidsmålFeltId(idPrefiks, nøkkel)}-rediger`,
+        });
+    };
+
+    const endreSamarbeidsfritekst = (tekst: string) =>
+        setSamarbeidsfritekstkort((k) => k && { ...k, tekst, feil: undefined });
+
+    const lagreKortendring = (nøkkel: string) => {
+        if (!samarbeidsfritekstkort) return;
+        const tekst = samarbeidsfritekstkort.tekst.trim();
+        if (tekst === "") {
+            setSamarbeidsfritekstkort(
+                (k) => k && { ...k, feil: FEILMELDINGER.tomtSamarbeidsmål },
+            );
+            setFokusmål({ id: samarbeidsmålFeltId(idPrefiks, nøkkel) });
+            return;
+        }
         setSamarbeidsmål((forrige) =>
             forrige.map((m) =>
                 m.nøkkel === nøkkel ? { ...m, mål: tekst } : m,
             ),
         );
+        setSamarbeidsmålstatus("Lagret");
+        setStatusmelding("");
         nullstillSjekk();
+        avsluttKortredigering(nøkkel);
     };
 
     const leggTilSamarbeidsmål = () => {
-        const nytt = tomtSamarbeidsmål();
-        setSamarbeidsmål((forrige) => [...forrige, nytt]);
-        setFokuserSamarbeidsmål(nytt.nøkkel);
+        const tekst = nyttSamarbeidsmål.trim();
+        if (tekst === "") {
+            setSamarbeidsmålfeil(FEILMELDINGER.tomtSamarbeidsmål);
+            nyttSamarbeidsmålRef.current?.focus();
+            return;
+        }
+        setSamarbeidsmål((forrige) => [
+            ...forrige,
+            { ...tomtSamarbeidsmål(), mål: tekst },
+        ]);
+        setSamarbeidsmålstatus("Lagret");
+        setNyttSamarbeidsmål("");
+        setSamarbeidsmålfeil(undefined);
+        setStatusmelding("");
+        nullstillSjekk();
     };
 
-    const slettSamarbeidsmål = (nøkkel: string, nummer: number) => {
+    const slettSamarbeidsmål = (nøkkel: string) => {
         setSamarbeidsmål((forrige) =>
             forrige.filter((m) => m.nøkkel !== nøkkel),
         );
+        if (samarbeidsfritekstkort?.nøkkel === nøkkel) {
+            setSamarbeidsfritekstkort(undefined);
+        }
         nullstillSjekk();
-        setStatusmelding(`Mål ${nummer} for samarbeidet er fjernet.`);
-        leggTilSamarbeidsmålRef.current?.focus();
+        setStatusmelding("");
+        setSamarbeidsmålstatus("Slettet");
+        if (samarbeidsmål.length === 1) {
+            nyttSamarbeidsmålRef.current?.focus();
+        } else {
+            samarbeidsmålListeRef.current?.focus();
+        }
     };
 
     const send = async (nyeMål: Mål) => {
@@ -216,19 +321,42 @@ export function MålDialog({
     };
 
     const lagre = async (lagreLikevel = false) => {
-        const gyldige: Sykefraværsmål[] = valideringer.flatMap(
-            ({ resultat }) => (resultat.ok ? [resultat.mål] : []),
-        );
-        if (gyldige.length !== utkast.length) {
-            setVisFeil(true);
+        const harUlagretNyttSykefraværsmål =
+            harInnholdISykefraværsutkast(nyttUtkast);
+        if (harUlagretNyttSykefraværsmål) {
+            setUlagretNyttSykefraværsmål(true);
+        }
+        const harUlagretSamarbeidsmål = nyttSamarbeidsmål.trim() !== "";
+        if (harUlagretSamarbeidsmål) {
+            setSamarbeidsmålfeil(FEILMELDINGER.ulagretSamarbeidsmål);
+        }
+        const harUlagretKortendring = samarbeidsfritekstkort !== undefined;
+        if (harUlagretKortendring) {
+            setSamarbeidsfritekstkort(
+                (k) =>
+                    k && {
+                        ...k,
+                        feil: FEILMELDINGER.ulagretEndringSamarbeidsmål,
+                    },
+            );
+        }
+        const harUlagretSykefraværskort = sykefraværskort !== undefined;
+        if (harUlagretSykefraværskort) {
+            setSykefraværskort((k) => k && { ...k, ulagret: true });
+        }
+        if (
+            harUlagretNyttSykefraværsmål ||
+            harUlagretSamarbeidsmål ||
+            harUlagretKortendring ||
+            harUlagretSykefraværskort
+        ) {
             setFokusteller((n) => n + 1);
             return;
         }
 
-        const utfylte = samarbeidsmål.filter((m) => m.mål.trim() !== "");
         const tilSjekk = lagreLikevel
             ? []
-            : utfylte.filter((m) =>
+            : samarbeidsmål.filter((m) =>
                   erEndretSamarbeidsmål(m, lagret.samarbeidsmål),
               );
 
@@ -241,7 +369,7 @@ export function MålDialog({
                     const resultat = await sjekkPersonopplysninger(
                         iaSak.orgnr,
                         iaSak.saksnummer,
-                        m.mål.trim(),
+                        m.mål,
                     );
                     return [m.nøkkel, resultat] as const;
                 }),
@@ -263,8 +391,8 @@ export function MålDialog({
             }
 
             await send({
-                sykefraværsmål: gyldige,
-                samarbeidsmål: utfylte.map((m) =>
+                sykefraværsmål: sykefraværsmål.map((r) => r.mål),
+                samarbeidsmål: samarbeidsmål.map((m) =>
                     tilSamarbeidsmål(
                         m,
                         lagret.samarbeidsmål,
@@ -277,12 +405,10 @@ export function MålDialog({
         }
     };
 
-    const redigerer = utkast.find((u) => u.id === redigererId);
-    const harInnhold =
-        utkast.length > 0 || samarbeidsmål.some((m) => m.mål.trim() !== "");
+    const harLagredeMål =
+        lagret.sykefraværsmål.length > 0 || lagret.samarbeidsmål.length > 0;
     const tilbyLagreLikevel = Object.keys(funn).length > 0 || sjekkFeilet;
     const samarbeidsmålOverskriftId = `${idPrefiks}-samarbeidsmal`;
-    const sykefraværsmålOverskriftId = `${idPrefiks}-sykefravaersmal`;
     const listeOverskriftId = `${idPrefiks}-liste`;
 
     return (
@@ -290,12 +416,10 @@ export function MålDialog({
             <Dialog.Popup width="large">
                 <Dialog.Header>
                     <Dialog.Title>
-                        {modus === "opprett" ? "Legg til mål" : "Rediger mål"}
+                        {harLagredeMål ? "Rediger mål" : "Mål"}
                     </Dialog.Title>
                     <Dialog.Description>
-                        {modus === "opprett"
-                            ? "Legg til sykefraværsmål og mål for samarbeidet."
-                            : "Rediger målene direkte i de utfylte skjemaene."}
+                        Legg til mål for sykefraværet og samarbeidet.
                     </Dialog.Description>
                 </Dialog.Header>
                 <Dialog.Body>
@@ -304,30 +428,26 @@ export function MålDialog({
                             feil={feillenker}
                             fokusteller={fokusteller}
                         />
-                        <section aria-labelledby={sykefraværsmålOverskriftId}>
+                        <div>
                             <VStack gap="space-16">
-                                <div>
-                                    <Heading
-                                        level="2"
-                                        size="medium"
-                                        id={sykefraværsmålOverskriftId}
-                                    >
-                                        Sykefraværsmål
-                                    </Heading>
-                                    <BodyShort textColor="subtle">
-                                        Legg til mål for fraværet dere vil jobbe
-                                        med, ett om gangen.
-                                    </BodyShort>
-                                </div>
                                 <NyttSykefraværsmålSkjema
-                                    key={redigererId ?? `nytt-${skjemaversjon}`}
-                                    alleUtkast={utkast}
-                                    redigerer={redigerer}
+                                    key={`nytt-${skjemaversjon}`}
+                                    opptatte={opptatteTyper(sykefraværsmål)}
+                                    utkast={nyttUtkast}
+                                    oppdater={(endring) => {
+                                        setNyttUtkast((forrige) => ({
+                                            ...forrige,
+                                            ...endring,
+                                        }));
+                                        setUlagretNyttSykefraværsmål(false);
+                                    }}
+                                    idPrefiks={nyttSykefraværsmålPrefiks}
+                                    ulagretFeil={
+                                        ulagretNyttSykefraværsmål
+                                            ? FEILMELDINGER.ulagretNyttSykefraværsmål
+                                            : undefined
+                                    }
                                     onLagre={lagreFraSkjema}
-                                    onSlett={slett}
-                                    onAvbrytRedigering={() => nullstillSkjema()}
-                                    førsteFeltRef={førsteFeltRef}
-                                    fokuserVedVisning={fokuserSkjema}
                                 />
                                 <div role="status">
                                     {statusmelding && (
@@ -340,12 +460,10 @@ export function MålDialog({
                                     )}
                                 </div>
                             </VStack>
-                        </section>
+                        </div>
 
-                        {utkast.length > 0 && (
+                        {sykefraværsmål.length > 0 && (
                             <Box
-                                as="section"
-                                aria-labelledby={listeOverskriftId}
                                 borderWidth="2 0 0 0"
                                 borderColor="accent"
                                 paddingBlock="space-24 space-0"
@@ -359,139 +477,186 @@ export function MålDialog({
                                             ref={redigerOverskriftRef}
                                             tabIndex={-1}
                                         >
-                                            {modus === "opprett"
-                                                ? "Opprettede sykefraværsmål"
-                                                : "Rediger opprettede sykefraværsmål"}
+                                            Mål for sykefraværet
                                         </Heading>
-                                        <BodyShort textColor="subtle">
-                                            {modus === "opprett"
-                                                ? "Målene dere har lagt til."
-                                                : "Endre eller slett målene som allerede er lagt til."}
-                                        </BodyShort>
                                     </div>
-                                    {modus === "opprett" ? (
-                                        <VStack gap="space-12">
-                                            {valideringer.map(
-                                                ({ utkast: u, resultat }) =>
-                                                    resultat.ok && (
-                                                        <OpprettetMålkort
-                                                            key={u.id}
-                                                            mål={resultat.mål}
-                                                            onRediger={() => {
-                                                                setRedigererId(
-                                                                    u.id,
-                                                                );
-                                                                setFokuserSkjema(
-                                                                    true,
-                                                                );
-                                                            }}
-                                                        />
-                                                    ),
-                                            )}
-                                        </VStack>
-                                    ) : (
-                                        <HGrid
-                                            columns={{ xs: 1, lg: 2 }}
-                                            gap="space-16"
-                                        >
-                                            {utkast.map((u) => (
-                                                <RedigerbartMålkort
-                                                    key={u.id}
-                                                    utkast={u}
-                                                    alleUtkast={utkast}
-                                                    idPrefiks={`${idPrefiks}-${u.id}`}
-                                                    feil={feilFor(u.id)}
-                                                    oppdater={(endring) =>
-                                                        oppdaterUtkast(
-                                                            u.id,
-                                                            endring,
-                                                        )
-                                                    }
-                                                    onSlett={() => slett(u.id)}
-                                                />
-                                            ))}
-                                        </HGrid>
-                                    )}
+                                    <HGrid
+                                        columns={{ xs: 1, lg: 2 }}
+                                        gap="space-16"
+                                    >
+                                        {sykefraværsmål.map((r) => (
+                                            <Sykefraværsmålkort
+                                                key={r.id}
+                                                idPrefiks={`${idPrefiks}-${r.id}`}
+                                                mål={r.mål}
+                                                onRediger={() =>
+                                                    startSykefraværsredigering(
+                                                        r.id,
+                                                    )
+                                                }
+                                                onSlett={() => slett(r.id)}
+                                                redigering={
+                                                    sykefraværskort?.utkast
+                                                        .id === r.id
+                                                        ? {
+                                                              utkast: sykefraværskort.utkast,
+                                                              opptatte:
+                                                                  opptatteTyper(
+                                                                      sykefraværsmål,
+                                                                      r.id,
+                                                                  ),
+                                                              feil:
+                                                                  sykefraværskort.visFeil &&
+                                                                  sykefraværskortresultat &&
+                                                                  !sykefraværskortresultat.ok
+                                                                      ? sykefraværskortresultat.feil
+                                                                      : {},
+                                                              ulagretFeil:
+                                                                  sykefraværskort.ulagret
+                                                                      ? FEILMELDINGER.ulagretEndringSykefraværsmål
+                                                                      : undefined,
+                                                              oppdater:
+                                                                  endreSykefraværskort,
+                                                              onLagre:
+                                                                  lagreSykefraværskort,
+                                                              onAvbryt: () =>
+                                                                  avsluttSykefraværsredigering(
+                                                                      r.id,
+                                                                  ),
+                                                          }
+                                                        : undefined
+                                                }
+                                            />
+                                        ))}
+                                    </HGrid>
                                 </VStack>
                             </Box>
                         )}
 
                         <Box
-                            as="section"
-                            aria-labelledby={samarbeidsmålOverskriftId}
                             borderWidth="1 0 0 0"
                             borderColor="neutral-subtle"
                             paddingBlock="space-24 space-0"
                         >
                             <VStack gap="space-16">
-                                <Heading
-                                    level="2"
-                                    size="medium"
-                                    id={samarbeidsmålOverskriftId}
+                                <Box
+                                    background="neutral-soft"
+                                    borderRadius="12"
+                                    padding={{ xs: "space-16", md: "space-24" }}
                                 >
-                                    Mål for samarbeidet
-                                </Heading>
-                                {samarbeidsmål.map((m, indeks) => (
-                                    <VStack key={m.nøkkel} gap="space-8">
+                                    <VStack gap="space-16">
+                                        <Heading
+                                            level="2"
+                                            size="small"
+                                            id={samarbeidsmålOverskriftId}
+                                        >
+                                            Mål for samarbeidet
+                                        </Heading>
                                         <Textarea
-                                            id={samarbeidsmålFeltId(
-                                                idPrefiks,
-                                                m.nøkkel,
-                                            )}
-                                            label={`Mål ${indeks + 1}`}
+                                            ref={nyttSamarbeidsmålRef}
+                                            id={nyttSamarbeidsmålId}
+                                            label="Legg til mål"
                                             description="Husk ingen personopplysninger."
                                             maxLength={MAKS_ANTALL_TEGN_I_MÅL}
-                                            value={m.mål}
-                                            onChange={(e) =>
-                                                oppdaterSamarbeidsmål(
-                                                    m.nøkkel,
+                                            value={nyttSamarbeidsmål}
+                                            error={samarbeidsmålfeil}
+                                            onChange={(e) => {
+                                                setNyttSamarbeidsmål(
                                                     e.target.value,
-                                                )
-                                            }
+                                                );
+                                                setSamarbeidsmålfeil(
+                                                    undefined,
+                                                );
+                                            }}
                                         />
-                                        {funn[m.nøkkel] && (
-                                            <Personopplysningsadvarsel
-                                                resultat={funn[m.nøkkel]}
-                                            />
-                                        )}
-                                        {(m.mål.trim() !== "" ||
-                                            samarbeidsmål.length > 1) && (
-                                            <div>
-                                                <Button
-                                                    type="button"
-                                                    variant="secondary"
-                                                    data-color="danger"
-                                                    size="small"
-                                                    icon={
-                                                        <TrashIcon
-                                                            aria-hidden
-                                                        />
-                                                    }
-                                                    onClick={() =>
-                                                        slettSamarbeidsmål(
-                                                            m.nøkkel,
-                                                            indeks + 1,
-                                                        )
-                                                    }
-                                                >
-                                                    Slett mål {indeks + 1}
-                                                </Button>
-                                            </div>
-                                        )}
+                                        <HStack gap="space-8" wrap>
+                                            <Button
+                                                type="button"
+                                                onClick={leggTilSamarbeidsmål}
+                                                aria-describedby={
+                                                    samarbeidsmålOverskriftId
+                                                }
+                                            >
+                                                Lagre
+                                            </Button>
+                                        </HStack>
                                     </VStack>
-                                ))}
-                                <div>
-                                    <Button
-                                        ref={leggTilSamarbeidsmålRef}
-                                        type="button"
-                                        onClick={leggTilSamarbeidsmål}
-                                        aria-describedby={
-                                            samarbeidsmålOverskriftId
-                                        }
-                                    >
-                                        Legg til mål
-                                    </Button>
+                                </Box>
+                                <div role="status">
+                                    {samarbeidsmålstatus && (
+                                        <InlineMessage
+                                            status="success"
+                                            size="small"
+                                        >
+                                            {samarbeidsmålstatus}
+                                        </InlineMessage>
+                                    )}
                                 </div>
+                                {samarbeidsmål.length > 0 && (
+                                    <Box
+                                        borderWidth="2 0 0 0"
+                                        borderColor="accent"
+                                        paddingBlock="space-24 space-0"
+                                    >
+                                        <VStack gap="space-16">
+                                            <div>
+                                                <Heading
+                                                    level="3"
+                                                    size="small"
+                                                    id={
+                                                        samarbeidsmålListeOverskriftId
+                                                    }
+                                                    ref={samarbeidsmålListeRef}
+                                                    tabIndex={-1}
+                                                >
+                                                    Mål for samarbeidet
+                                                </Heading>
+                                            </div>
+                                            <VStack gap="space-12">
+                                                {samarbeidsmål.map((m) => (
+                                                    <Samarbeidsmålkort
+                                                        key={m.nøkkel}
+                                                        feltId={samarbeidsmålFeltId(
+                                                            idPrefiks,
+                                                            m.nøkkel,
+                                                        )}
+                                                        mål={m.mål}
+                                                        funn={funn[m.nøkkel]}
+                                                        onRediger={() =>
+                                                            startKortredigering(
+                                                                m.nøkkel,
+                                                            )
+                                                        }
+                                                        onSlett={() =>
+                                                            slettSamarbeidsmål(
+                                                                m.nøkkel,
+                                                            )
+                                                        }
+                                                        redigering={
+                                                            samarbeidsfritekstkort?.nøkkel ===
+                                                            m.nøkkel
+                                                                ? {
+                                                                      tekst: samarbeidsfritekstkort.tekst,
+                                                                      feil: samarbeidsfritekstkort.feil,
+                                                                      onEndre:
+                                                                          endreSamarbeidsfritekst,
+                                                                      onLagre: () =>
+                                                                          lagreKortendring(
+                                                                              m.nøkkel,
+                                                                          ),
+                                                                      onAvbryt: () =>
+                                                                          avsluttKortredigering(
+                                                                              m.nøkkel,
+                                                                          ),
+                                                                  }
+                                                                : undefined
+                                                        }
+                                                    />
+                                                ))}
+                                            </VStack>
+                                        </VStack>
+                                    </Box>
+                                )}
                                 {sjekkFeilet && (
                                     <LocalAlert status="error">
                                         <LocalAlert.Header>
@@ -529,7 +694,6 @@ export function MålDialog({
                         type="button"
                         onClick={() => lagre()}
                         loading={lagrer}
-                        disabled={modus === "opprett" && !harInnhold}
                     >
                         Lagre
                     </Button>
@@ -554,13 +718,7 @@ export function MålDialog({
     );
 }
 
-function OpprettetMålkort({
-    mål,
-    onRediger,
-}: {
-    mål: Sykefraværsmål;
-    onRediger: () => void;
-}) {
+function Målkortramme({ children }: { children: React.ReactNode }) {
     return (
         <Box
             background="default"
@@ -569,76 +727,204 @@ function OpprettetMålkort({
             borderRadius="12"
             padding="space-16"
         >
-            <VStack gap="space-12">
-                <HStack justify="space-between" align="start" gap="space-8">
-                    <SykefraværsmåltypeOverskrift type={mål.type} level="4" />
-                    <Button
-                        type="button"
-                        variant="tertiary"
-                        size="xsmall"
-                        icon={<PencilIcon aria-hidden />}
-                        onClick={onRediger}
-                    >
-                        Rediger
-                    </Button>
-                </HStack>
-                <Målverdier mål={mål} />
-            </VStack>
+            <VStack gap="space-12">{children}</VStack>
         </Box>
     );
 }
 
-function RedigerbartMålkort({
-    utkast,
-    alleUtkast,
-    idPrefiks,
-    feil,
-    oppdater,
+function Målkortknapper({
+    redigerId,
+    beskrevetAv,
+    onRediger,
     onSlett,
 }: {
-    utkast: Sykefraværsmålutkast;
-    alleUtkast: Sykefraværsmålutkast[];
-    idPrefiks: string;
-    feil: Valideringsfeil;
-    oppdater: (endring: Partial<Sykefraværsmålutkast>) => void;
+    redigerId: string;
+    beskrevetAv: string;
+    onRediger: () => void;
     onSlett: () => void;
 }) {
-    const overskriftId = `${idPrefiks}-overskrift`;
     return (
-        <Box
-            as="section"
-            aria-labelledby={overskriftId}
-            background="default"
-            borderColor="neutral-subtle"
-            borderWidth="1"
-            borderRadius="12"
-            padding="space-16"
-        >
-            <VStack gap="space-12">
-                <Heading level="4" size="xsmall" id={overskriftId}>
-                    {navnPå(utkast)}
-                </Heading>
-                <SykefraværsmålFelter
-                    utkast={utkast}
-                    oppdater={oppdater}
-                    feil={feil}
-                    idPrefiks={idPrefiks}
-                    opptatte={opptatteTyper(alleUtkast, utkast.id)}
-                    kompakt
+        <HStack gap="space-8" justify="end">
+            <Button
+                id={redigerId}
+                type="button"
+                variant="tertiary"
+                data-color="neutral"
+                size="small"
+                icon={<PencilIcon aria-hidden />}
+                aria-describedby={beskrevetAv}
+                onClick={onRediger}
+            >
+                Rediger
+            </Button>
+            <Button
+                type="button"
+                variant="tertiary"
+                data-color="danger"
+                size="small"
+                icon={<TrashIcon aria-hidden />}
+                aria-describedby={beskrevetAv}
+                onClick={onSlett}
+            >
+                Slett
+            </Button>
+        </HStack>
+    );
+}
+
+function Sykefraværsmålkort({
+    idPrefiks,
+    mål,
+    onRediger,
+    onSlett,
+    redigering,
+}: {
+    idPrefiks: string;
+    mål: Sykefraværsmål;
+    onRediger: () => void;
+    onSlett: () => void;
+    redigering?: {
+        utkast: Sykefraværsmålutkast;
+        opptatte: Sykefraværsmåltype[];
+        feil: Valideringsfeil;
+        ulagretFeil?: string;
+        oppdater: (endring: Partial<Sykefraværsmålutkast>) => void;
+        onLagre: () => void;
+        onAvbryt: () => void;
+    };
+}) {
+    const overskriftId = `${idPrefiks}-overskrift`;
+    const type = redigering ? redigering.utkast.type : mål.type;
+    return (
+        <Målkortramme>
+            {type ? (
+                <SykefraværsmåltypeOverskrift
+                    type={type}
+                    level="4"
+                    id={overskriftId}
                 />
-                <HStack gap="space-8" wrap>
-                    <Button
-                        type="button"
-                        variant="secondary"
-                        data-color="danger"
-                        size="small"
-                        icon={<TrashIcon aria-hidden />}
-                        onClick={onSlett}
-                    >
-                        Slett sykefraværsmål
-                    </Button>
-                </HStack>
-            </VStack>
-        </Box>
+            ) : (
+                <Heading level="4" size="small" id={overskriftId}>
+                    Sykefraværsmål
+                </Heading>
+            )}
+            {redigering ? (
+                <>
+                    <SykefraværsmålFelter
+                        utkast={redigering.utkast}
+                        oppdater={redigering.oppdater}
+                        feil={redigering.feil}
+                        idPrefiks={idPrefiks}
+                        opptatte={redigering.opptatte}
+                        kompakt
+                    />
+                    <HStack gap="space-8" wrap>
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            size="small"
+                            aria-describedby={overskriftId}
+                            onClick={redigering.onLagre}
+                        >
+                            Lagre
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="tertiary"
+                            size="small"
+                            aria-describedby={overskriftId}
+                            onClick={redigering.onAvbryt}
+                        >
+                            Avbryt
+                        </Button>
+                    </HStack>
+                    {redigering.ulagretFeil && (
+                        <ErrorMessage>{redigering.ulagretFeil}</ErrorMessage>
+                    )}
+                </>
+            ) : (
+                <>
+                    <Målverdier mål={mål} />
+                    <Målkortknapper
+                        redigerId={`${idPrefiks}-rediger`}
+                        beskrevetAv={overskriftId}
+                        onRediger={onRediger}
+                        onSlett={onSlett}
+                    />
+                </>
+            )}
+        </Målkortramme>
+    );
+}
+
+function Samarbeidsmålkort({
+    feltId,
+    mål,
+    funn,
+    onRediger,
+    onSlett,
+    redigering,
+}: {
+    feltId: string;
+    mål: string;
+    funn?: PersonopplysningssjekkResultat;
+    onRediger: () => void;
+    onSlett: () => void;
+    redigering?: {
+        tekst: string;
+        feil?: string;
+        onEndre: (tekst: string) => void;
+        onLagre: () => void;
+        onAvbryt: () => void;
+    };
+}) {
+    const tekstId = `${feltId}-tekst`;
+    return (
+        <Målkortramme>
+            {redigering ? (
+                <>
+                    <Textarea
+                        id={feltId}
+                        label="Endre mål"
+                        description="Husk ingen personopplysninger."
+                        maxLength={MAKS_ANTALL_TEGN_I_MÅL}
+                        value={redigering.tekst}
+                        error={redigering.feil}
+                        onChange={(e) => redigering.onEndre(e.target.value)}
+                    />
+                    <HStack gap="space-8" wrap>
+                        <Button
+                            type="button"
+                            variant="secondary"
+                            size="small"
+                            onClick={redigering.onLagre}
+                        >
+                            Lagre
+                        </Button>
+                        <Button
+                            type="button"
+                            variant="tertiary"
+                            size="small"
+                            onClick={redigering.onAvbryt}
+                        >
+                            Avbryt
+                        </Button>
+                    </HStack>
+                </>
+            ) : (
+                <BodyLong id={tekstId} className={styles.samarbeidsmaal}>
+                    {mål}
+                </BodyLong>
+            )}
+            {funn && <Personopplysningsadvarsel resultat={funn} />}
+            {!redigering && (
+                <Målkortknapper
+                    redigerId={`${feltId}-rediger`}
+                    beskrevetAv={tekstId}
+                    onRediger={onRediger}
+                    onSlett={onSlett}
+                />
+            )}
+        </Målkortramme>
     );
 }

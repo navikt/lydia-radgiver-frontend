@@ -99,12 +99,16 @@ describe("validerSykefraværsmål", () => {
 
 describe("opptatteTyper", () => {
     test("holder målet som redigeres utenfor", () => {
-        const alle = [
-            utkast({ id: "a", type: "KORTTIDSFRAVÆR" }),
-            utkast({ id: "b", type: "TAPTE_DAGSVERK" }),
-            utkast({ id: "c", type: "" }),
+        const mål = {
+            nåværende: 6,
+            mål: 4,
+            frist: "2026-12-31",
+        };
+        const liste = [
+            { id: "a", mål: { ...mål, type: "KORTTIDSFRAVÆR" as const } },
+            { id: "b", mål: { ...mål, type: "TAPTE_DAGSVERK" as const } },
         ];
-        expect(opptatteTyper(alle, "a")).toEqual(["TAPTE_DAGSVERK"]);
+        expect(opptatteTyper(liste, "a")).toEqual(["TAPTE_DAGSVERK"]);
     });
 });
 
@@ -116,7 +120,7 @@ describe("tilSamarbeidsmål", () => {
     test("fjerner KI-flagget når et flagget mål endres og sjekken er grønn", () => {
         expect(
             tilSamarbeidsmål(
-                { ...lagret[0], nøkkel: "a", mål: " Bedre dialog " },
+                { ...lagret[0], nøkkel: "a", mål: "Bedre dialog" },
                 lagret,
                 false,
             ),

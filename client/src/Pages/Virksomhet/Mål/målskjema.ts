@@ -68,6 +68,15 @@ export const FEILMELDINGER = {
     målDagsverk:
         "Oppgi målet i dagsverk som et tall på 0 eller mer, med høyst to desimaler.",
     frist: `Velg en dato fra og med i dag til og med 31.12.${fristgrenser().til.getFullYear()}, eller skriv datoen som dd.mm.åååå.`,
+    tomtSamarbeidsmål: "Skriv et mål for samarbeidet.",
+    ulagretNyttSykefraværsmål:
+        "Trykk «Lagre» under «Mål for sykefraværet» for å ta med målet, eller tøm feltene.",
+    ulagretSamarbeidsmål:
+        "Trykk «Lagre» under «Mål for samarbeidet» for å ta med målet, eller tøm feltet.",
+    ulagretEndringSamarbeidsmål:
+        "Trykk «Lagre» i målkortet for å ta med endringen i målet, eller trykk «Avbryt».",
+    ulagretEndringSykefraværsmål:
+        "Trykk «Lagre» i målkortet for å ta med endringen i sykefraværsmålet, eller trykk «Avbryt».",
 };
 
 export const erTapteDagsverk = (type: Sykefraværsmåltype | "") =>
@@ -115,13 +124,10 @@ export const formaterFrist = (isoDato: string) =>
     lokalDato(fraIsoDato(isoDato));
 
 export const opptatteTyper = (
-    utkast: Sykefraværsmålutkast[],
+    liste: SykefraværsmålIListe[],
     unntattId?: string,
 ): Sykefraværsmåltype[] =>
-    utkast
-        .filter((u) => u.id !== unntattId)
-        .map((u) => u.type)
-        .filter((m): m is Sykefraværsmåltype => m !== "");
+    liste.filter((r) => r.id !== unntattId).map((r) => r.mål.type);
 
 export const ledigeTyper = (opptatte: Sykefraværsmåltype[]) =>
     SYKEFRAVÆRSMÅLTYPER.filter((m) => !opptatte.includes(m));
@@ -192,6 +198,15 @@ export const tilUtkast = (mål: Sykefraværsmål): Sykefraværsmålutkast => ({
     frist: fraIsoDato(mål.frist),
 });
 
+export interface SykefraværsmålIListe {
+    id: string;
+    mål: Sykefraværsmål;
+}
+
+export const tilSykefraværsmålIListe = (
+    mål: Sykefraværsmål,
+): SykefraværsmålIListe => ({ id: lagLokalId(), mål });
+
 export const tomtUtkast = (): Sykefraværsmålutkast => ({
     id: lagLokalId(),
     type: "",
@@ -199,6 +214,12 @@ export const tomtUtkast = (): Sykefraværsmålutkast => ({
     mål: "",
     frist: undefined,
 });
+
+export const harInnholdISykefraværsutkast = (utkast: Sykefraværsmålutkast) =>
+    utkast.type !== "" ||
+    utkast.nåværende.trim() !== "" ||
+    utkast.mål.trim() !== "" ||
+    utkast.frist !== undefined;
 
 export interface Samarbeidsmålutkast extends Samarbeidsmål {
     nøkkel: string;
@@ -219,7 +240,7 @@ export const erEndretSamarbeidsmål = (
     lagret: Samarbeidsmål[],
 ) => {
     const tidligere = lagret.find((m) => m.id != null && m.id === utkast.id);
-    return tidligere === undefined || tidligere.mål !== utkast.mål.trim();
+    return tidligere === undefined || tidligere.mål !== utkast.mål;
 };
 
 export const tilSamarbeidsmål = (
@@ -227,13 +248,12 @@ export const tilSamarbeidsmål = (
     lagret: Samarbeidsmål[],
     kiAdvarselGodtatt: boolean,
 ): Samarbeidsmål => {
-    const mål = utkast.mål.trim();
     const lagretMedKiAdvarsel = erEndretSamarbeidsmål(utkast, lagret)
         ? kiAdvarselGodtatt
         : utkast.lagretMedKiAdvarsel;
     return utkast.id == null
-        ? { mål, lagretMedKiAdvarsel }
-        : { id: utkast.id, mål, lagretMedKiAdvarsel };
+        ? { mål: utkast.mål, lagretMedKiAdvarsel }
+        : { id: utkast.id, mål: utkast.mål, lagretMedKiAdvarsel };
 };
 
 const FELT_I_ID: Record<Skjemafelt, string> = {
