@@ -1,6 +1,8 @@
 import {
     IASak,
     iaSakSchema,
+    SalesforceAktivitet,
+    salesforceAktivitetSchema,
     ValgtÅrsakNyFlytDto,
     VirksomhetTilstandAutomatiskOppdateringDto,
     virksomhetTilstandAutomatiskOppdateringSchema,
@@ -385,6 +387,18 @@ export const slettSamarbeidsplanNyFlyt = (
         PlanSchema,
     );
 };
+
+export const useHentSalesforceAktiviteter = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidId: number,
+) => {
+    return useSwrTemplate<SalesforceAktivitet[]>(
+        `${nyFlytApiBasePath}/virksomhet/${orgnummer}/samarbeidsperiode/${saksnummer}/samarbeid/${samarbeidId}/salesforce-aktiviteter`,
+        salesforceAktivitetSchema.array(),
+    );
+};
+
 export function useOversiktMutate(orgnummer: string) {
     const { mutate: mutateSak } = useHentSisteSakNyFlyt(orgnummer);
     const { mutate: mutateTilstand } =
