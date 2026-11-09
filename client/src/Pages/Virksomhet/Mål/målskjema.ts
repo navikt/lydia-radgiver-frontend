@@ -1,4 +1,5 @@
 import { lokalDato } from "../../../util/dato";
+import { PersonopplysningssjekkResultat } from "../../../api/lydia-api/personopplysningssjekk";
 import {
     Samarbeidsmål,
     Mål,
@@ -103,7 +104,7 @@ const tallformat = new Intl.NumberFormat("nb-NO", {
 });
 
 export const formaterMålverdi = (verdi: number, type: Sykefraværsmåltype) =>
-    `${tallformat.format(verdi)}\u00a0${enhet(type)}`;
+    `${tallformat.format(verdi)}${erTapteDagsverk(type) ? " " : "\u00a0"}${enhet(type)}`;
 
 export const tilSkjemaverdi = (verdi: number) =>
     String(verdi).replace(".", ",");
@@ -223,6 +224,7 @@ export const harInnholdISykefraværsutkast = (utkast: Sykefraværsmålutkast) =>
 
 export interface Samarbeidsmålutkast extends Samarbeidsmål {
     nøkkel: string;
+    funn?: PersonopplysningssjekkResultat;
 }
 
 export const tilSamarbeidsmålutkast = (
@@ -235,26 +237,23 @@ export const tomtSamarbeidsmål = (): Samarbeidsmålutkast => ({
     lagretMedKiAdvarsel: false,
 });
 
-export const erEndretSamarbeidsmål = (
-    utkast: Samarbeidsmålutkast,
-    lagret: Samarbeidsmål[],
-) => {
-    const tidligere = lagret.find((m) => m.id != null && m.id === utkast.id);
-    return tidligere === undefined || tidligere.mål !== utkast.mål;
-};
+export type Sjekkutfall =
+    | { status: "funn"; resultat: PersonopplysningssjekkResultat }
+    | { status: "feilet" };
 
-export const tilSamarbeidsmål = (
-    utkast: Samarbeidsmålutkast,
-    lagret: Samarbeidsmål[],
-    kiAdvarselGodtatt: boolean,
-): Samarbeidsmål => {
-    const lagretMedKiAdvarsel = erEndretSamarbeidsmål(utkast, lagret)
-        ? kiAdvarselGodtatt
-        : utkast.lagretMedKiAdvarsel;
-    return utkast.id == null
-        ? { mål: utkast.mål, lagretMedKiAdvarsel }
-        : { id: utkast.id, mål: utkast.mål, lagretMedKiAdvarsel };
-};
+export const kiAdvarsel = (sjekk?: Sjekkutfall) =>
+    sjekk?.status === "funn"
+        ? { lagretMedKiAdvarsel: true, funn: sjekk.resultat }
+        : { lagretMedKiAdvarsel: false, funn: undefined };
+
+export const tilSamarbeidsmål = ({
+    id,
+    mål,
+    lagretMedKiAdvarsel,
+}: Samarbeidsmålutkast): Samarbeidsmål =>
+    id == null
+        ? { mål, lagretMedKiAdvarsel }
+        : { id, mål, lagretMedKiAdvarsel };
 
 const FELT_I_ID: Record<Skjemafelt, string> = {
     type: "type",
