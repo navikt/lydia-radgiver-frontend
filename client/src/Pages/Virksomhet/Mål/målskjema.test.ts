@@ -113,24 +113,31 @@ describe("opptatteTyper", () => {
 });
 
 describe("tilSamarbeidsmål", () => {
-    const lagret = [
-        { id: 7, mål: "Ola skal tilbake", lagretMedKiAdvarsel: true },
-    ];
-
-    test("fjerner KI-flagget når et flagget mål endres og sjekken er grønn", () => {
+    test("sender ikke med lokale felter", () => {
         expect(
-            tilSamarbeidsmål(
-                { ...lagret[0], nøkkel: "a", mål: "Bedre dialog" },
-                lagret,
-                false,
-            ),
-        ).toEqual({ id: 7, mål: "Bedre dialog", lagretMedKiAdvarsel: false });
+            tilSamarbeidsmål({
+                id: 7,
+                nøkkel: "a",
+                mål: "Bedre dialog",
+                lagretMedKiAdvarsel: true,
+                funn: {
+                    kanInneholdePersonopplysninger: true,
+                    inneholderTall: true,
+                    inneholderEpost: false,
+                    kiFlagget: false,
+                },
+            }),
+        ).toEqual({ id: 7, mål: "Bedre dialog", lagretMedKiAdvarsel: true });
     });
 
-    test("beholder KI-flagget på uendret mål", () => {
+    test("utelater id på nye mål", () => {
         expect(
-            tilSamarbeidsmål({ ...lagret[0], nøkkel: "a" }, lagret, false),
-        ).toEqual(lagret[0]);
+            tilSamarbeidsmål({
+                nøkkel: "a",
+                mål: "Bedre dialog",
+                lagretMedKiAdvarsel: false,
+            }),
+        ).toEqual({ mål: "Bedre dialog", lagretMedKiAdvarsel: false });
     });
 });
 
@@ -138,7 +145,7 @@ describe("formatering", () => {
     test("bruker norsk tallformat og riktig enhet", () => {
         expect(formaterMålverdi(6.5, "KORTTIDSFRAVÆR")).toBe("6,5\u00a0%");
         expect(formaterMålverdi(1250.5, "TAPTE_DAGSVERK")).toBe(
-            "1\u00a0250,5\u00a0dagsverk",
+            "1\u00a0250,5 dagsverk",
         );
     });
 

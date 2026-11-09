@@ -6,7 +6,6 @@ import {
     Button,
     Heading,
     HStack,
-    List,
     Loader,
     VStack,
 } from "@navikt/ds-react";
@@ -23,7 +22,7 @@ import { MålDialog } from "./MålDialog";
 import { Mål } from "./målskjema";
 import {
     SykefraværsmåltypeOverskrift,
-    Målverdier,
+    Målverdioversikt,
 } from "./Sykefraværsmålvisning";
 import styles from "./mål.module.scss";
 
@@ -186,65 +185,64 @@ function LagredeMål({ mål, onRediger }: { mål: Mål; onRediger?: () => void }
                         </Button>
                     )}
                 </HStack>
-                {mål.sykefraværsmål.map((sykefraværsmål) => (
-                    <Box
-                        key={sykefraværsmål.type}
-                        as="section"
-                        aria-labelledby={`lagret-${sykefraværsmål.type}`}
-                        background="raised"
-                        borderRadius="8"
-                        borderColor="neutral-subtle"
-                        borderWidth="1"
-                        padding="space-16"
-                        className={styles.sykefravaersmaalkort}
-                    >
-                        <VStack gap="space-12">
-                            <SykefraværsmåltypeOverskrift
-                                type={sykefraværsmål.type}
-                                id={`lagret-${sykefraværsmål.type}`}
-                                level="4"
-                            />
-                            <Målverdier mål={sykefraværsmål} />
+                <VStack gap="space-32">
+                    {mål.sykefraværsmål.length > 0 && (
+                        <VStack gap="space-16">
+                            {mål.sykefraværsmål.map((sykefraværsmål) => (
+                                <Box
+                                    key={sykefraværsmål.type}
+                                    as="section"
+                                    aria-labelledby={`lagret-${sykefraværsmål.type}`}
+                                    background="raised"
+                                    borderRadius="8"
+                                    borderColor="neutral-subtle"
+                                    borderWidth="1"
+                                    padding="space-16"
+                                    className={styles.sykefravaersmaalkort}
+                                >
+                                    <VStack gap="space-12">
+                                        <SykefraværsmåltypeOverskrift
+                                            type={sykefraværsmål.type}
+                                            id={`lagret-${sykefraværsmål.type}`}
+                                            level="4"
+                                        />
+                                        <Målverdioversikt
+                                            mål={sykefraværsmål}
+                                        />
+                                    </VStack>
+                                </Box>
+                            ))}
                         </VStack>
-                    </Box>
-                ))}
-                {mål.samarbeidsmål.length > 0 && (
-                    <Box
-                        as="section"
-                        aria-labelledby="lagret-samarbeidsmal"
-                        background="raised"
-                        borderRadius="8"
-                        borderColor="neutral-subtle"
-                        borderWidth="1"
-                        padding="space-16"
-                    >
-                        <VStack gap="space-8">
-                            <Heading
-                                level="4"
-                                size="small"
-                                id="lagret-samarbeidsmal"
-                            >
-                                Mål for samarbeidet
-                            </Heading>
-                            {mål.samarbeidsmål.length === 1 ? (
-                                <BodyLong className={styles.samarbeidsmaal}>
-                                    {mål.samarbeidsmål[0].mål}
-                                </BodyLong>
-                            ) : (
-                                <List>
-                                    {mål.samarbeidsmål.map((m) => (
-                                        <List.Item
-                                            key={m.id ?? m.mål}
-                                            className={styles.samarbeidsmaal}
-                                        >
-                                            {m.mål}
-                                        </List.Item>
-                                    ))}
-                                </List>
-                            )}
+                    )}
+                    {mål.samarbeidsmål.length > 0 && (
+                        <VStack
+                            as="ul"
+                            aria-label="Mål for samarbeidet"
+                            gap="space-16"
+                            className={styles.kortliste}
+                        >
+                            {mål.samarbeidsmål.map((m) => (
+                                <Box
+                                    key={m.id ?? m.mål}
+                                    as="li"
+                                    background="raised"
+                                    borderRadius="8"
+                                    borderColor="neutral-subtle"
+                                    borderWidth="1"
+                                    padding="space-16"
+                                    className={styles.samarbeidsmaalkort}
+                                >
+                                    <BodyLong
+                                        size="large"
+                                        className={styles.samarbeidsmaal}
+                                    >
+                                        {m.mål}
+                                    </BodyLong>
+                                </Box>
+                            ))}
                         </VStack>
-                    </Box>
-                )}
+                    )}
+                </VStack>
             </VStack>
         </Box>
     );

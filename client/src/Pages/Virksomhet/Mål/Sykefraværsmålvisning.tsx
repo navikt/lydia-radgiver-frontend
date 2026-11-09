@@ -2,11 +2,11 @@ import {
     BodyShort,
     Heading,
     HelpText,
-    HGrid,
     HStack,
     Label,
     VStack,
 } from "@navikt/ds-react";
+import { ArrowRightIcon } from "@navikt/aksel-icons";
 import {
     formaterFrist,
     formaterMålverdi,
@@ -41,8 +41,8 @@ export function SykefraværsmåltypeOverskrift({
 
 export function Målverdier({ mål }: { mål: Sykefraværsmål }) {
     return (
-        <HGrid columns={{ xs: 1, sm: 3 }} gap="space-16">
-            <VStack gap="space-4">
+        <HStack wrap gap="space-16">
+            <VStack gap="space-4" className={styles.maalverdikolonne}>
                 <Label as="p" size="small">
                     Nåværende
                 </Label>
@@ -50,7 +50,7 @@ export function Målverdier({ mål }: { mål: Sykefraværsmål }) {
                     {formaterMålverdi(mål.nåværende, mål.type)}
                 </BodyShort>
             </VStack>
-            <VStack gap="space-4">
+            <VStack gap="space-4" className={styles.maalverdikolonne}>
                 <Label as="p" size="small">
                     Mål
                 </Label>
@@ -58,12 +58,46 @@ export function Målverdier({ mål }: { mål: Sykefraværsmål }) {
                     {formaterMålverdi(mål.mål, mål.type)}
                 </BodyShort>
             </VStack>
-            <VStack gap="space-4">
+            <VStack gap="space-4" className={styles.maalverdikolonne}>
                 <Label as="p" size="small">
                     Måldato
                 </Label>
                 <BodyShort size="large">{formaterFrist(mål.frist)}</BodyShort>
             </VStack>
-        </HGrid>
+        </HStack>
+    );
+}
+
+export function Målverdioversikt({ mål }: { mål: Sykefraværsmål }) {
+    return (
+        <HStack justify="space-between" align="center" gap="space-16" wrap>
+            <HStack gap="space-16" align="start" wrap>
+                <div className={styles.maalverdiblokk}>
+                    <BodyShort className={styles.naavaerendefarge}>
+                        Nåværende
+                    </BodyShort>
+                    <BodyShort
+                        className={`${styles.stortall} ${styles.naavaerendefarge}`}
+                    >
+                        {formaterMålverdi(mål.nåværende, mål.type)}
+                    </BodyShort>
+                </div>
+                <div className={styles.maalpil}>
+                    <ArrowRightIcon aria-hidden />
+                </div>
+                <div className={styles.maalverdiblokk}>
+                    <BodyShort className={styles.maalfarge}>Mål</BodyShort>
+                    <BodyShort
+                        className={`${styles.stortall} ${styles.maalfarge}`}
+                    >
+                        {formaterMålverdi(mål.mål, mål.type)}
+                    </BodyShort>
+                </div>
+            </HStack>
+            <VStack gap="space-4" align="end">
+                <Label as="p">Måldato</Label>
+                <BodyShort>{formaterFrist(mål.frist)}</BodyShort>
+            </VStack>
+        </HStack>
     );
 }
