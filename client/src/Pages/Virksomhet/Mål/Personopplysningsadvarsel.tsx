@@ -4,7 +4,7 @@ import { PersonopplysningssjekkResultat } from "../../../api/lydia-api/personopp
 export function Personopplysningsadvarsel({
     resultat,
 }: {
-    resultat: PersonopplysningssjekkResultat;
+    resultat?: PersonopplysningssjekkResultat;
 }) {
     return (
         <LocalAlert status="warning">
@@ -21,11 +21,26 @@ export function Personopplysningsadvarsel({
     );
 }
 
-export function beskrivFunn({
-    inneholderTall,
-    inneholderEpost,
-    kiFlagget,
-}: PersonopplysningssjekkResultat): string {
+export function Sjekkfeil() {
+    return (
+        <LocalAlert status="error">
+            <LocalAlert.Header>
+                <LocalAlert.Title as="h3">
+                    Kunne ikke sjekke teksten
+                </LocalAlert.Title>
+            </LocalAlert.Header>
+            <LocalAlert.Content>
+                Vi fikk ikke sjekket om teksten inneholder personopplysninger.
+                Prøv igjen, eller lagre likevel hvis du er sikker på at teksten
+                er i orden.
+            </LocalAlert.Content>
+        </LocalAlert>
+    );
+}
+
+export function beskrivFunn(resultat?: PersonopplysningssjekkResultat): string {
+    if (!resultat) return GENERISK_FUNN;
+    const { inneholderTall, inneholderEpost, kiFlagget } = resultat;
     const beskrivelser: string[] = [];
     if (kiFlagget) {
         beskrivelser.push(
@@ -40,10 +55,10 @@ export function beskrivFunn({
     }
 
     // Backend eier regelen: flagger den av en grunn vi ikke kjenner, viser vi likevel advarsel
-    return beskrivelser.length > 0
-        ? beskrivelser.join(" ")
-        : "Sjekken fant mulige personopplysninger i teksten.";
+    return beskrivelser.length > 0 ? beskrivelser.join(" ") : GENERISK_FUNN;
 }
+
+const GENERISK_FUNN = "Sjekken fant mulige personopplysninger i teksten.";
 
 function beskrivRegexFunn(
     inneholderTall: boolean,
