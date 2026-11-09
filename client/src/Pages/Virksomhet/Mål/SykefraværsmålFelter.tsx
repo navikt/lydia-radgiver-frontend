@@ -25,6 +25,7 @@ export function SykefraværsmålFelter({
     idPrefiks,
     opptatte,
     kompakt = false,
+    visType = true,
     førsteFeltRef,
 }: {
     utkast: Sykefraværsmålutkast;
@@ -33,6 +34,7 @@ export function SykefraværsmålFelter({
     idPrefiks: string;
     opptatte: Sykefraværsmåltype[];
     kompakt?: boolean;
+    visType?: boolean;
     førsteFeltRef?: React.Ref<HTMLSelectElement>;
 }) {
     const størrelse = kompakt ? "small" : "medium";
@@ -85,31 +87,33 @@ export function SykefraværsmålFelter({
 
     return (
         <VStack gap={kompakt ? "space-12" : "space-16"}>
-            <Select
-                ref={førsteFeltRef}
-                id={skjemaId(idPrefiks, "type")}
-                label="Type sykefravær"
-                size={størrelse}
-                value={utkast.type}
-                onChange={(e) =>
-                    oppdater({
-                        type: e.target.value as Sykefraværsmåltype | "",
-                    })
-                }
-                error={feil.type}
-            >
-                <option value="">Velg type sykefravær</option>
-                {SYKEFRAVÆRSMÅLTYPER.map((type) => {
-                    const brukt =
-                        opptatte.includes(type) && type !== utkast.type;
-                    return (
-                        <option key={type} value={type} disabled={brukt}>
-                            {SYKEFRAVÆRSMÅLTYPE_NAVN[type]}
-                            {brukt ? " (allerede lagt til)" : ""}
-                        </option>
-                    );
-                })}
-            </Select>
+            {visType && (
+                <Select
+                    ref={førsteFeltRef}
+                    id={skjemaId(idPrefiks, "type")}
+                    label="Type sykefravær"
+                    size={størrelse}
+                    value={utkast.type}
+                    onChange={(e) =>
+                        oppdater({
+                            type: e.target.value as Sykefraværsmåltype | "",
+                        })
+                    }
+                    error={feil.type}
+                >
+                    <option value="">Velg type sykefravær</option>
+                    {SYKEFRAVÆRSMÅLTYPER.map((type) => {
+                        const brukt =
+                            opptatte.includes(type) && type !== utkast.type;
+                        return (
+                            <option key={type} value={type} disabled={brukt}>
+                                {SYKEFRAVÆRSMÅLTYPE_NAVN[type]}
+                                {brukt ? " (allerede lagt til)" : ""}
+                            </option>
+                        );
+                    })}
+                </Select>
+            )}
             {kompakt ? (
                 <>
                     <HGrid columns={2} gap="space-12">

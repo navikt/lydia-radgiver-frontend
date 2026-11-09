@@ -14,6 +14,7 @@ export const SykefraværsmåltypeSchema = z.enum(SYKEFRAVÆRSMÅLTYPER);
 export type Sykefraværsmåltype = z.infer<typeof SykefraværsmåltypeSchema>;
 
 export const SykefraværsmålSchema = z.object({
+    id: z.number().nullish(),
     type: SykefraværsmåltypeSchema,
     nåværende: z.number(),
     mål: z.number(),
