@@ -2,6 +2,29 @@
     border-left: 4px solid var(--ax-border-success);
 }
 
+.samarbeidsmaalkort {
+    border-left: 4px solid var(--ax-border-meta-purple);
+}
+
+.kortliste {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.maalkortinnhold {
+    height: 100%;
+}
+
+.maalkortknapper {
+    margin-top: auto;
+}
+
+.maalverdikolonne {
+    flex: 1 1 0;
+    min-width: min-content;
+}
+
 .naavaerende {
     color: var(--ax-text-accent-subtle);
     font-weight: var(--ax-font-weight-bold);
@@ -10,6 +33,33 @@
 .maalverdi {
     color: var(--ax-text-success-subtle);
     font-weight: var(--ax-font-weight-bold);
+}
+
+.maalverdiblokk {
+    display: flex;
+    flex-direction: column-reverse;
+}
+
+.stortall {
+    font-size: var(--ax-font-size-heading-large);
+    line-height: var(--ax-font-line-height-heading-large);
+    font-weight: var(--ax-font-weight-bold);
+}
+
+.naavaerendefarge {
+    color: var(--ax-text-accent-subtle);
+}
+
+.maalfarge {
+    color: var(--ax-text-success-subtle);
+}
+
+.maalpil {
+    display: flex;
+    align-items: center;
+    height: var(--ax-font-line-height-heading-large);
+    font-size: var(--ax-font-size-heading-medium);
+    color: var(--ax-text-accent-subtle);
 }
 
 .samarbeidsmaal {

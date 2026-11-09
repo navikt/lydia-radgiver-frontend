@@ -21,8 +21,8 @@ import {
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Feiloppsummering } from "./Feiloppsummering";
 import {
-    erEndretSamarbeidsmål,
     FEILMELDINGER,
+    kiAdvarsel,
     lagIdPrefiks,
     MAKS_ANTALL_TEGN_I_MÅL,
     opptatteTyper,
@@ -40,11 +40,15 @@ import {
     tomtSamarbeidsmål,
     tomtUtkast,
     harInnholdISykefraværsutkast,
+    Sjekkutfall,
     validerSykefraværsmål,
     Valideringsfeil,
 } from "./målskjema";
 import { NyttSykefraværsmålSkjema } from "./NyttSykefraværsmålSkjema";
-import { Personopplysningsadvarsel } from "./Personopplysningsadvarsel";
+import {
+    Personopplysningsadvarsel,
+    Sjekkfeil,
+} from "./Personopplysningsadvarsel";
 import { SykefraværsmålFelter } from "./SykefraværsmålFelter";
 import styles from "./mål.module.scss";
 import {
@@ -80,12 +84,19 @@ export function MålDialog({
     >(() => lagret.samarbeidsmål.map(tilSamarbeidsmålutkast));
     const [nyttSamarbeidsmål, setNyttSamarbeidsmål] = React.useState("");
     const [samarbeidsmålfeil, setSamarbeidsmålfeil] = React.useState<string>();
+    const [nyttSjekk, setNyttSjekk] = React.useState<Sjekkutfall>();
+    const [sjekkerNytt, setSjekkerNytt] = React.useState(false);
     const [samarbeidsmålstatus, setSamarbeidsmålstatus] = React.useState("");
     const nyttSamarbeidsmålRef = React.useRef<HTMLTextAreaElement>(null);
     const nyttSamarbeidsmålId = `${idPrefiks}-nytt-samarbeidsmal`;
     const samarbeidsmålListeOverskriftId = `${idPrefiks}-samarbeidsmal-liste`;
-    const [samarbeidsfritekstkort, setSamarbeidsfritekstkort] =
-        React.useState<{ nøkkel: string; tekst: string; feil?: string }>();
+    const [samarbeidsfritekstkort, setSamarbeidsfritekstkort] = React.useState<{
+        nøkkel: string;
+        tekst: string;
+        feil?: string;
+        sjekk?: Sjekkutfall;
+        sjekker?: boolean;
+    }>();
     const [fokusmål, setFokusmål] = React.useState<{ id: string }>();
     const [sykefraværskort, setSykefraværskort] = React.useState<{
         utkast: Sykefraværsmålutkast;
@@ -100,10 +111,6 @@ export function MålDialog({
     const [statusmelding, setStatusmelding] = React.useState("");
     const [fokusteller, setFokusteller] = React.useState(0);
     const [lagrer, setLagrer] = React.useState(false);
-    const [funn, setFunn] = React.useState<
-        Record<string, PersonopplysningssjekkResultat>
-    >({});
-    const [sjekkFeilet, setSjekkFeilet] = React.useState(false);
     const [lagringFeilet, setLagringFeilet] = React.useState(false);
     const [fokuserListe, setFokuserListe] = React.useState(0);
 
@@ -133,7 +140,7 @@ export function MålDialog({
         ...(sykefraværskort?.ulagret
             ? [
                   {
-                      href: `#${skjemaId(`${idPrefiks}-${sykefraværskort.utkast.id}`, "type")}`,
+                      href: `#${skjemaId(`${idPrefiks}-${sykefraværskort.utkast.id}`, "nåværende")}`,
                       melding: FEILMELDINGER.ulagretEndringSykefraværsmål,
                   },
               ]
@@ -190,7 +197,7 @@ export function MålDialog({
             visFeil: false,
             ulagret: false,
         });
-        setFokusmål({ id: skjemaId(`${idPrefiks}-${id}`, "type") });
+        setFokusmål({ id: skjemaId(`${idPrefiks}-${id}`, "nåværende") });
     };
 
     const avsluttSykefraværsredigering = (id: string) => {
@@ -225,17 +232,30 @@ export function MålDialog({
         }
         const mål = sykefraværskortresultat.mål;
         setSykefraværsmål((forrige) =>
-            forrige.map((r) => (r.id === id ? { id: r.id, mål } : r)),
+            forrige.map((r) =>
+                r.id === id ? { id: r.id, mål: { ...mål, id: r.mål.id } } : r,
+            ),
         );
         setStatusmelding("Lagret");
         setSamarbeidsmålstatus("");
         avsluttSykefraværsredigering(id);
     };
 
-    const nullstillSjekk = () => {
-        setFunn({});
-        setSjekkFeilet(false);
-        setLagringFeilet(false);
+    const sjekkTekst = async (
+        tekst: string,
+    ): Promise<Sjekkutfall | undefined> => {
+        try {
+            const resultat = await sjekkPersonopplysninger(
+                iaSak.orgnr,
+                iaSak.saksnummer,
+                tekst,
+            );
+            return resultat.kanInneholdePersonopplysninger
+                ? { status: "funn", resultat }
+                : undefined;
+        } catch {
+            return { status: "feilet" };
+        }
     };
 
     const startKortredigering = (nøkkel: string) => {
@@ -253,9 +273,11 @@ export function MålDialog({
     };
 
     const endreSamarbeidsfritekst = (tekst: string) =>
-        setSamarbeidsfritekstkort((k) => k && { ...k, tekst, feil: undefined });
+        setSamarbeidsfritekstkort(
+            (k) => k && { ...k, tekst, feil: undefined, sjekk: undefined },
+        );
 
-    const lagreKortendring = (nøkkel: string) => {
+    const lagreKortendring = async (nøkkel: string, likevel = false) => {
         if (!samarbeidsfritekstkort) return;
         const tekst = samarbeidsfritekstkort.tekst.trim();
         if (tekst === "") {
@@ -265,33 +287,60 @@ export function MålDialog({
             setFokusmål({ id: samarbeidsmålFeltId(idPrefiks, nøkkel) });
             return;
         }
-        setSamarbeidsmål((forrige) =>
-            forrige.map((m) =>
-                m.nøkkel === nøkkel ? { ...m, mål: tekst } : m,
-            ),
-        );
+        const uendret =
+            samarbeidsmål.find((m) => m.nøkkel === nøkkel)?.mål === tekst;
+        if (!uendret) {
+            if (!likevel) {
+                setSamarbeidsfritekstkort((k) => k && { ...k, sjekker: true });
+                const sjekk = await sjekkTekst(tekst);
+                setSamarbeidsfritekstkort(
+                    (k) => k && { ...k, sjekker: false, sjekk },
+                );
+                if (sjekk) return;
+            }
+            const advarsel = kiAdvarsel(
+                likevel ? samarbeidsfritekstkort.sjekk : undefined,
+            );
+            setSamarbeidsmål((forrige) =>
+                forrige.map((m) =>
+                    m.nøkkel === nøkkel ? { ...m, mål: tekst, ...advarsel } : m,
+                ),
+            );
+        }
         setSamarbeidsmålstatus("Lagret");
         setStatusmelding("");
-        nullstillSjekk();
+        setLagringFeilet(false);
         avsluttKortredigering(nøkkel);
     };
 
-    const leggTilSamarbeidsmål = () => {
+    const leggTilSamarbeidsmål = async (likevel = false) => {
         const tekst = nyttSamarbeidsmål.trim();
         if (tekst === "") {
             setSamarbeidsmålfeil(FEILMELDINGER.tomtSamarbeidsmål);
             nyttSamarbeidsmålRef.current?.focus();
             return;
         }
+        if (!likevel) {
+            setSjekkerNytt(true);
+            const sjekk = await sjekkTekst(tekst);
+            setSjekkerNytt(false);
+            setNyttSjekk(sjekk);
+            if (sjekk) return;
+        }
         setSamarbeidsmål((forrige) => [
             ...forrige,
-            { ...tomtSamarbeidsmål(), mål: tekst },
+            {
+                ...tomtSamarbeidsmål(),
+                mål: tekst,
+                ...kiAdvarsel(likevel ? nyttSjekk : undefined),
+            },
         ]);
         setSamarbeidsmålstatus("Lagret");
         setNyttSamarbeidsmål("");
+        setNyttSjekk(undefined);
         setSamarbeidsmålfeil(undefined);
         setStatusmelding("");
-        nullstillSjekk();
+        setLagringFeilet(false);
     };
 
     const slettSamarbeidsmål = (nøkkel: string) => {
@@ -301,7 +350,7 @@ export function MålDialog({
         if (samarbeidsfritekstkort?.nøkkel === nøkkel) {
             setSamarbeidsfritekstkort(undefined);
         }
-        nullstillSjekk();
+        setLagringFeilet(false);
         setStatusmelding("");
         setSamarbeidsmålstatus("Slettet");
         if (samarbeidsmål.length === 1) {
@@ -311,16 +360,7 @@ export function MålDialog({
         }
     };
 
-    const send = async (nyeMål: Mål) => {
-        try {
-            await onLagre(nyeMål);
-            onOpenChange(false);
-        } catch {
-            setLagringFeilet(true);
-        }
-    };
-
-    const lagre = async (lagreLikevel = false) => {
+    const lagre = async () => {
         const harUlagretNyttSykefraværsmål =
             harInnholdISykefraværsutkast(nyttUtkast);
         if (harUlagretNyttSykefraværsmål) {
@@ -354,52 +394,16 @@ export function MålDialog({
             return;
         }
 
-        const tilSjekk = lagreLikevel
-            ? []
-            : samarbeidsmål.filter((m) =>
-                  erEndretSamarbeidsmål(m, lagret.samarbeidsmål),
-              );
-
         setLagrer(true);
-        setSjekkFeilet(false);
         setLagringFeilet(false);
         try {
-            const resultater = await Promise.all(
-                tilSjekk.map(async (m) => {
-                    const resultat = await sjekkPersonopplysninger(
-                        iaSak.orgnr,
-                        iaSak.saksnummer,
-                        m.mål,
-                    );
-                    return [m.nøkkel, resultat] as const;
-                }),
-            ).catch(() => null);
-
-            if (resultater === null) {
-                setSjekkFeilet(true);
-                return;
-            }
-
-            const nyeFunn = Object.fromEntries(
-                resultater.filter(
-                    ([, resultat]) => resultat.kanInneholdePersonopplysninger,
-                ),
-            );
-            if (Object.keys(nyeFunn).length > 0) {
-                setFunn(nyeFunn);
-                return;
-            }
-
-            await send({
+            await onLagre({
                 sykefraværsmål: sykefraværsmål.map((r) => r.mål),
-                samarbeidsmål: samarbeidsmål.map((m) =>
-                    tilSamarbeidsmål(
-                        m,
-                        lagret.samarbeidsmål,
-                        lagreLikevel && funn[m.nøkkel] !== undefined,
-                    ),
-                ),
+                samarbeidsmål: samarbeidsmål.map(tilSamarbeidsmål),
             });
+            onOpenChange(false);
+        } catch {
+            setLagringFeilet(true);
         } finally {
             setLagrer(false);
         }
@@ -407,7 +411,6 @@ export function MålDialog({
 
     const harLagredeMål =
         lagret.sykefraværsmål.length > 0 || lagret.samarbeidsmål.length > 0;
-    const tilbyLagreLikevel = Object.keys(funn).length > 0 || sjekkFeilet;
     const samarbeidsmålOverskriftId = `${idPrefiks}-samarbeidsmal`;
     const listeOverskriftId = `${idPrefiks}-liste`;
 
@@ -483,6 +486,11 @@ export function MålDialog({
                                     <HGrid
                                         columns={{ xs: 1, lg: 2 }}
                                         gap="space-16"
+                                        align={
+                                            sykefraværskort
+                                                ? "start"
+                                                : undefined
+                                        }
                                     >
                                         {sykefraværsmål.map((r) => (
                                             <Sykefraværsmålkort
@@ -560,6 +568,7 @@ export function MålDialog({
                                             maxLength={MAKS_ANTALL_TEGN_I_MÅL}
                                             value={nyttSamarbeidsmål}
                                             error={samarbeidsmålfeil}
+                                            readOnly={sjekkerNytt}
                                             onChange={(e) => {
                                                 setNyttSamarbeidsmål(
                                                     e.target.value,
@@ -567,18 +576,47 @@ export function MålDialog({
                                                 setSamarbeidsmålfeil(
                                                     undefined,
                                                 );
+                                                setNyttSjekk(undefined);
                                             }}
                                         />
+                                        {nyttSjekk?.status === "funn" && (
+                                            <Personopplysningsadvarsel
+                                                resultat={nyttSjekk.resultat}
+                                            />
+                                        )}
+                                        {nyttSjekk?.status === "feilet" && (
+                                            <Sjekkfeil />
+                                        )}
                                         <HStack gap="space-8" wrap>
                                             <Button
                                                 type="button"
-                                                onClick={leggTilSamarbeidsmål}
+                                                onClick={() =>
+                                                    leggTilSamarbeidsmål()
+                                                }
+                                                loading={sjekkerNytt}
                                                 aria-describedby={
                                                     samarbeidsmålOverskriftId
                                                 }
                                             >
                                                 Lagre
                                             </Button>
+                                            {nyttSjekk && (
+                                                <Button
+                                                    type="button"
+                                                    variant="secondary"
+                                                    disabled={sjekkerNytt}
+                                                    onClick={() =>
+                                                        leggTilSamarbeidsmål(
+                                                            true,
+                                                        )
+                                                    }
+                                                    aria-describedby={
+                                                        samarbeidsmålOverskriftId
+                                                    }
+                                                >
+                                                    Lagre likevel
+                                                </Button>
+                                            )}
                                         </HStack>
                                     </VStack>
                                 </Box>
@@ -621,7 +659,10 @@ export function MålDialog({
                                                             m.nøkkel,
                                                         )}
                                                         mål={m.mål}
-                                                        funn={funn[m.nøkkel]}
+                                                        flagget={
+                                                            m.lagretMedKiAdvarsel
+                                                        }
+                                                        funn={m.funn}
                                                         onRediger={() =>
                                                             startKortredigering(
                                                                 m.nøkkel,
@@ -638,12 +679,22 @@ export function MålDialog({
                                                                 ? {
                                                                       tekst: samarbeidsfritekstkort.tekst,
                                                                       feil: samarbeidsfritekstkort.feil,
+                                                                      sjekk: samarbeidsfritekstkort.sjekk,
+                                                                      sjekker:
+                                                                          samarbeidsfritekstkort.sjekker ??
+                                                                          false,
                                                                       onEndre:
                                                                           endreSamarbeidsfritekst,
                                                                       onLagre: () =>
                                                                           lagreKortendring(
                                                                               m.nøkkel,
                                                                           ),
+                                                                      onLagreLikevel:
+                                                                          () =>
+                                                                              lagreKortendring(
+                                                                                  m.nøkkel,
+                                                                                  true,
+                                                                              ),
                                                                       onAvbryt: () =>
                                                                           avsluttKortredigering(
                                                                               m.nøkkel,
@@ -656,21 +707,6 @@ export function MålDialog({
                                             </VStack>
                                         </VStack>
                                     </Box>
-                                )}
-                                {sjekkFeilet && (
-                                    <LocalAlert status="error">
-                                        <LocalAlert.Header>
-                                            <LocalAlert.Title as="h3">
-                                                Kunne ikke sjekke teksten
-                                            </LocalAlert.Title>
-                                        </LocalAlert.Header>
-                                        <LocalAlert.Content>
-                                            Vi fikk ikke sjekket om teksten
-                                            inneholder personopplysninger. Prøv
-                                            igjen, eller lagre likevel hvis du
-                                            er sikker på at teksten er i orden.
-                                        </LocalAlert.Content>
-                                    </LocalAlert>
                                 )}
                                 {lagringFeilet && (
                                     <LocalAlert status="error">
@@ -697,16 +733,6 @@ export function MålDialog({
                     >
                         Lagre
                     </Button>
-                    {tilbyLagreLikevel && (
-                        <Button
-                            type="button"
-                            variant="secondary"
-                            onClick={() => lagre(true)}
-                            disabled={lagrer}
-                        >
-                            Lagre likevel
-                        </Button>
-                    )}
                     <Dialog.CloseTrigger>
                         <Button type="button" variant="secondary">
                             Avbryt
@@ -727,7 +753,9 @@ function Målkortramme({ children }: { children: React.ReactNode }) {
             borderRadius="12"
             padding="space-16"
         >
-            <VStack gap="space-12">{children}</VStack>
+            <VStack gap="space-12" className={styles.maalkortinnhold}>
+                {children}
+            </VStack>
         </Box>
     );
 }
@@ -744,7 +772,11 @@ function Målkortknapper({
     onSlett: () => void;
 }) {
     return (
-        <HStack gap="space-8" justify="end">
+        <HStack
+            gap="space-8"
+            justify="end"
+            className={styles.maalkortknapper}
+        >
             <Button
                 id={redigerId}
                 type="button"
@@ -817,11 +849,11 @@ function Sykefraværsmålkort({
                         idPrefiks={idPrefiks}
                         opptatte={redigering.opptatte}
                         kompakt
+                        visType={false}
                     />
                     <HStack gap="space-8" wrap>
                         <Button
                             type="button"
-                            variant="secondary"
                             size="small"
                             aria-describedby={overskriftId}
                             onClick={redigering.onLagre}
@@ -830,7 +862,7 @@ function Sykefraværsmålkort({
                         </Button>
                         <Button
                             type="button"
-                            variant="tertiary"
+                            variant="secondary"
                             size="small"
                             aria-describedby={overskriftId}
                             onClick={redigering.onAvbryt}
@@ -860,6 +892,7 @@ function Sykefraværsmålkort({
 function Samarbeidsmålkort({
     feltId,
     mål,
+    flagget,
     funn,
     onRediger,
     onSlett,
@@ -867,64 +900,92 @@ function Samarbeidsmålkort({
 }: {
     feltId: string;
     mål: string;
+    flagget: boolean;
     funn?: PersonopplysningssjekkResultat;
     onRediger: () => void;
     onSlett: () => void;
     redigering?: {
         tekst: string;
         feil?: string;
+        sjekk?: Sjekkutfall;
+        sjekker: boolean;
         onEndre: (tekst: string) => void;
         onLagre: () => void;
+        onLagreLikevel: () => void;
         onAvbryt: () => void;
     };
 }) {
     const tekstId = `${feltId}-tekst`;
-    return (
-        <Målkortramme>
-            {redigering ? (
-                <>
-                    <Textarea
-                        id={feltId}
-                        label="Endre mål"
-                        description="Husk ingen personopplysninger."
-                        maxLength={MAKS_ANTALL_TEGN_I_MÅL}
-                        value={redigering.tekst}
-                        error={redigering.feil}
-                        onChange={(e) => redigering.onEndre(e.target.value)}
-                    />
-                    <HStack gap="space-8" wrap>
+    if (redigering) {
+        const { sjekk } = redigering;
+        return (
+            <Målkortramme>
+                <Textarea
+                    id={feltId}
+                    label="Endre mål"
+                    description="Husk ingen personopplysninger."
+                    maxLength={MAKS_ANTALL_TEGN_I_MÅL}
+                    value={redigering.tekst}
+                    error={redigering.feil}
+                    readOnly={redigering.sjekker}
+                    onChange={(e) => redigering.onEndre(e.target.value)}
+                />
+                {sjekk?.status === "feilet" ? (
+                    <Sjekkfeil />
+                ) : sjekk?.status === "funn" ? (
+                    <Personopplysningsadvarsel resultat={sjekk.resultat} />
+                ) : (
+                    flagget && <Personopplysningsadvarsel resultat={funn} />
+                )}
+                <HStack gap="space-8" wrap>
+                    <Button
+                        type="button"
+                        size="small"
+                        loading={redigering.sjekker}
+                        onClick={redigering.onLagre}
+                    >
+                        Lagre
+                    </Button>
+                    {sjekk && (
                         <Button
                             type="button"
                             variant="secondary"
                             size="small"
-                            onClick={redigering.onLagre}
+                            disabled={redigering.sjekker}
+                            onClick={redigering.onLagreLikevel}
                         >
-                            Lagre
+                            Lagre likevel
                         </Button>
-                        <Button
-                            type="button"
-                            variant="tertiary"
-                            size="small"
-                            onClick={redigering.onAvbryt}
-                        >
-                            Avbryt
-                        </Button>
-                    </HStack>
-                </>
-            ) : (
-                <BodyLong id={tekstId} className={styles.samarbeidsmaal}>
-                    {mål}
-                </BodyLong>
+                    )}
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        size="small"
+                        disabled={redigering.sjekker}
+                        onClick={redigering.onAvbryt}
+                    >
+                        Avbryt
+                    </Button>
+                </HStack>
+            </Målkortramme>
+        );
+    }
+    return (
+        <Målkortramme>
+            <BodyLong id={tekstId} className={styles.samarbeidsmaal}>
+                {mål}
+            </BodyLong>
+            {flagget && (
+                <InlineMessage status="warning" size="small">
+                    Teksten kan inneholde personopplysninger
+                </InlineMessage>
             )}
-            {funn && <Personopplysningsadvarsel resultat={funn} />}
-            {!redigering && (
-                <Målkortknapper
-                    redigerId={`${feltId}-rediger`}
-                    beskrevetAv={tekstId}
-                    onRediger={onRediger}
-                    onSlett={onSlett}
-                />
-            )}
+            <Målkortknapper
+                redigerId={`${feltId}-rediger`}
+                beskrevetAv={tekstId}
+                onRediger={onRediger}
+                onSlett={onSlett}
+            />
         </Målkortramme>
     );
 }
