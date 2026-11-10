@@ -1,0 +1,23 @@
+{
+  "priority": 10,
+  "request": {
+    "urlPath": "/openai/deployments/lokal/chat/completions",
+    "method": "POST"
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "message": {
+            "content": "{\"identifiserbarEnkeltperson\":false,\"helseopplysningOmEnkeltperson\":false,\"personvernflagget\":false,\"begrunnelse\":\"Lokal stub: ingen personopplysninger\"}"
+          }
+        }
+      ]
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "priority": 1,
+  "request": {
+    "urlPath": "/openai/deployments/lokal/chat/completions",
+    "method": "POST",
+    "bodyPatterns": [
+      {
+        "matchesJsonPath": {
+          "expression": "$.messages[?(@.role == 'user')].content",
+          "contains": "Ola"
+        }
+      }
+    ]
+  },
+  "response": {
+    "status": 200,
+    "jsonBody": {
+      "choices": [
+        {
+          "finish_reason": "stop",
+          "message": {
+            "content": "{\"identifiserbarEnkeltperson\":true,\"helseopplysningOmEnkeltperson\":false,\"personvernflagget\":true,\"begrunnelse\":\"Lokal stub: teksten inneholder Ola\"}"
+          }
+        }
+      ]
+    },
+    "headers": {
+      "Content-Type": "application/json"
+    }
+  }
+}

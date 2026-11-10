@@ -170,6 +170,9 @@ services:
       PIA_PDFGEN_URL: http://pia-pdfgen
       JOURNALPOST_V1_URL: http://joark
       JOURNALPOST_SCOPE: scope
+      AZURE_OPENAI_ENDPOINT: http://host.docker.internal:9090
+      AZURE_OPENAI_API_KEY: lokal
+      AZURE_OPENAI_DEPLOYMENT: lokal
       LOKAL_TEAM_LOGS: 1
     restart: unless-stopped
 
