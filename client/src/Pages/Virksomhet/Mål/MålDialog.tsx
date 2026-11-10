@@ -585,9 +585,7 @@ export function MålDialog({
                                                 setNyttSamarbeidsmål(
                                                     e.target.value,
                                                 );
-                                                setSamarbeidsmålfeil(
-                                                    undefined,
-                                                );
+                                                setSamarbeidsmålfeil(undefined);
                                                 setNyttSjekk(undefined);
                                             }}
                                         />
@@ -707,20 +705,22 @@ export function MålDialog({
                                                                           false,
                                                                       onEndre:
                                                                           endreSamarbeidsfritekst,
-                                                                      onLagre: () =>
-                                                                          lagreKortendring(
-                                                                              m.nøkkel,
-                                                                          ),
+                                                                      onLagre:
+                                                                          () =>
+                                                                              lagreKortendring(
+                                                                                  m.nøkkel,
+                                                                              ),
                                                                       onLagreLikevel:
                                                                           () =>
                                                                               lagreKortendring(
                                                                                   m.nøkkel,
                                                                                   true,
                                                                               ),
-                                                                      onAvbryt: () =>
-                                                                          avsluttKortredigering(
-                                                                              m.nøkkel,
-                                                                          ),
+                                                                      onAvbryt:
+                                                                          () =>
+                                                                              avsluttKortredigering(
+                                                                                  m.nøkkel,
+                                                                              ),
                                                                   }
                                                                 : undefined
                                                         }
@@ -800,11 +800,11 @@ function Målkortknapper({
             gap="space-8"
             justify={varsel ? "space-between" : "end"}
             align="center"
-            wrap={false}
+            wrap
             className={styles.maalkortknapper}
         >
             {varsel}
-            <HStack gap="space-8" wrap={false}>
+            <HStack gap="space-8">
                 <Button
                     id={redigerId}
                     type="button"
