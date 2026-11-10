@@ -59,6 +59,8 @@ import {
 const samarbeidsmålFeltId = (idPrefiks: string, nøkkel: string) =>
     `${idPrefiks}-samarbeidsmal-${nøkkel}`;
 
+const lagreLikevelId = (feltId: string) => `${feltId}-lagre-likevel`;
+
 export function MålDialog({
     open,
     onOpenChange,
@@ -296,6 +298,13 @@ export function MålDialog({
                 setSamarbeidsfritekstkort(
                     (k) => k && { ...k, sjekker: false, sjekk },
                 );
+                if (sjekk?.status === "funn") {
+                    setFokusmål({
+                        id: lagreLikevelId(
+                            samarbeidsmålFeltId(idPrefiks, nøkkel),
+                        ),
+                    });
+                }
                 if (sjekk) return;
             }
             const advarsel = kiAdvarsel(
@@ -325,6 +334,9 @@ export function MålDialog({
             const sjekk = await sjekkTekst(tekst);
             setSjekkerNytt(false);
             setNyttSjekk(sjekk);
+            if (sjekk?.status === "funn") {
+                setFokusmål({ id: lagreLikevelId(nyttSamarbeidsmålId) });
+            }
             if (sjekk) return;
         }
         setSamarbeidsmål((forrige) => [
@@ -588,22 +600,32 @@ export function MålDialog({
                                             <Sjekkfeil />
                                         )}
                                         <HStack gap="space-8" wrap>
-                                            <Button
-                                                type="button"
-                                                onClick={() =>
-                                                    leggTilSamarbeidsmål()
-                                                }
-                                                loading={sjekkerNytt}
-                                                aria-describedby={
-                                                    samarbeidsmålOverskriftId
-                                                }
-                                            >
-                                                Lagre
-                                            </Button>
-                                            {nyttSjekk && (
+                                            {nyttSjekk?.status !== "funn" && (
                                                 <Button
                                                     type="button"
-                                                    variant="secondary"
+                                                    onClick={() =>
+                                                        leggTilSamarbeidsmål()
+                                                    }
+                                                    loading={sjekkerNytt}
+                                                    aria-describedby={
+                                                        samarbeidsmålOverskriftId
+                                                    }
+                                                >
+                                                    Lagre
+                                                </Button>
+                                            )}
+                                            {nyttSjekk && (
+                                                <Button
+                                                    id={lagreLikevelId(
+                                                        nyttSamarbeidsmålId,
+                                                    )}
+                                                    type="button"
+                                                    variant={
+                                                        nyttSjekk.status ===
+                                                        "funn"
+                                                            ? "primary"
+                                                            : "secondary"
+                                                    }
                                                     disabled={sjekkerNytt}
                                                     onClick={() =>
                                                         leggTilSamarbeidsmål(
@@ -765,41 +787,48 @@ function Målkortknapper({
     beskrevetAv,
     onRediger,
     onSlett,
+    varsel,
 }: {
     redigerId: string;
     beskrevetAv: string;
     onRediger: () => void;
     onSlett: () => void;
+    varsel?: React.ReactNode;
 }) {
     return (
         <HStack
             gap="space-8"
-            justify="end"
+            justify={varsel ? "space-between" : "end"}
+            align="center"
+            wrap={false}
             className={styles.maalkortknapper}
         >
-            <Button
-                id={redigerId}
-                type="button"
-                variant="tertiary"
-                data-color="neutral"
-                size="small"
-                icon={<PencilIcon aria-hidden />}
-                aria-describedby={beskrevetAv}
-                onClick={onRediger}
-            >
-                Rediger
-            </Button>
-            <Button
-                type="button"
-                variant="tertiary"
-                data-color="danger"
-                size="small"
-                icon={<TrashIcon aria-hidden />}
-                aria-describedby={beskrevetAv}
-                onClick={onSlett}
-            >
-                Slett
-            </Button>
+            {varsel}
+            <HStack gap="space-8" wrap={false}>
+                <Button
+                    id={redigerId}
+                    type="button"
+                    variant="tertiary"
+                    data-color="neutral"
+                    size="small"
+                    icon={<PencilIcon aria-hidden />}
+                    aria-describedby={beskrevetAv}
+                    onClick={onRediger}
+                >
+                    Rediger
+                </Button>
+                <Button
+                    type="button"
+                    variant="tertiary"
+                    data-color="danger"
+                    size="small"
+                    icon={<TrashIcon aria-hidden />}
+                    aria-describedby={beskrevetAv}
+                    onClick={onSlett}
+                >
+                    Slett
+                </Button>
+            </HStack>
         </HStack>
     );
 }
@@ -935,21 +964,31 @@ function Samarbeidsmålkort({
                 ) : sjekk?.status === "funn" ? (
                     <Personopplysningsadvarsel resultat={sjekk.resultat} />
                 ) : (
-                    flagget && <Personopplysningsadvarsel resultat={funn} />
+                    flagget &&
+                    redigering.tekst === mål && (
+                        <Personopplysningsadvarsel resultat={funn} />
+                    )
                 )}
                 <HStack gap="space-8" wrap>
-                    <Button
-                        type="button"
-                        size="small"
-                        loading={redigering.sjekker}
-                        onClick={redigering.onLagre}
-                    >
-                        Lagre
-                    </Button>
-                    {sjekk && (
+                    {sjekk?.status !== "funn" && (
                         <Button
                             type="button"
-                            variant="secondary"
+                            size="small"
+                            loading={redigering.sjekker}
+                            onClick={redigering.onLagre}
+                        >
+                            Lagre
+                        </Button>
+                    )}
+                    {sjekk && (
+                        <Button
+                            id={lagreLikevelId(feltId)}
+                            type="button"
+                            variant={
+                                sjekk.status === "funn"
+                                    ? "primary"
+                                    : "secondary"
+                            }
                             size="small"
                             disabled={redigering.sjekker}
                             onClick={redigering.onLagreLikevel}
@@ -975,16 +1014,18 @@ function Samarbeidsmålkort({
             <BodyLong id={tekstId} className={styles.samarbeidsmaal}>
                 {mål}
             </BodyLong>
-            {flagget && (
-                <InlineMessage status="warning" size="small">
-                    Teksten kan inneholde personopplysninger
-                </InlineMessage>
-            )}
             <Målkortknapper
                 redigerId={`${feltId}-rediger`}
                 beskrevetAv={tekstId}
                 onRediger={onRediger}
                 onSlett={onSlett}
+                varsel={
+                    flagget && (
+                        <InlineMessage status="warning" size="small">
+                            Teksten kan inneholde personopplysninger
+                        </InlineMessage>
+                    )
+                }
             />
         </Målkortramme>
     );
