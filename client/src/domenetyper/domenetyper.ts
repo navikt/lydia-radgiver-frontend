@@ -238,7 +238,7 @@ export const salesforceAktivitetSchema = z.object({
     samarbeidsId: z.int().optional(),
     planId: z.string().optional(),
     tema: z.string().optional(),
-    undertema: z.string().optional(),
+    // undertema: z.string().optional(),
     planlagt: datoSchema.optional(),
     fullført: datoSchema.optional(),
     møteStart: datoSchema.optional(),
