@@ -313,6 +313,18 @@ describe("MålFane", () => {
         expect(within(dialog).getByLabelText("Legg til mål")).toHaveValue(
             "Ola skal tilbake i jobb",
         );
+        expect(
+            within(dialog).queryByRole("button", {
+                name: "Lagre",
+                description: "Mål for samarbeidet",
+            }),
+        ).not.toBeInTheDocument();
+        expect(
+            within(dialog).getByRole("button", {
+                name: "Lagre likevel",
+                description: "Mål for samarbeidet",
+            }),
+        ).toHaveFocus();
 
         fireEvent.click(
             within(dialog).getByRole("button", {
@@ -339,6 +351,12 @@ describe("MålFane", () => {
         expect(
             within(kort).getByText(/kan gjøre en person gjenkjennelig/),
         ).toBeInTheDocument();
+        fireEvent.change(within(kort).getByLabelText("Endre mål"), {
+            target: { value: "Ola skal tilbake i jobb snart" },
+        });
+        expect(
+            within(kort).queryByText(/kan gjøre en person gjenkjennelig/),
+        ).not.toBeInTheDocument();
         fireEvent.click(within(kort).getByRole("button", { name: "Avbryt" }));
 
         fireEvent.click(lagreKnapp(dialog));
@@ -359,6 +377,12 @@ describe("MålFane", () => {
         expect(
             await within(dialog).findByRole("heading", {
                 name: /Kunne ikke sjekke teksten/,
+            }),
+        ).toBeInTheDocument();
+        expect(
+            within(dialog).getByRole("button", {
+                name: "Lagre",
+                description: "Mål for samarbeidet",
             }),
         ).toBeInTheDocument();
 
@@ -549,6 +573,12 @@ describe("MålFane", () => {
             await within(kort).findByText(/Teksten inneholder tall/),
         ).toBeInTheDocument();
         expect(felt).toHaveValue("Ring 12345678");
+        expect(
+            within(kort).queryByRole("button", { name: "Lagre" }),
+        ).not.toBeInTheDocument();
+        expect(
+            within(kort).getByRole("button", { name: "Lagre likevel" }),
+        ).toHaveFocus();
 
         fireEvent.click(
             within(kort).getByRole("button", { name: "Lagre likevel" }),
