@@ -65,17 +65,21 @@ export const FEILMELDINGER = {
     målProsent:
         "Oppgi målet som et tall mellom 0 og 100, med høyst to desimaler.",
     nåværendeDagsverk:
-        "Oppgi dagens antall tapte dagsverk som et tall på 0 eller mer, med høyst to desimaler.",
+        "Oppgi dagens antall tapte dagsverk som et tall mellom 0 og 99 999 999,99, med høyst to desimaler.",
     målDagsverk:
-        "Oppgi målet i dagsverk som et tall på 0 eller mer, med høyst to desimaler.",
+        "Oppgi målet i dagsverk som et tall mellom 0 og 99 999 999,99, med høyst to desimaler.",
     frist: `Velg en dato fra og med i dag til og med 31.12.${fristgrenser().til.getFullYear()}, eller skriv datoen som dd.mm.åååå.`,
     tomtSamarbeidsmål: "Skriv et mål for samarbeidet.",
     ulagretNyttSykefraværsmål:
         "Trykk «Lagre» under «Mål for sykefraværet» for å ta med målet, eller tøm feltene.",
     ulagretSamarbeidsmål:
         "Trykk «Lagre» under «Mål for samarbeidet» for å ta med målet, eller tøm feltet.",
+    ulagretSamarbeidsmålMedPersonopplysninger:
+        "Trykk «Lagre likevel» under «Mål for samarbeidet», skriv om målet eller tøm feltet.",
     ulagretEndringSamarbeidsmål:
         "Trykk «Lagre» i målkortet for å ta med endringen i målet, eller trykk «Avbryt».",
+    ulagretEndringSamarbeidsmålMedPersonopplysninger:
+        "Trykk «Lagre likevel» i målkortet, skriv om målet eller trykk «Avbryt».",
     ulagretEndringSykefraværsmål:
         "Trykk «Lagre» i målkortet for å ta med endringen i sykefraværsmålet, eller trykk «Avbryt».",
 };
@@ -88,15 +92,22 @@ export const enhet = (type: Sykefraværsmåltype | "") =>
 
 const GYLDIG_TALL = /^\d+([.,]\d{1,2})?$/;
 
+// Samme grenser som MålDto.kt i lydia-api.
+const MAKS_PROSENT = 100;
+const MAKS_ANTALL_TAPTE_DAGSVERK = 99_999_999.99;
+
 export function parseMålverdi(
     verdi: string,
     type: Sykefraværsmåltype | "",
 ): number | null {
-    const renset = verdi.trim();
-    if (!GYLDIG_TALL.test(renset)) return null;
-    const tall = Number(renset.replace(",", "."));
-    if (!erTapteDagsverk(type) && tall > 100) return null;
-    return tall;
+    const trimmetVerdi = verdi.trim();
+    if (!GYLDIG_TALL.test(trimmetVerdi)) return null;
+    const verdiSomTall = Number(trimmetVerdi.replace(",", "."));
+    const høyesteVerdi = erTapteDagsverk(type)
+        ? MAKS_ANTALL_TAPTE_DAGSVERK
+        : MAKS_PROSENT;
+    if (verdiSomTall > høyesteVerdi) return null;
+    return verdiSomTall;
 }
 
 const tallformat = new Intl.NumberFormat("nb-NO", {

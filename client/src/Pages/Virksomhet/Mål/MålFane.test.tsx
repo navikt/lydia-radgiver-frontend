@@ -108,7 +108,11 @@ const visSide = (iaSak: IASak = testIaSak) =>
 const åpneDialog = async (knapp: string, dialognavn = knapp) => {
     visSide();
     fireEvent.click(await screen.findByRole("button", { name: knapp }));
-    return screen.findByRole("dialog", { name: dialognavn });
+    const dialog = await screen.findByRole("dialog", { name: dialognavn });
+    // Aksel flytter startfokus til dialogen i en requestAnimationFrame. Uten
+    // ventingen kan det overstyre fokus som testen flytter rett etterpå.
+    await waitFor(() => expect(dialog).toHaveFocus());
+    return dialog;
 };
 
 const åpneOpprettDialog = () => åpneDialog("Legg til mål", "Mål");
@@ -118,7 +122,7 @@ const nesteÅr = new Date().getFullYear() + 1;
 const leggTilSykefraværsmålKnapp = (dialog: HTMLElement) =>
     within(dialog).getByRole("button", {
         name: "Lagre",
-        description: "Mål for sykefraværet",
+        description: "Legg til nytt Mål for sykefraværet",
     });
 
 const lagreKnapp = (dialog: HTMLElement) =>
@@ -162,7 +166,7 @@ const ventPåLukketDialog = () =>
 const leggTilSamarbeidsmålKnapp = (dialog: HTMLElement) =>
     within(dialog).getByRole("button", {
         name: "Lagre",
-        description: "Mål for samarbeidet",
+        description: "Legg til nytt Mål for samarbeidet",
     });
 
 const skrivOgLagreSamarbeidsmål = (dialog: HTMLElement, tekst: string) => {
@@ -316,20 +320,20 @@ describe("MålFane", () => {
         expect(
             within(dialog).queryByRole("button", {
                 name: "Lagre",
-                description: "Mål for samarbeidet",
+                description: "Legg til nytt Mål for samarbeidet",
             }),
         ).not.toBeInTheDocument();
         expect(
             within(dialog).getByRole("button", {
                 name: "Lagre likevel",
-                description: "Mål for samarbeidet",
+                description: "Legg til nytt Mål for samarbeidet",
             }),
         ).toHaveFocus();
 
         fireEvent.click(
             within(dialog).getByRole("button", {
                 name: "Lagre likevel",
-                description: "Mål for samarbeidet",
+                description: "Legg til nytt Mål for samarbeidet",
             }),
         );
 
@@ -382,7 +386,7 @@ describe("MålFane", () => {
         expect(
             within(dialog).getByRole("button", {
                 name: "Lagre",
-                description: "Mål for samarbeidet",
+                description: "Legg til nytt Mål for samarbeidet",
             }),
         ).toBeInTheDocument();
 
@@ -443,7 +447,7 @@ describe("MålFane", () => {
 
         expect(
             within(dialog).getByRole("heading", {
-                name: "Mål for samarbeidet",
+                name: "Mål for samarbeidet mål som er lagt til",
                 level: 3,
             }),
         ).toHaveFocus();
@@ -624,6 +628,40 @@ describe("MålFane", () => {
         expect(lagreKall).toHaveLength(0);
     });
 
+    test("ber om Lagre likevel når et samarbeidsmål med personopplysninger er under redigering", async () => {
+        sjekk.mockResolvedValue({
+            ...ingenFunn,
+            kanInneholdePersonopplysninger: true,
+        });
+        lagret = {
+            sykefraværsmål: [],
+            samarbeidsmål: [
+                { id: 7, mål: "Bedre dialog", lagretMedKiAdvarsel: false },
+            ],
+        };
+        const dialog = await åpneDialog("Rediger", "Rediger mål");
+
+        fireEvent.click(
+            within(dialog).getByRole("button", {
+                name: "Rediger",
+                description: "Bedre dialog",
+            }),
+        );
+        const felt = within(dialog).getByLabelText("Endre mål");
+        const kort = kortMedFelt(felt);
+        fireEvent.change(felt, { target: { value: "Ring Ola" } });
+        fireEvent.click(within(kort).getByRole("button", { name: "Lagre" }));
+        await within(kort).findByRole("button", { name: "Lagre likevel" });
+        fireEvent.click(lagreKnapp(dialog));
+
+        expect(
+            await within(dialog).findByRole("link", {
+                name: FEILMELDINGER.ulagretEndringSamarbeidsmålMedPersonopplysninger,
+            }),
+        ).toHaveAttribute("href", `#${felt.id}`);
+        expect(lagreKall).toHaveLength(0);
+    });
+
     test("holder dialogen åpen og viser feil når lagringen feiler", async () => {
         lagringFeiler = true;
         const dialog = await åpneOpprettDialog();
@@ -639,11 +677,10 @@ describe("MålFane", () => {
 
     test("flytter fokus til listen over sykefraværsmål etter at et sykefraværsmål er lagt til", async () => {
         const dialog = await åpneOpprettDialog();
-        await waitFor(() => expect(dialog).toHaveFocus());
         fyllUtMål(dialog, "KORTTIDSFRAVÆR", "6", "4");
 
         const overskrift = await within(dialog).findByRole("heading", {
-            name: "Mål for sykefraværet",
+            name: "Mål for sykefraværet mål som er lagt til",
             level: 3,
         });
         await waitFor(() => expect(overskrift).toHaveFocus());
@@ -700,6 +737,28 @@ describe("MålFane", () => {
         expect(lagreKall).toHaveLength(0);
     });
 
+    test("ber om Lagre likevel når et nytt samarbeidsmål med personopplysninger ikke er lagt til", async () => {
+        sjekk.mockResolvedValue({
+            ...ingenFunn,
+            kanInneholdePersonopplysninger: true,
+        });
+        const dialog = await åpneOpprettDialog();
+
+        skrivOgLagreSamarbeidsmål(dialog, "Ola skal tilbake i jobb");
+        await within(dialog).findByRole("button", { name: "Lagre likevel" });
+        fireEvent.click(lagreKnapp(dialog));
+
+        expect(
+            await within(dialog).findByRole("link", {
+                name: FEILMELDINGER.ulagretSamarbeidsmålMedPersonopplysninger,
+            }),
+        ).toHaveAttribute(
+            "href",
+            `#${within(dialog).getByLabelText("Legg til mål").id}`,
+        );
+        expect(lagreKall).toHaveLength(0);
+    });
+
     test("stopper lagringen når sykefraværsskjemaet er utfylt men ikke lagt til", async () => {
         const dialog = await åpneOpprettDialog();
         const skjema = leggTilSykefraværsmålKnapp(dialog).closest(
@@ -732,7 +791,7 @@ describe("MålFane", () => {
         const dialog = await åpneOpprettDialog();
         fyllUtMål(dialog, "KORTTIDSFRAVÆR", "6", "4");
         await within(dialog).findByRole("heading", {
-            name: "Mål for sykefraværet",
+            name: "Mål for sykefraværet mål som er lagt til",
             level: 3,
         });
         await leggTilSamarbeidsmål(dialog, "Bedre dialog");

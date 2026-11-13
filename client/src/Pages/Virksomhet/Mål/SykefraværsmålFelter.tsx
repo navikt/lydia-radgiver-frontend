@@ -26,7 +26,6 @@ export function SykefraværsmålFelter({
     opptatte,
     kompakt = false,
     visType = true,
-    førsteFeltRef,
 }: {
     utkast: Sykefraværsmålutkast;
     oppdater: (endring: Partial<Sykefraværsmålutkast>) => void;
@@ -35,7 +34,6 @@ export function SykefraværsmålFelter({
     opptatte: Sykefraværsmåltype[];
     kompakt?: boolean;
     visType?: boolean;
-    førsteFeltRef?: React.Ref<HTMLSelectElement>;
 }) {
     const størrelse = kompakt ? "small" : "medium";
     const måleenhet = enhet(utkast.type);
@@ -89,7 +87,6 @@ export function SykefraværsmålFelter({
         <VStack gap={kompakt ? "space-12" : "space-16"}>
             {visType && (
                 <Select
-                    ref={førsteFeltRef}
                     id={skjemaId(idPrefiks, "type")}
                     label="Type sykefravær"
                     size={størrelse}

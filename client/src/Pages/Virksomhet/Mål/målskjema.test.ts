@@ -34,8 +34,11 @@ describe("parseMålverdi", () => {
         expect(parseMålverdi("", "TAPTE_DAGSVERK")).toBeNull();
     });
 
-    test("tapte dagsverk kan være over 100", () => {
-        expect(parseMålverdi("1250,5", "TAPTE_DAGSVERK")).toBe(1250.5);
+    test("tapte dagsverk kan være opptil 99 999 999,99", () => {
+        expect(parseMålverdi("99999999,99", "TAPTE_DAGSVERK")).toBe(
+            99_999_999.99,
+        );
+        expect(parseMålverdi("100000000", "TAPTE_DAGSVERK")).toBeNull();
     });
 
     test("godtar høyst to desimaler", () => {
