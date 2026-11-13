@@ -67,6 +67,9 @@ export function NyttSykefraværsmålSkjema({
             <form onSubmit={send} noValidate>
                 <VStack gap="space-16">
                     <Heading level="2" size="small" id={overskriftId}>
+                        <BodyShort as="span" visuallyHidden>
+                            Legg til nytt
+                        </BodyShort>
                         Mål for sykefraværet
                     </Heading>
                     <Feiloppsummering

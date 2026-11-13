@@ -1,6 +1,7 @@
 import React from "react";
 import {
     BodyLong,
+    BodyShort,
     Box,
     Button,
     Dialog,
@@ -22,6 +23,7 @@ import { IASak } from "../../../domenetyper/domenetyper";
 import { Feiloppsummering } from "./Feiloppsummering";
 import {
     FEILMELDINGER,
+    FELTREKKEFØLGE,
     kiAdvarsel,
     lagIdPrefiks,
     MAKS_ANTALL_TEGN_I_MÅL,
@@ -61,6 +63,30 @@ const samarbeidsmålFeltId = (idPrefiks: string, nøkkel: string) =>
 
 const lagreLikevelId = (feltId: string) => `${feltId}-lagre-likevel`;
 
+type Status = {
+    gjelder: "sykefravær" | "samarbeid";
+    tekst: "Lagret" | "Slettet";
+};
+
+// Live-regionen må finnes før teksten kommer, ellers leser ikke skjermleseren den opp.
+function Statusmelding({
+    status,
+    gjelder,
+}: {
+    status?: Status;
+    gjelder: Status["gjelder"];
+}) {
+    return (
+        <div role="status">
+            {status?.gjelder === gjelder && (
+                <InlineMessage status="success" size="small">
+                    {status.tekst}
+                </InlineMessage>
+            )}
+        </div>
+    );
+}
+
 export function MålDialog({
     open,
     onOpenChange,
@@ -88,7 +114,6 @@ export function MålDialog({
     const [samarbeidsmålfeil, setSamarbeidsmålfeil] = React.useState<string>();
     const [nyttSjekk, setNyttSjekk] = React.useState<Sjekkutfall>();
     const [sjekkerNytt, setSjekkerNytt] = React.useState(false);
-    const [samarbeidsmålstatus, setSamarbeidsmålstatus] = React.useState("");
     const nyttSamarbeidsmålRef = React.useRef<HTMLTextAreaElement>(null);
     const nyttSamarbeidsmålId = `${idPrefiks}-nytt-samarbeidsmal`;
     const samarbeidsmålListeOverskriftId = `${idPrefiks}-samarbeidsmal-liste`;
@@ -110,7 +135,7 @@ export function MålDialog({
     const [ulagretNyttSykefraværsmål, setUlagretNyttSykefraværsmål] =
         React.useState(false);
     const nyttSykefraværsmålPrefiks = `${idPrefiks}-nytt-sykefravaersmal`;
-    const [statusmelding, setStatusmelding] = React.useState("");
+    const [statusmelding, setStatusmelding] = React.useState<Status>();
     const [fokusteller, setFokusteller] = React.useState(0);
     const [lagrer, setLagrer] = React.useState(false);
     const [lagringFeilet, setLagringFeilet] = React.useState(false);
@@ -147,11 +172,15 @@ export function MålDialog({
                   },
               ]
             : []),
-        ...(samarbeidsmålfeil === FEILMELDINGER.ulagretSamarbeidsmål
+        ...(samarbeidsmålfeil === FEILMELDINGER.ulagretSamarbeidsmål ||
+        samarbeidsmålfeil ===
+            FEILMELDINGER.ulagretSamarbeidsmålMedPersonopplysninger
             ? [{ href: `#${nyttSamarbeidsmålId}`, melding: samarbeidsmålfeil }]
             : []),
         ...(samarbeidsfritekstkort?.feil ===
-        FEILMELDINGER.ulagretEndringSamarbeidsmål
+            FEILMELDINGER.ulagretEndringSamarbeidsmål ||
+        samarbeidsfritekstkort?.feil ===
+            FEILMELDINGER.ulagretEndringSamarbeidsmålMedPersonopplysninger
             ? [
                   {
                       href: `#${samarbeidsmålFeltId(idPrefiks, samarbeidsfritekstkort.nøkkel)}`,
@@ -161,28 +190,26 @@ export function MålDialog({
             : []),
     ];
 
-    const lagreFraSkjema = (mål: Sykefraværsmål) => {
+    const leggTilSykefraværsmål = (mål: Sykefraværsmål) => {
         setSykefraværsmål((forrige) => [
             ...forrige,
             { id: nyttUtkast.id, mål },
         ]);
         setNyttUtkast(tomtUtkast());
         setUlagretNyttSykefraværsmål(false);
-        setStatusmelding("Lagret");
-        setSamarbeidsmålstatus("");
+        setStatusmelding({ gjelder: "sykefravær", tekst: "Lagret" });
         setSkjemaversjon((n) => n + 1);
         setFokuserListe((n) => n + 1);
     };
 
-    const slett = (id: string) => {
+    const slettSykefraværsmål = (id: string) => {
         const slettet = sykefraværsmål.find((r) => r.id === id);
         setSykefraværsmål((forrige) => forrige.filter((r) => r.id !== id));
         if (sykefraværskort?.utkast.id === id) {
             setSykefraværskort(undefined);
         }
         if (slettet) {
-            setStatusmelding("Slettet");
-            setSamarbeidsmålstatus("");
+            setStatusmelding({ gjelder: "sykefravær", tekst: "Slettet" });
         }
         if (sykefraværsmål.length === 1 && slettet) {
             setFokusmål({ id: skjemaId(nyttSykefraværsmålPrefiks, "type") });
@@ -217,14 +244,14 @@ export function MålDialog({
                 },
         );
 
-    const lagreSykefraværskort = () => {
+    const lagreRedigertSykefraværsmål = () => {
         if (!sykefraværskort || !sykefraværskortresultat) return;
         const id = sykefraværskort.utkast.id;
         if (!sykefraværskortresultat.ok) {
             setSykefraværskort((k) => k && { ...k, visFeil: true });
-            const førsteFeil = (
-                ["type", "nåværende", "mål", "frist"] as const
-            ).find((felt) => sykefraværskortresultat.feil[felt]);
+            const førsteFeil = FELTREKKEFØLGE.find(
+                (felt) => sykefraværskortresultat.feil[felt],
+            );
             if (førsteFeil) {
                 setFokusmål({
                     id: skjemaId(`${idPrefiks}-${id}`, førsteFeil),
@@ -238,8 +265,7 @@ export function MålDialog({
                 r.id === id ? { id: r.id, mål: { ...mål, id: r.mål.id } } : r,
             ),
         );
-        setStatusmelding("Lagret");
-        setSamarbeidsmålstatus("");
+        setStatusmelding({ gjelder: "sykefravær", tekst: "Lagret" });
         avsluttSykefraværsredigering(id);
     };
 
@@ -279,7 +305,10 @@ export function MålDialog({
             (k) => k && { ...k, tekst, feil: undefined, sjekk: undefined },
         );
 
-    const lagreKortendring = async (nøkkel: string, likevel = false) => {
+    const lagreRedigertSamarbeidsmål = async (
+        nøkkel: string,
+        likevel = false,
+    ) => {
         if (!samarbeidsfritekstkort) return;
         const tekst = samarbeidsfritekstkort.tekst.trim();
         if (tekst === "") {
@@ -316,9 +345,7 @@ export function MålDialog({
                 ),
             );
         }
-        setSamarbeidsmålstatus("Lagret");
-        setStatusmelding("");
-        setLagringFeilet(false);
+        setStatusmelding({ gjelder: "samarbeid", tekst: "Lagret" });
         avsluttKortredigering(nøkkel);
     };
 
@@ -347,12 +374,10 @@ export function MålDialog({
                 ...kiAdvarsel(likevel ? nyttSjekk : undefined),
             },
         ]);
-        setSamarbeidsmålstatus("Lagret");
+        setStatusmelding({ gjelder: "samarbeid", tekst: "Lagret" });
         setNyttSamarbeidsmål("");
         setNyttSjekk(undefined);
         setSamarbeidsmålfeil(undefined);
-        setStatusmelding("");
-        setLagringFeilet(false);
     };
 
     const slettSamarbeidsmål = (nøkkel: string) => {
@@ -362,9 +387,7 @@ export function MålDialog({
         if (samarbeidsfritekstkort?.nøkkel === nøkkel) {
             setSamarbeidsfritekstkort(undefined);
         }
-        setLagringFeilet(false);
-        setStatusmelding("");
-        setSamarbeidsmålstatus("Slettet");
+        setStatusmelding({ gjelder: "samarbeid", tekst: "Slettet" });
         if (samarbeidsmål.length === 1) {
             nyttSamarbeidsmålRef.current?.focus();
         } else {
@@ -380,7 +403,11 @@ export function MålDialog({
         }
         const harUlagretSamarbeidsmål = nyttSamarbeidsmål.trim() !== "";
         if (harUlagretSamarbeidsmål) {
-            setSamarbeidsmålfeil(FEILMELDINGER.ulagretSamarbeidsmål);
+            setSamarbeidsmålfeil(
+                nyttSjekk?.status === "funn"
+                    ? FEILMELDINGER.ulagretSamarbeidsmålMedPersonopplysninger
+                    : FEILMELDINGER.ulagretSamarbeidsmål,
+            );
         }
         const harUlagretKortendring = samarbeidsfritekstkort !== undefined;
         if (harUlagretKortendring) {
@@ -388,7 +415,10 @@ export function MålDialog({
                 (k) =>
                     k && {
                         ...k,
-                        feil: FEILMELDINGER.ulagretEndringSamarbeidsmål,
+                        feil:
+                            k.sjekk?.status === "funn"
+                                ? FEILMELDINGER.ulagretEndringSamarbeidsmålMedPersonopplysninger
+                                : FEILMELDINGER.ulagretEndringSamarbeidsmål,
                     },
             );
         }
@@ -443,39 +473,31 @@ export function MålDialog({
                             feil={feillenker}
                             fokusteller={fokusteller}
                         />
-                        <div>
-                            <VStack gap="space-16">
-                                <NyttSykefraværsmålSkjema
-                                    key={`nytt-${skjemaversjon}`}
-                                    opptatte={opptatteTyper(sykefraværsmål)}
-                                    utkast={nyttUtkast}
-                                    oppdater={(endring) => {
-                                        setNyttUtkast((forrige) => ({
-                                            ...forrige,
-                                            ...endring,
-                                        }));
-                                        setUlagretNyttSykefraværsmål(false);
-                                    }}
-                                    idPrefiks={nyttSykefraværsmålPrefiks}
-                                    ulagretFeil={
-                                        ulagretNyttSykefraværsmål
-                                            ? FEILMELDINGER.ulagretNyttSykefraværsmål
-                                            : undefined
-                                    }
-                                    onLagre={lagreFraSkjema}
-                                />
-                                <div role="status">
-                                    {statusmelding && (
-                                        <InlineMessage
-                                            status="success"
-                                            size="small"
-                                        >
-                                            {statusmelding}
-                                        </InlineMessage>
-                                    )}
-                                </div>
-                            </VStack>
-                        </div>
+                        <VStack gap="space-16">
+                            <NyttSykefraværsmålSkjema
+                                key={`nytt-${skjemaversjon}`}
+                                opptatte={opptatteTyper(sykefraværsmål)}
+                                utkast={nyttUtkast}
+                                oppdater={(endring) => {
+                                    setNyttUtkast((forrige) => ({
+                                        ...forrige,
+                                        ...endring,
+                                    }));
+                                    setUlagretNyttSykefraværsmål(false);
+                                }}
+                                idPrefiks={nyttSykefraværsmålPrefiks}
+                                ulagretFeil={
+                                    ulagretNyttSykefraværsmål
+                                        ? FEILMELDINGER.ulagretNyttSykefraværsmål
+                                        : undefined
+                                }
+                                onLagre={leggTilSykefraværsmål}
+                            />
+                            <Statusmelding
+                                status={statusmelding}
+                                gjelder="sykefravær"
+                            />
+                        </VStack>
 
                         {sykefraværsmål.length > 0 && (
                             <Box
@@ -484,17 +506,18 @@ export function MålDialog({
                                 paddingBlock="space-24 space-0"
                             >
                                 <VStack gap="space-16">
-                                    <div>
-                                        <Heading
-                                            level="3"
-                                            size="small"
-                                            id={listeOverskriftId}
-                                            ref={redigerOverskriftRef}
-                                            tabIndex={-1}
-                                        >
-                                            Mål for sykefraværet
-                                        </Heading>
-                                    </div>
+                                    <Heading
+                                        level="3"
+                                        size="small"
+                                        id={listeOverskriftId}
+                                        ref={redigerOverskriftRef}
+                                        tabIndex={-1}
+                                    >
+                                        Mål for sykefraværet
+                                        <BodyShort as="span" visuallyHidden>
+                                            mål som er lagt til
+                                        </BodyShort>
+                                    </Heading>
                                     <HGrid
                                         columns={{ xs: 1, lg: 2 }}
                                         gap="space-16"
@@ -514,7 +537,9 @@ export function MålDialog({
                                                         r.id,
                                                     )
                                                 }
-                                                onSlett={() => slett(r.id)}
+                                                onSlett={() =>
+                                                    slettSykefraværsmål(r.id)
+                                                }
                                                 redigering={
                                                     sykefraværskort?.utkast
                                                         .id === r.id
@@ -538,7 +563,7 @@ export function MålDialog({
                                                               oppdater:
                                                                   endreSykefraværskort,
                                                               onLagre:
-                                                                  lagreSykefraværskort,
+                                                                  lagreRedigertSykefraværsmål,
                                                               onAvbryt: () =>
                                                                   avsluttSykefraværsredigering(
                                                                       r.id,
@@ -570,6 +595,9 @@ export function MålDialog({
                                             size="small"
                                             id={samarbeidsmålOverskriftId}
                                         >
+                                            <BodyShort as="span" visuallyHidden>
+                                                Legg til nytt
+                                            </BodyShort>
                                             Mål for samarbeidet
                                         </Heading>
                                         <Textarea
@@ -640,16 +668,10 @@ export function MålDialog({
                                         </HStack>
                                     </VStack>
                                 </Box>
-                                <div role="status">
-                                    {samarbeidsmålstatus && (
-                                        <InlineMessage
-                                            status="success"
-                                            size="small"
-                                        >
-                                            {samarbeidsmålstatus}
-                                        </InlineMessage>
-                                    )}
-                                </div>
+                                <Statusmelding
+                                    status={statusmelding}
+                                    gjelder="samarbeid"
+                                />
                                 {samarbeidsmål.length > 0 && (
                                     <Box
                                         borderWidth="2 0 0 0"
@@ -657,19 +679,23 @@ export function MålDialog({
                                         paddingBlock="space-24 space-0"
                                     >
                                         <VStack gap="space-16">
-                                            <div>
-                                                <Heading
-                                                    level="3"
-                                                    size="small"
-                                                    id={
-                                                        samarbeidsmålListeOverskriftId
-                                                    }
-                                                    ref={samarbeidsmålListeRef}
-                                                    tabIndex={-1}
+                                            <Heading
+                                                level="3"
+                                                size="small"
+                                                id={
+                                                    samarbeidsmålListeOverskriftId
+                                                }
+                                                ref={samarbeidsmålListeRef}
+                                                tabIndex={-1}
+                                            >
+                                                Mål for samarbeidet
+                                                <BodyShort
+                                                    as="span"
+                                                    visuallyHidden
                                                 >
-                                                    Mål for samarbeidet
-                                                </Heading>
-                                            </div>
+                                                    mål som er lagt til
+                                                </BodyShort>
+                                            </Heading>
                                             <VStack gap="space-12">
                                                 {samarbeidsmål.map((m) => (
                                                     <Samarbeidsmålkort
@@ -707,12 +733,12 @@ export function MålDialog({
                                                                           endreSamarbeidsfritekst,
                                                                       onLagre:
                                                                           () =>
-                                                                              lagreKortendring(
+                                                                              lagreRedigertSamarbeidsmål(
                                                                                   m.nøkkel,
                                                                               ),
                                                                       onLagreLikevel:
                                                                           () =>
-                                                                              lagreKortendring(
+                                                                              lagreRedigertSamarbeidsmål(
                                                                                   m.nøkkel,
                                                                                   true,
                                                                               ),
@@ -859,11 +885,7 @@ function Sykefraværsmålkort({
     return (
         <Målkortramme>
             {type ? (
-                <SykefraværsmåltypeOverskrift
-                    type={type}
-                    level="4"
-                    id={overskriftId}
-                />
+                <SykefraværsmåltypeOverskrift type={type} id={overskriftId} />
             ) : (
                 <Heading level="4" size="small" id={overskriftId}>
                     Sykefraværsmål

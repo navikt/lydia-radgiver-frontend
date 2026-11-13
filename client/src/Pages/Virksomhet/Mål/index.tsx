@@ -167,11 +167,9 @@ function LagredeMål({ mål, onRediger }: { mål: Mål; onRediger?: () => void }
         >
             <VStack gap="space-16">
                 <HStack justify="space-between" align="start" gap="space-16">
-                    <div>
-                        <Heading level="3" size="medium" id="maal-overskrift">
-                            Mål
-                        </Heading>
-                    </div>
+                    <Heading level="3" size="medium" id="maal-overskrift">
+                        Mål
+                    </Heading>
                     {onRediger && (
                         <Button
                             variant="secondary"
@@ -204,7 +202,6 @@ function LagredeMål({ mål, onRediger }: { mål: Mål; onRediger?: () => void }
                                         <SykefraværsmåltypeOverskrift
                                             type={sykefraværsmål.type}
                                             id={`lagret-${sykefraværsmål.type}`}
-                                            level="4"
                                         />
                                         <Målverdioversikt
                                             mål={sykefraværsmål}

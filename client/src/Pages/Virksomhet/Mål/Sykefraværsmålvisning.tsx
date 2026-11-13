@@ -20,16 +20,14 @@ import styles from "./mål.module.scss";
 export function SykefraværsmåltypeOverskrift({
     type,
     id,
-    level,
 }: {
     type: Sykefraværsmåltype;
     id?: string;
-    level: "3" | "4";
 }) {
     const navn = SYKEFRAVÆRSMÅLTYPE_NAVN[type];
     return (
         <HStack gap="space-8" align="center" wrap={false}>
-            <Heading level={level} size="small" id={id}>
+            <Heading level="4" size="small" id={id}>
                 {navn}
             </Heading>
             <HelpText title={`Hva er ${navn.toLowerCase()}?`}>
