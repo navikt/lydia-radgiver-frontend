@@ -252,10 +252,22 @@ export type Sjekkutfall =
     | { status: "funn"; resultat: PersonopplysningssjekkResultat }
     | { status: "feilet" };
 
-export const kiAdvarsel = (sjekk?: Sjekkutfall) =>
+export type Sjekk = Sjekkutfall | { status: "sjekker" };
+
+export const kiAdvarsel = (sjekk?: Sjekk) =>
     sjekk?.status === "funn"
         ? { lagretMedKiAdvarsel: true, funn: sjekk.resultat }
         : { lagretMedKiAdvarsel: false, funn: undefined };
+
+export const ulagretSamarbeidsmålfeil = (sjekk?: Sjekk) =>
+    sjekk?.status === "funn"
+        ? FEILMELDINGER.ulagretSamarbeidsmålMedPersonopplysninger
+        : FEILMELDINGER.ulagretSamarbeidsmål;
+
+export const ulagretSamarbeidskortfeil = (sjekk?: Sjekk) =>
+    sjekk?.status === "funn"
+        ? FEILMELDINGER.ulagretEndringSamarbeidsmålMedPersonopplysninger
+        : FEILMELDINGER.ulagretEndringSamarbeidsmål;
 
 export const tilSamarbeidsmål = ({
     id,
@@ -276,6 +288,22 @@ const FELT_I_ID: Record<Skjemafelt, string> = {
 export const skjemaId = (prefiks: string, felt: Skjemafelt) =>
     `${prefiks}-${FELT_I_ID[felt]}`;
 
+export const nyttSykefraværsmålPrefiks = (idPrefiks: string) =>
+    `${idPrefiks}-nytt-sykefravaersmal`;
+
+export const sykefraværskortPrefiks = (idPrefiks: string, id: string) =>
+    `${idPrefiks}-${id}`;
+
+export const nyttSamarbeidsmålFeltId = (idPrefiks: string) =>
+    `${idPrefiks}-nytt-samarbeidsmal`;
+
+export const samarbeidsmålFeltId = (idPrefiks: string, nøkkel: string) =>
+    `${idPrefiks}-samarbeidsmal-${nøkkel}`;
+
+export const lagreLikevelId = (feltId: string) => `${feltId}-lagre-likevel`;
+
+export const redigerKnappId = (prefiks: string) => `${prefiks}-rediger`;
+
 export const FELTREKKEFØLGE: Skjemafelt[] = [
     "type",
     "nåværende",
@@ -287,6 +315,9 @@ export interface Feillenke {
     href: string;
     melding: string;
 }
+
+export const tilFeillenke = (feltId: string, melding?: string): Feillenke[] =>
+    melding ? [{ href: `#${feltId}`, melding }] : [];
 
 export const tilFeillenker = (
     feil: Valideringsfeil,
