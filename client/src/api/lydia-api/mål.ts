@@ -1,4 +1,9 @@
-import { Mål, MålSchema } from "../../domenetyper/mål";
+import {
+    Mål,
+    MålSchema,
+    Samarbeidsmål,
+    Sykefraværsmål,
+} from "../../domenetyper/mål";
 import { put, useSwrTemplate } from "./networkRequests";
 import { nyFlytApiBasePath } from "./paths";
 
@@ -12,10 +17,26 @@ export const useHentMål = (
 ) =>
     useSwrTemplate<Mål>(målPath(orgnummer, saksnummer, samarbeidId), MålSchema);
 
-export const lagreMål = (
+export const lagreSykefraværsmål = (
     orgnummer: string,
     saksnummer: string,
     samarbeidId: number,
-    mål: Mål,
+    sykefraværsmål: Sykefraværsmål[],
 ): Promise<Mål> =>
-    put(målPath(orgnummer, saksnummer, samarbeidId), MålSchema, mål);
+    put(
+        `${målPath(orgnummer, saksnummer, samarbeidId)}/sykefravaersmaal`,
+        MålSchema,
+        sykefraværsmål,
+    );
+
+export const lagreSamarbeidsmål = (
+    orgnummer: string,
+    saksnummer: string,
+    samarbeidId: number,
+    samarbeidsmål: Samarbeidsmål[],
+): Promise<Mål> =>
+    put(
+        `${målPath(orgnummer, saksnummer, samarbeidId)}/samarbeidsmaal`,
+        MålSchema,
+        samarbeidsmål,
+    );
