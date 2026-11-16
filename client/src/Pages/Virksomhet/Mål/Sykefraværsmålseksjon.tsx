@@ -28,6 +28,7 @@ export function Sykefraværsmålseksjon({
     onSlett,
     statusmelding,
     listeRef,
+    children,
 }: {
     idPrefiks: string;
     mål: SykefraværsmålIListe[];
@@ -47,6 +48,7 @@ export function Sykefraværsmålseksjon({
     onSlett: (id: string) => void;
     statusmelding?: Status;
     listeRef: React.Ref<HTMLHeadingElement>;
+    children?: React.ReactNode;
 }) {
     return (
         <>
@@ -117,6 +119,7 @@ export function Sykefraværsmålseksjon({
                     </VStack>
                 </Box>
             )}
+            {children}
         </>
     );
 }

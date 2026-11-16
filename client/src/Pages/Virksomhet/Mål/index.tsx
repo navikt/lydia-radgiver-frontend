@@ -12,14 +12,18 @@ import {
 import { PencilIcon } from "@navikt/aksel-icons";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { IaSakProsess } from "../../../domenetyper/iaSakProsess";
-import { lagreMål, useHentMål } from "../../../api/lydia-api/mål";
+import {
+    lagreSamarbeidsmål,
+    lagreSykefraværsmål,
+    useHentMål,
+} from "../../../api/lydia-api/mål";
 import {
     erSaksbehandler,
     useHentBrukerinformasjon,
 } from "../../../api/lydia-api/bruker";
 import { useHentTeam } from "../../../api/lydia-api/team";
 import { MålDialog } from "./MålDialog";
-import { Mål } from "./målskjema";
+import { Mål, Samarbeidsmål, Sykefraværsmål } from "./målskjema";
 import {
     SykefraværsmåltypeOverskrift,
     Målverdioversikt,
@@ -72,15 +76,30 @@ export default function MålFane({
         setDialogÅpen(true);
     };
 
-    const lagre = async (nyeMål: Mål) => {
-        const lagret = await lagreMål(
-            iaSak.orgnr,
-            iaSak.saksnummer,
-            samarbeid.id,
-            nyeMål,
-        );
+    const oppdaterLagret = async (lagret: Mål) => {
         await mutate(lagret, { revalidate: false });
+        return lagret;
     };
+
+    const lagreSykefravær = async (liste: Sykefraværsmål[]) =>
+        oppdaterLagret(
+            await lagreSykefraværsmål(
+                iaSak.orgnr,
+                iaSak.saksnummer,
+                samarbeid.id,
+                liste,
+            ),
+        );
+
+    const lagreSamarbeid = async (liste: Samarbeidsmål[]) =>
+        oppdaterLagret(
+            await lagreSamarbeidsmål(
+                iaSak.orgnr,
+                iaSak.saksnummer,
+                samarbeid.id,
+                liste,
+            ),
+        );
 
     return (
         <Box paddingBlock="space-24">
@@ -105,7 +124,8 @@ export default function MålFane({
                     open={dialogÅpen}
                     onOpenChange={setDialogÅpen}
                     lagret={mål}
-                    onLagre={lagre}
+                    onLagreSykefraværsmål={lagreSykefravær}
+                    onLagreSamarbeidsmål={lagreSamarbeid}
                     iaSak={iaSak}
                 />
             )}

@@ -219,6 +219,18 @@ export const tilSykefraværsmålIListe = (
     mål: Sykefraværsmål,
 ): SykefraværsmålIListe => ({ id: lagLokalId(), mål });
 
+// Backend sorterer målene på id, og nye mål får høyest id. Svaret kommer
+// derfor i samme rekkefølge som listen vi sendte, og de lokale nøklene
+// (som feltid-ene og fokus bygger på) kan beholdes.
+export const oppdaterSykefraværsmålIListe = (
+    sendt: SykefraværsmålIListe[],
+    lagret: Sykefraværsmål[],
+): SykefraværsmålIListe[] =>
+    lagret.length === sendt.length &&
+    lagret.every((mål, i) => mål.type === sendt[i].mål.type)
+        ? lagret.map((mål, i) => ({ id: sendt[i].id, mål }))
+        : lagret.map(tilSykefraværsmålIListe);
+
 export const tomtUtkast = (): Sykefraværsmålutkast => ({
     id: lagLokalId(),
     type: "",
@@ -277,6 +289,17 @@ export const tilSamarbeidsmål = ({
     id == null
         ? { mål, lagretMedKiAdvarsel }
         : { id, mål, lagretMedKiAdvarsel };
+
+// Samme rekkefølge som i oppdaterSykefraværsmålIListe. Nøkkel og funn fra
+// sjekken beholdes, mens id og tekst kommer fra backend.
+export const oppdaterSamarbeidsmålutkast = (
+    sendt: Samarbeidsmålutkast[],
+    lagret: Samarbeidsmål[],
+): Samarbeidsmålutkast[] =>
+    lagret.length === sendt.length &&
+    lagret.every((mål, i) => sendt[i].id == null || sendt[i].id === mål.id)
+        ? lagret.map((mål, i) => ({ ...sendt[i], ...mål }))
+        : lagret.map(tilSamarbeidsmålutkast);
 
 const FELT_I_ID: Record<Skjemafelt, string> = {
     type: "type",

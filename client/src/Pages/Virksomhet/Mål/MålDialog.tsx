@@ -12,8 +12,11 @@ import {
     Mål,
     nyttSamarbeidsmålFeltId,
     nyttSykefraværsmålPrefiks,
+    oppdaterSamarbeidsmålutkast,
+    oppdaterSykefraværsmålIListe,
     opptatteTyper,
     redigerKnappId,
+    Samarbeidsmål,
     samarbeidsmålFeltId,
     Samarbeidsmålutkast,
     Sjekk,
@@ -38,17 +41,21 @@ import { Status } from "./Statusmelding";
 import { Sykefraværsmålseksjon } from "./Sykefraværsmålseksjon";
 import { Samarbeidsmålseksjon } from "./Samarbeidsmålseksjon";
 
+type Måltype = Status["gjelder"];
+
 export function MålDialog({
     open,
     onOpenChange,
     lagret,
-    onLagre,
+    onLagreSykefraværsmål,
+    onLagreSamarbeidsmål,
     iaSak,
 }: {
     open: boolean;
     onOpenChange: (open: boolean) => void;
     lagret: Mål;
-    onLagre: (mål: Mål) => Promise<void>;
+    onLagreSykefraværsmål: (liste: Sykefraværsmål[]) => Promise<Mål>;
+    onLagreSamarbeidsmål: (liste: Samarbeidsmål[]) => Promise<Mål>;
     iaSak: IASak;
 }) {
     const idPrefiks = lagIdPrefiks(React.useId());
@@ -91,9 +98,15 @@ export function MålDialog({
     const [fokusmål, setFokusmål] = React.useState<{ id: string }>();
     const [fokusteller, setFokusteller] = React.useState(0);
     const [fokuserListe, setFokuserListe] = React.useState(0);
-    const [lagrestatus, setLagrestatus] = React.useState<
-        "klar" | "lagrer" | "feilet"
-    >("klar");
+    const [lagringFeilet, setLagringFeilet] = React.useState<
+        Partial<Record<Måltype, boolean>>
+    >({});
+    const lagrer = React.useRef<Partial<Record<Måltype, boolean>>>({});
+    // Tittelen skal ikke bytte fra «Mål» til «Rediger mål» mens dialogen er åpen.
+    const [harLagredeMål] = React.useState(
+        () =>
+            lagret.sykefraværsmål.length > 0 || lagret.samarbeidsmål.length > 0,
+    );
 
     React.useEffect(() => {
         if (fokuserListe > 0) sykefraværsmålListeRef.current?.focus();
@@ -149,27 +162,62 @@ export function MålDialog({
             : []),
     ];
 
-    const leggTilSykefraværsmål = (mål: Sykefraværsmål) => {
-        setSykefraværsmål((forrige) => [
-            ...forrige,
+    // Én lagring om gangen per måltype, så et dobbeltklikk ikke lagrer samme mål to ganger.
+    const lagreMåltype = async (
+        måltype: Måltype,
+        lagre: () => Promise<void>,
+    ) => {
+        if (lagrer.current[måltype]) return false;
+        lagrer.current[måltype] = true;
+        try {
+            await lagre();
+            setLagringFeilet((f) => ({ ...f, [måltype]: false }));
+            return true;
+        } catch {
+            setLagringFeilet((f) => ({ ...f, [måltype]: true }));
+            setStatusmelding(undefined);
+            return false;
+        } finally {
+            lagrer.current[måltype] = false;
+        }
+    };
+
+    const lagreSykefraværsmål = (liste: SykefraværsmålIListe[]) =>
+        lagreMåltype("sykefravær", async () => {
+            const svar = await onLagreSykefraværsmål(liste.map((r) => r.mål));
+            setSykefraværsmål(
+                oppdaterSykefraværsmålIListe(liste, svar.sykefraværsmål),
+            );
+        });
+
+    const lagreSamarbeidsmål = (liste: Samarbeidsmålutkast[]) =>
+        lagreMåltype("samarbeid", async () => {
+            const svar = await onLagreSamarbeidsmål(
+                liste.map(tilSamarbeidsmål),
+            );
+            setSamarbeidsmål(
+                oppdaterSamarbeidsmålutkast(liste, svar.samarbeidsmål),
+            );
+        });
+
+    const leggTilSykefraværsmål = async (mål: Sykefraværsmål) => {
+        const lagret = await lagreSykefraværsmål([
+            ...sykefraværsmål,
             { id: nyttUtkast.id, mål },
         ]);
+        if (!lagret) return;
         setNyttUtkast(tomtUtkast());
         setUlagretNyttSykefraværsmål(false);
         setStatusmelding({ gjelder: "sykefravær", tekst: "Lagret" });
         setFokuserListe((n) => n + 1);
     };
 
-    const slettSykefraværsmål = (id: string) => {
-        const slettet = sykefraværsmål.find((r) => r.id === id);
-        setSykefraværsmål((forrige) => forrige.filter((r) => r.id !== id));
-        if (sykefraværskort?.utkast.id === id) {
-            setSykefraværskort(undefined);
-        }
-        if (slettet) {
-            setStatusmelding({ gjelder: "sykefravær", tekst: "Slettet" });
-        }
-        if (sykefraværsmål.length === 1 && slettet) {
+    const slettSykefraværsmål = async (id: string) => {
+        const gjenstår = sykefraværsmål.filter((r) => r.id !== id);
+        if (!(await lagreSykefraværsmål(gjenstår))) return;
+        setSykefraværskort((k) => (k?.utkast.id === id ? undefined : k));
+        setStatusmelding({ gjelder: "sykefravær", tekst: "Slettet" });
+        if (gjenstår.length === 0) {
             setFokusmål({ id: skjemaId(nyttSykefraværsprefiks, "type") });
         } else {
             sykefraværsmålListeRef.current?.focus();
@@ -206,7 +254,7 @@ export function MålDialog({
                 },
         );
 
-    const lagreRedigertSykefraværsmål = () => {
+    const lagreRedigertSykefraværsmål = async () => {
         if (!sykefraværskort || !sykefraværskortresultat) return;
         const id = sykefraværskort.utkast.id;
         if (!sykefraværskortresultat.ok) {
@@ -225,11 +273,12 @@ export function MålDialog({
             return;
         }
         const mål = sykefraværskortresultat.mål;
-        setSykefraværsmål((forrige) =>
-            forrige.map((r) =>
+        const lagret = await lagreSykefraværsmål(
+            sykefraværsmål.map((r) =>
                 r.id === id ? { id: r.id, mål: { ...mål, id: r.mål.id } } : r,
             ),
         );
+        if (!lagret) return;
         setStatusmelding({ gjelder: "sykefravær", tekst: "Lagret" });
         avsluttSykefraværsredigering(id);
     };
@@ -299,11 +348,12 @@ export function MålDialog({
             const advarsel = kiAdvarsel(
                 likevel ? samarbeidskort.sjekk : undefined,
             );
-            setSamarbeidsmål((forrige) =>
-                forrige.map((m) =>
+            const lagret = await lagreSamarbeidsmål(
+                samarbeidsmål.map((m) =>
                     m.nøkkel === nøkkel ? { ...m, mål: tekst, ...advarsel } : m,
                 ),
             );
+            if (!lagret) return;
         }
         setStatusmelding({ gjelder: "samarbeid", tekst: "Lagret" });
         avsluttSamarbeidsredigering(nøkkel);
@@ -325,14 +375,15 @@ export function MålDialog({
             }
             if (sjekk) return;
         }
-        setSamarbeidsmål((forrige) => [
-            ...forrige,
+        const lagret = await lagreSamarbeidsmål([
+            ...samarbeidsmål,
             {
                 ...tomtSamarbeidsmål(),
                 mål: tekst,
                 ...kiAdvarsel(likevel ? nyttSjekk : undefined),
             },
         ]);
+        if (!lagret) return;
         setStatusmelding({ gjelder: "samarbeid", tekst: "Lagret" });
         setNyttSamarbeidsmål("");
         setNyttSjekk(undefined);
@@ -340,22 +391,19 @@ export function MålDialog({
         setUlagretNyttSamarbeidsmål(false);
     };
 
-    const slettSamarbeidsmål = (nøkkel: string) => {
-        setSamarbeidsmål((forrige) =>
-            forrige.filter((m) => m.nøkkel !== nøkkel),
-        );
-        if (samarbeidskort?.nøkkel === nøkkel) {
-            setSamarbeidskort(undefined);
-        }
+    const slettSamarbeidsmål = async (nøkkel: string) => {
+        const gjenstår = samarbeidsmål.filter((m) => m.nøkkel !== nøkkel);
+        if (!(await lagreSamarbeidsmål(gjenstår))) return;
+        setSamarbeidskort((k) => (k?.nøkkel === nøkkel ? undefined : k));
         setStatusmelding({ gjelder: "samarbeid", tekst: "Slettet" });
-        if (samarbeidsmål.length === 1) {
+        if (gjenstår.length === 0) {
             nyttSamarbeidsmålRef.current?.focus();
         } else {
             samarbeidsmålListeRef.current?.focus();
         }
     };
 
-    const lagre = async () => {
+    const lukk = () => {
         const harUlagretNyttSykefraværsmål =
             harInnholdISykefraværsutkast(nyttUtkast);
         if (harUlagretNyttSykefraværsmål) {
@@ -382,22 +430,8 @@ export function MålDialog({
             setFokusteller((n) => n + 1);
             return;
         }
-
-        setLagrestatus("lagrer");
-        try {
-            await onLagre({
-                sykefraværsmål: sykefraværsmål.map((r) => r.mål),
-                samarbeidsmål: samarbeidsmål.map(tilSamarbeidsmål),
-            });
-            onOpenChange(false);
-            setLagrestatus("klar");
-        } catch {
-            setLagrestatus("feilet");
-        }
+        onOpenChange(false);
     };
-
-    const harLagredeMål =
-        lagret.sykefraværsmål.length > 0 || lagret.samarbeidsmål.length > 0;
 
     return (
         <Dialog open={open} onOpenChange={onOpenChange}>
@@ -448,7 +482,9 @@ export function MålDialog({
                             onSlett={slettSykefraværsmål}
                             statusmelding={statusmelding}
                             listeRef={sykefraværsmålListeRef}
-                        />
+                        >
+                            {lagringFeilet.sykefravær && <Lagringsfeil />}
+                        </Sykefraværsmålseksjon>
                         <Samarbeidsmålseksjon
                             idPrefiks={idPrefiks}
                             mål={samarbeidsmål}
@@ -484,36 +520,29 @@ export function MålDialog({
                             statusmelding={statusmelding}
                             listeRef={samarbeidsmålListeRef}
                         >
-                            {lagrestatus === "feilet" && (
-                                <LocalAlert status="error">
-                                    <LocalAlert.Header>
-                                        <LocalAlert.Title as="h3">
-                                            Kunne ikke lagre målene
-                                        </LocalAlert.Title>
-                                    </LocalAlert.Header>
-                                    <LocalAlert.Content>
-                                        Endringene er ikke lagret. Prøv igjen.
-                                    </LocalAlert.Content>
-                                </LocalAlert>
-                            )}
+                            {lagringFeilet.samarbeid && <Lagringsfeil />}
                         </Samarbeidsmålseksjon>
                     </VStack>
                 </Dialog.Body>
                 <Dialog.Footer>
-                    <Button
-                        type="button"
-                        onClick={() => lagre()}
-                        loading={lagrestatus === "lagrer"}
-                    >
-                        Lagre
+                    <Button type="button" onClick={lukk}>
+                        Lukk
                     </Button>
-                    <Dialog.CloseTrigger>
-                        <Button type="button" variant="secondary">
-                            Avbryt
-                        </Button>
-                    </Dialog.CloseTrigger>
                 </Dialog.Footer>
             </Dialog.Popup>
         </Dialog>
+    );
+}
+
+function Lagringsfeil() {
+    return (
+        <LocalAlert status="error">
+            <LocalAlert.Header>
+                <LocalAlert.Title as="h3">Kunne ikke lagre målet</LocalAlert.Title>
+            </LocalAlert.Header>
+            <LocalAlert.Content>
+                Endringen er ikke lagret. Prøv igjen.
+            </LocalAlert.Content>
+        </LocalAlert>
     );
 }
