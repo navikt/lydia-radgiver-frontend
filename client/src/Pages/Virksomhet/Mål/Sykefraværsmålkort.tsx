@@ -22,8 +22,8 @@ export function Sykefraværsmålkort({
 }: {
     idPrefiks: string;
     mål: Sykefraværsmål;
-    onRediger: () => void;
-    onSlett: () => void;
+    onRediger?: () => void;
+    onSlett?: () => void;
     redigering?: {
         utkast: Sykefraværsmålutkast;
         opptatte: Sykefraværsmåltype[];
@@ -82,12 +82,14 @@ export function Sykefraværsmålkort({
             ) : (
                 <>
                     <Målverdier mål={mål} />
-                    <Målkortknapper
-                        redigerId={redigerKnappId(idPrefiks)}
-                        beskrevetAv={overskriftId}
-                        onRediger={onRediger}
-                        onSlett={onSlett}
-                    />
+                    {onRediger && onSlett && (
+                        <Målkortknapper
+                            redigerId={redigerKnappId(idPrefiks)}
+                            beskrevetAv={overskriftId}
+                            onRediger={onRediger}
+                            onSlett={onSlett}
+                        />
+                    )}
                 </>
             )}
         </Målkortramme>

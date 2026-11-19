@@ -342,11 +342,6 @@ export interface Feillenke {
 export const tilFeillenke = (feltId: string, melding?: string): Feillenke[] =>
     melding ? [{ href: `#${feltId}`, melding }] : [];
 
-// Det dialogen kan be en seksjon om ved «Lukk».
-export interface Seksjonshandlinger {
-    visUlagrede: (fokuser: boolean) => boolean;
-}
-
 export const tilFeillenker = (
     feil: Valideringsfeil,
     idPrefiks: string,

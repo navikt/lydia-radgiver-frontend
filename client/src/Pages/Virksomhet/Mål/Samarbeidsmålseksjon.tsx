@@ -3,6 +3,7 @@ import { BodyShort, Box, Heading, VStack } from "@navikt/ds-react";
 import { IASak } from "../../../domenetyper/domenetyper";
 import { Feiloppsummering } from "./Feiloppsummering";
 import { Lagringsfeil } from "./Lagringsfeil";
+import { MålDialog } from "./MålDialog";
 import {
     FEILMELDINGER,
     kiAdvarsel,
@@ -14,7 +15,6 @@ import {
     Samarbeidsmål,
     samarbeidsmålFeltId,
     Samarbeidsmålutkast,
-    Seksjonshandlinger,
     Sjekk,
     tilFeillenke,
     tilSamarbeidsmål,
@@ -29,12 +29,14 @@ import { Status, Statusmelding } from "./Statusmelding";
 import { sjekkTekst } from "./tekstsjekk";
 
 export function Samarbeidsmålseksjon({
-    ref,
+    open,
+    onOpenChange,
     lagret,
     onLagre,
     iaSak,
 }: {
-    ref: React.Ref<Seksjonshandlinger>;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
     lagret: Samarbeidsmål[];
     onLagre: (liste: Samarbeidsmål[]) => Promise<Samarbeidsmål[]>;
     iaSak: IASak;
@@ -89,21 +91,24 @@ export function Samarbeidsmålseksjon({
             : []),
     ];
 
-    React.useImperativeHandle(ref, () => ({
-        visUlagrede: (fokuser) => {
-            const harUlagretSamarbeidsmål = nyttSamarbeidsmål.trim() !== "";
-            if (harUlagretSamarbeidsmål) {
-                setUlagretNyttSamarbeidsmål(true);
-            }
-            const harUlagretKortendring = samarbeidskort !== undefined;
-            if (harUlagretKortendring) {
-                setSamarbeidskort((k) => k && { ...k, ulagret: true });
-            }
-            const harUlagret = harUlagretSamarbeidsmål || harUlagretKortendring;
-            if (harUlagret && fokuser) setFokusteller((n) => n + 1);
-            return harUlagret;
-        },
-    }));
+    const visUlagrede = () => {
+        const harUlagretSamarbeidsmål = nyttSamarbeidsmål.trim() !== "";
+        if (harUlagretSamarbeidsmål) {
+            setUlagretNyttSamarbeidsmål(true);
+        }
+        const harUlagretKortendring = samarbeidskort !== undefined;
+        if (harUlagretKortendring) {
+            setSamarbeidskort((k) => k && { ...k, ulagret: true });
+        }
+        const harUlagret = harUlagretSamarbeidsmål || harUlagretKortendring;
+        if (harUlagret) setFokusteller((n) => n + 1);
+        return harUlagret;
+    };
+
+    const lukk = () => {
+        if (visUlagrede()) return;
+        onOpenChange(false);
+    };
 
     // Én lagring om gangen, så et dobbeltklikk ikke lagrer samme mål to ganger.
     const lagreEnOmGangen = async (lagre: () => Promise<void>) => {
@@ -256,13 +261,15 @@ export function Samarbeidsmålseksjon({
     };
 
     return (
-        <Box
-            borderWidth="1 0 0 0"
-            borderColor="neutral-subtle"
-            paddingBlock="space-24 space-0"
+        <MålDialog
+            tittel="Mål for samarbeidet"
+            beskrivelse="Legg til mål for samarbeidet."
+            open={open}
+            onOpenChange={onOpenChange}
+            onLukk={lukk}
         >
+            <Feiloppsummering feil={feillenker} fokusteller={fokusteller} />
             <VStack gap="space-16">
-                <Feiloppsummering feil={feillenker} fokusteller={fokusteller} />
                 <NyttSamarbeidsmålSkjema
                     feltId={nyttSamarbeidsmålId}
                     tekstfeltRef={nyttSamarbeidsmålRef}
@@ -344,6 +351,6 @@ export function Samarbeidsmålseksjon({
                 )}
                 {lagringFeilet && <Lagringsfeil />}
             </VStack>
-        </Box>
+        </MålDialog>
     );
 }

@@ -6,7 +6,6 @@ import {
     Label,
     VStack,
 } from "@navikt/ds-react";
-import { ArrowRightIcon } from "@navikt/aksel-icons";
 import {
     formaterFrist,
     formaterMålverdi,
@@ -61,40 +60,6 @@ export function Målverdier({ mål }: { mål: Sykefraværsmål }) {
                     Måldato
                 </Label>
                 <BodyShort size="large">{formaterFrist(mål.frist)}</BodyShort>
-            </VStack>
-        </HStack>
-    );
-}
-
-export function Målverdioversikt({ mål }: { mål: Sykefraværsmål }) {
-    return (
-        <HStack justify="space-between" align="center" gap="space-16" wrap>
-            <HStack gap="space-16" align="start" wrap>
-                <div className={styles.maalverdiblokk}>
-                    <BodyShort className={styles.naavaerendefarge}>
-                        Nåværende
-                    </BodyShort>
-                    <BodyShort
-                        className={`${styles.stortall} ${styles.naavaerendefarge}`}
-                    >
-                        {formaterMålverdi(mål.nåværende, mål.type)}
-                    </BodyShort>
-                </div>
-                <div className={styles.maalpil}>
-                    <ArrowRightIcon aria-hidden />
-                </div>
-                <div className={styles.maalverdiblokk}>
-                    <BodyShort className={styles.maalfarge}>Mål</BodyShort>
-                    <BodyShort
-                        className={`${styles.stortall} ${styles.maalfarge}`}
-                    >
-                        {formaterMålverdi(mål.mål, mål.type)}
-                    </BodyShort>
-                </div>
-            </HStack>
-            <VStack gap="space-4" align="end">
-                <Label as="p">Måldato</Label>
-                <BodyShort>{formaterFrist(mål.frist)}</BodyShort>
             </VStack>
         </HStack>
     );
