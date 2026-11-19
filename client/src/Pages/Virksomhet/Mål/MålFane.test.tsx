@@ -116,9 +116,14 @@ const visSide = (iaSak: IASak = testIaSak) =>
         </SWRConfig>,
     );
 
-const åpneDialog = async (knapp: string, dialognavn = knapp) => {
-    visSide();
-    fireEvent.click(await screen.findByRole("button", { name: knapp }));
+const SYKEFRAVÆRSDIALOG = "Mål for sykefraværet";
+const SAMARBEIDSDIALOG = "Mål for samarbeidet";
+
+const finnDialog = async (
+    knapp: { name: string; description?: string },
+    dialognavn: string,
+) => {
+    fireEvent.click(await screen.findByRole("button", knapp));
     const dialog = await screen.findByRole("dialog", { name: dialognavn });
     // Aksel flytter startfokus til dialogen i en requestAnimationFrame. Uten
     // ventingen kan det overstyre fokus som testen flytter rett etterpå.
@@ -126,7 +131,31 @@ const åpneDialog = async (knapp: string, dialognavn = knapp) => {
     return dialog;
 };
 
-const åpneOpprettDialog = () => åpneDialog("Legg til mål", "Mål");
+const åpneDialog = (
+    knapp: { name: string; description?: string },
+    dialognavn: string,
+) => {
+    visSide();
+    return finnDialog(knapp, dialognavn);
+};
+
+const åpneSykefraværsdialog = () =>
+    åpneDialog({ name: "Legg til mål for sykefraværet" }, SYKEFRAVÆRSDIALOG);
+
+const åpneSamarbeidsdialog = () =>
+    åpneDialog({ name: "Legg til mål for samarbeidet" }, SAMARBEIDSDIALOG);
+
+const redigerSykefraværsmål = () =>
+    åpneDialog(
+        { name: "Rediger", description: SYKEFRAVÆRSDIALOG },
+        SYKEFRAVÆRSDIALOG,
+    );
+
+const redigerSamarbeidsmål = () =>
+    åpneDialog(
+        { name: "Rediger", description: SAMARBEIDSDIALOG },
+        SAMARBEIDSDIALOG,
+    );
 
 const nesteÅr = new Date().getFullYear() + 1;
 
@@ -220,8 +249,16 @@ describe("MålFane", () => {
         visSide();
 
         expect(
-            await screen.findByRole("button", { name: "Legg til mål" }),
+            await screen.findByRole("button", {
+                name: "Legg til mål for sykefraværet",
+            }),
         ).toBeInTheDocument();
+        expect(
+            screen.getByRole("button", { name: "Legg til mål for samarbeidet" }),
+        ).toBeInTheDocument();
+        expect(
+            screen.queryByRole("button", { name: "Rediger" }),
+        ).not.toBeInTheDocument();
     });
 
     test("skjuler endringsknappene for brukere som ikke er eier eller følger", async () => {
@@ -233,12 +270,12 @@ describe("MålFane", () => {
             ),
         ).toBeInTheDocument();
         expect(
-            screen.queryByRole("button", { name: "Legg til mål" }),
+            screen.queryByRole("button", { name: /^Legg til mål/ }),
         ).not.toBeInTheDocument();
     });
 
     test("viser feiloppsummering med lenker til feltene ved tomt skjema", async () => {
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSykefraværsdialog();
 
         fireEvent.click(leggTilSykefraværsmålKnapp(dialog));
 
@@ -250,7 +287,7 @@ describe("MålFane", () => {
     });
 
     test("avviser frist før dagens dato", async () => {
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSykefraværsdialog();
 
         fyllUtMål(dialog, "KORTTIDSFRAVÆR", "6,5", "4", "01.01.2020");
 
@@ -262,7 +299,7 @@ describe("MålFane", () => {
     });
 
     test("bruker dagsverk for tapte dagsverk og deaktiverer brukt sykefraværsmåltype", async () => {
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSykefraværsdialog();
 
         fyllUtMål(dialog, "TAPTE_DAGSVERK", "1250", "900,5");
 
@@ -276,14 +313,21 @@ describe("MålFane", () => {
         ).toBeDisabled();
     });
 
-    test("lagrer hvert mål i backend med en gang og viser dem på siden etter Lukk", async () => {
-        const dialog = await åpneOpprettDialog();
-
-        fyllUtMål(dialog, "KORTTIDSFRAVÆR", "6,5", "4");
-        await leggTilSamarbeidsmål(dialog, "  Færre korte fravær ");
-        fireEvent.click(lukkKnapp(dialog));
-
+    test("lagrer hvert mål i backend med en gang og viser dem i hvert sitt kort etter Lukk", async () => {
+        const sykefraværsdialog = await åpneSykefraværsdialog();
+        fyllUtMål(sykefraværsdialog, "KORTTIDSFRAVÆR", "6,5", "4");
+        await waitFor(() => expect(lagreKall).toHaveLength(1));
+        fireEvent.click(lukkKnapp(sykefraværsdialog));
         await ventPåLukketDialog();
+
+        const samarbeidsdialog = await finnDialog(
+            { name: "Legg til mål for samarbeidet" },
+            SAMARBEIDSDIALOG,
+        );
+        await leggTilSamarbeidsmål(samarbeidsdialog, "  Færre korte fravær ");
+        fireEvent.click(lukkKnapp(samarbeidsdialog));
+        await ventPåLukketDialog();
+
         expect(sjekk).toHaveBeenCalledWith(
             "123456789",
             "SAK-001",
@@ -306,12 +350,23 @@ describe("MålFane", () => {
                 ],
             },
         ]);
+        const sykefraværskort = screen.getByRole("region", {
+            name: SYKEFRAVÆRSDIALOG,
+        });
         expect(
-            await screen.findByRole("heading", { name: "Korttidsfravær" }),
+            within(sykefraværskort).getByRole("heading", {
+                name: "Korttidsfravær",
+            }),
         ).toBeInTheDocument();
-        expect(screen.getByText("6,5 %")).toBeInTheDocument();
-        expect(screen.getByText(`31.12.${nesteÅr}`)).toBeInTheDocument();
-        expect(screen.getByText("Færre korte fravær")).toBeInTheDocument();
+        expect(within(sykefraværskort).getByText("6,5 %")).toBeInTheDocument();
+        expect(
+            within(sykefraværskort).getByText(`31.12.${nesteÅr}`),
+        ).toBeInTheDocument();
+        expect(
+            within(
+                screen.getByRole("region", { name: SAMARBEIDSDIALOG }),
+            ).getByText("Færre korte fravær"),
+        ).toBeInTheDocument();
     });
 
     test("advarer om personopplysninger når et nytt samarbeidsmål lagres og flagger det ved Lagre likevel", async () => {
@@ -320,7 +375,7 @@ describe("MålFane", () => {
             kanInneholdePersonopplysninger: true,
             kiFlagget: true,
         });
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSamarbeidsdialog();
 
         skrivOgLagreSamarbeidsmål(dialog, "Ola skal tilbake i jobb");
 
@@ -398,7 +453,7 @@ describe("MålFane", () => {
 
     test("tilbyr Lagre likevel når sjekken av et nytt samarbeidsmål feiler", async () => {
         sjekk.mockRejectedValue(new Error("Nede"));
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSamarbeidsdialog();
 
         skrivOgLagreSamarbeidsmål(dialog, "Bedre dialog");
 
@@ -436,7 +491,7 @@ describe("MålFane", () => {
                 { id: 7, mål: "Bedre dialog", lagretMedKiAdvarsel: true },
             ],
         };
-        const dialog = await åpneDialog("Rediger", "Rediger mål");
+        const dialog = await redigerSamarbeidsmål();
 
         expect(within(dialog).getByText("Bedre dialog")).toBeInTheDocument();
         await leggTilSamarbeidsmål(dialog, "Færre fravær");
@@ -461,7 +516,7 @@ describe("MålFane", () => {
                 { id: 8, mål: "Færre fravær", lagretMedKiAdvarsel: false },
             ],
         };
-        const dialog = await åpneDialog("Rediger", "Rediger mål");
+        const dialog = await redigerSamarbeidsmål();
 
         fireEvent.click(
             within(dialog).getByRole("button", {
@@ -490,7 +545,7 @@ describe("MålFane", () => {
                 { id: 7, mål: "Bedre dialog", lagretMedKiAdvarsel: true },
             ],
         };
-        const dialog = await åpneDialog("Rediger", "Rediger mål");
+        const dialog = await redigerSamarbeidsmål();
         expect(within(dialog).getByText(KORT_ADVARSEL)).toBeInTheDocument();
 
         fireEvent.click(
@@ -548,7 +603,7 @@ describe("MålFane", () => {
                 { id: 7, mål: "Bedre dialog", lagretMedKiAdvarsel: true },
             ],
         };
-        const dialog = await åpneDialog("Rediger", "Rediger mål");
+        const dialog = await redigerSamarbeidsmål();
 
         fireEvent.click(
             within(dialog).getByRole("button", {
@@ -581,7 +636,7 @@ describe("MålFane", () => {
                 { id: 7, mål: "Bedre dialog", lagretMedKiAdvarsel: false },
             ],
         };
-        const dialog = await åpneDialog("Rediger", "Rediger mål");
+        const dialog = await redigerSamarbeidsmål();
 
         fireEvent.click(
             within(dialog).getByRole("button", {
@@ -627,7 +682,7 @@ describe("MålFane", () => {
                 { id: 7, mål: "Bedre dialog", lagretMedKiAdvarsel: false },
             ],
         };
-        const dialog = await åpneDialog("Rediger", "Rediger mål");
+        const dialog = await redigerSamarbeidsmål();
 
         fireEvent.click(
             within(dialog).getByRole("button", {
@@ -658,7 +713,7 @@ describe("MålFane", () => {
                 { id: 7, mål: "Bedre dialog", lagretMedKiAdvarsel: false },
             ],
         };
-        const dialog = await åpneDialog("Rediger", "Rediger mål");
+        const dialog = await redigerSamarbeidsmål();
 
         fireEvent.click(
             within(dialog).getByRole("button", {
@@ -683,7 +738,7 @@ describe("MålFane", () => {
 
     test("viser feil og beholder skjemaet når lagringen feiler, og lagrer ved nytt forsøk", async () => {
         lagringFeiler = true;
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSykefraværsdialog();
 
         fyllUtMål(dialog, "KORTTIDSFRAVÆR", "6", "4");
 
@@ -707,7 +762,7 @@ describe("MålFane", () => {
     });
 
     test("flytter fokus til listen over sykefraværsmål etter at et sykefraværsmål er lagt til", async () => {
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSykefraværsdialog();
         fyllUtMål(dialog, "KORTTIDSFRAVÆR", "6", "4");
 
         const overskrift = await within(dialog).findByRole("heading", {
@@ -718,7 +773,7 @@ describe("MålFane", () => {
     });
 
     test("legger til samarbeidsmål som kort som kan slettes", async () => {
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSamarbeidsdialog();
 
         expect(
             within(dialog).queryByRole("button", { name: "Slett" }),
@@ -744,7 +799,7 @@ describe("MålFane", () => {
     });
 
     test("viser feil og beholder fokus i feltet når et tomt samarbeidsmål legges til", async () => {
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSamarbeidsdialog();
 
         fireEvent.click(leggTilSamarbeidsmålKnapp(dialog));
 
@@ -755,7 +810,7 @@ describe("MålFane", () => {
     });
 
     test("Lukk stopper når et samarbeidsmål ikke er lagt til", async () => {
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSamarbeidsdialog();
         const felt = within(dialog).getByLabelText("Legg til mål");
 
         fireEvent.change(felt, { target: { value: "Bedre dialog" } });
@@ -773,7 +828,7 @@ describe("MålFane", () => {
             ...ingenFunn,
             kanInneholdePersonopplysninger: true,
         });
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSamarbeidsdialog();
 
         skrivOgLagreSamarbeidsmål(dialog, "Ola skal tilbake i jobb");
         await within(dialog).findByRole("button", { name: "Lagre likevel" });
@@ -791,7 +846,7 @@ describe("MålFane", () => {
     });
 
     test("Lukk stopper når sykefraværsskjemaet er utfylt men ikke lagt til", async () => {
-        const dialog = await åpneOpprettDialog();
+        const dialog = await åpneSykefraværsdialog();
         const skjema = leggTilSykefraværsmålKnapp(dialog).closest(
             "form",
         ) as HTMLElement;
@@ -818,19 +873,30 @@ describe("MålFane", () => {
         ).not.toBeInTheDocument();
     });
 
-    test("opprettelsesdialogen har ingen axe-brudd", async () => {
-        const dialog = await åpneOpprettDialog();
-        fyllUtMål(dialog, "KORTTIDSFRAVÆR", "6", "4");
-        await within(dialog).findByRole("heading", {
+    test("dialogene og oversikten har ingen axe-brudd", async () => {
+        const sykefraværsdialog = await åpneSykefraværsdialog();
+        fyllUtMål(sykefraværsdialog, "KORTTIDSFRAVÆR", "6", "4");
+        await within(sykefraværsdialog).findByRole("heading", {
             name: "Mål for sykefraværet mål som er lagt til",
             level: 3,
         });
-        await leggTilSamarbeidsmål(dialog, "Bedre dialog");
+        expect(await axe(sykefraværsdialog)).toHaveNoViolations();
+        fireEvent.click(lukkKnapp(sykefraværsdialog));
+        await ventPåLukketDialog();
 
-        expect(await axe(dialog)).toHaveNoViolations();
+        const samarbeidsdialog = await finnDialog(
+            { name: "Legg til mål for samarbeidet" },
+            SAMARBEIDSDIALOG,
+        );
+        await leggTilSamarbeidsmål(samarbeidsdialog, "Bedre dialog");
+        expect(await axe(samarbeidsdialog)).toHaveNoViolations();
+        fireEvent.click(lukkKnapp(samarbeidsdialog));
+        await ventPåLukketDialog();
+
+        expect(await axe(document.body)).toHaveNoViolations();
     });
 
-    test("redigeringsdialogen lar brukeren legge til, endre og slette sykefraværsmål", async () => {
+    test("Rediger åpner sykefraværsdialogen og lar brukeren legge til, endre og slette sykefraværsmål", async () => {
         lagret = {
             sykefraværsmål: [
                 {
@@ -850,7 +916,7 @@ describe("MålFane", () => {
             ],
             samarbeidsmål: [],
         };
-        const dialog = await åpneDialog("Rediger", "Rediger mål");
+        const dialog = await redigerSykefraværsmål();
 
         fyllUtMål(dialog, "LEGEMELDT_FRAVÆR", "3", "2");
         await waitFor(() => expect(lagreKall).toHaveLength(1));
@@ -923,7 +989,7 @@ describe("MålFane", () => {
             ],
             samarbeidsmål: [],
         };
-        const dialog = await åpneDialog("Rediger", "Rediger mål");
+        const dialog = await redigerSykefraværsmål();
 
         fireEvent.click(
             within(dialog).getByRole("button", {
@@ -953,7 +1019,7 @@ describe("MålFane", () => {
             ],
             samarbeidsmål: [],
         };
-        const dialog = await åpneDialog("Rediger", "Rediger mål");
+        const dialog = await redigerSykefraværsmål();
 
         fireEvent.click(
             within(dialog).getByRole("button", {

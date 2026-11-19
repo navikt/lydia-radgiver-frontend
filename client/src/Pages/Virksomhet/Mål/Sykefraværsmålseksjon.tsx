@@ -1,6 +1,7 @@
 import React from "react";
 import { BodyShort, Box, Heading, HGrid, VStack } from "@navikt/ds-react";
 import { Feiloppsummering } from "./Feiloppsummering";
+import { MålDialog } from "./MålDialog";
 import { Lagringsfeil } from "./Lagringsfeil";
 import {
     FEILMELDINGER,
@@ -11,7 +12,6 @@ import {
     oppdaterSykefraværsmålIListe,
     opptatteTyper,
     redigerKnappId,
-    Seksjonshandlinger,
     skjemaId,
     sykefraværskortPrefiks,
     Sykefraværsmål,
@@ -28,11 +28,13 @@ import { Status, Statusmelding } from "./Statusmelding";
 import { Sykefraværsmålkort } from "./Sykefraværsmålkort";
 
 export function Sykefraværsmålseksjon({
-    ref,
+    open,
+    onOpenChange,
     lagret,
     onLagre,
 }: {
-    ref: React.Ref<Seksjonshandlinger>;
+    open: boolean;
+    onOpenChange: (open: boolean) => void;
     lagret: Sykefraværsmål[];
     onLagre: (liste: Sykefraværsmål[]) => Promise<Sykefraværsmål[]>;
 }) {
@@ -100,23 +102,26 @@ export function Sykefraværsmålseksjon({
             : []),
     ];
 
-    React.useImperativeHandle(ref, () => ({
-        visUlagrede: (fokuser) => {
-            const harUlagretNyttSykefraværsmål =
-                harInnholdISykefraværsutkast(nyttUtkast);
-            if (harUlagretNyttSykefraværsmål) {
-                setUlagretNyttSykefraværsmål(true);
-            }
-            const harUlagretSykefraværskort = sykefraværskort !== undefined;
-            if (harUlagretSykefraværskort) {
-                setSykefraværskort((k) => k && { ...k, ulagret: true });
-            }
-            const harUlagret =
-                harUlagretNyttSykefraværsmål || harUlagretSykefraværskort;
-            if (harUlagret && fokuser) setFokusteller((n) => n + 1);
-            return harUlagret;
-        },
-    }));
+    const visUlagrede = () => {
+        const harUlagretNyttSykefraværsmål =
+            harInnholdISykefraværsutkast(nyttUtkast);
+        if (harUlagretNyttSykefraværsmål) {
+            setUlagretNyttSykefraværsmål(true);
+        }
+        const harUlagretSykefraværskort = sykefraværskort !== undefined;
+        if (harUlagretSykefraværskort) {
+            setSykefraværskort((k) => k && { ...k, ulagret: true });
+        }
+        const harUlagret =
+            harUlagretNyttSykefraværsmål || harUlagretSykefraværskort;
+        if (harUlagret) setFokusteller((n) => n + 1);
+        return harUlagret;
+    };
+
+    const lukk = () => {
+        if (visUlagrede()) return;
+        onOpenChange(false);
+    };
 
     // Én lagring om gangen, så et dobbeltklikk ikke lagrer samme mål to ganger.
     const lagreEnOmGangen = async (lagre: () => Promise<void>) => {
@@ -236,7 +241,13 @@ export function Sykefraværsmålseksjon({
     };
 
     return (
-        <>
+        <MålDialog
+            tittel="Mål for sykefraværet"
+            beskrivelse="Legg til mål for sykefraværet."
+            open={open}
+            onOpenChange={onOpenChange}
+            onLukk={lukk}
+        >
             <Feiloppsummering feil={feillenker} fokusteller={fokusteller} />
             <VStack gap="space-16">
                 <NyttSykefraværsmålSkjema
@@ -318,6 +329,6 @@ export function Sykefraværsmålseksjon({
                 </Box>
             )}
             {lagringFeilet && <Lagringsfeil />}
-        </>
+        </MålDialog>
     );
 }
