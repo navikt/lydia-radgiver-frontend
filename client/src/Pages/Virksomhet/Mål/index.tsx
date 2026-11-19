@@ -82,24 +82,28 @@ export default function MålFane({
     };
 
     const lagreSykefravær = async (liste: Sykefraværsmål[]) =>
-        oppdaterLagret(
-            await lagreSykefraværsmål(
-                iaSak.orgnr,
-                iaSak.saksnummer,
-                samarbeid.id,
-                liste,
-            ),
-        );
+        (
+            await oppdaterLagret(
+                await lagreSykefraværsmål(
+                    iaSak.orgnr,
+                    iaSak.saksnummer,
+                    samarbeid.id,
+                    liste,
+                ),
+            )
+        ).sykefraværsmål;
 
     const lagreSamarbeid = async (liste: Samarbeidsmål[]) =>
-        oppdaterLagret(
-            await lagreSamarbeidsmål(
-                iaSak.orgnr,
-                iaSak.saksnummer,
-                samarbeid.id,
-                liste,
-            ),
-        );
+        (
+            await oppdaterLagret(
+                await lagreSamarbeidsmål(
+                    iaSak.orgnr,
+                    iaSak.saksnummer,
+                    samarbeid.id,
+                    liste,
+                ),
+            )
+        ).samarbeidsmål;
 
     return (
         <Box paddingBlock="space-24">

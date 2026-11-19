@@ -1,23 +1,14 @@
 import { InlineMessage } from "@navikt/ds-react";
 
-export type Status = {
-    gjelder: "sykefravær" | "samarbeid";
-    tekst: "Lagret" | "Slettet";
-};
+export type Status = "Lagret" | "Slettet";
 
 // Live-regionen må finnes før teksten kommer, ellers leser ikke skjermleseren den opp.
-export function Statusmelding({
-    status,
-    gjelder,
-}: {
-    status?: Status;
-    gjelder: Status["gjelder"];
-}) {
+export function Statusmelding({ status }: { status?: Status }) {
     return (
         <div role="status">
-            {status?.gjelder === gjelder && (
+            {status && (
                 <InlineMessage status="success" size="small">
-                    {status.tekst}
+                    {status}
                 </InlineMessage>
             )}
         </div>
