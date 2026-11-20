@@ -26,7 +26,11 @@ export function MålDialog({
                 </Dialog.Header>
                 <Dialog.Body>{children}</Dialog.Body>
                 <Dialog.Footer>
-                    <Button type="button" onClick={onLukk}>
+                    <Button
+                        type="button"
+                        variant="secondary"
+                        onClick={onLukk}
+                    >
                         Lukk
                     </Button>
                 </Dialog.Footer>

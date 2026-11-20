@@ -17,7 +17,7 @@ export function Samarbeidsmåloversikt({
         <Måltypekort
             tittel="Mål for samarbeidet"
             beskrivelse="Beskriv hva dere skal oppnå i samarbeidet"
-            leggTilTekst="Legg til mål for samarbeidet"
+            leggTilTekst="Mål for samarbeidet"
             harMål={samarbeidsmål.length > 0}
             onÅpneDialog={onÅpneDialog}
             deaktivert={deaktivert}

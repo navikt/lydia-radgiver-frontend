@@ -140,10 +140,10 @@ const åpneDialog = (
 };
 
 const åpneSykefraværsdialog = () =>
-    åpneDialog({ name: "Legg til mål for sykefraværet" }, SYKEFRAVÆRSDIALOG);
+    åpneDialog({ name: "Mål for sykefraværet" }, SYKEFRAVÆRSDIALOG);
 
 const åpneSamarbeidsdialog = () =>
-    åpneDialog({ name: "Legg til mål for samarbeidet" }, SAMARBEIDSDIALOG);
+    åpneDialog({ name: "Mål for samarbeidet" }, SAMARBEIDSDIALOG);
 
 const redigerSykefraværsmål = () =>
     åpneDialog(
@@ -250,11 +250,11 @@ describe("MålFane", () => {
 
         expect(
             await screen.findByRole("button", {
-                name: "Legg til mål for sykefraværet",
+                name: "Mål for sykefraværet",
             }),
         ).toBeEnabled();
         expect(
-            screen.getByRole("button", { name: "Legg til mål for samarbeidet" }),
+            screen.getByRole("button", { name: "Mål for samarbeidet" }),
         ).toBeEnabled();
         expect(
             screen.queryByRole("button", { name: "Rediger" }),
@@ -266,11 +266,11 @@ describe("MålFane", () => {
 
         expect(
             await screen.findByRole("button", {
-                name: "Legg til mål for sykefraværet",
+                name: "Mål for sykefraværet",
             }),
         ).toBeDisabled();
         expect(
-            screen.getByRole("button", { name: "Legg til mål for samarbeidet" }),
+            screen.getByRole("button", { name: "Mål for samarbeidet" }),
         ).toBeDisabled();
     });
 
@@ -321,7 +321,7 @@ describe("MålFane", () => {
         await ventPåLukketDialog();
 
         const samarbeidsdialog = await finnDialog(
-            { name: "Legg til mål for samarbeidet" },
+            { name: "Mål for samarbeidet" },
             SAMARBEIDSDIALOG,
         );
         await leggTilSamarbeidsmål(samarbeidsdialog, "  Færre korte fravær ");
@@ -876,7 +876,7 @@ describe("MålFane", () => {
     test("dialogene og oversikten har ingen axe-brudd", async () => {
         const { container } = visSide();
         const sykefraværsdialog = await finnDialog(
-            { name: "Legg til mål for sykefraværet" },
+            { name: "Mål for sykefraværet" },
             SYKEFRAVÆRSDIALOG,
         );
         fyllUtMål(sykefraværsdialog, "KORTTIDSFRAVÆR", "6", "4");
@@ -889,7 +889,7 @@ describe("MålFane", () => {
         await ventPåLukketDialog();
 
         const samarbeidsdialog = await finnDialog(
-            { name: "Legg til mål for samarbeidet" },
+            { name: "Mål for samarbeidet" },
             SAMARBEIDSDIALOG,
         );
         await leggTilSamarbeidsmål(samarbeidsdialog, "Bedre dialog");
