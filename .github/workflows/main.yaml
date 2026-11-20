@@ -70,7 +70,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - name: Deploy to ${{ matrix.cluster }}
-        uses: nais/deploy/actions/deploy@v2
+        uses: nais/deploy/actions/deploy@v3
         env:
           CLUSTER: ${{ matrix.cluster }}-gcp
           RESOURCE: .nais/nais.yaml
@@ -88,7 +88,7 @@ jobs:
     steps:
       - uses: actions/checkout@v7.0.1
       - name: Deploy to dev
-        uses: nais/deploy/actions/deploy@v2
+        uses: nais/deploy/actions/deploy@v3
         env:
           CLUSTER: dev-gcp
           RESOURCE: .nais/nais.yaml
