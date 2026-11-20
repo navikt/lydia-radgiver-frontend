@@ -31,3 +31,15 @@
     white-space: pre-wrap;
     overflow-wrap: anywhere;
 }
+
+// Aksel legger innholdet i headeren i en div ved siden av chevron-knappen.
+.maaltypeheader > div:first-child {
+    flex-grow: 1;
+}
+
+// Hele headeren er klikkbar via ::after på chevron-knappen (z-index 1).
+// Knappen løftes over, så den får klikk og synlig fokus. Se Behovsvurdering.
+.headerknapp {
+    position: relative;
+    z-index: 2;
+}

@@ -1,22 +1,27 @@
 import React from "react";
 import { HGrid } from "@navikt/ds-react";
 import { Sykefraværsmål } from "./målskjema";
-import { Måloversiktdel } from "./Måloversikt";
+import { Måltypekort } from "./Måloversikt";
 import { Sykefraværsmålkort } from "./Sykefraværsmålkort";
 
 export function Sykefraværsmåloversikt({
     sykefraværsmål,
-    onRediger,
+    onÅpneDialog,
+    deaktivert,
 }: {
     sykefraværsmål: Sykefraværsmål[];
-    onRediger?: () => void;
+    onÅpneDialog?: () => void;
+    deaktivert: boolean;
 }) {
     const idPrefiks = React.useId();
     return (
-        <Måloversiktdel
+        <Måltypekort
             tittel="Mål for sykefraværet"
-            overskriftId="sykefravaersmaal-overskrift"
-            onRediger={onRediger}
+            beskrivelse="Sett mål for reduksjon av sykefraværet"
+            leggTilTekst="Legg til mål for sykefraværet"
+            harMål={sykefraværsmål.length > 0}
+            onÅpneDialog={onÅpneDialog}
+            deaktivert={deaktivert}
         >
             <HGrid columns={{ xs: 1, md: 2, lg: 3 }} gap="space-16">
                 {sykefraværsmål.map((m) => (
@@ -27,6 +32,6 @@ export function Sykefraværsmåloversikt({
                     />
                 ))}
             </HGrid>
-        </Måloversiktdel>
+        </Måltypekort>
     );
 }
