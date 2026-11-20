@@ -1,104 +1,96 @@
 import React from "react";
 import {
-    BodyShort,
     Button,
     ExpansionCard,
     Heading,
     HStack,
     VStack,
 } from "@navikt/ds-react";
-import { PencilIcon } from "@navikt/aksel-icons";
+import { PencilIcon, PlusIcon } from "@navikt/aksel-icons";
+import styles from "./mål.module.scss";
 
-// Starter åpent hver gang fanen vises.
-export function Måloversikt({
-    onLeggTilSykefraværsmål,
-    onLeggTilSamarbeidsmål,
-    manglerTilgang,
-    children,
-}: {
-    onLeggTilSykefraværsmål?: () => void;
-    onLeggTilSamarbeidsmål?: () => void;
-    manglerTilgang: boolean;
-    children?: React.ReactNode;
-}) {
+export function Måloversikt({ children }: { children: React.ReactNode }) {
     return (
-        <ExpansionCard aria-label="Mål" defaultOpen>
-            <ExpansionCard.Header>
-                <ExpansionCard.Title as="h2" size="medium">
-                    Mål
-                </ExpansionCard.Title>
-                <ExpansionCard.Description>
-                    Legg til mål for sykefraværet og samarbeidet.
-                </ExpansionCard.Description>
-            </ExpansionCard.Header>
-            <ExpansionCard.Content>
-                <VStack gap="space-24">
-                    {(onLeggTilSykefraværsmål || onLeggTilSamarbeidsmål) && (
-                        <HStack gap="space-8">
-                            {onLeggTilSykefraværsmål && (
-                                <Button
-                                    variant="secondary"
-                                    onClick={onLeggTilSykefraværsmål}
-                                    aria-haspopup="dialog"
-                                >
-                                    Legg til mål for sykefraværet
-                                </Button>
-                            )}
-                            {onLeggTilSamarbeidsmål && (
-                                <Button
-                                    variant="secondary"
-                                    onClick={onLeggTilSamarbeidsmål}
-                                    aria-haspopup="dialog"
-                                >
-                                    Legg til mål for samarbeidet
-                                </Button>
-                            )}
-                        </HStack>
-                    )}
-                    {manglerTilgang && (
-                        <BodyShort>
-                            Du må være eier eller følger for å legge til
-                            mål.
-                        </BodyShort>
-                    )}
-                    {children}
-                </VStack>
-            </ExpansionCard.Content>
-        </ExpansionCard>
+        <VStack gap="space-16">
+            <Heading level="2" size="medium">
+                Mål
+            </Heading>
+            {children}
+        </VStack>
     );
 }
 
-export function Måloversiktdel({
+// Starter åpent hver gang fanen vises. Uten onÅpneDialog vises ingen knapper.
+// «Rediger» ligger i headeren og vises bare når måltypen har mål.
+export function Måltypekort({
     tittel,
-    overskriftId,
-    onRediger,
+    beskrivelse,
+    leggTilTekst,
+    harMål,
+    onÅpneDialog,
+    deaktivert,
     children,
 }: {
     tittel: string;
-    overskriftId: string;
-    onRediger?: () => void;
+    beskrivelse: string;
+    leggTilTekst: string;
+    harMål: boolean;
+    onÅpneDialog?: () => void;
+    deaktivert: boolean;
     children: React.ReactNode;
 }) {
+    const tittelId = React.useId();
     return (
-        <VStack as="section" aria-labelledby={overskriftId} gap="space-16">
-            <HStack justify="space-between" align="center" gap="space-8">
-                <Heading level="3" size="small" id={overskriftId}>
-                    {tittel}
-                </Heading>
-                {onRediger && (
-                    <Button
-                        variant="secondary"
-                        size="small"
-                        icon={<PencilIcon aria-hidden />}
-                        onClick={onRediger}
-                        aria-haspopup="dialog"
-                        aria-describedby={overskriftId}
-                    >
-                        Rediger
-                    </Button>
-                )}
-            </HStack>
-            {children}
-        </VStack>
+        <ExpansionCard aria-label={tittel} defaultOpen>
+            <ExpansionCard.Header className={styles.maaltypeheader}>
+                <HStack
+                    justify="space-between"
+                    align="start"
+                    gap="space-16"
+                    wrap
+                >
+                    <div>
+                        <ExpansionCard.Title as="h3" size="small" id={tittelId}>
+                            {tittel}
+                        </ExpansionCard.Title>
+                        <ExpansionCard.Description>
+                            {beskrivelse}
+                        </ExpansionCard.Description>
+                    </div>
+                    {onÅpneDialog && harMål && (
+                        <div className={styles.headerknapp}>
+                            <Button
+                                data-color="accent"
+                                variant="primary"
+                                size="small"
+                                icon={<PencilIcon aria-hidden />}
+                                onClick={onÅpneDialog}
+                                disabled={deaktivert}
+                                aria-haspopup="dialog"
+                                aria-describedby={tittelId}
+                            >
+                                Rediger
+                            </Button>
+                        </div>
+                    )}
+                </HStack>
+            </ExpansionCard.Header>
+            <ExpansionCard.Content>
+                {harMål
+                    ? children
+                    : onÅpneDialog && (
+                          <Button
+                              data-color="accent"
+                              variant="primary"
+                              icon={<PlusIcon aria-hidden />}
+                              onClick={onÅpneDialog}
+                              disabled={deaktivert}
+                              aria-haspopup="dialog"
+                          >
+                              {leggTilTekst}
+                          </Button>
+                      )}
+            </ExpansionCard.Content>
+        </ExpansionCard>
     );
 }

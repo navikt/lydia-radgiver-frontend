@@ -252,26 +252,26 @@ describe("MålFane", () => {
             await screen.findByRole("button", {
                 name: "Legg til mål for sykefraværet",
             }),
-        ).toBeInTheDocument();
+        ).toBeEnabled();
         expect(
             screen.getByRole("button", { name: "Legg til mål for samarbeidet" }),
-        ).toBeInTheDocument();
+        ).toBeEnabled();
         expect(
             screen.queryByRole("button", { name: "Rediger" }),
         ).not.toBeInTheDocument();
     });
 
-    test("skjuler endringsknappene for brukere som ikke er eier eller følger", async () => {
+    test("deaktiverer endringsknappene for brukere som ikke er eier eller følger", async () => {
         visSide({ ...testIaSak, eidAv: "Z999999" });
 
         expect(
-            await screen.findByText(
-                "Du må være eier eller følger for å legge til mål.",
-            ),
-        ).toBeInTheDocument();
+            await screen.findByRole("button", {
+                name: "Legg til mål for sykefraværet",
+            }),
+        ).toBeDisabled();
         expect(
-            screen.queryByRole("button", { name: /^Legg til mål/ }),
-        ).not.toBeInTheDocument();
+            screen.getByRole("button", { name: "Legg til mål for samarbeidet" }),
+        ).toBeDisabled();
     });
 
     test("viser feiloppsummering med lenker til feltene ved tomt skjema", async () => {
@@ -874,7 +874,11 @@ describe("MålFane", () => {
     });
 
     test("dialogene og oversikten har ingen axe-brudd", async () => {
-        const sykefraværsdialog = await åpneSykefraværsdialog();
+        const { container } = visSide();
+        const sykefraværsdialog = await finnDialog(
+            { name: "Legg til mål for sykefraværet" },
+            SYKEFRAVÆRSDIALOG,
+        );
         fyllUtMål(sykefraværsdialog, "KORTTIDSFRAVÆR", "6", "4");
         await within(sykefraværsdialog).findByRole("heading", {
             name: "Mål for sykefraværet mål som er lagt til",
@@ -893,7 +897,7 @@ describe("MålFane", () => {
         fireEvent.click(lukkKnapp(samarbeidsdialog));
         await ventPåLukketDialog();
 
-        expect(await axe(document.body)).toHaveNoViolations();
+        expect(await axe(container)).toHaveNoViolations();
     });
 
     test("Rediger åpner sykefraværsdialogen og lar brukeren legge til, endre og slette sykefraværsmål", async () => {

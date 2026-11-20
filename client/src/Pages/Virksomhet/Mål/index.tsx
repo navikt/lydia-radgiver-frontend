@@ -47,7 +47,7 @@ export default function MålFane({
         erSaksbehandler(brukerinformasjon) &&
         følgere.some((følger) => følger === brukerinformasjon?.ident);
     const eierEllerFølger = erEier || erFølger;
-    const kanEndre = eierEllerFølger && samarbeid.status === "AKTIV";
+    const samarbeidErAktivt = samarbeid.status === "AKTIV";
 
     if (loading) {
         return <Loader title="Henter mål" />;
@@ -61,17 +61,16 @@ export default function MålFane({
         );
     }
 
-    const harMål =
-        mål.sykefraværsmål.length > 0 || mål.samarbeidsmål.length > 0;
     const åpneDialog = (dialog: Måldialog) => {
         setValgtDialog(dialog);
         setDialogversjon((n) => n + 1);
         setDialogÅpen(true);
     };
-    const åpneSykefraværsdialog = kanEndre
+    // Knappene vises bare i aktive samarbeid, og er deaktivert uten tilgang.
+    const åpneSykefraværsdialog = samarbeidErAktivt
         ? () => åpneDialog("sykefravær")
         : undefined;
-    const åpneSamarbeidsdialog = kanEndre
+    const åpneSamarbeidsdialog = samarbeidErAktivt
         ? () => åpneDialog("samarbeid")
         : undefined;
 
@@ -106,27 +105,17 @@ export default function MålFane({
 
     return (
         <Box paddingBlock="space-24">
-            <Måloversikt
-                onLeggTilSykefraværsmål={åpneSykefraværsdialog}
-                onLeggTilSamarbeidsmål={åpneSamarbeidsdialog}
-                manglerTilgang={
-                    !eierEllerFølger &&
-                    samarbeid.status === "AKTIV" &&
-                    !harMål
-                }
-            >
-                {mål.sykefraværsmål.length > 0 && (
-                    <Sykefraværsmåloversikt
-                        sykefraværsmål={mål.sykefraværsmål}
-                        onRediger={åpneSykefraværsdialog}
-                    />
-                )}
-                {mål.samarbeidsmål.length > 0 && (
-                    <Samarbeidsmåloversikt
-                        samarbeidsmål={mål.samarbeidsmål}
-                        onRediger={åpneSamarbeidsdialog}
-                    />
-                )}
+            <Måloversikt>
+                <Sykefraværsmåloversikt
+                    sykefraværsmål={mål.sykefraværsmål}
+                    onÅpneDialog={åpneSykefraværsdialog}
+                    deaktivert={!eierEllerFølger}
+                />
+                <Samarbeidsmåloversikt
+                    samarbeidsmål={mål.samarbeidsmål}
+                    onÅpneDialog={åpneSamarbeidsdialog}
+                    deaktivert={!eierEllerFølger}
+                />
             </Måloversikt>
             {valgtDialog === "sykefravær" && (
                 <Sykefraværsmåldialog
