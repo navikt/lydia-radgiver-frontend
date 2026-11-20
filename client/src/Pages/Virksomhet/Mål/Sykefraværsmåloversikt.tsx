@@ -18,7 +18,7 @@ export function Sykefraværsmåloversikt({
         <Måltypekort
             tittel="Mål for sykefraværet"
             beskrivelse="Sett mål for reduksjon av sykefraværet"
-            leggTilTekst="Legg til mål for sykefraværet"
+            leggTilTekst="Mål for sykefraværet"
             harMål={sykefraværsmål.length > 0}
             onÅpneDialog={onÅpneDialog}
             deaktivert={deaktivert}
