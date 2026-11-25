@@ -24,7 +24,7 @@
         "@navikt/ds-react": "^8.19.2",
         "@unhead/react": "^3.4.0",
         "clsx": "^2.1.1",
-        "highcharts": "^13.0.2",
+        "highcharts": "^13.1.1",
         "html-to-image": "^1.11.13",
         "jspdf": "^4.2.1",
         "react": "^19.3.1",
