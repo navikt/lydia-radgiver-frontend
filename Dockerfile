@@ -6,7 +6,7 @@ COPY --chown=node:node ./server/package.json ./server/pnpm-lock.yaml ./server/pn
 COPY --chown=node:node ./client/dist client/dist
 RUN pnpm install --frozen-lockfile --prod --node-linker=hoisted
 
-FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:22-slim@sha256:66e6e831be2f455a4d2540b9724ee199065ac7aa313e622dddb285449916a324 AS runner
+FROM europe-north1-docker.pkg.dev/cgr-nav/pull-through/nav.no/node:22-slim@sha256:9c38ebbf7116c6b83b81fda88f95960bf4f87a155ac1fd18121bb706b240b760 AS runner
 WORKDIR /app
 COPY --from=builder /app /app
 ENV NODE_ENV=production
